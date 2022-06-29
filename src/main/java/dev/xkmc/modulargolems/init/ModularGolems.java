@@ -49,7 +49,7 @@ public class ModularGolems {
 		FMLJavaModLoadingContext ctx = FMLJavaModLoadingContext.get();
 		IEventBus bus = ctx.getModEventBus();
 		registerModBusEvents(bus);
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> MGClient.onCtorClient(bus, MinecraftForge.EVENT_BUS));
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> GolemClient.onCtorClient(bus, MinecraftForge.EVENT_BUS));
 		registerRegistrates(bus);
 		registerForgeEvents();
 	}

@@ -4,10 +4,10 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-public class MGClient {
+public class GolemClient {
 
 	public static void onCtorClient(IEventBus bus, IEventBus eventBus) {
-		bus.addListener(MGClient::clientSetup);
+		bus.addListener(GolemClient::clientSetup);
 	}
 
 	@SubscribeEvent
