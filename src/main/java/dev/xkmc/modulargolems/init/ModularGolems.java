@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.init.data.ConfigGen;
 import dev.xkmc.modulargolems.init.data.LangData;
 import dev.xkmc.modulargolems.init.data.ModConfig;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
+import dev.xkmc.modulargolems.init.registrate.GolemRegistrate;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -25,7 +26,7 @@ public class ModularGolems {
 
 	public static final String MODID = "modulargolems";
 	public static final Logger LOGGER = LogManager.getLogger();
-	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
+	public static final GolemRegistrate REGISTRATE = new GolemRegistrate(MODID);
 
 	private static void registerRegistrates(IEventBus bus) {
 		ModConfig.init();

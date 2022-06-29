@@ -3,8 +3,6 @@ package dev.xkmc.modulargolems.init;
 import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.serial.network.PacketHandlerWithConfig;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
-import dev.xkmc.modulargolems.content.core.GolemModifier;
-import dev.xkmc.modulargolems.content.core.GolemStatType;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
@@ -30,11 +28,14 @@ public enum NetworkManager {
 	public static void register() {
 		HANDLER.addCachedConfig(MATERIAL.getID(), s -> {
 			List<GolemMaterialConfig> list = s.map(e -> (GolemMaterialConfig) e.getValue()).toList();
-			HashMap<String, HashMap<GolemStatType, Double>> stats = BaseConfig.collectMap(list, e -> e.stats, HashMap::new, HashMap::putAll);
-			HashMap<String, ArrayList<GolemModifier>> modifiers = BaseConfig.collectMap(list, e -> e.modifiers, ArrayList::new, ArrayList::addAll);
+			var stats = BaseConfig.collectMap(list, e -> e.stats, HashMap::new, HashMap::putAll);
+			var modifiers = BaseConfig.collectMap(list, e -> e.modifiers, ArrayList::new, ArrayList::addAll);
+			var ingredient = BaseConfig.overrideMap(list, e -> e.ingredient);
 			GolemMaterialConfig ans = new GolemMaterialConfig();
 			ans.stats = stats;
 			ans.modifiers = modifiers;
+			ans.ingredient = ingredient;
+			ans.validate();
 			return ans;
 		});
 	}
