@@ -26,11 +26,14 @@ public class GolemTypeRegistry {
 
 	public static RegistryEntry<Attribute> GOLEM_REGEN = REGISTRATE.simple("golem_regen", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
 			() -> new RangedAttribute("attribute.name.golem_regen", 0, 0, 1000).setSyncable(true));
+	public static RegistryEntry<Attribute> GOLEM_SWEEP = REGISTRATE.simple("golem_sweep", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
+			() -> new RangedAttribute("attribute.name.golem_sweep", 0, 0, 1000).setSyncable(true));
 
 	public static final RegistryEntry<GolemStatType> STAT_HEALTH = regStat("max_health", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.BASE);
 	public static final RegistryEntry<GolemStatType> STAT_ATTACK = regStat("attack", () -> Attributes.ATTACK_DAMAGE, GolemStatType.Kind.BASE);
-	public static final RegistryEntry<GolemStatType> STAT_SPEED = regStat("speed", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT);
 	public static final RegistryEntry<GolemStatType> STAT_REGEN = regStat("regen", GOLEM_REGEN, GolemStatType.Kind.BASE);
+	public static final RegistryEntry<GolemStatType> STAT_SWEEP = regStat("sweep", GOLEM_SWEEP, GolemStatType.Kind.BASE);
+	public static final RegistryEntry<GolemStatType> STAT_SPEED = regStat("speed", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT);
 
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
@@ -40,6 +43,7 @@ public class GolemTypeRegistry {
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_DAMAGE, 15.0D)
 					.add(GOLEM_REGEN.get(), 0.0D)
+					.add(GOLEM_SWEEP.get(), 0.0D)
 			).register();
 
 	public static final RegistryEntry<GolemType<MetalGolemEntity>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",

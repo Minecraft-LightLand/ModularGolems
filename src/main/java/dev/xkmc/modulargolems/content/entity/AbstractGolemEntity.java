@@ -6,11 +6,10 @@ import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
-import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -112,6 +111,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 	@Override
 	public void aiStep() {
 		super.aiStep();
+		double heal = this.getAttributeValue(GolemTypeRegistry.GOLEM_REGEN.get());
+		if (heal > 0 && this.tickCount % 20 == 0) {
+			this.heal((float) heal);
+		}
 		if (!this.level.isClientSide) {
 			this.updatePersistentAnger((ServerLevel) this.level, true);
 		}

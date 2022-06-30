@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity;
 
+import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -87,25 +88,40 @@ public class MetalGolemEntity extends AbstractGolemEntity<MetalGolemEntity> {
 	public boolean doHurtTarget(Entity target) {
 		this.attackAnimationTick = 10;
 		this.level.broadcastEntityEvent(this, (byte) 4);
-		float f = this.getAttackDamage();
-		float f1 = (int) f > 0 ? f / 2.0F + (float) this.random.nextInt((int) f) : f;
-		boolean flag = target.hurt(DamageSource.mobAttack(this), f1);
-		if (flag) {
-			double d2;
-			if (target instanceof LivingEntity livingentity) {
-				d2 = livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
-			} else {
-				d2 = 0.0D;
-			}
+		float rawDamage = this.getAttackDamage();
+		float damage = (int) rawDamage > 0 ? rawDamage / 2.0F + (float) this.random.nextInt((int) rawDamage) : rawDamage;
+		boolean flag = performRangedDamage(target, damage);
+		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+		return flag;
+	}
 
-			double d0 = d2;
-			double d1 = Math.max(0.0D, 1.0D - d0);
+	protected boolean performRangedDamage(Entity target, float damage){
+		boolean flag = performDamageTarget(target, damage);
+		double range = getAttributeValue(GolemTypeRegistry.GOLEM_SWEEP.get());
+		if (range > 0) {
+			var list = getLevel().getEntities(target, target.getBoundingBox().inflate(range),
+					e -> e instanceof LivingEntity le && this.canAttack(le));
+			for (Entity t : list) {
+				flag |= performDamageTarget(t, damage);
+			}
+		}
+		return flag;
+	}
+
+	private boolean performDamageTarget(Entity target, float damage) {
+		boolean succeed = target.hurt(DamageSource.mobAttack(this), damage);
+		if (succeed) {
+			double kb;
+			if (target instanceof LivingEntity livingentity) {
+				kb = livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
+			} else {
+				kb = 0.0D;
+			}
+			double d1 = Math.max(0.0D, 1.0D - kb);
 			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, (double) 0.4F * d1, 0.0D));
 			this.doEnchantDamageEffects(this, target);
 		}
-
-		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-		return flag;
+		return succeed;
 	}
 
 	public boolean hurt(DamageSource source, float amount) {
@@ -142,27 +158,6 @@ public class MetalGolemEntity extends AbstractGolemEntity<MetalGolemEntity> {
 
 	protected SoundEvent getDeathSound() {
 		return SoundEvents.IRON_GOLEM_DEATH;
-	}
-
-	protected InteractionResult mobInteract(Player p_28861_, InteractionHand p_28862_) {
-		ItemStack itemstack = p_28861_.getItemInHand(p_28862_);
-		if (!itemstack.is(Items.IRON_INGOT)) {
-			return InteractionResult.PASS;
-		} else {
-			float f = this.getHealth();
-			this.heal(25.0F);
-			if (this.getHealth() == f) {
-				return InteractionResult.PASS;
-			} else {
-				float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-				this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
-				if (!p_28861_.getAbilities().instabuild) {
-					itemstack.shrink(1);
-				}
-
-				return InteractionResult.sidedSuccess(this.level.isClientSide);
-			}
-		}
 	}
 
 	protected void playStepSound(BlockPos p_28864_, BlockState p_28865_) {

@@ -1,11 +1,11 @@
 package dev.xkmc.modulargolems.init;
 
+import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.modulargolems.events.GolemEvents;
 import dev.xkmc.modulargolems.init.data.*;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscRegistry;
-import dev.xkmc.modulargolems.init.registrate.GolemRegistrate;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,7 +26,7 @@ public class ModularGolems {
 
 	public static final String MODID = "modulargolems";
 	public static final Logger LOGGER = LogManager.getLogger();
-	public static final GolemRegistrate REGISTRATE = new GolemRegistrate(MODID);
+	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	private static void registerRegistrates(IEventBus bus) {
 		GolemTypeRegistry.register();
