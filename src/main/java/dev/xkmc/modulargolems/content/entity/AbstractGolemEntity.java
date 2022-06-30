@@ -4,10 +4,10 @@ import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.l2library.serial.codec.PacketCodec;
 import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.code.Wrappers;
-import dev.xkmc.modulargolems.content.core.GolemMaterial;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -33,17 +33,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 	// ------ materials
 
 	@SerialClass.SerialField(toClient = true)
-	private ArrayList<GolemMaterial> materials = new ArrayList<>();
+	private ArrayList<ResourceLocation> materials = new ArrayList<>();
 	@SerialClass.SerialField(toClient = true)
 	@Nullable
 	private UUID owner;
 
-	public void onCreate(ArrayList<GolemMaterial> materials, UUID owner) {
+	public void onCreate(ArrayList<ResourceLocation> materials, UUID owner) {
 		this.materials = materials;
 		this.owner = owner;
 	}
 
-	public ArrayList<GolemMaterial> getMaterials() {
+	public ArrayList<ResourceLocation> getMaterials() {
 		return materials;
 	}
 

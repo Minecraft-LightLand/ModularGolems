@@ -10,7 +10,8 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		super(GolemTypeRegistry.MODIFIERS);
 	}
 
-	public Component getTooltip() {
+	public Component getTooltip(int v) {
+		//TODO level
 		return getDesc().append(": ").append(Component.translatable(getDescriptionId() + ".desc"));
 	}
 

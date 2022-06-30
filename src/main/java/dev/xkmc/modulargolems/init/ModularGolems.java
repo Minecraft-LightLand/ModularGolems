@@ -1,12 +1,12 @@
 package dev.xkmc.modulargolems.init;
 
-import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
-import dev.xkmc.modulargolems.init.data.ConfigGen;
-import dev.xkmc.modulargolems.init.data.LangData;
-import dev.xkmc.modulargolems.init.data.ModConfig;
-import dev.xkmc.modulargolems.init.data.RecipeGen;
+import dev.xkmc.modulargolems.events.CraftEvents;
+import dev.xkmc.modulargolems.init.data.*;
+import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemMiscRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemRegistrate;
+import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -29,6 +29,9 @@ public class ModularGolems {
 	public static final GolemRegistrate REGISTRATE = new GolemRegistrate(MODID);
 
 	private static void registerRegistrates(IEventBus bus) {
+		GolemTypeRegistry.register();
+		GolemMiscRegistry.register();
+		GolemItemRegistry.register();
 		ModConfig.init();
 		NetworkManager.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, LangData::genLang);
@@ -36,7 +39,7 @@ public class ModularGolems {
 	}
 
 	private static void registerForgeEvents() {
-
+		MinecraftForge.EVENT_BUS.register(CraftEvents.class);
 	}
 
 	private static void registerModBusEvents(IEventBus bus) {
@@ -65,6 +68,7 @@ public class ModularGolems {
 
 	public static void gatherData(GatherDataEvent event) {
 		event.getGenerator().addProvider(event.includeServer(), new ConfigGen(event.getGenerator()));
+		MaterialGen.onGatherData(event);
 		//event.getGenerator().addProvider(event.includeServer(), new ArtifactGLMProvider(event.getGenerator()));
 	}
 

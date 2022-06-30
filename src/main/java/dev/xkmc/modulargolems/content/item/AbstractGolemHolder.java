@@ -1,8 +1,7 @@
 package dev.xkmc.modulargolems.content.item;
 
-import dev.xkmc.modulargolems.content.core.GolemMaterial;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -30,13 +29,13 @@ public class AbstractGolemHolder extends Item {
 		this.type = type;
 	}
 
-	public static List<GolemMaterial> getMaterial(ItemStack stack) {
-		ArrayList<GolemMaterial> ans = new ArrayList<>();
+	public static List<ResourceLocation> getMaterial(ItemStack stack) {
+		ArrayList<ResourceLocation> ans = new ArrayList<>();
 		Optional.ofNullable(stack.getTag())
 				.map(e -> e.contains(KEY) ? e.getList(KEY, Tag.TAG_STRING) : null)
 				.ifPresent(e -> {
 					for (int i = 0; i < e.size(); i++) {
-						GolemMaterial material = GolemTypeRegistry.MATERIALS.get().getValue(new ResourceLocation(e.getString(i)));
+						ResourceLocation material = new ResourceLocation(e.getString(i));
 						if (material != null) {
 							ans.add(material);
 						}
@@ -45,7 +44,7 @@ public class AbstractGolemHolder extends Item {
 		return ans;
 	}
 
-	public static ItemStack addMaterial(ItemStack stack, GolemMaterial material) {
+	public static ItemStack addMaterial(ItemStack stack, ResourceLocation material) {
 		CompoundTag tag = stack.getOrCreateTag();
 		ListTag list;
 		if (!tag.contains(KEY)) {
@@ -53,15 +52,15 @@ public class AbstractGolemHolder extends Item {
 		} else {
 			list = tag.getList(KEY, Tag.TAG_STRING);
 		}
-		list.add(StringTag.valueOf(material.getID()));
+		list.add(StringTag.valueOf(material.toString()));
 		return stack;
 	}
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
-		List<GolemMaterial> mats = getMaterial(stack);
-		mats.forEach(e -> list.add(e.getDesc()));
-		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getAdderTooltip(v)));
+		List<ResourceLocation> mats = getMaterial(stack);
+		mats.forEach(e -> list.add(GolemMaterialConfig.getDesc(e)));
+		GolemMaterialConfig.collectAttributes(mats).forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 	}
 }
