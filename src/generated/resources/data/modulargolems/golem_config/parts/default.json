@@ -1,0 +1,21 @@
+{
+  "_class": "dev.xkmc.modulargolems.content.config.GolemPartConfig",
+  "filters": {
+    "modulargolems:golem_body": {
+      "modulargolems:attack": 0.0,
+      "modulargolems:max_health": 0.4
+    },
+    "modulargolems:golem_left_hand": {
+      "modulargolems:attack": 0.5,
+      "modulargolems:max_health": 0.1
+    },
+    "modulargolems:golem_legs": {
+      "modulargolems:attack": 0.0,
+      "modulargolems:max_health": 0.4
+    },
+    "modulargolems:golem_right_hand": {
+      "modulargolems:attack": 0.5,
+      "modulargolems:max_health": 0.1
+    }
+  }
+}

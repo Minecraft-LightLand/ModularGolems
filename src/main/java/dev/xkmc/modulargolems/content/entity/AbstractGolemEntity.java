@@ -23,6 +23,7 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -36,20 +37,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 	// ------ materials
 
 	@SerialClass.SerialField(toClient = true)
-	private HashMap<GolemPart, ResourceLocation> materials = new HashMap<>();
+	private ArrayList<GolemMaterial> materials = new ArrayList<>();
 	@SerialClass.SerialField(toClient = true)
 	@Nullable
 	private UUID owner;
 	@SerialClass.SerialField(toClient = true)
 	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 
-	public void onCreate(HashMap<GolemPart, ResourceLocation> materials, UUID owner) {
+	public void onCreate(ArrayList<GolemMaterial> materials, UUID owner) {
 		this.materials = materials;
 		this.owner = owner;
-		this.modifiers = GolemMaterial.collectModifiers(materials.values());
+		this.modifiers = GolemMaterial.collectModifiers(materials);
 	}
 
-	public HashMap<GolemPart, ResourceLocation> getMaterials() {
+	public ArrayList<GolemMaterial> getMaterials() {
 		return materials;
 	}
 

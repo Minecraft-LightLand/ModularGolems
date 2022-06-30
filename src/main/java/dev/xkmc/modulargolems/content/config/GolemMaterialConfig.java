@@ -19,24 +19,24 @@ import java.util.List;
 public class GolemMaterialConfig extends BaseConfig {
 
 	public static GolemMaterialConfig get() {
-		return NetworkManager.MATERIAL.getMerged();
+		return NetworkManager.MATERIALS.getMerged();
 	}
 
-	public static void addAttributes(List<ResourceLocation> list, LivingEntity entity) {
+	public static void addAttributes(List<GolemMaterial> list, LivingEntity entity) {
 		GolemMaterial.collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v));
 	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
 	@SerialClass.SerialField
-	public HashMap<String, HashMap<GolemStatType, Double>> stats = new HashMap<>();
+	public HashMap<ResourceLocation, HashMap<GolemStatType, Double>> stats = new HashMap<>();
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
 	@SerialClass.SerialField
-	public HashMap<String, HashMap<GolemModifier, Integer>> modifiers = new HashMap<>();
+	public HashMap<ResourceLocation, HashMap<GolemModifier, Integer>> modifiers = new HashMap<>();
 
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialClass.SerialField
-	public HashMap<String, Ingredient> ingredients = new HashMap<>();
+	public HashMap<ResourceLocation, Ingredient> ingredients = new HashMap<>();
 
 	@DataGenOnly
 	public Builder addMaterial(ResourceLocation id, Ingredient ingredient) {
@@ -70,9 +70,9 @@ public class GolemMaterialConfig extends BaseConfig {
 		}
 
 		public GolemMaterialConfig end() {
-			parent.stats.put(id.toString(), stats);
-			parent.modifiers.put(id.toString(), modifiers);
-			parent.ingredients.put(id.toString(), ingredient);
+			parent.stats.put(id, stats);
+			parent.modifiers.put(id, modifiers);
+			parent.ingredients.put(id, ingredient);
 			return parent;
 		}
 

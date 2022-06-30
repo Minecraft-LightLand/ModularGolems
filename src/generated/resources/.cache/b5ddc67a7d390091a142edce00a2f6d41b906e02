@@ -1,7 +1,19 @@
-// 1.19	2022-06-30T10:37:44.524361	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-8cb22f98c504e01195dc6021ba80a21b65126cdd assets/modulargolems/lang/en_ud.json
-7bd3e22b3dac8ac23094f4fab5169fbce16354a0 assets/modulargolems/lang/en_us.json
+// 1.19	2022-06-30T17:48:31.802874	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+8c4051f71d48d6ef0b4cb7f8b83206430f9708ca assets/modulargolems/lang/en_ud.json
+daa0e58fe76312a4013e5211dc6cf82c902f9c37 assets/modulargolems/lang/en_us.json
+074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/golem-holder.json
 074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/golem_body.json
 074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/golem_left_hand.json
 074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/golem_legs.json
 074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/golem_right_hand.json
+b727b4af687a8dedd4363246ffab62e03987846a assets/modulargolems/models/item/golem_template.json
+c052d76c02068416e675a93debb475e2033558d8 data/modulargolems/advancements/recipes/modulargolems.golems/golem_body_from_golem_template_stonecutting.json
+b13e36f0d6a13d5745efaf0eeaf810748368ae51 data/modulargolems/advancements/recipes/modulargolems.golems/golem_left_hand_from_golem_template_stonecutting.json
+0994d005fcf5227354641fefaf504dc674789e91 data/modulargolems/advancements/recipes/modulargolems.golems/golem_legs_from_golem_template_stonecutting.json
+bdddf33bdd60e1a8e1ea61b60c82480a71b383c2 data/modulargolems/advancements/recipes/modulargolems.golems/golem_right_hand_from_golem_template_stonecutting.json
+b789ad4e3fd2ddcd3e0dacd2b65b56a742210b76 data/modulargolems/advancements/recipes/modulargolems.golems/golem_template.json
+3afa33b6891770d769339104336c63aa6a455c9f data/modulargolems/recipes/golem_body_from_golem_template_stonecutting.json
+3c19758b1d3f02464ffbd44069b0fa9d4ecf6f1e data/modulargolems/recipes/golem_left_hand_from_golem_template_stonecutting.json
+550dc3131213d826f6782ede851ede26e5557d3c data/modulargolems/recipes/golem_legs_from_golem_template_stonecutting.json
+9ef050d4452984d469a2b4de135777cb5f63e31b data/modulargolems/recipes/golem_right_hand_from_golem_template_stonecutting.json
+977699655c70494da951180fb3ec81df667e7959 data/modulargolems/recipes/golem_template.json

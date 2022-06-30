@@ -1,2 +1,3 @@
-// 1.19	2022-06-30T13:36:19.132421	Golem Config
-cf24ce5367b53727e8b761f47417cad36c819791 data/modulargolems/golem_config/material/vanilla.json
+// 1.19	2022-06-30T17:48:31.804882	Golem Config
+cf24ce5367b53727e8b761f47417cad36c819791 data/modulargolems/golem_config/materials/vanilla.json
+f4eeb785a55db6042a0ae307834074f9a15c98df data/modulargolems/golem_config/parts/default.json

@@ -6,13 +6,10 @@ import dev.xkmc.l2library.serial.network.PacketHandlerWithConfig;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 public enum NetworkManager {
-	MATERIAL;
+	MATERIALS, PARTS;
 
 	public String getID() {
 		return name().toLowerCase(Locale.ROOT);
@@ -27,7 +24,7 @@ public enum NetworkManager {
 	}
 
 	public static void register() {
-		HANDLER.addCachedConfig(MATERIAL.getID(), new ConfigMerger<>(GolemMaterialConfig.class));
+		HANDLER.addCachedConfig(MATERIALS.getID(), new ConfigMerger<>(GolemMaterialConfig.class));
 	}
 
 }
