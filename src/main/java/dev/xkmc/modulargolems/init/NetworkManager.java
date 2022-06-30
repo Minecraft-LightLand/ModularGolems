@@ -19,7 +19,7 @@ public enum NetworkManager {
 	}
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(ModularGolems.MODID, "main"), 1, "artifact_config"
+			new ResourceLocation(ModularGolems.MODID, "main"), 1, "golem_config"
 	);
 
 	public <T extends BaseConfig> T getMerged() {

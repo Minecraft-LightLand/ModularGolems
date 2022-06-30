@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.init;
 
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
-import dev.xkmc.modulargolems.events.CraftEvents;
+import dev.xkmc.modulargolems.events.GolemEvents;
 import dev.xkmc.modulargolems.init.data.*;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscRegistry;
@@ -39,7 +39,7 @@ public class ModularGolems {
 	}
 
 	private static void registerForgeEvents() {
-		MinecraftForge.EVENT_BUS.register(CraftEvents.class);
+		MinecraftForge.EVENT_BUS.register(GolemEvents.class);
 	}
 
 	private static void registerModBusEvents(IEventBus bus) {

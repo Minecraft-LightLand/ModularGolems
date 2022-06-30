@@ -1,0 +1,43 @@
+{
+  "_class": "dev.xkmc.modulargolems.content.config.GolemMaterialConfig",
+  "ingredients": {
+    "minecraft:copper": {
+      "item": "minecraft:copper_ingot"
+    },
+    "minecraft:gold": {
+      "item": "minecraft:gold_ingot"
+    },
+    "minecraft:iron": {
+      "item": "minecraft:iron_ingot"
+    },
+    "minecraft:netherite": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "modifiers": {
+    "minecraft:copper": {},
+    "minecraft:gold": {},
+    "minecraft:iron": {},
+    "minecraft:netherite": {}
+  },
+  "stats": {
+    "minecraft:copper": {
+      "modulargolems:attack": 3.0,
+      "modulargolems:max_health": 12.0
+    },
+    "minecraft:gold": {
+      "modulargolems:attack": 2.0,
+      "modulargolems:max_health": 5.0,
+      "modulargolems:speed": -0.1
+    },
+    "minecraft:iron": {
+      "modulargolems:attack": 4.0,
+      "modulargolems:max_health": 25.0
+    },
+    "minecraft:netherite": {
+      "modulargolems:attack": 7.0,
+      "modulargolems:max_health": 100.0,
+      "modulargolems:speed": -0.1
+    }
+  }
+}

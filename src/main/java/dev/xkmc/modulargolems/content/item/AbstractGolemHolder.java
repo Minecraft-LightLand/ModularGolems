@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.item;
 
-import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -35,10 +35,7 @@ public class AbstractGolemHolder extends Item {
 				.map(e -> e.contains(KEY) ? e.getList(KEY, Tag.TAG_STRING) : null)
 				.ifPresent(e -> {
 					for (int i = 0; i < e.size(); i++) {
-						ResourceLocation material = new ResourceLocation(e.getString(i));
-						if (material != null) {
-							ans.add(material);
-						}
+						ans.add(new ResourceLocation(e.getString(i)));
 					}
 				});
 		return ans;
@@ -60,7 +57,8 @@ public class AbstractGolemHolder extends Item {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
 		List<ResourceLocation> mats = getMaterial(stack);
-		mats.forEach(e -> list.add(GolemMaterialConfig.getDesc(e)));
-		GolemMaterialConfig.collectAttributes(mats).forEach((k, v) -> list.add(k.getAdderTooltip(v)));
+		mats.forEach(e -> list.add(GolemMaterial.getDesc(e)));
+		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 	}
+
 }

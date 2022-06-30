@@ -1,0 +1,9 @@
+{
+  "entity.modulargolems.metal_golem": "Metal Golem",
+  "golem_type.modulargolems.metal_golem": "Metal Golem",
+  "item.modulargolems.golem_body": "Golem Body",
+  "item.modulargolems.golem_left_hand": "Golem Left Hand",
+  "item.modulargolems.golem_legs": "Golem Legs",
+  "item.modulargolems.golem_right_hand": "Golem Right Hand",
+  "itemGroup.modulargolems.golems": "Modular Golems"
+}

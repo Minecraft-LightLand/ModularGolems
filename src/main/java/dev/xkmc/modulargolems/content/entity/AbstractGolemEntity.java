@@ -4,6 +4,9 @@ import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.l2library.serial.codec.PacketCodec;
 import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.code.Wrappers;
+import dev.xkmc.modulargolems.content.config.GolemMaterial;
+import dev.xkmc.modulargolems.content.core.GolemModifier;
+import dev.xkmc.modulargolems.content.item.GolemPart;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
@@ -20,7 +23,7 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -33,18 +36,25 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 	// ------ materials
 
 	@SerialClass.SerialField(toClient = true)
-	private ArrayList<ResourceLocation> materials = new ArrayList<>();
+	private HashMap<GolemPart, ResourceLocation> materials = new HashMap<>();
 	@SerialClass.SerialField(toClient = true)
 	@Nullable
 	private UUID owner;
+	@SerialClass.SerialField(toClient = true)
+	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 
-	public void onCreate(ArrayList<ResourceLocation> materials, UUID owner) {
+	public void onCreate(HashMap<GolemPart, ResourceLocation> materials, UUID owner) {
 		this.materials = materials;
 		this.owner = owner;
+		this.modifiers = GolemMaterial.collectModifiers(materials.values());
 	}
 
-	public ArrayList<ResourceLocation> getMaterials() {
+	public HashMap<GolemPart, ResourceLocation> getMaterials() {
 		return materials;
+	}
+
+	public HashMap<GolemModifier, Integer> getModifiers() {
+		return modifiers;
 	}
 
 	@Nullable

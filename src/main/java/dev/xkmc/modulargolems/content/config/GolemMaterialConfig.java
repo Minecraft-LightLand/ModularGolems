@@ -8,16 +8,12 @@ import dev.xkmc.l2library.util.annotation.DataGenOnly;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.init.NetworkManager;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @SerialClass
 public class GolemMaterialConfig extends BaseConfig {
@@ -26,39 +22,8 @@ public class GolemMaterialConfig extends BaseConfig {
 		return NetworkManager.MATERIAL.getMerged();
 	}
 
-	public static Map<GolemStatType, Double> collectAttributes(List<ResourceLocation> list) {
-		HashMap<GolemStatType, Double> values = new HashMap<>();
-		for (ResourceLocation stats : list) {
-			get().stats.get(stats)
-					.forEach((k, v) -> values.compute(k, (a, old) -> (old == null ? 0 : old) + v));
-		}
-		return values;
-	}
-
-	public static Map<GolemModifier, Integer> collectModifiers(List<ResourceLocation> list) {
-		HashMap<GolemModifier, Integer> values = new HashMap<>();
-		for (ResourceLocation stats : list) {
-			get().modifiers.get(stats)
-					.forEach((k, v) -> values.compute(k, (a, old) -> (old == null ? 0 : old) + v));
-		}
-		return values;
-	}
-
-	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {
-		for (Map.Entry<String, Ingredient> ent : get().ingredients.entrySet()) {
-			if (ent.getValue().test(stack)) {
-				return Optional.of(new ResourceLocation(ent.getKey()));
-			}
-		}
-		return Optional.empty();
-	}
-
 	public static void addAttributes(List<ResourceLocation> list, LivingEntity entity) {
-		collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v));
-	}
-
-	public static Component getDesc(ResourceLocation e) {
-		return Component.translatable("golem_material." + e.getNamespace() + "." + e.getPath());
+		GolemMaterial.collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v));
 	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)

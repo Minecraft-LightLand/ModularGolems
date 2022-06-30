@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 
@@ -14,25 +15,25 @@ import java.util.Map;
 public class ConfigGen extends ConfigDataProvider {
 
 	public ConfigGen(DataGenerator generator) {
-		super(generator, "data/", "Golem Config");
+		super(generator, "data/modulargolems/golem_config/", "Golem Config");
 	}
 
 	@Override
 	public void add(Map<String, BaseConfig> map) {
-		map.put("vanilla", new GolemMaterialConfig()
-				.addMaterial(new ResourceLocation("minecraft:copper"), Ingredient.of(Blocks.COPPER_BLOCK))
-				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 50)
-				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 10).end()
-				.addMaterial(new ResourceLocation("minecraft:iron"), Ingredient.of(Blocks.IRON_BLOCK))
-				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 100)
-				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 15).end()
-				.addMaterial(new ResourceLocation("minecraft:gold"), Ingredient.of(Blocks.GOLD_BLOCK))
-				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 20)
-				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 5)
+		map.put("material/vanilla", new GolemMaterialConfig()
+				.addMaterial(new ResourceLocation("minecraft:copper"), Ingredient.of(Items.COPPER_INGOT))
+				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 12)
+				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 3).end()
+				.addMaterial(new ResourceLocation("minecraft:iron"),Ingredient.of(Items.IRON_INGOT))
+				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 25)
+				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 4).end()
+				.addMaterial(new ResourceLocation("minecraft:gold"), Ingredient.of(Items.GOLD_INGOT))
+				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 5)
+				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 2)
 				.addStat(GolemTypeRegistry.STAT_SPEED.get(), -0.1).end()
-				.addMaterial(new ResourceLocation("minecraft:netherite"), Ingredient.of(Blocks.NETHERITE_BLOCK))
-				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 400)
-				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 30)
+				.addMaterial(new ResourceLocation("minecraft:netherite"),Ingredient.of(Items.NETHERITE_INGOT))
+				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 100)
+				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 7)
 				.addStat(GolemTypeRegistry.STAT_SPEED.get(), -0.1).end()
 		);
 	}
