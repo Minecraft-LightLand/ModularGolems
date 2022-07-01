@@ -6,7 +6,9 @@ import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderer;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -29,19 +31,30 @@ public class GolemTypeRegistry {
 	public static RegistryEntry<Attribute> GOLEM_SWEEP = REGISTRATE.simple("golem_sweep", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
 			() -> new RangedAttribute("attribute.name.golem_sweep", 0, 0, 1000).setSyncable(true));
 
-	public static final RegistryEntry<GolemStatType> STAT_HEALTH = regStat("max_health", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.BASE);
-	public static final RegistryEntry<GolemStatType> STAT_ATTACK = regStat("attack", () -> Attributes.ATTACK_DAMAGE, GolemStatType.Kind.BASE);
-	public static final RegistryEntry<GolemStatType> STAT_REGEN = regStat("regen", GOLEM_REGEN, GolemStatType.Kind.BASE);
-	public static final RegistryEntry<GolemStatType> STAT_SWEEP = regStat("sweep", GOLEM_SWEEP, GolemStatType.Kind.BASE);
-	public static final RegistryEntry<GolemStatType> STAT_SPEED = regStat("speed", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT);
+	public static final RegistryEntry<GolemStatType> STAT_HEALTH = regStat("max_health", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.BASE, StatFilterType.HEALTH);
+	public static final RegistryEntry<GolemStatType> STAT_ATTACK = regStat("attack", () -> Attributes.ATTACK_DAMAGE, GolemStatType.Kind.BASE, StatFilterType.ATTACK);
+	public static final RegistryEntry<GolemStatType> STAT_REGEN = regStat("regen", GOLEM_REGEN, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
+	public static final RegistryEntry<GolemStatType> STAT_SWEEP = regStat("sweep", GOLEM_SWEEP, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
+	public static final RegistryEntry<GolemStatType> STAT_ARMOR = regStat("armor", () -> Attributes.ARMOR, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
+	public static final RegistryEntry<GolemStatType> STAT_TOUGH = regStat("tough", () -> Attributes.ARMOR_TOUGHNESS, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
+	public static final RegistryEntry<GolemStatType> STAT_KBRES = regStat("knockback_resistance", () -> Attributes.KNOCKBACK_RESISTANCE, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
+	public static final RegistryEntry<GolemStatType> STAT_ATKKB = regStat("attack_knockback", () -> Attributes.ATTACK_KNOCKBACK, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
+	public static final RegistryEntry<GolemStatType> STAT_WEIGHT = regStat("weight", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MASS);
+	public static final RegistryEntry<GolemStatType> STAT_SPEED = regStat("speed", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
+	public static final RegistryEntry<GolemStatType> STAT_ATKSPEED = regStat("attack_speed", () -> Attributes.ATTACK_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.ATTACK);
 
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
+			.renderer(() -> MetalGolemRenderer::new)
 			.attributes(() -> AttributeSupplier.builder()
 					.add(Attributes.MAX_HEALTH, 100.0D)
-					.add(Attributes.MOVEMENT_SPEED, 0.25D)
-					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_DAMAGE, 15.0D)
+					.add(Attributes.MOVEMENT_SPEED, 0.25D)
+					.add(Attributes.ATTACK_SPEED, 1.0D)
+					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
+					.add(Attributes.ARMOR, 0.0D)
+					.add(Attributes.ARMOR_TOUGHNESS, 0.0D)
 					.add(GOLEM_REGEN.get(), 0.0D)
 					.add(GOLEM_SWEEP.get(), 0.0D)
 			).register();
@@ -49,8 +62,8 @@ public class GolemTypeRegistry {
 	public static final RegistryEntry<GolemType<MetalGolemEntity>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",
 			() -> new GolemType<>(ENTITY_GOLEM)).defaultLang().register();
 
-	private static RegistryEntry<GolemStatType> regStat(String id, Supplier<Attribute> sup, GolemStatType.Kind kind) {
-		return REGISTRATE.generic(STAT_TYPES, id, () -> new GolemStatType(sup, kind)).register();
+	private static RegistryEntry<GolemStatType> regStat(String id, Supplier<Attribute> sup, GolemStatType.Kind kind, StatFilterType type) {
+		return REGISTRATE.generic(STAT_TYPES, id, () -> new GolemStatType(sup, kind, type)).register();
 	}
 
 	public static void register() {

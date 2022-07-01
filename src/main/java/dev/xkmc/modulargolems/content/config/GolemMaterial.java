@@ -26,7 +26,8 @@ public record GolemMaterial(
 	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list) {
 		HashMap<GolemModifier, Integer> values = new HashMap<>();
 		for (GolemMaterial stats : list) {
-			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) -> (old == null ? 0 : old) + v));
+			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) ->
+					Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
 		}
 		return values;
 	}

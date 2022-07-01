@@ -6,7 +6,9 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -22,13 +24,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 
 	private static final String KEY_MATERIAL = "golem_materials";
 	private static final String KEY_ENTITY = "golem_entity";
+
+	private static final String KEY_PART = "part", KEY_MAT = "material";
 
 	private final RegistryEntry<GolemType<T>> type;
 
@@ -41,33 +44,41 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
 		ArrayList<GolemMaterial> ans = new ArrayList<>();
 		CompoundTag tag = stack.getTag();
-		Optional.ofNullable(stack.getTag())
-				.map(e -> e.contains(KEY_MATERIAL) ? e.getCompound(KEY_MATERIAL) : null)
-				.ifPresent(e -> e.getAllKeys().forEach(k -> {
-					Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(k));
-					if (item instanceof GolemPart part) {
-						ans.add(part.parseMaterial(new ResourceLocation(e.getString(k))));
-					}
-				}));
+		if (tag != null && tag.contains(KEY_MATERIAL, Tag.TAG_LIST)) {
+			ListTag list = tag.getList(KEY_MATERIAL, Tag.TAG_COMPOUND);
+			for (int i = 0; i < list.size(); i++) {
+				CompoundTag elem = list.getCompound(i);
+				GolemPart part = (GolemPart) ForgeRegistries.ITEMS.getValue(new ResourceLocation(elem.getString(KEY_PART)));
+				ResourceLocation mat = new ResourceLocation(elem.getString(KEY_MAT));
+				if (part != null) {
+					ans.add(part.parseMaterial(mat));
+				}
+			}
+		}
 		return ans;
 	}
 
 	public static ItemStack addMaterial(ItemStack stack, GolemPart item, ResourceLocation material) {
-		NBTObj obj = new NBTObj(stack.getOrCreateTag());
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
 		assert rl != null;
-		obj.getSub(KEY_MATERIAL).tag.put(rl.toString(), StringTag.valueOf(material.toString()));
+		NBTObj obj = new NBTObj(stack.getOrCreateTag());
+		var list = obj.getList(KEY_MATERIAL);
+		NBTObj elem = list.add();
+		elem.tag.put(KEY_PART, StringTag.valueOf(rl.toString()));
+		elem.tag.put(KEY_MAT, StringTag.valueOf(material.toString()));
 		return stack;
 	}
 
 	public static <T extends AbstractGolemEntity<T>> ItemStack setEntity(T entity) {
 		GolemHolder<T> holder = GolemType.getGolemHolder(entity.getType());
 		ItemStack stack = new ItemStack(holder);
-		NBTObj obj = new NBTObj(stack.getOrCreateTag()).getSub(KEY_MATERIAL);
+		var list = new NBTObj(stack.getOrCreateTag()).getList(KEY_MATERIAL);
 		for (GolemMaterial mat : entity.getMaterials()) {
 			ResourceLocation rl = ForgeRegistries.ITEMS.getKey(mat.part());
 			assert rl != null;
-			obj.tag.put(rl.toString(), StringTag.valueOf(mat.id().toString()));
+			NBTObj elem = list.add();
+			elem.tag.put(KEY_PART, StringTag.valueOf(rl.toString()));
+			elem.tag.put(KEY_MAT, StringTag.valueOf(mat.toString()));
 		}
 		return stack;
 	}
@@ -75,7 +86,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
-		List<GolemMaterial> mats = getMaterial(stack);
+		var mats = getMaterial(stack);
 		mats.forEach(e -> list.add(e.getDesc()));
 		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 	}

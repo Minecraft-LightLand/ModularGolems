@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "modulargolems:golem_template"
-  },
-  "result": "modulargolems:golem_right_hand"
-}

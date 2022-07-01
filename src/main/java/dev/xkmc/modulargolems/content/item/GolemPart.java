@@ -56,7 +56,7 @@ public class GolemPart extends Item {
 		HashMap<GolemStatType, Double> stats = new HashMap<>();
 		GolemMaterialConfig.get().stats.get(mat).forEach((k, v) -> {
 			var filter = GolemPartConfig.get().getFilter(this);
-			double val = v * filter.getOrDefault(k, 1d);
+			double val = v * filter.getOrDefault(k.type, 1d);
 			if (val > 0)
 				stats.compute(k, (e, o) -> (o == null ? 0 : o) + val);
 		});

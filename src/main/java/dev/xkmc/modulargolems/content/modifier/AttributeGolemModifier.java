@@ -22,6 +22,7 @@ public class AttributeGolemModifier extends GolemModifier {
 
 	public AttributeGolemModifier(Supplier<Attribute> attributes, AttributeModifier.Operation operation,
 								  double value, boolean usePercent) {
+		super(MAX_LEVEL);
 		this.attributes = attributes;
 		this.operation = operation;
 		this.usePercent = usePercent;

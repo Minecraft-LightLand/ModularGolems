@@ -2,32 +2,22 @@
   "_class": "dev.xkmc.modulargolems.content.config.GolemPartConfig",
   "filters": {
     "modulargolems:golem_body": {
-      "modulargolems:attack": 0.0,
-      "modulargolems:max_health": 0.5,
-      "modulargolems:regen": 0.5,
-      "modulargolems:speed": 0.25,
-      "modulargolems:sweep": 0.0
+      "ATTACK": 0.0,
+      "HEALTH": 0.5,
+      "MASS": 1.0,
+      "MOVEMENT": 0.0
     },
-    "modulargolems:golem_left_hand": {
-      "modulargolems:attack": 0.5,
-      "modulargolems:max_health": 0.1,
-      "modulargolems:regen": 0.0,
-      "modulargolems:speed": 0.25,
-      "modulargolems:sweep": 0.5
+    "modulargolems:golem_hand": {
+      "ATTACK": 0.5,
+      "HEALTH": 0.0,
+      "MASS": 1.0,
+      "MOVEMENT": 0.0
     },
     "modulargolems:golem_legs": {
-      "modulargolems:attack": 0.0,
-      "modulargolems:max_health": 0.3,
-      "modulargolems:regen": 0.5,
-      "modulargolems:speed": 0.25,
-      "modulargolems:sweep": 0.0
-    },
-    "modulargolems:golem_right_hand": {
-      "modulargolems:attack": 0.5,
-      "modulargolems:max_health": 0.1,
-      "modulargolems:regen": 0.0,
-      "modulargolems:speed": 0.25,
-      "modulargolems:sweep": 0.5
+      "ATTACK": 0.0,
+      "HEALTH": 0.5,
+      "MASS": 1.0,
+      "MOVEMENT": 1.0
     }
   }
 }

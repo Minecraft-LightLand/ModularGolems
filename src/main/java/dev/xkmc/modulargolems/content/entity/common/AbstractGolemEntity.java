@@ -6,6 +6,7 @@ import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
+import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,10 +14,14 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
@@ -59,6 +64,15 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 
 	public HashMap<GolemModifier, Integer> getModifiers() {
 		return modifiers;
+	}
+
+	@Override
+	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getMainHandItem().isEmpty()) {
+			player.setItemSlot(EquipmentSlot.MAINHAND, GolemHolder.setEntity(getThis()));
+			return InteractionResult.SUCCESS;
+		}
+		return super.mobInteract(player, hand);
 	}
 
 	@Nullable

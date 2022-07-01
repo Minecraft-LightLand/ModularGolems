@@ -6,6 +6,7 @@ import dev.xkmc.l2library.serial.config.ConfigCollect;
 import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.util.annotation.DataGenOnly;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import dev.xkmc.modulargolems.init.NetworkManager;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,14 +28,14 @@ public class GolemPartConfig extends BaseConfig {
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
 	@SerialClass.SerialField
-	public HashMap<Item, HashMap<GolemStatType, Double>> filters = new HashMap<>();
+	public HashMap<Item, HashMap<StatFilterType, Double>> filters = new HashMap<>();
 
 	@DataGenOnly
 	public Builder addMaterial(GolemPart part) {
 		return new Builder(this, part);
 	}
 
-	public HashMap<GolemStatType, Double> getFilter(GolemPart part) {
+	public HashMap<StatFilterType, Double> getFilter(GolemPart part) {
 		return filters.get(part);
 	}
 
@@ -44,14 +45,14 @@ public class GolemPartConfig extends BaseConfig {
 		private final GolemPartConfig parent;
 		private final GolemPart part;
 
-		private final HashMap<GolemStatType, Double> filter = new HashMap<>();
+		private final HashMap<StatFilterType, Double> filter = new HashMap<>();
 
 		private Builder(GolemPartConfig parent, GolemPart part) {
 			this.parent = parent;
 			this.part = part;
 		}
 
-		public Builder addFilter(GolemStatType type, double val) {
+		public Builder addFilter(StatFilterType type, double val) {
 			filter.put(type, val);
 			return this;
 		}

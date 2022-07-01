@@ -8,13 +8,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 
-public class SweepGolemEntity<T extends SweepGolemEntity<T>> extends AbstractGolemEntity<T>{
+public class SweepGolemEntity<T extends SweepGolemEntity<T>> extends AbstractGolemEntity<T> {
 
 	protected SweepGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
 	}
 
-	protected boolean performRangedDamage(Entity target, float damage){
+	protected boolean performRangedDamage(Entity target, float damage) {
 		boolean flag = performDamageTarget(target, damage);
 		double range = getAttributeValue(GolemTypeRegistry.GOLEM_SWEEP.get());
 		if (range > 0) {
@@ -37,7 +37,8 @@ public class SweepGolemEntity<T extends SweepGolemEntity<T>> extends AbstractGol
 				kb = 0.0D;
 			}
 			double d1 = Math.max(0.0D, 1.0D - kb);
-			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, (double) 0.4F * d1, 0.0D));
+			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, dokb * d1, 0.0D));
 			this.doEnchantDamageEffects(this, target);
 		}
 		return succeed;

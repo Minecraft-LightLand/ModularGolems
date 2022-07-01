@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:golem_left_hand_from_golem_template_stonecutting"
+        "recipe": "modulargolems:golem_hand_from_golem_template_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:golem_left_hand_from_golem_template_stonecutting"
+      "modulargolems:golem_hand_from_golem_template_stonecutting"
     ]
   }
 }

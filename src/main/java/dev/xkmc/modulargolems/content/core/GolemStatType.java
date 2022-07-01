@@ -23,10 +23,13 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 	private final Supplier<Attribute> attribute;
 	private final Kind kind;
 
-	public GolemStatType(Supplier<Attribute> attribute, Kind kind) {
+	public final StatFilterType type;
+
+	public GolemStatType(Supplier<Attribute> attribute, Kind kind, StatFilterType type) {
 		super(GolemTypeRegistry.STAT_TYPES);
 		this.attribute = attribute;
 		this.kind = kind;
+		this.type = type;
 	}
 
 	public Component getAdderTooltip(double val) {
@@ -43,7 +46,9 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 				MutableComponent.create(new TranslatableContents(attribute.get().getDescriptionId())))).withStyle(ChatFormatting.BLUE);
 	}
 
-
+	/**
+	 * collected value, will only call once per stat
+	 */
 	public void applyToEntity(LivingEntity e, double v) {
 		AttributeInstance ins = e.getAttribute(attribute.get());
 		if (ins == null) return;

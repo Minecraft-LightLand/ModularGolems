@@ -26,11 +26,7 @@ public class GolemItemRegistry {
 					new GolemPart(p, GolemTypeRegistry.TYPE_GOLEM::get, 9))
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
 
-	public static final ItemEntry<GolemPart> GOLEM_LEFT_HAND = REGISTRATE.item("golem_left_hand", p ->
-					new GolemPart(p, GolemTypeRegistry.TYPE_GOLEM::get, 9))
-			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
-
-	public static final ItemEntry<GolemPart> GOLEM_RIGHT_HAND = REGISTRATE.item("golem_right_hand", p ->
+	public static final ItemEntry<GolemPart> GOLEM_HAND = REGISTRATE.item("golem_hand", p ->
 					new GolemPart(p, GolemTypeRegistry.TYPE_GOLEM::get, 9))
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
 

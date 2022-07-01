@@ -4,6 +4,7 @@ import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.data.DataGenerator;
@@ -44,29 +45,20 @@ public class ConfigGen extends ConfigDataProvider {
 		// Choose which stat to use, and what percentage for the complete golem
 		map.put("parts/default", new GolemPartConfig()
 				.addMaterial(GolemItemRegistry.GOLEM_BODY.get())
-				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.5)
-				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.5)
-				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0)
-				.addFilter(GolemTypeRegistry.STAT_SPEED.get(), 0.25)
-				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0).end()
-				.addMaterial(GolemItemRegistry.GOLEM_LEFT_HAND.get())
-				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.1)
-				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0)
-				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.5)
-				.addFilter(GolemTypeRegistry.STAT_SPEED.get(), 0.25)
-				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0.5).end()
-				.addMaterial(GolemItemRegistry.GOLEM_RIGHT_HAND.get())
-				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.1)
-				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0)
-				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.5)
-				.addFilter(GolemTypeRegistry.STAT_SPEED.get(), 0.25)
-				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0.5).end()
+				.addFilter(StatFilterType.HEALTH, 0.5)
+				.addFilter(StatFilterType.ATTACK, 0)
+				.addFilter(StatFilterType.MOVEMENT, 0)
+				.addFilter(StatFilterType.MASS, 1).end()
+				.addMaterial(GolemItemRegistry.GOLEM_HAND.get())
+				.addFilter(StatFilterType.HEALTH, 0)
+				.addFilter(StatFilterType.ATTACK, 0.5)
+				.addFilter(StatFilterType.MOVEMENT, 0)
+				.addFilter(StatFilterType.MASS, 1).end()
 				.addMaterial(GolemItemRegistry.GOLEM_LEGS.get())
-				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.3)
-				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.5)
-				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0)
-				.addFilter(GolemTypeRegistry.STAT_SPEED.get(), 0.25)
-				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0).end()
+				.addFilter(StatFilterType.HEALTH, 0.5)
+				.addFilter(StatFilterType.ATTACK, 0)
+				.addFilter(StatFilterType.MOVEMENT, 1)
+				.addFilter(StatFilterType.MASS, 1).end()
 		);
 	}
 

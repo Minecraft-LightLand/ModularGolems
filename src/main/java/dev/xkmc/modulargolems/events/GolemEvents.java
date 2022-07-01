@@ -6,6 +6,8 @@ import dev.xkmc.modulargolems.content.item.GolemPart;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,10 +22,24 @@ public class GolemEvents {
 		}
 	}
 
+	@SubscribeEvent
+	public static void onAttacked(LivingAttackEvent event) {
+		if (event.getEntityLiving() instanceof AbstractGolemEntity<?> entity) {
+			entity.getModifiers().forEach((k, v) -> k.onAttacked(entity, event, v));
+		}
+	}
+
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onHurtPost(LivingHurtEvent event) {
 		if (event.getEntityLiving() instanceof AbstractGolemEntity<?> entity) {
 			entity.getModifiers().forEach((k, v) -> k.onHurt(entity, event, v));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onDamaged(LivingDamageEvent event) {
+		if (event.getEntityLiving() instanceof AbstractGolemEntity<?> entity) {
+			entity.getModifiers().forEach((k, v) -> k.onDamaged(entity, event, v));
 		}
 	}
 
