@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
-import dev.xkmc.modulargolems.content.entity.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;

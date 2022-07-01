@@ -6,7 +6,7 @@ import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.entity.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;

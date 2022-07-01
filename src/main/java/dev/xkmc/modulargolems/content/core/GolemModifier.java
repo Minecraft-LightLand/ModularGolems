@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.core;
 
 import dev.xkmc.l2library.base.NamedEntry;
-import dev.xkmc.modulargolems.content.entity.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;

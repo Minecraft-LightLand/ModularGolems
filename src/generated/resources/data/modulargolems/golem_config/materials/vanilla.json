@@ -22,22 +22,23 @@
   },
   "stats": {
     "minecraft:copper": {
-      "modulargolems:attack": 3.0,
-      "modulargolems:max_health": 12.0
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 50.0
     },
     "minecraft:gold": {
-      "modulargolems:attack": 2.0,
-      "modulargolems:max_health": 5.0,
+      "modulargolems:attack": 5.0,
+      "modulargolems:max_health": 20.0,
       "modulargolems:speed": -0.1
     },
     "minecraft:iron": {
-      "modulargolems:attack": 4.0,
-      "modulargolems:max_health": 25.0
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 100.0
     },
     "minecraft:netherite": {
-      "modulargolems:attack": 7.0,
-      "modulargolems:max_health": 100.0,
-      "modulargolems:speed": -0.1
+      "modulargolems:attack": 30.0,
+      "modulargolems:max_health": 300.0,
+      "modulargolems:speed": -0.1,
+      "modulargolems:sweep": 2.0
     }
   }
 }

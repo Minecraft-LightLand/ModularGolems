@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.init.registrate;
 
 import dev.xkmc.l2library.repack.registrate.util.entry.ItemEntry;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -37,8 +38,8 @@ public class GolemItemRegistry {
 					new GolemPart(p, GolemTypeRegistry.TYPE_GOLEM::get, 9))
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
 
-	public static final ItemEntry<GolemHolder> HOLDER_GOLEM = REGISTRATE.item("golem-holder", p ->
-					new GolemHolder(p, GolemTypeRegistry.TYPE_GOLEM::get))
+	public static final ItemEntry<GolemHolder<MetalGolemEntity>> HOLDER_GOLEM = REGISTRATE.item("golem_holder", p ->
+					new GolemHolder<>(p, GolemTypeRegistry.TYPE_GOLEM))
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
 
 	public static void register() {

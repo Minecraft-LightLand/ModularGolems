@@ -1,20 +1,17 @@
-package dev.xkmc.modulargolems.content.entity;
+package dev.xkmc.modulargolems.content.entity.metalgolem;
 
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
@@ -26,8 +23,6 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
@@ -35,7 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 
-public class MetalGolemEntity extends AbstractGolemEntity<MetalGolemEntity> {
+public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity> {
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(type, level);
@@ -56,15 +51,10 @@ public class MetalGolemEntity extends AbstractGolemEntity<MetalGolemEntity> {
 		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	protected int decreaseAirSupply(int air) {
-		return air;
-	}
-
 	protected void doPush(Entity p_28839_) {
 		if (p_28839_ instanceof Enemy && !(p_28839_ instanceof Creeper) && this.getRandom().nextInt(20) == 0) {
 			this.setTarget((LivingEntity) p_28839_);
 		}
-
 		super.doPush(p_28839_);
 	}
 
@@ -93,35 +83,6 @@ public class MetalGolemEntity extends AbstractGolemEntity<MetalGolemEntity> {
 		boolean flag = performRangedDamage(target, damage);
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		return flag;
-	}
-
-	protected boolean performRangedDamage(Entity target, float damage){
-		boolean flag = performDamageTarget(target, damage);
-		double range = getAttributeValue(GolemTypeRegistry.GOLEM_SWEEP.get());
-		if (range > 0) {
-			var list = getLevel().getEntities(target, target.getBoundingBox().inflate(range),
-					e -> e instanceof LivingEntity le && this.canAttack(le));
-			for (Entity t : list) {
-				flag |= performDamageTarget(t, damage);
-			}
-		}
-		return flag;
-	}
-
-	private boolean performDamageTarget(Entity target, float damage) {
-		boolean succeed = target.hurt(DamageSource.mobAttack(this), damage);
-		if (succeed) {
-			double kb;
-			if (target instanceof LivingEntity livingentity) {
-				kb = livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
-			} else {
-				kb = 0.0D;
-			}
-			double d1 = Math.max(0.0D, 1.0D - kb);
-			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, (double) 0.4F * d1, 0.0D));
-			this.doEnchantDamageEffects(this, target);
-		}
-		return succeed;
 	}
 
 	public boolean hurt(DamageSource source, float amount) {

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity;
+package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.l2library.serial.codec.PacketCodec;
@@ -43,10 +43,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 	@SerialClass.SerialField(toClient = true)
 	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 
-	public void onCreate(ArrayList<GolemMaterial> materials, UUID owner) {
+	public void onCreate(ArrayList<GolemMaterial> materials, @Nullable UUID owner) {
 		this.materials = materials;
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials);
+	}
+
+	public EntityType<T> getType() {
+		return Wrappers.cast(super.getType());
 	}
 
 	public ArrayList<GolemMaterial> getMaterials() {
@@ -118,6 +122,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 		if (!this.level.isClientSide) {
 			this.updatePersistentAnger((ServerLevel) this.level, true);
 		}
+	}
+
+	protected int decreaseAirSupply(int air) {
+		return air;
 	}
 
 	// ------ persistent anger

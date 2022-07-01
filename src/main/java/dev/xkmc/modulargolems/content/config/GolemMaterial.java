@@ -10,7 +10,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.*;
 
-public class GolemMaterial {
+public record GolemMaterial(
+		HashMap<GolemStatType, Double> stats,
+		HashMap<GolemModifier, Integer> modifiers,
+		ResourceLocation id, GolemPart part) {
 
 	public static Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list) {
 		HashMap<GolemStatType, Double> values = new HashMap<>();
@@ -35,18 +38,6 @@ public class GolemMaterial {
 			}
 		}
 		return Optional.empty();
-	}
-
-	private final HashMap<GolemStatType, Double> stats;
-	private final HashMap<GolemModifier, Integer> modifiers;
-	private final ResourceLocation id;
-	private final GolemPart part;
-
-	public GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemModifier, Integer> modifiers, ResourceLocation id, GolemPart part) {
-		this.stats = stats;
-		this.modifiers = modifiers;
-		this.id = id;
-		this.part = part;
 	}
 
 	public Component getDesc() {

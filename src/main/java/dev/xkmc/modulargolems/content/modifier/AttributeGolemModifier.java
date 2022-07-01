@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.modifier;
 
 import dev.xkmc.l2library.util.math.MathHelper;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
-import dev.xkmc.modulargolems.content.entity.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
