@@ -68,8 +68,6 @@ public class ModularGolems {
 
 	public static void gatherData(GatherDataEvent event) {
 		event.getGenerator().addProvider(event.includeServer(), new ConfigGen(event.getGenerator()));
-		MaterialGen.onGatherData(event);
-		//event.getGenerator().addProvider(event.includeServer(), new ArtifactGLMProvider(event.getGenerator()));
 	}
 
 	private static void sendMessage(final InterModEnqueueEvent event) {

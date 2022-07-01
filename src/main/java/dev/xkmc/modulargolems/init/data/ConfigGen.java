@@ -21,6 +21,8 @@ public class ConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Map<String, BaseConfig> map) {
+		// stats of the material
+		// the value represents what if the entire golem is made of this material
 		map.put("materials/vanilla", new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation("minecraft:copper"), Ingredient.of(Items.COPPER_INGOT))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 50)
@@ -31,35 +33,39 @@ public class ConfigGen extends ConfigDataProvider {
 				.addMaterial(new ResourceLocation("minecraft:gold"), Ingredient.of(Items.GOLD_INGOT))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 20)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 5)
-				.addStat(GolemTypeRegistry.STAT_SPEED.get(), -0.1).end()
+				.addStat(GolemTypeRegistry.STAT_SPEED.get(), -0.4).end()
 				.addMaterial(new ResourceLocation("minecraft:netherite"), Ingredient.of(Items.NETHERITE_INGOT))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 30)
-				.addStat(GolemTypeRegistry.STAT_SPEED.get(), -0.1)
+				.addStat(GolemTypeRegistry.STAT_SPEED.get(), -0.4)
 				.addStat(GolemTypeRegistry.STAT_SWEEP.get(), 2).end()
 		);
 
-
+		// Choose which stat to use, and what percentage for the complete golem
 		map.put("parts/default", new GolemPartConfig()
 				.addMaterial(GolemItemRegistry.GOLEM_BODY.get())
 				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.5)
 				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.5)
 				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0)
+				.addFilter(GolemTypeRegistry.STAT_SPEED.get(), 0.25)
 				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0).end()
 				.addMaterial(GolemItemRegistry.GOLEM_LEFT_HAND.get())
 				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.1)
 				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0)
 				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.5)
+				.addFilter(GolemTypeRegistry.STAT_SPEED.get(), 0.25)
 				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0.5).end()
 				.addMaterial(GolemItemRegistry.GOLEM_RIGHT_HAND.get())
 				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.1)
 				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0)
 				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.5)
+				.addFilter(GolemTypeRegistry.STAT_SPEED.get(), 0.25)
 				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0.5).end()
 				.addMaterial(GolemItemRegistry.GOLEM_LEGS.get())
 				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.3)
 				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.5)
 				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0)
+				.addFilter(GolemTypeRegistry.STAT_SPEED.get(), 0.25)
 				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0).end()
 		);
 	}

@@ -28,7 +28,7 @@
     "minecraft:gold": {
       "modulargolems:attack": 5.0,
       "modulargolems:max_health": 20.0,
-      "modulargolems:speed": -0.1
+      "modulargolems:speed": -0.4
     },
     "minecraft:iron": {
       "modulargolems:attack": 15.0,
@@ -37,7 +37,7 @@
     "minecraft:netherite": {
       "modulargolems:attack": 30.0,
       "modulargolems:max_health": 300.0,
-      "modulargolems:speed": -0.1,
+      "modulargolems:speed": -0.4,
       "modulargolems:sweep": 2.0
     }
   }
