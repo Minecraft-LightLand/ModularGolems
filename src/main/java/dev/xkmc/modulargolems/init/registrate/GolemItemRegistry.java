@@ -19,22 +19,22 @@ public class GolemItemRegistry {
 		REGISTRATE.creativeModeTab(() -> GOLEMS);
 	}
 
-	public static final ItemEntry<Item> GOLEM_TEMPLATE = REGISTRATE.item("golem_template", Item::new)
+	public static final ItemEntry<Item> GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new)
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/conduit")).defaultLang().register();
 
-	public static final ItemEntry<GolemPart> GOLEM_BODY = REGISTRATE.item("golem_body", p ->
+	public static final ItemEntry<GolemPart> GOLEM_BODY = REGISTRATE.item("metal_golem_body", p ->
 					new GolemPart(p, GolemTypeRegistry.TYPE_GOLEM::get, 9))
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
 
-	public static final ItemEntry<GolemPart> GOLEM_HAND = REGISTRATE.item("golem_hand", p ->
+	public static final ItemEntry<GolemPart> GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 					new GolemPart(p, GolemTypeRegistry.TYPE_GOLEM::get, 9))
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
 
-	public static final ItemEntry<GolemPart> GOLEM_LEGS = REGISTRATE.item("golem_legs", p ->
+	public static final ItemEntry<GolemPart> GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 					new GolemPart(p, GolemTypeRegistry.TYPE_GOLEM::get, 9))
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
 
-	public static final ItemEntry<GolemHolder<MetalGolemEntity>> HOLDER_GOLEM = REGISTRATE.item("golem_holder", p ->
+	public static final ItemEntry<GolemHolder<MetalGolemEntity>> HOLDER_GOLEM = REGISTRATE.item("metal_golem_holder", p ->
 					new GolemHolder<>(p, GolemTypeRegistry.TYPE_GOLEM))
 			.model((ctx, pvd) -> pvd.withExistingParent(ctx.getName(), "item/iron_block")).defaultLang().register();
 

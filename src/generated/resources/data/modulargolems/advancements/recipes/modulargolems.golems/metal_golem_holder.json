@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_golem_template": {
+    "has_metal_golem_body": {
       "conditions": {
         "items": [
           {
             "items": [
-              "modulargolems:golem_template"
+              "modulargolems:metal_golem_body"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:golem_body_from_golem_template_stonecutting"
+        "recipe": "modulargolems:metal_golem_holder"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_golem_template",
+      "has_metal_golem_body",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:golem_body_from_golem_template_stonecutting"
+      "modulargolems:metal_golem_holder"
     ]
   }
 }

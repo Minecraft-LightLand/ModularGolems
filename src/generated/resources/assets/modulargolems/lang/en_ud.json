@@ -1,10 +1,10 @@
 {
   "entity.modulargolems.metal_golem": "ɯǝןo⅁ ןɐʇǝW",
   "golem_type.modulargolems.metal_golem": "ɯǝןo⅁ ןɐʇǝW",
-  "item.modulargolems.golem_body": "ʎpoᗺ ɯǝןo⅁",
-  "item.modulargolems.golem_hand": "puɐH ɯǝןo⅁",
-  "item.modulargolems.golem_holder": "ɹǝpןoH ɯǝןo⅁",
-  "item.modulargolems.golem_legs": "sbǝꞀ ɯǝןo⅁",
-  "item.modulargolems.golem_template": "ǝʇɐןdɯǝ⟘ ɯǝןo⅁",
+  "item.modulargolems.metal_golem_arm": "ɯɹⱯ ɯǝןo⅁ ןɐʇǝW",
+  "item.modulargolems.metal_golem_body": "ʎpoᗺ ɯǝןo⅁ ןɐʇǝW",
+  "item.modulargolems.metal_golem_holder": "ɹǝpןoH ɯǝןo⅁ ןɐʇǝW",
+  "item.modulargolems.metal_golem_legs": "sbǝꞀ ɯǝןo⅁ ןɐʇǝW",
+  "item.modulargolems.metal_golem_template": "ǝʇɐןdɯǝ⟘ ɯǝןo⅁ ןɐʇǝW",
   "itemGroup.modulargolems.golems": "sɯǝןo⅁ ɹɐןnpoW"
 }

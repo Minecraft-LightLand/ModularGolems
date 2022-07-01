@@ -1,0 +1,21 @@
+{
+  "type": "modulargolems:golem_assemble",
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_arm"
+    },
+    "B": {
+      "item": "modulargolems:metal_golem_body"
+    },
+    "L": {
+      "item": "modulargolems:metal_golem_legs"
+    }
+  },
+  "pattern": [
+    "ABA",
+    " L "
+  ],
+  "result": {
+    "item": "modulargolems:metal_golem_holder"
+  }
+}

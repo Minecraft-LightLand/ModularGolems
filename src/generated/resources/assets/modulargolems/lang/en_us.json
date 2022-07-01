@@ -1,10 +1,10 @@
 {
   "entity.modulargolems.metal_golem": "Metal Golem",
   "golem_type.modulargolems.metal_golem": "Metal Golem",
-  "item.modulargolems.golem_body": "Golem Body",
-  "item.modulargolems.golem_hand": "Golem Hand",
-  "item.modulargolems.golem_holder": "Golem Holder",
-  "item.modulargolems.golem_legs": "Golem Legs",
-  "item.modulargolems.golem_template": "Golem Template",
+  "item.modulargolems.metal_golem_arm": "Metal Golem Arm",
+  "item.modulargolems.metal_golem_body": "Metal Golem Body",
+  "item.modulargolems.metal_golem_holder": "Metal Golem Holder",
+  "item.modulargolems.metal_golem_legs": "Metal Golem Legs",
+  "item.modulargolems.metal_golem_template": "Metal Golem Template",
   "itemGroup.modulargolems.golems": "Modular Golems"
 }

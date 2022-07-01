@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_clay": {
+    "has_metal_golem_template": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:clay"
+              "modulargolems:metal_golem_template"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:golem_template"
+        "recipe": "modulargolems:metal_golem_arm_from_metal_golem_template_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_clay",
+      "has_metal_golem_template",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:golem_template"
+      "modulargolems:metal_golem_arm_from_metal_golem_template_stonecutting"
     ]
   }
 }

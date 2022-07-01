@@ -49,7 +49,7 @@ public class ConfigGen extends ConfigDataProvider {
 				.addFilter(StatFilterType.ATTACK, 0)
 				.addFilter(StatFilterType.MOVEMENT, 0)
 				.addFilter(StatFilterType.MASS, 1).end()
-				.addMaterial(GolemItemRegistry.GOLEM_HAND.get())
+				.addMaterial(GolemItemRegistry.GOLEM_ARM.get())
 				.addFilter(StatFilterType.HEALTH, 0)
 				.addFilter(StatFilterType.ATTACK, 0.5)
 				.addFilter(StatFilterType.MOVEMENT, 0)
