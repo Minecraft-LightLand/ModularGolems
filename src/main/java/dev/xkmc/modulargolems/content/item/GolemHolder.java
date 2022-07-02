@@ -12,6 +12,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
@@ -72,15 +74,34 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 	public static <T extends AbstractGolemEntity<T>> ItemStack setEntity(T entity) {
 		GolemHolder<T> holder = GolemType.getGolemHolder(entity.getType());
 		ItemStack stack = new ItemStack(holder);
-		var list = new NBTObj(stack.getOrCreateTag()).getList(KEY_MATERIAL);
+		var obj = new NBTObj(stack.getOrCreateTag());
+		var list = obj.getList(KEY_MATERIAL);
 		for (GolemMaterial mat : entity.getMaterials()) {
 			ResourceLocation rl = ForgeRegistries.ITEMS.getKey(mat.part());
 			assert rl != null;
 			NBTObj elem = list.add();
 			elem.tag.put(KEY_PART, StringTag.valueOf(rl.toString()));
-			elem.tag.put(KEY_MAT, StringTag.valueOf(mat.toString()));
+			elem.tag.put(KEY_MAT, StringTag.valueOf(mat.id().toString()));
 		}
+		entity.save(obj.getSub(KEY_ENTITY).tag);
 		return stack;
+	}
+
+	public static float getHealth(ItemStack stack) {
+		return Optional.ofNullable(stack.getTag())
+				.filter(e -> e.contains(KEY_ENTITY))
+				.map(e -> e.getCompound(KEY_ENTITY))
+				.map(e -> e.getFloat("Health")).orElse(-1f);
+	}
+
+	public static float getMaxHealth(ItemStack stack) {
+		return Optional.ofNullable(stack.getTag())
+				.filter(e -> e.contains(KEY_ENTITY))
+				.map(e -> e.getCompound(KEY_ENTITY))
+				.flatMap(e -> e.getList("Attributes", Tag.TAG_COMPOUND).stream()
+						.map(t -> ((CompoundTag) t))
+						.filter(t -> t.getString("Name").equals("minecraft:generic.max_health"))
+						.findAny()).map(e -> e.getFloat("Base")).orElse(-1f);
 	}
 
 	@Override
@@ -104,6 +125,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 				AbstractGolemEntity<?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
 				level.addFreshEntity(golem);
 			}
+			stack.shrink(1);
 			return InteractionResult.SUCCESS;
 		}
 		if (root.contains(KEY_MATERIAL)) {
@@ -114,9 +136,30 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), id);
 				level.addFreshEntity(golem);
+				if (player == null || !player.getAbilities().instabuild) {
+					stack.shrink(1);
+				}
 			}
 			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;
+	}
+
+	@Override
+	public boolean isBarVisible(ItemStack stack) {
+		return getHealth(stack) >= 0;
+	}
+
+	@Override
+	public int getBarColor(ItemStack stack) {
+		float health = getHealth(stack);
+		float maxHealth = getMaxHealth(stack);
+		float f = Mth.clamp(health / maxHealth, 0f, 1f);
+		return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+	}
+
+	@Override
+	public int getBarWidth(ItemStack stack) {
+		return Math.round(getHealth(stack) * 13.0F / getMaxHealth(stack));
 	}
 }

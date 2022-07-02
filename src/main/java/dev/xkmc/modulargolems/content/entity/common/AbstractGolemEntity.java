@@ -73,6 +73,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player.getMainHandItem().isEmpty()) {
 			player.setItemSlot(EquipmentSlot.MAINHAND, GolemHolder.setEntity(getThis()));
+			this.discard();
 			return InteractionResult.SUCCESS;
 		}
 		return super.mobInteract(player, hand);
