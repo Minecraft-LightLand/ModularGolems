@@ -54,7 +54,7 @@ public class GolemEvents {
 				GolemPart.setMaterial(new_stack, mat.get());
 				event.setOutput(new_stack);
 				event.setMaterialCost(part.count);
-				event.setCost(0);
+				event.setCost(1);
 			}
 		}
 	}

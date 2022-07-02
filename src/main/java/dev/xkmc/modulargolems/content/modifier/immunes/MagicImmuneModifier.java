@@ -16,5 +16,5 @@ public class MagicImmuneModifier extends GolemModifier {
 			event.setCanceled(true);
 		}
 	}
-	
+
 }

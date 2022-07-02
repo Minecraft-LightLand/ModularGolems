@@ -1,13 +1,17 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
+import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
+@SerialClass
 public class SweepGolemEntity<T extends SweepGolemEntity<T>> extends AbstractGolemEntity<T> {
 
 	protected SweepGolemEntity(EntityType<T> type, Level level) {
@@ -19,7 +23,7 @@ public class SweepGolemEntity<T extends SweepGolemEntity<T>> extends AbstractGol
 		double range = getAttributeValue(GolemTypeRegistry.GOLEM_SWEEP.get());
 		if (range > 0) {
 			var list = getLevel().getEntities(target, target.getBoundingBox().inflate(range),
-					e -> e instanceof LivingEntity le && this.canAttack(le));
+					e -> e instanceof LivingEntity le && e instanceof Enemy && (!(e instanceof Creeper)) && this.canAttack(le));
 			for (Entity t : list) {
 				flag |= performDamageTarget(t, damage);
 			}

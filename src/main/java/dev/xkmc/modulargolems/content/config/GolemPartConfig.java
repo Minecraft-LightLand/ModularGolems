@@ -5,7 +5,6 @@ import dev.xkmc.l2library.serial.config.CollectType;
 import dev.xkmc.l2library.serial.config.ConfigCollect;
 import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.util.annotation.DataGenOnly;
-import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import dev.xkmc.modulargolems.init.NetworkManager;
@@ -19,7 +18,7 @@ import java.util.List;
 public class GolemPartConfig extends BaseConfig {
 
 	public static GolemPartConfig get() {
-		return NetworkManager.MATERIALS.getMerged();
+		return NetworkManager.PARTS.getMerged();
 	}
 
 	public static void addAttributes(List<GolemMaterial> list, LivingEntity entity) {

@@ -4,6 +4,7 @@ import dev.xkmc.l2library.serial.config.ConfigMerger;
 import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.serial.network.PacketHandlerWithConfig;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Locale;
@@ -25,6 +26,7 @@ public enum NetworkManager {
 
 	public static void register() {
 		HANDLER.addCachedConfig(MATERIALS.getID(), new ConfigMerger<>(GolemMaterialConfig.class));
+		HANDLER.addCachedConfig(PARTS.getID(), new ConfigMerger<>(GolemPartConfig.class));
 	}
 
 }

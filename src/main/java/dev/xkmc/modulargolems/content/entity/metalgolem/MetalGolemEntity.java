@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
+import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 
+@SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity> {
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
@@ -145,7 +147,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity> {
 	}
 
 	public Vec3 getLeashOffset() {
-		return new Vec3(0.0D, (double) (0.875F * this.getEyeHeight()), (double) (this.getBbWidth() * 0.4F));
+		return new Vec3(0.0D, 0.875F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
 	}
 
 }

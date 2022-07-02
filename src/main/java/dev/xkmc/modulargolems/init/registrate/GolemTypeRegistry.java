@@ -9,9 +9,9 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderer;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -46,17 +46,16 @@ public class GolemTypeRegistry {
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
 			.renderer(() -> MetalGolemRenderer::new)
-			.attributes(() -> AttributeSupplier.builder()
+			.attributes(() -> Mob.createMobAttributes()
 					.add(Attributes.MAX_HEALTH, 100.0D)
 					.add(Attributes.ATTACK_DAMAGE, 15.0D)
 					.add(Attributes.MOVEMENT_SPEED, 0.25D)
 					.add(Attributes.ATTACK_SPEED, 1.0D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
-					.add(Attributes.ARMOR, 0.0D)
-					.add(Attributes.ARMOR_TOUGHNESS, 0.0D)
-					.add(GOLEM_REGEN.get(), 0.0D)
-					.add(GOLEM_SWEEP.get(), 0.0D)
+					.add(Attributes.FOLLOW_RANGE, 16.0D)
+					.add(GOLEM_REGEN.get())
+					.add(GOLEM_SWEEP.get())
 			).register();
 
 	public static final RegistryEntry<GolemType<MetalGolemEntity>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",

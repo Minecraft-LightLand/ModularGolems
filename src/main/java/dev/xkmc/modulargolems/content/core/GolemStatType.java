@@ -17,7 +17,7 @@ import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
 public class GolemStatType extends NamedEntry<GolemStatType> {
 
 	public enum Kind {
-		BASE, ADD, PERCENT;
+		BASE, ADD, PERCENT
 	}
 
 	private final Supplier<Attribute> attribute;
@@ -33,16 +33,16 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 	}
 
 	public Component getAdderTooltip(double val) {
-		return MutableComponent.create(new TranslatableContents(
-				"attribute.modifier.plus." + (kind == Kind.PERCENT ? 1 : 0),
-				ATTRIBUTE_MODIFIER_FORMAT.format(kind == Kind.PERCENT ? val * 100 : val),
+		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
+		return MutableComponent.create(new TranslatableContents(key,
+				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(kind == Kind.PERCENT ? val * 100 : val)),
 				MutableComponent.create(new TranslatableContents(attribute.get().getDescriptionId())))).withStyle(ChatFormatting.BLUE);
 	}
 
 	public Component getTotalTooltip(double val) {
-		String key = "attribute.modifier." + (kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
+		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return MutableComponent.create(new TranslatableContents(key,
-				ATTRIBUTE_MODIFIER_FORMAT.format(kind == Kind.PERCENT ? val * 100 : val),
+				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(kind == Kind.PERCENT ? val * 100 : val)),
 				MutableComponent.create(new TranslatableContents(attribute.get().getDescriptionId())))).withStyle(ChatFormatting.BLUE);
 	}
 

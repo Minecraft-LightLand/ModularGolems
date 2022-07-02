@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
+@SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends AbstractGolem implements IEntityAdditionalSpawnData, NeutralMob {
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
@@ -52,6 +53,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 		this.materials = materials;
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials);
+		GolemMaterial.addAttributes(materials, this);
+		this.setHealth(this.getMaxHealth());
 	}
 
 	public EntityType<T> getType() {
@@ -117,9 +120,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T>> extends Abstr
 	public boolean canAttackType(EntityType<?> target) {
 		if (target == EntityType.PLAYER) {
 			return false;
-		} else {
-			return target != EntityType.CREEPER && super.canAttackType(target);
 		}
+		return target != EntityType.CREEPER && super.canAttackType(target);
 	}
 
 	protected float getAttackDamage() {

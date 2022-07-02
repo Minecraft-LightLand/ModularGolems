@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.init.data;
 
-import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;

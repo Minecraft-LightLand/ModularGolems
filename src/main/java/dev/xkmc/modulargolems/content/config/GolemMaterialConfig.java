@@ -9,21 +9,15 @@ import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.init.NetworkManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.HashMap;
-import java.util.List;
 
 @SerialClass
 public class GolemMaterialConfig extends BaseConfig {
 
 	public static GolemMaterialConfig get() {
 		return NetworkManager.MATERIALS.getMerged();
-	}
-
-	public static void addAttributes(List<GolemMaterial> list, LivingEntity entity) {
-		GolemMaterial.collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v));
 	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)

@@ -2,9 +2,10 @@ package dev.xkmc.modulargolems.content.config;
 
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
-import dev.xkmc.modulargolems.content.item.GolemPart;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -13,7 +14,7 @@ import java.util.*;
 public record GolemMaterial(
 		HashMap<GolemStatType, Double> stats,
 		HashMap<GolemModifier, Integer> modifiers,
-		ResourceLocation id, GolemPart part) {
+		ResourceLocation id, Item part) {
 
 	public static Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list) {
 		HashMap<GolemStatType, Double> values = new HashMap<>();
@@ -30,6 +31,10 @@ public record GolemMaterial(
 					Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
 		}
 		return values;
+	}
+
+	public static void addAttributes(List<GolemMaterial> list, LivingEntity entity) {
+		collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v));
 	}
 
 	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {

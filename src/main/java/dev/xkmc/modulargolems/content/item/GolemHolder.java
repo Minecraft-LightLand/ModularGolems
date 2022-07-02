@@ -109,6 +109,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 		if (root.contains(KEY_MATERIAL)) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?> golem = type.get().create((ServerLevel) level);
+				golem.moveTo(context.getClickLocation().add(0, 0.05, 0));
 				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), id);

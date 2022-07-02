@@ -46,9 +46,10 @@ public class GolemPart extends Item {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
 		getMaterial(stack).ifPresent(e -> {
-			list.add(parseMaterial(e).getDesc());
-			GolemMaterialConfig.get().stats.get(e).forEach((k, v) -> list.add(k.getAdderTooltip(v)));
-			GolemMaterialConfig.get().modifiers.get(e).forEach((m, v) -> list.add(m.getTooltip(v)));
+			GolemMaterial mat = parseMaterial(e);
+			list.add(mat.getDesc());
+			mat.stats().forEach((k, v) -> list.add(k.getAdderTooltip(v)));
+			mat.modifiers().forEach((m, v) -> list.add(m.getTooltip(v)));
 		});
 	}
 

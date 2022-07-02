@@ -2,8 +2,12 @@ package dev.xkmc.modulargolems.init;
 
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
+import dev.xkmc.l2library.serial.unified.UnifiedCodec;
 import dev.xkmc.modulargolems.events.GolemEvents;
-import dev.xkmc.modulargolems.init.data.*;
+import dev.xkmc.modulargolems.init.data.ConfigGen;
+import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.ModConfig;
+import dev.xkmc.modulargolems.init.data.RecipeGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
@@ -50,6 +54,7 @@ public class ModularGolems {
 	}
 
 	public ModularGolems() {
+		UnifiedCodec.DEBUG = true;
 		FMLJavaModLoadingContext ctx = FMLJavaModLoadingContext.get();
 		IEventBus bus = ctx.getModEventBus();
 		registerModBusEvents(bus);
