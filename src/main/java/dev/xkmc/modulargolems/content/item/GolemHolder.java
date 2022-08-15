@@ -123,10 +123,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 		if (root.contains(KEY_ENTITY)) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
+				golem.moveTo(context.getClickLocation().add(0, 0.05, 0));
 				level.addFreshEntity(golem);
+				stack.shrink(1);
+				stack.removeTagKey(KEY_ENTITY);
 			}
-			stack.shrink(1);
-			return InteractionResult.SUCCESS;
+			return InteractionResult.CONSUME;
 		}
 		if (root.contains(KEY_MATERIAL)) {
 			if (!level.isClientSide()) {
@@ -140,7 +142,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 					stack.shrink(1);
 				}
 			}
-			return InteractionResult.SUCCESS;
+			return InteractionResult.CONSUME;
 		}
 		return InteractionResult.PASS;
 	}
