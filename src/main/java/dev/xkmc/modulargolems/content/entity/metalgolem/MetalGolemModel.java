@@ -1,69 +1,75 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class MetalGolemModel<T extends MetalGolemEntity> extends HierarchicalModel<T> {
+
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart rightArm;
 	private final ModelPart leftArm;
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
+	private final ModelPart body;
 
-	public MetalGolemModel(ModelPart p_170697_) {
-		this.root = p_170697_;
-		this.head = p_170697_.getChild("head");
-		this.rightArm = p_170697_.getChild("right_arm");
-		this.leftArm = p_170697_.getChild("left_arm");
-		this.rightLeg = p_170697_.getChild("right_leg");
-		this.leftLeg = p_170697_.getChild("left_leg");
-	}
-
-	public static LayerDefinition createBodyLayer() {
-		MeshDefinition meshdefinition = new MeshDefinition();
-		PartDefinition partdefinition = meshdefinition.getRoot();
-		partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -12.0F, -5.5F, 8.0F, 10.0F, 8.0F).texOffs(24, 0).addBox(-1.0F, -5.0F, -7.5F, 2.0F, 4.0F, 2.0F), PartPose.offset(0.0F, -7.0F, -2.0F));
-		partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 40).addBox(-9.0F, -2.0F, -6.0F, 18.0F, 12.0F, 11.0F).texOffs(0, 70).addBox(-4.5F, 10.0F, -3.0F, 9.0F, 5.0F, 6.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -7.0F, 0.0F));
-		partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(60, 21).addBox(-13.0F, -2.5F, -3.0F, 4.0F, 30.0F, 6.0F), PartPose.offset(0.0F, -7.0F, 0.0F));
-		partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(60, 58).addBox(9.0F, -2.5F, -3.0F, 4.0F, 30.0F, 6.0F), PartPose.offset(0.0F, -7.0F, 0.0F));
-		partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(37, 0).addBox(-3.5F, -3.0F, -3.0F, 6.0F, 16.0F, 5.0F), PartPose.offset(-4.0F, 11.0F, 0.0F));
-		partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(60, 0).mirror().addBox(-3.5F, -3.0F, -3.0F, 6.0F, 16.0F, 5.0F), PartPose.offset(5.0F, 11.0F, 0.0F));
-		return LayerDefinition.create(meshdefinition, 128, 128);
+	public MetalGolemModel(ModelPart part) {
+		this.root = part;
+		this.body = part.getChild("body");
+		this.head = part.getChild("head");
+		this.rightArm = part.getChild("right_arm");
+		this.leftArm = part.getChild("left_arm");
+		this.rightLeg = part.getChild("right_leg");
+		this.leftLeg = part.getChild("left_leg");
 	}
 
 	public ModelPart root() {
 		return this.root;
 	}
 
-	public void setupAnim(T p_102962_, float p_102963_, float p_102964_, float p_102965_, float p_102966_, float p_102967_) {
-		this.head.yRot = p_102966_ * ((float) Math.PI / 180F);
-		this.head.xRot = p_102967_ * ((float) Math.PI / 180F);
-		this.rightLeg.xRot = -1.5F * Mth.triangleWave(p_102963_, 13.0F) * p_102964_;
-		this.leftLeg.xRot = 1.5F * Mth.triangleWave(p_102963_, 13.0F) * p_102964_;
+	public void setupAnim(T entity, float f1, float f2, float f3, float f4, float f5) {
+		this.head.yRot = f4 * ((float) Math.PI / 180F);
+		this.head.xRot = f5 * ((float) Math.PI / 180F);
+		this.rightLeg.xRot = -1.5F * Mth.triangleWave(f1, 13.0F) * f2;
+		this.leftLeg.xRot = 1.5F * Mth.triangleWave(f1, 13.0F) * f2;
 		this.rightLeg.yRot = 0.0F;
 		this.leftLeg.yRot = 0.0F;
 	}
 
-	public void prepareMobModel(T p_102957_, float p_102958_, float p_102959_, float p_102960_) {
-		int i = p_102957_.getAttackAnimationTick();
+	public void prepareMobModel(T entity, float f1, float f2, float f3) {
+		int i = entity.getAttackAnimationTick();
 		if (i > 0) {
-			this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - p_102960_, 10.0F);
-			this.leftArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - p_102960_, 10.0F);
+			this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
+			this.leftArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
 		} else {
-			this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(p_102958_, 13.0F)) * p_102959_;
-			this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(p_102958_, 13.0F)) * p_102959_;
+			this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
+			this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
 		}
-
 	}
 
-	public ModelPart getFlowerHoldingArm() {
-		return this.rightArm;
+	@Override
+	public void renderToBuffer(PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
 	}
+
+	void renderToBufferInternal(PartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
+		if (type == PartType.BODY) {
+			this.body.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.head.render(stack, consumer, i, j, f1, f2, f3, f4);
+		} else if (type == PartType.LEFT) {
+			this.leftArm.render(stack, consumer, i, j, f1, f2, f3, f4);
+		} else if (type == PartType.RIGHT) {
+			this.leftArm.render(stack, consumer, i, j, f1, f2, f3, f4);
+		} else if (type == PartType.LEG) {
+			this.leftLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.rightLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
+		}
+	}
+
+
 }
