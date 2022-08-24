@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
@@ -9,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MetalGolemModel<T extends MetalGolemEntity> extends HierarchicalModel<T> {
+public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel> {
 
 	private final ModelPart root;
 	private final ModelPart head;
@@ -33,7 +34,7 @@ public class MetalGolemModel<T extends MetalGolemEntity> extends HierarchicalMod
 		return this.root;
 	}
 
-	public void setupAnim(T entity, float f1, float f2, float f3, float f4, float f5) {
+	public void setupAnim(MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
 		this.head.yRot = f4 * ((float) Math.PI / 180F);
 		this.head.xRot = f5 * ((float) Math.PI / 180F);
 		this.rightLeg.xRot = -1.5F * Mth.triangleWave(f1, 13.0F) * f2;
@@ -42,7 +43,7 @@ public class MetalGolemModel<T extends MetalGolemEntity> extends HierarchicalMod
 		this.leftLeg.yRot = 0.0F;
 	}
 
-	public void prepareMobModel(T entity, float f1, float f2, float f3) {
+	public void prepareMobModel(MetalGolemEntity entity, float f1, float f2, float f3) {
 		int i = entity.getAttackAnimationTick();
 		if (i > 0) {
 			this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
@@ -57,7 +58,7 @@ public class MetalGolemModel<T extends MetalGolemEntity> extends HierarchicalMod
 	public void renderToBuffer(PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
 	}
 
-	void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
+	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
 		if (type == MetalGolemPartType.BODY) {
 			this.body.render(stack, consumer, i, j, f1, f2, f3, f4);
 			this.head.render(stack, consumer, i, j, f1, f2, f3, f4);

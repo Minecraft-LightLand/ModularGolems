@@ -2,16 +2,21 @@ package dev.xkmc.modulargolems.content.item;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -63,8 +68,15 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		id.ifPresent(rl -> renderPart(handle, rl, item.getEntityType(), item.getPart()));
 	}
 
-	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
-
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart, M extends HierarchicalModel<T> & IGolemModel<T, P, M>>
+	void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
+		PoseStack stack = handle.poseStack();
+		stack.pushPose();
+		stack.scale(1.0F, -1.0F, -1.0F);
+		M model = null;
+		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), model.renderType(TridentModel.TEXTURE), false, handle.stack().hasFoil());
+		model.renderToBufferInternal(part, stack, vc, handle.light(), handle.overlay(), 1.0F, 1.0F, 1.0F, 1.0F);
+		stack.popPose();
 	}
 
 }
