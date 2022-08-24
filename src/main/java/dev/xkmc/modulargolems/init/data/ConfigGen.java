@@ -45,7 +45,7 @@ public class ConfigGen extends ConfigDataProvider {
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "warden"), Ingredient.of(Items.ECHO_SHARD))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 30)
-				.addStat(GolemTypeRegistry.STAT_WEIGHT.get(), 1.5).end()
+				.addStat(GolemTypeRegistry.STAT_WEIGHT.get(), 0.5).end()
 		);
 
 		// Choose which stat to use, and what percentage for the complete golem

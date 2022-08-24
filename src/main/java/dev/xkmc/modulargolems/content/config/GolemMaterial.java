@@ -1,7 +1,9 @@
 package dev.xkmc.modulargolems.content.config;
 
+import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
+import dev.xkmc.modulargolems.content.item.GolemPart;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -50,5 +52,7 @@ public record GolemMaterial(
 		return Component.translatable("golem_material." + id.getNamespace() + "." + id.getPath());
 	}
 
-
+	public GolemPart<?, ?> getPart() {
+		return Wrappers.cast(part());
+	}
 }

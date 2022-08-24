@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2library.serial.SerialClass;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -8,6 +9,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,6 +27,8 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
@@ -148,6 +153,28 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	public Vec3 getLeashOffset() {
 		return new Vec3(0.0D, 0.875F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
+	}
+
+	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		ItemStack itemstack = player.getItemInHand(hand);
+		var mat = getMaterials().get(MetalGolemPartType.BODY.ordinal());
+		Ingredient ing = GolemMaterialConfig.get().ingredients.get(mat.id());
+		if (!ing.test(itemstack)) {
+			return InteractionResult.PASS;
+		} else {
+			float f = this.getHealth();
+			this.heal(getMaxHealth() / 4f);
+			if (this.getHealth() == f) {
+				return InteractionResult.PASS;
+			} else {
+				float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+				this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
+				if (!player.getAbilities().instabuild) {
+					itemstack.shrink(1);
+				}
+				return InteractionResult.sidedSuccess(this.level.isClientSide);
+			}
+		}
 	}
 
 }

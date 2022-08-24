@@ -72,7 +72,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		} else if (type == MetalGolemPartType.LEFT) {
 			this.leftArm.render(stack, consumer, i, j, f1, f2, f3, f4);
 		} else if (type == MetalGolemPartType.RIGHT) {
-			this.leftArm.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.rightArm.render(stack, consumer, i, j, f1, f2, f3, f4);
 		} else if (type == MetalGolemPartType.LEG) {
 			this.leftLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
 			this.rightLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
