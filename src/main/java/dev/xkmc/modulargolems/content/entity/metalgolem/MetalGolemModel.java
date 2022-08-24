@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,6 +21,10 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
 	private final ModelPart body;
+
+	public MetalGolemModel(EntityModelSet set) {
+		this(set.bakeLayer(ModelLayers.IRON_GOLEM));
+	}
 
 	public MetalGolemModel(ModelPart part) {
 		this.root = part;

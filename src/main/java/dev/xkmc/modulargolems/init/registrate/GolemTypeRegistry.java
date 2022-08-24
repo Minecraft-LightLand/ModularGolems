@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderer;
 import net.minecraft.world.entity.Mob;
@@ -60,7 +61,7 @@ public class GolemTypeRegistry {
 			).register();
 
 	public static final RegistryEntry<GolemType<MetalGolemEntity, MetalGolemPartType>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",
-			() -> new GolemType<>(ENTITY_GOLEM, MetalGolemPartType::values)).defaultLang().register();
+			() -> new GolemType<>(ENTITY_GOLEM, MetalGolemPartType::values, () -> MetalGolemModel::new)).defaultLang().register();
 
 	private static RegistryEntry<GolemStatType> regStat(String id, Supplier<Attribute> sup, GolemStatType.Kind kind, StatFilterType type) {
 		return REGISTRATE.generic(STAT_TYPES, id, () -> new GolemStatType(sup, kind, type)).register();
