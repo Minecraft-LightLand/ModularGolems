@@ -1,11 +1,11 @@
-package dev.xkmc.modulargolems.content.entity.common;
+package dev.xkmc.modulargolems.content.item;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.item.GolemHolder;
-import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -41,29 +41,30 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 	@Override
 	public void renderByItem(ItemStack stack, ItemTransforms.TransformType type, PoseStack poseStack,
 							 MultiBufferSource bufferSource, int light, int overlay) {
+		BEWLRHandle handle = new BEWLRHandle(stack, type, poseStack, bufferSource, light, overlay);
 		if (stack.getItem() instanceof GolemPart<?, ?> part) {
-			render(part, stack);
+			render(handle, part, stack);
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
-			render(holder, stack);
+			render(handle, holder, stack);
 		}
 	}
 
-	private <T extends AbstractGolemEntity<T, P>, P> void render(GolemHolder<T, P> item, ItemStack stack) {
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> void render(BEWLRHandle handle, GolemHolder<T, P> item, ItemStack stack) {
 		ArrayList<GolemMaterial> list = GolemHolder.getMaterial(stack);
 		P[] parts = item.getEntityType().values();
 		for (int i = 0; i < Math.min(list.size(), parts.length); i++) {
-			renderPart(list.get(i).id(), item.getEntityType(), parts[i]);
+			renderPart(handle, list.get(i).id(), item.getEntityType(), parts[i]);
 		}
 	}
 
-	private <T extends AbstractGolemEntity<T, P>, P> void render(GolemPart<T, P> item, ItemStack stack) {
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> void render(BEWLRHandle handle, GolemPart<T, P> item, ItemStack stack) {
 		Optional<ResourceLocation> id = GolemPart.getMaterial(stack);
-		id.ifPresent(rl -> renderPart(rl, item.getEntityType(), item.getPart()));
+		id.ifPresent(rl -> renderPart(handle, rl, item.getEntityType(), item.getPart()));
 	}
 
-	private <T extends AbstractGolemEntity<T, P>, P> void renderPart(ResourceLocation id, GolemType<T, P> type, P part) {
-		//TODO
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
+
 	}
 
 }

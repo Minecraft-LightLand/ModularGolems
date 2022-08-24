@@ -6,6 +6,7 @@ import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
+import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
@@ -33,7 +34,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @SerialClass
-public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P> extends AbstractGolem implements IEntityAdditionalSpawnData, NeutralMob {
+public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart> extends AbstractGolem implements IEntityAdditionalSpawnData, NeutralMob {
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);

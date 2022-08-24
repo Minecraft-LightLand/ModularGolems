@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2library.serial.SerialClass;
+import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -12,7 +13,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
 @SerialClass
-public class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P> extends AbstractGolemEntity<T, P> {
+public class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart> extends AbstractGolemEntity<T, P> {
 
 	protected SweepGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);

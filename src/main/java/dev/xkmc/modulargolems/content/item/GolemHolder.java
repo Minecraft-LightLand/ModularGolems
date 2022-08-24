@@ -4,8 +4,8 @@ import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.GolemBEWLR;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class GolemHolder<T extends AbstractGolemEntity<T, P>, P> extends Item {
+public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart> extends Item {
 
 	private static final String KEY_MATERIAL = "golem_materials";
 	private static final String KEY_ENTITY = "golem_entity";
@@ -74,7 +74,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P> extends Item {
 		return stack;
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P> ItemStack setEntity(T entity) {
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> ItemStack setEntity(T entity) {
 		GolemHolder<T, P> holder = GolemType.getGolemHolder(entity.getType());
 		ItemStack stack = new ItemStack(holder);
 		var obj = new NBTObj(stack.getOrCreateTag());

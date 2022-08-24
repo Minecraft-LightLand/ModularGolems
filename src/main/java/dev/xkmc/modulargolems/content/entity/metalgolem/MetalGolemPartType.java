@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
-public enum MetalGolemPartType {
+import dev.xkmc.modulargolems.content.core.IGolemPart;
+
+public enum MetalGolemPartType implements IGolemPart {
 	LEFT, BODY, RIGHT, LEG
 }
