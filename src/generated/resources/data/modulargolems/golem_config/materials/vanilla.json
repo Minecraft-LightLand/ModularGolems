@@ -12,13 +12,17 @@
     },
     "minecraft:netherite": {
       "item": "minecraft:netherite_ingot"
+    },
+    "minecraft:warden": {
+      "item": "minecraft:echo_shard"
     }
   },
   "modifiers": {
     "minecraft:copper": {},
     "minecraft:gold": {},
     "minecraft:iron": {},
-    "minecraft:netherite": {}
+    "minecraft:netherite": {},
+    "minecraft:warden": {}
   },
   "stats": {
     "minecraft:copper": {
@@ -40,6 +44,11 @@
       "modulargolems:max_health": 300.0,
       "modulargolems:sweep": 2.0,
       "modulargolems:weight": -0.4
+    },
+    "minecraft:warden": {
+      "modulargolems:attack": 30.0,
+      "modulargolems:max_health": 500.0,
+      "modulargolems:weight": 1.5
     }
   }
 }

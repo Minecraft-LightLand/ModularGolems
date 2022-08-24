@@ -1,11 +1,11 @@
-// 1.19	2022-07-01T15:41:57.703687	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.2	2022-08-24T11:09:09.17109	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 3b6833743f2c534258bbe003010c90b0e07b910a assets/modulargolems/lang/en_ud.json
 8c74f4caef2d03b8031a29a827c6e44e09973251 assets/modulargolems/lang/en_us.json
-074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/metal_golem_arm.json
-074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/metal_golem_body.json
-074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/metal_golem_holder.json
-074b7a88d74007a47e06282f3eefd6ab50fb1313 assets/modulargolems/models/item/metal_golem_legs.json
-b727b4af687a8dedd4363246ffab62e03987846a assets/modulargolems/models/item/metal_golem_template.json
+e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_arm.json
+e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_body.json
+e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_holder.json
+e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_legs.json
+e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_template.json
 30d19b866a832a8496bf71022520fbae315c71a8 data/modulargolems/advancements/recipes/modulargolems.golems/metal_golem_arm_from_metal_golem_template_stonecutting.json
 30ee9d924135b06147bcbb01ad703a54daf4d941 data/modulargolems/advancements/recipes/modulargolems.golems/metal_golem_body_from_metal_golem_template_stonecutting.json
 a012acb7f8f7cc8b2c2f1f29d64b2714943bdbf5 data/modulargolems/advancements/recipes/modulargolems.golems/metal_golem_holder.json

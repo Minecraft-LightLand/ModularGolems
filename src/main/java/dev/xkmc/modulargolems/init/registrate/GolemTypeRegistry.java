@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderer;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
@@ -24,7 +25,7 @@ public class GolemTypeRegistry {
 
 	public static final L2Registrate.RegistryInstance<GolemModifier> MODIFIERS = REGISTRATE.newRegistry("modifier", GolemModifier.class);
 	public static final L2Registrate.RegistryInstance<GolemStatType> STAT_TYPES = REGISTRATE.newRegistry("stat_type", GolemStatType.class);
-	public static final L2Registrate.RegistryInstance<GolemType<?>> TYPES = REGISTRATE.newRegistry("golem_type", GolemType.class);
+	public static final L2Registrate.RegistryInstance<GolemType<?, ?>> TYPES = REGISTRATE.newRegistry("golem_type", GolemType.class);
 
 	public static RegistryEntry<Attribute> GOLEM_REGEN = REGISTRATE.simple("golem_regen", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
 			() -> new RangedAttribute("attribute.name.golem_regen", 0, 0, 1000).setSyncable(true));
@@ -58,8 +59,8 @@ public class GolemTypeRegistry {
 					.add(GOLEM_SWEEP.get())
 			).register();
 
-	public static final RegistryEntry<GolemType<MetalGolemEntity>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",
-			() -> new GolemType<>(ENTITY_GOLEM)).defaultLang().register();
+	public static final RegistryEntry<GolemType<MetalGolemEntity, MetalGolemPartType>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",
+			() -> new GolemType<>(ENTITY_GOLEM, MetalGolemPartType::values)).defaultLang().register();
 
 	private static RegistryEntry<GolemStatType> regStat(String id, Supplier<Attribute> sup, GolemStatType.Kind kind, StatFilterType type) {
 		return REGISTRATE.generic(STAT_TYPES, id, () -> new GolemStatType(sup, kind, type)).register();

@@ -17,28 +17,28 @@ public class GolemEvents {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onHurtPre(LivingHurtEvent event) {
 		DamageSource source = event.getSource();
-		if (source.getEntity() instanceof AbstractGolemEntity<?> entity) {
+		if (source.getEntity() instanceof AbstractGolemEntity<?,?> entity) {
 			entity.getModifiers().forEach((k, v) -> k.onAttack(entity, event, v));
 		}
 	}
 
 	@SubscribeEvent
 	public static void onAttacked(LivingAttackEvent event) {
-		if (event.getEntity() instanceof AbstractGolemEntity<?> entity) {
+		if (event.getEntity() instanceof AbstractGolemEntity<?,?> entity) {
 			entity.getModifiers().forEach((k, v) -> k.onAttacked(entity, event, v));
 		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onHurtPost(LivingHurtEvent event) {
-		if (event.getEntity() instanceof AbstractGolemEntity<?> entity) {
+		if (event.getEntity() instanceof AbstractGolemEntity<?,?> entity) {
 			entity.getModifiers().forEach((k, v) -> k.onHurt(entity, event, v));
 		}
 	}
 
 	@SubscribeEvent
 	public static void onDamaged(LivingDamageEvent event) {
-		if (event.getEntity() instanceof AbstractGolemEntity<?> entity) {
+		if (event.getEntity() instanceof AbstractGolemEntity<?,?> entity) {
 			entity.getModifiers().forEach((k, v) -> k.onDamaged(entity, event, v));
 		}
 	}

@@ -11,7 +11,7 @@ public class FireImmuneModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onAttacked(AbstractGolemEntity<?> entity, LivingAttackEvent event, int level) {
+	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
 		if (level > 0 && event.getSource().isFire()) {
 			event.setCanceled(true);
 		}

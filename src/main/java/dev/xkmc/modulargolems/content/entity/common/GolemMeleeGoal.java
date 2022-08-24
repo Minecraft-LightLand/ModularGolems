@@ -5,7 +5,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
 public class GolemMeleeGoal extends MeleeAttackGoal {
 
-	public GolemMeleeGoal(AbstractGolemEntity<?> entity, double speedModifier, boolean bypassSightCheck) {
+	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity, double speedModifier, boolean bypassSightCheck) {
 		super(entity, speedModifier, bypassSightCheck);
 	}
 

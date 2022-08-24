@@ -30,7 +30,7 @@ public class AttributeGolemModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onGolemSpawn(AbstractGolemEntity<?> entity, int level) {
+	public void onGolemSpawn(AbstractGolemEntity<?,?> entity, int level) {
 		AttributeInstance instance = entity.getAttribute(attributes.get());
 		if (instance == null) return;
 		instance.addPermanentModifier(new AttributeModifier(id.get(), getID(), value, operation));

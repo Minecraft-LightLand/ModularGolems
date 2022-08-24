@@ -1,5 +1,5 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
-public enum PartType {
+public enum MetalGolemPartType {
 	LEFT, BODY, RIGHT, LEG
 }

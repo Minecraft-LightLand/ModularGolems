@@ -5,6 +5,7 @@ import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemBEWLR;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,17 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
+public class GolemHolder<T extends AbstractGolemEntity<T, P>, P> extends Item {
 
 	private static final String KEY_MATERIAL = "golem_materials";
 	private static final String KEY_ENTITY = "golem_entity";
 
 	private static final String KEY_PART = "part", KEY_MAT = "material";
 
-	private final RegistryEntry<GolemType<T>> type;
+	private final RegistryEntry<GolemType<T, P>> type;
 
-	public GolemHolder(Properties props, RegistryEntry<GolemType<T>> type) {
+	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
 		super(props);
 		this.type = type;
 		GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
@@ -50,7 +53,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 			ListTag list = tag.getList(KEY_MATERIAL, Tag.TAG_COMPOUND);
 			for (int i = 0; i < list.size(); i++) {
 				CompoundTag elem = list.getCompound(i);
-				GolemPart part = (GolemPart) ForgeRegistries.ITEMS.getValue(new ResourceLocation(elem.getString(KEY_PART)));
+				GolemPart<?, ?> part = (GolemPart<?, ?>) ForgeRegistries.ITEMS.getValue(new ResourceLocation(elem.getString(KEY_PART)));
 				ResourceLocation mat = new ResourceLocation(elem.getString(KEY_MAT));
 				if (part != null) {
 					ans.add(part.parseMaterial(mat));
@@ -60,7 +63,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 		return ans;
 	}
 
-	public static ItemStack addMaterial(ItemStack stack, GolemPart item, ResourceLocation material) {
+	public static ItemStack addMaterial(ItemStack stack, GolemPart<?, ?> item, ResourceLocation material) {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
 		assert rl != null;
 		NBTObj obj = new NBTObj(stack.getOrCreateTag());
@@ -71,8 +74,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 		return stack;
 	}
 
-	public static <T extends AbstractGolemEntity<T>> ItemStack setEntity(T entity) {
-		GolemHolder<T> holder = GolemType.getGolemHolder(entity.getType());
+	public static <T extends AbstractGolemEntity<T, P>, P> ItemStack setEntity(T entity) {
+		GolemHolder<T, P> holder = GolemType.getGolemHolder(entity.getType());
 		ItemStack stack = new ItemStack(holder);
 		var obj = new NBTObj(stack.getOrCreateTag());
 		var list = obj.getList(KEY_MATERIAL);
@@ -122,7 +125,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 		Level level = context.getLevel();
 		if (root.contains(KEY_ENTITY)) {
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
+				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
 				golem.moveTo(context.getClickLocation().add(0, 0.05, 0));
 				level.addFreshEntity(golem);
 				stack.shrink(1);
@@ -132,7 +135,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 		}
 		if (root.contains(KEY_MATERIAL)) {
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?> golem = type.get().create((ServerLevel) level);
+				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level);
 				golem.moveTo(context.getClickLocation().add(0, 0.05, 0));
 				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
@@ -164,4 +167,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T>> extends Item {
 	public int getBarWidth(ItemStack stack) {
 		return Math.round(getHealth(stack) * 13.0F / getMaxHealth(stack));
 	}
+
+	@Override
+	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+		consumer.accept(GolemBEWLR.EXTENSIONS);
+	}
+
+	public GolemType<T, P> getEntityType() {
+		return type.get();
+	}
+
 }

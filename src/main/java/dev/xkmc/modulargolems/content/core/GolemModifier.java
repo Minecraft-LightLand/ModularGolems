@@ -24,35 +24,35 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return getDesc().append(": ").append(Component.translatable(getDescriptionId() + ".desc"));
 	}
 
-	public void onGolemSpawn(AbstractGolemEntity<?> entity, int level) {
+	public void onGolemSpawn(AbstractGolemEntity<?, ?> entity, int level) {
 
 	}
 
 	/**
 	 * fires when this golem attacks others
 	 */
-	public void onAttack(AbstractGolemEntity<?> entity, LivingHurtEvent event, int level) {
+	public void onAttack(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
 
 	}
 
 	/**
 	 * fires when this golem is attacked. Damage cancellation phase
 	 */
-	public void onAttacked(AbstractGolemEntity<?> entity, LivingAttackEvent event, int level) {
+	public void onAttacked(AbstractGolemEntity<?,?> entity, LivingAttackEvent event, int level) {
 
 	}
 
 	/**
 	 * fires when this golem is attacked. Damage calculation phase
 	 */
-	public void onHurt(AbstractGolemEntity<?> entity, LivingHurtEvent event, int level) {
+	public void onHurt(AbstractGolemEntity<?,?> entity, LivingHurtEvent event, int level) {
 
 	}
 
 	/**
 	 * fires when this golem is attacked. Damage taking phase
 	 */
-	public void onDamaged(AbstractGolemEntity<?> entity, LivingDamageEvent event, int level) {
+	public void onDamaged(AbstractGolemEntity<?,?> entity, LivingDamageEvent event, int level) {
 
 	}
 
