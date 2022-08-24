@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.item;
 
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
-import dev.xkmc.l2library.serial.NBTObj;
+import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

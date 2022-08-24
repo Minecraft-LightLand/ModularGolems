@@ -21,7 +21,7 @@ public class GolemType<T extends AbstractGolemEntity<T>> extends NamedEntry<Gole
 	public static final HashMap<ResourceLocation, GolemHolder<?>> GOLEM_TYPE_TO_ITEM = new HashMap<>();
 
 	public static <T extends AbstractGolemEntity<T>> GolemType<T> getGolemType(EntityType<T> type) {
-		return Wrappers.cast(ENTITY_TYPE_TO_GOLEM_TYPE.get(ForgeRegistries.ENTITIES.getKey(type)));
+		return Wrappers.cast(ENTITY_TYPE_TO_GOLEM_TYPE.get(ForgeRegistries.ENTITY_TYPES.getKey(type)));
 	}
 
 	public static <T extends AbstractGolemEntity<T>> GolemHolder<T> getGolemHolder(GolemType<T> type) {
