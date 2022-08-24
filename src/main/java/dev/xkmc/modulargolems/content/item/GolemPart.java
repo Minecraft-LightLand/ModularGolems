@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart> extends Item {
+public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
 	private static final String KEY = "golem_material";
 

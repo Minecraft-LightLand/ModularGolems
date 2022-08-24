@@ -63,37 +63,44 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 							 MultiBufferSource bufferSource, int light, int overlay) {
 		BEWLRHandle handle = new BEWLRHandle(stack, type, poseStack, bufferSource, light, overlay);
 		if (stack.getItem() instanceof GolemPart<?, ?> part) {
-			render(handle, part, stack);
+			render(handle, part);
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
-			render(handle, holder, stack);
+			render(handle, holder);
 		}
 	}
 
-	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> void render(BEWLRHandle handle, GolemHolder<T, P> item, ItemStack stack) {
-		ArrayList<GolemMaterial> list = GolemHolder.getMaterial(stack);
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void render(BEWLRHandle handle, GolemHolder<T, P> item) {
+		ArrayList<GolemMaterial> list = GolemHolder.getMaterial(handle.stack());
 		P[] parts = item.getEntityType().values();
+		PoseStack stack = handle.poseStack();
+		stack.pushPose();
+		if (parts.length > 0) {
+			parts[0].setupItemRender(stack, null);
+		}
 		for (int i = 0; i < parts.length; i++) {
 			ResourceLocation id = list.size() > i ? list.get(i).id() : EMPTY;
 			renderPart(handle, id, item.getEntityType(), parts[i]);
 		}
+		stack.popPose();
 	}
 
-	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> void render(BEWLRHandle handle, GolemPart<T, P> item, ItemStack stack) {
-		Optional<ResourceLocation> id = GolemPart.getMaterial(stack);
-		renderPart(handle, id.orElse(EMPTY), item.getEntityType(), item.getPart());
-	}
-
-	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart, M extends HierarchicalModel<T> & IGolemModel<T, P, M>>
-	void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void render(BEWLRHandle handle, GolemPart<T, P> item) {
 		PoseStack stack = handle.poseStack();
 		stack.pushPose();
-		stack.scale(1.0F, -1.0F, -1.0F);
+		P part = item.getPart();
+		part.setupItemRender(stack, part);
+		Optional<ResourceLocation> id = GolemPart.getMaterial(handle.stack());
+		renderPart(handle, id.orElse(EMPTY), item.getEntityType(), part);
+		stack.popPose();
+	}
+
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends HierarchicalModel<T> & IGolemModel<T, P, M>>
+	void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
 		M model = Wrappers.cast(map.get(type.getRegistryName()));
 		RenderType render = model.renderType(model.getTextureLocationInternal(id));
 		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), render, false, handle.stack().hasFoil());
-		model.renderToBufferInternal(part, stack, vc, handle.light(), handle.overlay(), 1.0F, 1.0F, 1.0F, 1.0F);
-		stack.popPose();
+		model.renderToBufferInternal(part, handle.poseStack(), vc, handle.light(), handle.overlay(), 1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 }

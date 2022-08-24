@@ -34,7 +34,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @SerialClass
-public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart> extends AbstractGolem implements IEntityAdditionalSpawnData, NeutralMob {
+public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem implements IEntityAdditionalSpawnData, NeutralMob {
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);

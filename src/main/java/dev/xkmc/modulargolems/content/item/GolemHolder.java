@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart> extends Item {
+public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
 	private static final String KEY_MATERIAL = "golem_materials";
 	private static final String KEY_ENTITY = "golem_entity";
@@ -74,7 +74,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return stack;
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> ItemStack setEntity(T entity) {
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> ItemStack setEntity(T entity) {
 		GolemHolder<T, P> holder = GolemType.getGolemHolder(entity.getType());
 		ItemStack stack = new ItemStack(holder);
 		var obj = new NBTObj(stack.getOrCreateTag());

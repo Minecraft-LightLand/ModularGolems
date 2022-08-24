@@ -16,21 +16,21 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart> extends NamedEntry<GolemType<?, ?>> {
+public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends NamedEntry<GolemType<?, ?>> {
 
 	private static final HashMap<ResourceLocation, GolemType<?, ?>> ENTITY_TYPE_TO_GOLEM_TYPE = new HashMap<>();
 	public static final HashMap<ResourceLocation, GolemHolder<?, ?>> GOLEM_TYPE_TO_ITEM = new HashMap<>();
 	public static final HashMap<ResourceLocation, Supplier<ModelProvider<?, ?>>> GOLEM_TYPE_TO_MODEL = new HashMap<>();
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> GolemType<T, P> getGolemType(EntityType<T> type) {
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> GolemType<T, P> getGolemType(EntityType<T> type) {
 		return Wrappers.cast(ENTITY_TYPE_TO_GOLEM_TYPE.get(ForgeRegistries.ENTITY_TYPES.getKey(type)));
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> GolemHolder<T, P> getGolemHolder(GolemType<T, ?> type) {
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> GolemHolder<T, P> getGolemHolder(GolemType<T, ?> type) {
 		return Wrappers.cast(GOLEM_TYPE_TO_ITEM.get(type.getRegistryName()));
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> GolemHolder<T, P> getGolemHolder(EntityType<T> type) {
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> GolemHolder<T, P> getGolemHolder(EntityType<T> type) {
 		return getGolemHolder(getGolemType(type));
 	}
 

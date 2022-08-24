@@ -7,7 +7,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.resources.ResourceLocation;
 
-public interface IGolemModel<T extends AbstractGolemEntity<T, P>, P extends IGolemPart, M extends HierarchicalModel<T> & IGolemModel<T, P, M>> {
+public interface IGolemModel<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends HierarchicalModel<T> & IGolemModel<T, P, M>> {
 
 	default M getThis() {
 		return Wrappers.cast(this);

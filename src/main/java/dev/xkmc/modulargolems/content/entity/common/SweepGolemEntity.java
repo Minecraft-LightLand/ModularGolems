@@ -13,7 +13,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
 @SerialClass
-public class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart> extends AbstractGolemEntity<T, P> {
+public class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolemEntity<T, P> {
 
 	protected SweepGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);

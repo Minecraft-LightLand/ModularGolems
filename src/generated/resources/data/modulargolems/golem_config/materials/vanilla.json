@@ -1,51 +1,51 @@
 {
   "_class": "dev.xkmc.modulargolems.content.config.GolemMaterialConfig",
   "ingredients": {
-    "minecraft:copper": {
+    "modulargolems:copper": {
       "item": "minecraft:copper_ingot"
     },
-    "minecraft:gold": {
+    "modulargolems:gold": {
       "item": "minecraft:gold_ingot"
     },
-    "minecraft:iron": {
+    "modulargolems:iron": {
       "item": "minecraft:iron_ingot"
     },
-    "minecraft:netherite": {
+    "modulargolems:netherite": {
       "item": "minecraft:netherite_ingot"
     },
-    "minecraft:warden": {
+    "modulargolems:warden": {
       "item": "minecraft:echo_shard"
     }
   },
   "modifiers": {
-    "minecraft:copper": {},
-    "minecraft:gold": {},
-    "minecraft:iron": {},
-    "minecraft:netherite": {},
-    "minecraft:warden": {}
+    "modulargolems:copper": {},
+    "modulargolems:gold": {},
+    "modulargolems:iron": {},
+    "modulargolems:netherite": {},
+    "modulargolems:warden": {}
   },
   "stats": {
-    "minecraft:copper": {
+    "modulargolems:copper": {
       "modulargolems:attack": 10.0,
       "modulargolems:max_health": 50.0
     },
-    "minecraft:gold": {
+    "modulargolems:gold": {
       "modulargolems:attack": 5.0,
       "modulargolems:attack_speed": 0.5,
       "modulargolems:max_health": 20.0,
       "modulargolems:weight": -0.4
     },
-    "minecraft:iron": {
+    "modulargolems:iron": {
       "modulargolems:attack": 15.0,
       "modulargolems:max_health": 100.0
     },
-    "minecraft:netherite": {
+    "modulargolems:netherite": {
       "modulargolems:attack": 30.0,
       "modulargolems:max_health": 300.0,
       "modulargolems:sweep": 2.0,
       "modulargolems:weight": -0.4
     },
-    "minecraft:warden": {
+    "modulargolems:warden": {
       "modulargolems:attack": 30.0,
       "modulargolems:max_health": 500.0,
       "modulargolems:weight": 1.5
