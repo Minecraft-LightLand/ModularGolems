@@ -7,6 +7,7 @@ import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -78,5 +79,10 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		}
 	}
 
+	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
+		String id = rl.getNamespace();
+		String mat = rl.getPath();
+		return new ResourceLocation(id, "textures/entity/metal_golem/" + mat + ".png");
+	}
 
 }

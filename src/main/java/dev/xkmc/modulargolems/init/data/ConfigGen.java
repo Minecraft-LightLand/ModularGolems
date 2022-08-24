@@ -67,5 +67,4 @@ public class ConfigGen extends ConfigDataProvider {
 		);
 	}
 
-
 }

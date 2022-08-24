@@ -66,7 +66,8 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 
 	@Nullable
 	private RenderType getRenderTypeInternal(P type, T entity, boolean b1, boolean b2, boolean b3) {
-		ResourceLocation resourcelocation = this.getTextureLocationInternal(type, entity);
+		var material = entity.getMaterials().get(type.ordinal());
+		ResourceLocation resourcelocation = model.getTextureLocationInternal(material.id());
 		if (b2) {
 			return RenderType.itemEntityTranslucentCull(resourcelocation);
 		} else if (b1) {
@@ -75,7 +76,5 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 			return b3 ? RenderType.outline(resourcelocation) : null;
 		}
 	}
-
-	protected abstract ResourceLocation getTextureLocationInternal(P type, T entity);
 
 }

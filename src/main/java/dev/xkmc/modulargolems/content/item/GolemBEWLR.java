@@ -9,12 +9,13 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HierarchicalModel;
-import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -41,6 +42,8 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		}
 
 	};
+
+	private static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
 	private final EntityModelSet entityModelSet;
 	private final HashMap<ResourceLocation, IGolemModel<?, ?, ?>> map = new HashMap<>();
@@ -70,14 +73,15 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> void render(BEWLRHandle handle, GolemHolder<T, P> item, ItemStack stack) {
 		ArrayList<GolemMaterial> list = GolemHolder.getMaterial(stack);
 		P[] parts = item.getEntityType().values();
-		for (int i = 0; i < Math.min(list.size(), parts.length); i++) {
-			renderPart(handle, list.get(i).id(), item.getEntityType(), parts[i]);
+		for (int i = 0; i < parts.length; i++) {
+			ResourceLocation id = list.size() > i ? list.get(i).id() : EMPTY;
+			renderPart(handle, id, item.getEntityType(), parts[i]);
 		}
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart> void render(BEWLRHandle handle, GolemPart<T, P> item, ItemStack stack) {
 		Optional<ResourceLocation> id = GolemPart.getMaterial(stack);
-		id.ifPresent(rl -> renderPart(handle, rl, item.getEntityType(), item.getPart()));
+		renderPart(handle, id.orElse(EMPTY), item.getEntityType(), item.getPart());
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart, M extends HierarchicalModel<T> & IGolemModel<T, P, M>>
@@ -86,7 +90,8 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		stack.pushPose();
 		stack.scale(1.0F, -1.0F, -1.0F);
 		M model = Wrappers.cast(map.get(type.getRegistryName()));
-		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), model.renderType(TridentModel.TEXTURE), false, handle.stack().hasFoil());
+		RenderType render = model.renderType(model.getTextureLocationInternal(id));
+		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), render, false, handle.stack().hasFoil());
 		model.renderToBufferInternal(part, stack, vc, handle.light(), handle.overlay(), 1.0F, 1.0F, 1.0F, 1.0F);
 		stack.popPose();
 	}
