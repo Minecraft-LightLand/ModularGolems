@@ -12,6 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 @SerialClass
 public class GolemMaterialConfig extends BaseConfig {
@@ -31,6 +33,13 @@ public class GolemMaterialConfig extends BaseConfig {
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialClass.SerialField
 	public HashMap<ResourceLocation, Ingredient> ingredients = new HashMap<>();
+
+	public Set<ResourceLocation> getAllMaterials() {
+		TreeSet<ResourceLocation> set = new TreeSet<>(stats.keySet());
+		set.retainAll(modifiers.keySet());
+		set.retainAll(ingredients.keySet());
+		return set;
+	}
 
 	@DataGenOnly
 	public Builder addMaterial(ResourceLocation id, Ingredient ingredient) {

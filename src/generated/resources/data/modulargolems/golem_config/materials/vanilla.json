@@ -13,7 +13,7 @@
     "modulargolems:netherite": {
       "item": "minecraft:netherite_ingot"
     },
-    "modulargolems:warden": {
+    "modulargolems:sculk": {
       "item": "minecraft:echo_shard"
     }
   },
@@ -22,7 +22,7 @@
     "modulargolems:gold": {},
     "modulargolems:iron": {},
     "modulargolems:netherite": {},
-    "modulargolems:warden": {}
+    "modulargolems:sculk": {}
   },
   "stats": {
     "modulargolems:copper": {
@@ -45,7 +45,7 @@
       "modulargolems:sweep": 2.0,
       "modulargolems:weight": -0.4
     },
-    "modulargolems:warden": {
+    "modulargolems:sculk": {
       "modulargolems:attack": 30.0,
       "modulargolems:max_health": 500.0,
       "modulargolems:weight": 0.5

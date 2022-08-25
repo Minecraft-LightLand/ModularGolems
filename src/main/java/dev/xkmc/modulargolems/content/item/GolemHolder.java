@@ -3,9 +3,12 @@ package dev.xkmc.modulargolems.content.item;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -16,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -41,7 +45,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	private final RegistryEntry<GolemType<T, P>> type;
 
 	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
-		super(props);
+		super(props.stacksTo(1));
 		this.type = type;
 		GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
 	}
@@ -111,7 +115,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
 		var mats = getMaterial(stack);
-		mats.forEach(e -> list.add(e.getDesc()));
+		var parts = getEntityType().values();
+		for (int i = 0; i < parts.length; i++) {
+			list.add(parts[i].getDesc(mats.get(i).getDesc()));
+		}
 		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 	}
 
@@ -175,6 +182,20 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public GolemType<T, P> getEntityType() {
 		return type.get();
+	}
+
+	@Override
+	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
+		if (this.allowedIn(tab)) {
+			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+				ItemStack stack = new ItemStack(this);
+				addMaterial(stack, GolemItemRegistry.GOLEM_ARM.get(), rl);
+				addMaterial(stack, GolemItemRegistry.GOLEM_BODY.get(), rl);
+				addMaterial(stack, GolemItemRegistry.GOLEM_ARM.get(), rl);
+				addMaterial(stack, GolemItemRegistry.GOLEM_LEGS.get(), rl);
+				list.add(stack);
+			}
+		}
 	}
 
 }

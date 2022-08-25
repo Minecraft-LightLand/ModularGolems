@@ -7,8 +7,10 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -41,7 +43,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	public final int count;
 
 	public GolemPart(Properties props, Supplier<GolemType<T, P>> type, P part, int count) {
-		super(props);
+		super(props.stacksTo(1));
 		this.type = type;
 		this.part = part;
 		this.count = count;
@@ -81,4 +83,16 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	public P getPart() {
 		return part;
 	}
+
+	@Override
+	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
+		list.add(new ItemStack(this));
+		if (this.allowedIn(tab)) {
+			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+				ItemStack stack = new ItemStack(this);
+				list.add(setMaterial(stack, rl));
+			}
+		}
+	}
+
 }

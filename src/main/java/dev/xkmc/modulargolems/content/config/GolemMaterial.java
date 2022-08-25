@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -48,7 +49,7 @@ public record GolemMaterial(
 		return Optional.empty();
 	}
 
-	public Component getDesc() {
+	public MutableComponent getDesc() {
 		return Component.translatable("golem_material." + id.getNamespace() + "." + id.getPath());
 	}
 

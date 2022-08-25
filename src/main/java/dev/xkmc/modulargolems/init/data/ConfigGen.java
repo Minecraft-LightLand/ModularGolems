@@ -42,7 +42,7 @@ public class ConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypeRegistry.STAT_WEIGHT.get(), -0.4)
 				.addStat(GolemTypeRegistry.STAT_SWEEP.get(), 2).end()
-				.addMaterial(new ResourceLocation(ModularGolems.MODID, "warden"), Ingredient.of(Items.ECHO_SHARD))
+				.addMaterial(new ResourceLocation(ModularGolems.MODID, "sculk"), Ingredient.of(Items.ECHO_SHARD))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypeRegistry.STAT_WEIGHT.get(), 0.5).end()

@@ -30,11 +30,11 @@ public class GolemPartConfig extends BaseConfig {
 	public HashMap<Item, HashMap<StatFilterType, Double>> filters = new HashMap<>();
 
 	@DataGenOnly
-	public Builder addMaterial(GolemPart part) {
+	public Builder addMaterial(GolemPart<?, ?> part) {
 		return new Builder(this, part);
 	}
 
-	public HashMap<StatFilterType, Double> getFilter(GolemPart part) {
+	public HashMap<StatFilterType, Double> getFilter(GolemPart<?, ?> part) {
 		return filters.get(part);
 	}
 
@@ -42,11 +42,11 @@ public class GolemPartConfig extends BaseConfig {
 	public static class Builder {
 
 		private final GolemPartConfig parent;
-		private final GolemPart part;
+		private final GolemPart<?, ?> part;
 
 		private final HashMap<StatFilterType, Double> filter = new HashMap<>();
 
-		private Builder(GolemPartConfig parent, GolemPart part) {
+		private Builder(GolemPartConfig parent, GolemPart<?, ?> part) {
 			this.parent = parent;
 			this.part = part;
 		}
