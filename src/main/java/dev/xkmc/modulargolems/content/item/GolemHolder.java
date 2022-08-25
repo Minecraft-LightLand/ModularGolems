@@ -116,6 +116,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		super.appendHoverText(stack, level, list, flag);
 		var mats = getMaterial(stack);
 		var parts = getEntityType().values();
+		if (mats.size() != parts.length) return;
 		for (int i = 0; i < parts.length; i++) {
 			list.add(parts[i].getDesc(mats.get(i).getDesc()));
 		}

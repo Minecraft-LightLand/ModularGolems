@@ -31,16 +31,18 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 	}
 
 	public Component getAdderTooltip(double val) {
+		if (kind == Kind.PERCENT) val = val * 100;
 		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,
-				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(kind == Kind.PERCENT ? (val - 1) * 100 : val)),
+				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
 				Component.translatable(attribute.get().getDescriptionId())).withStyle(ChatFormatting.BLUE);
 	}
 
 	public Component getTotalTooltip(double val) {
+		if (kind == Kind.PERCENT) val = (val - 1) * 100;
 		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,
-				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(kind == Kind.PERCENT ? (val - 1) * 100 : val)),
+				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
 				Component.translatable(attribute.get().getDescriptionId())).withStyle(ChatFormatting.BLUE);
 	}
 
@@ -53,7 +55,7 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 		switch (kind) {
 			case BASE -> ins.setBaseValue(v);
 			case ADD -> ins.setBaseValue(ins.getValue() + v);
-			case PERCENT -> ins.setBaseValue(ins.getValue() * (1 + v));
+			case PERCENT -> ins.setBaseValue(ins.getValue() * v);
 		}
 	}
 
