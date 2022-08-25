@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
+
+	public static final List<GolemPart<?, ?>> LIST = new ArrayList<>();
 
 	private static final String KEY = "golem_material";
 
@@ -47,6 +50,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		this.type = type;
 		this.part = part;
 		this.count = count;
+		LIST.add(this);
 	}
 
 	@Override

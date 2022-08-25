@@ -7,7 +7,6 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -190,10 +189,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (this.allowedIn(tab)) {
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
 				ItemStack stack = new ItemStack(this);
-				addMaterial(stack, GolemItemRegistry.GOLEM_ARM.get(), rl);
-				addMaterial(stack, GolemItemRegistry.GOLEM_BODY.get(), rl);
-				addMaterial(stack, GolemItemRegistry.GOLEM_ARM.get(), rl);
-				addMaterial(stack, GolemItemRegistry.GOLEM_LEGS.get(), rl);
+				for (P part : getEntityType().values()) {
+					addMaterial(stack, part.toItem(), rl);
+				}
 				list.add(stack);
 			}
 		}

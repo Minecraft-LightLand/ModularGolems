@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.core;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.item.GolemPart;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,4 +15,7 @@ public interface IGolemPart<P extends IGolemPart<P>> {
 	void setupItemRender(PoseStack stack, @Nullable P part);
 
 	MutableComponent getDesc(MutableComponent desc);
+
+	GolemPart<?, P> toItem();
+
 }
