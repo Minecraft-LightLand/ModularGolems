@@ -31,7 +31,7 @@ public abstract class ResourceOrganizer {
 
     public static void main(String[] args) throws Exception {
         new LangFileOrganizer();
-        new ItemFileOrganizer();
+        //new ItemFileOrganizer();
         //new BlockFileOrganizer();
         //new ArmorFileOrganizer();
         //new RecipeFileOrganizer();
@@ -42,7 +42,7 @@ public abstract class ResourceOrganizer {
         File f = new File("./src/test/resources");
         for (File fi : f.listFiles()) {
             MODID = fi.getName();
-            delete(new File("./src/main/resources/assets/l2artifacts/"));
+            //delete(new File("./src/main/resources/assets/l2artifacts/"));
             if (!fi.isDirectory())
                 continue;
             for (ResourceOrganizer obj : MAP.values()) {

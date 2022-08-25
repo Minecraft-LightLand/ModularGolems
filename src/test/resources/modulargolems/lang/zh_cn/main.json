@@ -1,0 +1,21 @@
+{
+  "attribute.name.golem_regen": "生命回复",
+  "attribute.name.golem_sweep": "范围攻击",
+  "entity.modulargolems.metal_golem": "大型金属傀儡",
+  "golem_material.modulargolems.copper": "铜",
+  "golem_material.modulargolems.gold": "金",
+  "golem_material.modulargolems.iron": "铁",
+  "golem_material.modulargolems.netherite": "下界合金",
+  "golem_material.modulargolems.sculk": "潜声",
+  "golem_part.metal_golem.body": "身体: %s",
+  "golem_part.metal_golem.left": "左手: %s",
+  "golem_part.metal_golem.leg": "双腿: %s",
+  "golem_part.metal_golem.right": "右手: %s",
+  "golem_type.modulargolems.metal_golem": "大型金属傀儡",
+  "item.modulargolems.metal_golem_arm": "大型金属傀儡-手臂",
+  "item.modulargolems.metal_golem_body": "大型金属傀儡-身体",
+  "item.modulargolems.metal_golem_holder": "大型金属傀儡",
+  "item.modulargolems.metal_golem_legs": "大型金属傀儡-双腿",
+  "item.modulargolems.metal_golem_template": "傀儡模版",
+  "itemGroup.modulargolems.golems": "组合式傀儡"
+}
