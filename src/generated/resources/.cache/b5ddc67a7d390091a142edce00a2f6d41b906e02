@@ -1,6 +1,6 @@
-// 1.19.2	2022-08-25T08:45:47.231896	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-14c13e86c069f93f346be560c0d8f9ab3281bff8 assets/modulargolems/lang/en_ud.json
-df5ed6ed16d2bb888894c57e00068f88a2506759 assets/modulargolems/lang/en_us.json
+// 1.19.2	2022-08-25T09:12:15.272702	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+248b839d91c7139f4f27255b13ebd4fef0ee9936 assets/modulargolems/lang/en_ud.json
+15d1a851e93d5173210e9af8b6aa80a29efebc78 assets/modulargolems/lang/en_us.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_arm.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_body.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_holder.json

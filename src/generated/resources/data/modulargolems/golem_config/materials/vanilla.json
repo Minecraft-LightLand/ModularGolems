@@ -48,7 +48,7 @@
     "modulargolems:sculk": {
       "modulargolems:attack": 30.0,
       "modulargolems:max_health": 500.0,
-      "modulargolems:weight": 0.5
+      "modulargolems:speed": 0.5
     }
   }
 }

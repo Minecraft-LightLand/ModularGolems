@@ -58,7 +58,7 @@ public enum LangData {
 		pvd.add("golem_material." + ModularGolems.MODID + "sculk", "Sculk");
 		for (MetalGolemPartType type : MetalGolemPartType.values()) {
 			String name = type.name().toLowerCase(Locale.ROOT);
-			pvd.add("golem_material.metal_golem." + name, RegistrateLangProvider.toEnglishName(name));
+			pvd.add("golem_part.metal_golem." + name, RegistrateLangProvider.toEnglishName(name)+": %s");
 		}
 
 	}

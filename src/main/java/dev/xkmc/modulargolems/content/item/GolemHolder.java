@@ -119,7 +119,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		for (int i = 0; i < parts.length; i++) {
 			list.add(parts[i].getDesc(mats.get(i).getDesc()));
 		}
-		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getAdderTooltip(v)));
+		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
 	}
 
 	@Override
