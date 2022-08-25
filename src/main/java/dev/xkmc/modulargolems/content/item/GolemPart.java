@@ -90,8 +90,8 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 
 	@Override
 	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
-		list.add(new ItemStack(this));
 		if (this.allowedIn(tab)) {
+			list.add(new ItemStack(this));
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
 				ItemStack stack = new ItemStack(this);
 				list.add(setMaterial(stack, rl));

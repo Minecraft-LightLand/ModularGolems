@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.common;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2library.util.Proxy;
+import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.metalgolem.RenderHandle;
 import net.minecraft.client.model.HierarchicalModel;
@@ -66,8 +67,10 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 
 	@Nullable
 	private RenderType getRenderTypeInternal(P type, T entity, boolean b1, boolean b2, boolean b3) {
-		var material = entity.getMaterials().get(type.ordinal());
-		ResourceLocation resourcelocation = model.getTextureLocationInternal(material.id());
+		var materials = entity.getMaterials();
+		int index = type.ordinal();
+		ResourceLocation material = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;
+		ResourceLocation resourcelocation = model.getTextureLocationInternal(material);
 		if (b2) {
 			return RenderType.itemEntityTranslucentCull(resourcelocation);
 		} else if (b1) {

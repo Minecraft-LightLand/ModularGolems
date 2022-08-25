@@ -157,6 +157,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
+		if (getMaterials().size() != MetalGolemPartType.values().length)
+			return super.mobInteract(player, hand);
 		var mat = getMaterials().get(MetalGolemPartType.BODY.ordinal());
 		Ingredient ing = GolemMaterialConfig.get().ingredients.get(mat.id());
 		if (!ing.test(itemstack)) {

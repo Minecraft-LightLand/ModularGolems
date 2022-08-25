@@ -22,8 +22,7 @@ public class GolemItemRegistry {
 	}
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new)
-			.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
-			.defaultLang().register();
+			.defaultModel().defaultLang().register();
 
 	public static final ItemEntry<GolemPart<MetalGolemEntity, MetalGolemPartType>> GOLEM_BODY = REGISTRATE.item("metal_golem_body", p ->
 					new GolemPart<>(p, GolemTypeRegistry.TYPE_GOLEM, MetalGolemPartType.BODY, 9))

@@ -4,6 +4,7 @@ import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -19,6 +20,8 @@ public record GolemMaterial(
 		HashMap<GolemStatType, Double> stats,
 		HashMap<GolemModifier, Integer> modifiers,
 		ResourceLocation id, Item part) {
+
+	public static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
 	public static Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list) {
 		HashMap<GolemStatType, Double> values = new HashMap<>();

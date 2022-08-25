@@ -61,10 +61,6 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		}
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
-	}
-
 	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
 		if (type == MetalGolemPartType.BODY) {
 			this.body.render(stack, consumer, i, j, f1, f2, f3, f4);

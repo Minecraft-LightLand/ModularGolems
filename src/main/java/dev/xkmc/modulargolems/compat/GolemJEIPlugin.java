@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat;
 
+import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
@@ -24,8 +25,6 @@ import java.util.List;
 public class GolemJEIPlugin implements IModPlugin {
 
 	public static final ResourceLocation ID = new ResourceLocation(ModularGolems.MODID, "main");
-
-	private static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
 	@Override
 	public ResourceLocation getPluginUid() {
@@ -63,7 +62,7 @@ public class GolemJEIPlugin implements IModPlugin {
 	}
 
 	private static String partSubtype(ItemStack stack, UidContext ctx) {
-		return GolemPart.getMaterial(stack).orElse(EMPTY).toString();
+		return GolemPart.getMaterial(stack).orElse(GolemMaterial.EMPTY).toString();
 	}
 
 }

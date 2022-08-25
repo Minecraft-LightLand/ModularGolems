@@ -9,7 +9,6 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
-import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -43,8 +42,6 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 
 	};
 
-	private static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
-
 	private final EntityModelSet entityModelSet;
 	private final HashMap<ResourceLocation, IGolemModel<?, ?, ?>> map = new HashMap<>();
 
@@ -62,37 +59,35 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 	public void renderByItem(ItemStack stack, ItemTransforms.TransformType type, PoseStack poseStack,
 							 MultiBufferSource bufferSource, int light, int overlay) {
 		BEWLRHandle handle = new BEWLRHandle(stack, type, poseStack, bufferSource, light, overlay);
+		poseStack.pushPose();
 		if (stack.getItem() instanceof GolemPart<?, ?> part) {
 			render(handle, part);
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
 			render(handle, holder);
 		}
+		poseStack.popPose();
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void render(BEWLRHandle handle, GolemHolder<T, P> item) {
 		ArrayList<GolemMaterial> list = GolemHolder.getMaterial(handle.stack());
 		P[] parts = item.getEntityType().values();
 		PoseStack stack = handle.poseStack();
-		stack.pushPose();
 		if (parts.length > 0) {
-			parts[0].setupItemRender(stack, null);
+			parts[0].setupItemRender(stack, handle.type(), null);
 		}
 		for (int i = 0; i < parts.length; i++) {
-			ResourceLocation id = list.size() > i ? list.get(i).id() : EMPTY;
+			ResourceLocation id = list.size() > i ? list.get(i).id() : GolemMaterial.EMPTY;
 			renderPart(handle, id, item.getEntityType(), parts[i]);
 		}
-		stack.popPose();
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void render(BEWLRHandle handle, GolemPart<T, P> item) {
 		PoseStack stack = handle.poseStack();
-		stack.pushPose();
 		P part = item.getPart();
-		part.setupItemRender(stack, part);
+		part.setupItemRender(stack, handle.type(), part);
 		Optional<ResourceLocation> id = GolemPart.getMaterial(handle.stack());
-		renderPart(handle, id.orElse(EMPTY), item.getEntityType(), part);
-		stack.popPose();
+		renderPart(handle, id.orElse(GolemMaterial.EMPTY), item.getEntityType(), part);
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends HierarchicalModel<T> & IGolemModel<T, P, M>>
