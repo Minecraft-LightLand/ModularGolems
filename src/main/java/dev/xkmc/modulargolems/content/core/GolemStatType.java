@@ -4,8 +4,6 @@ import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -21,8 +19,8 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 	}
 
 	private final Supplier<Attribute> attribute;
-	private final Kind kind;
 
+	public final Kind kind;
 	public final StatFilterType type;
 
 	public GolemStatType(Supplier<Attribute> attribute, Kind kind, StatFilterType type) {
@@ -34,16 +32,16 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 
 	public Component getAdderTooltip(double val) {
 		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
-		return MutableComponent.create(new TranslatableContents(key,
-				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(kind == Kind.PERCENT ? val * 100 : val)),
-				MutableComponent.create(new TranslatableContents(attribute.get().getDescriptionId())))).withStyle(ChatFormatting.BLUE);
+		return Component.translatable(key,
+				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(kind == Kind.PERCENT ? (val - 1) * 100 : val)),
+				Component.translatable(attribute.get().getDescriptionId())).withStyle(ChatFormatting.BLUE);
 	}
 
 	public Component getTotalTooltip(double val) {
 		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
-		return MutableComponent.create(new TranslatableContents(key,
-				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(kind == Kind.PERCENT ? val * 100 : val)),
-				MutableComponent.create(new TranslatableContents(attribute.get().getDescriptionId())))).withStyle(ChatFormatting.BLUE);
+		return Component.translatable(key,
+				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(kind == Kind.PERCENT ? (val - 1) * 100 : val)),
+				Component.translatable(attribute.get().getDescriptionId())).withStyle(ChatFormatting.BLUE);
 	}
 
 	/**

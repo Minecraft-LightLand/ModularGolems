@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +38,7 @@ public enum MetalGolemPartType implements IGolemPart<MetalGolemPartType> {
 
 	@Override
 	public MutableComponent getDesc(MutableComponent desc) {
-		return Component.translatable("golem_part.metal_golem." + name().toLowerCase(Locale.ROOT), desc);
+		return Component.translatable("golem_part.metal_golem." + name().toLowerCase(Locale.ROOT), desc).withStyle(ChatFormatting.GREEN);
 	}
 
 }

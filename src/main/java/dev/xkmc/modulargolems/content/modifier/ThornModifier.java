@@ -9,7 +9,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 public class ThornModifier extends GolemModifier {
 
-	public static final double PERCENTAGE = 0.2;//TODO move to config
+	public static final double PERCENTAGE = 0.2; //TODO move to config
 
 	public ThornModifier(int maxLevel) {
 		super(maxLevel);

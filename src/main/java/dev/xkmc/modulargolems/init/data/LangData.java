@@ -51,11 +51,11 @@ public enum LangData {
 		pvd.add("attribute.name.golem_regen", "Golem Regen");
 		pvd.add("attribute.name.golem_sweep", "Sweep Range");
 
-		pvd.add("golem_material." + ModularGolems.MODID + "copper", "Copper");
-		pvd.add("golem_material." + ModularGolems.MODID + "iron", "Iron");
-		pvd.add("golem_material." + ModularGolems.MODID + "gold", "Gold");
-		pvd.add("golem_material." + ModularGolems.MODID + "netherite", "Netherite");
-		pvd.add("golem_material." + ModularGolems.MODID + "sculk", "Sculk");
+		pvd.add("golem_material." + ModularGolems.MODID + ".copper", "Copper");
+		pvd.add("golem_material." + ModularGolems.MODID + ".iron", "Iron");
+		pvd.add("golem_material." + ModularGolems.MODID + ".gold", "Gold");
+		pvd.add("golem_material." + ModularGolems.MODID + ".netherite", "Netherite");
+		pvd.add("golem_material." + ModularGolems.MODID + ".sculk", "Sculk");
 		for (MetalGolemPartType type : MetalGolemPartType.values()) {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.metal_golem." + name, RegistrateLangProvider.toEnglishName(name)+": %s");

@@ -4,6 +4,7 @@ import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.item.GolemPart;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +23,11 @@ public record GolemMaterial(
 	public static Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list) {
 		HashMap<GolemStatType, Double> values = new HashMap<>();
 		for (GolemMaterial stats : list) {
-			stats.stats.forEach((k, v) -> values.compute(k, (a, old) -> (old == null ? 0 : old) + v));
+			stats.stats.forEach((k, v) ->
+					values.compute(k, (a, old) ->
+							a.kind == GolemStatType.Kind.PERCENT ?
+									(old == null ? 1 : old) * (1 + v) :
+									(old == null ? 0 : old) + v));
 		}
 		return values;
 	}
@@ -50,7 +55,7 @@ public record GolemMaterial(
 	}
 
 	public MutableComponent getDesc() {
-		return Component.translatable("golem_material." + id.getNamespace() + "." + id.getPath());
+		return Component.translatable("golem_material." + id.getNamespace() + "." + id.getPath()).withStyle(ChatFormatting.GOLD);
 	}
 
 	public GolemPart<?, ?> getPart() {
