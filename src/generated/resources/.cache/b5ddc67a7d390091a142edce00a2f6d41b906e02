@@ -1,11 +1,11 @@
-// 1.19.2	2022-08-25T10:09:31.006897	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.2	2022-08-25T21:03:24.066279	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 1278b8ef07216c40251449487aabbb28ec8c4e1b assets/modulargolems/lang/en_ud.json
 c43b6bacc96c515474e633f953c8422353adda6f assets/modulargolems/lang/en_us.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_arm.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_body.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_holder.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_legs.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_template.json
+6c6f737e1088fb1327e1fb25d8673a1f236c707f assets/modulargolems/models/item/metal_golem_template.json
 30d19b866a832a8496bf71022520fbae315c71a8 data/modulargolems/advancements/recipes/modulargolems.golems/metal_golem_arm_from_metal_golem_template_stonecutting.json
 30ee9d924135b06147bcbb01ad703a54daf4d941 data/modulargolems/advancements/recipes/modulargolems.golems/metal_golem_body_from_metal_golem_template_stonecutting.json
 a012acb7f8f7cc8b2c2f1f29d64b2714943bdbf5 data/modulargolems/advancements/recipes/modulargolems.golems/metal_golem_holder.json
