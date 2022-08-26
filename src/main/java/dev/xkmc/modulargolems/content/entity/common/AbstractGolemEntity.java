@@ -6,6 +6,7 @@ import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
@@ -54,7 +55,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.materials = materials;
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials);
-		GolemMaterial.addAttributes(materials, this);
+		GolemMaterial.addAttributes(materials, getThis());
 		this.setHealth(this.getMaxHealth());
 	}
 

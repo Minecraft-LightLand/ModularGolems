@@ -27,6 +27,9 @@ public class RecipeGen {
 		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.GOLEM_BODY);
 		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.GOLEM_ARM);
 		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.GOLEM_LEGS);
+		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.HUMANOID_BODY);
+		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.HUMANOID_ARMS);
+		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.HUMANOID_LEGS);
 
 		unlock(pvd, new GolemAssembleBuilder(GolemItemRegistry.HOLDER_GOLEM.get(), 1)::unlockedBy,
 				GolemItemRegistry.GOLEM_BODY.get())
@@ -36,18 +39,13 @@ public class RecipeGen {
 				.define('L', GolemItemRegistry.GOLEM_LEGS.get())
 				.save(pvd);
 
-	}
-
-	public static void craft(RegistrateRecipeProvider pvd, Item output, Item center, Item input, Item corner) {
-		unlock(pvd, new ShapedRecipeBuilder(output, 1)::unlockedBy, input)
-				.pattern("CCC").pattern("BAB").pattern("CCC")
-				.define('A', center)
-				.define('B', input)
-				.define('C', corner)
+		unlock(pvd, new GolemAssembleBuilder(GolemItemRegistry.HOLDER_HUMANOID.get(), 1)::unlockedBy,
+				GolemItemRegistry.HUMANOID_BODY.get())
+				.pattern("A").pattern("B").pattern("C")
+				.define('A', GolemItemRegistry.HUMANOID_BODY.get())
+				.define('B', GolemItemRegistry.HUMANOID_ARMS.get())
+				.define('C', GolemItemRegistry.HUMANOID_LEGS.get())
 				.save(pvd);
-	}
-
-	public static void addSmithing(String id) {
 
 	}
 

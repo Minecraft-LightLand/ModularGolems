@@ -41,13 +41,14 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.isShiftKeyDown()) {
+			for (EquipmentSlot slot : EquipmentSlot.values()) {
+				dropSlot(slot);
+			}
+			return InteractionResult.SUCCESS;
+		}
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (itemstack.isEmpty()) {
-			if (!player.level.isClientSide) {
-				for (EquipmentSlot slot : EquipmentSlot.values()) {
-					dropSlot(slot);
-				}
-			}
 			return super.mobInteract(player, hand);
 		}
 		EquipmentSlot slot = getEquipmentSlotForItem(itemstack);

@@ -1,0 +1,22 @@
+{
+  "type": "modulargolems:golem_assemble",
+  "key": {
+    "A": {
+      "item": "modulargolems:humanoid_golem_body"
+    },
+    "B": {
+      "item": "modulargolems:humanoid_golem_arms"
+    },
+    "C": {
+      "item": "modulargolems:humanoid_golem_legs"
+    }
+  },
+  "pattern": [
+    "A",
+    "B",
+    "C"
+  ],
+  "result": {
+    "item": "modulargolems:humanoid_golem_holder"
+  }
+}

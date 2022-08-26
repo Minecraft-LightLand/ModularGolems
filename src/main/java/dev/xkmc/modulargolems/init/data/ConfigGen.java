@@ -54,41 +54,49 @@ public class ConfigGen extends ConfigDataProvider {
 
 		// Choose which stat to use, and what percentage for the complete golem
 		map.put("parts/default", new GolemPartConfig()
-				.addMaterial(GolemItemRegistry.GOLEM_BODY.get())
+				.addPart(GolemItemRegistry.GOLEM_BODY.get())
 				.addFilter(StatFilterType.HEALTH, 0.5)
 				.addFilter(StatFilterType.ATTACK, 0)
 				.addFilter(StatFilterType.MOVEMENT, 0)
 				.addFilter(StatFilterType.MASS, 0.3).end()
 
-				.addMaterial(GolemItemRegistry.GOLEM_ARM.get())
+				.addPart(GolemItemRegistry.GOLEM_ARM.get())
 				.addFilter(StatFilterType.HEALTH, 0)
 				.addFilter(StatFilterType.ATTACK, 0.5)
 				.addFilter(StatFilterType.MOVEMENT, 0)
 				.addFilter(StatFilterType.MASS, 0.2).end()
 
-				.addMaterial(GolemItemRegistry.GOLEM_LEGS.get())
+				.addPart(GolemItemRegistry.GOLEM_LEGS.get())
 				.addFilter(StatFilterType.HEALTH, 0.5)
 				.addFilter(StatFilterType.ATTACK, 0)
 				.addFilter(StatFilterType.MOVEMENT, 1)
 				.addFilter(StatFilterType.MASS, 0.3).end()
 
-				.addMaterial(GolemItemRegistry.HUMANOID_BODY.get())
-				.addFilter(StatFilterType.HEALTH, 0.2)
+				.addPart(GolemItemRegistry.HUMANOID_BODY.get())
+				.addFilter(StatFilterType.HEALTH, 0.5)
 				.addFilter(StatFilterType.ATTACK, 0)
 				.addFilter(StatFilterType.MOVEMENT, 0)
 				.addFilter(StatFilterType.MASS, 0.4).end()
 
-				.addMaterial(GolemItemRegistry.HUMANOID_ARMS.get())
+				.addPart(GolemItemRegistry.HUMANOID_ARMS.get())
 				.addFilter(StatFilterType.HEALTH, 0)
-				.addFilter(StatFilterType.ATTACK, 0.3)
+				.addFilter(StatFilterType.ATTACK, 1)
 				.addFilter(StatFilterType.MOVEMENT, 0)
 				.addFilter(StatFilterType.MASS, 0.3).end()
 
-				.addMaterial(GolemItemRegistry.HUMANOID_LEGS.get())
-				.addFilter(StatFilterType.HEALTH, 0.2)
+				.addPart(GolemItemRegistry.HUMANOID_LEGS.get())
+				.addFilter(StatFilterType.HEALTH, 0.5)
 				.addFilter(StatFilterType.ATTACK, 0)
 				.addFilter(StatFilterType.MOVEMENT, 1)
 				.addFilter(StatFilterType.MASS, 0.3).end()
+
+				.addEntity(GolemTypeRegistry.TYPE_GOLEM.get())
+				.end()
+
+				.addEntity(GolemTypeRegistry.TYPE_HUMANOID.get())
+				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.4)
+				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.3)
+				.end()
 		);
 	}
 

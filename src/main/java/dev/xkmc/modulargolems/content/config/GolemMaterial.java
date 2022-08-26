@@ -3,13 +3,15 @@ package dev.xkmc.modulargolems.content.config;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
+import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -44,8 +46,10 @@ public record GolemMaterial(
 		return values;
 	}
 
-	public static void addAttributes(List<GolemMaterial> list, LivingEntity entity) {
-		collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v));
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
+	void addAttributes(List<GolemMaterial> list, T entity) {
+		var map = GolemPartConfig.get().getMagnifier(GolemType.getGolemType(entity.getType()));
+		collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v * map.getOrDefault(k, 1d)));
 	}
 
 	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {
