@@ -16,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
@@ -42,6 +43,17 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(type, level);
 		this.maxUpStep = 1.0F;
+	}
+
+	protected boolean performDamageTarget(Entity target, float damage, double kb) {
+		boolean succeed = target.hurt(DamageSource.mobAttack(this), damage);
+		if (succeed) {
+			double d1 = Math.max(0.0D, 1.0D - kb);
+			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, dokb * d1, 0.0D));
+			this.doEnchantDamageEffects(this, target);
+		}
+		return succeed;
 	}
 
 	// ------ vanilla golem behavior
@@ -87,7 +99,13 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		this.level.broadcastEntityEvent(this, (byte) 4);
 		float rawDamage = this.getAttackDamage();
 		float damage = (int) rawDamage > 0 ? rawDamage / 2.0F + (float) this.random.nextInt((int) rawDamage) : rawDamage;
-		boolean flag = performRangedDamage(target, damage);
+		double kb;
+		if (target instanceof LivingEntity livingentity) {
+			kb = livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
+		} else {
+			kb = 0;
+		}
+		boolean flag = performRangedDamage(target, damage, kb);
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		return flag;
 	}

@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.core;
 
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.l2library.repack.registrate.util.entry.EntityEntry;
+import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
@@ -11,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -51,6 +53,12 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 
 	public T create(ServerLevel level, CompoundTag tag) {
 		return Wrappers.cast(EntityType.create(tag, level).get());
+	}
+
+	@Nullable
+	public T createForDisplay(CompoundTag tag) {
+		var ans = EntityType.create(tag, Proxy.getClientWorld()).orElse(null);
+		return ans == null ? null : Wrappers.cast(ans);
 	}
 
 	public P[] values() {

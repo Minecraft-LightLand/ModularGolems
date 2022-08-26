@@ -24,6 +24,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
@@ -36,18 +38,8 @@ import java.util.function.Consumer;
 
 public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
-	private static final String KEY_MATERIAL = "golem_materials";
-	private static final String KEY_ENTITY = "golem_entity";
-
-	private static final String KEY_PART = "part", KEY_MAT = "material";
-
-	private final RegistryEntry<GolemType<T, P>> type;
-
-	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
-		super(props.stacksTo(1));
-		this.type = type;
-		GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
-	}
+	public static final String KEY_MATERIAL = "golem_materials", KEY_ENTITY = "golem_entity";
+	public static final String KEY_PART = "part", KEY_MAT = "material";
 
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
 		ArrayList<GolemMaterial> ans = new ArrayList<>();
@@ -93,6 +85,17 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return stack;
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	@Nullable
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
+	T getEntityForDisplay(GolemHolder<T, P> holder, ItemStack stack) {
+		CompoundTag root = stack.getTag();
+		if (root == null) return null;
+		if (!root.contains(KEY_ENTITY)) return null;
+		CompoundTag entity = root.getCompound(KEY_ENTITY);
+		return holder.getEntityType().createForDisplay(entity);
+	}
+
 	public static float getHealth(ItemStack stack) {
 		return Optional.ofNullable(stack.getTag())
 				.filter(e -> e.contains(KEY_ENTITY))
@@ -108,6 +111,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 						.map(t -> ((CompoundTag) t))
 						.filter(t -> t.getString("Name").equals("minecraft:generic.max_health"))
 						.findAny()).map(e -> e.getFloat("Base")).orElse(-1f);
+	}
+
+	private final RegistryEntry<GolemType<T, P>> type;
+
+	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
+		super(props.stacksTo(1));
+		this.type = type;
+		GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
 	}
 
 	@Override

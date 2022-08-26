@@ -64,7 +64,8 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 			render(handle, part);
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
-			render(handle, holder);
+			if (!renderEntity(handle, holder))
+				render(handle, holder);
 		}
 		poseStack.popPose();
 	}
@@ -73,9 +74,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		ArrayList<GolemMaterial> list = GolemHolder.getMaterial(handle.stack());
 		P[] parts = item.getEntityType().values();
 		PoseStack stack = handle.poseStack();
-		if (parts.length > 0) {
-			parts[0].setupItemRender(stack, handle.type(), null);
-		}
+		parts[0].setupItemRender(stack, handle.type(), null);
 		for (int i = 0; i < parts.length; i++) {
 			ResourceLocation id = list.size() > i ? list.get(i).id() : GolemMaterial.EMPTY;
 			renderPart(handle, id, item.getEntityType(), parts[i]);
@@ -98,4 +97,16 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		model.renderToBufferInternal(part, handle.poseStack(), vc, handle.light(), handle.overlay(), 1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> boolean renderEntity(BEWLRHandle handle, GolemHolder<T, P> item) {
+		T golem = GolemHolder.getEntityForDisplay(item, handle.stack());
+		if (golem == null) return false;
+		P[] parts = item.getEntityType().values();
+		PoseStack stack = handle.poseStack();
+		parts[0].setupItemRender(stack, handle.type(), null);
+		stack.translate(0, 1.501, 0);
+		stack.scale(1, -1, -1);
+		var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(golem);
+		renderer.render(golem, 0, 0, handle.poseStack(), handle.bufferSource(), handle.light());
+		return true;
+	}
 }

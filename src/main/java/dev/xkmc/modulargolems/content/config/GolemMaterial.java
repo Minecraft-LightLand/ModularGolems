@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.content.config;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
-import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.GolemPart;
@@ -25,7 +24,8 @@ public record GolemMaterial(
 
 	public static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
-	public static Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list) {
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
+	Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list) {
 		HashMap<GolemStatType, Double> values = new HashMap<>();
 		for (GolemMaterial stats : list) {
 			stats.stats.forEach((k, v) ->
@@ -48,8 +48,7 @@ public record GolemMaterial(
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void addAttributes(List<GolemMaterial> list, T entity) {
-		var map = GolemPartConfig.get().getMagnifier(GolemType.getGolemType(entity.getType()));
-		collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v * map.getOrDefault(k, 1d)));
+		collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v));
 	}
 
 	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {

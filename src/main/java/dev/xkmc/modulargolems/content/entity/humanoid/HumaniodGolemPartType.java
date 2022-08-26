@@ -17,6 +17,20 @@ public enum HumaniodGolemPartType implements IGolemPart<HumaniodGolemPartType> {
 	BODY, ARMS, LEGS;
 
 	@Override
+	public MutableComponent getDesc(MutableComponent desc) {
+		return Component.translatable("golem_part.humanoid_golem." + name().toLowerCase(Locale.ROOT), desc).withStyle(ChatFormatting.GREEN);
+	}
+
+	@Override
+	public GolemPart<?, HumaniodGolemPartType> toItem() {
+		return switch (this) {
+			case BODY -> GolemItemRegistry.HUMANOID_BODY.get();
+			case ARMS -> GolemItemRegistry.HUMANOID_ARMS.get();
+			case LEGS -> GolemItemRegistry.HUMANOID_LEGS.get();
+		};
+	}
+
+	@Override
 	public void setupItemRender(PoseStack stack, ItemTransforms.TransformType transform, @Nullable HumaniodGolemPartType part) {
 		switch (transform) {
 			case GUI:
@@ -65,20 +79,6 @@ public enum HumaniodGolemPartType implements IGolemPart<HumaniodGolemPartType> {
 			stack.scale(size, size, size);
 			stack.translate(0, -1.5, 0);
 		}
-	}
-
-	@Override
-	public MutableComponent getDesc(MutableComponent desc) {
-		return Component.translatable("golem_part.humanoid_golem." + name().toLowerCase(Locale.ROOT), desc).withStyle(ChatFormatting.GREEN);
-	}
-
-	@Override
-	public GolemPart<?, HumaniodGolemPartType> toItem() {
-		return switch (this) {
-			case BODY -> GolemItemRegistry.HUMANOID_BODY.get();
-			case ARMS -> GolemItemRegistry.HUMANOID_ARMS.get();
-			case LEGS -> GolemItemRegistry.HUMANOID_LEGS.get();
-		};
 	}
 
 }

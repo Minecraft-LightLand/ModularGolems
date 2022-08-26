@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
@@ -37,6 +38,15 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> e instanceof Enemy && !(e instanceof Creeper)));
 		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
+	}
+
+	public boolean doHurtTarget(Entity target) {
+		return performRangedDamage(target, 0, 0);
+	}
+
+	@Override
+	protected boolean performDamageTarget(Entity target, float damage, double kb) {
+		return super.doHurtTarget(target);
 	}
 
 	@Override

@@ -11,11 +11,9 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import dev.xkmc.modulargolems.init.NetworkManager;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
-import java.util.List;
 
 @SerialClass
 public class GolemPartConfig extends BaseConfig {
