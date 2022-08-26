@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.init.data;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
@@ -56,9 +57,14 @@ public enum LangData {
 		pvd.add("golem_material." + ModularGolems.MODID + ".gold", "Gold");
 		pvd.add("golem_material." + ModularGolems.MODID + ".netherite", "Netherite");
 		pvd.add("golem_material." + ModularGolems.MODID + ".sculk", "Sculk");
-		for (MetalGolemPartType type : MetalGolemPartType.values()) {
+
+		for (var type : MetalGolemPartType.values()) {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.metal_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
+		}
+		for (var type : HumaniodGolemPartType.values()) {
+			String name = type.name().toLowerCase(Locale.ROOT);
+			pvd.add("golem_part.humanoid_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
 		}
 
 	}

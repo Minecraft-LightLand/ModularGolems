@@ -1,7 +1,7 @@
 {
   "_class": "dev.xkmc.modulargolems.content.config.GolemPartConfig",
   "filters": {
-    "modulargolems:humanoid_golem_arm": {
+    "modulargolems:humanoid_golem_arms": {
       "ATTACK": 1.0,
       "HEALTH": 0.0,
       "MASS": 0.3,
