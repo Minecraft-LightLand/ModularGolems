@@ -2,20 +2,20 @@
   "_class": "dev.xkmc.modulargolems.content.config.GolemPartConfig",
   "filters": {
     "modulargolems:humanoid_golem_arms": {
-      "ATTACK": 1.0,
+      "ATTACK": 0.3,
       "HEALTH": 0.0,
       "MASS": 0.3,
       "MOVEMENT": 0.0
     },
     "modulargolems:humanoid_golem_body": {
       "ATTACK": 0.0,
-      "HEALTH": 0.5,
+      "HEALTH": 0.2,
       "MASS": 0.4,
       "MOVEMENT": 0.0
     },
     "modulargolems:humanoid_golem_legs": {
       "ATTACK": 0.0,
-      "HEALTH": 0.5,
+      "HEALTH": 0.2,
       "MASS": 0.3,
       "MOVEMENT": 1.0
     },

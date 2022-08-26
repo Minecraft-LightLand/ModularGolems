@@ -40,9 +40,9 @@ public enum HumaniodGolemPartType implements IGolemPart<HumaniodGolemPartType> {
 			case HEAD:
 			case FIXED: {
 				stack.translate(0.5, 0.5, 0.5);
-				float size = 0.45f;
+				float size = 0.5f;
 				stack.scale(size, -size, size);
-				stack.translate(0, -0.15, 0);
+				stack.translate(0, -0.5, 0);
 				return;
 			}
 		}

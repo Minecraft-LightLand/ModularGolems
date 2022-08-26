@@ -132,6 +132,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public void aiStep() {
+		this.updateSwingTime();
 		super.aiStep();
 		double heal = this.getAttributeValue(GolemTypeRegistry.GOLEM_REGEN.get());
 		if (heal > 0 && this.tickCount % 20 == 0) {
