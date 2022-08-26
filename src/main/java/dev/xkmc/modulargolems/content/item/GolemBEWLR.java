@@ -10,7 +10,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -90,7 +90,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		renderPart(handle, id.orElse(GolemMaterial.EMPTY), item.getEntityType(), part);
 	}
 
-	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends HierarchicalModel<T> & IGolemModel<T, P, M>>
+	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends EntityModel<T> & IGolemModel<T, P, M>>
 	void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
 		M model = Wrappers.cast(map.get(type.getRegistryName()));
 		RenderType render = model.renderType(model.getTextureLocationInternal(id));
