@@ -36,18 +36,19 @@ public class GolemItemRegistry {
 		// metal golem
 		{
 			GOLEM_BODY = REGISTRATE.item("metal_golem_body", p ->
-							new GolemPart<>(p, GolemTypeRegistry.TYPE_GOLEM, MetalGolemPartType.BODY, 9))
+							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_GOLEM, MetalGolemPartType.BODY, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
-							new GolemPart<>(p, GolemTypeRegistry.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
+							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
-							new GolemPart<>(p, GolemTypeRegistry.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
+							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
-			HOLDER_GOLEM = REGISTRATE.item("metal_golem_holder", p -> new GolemHolder<>(p, GolemTypeRegistry.TYPE_GOLEM))
+			HOLDER_GOLEM = REGISTRATE.item("metal_golem_holder", p ->
+							new GolemHolder<>(p.fireResistant(), GolemTypeRegistry.TYPE_GOLEM))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 		}
@@ -55,18 +56,19 @@ public class GolemItemRegistry {
 		// humanoid golem
 		{
 			HUMANOID_BODY = REGISTRATE.item("humanoid_golem_body", p ->
-							new GolemPart<>(p, GolemTypeRegistry.TYPE_HUMANOID, HumaniodGolemPartType.BODY, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_HUMANOID, HumaniodGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
-							new GolemPart<>(p, GolemTypeRegistry.TYPE_HUMANOID, HumaniodGolemPartType.ARMS, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_HUMANOID, HumaniodGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
-							new GolemPart<>(p, GolemTypeRegistry.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
-			HOLDER_HUMANOID = REGISTRATE.item("humanoid_golem_holder", p -> new GolemHolder<>(p, GolemTypeRegistry.TYPE_HUMANOID))
+			HOLDER_HUMANOID = REGISTRATE.item("humanoid_golem_holder", p ->
+							new GolemHolder<>(p.fireResistant(), GolemTypeRegistry.TYPE_HUMANOID))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 		}

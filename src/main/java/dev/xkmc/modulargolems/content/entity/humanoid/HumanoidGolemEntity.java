@@ -7,10 +7,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
@@ -29,6 +26,9 @@ import net.minecraftforge.common.ToolActions;
 
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> {
+
+	@SerialClass.SerialField(toClient = true)
+	public int shieldCooldown = 0;
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(type, level);
@@ -118,7 +118,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public boolean isBlocking() {
-		return getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ToolActions.SHIELD_BLOCK);
+		return shieldCooldown == 0 && getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ToolActions.SHIELD_BLOCK);
 	}
 
 	protected void hurtCurrentlyUsedShield(float damage) {
@@ -133,4 +133,25 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + this.level.random.nextFloat() * 0.4F);
 	}
 
+	protected void blockUsingShield(LivingEntity source) {
+		super.blockUsingShield(source);
+		if (source.canDisableShield() || source.getMainHandItem().canDisableShield(this.getOffhandItem(), this, source)) {
+			this.shieldCooldown = 100;
+			this.level.broadcastEntityEvent(this, EntityEvent.SHIELD_DISABLED);
+		}
+	}
+
+	@Override
+	public void handleEntityEvent(byte event) {
+		if (event == EntityEvent.SHIELD_DISABLED) {
+			shieldCooldown = 100;
+		}
+		super.handleEntityEvent(event);
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
+	}
 }

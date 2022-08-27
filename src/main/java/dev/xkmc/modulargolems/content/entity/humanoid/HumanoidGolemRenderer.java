@@ -1,8 +1,10 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
@@ -19,7 +21,14 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 		this.addLayer(new CustomHeadLayer<>(this, ctx.getModelSet(), 1, 1, 1, ctx.getItemInHandRenderer()));
 		this.addLayer(new ElytraLayer<>(this, ctx.getModelSet()));
 		this.addLayer(new ItemInHandLayer<>(this, ctx.getItemInHandRenderer()));
-
 	}
 
+	@Override
+	public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+		model.leftArmPose = HumanoidModel.ArmPose.EMPTY;
+		if (entity.isBlocking()) {
+			model.leftArmPose = HumanoidModel.ArmPose.BLOCK;
+		}
+		super.render(entity, f1, f2, stack, source, i);
+	}
 }
