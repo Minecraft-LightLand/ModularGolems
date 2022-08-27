@@ -208,11 +208,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean doHurtTarget(Entity target) {
-		if (super.doHurtTarget(target) && target instanceof LivingEntity le) {
+		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
-			return true;
 		}
-		return false;
+		return super.doHurtTarget(target);
 	}
 }
 

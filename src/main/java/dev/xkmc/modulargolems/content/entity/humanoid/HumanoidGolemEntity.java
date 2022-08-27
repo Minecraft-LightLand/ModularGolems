@@ -162,4 +162,14 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
 	}
 
+	@Override
+	public void aiStep() {
+		super.aiStep();
+		for (EquipmentSlot slot : EquipmentSlot.values()) {
+			ItemStack stack = getItemBySlot(slot);
+			if (!stack.isEmpty()) {
+				stack.inventoryTick(level, this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
+			}
+		}
+	}
 }
