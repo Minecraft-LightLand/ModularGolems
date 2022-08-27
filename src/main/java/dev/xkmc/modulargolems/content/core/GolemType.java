@@ -38,11 +38,13 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 
 	private final EntityEntry<T> type;
 	private final Supplier<P[]> list;
+	private final P body;
 
-	public GolemType(EntityEntry<T> type, Supplier<P[]> list, Supplier<ModelProvider<T, P>> model) {
+	public GolemType(EntityEntry<T> type, Supplier<P[]> list, P body, Supplier<ModelProvider<T, P>> model) {
 		super(GolemTypeRegistry.TYPES);
 		this.type = type;
 		this.list = list;
+		this.body = body;
 		ENTITY_TYPE_TO_GOLEM_TYPE.put(type.getId(), this);
 		GOLEM_TYPE_TO_MODEL.put(type.getId(), Wrappers.cast(model));
 	}
@@ -58,11 +60,19 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	@Nullable
 	public T createForDisplay(CompoundTag tag) {
 		var ans = EntityType.create(tag, Proxy.getClientWorld()).orElse(null);
-		return ans == null ? null : Wrappers.cast(ans);
+		if (ans == null) return null;
+		T golem = Wrappers.cast(ans);
+		if (tag.contains("Attributes", 9)) {
+			golem.getAttributes().load(tag.getList("Attributes", 10));
+		}
+		return golem;
 	}
 
 	public P[] values() {
 		return list.get();
 	}
 
+	public P getBodyPart() {
+		return body;
+	}
 }

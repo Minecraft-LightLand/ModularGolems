@@ -26,5 +26,8 @@
   "item.modulargolems.metal_golem_holder": "Metal Golem Holder",
   "item.modulargolems.metal_golem_legs": "Metal Golem Legs",
   "item.modulargolems.metal_golem_template": "Metal Golem Template",
-  "itemGroup.modulargolems.golems": "Modular Golems"
+  "itemGroup.modulargolems.golems": "Modular Golems",
+  "modifier.modulargolems.fire_immune": "Fire Immune",
+  "modifier.modulargolems.magic_immune": "Magic Immune",
+  "modulargolems.tooltip.health": "Health: %s/%s"
 }

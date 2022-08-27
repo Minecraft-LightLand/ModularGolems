@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier;
 
 import dev.xkmc.modulargolems.content.core.GolemModifier;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
@@ -12,7 +13,7 @@ public class ThornModifier extends GolemModifier {
 	public static final double PERCENTAGE = 0.2; //TODO move to config
 
 	public ThornModifier(int maxLevel) {
-		super(maxLevel);
+		super(StatFilterType.HEALTH, maxLevel);
 	}
 
 	@Override

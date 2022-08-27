@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -44,12 +45,14 @@ public class ConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypeRegistry.STAT_WEIGHT.get(), -0.4)
-				.addStat(GolemTypeRegistry.STAT_SWEEP.get(), 2).end()
+				.addStat(GolemTypeRegistry.STAT_SWEEP.get(), 2)
+				.addModifier(GolemModifierRegistry.FIRE_IMMUNE.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "sculk"), Ingredient.of(Items.ECHO_SHARD))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 30)
-				.addStat(GolemTypeRegistry.STAT_SPEED.get(), 0.5).end()
+				.addStat(GolemTypeRegistry.STAT_SPEED.get(), 0.5)
+				.addModifier(GolemModifierRegistry.FIRE_IMMUNE.get(), 1).end()
 		);
 
 		// Choose which stat to use, and what percentage for the complete golem

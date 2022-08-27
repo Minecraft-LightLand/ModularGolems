@@ -2,6 +2,9 @@ package dev.xkmc.modulargolems.compat;
 
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -13,10 +16,10 @@ import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
-import mezz.jei.common.plugins.vanilla.anvil.AnvilRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +52,28 @@ public class GolemJEIPlugin implements IModPlugin {
 				for (ItemStack stack : arr) {
 					list.add(new ItemStack(stack.getItem(), item.count));
 				}
-				recipes.add(new AnvilRecipe(List.of(new ItemStack(item)), list,
+				recipes.add(registration.getVanillaRecipeFactory().createAnvilRecipe(new ItemStack(item), list,
 						List.of(GolemPart.setMaterial(new ItemStack(item), mat))));
 			}
+		}
+		for (var types : GolemType.GOLEM_TYPE_TO_ITEM.values()) {
+			List<ItemStack> input = new ArrayList<>();
+			List<ItemStack> material = new ArrayList<>();
+			List<ItemStack> result = new ArrayList<>();
+			for (var mat : config.getAllMaterials()) {
+				ItemStack golem = new ItemStack(types);
+				for (IGolemPart<?> part : types.getEntityType().values()) {
+					GolemHolder.addMaterial(golem, part.toItem(), mat);
+				}
+				ItemStack damaged = golem.copy();
+				damaged.getOrCreateTag().putFloat(GolemHolder.KEY_DISPLAY, 0.75f);
+				input.add(damaged);
+				var arr = config.ingredients.get(mat).getItems();
+				material.add(new ItemStack(arr.length > 0 ? arr[0].getItem() : Items.BARRIER));
+				golem.getOrCreateTag().putFloat(GolemHolder.KEY_DISPLAY, 1f);
+				result.add(golem);
+			}
+			recipes.add(registration.getVanillaRecipeFactory().createAnvilRecipe(input, material, result));
 		}
 		registration.addRecipes(RecipeTypes.ANVIL, recipes);
 	}

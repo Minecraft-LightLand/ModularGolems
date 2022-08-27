@@ -1,11 +1,7 @@
 package dev.xkmc.modulargolems.events;
 
-import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.item.GolemPart;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -56,22 +52,6 @@ public class GolemEvents {
 	public static void onDamaged(LivingDamageEvent event) {
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
 			entity.getModifiers().forEach((k, v) -> k.onDamaged(entity, event, v));
-		}
-	}
-
-	@SubscribeEvent
-	public static void onAnvilCraft(AnvilUpdateEvent event) {
-		ItemStack stack = event.getLeft();
-		ItemStack block = event.getRight();
-		if (stack.getItem() instanceof GolemPart part && part.count <= block.getCount()) {
-			var mat = GolemMaterial.getMaterial(block);
-			if (mat.isPresent()) {
-				ItemStack new_stack = stack.copy();
-				GolemPart.setMaterial(new_stack, mat.get());
-				event.setOutput(new_stack);
-				event.setMaterialCost(part.count);
-				event.setCost(1);
-			}
 		}
 	}
 

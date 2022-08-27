@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.core;
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -13,16 +14,20 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 
 	public static final int MAX_LEVEL = 10;
 
+	public final StatFilterType type;
 	public final int maxLevel;
 
-	public GolemModifier(int maxLevel) {
+	public GolemModifier(StatFilterType type, int maxLevel) {
 		super(GolemTypeRegistry.MODIFIERS);
+		this.type = type;
 		this.maxLevel = maxLevel;
 	}
 
 	public Component getTooltip(int v) {
-		MutableComponent comp = Component.translatable("potion.potency." + v);
-		return getDesc().append(": ").append(Component.translatable(getDescriptionId() + ".desc", comp));
+		MutableComponent ans = getDesc();
+		if (maxLevel > 1)
+			ans = ans.append(Component.translatable("potion.potency." + (v - 1)));
+		return ans.withStyle(ChatFormatting.LIGHT_PURPLE);
 	}
 
 	public void onGolemSpawn(AbstractGolemEntity<?, ?> entity, int level) {

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.item;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
+import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
@@ -59,21 +60,28 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		getMaterial(stack).ifPresent(e -> {
 			GolemMaterial mat = parseMaterial(e);
 			list.add(mat.getDesc());
-			mat.stats().forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 			mat.modifiers().forEach((m, v) -> list.add(m.getTooltip(v)));
+			mat.stats().forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 		});
 	}
 
 	public GolemMaterial parseMaterial(ResourceLocation mat) {
 		var magnifier = GolemPartConfig.get().getMagnifier(getEntityType());
+		var filter = GolemPartConfig.get().getFilter(this);
 		HashMap<GolemStatType, Double> stats = new HashMap<>();
 		GolemMaterialConfig.get().stats.get(mat).forEach((k, v) -> {
-			var filter = GolemPartConfig.get().getFilter(this);
 			double val = v * filter.getOrDefault(k.type, 1d) * magnifier.getOrDefault(k, 1d);
 			if (val != 0)
 				stats.compute(k, (e, o) -> (o == null ? 0 : o) + val);
 		});
-		return new GolemMaterial(stats, GolemMaterialConfig.get().modifiers.get(mat), mat, this);
+		HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
+		GolemMaterialConfig.get().modifiers.get(mat).forEach((k, v) -> {
+			double exist = filter.getOrDefault(k.type, 1d);
+			if (exist > 0) {
+				modifiers.compute(k, (e, o) -> (o == null ? 0 : o) + v);
+			}
+		});
+		return new GolemMaterial(stats, modifiers, mat, this);
 	}
 
 	@Override

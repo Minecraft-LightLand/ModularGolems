@@ -7,6 +7,8 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.LangData;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -38,7 +40,7 @@ import java.util.function.Consumer;
 
 public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
-	public static final String KEY_MATERIAL = "golem_materials", KEY_ENTITY = "golem_entity";
+	public static final String KEY_MATERIAL = "golem_materials", KEY_ENTITY = "golem_entity", KEY_DISPLAY = "golem_display";
 	public static final String KEY_PART = "part", KEY_MAT = "material";
 
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
@@ -58,7 +60,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return ans;
 	}
 
-	public static ItemStack addMaterial(ItemStack stack, GolemPart<?, ?> item, ResourceLocation material) {
+	public static void addMaterial(ItemStack stack, GolemPart<?, ?> item, ResourceLocation material) {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
 		assert rl != null;
 		NBTObj obj = new NBTObj(stack.getOrCreateTag());
@@ -66,7 +68,6 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		NBTObj elem = list.add();
 		elem.tag.put(KEY_PART, StringTag.valueOf(rl.toString()));
 		elem.tag.put(KEY_MAT, StringTag.valueOf(material.toString()));
-		return stack;
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> ItemStack setEntity(T entity) {
@@ -93,7 +94,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (root == null) return null;
 		if (!root.contains(KEY_ENTITY)) return null;
 		CompoundTag entity = root.getCompound(KEY_ENTITY);
-		return holder.getEntityType().createForDisplay(entity);
+		T ans = holder.getEntityType().createForDisplay(entity);
+		if (ans == null) return null;
+		ans.hurtTime = 0;
+		return ans;
 	}
 
 	public static float getHealth(ItemStack stack) {
@@ -113,6 +117,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 						.findAny()).map(e -> e.getFloat("Base")).orElse(-1f);
 	}
 
+	public static void setHealth(ItemStack result, float health) {
+		result.getOrCreateTag().getCompound(KEY_ENTITY).putFloat("Health", health);
+	}
+
 	private final RegistryEntry<GolemType<T, P>> type;
 
 	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
@@ -123,13 +131,18 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(stack, level, list, flag);
+		float health = getHealth(stack);
+		if (health >= 0) {
+			float max = getMaxHealth(stack);
+			list.add(LangData.HEALTH.get(Math.round(health), Math.round(max)).withStyle(ChatFormatting.AQUA));
+		}
 		var mats = getMaterial(stack);
 		var parts = getEntityType().values();
 		if (mats.size() != parts.length) return;
 		for (int i = 0; i < parts.length; i++) {
 			list.add(parts[i].getDesc(mats.get(i).getDesc()));
 		}
+		GolemMaterial.collectModifiers(mats).forEach((k, v) -> list.add(k.getTooltip(v)));
 		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
 	}
 
@@ -170,19 +183,30 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Override
 	public boolean isBarVisible(ItemStack stack) {
+		if (stack.getTag() != null && stack.getTag().contains(KEY_DISPLAY))
+			return true;
 		return getHealth(stack) >= 0;
 	}
 
 	@Override
 	public int getBarColor(ItemStack stack) {
-		float health = getHealth(stack);
-		float maxHealth = getMaxHealth(stack);
-		float f = Mth.clamp(health / maxHealth, 0f, 1f);
+		float f;
+		if (stack.getTag() != null && stack.getTag().contains(KEY_DISPLAY)) {
+			f = stack.getTag().getFloat(KEY_DISPLAY);
+		} else {
+			float health = getHealth(stack);
+			float maxHealth = getMaxHealth(stack);
+			f = Mth.clamp(health / maxHealth, 0f, 1f);
+		}
 		return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 	}
 
 	@Override
 	public int getBarWidth(ItemStack stack) {
+		if (stack.getTag() != null && stack.getTag().contains(KEY_DISPLAY)) {
+			float f = stack.getTag().getFloat(KEY_DISPLAY);
+			return Math.round(f * 13.0F);
+		}
 		return Math.round(getHealth(stack) * 13.0F / getMaxHealth(stack));
 	}
 

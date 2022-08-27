@@ -65,7 +65,8 @@ public class GolemTypeRegistry {
 			).register();
 
 	public static final RegistryEntry<GolemType<MetalGolemEntity, MetalGolemPartType>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",
-			() -> new GolemType<>(ENTITY_GOLEM, MetalGolemPartType::values, () -> MetalGolemModel::new)).defaultLang().register();
+					() -> new GolemType<>(ENTITY_GOLEM, MetalGolemPartType::values, MetalGolemPartType.BODY, () -> MetalGolemModel::new))
+			.defaultLang().register();
 
 	public static final EntityEntry<HumanoidGolemEntity> ENTITY_HUMANOID = REGISTRATE.entity("humanoid_golem", HumanoidGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(0.6F, 1.95F).clientTrackingRange(10))
@@ -83,7 +84,8 @@ public class GolemTypeRegistry {
 			).register();
 
 	public static final RegistryEntry<GolemType<HumanoidGolemEntity, HumaniodGolemPartType>> TYPE_HUMANOID = REGISTRATE.generic(TYPES, "humanoid_golem",
-			() -> new GolemType<>(ENTITY_HUMANOID, HumaniodGolemPartType::values, () -> HumanoidGolemModel::new)).defaultLang().register();
+					() -> new GolemType<>(ENTITY_HUMANOID, HumaniodGolemPartType::values, HumaniodGolemPartType.BODY, () -> HumanoidGolemModel::new))
+			.defaultLang().register();
 
 	private static RegistryEntry<GolemStatType> regStat(String id, Supplier<Attribute> sup, GolemStatType.Kind kind, StatFilterType type) {
 		return REGISTRATE.generic(STAT_TYPES, id, () -> new GolemStatType(sup, kind, type)).register();
