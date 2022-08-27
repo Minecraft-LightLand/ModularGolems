@@ -60,13 +60,16 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		ItemStack itemstack = player.getItemInHand(hand);
 		if (player.isShiftKeyDown()) {
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				dropSlot(slot);
+				dropSlot(slot, false);
+			}
+			if (itemstack.isEmpty()) {
+				super.mobInteract(player, hand);
 			}
 			return InteractionResult.SUCCESS;
 		}
-		ItemStack itemstack = player.getItemInHand(hand);
 		if (itemstack.isEmpty()) {
 			return super.mobInteract(player, hand);
 		}
@@ -76,7 +79,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				return InteractionResult.SUCCESS;
 			}
 			if (hasItemInSlot(slot)) {
-				dropSlot(slot);
+				dropSlot(slot, false);
+			}
+			if (hasItemInSlot(slot)) {
+				return InteractionResult.FAIL;
 			}
 			setItemSlot(slot, itemstack.split(1));
 			return InteractionResult.CONSUME;
@@ -86,16 +92,17 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			dropSlot(slot);
+			dropSlot(slot, true);
 		}
 	}
 
-	private void dropSlot(EquipmentSlot slot) {
+	private void dropSlot(EquipmentSlot slot, boolean isDeath) {
 		ItemStack itemstack = this.getItemBySlot(slot);
-		if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack)) {
-			this.spawnAtLocation(itemstack);
-			this.setItemSlot(slot, ItemStack.EMPTY);
-		}
+		if (itemstack.isEmpty()) return;
+		if (!isDeath && EnchantmentHelper.hasBindingCurse(itemstack)) return;
+		if (isDeath && EnchantmentHelper.hasVanishingCurse(itemstack)) return;
+		this.spawnAtLocation(itemstack);
+		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
 
 	// ------ player equipment hurt
@@ -154,4 +161,5 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		super.tick();
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
 	}
+
 }

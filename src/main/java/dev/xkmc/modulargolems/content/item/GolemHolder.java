@@ -9,6 +9,8 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.LangData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -26,6 +28,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
@@ -137,11 +141,23 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (root == null) {
 			return InteractionResult.PASS;
 		}
+
 		Level level = context.getLevel();
+		BlockPos blockpos = context.getClickedPos();
+		Direction direction = context.getClickedFace();
+		BlockState blockstate = level.getBlockState(blockpos);
+		BlockPos spawnPos;
+		if (blockstate.getCollisionShape(level, blockpos).isEmpty()) {
+			spawnPos = blockpos;
+		} else {
+			spawnPos = blockpos.relative(direction);
+		}
+		Vec3 pos = new Vec3(spawnPos.getX() + 0.5, spawnPos.getY() + 0.05, spawnPos.getZ() + 0.5);
+
 		if (root.contains(KEY_ENTITY)) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
-				golem.moveTo(context.getClickLocation().add(0, 0.05, 0));
+				golem.moveTo(pos);
 				level.addFreshEntity(golem);
 				stack.shrink(1);
 				stack.removeTagKey(KEY_ENTITY);
@@ -151,7 +167,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (root.contains(KEY_MATERIAL)) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level);
-				golem.moveTo(context.getClickLocation().add(0, 0.05, 0));
+				golem.moveTo(pos);
 				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), id);
