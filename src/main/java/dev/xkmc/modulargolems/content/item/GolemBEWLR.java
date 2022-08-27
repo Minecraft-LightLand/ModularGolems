@@ -98,7 +98,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> boolean renderEntity(BEWLRHandle handle, GolemHolder<T, P> item) {
-		T golem = GolemHolder.getEntityForDisplay(item, handle.stack());
+		T golem = ClientHolderManager.getEntityForDisplay(item, handle.stack());
 		if (golem == null) return false;
 		P[] parts = item.getEntityType().values();
 		PoseStack stack = handle.poseStack();

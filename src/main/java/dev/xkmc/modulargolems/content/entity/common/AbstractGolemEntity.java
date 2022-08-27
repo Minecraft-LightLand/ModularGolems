@@ -17,13 +17,12 @@ import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.scores.Team;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -34,7 +33,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 @SerialClass
-public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem implements IEntityAdditionalSpawnData, NeutralMob {
+public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
+		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity {
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
@@ -81,8 +81,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Nullable
-	public UUID getOwner() {
+	public UUID getOwnerUUID() {
 		return owner;
+	}
+
+	@Nullable
+	public Player getOwner() {
+		try {
+			UUID uuid = this.getOwnerUUID();
+			return uuid == null ? null : this.level.getPlayerByUUID(uuid);
+		} catch (IllegalArgumentException illegalargumentexception) {
+			return null;
+		}
 	}
 
 	// ------ addition golem behavior
@@ -175,4 +185,35 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return this.persistentAngerTarget;
 	}
 
+	// ------ tamable
+
+	public Team getTeam() {
+		LivingEntity owner = this.getOwner();
+		if (owner != null) {
+			return owner.getTeam();
+		}
+		return super.getTeam();
+	}
+
+	public boolean isAlliedTo(Entity other) {
+		LivingEntity owner = this.getOwner();
+		if (other == owner) {
+			return true;
+		}
+		if (owner != null) {
+			return owner.isAlliedTo(other);
+		}
+		return super.isAlliedTo(other);
+	}
+
+	@Override
+	public boolean doHurtTarget(Entity target) {
+		if (super.doHurtTarget(target) && target instanceof LivingEntity le) {
+			le.setLastHurtByPlayer(getOwner());
+			return true;
+		}
+		return false;
+	}
 }
+
+

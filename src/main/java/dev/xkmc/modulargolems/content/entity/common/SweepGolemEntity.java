@@ -30,6 +30,9 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		return flag;
 	}
 
+	/**
+	 * please be aware of lastHurtByPlayer
+	 */
 	protected abstract boolean performDamageTarget(Entity target, float damage, double kb);
 
 }

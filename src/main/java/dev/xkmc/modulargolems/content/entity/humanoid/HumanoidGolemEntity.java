@@ -2,6 +2,8 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,9 +21,11 @@ import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ToolActions;
 
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> {
@@ -41,7 +45,12 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	public boolean doHurtTarget(Entity target) {
-		return performRangedDamage(target, 0, 0);
+		if (performRangedDamage(target, 0, 0)) {
+			ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
+			stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -87,6 +96,41 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			this.spawnAtLocation(itemstack);
 			this.setItemSlot(slot, ItemStack.EMPTY);
 		}
+	}
+
+	// ------ player equipment hurt
+
+	@Override
+	protected void hurtArmor(DamageSource source, float damage) {
+		if (damage <= 0.0F) return;
+		damage /= 4.0F;
+		if (damage < 1.0F) {
+			damage = 1.0F;
+		}
+		for (EquipmentSlot slot : EquipmentSlot.values()) {
+			if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+			ItemStack itemstack = this.getItemBySlot(slot);
+			if ((!source.isFire() || !itemstack.getItem().isFireResistant()) && itemstack.getItem() instanceof ArmorItem) {
+				itemstack.hurtAndBreak((int) damage, this, (entity) -> entity.broadcastBreakEvent(slot));
+			}
+		}
+	}
+
+	@Override
+	public boolean isBlocking() {
+		return getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ToolActions.SHIELD_BLOCK);
+	}
+
+	protected void hurtCurrentlyUsedShield(float damage) {
+		ItemStack stack = getItemBySlot(EquipmentSlot.OFFHAND);
+		if (!stack.canPerformAction(ToolActions.SHIELD_BLOCK)) return;
+		if (damage < 3.0F) return;
+		int i = 1 + Mth.floor(damage);
+		stack.hurtAndBreak(i, this, (self) -> self.broadcastBreakEvent(EquipmentSlot.OFFHAND));
+		if (stack.isEmpty()) {
+			this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
+		}
+		this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + this.level.random.nextFloat() * 0.4F);
 	}
 
 }

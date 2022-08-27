@@ -51,6 +51,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			double d1 = Math.max(0.0D, 1.0D - kb);
 			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
 			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, dokb * d1, 0.0D));
+			if (target instanceof LivingEntity le) {
+				le.setLastHurtByPlayer(getOwner());
+			}
 			this.doEnchantDamageEffects(this, target);
 		}
 		return succeed;
@@ -116,7 +119,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (flag && this.getCrackiness() != crack) {
 			this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);
 		}
-
 		return flag;
 	}
 

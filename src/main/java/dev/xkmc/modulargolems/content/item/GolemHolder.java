@@ -26,8 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
@@ -84,20 +82,6 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		entity.save(obj.getSub(KEY_ENTITY).tag);
 		return stack;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	@Nullable
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	T getEntityForDisplay(GolemHolder<T, P> holder, ItemStack stack) {
-		CompoundTag root = stack.getTag();
-		if (root == null) return null;
-		if (!root.contains(KEY_ENTITY)) return null;
-		CompoundTag entity = root.getCompound(KEY_ENTITY);
-		T ans = holder.getEntityType().createForDisplay(entity);
-		if (ans == null) return null;
-		ans.hurtTime = 0;
-		return ans;
 	}
 
 	public static float getHealth(ItemStack stack) {
