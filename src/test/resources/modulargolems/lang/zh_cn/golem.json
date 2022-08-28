@@ -27,10 +27,13 @@
   },
   "modifier.modulargolems": {
 	"fire_immune": "火焰免疫",
+	"fire_immune.desc": "免疫火焰伤害",
 	"magic_immune": "魔法免疫",
-	"diamond": "钻石防御",
-	"netherite": "下界合金防御",
-	"quartz": "石英伤害提升",
-	"recycle": "傀儡回收"
+	"magic_immune.desc": "免疫魔法伤害",
+	"recycle": "傀儡回收",
+	"recycle.desc": "傀儡死亡时掉落0血量的可修复物品形态",
+	"armor_up": "防御提升",
+	"toughness_up": "韧性提升",
+	"damage_up": "伤害提升"
   }
 }

@@ -32,11 +32,14 @@
   "item.modulargolems.quartz": "zʇɹɐnὉ",
   "item.modulargolems.recycle": "ǝןɔʎɔǝᴚ",
   "itemGroup.modulargolems.golems": "sɯǝןo⅁ ɹɐןnpoW",
-  "modifier.modulargolems.diamond": "puoɯɐıᗡ",
+  "modifier.modulargolems.armor_up": "d∩ ɹoɯɹⱯ",
+  "modifier.modulargolems.damage_up": "d∩ ǝbɐɯɐᗡ",
   "modifier.modulargolems.fire_immune": "ǝunɯɯI ǝɹıℲ",
+  "modifier.modulargolems.fire_immune.desc": "ǝbɐɯɐp ǝɹıɟ oʇ ǝunɯɯI",
   "modifier.modulargolems.magic_immune": "ǝunɯɯI ɔıbɐW",
-  "modifier.modulargolems.netherite": "ǝʇıɹǝɥʇǝN",
-  "modifier.modulargolems.quartz": "zʇɹɐnὉ",
+  "modifier.modulargolems.magic_immune.desc": "ǝbɐɯɐp ɔıbɐɯ oʇ ǝunɯɯI",
   "modifier.modulargolems.recycle": "ǝןɔʎɔǝᴚ",
+  "modifier.modulargolems.recycle.desc": "pǝןןıʞ uǝɥʍ ɥʇןɐǝɥ 0 ɟo ɹǝpןoɥ ɯǝןob doɹᗡ",
+  "modifier.modulargolems.toughness_up": "d∩ ssǝuɥbno⟘",
   "modulargolems.tooltip.health": "%s/%s :ɥʇןɐǝH"
 }

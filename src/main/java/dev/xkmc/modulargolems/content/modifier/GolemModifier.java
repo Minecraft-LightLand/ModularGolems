@@ -1,6 +1,7 @@
-package dev.xkmc.modulargolems.content.core;
+package dev.xkmc.modulargolems.content.modifier;
 
 import dev.xkmc.l2library.base.NamedEntry;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.ChatFormatting;
@@ -9,6 +10,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+
+import java.util.List;
 
 public class GolemModifier extends NamedEntry<GolemModifier> {
 
@@ -28,6 +31,10 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		if (maxLevel > 1)
 			ans = ans.append(Component.translatable("potion.potency." + (v - 1)));
 		return ans.withStyle(ChatFormatting.LIGHT_PURPLE);
+	}
+
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.GREEN));
 	}
 
 	public void onGolemSpawn(AbstractGolemEntity<?, ?> entity, int level) {

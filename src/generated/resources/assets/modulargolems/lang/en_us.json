@@ -32,11 +32,14 @@
   "item.modulargolems.quartz": "Quartz",
   "item.modulargolems.recycle": "Recycle",
   "itemGroup.modulargolems.golems": "Modular Golems",
-  "modifier.modulargolems.diamond": "Diamond",
+  "modifier.modulargolems.armor_up": "Armor Up",
+  "modifier.modulargolems.damage_up": "Damage Up",
   "modifier.modulargolems.fire_immune": "Fire Immune",
+  "modifier.modulargolems.fire_immune.desc": "Immune to fire damage",
   "modifier.modulargolems.magic_immune": "Magic Immune",
-  "modifier.modulargolems.netherite": "Netherite",
-  "modifier.modulargolems.quartz": "Quartz",
+  "modifier.modulargolems.magic_immune.desc": "Immune to magic damage",
   "modifier.modulargolems.recycle": "Recycle",
+  "modifier.modulargolems.recycle.desc": "Drop golem holder of 0 health when killed",
+  "modifier.modulargolems.toughness_up": "Toughness Up",
   "modulargolems.tooltip.health": "Health: %s/%s"
 }

@@ -5,7 +5,7 @@ import dev.xkmc.l2library.serial.config.CollectType;
 import dev.xkmc.l2library.serial.config.ConfigCollect;
 import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.util.annotation.DataGenOnly;
-import dev.xkmc.modulargolems.content.core.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.init.NetworkManager;
 import net.minecraft.resources.ResourceLocation;

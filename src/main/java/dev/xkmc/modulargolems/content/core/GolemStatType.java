@@ -4,6 +4,7 @@ import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -30,7 +31,7 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 		this.type = type;
 	}
 
-	public Component getAdderTooltip(double val) {
+	public MutableComponent getAdderTooltip(double val) {
 		if (kind == Kind.PERCENT) val = val * 100;
 		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,
@@ -38,7 +39,7 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 				Component.translatable(attribute.get().getDescriptionId())).withStyle(ChatFormatting.BLUE);
 	}
 
-	public Component getTotalTooltip(double val) {
+	public MutableComponent getTotalTooltip(double val) {
 		if (kind == Kind.PERCENT) val = (val - 1) * 100;
 		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,

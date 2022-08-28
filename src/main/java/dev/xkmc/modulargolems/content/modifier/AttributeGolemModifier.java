@@ -1,9 +1,11 @@
 package dev.xkmc.modulargolems.content.modifier;
 
-import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import net.minecraft.network.chat.MutableComponent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class AttributeGolemModifier extends GolemModifier {
@@ -19,4 +21,12 @@ public class AttributeGolemModifier extends GolemModifier {
 		this.entries = entries;
 	}
 
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		List<MutableComponent> ans = new ArrayList<>();
+		for (AttrEntry ent : entries) {
+			ans.add(ent.type.get().getAdderTooltip(ent.value));
+		}
+		return ans;
+	}
 }

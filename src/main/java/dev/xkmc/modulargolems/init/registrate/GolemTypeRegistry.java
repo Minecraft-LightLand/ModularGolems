@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.init.registrate;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.util.entry.EntityEntry;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.content.core.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -80,7 +80,7 @@ public class GolemTypeRegistry {
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
-					.add(GOLEM_SWEEP.get())
+					.add(GOLEM_SWEEP.get(), 1)
 			).register();
 
 	public static final RegistryEntry<GolemType<HumanoidGolemEntity, HumaniodGolemPartType>> TYPE_HUMANOID = REGISTRATE.generic(TYPES, "humanoid_golem",
