@@ -17,9 +17,15 @@ import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.scores.Team;
@@ -27,10 +33,7 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
@@ -73,11 +76,25 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player.getMainHandItem().isEmpty()) {
-			player.setItemSlot(EquipmentSlot.MAINHAND, GolemHolder.setEntity(getThis()));
-			this.discard();
+			if (!level.isClientSide()) {
+				player.setItemSlot(EquipmentSlot.MAINHAND, GolemHolder.setEntity(getThis()));
+				level.broadcastEntityEvent(this, EntityEvent.POOF);
+				this.discard();
+			}
 			return InteractionResult.SUCCESS;
 		}
 		return super.mobInteract(player, hand);
+	}
+
+	@Override
+	protected void actuallyHurt(DamageSource source, float damage) {
+		super.actuallyHurt(source, damage);
+		if (getHealth() <= 0) {
+			//TODO add modifier check
+			spawnAtLocation(GolemHolder.setEntity(getThis()));
+			level.broadcastEntityEvent(this, EntityEvent.POOF);
+			this.discard();
+		}
 	}
 
 	@Nullable
@@ -213,6 +230,31 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		return super.doHurtTarget(target);
 	}
+
+	protected void registerTargetGoals() {
+		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> e instanceof Enemy && !(e instanceof Creeper)));
+		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
+	}
+
+	private boolean predicatePriorityTarget(LivingEntity e) {
+		if (e instanceof Mob mob) {
+			for (var target : List.of(
+					Optional.ofNullable(mob.getLastHurtMob()),
+					Optional.ofNullable(mob.getTarget()),
+					Optional.ofNullable(mob.getLastHurtByMob())
+			)) {
+				if (target.isPresent()) {
+					Player owner = getOwner();
+					if (target.get() == owner) return true;
+					if (target.get().isAlliedTo(this)) return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }
 
 

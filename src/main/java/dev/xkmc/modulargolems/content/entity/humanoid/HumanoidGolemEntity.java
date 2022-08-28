@@ -12,11 +12,6 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -39,18 +34,21 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-		this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> e instanceof Enemy && !(e instanceof Creeper)));
-		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
+		registerTargetGoals();
 	}
 
 	public boolean doHurtTarget(Entity target) {
-		if (performRangedDamage(target, 0, 0)) {
-			ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
-			stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-			return true;
+		boolean can_sweep = getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP);
+		if (!can_sweep) {
+			return super.doHurtTarget(target);
+		} else {
+			if (performRangedDamage(target, 0, 0)) {
+				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
+				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+				return true;
+			}
+			return false;
 		}
-		return false;
 	}
 
 	@Override

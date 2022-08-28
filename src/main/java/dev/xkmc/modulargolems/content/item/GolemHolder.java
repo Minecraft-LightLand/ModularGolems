@@ -17,6 +17,8 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -119,10 +121,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		float health = getHealth(stack);
-		if (health >= 0) {
-			float max = getMaxHealth(stack);
-			list.add(LangData.HEALTH.get(Math.round(health), Math.round(max)).withStyle(ChatFormatting.AQUA));
+		float max = getMaxHealth(stack);
+		if (max >= 0) {
+			float health = getHealth(stack);
+			float f = Mth.clamp(health / max, 0f, 1f);
+			int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+			MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
+			list.add(LangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
 		}
 		var mats = getMaterial(stack);
 		var parts = getEntityType().values();
@@ -155,6 +160,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		Vec3 pos = new Vec3(spawnPos.getX() + 0.5, spawnPos.getY() + 0.05, spawnPos.getZ() + 0.5);
 
 		if (root.contains(KEY_ENTITY)) {
+			if (getHealth(stack) <= 0)
+				return InteractionResult.FAIL;
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
 				golem.moveTo(pos);
@@ -185,7 +192,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public boolean isBarVisible(ItemStack stack) {
 		if (stack.getTag() != null && stack.getTag().contains(KEY_DISPLAY))
 			return true;
-		return getHealth(stack) >= 0;
+		return getMaxHealth(stack) >= 0;
 	}
 
 	@Override
@@ -207,7 +214,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			float f = stack.getTag().getFloat(KEY_DISPLAY);
 			return Math.round(f * 13.0F);
 		}
-		return Math.round(getHealth(stack) * 13.0F / getMaxHealth(stack));
+		return Math.round(Mth.clamp(getHealth(stack) / getMaxHealth(stack), 0, 1) * 13.0F);
 	}
 
 	@Override
