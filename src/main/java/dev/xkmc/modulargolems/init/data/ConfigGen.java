@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init.data;
 
 import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
+import dev.xkmc.modulargolems.compat.twilightforest.TFCompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.StatFilterType;

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat;
+package dev.xkmc.modulargolems.compat.jei;
 
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;

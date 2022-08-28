@@ -4,12 +4,14 @@ import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.repack.registrate.util.nullness.NonNullSupplier;
-import dev.xkmc.modulargolems.content.modifier.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
-import dev.xkmc.modulargolems.content.modifier.RecycleModifier;
+import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.common.RecycleModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.FireImmuneModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.MagicImmuneModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.ThunderImmuneModifier;
+import dev.xkmc.modulargolems.content.modifier.twilightforest.FieryModifier;
+import dev.xkmc.modulargolems.content.modifier.twilightforest.ThornModifier;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -22,6 +24,9 @@ public class GolemModifierRegistry {
 	public static final RegistryEntry<MagicImmuneModifier> MAGIC_IMMUNE;
 	public static final RegistryEntry<RecycleModifier> RECYCLE;
 	public static final RegistryEntry<AttributeGolemModifier> DIAMOND, NETHERITE, QUARTZ, GOLD;
+
+	public static final RegistryEntry<ThornModifier> THORN;
+	public static final RegistryEntry<FieryModifier> FIERY;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new, "Immune to fire damage");
@@ -41,6 +46,9 @@ public class GolemModifierRegistry {
 		GOLD = reg("regeneration_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_REGEN, 1)
 		)).register();
+
+		THORN = reg("thorn", ThornModifier::new, "Reflect %s%% damage");
+		FIERY = reg("fiery", FieryModifier::new, "Deal %s%% fire damage to mobs not immune to fire");
 	}
 
 	private static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String def) {

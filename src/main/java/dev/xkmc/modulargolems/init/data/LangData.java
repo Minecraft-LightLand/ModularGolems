@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.init.data;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
+import dev.xkmc.modulargolems.compat.twilightforest.TFCompat;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -58,6 +59,11 @@ public enum LangData {
 		pvd.add("golem_material." + ModularGolems.MODID + ".gold", "Gold");
 		pvd.add("golem_material." + ModularGolems.MODID + ".netherite", "Netherite");
 		pvd.add("golem_material." + ModularGolems.MODID + ".sculk", "Sculk");
+
+		pvd.add("golem_material." + TFCompat.MODID + ".ironwood", "Ironwood");
+		pvd.add("golem_material." + TFCompat.MODID + ".steeleaf", "Steeleaf");
+		pvd.add("golem_material." + TFCompat.MODID + ".knightmetal", "Knightmetal");
+		pvd.add("golem_material." + TFCompat.MODID + ".fiery", "Fiery");
 
 		for (var type : MetalGolemPartType.values()) {
 			String name = type.name().toLowerCase(Locale.ROOT);

@@ -1,0 +1,10 @@
+{
+  "golem_material.twilightforest.fiery": "炽铁",
+  "golem_material.twilightforest.ironwood": "铁木",
+  "golem_material.twilightforest.knightmetal": "骑士",
+  "golem_material.twilightforest.steeleaf": "钢叶",
+  "modifier.modulargolems.fiery": "炽热",
+  "modifier.modulargolems.fiery.desc": "对不免疫火焰伤害对生物造成 %s%% 火焰伤害",
+  "modifier.modulargolems.thorn": "荆棘",
+  "modifier.modulargolems.thorn.desc": "反射 %s%% 伤害"
+}

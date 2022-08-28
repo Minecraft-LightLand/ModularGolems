@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat;
+package dev.xkmc.modulargolems.compat.jei;
 
 import com.mojang.datafixers.util.Pair;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;

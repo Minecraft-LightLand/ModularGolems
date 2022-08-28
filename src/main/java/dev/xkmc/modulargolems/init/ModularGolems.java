@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.l2library.serial.unified.UnifiedCodec;
+import dev.xkmc.modulargolems.compat.twilightforest.TFCompat;
 import dev.xkmc.modulargolems.events.CraftEvents;
 import dev.xkmc.modulargolems.events.GolemEvents;
 import dev.xkmc.modulargolems.init.data.ConfigGen;
@@ -77,6 +78,7 @@ public class ModularGolems {
 
 	public static void gatherData(GatherDataEvent event) {
 		event.getGenerator().addProvider(event.includeServer(), new ConfigGen(event.getGenerator()));
+		event.getGenerator().addProvider(event.includeServer(), new TFCompat(event.getGenerator()));
 	}
 
 	private static void sendMessage(final InterModEnqueueEvent event) {

@@ -5,7 +5,7 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.GolemPart;
-import dev.xkmc.modulargolems.content.modifier.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
