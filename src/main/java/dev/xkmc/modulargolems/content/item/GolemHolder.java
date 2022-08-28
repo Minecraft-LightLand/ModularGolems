@@ -1,12 +1,13 @@
 package dev.xkmc.modulargolems.content.item;
 
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
-import dev.xkmc.l2library.util.nbt.NBTObj;
+import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.LangData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -44,7 +45,10 @@ import java.util.function.Consumer;
 
 public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
-	public static final String KEY_MATERIAL = "golem_materials", KEY_ENTITY = "golem_entity", KEY_DISPLAY = "golem_display";
+	public static final String KEY_MATERIAL = "golem_materials",
+			KEY_UPGRADES = "golem_upgrades",
+			KEY_ENTITY = "golem_entity",
+			KEY_DISPLAY = "golem_display";
 	public static final String KEY_PART = "part", KEY_MAT = "material";
 
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
@@ -64,29 +68,56 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return ans;
 	}
 
+	public static ArrayList<UpgradeItem> getUpgrades(ItemStack stack) {
+		ArrayList<UpgradeItem> ans = new ArrayList<>();
+		CompoundTag tag = stack.getTag();
+		if (tag != null && tag.contains(KEY_UPGRADES, Tag.TAG_LIST)) {
+			ListTag list = tag.getList(KEY_MATERIAL, Tag.TAG_STRING);
+			for (int i = 0; i < list.size(); i++) {
+				Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(list.getString(i)));
+				if (item instanceof UpgradeItem up) {
+					ans.add(up);
+				}
+			}
+		}
+		return ans;
+	}
+
 	public static void addMaterial(ItemStack stack, GolemPart<?, ?> item, ResourceLocation material) {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
 		assert rl != null;
-		NBTObj obj = new NBTObj(stack.getOrCreateTag());
-		var list = obj.getList(KEY_MATERIAL);
-		NBTObj elem = list.add();
-		elem.tag.put(KEY_PART, StringTag.valueOf(rl.toString()));
-		elem.tag.put(KEY_MAT, StringTag.valueOf(material.toString()));
+		ItemCompoundTag tag = ItemCompoundTag.of(stack);
+		CompoundTag elem = tag.getSubList(KEY_MATERIAL, Tag.TAG_COMPOUND).addCompound().getOrCreate();
+		elem.put(KEY_PART, StringTag.valueOf(rl.toString()));
+		elem.put(KEY_MAT, StringTag.valueOf(material.toString()));
+	}
+
+	public static void addUpgrade(ItemStack stack, UpgradeItem item) {
+		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
+		assert rl != null;
+		ItemCompoundTag tag = ItemCompoundTag.of(stack);
+		tag.getSubList(KEY_UPGRADES, Tag.TAG_STRING).getOrCreate().add(StringTag.valueOf(rl.toString()));
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> ItemStack setEntity(T entity) {
 		GolemHolder<T, P> holder = GolemType.getGolemHolder(entity.getType());
 		ItemStack stack = new ItemStack(holder);
-		var obj = new NBTObj(stack.getOrCreateTag());
-		var list = obj.getList(KEY_MATERIAL);
+		ItemCompoundTag tag = ItemCompoundTag.of(stack);
+		var matlist = tag.getSubList(KEY_MATERIAL, Tag.TAG_COMPOUND);
 		for (GolemMaterial mat : entity.getMaterials()) {
 			ResourceLocation rl = ForgeRegistries.ITEMS.getKey(mat.part());
 			assert rl != null;
-			NBTObj elem = list.add();
-			elem.tag.put(KEY_PART, StringTag.valueOf(rl.toString()));
-			elem.tag.put(KEY_MAT, StringTag.valueOf(mat.id().toString()));
+			var elem = matlist.addCompound().getOrCreate();
+			elem.put(KEY_PART, StringTag.valueOf(rl.toString()));
+			elem.put(KEY_MAT, StringTag.valueOf(mat.id().toString()));
 		}
-		entity.save(obj.getSub(KEY_ENTITY).tag);
+		var uplist = tag.getSubList(KEY_MATERIAL, Tag.TAG_STRING).getOrCreate();
+		for (Item item : entity.getUpgrades()) {
+			ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
+			assert rl != null;
+			uplist.add(StringTag.valueOf(rl.toString()));
+		}
+		entity.save(tag.getSubTag(KEY_ENTITY).getOrCreate());
 		return stack;
 	}
 
@@ -130,12 +161,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			list.add(LangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
 		}
 		var mats = getMaterial(stack);
+		var upgrades = getUpgrades(stack);
 		var parts = getEntityType().values();
 		if (mats.size() != parts.length) return;
 		for (int i = 0; i < parts.length; i++) {
 			list.add(parts[i].getDesc(mats.get(i).getDesc()));
 		}
-		GolemMaterial.collectModifiers(mats).forEach((k, v) -> list.add(k.getTooltip(v)));
+		GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
 		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
 	}
 
@@ -177,7 +209,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				golem.moveTo(pos);
 				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
-				golem.onCreate(getMaterial(stack), id);
+				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
 				level.addFreshEntity(golem);
 				if (player == null || !player.getAbilities().instabuild) {
 					stack.shrink(1);

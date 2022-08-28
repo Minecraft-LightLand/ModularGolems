@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
+import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
@@ -48,15 +50,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@SerialClass.SerialField(toClient = true)
 	private ArrayList<GolemMaterial> materials = new ArrayList<>();
 	@SerialClass.SerialField(toClient = true)
+	private ArrayList<Item> upgrades = new ArrayList<>();
+	@SerialClass.SerialField(toClient = true)
 	@Nullable
 	private UUID owner;
 	@SerialClass.SerialField(toClient = true)
 	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 
-	public void onCreate(ArrayList<GolemMaterial> materials, @Nullable UUID owner) {
+	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
 		this.materials = materials;
+		this.upgrades = Wrappers.cast(upgrades);
 		this.owner = owner;
-		this.modifiers = GolemMaterial.collectModifiers(materials);
+		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		GolemMaterial.addAttributes(materials, getThis());
 		this.setHealth(this.getMaxHealth());
 	}
@@ -67,6 +72,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public ArrayList<GolemMaterial> getMaterials() {
 		return materials;
+	}
+
+	public ArrayList<Item> getUpgrades() {
+		return upgrades;
 	}
 
 	public HashMap<GolemModifier, Integer> getModifiers() {

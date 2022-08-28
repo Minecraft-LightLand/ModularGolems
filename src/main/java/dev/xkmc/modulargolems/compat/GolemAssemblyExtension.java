@@ -72,4 +72,14 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 		craftingGridHelper.createAndSetInputs(builder, inputs, width, height);
 	}
 
+	@Override
+	public int getWidth() {
+		return recipe.getWidth();
+	}
+
+	@Override
+	public int getHeight() {
+		return recipe.getHeight();
+	}
+
 }

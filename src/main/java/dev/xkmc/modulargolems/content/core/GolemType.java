@@ -69,6 +69,12 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		if (tag.contains("Health", Tag.TAG_FLOAT)) {
 			golem.setHealth(tag.getFloat("Health"));
 		}
+		golem.yHeadRot = 0;
+		golem.yHeadRotO = 0;
+		golem.yBodyRot = 0;
+		golem.yBodyRotO = 0;
+		golem.xRotO = 0;
+		golem.setXRot(0);
 		return golem;
 	}
 
