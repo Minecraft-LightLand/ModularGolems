@@ -69,6 +69,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.setHealth(this.getMaxHealth());
 	}
 
+	public void updateAttributes(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
+		this.materials = materials;
+		this.upgrades = Wrappers.cast(upgrades);
+		this.owner = owner;
+		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
+		GolemMaterial.addAttributes(materials, upgrades, getThis());
+	}
+
 	public EntityType<T> getType() {
 		return Wrappers.cast(super.getType());
 	}

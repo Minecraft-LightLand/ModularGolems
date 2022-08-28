@@ -13,7 +13,7 @@ import java.util.Locale;
 
 public enum LangData {
 	HEALTH("tooltip.health", "Health: %s/%s", 2, null),
-	SLOT("tooltip.slot","Remaining Upgrade Slot: %s",1,null);
+	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null);
 
 	private final String key, def;
 	private final int arg;

@@ -37,7 +37,7 @@ public class GolemItemRegistry {
 	public static final ItemEntry<GolemPart<HumanoidGolemEntity, HumaniodGolemPartType>> HUMANOID_BODY, HUMANOID_ARMS, HUMANOID_LEGS;
 	public static final ItemEntry<GolemHolder<HumanoidGolemEntity, HumaniodGolemPartType>> HOLDER_HUMANOID;
 
-	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ;
+	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ;
 
 	static {
 		// metal golem
@@ -83,6 +83,7 @@ public class GolemItemRegistry {
 		// upgrades
 		{
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifierRegistry.FIRE_IMMUNE);
+			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifierRegistry.THUNDER_IMMUNE);
 			RECYCLE = regUpgrade("recycle", () -> GolemModifierRegistry.RECYCLE);
 			DIAMOND = regUpgrade("diamond", () -> GolemModifierRegistry.DIAMOND);
 			NETHERITE = regUpgrade("netherite", () -> GolemModifierRegistry.NETHERITE);

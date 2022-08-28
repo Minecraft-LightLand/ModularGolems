@@ -29,7 +29,8 @@ public class ConfigGen extends ConfigDataProvider {
 		map.put("materials/vanilla", new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "copper"), Ingredient.of(Items.COPPER_INGOT))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 50)
-				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 10).end()
+				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 10)
+				.addModifier(GolemModifierRegistry.THUNDER_IMMUNE.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "iron"), Ingredient.of(Items.IRON_INGOT))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 100)

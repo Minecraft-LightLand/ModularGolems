@@ -56,6 +56,12 @@ public class RecipeGen {
 					.define('B', Items.AMETHYST_SHARD)
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.THUNDER_IMMUNE.get())::unlockedBy, Items.LIGHTNING_ROD)
+					.pattern(" A ").pattern("ABA").pattern(" A ")
+					.define('A', Items.LIGHTNING_ROD)
+					.define('B', Items.AMETHYST_SHARD)
+					.save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.RECYCLE.get())::unlockedBy, Items.TOTEM_OF_UNDYING)
 					.pattern(" C ").pattern("ABA").pattern(" D ")
 					.define('A', Items.ENDER_PEARL)

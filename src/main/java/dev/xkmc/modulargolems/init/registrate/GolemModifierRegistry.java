@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.RecycleModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.FireImmuneModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.MagicImmuneModifier;
+import dev.xkmc.modulargolems.content.modifier.immunes.ThunderImmuneModifier;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -17,12 +18,14 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 public class GolemModifierRegistry {
 
 	public static final RegistryEntry<FireImmuneModifier> FIRE_IMMUNE;
+	public static final RegistryEntry<ThunderImmuneModifier> THUNDER_IMMUNE;
 	public static final RegistryEntry<MagicImmuneModifier> MAGIC_IMMUNE;
 	public static final RegistryEntry<RecycleModifier> RECYCLE;
 	public static final RegistryEntry<AttributeGolemModifier> DIAMOND, NETHERITE, QUARTZ;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new, "Immune to fire damage");
+		THUNDER_IMMUNE = reg("thunder_immune", ThunderImmuneModifier::new, "Immune to lightning bolt damage");
 		MAGIC_IMMUNE = reg("magic_immune", MagicImmuneModifier::new, "Immune to magic damage");
 		RECYCLE = reg("recycle", RecycleModifier::new, "Drop golem holder of 0 health when killed");
 		DIAMOND = reg("armor_up", () -> new AttributeGolemModifier(2,

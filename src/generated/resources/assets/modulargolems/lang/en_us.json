@@ -31,6 +31,7 @@
   "item.modulargolems.netherite": "Netherite",
   "item.modulargolems.quartz": "Quartz",
   "item.modulargolems.recycle": "Recycle",
+  "item.modulargolems.thunder_immune": "Thunder Immune",
   "itemGroup.modulargolems.golems": "Modular Golems",
   "modifier.modulargolems.armor_up": "Armor Up",
   "modifier.modulargolems.damage_up": "Damage Up",
@@ -40,6 +41,8 @@
   "modifier.modulargolems.magic_immune.desc": "Immune to magic damage",
   "modifier.modulargolems.recycle": "Recycle",
   "modifier.modulargolems.recycle.desc": "Drop golem holder of 0 health when killed",
+  "modifier.modulargolems.thunder_immune": "Thunder Immune",
+  "modifier.modulargolems.thunder_immune.desc": "Immune to lightning bolt damage",
   "modifier.modulargolems.toughness_up": "Toughness Up",
   "modulargolems.tooltip.health": "Health: %s/%s",
   "modulargolems.tooltip.slot": "Remaining Upgrade Slot: %s"

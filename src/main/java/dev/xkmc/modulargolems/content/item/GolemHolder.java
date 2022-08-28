@@ -112,7 +112,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			elem.put(KEY_PART, StringTag.valueOf(rl.toString()));
 			elem.put(KEY_MAT, StringTag.valueOf(mat.id().toString()));
 		}
-		var uplist = tag.getSubList(KEY_MATERIAL, Tag.TAG_STRING).getOrCreate();
+		var uplist = tag.getSubList(KEY_UPGRADES, Tag.TAG_STRING).getOrCreate();
 		for (Item item : entity.getUpgrades()) {
 			ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
 			assert rl != null;
@@ -164,11 +164,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		var mats = getMaterial(stack);
 		var upgrades = getUpgrades(stack);
 		var parts = getEntityType().values();
-		if (mats.size() != parts.length) return;
-		for (int i = 0; i < parts.length; i++) {
-			list.add(parts[i].getDesc(mats.get(i).getDesc()));
+		if (mats.size() == parts.length) {
+			for (int i = 0; i < parts.length; i++) {
+				list.add(parts[i].getDesc(mats.get(i).getDesc()));
+			}
 		}
-		upgrades.forEach(up -> list.add(up.getDescription()));
 		list.add(LangData.SLOT.get(getRemaining(upgrades)).withStyle(ChatFormatting.AQUA));
 		GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
 		GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
@@ -199,6 +199,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				return InteractionResult.FAIL;
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
+				Player player = context.getPlayer();
+				UUID id = player == null ? null : player.getUUID();
+				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				golem.moveTo(pos);
 				level.addFreshEntity(golem);
 				stack.shrink(1);

@@ -18,7 +18,9 @@
     }
   },
   "modifiers": {
-    "modulargolems:copper": {},
+    "modulargolems:copper": {
+      "modulargolems:thunder_immune": 1
+    },
     "modulargolems:gold": {},
     "modulargolems:iron": {},
     "modulargolems:netherite": {

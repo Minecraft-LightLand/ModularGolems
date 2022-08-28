@@ -1,6 +1,6 @@
-// 1.19.2	2022-08-28T14:17:34.581287	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-e0fe32226eb37e5c94bba0ce7ab8551bb812e7fe assets/modulargolems/lang/en_ud.json
-137538704f29201a17741231643a7ab2fa215018 assets/modulargolems/lang/en_us.json
+// 1.19.2	2022-08-28T14:55:04.351047	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+84beec6d9ca3217b80c333aadaab391d5b3c806d assets/modulargolems/lang/en_ud.json
+8bcb9c56a18b3ca74006f7e8847743cabb020b94 assets/modulargolems/lang/en_us.json
 1944c2312dc28e55270781c133191dced9b12de1 assets/modulargolems/models/item/diamond.json
 7e14261f664d0d4fa64a137748e9d33f07435777 assets/modulargolems/models/item/fire_immune.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/humanoid_golem_arms.json
@@ -15,6 +15,7 @@ e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_
 d864125084b476a58d79a97a792e24b1f0489865 assets/modulargolems/models/item/netherite.json
 0cec7e73777067f4d6f7c602c9324315b14a03a3 assets/modulargolems/models/item/quartz.json
 cd5c3b221411fb57e35fcfc1ac5c223eb495adef assets/modulargolems/models/item/recycle.json
+1898e07c979f496fcda02b4c7677e644d9c8bffe assets/modulargolems/models/item/thunder_immune.json
 fe251f41c1738034f5a270444c1671538d981b46 data/modulargolems/advancements/recipes/modulargolems.golems/diamond.json
 15fdfda6ebfaf816d3b4567ba0b5868d18fdba09 data/modulargolems/advancements/recipes/modulargolems.golems/fire_immune.json
 79d1cd2907bf349c66727d6a7c10037f9280b6aa data/modulargolems/advancements/recipes/modulargolems.golems/humanoid_golem_arms_from_metal_golem_template_stonecutting.json
@@ -29,6 +30,7 @@ a012acb7f8f7cc8b2c2f1f29d64b2714943bdbf5 data/modulargolems/advancements/recipes
 4544cbad0d08685424f032353ce1be6e7a14d2e2 data/modulargolems/advancements/recipes/modulargolems.golems/netherite.json
 5033e3b0da176318810986cc88880e87838ff682 data/modulargolems/advancements/recipes/modulargolems.golems/quartz.json
 50d83baf8f5fcd53bf62d82c18af94073e45a9cf data/modulargolems/advancements/recipes/modulargolems.golems/recycle.json
+0529dcaaffb40917862e3f5b8465a1cc1f6d0fe5 data/modulargolems/advancements/recipes/modulargolems.golems/thunder_immune.json
 3ee1ad6e2050f2856a5fbb2168abd689df8c75ce data/modulargolems/recipes/diamond.json
 6ee8f3f7f6c182e1664105c6dc0425c73c6d5c51 data/modulargolems/recipes/fire_immune.json
 1ba51d77ecfb0c508600960e226fc3f3a0338600 data/modulargolems/recipes/humanoid_golem_arms_from_metal_golem_template_stonecutting.json
@@ -43,3 +45,4 @@ b4f958b915e3d624f0a149fe06471a8d0445ff51 data/modulargolems/recipes/metal_golem_
 72eccd372604bc79b6cefc81e49f0f477587b5c0 data/modulargolems/recipes/netherite.json
 31e2af2253c30136eca1225be0dcf4e64b4bac90 data/modulargolems/recipes/quartz.json
 04fa44c2f4567345933166d87fc91df239e5fd14 data/modulargolems/recipes/recycle.json
+6fb57e9503a5fe681374e4e08a64c8e029bb788a data/modulargolems/recipes/thunder_immune.json
