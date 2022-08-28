@@ -40,7 +40,6 @@ public class ConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 20)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 5)
 				.addStat(GolemTypeRegistry.STAT_WEIGHT.get(), -0.4)
-				.addStat(GolemTypeRegistry.STAT_ATKSPEED.get(), 0.5)
 				.addStat(GolemTypeRegistry.STAT_REGEN.get(), 4).end()
 
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "netherite"), Ingredient.of(Items.NETHERITE_INGOT))
@@ -101,6 +100,7 @@ public class ConfigGen extends ConfigDataProvider {
 				.addEntity(GolemTypeRegistry.TYPE_HUMANOID.get())
 				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.4)
 				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.3)
+				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.5)
 				.end()
 		);
 	}

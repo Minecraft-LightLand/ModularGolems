@@ -47,7 +47,6 @@ public class GolemTypeRegistry {
 	public static final RegistryEntry<GolemStatType> STAT_ATKKB = regStat("attack_knockback", () -> Attributes.ATTACK_KNOCKBACK, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
 	public static final RegistryEntry<GolemStatType> STAT_WEIGHT = regStat("weight", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MASS);
 	public static final RegistryEntry<GolemStatType> STAT_SPEED = regStat("speed", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
-	public static final RegistryEntry<GolemStatType> STAT_ATKSPEED = regStat("attack_speed", () -> Attributes.ATTACK_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.ATTACK);
 
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
@@ -56,7 +55,6 @@ public class GolemTypeRegistry {
 					.add(Attributes.MAX_HEALTH, 100.0D)
 					.add(Attributes.ATTACK_DAMAGE, 15.0D)
 					.add(Attributes.MOVEMENT_SPEED, 0.25D)
-					.add(Attributes.ATTACK_SPEED, 1.0D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
 					.add(Attributes.FOLLOW_RANGE, 16.0D)
@@ -75,7 +73,6 @@ public class GolemTypeRegistry {
 					.add(Attributes.MAX_HEALTH, 20.0D)
 					.add(Attributes.ATTACK_DAMAGE, 4.0D)
 					.add(Attributes.MOVEMENT_SPEED, 0.25D)
-					.add(Attributes.ATTACK_SPEED, 1.0D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)

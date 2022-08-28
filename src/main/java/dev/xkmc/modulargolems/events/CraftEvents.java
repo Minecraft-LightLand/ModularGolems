@@ -61,8 +61,9 @@ public class CraftEvents {
 	private static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void appendUpgrade(AnvilUpdateEvent event, GolemHolder<T, P> holder, UpgradeItem upgrade) {
 		ItemStack stack = event.getLeft();
+		var mats = GolemHolder.getMaterial(stack);
 		var upgrades = GolemHolder.getUpgrades(stack);
-		int remaining = holder.getRemaining(upgrades);
+		int remaining = holder.getRemaining(mats, upgrades);
 		if (remaining <= 0) return;
 		var map = GolemMaterial.collectModifiers(GolemHolder.getMaterial(stack), upgrades);
 		if (map.getOrDefault(upgrade.get(), 0) >= upgrade.get().maxLevel) return;

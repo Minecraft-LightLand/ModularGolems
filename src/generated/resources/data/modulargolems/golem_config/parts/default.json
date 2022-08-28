@@ -41,7 +41,8 @@
   "magnifiers": {
     "modulargolems:humanoid_golem": {
       "modulargolems:attack": 0.3,
-      "modulargolems:max_health": 0.4
+      "modulargolems:max_health": 0.4,
+      "modulargolems:regen": 0.5
     },
     "modulargolems:metal_golem": {}
   }

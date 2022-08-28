@@ -76,4 +76,10 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 
 	}
 
+	/**
+	 * provide more slots
+	 */
+	public int addSlot() {
+		return 0;
+	}
 }

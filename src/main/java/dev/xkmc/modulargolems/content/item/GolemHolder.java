@@ -169,7 +169,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				list.add(parts[i].getDesc(mats.get(i).getDesc()));
 			}
 		}
-		list.add(LangData.SLOT.get(getRemaining(upgrades)).withStyle(ChatFormatting.AQUA));
+		list.add(LangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
 		GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
 		GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
 	}
@@ -277,7 +277,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 	}
 
-	public int getRemaining(ArrayList<UpgradeItem> upgrades) {
-		return getEntityType().values().length - upgrades.size();
+	public int getRemaining(ArrayList<GolemMaterial> mats, ArrayList<UpgradeItem> upgrades) {
+		int base = getEntityType().values().length - upgrades.size();
+		var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
+		for (var ent : modifiers.entrySet()) {
+			base += ent.getKey().addSlot() * ent.getValue();
+		}
+		return base;
 	}
 }
