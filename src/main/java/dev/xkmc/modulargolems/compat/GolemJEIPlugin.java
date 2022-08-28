@@ -7,12 +7,14 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.content.item.GolemPart;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
+import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
+import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
@@ -45,6 +47,22 @@ public class GolemJEIPlugin implements IModPlugin {
 	public void registerRecipes(IRecipeRegistration registration) {
 		GolemMaterialConfig config = GolemMaterialConfig.get();
 		List<IJeiAnvilRecipe> recipes = new ArrayList<>();
+		addPartCraftRecipes(recipes, config, registration.getVanillaRecipeFactory());
+		addRepairRecipes(recipes, config, registration.getVanillaRecipeFactory());
+		addUpgradeRecipes(recipes, config, registration.getVanillaRecipeFactory());
+		registration.addRecipes(RecipeTypes.ANVIL, recipes);
+	}
+
+	@Override
+	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+		registration.getCraftingCategory().addCategoryExtension(GolemAssembleRecipe.class, GolemAssemblyExtension::new);
+	}
+
+	private static String partSubtype(ItemStack stack, UidContext ctx) {
+		return GolemPart.getMaterial(stack).orElse(GolemMaterial.EMPTY).toString();
+	}
+
+	private static void addPartCraftRecipes(List<IJeiAnvilRecipe> recipes, GolemMaterialConfig config, IVanillaRecipeFactory factory) {
 		for (var mat : config.getAllMaterials()) {
 			var arr = config.ingredients.get(mat).getItems();
 			for (var item : GolemPart.LIST) {
@@ -52,10 +70,13 @@ public class GolemJEIPlugin implements IModPlugin {
 				for (ItemStack stack : arr) {
 					list.add(new ItemStack(stack.getItem(), item.count));
 				}
-				recipes.add(registration.getVanillaRecipeFactory().createAnvilRecipe(new ItemStack(item), list,
+				recipes.add(factory.createAnvilRecipe(new ItemStack(item), list,
 						List.of(GolemPart.setMaterial(new ItemStack(item), mat))));
 			}
 		}
+	}
+
+	private static void addRepairRecipes(List<IJeiAnvilRecipe> recipes, GolemMaterialConfig config, IVanillaRecipeFactory factory) {
 		for (var types : GolemType.GOLEM_TYPE_TO_ITEM.values()) {
 			List<ItemStack> input = new ArrayList<>();
 			List<ItemStack> material = new ArrayList<>();
@@ -73,18 +94,24 @@ public class GolemJEIPlugin implements IModPlugin {
 				golem.getOrCreateTag().putFloat(GolemHolder.KEY_DISPLAY, 1f);
 				result.add(golem);
 			}
-			recipes.add(registration.getVanillaRecipeFactory().createAnvilRecipe(input, material, result));
+			recipes.add(factory.createAnvilRecipe(input, material, result));
 		}
-		registration.addRecipes(RecipeTypes.ANVIL, recipes);
 	}
 
-	@Override
-	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
-		registration.getCraftingCategory().addCategoryExtension(GolemAssembleRecipe.class, GolemAssemblyExtension::new);
-	}
-
-	private static String partSubtype(ItemStack stack, UidContext ctx) {
-		return GolemPart.getMaterial(stack).orElse(GolemMaterial.EMPTY).toString();
+	private static void addUpgradeRecipes(List<IJeiAnvilRecipe> recipes, GolemMaterialConfig config, IVanillaRecipeFactory factory) {
+		for (UpgradeItem item : UpgradeItem.LIST) {
+			List<ItemStack> input = new ArrayList<>();
+			List<ItemStack> material = new ArrayList<>();
+			List<ItemStack> result = new ArrayList<>();
+			for (var types : GolemType.GOLEM_TYPE_TO_ITEM.values()) {
+				input.add(new ItemStack(types));
+			}
+			material.add(new ItemStack(item));
+			for (var types : GolemType.GOLEM_TYPE_TO_ITEM.values()) {
+				result.add(GolemHolder.addUpgrade(new ItemStack(types), item));
+			}
+			recipes.add(factory.createAnvilRecipe(input, material, result));
+		}
 	}
 
 }

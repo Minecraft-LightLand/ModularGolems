@@ -41,5 +41,6 @@
   "modifier.modulargolems.recycle": "Recycle",
   "modifier.modulargolems.recycle.desc": "Drop golem holder of 0 health when killed",
   "modifier.modulargolems.toughness_up": "Toughness Up",
-  "modulargolems.tooltip.health": "Health: %s/%s"
+  "modulargolems.tooltip.health": "Health: %s/%s",
+  "modulargolems.tooltip.slot": "Remaining Upgrade Slot: %s"
 }

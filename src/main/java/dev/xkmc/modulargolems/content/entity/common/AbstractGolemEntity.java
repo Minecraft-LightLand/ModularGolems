@@ -6,9 +6,9 @@ import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
+import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
@@ -65,7 +65,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.upgrades = Wrappers.cast(upgrades);
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
-		GolemMaterial.addAttributes(materials, getThis());
+		GolemMaterial.addAttributes(materials, upgrades, getThis());
 		this.setHealth(this.getMaxHealth());
 	}
 
@@ -101,7 +101,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected void actuallyHurt(DamageSource source, float damage) {
 		super.actuallyHurt(source, damage);
-		if (getHealth() <= 0 && modifiers.get(GolemModifierRegistry.RECYCLE.get()) > 0) {
+		if (getHealth() <= 0 && modifiers.getOrDefault(GolemModifierRegistry.RECYCLE.get(), 0) > 0) {
 			spawnAtLocation(GolemHolder.setEntity(getThis()));
 			level.broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();

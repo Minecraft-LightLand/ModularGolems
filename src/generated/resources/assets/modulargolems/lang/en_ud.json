@@ -41,5 +41,6 @@
   "modifier.modulargolems.recycle": "ǝןɔʎɔǝᴚ",
   "modifier.modulargolems.recycle.desc": "pǝןןıʞ uǝɥʍ ɥʇןɐǝɥ 0 ɟo ɹǝpןoɥ ɯǝןob doɹᗡ",
   "modifier.modulargolems.toughness_up": "d∩ ssǝuɥbno⟘",
-  "modulargolems.tooltip.health": "%s/%s :ɥʇןɐǝH"
+  "modulargolems.tooltip.health": "%s/%s :ɥʇןɐǝH",
+  "modulargolems.tooltip.slot": "%s :ʇoןS ǝpɐɹbd∩ buıuıɐɯǝᴚ"
 }

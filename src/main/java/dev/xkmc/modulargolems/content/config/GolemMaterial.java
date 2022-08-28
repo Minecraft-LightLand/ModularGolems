@@ -1,11 +1,12 @@
 package dev.xkmc.modulargolems.content.config;
 
 import dev.xkmc.l2library.util.code.Wrappers;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.content.modifier.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
@@ -25,17 +26,26 @@ public record GolemMaterial(
 
 	public static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list) {
+	public static Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades) {
 		HashMap<GolemStatType, Double> values = new HashMap<>();
 		for (GolemMaterial stats : list) {
-			stats.stats.forEach((k, v) ->
-					values.compute(k, (a, old) ->
-							a.kind == GolemStatType.Kind.PERCENT ?
-									(old == null ? 1 : old) * (1 + v) :
-									(old == null ? 0 : old) + v));
+			stats.stats.forEach((k, v) -> updateStat(values, k, v));
+		}
+		for (UpgradeItem item : upgrades) {
+			if (item.get() instanceof AttributeGolemModifier attr) {
+				for (var ent : attr.entries) {
+					updateStat(values, ent.type().get(), ent.value());
+				}
+			}
 		}
 		return values;
+	}
+
+	private static void updateStat(HashMap<GolemStatType, Double> values, GolemStatType k, double v) {
+		values.compute(k, (a, old) ->
+				a.kind == GolemStatType.Kind.PERCENT ?
+						(old == null ? 1 : old) * (1 + v) :
+						(old == null ? 0 : old) + v);
 	}
 
 	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<UpgradeItem> upgrades) {
@@ -49,8 +59,8 @@ public record GolemMaterial(
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	void addAttributes(List<GolemMaterial> list, T entity) {
-		collectAttributes(list).forEach((k, v) -> k.applyToEntity(entity, v));
+	void addAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades, T entity) {
+		collectAttributes(list, upgrades).forEach((k, v) -> k.applyToEntity(entity, v));
 	}
 
 	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {

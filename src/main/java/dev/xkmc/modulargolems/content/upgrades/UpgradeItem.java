@@ -8,16 +8,20 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class UpgradeItem extends Item {
+
+	public static final List<UpgradeItem> LIST = new ArrayList<>();
 
 	private final Supplier<GolemModifier> modifier;
 
 	public UpgradeItem(Properties props, Supplier<GolemModifier> modifier) {
 		super(props);
 		this.modifier = modifier;
+		LIST.add(this);
 	}
 
 	public GolemModifier get() {

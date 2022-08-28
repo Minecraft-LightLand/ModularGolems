@@ -2,13 +2,13 @@ package dev.xkmc.modulargolems.init.registrate;
 
 import dev.xkmc.l2library.repack.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.world.item.CreativeModeTab;

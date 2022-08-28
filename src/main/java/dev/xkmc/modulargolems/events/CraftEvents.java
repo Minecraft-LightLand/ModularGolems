@@ -29,7 +29,7 @@ public class CraftEvents {
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
 			if (block.getItem() instanceof UpgradeItem upgrade) {
-				//TODO
+				appendUpgrade(event, holder, upgrade);
 			} else {
 				fixGolem(event, holder, stack);
 			}
@@ -58,4 +58,18 @@ public class CraftEvents {
 		event.setOutput(result);
 	}
 
+	private static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
+	void appendUpgrade(AnvilUpdateEvent event, GolemHolder<T, P> holder, UpgradeItem upgrade) {
+		ItemStack stack = event.getLeft();
+		var upgrades = GolemHolder.getUpgrades(stack);
+		int remaining = holder.getRemaining(upgrades);
+		if (remaining <= 0) return;
+		var map = GolemMaterial.collectModifiers(GolemHolder.getMaterial(stack), upgrades);
+		if (map.getOrDefault(upgrade.get(), 0) >= upgrade.get().maxLevel) return;
+		ItemStack result = stack.copy();
+		GolemHolder.addUpgrade(result, upgrade);
+		event.setOutput(result);
+		event.setCost(4 << upgrades.size());
+		event.setMaterialCost(1);
+	}
 }

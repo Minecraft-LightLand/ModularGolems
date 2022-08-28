@@ -72,7 +72,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		ArrayList<UpgradeItem> ans = new ArrayList<>();
 		CompoundTag tag = stack.getTag();
 		if (tag != null && tag.contains(KEY_UPGRADES, Tag.TAG_LIST)) {
-			ListTag list = tag.getList(KEY_MATERIAL, Tag.TAG_STRING);
+			ListTag list = tag.getList(KEY_UPGRADES, Tag.TAG_STRING);
 			for (int i = 0; i < list.size(); i++) {
 				Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(list.getString(i)));
 				if (item instanceof UpgradeItem up) {
@@ -92,11 +92,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		elem.put(KEY_MAT, StringTag.valueOf(material.toString()));
 	}
 
-	public static void addUpgrade(ItemStack stack, UpgradeItem item) {
+	public static ItemStack addUpgrade(ItemStack stack, UpgradeItem item) {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
 		assert rl != null;
 		ItemCompoundTag tag = ItemCompoundTag.of(stack);
 		tag.getSubList(KEY_UPGRADES, Tag.TAG_STRING).getOrCreate().add(StringTag.valueOf(rl.toString()));
+		return stack;
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> ItemStack setEntity(T entity) {
@@ -167,8 +168,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		for (int i = 0; i < parts.length; i++) {
 			list.add(parts[i].getDesc(mats.get(i).getDesc()));
 		}
+		upgrades.forEach(up -> list.add(up.getDescription()));
+		list.add(LangData.SLOT.get(getRemaining(upgrades)).withStyle(ChatFormatting.AQUA));
 		GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
-		GolemMaterial.collectAttributes(mats).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
+		GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
 	}
 
 	@Override
@@ -271,4 +274,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 	}
 
+	public int getRemaining(ArrayList<UpgradeItem> upgrades) {
+		return getEntityType().values().length - upgrades.size();
+	}
 }
