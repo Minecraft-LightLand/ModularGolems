@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -89,6 +90,17 @@ public class RecipeGen {
 					.define('A', Items.QUARTZ_BLOCK)
 					.define('B', Items.AMETHYST_SHARD)
 					.define('C', Items.QUARTZ)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.GOLD.get())::unlockedBy, Items.GOLDEN_APPLE)
+					.pattern("CAC").pattern("ABA").pattern("CAC")
+					.define('A', Items.GOLDEN_APPLE)
+					.define('B', Items.AMETHYST_SHARD)
+					.define('C', Items.GOLDEN_CARROT)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItemRegistry.ENCHANTED_GOLD.get())::unlockedBy, Items.ENCHANTED_GOLDEN_APPLE)
+					.requires(Items.AMETHYST_SHARD).requires(Items.ENCHANTED_GOLDEN_APPLE)
 					.save(pvd);
 
 		}
