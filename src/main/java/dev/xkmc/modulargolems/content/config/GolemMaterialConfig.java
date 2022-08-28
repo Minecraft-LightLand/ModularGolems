@@ -6,10 +6,12 @@ import dev.xkmc.l2library.serial.config.ConfigCollect;
 import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.util.annotation.DataGenOnly;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
+import dev.xkmc.modulargolems.content.modifier.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.init.NetworkManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.apache.http.util.Asserts;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -68,6 +70,7 @@ public class GolemMaterialConfig extends BaseConfig {
 		}
 
 		public Builder addModifier(GolemModifier modifier, int lv) {
+			Asserts.check(!(modifier instanceof AttributeGolemModifier), "Material cannot use attribute modifier");
 			modifiers.put(modifier, lv);
 			return this;
 		}

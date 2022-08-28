@@ -17,10 +17,16 @@ public class UpgradeItem extends Item {
 	public static final List<UpgradeItem> LIST = new ArrayList<>();
 
 	private final Supplier<GolemModifier> modifier;
+	private final boolean foil;
 
-	public UpgradeItem(Properties props, Supplier<GolemModifier> modifier) {
+	public final int level;
+
+
+	public UpgradeItem(Properties props, Supplier<GolemModifier> modifier, int level, boolean foil) {
 		super(props);
 		this.modifier = modifier;
+		this.level = level;
+		this.foil = foil;
 		LIST.add(this);
 	}
 
@@ -29,8 +35,13 @@ public class UpgradeItem extends Item {
 	}
 
 	@Override
+	public boolean isFoil(ItemStack stack) {
+		return foil;
+	}
+
+	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		list.add(modifier.get().getTooltip(1));
-		list.addAll(modifier.get().getDetail(1));
+		list.add(modifier.get().getTooltip(this.level));
+		list.addAll(modifier.get().getDetail(this.level));
 	}
 }

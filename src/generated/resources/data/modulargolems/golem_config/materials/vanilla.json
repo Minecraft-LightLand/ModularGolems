@@ -39,6 +39,7 @@
       "modulargolems:attack": 5.0,
       "modulargolems:attack_speed": 0.5,
       "modulargolems:max_health": 20.0,
+      "modulargolems:regen": 4.0,
       "modulargolems:weight": -0.4
     },
     "modulargolems:iron": {

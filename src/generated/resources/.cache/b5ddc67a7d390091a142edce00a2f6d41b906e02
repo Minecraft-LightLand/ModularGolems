@@ -1,8 +1,10 @@
-// 1.19.2	2022-08-28T14:55:04.351047	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-84beec6d9ca3217b80c333aadaab391d5b3c806d assets/modulargolems/lang/en_ud.json
-8bcb9c56a18b3ca74006f7e8847743cabb020b94 assets/modulargolems/lang/en_us.json
+// 1.19.2	2022-08-28T15:12:21.598359	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+951f45d2266b387af0044dcde0851d249a1eec38 assets/modulargolems/lang/en_ud.json
+c46216baf5d39b1c17ad4b6edbbb03b0be024d29 assets/modulargolems/lang/en_us.json
 1944c2312dc28e55270781c133191dced9b12de1 assets/modulargolems/models/item/diamond.json
+9f4145920cab9ff763911fa096cb23f9683c5e21 assets/modulargolems/models/item/enchanted_gold.json
 7e14261f664d0d4fa64a137748e9d33f07435777 assets/modulargolems/models/item/fire_immune.json
+86efaebff342d3c7d6de7b058ff54eb77d997aac assets/modulargolems/models/item/gold.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/humanoid_golem_arms.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/humanoid_golem_body.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/humanoid_golem_holder.json

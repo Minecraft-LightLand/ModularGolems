@@ -8,10 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * should not be used in materials
+ */
 public class AttributeGolemModifier extends GolemModifier {
 
 	public record AttrEntry(Supplier<GolemStatType> type, double value) {
 
+		public double getValue(int level) {
+			return type.get().kind == GolemStatType.Kind.PERCENT ? Math.pow(1 + value, level) - 1 : value * level;
+		}
 	}
 
 	public final AttrEntry[] entries;
@@ -25,7 +31,7 @@ public class AttributeGolemModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		List<MutableComponent> ans = new ArrayList<>();
 		for (AttrEntry ent : entries) {
-			ans.add(ent.type.get().getAdderTooltip(ent.value));
+			ans.add(ent.type.get().getAdderTooltip(ent.getValue(v)));
 		}
 		return ans;
 	}

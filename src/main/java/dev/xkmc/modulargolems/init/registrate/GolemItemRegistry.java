@@ -37,7 +37,7 @@ public class GolemItemRegistry {
 	public static final ItemEntry<GolemPart<HumanoidGolemEntity, HumaniodGolemPartType>> HUMANOID_BODY, HUMANOID_ARMS, HUMANOID_LEGS;
 	public static final ItemEntry<GolemHolder<HumanoidGolemEntity, HumaniodGolemPartType>> HOLDER_HUMANOID;
 
-	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ;
+	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ, GOLD, ENCHANTED_GOLD;
 
 	static {
 		// metal golem
@@ -88,11 +88,17 @@ public class GolemItemRegistry {
 			DIAMOND = regUpgrade("diamond", () -> GolemModifierRegistry.DIAMOND);
 			NETHERITE = regUpgrade("netherite", () -> GolemModifierRegistry.NETHERITE);
 			QUARTZ = regUpgrade("quartz", () -> GolemModifierRegistry.QUARTZ);
+			GOLD = regUpgrade("gold", () -> GolemModifierRegistry.GOLD);
+			ENCHANTED_GOLD = regUpgrade("enchanted_gold", () -> GolemModifierRegistry.GOLD, 2, true);
 		}
 	}
 
 	private static ItemEntry<UpgradeItem> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
-		return REGISTRATE.item(id, p -> new UpgradeItem(p, mod.get()::get))
+		return regUpgrade(id, mod, 1, false);
+	}
+
+	private static ItemEntry<UpgradeItem> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
+		return REGISTRATE.item(id, p -> new UpgradeItem(p, mod.get()::get, level, foil))
 				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/upgrades/" + id)))
 				.defaultLang().register();
 	}

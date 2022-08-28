@@ -36,6 +36,7 @@
 	"recycle.desc": "傀儡死亡时掉落0血量的可修复物品形态",
 	"armor_up": "防御提升",
 	"toughness_up": "韧性提升",
-	"damage_up": "伤害提升"
+	"damage_up": "伤害提升",
+	"regeneration_up": "回复升级"
   }
 }

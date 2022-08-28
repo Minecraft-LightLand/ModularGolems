@@ -34,7 +34,7 @@ public record GolemMaterial(
 		for (UpgradeItem item : upgrades) {
 			if (item.get() instanceof AttributeGolemModifier attr) {
 				for (var ent : attr.entries) {
-					updateStat(values, ent.type().get(), ent.value());
+					updateStat(values, ent.type().get(), ent.getValue(item.level));
 				}
 			}
 		}
@@ -54,7 +54,7 @@ public record GolemMaterial(
 			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) ->
 					Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
 		}
-		upgrades.forEach(e -> values.compute(e.get(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + 1)));
+		upgrades.forEach(e -> values.compute(e.get(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + e.level)));
 		return values;
 	}
 
