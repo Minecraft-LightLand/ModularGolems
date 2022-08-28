@@ -92,6 +92,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			dropSlot(slot, true);
 		}
+		super.dropCustomDeathLoot(source, i, b);
 	}
 
 	private void dropSlot(EquipmentSlot slot, boolean isDeath) {

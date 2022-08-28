@@ -5,10 +5,12 @@ import dev.xkmc.l2library.serial.codec.PacketCodec;
 import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemModifier;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
+import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -29,6 +31,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
@@ -98,13 +101,24 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected void actuallyHurt(DamageSource source, float damage) {
 		super.actuallyHurt(source, damage);
-		if (getHealth() <= 0) {
-			//TODO add modifier check
+		if (getHealth() <= 0 && modifiers.get(GolemModifierRegistry.RECYCLE.get()) > 0) {
 			spawnAtLocation(GolemHolder.setEntity(getThis()));
 			level.broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
 		}
 	}
+
+	@Override
+	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
+		Map<Item, Integer> drop = new HashMap<>();
+		for (GolemMaterial mat : getMaterials()) {
+			Item item = GolemMaterialConfig.get().ingredients.get(mat.id()).getItems()[0].getItem();
+			drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
+		}
+		drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
+	}
+
+	// ------ ownable entity
 
 	@Nullable
 	public UUID getOwnerUUID() {

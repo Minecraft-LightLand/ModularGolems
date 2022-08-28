@@ -12,7 +12,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class GolemModifier extends NamedEntry<GolemModifier> {
 
-	public static final int MAX_LEVEL = 10;
+	public static final int MAX_LEVEL = 5;
 
 	public final StatFilterType type;
 	public final int maxLevel;

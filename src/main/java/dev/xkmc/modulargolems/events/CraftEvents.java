@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,7 +28,11 @@ public class CraftEvents {
 			}
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
-			fixGolem(event, holder, stack);
+			if (block.getItem() instanceof UpgradeItem upgrade) {
+				//TODO
+			} else {
+				fixGolem(event, holder, stack);
+			}
 		}
 	}
 

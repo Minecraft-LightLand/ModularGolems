@@ -27,6 +27,10 @@
   },
   "modifier.modulargolems": {
 	"fire_immune": "火焰免疫",
-	"magic_immune": "魔法免疫"
+	"magic_immune": "魔法免疫",
+	"diamond": "钻石防御",
+	"netherite": "下界合金防御",
+	"quartz": "石英伤害提升",
+	"recycle": "傀儡回收"
   }
 }

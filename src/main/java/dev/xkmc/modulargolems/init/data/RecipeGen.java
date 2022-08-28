@@ -47,6 +47,45 @@ public class RecipeGen {
 				.define('C', GolemItemRegistry.HUMANOID_LEGS.get())
 				.save(pvd);
 
+		// upgrades
+		{
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.FIRE_IMMUNE.get())::unlockedBy, Items.MAGMA_CREAM)
+					.pattern(" A ").pattern("ABA").pattern(" A ")
+					.define('A', Items.MAGMA_CREAM)
+					.define('B', Items.AMETHYST_SHARD)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.RECYCLE.get())::unlockedBy, Items.TOTEM_OF_UNDYING)
+					.pattern(" C ").pattern("ABA").pattern(" D ")
+					.define('A', Items.ENDER_PEARL)
+					.define('B', Items.AMETHYST_SHARD)
+					.define('C', Items.TOTEM_OF_UNDYING)
+					.define('D', Items.RESPAWN_ANCHOR)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.DIAMOND.get())::unlockedBy, Items.DIAMOND)
+					.pattern("CAC").pattern("ABA").pattern("CAC")
+					.define('A', Items.DIAMOND_BLOCK)
+					.define('B', Items.AMETHYST_SHARD)
+					.define('C', Items.DIAMOND)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.NETHERITE.get())::unlockedBy, Items.NETHERITE_INGOT)
+					.pattern("CAC").pattern("ABA").pattern("CAC")
+					.define('A', Items.NETHERITE_INGOT)
+					.define('B', Items.AMETHYST_SHARD)
+					.define('C', Items.DIAMOND)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.QUARTZ.get())::unlockedBy, Items.QUARTZ)
+					.pattern("CAC").pattern("ABA").pattern("CAC")
+					.define('A', Items.QUARTZ_BLOCK)
+					.define('B', Items.AMETHYST_SHARD)
+					.define('C', Items.QUARTZ)
+					.save(pvd);
+
+		}
 	}
 
 	public static <T> T unlock(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {

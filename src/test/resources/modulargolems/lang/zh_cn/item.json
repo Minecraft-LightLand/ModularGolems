@@ -8,6 +8,11 @@
 	"humanoid_golem_arms": "人形金属傀儡-双臂",
 	"humanoid_golem_body": "人形金属傀儡-躯干",
 	"humanoid_golem_holder": "人形金属傀儡",
-	"humanoid_golem_legs": "人形金属傀儡-双腿"
+	"humanoid_golem_legs": "人形金属傀儡-双腿",
+	"diamond": "钻石升级",
+	"fire_immune": "防火升级",
+	"netherite": "下界合金升级",
+	"quartz": "石英升级",
+	"recycle": "回收升级"
   }
 }
