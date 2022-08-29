@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.jei;
 
 import com.mojang.datafixers.util.Pair;
+import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.item.GolemHolder;
 import dev.xkmc.modulargolems.content.item.GolemPart;
@@ -21,6 +22,14 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
+		var out = focuses.getItemStackFocuses(RecipeIngredientRole.OUTPUT).findAny();
+		if (out.isPresent()) {
+			ItemStack outStack = out.get().getTypedValue().getIngredient();
+			setRecipeSpecial(builder, craftingGridHelper, outStack);
+		} else setRecipeAll(builder, craftingGridHelper, focuses);
+	}
+
+	private void setRecipeAll(IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
 		List<List<ItemStack>> inputs = new ArrayList<>();
 		for (Ingredient ing : recipe.getIngredients()) {
 			ItemStack[] stacks = ing.getItems();
@@ -64,11 +73,27 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 		} else {
 			list.add(resultItem);
 		}
-
-
 		int width = getWidth();
 		int height = getHeight();
 		craftingGridHelper.createAndSetOutputs(builder, list);
+		craftingGridHelper.createAndSetInputs(builder, inputs, width, height);
+	}
+
+	private void setRecipeSpecial(IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, ItemStack focusResult) {
+		var mats = GolemHolder.getMaterial(focusResult);
+		List<List<ItemStack>> inputs = new ArrayList<>();
+		int ind = 0;
+		for (Ingredient ing : recipe.getIngredients()) {
+			ItemStack[] stacks = ing.getItems();
+			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
+				GolemMaterial mat = mats.get(ind++);
+				inputs.add(List.of(GolemPart.setMaterial(new ItemStack(part), mat.id())));
+			} else inputs.add(List.of(stacks));
+
+		}
+		int width = getWidth();
+		int height = getHeight();
+		craftingGridHelper.createAndSetOutputs(builder, List.of(focusResult));
 		craftingGridHelper.createAndSetInputs(builder, inputs, width, height);
 	}
 

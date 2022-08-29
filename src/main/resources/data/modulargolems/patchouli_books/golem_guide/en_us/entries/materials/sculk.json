@@ -6,17 +6,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:echo_shard",
-	  "link_recipe": true
+	  "text": "Main material to craft sculk golem parts. Sculk golem parts feature high health, fast movement, fire immune, and high damage. This is the reward of expensive material.$(br2)It is strongly recommended for legs to get very fast moving speed and high health."
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:sculk\"}]}",
-	  "link_recipe": true
+	  "item": "modulargolems:metal_golem_holder{golem_special:true,golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:sculk\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:sculk\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:sculk\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:sculk\"}]}",
-	  "link_recipe": true
+	  "item": "modulargolems:humanoid_golem_holder{golem_special:true,golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:sculk\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:sculk\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:sculk\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
 	}
   ]
 }

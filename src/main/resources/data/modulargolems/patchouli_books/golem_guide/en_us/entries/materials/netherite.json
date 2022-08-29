@@ -6,17 +6,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:netherite_ingot",
-	  "link_recipe": true
+	  "text": "Main material to craft netherite golem parts. Netherite golem parts feature high health, fire immune, high damage, and most importantly, area attack. But netherite is heavy, which reduce golem speed.$(br2)This is strongly recommended for arms, and could be used for body and legs for high stats."
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:netherite\"}]}",
-	  "link_recipe": true
+	  "item": "modulargolems:metal_golem_holder{golem_special:true,golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:netherite\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:netherite\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:netherite\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:netherite\"}]}",
-	  "link_recipe": true
+	  "item": "modulargolems:humanoid_golem_holder{golem_special:true,golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:netherite\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:netherite\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:netherite\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
 	}
   ]
 }
