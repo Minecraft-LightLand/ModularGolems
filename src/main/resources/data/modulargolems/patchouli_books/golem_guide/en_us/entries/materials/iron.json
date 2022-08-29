@@ -1,0 +1,22 @@
+{
+  "name": "Iron",
+  "icon": "minecraft:iron_ingot",
+  "category": "modulargolems:materials",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "minecraft:iron_ingot",
+	  "link_recipe": true
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:iron\"}]}",
+	  "link_recipe": true
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:iron\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:iron\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:iron\"}]}",
+	  "link_recipe": true
+	}
+  ]
+}

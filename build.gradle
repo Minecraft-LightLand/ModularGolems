@@ -116,7 +116,7 @@ repositories {
         }
     }
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
-    flatDir{
+    flatDir {
         dirs 'libs'
     }
     maven {
@@ -137,6 +137,8 @@ dependencies {
     runtimeOnly fg.deobf('curse.maven:badpackets-615134:3903799')
     implementation fg.deobf('curse.maven:the-twilight-forest-227639:3943940')
 
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
 }
 

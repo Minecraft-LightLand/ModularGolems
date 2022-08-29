@@ -1,0 +1,15 @@
+{
+  "name": "Metal Golem",
+  "icon": "modulargolems:metal_golem_holder",
+  "category": "modulargolems:golems",
+  "sortnum": 10,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "Metal Golem is similar to vanilla iron golem. Other than being fixed in anvil, it can also be healed directly by using ingots matching body material on the golem directly.$(br2)If the golem has netherite arm, it can have area attack and hit all surrounding mobs at once."
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:metal_golem_holder"
+	}
+  ]
+}

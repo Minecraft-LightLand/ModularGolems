@@ -1,0 +1,17 @@
+{
+  "name": "Golden Apple Upgrade",
+  "icon": "modulargolems:gold",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:gold",
+	  "link_recipe": true
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:enchanted_gold",
+	  "link_recipe": true
+	}
+  ]
+}

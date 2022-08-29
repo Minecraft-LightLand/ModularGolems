@@ -1,0 +1,12 @@
+{
+  "name": "Netherite Upgrade",
+  "icon": "modulargolems:netherite",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:netherite",
+	  "link_recipe": true
+	}
+  ]
+}

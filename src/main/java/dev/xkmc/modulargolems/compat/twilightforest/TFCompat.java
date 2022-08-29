@@ -36,7 +36,7 @@ public class TFCompat extends ConfigDataProvider {
 
 		map.put("materials/" + MODID, new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(MODID, "ironwood"), Ingredient.of(ItemTagGenerator.IRONWOOD_INGOTS))
-				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 100)
+				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 200)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 10)
 				.addStat(GolemTypeRegistry.STAT_REGEN.get(), 2).end()
 
@@ -45,14 +45,14 @@ public class TFCompat extends ConfigDataProvider {
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 30).end()
 
 				.addMaterial(new ResourceLocation(MODID, "knightmetal"), Ingredient.of(ItemTagGenerator.KNIGHTMETAL_INGOTS))
-				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 200)
+				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypeRegistry.STAT_WEIGHT.get(), -0.4)
 				.addModifier(GolemModifierRegistry.THORN.get(), 2)
 				.end()
 
 				.addMaterial(new ResourceLocation(MODID, "fiery"), Ingredient.of(ItemTagGenerator.FIERY_INGOTS))
-				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 150)
+				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 200)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 20)
 				.addModifier(GolemModifierRegistry.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifierRegistry.THORN.get(), 1)

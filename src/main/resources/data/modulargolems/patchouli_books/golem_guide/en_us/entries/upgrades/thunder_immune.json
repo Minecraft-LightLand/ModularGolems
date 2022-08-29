@@ -1,0 +1,12 @@
+{
+  "name": "Thunder Immune",
+  "icon": "modulargolems:thunder_immune",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:thunder_immune",
+	  "link_recipe": true
+	}
+  ]
+}

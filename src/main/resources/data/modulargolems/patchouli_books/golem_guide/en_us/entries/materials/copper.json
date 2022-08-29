@@ -1,0 +1,22 @@
+{
+  "name": "Copper",
+  "icon": "minecraft:copper_ingot",
+  "category": "modulargolems:materials",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "minecraft:copper_ingot",
+	  "link_recipe": true
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:copper\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:copper\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:copper\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:copper\"}]}",
+	  "link_recipe": true
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:copper\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:copper\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:copper\"}]}",
+	  "link_recipe": true
+	}
+  ]
+}

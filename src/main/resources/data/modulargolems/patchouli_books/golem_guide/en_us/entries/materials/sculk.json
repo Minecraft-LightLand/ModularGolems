@@ -1,0 +1,22 @@
+{
+  "name": "Sculk",
+  "icon": "minecraft:echo_shard",
+  "category": "modulargolems:materials",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "minecraft:echo_shard",
+	  "link_recipe": true
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:sculk\"}]}",
+	  "link_recipe": true
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:sculk\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:sculk\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:sculk\"}]}",
+	  "link_recipe": true
+	}
+  ]
+}

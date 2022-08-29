@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.init.data;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
+import dev.xkmc.modulargolems.compat.patchouli.PatchouliLang;
 import dev.xkmc.modulargolems.compat.twilightforest.TFCompat;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
@@ -73,6 +74,8 @@ public enum LangData {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.humanoid_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
 		}
+
+		PatchouliLang.genLang(pvd);
 
 	}
 

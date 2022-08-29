@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Upgrade",
+  "icon": "modulargolems:diamond",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:diamond",
+	  "link_recipe": true
+	}
+  ]
+}

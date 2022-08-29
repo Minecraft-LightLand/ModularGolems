@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.init.registrate;
 
+import dev.xkmc.l2library.base.L2Registrate;
+import dev.xkmc.l2library.repack.registrate.builders.ItemBuilder;
 import dev.xkmc.l2library.repack.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
@@ -82,25 +84,24 @@ public class GolemItemRegistry {
 
 		// upgrades
 		{
-			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifierRegistry.FIRE_IMMUNE);
-			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifierRegistry.THUNDER_IMMUNE);
-			RECYCLE = regUpgrade("recycle", () -> GolemModifierRegistry.RECYCLE);
-			DIAMOND = regUpgrade("diamond", () -> GolemModifierRegistry.DIAMOND);
-			NETHERITE = regUpgrade("netherite", () -> GolemModifierRegistry.NETHERITE);
-			QUARTZ = regUpgrade("quartz", () -> GolemModifierRegistry.QUARTZ);
-			GOLD = regUpgrade("gold", () -> GolemModifierRegistry.GOLD);
-			ENCHANTED_GOLD = regUpgrade("enchanted_gold", () -> GolemModifierRegistry.GOLD, 2, true);
+			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifierRegistry.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
+			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifierRegistry.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
+			RECYCLE = regUpgrade("recycle", () -> GolemModifierRegistry.RECYCLE).lang("Recycle Ugpgrade").register();
+			DIAMOND = regUpgrade("diamond", () -> GolemModifierRegistry.DIAMOND).lang("Diamond Upgrade").register();
+			NETHERITE = regUpgrade("netherite", () -> GolemModifierRegistry.NETHERITE).lang("Netherite Upgrade").register();
+			QUARTZ = regUpgrade("quartz", () -> GolemModifierRegistry.QUARTZ).lang("Quartz Upgrade").register();
+			GOLD = regUpgrade("gold", () -> GolemModifierRegistry.GOLD).lang("Golden Apple Upgrade").register();
+			ENCHANTED_GOLD = regUpgrade("enchanted_gold", () -> GolemModifierRegistry.GOLD, 2, true).lang("Enchanted Golden Apple Upgrade").register();
 		}
 	}
 
-	private static ItemEntry<UpgradeItem> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
+	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
 		return regUpgrade(id, mod, 1, false);
 	}
 
-	private static ItemEntry<UpgradeItem> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
+	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
 		return REGISTRATE.item(id, p -> new UpgradeItem(p, mod.get()::get, level, foil))
-				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/upgrades/" + id)))
-				.defaultLang().register();
+				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/upgrades/" + id)));
 	}
 
 	public static void register() {

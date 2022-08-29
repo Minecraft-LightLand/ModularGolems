@@ -29,16 +29,16 @@
   "stats": {
     "twilightforest:fiery": {
       "modulargolems:attack": 20.0,
-      "modulargolems:max_health": 150.0
+      "modulargolems:max_health": 200.0
     },
     "twilightforest:ironwood": {
       "modulargolems:attack": 10.0,
-      "modulargolems:max_health": 100.0,
+      "modulargolems:max_health": 200.0,
       "modulargolems:regen": 2.0
     },
     "twilightforest:knightmetal": {
       "modulargolems:attack": 20.0,
-      "modulargolems:max_health": 200.0,
+      "modulargolems:max_health": 300.0,
       "modulargolems:weight": -0.4
     },
     "twilightforest:steeleaf": {
