@@ -2,6 +2,7 @@
   "name": "Sculk",
   "icon": "minecraft:echo_shard",
   "category": "modulargolems:materials",
+  "sortnum": 105,
   "pages": [
 	{
 	  "type": "patchouli:spotlight",

@@ -1,0 +1,24 @@
+{
+  "mod": "twilightforest",
+  "name": "Knightmetal",
+  "icon": "twilightforest:knightmetal_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 203,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "twilightforest:knightmetal_ingot",
+	  "text": "Main material to craft knightmetal golem parts. knightmetal golem parts feature significant thorns and high stats. It's recommended for body or leg parts."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:knightmetal\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:knightmetal\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

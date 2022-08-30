@@ -1,0 +1,24 @@
+{
+  "mod": "twilightforest",
+  "name": "Steeleaf",
+  "icon": "twilightforest:steeleaf_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 202,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "twilightforest:steeleaf_ingot",
+	  "text": "Main material to craft steeleaf golem parts. steeleaf golem parts feature high attack but low health. It's recommended for arm parts."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:steeleaf\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:steeleaf\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:steeleaf\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:steeleaf\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:steeleaf\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:steeleaf\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:steeleaf\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

@@ -60,7 +60,10 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		getMaterial(stack).ifPresent(e -> {
 			GolemMaterial mat = parseMaterial(e);
 			list.add(mat.getDesc());
-			mat.modifiers().forEach((m, v) -> list.add(m.getTooltip(v)));
+			mat.modifiers().forEach((m, v) -> {
+				list.add(m.getTooltip(v));
+				list.addAll(m.getDetail(v));
+			});
 			mat.stats().forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 		});
 	}

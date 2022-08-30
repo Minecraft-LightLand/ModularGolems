@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.modifier.twilightforest;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.init.data.ModConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -15,7 +16,9 @@ import java.util.List;
 
 public class ThornModifier extends GolemModifier {
 
-	public static final double PERCENTAGE = 0.2; //TODO move to config
+	private static float getPercent() {
+		return (float) (double) ModConfig.COMMON.thorn.get();
+	}
 
 	public ThornModifier() {
 		super(StatFilterType.HEALTH, MAX_LEVEL);
@@ -31,12 +34,12 @@ public class ThornModifier extends GolemModifier {
 			return;
 		}
 		if (source.getDirectEntity() instanceof LivingEntity living && living.isAlive()) {
-			living.hurt(DamageSource.thorns(entity), (float) (event.getAmount() * PERCENTAGE * level));
+			living.hurt(DamageSource.thorns(entity), event.getAmount() * getPercent() * level);
 		}
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		int reflect = (int) Math.round(PERCENTAGE * v * 100);
+		int reflect = Math.round(getPercent() * v * 100);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", reflect).withStyle(ChatFormatting.GREEN));
 	}
 

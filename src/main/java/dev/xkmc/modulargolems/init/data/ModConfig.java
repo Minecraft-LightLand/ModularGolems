@@ -8,7 +8,14 @@ public class ModConfig {
 
 	public static class Common {
 
+		public final ForgeConfigSpec.DoubleValue thorn;
+		public final ForgeConfigSpec.DoubleValue fiery;
+
 		Common(ForgeConfigSpec.Builder builder) {
+			thorn = builder.comment("Percentage damage reflection per level of thorn")
+					.defineInRange("thorn", 0.2, 0, 100);
+			fiery = builder.comment("Percentage damage addition per level of fiery")
+					.defineInRange("fiery", 0.5, 0, 100);
 		}
 
 	}

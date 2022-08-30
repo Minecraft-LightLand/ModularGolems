@@ -2,6 +2,7 @@
   "name": "Copper",
   "icon": "minecraft:copper_ingot",
   "category": "modulargolems:materials",
+  "sortnum": 101,
   "pages": [
 	{
 	  "type": "patchouli:spotlight",

@@ -2,6 +2,7 @@
   "name": "Netherite",
   "icon": "minecraft:netherite_ingot",
   "category": "modulargolems:materials",
+  "sortnum": 104,
   "pages": [
 	{
 	  "type": "patchouli:spotlight",

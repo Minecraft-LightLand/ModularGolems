@@ -2,6 +2,7 @@
   "name": "Iron",
   "icon": "minecraft:iron_ingot",
   "category": "modulargolems:materials",
+  "sortnum": 102,
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
