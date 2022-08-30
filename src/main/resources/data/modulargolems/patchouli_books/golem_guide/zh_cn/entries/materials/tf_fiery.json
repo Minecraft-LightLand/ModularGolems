@@ -1,0 +1,24 @@
+{
+  "mod": "twilightforest",
+  "name": "Fiery",
+  "icon": "twilightforest:fiery_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 204,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "twilightforest:fiery_ingot",
+	  "text": "Main material to craft fiery golem parts. fiery golem parts feature thorn, fire immune, fiery attack, and high stats. It is recommended for arms for fiery attacks."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:fiery\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:fiery\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:fiery\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:fiery\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:fiery\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:fiery\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:fiery\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

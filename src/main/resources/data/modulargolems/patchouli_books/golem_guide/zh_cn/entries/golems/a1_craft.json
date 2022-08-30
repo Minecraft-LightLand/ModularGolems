@@ -1,0 +1,16 @@
+{
+  "name": "Crafting the golem",
+  "icon": "modulargolems:metal_golem_template",
+  "category": "modulargolems:golems",
+  "sortnum": 1,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "To craft a golem, use stone cutter to cut metal golem template into required parts. Then use anvil to apply metal ingots onto the parts. Then assemble the parts into a golem holder in crafting table. You can use parts of different materials to get better golems.$(br2)To summon golem, right click it on a block. You can retrieve the golem by right clicking it with empty hand."
+	},
+	{
+	  "type": "patchouli:text",
+	  "text": "You can fix the damaged golem with ingots matching the body material of the golem in anvil. Each ingot heals 1/4 of the max health. Thus, you can use cheap body material and expensive material for other parts to have high health while make it cheap to fix.$(br2)When the golem dies, it will only drop 1 ingot from each part. You can use the $(l:upgrades/recycle)Recycle Upgrade$(/l) to let the golem drop repairable holder on death."
+	}
+  ]
+}

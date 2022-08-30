@@ -1,0 +1,12 @@
+{
+  "name": "Quartz Upgrade",
+  "icon": "modulargolems:quartz",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:quartz",
+	  "text": "Increase golem attack damage by a bit. Max: 5"
+	}
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Gold",
+  "icon": "minecraft:gold_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 103,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "minecraft:gold_ingot",
+	  "text": "Main material to craft gold golem parts. Gold golem parts feature health regeneration, while having very low stats for all attributes.$(br2)It is recommended for body or legs if you want regeneration, and the other body or legs component should be some other material to get decent health for the golem."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:gold\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:gold\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:gold\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:gold\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:gold\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:gold\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:gold\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "mod": "twilightforest",
+  "name": "Ironwood",
+  "icon": "twilightforest:ironwood_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 201,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "twilightforest:ironwood_ingot",
+	  "text": "Main material to craft ironwood golem parts. ironwood golem parts feature high health and regeneration, but have very low attack. It is recommended for body or legs parts."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:ironwood\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:ironwood\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

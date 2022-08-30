@@ -1,0 +1,16 @@
+{
+  "name": "Upgrading the golem",
+  "icon": "modulargolems:recycle",
+  "category": "modulargolems:golems",
+  "sortnum": 2,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "To upgrade the golem, craft the upgrades and apply them in anvil. Upgrade can provide modifiers to golems, which adds special abilities or improve stats. Golem can only have limited upgrades, and each modifier has its own max level."
+	},
+	{
+	  "type": "patchouli:text",
+	  "text": "$(li)$(l:upgrades/recycle)Recycle Upgrade$(/l) will protect your golems from unrepairable damages.$(li)$(l:upgrades/diamond)Diamond$(/l) and $(l:upgrades/netherite)netherite$(/l) upgrade will improve golem defense.$(li)$(l:upgrades/gold)Golden apple upgrade$(/l) will allow golems to repair itself."
+	}
+  ]
+}

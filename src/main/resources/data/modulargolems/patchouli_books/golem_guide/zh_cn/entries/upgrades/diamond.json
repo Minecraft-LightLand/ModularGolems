@@ -1,0 +1,12 @@
+{
+  "name": "Diamond Upgrade",
+  "icon": "modulargolems:diamond",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:diamond",
+	  "text": "Adds armor value to golems. Improve golem survivability by a bit. Max: 2"
+	}
+  ]
+}

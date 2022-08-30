@@ -1,0 +1,12 @@
+{
+  "name": "Fire Immune",
+  "icon": "modulargolems:fire_immune",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:fire_immune",
+	  "text": "Make golem immune to fire damages."
+	}
+  ]
+}
