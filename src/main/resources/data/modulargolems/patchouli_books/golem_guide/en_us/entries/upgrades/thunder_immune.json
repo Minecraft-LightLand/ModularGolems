@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:thunder_immune",
-	  "link_recipe": true
+	  "text": "Make golem immune to thunder damages"
 	}
   ]
 }

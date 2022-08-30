@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:netherite",
-	  "link_recipe": true
+	  "text": "Adds armor value and toughness to golems. Improve golem survivability by a lot. Max: 2"
 	}
   ]
 }

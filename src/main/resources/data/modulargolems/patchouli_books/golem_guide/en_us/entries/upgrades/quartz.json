@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:quartz",
-	  "link_recipe": true
+	  "text": "Increase golem attack damage by a bit. Max: 5"
 	}
   ]
 }

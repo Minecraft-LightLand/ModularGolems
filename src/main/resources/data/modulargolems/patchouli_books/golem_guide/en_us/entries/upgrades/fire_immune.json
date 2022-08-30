@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:fire_immune",
-	  "link_recipe": true
+	  "text": "Make golem immune to fire damages."
 	}
   ]
 }

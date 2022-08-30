@@ -10,12 +10,12 @@
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:metal_golem_holder{golem_special:true,golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:iron\"}]}",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:iron\"}]}",
 	  "text": "Use JEI (press R) to check part stats of each part made of this material."
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:humanoid_golem_holder{golem_special:true,golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:iron\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:iron\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:iron\"}]}",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:iron\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:iron\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:iron\"}]}",
 	  "text": "Use JEI (press R) to check part stats of each part made of this material."
 	}
   ]

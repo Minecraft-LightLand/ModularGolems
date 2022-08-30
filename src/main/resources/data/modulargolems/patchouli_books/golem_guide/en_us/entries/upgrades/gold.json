@@ -6,12 +6,12 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:gold",
-	  "link_recipe": true
+	  "text": "Increase golem health regeneration by 1 level. Max level: 5"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:enchanted_gold",
-	  "link_recipe": true
+	  "text": "Increase golem health regeneration by 2 level. Max level: 5"
 	}
   ]
 }

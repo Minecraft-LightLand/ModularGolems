@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.LangData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -153,25 +154,35 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		float max = getMaxHealth(stack);
-		if (max >= 0) {
-			float health = getHealth(stack);
-			float f = Mth.clamp(health / max, 0f, 1f);
-			int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
-			MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
-			list.add(LangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
-		}
-		var mats = getMaterial(stack);
-		var upgrades = getUpgrades(stack);
-		var parts = getEntityType().values();
-		if (mats.size() == parts.length) {
-			for (int i = 0; i < parts.length; i++) {
-				list.add(parts[i].getDesc(mats.get(i).getDesc()));
+		if (!Screen.hasShiftDown()) {
+			float max = getMaxHealth(stack);
+			if (max >= 0) {
+				float health = getHealth(stack);
+				float f = Mth.clamp(health / max, 0f, 1f);
+				int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+				MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
+				list.add(LangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
 			}
+			var mats = getMaterial(stack);
+			var upgrades = getUpgrades(stack);
+			var parts = getEntityType().values();
+			if (mats.size() == parts.length) {
+				for (int i = 0; i < parts.length; i++) {
+					list.add(parts[i].getDesc(mats.get(i).getDesc()));
+				}
+			}
+			list.add(LangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
+			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
+			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
+			list.add(LangData.SHIFT.get());
+		} else {
+			var mats = getMaterial(stack);
+			var upgrades = getUpgrades(stack);
+			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> {
+				list.add(k.getTooltip(v));
+				list.addAll(k.getDetail(v));
+			});
 		}
-		list.add(LangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
-		GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
-		GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
 	}
 
 	@Override

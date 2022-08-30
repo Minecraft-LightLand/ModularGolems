@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:recycle",
-	  "link_recipe": true
+	  "text": "Golem drops repairable golem holder with 0 health on death."
 	}
   ]
 }

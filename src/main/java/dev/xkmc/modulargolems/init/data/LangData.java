@@ -15,7 +15,8 @@ import java.util.Locale;
 
 public enum LangData {
 	HEALTH("tooltip.health", "Health: %s/%s", 2, null),
-	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null);
+	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null),
+	SHIFT("tooltip.shift", "Press SHIFT to show modifier details", 0, ChatFormatting.GRAY);
 
 	private final String key, def;
 	private final int arg;

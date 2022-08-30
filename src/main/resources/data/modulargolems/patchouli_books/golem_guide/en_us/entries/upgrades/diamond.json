@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:diamond",
-	  "link_recipe": true
+	  "text": "Adds armor value to golems. Improve golem survivability by a bit. Max: 2"
 	}
   ]
 }
