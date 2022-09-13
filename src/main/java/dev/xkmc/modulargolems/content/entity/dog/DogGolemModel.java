@@ -100,7 +100,7 @@ public class DogGolemModel extends HierarchicalModel<DogGolemEntity> implements 
     public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
         String id = rl.getNamespace();
         String mat = rl.getPath();
-        return new ResourceLocation(id, "textures/entity/metal_golem/" + mat + ".png");
+        return new ResourceLocation(id, "textures/entity/dog_golem/" + mat + ".png");
     }
 
 }
