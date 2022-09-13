@@ -1,4 +1,4 @@
-// 1.19.2	2022-09-13T17:01:08.4669158	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.2	2022-09-14T01:14:21.7009016	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 671c684a083ca3fac78c3d156fbd7385fd157878 assets/modulargolems/lang/en_ud.json
 a2b3b3e92ed6465e1142aa79e2d17343a329f157 assets/modulargolems/lang/en_us.json
 1944c2312dc28e55270781c133191dced9b12de1 assets/modulargolems/models/item/diamond.json
@@ -22,6 +22,9 @@ d864125084b476a58d79a97a792e24b1f0489865 assets/modulargolems/models/item/nether
 cd5c3b221411fb57e35fcfc1ac5c223eb495adef assets/modulargolems/models/item/recycle.json
 1898e07c979f496fcda02b4c7677e644d9c8bffe assets/modulargolems/models/item/thunder_immune.json
 fe251f41c1738034f5a270444c1671538d981b46 data/modulargolems/advancements/recipes/modulargolems.golems/diamond.json
+7ba7a18a215d899690ecc0d97ed90017e7156b6d data/modulargolems/advancements/recipes/modulargolems.golems/dog_golem_body_from_metal_golem_template_stonecutting.json
+4c4e689df776050233091e9e92e504c7ad172a98 data/modulargolems/advancements/recipes/modulargolems.golems/dog_golem_holder.json
+f7b092e08764c3f721d7dbcc4af7318e20a07877 data/modulargolems/advancements/recipes/modulargolems.golems/dog_golem_legs_from_metal_golem_template_stonecutting.json
 4744c05978e22c9da29efade25e670e356443301 data/modulargolems/advancements/recipes/modulargolems.golems/enchanted_gold.json
 15fdfda6ebfaf816d3b4567ba0b5868d18fdba09 data/modulargolems/advancements/recipes/modulargolems.golems/fire_immune.json
 54dd20943b697823cf530398d112de02888e09b6 data/modulargolems/advancements/recipes/modulargolems.golems/gold.json
@@ -39,6 +42,9 @@ a012acb7f8f7cc8b2c2f1f29d64b2714943bdbf5 data/modulargolems/advancements/recipes
 50d83baf8f5fcd53bf62d82c18af94073e45a9cf data/modulargolems/advancements/recipes/modulargolems.golems/recycle.json
 0529dcaaffb40917862e3f5b8465a1cc1f6d0fe5 data/modulargolems/advancements/recipes/modulargolems.golems/thunder_immune.json
 3ee1ad6e2050f2856a5fbb2168abd689df8c75ce data/modulargolems/recipes/diamond.json
+7c77fca8fb6291ec838b12969ed6b8071052c3e2 data/modulargolems/recipes/dog_golem_body_from_metal_golem_template_stonecutting.json
+7d221b382d4a1ad88dcab6cbad2730782c65a94d data/modulargolems/recipes/dog_golem_holder.json
+c6deded7a4f51cd808017d2bf9275ee389b6f7d9 data/modulargolems/recipes/dog_golem_legs_from_metal_golem_template_stonecutting.json
 589ad7ee1bc02b343cac0d4306bd7aafb09d4154 data/modulargolems/recipes/enchanted_gold.json
 6ee8f3f7f6c182e1664105c6dc0425c73c6d5c51 data/modulargolems/recipes/fire_immune.json
 de94232ce7906b4fff3a968109b1cfb557e03546 data/modulargolems/recipes/gold.json

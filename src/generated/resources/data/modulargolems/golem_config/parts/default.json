@@ -52,7 +52,7 @@
   },
   "magnifiers": {
     "modulargolems:dog_golem": {
-      "modulargolems:attack": 0.25,
+      "modulargolems:attack": 0.5,
       "modulargolems:max_health": 0.25,
       "modulargolems:regen": 0.25
     },

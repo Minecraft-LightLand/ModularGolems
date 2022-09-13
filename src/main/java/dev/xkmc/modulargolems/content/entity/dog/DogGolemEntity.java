@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
-import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -9,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.players.OldUsersConverter;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -25,12 +23,11 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
@@ -38,14 +35,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Optional;
-import java.util.UUID;
-
 public class DogGolemEntity extends SweepGolemEntity<DogGolemEntity, DogGolemPartType> {
 
     public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
         super(type, level);
-        this.maxUpStep = 1.0F;
     }
 
     protected boolean performDamageTarget(Entity target, float damage, double kb) {
@@ -97,6 +90,10 @@ public class DogGolemEntity extends SweepGolemEntity<DogGolemEntity, DogGolemPar
 
     }
 
+    public void setOrderedToSit(boolean p_21840_) {
+        this.orderedToSit = p_21840_;
+    }
+
     // ------ vanilla golem behavior
 
     private int attackAnimationTick;
@@ -134,58 +131,30 @@ public class DogGolemEntity extends SweepGolemEntity<DogGolemEntity, DogGolemPar
     }
 
     public boolean doHurtTarget(Entity target) {
-        this.attackAnimationTick = 10;
-        this.level.broadcastEntityEvent(this, (byte) 4);
-        float rawDamage = this.getAttackDamage();
-        float damage = (int) rawDamage > 0 ? rawDamage / 2.0F + (float) this.random.nextInt((int) rawDamage) : rawDamage;
-        double kb;
-        if (target instanceof LivingEntity livingentity) {
-            kb = livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
-        } else {
-            kb = 0;
+        boolean flag = target.hurt(DamageSource.mobAttack(this), (float)(this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        if (flag) {
+            this.doEnchantDamageEffects(this, target);
         }
-        boolean flag = performRangedDamage(target, damage, kb);
-        this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
         return flag;
     }
 
     public boolean hurt(DamageSource source, float amount) {
-        IronGolem.Crackiness crack = this.getCrackiness();
-        boolean flag = super.hurt(source, amount);
-        if (flag && this.getCrackiness() != crack) {
-            this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);
+        if (!this.level.isClientSide) {
+            this.setOrderedToSit(false);
         }
-        return flag;
-    }
-
-    public IronGolem.Crackiness getCrackiness() {
-        return IronGolem.Crackiness.byFraction(this.getHealth() / this.getMaxHealth());
-    }
-
-    public void handleEntityEvent(byte event) {
-        if (event == 4) {
-            this.attackAnimationTick = 10;
-            this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-        } else {
-            super.handleEntityEvent(event);
-        }
-
-    }
-
-    public int getAttackAnimationTick() {
-        return this.attackAnimationTick;
+        return true;
     }
 
     protected SoundEvent getHurtSound(DamageSource p_28872_) {
-        return SoundEvents.IRON_GOLEM_HURT;
+        return SoundEvents.WOLF_HURT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.IRON_GOLEM_DEATH;
+        return SoundEvents.WOLF_DEATH;
     }
 
     protected void playStepSound(BlockPos p_28864_, BlockState p_28865_) {
-        this.playSound(SoundEvents.IRON_GOLEM_STEP, 1.0F, 1.0F);
+        this.playSound(SoundEvents.WOLF_STEP, 1.0F, 1.0F);
     }
 
     public boolean checkSpawnObstruction(LevelReader p_28853_) {
@@ -208,31 +177,17 @@ public class DogGolemEntity extends SweepGolemEntity<DogGolemEntity, DogGolemPar
     }
 
     public Vec3 getLeashOffset() {
-        return new Vec3(0.0D, 0.875F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
+        return new Vec3(0.0D, (double)(0.6F * this.getEyeHeight()), (double)(this.getBbWidth() * 0.4F));
     }
 
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (getMaterials().size() != DogGolemPartType.values().length)
+        if (itemstack.isEmpty())
             return super.mobInteract(player, hand);
-        var mat = getMaterials().get(DogGolemPartType.BODY.ordinal());
-        Ingredient ing = GolemMaterialConfig.get().ingredients.get(mat.id());
-        if (!ing.test(itemstack)) {
-            return super.mobInteract(player, hand);
-        } else {
-            float f = this.getHealth();
-            this.heal(getMaxHealth() / 4f);
-            if (this.getHealth() == f) {
-                return InteractionResult.PASS;
-            } else {
-                float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-                this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-                return InteractionResult.sidedSuccess(this.level.isClientSide);
-            }
+        else if (itemstack.getItem() == Items.BONE) {
+            this.setInSittingPose(!orderedToSit);
         }
+        return InteractionResult.FAIL;
     }
 
 }

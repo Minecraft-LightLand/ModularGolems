@@ -118,7 +118,7 @@ public class ConfigGen extends ConfigDataProvider {
 
 				.addEntity(GolemTypeRegistry.TYPE_DOG.get())
 				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.25)
-				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.25)
+				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.5)
 				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.25)
 				.end()
 		);
