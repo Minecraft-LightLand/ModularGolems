@@ -1,5 +1,5 @@
 {
-  "name": "Materials",
-  "description": "Types of materials player can use to craft golem parts",
+  "name": "材料",
+  "description": "可用于制作傀儡部件的材料",
   "icon": "minecraft:iron_ingot"
 }
