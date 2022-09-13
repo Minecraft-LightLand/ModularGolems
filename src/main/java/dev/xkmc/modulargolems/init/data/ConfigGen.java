@@ -95,6 +95,18 @@ public class ConfigGen extends ConfigDataProvider {
 				.addFilter(StatFilterType.MOVEMENT, 1)
 				.addFilter(StatFilterType.MASS, 0.3).end()
 
+				.addPart(GolemItemRegistry.DOG_BODY.get())
+				.addFilter(StatFilterType.HEALTH, 0.75)
+				.addFilter(StatFilterType.ATTACK, 1)
+				.addFilter(StatFilterType.MOVEMENT, 0)
+				.addFilter(StatFilterType.MASS, 0.7).end()
+
+				.addPart(GolemItemRegistry.DOG_LEGS.get())
+				.addFilter(StatFilterType.HEALTH, 0.25)
+				.addFilter(StatFilterType.ATTACK, 0)
+				.addFilter(StatFilterType.MOVEMENT, 1)
+				.addFilter(StatFilterType.MASS, 0.3).end()
+
 				.addEntity(GolemTypeRegistry.TYPE_GOLEM.get())
 				.end()
 
@@ -102,6 +114,12 @@ public class ConfigGen extends ConfigDataProvider {
 				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.4)
 				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.3)
 				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.5)
+				.end()
+
+				.addEntity(GolemTypeRegistry.TYPE_DOG.get())
+				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.25)
+				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.25)
+				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.25)
 				.end()
 		);
 	}

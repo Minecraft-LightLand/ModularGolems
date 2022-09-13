@@ -39,13 +39,13 @@ public enum DogGolemPartType implements IGolemPart<DogGolemPartType> {
             case THIRD_PERSON_LEFT_HAND:
             case THIRD_PERSON_RIGHT_HAND: {
                 stack.translate(0.25, 0.4, 0.5);
-                float size = 0.625f;
+                float size = 1.25F;
                 stack.scale(size, size, size);
                 break;
             }
             case GROUND: {
                 stack.translate(0.25, 0, 0.5);
-                float size = 0.625f;
+                float size = 1.25F;
                 stack.scale(size, size, size);
                 break;
             }
@@ -53,7 +53,7 @@ public enum DogGolemPartType implements IGolemPart<DogGolemPartType> {
             case HEAD:
             case FIXED: {
                 stack.translate(0.5, 0.5, 0.5);
-                float size = 0.5f;
+                float size = 1f;
                 stack.scale(size, -size, size);
                 stack.translate(0, -0.5, 0);
                 return;
@@ -62,17 +62,17 @@ public enum DogGolemPartType implements IGolemPart<DogGolemPartType> {
         stack.mulPose(Vector3f.ZP.rotationDegrees(135));
         stack.mulPose(Vector3f.YP.rotationDegrees(-155));
         if (part == null) {
-            float size = 0.45f;
+            float size = 1f;
             stack.scale(size, size, size);
-            stack.translate(0, -2, 0);
+            stack.translate(0, 0, 0);
         } else if (part == BODY) {
-            float size = 0.65f;
+            float size = 1f;
             stack.scale(size, size, size);
-            stack.translate(0, -1.2, 0);
+            stack.translate(0, 0, 0);
         } else if (part == LEGS) {
-            float size = 0.8f;
+            float size = 1f;
             stack.scale(size, size, size);
-            stack.translate(0, -2, 0);
+            stack.translate(0, 0, 0);
         }
     }
 
