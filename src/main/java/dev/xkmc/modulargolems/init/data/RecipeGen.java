@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init.data;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.repack.registrate.util.DataIngredient;
+import dev.xkmc.modulargolems.compat.materials.CompatManager;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -104,6 +105,8 @@ public class RecipeGen {
 					.save(pvd);
 
 		}
+
+		CompatManager.dispatchGenRecipe(pvd);
 	}
 
 	public static <T> T unlock(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {

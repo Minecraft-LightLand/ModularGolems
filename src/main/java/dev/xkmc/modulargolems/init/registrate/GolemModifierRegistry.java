@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.init.registrate;
 
 import dev.xkmc.l2library.base.L2Registrate;
+import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.repack.registrate.util.nullness.NonNullSupplier;
@@ -45,6 +46,16 @@ public class GolemModifierRegistry {
 		)).register();
 
 		THORN = reg("thorn", ThornModifier::new, "Reflect %s%% damage");
+	}
+
+	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {
+		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
+		var ans = REGISTRATE.generic(GolemTypeRegistry.MODIFIERS, id, sup).defaultLang();
+		ans.lang(NamedEntry::getDescriptionId, name);
+		ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
+		var result = ans.register();
+		holder.setValue(result);
+		return result;
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String def) {

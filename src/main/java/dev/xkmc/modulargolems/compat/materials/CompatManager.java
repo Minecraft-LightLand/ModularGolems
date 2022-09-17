@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
+import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.ModList;
@@ -28,4 +29,9 @@ public abstract class CompatManager {
 		}
 	}
 
+	public static void dispatchGenRecipe(RegistrateRecipeProvider pvd) {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.genRecipe(pvd);
+		}
+	}
 }

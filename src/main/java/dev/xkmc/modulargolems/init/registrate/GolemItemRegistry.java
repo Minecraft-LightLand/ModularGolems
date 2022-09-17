@@ -95,11 +95,11 @@ public class GolemItemRegistry {
 		}
 	}
 
-	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
+	public static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
 		return regUpgrade(id, mod, 1, false);
 	}
 
-	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
+	public static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
 		return REGISTRATE.item(id, p -> new UpgradeItem(p, mod.get()::get, level, foil))
 				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/upgrades/" + id)));
 	}

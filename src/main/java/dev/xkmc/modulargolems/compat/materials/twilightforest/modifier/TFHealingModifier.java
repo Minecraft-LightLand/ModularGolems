@@ -30,5 +30,4 @@ public class TFHealingModifier extends GolemModifier {
 		return List.of(Component.translatable(getDescriptionId() + ".desc", bonus).withStyle(ChatFormatting.GREEN));
 	}
 
-
 }
