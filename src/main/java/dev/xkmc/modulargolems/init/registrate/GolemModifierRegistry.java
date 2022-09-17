@@ -7,11 +7,10 @@ import dev.xkmc.l2library.repack.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.common.RecycleModifier;
+import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.FireImmuneModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.MagicImmuneModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.ThunderImmuneModifier;
-import dev.xkmc.modulargolems.content.modifier.twilightforest.FieryModifier;
-import dev.xkmc.modulargolems.content.modifier.twilightforest.ThornModifier;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -23,10 +22,8 @@ public class GolemModifierRegistry {
 	public static final RegistryEntry<ThunderImmuneModifier> THUNDER_IMMUNE;
 	public static final RegistryEntry<MagicImmuneModifier> MAGIC_IMMUNE;
 	public static final RegistryEntry<RecycleModifier> RECYCLE;
-	public static final RegistryEntry<AttributeGolemModifier> DIAMOND, NETHERITE, QUARTZ, GOLD;
-
 	public static final RegistryEntry<ThornModifier> THORN;
-	public static final RegistryEntry<FieryModifier> FIERY;
+	public static final RegistryEntry<AttributeGolemModifier> DIAMOND, NETHERITE, QUARTZ, GOLD;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new, "Immune to fire damage");
@@ -48,10 +45,9 @@ public class GolemModifierRegistry {
 		)).register();
 
 		THORN = reg("thorn", ThornModifier::new, "Reflect %s%% damage");
-		FIERY = reg("fiery", FieryModifier::new, "Deal %s%% fire damage to mobs not immune to fire");
 	}
 
-	private static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String def) {
+	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String def) {
 		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
 		var ans = REGISTRATE.generic(GolemTypeRegistry.MODIFIERS, id, sup).defaultLang();
 		ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
@@ -60,7 +56,7 @@ public class GolemModifierRegistry {
 		return result;
 	}
 
-	private static <T extends GolemModifier> L2Registrate.GenericBuilder<GolemModifier, T> reg(String id, NonNullSupplier<T> sup) {
+	public static <T extends GolemModifier> L2Registrate.GenericBuilder<GolemModifier, T> reg(String id, NonNullSupplier<T> sup) {
 		return REGISTRATE.generic(GolemTypeRegistry.MODIFIERS, id, sup).defaultLang();
 	}
 

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.modifier.twilightforest;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.modifier;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "twilightforest:ironwood_ingot",
-	  "text": "Main material to craft ironwood golem parts. ironwood golem parts feature high health and regeneration, but have very low attack. It is recommended for body or legs parts."
+	  "text": "Main material to craft ironwood golem parts. ironwood golem parts feature high health and regeneration, but have very low attack. It is recommended for body or legs parts.$(br2)Twilight Forest golems will gain healing and damage bonus while in the Twilight Forest."
 	},
 	{
 	  "type": "patchouli:spotlight",

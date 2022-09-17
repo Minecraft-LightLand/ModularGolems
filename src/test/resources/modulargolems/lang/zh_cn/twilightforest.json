@@ -6,5 +6,9 @@
   "modifier.modulargolems.fiery": "炽热",
   "modifier.modulargolems.fiery.desc": "对不免疫火焰伤害的生物造成 %s%% 火焰伤害",
   "modifier.modulargolems.thorn": "荆棘",
-  "modifier.modulargolems.thorn.desc": "反射 %s%% 伤害"
+  "modifier.modulargolems.thorn.desc": "反射 %s%% 伤害",
+  "modifier.modulargolems.tf_damage": "暮色伤害加成",
+  "modifier.modulargolems.tf_damage.desc": "在暮色森林里造成%s%%伤害",
+  "modifier.modulargolems.tf_healing": "暮色再生加成",
+  "modifier.modulargolems.tf_healing.desc": "在暮色森林里回复%s%%原本回复量"
 }

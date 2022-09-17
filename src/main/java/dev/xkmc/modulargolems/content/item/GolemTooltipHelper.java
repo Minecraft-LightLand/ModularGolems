@@ -1,2 +1,4 @@
-package dev.xkmc.modulargolems.content.item;public class GolemTooltipHelper {
+package dev.xkmc.modulargolems.content.item;
+
+public class GolemTooltipHelper {
 }

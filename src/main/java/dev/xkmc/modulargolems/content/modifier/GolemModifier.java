@@ -77,9 +77,24 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	/**
+	 * modify healing
+	 */
+	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
+		return heal;
+	}
+
+	/**
+	 * modify damage
+	 */
+	public float modifyDamage(float damage, AbstractGolemEntity<?, ?> entity, int level) {
+		return damage;
+	}
+
+	/**
 	 * provide more slots
 	 */
 	public int addSlot() {
 		return 0;
 	}
+
 }

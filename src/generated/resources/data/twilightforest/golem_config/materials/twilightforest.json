@@ -18,13 +18,23 @@
     "twilightforest:fiery": {
       "modulargolems:fiery": 1,
       "modulargolems:fire_immune": 1,
+      "modulargolems:tf_damage": 1,
+      "modulargolems:tf_healing": 1,
       "modulargolems:thorn": 1
     },
-    "twilightforest:ironwood": {},
+    "twilightforest:ironwood": {
+      "modulargolems:tf_damage": 1,
+      "modulargolems:tf_healing": 1
+    },
     "twilightforest:knightmetal": {
+      "modulargolems:tf_damage": 1,
+      "modulargolems:tf_healing": 1,
       "modulargolems:thorn": 2
     },
-    "twilightforest:steeleaf": {}
+    "twilightforest:steeleaf": {
+      "modulargolems:tf_damage": 1,
+      "modulargolems:tf_healing": 1
+    }
   },
   "stats": {
     "twilightforest:fiery": {

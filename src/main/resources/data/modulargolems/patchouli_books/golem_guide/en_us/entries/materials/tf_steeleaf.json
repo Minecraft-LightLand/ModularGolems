@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "twilightforest:steeleaf_ingot",
-	  "text": "Main material to craft steeleaf golem parts. steeleaf golem parts feature high attack but low health. It's recommended for arm parts."
+	  "text": "Main material to craft steeleaf golem parts. steeleaf golem parts feature high attack but low health. It's recommended for arm parts.$(br2)Twilight Forest golems will gain healing and damage bonus while in the Twilight Forest."
 	},
 	{
 	  "type": "patchouli:spotlight",

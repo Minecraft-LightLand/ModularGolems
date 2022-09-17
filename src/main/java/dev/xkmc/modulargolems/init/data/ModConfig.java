@@ -10,12 +10,21 @@ public class ModConfig {
 
 		public final ForgeConfigSpec.DoubleValue thorn;
 		public final ForgeConfigSpec.DoubleValue fiery;
+		public final ForgeConfigSpec.DoubleValue magicResistance;
+		public final ForgeConfigSpec.DoubleValue compatTFHealing;
+		public final ForgeConfigSpec.DoubleValue compatTFDamage;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			thorn = builder.comment("Percentage damage reflection per level of thorn")
 					.defineInRange("thorn", 0.2, 0, 100);
 			fiery = builder.comment("Percentage damage addition per level of fiery")
 					.defineInRange("fiery", 0.5, 0, 100);
+			magicResistance = builder.comment("Percentage damage reduction per level of magic resistance")
+					.defineInRange("magicResistance", 0.2, 0, 1);
+			compatTFHealing = builder.comment("Percentage healing bonus per level of twilight healing")
+					.defineInRange("compatTFHealing", 0.5, 0, 100);
+			compatTFDamage = builder.comment("Percentage damage bonus per level of twilight damage")
+					.defineInRange("compatTFDamage", 0.2, 0, 100);
 		}
 
 	}
