@@ -1,0 +1,13 @@
+{
+  "mod": "twilightforest",
+  "name": "Ironwood Upgrade",
+  "icon": "modulargolems:ironwood",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:ironwood",
+	  "text": "More healing bonus in twilight forest. Max: 5"
+	}
+  ]
+}

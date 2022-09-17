@@ -24,24 +24,24 @@ public class GolemModifierRegistry {
 	public static final RegistryEntry<MagicImmuneModifier> MAGIC_IMMUNE;
 	public static final RegistryEntry<RecycleModifier> RECYCLE;
 	public static final RegistryEntry<ThornModifier> THORN;
-	public static final RegistryEntry<AttributeGolemModifier> DIAMOND, NETHERITE, QUARTZ, GOLD;
+	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new, "Immune to fire damage");
 		THUNDER_IMMUNE = reg("thunder_immune", ThunderImmuneModifier::new, "Immune to lightning bolt damage");
 		MAGIC_IMMUNE = reg("magic_immune", MagicImmuneModifier::new, "Immune to magic damage");
 		RECYCLE = reg("recycle", RecycleModifier::new, "Drop golem holder of 0 health when killed");
-		DIAMOND = reg("armor_up", () -> new AttributeGolemModifier(2,
+		ARMOR = reg("armor_up", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ARMOR, 10)
 		)).register();
-		NETHERITE = reg("toughness_up", () -> new AttributeGolemModifier(2,
+		TOUGH = reg("toughness_up", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ARMOR, 10),
 				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_TOUGH, 6)
 		)).register();
-		QUARTZ = reg("damage_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
+		DAMAGE = reg("damage_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ATTACK, 2)
 		)).register();
-		GOLD = reg("regeneration_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
+		REGEN = reg("regeneration_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_REGEN, 1)
 		)).register();
 
