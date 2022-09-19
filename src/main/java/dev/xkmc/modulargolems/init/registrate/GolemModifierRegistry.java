@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.modifier.common.RecycleModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.FireImmuneModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.MagicImmuneModifier;
+import dev.xkmc.modulargolems.content.modifier.immunes.MagicResistanceModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.ThunderImmuneModifier;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
@@ -22,6 +23,7 @@ public class GolemModifierRegistry {
 	public static final RegistryEntry<FireImmuneModifier> FIRE_IMMUNE;
 	public static final RegistryEntry<ThunderImmuneModifier> THUNDER_IMMUNE;
 	public static final RegistryEntry<MagicImmuneModifier> MAGIC_IMMUNE;
+	public static final RegistryEntry<MagicResistanceModifier> MAGIC_RES;
 	public static final RegistryEntry<RecycleModifier> RECYCLE;
 	public static final RegistryEntry<ThornModifier> THORN;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
@@ -30,6 +32,7 @@ public class GolemModifierRegistry {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new, "Immune to fire damage");
 		THUNDER_IMMUNE = reg("thunder_immune", ThunderImmuneModifier::new, "Immune to lightning bolt damage");
 		MAGIC_IMMUNE = reg("magic_immune", MagicImmuneModifier::new, "Immune to magic damage");
+		MAGIC_RES = reg("magic_resistant", MagicResistanceModifier::new, "Magic damage taken reduced to %s%% of original");
 		RECYCLE = reg("recycle", RecycleModifier::new, "Drop golem holder of 0 health when killed");
 		ARMOR = reg("armor_up", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ARMOR, 10)

@@ -34,4 +34,5 @@ public class FieryModifier extends GolemModifier {
 			event.setAmount(event.getAmount() * (1 + getPercent() * level));
 		}
 	}
+
 }

@@ -1,6 +1,6 @@
-// 1.19.2	2022-09-17T16:42:48.931723	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-9154b63b613a442bac4313bbe1ce4f3da80c8d5b assets/modulargolems/lang/en_ud.json
-73afcc26ea004e7f9ffa69d74e13a8d568eb0354 assets/modulargolems/lang/en_us.json
+// 1.19.2	2022-09-19T14:45:26.875593	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+51416865ba794f972b5a71832a115c3ab8272711 assets/modulargolems/lang/en_ud.json
+7dd83fc7827ea850b1f81c37eacd7c28c59e268d assets/modulargolems/lang/en_us.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 1944c2312dc28e55270781c133191dced9b12de1 assets/modulargolems/models/item/diamond.json
 9f4145920cab9ff763911fa096cb23f9683c5e21 assets/modulargolems/models/item/enchanted_gold.json

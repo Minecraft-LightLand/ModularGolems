@@ -55,6 +55,8 @@
   "modifier.modulargolems.fire_immune.desc": "Immune to fire damage",
   "modifier.modulargolems.magic_immune": "Magic Immune",
   "modifier.modulargolems.magic_immune.desc": "Immune to magic damage",
+  "modifier.modulargolems.magic_resistant": "Magic Resistant",
+  "modifier.modulargolems.magic_resistant.desc": "Magic damage taken reduced to %s%% of original",
   "modifier.modulargolems.naga": "Naga",
   "modifier.modulargolems.recycle": "Recycle",
   "modifier.modulargolems.recycle.desc": "Drop golem holder of 0 health when killed",

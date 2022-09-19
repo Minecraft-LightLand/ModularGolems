@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.init.data;
 
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import org.apache.commons.lang3.tuple.Pair;
@@ -14,6 +15,7 @@ public class ModConfig {
 		public final ForgeConfigSpec.DoubleValue compatTFHealing;
 		public final ForgeConfigSpec.DoubleValue compatTFDamage;
 		public final ForgeConfigSpec.IntValue carminiteTime;
+		public final ForgeConfigSpec.DoubleValue coating;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			thorn = builder.comment("Percentage damage reflection per level of thorn")
@@ -28,6 +30,8 @@ public class ModConfig {
 					.defineInRange("compatTFDamage", 0.2, 0, 100);
 			carminiteTime = builder.comment("Time for the golem to be invincible (in ticks) per level of carminite")
 					.defineInRange("carminiteTime", 29, 1, 100000);
+			coating = builder.comment("Percentage damage absorption applied per level of coating")
+					.defineInRange("coating", 0.2, 0, 1);
 		}
 
 	}

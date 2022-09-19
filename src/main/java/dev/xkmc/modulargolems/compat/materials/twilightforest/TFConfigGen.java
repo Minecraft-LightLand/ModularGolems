@@ -24,14 +24,6 @@ public class TFConfigGen extends ConfigDataProvider {
 	}
 
 	public void add(Map<String, BaseConfig> map) {
-		if (ModList.get().isLoaded(TFDispatch.MODID)) {
-			addImpl(map);
-		}
-	}
-
-	private void addImpl(Map<String, BaseConfig> map) {
-		ITagManager<Item> manager = Objects.requireNonNull(ForgeRegistries.ITEMS.tags());
-
 		map.put("materials/" + TFDispatch.MODID, new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(TFDispatch.MODID, "ironwood"), Ingredient.of(ItemTagGenerator.IRONWOOD_INGOTS))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 200)
