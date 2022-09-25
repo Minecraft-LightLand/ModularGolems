@@ -48,13 +48,15 @@ public class DogGolemEntity extends SweepGolemEntity<DogGolemEntity, DogGolemPar
             le.setLastHurtByPlayer(getOwner());
         }
         boolean succeed = target.hurt(DamageSource.mobAttack(this), damage);
-        if (succeed) {
-            double d1 = Math.max(0.0D, 1.0D - kb);
-            double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
-            target.setDeltaMovement(target.getDeltaMovement().add(0.0D, dokb * d1, 0.0D));
-            this.doEnchantDamageEffects(this, target);
-        }
         return succeed;
+    }
+
+    public float getTailAngle() {
+        if (this.isAngry()) {
+            return 1.5393804F;
+        } else {
+            return (0.55F - (this.getMaxHealth() - this.getHealth()) * 0.02F) * (float)Math.PI;
+        }
     }
 
     // sit
@@ -187,7 +189,7 @@ public class DogGolemEntity extends SweepGolemEntity<DogGolemEntity, DogGolemPar
         if (itemstack.isEmpty())
             return super.mobInteract(player, hand);
         else if (itemstack.getItem() == Items.BONE) {
-            this.setInSittingPose(!orderedToSit);
+            this.setInSittingPose(!this.isInSittingPose());
         }
         return InteractionResult.FAIL;
     }

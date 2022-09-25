@@ -42,16 +42,16 @@ public class DogGolemModel extends HierarchicalModel<DogGolemEntity> implements 
         return this.root;
     }
 
-    public void setupAnim(DogGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
-        this.head.xRot = f5 * ((float)Math.PI / 180F);
-        this.head.yRot = f4 * ((float)Math.PI / 180F);
-        this.tail.xRot = f3;
+    public void setupAnim(DogGolemEntity dog, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+        this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
+        this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
+        this.tail.xRot = pAgeInTicks;
     }
 
-    public void prepareMobModel(DogGolemEntity entity, float f1, float f2, float f3) {
-        this.tail.yRot = Mth.cos(f1 * 0.6662F) * 1.4F * f2;
+    public void prepareMobModel(DogGolemEntity dog, float pLimbSwing, float pLimbSwingAmount, float pPartialTick) {
+        this.tail.yRot = Mth.cos(pLimbSwing * 0.6662F) * 1.4F * pPartialTick;
 
-        if (entity.isInSittingPose()) {
+        if (dog.isInSittingPose()) {
             this.upperBody.setPos(-1.0F, 16.0F, -3.0F);
             this.upperBody.xRot = 1.2566371F;
             this.upperBody.yRot = 0.0F;
@@ -76,10 +76,10 @@ public class DogGolemModel extends HierarchicalModel<DogGolemEntity> implements 
             this.leftHindLeg.setPos(0.5F, 16.0F, 7.0F);
             this.rightFrontLeg.setPos(-2.5F, 16.0F, -4.0F);
             this.leftFrontLeg.setPos(0.5F, 16.0F, -4.0F);
-            this.rightHindLeg.xRot = Mth.cos(f1 * 0.6662F) * 1.4F * f2;
-            this.leftHindLeg.xRot = Mth.cos(f1 * 0.6662F + (float)Math.PI) * 1.4F * f2;
-            this.rightFrontLeg.xRot = Mth.cos(f1 * 0.6662F + (float)Math.PI) * 1.4F * f2;
-            this.leftFrontLeg.xRot = Mth.cos(f1 * 0.6662F) * 1.4F * f2;
+            this.rightHindLeg.xRot = Mth.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
+            this.leftHindLeg.xRot = Mth.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount;
+            this.rightFrontLeg.xRot = Mth.cos(pLimbSwing * 0.6662F + (float)Math.PI) * 1.4F * pLimbSwingAmount;
+            this.leftFrontLeg.xRot = Mth.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
         }
     }
 
