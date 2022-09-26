@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.init.data;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.repack.registrate.util.DataIngredient;
-import dev.xkmc.modulargolems.compat.materials.CompatManager;
+import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;

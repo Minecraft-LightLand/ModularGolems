@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.compat.materials;
+package dev.xkmc.modulargolems.compat.materials.common.modifier;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

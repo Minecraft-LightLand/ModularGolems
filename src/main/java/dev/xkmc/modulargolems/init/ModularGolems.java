@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.init;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.l2library.serial.unified.UnifiedCodec;
-import dev.xkmc.modulargolems.compat.materials.CompatManager;
+import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.events.CraftEvents;
 import dev.xkmc.modulargolems.events.GolemEvents;
 import dev.xkmc.modulargolems.init.data.ConfigGen;

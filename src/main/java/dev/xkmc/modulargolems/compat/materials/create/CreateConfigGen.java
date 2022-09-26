@@ -29,7 +29,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 
 		map.put("materials/" + CreateDispatch.MODID, new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "zinc"),
-						Ingredient.of(AllItems.ZINC_INGOT.get()))
+						Ingredient.of(AllTags.forgeItemTag("ingots/zinc")))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 20)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 5).end()
 
@@ -41,7 +41,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifierRegistry.MAGIC_RES.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "brass"),
-						Ingredient.of(AllItems.BRASS_INGOT.get()))
+						Ingredient.of(AllTags.forgeItemTag("ingots/brass")))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 160)
 				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 16)
 				.addStat(GolemTypeRegistry.STAT_SPEED.get(), 0.2)

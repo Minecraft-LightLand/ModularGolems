@@ -19,16 +19,16 @@ Create
 - Train                 320/16  +40% speed  +1 range    +1 kb   Magic Res II    Fire Immune
 
 Thermal Foundation
-- Silver
-- Nickel
-- Lead
-- Steel
-- Rose Gold
-- Constantan
-- Invar
-- Signalum
-- Liminum
-- Enderium
+- Silver                50/10                                   Smite I         Smite Thorn I
+- Nickel                150/20                                  ?
+- Lead                  50/10                                   ?
+- Steel                 200/20                                  ?
+- Rose Gold             50/10                                   AddSlot I
+- Constantan            200/10                                  ?
+- Invar                 250/25                                  ?
+- Signalum              100/10                                  ?
+- Liminum               100/10                                  ?
+- Enderium              100/10                                  ?
 
 Tinker Construct
 - Cobalt

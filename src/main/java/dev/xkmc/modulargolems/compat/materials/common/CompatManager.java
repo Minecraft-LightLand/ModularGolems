@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials;
+package dev.xkmc.modulargolems.compat.materials.common;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
