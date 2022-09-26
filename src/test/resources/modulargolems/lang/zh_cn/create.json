@@ -1,0 +1,12 @@
+{
+  "golem_material.create": {
+	"zinc": "锌",
+	"andesite_alloy": "安山合金",
+	"brass": "黄铜",
+	"railway": "火车"
+  },
+  "modifier.modulargolems": {
+  },
+  "item.modulargolems": {
+  }
+}

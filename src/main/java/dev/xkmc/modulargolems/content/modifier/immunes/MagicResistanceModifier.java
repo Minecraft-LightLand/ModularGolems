@@ -28,7 +28,7 @@ public class MagicResistanceModifier extends GolemModifier {
 	@Override
 	public List<MutableComponent> getDetail(int level) {
 		float factor = (float) Math.max(0, 1 - level * ModConfig.COMMON.magicResistance.get());
-		int perc = Math.round(100 * (1 - factor));
+		int perc = Math.round(100 * factor);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", perc).withStyle(ChatFormatting.GREEN));
 	}
 

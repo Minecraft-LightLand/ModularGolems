@@ -1,0 +1,24 @@
+{
+  "mod": "create",
+  "name": "Railway",
+  "icon": "create:railway_casing",
+  "category": "modulargolems:materials",
+  "sortnum": 303,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "create:railway_casing",
+	  "text": "Main material to craft Railway golem parts. It provides high speed boost, high magic damage resistance, fire resistance, range attack, and high knock back. It attacks as if it is a train running into mobs"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"create:railway\"},{part:\"modulargolems:metal_golem_body\",material:\"create:railway\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:railway\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:railway\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:railway\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:railway\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:railway\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

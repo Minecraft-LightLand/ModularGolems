@@ -1,0 +1,24 @@
+{
+  "mod": "create",
+  "name": "Andesite Alloy",
+  "icon": "create:andesite_alloy",
+  "category": "modulargolems:materials",
+  "sortnum": 302,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "create:andesite_alloy",
+	  "text": "Main material to craft Andesite Alloy golem parts. It is cheap to fix and provides speed boost and magic damage resistance."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"create:andesite_alloy\"},{part:\"modulargolems:metal_golem_body\",material:\"create:andesite_alloy\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:andesite_alloy\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:andesite_alloy\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:andesite_alloy\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:andesite_alloy\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:andesite_alloy\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

@@ -56,7 +56,7 @@ public class GolemTypeRegistry {
 					.add(Attributes.ATTACK_DAMAGE, 15.0D)
 					.add(Attributes.MOVEMENT_SPEED, 0.25D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
-					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
+					.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 					.add(Attributes.FOLLOW_RANGE, 16.0D)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get())

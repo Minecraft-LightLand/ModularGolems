@@ -1,0 +1,24 @@
+{
+  "mod": "create",
+  "name": "Brass",
+  "icon": "create:brass_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 303,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "create:brass_ingot",
+	  "text": "Main material to craft Brass golem parts. It provides speed boost and high magic damage resistance."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"create:brass\"},{part:\"modulargolems:metal_golem_body\",material:\"create:brass\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:brass\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:brass\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:brass\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:brass\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:brass\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

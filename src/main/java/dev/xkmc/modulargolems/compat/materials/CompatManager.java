@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.ModList;
@@ -15,6 +16,7 @@ public abstract class CompatManager {
 
 	public static void register() {
 		if (ModList.get().isLoaded(TFDispatch.MODID)) LIST.add(new TFDispatch());
+		if (ModList.get().isLoaded(CreateDispatch.MODID)) LIST.add(new CreateDispatch());
 	}
 
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {

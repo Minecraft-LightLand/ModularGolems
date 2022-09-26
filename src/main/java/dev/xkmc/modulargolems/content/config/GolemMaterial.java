@@ -13,16 +13,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.*;
 
-public record GolemMaterial(
-		HashMap<GolemStatType, Double> stats,
-		HashMap<GolemModifier, Integer> modifiers,
-		ResourceLocation id, Item part) {
+public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemModifier, Integer> modifiers,
+							ResourceLocation id, Item part) {
 
 	public static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
@@ -42,25 +41,28 @@ public record GolemMaterial(
 	}
 
 	private static void updateStat(HashMap<GolemStatType, Double> values, GolemStatType k, double v) {
-		values.compute(k, (a, old) ->
-				a.kind == GolemStatType.Kind.PERCENT ?
-						(old == null ? 1 : old) * (1 + v) :
-						(old == null ? 0 : old) + v);
+		values.compute(k, (a, old) -> a.kind == GolemStatType.Kind.PERCENT ? (old == null ? 1 : old) * (1 + v) : (old == null ? 0 : old) + v);
 	}
 
 	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<UpgradeItem> upgrades) {
 		HashMap<GolemModifier, Integer> values = new HashMap<>();
 		for (GolemMaterial stats : list) {
-			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) ->
-					Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
+			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
 		}
 		upgrades.forEach(e -> values.compute(e.get(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + e.level)));
 		return values;
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	void addAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades, T entity) {
-		collectAttributes(list, upgrades).forEach((k, v) -> k.applyToEntity(entity, v));
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void addAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades, T entity) {
+		var map = DefaultAttributes.getSupplier(Wrappers.cast(entity.getType()));
+		var attrs = collectAttributes(list, upgrades);
+		attrs.keySet().stream().map(GolemStatType::getAttribute).distinct().forEach(e -> {
+			var attr = entity.getAttribute(e);
+			if (attr != null) {
+				attr.setBaseValue(map.getBaseValue(e));
+			}
+		});
+		attrs.forEach((k, v) -> k.applyToEntity(entity, v));
 	}
 
 	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {

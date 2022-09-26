@@ -18,14 +18,13 @@ public class CreateDispatch extends ModDispatch {
 	public static final String MODID = "create";
 
 	public CreateDispatch() {
-		TFCompatRegistry.register();
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
 		pvd.add("golem_material." + MODID + ".zinc", "Zinc");
 		pvd.add("golem_material." + MODID + ".andesite_alloy", "Andesite Alloy");
 		pvd.add("golem_material." + MODID + ".brass", "Brass");
-		pvd.add("golem_material." + MODID + ".Train", "Train");
+		pvd.add("golem_material." + MODID + ".railway", "Railway");
 	}
 
 	@Override
