@@ -5,13 +5,13 @@
       "item": "create:andesite_alloy"
     },
     "create:brass": {
-      "item": "create:brass_ingot"
+      "tag": "forge:ingots/brass"
     },
     "create:railway": {
       "item": "create:railway_casing"
     },
     "create:zinc": {
-      "item": "create:zinc_ingot"
+      "tag": "forge:ingots/zinc"
     }
   },
   "modifiers": {

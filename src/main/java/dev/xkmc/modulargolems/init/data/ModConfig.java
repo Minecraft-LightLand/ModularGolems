@@ -29,7 +29,7 @@ public class ModConfig {
 			compatTFDamage = builder.comment("Percentage damage bonus per level of twilight damage")
 					.defineInRange("compatTFDamage", 0.2, 0, 100);
 			carminiteTime = builder.comment("Time for the golem to be invincible (in ticks) per level of carminite")
-					.defineInRange("carminiteTime", 29, 1, 100000);
+					.defineInRange("carminiteTime", 20, 1, 100000);
 			coating = builder.comment("Percentage damage absorption applied per level of coating")
 					.defineInRange("coating", 0.2, 0, 1);
 		}
