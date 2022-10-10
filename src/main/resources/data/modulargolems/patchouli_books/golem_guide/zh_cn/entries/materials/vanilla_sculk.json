@@ -1,5 +1,5 @@
 {
-  "name": "Sculk",
+  "name": "循声",
   "icon": "minecraft:echo_shard",
   "category": "modulargolems:materials",
   "sortnum": 105,
@@ -7,17 +7,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:echo_shard",
-	  "text": "Main material to craft sculk golem parts. Sculk golem parts feature high health, fast movement, fire immune, and high damage. This is the reward of expensive material.$(br2)It is strongly recommended for legs to get very fast moving speed and high health."
+	  "text": "制作循声傀儡部件的主要材料，循声傀儡部件拥有极高生命值，火焰免疫，火焰附加和高伤害，这便是使用珍贵材料的回馈。$(br2)强烈推荐用于腿部以获取极高移动速度和生命值。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:sculk\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:sculk\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:sculk\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:sculk\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:sculk\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

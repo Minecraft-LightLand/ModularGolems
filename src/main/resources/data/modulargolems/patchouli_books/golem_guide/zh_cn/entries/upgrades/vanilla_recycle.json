@@ -1,12 +1,12 @@
 {
-  "name": "Recycle",
+  "name": "强化：回收",
   "icon": "modulargolems:recycle",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:recycle",
-	  "text": "Golem drops repairable golem holder with 0 health on death."
+	  "text": "死亡时，傀儡会掉落生命值为0的傀儡容器。"
 	}
   ]
 }

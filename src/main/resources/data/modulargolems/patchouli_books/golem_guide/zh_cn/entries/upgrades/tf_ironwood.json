@@ -1,13 +1,13 @@
 {
-  "mod": "twilightforest",
-  "name": "Ironwood Upgrade",
+  "mod": "暮色森林",
+  "name": "强化：共鸣-愈疗",
   "icon": "modulargolems:ironwood",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:ironwood",
-	  "text": "More healing bonus in twilight forest. Max: 5"
+	  "text": "在暮色森林中受到额外的治疗效果。最大等级：5"
 	}
   ]
 }

@@ -1,12 +1,12 @@
 {
-  "name": "Diamond Upgrade",
+  "name": "强化：防御",
   "icon": "modulargolems:diamond",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:diamond",
-	  "text": "Adds armor value to golems. Improve golem survivability by a bit. Max: 2"
+	  "text": "为傀儡提供护甲值，提升其生存能力。最大等级：2"
 	}
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "Upgrades",
-  "description": "Types of upgrades player can use to craft golem parts",
+  "name": "强化模块",
+  "description": "可用于傀儡制作的强化模块",
   "icon": "modulargolems:recycle"
 }

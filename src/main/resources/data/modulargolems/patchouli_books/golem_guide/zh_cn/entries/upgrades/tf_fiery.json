@@ -1,13 +1,13 @@
 {
-  "mod": "twilightforest",
-  "name": "Fiery Upgrade",
+  "mod": "暮色森林",
+  "name": "强化：灼伤",
   "icon": "modulargolems:fiery",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:fiery",
-	  "text": "Deal more damage to those who are not immune to fire. Max: 5"
+	  "text": "对燃烧中的敌人造成更多伤害。最大等级：5"
 	}
   ]
 }

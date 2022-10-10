@@ -1,13 +1,13 @@
 {
-  "mod": "twilightforest",
-  "name": "Steeleaf Upgrade",
+  "mod": "暮色森林",
+  "name": "强化：共鸣-攻击",
   "icon": "modulargolems:steeleaf",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:steeleaf",
-	  "text": "More damage bonus in twilight forest. Max: 5"
+	  "text": "傀儡在暮色森林中造成额外伤害。最大等级：5"
 	}
   ]
 }

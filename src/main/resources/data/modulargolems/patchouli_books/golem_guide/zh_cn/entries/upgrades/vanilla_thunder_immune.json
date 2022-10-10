@@ -1,12 +1,12 @@
 {
-  "name": "Thunder Immune",
+  "name": "强化：抗雷",
   "icon": "modulargolems:thunder_immune",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:thunder_immune",
-	  "text": "Make golem immune to thunder damages"
+	  "text": "令傀儡免疫雷电伤害。"
 	}
   ]
 }

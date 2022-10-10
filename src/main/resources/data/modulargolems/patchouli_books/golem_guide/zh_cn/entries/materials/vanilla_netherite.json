@@ -1,5 +1,5 @@
 {
-  "name": "Netherite",
+  "name": "下界合金",
   "icon": "minecraft:netherite_ingot",
   "category": "modulargolems:materials",
   "sortnum": 104,
@@ -7,17 +7,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:netherite_ingot",
-	  "text": "Main material to craft netherite golem parts. Netherite golem parts feature high health, fire immune, high damage, and most importantly, area attack. But netherite is heavy, which reduce golem speed.$(br2)This is strongly recommended for arms, and could be used for body and legs for high stats."
+	  "text": "制作下界合金傀儡部件的主要材料， 下界合金傀儡部件拥有高生命值，火焰免疫和高伤害，最重要的是它可以造成范围伤害。但由于下界合金过于厚重，傀儡的移动速度将会减少。$(br2)强烈推荐用于双臂部位，当然其高属性对于双腿和躯干同样适用。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:netherite\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:netherite\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:netherite\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:netherite\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:netherite\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

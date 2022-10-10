@@ -1,6 +1,6 @@
 {
-  "mod": "create",
-  "name": "Brass",
+  "mod": "机械动力",
+  "name": "黄铜",
   "icon": "create:brass_ingot",
   "category": "modulargolems:materials",
   "sortnum": 303,
@@ -8,17 +8,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "create:brass_ingot",
-	  "text": "Main material to craft Brass golem parts. It provides speed boost and high magic damage resistance."
+	  "text": "制作黄铜傀儡的主要材料。可为傀儡提供额外移动速度及高魔法抗性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"create:brass\"},{part:\"modulargolems:metal_golem_body\",material:\"create:brass\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:brass\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:brass\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:brass\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:brass\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:brass\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

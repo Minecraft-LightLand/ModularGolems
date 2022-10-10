@@ -1,13 +1,13 @@
 {
-  "mod": "twilightforest",
-  "name": "Carminite Upgrade",
+  "mod": "暮色森林",
+  "name": "强化：隐匿",
   "icon": "modulargolems:carminite",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:carminite",
-	  "text": "Golem will turn invisible and invincible for a short time after being hurt, similar to Reappearing Block. Max: 5"
+	  "text": "傀儡将会在受到伤害后隐身且无敌一段时间，与重现方块类似。最大等级：5"
 	}
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "Iron",
+  "name": "铁",
   "icon": "minecraft:iron_ingot",
   "category": "modulargolems:materials",
   "sortnum": 102,
@@ -7,17 +7,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:iron_ingot",
-	  "text": "Main material to craft iron golem parts. Iron golem parts feature cheap repair cost and relatively high stats for price.$(br2)It is recommended for body part, to make the golem cheap to heal and repair."
+	  "text": "制作铁傀儡部件的主要材料，铁傀儡部件修复成本低且拥有高性价比。$(br2)推荐用于身体或腿部来使傀儡易于治愈和修复。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:iron\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:iron\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:iron\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:iron\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:iron\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }
