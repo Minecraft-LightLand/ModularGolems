@@ -1,13 +1,13 @@
 {
   "mod": "暮色森林",
-  "name": "强化：棘刺",
+  "name": "升级：棘刺",
   "icon": "modulargolems:knightmetal",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:knightmetal",
-	  "text": "对攻击傀儡的敌人造成荆棘伤害。最大等级：5"
+	  "text": "攻击傀儡的敌人会受到荆棘伤害。最大等级：5"
 	}
   ]
 }

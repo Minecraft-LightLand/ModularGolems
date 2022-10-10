@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:iron_ingot",
-	  "text": "制作铁傀儡部件的主要材料，铁傀儡部件修复成本低且拥有高性价比。$(br2)推荐用于身体或腿部来使傀儡易于治愈和修复。"
+	  "text": "制作铁傀儡部件的主要材料，铁傀儡部件修复成本低且拥有高性价比。$(br2)推荐用于身体或腿部以此让傀儡易于治愈和修复。"
 	},
 	{
 	  "type": "patchouli:spotlight",

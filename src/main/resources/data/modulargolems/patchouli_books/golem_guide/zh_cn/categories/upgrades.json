@@ -1,5 +1,5 @@
 {
-  "name": "强化模块",
-  "description": "可用于傀儡制作的强化模块",
+  "name": "升级模块",
+  "description": "为傀儡提供特殊增益",
   "icon": "modulargolems:recycle"
 }

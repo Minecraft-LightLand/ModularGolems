@@ -1,16 +1,16 @@
 {
-  "name": "强化你的傀儡",
+  "name": "升级你的傀儡",
   "icon": "modulargolems:recycle",
   "category": "modulargolems:golems",
   "sortnum": 2,
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "想要强化你的傀儡，你需要在铁砧上使用强化模块进行锻造，强化模块可以为傀儡提供增益，使其拥有特殊能力或提高属性。一个傀儡的强化次数有限，且每种增益都有等级上限。"
+	  "text": "想要强化你的傀儡，你需要在铁砧中放入傀儡和升级模块，升级模块可以让傀儡拥有特殊能力或更高的属性。一个傀儡的强化次数有限，每种增益等级也有上限。"
 	},
 	{
 	  "type": "patchouli:text",
-	  "text": "$(li)$(l:upgrades/recycle)Recycle Upgrade$(/l) 将会保护傀儡免于受到不可修复的伤害。$(li)$(l:upgrades/diamond)Diamond$(/l) 和 $(l:upgrades/netherite)netherite$(/l) 可提高傀儡的防御。$(li)$(l:upgrades/gold)Golden apple upgrade$(/l) 会使傀儡拥有自愈能力。"
+	  "text": "$(li)$(l:upgrades/recycle)Recycle Upgrade$(/l) 将会让傀儡死亡时掉落完整的0生命值傀儡而非金属锭。$(li)$(l:upgrades/diamond)Diamond$(/l) 和 $(l:upgrades/netherite)netherite$(/l) 可提高傀儡的防御。$(li)$(l:upgrades/gold)Golden apple upgrade$(/l) 会使傀儡拥有自愈能力。"
 	}
   ]
 }
