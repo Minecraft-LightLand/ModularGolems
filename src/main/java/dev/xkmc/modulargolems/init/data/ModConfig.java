@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.init.data;
 
-import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import org.apache.commons.lang3.tuple.Pair;

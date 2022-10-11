@@ -9,12 +9,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogGolemPartType, DogGolemModel> {
 
-    public DogGolemRenderer(EntityRendererProvider.Context ctx) {
-        super(ctx, new DogGolemModel(ctx.bakeLayer(ModelLayers.WOLF)), 0.5F, DogGolemPartType::values);
-    }
+	public DogGolemRenderer(EntityRendererProvider.Context ctx) {
+		super(ctx, new DogGolemModel(ctx.bakeLayer(ModelLayers.WOLF)), 0.5F, DogGolemPartType::values);
+	}
 
-    protected float getBob(DogGolemEntity dog, float pPartialTicks) {
-        return dog.getTailAngle();
-    }
+	protected float getBob(DogGolemEntity dog, float pPartialTicks) {
+		return dog.getTailAngle();
+	}
 
 }
