@@ -1,12 +1,12 @@
 {
-  "name": "金属傀儡",
+  "name": "大型金属傀儡",
   "icon": "modulargolems:metal_golem_holder",
   "category": "modulargolems:golems",
   "sortnum": 10,
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "金属傀儡和普通铁傀儡十分相似。除了可以在铁砧上修复之外，也可以用相应的金属锭对傀儡直接进行修复。$(br2)如果傀儡拥有下界合金手臂，它的攻击将会造成范围伤害。"
+	  "text": "大型金属傀儡和原版铁傀儡十分相似。可以在铁砧上或直接使用对应金属锭修复。$(br2)拥有下界合金手臂的傀儡攻击将会造成范围伤害。"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:metal_golem_holder"
