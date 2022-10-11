@@ -23,6 +23,10 @@
 	  "arms": "双臂: %s",
 	  "body": "躯干: %s",
 	  "legs": "双腿: %s"
+	},
+	"dog_golem": {
+	  "body": "躯干: %s",
+	  "legs": "四肢: %s"
 	}
   },
   "modifier.modulargolems": {

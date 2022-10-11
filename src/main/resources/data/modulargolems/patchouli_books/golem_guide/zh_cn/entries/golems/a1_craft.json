@@ -1,16 +1,16 @@
 {
-  "name": "Crafting the golem",
+  "name": "傀儡制作",
   "icon": "modulargolems:metal_golem_template",
   "category": "modulargolems:golems",
   "sortnum": 1,
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "To craft a golem, use stone cutter to cut metal golem template into required parts. Then use anvil to apply metal ingots onto the parts. Then assemble the parts into a golem holder in crafting table. You can use parts of different materials to get better golems.$(br2)To summon golem, right click it on a block. You can retrieve the golem by right clicking it with empty hand."
+	  "text": "要制作一个傀儡，您需要使用切石机将傀儡模板切割成所需的部件，然后在铁砧里用金属锭铸造它们，最后在工作台上将部件组装成成品。傀儡可以使用不同材料的部件来组装，以获得更合适的效果。$(br2)要召唤傀儡，请在方块上右键单击傀儡物品。若要取回傀儡，请在世界上空手右键单击傀儡实体。"
 	},
 	{
 	  "type": "patchouli:text",
-	  "text": "You can fix the damaged golem with ingots matching the body material of the golem in anvil. Each ingot heals 1/4 of the max health. Thus, you can use cheap body material and expensive material for other parts to have high health while make it cheap to fix.$(br2)When the golem dies, it will only drop 1 ingot from each part. You can use the $(l:upgrades/recycle)Recycle Upgrade$(/l) to let the golem drop repairable holder on death."
+	  "text": "您可以在铁砧中用傀儡的身体材料所对应的锭来修复受损的傀儡，每个锭能治疗最大生命值的1/4。因此，您可以使用廉价的身体和昂贵的其他部件来制作傀儡，使其具有较高性能的同时修复成本较低。$(br2)当傀儡损坏时，每个部位只会掉落一个锭。您可以使用 $(l:upgrades/recycle)Recycle Upgrade$(/l) 让傀儡在死亡时掉落可修复的残骸。"
 	}
   ]
 }

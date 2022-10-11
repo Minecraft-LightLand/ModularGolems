@@ -32,6 +32,8 @@ public class RecipeGen {
 		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.HUMANOID_BODY);
 		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.HUMANOID_ARMS);
 		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.HUMANOID_LEGS);
+		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.DOG_BODY);
+		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.DOG_LEGS);
 
 		unlock(pvd, new GolemAssembleBuilder(GolemItemRegistry.HOLDER_GOLEM.get(), 1)::unlockedBy,
 				GolemItemRegistry.GOLEM_BODY.get())
@@ -47,6 +49,13 @@ public class RecipeGen {
 				.define('A', GolemItemRegistry.HUMANOID_BODY.get())
 				.define('B', GolemItemRegistry.HUMANOID_ARMS.get())
 				.define('C', GolemItemRegistry.HUMANOID_LEGS.get())
+				.save(pvd);
+
+		unlock(pvd, new GolemAssembleBuilder(GolemItemRegistry.HOLDER_DOG.get(), 1)::unlockedBy,
+				GolemItemRegistry.HUMANOID_BODY.get())
+				.pattern("A").pattern("B")
+				.define('A', GolemItemRegistry.DOG_BODY.get())
+				.define('B', GolemItemRegistry.DOG_LEGS.get())
 				.save(pvd);
 
 		// upgrades
