@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "twilightforest:fiery_ingot",
-	  "text": "Main material to craft fiery golem parts. fiery golem parts feature thorn, fire immune, fiery attack, and high stats. It is recommended for arms for fiery attacks."
+	  "text": "Main material to craft fiery golem parts. Fiery golem parts feature thorn, fire immune, fiery attack, and high stats. It is recommended for arms for fiery attacks.$(br2)Twilight Forest golems will gain healing and damage bonus while in the Twilight Forest."
 	},
 	{
 	  "type": "patchouli:spotlight",

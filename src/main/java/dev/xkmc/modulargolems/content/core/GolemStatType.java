@@ -31,6 +31,10 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 		this.type = type;
 	}
 
+	public Attribute getAttribute() {
+		return attribute.get();
+	}
+
 	public MutableComponent getAdderTooltip(double val) {
 		if (kind == Kind.PERCENT) val = val * 100;
 		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);

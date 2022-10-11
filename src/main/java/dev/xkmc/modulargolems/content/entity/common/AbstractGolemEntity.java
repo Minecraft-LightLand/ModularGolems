@@ -185,7 +185,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected float getAttackDamage() {
-		return (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float ans = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		for (var entry : getModifiers().entrySet()) {
+			ans = entry.getKey().modifyDamage(ans, this, entry.getValue());
+		}
+		return ans;
 	}
 
 	@Override
@@ -194,7 +198,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.aiStep();
 		double heal = this.getAttributeValue(GolemTypeRegistry.GOLEM_REGEN.get());
 		if (heal > 0 && this.tickCount % 20 == 0) {
-			this.heal((float) heal);
+			for (var entry : getModifiers().entrySet()) {
+				heal = entry.getKey().onHealTick(heal, this, entry.getValue());
+			}
+			if (heal > 0) {
+				this.heal((float) heal);
+			}
 		}
 		if (!this.level.isClientSide) {
 			this.updatePersistentAnger((ServerLevel) this.level, true);

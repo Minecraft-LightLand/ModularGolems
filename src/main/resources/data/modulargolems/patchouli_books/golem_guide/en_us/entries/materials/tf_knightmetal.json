@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "twilightforest:knightmetal_ingot",
-	  "text": "Main material to craft knightmetal golem parts. knightmetal golem parts feature significant thorns and high stats. It's recommended for body or leg parts."
+	  "text": "Main material to craft knightmetal golem parts. knightmetal golem parts feature significant thorns and high stats. It's recommended for body or leg parts.$(br2)Twilight Forest golems will gain healing and damage bonus while in the Twilight Forest."
 	},
 	{
 	  "type": "patchouli:spotlight",

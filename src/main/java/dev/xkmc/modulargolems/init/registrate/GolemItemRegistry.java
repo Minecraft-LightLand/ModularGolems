@@ -108,19 +108,19 @@ public class GolemItemRegistry {
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifierRegistry.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
 			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifierRegistry.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
 			RECYCLE = regUpgrade("recycle", () -> GolemModifierRegistry.RECYCLE).lang("Recycle Ugpgrade").register();
-			DIAMOND = regUpgrade("diamond", () -> GolemModifierRegistry.DIAMOND).lang("Diamond Upgrade").register();
-			NETHERITE = regUpgrade("netherite", () -> GolemModifierRegistry.NETHERITE).lang("Netherite Upgrade").register();
-			QUARTZ = regUpgrade("quartz", () -> GolemModifierRegistry.QUARTZ).lang("Quartz Upgrade").register();
-			GOLD = regUpgrade("gold", () -> GolemModifierRegistry.GOLD).lang("Golden Apple Upgrade").register();
-			ENCHANTED_GOLD = regUpgrade("enchanted_gold", () -> GolemModifierRegistry.GOLD, 2, true).lang("Enchanted Golden Apple Upgrade").register();
+			DIAMOND = regUpgrade("diamond", () -> GolemModifierRegistry.ARMOR).lang("Diamond Upgrade").register();
+			NETHERITE = regUpgrade("netherite", () -> GolemModifierRegistry.TOUGH).lang("Netherite Upgrade").register();
+			QUARTZ = regUpgrade("quartz", () -> GolemModifierRegistry.DAMAGE).lang("Quartz Upgrade").register();
+			GOLD = regUpgrade("gold", () -> GolemModifierRegistry.REGEN).lang("Golden Apple Upgrade").register();
+			ENCHANTED_GOLD = regUpgrade("enchanted_gold", () -> GolemModifierRegistry.REGEN, 2, true).lang("Enchanted Golden Apple Upgrade").register();
 		}
 	}
 
-	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
+	public static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
 		return regUpgrade(id, mod, 1, false);
 	}
 
-	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
+	public static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
 		return REGISTRATE.item(id, p -> new UpgradeItem(p, mod.get()::get, level, foil))
 				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/upgrades/" + id)));
 	}

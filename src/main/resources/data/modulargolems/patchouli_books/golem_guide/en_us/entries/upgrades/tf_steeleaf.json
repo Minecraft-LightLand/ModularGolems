@@ -1,0 +1,13 @@
+{
+  "mod": "twilightforest",
+  "name": "Steeleaf Upgrade",
+  "icon": "modulargolems:steeleaf",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:steeleaf",
+	  "text": "More damage bonus in twilight forest. Max: 5"
+	}
+  ]
+}

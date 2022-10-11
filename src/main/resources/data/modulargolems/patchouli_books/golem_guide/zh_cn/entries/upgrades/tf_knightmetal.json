@@ -1,0 +1,13 @@
+{
+  "mod": "twilightforest",
+  "name": "Knight Metal Upgrade",
+  "icon": "modulargolems:knightmetal",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:knightmetal",
+	  "text": "Deal thorn damage to those who attack this golem. Max: 5"
+	}
+  ]
+}

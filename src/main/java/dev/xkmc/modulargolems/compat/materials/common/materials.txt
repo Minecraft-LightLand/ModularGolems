@@ -1,0 +1,55 @@
+Vanilla
+
+- Copper                50/10                                   Thunder Immune
+- Iron                  100/15
+- Gold                  20/5    -40% speed  +4 regen
+- Netherite             300/30  -40% speed  +2 sweep            Fire Immune
+- Sculk                 500/30  +50% speed                      Fire Immune
+
+TwilightForest (TF Damage + TF Healing)
+- Ironwood              200/10  +2 regen
+- Steeleaf              20/30
+- Knightmetal           300/20  -40% speed                      Thorn II
+- Fiery                 200/20                                  Fire Immune     Thorn           Fiery
+
+Create
+- Zinc                  20/5
+- Andesite Alloy        20/5    +10% speed                      Magic Res I
+- Brass                 160/16  +20% speed                      Magic Res II
+- Train                 320/16  +40% speed  +1 range    +1 kb   Magic Res II    Fire Immune
+
+Thermal Foundation
+- Silver                50/10                                   Smite I         Smite Thorn I
+- Nickel                150/20                                  ?
+- Lead                  50/10                                   ?
+- Steel                 200/20                                  ?
+- Rose Gold             50/10                                   AddSlot I
+- Constantan            200/10                                  ?
+- Invar                 250/25                                  ?
+- Signalum              100/10                                  ?
+- Liminum               100/10                                  ?
+- Enderium              100/10                                  ?
+
+Tinker Construct
+- Cobalt
+- Manyullyn
+- Pig Iron
+- Slime Steel
+- Queem Slime Steel
+- ...
+
+Botania
+- Blue
+- Red
+- Green
+
+L2Foundation
+- Deep Ocean Steel
+- Trident Steel
+- Life Gold
+- Air Steel
+- Nether Steel
+- Wither Steel
+- Ender Steel
+- Shulker Steel
+- Void Steel

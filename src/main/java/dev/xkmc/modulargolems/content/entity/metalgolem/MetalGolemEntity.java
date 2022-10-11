@@ -48,7 +48,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		boolean succeed = target.hurt(DamageSource.mobAttack(this), damage);
 		if (succeed) {
 			double d1 = Math.max(0.0D, 1.0D - kb);
-			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;
 			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, dokb * d1, 0.0D));
 			this.doEnchantDamageEffects(this, target);
 		}

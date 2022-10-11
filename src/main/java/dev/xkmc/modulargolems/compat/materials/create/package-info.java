@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.compat.twilightforest;
+package dev.xkmc.modulargolems.compat.materials.create;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
