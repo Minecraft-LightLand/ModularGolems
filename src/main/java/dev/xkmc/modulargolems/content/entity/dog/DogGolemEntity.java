@@ -12,9 +12,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
@@ -37,14 +35,14 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (this.isAngry()) {
 			return 1.5393804F;
 		} else {
-			return (0.55F - (this.getMaxHealth() - this.getHealth()) * 0.02F) * (float) Math.PI;
+			float percentage = 1 - this.getHealth() / this.getMaxHealth();
+			return (0.55F - percentage * 0.16F) * (float) Math.PI;
 		}
 	}
 
 	// sit
 
 	protected static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BYTE);
-	private boolean orderedToSit;
 
 	protected void defineSynchedData() {
 		super.defineSynchedData();
@@ -53,13 +51,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	public void addAdditionalSaveData(CompoundTag p_21819_) {
 		super.addAdditionalSaveData(p_21819_);
-		p_21819_.putBoolean("Sitting", this.orderedToSit);
+		p_21819_.putBoolean("Sitting", isInSittingPose());
 	}
 
 	public void readAdditionalSaveData(CompoundTag p_21815_) {
 		super.readAdditionalSaveData(p_21815_);
-		this.orderedToSit = p_21815_.getBoolean("Sitting");
-		this.setInSittingPose(this.orderedToSit);
+		this.setInSittingPose(p_21815_.getBoolean("Sitting"));
 	}
 
 	public boolean isInSittingPose() {
@@ -76,35 +73,22 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	}
 
-	public void setOrderedToSit(boolean p_21840_) {
-		this.orderedToSit = p_21840_;
-	}
-
 	// ------ vanilla golem behavior
-
-	private int attackAnimationTick;
 
 	protected void registerGoals() {
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
 		this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
+		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		registerTargetGoals();
 	}
 
-	public boolean doHurtTarget(Entity target) {
-		boolean flag = target.hurt(DamageSource.mobAttack(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
-		if (flag) {
-			this.doEnchantDamageEffects(this, target);
-		}
-		return flag;
-	}
-
 	public boolean hurt(DamageSource source, float amount) {
 		if (!this.level.isClientSide) {
-			this.setOrderedToSit(false);
+			this.setInSittingPose(false);
 		}
-		return true;
+		return super.hurt(source, amount);
 	}
 
 	protected SoundEvent getHurtSound(DamageSource p_28872_) {
@@ -128,7 +112,9 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (itemstack.isEmpty())
 			return super.mobInteract(player, hand);
 		else if (itemstack.getItem() == Items.BONE) {
-			this.setInSittingPose(!this.isInSittingPose());
+			if (!this.level.isClientSide())
+				this.setInSittingPose(!this.isInSittingPose());
+			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.FAIL;
 	}

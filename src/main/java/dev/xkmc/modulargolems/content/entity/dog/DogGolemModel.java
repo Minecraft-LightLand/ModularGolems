@@ -1,16 +1,17 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
-import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class DogGolemModel extends HierarchicalModel<DogGolemEntity> implements IGolemModel<DogGolemEntity, DogGolemPartType, DogGolemModel> {
+public class DogGolemModel extends AgeableListModel<DogGolemEntity> implements IGolemModel<DogGolemEntity, DogGolemPartType, DogGolemModel> {
 
 	private final ModelPart root;
 	private final ModelPart head;
@@ -45,12 +46,15 @@ public class DogGolemModel extends HierarchicalModel<DogGolemEntity> implements 
 	public void setupAnim(DogGolemEntity dog, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.head.xRot = pHeadPitch * ((float) Math.PI / 180F);
 		this.head.yRot = pNetHeadYaw * ((float) Math.PI / 180F);
-		//this.tail.xRot = pAgeInTicks;
+		this.tail.xRot = pAgeInTicks;
 	}
 
 	public void prepareMobModel(DogGolemEntity dog, float pLimbSwing, float pLimbSwingAmount, float pPartialTick) {
-		this.tail.yRot = Mth.cos(pLimbSwing * 0.6662F) * 1.4F * pPartialTick;
-
+		if (dog.isAngry()) {
+			this.tail.yRot = 0.0F;
+		} else {
+			this.tail.yRot = Mth.cos(pLimbSwing * 0.6662F) * 1.4F * pLimbSwingAmount;
+		}
 		if (dog.isInSittingPose()) {
 			this.upperBody.setPos(-1.0F, 16.0F, -3.0F);
 			this.upperBody.xRot = 1.2566371F;
@@ -101,6 +105,15 @@ public class DogGolemModel extends HierarchicalModel<DogGolemEntity> implements 
 		String id = rl.getNamespace();
 		String mat = rl.getPath();
 		return new ResourceLocation(id, "textures/entity/dog_golem/" + mat + ".png");
+	}
+
+
+	protected Iterable<ModelPart> headParts() {
+		return ImmutableList.of(this.head);
+	}
+
+	protected Iterable<ModelPart> bodyParts() {
+		return ImmutableList.of(this.body, this.rightHindLeg, this.leftHindLeg, this.rightFrontLeg, this.leftFrontLeg, this.tail, this.upperBody);
 	}
 
 }

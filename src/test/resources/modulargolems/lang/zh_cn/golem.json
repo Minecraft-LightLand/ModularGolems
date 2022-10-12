@@ -1,8 +1,10 @@
 {
   "entity.modulargolems.metal_golem": "大型金属傀儡",
   "entity.modulargolems.humanoid_golem": "人形金属傀儡",
+  "entity.modulargolems.dog_golem": "犬形金属傀儡",
   "golem_type.modulargolems.metal_golem": "大型金属傀儡",
   "golem_type.modulargolems.humanoid_golem": "人形金属傀儡",
+  "golem_type.modulargolems.dog_golem": "犬形金属傀儡",
   "golem_material": {
 	"modulargolems": {
 	  "copper": "铜",

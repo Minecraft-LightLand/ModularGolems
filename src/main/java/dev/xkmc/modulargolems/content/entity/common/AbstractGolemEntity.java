@@ -15,6 +15,9 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -147,11 +150,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
+		this.addPersistentAngerSaveData(tag);
 		tag.put("auto-serial", Objects.requireNonNull(TagCodec.toTag(new CompoundTag(), this)));
 	}
 
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
+		this.readPersistentAngerSaveData(this.level, tag);
 		if (tag.contains("auto-serial")) {
 			Wrappers.run(() -> {
 				TagCodec.fromTag(tag.getCompound("auto-serial"), this.getClass(), this, (f) -> true);
@@ -217,20 +222,26 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	// ------ persistent anger
 
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-	private int remainingPersistentAngerTime;
+	private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.INT);
+
 	@Nullable
 	private UUID persistentAngerTarget;
+
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
+	}
 
 	public void startPersistentAngerTimer() {
 		this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
 	}
 
-	public void setRemainingPersistentAngerTime(int time) {
-		this.remainingPersistentAngerTime = time;
+	public int getRemainingPersistentAngerTime() {
+		return this.entityData.get(DATA_REMAINING_ANGER_TIME);
 	}
 
-	public int getRemainingPersistentAngerTime() {
-		return this.remainingPersistentAngerTime;
+	public void setRemainingPersistentAngerTime(int pTime) {
+		this.entityData.set(DATA_REMAINING_ANGER_TIME, pTime);
 	}
 
 	public void setPersistentAngerTarget(@Nullable UUID target) {
@@ -292,6 +303,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				}
 			}
 		}
+		return false;
+	}
+
+	public boolean isInSittingPose() {
 		return false;
 	}
 

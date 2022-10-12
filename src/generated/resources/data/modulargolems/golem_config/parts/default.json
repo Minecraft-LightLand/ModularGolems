@@ -3,13 +3,13 @@
   "filters": {
     "modulargolems:dog_golem_body": {
       "ATTACK": 1.0,
-      "HEALTH": 0.75,
+      "HEALTH": 0.7,
       "MASS": 0.7,
       "MOVEMENT": 0.0
     },
     "modulargolems:dog_golem_legs": {
       "ATTACK": 0.0,
-      "HEALTH": 0.25,
+      "HEALTH": 0.3,
       "MASS": 0.3,
       "MOVEMENT": 1.0
     },
@@ -52,9 +52,9 @@
   },
   "magnifiers": {
     "modulargolems:dog_golem": {
-      "modulargolems:attack": 0.5,
-      "modulargolems:max_health": 0.25,
-      "modulargolems:regen": 0.25
+      "modulargolems:attack": 0.6,
+      "modulargolems:max_health": 0.2,
+      "modulargolems:regen": 0.2
     },
     "modulargolems:humanoid_golem": {
       "modulargolems:attack": 0.3,
