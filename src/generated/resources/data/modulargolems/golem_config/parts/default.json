@@ -54,7 +54,8 @@
     "modulargolems:dog_golem": {
       "modulargolems:attack": 0.6,
       "modulargolems:max_health": 0.2,
-      "modulargolems:regen": 0.2
+      "modulargolems:regen": 0.2,
+      "modulargolems:sweep": 0.0
     },
     "modulargolems:humanoid_golem": {
       "modulargolems:attack": 0.3,

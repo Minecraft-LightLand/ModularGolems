@@ -119,6 +119,7 @@ public class ConfigGen extends ConfigDataProvider {
 				.addFilter(GolemTypeRegistry.STAT_HEALTH.get(), 0.2)
 				.addFilter(GolemTypeRegistry.STAT_ATTACK.get(), 0.6)
 				.addFilter(GolemTypeRegistry.STAT_REGEN.get(), 0.2)
+				.addFilter(GolemTypeRegistry.STAT_SWEEP.get(), 0)
 				.end()
 		);
 	}

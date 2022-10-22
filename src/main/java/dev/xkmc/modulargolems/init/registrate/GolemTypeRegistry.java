@@ -92,14 +92,13 @@ public class GolemTypeRegistry {
 			.properties(e -> e.sized(0.85F, 0.6F).clientTrackingRange(10))
 			.renderer(() -> DogGolemRenderer::new)
 			.attributes(() -> Mob.createMobAttributes()
-					.add(Attributes.MAX_HEALTH, 20.0D)
+					.add(Attributes.MAX_HEALTH, 8.0D)
 					.add(Attributes.ATTACK_DAMAGE, 4.0D)
 					.add(Attributes.MOVEMENT_SPEED, 0.3D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
-					.add(GOLEM_SWEEP.get())
 			).register();
 
 	public static final RegistryEntry<GolemType<DogGolemEntity, DogGolemPartType>> TYPE_DOG = REGISTRATE.generic(TYPES, "dog_golem",

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_knightmetal_ingot": {
+    "has_amethyst_shard": {
       "conditions": {
         "items": [
           {
             "items": [
-              "modulargolems:empty_upgrade"
+              "minecraft:amethyst_shard"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:knightmetal"
+        "recipe": "modulargolems:empty_upgrade"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_knightmetal_ingot",
+      "has_amethyst_shard",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:knightmetal"
+      "modulargolems:empty_upgrade"
     ]
   }
 }

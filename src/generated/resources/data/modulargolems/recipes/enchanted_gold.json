@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:amethyst_shard"
+      "item": "modulargolems:empty_upgrade"
     },
     {
       "item": "minecraft:enchanted_golden_apple"

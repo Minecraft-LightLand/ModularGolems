@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
-import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;

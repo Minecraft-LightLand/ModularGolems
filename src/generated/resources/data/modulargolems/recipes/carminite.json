@@ -1,11 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
   "key": {
     "A": {
       "item": "twilightforest:carminite"
     },
     "B": {
-      "item": "minecraft:amethyst_shard"
+      "item": "modulargolems:empty_upgrade"
     },
     "C": {
       "item": "twilightforest:encased_towerwood"

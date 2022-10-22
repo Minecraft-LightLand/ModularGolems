@@ -32,8 +32,7 @@ public class GolemItemRegistry {
 		REGISTRATE.creativeModeTab(() -> GOLEMS);
 	}
 
-	public static final ItemEntry<Item> GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new)
-			.defaultModel().defaultLang().register();
+	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
 
 	public static final ItemEntry<GolemPart<MetalGolemEntity, MetalGolemPartType>> GOLEM_BODY, GOLEM_ARM, GOLEM_LEGS;
 	public static final ItemEntry<GolemHolder<MetalGolemEntity, MetalGolemPartType>> HOLDER_GOLEM;
@@ -47,6 +46,10 @@ public class GolemItemRegistry {
 	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ, GOLD, ENCHANTED_GOLD;
 
 	static {
+
+		GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new).defaultModel().defaultLang().register();
+		EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
+
 		// metal golem
 		{
 			GOLEM_BODY = REGISTRATE.item("metal_golem_body", p ->
