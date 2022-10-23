@@ -6,6 +6,10 @@ import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemModel;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemModel;
@@ -82,6 +86,23 @@ public class GolemTypeRegistry {
 
 	public static final RegistryEntry<GolemType<HumanoidGolemEntity, HumaniodGolemPartType>> TYPE_HUMANOID = REGISTRATE.generic(TYPES, "humanoid_golem",
 					() -> new GolemType<>(ENTITY_HUMANOID, HumaniodGolemPartType::values, HumaniodGolemPartType.BODY, () -> HumanoidGolemModel::new))
+			.defaultLang().register();
+
+	public static final EntityEntry<DogGolemEntity> ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
+			.properties(e -> e.sized(0.85F, 0.6F).clientTrackingRange(10))
+			.renderer(() -> DogGolemRenderer::new)
+			.attributes(() -> Mob.createMobAttributes()
+					.add(Attributes.MAX_HEALTH, 8.0D)
+					.add(Attributes.ATTACK_DAMAGE, 4.0D)
+					.add(Attributes.MOVEMENT_SPEED, 0.3D)
+					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
+					.add(Attributes.FOLLOW_RANGE, 35.0D)
+					.add(GOLEM_REGEN.get())
+			).register();
+
+	public static final RegistryEntry<GolemType<DogGolemEntity, DogGolemPartType>> TYPE_DOG = REGISTRATE.generic(TYPES, "dog_golem",
+					() -> new GolemType<>(ENTITY_DOG, DogGolemPartType::values, DogGolemPartType.BODY, () -> DogGolemModel::new))
 			.defaultLang().register();
 
 	private static RegistryEntry<GolemStatType> regStat(String id, Supplier<Attribute> sup, GolemStatType.Kind kind, StatFilterType type) {

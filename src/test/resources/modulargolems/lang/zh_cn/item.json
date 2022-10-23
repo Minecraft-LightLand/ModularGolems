@@ -4,11 +4,14 @@
 	"metal_golem_body": "大型金属傀儡-身体",
 	"metal_golem_holder": "大型金属傀儡",
 	"metal_golem_legs": "大型金属傀儡-双腿",
-	"metal_golem_template": "傀儡模版",
+	"metal_golem_template": "傀儡胚料",
 	"humanoid_golem_arms": "人形金属傀儡-双臂",
 	"humanoid_golem_body": "人形金属傀儡-躯干",
 	"humanoid_golem_holder": "人形金属傀儡",
 	"humanoid_golem_legs": "人形金属傀儡-双腿",
+	"dog_golem_body": "狗形金属傀儡-躯干",
+	"dog_golem_holder": "狗形金属傀儡",
+	"dog_golem_legs": "狗形金属傀儡-四肢",
 	"diamond": "钻石升级",
 	"fire_immune": "防火升级",
 	"thunder_immune": "导电升级",
@@ -16,6 +19,7 @@
 	"quartz": "石英升级",
 	"recycle": "回收升级",
 	"enchanted_gold": "附魔金苹果升级",
-	"gold": "金苹果升级"
+	"gold": "金苹果升级",
+	"empty_upgrade": "空白升级模版"
   }
 }

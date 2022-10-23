@@ -1,8 +1,10 @@
 {
   "entity.modulargolems.metal_golem": "大型金属傀儡",
   "entity.modulargolems.humanoid_golem": "人形金属傀儡",
+  "entity.modulargolems.dog_golem": "犬形金属傀儡",
   "golem_type.modulargolems.metal_golem": "大型金属傀儡",
   "golem_type.modulargolems.humanoid_golem": "人形金属傀儡",
+  "golem_type.modulargolems.dog_golem": "犬形金属傀儡",
   "golem_material": {
 	"modulargolems": {
 	  "copper": "铜",
@@ -23,6 +25,10 @@
 	  "arms": "双臂: %s",
 	  "body": "躯干: %s",
 	  "legs": "双腿: %s"
+	},
+	"dog_golem": {
+	  "body": "躯干: %s",
+	  "legs": "四肢: %s"
 	}
   },
   "modifier.modulargolems": {
