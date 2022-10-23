@@ -6,7 +6,7 @@
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "Dog golem is a wolf-like golem. It runs fast and has high attack. Right click the golem with bone to sit it down. Right click the golem with empty hand to retrieve the golem."
+	  "text": "Dog golem is a wolf-like golem. It runs fast and has high attack. Right click the golem with an item or shift click it to sit it down. Right click the golem with empty hand to retrieve the golem."
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:dog_golem_holder",

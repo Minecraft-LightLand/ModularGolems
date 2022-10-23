@@ -17,6 +17,8 @@
   "golem_material.twilightforest.ironwood": "Ironwood",
   "golem_material.twilightforest.knightmetal": "Knightmetal",
   "golem_material.twilightforest.steeleaf": "Steeleaf",
+  "golem_part.dog_golem.body": "Body: %s",
+  "golem_part.dog_golem.legs": "Legs: %s",
   "golem_part.humanoid_golem.arms": "Arms: %s",
   "golem_part.humanoid_golem.body": "Body: %s",
   "golem_part.humanoid_golem.legs": "Legs: %s",

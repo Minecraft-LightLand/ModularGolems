@@ -48,7 +48,6 @@ public class GolemItemRegistry {
 	static {
 
 		GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new).defaultModel().defaultLang().register();
-		EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
 
 		// metal golem
 		{
@@ -108,6 +107,7 @@ public class GolemItemRegistry {
 
 		// upgrades
 		{
+			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifierRegistry.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
 			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifierRegistry.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
 			RECYCLE = regUpgrade("recycle", () -> GolemModifierRegistry.RECYCLE).lang("Recycle Ugpgrade").register();

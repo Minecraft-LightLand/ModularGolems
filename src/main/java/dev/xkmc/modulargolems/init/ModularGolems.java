@@ -36,10 +36,10 @@ public class ModularGolems {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	private static void registerRegistrates(IEventBus bus) {
+		GolemItemRegistry.register();
 		GolemTypeRegistry.register();
 		GolemMiscRegistry.register();
 		GolemModifierRegistry.register();
-		GolemItemRegistry.register();
 		ModConfig.init();
 		NetworkManager.register();
 		CompatManager.register();

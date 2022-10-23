@@ -20,7 +20,6 @@ import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -110,14 +109,13 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
-		if (itemstack.isEmpty())
+		if (!player.isShiftKeyDown() && itemstack.isEmpty())
 			return super.mobInteract(player, hand);
-		else if (itemstack.getItem() == Items.BONE) {
+		else {
 			if (!this.level.isClientSide())
 				this.setInSittingPose(!this.isInSittingPose());
 			return InteractionResult.SUCCESS;
 		}
-		return InteractionResult.FAIL;
 	}
 
 }

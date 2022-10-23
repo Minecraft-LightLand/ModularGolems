@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.item.GolemHolder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -72,6 +73,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		if (itemstack.isEmpty()) {
 			return super.mobInteract(player, hand);
+		}
+		if ((itemstack.getItem() instanceof GolemHolder) || !itemstack.getItem().canFitInsideContainerItems()) {
+			return InteractionResult.FAIL;
 		}
 		EquipmentSlot slot = getEquipmentSlotForItem(itemstack);
 		if (itemstack.canEquip(slot, this)) {
