@@ -1,30 +1,31 @@
 modLoader="javafml"
-loaderVersion="[41,)"
+loaderVersion="[42,)"
 license="All rights reserved"
 [[mods]]
 modId="modulargolems"
 version="${file.jarVersion}" #mandatory
 displayName="Modular Golems" #mandatory
 logoFile="modulargolems.png" #optional
-credits="Thanks for this example mod goes to Java" #optional
-authors="Love, Cheese and small house plants" #optional
+credits="LightLand team and Nulladev Team" #optional
+authors="lcy0x1" #optional
 description='''
+This mod adds golems that can be crafted with different materials in a Tinker-like playstyle.
 '''
 [[dependencies.modulargolems]]
     modId="forge"
     mandatory=true
-    versionRange="[41,)"
+    versionRange="[42,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.modulargolems]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19,1.20)"
+    versionRange="[1.19.1,1.20)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.modulargolems]]
     modId="l2library"
     mandatory=true
-    versionRange="[1.4.0,)"
+    versionRange="[1.7.0,)"
     ordering="AFTER"
     side="BOTH"

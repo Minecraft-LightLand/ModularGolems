@@ -1,4 +1,10 @@
 {
+  "conditions": [
+	{
+	  "type": "forge:mod_loaded",
+	  "modid": "patchouli"
+	}
+  ],
   "type": "patchouli:shapeless_book_recipe",
   "ingredients": [
 	{
@@ -8,5 +14,5 @@
 	  "item": "modulargolems:metal_golem_template"
 	}
   ],
-  "book": "modulargolems"
+  "book": "modulargolems:golem_guide"
 }

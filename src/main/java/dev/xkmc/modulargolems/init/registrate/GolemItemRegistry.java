@@ -93,11 +93,11 @@ public class GolemItemRegistry {
 		// dog golem
 		{
 			DOG_BODY = REGISTRATE.item("dog_golem_body", p ->
-							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_DOG, DogGolemPartType.BODY, 4))
+							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_DOG, DogGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
-							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_DOG, DogGolemPartType.LEGS, 4))
+							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_DOG, DogGolemPartType.LEGS, 3))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 			HOLDER_DOG = REGISTRATE.item("dog_golem_holder", p ->

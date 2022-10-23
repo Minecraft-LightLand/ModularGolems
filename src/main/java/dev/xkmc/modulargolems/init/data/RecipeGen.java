@@ -24,12 +24,12 @@ public class RecipeGen {
 		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.GOLEM_TEMPLATE.get())::unlockedBy,
 				Items.CLAY).pattern("CBC").pattern("BAB").pattern("CBC")
 				.define('A', Items.COPPER_INGOT).define('B', Items.STICK)
-				.define('C', Items.CLAY).save(pvd);
+				.define('C', Items.CLAY_BALL).save(pvd);
 
 		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.EMPTY_UPGRADE.get(), 4)::unlockedBy,
 				Items.AMETHYST_SHARD).pattern("CBC").pattern("BAB").pattern("CBC")
 				.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
-				.define('C', Items.CLAY).save(pvd);
+				.define('C', Items.CLAY_BALL).save(pvd);
 
 		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.GOLEM_BODY);
 		pvd.stonecutting(DataIngredient.items(GolemItemRegistry.GOLEM_TEMPLATE.get()), GolemItemRegistry.GOLEM_ARM);
