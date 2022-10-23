@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:recycle",
-	  "text": "死亡时，傀儡会掉落生命值为0的傀儡容器。"
+	  "text": "死亡时，傀儡会掉落生命值为0的待修复傀儡。"
 	}
   ]
 }
