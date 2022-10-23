@@ -1,5 +1,5 @@
 {
-  "name": "Copper",
+  "name": "铜",
   "icon": "minecraft:copper_ingot",
   "category": "modulargolems:materials",
   "sortnum": 101,
@@ -7,17 +7,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:copper_ingot",
-	  "text": "Main material to craft copper golem parts. Copper golem parts feature very cheap price while maintain sufficient stats. Thunder immunity is a minor bonus.$(br2)You can use copper golem as a dispensable guard. It is also very cheap to fix if you use copper body."
+	  "text": "制作铜质傀儡部件的主要材料，铜质傀儡部件造价低廉，拥有不错的属性且免疫雷电伤害$(br2)你可以大量地制作铜傀儡作为防御设施，使用铜质躯干的傀儡修复成本极低。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:copper\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:copper\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:copper\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:copper\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:copper\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:copper\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:copper\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

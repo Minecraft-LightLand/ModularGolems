@@ -1,6 +1,6 @@
 {
   "mod": "create",
-  "name": "Railway",
+  "name": "列车机壳",
   "icon": "create:railway_casing",
   "category": "modulargolems:materials",
   "sortnum": 303,
@@ -8,17 +8,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "create:railway_casing",
-	  "text": "Main material to craft Railway golem parts. It provides high speed boost, high magic damage resistance, fire resistance, range attack, and high knock back. It attacks as if it is a train running into mobs"
+	  "text": "制作列车傀儡部件的主要材料，可为傀儡提供高移动速度，高魔法抗性，火焰抗性，范围攻击以及强力击退。看呐！火车头创向了怪物！"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"create:railway\"},{part:\"modulargolems:metal_golem_body\",material:\"create:railway\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:railway\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:railway\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:railway\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:railway\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:railway\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

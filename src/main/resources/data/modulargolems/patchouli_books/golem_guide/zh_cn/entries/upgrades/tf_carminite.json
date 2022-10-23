@@ -1,13 +1,13 @@
 {
   "mod": "twilightforest",
-  "name": "Carminite Upgrade",
+  "name": "砷铅铁升级",
   "icon": "modulargolems:carminite",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:carminite",
-	  "text": "Golem will turn invisible and invincible for a short time after being hurt, similar to Reappearing Block. Max: 5"
+	  "text": "与砷铅铁方块类似，傀儡将会在受到伤害后隐身且无敌一段时间。最大等级：5"
 	}
   ]
 }

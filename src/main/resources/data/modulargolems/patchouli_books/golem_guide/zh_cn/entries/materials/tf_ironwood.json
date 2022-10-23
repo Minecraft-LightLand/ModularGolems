@@ -1,6 +1,6 @@
 {
   "mod": "twilightforest",
-  "name": "Ironwood",
+  "name": "铁树",
   "icon": "twilightforest:ironwood_ingot",
   "category": "modulargolems:materials",
   "sortnum": 201,
@@ -8,17 +8,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "twilightforest:ironwood_ingot",
-	  "text": "Main material to craft ironwood golem parts. ironwood golem parts feature high health and regeneration, but have very low attack. It is recommended for body or legs parts."
+	  "text": "制作铁木傀儡部件的主要材料，铁木傀儡部件拥有高生命值以及再生能力，但攻击力极低。推荐用于腿部或躯干。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:ironwood\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:ironwood\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:ironwood\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

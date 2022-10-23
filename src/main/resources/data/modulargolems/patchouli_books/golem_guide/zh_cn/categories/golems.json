@@ -1,5 +1,5 @@
 {
-  "name": "傀儡类型",
-  "description": "玩家可制作的傀儡类型",
+  "name": "傀儡种类",
+  "description": "可制作的傀儡种类",
   "icon": "modulargolems:metal_golem_holder"
 }

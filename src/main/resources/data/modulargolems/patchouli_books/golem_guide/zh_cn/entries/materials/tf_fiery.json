@@ -1,6 +1,6 @@
 {
   "mod": "twilightforest",
-  "name": "Fiery",
+  "name": "炽铁",
   "icon": "twilightforest:fiery_ingot",
   "category": "modulargolems:materials",
   "sortnum": 204,
@@ -8,17 +8,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "twilightforest:fiery_ingot",
-	  "text": "Main material to craft fiery golem parts. fiery golem parts feature thorn, fire immune, fiery attack, and high stats. It is recommended for arms for fiery attacks."
+	  "text": "制作炽铁傀儡部件的主要材料，炽铁傀儡部件拥有荆棘效果，火焰免疫，火焰附加与高属性。推荐用炽铁制作傀儡的手臂使其攻击附带火焰。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:fiery\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:fiery\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:fiery\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:fiery\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:fiery\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:fiery\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:fiery\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

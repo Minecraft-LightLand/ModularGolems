@@ -1,6 +1,6 @@
 {
   "mod": "twilightforest",
-  "name": "Knightmetal",
+  "name": "骑士金属",
   "icon": "twilightforest:knightmetal_ingot",
   "category": "modulargolems:materials",
   "sortnum": 203,
@@ -8,17 +8,17 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "twilightforest:knightmetal_ingot",
-	  "text": "Main material to craft knightmetal golem parts. knightmetal golem parts feature significant thorns and high stats. It's recommended for body or leg parts."
+	  "text": "制作骑士傀儡主要部件的材料，骑士傀儡部件具有显著的荆棘效果与高属性，推荐用于腿部或躯干"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:knightmetal\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:knightmetal\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

@@ -1,13 +1,13 @@
 {
   "mod": "twilightforest",
-  "name": "Naga Upgrade",
+  "name": "娜迦升级",
   "icon": "modulargolems:naga",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:naga",
-	  "text": "Holistic stats boost for golem, from the power of Naga. Max: 2"
+	  "text": "娜迦的力量为傀儡带来了各项属性的提升。最大等级：2"
 	}
   ]
 }
