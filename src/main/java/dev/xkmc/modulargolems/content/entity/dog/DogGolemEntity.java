@@ -14,6 +14,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
@@ -63,9 +64,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return (this.entityData.get(DATA_FLAGS_ID) & 1) != 0;
 	}
 
-	public void setInSittingPose(boolean p_21838_) {
+	public void setInSittingPose(boolean sit) {
 		byte b0 = this.entityData.get(DATA_FLAGS_ID);
-		if (p_21838_) {
+		this.getNavigation().stop();
+		this.setTarget(null);
+		if (sit) {
 			this.entityData.set(DATA_FLAGS_ID, (byte) (b0 | 1));
 		} else {
 			this.entityData.set(DATA_FLAGS_ID, (byte) (b0 & -2));
@@ -82,6 +85,16 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		registerTargetGoals();
+	}
+
+	@Override
+	protected boolean predicatePriorityTarget(LivingEntity e) {
+		return !isInSittingPose() && super.predicatePriorityTarget(e);
+	}
+
+	@Override
+	protected boolean predicateSecondaryTarget(LivingEntity e) {
+		return !isInSittingPose() && super.predicateSecondaryTarget(e);
 	}
 
 	public boolean hurt(DamageSource source, float amount) {

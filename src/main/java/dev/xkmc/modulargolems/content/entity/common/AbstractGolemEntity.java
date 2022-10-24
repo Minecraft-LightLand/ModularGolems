@@ -285,11 +285,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void registerTargetGoals() {
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, (e) -> e instanceof Enemy && !(e instanceof Creeper)));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicateSecondaryTarget));
 		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	private boolean predicatePriorityTarget(LivingEntity e) {
+	protected boolean predicatePriorityTarget(LivingEntity e) {
 		if (e instanceof Mob mob) {
 			for (var target : List.of(
 					Optional.ofNullable(mob.getLastHurtMob()),
@@ -304,6 +304,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			}
 		}
 		return false;
+	}
+
+	protected boolean predicateSecondaryTarget(LivingEntity e) {
+		return e instanceof Enemy && !(e instanceof Creeper);
 	}
 
 	public boolean isInSittingPose() {

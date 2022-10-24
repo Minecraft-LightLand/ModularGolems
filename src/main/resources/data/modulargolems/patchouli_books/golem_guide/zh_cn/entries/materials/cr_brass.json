@@ -19,6 +19,11 @@
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:brass\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:brass\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:brass\"}]}",
 	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"create:brass\"},{part:\"modulargolems:dog_golem_legs\",material:\"create:brass\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }
