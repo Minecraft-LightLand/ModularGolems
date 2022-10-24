@@ -1,5 +1,5 @@
 {
-  "mod": "create",
+  "flag": "mod:create",
   "name": "黄铜",
   "icon": "create:brass_ingot",
   "category": "modulargolems:materials",

@@ -29,7 +29,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public Component getTooltip(int v) {
 		MutableComponent ans = getDesc();
 		if (maxLevel > 1)
-			ans = ans.append(Component.translatable("potion.potency." + (v - 1)));
+			ans = ans.append(" ").append(Component.translatable("potion.potency." + (v - 1)));
 		return ans.withStyle(ChatFormatting.LIGHT_PURPLE);
 	}
 

@@ -12,6 +12,8 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,6 +60,7 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		return Wrappers.cast(EntityType.create(tag, level).get());
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Nullable
 	public T createForDisplay(CompoundTag tag) {
 		var ans = EntityType.create(tag, Proxy.getClientWorld()).orElse(null);

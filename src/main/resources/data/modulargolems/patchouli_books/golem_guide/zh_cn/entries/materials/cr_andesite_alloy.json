@@ -1,5 +1,5 @@
 {
-  "mod": "create",
+  "flag": "mod:create",
   "name": "安山合金",
   "icon": "create:andesite_alloy",
   "category": "modulargolems:materials",

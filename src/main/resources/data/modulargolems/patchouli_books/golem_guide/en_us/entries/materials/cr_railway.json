@@ -1,5 +1,5 @@
 {
-  "mod": "create",
+  "flag": "mod:create",
   "name": "Railway",
   "icon": "create:railway_casing",
   "category": "modulargolems:materials",

@@ -1,5 +1,5 @@
 {
-  "mod": "create",
+  "flag": "mod:create",
   "name": "Zinc",
   "icon": "create:zinc_ingot",
   "category": "modulargolems:materials",
