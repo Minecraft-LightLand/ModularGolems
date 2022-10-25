@@ -21,7 +21,7 @@ Create
 Thermal Foundation
 - Silver                50/10                                   Smite I         Smite Thorn I
 - Nickel                150/20                                  ?
-- Lead                  50/10                                   ?
+- Lead                  80/20   -40% speed                      Poison I        Magic Res II
 - Steel                 200/20                                  ?
 - Rose Gold             50/10                                   AddSlot I
 - Constantan            200/10                                  ?
