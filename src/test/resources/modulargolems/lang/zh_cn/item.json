@@ -20,6 +20,8 @@
 	"recycle": "回收升级",
 	"enchanted_gold": "附魔金苹果升级",
 	"gold": "金苹果升级",
-	"empty_upgrade": "空白升级模版"
+	"empty_upgrade": "空白升级模版",
+	"retrieval_wand": "回收手杖",
+	"float": "漂浮升级"
   }
 }

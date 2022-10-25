@@ -31,7 +31,8 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "zinc"),
 						Ingredient.of(AllTags.forgeItemTag("ingots/zinc")))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 20)
-				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 5).end()
+				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 5)
+				.addModifier(CreateCompatRegistry.COATING.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "andesite_alloy"),
 						Ingredient.of(AllItems.ANDESITE_ALLOY.get()))

@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
-import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.block.model.ItemTransforms;

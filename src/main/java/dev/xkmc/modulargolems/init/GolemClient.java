@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.init;
 
-import dev.xkmc.modulargolems.content.item.ClientHolderManager;
-import dev.xkmc.modulargolems.content.item.GolemBEWLR;
+import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
+import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;

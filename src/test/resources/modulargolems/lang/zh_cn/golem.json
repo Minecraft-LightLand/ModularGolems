@@ -45,6 +45,8 @@
 	"damage_up": "伤害提升",
 	"regeneration_up": "回复升级",
 	"magic_resistant": "魔法抗性",
-	"magic_resistant.desc": "受到的魔法伤害x%s%%"
+	"magic_resistant.desc": "受到的魔法伤害x%s%%",
+	"float": "漂浮升级",
+	"float.desc": "让傀儡浮在水面"
   }
 }

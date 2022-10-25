@@ -1,0 +1,13 @@
+{
+  "flag": "mod:create",
+  "name": "Extendo Upgrade",
+  "icon": "modulargolems:push",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:push",
+	  "text": "Attacks will have higher knockback. Max: 1"
+	}
+  ]
+}

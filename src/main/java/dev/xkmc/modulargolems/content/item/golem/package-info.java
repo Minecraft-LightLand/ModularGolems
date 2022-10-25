@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.content.upgrades;
+package dev.xkmc.modulargolems.content.item.golem;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

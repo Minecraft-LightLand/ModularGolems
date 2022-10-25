@@ -8,7 +8,7 @@ import dev.xkmc.l2library.util.annotation.DataGenOnly;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
-import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.NetworkManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

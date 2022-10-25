@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.golem;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;

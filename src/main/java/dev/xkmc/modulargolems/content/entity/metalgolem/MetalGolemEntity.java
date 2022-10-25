@@ -2,8 +2,9 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
-import dev.xkmc.modulargolems.content.entity.common.FollowOwnerGoal;
+import dev.xkmc.modulargolems.content.entity.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.entity.goals.GolemFloatGoal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -61,6 +62,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	private int attackAnimationTick;
 
 	protected void registerGoals() {
+		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
 		this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
 		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 20.0F, 4.0F, false));

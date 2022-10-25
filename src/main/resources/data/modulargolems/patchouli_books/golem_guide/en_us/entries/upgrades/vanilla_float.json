@@ -1,0 +1,12 @@
+{
+  "name": "Float",
+  "icon": "modulargolems:float",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:float",
+	  "text": "Golem floats in water."
+	}
+  ]
+}

@@ -10,10 +10,11 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
-import dev.xkmc.modulargolems.content.item.GolemHolder;
-import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.content.item.RetrievalWandItem;
+import dev.xkmc.modulargolems.content.item.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
-import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -43,11 +44,46 @@ public class GolemItemRegistry {
 	public static final ItemEntry<GolemPart<DogGolemEntity, DogGolemPartType>> DOG_BODY, DOG_LEGS;
 	public static final ItemEntry<GolemHolder<DogGolemEntity, DogGolemPartType>> HOLDER_DOG;
 
-	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ, GOLD, ENCHANTED_GOLD;
+	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ, GOLD, ENCHANTED_GOLD, FLOAT;
+
+	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
 
 	static {
 
 		GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new).defaultModel().defaultLang().register();
+		RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
+
+		// upgrades
+		{
+			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
+			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifierRegistry.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
+			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifierRegistry.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
+			RECYCLE = regUpgrade("recycle", () -> GolemModifierRegistry.RECYCLE).lang("Recycle Ugpgrade").register();
+			DIAMOND = regUpgrade("diamond", () -> GolemModifierRegistry.ARMOR).lang("Diamond Upgrade").register();
+			NETHERITE = regUpgrade("netherite", () -> GolemModifierRegistry.TOUGH).lang("Netherite Upgrade").register();
+			QUARTZ = regUpgrade("quartz", () -> GolemModifierRegistry.DAMAGE).lang("Quartz Upgrade").register();
+			GOLD = regUpgrade("gold", () -> GolemModifierRegistry.REGEN).lang("Golden Apple Upgrade").register();
+			ENCHANTED_GOLD = regUpgrade("enchanted_gold", () -> GolemModifierRegistry.REGEN, 2, true).lang("Enchanted Golden Apple Upgrade").register();
+			FLOAT = regUpgrade("float", () -> GolemModifierRegistry.FLOAT).lang("Float Upgrade").register();
+		}
+
+		// holders
+		{
+			HOLDER_GOLEM = REGISTRATE.item("metal_golem_holder", p ->
+							new GolemHolder<>(p.fireResistant(), GolemTypeRegistry.TYPE_GOLEM))
+					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.defaultLang().register();
+
+			HOLDER_HUMANOID = REGISTRATE.item("humanoid_golem_holder", p ->
+							new GolemHolder<>(p.fireResistant(), GolemTypeRegistry.TYPE_HUMANOID))
+					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.defaultLang().register();
+
+			HOLDER_DOG = REGISTRATE.item("dog_golem_holder", p ->
+							new GolemHolder<>(p.fireResistant(), GolemTypeRegistry.TYPE_DOG))
+					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.defaultLang().register();
+		}
 
 		// metal golem
 		{
@@ -61,10 +97,6 @@ public class GolemItemRegistry {
 					.defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
-					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
-					.defaultLang().register();
-			HOLDER_GOLEM = REGISTRATE.item("metal_golem_holder", p ->
-							new GolemHolder<>(p.fireResistant(), GolemTypeRegistry.TYPE_GOLEM))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
 		}
@@ -83,10 +115,6 @@ public class GolemItemRegistry {
 							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
-			HOLDER_HUMANOID = REGISTRATE.item("humanoid_golem_holder", p ->
-							new GolemHolder<>(p.fireResistant(), GolemTypeRegistry.TYPE_HUMANOID))
-					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
-					.defaultLang().register();
 		}
 
 		// dog golem
@@ -95,28 +123,13 @@ public class GolemItemRegistry {
 							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_DOG, DogGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
+
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypeRegistry.TYPE_DOG, DogGolemPartType.LEGS, 3))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
 					.defaultLang().register();
-			HOLDER_DOG = REGISTRATE.item("dog_golem_holder", p ->
-							new GolemHolder<>(p.fireResistant(), GolemTypeRegistry.TYPE_DOG))
-					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
-					.defaultLang().register();
 		}
 
-		// upgrades
-		{
-			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
-			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifierRegistry.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
-			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifierRegistry.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
-			RECYCLE = regUpgrade("recycle", () -> GolemModifierRegistry.RECYCLE).lang("Recycle Ugpgrade").register();
-			DIAMOND = regUpgrade("diamond", () -> GolemModifierRegistry.ARMOR).lang("Diamond Upgrade").register();
-			NETHERITE = regUpgrade("netherite", () -> GolemModifierRegistry.TOUGH).lang("Netherite Upgrade").register();
-			QUARTZ = regUpgrade("quartz", () -> GolemModifierRegistry.DAMAGE).lang("Quartz Upgrade").register();
-			GOLD = regUpgrade("gold", () -> GolemModifierRegistry.REGEN).lang("Golden Apple Upgrade").register();
-			ENCHANTED_GOLD = regUpgrade("enchanted_gold", () -> GolemModifierRegistry.REGEN, 2, true).lang("Enchanted Golden Apple Upgrade").register();
-		}
 	}
 
 	public static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {

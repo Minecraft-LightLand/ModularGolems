@@ -1,0 +1,13 @@
+{
+  "flag": "mod:create",
+  "name": "Coating Upgrade",
+  "icon": "modulargolems:coating",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:coating",
+	  "text": "Damage taken will be reduced by a fixed amount. Max: 5"
+	}
+  ]
+}

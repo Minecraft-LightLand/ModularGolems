@@ -25,7 +25,9 @@
       "modulargolems:fire_immune": 1,
       "modulargolems:magic_resistant": 2
     },
-    "create:zinc": {}
+    "create:zinc": {
+      "modulargolems:coating": 1
+    }
   },
   "stats": {
     "create:andesite_alloy": {

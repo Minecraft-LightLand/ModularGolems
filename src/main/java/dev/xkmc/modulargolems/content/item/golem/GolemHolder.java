@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.golem;
 
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
@@ -7,7 +7,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.LangData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;

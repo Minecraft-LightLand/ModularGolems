@@ -1,3 +1,8 @@
+TODO
+add floating modifier upgrade
+add retrieval wand item, and tooltip and patchouli page
+
+
 Vanilla
 
 - Copper                50/10                                   Thunder Immune
@@ -24,10 +29,10 @@ Thermal Foundation
 - Lead                  80/20   -40% speed                      Poison I        Magic Res II
 - Steel                 200/20                                  ?
 - Rose Gold             50/10                                   AddSlot I
-- Constantan            200/10                                  ?
+- Constantan            200/10                                  Fire Immune     Cold Immune
 - Invar                 250/25                                  ?
 - Signalum              100/10                                  ?
-- Liminum               100/10                                  ?
+- Luminum               100/10                                  ?
 - Enderium              100/10                                  ?
 
 Tinker Construct

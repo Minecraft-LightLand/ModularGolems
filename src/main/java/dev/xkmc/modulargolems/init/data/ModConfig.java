@@ -15,8 +15,11 @@ public class ModConfig {
 		public final ForgeConfigSpec.DoubleValue compatTFDamage;
 		public final ForgeConfigSpec.IntValue carminiteTime;
 		public final ForgeConfigSpec.DoubleValue coating;
+		public final ForgeConfigSpec.BooleanValue barehandRetrieve;
 
 		Common(ForgeConfigSpec.Builder builder) {
+			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
+					.define("barehandRetrieve", true);
 			thorn = builder.comment("Percentage damage reflection per level of thorn")
 					.defineInRange("thorn", 0.2, 0, 100);
 			fiery = builder.comment("Percentage damage addition per level of fiery")
@@ -29,8 +32,8 @@ public class ModConfig {
 					.defineInRange("compatTFDamage", 0.2, 0, 100);
 			carminiteTime = builder.comment("Time for the golem to be invincible (in ticks) per level of carminite")
 					.defineInRange("carminiteTime", 20, 1, 100000);
-			coating = builder.comment("Percentage damage absorption applied per level of coating")
-					.defineInRange("coating", 0.2, 0, 1);
+			coating = builder.comment("Damage absorbed per level of coating")
+					.defineInRange("coating", 1d, 0, 10000);
 		}
 
 	}

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.golem;
 
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.core.IGolemPart;

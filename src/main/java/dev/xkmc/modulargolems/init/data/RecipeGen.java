@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,6 +26,13 @@ public class RecipeGen {
 				Items.CLAY).pattern("CBC").pattern("BAB").pattern("CBC")
 				.define('A', Items.COPPER_INGOT).define('B', Items.STICK)
 				.define('C', Items.CLAY_BALL).save(pvd);
+
+		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.RETRIEVAL_WAND.get())::unlockedBy, Items.ENDER_PEARL)
+				.pattern(" ET").pattern(" SE").pattern("S  ")
+				.define('E', Items.ENDER_PEARL)
+				.define('S', Items.STICK)
+				.define('T', GolemItemRegistry.GOLEM_TEMPLATE.get())
+				.save(pvd);
 
 		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.EMPTY_UPGRADE.get(), 4)::unlockedBy,
 				Items.AMETHYST_SHARD).pattern("CBC").pattern("BAB").pattern("CBC")
@@ -114,8 +122,13 @@ public class RecipeGen {
 					.define('C', Items.GOLDEN_CARROT)
 					.save(pvd);
 
+
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItemRegistry.ENCHANTED_GOLD.get())::unlockedBy, Items.ENCHANTED_GOLDEN_APPLE)
 					.requires(GolemItemRegistry.EMPTY_UPGRADE.get()).requires(Items.ENCHANTED_GOLDEN_APPLE)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItemRegistry.FLOAT.get())::unlockedBy, GolemItemRegistry.EMPTY_UPGRADE.get())
+					.requires(GolemItemRegistry.EMPTY_UPGRADE.get()).requires(ItemTags.BOATS)
 					.save(pvd);
 
 		}

@@ -7,6 +7,7 @@ import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.repack.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.common.FloatModifier;
 import dev.xkmc.modulargolems.content.modifier.common.RecycleModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.FireImmuneModifier;
@@ -26,6 +27,7 @@ public class GolemModifierRegistry {
 	public static final RegistryEntry<MagicResistanceModifier> MAGIC_RES;
 	public static final RegistryEntry<RecycleModifier> RECYCLE;
 	public static final RegistryEntry<ThornModifier> THORN;
+	public static final RegistryEntry<FloatModifier> FLOAT;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
 
 	static {
@@ -49,6 +51,7 @@ public class GolemModifierRegistry {
 		)).register();
 
 		THORN = reg("thorn", ThornModifier::new, "Reflect %s%% damage");
+		FLOAT = reg("float", FloatModifier::new, "Golem floats in water and lava instead of sinking");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.upgrades;
+package dev.xkmc.modulargolems.content.item;
 
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import net.minecraft.network.chat.Component;

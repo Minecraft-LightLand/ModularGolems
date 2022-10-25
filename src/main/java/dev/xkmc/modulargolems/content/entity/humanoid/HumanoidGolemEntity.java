@@ -1,9 +1,10 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2library.serial.SerialClass;
-import dev.xkmc.modulargolems.content.entity.common.FollowOwnerGoal;
+import dev.xkmc.modulargolems.content.entity.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
-import dev.xkmc.modulargolems.content.item.GolemHolder;
+import dev.xkmc.modulargolems.content.entity.goals.GolemFloatGoal;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -32,6 +33,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	protected void registerGoals() {
+		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
 		this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
 		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 20.0F, 4.0F, false));

@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.FieryModi
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFDamageModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFHealingModifier;
 import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
-import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItemRegistry.regUpgrade;

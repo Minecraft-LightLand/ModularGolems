@@ -3,13 +3,15 @@ package dev.xkmc.modulargolems.content.entity.common;
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.l2library.serial.codec.PacketCodec;
 import dev.xkmc.l2library.serial.codec.TagCodec;
+import dev.xkmc.l2library.util.annotation.ServerOnly;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
-import dev.xkmc.modulargolems.content.item.GolemHolder;
+import dev.xkmc.modulargolems.content.item.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
-import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
+import dev.xkmc.modulargolems.init.data.ModConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
@@ -98,15 +100,22 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (!ModConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level.isClientSide()) {
-				player.setItemSlot(EquipmentSlot.MAINHAND, GolemHolder.setEntity(getThis()));
-				level.broadcastEntityEvent(this, EntityEvent.POOF);
-				this.discard();
+				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
 			}
 			return InteractionResult.SUCCESS;
 		}
 		return super.mobInteract(player, hand);
+	}
+
+	@ServerOnly
+	public ItemStack toItem() {
+		var ans = GolemHolder.setEntity(getThis());
+		level.broadcastEntityEvent(this, EntityEvent.POOF);
+		this.discard();
+		return ans;
 	}
 
 	@Override
