@@ -216,7 +216,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				golem.moveTo(pos);
-				if (stack.hasCustomHoverName()){
+				if (stack.hasCustomHoverName()) {
 					golem.setCustomName(stack.getHoverName());
 				}
 				golem.setMode(0, BlockPos.ZERO);
@@ -233,7 +233,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
-				if (stack.hasCustomHoverName()){
+				if (stack.hasCustomHoverName()) {
 					golem.setCustomName(stack.getHoverName());
 				}
 				golem.setMode(0, BlockPos.ZERO);

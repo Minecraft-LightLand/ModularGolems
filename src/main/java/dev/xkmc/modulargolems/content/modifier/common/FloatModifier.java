@@ -8,5 +8,5 @@ public class FloatModifier extends GolemModifier {
 	public FloatModifier() {
 		super(StatFilterType.HEALTH, 1);
 	}
-	
+
 }

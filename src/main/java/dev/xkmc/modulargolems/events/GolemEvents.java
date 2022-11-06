@@ -1,11 +1,13 @@
 package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -52,6 +54,18 @@ public class GolemEvents {
 	public static void onDamaged(LivingDamageEvent event) {
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
 			entity.getModifiers().forEach((k, v) -> k.onDamaged(entity, event, v));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onExplosion(ExplosionEvent.Detonate event) {
+		for (var e : event.getAffectedEntities()) {
+			if (e instanceof AbstractGolemEntity<?, ?> golem) {
+				if (golem.getModifiers().getOrDefault(GolemModifierRegistry.EXPLOSION_RES.get(), 0) > 0) {
+					event.getAffectedBlocks().clear();
+					return;
+				}
+			}
 		}
 	}
 

@@ -1,0 +1,12 @@
+{
+  "name": "海绵升级",
+  "icon": "modulargolems:sponge",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:sponge",
+	  "text": "傀儡受到的爆炸伤害减少，并且波及到傀儡的爆炸不破坏方块。"
+	}
+  ]
+}

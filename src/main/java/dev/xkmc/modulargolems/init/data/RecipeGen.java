@@ -34,7 +34,7 @@ public class RecipeGen {
 				.define('T', GolemItemRegistry.GOLEM_TEMPLATE.get())
 				.save(pvd);
 
-		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.RETRIEVAL_WAND.get())::unlockedBy, Items.ENDER_PEARL)
+		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.COMMAND_WAND.get())::unlockedBy, Items.GOLD_INGOT)
 				.pattern(" ET").pattern(" SE").pattern("S  ")
 				.define('E', Items.GOLD_INGOT)
 				.define('S', Items.STICK)
@@ -129,6 +129,11 @@ public class RecipeGen {
 					.define('C', Items.GOLDEN_CARROT)
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItemRegistry.SPONGE.get())::unlockedBy, Items.WET_SPONGE)
+					.pattern(" A ").pattern("ABA").pattern(" A ")
+					.define('A', Items.WET_SPONGE)
+					.define('B', GolemItemRegistry.EMPTY_UPGRADE.get())
+					.save(pvd);
 
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItemRegistry.ENCHANTED_GOLD.get())::unlockedBy, Items.ENCHANTED_GOLDEN_APPLE)
 					.requires(GolemItemRegistry.EMPTY_UPGRADE.get()).requires(Items.ENCHANTED_GOLDEN_APPLE)

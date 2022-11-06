@@ -1,6 +1,6 @@
-// 1.19.2	2022-11-06T01:13:34.338892	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-cde294f74b06407407433ee366b48a7552913e18 assets/modulargolems/lang/en_ud.json
-87f66cab18ffed68c46b3d3f7142b3f7f1138706 assets/modulargolems/lang/en_us.json
+// 1.19.2	2022-11-06T01:05:29.159125	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+c9829f50e634e36dd98510167b5f6473710b7823 assets/modulargolems/lang/en_ud.json
+d48da5138ee5806ae585cdf2e5340e05b1867863 assets/modulargolems/lang/en_us.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 a9bfdc6c816b787e0e70c42ddbb0de5b53c94c51 assets/modulargolems/models/item/coating.json
 4769ec561a30aaf33eec61a67175bbc7e7ec2380 assets/modulargolems/models/item/command_wand.json
@@ -31,10 +31,12 @@ d864125084b476a58d79a97a792e24b1f0489865 assets/modulargolems/models/item/nether
 0cec7e73777067f4d6f7c602c9324315b14a03a3 assets/modulargolems/models/item/quartz.json
 cd5c3b221411fb57e35fcfc1ac5c223eb495adef assets/modulargolems/models/item/recycle.json
 295b30187a6f2f55f4089bec3ff128db02269865 assets/modulargolems/models/item/retrieval_wand.json
+d98f7f2e288f24c3dc1c01aa98f1d149e64d66f7 assets/modulargolems/models/item/sponge.json
 71382a00c3ff5370d88fc93b43062458016222d9 assets/modulargolems/models/item/steeleaf.json
 1898e07c979f496fcda02b4c7677e644d9c8bffe assets/modulargolems/models/item/thunder_immune.json
 2830f39d025b466dd3eddbb715d4679ccd2e14e8 data/modulargolems/advancements/recipes/modulargolems.golems/carminite.json
 ac8b4e6888556d268cb4ac7b5feb8c46ed552809 data/modulargolems/advancements/recipes/modulargolems.golems/coating.json
+4d3fe9dc4e3126d2ef41aa5e72e0ae08d154c038 data/modulargolems/advancements/recipes/modulargolems.golems/command_wand.json
 fe251f41c1738034f5a270444c1671538d981b46 data/modulargolems/advancements/recipes/modulargolems.golems/diamond.json
 7ba7a18a215d899690ecc0d97ed90017e7156b6d data/modulargolems/advancements/recipes/modulargolems.golems/dog_golem_body_from_metal_golem_template_stonecutting.json
 4c4e689df776050233091e9e92e504c7ad172a98 data/modulargolems/advancements/recipes/modulargolems.golems/dog_golem_holder.json
@@ -62,10 +64,12 @@ c1258b5a005712976cb062df85d02547c0978c57 data/modulargolems/advancements/recipes
 5033e3b0da176318810986cc88880e87838ff682 data/modulargolems/advancements/recipes/modulargolems.golems/quartz.json
 50d83baf8f5fcd53bf62d82c18af94073e45a9cf data/modulargolems/advancements/recipes/modulargolems.golems/recycle.json
 2e2a43768bba1deaea6b7f5a08d07cdc8833dc20 data/modulargolems/advancements/recipes/modulargolems.golems/retrieval_wand.json
+05a44bc751713917cb450d1f9fd747e7c890021a data/modulargolems/advancements/recipes/modulargolems.golems/sponge.json
 4edf7e5cecacb36611911fc1932fc215932c9db2 data/modulargolems/advancements/recipes/modulargolems.golems/steeleaf.json
 0529dcaaffb40917862e3f5b8465a1cc1f6d0fe5 data/modulargolems/advancements/recipes/modulargolems.golems/thunder_immune.json
 5c501264402361dd8adfe6c5752856234d3221f1 data/modulargolems/recipes/carminite.json
 b925c12ec50e6449c0ef8948756f9adb92b2fb1a data/modulargolems/recipes/coating.json
+969737428af35e17931e83a6bc5c2bc96b6384ab data/modulargolems/recipes/command_wand.json
 e4a23f397535b40b50f9448eb185ae54e0727c25 data/modulargolems/recipes/diamond.json
 7c77fca8fb6291ec838b12969ed6b8071052c3e2 data/modulargolems/recipes/dog_golem_body_from_metal_golem_template_stonecutting.json
 7d221b382d4a1ad88dcab6cbad2730782c65a94d data/modulargolems/recipes/dog_golem_holder.json
@@ -93,5 +97,6 @@ f6a574afdac23a5033caee32f5ef29b14df64356 data/modulargolems/recipes/naga.json
 58dbc59506ca6a6d59e08c3574471985f9f73bd6 data/modulargolems/recipes/quartz.json
 0845a186a0e58fee2207793853e91169514ce167 data/modulargolems/recipes/recycle.json
 247cc4f54474d15bafd77d3d72a248ba99847c2a data/modulargolems/recipes/retrieval_wand.json
+a70d4751e03d611b838cd3866f73758f0d71426d data/modulargolems/recipes/sponge.json
 b283b14d4b2dd3fc3b73671b6f395f140e5a470a data/modulargolems/recipes/steeleaf.json
 8d37017d64ca070a9fb157acf63de2533e1e8332 data/modulargolems/recipes/thunder_immune.json

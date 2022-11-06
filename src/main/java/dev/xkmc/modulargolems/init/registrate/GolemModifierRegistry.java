@@ -10,10 +10,7 @@ import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.common.FloatModifier;
 import dev.xkmc.modulargolems.content.modifier.common.RecycleModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
-import dev.xkmc.modulargolems.content.modifier.immunes.FireImmuneModifier;
-import dev.xkmc.modulargolems.content.modifier.immunes.MagicImmuneModifier;
-import dev.xkmc.modulargolems.content.modifier.immunes.MagicResistanceModifier;
-import dev.xkmc.modulargolems.content.modifier.immunes.ThunderImmuneModifier;
+import dev.xkmc.modulargolems.content.modifier.immunes.*;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -28,6 +25,7 @@ public class GolemModifierRegistry {
 	public static final RegistryEntry<RecycleModifier> RECYCLE;
 	public static final RegistryEntry<ThornModifier> THORN;
 	public static final RegistryEntry<FloatModifier> FLOAT;
+	public static final RegistryEntry<ExplosionResistanceModifier> EXPLOSION_RES;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
 
 	static {
@@ -52,6 +50,7 @@ public class GolemModifierRegistry {
 
 		THORN = reg("thorn", ThornModifier::new, "Reflect %s%% damage");
 		FLOAT = reg("float", FloatModifier::new, "Golem floats in water and lava instead of sinking");
+		EXPLOSION_RES = reg("explosion_resistant", ExplosionResistanceModifier::new, "Explosion damage taken reduced to %s%% of original, and will not break blocks.");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {
