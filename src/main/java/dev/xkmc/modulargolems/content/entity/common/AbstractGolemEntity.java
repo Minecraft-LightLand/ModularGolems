@@ -5,6 +5,7 @@ import dev.xkmc.l2library.serial.codec.PacketCodec;
 import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.annotation.ServerOnly;
 import dev.xkmc.l2library.util.code.Wrappers;
+import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
@@ -14,6 +15,7 @@ import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.init.data.ModConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
@@ -38,6 +40,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
@@ -161,6 +164,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.addAdditionalSaveData(tag);
 		this.addPersistentAngerSaveData(tag);
 		tag.put("auto-serial", Objects.requireNonNull(TagCodec.toTag(new CompoundTag(), this)));
+		tag.putInt("follow_mode", getMode());
+		new NBTObj(tag).getSub("guard_pos").fromBlockPos(getGuardPos());
 	}
 
 	public void readAdditionalSaveData(CompoundTag tag) {
@@ -171,6 +176,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				TagCodec.fromTag(tag.getCompound("auto-serial"), this.getClass(), this, (f) -> true);
 			});
 		}
+		setMode(tag.getInt("follow_mode"), new NBTObj(tag).getSub("guard_pos").toBlockPos());
 	}
 
 	public Packet<?> getAddEntityPacket() {
@@ -191,11 +197,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ common golem behavior
 
-	public boolean canAttackType(EntityType<?> target) {
-		if (target == EntityType.PLAYER) {
-			return false;
-		}
-		return target != EntityType.CREEPER && super.canAttackType(target);
+	@Override
+	public boolean canAttack(LivingEntity pTarget) {
+		return !this.isAlliedTo(pTarget) && super.canAttack(pTarget);
 	}
 
 	protected float getAttackDamage() {
@@ -228,6 +232,29 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return air;
 	}
 
+	// mode
+
+	private static final EntityDataAccessor<Integer> DATA_MODE = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<BlockPos> GUARD_POS = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BLOCK_POS);
+
+	public int getMode() {
+		return this.entityData.get(DATA_MODE);
+	}
+
+	public BlockPos getGuardPos() {
+		return this.entityData.get(GUARD_POS);
+	}
+
+	public void setMode(int mode, BlockPos pos) {
+		this.entityData.set(DATA_MODE, mode);
+		this.entityData.set(GUARD_POS, pos);
+	}
+
+	@Override
+	public boolean canChangeDimensions() {
+		return getMode() == 0 && super.canChangeDimensions();
+	}
+
 	// ------ persistent anger
 
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
@@ -239,6 +266,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
+		this.entityData.define(DATA_MODE, 0);
+		this.entityData.define(GUARD_POS, BlockPos.ZERO);
 	}
 
 	public void startPersistentAngerTimer() {
@@ -321,6 +350,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public boolean isInSittingPose() {
 		return false;
+	}
+
+	public Vec3 getTargetPos() {
+		if (getMode() == 1) {
+			BlockPos pos = getGuardPos();
+			return new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+		}
+		LivingEntity owner = getOwner();
+		if (owner == null) return getPosition(1);
+		return owner.getPosition(1);
 	}
 
 }

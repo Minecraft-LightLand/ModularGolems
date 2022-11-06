@@ -72,7 +72,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	protected void doPush(Entity p_28839_) {
-		if (p_28839_ instanceof Enemy && !(p_28839_ instanceof Creeper) && this.getRandom().nextInt(20) == 0) {
+		if (p_28839_ instanceof Enemy && !(p_28839_ instanceof Creeper)) {
 			this.setTarget((LivingEntity) p_28839_);
 		}
 		super.doPush(p_28839_);
@@ -98,8 +98,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	public boolean doHurtTarget(Entity target) {
 		this.attackAnimationTick = 10;
 		this.level.broadcastEntityEvent(this, (byte) 4);
-		float rawDamage = this.getAttackDamage();
-		float damage = (int) rawDamage > 0 ? rawDamage / 2.0F + (float) this.random.nextInt((int) rawDamage) : rawDamage;
+		float damage = this.getAttackDamage();
 		double kb;
 		if (target instanceof LivingEntity livingentity) {
 			kb = livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);

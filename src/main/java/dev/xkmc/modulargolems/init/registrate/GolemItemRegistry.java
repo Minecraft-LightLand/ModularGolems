@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
+import dev.xkmc.modulargolems.content.item.CommandWandItem;
 import dev.xkmc.modulargolems.content.item.RetrievalWandItem;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -47,11 +48,13 @@ public class GolemItemRegistry {
 	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ, GOLD, ENCHANTED_GOLD, FLOAT;
 
 	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
+	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
 
 	static {
 
 		GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new).defaultModel().defaultLang().register();
 		RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
+		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
 
 		// upgrades
 		{

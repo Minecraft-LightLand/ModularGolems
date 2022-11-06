@@ -120,6 +120,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			uplist.add(StringTag.valueOf(rl.toString()));
 		}
 		entity.save(tag.getSubTag(KEY_ENTITY).getOrCreate());
+		var name = entity.getCustomName();
+		if (name != null) stack.setHoverName(name);
 		return stack;
 	}
 
@@ -214,6 +216,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				golem.moveTo(pos);
+				if (stack.hasCustomHoverName()){
+					golem.setCustomName(stack.getHoverName());
+				}
+				golem.setMode(0, BlockPos.ZERO);
 				level.addFreshEntity(golem);
 				stack.shrink(1);
 				stack.removeTagKey(KEY_ENTITY);
@@ -227,6 +233,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
+				if (stack.hasCustomHoverName()){
+					golem.setCustomName(stack.getHoverName());
+				}
+				golem.setMode(0, BlockPos.ZERO);
 				level.addFreshEntity(golem);
 				if (player == null || !player.getAbilities().instabuild) {
 					stack.shrink(1);

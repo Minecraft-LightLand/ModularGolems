@@ -1,0 +1,16 @@
+{
+  "name": "Retrieval Wand",
+  "icon": "modulargolems:retrieval_wand",
+  "category": "modulargolems:golems",
+  "sortnum": 20,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "Right click golems to retrieve golem back into inventory, as if the player right clicks it by empty hand.$(br2)Right click in air to retrieve all golems in a radious of 20 blocks.$(br2)Shift right click to retrieve golems the player points to, up to 64 blocks far."
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:retrieval_wand",
+	  "text": "Wand for massive golem retrieval."
+	}
+  ]
+}

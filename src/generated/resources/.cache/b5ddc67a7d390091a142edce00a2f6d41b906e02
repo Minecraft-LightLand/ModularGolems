@@ -1,8 +1,9 @@
-// 1.19.2	2022-10-25T13:21:20.168103	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-43d0a55e01644b3bce658c421f40bb2812d83524 assets/modulargolems/lang/en_ud.json
-66564612f28015399e251f6e2b7eb3eec4b13b1e assets/modulargolems/lang/en_us.json
+// 1.19.2	2022-11-06T01:13:34.338892	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+cde294f74b06407407433ee366b48a7552913e18 assets/modulargolems/lang/en_ud.json
+87f66cab18ffed68c46b3d3f7142b3f7f1138706 assets/modulargolems/lang/en_us.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 a9bfdc6c816b787e0e70c42ddbb0de5b53c94c51 assets/modulargolems/models/item/coating.json
+4769ec561a30aaf33eec61a67175bbc7e7ec2380 assets/modulargolems/models/item/command_wand.json
 1944c2312dc28e55270781c133191dced9b12de1 assets/modulargolems/models/item/diamond.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/dog_golem_body.json
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/dog_golem_holder.json
