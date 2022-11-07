@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.init.data.ModConfig;
@@ -103,6 +104,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
 		if (!ModConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level.isClientSide()) {

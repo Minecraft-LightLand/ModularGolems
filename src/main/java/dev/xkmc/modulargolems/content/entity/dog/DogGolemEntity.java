@@ -4,6 +4,7 @@ import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.goals.GolemFloatGoal;
+import dev.xkmc.modulargolems.content.item.WandItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -123,6 +124,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
 			return super.mobInteract(player, hand);

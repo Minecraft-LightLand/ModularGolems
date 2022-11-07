@@ -4,6 +4,7 @@ import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.goals.GolemFloatGoal;
+import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -63,6 +64,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (player.isShiftKeyDown()) {
 			for (EquipmentSlot slot : EquipmentSlot.values()) {

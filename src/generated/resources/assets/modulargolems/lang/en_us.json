@@ -95,6 +95,8 @@
   "modifier.modulargolems.thunder_immune": "Thunder Immune",
   "modifier.modulargolems.thunder_immune.desc": "Immune to lightning bolt damage",
   "modifier.modulargolems.toughness_up": "Toughness Up",
+  "modulargolems.tooltip.following": "Golem will follow you",
+  "modulargolems.tooltip.guarding": "Golem will stay around (%s, %s, %s)",
   "modulargolems.tooltip.health": "Health: %s/%s",
   "modulargolems.tooltip.shift": "Press SHIFT to show modifier details",
   "modulargolems.tooltip.slot": "Remaining Upgrade Slot: %s",

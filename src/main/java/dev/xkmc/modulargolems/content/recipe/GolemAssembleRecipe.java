@@ -3,11 +3,13 @@ package dev.xkmc.modulargolems.content.recipe;
 import dev.xkmc.l2library.base.recipe.AbstractShapedRecipe;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.init.registrate.GolemMiscRegistry;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecipe> {
@@ -40,6 +42,11 @@ public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecip
 			}
 		}
 		return stack;
+	}
+
+	@Override
+	public RecipeSerializer<?> getSerializer() {
+		return GolemMiscRegistry.ASSEMBLE.get();
 	}
 
 }

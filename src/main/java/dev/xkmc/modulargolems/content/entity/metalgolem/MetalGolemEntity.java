@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.goals.GolemFloatGoal;
+import dev.xkmc.modulargolems.content.item.WandItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -173,6 +174,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (getMaterials().size() != MetalGolemPartType.values().length)
 			return super.mobInteract(player, hand);

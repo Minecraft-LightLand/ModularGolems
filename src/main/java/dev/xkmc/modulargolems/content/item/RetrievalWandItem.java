@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityTypeTest;
 
-public class RetrievalWandItem extends Item {
+public class RetrievalWandItem extends Item implements WandItem {
 
 	public RetrievalWandItem(Properties props) {
 		super(props);
