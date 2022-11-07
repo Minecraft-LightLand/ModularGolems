@@ -133,7 +133,7 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
     implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}")
-    runtimeOnly fg.deobf('dev.xkmc.l2backpack:l2backpack:1.4.2')
+    runtimeOnly fg.deobf('dev.xkmc.l2backpack:l2backpack:1.5.0')
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 

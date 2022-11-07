@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecipe> {
@@ -45,7 +44,7 @@ public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecip
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public Serializer<GolemAssembleRecipe> getSerializer() {
 		return GolemMiscRegistry.ASSEMBLE.get();
 	}
 
