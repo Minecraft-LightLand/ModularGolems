@@ -6,10 +6,7 @@ import dev.xkmc.l2library.serial.unified.UnifiedCodec;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.events.CraftEvents;
 import dev.xkmc.modulargolems.events.GolemEvents;
-import dev.xkmc.modulargolems.init.data.ConfigGen;
-import dev.xkmc.modulargolems.init.data.LangData;
-import dev.xkmc.modulargolems.init.data.ModConfig;
-import dev.xkmc.modulargolems.init.data.RecipeGen;
+import dev.xkmc.modulargolems.init.data.*;
 import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
@@ -45,6 +42,8 @@ public class ModularGolems {
 		CompatManager.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, LangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
+		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, TagGen::onBlockTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, TagGen::onItemTagGen);
 	}
 
 	private static void registerForgeEvents() {

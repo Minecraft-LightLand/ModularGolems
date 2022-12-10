@@ -14,7 +14,7 @@
       "item": "minecraft:netherite_ingot"
     },
     "modulargolems:sculk": {
-      "item": "minecraft:echo_shard"
+      "tag": "modulargolems:sculk_materials"
     }
   },
   "modifiers": {

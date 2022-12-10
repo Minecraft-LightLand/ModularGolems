@@ -17,6 +17,7 @@ public class ModConfig {
 		public final ForgeConfigSpec.IntValue carminiteTime;
 		public final ForgeConfigSpec.DoubleValue coating;
 		public final ForgeConfigSpec.BooleanValue barehandRetrieve;
+		public final ForgeConfigSpec.DoubleValue damageCap;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
@@ -37,6 +38,8 @@ public class ModConfig {
 					.defineInRange("carminiteTime", 20, 1, 100000);
 			coating = builder.comment("Damage absorbed per level of coating")
 					.defineInRange("coating", 1d, 0, 10000);
+			damageCap = builder.comment("Damage Cap at max level")
+					.defineInRange("damageCap", 0.1d, 0, 1);
 		}
 
 	}

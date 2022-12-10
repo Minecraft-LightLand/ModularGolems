@@ -48,13 +48,8 @@ Botania
 - Red
 - Green
 
-L2Foundation
-- Deep Ocean Steel
-- Trident Steel
-- Life Gold
-- Air Steel
-- Nether Steel
-- Wither Steel
-- Ender Steel
-- Shulker Steel
-- Void Steel
+L2Complement
+- Totemic Gold          100/10  -40% speed +10 regen            Recycle
+- Poseidite             200/20                                  Bless of the Sea II
+- Shulkerate            1000/10 -40% speed                      Damage Cap      Projectile Reject
+- Eternium              1000/10 +1000 regen                     Immunity

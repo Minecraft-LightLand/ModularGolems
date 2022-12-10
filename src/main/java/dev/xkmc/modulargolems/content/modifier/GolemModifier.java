@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier;
 
 import dev.xkmc.l2library.base.NamedEntry;
+import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
@@ -97,4 +98,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return 0;
 	}
 
+	public  void onAiStep(AbstractGolemEntity<?,?> golem, int level) {
+	}
 }

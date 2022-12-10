@@ -125,6 +125,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void actuallyHurt(DamageSource source, float damage) {
+		if (source.isBypassInvul()) damage *= 1000;
 		super.actuallyHurt(source, damage);
 		if (getHealth() <= 0 && modifiers.getOrDefault(GolemModifierRegistry.RECYCLE.get(), 0) > 0) {
 			spawnAtLocation(GolemHolder.setEntity(getThis()));
@@ -226,6 +227,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			}
 		}
 		if (!this.level.isClientSide) {
+			for (var entry : getModifiers().entrySet()) {
+				entry.getKey().onAiStep(this, entry.getValue());
+			}
 			this.updatePersistentAnger((ServerLevel) this.level, true);
 		}
 	}
