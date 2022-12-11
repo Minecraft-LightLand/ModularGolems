@@ -52,10 +52,10 @@ public class GolemModifierRegistry {
 		THORN = reg("thorn", ThornModifier::new, "Reflect %s%% damage");
 		FLOAT = reg("float", FloatModifier::new, "Golem floats in water and lava instead of sinking");
 		EXPLOSION_RES = reg("explosion_resistant", ExplosionResistanceModifier::new, "Explosion damage taken reduced to %s%% of original, and will not break blocks.");
-		DAMAGE_CAP = reg("damage_cap",DamageCapModifier::new, "Damage taken are limited within %s%% of max health.");
-		PROJECTILE_REJECT = reg("projectile_reject",ProjectileRejectModifier::new, "Deflect projectiles. Takes no projectile damage.");
-		IMMUNITY = reg("immunity",ImmunityModifier::new, "Immune to all damage, except void damage.");
-		SWIM = reg("swim",SwimModifier::new, "Golem can swim");
+		DAMAGE_CAP = reg("damage_cap", DamageCapModifier::new, "Damage taken are limited within %s%% of max health.");
+		PROJECTILE_REJECT = reg("projectile_reject", ProjectileRejectModifier::new, "Deflect projectiles. Takes no projectile damage.");
+		IMMUNITY = reg("immunity", ImmunityModifier::new, "Immune to all damage, except void damage.");
+		SWIM = reg("swim", SwimModifier::new, "Golem can swim");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {

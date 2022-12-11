@@ -49,6 +49,14 @@
 	"float": "漂浮升级",
 	"float.desc": "让傀儡浮在水面",
 	"explosion_resistant": "爆炸抗性",
-	"explosion_resistant.desc": "受到的爆炸伤害x%s%%，波及到傀儡的爆炸不破坏方块"
+	"explosion_resistant.desc": "受到的爆炸伤害x%s%%，波及到傀儡的爆炸不破坏方块",
+	"damage_cap": "伤害限制",
+	"damage_cap.desc": "一次受到的伤害不会超过最高血量的%s%%",
+	"immunity": "不灭",
+	"immunity.desc": "免疫虚空伤害以外的所有伤害",
+	"projectile_reject": "弹射物反射",
+	"projectile_reject.desc": "反射弹射物，不受弹射物伤害",
+	"swim": "游泳",
+	"swim.desc": "让傀儡能游泳"
   }
 }

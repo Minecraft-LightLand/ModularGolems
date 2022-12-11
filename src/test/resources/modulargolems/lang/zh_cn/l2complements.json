@@ -1,0 +1,10 @@
+{
+  "golem_material.l2complements": {
+	"eternium": "永恒",
+	"poseidite": "海神",
+	"shulkerate": "潜影",
+	"totemic_gold": "生命"
+  },
+  "modifier.modulargolems.conduit": "潮涌之力",
+  "modifier.modulargolems.conduit.desc": "提升所有属性，像潮涌核心一样远程攻击敌人"
+}

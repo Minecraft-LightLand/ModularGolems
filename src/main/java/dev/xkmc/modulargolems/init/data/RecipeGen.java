@@ -143,6 +143,10 @@ public class RecipeGen {
 					.requires(GolemItemRegistry.EMPTY_UPGRADE.get()).requires(ItemTags.BOATS)
 					.save(pvd);
 
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItemRegistry.SWIM.get())::unlockedBy, GolemItemRegistry.EMPTY_UPGRADE.get())
+					.requires(GolemItemRegistry.EMPTY_UPGRADE.get()).requires(Items.HEART_OF_THE_SEA)
+					.save(pvd);
+
 		}
 
 		CompatManager.dispatchGenRecipe(pvd);

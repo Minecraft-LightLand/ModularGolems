@@ -3,14 +3,8 @@ package dev.xkmc.modulargolems.compat.materials.l2complements;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
-import dev.xkmc.modulargolems.compat.materials.common.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
-import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.world.item.Items;
-import twilightforest.init.TFBlocks;
-import twilightforest.init.TFItems;
 
 public class LCDispatch extends ModDispatch {
 

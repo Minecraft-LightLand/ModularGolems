@@ -45,7 +45,8 @@ public class GolemItemRegistry {
 	public static final ItemEntry<GolemPart<DogGolemEntity, DogGolemPartType>> DOG_BODY, DOG_LEGS;
 	public static final ItemEntry<GolemHolder<DogGolemEntity, DogGolemPartType>> HOLDER_DOG;
 
-	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ, GOLD, ENCHANTED_GOLD, FLOAT, SPONGE;
+	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ,
+			GOLD, ENCHANTED_GOLD, FLOAT, SPONGE, SWIM;
 
 	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
@@ -69,6 +70,7 @@ public class GolemItemRegistry {
 			ENCHANTED_GOLD = regUpgrade("enchanted_gold", () -> GolemModifierRegistry.REGEN, 2, true).lang("Enchanted Golden Apple Upgrade").register();
 			FLOAT = regUpgrade("float", () -> GolemModifierRegistry.FLOAT).lang("Float Upgrade").register();
 			SPONGE = regUpgrade("sponge", () -> GolemModifierRegistry.EXPLOSION_RES).lang("Sponge Upgrade").register();
+			SWIM = regUpgrade("swim", () -> GolemModifierRegistry.SWIM).lang("Swim Upgrade").register();
 		}
 
 		// holders
