@@ -1,15 +1,15 @@
-package dev.xkmc.modulargolems.content.entity.common;
+package dev.xkmc.modulargolems.content.entity.common.swim;
 
-import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 
-public class SwimMoveControl extends MoveControl {
+public class GolemSwimMoveControl extends MoveControl {
 	private final AbstractGolemEntity<?, ?> golem;
 
-	public SwimMoveControl(AbstractGolemEntity<?, ?> pDrowned) {
+	public GolemSwimMoveControl(AbstractGolemEntity<?, ?> pDrowned) {
 		super(pDrowned);
 		this.golem = pDrowned;
 	}
@@ -17,12 +17,9 @@ public class SwimMoveControl extends MoveControl {
 	public void tick() {
 		LivingEntity livingentity = this.golem.getTarget();
 		if (this.golem.isInWater()) {
-			boolean moveUp = golem.getModifiers().getOrDefault(GolemModifierRegistry.FLOAT.get(), 0) > 0;
-			moveUp |= livingentity != null && livingentity.getY() > this.golem.getY();
-			if (moveUp) {
+			if (livingentity != null && livingentity.getY() > this.golem.getY()) {
 				this.golem.setDeltaMovement(this.golem.getDeltaMovement().add(0.0D, 0.002D, 0.0D));
 			}
-
 			if (this.operation != MoveControl.Operation.MOVE_TO || this.golem.getNavigation().isDone()) {
 				this.golem.setSpeed(0.0F);
 				return;
@@ -44,7 +41,6 @@ public class SwimMoveControl extends MoveControl {
 			if (!this.golem.isOnGround()) {
 				this.golem.setDeltaMovement(this.golem.getDeltaMovement().add(0.0D, -0.008D, 0.0D));
 			}
-
 			super.tick();
 		}
 

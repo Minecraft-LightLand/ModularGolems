@@ -2,8 +2,8 @@ package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.goals.FollowOwnerGoal;
-import dev.xkmc.modulargolems.content.entity.goals.GolemFloatGoal;
+import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
+import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

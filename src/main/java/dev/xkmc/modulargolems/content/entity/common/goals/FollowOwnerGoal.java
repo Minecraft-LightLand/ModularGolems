@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.goals;
+package dev.xkmc.modulargolems.content.entity.common.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.core.BlockPos;

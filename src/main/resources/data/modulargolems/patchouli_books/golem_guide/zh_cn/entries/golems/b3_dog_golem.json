@@ -1,16 +1,16 @@
 {
-  "name": "Dog Golem",
+  "name": "狗傀儡",
   "icon": "modulargolems:dog_golem_holder",
   "category": "modulargolems:golems",
   "sortnum": 12,
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "Dog golem is a wolf-like golem. It runs fast and has high attack. Right click the golem with an item or shift click it to sit it down. Right click the golem with empty hand to retrieve the golem."
+	  "text": "狗傀儡类似狗，移动速度高，攻击力高，但是血量偏低，而且不能范围攻击。$(br2)蹲下或者用物品右键狗傀儡能让它坐下。空手右键狗傀儡能回收傀儡。"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:dog_golem_holder",
-	  "text": "Dog golem is relatively cheap to make, but also has low health. 2 parts of the golem have uneven cost and stats."
+	  "text": "狗傀儡很便宜，但是血量也不高。与其他傀儡不同，狗傀儡的不同部件的制造成本不一样，数值也不一样。"
 	}
   ]
 }

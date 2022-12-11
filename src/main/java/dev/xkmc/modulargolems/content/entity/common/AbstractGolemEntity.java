@@ -9,6 +9,7 @@ import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.common.swim.GolemSwimMoveControl;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -34,8 +35,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
-import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
@@ -58,7 +60,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
-		this.waterNavigation = new WaterBoundPathNavigation(this, level);
+		this.waterNavigation = new AmphibiousPathNavigation(this, level);
 		this.groundNavigation = new GroundPathNavigation(this, level);
 	}
 
@@ -74,8 +76,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@SerialClass.SerialField(toClient = true)
 	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 
-	protected final WaterBoundPathNavigation waterNavigation;
-	protected final GroundPathNavigation groundNavigation;
+	protected final PathNavigation waterNavigation;
+	protected final PathNavigation groundNavigation;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -87,24 +89,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.upgrades = Wrappers.cast(upgrades);
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
-		if (this.modifiers.getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0) {
-			this.moveControl = new SwimMoveControl(this);
+		this.maxUpStep = 1;
+		if (canSwim()) {
+			this.moveControl = new GolemSwimMoveControl(this);
+			this.navigation = waterNavigation;
 			this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
-	}
-
-	public void updateSwimming() {
-		if (!this.level.isClientSide) {
-			if (this.isEffectiveAi() && this.isInWater() && this.modifiers.getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0) {
-				this.navigation = this.waterNavigation;
-				this.setSwimming(true);
-			} else {
-				this.navigation = this.groundNavigation;
-				this.setSwimming(false);
-			}
-		}
-
 	}
 
 	public EntityType<T> getType() {
@@ -163,6 +154,33 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
 		}
 		drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
+	}
+
+	// ------ swim
+
+	public boolean canSwim() {
+		return this.modifiers.getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0;
+	}
+
+	public void travel(Vec3 pTravelVector) {
+		if (this.isEffectiveAi() && this.isInWater() && canSwim()) {
+			this.moveRelative(0.01F, pTravelVector);
+			this.move(MoverType.SELF, this.getDeltaMovement());
+			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+		} else {
+			super.travel(pTravelVector);
+		}
+	}
+
+	public void updateSwimming() {
+		if (!this.level.isClientSide) {
+			this.setSwimming(this.isEffectiveAi() && this.isInWater() && this.canSwim());
+		}
+
+	}
+
+	public boolean isPushedByFluid() {
+		return !this.isSwimming();
 	}
 
 	// ------ ownable entity

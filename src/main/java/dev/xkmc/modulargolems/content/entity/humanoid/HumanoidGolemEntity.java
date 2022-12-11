@@ -2,8 +2,8 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
-import dev.xkmc.modulargolems.content.entity.goals.FollowOwnerGoal;
-import dev.xkmc.modulargolems.content.entity.goals.GolemFloatGoal;
+import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
+import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import net.minecraft.sounds.SoundEvents;
