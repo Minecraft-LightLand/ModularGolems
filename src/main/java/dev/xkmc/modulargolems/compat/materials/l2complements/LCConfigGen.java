@@ -29,7 +29,9 @@ public class LCConfigGen extends ConfigDataProvider {
 
 				.addMaterial(new ResourceLocation(LCDispatch.MODID, "poseidite"), Ingredient.of(LCMats.POSEIDITE.getIngot()))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 200)
-				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 20).end()
+				.addStat(GolemTypeRegistry.STAT_ATTACK.get(), 20)
+				.addModifier(GolemModifierRegistry.SWIM.get(), 1)
+				.addModifier(LCCompatRegistry.CONDUIT.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(LCDispatch.MODID, "shulkerate"), Ingredient.of(LCMats.SHULKERATE.getIngot()))
 				.addStat(GolemTypeRegistry.STAT_HEALTH.get(), 1000)

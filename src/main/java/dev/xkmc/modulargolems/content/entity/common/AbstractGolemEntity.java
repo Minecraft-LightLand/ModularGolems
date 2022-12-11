@@ -83,6 +83,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.upgrades = Wrappers.cast(upgrades);
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
+		if (this.modifiers.getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0)
+			this.moveControl = new SwimMoveControl(this);
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
 	}
 

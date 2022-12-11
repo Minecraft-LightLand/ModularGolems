@@ -6,10 +6,7 @@ import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.repack.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
-import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
-import dev.xkmc.modulargolems.content.modifier.common.FloatModifier;
-import dev.xkmc.modulargolems.content.modifier.common.RecycleModifier;
-import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
+import dev.xkmc.modulargolems.content.modifier.common.*;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
@@ -29,6 +26,7 @@ public class GolemModifierRegistry {
 	public static final RegistryEntry<DamageCapModifier> DAMAGE_CAP;
 	public static final RegistryEntry<ProjectileRejectModifier> PROJECTILE_REJECT;
 	public static final RegistryEntry<ImmunityModifier> IMMUNITY;
+	public static final RegistryEntry<SwimModifier> SWIM;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
 
 	static {
@@ -57,6 +55,7 @@ public class GolemModifierRegistry {
 		DAMAGE_CAP = reg("damage_cap",DamageCapModifier::new, "Damage taken are limited within %s%% of max health.");
 		PROJECTILE_REJECT = reg("projectile_reject",ProjectileRejectModifier::new, "Deflect projectiles. Takes no projectile damage.");
 		IMMUNITY = reg("immunity",ImmunityModifier::new, "Immune to all damage, except void damage.");
+		SWIM = reg("swim",SwimModifier::new, "Golem can swim");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {

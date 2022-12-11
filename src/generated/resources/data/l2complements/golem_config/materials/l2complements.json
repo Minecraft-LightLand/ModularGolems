@@ -18,7 +18,10 @@
     "l2complements:eternium": {
       "modulargolems:immunity": 1
     },
-    "l2complements:poseidite": {},
+    "l2complements:poseidite": {
+      "modulargolems:conduit": 1,
+      "modulargolems:swim": 1
+    },
     "l2complements:shulkerate": {
       "modulargolems:damage_cap": 2,
       "modulargolems:projectile_reject": 1
