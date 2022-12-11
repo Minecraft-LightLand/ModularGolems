@@ -74,7 +74,7 @@
   "modifier.modulargolems.coating": "Coating",
   "modifier.modulargolems.coating.desc": "Reduce damage taken by %s",
   "modifier.modulargolems.conduit": "Conduit",
-  "modifier.modulargolems.conduit.desc": "Boosts all stats in water, attacks mobs in water like conduit.",
+  "modifier.modulargolems.conduit.desc": "When in water: Reduce damage taken to %s%%. Every %s seconds, deal %s conduit damage to target in water/rain remotely. Boost following stats:",
   "modifier.modulargolems.damage_cap": "Damage Cap",
   "modifier.modulargolems.damage_cap.desc": "Damage taken are limited within %s%% of max health.",
   "modifier.modulargolems.damage_up": "Damage Up",

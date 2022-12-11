@@ -1,7 +1,7 @@
 {
   "attribute.name.golem_regen": "生命回复",
   "attribute.name.golem_sweep": "范围攻击",
-  "itemGroup.modulargolems.golems": "组合式傀儡",
+  "itemGroup.modulargolems.golems": "模块化傀儡",
   "modulargolems.tooltip": {
 	"health": "血量: %s/%s",
 	"slot": "剩余升级槽: %s",

@@ -5,6 +5,9 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.init.data.ModConfig;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -14,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
+import java.util.List;
 import java.util.UUID;
 
 public class ConduitModifier extends GolemModifier {
@@ -37,6 +41,22 @@ public class ConduitModifier extends GolemModifier {
 		if (event.getSource().isBypassInvul() || event.getSource().isBypassMagic() || !entity.isInWaterRainOrBubble())
 			return;
 		event.setAmount((float) (event.getAmount() * Math.pow(1 - ModConfig.COMMON.conduitBoostReduction.get(), level)));
+	}
+
+	@Override
+	public List<MutableComponent> getDetail(int level) {
+		int red = (int) Math.round(100 * Math.pow(1 - ModConfig.COMMON.conduitBoostReduction.get(), level));
+		int atk = (int) Math.round(ModConfig.COMMON.conduitBoostAttack.get() * level * 100);
+		int spe = (int) Math.round(ModConfig.COMMON.conduitBoostSpeed.get() * level * 100);
+		int armor = ModConfig.COMMON.conduitBoostArmor.get() * level;
+		int tough = ModConfig.COMMON.conduitBoostToughness.get() * level;
+		int damage = ModConfig.COMMON.conduitDamage.get() * level;
+		int freq = ModConfig.COMMON.conduitCooldown.get();
+		return List.of(Component.translatable(getDescriptionId() + ".desc", red, freq, damage).withStyle(ChatFormatting.GREEN),
+				Component.translatable(Attributes.ATTACK_DAMAGE.getDescriptionId()).append(": +" + atk + "%").withStyle(ChatFormatting.BLUE),
+				Component.translatable(Attributes.MOVEMENT_SPEED.getDescriptionId()).append(": +" + spe + "%").withStyle(ChatFormatting.BLUE),
+				Component.translatable(Attributes.ARMOR.getDescriptionId()).append(": +" + armor).withStyle(ChatFormatting.BLUE),
+				Component.translatable(Attributes.ARMOR_TOUGHNESS.getDescriptionId()).append(": +" + tough).withStyle(ChatFormatting.BLUE));
 	}
 
 	@Override

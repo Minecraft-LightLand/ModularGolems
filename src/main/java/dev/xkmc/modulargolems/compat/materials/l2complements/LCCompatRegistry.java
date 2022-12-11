@@ -10,7 +10,7 @@ public class LCCompatRegistry {
 	public static final RegistryEntry<ConduitModifier> CONDUIT;
 
 	static {
-		CONDUIT = reg("conduit", ConduitModifier::new, "Boosts all stats in water, attacks mobs in water like conduit.");
+		CONDUIT = reg("conduit", ConduitModifier::new, "When in water: Reduce damage taken to %s%%. Every %s seconds, deal %s conduit damage to target in water/rain remotely. Boost following stats:");
 	}
 
 	public static void register() {
