@@ -1,0 +1,12 @@
+{
+  "name": "游泳升级",
+  "icon": "modulargolems:swim",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:swim",
+	  "text": "让傀儡能在水中游泳。"
+	}
+  ]
+}

@@ -34,6 +34,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
@@ -41,6 +43,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
@@ -55,6 +58,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
+		this.waterNavigation = new WaterBoundPathNavigation(this, level);
+		this.groundNavigation = new GroundPathNavigation(this, level);
 	}
 
 	// ------ materials
@@ -69,12 +74,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@SerialClass.SerialField(toClient = true)
 	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 
+	protected final WaterBoundPathNavigation waterNavigation;
+	protected final GroundPathNavigation groundNavigation;
+
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
-		this.materials = materials;
-		this.upgrades = Wrappers.cast(upgrades);
-		this.owner = owner;
-		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
-		GolemMaterial.addAttributes(materials, upgrades, getThis());
+		updateAttributes(materials, upgrades, owner);
 		this.setHealth(this.getMaxHealth());
 	}
 
@@ -83,9 +87,24 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.upgrades = Wrappers.cast(upgrades);
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
-		if (this.modifiers.getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0)
+		if (this.modifiers.getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0) {
 			this.moveControl = new SwimMoveControl(this);
+			this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
+	}
+
+	public void updateSwimming() {
+		if (!this.level.isClientSide) {
+			if (this.isEffectiveAi() && this.isInWater() && this.modifiers.getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0) {
+				this.navigation = this.waterNavigation;
+				this.setSwimming(true);
+			} else {
+				this.navigation = this.groundNavigation;
+				this.setSwimming(false);
+			}
+		}
+
 	}
 
 	public EntityType<T> getType() {

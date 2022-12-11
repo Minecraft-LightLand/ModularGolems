@@ -15,6 +15,8 @@ public class GolemFloatGoal extends FloatGoal {
 
 	@Override
 	public boolean canUse() {
+		if (golem.isInWater() && golem.getModifiers().getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0)
+			return false;
 		return golem.getModifiers().getOrDefault(GolemModifierRegistry.FLOAT.get(), 0) > 0 && super.canUse();
 	}
 }

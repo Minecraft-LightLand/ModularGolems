@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
+import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,7 +17,9 @@ public class SwimMoveControl extends MoveControl {
 	public void tick() {
 		LivingEntity livingentity = this.golem.getTarget();
 		if (this.golem.isInWater()) {
-			if (livingentity != null && livingentity.getY() > this.golem.getY()) {
+			boolean moveUp = golem.getModifiers().getOrDefault(GolemModifierRegistry.FLOAT.get(), 0) > 0;
+			moveUp |= livingentity != null && livingentity.getY() > this.golem.getY();
+			if (moveUp) {
 				this.golem.setDeltaMovement(this.golem.getDeltaMovement().add(0.0D, 0.002D, 0.0D));
 			}
 
