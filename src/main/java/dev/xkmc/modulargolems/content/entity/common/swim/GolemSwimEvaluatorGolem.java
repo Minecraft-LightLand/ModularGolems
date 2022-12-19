@@ -11,6 +11,6 @@ public class GolemSwimEvaluatorGolem extends AmphibiousNodeEvaluator {
 
 	@Override
 	protected double getFloorLevel(BlockPos pPos) {
-		return this.mob.isInWater() ? (double)pPos.getY() + 0.5D : super.getFloorLevel(pPos);
+		return this.mob.isInWater() ? (double) pPos.getY() + 0.5D : super.getFloorLevel(pPos);
 	}
 }

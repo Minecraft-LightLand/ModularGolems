@@ -68,7 +68,7 @@ public class AdvGen {
 						"Repair in Battle", "Repair a metal golem with ingots directly")
 				.create("kill_warden", Items.SCULK_CATALYST,
 						CriterionBuilder.one(GolemKillTrigger.byType(EntityType.WARDEN)),
-						"Ship of Theseus", "Let a golem to kill a Warden").type(FrameType.CHALLENGE);
+						"Ship of Theseus", "Let a golem kill a Warden").type(FrameType.CHALLENGE);
 		golem.create("retrieve", GolemItems.RETRIEVAL_WAND.get(),
 				CriterionBuilder.item(GolemItems.RETRIEVAL_WAND.get()),
 				"Everyone Comes Back", "Craft a retrieval wand");
@@ -85,17 +85,17 @@ public class AdvGen {
 				CriterionBuilder.one(UpgradeApplyTrigger.withUpgrade(GolemItems.RECYCLE.get())),
 				"Immortal Golem", "Apply a recycle upgrade on a golem").type(FrameType.CHALLENGE);
 		upgrade.create("sponge", GolemItems.SPONGE.get(),
-				CriterionBuilder.one(UpgradeApplyTrigger.withUpgrade(GolemItems.SPONGE.get())),
-				"Waterlogged Golem", "Apply a sponge upgrade on a golem").type(FrameType.GOAL)
+						CriterionBuilder.one(UpgradeApplyTrigger.withUpgrade(GolemItems.SPONGE.get())),
+						"Waterlogged Golem", "Apply a sponge upgrade on a golem").type(FrameType.GOAL)
 				.create("kill_creeper", Items.TNT,
 						CriterionBuilder.one(GolemKillTrigger.byType(EntityType.CREEPER)),
-						"Anti-Terrorism Operation", "Let a golem to kill a Creeper").type(FrameType.CHALLENGE);
+						"Anti-Terrorism Operation", "Let a golem kill a Creeper").type(FrameType.CHALLENGE);
 		upgrade.create("swim", GolemItems.SWIM.get(),
 						CriterionBuilder.one(UpgradeApplyTrigger.withUpgrade(GolemItems.SWIM.get())),
 						"Undersea Warrior", "Apply a swim upgrade on a golem").type(FrameType.GOAL)
 				.create("kill_guardian", Items.PRISMARINE_SHARD,
 						CriterionBuilder.one(GolemKillTrigger.byType(EntityType.GUARDIAN)),
-						"Legend of the Atlantis", "Let a golem to kill a Guardian").type(FrameType.CHALLENGE);
+						"Legend of the Atlantis", "Let a golem kill a Guardian").type(FrameType.CHALLENGE);
 		root.finish();
 	}
 

@@ -237,7 +237,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		if (root.contains(KEY_MATERIAL)) {
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level);
+				AbstractGolemEntity<?, ?> golem = type.get().create(level);
 				golem.moveTo(pos);
 				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
