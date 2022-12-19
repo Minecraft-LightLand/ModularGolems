@@ -1,11 +1,15 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2library.serial.SerialClass;
+import dev.xkmc.l2library.util.annotation.DataGenOnly;
+import dev.xkmc.l2library.util.annotation.ServerOnly;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -22,6 +26,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ToolActions;
+
+import java.util.Arrays;
 
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> {
@@ -41,6 +47,15 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		registerTargetGoals();
+	}
+
+	@Override
+	public void broadcastBreakEvent(EquipmentSlot pSlot) {
+		super.broadcastBreakEvent(pSlot);
+		Player player = getOwner();
+		if (player != null) {
+			GolemTriggers.BREAK.trigger((ServerPlayer) player);
+		}
 	}
 
 	public boolean doHurtTarget(Entity target) {
@@ -93,6 +108,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				return InteractionResult.FAIL;
 			}
 			setItemSlot(slot, itemstack.split(1));
+			int count = (int) Arrays.stream(EquipmentSlot.values()).filter(e -> !getItemBySlot(e).isEmpty()).count();
+			GolemTriggers.EQUIP.trigger((ServerPlayer) player, count);
 			return InteractionResult.CONSUME;
 		}
 		return InteractionResult.FAIL;
@@ -181,4 +198,5 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			}
 		}
 	}
+
 }

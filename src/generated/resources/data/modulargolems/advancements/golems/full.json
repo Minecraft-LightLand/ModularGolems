@@ -1,0 +1,31 @@
+{
+  "parent": "modulargolems:golems/upgrade",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "remain": 0
+      },
+      "trigger": "modulargolems:upgrade_apply"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.modulargolems.advancements.golems.full.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.modulargolems.advancements.golems.full.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ]
+}

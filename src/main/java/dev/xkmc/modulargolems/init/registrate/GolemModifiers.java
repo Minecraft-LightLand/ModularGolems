@@ -13,7 +13,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
-public class GolemModifierRegistry {
+public class GolemModifiers {
 
 	public static final RegistryEntry<FireImmuneModifier> FIRE_IMMUNE;
 	public static final RegistryEntry<ThunderImmuneModifier> THUNDER_IMMUNE;
@@ -36,17 +36,17 @@ public class GolemModifierRegistry {
 		MAGIC_RES = reg("magic_resistant", MagicResistanceModifier::new, "Magic damage taken reduced to %s%% of original");
 		RECYCLE = reg("recycle", RecycleModifier::new, "Drop golem holder of 0 health when killed");
 		ARMOR = reg("armor_up", () -> new AttributeGolemModifier(2,
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ARMOR, 10)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10)
 		)).register();
 		TOUGH = reg("toughness_up", () -> new AttributeGolemModifier(2,
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ARMOR, 10),
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_TOUGH, 6)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_TOUGH, 6)
 		)).register();
 		DAMAGE = reg("damage_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ATTACK, 2)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATTACK, 2)
 		)).register();
 		REGEN = reg("regeneration_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_REGEN, 1)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_REGEN, 1)
 		)).register();
 
 		THORN = reg("thorn", ThornModifier::new, "Reflect %s%% damage");
@@ -60,7 +60,7 @@ public class GolemModifierRegistry {
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {
 		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
-		var ans = REGISTRATE.generic(GolemTypeRegistry.MODIFIERS, id, sup).defaultLang();
+		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
 		ans.lang(NamedEntry::getDescriptionId, name);
 		ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
 		var result = ans.register();
@@ -70,7 +70,7 @@ public class GolemModifierRegistry {
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String def) {
 		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
-		var ans = REGISTRATE.generic(GolemTypeRegistry.MODIFIERS, id, sup).defaultLang();
+		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
 		ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
 		var result = ans.register();
 		holder.setValue(result);
@@ -78,7 +78,7 @@ public class GolemModifierRegistry {
 	}
 
 	public static <T extends GolemModifier> L2Registrate.GenericBuilder<GolemModifier, T> reg(String id, NonNullSupplier<T> sup) {
-		return REGISTRATE.generic(GolemTypeRegistry.MODIFIERS, id, sup).defaultLang();
+		return REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
 	}
 
 	public static void register() {

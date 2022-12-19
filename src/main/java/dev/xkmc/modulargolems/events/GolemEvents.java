@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -61,7 +61,7 @@ public class GolemEvents {
 	public static void onExplosion(ExplosionEvent.Detonate event) {
 		for (var e : event.getAffectedEntities()) {
 			if (e instanceof AbstractGolemEntity<?, ?> golem) {
-				if (golem.getModifiers().getOrDefault(GolemModifierRegistry.EXPLOSION_RES.get(), 0) > 0) {
+				if (golem.getModifiers().getOrDefault(GolemModifiers.EXPLOSION_RES.get(), 0) > 0) {
 					event.getAffectedBlocks().clear();
 					return;
 				}

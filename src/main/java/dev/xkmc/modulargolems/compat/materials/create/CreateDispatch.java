@@ -7,7 +7,7 @@ import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
-import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 
@@ -31,14 +31,14 @@ public class CreateDispatch extends ModDispatch {
 		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(CreateCompatRegistry.UP_COATING.get())::unlockedBy, AllItems.ZINC_INGOT.get())
 				.pattern(" A ").pattern("ABA").pattern(" A ")
 				.define('A', AllTags.forgeItemTag("ingots/zinc"))
-				.define('B', GolemItemRegistry.EMPTY_UPGRADE.get())
+				.define('B', GolemItems.EMPTY_UPGRADE.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 
 		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(CreateCompatRegistry.UP_PUSH.get())::unlockedBy, AllItems.EXTENDO_GRIP.get())
 				.pattern(" C ").pattern("ABA").pattern(" C ")
 				.define('A', AllItems.EXTENDO_GRIP.get())
-				.define('B', GolemItemRegistry.EMPTY_UPGRADE.get())
+				.define('B', GolemItems.EMPTY_UPGRADE.get())
 				.define('C', AllItems.PRECISION_MECHANISM.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 

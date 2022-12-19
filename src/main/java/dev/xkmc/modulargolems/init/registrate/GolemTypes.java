@@ -30,7 +30,7 @@ import java.util.function.Supplier;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
-public class GolemTypeRegistry {
+public class GolemTypes {
 
 	public static final L2Registrate.RegistryInstance<GolemModifier> MODIFIERS = REGISTRATE.newRegistry("modifier", GolemModifier.class);
 	public static final L2Registrate.RegistryInstance<GolemStatType> STAT_TYPES = REGISTRATE.newRegistry("stat_type", GolemStatType.class);

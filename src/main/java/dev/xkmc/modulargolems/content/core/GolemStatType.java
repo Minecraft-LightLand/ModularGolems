@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.core;
 
 import dev.xkmc.l2library.base.NamedEntry;
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -25,7 +25,7 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 	public final StatFilterType type;
 
 	public GolemStatType(Supplier<Attribute> attribute, Kind kind, StatFilterType type) {
-		super(GolemTypeRegistry.STAT_TYPES);
+		super(GolemTypes.STAT_TYPES);
 		this.attribute = attribute;
 		this.kind = kind;
 		this.type = type;

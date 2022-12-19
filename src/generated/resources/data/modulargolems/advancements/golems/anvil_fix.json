@@ -1,0 +1,29 @@
+{
+  "parent": "modulargolems:golems/craft",
+  "criteria": {
+    "0": {
+      "conditions": {},
+      "trigger": "modulargolems:anvil_fix"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.modulargolems.advancements.golems.anvil_fix.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:anvil"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.modulargolems.advancements.golems.anvil_fix.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ]
+}

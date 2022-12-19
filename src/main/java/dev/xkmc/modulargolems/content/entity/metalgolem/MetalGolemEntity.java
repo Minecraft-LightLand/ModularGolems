@@ -6,9 +6,11 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -192,6 +194,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 				this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
 				if (!player.getAbilities().instabuild) {
 					itemstack.shrink(1);
+				}
+				if (!this.level.isClientSide()) {
+					GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
 				}
 				return InteractionResult.sidedSuccess(this.level.isClientSide);
 			}

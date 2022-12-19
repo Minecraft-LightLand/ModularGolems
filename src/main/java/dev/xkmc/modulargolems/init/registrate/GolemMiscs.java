@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
-public class GolemMiscRegistry {
+public class GolemMiscs {
 
 	public static final RegistryEntry<AbstractShapedRecipe.Serializer<GolemAssembleRecipe>> ASSEMBLE =
 			reg("golem_assemble", () -> new AbstractShapedRecipe.Serializer<>(GolemAssembleRecipe::new));

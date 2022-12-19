@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
-import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.network.chat.Component;
@@ -24,9 +24,9 @@ public enum HumaniodGolemPartType implements IGolemPart<HumaniodGolemPartType> {
 	@Override
 	public GolemPart<?, HumaniodGolemPartType> toItem() {
 		return switch (this) {
-			case BODY -> GolemItemRegistry.HUMANOID_BODY.get();
-			case ARMS -> GolemItemRegistry.HUMANOID_ARMS.get();
-			case LEGS -> GolemItemRegistry.HUMANOID_LEGS.get();
+			case BODY -> GolemItems.HUMANOID_BODY.get();
+			case ARMS -> GolemItems.HUMANOID_ARMS.get();
+			case LEGS -> GolemItems.HUMANOID_LEGS.get();
 		};
 	}
 

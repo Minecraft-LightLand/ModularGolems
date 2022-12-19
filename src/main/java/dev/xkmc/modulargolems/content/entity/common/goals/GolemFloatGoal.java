@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.common.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 
 public class GolemFloatGoal extends FloatGoal {
@@ -15,8 +15,8 @@ public class GolemFloatGoal extends FloatGoal {
 
 	@Override
 	public boolean canUse() {
-		boolean canSwim = golem.getModifiers().getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0;
-		boolean canFloat = golem.getModifiers().getOrDefault(GolemModifierRegistry.FLOAT.get(), 0) > 0;
+		boolean canSwim = golem.getModifiers().getOrDefault(GolemModifiers.SWIM.get(), 0) > 0;
+		boolean canFloat = golem.getModifiers().getOrDefault(GolemModifiers.FLOAT.get(), 0) > 0;
 
 		if (golem.isInWater() && canSwim) {
 			var target = golem.getTarget();

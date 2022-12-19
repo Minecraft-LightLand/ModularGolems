@@ -49,7 +49,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public static final String KEY_MATERIAL = "golem_materials",
 			KEY_UPGRADES = "golem_upgrades",
 			KEY_ENTITY = "golem_entity",
-			KEY_DISPLAY = "golem_display";
+			KEY_DISPLAY = "golem_display",
+			KEY_ICON = "golem_icon";
 	public static final String KEY_PART = "part", KEY_MAT = "material";
 
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
@@ -144,6 +145,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public static void setHealth(ItemStack result, float health) {
 		result.getOrCreateTag().getCompound(KEY_ENTITY).putFloat("Health", health);
+	}
+
+	public static ItemStack toEntityIcon(ItemStack golem, ItemStack... equipments) {
+		var list = ItemCompoundTag.of(golem).getSubList(KEY_ICON, Tag.TAG_COMPOUND);
+		for (ItemStack e : equipments) {
+			list.addCompound().setTag(e.serializeNBT());
+		}
+		return golem;
 	}
 
 	private final RegistryEntry<GolemType<T, P>> type;
@@ -296,6 +305,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				list.add(stack);
 			}
 		}
+	}
+
+	public ItemStack withUniformMaterial(ResourceLocation rl) {
+		ItemStack stack = new ItemStack(this);
+		for (P part : getEntityType().values()) {
+			addMaterial(stack, part.toItem(), rl);
+		}
+		return stack;
 	}
 
 	public int getRemaining(ArrayList<GolemMaterial> mats, ArrayList<UpgradeItem> upgrades) {

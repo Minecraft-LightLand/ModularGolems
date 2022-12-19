@@ -1,6 +1,6 @@
-// 1.19.2	2022-12-11T15:09:00.851164	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-1782977d7bd524fd10ec58f196257985b859547e assets/modulargolems/lang/en_ud.json
-b5dbcf33805afd9322dd77ef1af637cf41a9e074 assets/modulargolems/lang/en_us.json
+// 1.19.2	2022-12-19T15:55:37.227181	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+b8ed59fc6ed730757ccfc215340e5123f8f97efe assets/modulargolems/lang/en_ud.json
+9e27bfb5cc063a7da0a88dcf4c6628799a0b7ae0 assets/modulargolems/lang/en_us.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 a9bfdc6c816b787e0e70c42ddbb0de5b53c94c51 assets/modulargolems/models/item/coating.json
 4769ec561a30aaf33eec61a67175bbc7e7ec2380 assets/modulargolems/models/item/command_wand.json
@@ -35,6 +35,27 @@ d98f7f2e288f24c3dc1c01aa98f1d149e64d66f7 assets/modulargolems/models/item/sponge
 71382a00c3ff5370d88fc93b43062458016222d9 assets/modulargolems/models/item/steeleaf.json
 81fbbdc6ebe1a4bcdd9c2c0370c4d914f1909879 assets/modulargolems/models/item/swim.json
 1898e07c979f496fcda02b4c7677e644d9c8bffe assets/modulargolems/models/item/thunder_immune.json
+f89bb8abd7364635e90923e51514b09ec6b29d2e data/modulargolems/advancements/golems/anvil_fix.json
+f7317487ed9951d461023cc6a27a875a5f8faa6c data/modulargolems/advancements/golems/apply.json
+f985d4a5ce589a9aa17eb391e10c00136c329f52 data/modulargolems/advancements/golems/apply_sculk.json
+696f487304da52668c9cf17a37287c785aa48347 data/modulargolems/advancements/golems/command.json
+3f5fa56c3c60eecd9e2e94e421780d112ebe397c data/modulargolems/advancements/golems/craft.json
+cb3aa0eedab136d8a8a4b6c740b388904405558a data/modulargolems/advancements/golems/dog.json
+c0340846972219667fa3d055d795018605189f08 data/modulargolems/advancements/golems/full.json
+9e245b31e5061d5dd4eea4976818cd0cb08f69cc data/modulargolems/advancements/golems/fully_equipped.json
+d4f01c47d351b5489dff3041ad3f12a12e1bdf4e data/modulargolems/advancements/golems/hot_fix.json
+93793e2ce43b35129380aa72f4001a5179417cac data/modulargolems/advancements/golems/humanoid.json
+e661b18910dd15080ef69d67f0ec4bf396a23387 data/modulargolems/advancements/golems/kill_creeper.json
+2370cc820c35011bca66406ee31c25870821d86a data/modulargolems/advancements/golems/kill_guardian.json
+78228115cf8251acf3a0b455cd347e17d3aae0fd data/modulargolems/advancements/golems/kill_warden.json
+18a57ee49d0945eedc52334e374224159c4a76e0 data/modulargolems/advancements/golems/oops.json
+266315e2f4223e86e4257c013e441dd79fff8430 data/modulargolems/advancements/golems/recycle.json
+c02e6d1eeedc8b6002814854f479d45fc2b44325 data/modulargolems/advancements/golems/retrieve.json
+6a07f2fe8a5df0531f823229b20f1e244857ff63 data/modulargolems/advancements/golems/root.json
+38ceb3f12c43ec830edb64a9f4eaa20b45a707a3 data/modulargolems/advancements/golems/sponge.json
+d563e2c5b2f8ea20ebcb0fae68ce70694c66c6b8 data/modulargolems/advancements/golems/start.json
+83c4d8cb9057a01e8279640f9319048f889ccc21 data/modulargolems/advancements/golems/swim.json
+a3bac15e73f608a634a62fbb7c0c307a3a23a59d data/modulargolems/advancements/golems/upgrade.json
 2830f39d025b466dd3eddbb715d4679ccd2e14e8 data/modulargolems/advancements/recipes/modulargolems.golems/carminite.json
 ac8b4e6888556d268cb4ac7b5feb8c46ed552809 data/modulargolems/advancements/recipes/modulargolems.golems/coating.json
 4d3fe9dc4e3126d2ef41aa5e72e0ae08d154c038 data/modulargolems/advancements/recipes/modulargolems.golems/command_wand.json
@@ -103,4 +124,7 @@ a70d4751e03d611b838cd3866f73758f0d71426d data/modulargolems/recipes/sponge.json
 b283b14d4b2dd3fc3b73671b6f395f140e5a470a data/modulargolems/recipes/steeleaf.json
 474005977ece2d82be8a4a375e3219c828d78384 data/modulargolems/recipes/swim.json
 8d37017d64ca070a9fb157acf63de2533e1e8332 data/modulargolems/recipes/thunder_immune.json
+0ff0909d28c29ae47fd17620ccf9d12ead26d8ca data/modulargolems/tags/items/holders.json
+1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 3c136ad71b9cc1a962b06ab779e09369ea8e25a9 data/modulargolems/tags/items/sculk_materials.json
+0b99134fbd9154ebb5b3875962a16cd7b10cd18c data/modulargolems/tags/items/upgrades.json

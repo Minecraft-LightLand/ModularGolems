@@ -7,8 +7,11 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CraftEvents {
@@ -32,6 +35,36 @@ public class CraftEvents {
 				appendUpgrade(event, holder, upgrade);
 			} else {
 				fixGolem(event, holder, stack);
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onAnvilFinish(AnvilRepairEvent event) {
+		if (event.getEntity().getLevel().isClientSide())
+			return;
+		ItemStack stack = event.getLeft();
+		ItemStack block = event.getRight();
+		if (stack.getItem() instanceof GolemPart part && part.count <= block.getCount()) {
+			var mat = GolemMaterial.getMaterial(block);
+			mat.ifPresent(rl -> GolemTriggers.PART_CRAFT.trigger((ServerPlayer) event.getEntity(), rl));
+		}
+		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
+			if (block.getItem() instanceof UpgradeItem) {
+				ItemStack result = event.getOutput();
+				var mats = GolemHolder.getMaterial(result);
+				var upgrades = GolemHolder.getUpgrades(result);
+				int remaining = holder.getRemaining(mats, upgrades);
+				GolemTriggers.UPGRADE_APPLY.trigger((ServerPlayer) event.getEntity(), block, remaining);
+			} else {
+				var mats = GolemHolder.getMaterial(stack);
+				var type = holder.getEntityType();
+				IGolemPart<?> part = type.getBodyPart();
+				if (mats.size() <= part.ordinal()) return;
+				var mat = mats.get(part.ordinal());
+				var ing = GolemMaterialConfig.get().ingredients.get(mat.id());
+				if (ing == null || !ing.test(block)) return;
+				GolemTriggers.ANVIL_FIX.trigger((ServerPlayer) event.getEntity(), mat.id());
 			}
 		}
 	}
@@ -73,4 +106,5 @@ public class CraftEvents {
 		event.setCost(4 << upgrades.size());
 		event.setMaterialCost(1);
 	}
+
 }

@@ -12,6 +12,9 @@ import net.minecraft.world.level.block.Block;
 public class TagGen {
 
 	public static final TagKey<Item> SCULK_MATS = ItemTags.create(new ResourceLocation(ModularGolems.MODID, "sculk_materials"));
+	public static final TagKey<Item> GOLEM_PARTS = ItemTags.create(new ResourceLocation(ModularGolems.MODID, "parts"));
+	public static final TagKey<Item> GOLEM_HOLDERS = ItemTags.create(new ResourceLocation(ModularGolems.MODID, "holders"));
+	public static final TagKey<Item> GOLEM_UPGRADES = ItemTags.create(new ResourceLocation(ModularGolems.MODID, "upgrades"));
 
 	public static void onBlockTagGen(RegistrateTagsProvider<Block> pvd) {
 	}

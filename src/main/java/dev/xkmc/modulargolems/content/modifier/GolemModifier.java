@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.modifier;
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -21,7 +21,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public final int maxLevel;
 
 	public GolemModifier(StatFilterType type, int maxLevel) {
-		super(GolemTypeRegistry.MODIFIERS);
+		super(GolemTypes.MODIFIERS);
 		this.type = type;
 		this.maxLevel = maxLevel;
 	}

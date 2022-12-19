@@ -15,8 +15,8 @@ import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.init.data.ModConfig;
-import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -139,7 +139,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void actuallyHurt(DamageSource source, float damage) {
 		if (source.isBypassInvul()) damage *= 1000;
 		super.actuallyHurt(source, damage);
-		if (getHealth() <= 0 && modifiers.getOrDefault(GolemModifierRegistry.RECYCLE.get(), 0) > 0) {
+		if (getHealth() <= 0 && modifiers.getOrDefault(GolemModifiers.RECYCLE.get(), 0) > 0) {
 			spawnAtLocation(GolemHolder.setEntity(getThis()));
 			level.broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
@@ -159,7 +159,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	// ------ swim
 
 	public boolean canSwim() {
-		return this.modifiers.getOrDefault(GolemModifierRegistry.SWIM.get(), 0) > 0;
+		return this.modifiers.getOrDefault(GolemModifiers.SWIM.get(), 0) > 0;
 	}
 
 	public void travel(Vec3 pTravelVector) {
@@ -256,7 +256,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void aiStep() {
 		this.updateSwingTime();
 		super.aiStep();
-		double heal = this.getAttributeValue(GolemTypeRegistry.GOLEM_REGEN.get());
+		double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
 		if (heal > 0 && this.tickCount % 20 == 0) {
 			for (var entry : getModifiers().entrySet()) {
 				heal = entry.getKey().onHealTick(heal, this, entry.getValue());
@@ -275,6 +275,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	protected int decreaseAirSupply(int air) {
 		return air;
+	}
+
+	@Override
+	public boolean wasKilled(ServerLevel level, LivingEntity target) {
+
+		return super.wasKilled(level, target);
 	}
 
 	// mode

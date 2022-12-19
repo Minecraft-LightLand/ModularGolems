@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.compat.materials.l2complements;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.ConduitModifier;
 
-import static dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry.reg;
+import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class LCCompatRegistry {
 

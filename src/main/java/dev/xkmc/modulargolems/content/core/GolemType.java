@@ -6,12 +6,13 @@ import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -44,7 +45,7 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	private final P body;
 
 	public GolemType(EntityEntry<T> type, Supplier<P[]> list, P body, Supplier<ModelProvider<T, P>> model) {
-		super(GolemTypeRegistry.TYPES);
+		super(GolemTypes.TYPES);
 		this.type = type;
 		this.list = list;
 		this.body = body;
@@ -52,7 +53,7 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		GOLEM_TYPE_TO_MODEL.put(type.getId(), Wrappers.cast(model));
 	}
 
-	public T create(ServerLevel level) {
+	public T create(Level level) {
 		return Objects.requireNonNull(type.get().create(level));
 	}
 
