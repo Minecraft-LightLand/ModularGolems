@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:fire_immune",
-	  "text": "令傀儡免疫火焰伤害。"
+	  "text": "令傀儡免疫火焰伤害，并浮在岩浆上。"
 	}
   ]
 }

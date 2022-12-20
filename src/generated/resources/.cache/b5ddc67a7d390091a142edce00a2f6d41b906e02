@@ -1,6 +1,6 @@
-// 1.19.2	2022-12-19T16:09:59.430542	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-8aa794efc1ed706aabfa0e206ddb2eaab55343f0 assets/modulargolems/lang/en_ud.json
-4b521dc3b9f5dd02f4d9e7894f813d2fda41713d assets/modulargolems/lang/en_us.json
+// 1.19.2	2022-12-20T13:42:31.988495	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+95f37598751bac23d9d26f4c61bfbe2f792d9483 assets/modulargolems/lang/en_ud.json
+10d694abd806bf2705f7bf2b7fa5e121c31a4729 assets/modulargolems/lang/en_us.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 a9bfdc6c816b787e0e70c42ddbb0de5b53c94c51 assets/modulargolems/models/item/coating.json
 4769ec561a30aaf33eec61a67175bbc7e7ec2380 assets/modulargolems/models/item/command_wand.json
@@ -51,10 +51,11 @@ e661b18910dd15080ef69d67f0ec4bf396a23387 data/modulargolems/advancements/golems/
 18a57ee49d0945eedc52334e374224159c4a76e0 data/modulargolems/advancements/golems/oops.json
 266315e2f4223e86e4257c013e441dd79fff8430 data/modulargolems/advancements/golems/recycle.json
 c02e6d1eeedc8b6002814854f479d45fc2b44325 data/modulargolems/advancements/golems/retrieve.json
-6a07f2fe8a5df0531f823229b20f1e244857ff63 data/modulargolems/advancements/golems/root.json
+a604c0b1a63341e77199dc2ea9094b8cd44bcc52 data/modulargolems/advancements/golems/root.json
 38ceb3f12c43ec830edb64a9f4eaa20b45a707a3 data/modulargolems/advancements/golems/sponge.json
 d563e2c5b2f8ea20ebcb0fae68ce70694c66c6b8 data/modulargolems/advancements/golems/start.json
 83c4d8cb9057a01e8279640f9319048f889ccc21 data/modulargolems/advancements/golems/swim.json
+2ccccc522e7977f5973f9bfe05783ffac295d53f data/modulargolems/advancements/golems/thunder.json
 a3bac15e73f608a634a62fbb7c0c307a3a23a59d data/modulargolems/advancements/golems/upgrade.json
 2830f39d025b466dd3eddbb715d4679ccd2e14e8 data/modulargolems/advancements/recipes/modulargolems.golems/carminite.json
 ac8b4e6888556d268cb4ac7b5feb8c46ed552809 data/modulargolems/advancements/recipes/modulargolems.golems/coating.json

@@ -33,9 +33,9 @@
   },
   "modifier.modulargolems": {
 	"fire_immune": "火焰免疫",
-	"fire_immune.desc": "免疫火焰伤害",
+	"fire_immune.desc": "免疫火焰伤害，漂浮于岩浆上。",
 	"thunder_immune": "闪电免疫",
-	"thunder_immune.desc": "免疫闪电伤害",
+	"thunder_immune.desc": "免疫闪电伤害，吸引闪电。被雷劈时获得10秒防火，并回复%s血量。",
 	"magic_immune": "魔法免疫",
 	"magic_immune.desc": "免疫魔法伤害",
 	"recycle": "傀儡回收",

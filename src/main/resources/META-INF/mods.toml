@@ -26,6 +26,6 @@ This mod adds golems that can be crafted with different materials in a Tinker-li
 [[dependencies.modulargolems]]
     modId="l2library"
     mandatory=true
-    versionRange="[1.8.0,)"
+    versionRange="[1.8.7,)"
     ordering="AFTER"
     side="BOTH"

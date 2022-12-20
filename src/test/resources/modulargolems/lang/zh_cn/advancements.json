@@ -40,6 +40,8 @@
 	"start.title": "The Beginning of Everything",
 	"swim.description": "Apply a swim upgrade on a golem",
 	"swim.title": "Undersea Warrior",
+	"thunder.description": "Let a golem with thunder immune be struck with a lightning bolt",
+	"thunder.title": "Walking Lightning Rod",
 	"upgrade.description": "Obtain an upgrade",
 	"upgrade.title": "Upgrade Your Golem"
   }

@@ -22,7 +22,8 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "modulargolems:metal_golem_template"
+      "item": "modulargolems:metal_golem_holder",
+      "nbt": "{golem_materials:[{material:\"modulargolems:iron\",part:\"modulargolems:metal_golem_arm\"},{material:\"modulargolems:iron\",part:\"modulargolems:metal_golem_body\"},{material:\"modulargolems:iron\",part:\"modulargolems:metal_golem_arm\"},{material:\"modulargolems:iron\",part:\"modulargolems:metal_golem_legs\"}]}"
     },
     "show_toast": false,
     "title": {

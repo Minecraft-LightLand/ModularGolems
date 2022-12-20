@@ -17,6 +17,7 @@ public class GolemFloatGoal extends FloatGoal {
 	public boolean canUse() {
 		boolean canSwim = golem.getModifiers().getOrDefault(GolemModifiers.SWIM.get(), 0) > 0;
 		boolean canFloat = golem.getModifiers().getOrDefault(GolemModifiers.FLOAT.get(), 0) > 0;
+		boolean fireImmune = golem.getModifiers().getOrDefault(GolemModifiers.FIRE_IMMUNE.get(), 0) > 0;
 
 		if (golem.isInWater() && canSwim) {
 			var target = golem.getTarget();
@@ -25,6 +26,6 @@ public class GolemFloatGoal extends FloatGoal {
 			if (golem.getDeltaMovement().y() > 0.01)
 				return false;
 		}
-		return (canSwim || canFloat) && super.canUse();
+		return (canSwim || canFloat || golem.isInLava() && fireImmune) && super.canUse();
 	}
 }

@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:copper_ingot",
-	  "text": "Main material to craft copper golem parts. Copper golem parts feature very cheap price while maintain sufficient stats. Thunder immunity is a minor bonus.$(br2)You can use copper golem as a dispensable guard. It is also very cheap to fix if you use copper body."
+	  "text": "Main material to craft copper golem parts. Copper golem parts feature very cheap price while maintain sufficient stats. Thunder immunity also works as a lightning rod.$(br2)You can use copper golem as a dispensable guard. It is also very cheap to fix if you use copper body."
 	},
 	{
 	  "type": "patchouli:spotlight",

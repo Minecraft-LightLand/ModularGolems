@@ -18,7 +18,9 @@ public class AdvGen {
 	public static void genAdvancements(RegistrateAdvancementProvider pvd) {
 		AdvancementGenerator gen = new AdvancementGenerator(pvd, ModularGolems.MODID);
 		var root = gen.new TabBuilder("golems")
-				.root("root", GolemItems.GOLEM_TEMPLATE.get(), CriterionBuilder.item(Items.CLAY_BALL),
+				.root("root", GolemItems.HOLDER_GOLEM.get().withUniformMaterial(
+								new ResourceLocation(ModularGolems.MODID, "iron")),
+						CriterionBuilder.item(Items.CLAY_BALL),
 						"Welcome to Modular Golems", "Craft your army!");
 		var arm = root
 				.create("start", GolemItems.GOLEM_BODY.get(), CriterionBuilder.item(TagGen.GOLEM_PARTS),
@@ -60,6 +62,10 @@ public class AdvGen {
 						new ResourceLocation(ModularGolems.MODID, "iron")),
 				CriterionBuilder.item(TagGen.GOLEM_HOLDERS),
 				"A Brand New Golem", "Craft a Golem Holder with metal golem parts.");
+		golem.create("thunder", Items.LIGHTNING_ROD,
+						CriterionBuilder.one(GolemThunderTrigger.ins()),
+						"Walking Lightning Rod", "Let a golem with thunder immune be struck with a lightning bolt")
+				.type(FrameType.CHALLENGE);
 		golem.create("anvil_fix", Items.ANVIL,
 						CriterionBuilder.one(GolemAnvilFixTrigger.ins()),
 						"Healing the Wounds", "Repair a metal golem with ingots in an anvil")

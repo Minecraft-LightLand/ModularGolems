@@ -138,6 +138,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
+	public boolean fireImmune() {
+		return getModifiers().getOrDefault(GolemModifiers.FIRE_IMMUNE.get(), 0) > 0;
+	}
+
+	@Override
 	protected void actuallyHurt(DamageSource source, float damage) {
 		if (source.isBypassInvul()) damage *= 1000;
 		super.actuallyHurt(source, damage);
@@ -243,6 +248,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canAttack(LivingEntity pTarget) {
+		if (pTarget instanceof AbstractGolemEntity<?, ?> golem) {
+			return false;
+		}
 		return !this.isAlliedTo(pTarget) && super.canAttack(pTarget);
 	}
 

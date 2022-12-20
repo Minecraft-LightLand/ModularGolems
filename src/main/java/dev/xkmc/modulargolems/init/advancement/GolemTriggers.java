@@ -12,6 +12,7 @@ public class GolemTriggers {
 	public static final GolemEquipTrigger EQUIP = new GolemEquipTrigger(new ResourceLocation(ModularGolems.MODID, "equip"));
 	public static final GolemBreakToolTrigger BREAK = new GolemBreakToolTrigger(new ResourceLocation(ModularGolems.MODID, "break"));
 	public static final GolemKillTrigger KILL = new GolemKillTrigger(new ResourceLocation(ModularGolems.MODID, "kill"));
+	public static final GolemThunderTrigger THUNDER = new GolemThunderTrigger(new ResourceLocation(ModularGolems.MODID, "thunder"));
 
 	public static void register() {
 

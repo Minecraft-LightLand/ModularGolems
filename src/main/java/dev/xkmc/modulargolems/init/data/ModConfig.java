@@ -25,6 +25,7 @@ public class ModConfig {
 		public final ForgeConfigSpec.IntValue conduitBoostToughness;
 		public final ForgeConfigSpec.DoubleValue conduitBoostReduction;
 		public final ForgeConfigSpec.DoubleValue conduitBoostSpeed;
+		public final ForgeConfigSpec.IntValue thunderHeal;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
@@ -39,6 +40,8 @@ public class ModConfig {
 					.defineInRange("explosionResistance", 0.2, 0, 1);
 			damageCap = builder.comment("Damage Cap at max level")
 					.defineInRange("damageCap", 0.1d, 0, 1);
+			thunderHeal = builder.comment("Healing when thunder immune golems are striked")
+					.defineInRange("thunderHeal", 10, 1, 10000);
 			builder.pop();
 
 			builder.push("twilight forest compat");
