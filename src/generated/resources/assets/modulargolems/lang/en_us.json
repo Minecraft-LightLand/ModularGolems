@@ -152,7 +152,7 @@
   "modifier.modulargolems.thorn": "Thorn",
   "modifier.modulargolems.thorn.desc": "Reflect %s%% damage",
   "modifier.modulargolems.thunder_immune": "Thunder Immune",
-  "modifier.modulargolems.thunder_immune.desc": "Immune to lightning bolt damage. Attract Lightning. When striked, gain fire resistance for 10 seconds, and heal %s health.",
+  "modifier.modulargolems.thunder_immune.desc": "Immune to lightning bolt damage. Attract Lightning. When struck, gain fire resistance for 10 seconds, and heal %s health.",
   "modifier.modulargolems.toughness_up": "Toughness Up",
   "modulargolems.tooltip.following": "Golem will follow you",
   "modulargolems.tooltip.guarding": "Golem will stay around (%s, %s, %s)",
