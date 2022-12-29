@@ -2,10 +2,10 @@ package dev.xkmc.modulargolems.compat.materials.create;
 
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
+import dev.xkmc.l2library.base.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
-import dev.xkmc.modulargolems.compat.materials.common.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
