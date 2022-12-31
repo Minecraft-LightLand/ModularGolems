@@ -16,13 +16,13 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ToolActions;
 
 import java.util.Arrays;
@@ -40,8 +40,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
-		this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
-		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 20.0F, 4.0F, false));
+		//this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
+		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 16F, 3F, false));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		registerTargetGoals();
@@ -68,6 +68,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			}
 			return false;
 		}
+	}
+
+	protected AABB getTargetBoundingBox(Entity target) {
+		return target.getBoundingBox();
 	}
 
 	@Override

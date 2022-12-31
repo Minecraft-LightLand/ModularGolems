@@ -26,6 +26,7 @@ public class FollowOwnerGoal extends Goal {
 	private final float startDistance;
 	private float oldWaterCost;
 	private final boolean canFly;
+	private final float maxDist;
 
 	public FollowOwnerGoal(AbstractGolemEntity<?, ?> pTamable, double pSpeedModifier, float pStartDistance, float pStopDistance, boolean pCanFly) {
 		this.golem = pTamable;
@@ -35,6 +36,7 @@ public class FollowOwnerGoal extends Goal {
 		this.startDistance = pStartDistance;
 		this.stopDistance = pStopDistance;
 		this.canFly = pCanFly;
+		this.maxDist = pStartDistance * 1.25f;
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 		if (!(pTamable.getNavigation() instanceof GroundPathNavigation) && !(pTamable.getNavigation() instanceof FlyingPathNavigation)) {
 			throw new IllegalArgumentException("Unsupported mob type for FollowOwnerGoal");
@@ -92,7 +94,7 @@ public class FollowOwnerGoal extends Goal {
 		if (--this.timeToRecalcPath <= 0) {
 			this.timeToRecalcPath = this.adjustedTickDelay(10);
 			if (!this.golem.isLeashed() && !this.golem.isPassenger()) {
-				if (this.golem.distanceToSqr(target) >= 144.0D) {
+				if (this.golem.distanceToSqr(target) >= maxDist * maxDist) {
 					this.teleportToOwner();
 				} else {
 					this.navigation.moveTo(target.x(), target.y(), target.z(), this.speedModifier);

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 
 @SerialClass
 public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolemEntity<T, P> {
@@ -28,6 +29,10 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 			}
 		}
 		return flag;
+	}
+
+	protected AABB getTargetBoundingBox(Entity target){
+		return target.getBoundingBox();
 	}
 
 	/**
