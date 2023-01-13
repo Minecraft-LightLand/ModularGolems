@@ -8,6 +8,9 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 import java.util.function.BiFunction;
 
@@ -21,6 +24,10 @@ public abstract class ModDispatch {
 
 	public static <T> T safeUpgrade(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {
 		return func.apply("has_" + pvd.safeName(item), DataIngredient.items(GolemItems.EMPTY_UPGRADE).getCritereon(pvd));
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public void dispatchClientSetup(IEventBus bus) {
 	}
 
 }

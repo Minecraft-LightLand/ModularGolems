@@ -97,6 +97,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.navigation = waterNavigation;
 			this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		}
+		if (!level.isClientSide()) {
+			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
+		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
 	}
 
@@ -260,6 +263,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			ans = entry.getKey().modifyDamage(ans, this, entry.getValue());
 		}
 		return ans;
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		if (this.level.isClientSide) {
+			for (var entry : getModifiers().entrySet()) {
+				entry.getKey().onClientTick(this, entry.getValue());
+			}
+		}
 	}
 
 	@Override

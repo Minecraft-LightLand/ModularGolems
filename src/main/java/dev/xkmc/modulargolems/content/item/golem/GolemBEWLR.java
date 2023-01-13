@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.item.golem;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
@@ -106,7 +107,8 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		stack.translate(0, 1.501, 0);
 		stack.scale(1, -1, -1);
 		var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(golem);
-		renderer.render(golem, 0, 0, handle.poseStack(), handle.bufferSource(), handle.light());
+		golem.tickCount = Proxy.getClientPlayer().tickCount;
+		renderer.render(golem, 0, Minecraft.getInstance().getPartialTick(), handle.poseStack(), handle.bufferSource(), handle.light());
 		return true;
 	}
 }

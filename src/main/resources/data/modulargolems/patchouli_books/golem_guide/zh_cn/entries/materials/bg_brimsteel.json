@@ -1,0 +1,29 @@
+{
+  "flag": "mod:blazegear",
+  "name": "烈焰钢",
+  "icon": "blazegear:brimsteel_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 501,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "blazegear:brimsteel_ingot",
+	  "text": "烈焰钢傀儡的主要原料。烈焰钢傀儡免疫火焰，同时能对远处的敌人发射火球。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:metal_golem_body\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:metal_golem_arm\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:metal_golem_legs\",material:\"blazegear:brimsteel\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"blazegear:brimsteel\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:dog_golem_legs\",material:\"blazegear:brimsteel\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	}
+  ]
+}

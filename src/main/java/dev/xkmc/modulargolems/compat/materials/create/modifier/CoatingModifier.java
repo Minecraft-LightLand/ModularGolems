@@ -19,7 +19,7 @@ public class CoatingModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		double reduce = v * ModConfig.COMMON.coating.get();
-		return List.of(Component.translatable(getDescriptionId() + ".desc", v).withStyle(ChatFormatting.GREEN));
+		return List.of(Component.translatable(getDescriptionId() + ".desc", reduce).withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override

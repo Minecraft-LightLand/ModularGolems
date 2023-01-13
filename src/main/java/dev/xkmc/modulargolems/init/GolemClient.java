@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.init;
 
+import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
@@ -15,7 +16,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class GolemClient {
 
+	private static IEventBus clientBus;
+
 	public static void onCtorClient(IEventBus bus, IEventBus eventBus) {
+		clientBus = bus;
 		bus.addListener(GolemClient::clientSetup);
 		bus.addListener(GolemClient::onResourceReload);
 		bus.addListener(GolemClient::registerOverlays);
@@ -24,7 +28,7 @@ public class GolemClient {
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
-
+		CompatManager.dispatchClientSetup(clientBus);
 	}
 
 	@OnlyIn(Dist.CLIENT)

@@ -62,7 +62,6 @@ public class ModularGolems {
 	}
 
 	public ModularGolems() {
-		UnifiedCodec.DEBUG = true;
 		FMLJavaModLoadingContext ctx = FMLJavaModLoadingContext.get();
 		IEventBus bus = ctx.getModEventBus();
 		registerModBusEvents(bus);

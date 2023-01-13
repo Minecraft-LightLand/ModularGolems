@@ -160,5 +160,8 @@
   "golem_material.l2complements.shulkerate": "潜影",
   "golem_material.l2complements.totemic_gold": "生命",
   "modifier.modulargolems.conduit": "潮涌之力",
-  "modifier.modulargolems.conduit.desc": "当傀儡在水中时：受到的伤害减少至%s%%、每%s秒远程对水中/雨中目标造成%s点信标伤害、提升下列数值："
+  "modifier.modulargolems.conduit.desc": "当傀儡在水中时：受到的伤害减少至%s%%、每%s秒远程对水中/雨中目标造成%s点信标伤害、提升下列数值：",
+  "golem_material.blazegear.brimsteel": "烈焰钢",
+  "modifier.modulargolems.blazing": "烈焰",
+  "modifier.modulargolems.blazing.desc": "对远处的敌人发射火球"
 }

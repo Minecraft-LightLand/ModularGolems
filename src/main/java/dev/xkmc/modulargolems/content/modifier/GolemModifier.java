@@ -7,11 +7,15 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class GolemModifier extends NamedEntry<GolemModifier> {
 
@@ -99,4 +103,12 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 
 	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
 	}
+
+	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public void onClientTick(AbstractGolemEntity<?, ?> entity, int value) {
+	}
+
 }
