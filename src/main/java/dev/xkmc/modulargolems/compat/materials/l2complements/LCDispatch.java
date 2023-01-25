@@ -5,6 +5,7 @@ import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 public class LCDispatch extends ModDispatch {
 
@@ -30,4 +31,8 @@ public class LCDispatch extends ModDispatch {
 		return new LCConfigGen(gen);
 	}
 
+	@Override
+	public void dispatchClientSetup(IEventBus bus) {
+		ForceFieldLayer.registerLayer();
+	}
 }

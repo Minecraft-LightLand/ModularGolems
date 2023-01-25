@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.ModConfig;
+import dev.xkmc.modulargolems.init.data.TagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
@@ -58,7 +59,7 @@ import java.util.*;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
-		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity {
+		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
@@ -249,12 +250,25 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ common golem behavior
 
+
+	@Override
+	public void setTarget(@Nullable LivingEntity pTarget) {
+		super.setTarget(pTarget);
+		if (pTarget instanceof Mob mob) {
+			if (mob.getTarget() == null && mob.canAttack(this)) {
+				mob.setTarget(this);
+			}
+		}
+	}
+
+	@Override
+	public boolean canAttackType(EntityType<?> pType) {
+		return !pType.is(TagGen.GOLEM_FRIENDLY);
+	}
+
 	@Override
 	public boolean canAttack(LivingEntity pTarget) {
-		if (pTarget instanceof AbstractGolemEntity<?, ?> golem) {
-			return false;
-		}
-		return !this.isAlliedTo(pTarget) && super.canAttack(pTarget);
+		return !this.isAlliedTo(pTarget) && canAttackType(pTarget.getType()) && super.canAttack(pTarget);
 	}
 
 	protected float getAttackDamage() {
@@ -382,7 +396,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return true;
 		}
 		if (owner != null) {
-			return owner.isAlliedTo(other);
+			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
 		}
 		return super.isAlliedTo(other);
 	}
@@ -435,6 +449,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		LivingEntity owner = getOwner();
 		if (owner == null) return getPosition(1);
 		return owner.getPosition(1);
+	}
+
+	@Override
+	public boolean isPowered() {
+		return true;
 	}
 
 }
