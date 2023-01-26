@@ -27,6 +27,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<ProjectileRejectModifier> PROJECTILE_REJECT;
 	public static final RegistryEntry<ImmunityModifier> IMMUNITY;
 	public static final RegistryEntry<SwimModifier> SWIM;
+	public static final RegistryEntry<PlayerImmuneModifier> PLAYER_IMMUNE;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
 
 	static {
@@ -56,6 +57,7 @@ public class GolemModifiers {
 		PROJECTILE_REJECT = reg("projectile_reject", ProjectileRejectModifier::new, "Deflect projectiles. Takes no projectile damage.");
 		IMMUNITY = reg("immunity", ImmunityModifier::new, "Immune to all damage, except void damage.");
 		SWIM = reg("swim", SwimModifier::new, "Golem can swim");
+		PLAYER_IMMUNE = reg("player_immune", PlayerImmuneModifier::new, "Immune to friendly fire.");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {

@@ -11,6 +11,7 @@
     "modulargolems:float",
     "modulargolems:sponge",
     "modulargolems:swim",
+    "modulargolems:player",
     "modulargolems:carminite",
     "modulargolems:steeleaf",
     "modulargolems:fiery",
@@ -18,6 +19,10 @@
     "modulargolems:knightmetal",
     "modulargolems:naga",
     "modulargolems:coating",
-    "modulargolems:push"
+    "modulargolems:push",
+    "modulargolems:force_field",
+    "modulargolems:freezing",
+    "modulargolems:soul_flame",
+    "modulargolems:teleport"
   ]
 }

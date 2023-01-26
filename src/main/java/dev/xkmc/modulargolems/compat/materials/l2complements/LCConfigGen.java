@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
-import dev.xkmc.l2complements.init.data.LCMats;
+import dev.xkmc.l2complements.init.materials.LCMats;
 import dev.xkmc.l2library.serial.network.BaseConfig;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;

@@ -57,6 +57,8 @@
 	"projectile_reject": "弹射物反射",
 	"projectile_reject.desc": "反射弹射物，不受弹射物伤害",
 	"swim": "游泳",
-	"swim.desc": "让傀儡能游泳"
+	"swim.desc": "让傀儡能游泳",
+	"player_immune": "友伤免疫",
+	"player_immune.desc": "免疫玩家及其从属造成的伤害"
   }
 }

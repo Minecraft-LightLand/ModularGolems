@@ -147,6 +147,10 @@ public class RecipeGen {
 					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.HEART_OF_THE_SEA)
 					.save(pvd);
 
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItems.PLAYER_IMMUNE.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.NETHER_STAR)
+					.save(pvd);
+
 		}
 
 		CompatManager.dispatchGenRecipe(pvd);

@@ -78,6 +78,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private UUID owner;
 	@SerialClass.SerialField(toClient = true)
 	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
+	@SerialClass.SerialField(toClient = true)
+	private final HashSet<GolemFlags> golemFlags = new HashSet<>();
 
 	protected final PathNavigation waterNavigation;
 	protected final PathNavigation groundNavigation;
@@ -92,6 +94,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.upgrades = Wrappers.cast(upgrades);
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
+		this.golemFlags.clear();
 		this.maxUpStep = 1;
 		if (canSwim()) {
 			this.moveControl = new GolemSwimMoveControl(this);
@@ -120,6 +123,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return modifiers;
 	}
 
+	public void addFlag(GolemFlags flag) {
+		golemFlags.add(flag);
+	}
+
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
@@ -143,7 +150,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean fireImmune() {
-		return getModifiers().getOrDefault(GolemModifiers.FIRE_IMMUNE.get(), 0) > 0;
+		return golemFlags.contains(GolemFlags.FIRE_IMMUNE);
 	}
 
 	@Override
@@ -250,6 +257,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ common golem behavior
 
+	@Override
+	public boolean canFreeze() {
+		return !golemFlags.contains(GolemFlags.FREEZE_IMMUNE);
+	}
 
 	@Override
 	public void setTarget(@Nullable LivingEntity pTarget) {
