@@ -155,6 +155,8 @@
   "modifier.modulargolems.recycle": "Recycle",
   "modifier.modulargolems.recycle.desc": "Drop golem holder of 0 health when killed",
   "modifier.modulargolems.regeneration_up": "Regeneration Up",
+  "modifier.modulargolems.sonic_boom": "Sonic Boom",
+  "modifier.modulargolems.sonic_boom.desc": "Golem can use Sonic Boom Attack. If the golem can perform area attack, then Sonic Boom can hit multiple targets.",
   "modifier.modulargolems.soul_flame": "Soul Flame",
   "modifier.modulargolems.soul_flame.desc": "Get Soul Flame Blade and Soul Flame Thorn enchantment effects. Immune to soul flame damage.",
   "modifier.modulargolems.swim": "Swim",

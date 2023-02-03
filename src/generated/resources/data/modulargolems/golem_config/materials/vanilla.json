@@ -27,7 +27,8 @@
       "modulargolems:fire_immune": 1
     },
     "modulargolems:sculk": {
-      "modulargolems:fire_immune": 1
+      "modulargolems:fire_immune": 1,
+      "modulargolems:sonic_boom": 1
     }
   },
   "stats": {

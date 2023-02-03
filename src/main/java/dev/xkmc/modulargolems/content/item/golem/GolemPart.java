@@ -79,8 +79,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		});
 		HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 		GolemMaterialConfig.get().modifiers.get(mat).forEach((k, v) -> {
-			double exist = filter.getOrDefault(k.type, 1d);
-			if (exist > 0) {
+			if (k.canExistOn(this)) {
 				modifiers.compute(k, (e, o) -> (o == null ? 0 : o) + v);
 			}
 		});

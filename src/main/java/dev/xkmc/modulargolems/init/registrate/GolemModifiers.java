@@ -8,6 +8,7 @@ import dev.xkmc.l2library.repack.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.common.*;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
+import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -28,6 +29,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<ImmunityModifier> IMMUNITY;
 	public static final RegistryEntry<SwimModifier> SWIM;
 	public static final RegistryEntry<PlayerImmuneModifier> PLAYER_IMMUNE;
+	public static final RegistryEntry<SonicModifier> SONIC;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
 
 	static {
@@ -58,6 +60,7 @@ public class GolemModifiers {
 		IMMUNITY = reg("immunity", ImmunityModifier::new, "Immune to all damage, except void damage.");
 		SWIM = reg("swim", SwimModifier::new, "Golem can swim");
 		PLAYER_IMMUNE = reg("player_immune", PlayerImmuneModifier::new, "Immune to friendly fire.");
+		SONIC = reg("sonic_boom",SonicModifier::new, "Golem can use Sonic Boom Attack. If the golem can perform area attack, then Sonic Boom can hit multiple targets.");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {

@@ -53,6 +53,7 @@ public class ConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.5)
+				.addModifier(GolemModifiers.SONIC.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
 		);
 

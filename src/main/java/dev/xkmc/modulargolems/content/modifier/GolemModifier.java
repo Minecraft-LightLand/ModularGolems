@@ -1,8 +1,10 @@
 package dev.xkmc.modulargolems.content.modifier;
 
 import dev.xkmc.l2library.base.NamedEntry;
+import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -111,4 +113,8 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public void onClientTick(AbstractGolemEntity<?, ?> entity, int value) {
 	}
 
+	public boolean canExistOn(GolemPart<?, ?> part) {
+		return GolemPartConfig.get().getFilter(part).getOrDefault(type, 0d) > 0;
+	}
+	
 }
