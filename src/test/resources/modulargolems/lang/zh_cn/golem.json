@@ -61,6 +61,10 @@
 	"player_immune": "友伤免疫",
 	"player_immune.desc": "免疫玩家及其从属造成的伤害",
 	"sonic_boom": "音爆",
-	"sonic_boom.desc": "傀儡能使用音爆攻击。若傀儡能范围攻击，则音爆造成范围伤害。"
+	"sonic_boom.desc": "傀儡能使用音爆攻击。若傀儡能范围攻击，则音爆造成范围伤害。",
+	"bell": "钟声",
+	"bell.desc": "傀儡切换攻击目标时，敲钟并吸引范围内的敌人，同时施加发光效果。",
+	"ender_sight": "透视",
+	"ender_sight.desc": "傀儡能看穿墙壁和天花板"
   }
 }

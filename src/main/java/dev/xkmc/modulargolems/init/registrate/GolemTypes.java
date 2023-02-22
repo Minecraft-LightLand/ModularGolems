@@ -62,7 +62,7 @@ public class GolemTypes {
 					.add(Attributes.MOVEMENT_SPEED, 0.25D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-					.add(Attributes.FOLLOW_RANGE, 16.0D)
+					.add(Attributes.FOLLOW_RANGE, 35)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get())
 			).tag(TagGen.GOLEM_FRIENDLY).register();

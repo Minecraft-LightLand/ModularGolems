@@ -30,6 +30,8 @@ public class GolemModifiers {
 	public static final RegistryEntry<SwimModifier> SWIM;
 	public static final RegistryEntry<PlayerImmuneModifier> PLAYER_IMMUNE;
 	public static final RegistryEntry<SonicModifier> SONIC;
+	public static final RegistryEntry<EnderSightModifier> ENDER_SIGHT;
+	public static final RegistryEntry<BellModifier> BELL;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
 
 	static {
@@ -61,6 +63,8 @@ public class GolemModifiers {
 		SWIM = reg("swim", SwimModifier::new, "Golem can swim");
 		PLAYER_IMMUNE = reg("player_immune", PlayerImmuneModifier::new, "Immune to friendly fire.");
 		SONIC = reg("sonic_boom",SonicModifier::new, "Golem can use Sonic Boom Attack. If the golem can perform area attack, then Sonic Boom can hit multiple targets.");
+		ENDER_SIGHT = reg("ender_sight", EnderSightModifier::new, "Golem can see through wall and ceilings.");
+		BELL = reg("bell", BellModifier::new, "When the golem wants to attack, it will ring its bell, attracting all enemies and light them up.");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {

@@ -129,6 +129,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		this.unRide();
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
 		if (!ModConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
@@ -258,17 +259,42 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	// ------ common golem behavior
 
 	@Override
+	public boolean hasLineOfSight(Entity target) {
+		if (target.level == this.level && golemFlags.contains(GolemFlags.SEE_THROUGH)) {
+			Vec3 self = new Vec3(this.getX(), this.getEyeY(), this.getZ());
+			Vec3 tarp = new Vec3(target.getX(), target.getEyeY(), target.getZ());
+			double dist = tarp.distanceTo(self);
+			if (dist <= 128.0D) {
+				if (target.level.canSeeSky(target.blockPosition()))
+					return true;
+				if (dist < 5)
+					return true;
+				if (self.y() < tarp.y())
+					return true;
+			}
+		}
+		return super.hasLineOfSight(target);
+	}
+
+	@Override
 	public boolean canFreeze() {
 		return !golemFlags.contains(GolemFlags.FREEZE_IMMUNE);
 	}
 
 	@Override
 	public void setTarget(@Nullable LivingEntity pTarget) {
+		if (pTarget != null && !canAttack(pTarget)) {
+			return;
+		}
 		super.setTarget(pTarget);
 		if (pTarget instanceof Mob mob) {
 			if (mob.getTarget() == null && mob.canAttack(this)) {
 				mob.setTarget(this);
 			}
+			for (var entry : getModifiers().entrySet()) {
+				entry.getKey().onSetTarget(this, mob, entry.getValue());
+			}
+
 		}
 	}
 

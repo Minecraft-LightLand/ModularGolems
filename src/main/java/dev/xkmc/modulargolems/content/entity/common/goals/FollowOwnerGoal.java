@@ -28,17 +28,21 @@ public class FollowOwnerGoal extends Goal {
 	private final boolean canFly;
 	private final float maxDist;
 
-	public FollowOwnerGoal(AbstractGolemEntity<?, ?> pTamable, double pSpeedModifier, float pStartDistance, float pStopDistance, boolean pCanFly) {
-		this.golem = pTamable;
-		this.level = pTamable.level;
-		this.speedModifier = pSpeedModifier;
-		this.navigation = pTamable.getNavigation();
-		this.startDistance = pStartDistance;
-		this.stopDistance = pStopDistance;
-		this.canFly = pCanFly;
-		this.maxDist = pStartDistance * 1.25f;
+	public FollowOwnerGoal(AbstractGolemEntity<?, ?> golem) {
+		this(golem, 1, 10, 30, 3, false);
+	}
+
+	private FollowOwnerGoal(AbstractGolemEntity<?, ?> golem, double speed, float start, float max, float stop, boolean fly) {
+		this.golem = golem;
+		this.level = golem.level;
+		this.speedModifier = speed;
+		this.navigation = golem.getNavigation();
+		this.startDistance = start;
+		this.stopDistance = stop;
+		this.canFly = fly;
+		this.maxDist = max;
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
-		if (!(pTamable.getNavigation() instanceof GroundPathNavigation) && !(pTamable.getNavigation() instanceof FlyingPathNavigation)) {
+		if (!(golem.getNavigation() instanceof GroundPathNavigation) && !(golem.getNavigation() instanceof FlyingPathNavigation)) {
 			throw new IllegalArgumentException("Unsupported mob type for FollowOwnerGoal");
 		}
 	}

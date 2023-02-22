@@ -1,6 +1,7 @@
-// 1.19.2	2023-02-02T16:16:43.046321	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-50a60d1dcc6e461e4efce7f39b02051a44f07c30 assets/modulargolems/lang/en_ud.json
-3c8182a5f40d565d329680b568d2d40fb519b477 assets/modulargolems/lang/en_us.json
+// 1.19.2	2023-02-21T21:39:15.854034	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+98a9f74e83bdf9fd8e173ddcef6a7704297550c1 assets/modulargolems/lang/en_ud.json
+751433c3182a9c94d26869c8b90031e3a0dc13e0 assets/modulargolems/lang/en_us.json
+ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 a9bfdc6c816b787e0e70c42ddbb0de5b53c94c51 assets/modulargolems/models/item/coating.json
 4769ec561a30aaf33eec61a67175bbc7e7ec2380 assets/modulargolems/models/item/command_wand.json
@@ -10,6 +11,7 @@ e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/dog_go
 e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/dog_golem_legs.json
 f633e91eabc355ef7116b199b2d49785aa4a5e9d assets/modulargolems/models/item/empty_upgrade.json
 9f4145920cab9ff763911fa096cb23f9683c5e21 assets/modulargolems/models/item/enchanted_gold.json
+84a008b484dc6a7a61cab7b8ab0c374e9baf1216 assets/modulargolems/models/item/ender_sight.json
 78eebfbf92e74a34d01e305c313abfaceb8cce2c assets/modulargolems/models/item/fiery.json
 7e14261f664d0d4fa64a137748e9d33f07435777 assets/modulargolems/models/item/fire_immune.json
 f2804b228690b09f680fa1db86cd9698f4d68ca5 assets/modulargolems/models/item/float.json
@@ -62,6 +64,7 @@ d563e2c5b2f8ea20ebcb0fae68ce70694c66c6b8 data/modulargolems/advancements/golems/
 83c4d8cb9057a01e8279640f9319048f889ccc21 data/modulargolems/advancements/golems/swim.json
 2ccccc522e7977f5973f9bfe05783ffac295d53f data/modulargolems/advancements/golems/thunder.json
 a3bac15e73f608a634a62fbb7c0c307a3a23a59d data/modulargolems/advancements/golems/upgrade.json
+54a6687779370033bdae83ca985d6a1ce4a11454 data/modulargolems/advancements/recipes/modulargolems.golems/bell.json
 2830f39d025b466dd3eddbb715d4679ccd2e14e8 data/modulargolems/advancements/recipes/modulargolems.golems/carminite.json
 ac8b4e6888556d268cb4ac7b5feb8c46ed552809 data/modulargolems/advancements/recipes/modulargolems.golems/coating.json
 4d3fe9dc4e3126d2ef41aa5e72e0ae08d154c038 data/modulargolems/advancements/recipes/modulargolems.golems/command_wand.json
@@ -71,6 +74,7 @@ fe251f41c1738034f5a270444c1671538d981b46 data/modulargolems/advancements/recipes
 f7b092e08764c3f721d7dbcc4af7318e20a07877 data/modulargolems/advancements/recipes/modulargolems.golems/dog_golem_legs_from_metal_golem_template_stonecutting.json
 23be9b246cea87fcc6b8e9f0991ac9a3d4423cb6 data/modulargolems/advancements/recipes/modulargolems.golems/empty_upgrade.json
 4744c05978e22c9da29efade25e670e356443301 data/modulargolems/advancements/recipes/modulargolems.golems/enchanted_gold.json
+3513860c4b384510401c292aeefe96ff100a9001 data/modulargolems/advancements/recipes/modulargolems.golems/ender_sight.json
 924498047b010ba7687b7d35564e63e34ea84057 data/modulargolems/advancements/recipes/modulargolems.golems/fiery.json
 15fdfda6ebfaf816d3b4567ba0b5868d18fdba09 data/modulargolems/advancements/recipes/modulargolems.golems/fire_immune.json
 0599f5155b481c5a89cae30249c01a5f3fb160fe data/modulargolems/advancements/recipes/modulargolems.golems/float.json
@@ -101,6 +105,7 @@ d8519b749a689966ec059d151e53cdcd8eed2449 data/modulargolems/advancements/recipes
 0b50787fe3a4d36976919455ceebb866a5ef6244 data/modulargolems/advancements/recipes/modulargolems.golems/swim.json
 f88dfa07af9fb5e08f39cc015385654ec5bc6c39 data/modulargolems/advancements/recipes/modulargolems.golems/teleport.json
 0529dcaaffb40917862e3f5b8465a1cc1f6d0fe5 data/modulargolems/advancements/recipes/modulargolems.golems/thunder_immune.json
+276454b8be7b5028d68728239dcbccf00c7df126 data/modulargolems/recipes/bell.json
 5c501264402361dd8adfe6c5752856234d3221f1 data/modulargolems/recipes/carminite.json
 b925c12ec50e6449c0ef8948756f9adb92b2fb1a data/modulargolems/recipes/coating.json
 969737428af35e17931e83a6bc5c2bc96b6384ab data/modulargolems/recipes/command_wand.json
@@ -110,6 +115,7 @@ e4a23f397535b40b50f9448eb185ae54e0727c25 data/modulargolems/recipes/diamond.json
 c6deded7a4f51cd808017d2bf9275ee389b6f7d9 data/modulargolems/recipes/dog_golem_legs_from_metal_golem_template_stonecutting.json
 63908e772258a1e5c1b19caa0db3100c821bb671 data/modulargolems/recipes/empty_upgrade.json
 8181ff1d0fd0ed4dffa4a1ad918fb98d07c4c0c1 data/modulargolems/recipes/enchanted_gold.json
+e75629270334cf4a3fa143918664556212a442ff data/modulargolems/recipes/ender_sight.json
 963dabead1e659043db43ebedd8449f726557aea data/modulargolems/recipes/fiery.json
 9640a090e6b2049dce14306b40183b1d416f9d83 data/modulargolems/recipes/fire_immune.json
 18de16ae82161aedc58a5c10f3867200dbacb958 data/modulargolems/recipes/float.json
@@ -144,4 +150,4 @@ b283b14d4b2dd3fc3b73671b6f395f140e5a470a data/modulargolems/recipes/steeleaf.jso
 0ff0909d28c29ae47fd17620ccf9d12ead26d8ca data/modulargolems/tags/items/holders.json
 1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 3c136ad71b9cc1a962b06ab779e09369ea8e25a9 data/modulargolems/tags/items/sculk_materials.json
-3eef639f4046bd5fdac434f743ad49ee61f7cd40 data/modulargolems/tags/items/upgrades.json
+b2eb559da380a08d8e6a6fbf20f3797695e98aa5 data/modulargolems/tags/items/upgrades.json

@@ -151,6 +151,14 @@ public class RecipeGen {
 					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.NETHER_STAR)
 					.save(pvd);
 
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItems.BELL.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.BELL)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItems.ENDER_SIGHT.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.ENDER_EYE)
+					.save(pvd);
+
 		}
 
 		CompatManager.dispatchGenRecipe(pvd);
