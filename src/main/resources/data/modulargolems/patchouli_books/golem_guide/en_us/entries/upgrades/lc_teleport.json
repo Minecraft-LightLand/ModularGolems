@@ -1,13 +1,13 @@
 {
   "flag": "mod:l2complements",
-  "name": "Wither Armor Upgrade",
+  "name": "Teleport Upgrade",
   "icon": "modulargolems:teleport",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:teleport",
-	  "text": "Golems will be immune to projectiles and repel them. There will be also a swirling wither armor effect on golems. Max: 1"
+	  "text": "Golem will teleport to target if target is too far away When attacked, golem will attempt to teleport away to avoid damage. Max: 1"
 	}
   ]
 }

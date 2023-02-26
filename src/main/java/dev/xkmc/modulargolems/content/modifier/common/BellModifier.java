@@ -17,7 +17,7 @@ public class BellModifier extends GolemModifier {
 
 	@Override
 	public void onSetTarget(AbstractGolemEntity<?, ?> golem, Mob mob, int level) {
-		golem.playSound(SoundEvents.BELL_BLOCK, 2, 1);
+		golem.playSound(SoundEvents.BELL_BLOCK, 1, 1);
 		var aabb = golem.getBoundingBox().inflate(48);
 		var list = golem.level.getEntitiesOfClass(Mob.class, aabb, golem::canAttack);
 		for (var e : list) {
