@@ -2,7 +2,9 @@ package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.events.event.GolemThrowableEvent;
+import dev.xkmc.modulargolems.init.data.TagGen;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
@@ -46,6 +48,16 @@ public class GolemShooterHelper {
 		double dz = target.getZ() - arrow.getZ();
 
 		double c = dx * dx + dz * dz + dy * dy;
+
+		if (!target.getType().is(TagGen.NO_SPEED_TRACK)) {
+			double rt = Math.sqrt(c) / v;
+			var tv = target.getDeltaMovement();
+			dx += tv.x * rt;
+			dy += tv.y * rt;
+			dz += tv.z * rt;
+			c = dx * dx + dz * dz + dy * dy;
+		}
+
 		if (g > 0 && c > v * v * 4) {
 			double a = g * g;
 			double b = 2 * dy * g - v * v;

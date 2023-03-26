@@ -1,4 +1,4 @@
-// 1.19.2	2023-03-25T20:51:21.644344	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.2	2023-03-26T05:38:34.53754	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 98a9f74e83bdf9fd8e173ddcef6a7704297550c1 assets/modulargolems/lang/en_ud.json
 751433c3182a9c94d26869c8b90031e3a0dc13e0 assets/modulargolems/lang/en_us.json
 ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
@@ -147,6 +147,7 @@ b283b14d4b2dd3fc3b73671b6f395f140e5a470a data/modulargolems/recipes/steeleaf.jso
 56ad9f8fdccbc67374e13efa7ea5748ccafa95e9 data/modulargolems/recipes/teleport.json
 8d37017d64ca070a9fb157acf63de2533e1e8332 data/modulargolems/recipes/thunder_immune.json
 945fa724fc2c471d03c5f1e3da78d41a600d5703 data/modulargolems/tags/entity_types/friendly.json
+c8eec608e1e980b0d32a9b90deaed39fc52e2611 data/modulargolems/tags/entity_types/no_speed_track.json
 0ff0909d28c29ae47fd17620ccf9d12ead26d8ca data/modulargolems/tags/items/holders.json
 1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 3c136ad71b9cc1a962b06ab779e09369ea8e25a9 data/modulargolems/tags/items/sculk_materials.json
