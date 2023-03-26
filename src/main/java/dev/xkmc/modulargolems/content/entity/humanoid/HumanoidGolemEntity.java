@@ -154,20 +154,21 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public void performRangedAttack(LivingEntity pTarget, float dist) {
-		ItemStack bowStack = this.getMainHandItem();
-		var throwable = GolemShooterHelper.isValidThrowableWeapon(this, bowStack);
+		ItemStack stack = this.getMainHandItem();
+		var throwable = GolemShooterHelper.isValidThrowableWeapon(this, stack);
 		if (throwable.isThrowable()) {
 			Projectile projectile = throwable.createProjectile(level);
 			GolemShooterHelper.shootAimHelper(pTarget, projectile);
 			this.playSound(SoundEvents.DROWNED_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			this.level.addFreshEntity(projectile);
-		} else if (bowStack.getItem() instanceof CrossbowItem) {
+			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+		} else if (stack.getItem() instanceof CrossbowItem) {
 			performCrossbowAttack(this, 3);
-		} else if (bowStack.getItem() instanceof BowItem bow) {
-			ItemStack arrowStack = this.getProjectile(bowStack);
+		} else if (stack.getItem() instanceof BowItem bow) {
+			ItemStack arrowStack = this.getProjectile(stack);
 			if (arrowStack.isEmpty()) return;
 			AbstractArrow arrowEntity = bow.customArrow(getArrow(arrowStack, dist));
-			if (!GolemShooterHelper.arrowIsInfinite(arrowStack, bowStack)) {
+			if (!GolemShooterHelper.arrowIsInfinite(arrowStack, stack)) {
 				arrowStack.shrink(1);
 				arrowEntity.pickup = AbstractArrow.Pickup.ALLOWED;
 			} else {
@@ -176,7 +177,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			GolemShooterHelper.shootAimHelper(pTarget, arrowEntity);
 			this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			this.level.addFreshEntity(arrowEntity);
-
+			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		}
 	}
 
