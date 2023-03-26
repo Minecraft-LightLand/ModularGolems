@@ -75,7 +75,7 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> imple
 		ItemStack itemstack = entity.getItemInHand(InteractionHand.MAIN_HAND);
 		ArmPose pos = ArmPose.EMPTY;
 		ArmPose anti_pos = ArmPose.EMPTY;
-		if (entity.isAggressive() && GolemShooterHelper.isValidThrowableWeapon(itemstack.getItem()) && entity.isUsingItem()) {
+		if (entity.isAggressive() && GolemShooterHelper.isValidThrowableWeapon(entity, itemstack).isThrowable() && entity.isUsingItem()) {
 			pos = ArmPose.THROW_SPEAR;
 		} else if (entity.isAggressive() && itemstack.getItem() instanceof BowItem) {
 			pos = ArmPose.BOW_AND_ARROW;

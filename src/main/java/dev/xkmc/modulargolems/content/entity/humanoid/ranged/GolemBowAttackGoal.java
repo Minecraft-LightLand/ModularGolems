@@ -36,7 +36,7 @@ public class GolemBowAttackGoal extends Goal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		return this.mob.getTarget() == null ? false : this.isHoldingBow();
+		return this.mob.getTarget() != null && this.isHoldingBow() && !this.mob.getProjectile(this.mob.getMainHandItem()).isEmpty();
 	}
 
 	protected boolean isHoldingBow() {
@@ -136,7 +136,7 @@ public class GolemBowAttackGoal extends Goal {
 						this.attackTime = this.attackIntervalMin;
 					}
 				}
-			} else if (--this.attackTime <= 0 && this.seeTime >= -60 && !this.mob.getProjectile(this.mob.getMainHandItem()).isEmpty()) {
+			} else if (--this.attackTime <= 0 && this.seeTime >= -60) {
 				this.mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(this.mob, item -> item instanceof BowItem));
 			}
 

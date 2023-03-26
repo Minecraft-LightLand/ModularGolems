@@ -12,17 +12,20 @@ public class GolemEquipEvent extends HumanoidGolemEvent {
 
 	private EquipmentSlot slot;
 	private boolean canEquip;
+	private int amount;
 
 	public GolemEquipEvent(HumanoidGolemEntity golem, ItemStack stack) {
 		super(golem);
 		this.stack = stack;
 		slot = getEquipmentSlotForItem(stack);
 		canEquip = stack.canEquip(slot, golem);
+		amount = 1;
 	}
 
-	public void setSlot(EquipmentSlot slot) {
+	public void setSlot(EquipmentSlot slot, int amount) {
 		this.slot = slot;
 		canEquip = true;
+		this.amount = amount;
 	}
 
 	public boolean canEquip() {
@@ -35,5 +38,9 @@ public class GolemEquipEvent extends HumanoidGolemEvent {
 
 	public ItemStack getStack() {
 		return stack;
+	}
+
+	public int getAmount() {
+		return amount;
 	}
 }

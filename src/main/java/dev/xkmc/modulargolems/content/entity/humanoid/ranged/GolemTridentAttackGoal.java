@@ -5,11 +5,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.goal.RangedAttackGoal;
 
 public class GolemTridentAttackGoal extends RangedAttackGoal {
-	private final HumanoidGolemEntity drowned;
+	private final HumanoidGolemEntity golem;
 
 	public GolemTridentAttackGoal(HumanoidGolemEntity pRangedAttackMob, double pSpeedModifier, int pAttackInterval, float pAttackRadius) {
 		super(pRangedAttackMob, pSpeedModifier, pAttackInterval, pAttackRadius);
-		this.drowned = pRangedAttackMob;
+		this.golem = pRangedAttackMob;
 	}
 
 	/**
@@ -17,7 +17,7 @@ public class GolemTridentAttackGoal extends RangedAttackGoal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		return super.canUse() && GolemShooterHelper.isValidThrowableWeapon(this.drowned.getMainHandItem().getItem());
+		return super.canUse() && GolemShooterHelper.isValidThrowableWeapon(this.golem, this.golem.getMainHandItem()).isThrowable();
 	}
 
 	/**
@@ -25,8 +25,8 @@ public class GolemTridentAttackGoal extends RangedAttackGoal {
 	 */
 	public void start() {
 		super.start();
-		this.drowned.setAggressive(true);
-		this.drowned.startUsingItem(InteractionHand.MAIN_HAND);
+		this.golem.setAggressive(true);
+		this.golem.startUsingItem(InteractionHand.MAIN_HAND);
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class GolemTridentAttackGoal extends RangedAttackGoal {
 	 */
 	public void stop() {
 		super.stop();
-		this.drowned.stopUsingItem();
-		this.drowned.setAggressive(false);
+		this.golem.stopUsingItem();
+		this.golem.setAggressive(false);
 	}
 }
