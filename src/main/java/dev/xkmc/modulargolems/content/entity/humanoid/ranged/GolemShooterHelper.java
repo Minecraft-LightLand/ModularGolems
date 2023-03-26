@@ -37,11 +37,31 @@ public class GolemShooterHelper {
 	}
 
 	public static void shootAimHelper(LivingEntity target, Projectile arrow) {
-		double d0 = target.getX() - arrow.getX();
-		double d1 = target.getY(0.5) - arrow.getY();
-		double d2 = target.getZ() - arrow.getZ();
-		double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-		arrow.shoot(d0, d1 + d3 * 0.05F, d2, 3f, 0);
+		shootAimHelper(target, arrow, 3, 0.05);
+	}
+
+	public static void shootAimHelper(LivingEntity target, Projectile arrow, double v, double g) {
+		double dx = target.getX() - arrow.getX();
+		double dy = target.getY(0.5) - arrow.getY();
+		double dz = target.getZ() - arrow.getZ();
+
+		double c = dx * dx + dz * dz + dy * dy;
+		if (g > 0 && c > v * v * 4) {
+			double a = g * g;
+			double b = 2 * dy * g - v * v;
+
+			double delta = b * b - 4 * a * c;
+			if (delta > 0) {
+				double t21 = (-b + Math.sqrt(delta)) / (2 * a);
+				double t22 = (-b - Math.sqrt(delta)) / (2 * a);
+				if (t21 > 0 || t22 > 0) {
+					double t2 = t21 > 0 ? t22 > 0 ? Math.min(t21, t22) : t21 : t22;
+					arrow.shoot(dx, dy + g * t2, dz, (float) v, 0);
+					return;
+				}
+			}
+		}
+		arrow.shoot(dx, dy, dz, (float) v, 0);
 	}
 
 }

@@ -10,6 +10,8 @@ import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackGoal;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.events.event.GolemBowAttackEvent;
+import dev.xkmc.modulargolems.events.event.GolemDisableShieldEvent;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.nbt.CompoundTag;
@@ -159,7 +161,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (throwable.isThrowable()) {
 			Projectile projectile = throwable.createProjectile(level);
 			GolemShooterHelper.shootAimHelper(pTarget, projectile);
-			this.playSound(SoundEvents.DROWNED_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+			this.playSound(SoundEvents.TRIDENT_THROW, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			this.level.addFreshEntity(projectile);
 			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		} else if (stack.getItem() instanceof CrossbowItem) {
@@ -168,14 +170,20 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			ItemStack arrowStack = this.getProjectile(stack);
 			if (arrowStack.isEmpty()) return;
 			AbstractArrow arrowEntity = bow.customArrow(getArrow(arrowStack, dist));
-			if (!GolemShooterHelper.arrowIsInfinite(arrowStack, stack)) {
-				arrowStack.shrink(1);
-				arrowEntity.pickup = AbstractArrow.Pickup.ALLOWED;
-			} else {
+			boolean infinite = GolemShooterHelper.arrowIsInfinite(arrowStack, stack);
+			GolemBowAttackEvent event = new GolemBowAttackEvent(this, stack, arrowEntity, infinite);
+			MinecraftForge.EVENT_BUS.post(event);
+			arrowEntity = event.getArrow();
+			if (event.isNoPickup()) {
 				arrowEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+			} else {
+				arrowEntity.pickup = AbstractArrow.Pickup.ALLOWED;
 			}
-			GolemShooterHelper.shootAimHelper(pTarget, arrowEntity);
-			this.playSound(SoundEvents.SKELETON_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+			if (!event.isNoConsume()) {
+				arrowStack.shrink(1);
+			}
+			GolemShooterHelper.shootAimHelper(pTarget, arrowEntity, event.speed(), event.gravity());
+			this.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			this.level.addFreshEntity(arrowEntity);
 			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		}
@@ -315,7 +323,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	protected void blockUsingShield(LivingEntity source) {
 		super.blockUsingShield(source);
-		if (source.canDisableShield() || source.getMainHandItem().canDisableShield(this.getOffhandItem(), this, source)) {
+		boolean canDisable = source.canDisableShield() || source.getMainHandItem().canDisableShield(this.getOffhandItem(), this, source);
+		GolemDisableShieldEvent event = new GolemDisableShieldEvent(this, source, canDisable);
+		MinecraftForge.EVENT_BUS.post(event);
+		if (event.shouldDisable()) {
 			this.shieldCooldown = 100;
 			this.level.broadcastEntityEvent(this, EntityEvent.SHIELD_DISABLED);
 		}
