@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.SoulFlame
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 
-import static dev.xkmc.modulargolems.init.registrate.GolemItems.regUpgrade;
+import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class LCCompatRegistry {
@@ -27,10 +27,10 @@ public class LCCompatRegistry {
 		FLAME = reg("soul_flame", SoulFlameModifier::new, "Get Soul Flame Blade and Soul Flame Thorn enchantment effects. Immune to soul flame damage.");
 		TELEPORT = reg("teleport", EnderTeleportModifier::new, "Teleport randomly to avoid attack, and teleport toward target when attacking.");
 
-		FORCE_FIELD = regUpgrade("force_field", () -> GolemModifiers.PROJECTILE_REJECT).lang("Wither Armor Upgrade").register();
-		FREEZE_UP = regUpgrade("freezing", () -> FREEZE).lang("Freezing Upgrade").register();
-		FLAME_UP = regUpgrade("soul_flame", () -> FLAME).lang("Soul Flame Upgrade").register();
-		TELEPORT_UP = regUpgrade("teleport", () -> TELEPORT).lang("Teleport Upgrade").register();
+		FORCE_FIELD = regModUpgrade("force_field", () -> GolemModifiers.PROJECTILE_REJECT, LCDispatch.MODID).lang("Wither Armor Upgrade").register();
+		FREEZE_UP = regModUpgrade("freezing", () -> FREEZE, LCDispatch.MODID).lang("Freezing Upgrade").register();
+		FLAME_UP = regModUpgrade("soul_flame", () -> FLAME, LCDispatch.MODID).lang("Soul Flame Upgrade").register();
+		TELEPORT_UP = regModUpgrade("teleport", () -> TELEPORT, LCDispatch.MODID).lang("Teleport Upgrade").register();
 	}
 
 	public static void register() {

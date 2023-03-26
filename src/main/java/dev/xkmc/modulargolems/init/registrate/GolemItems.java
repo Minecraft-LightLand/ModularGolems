@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init.registrate;
 
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.builders.ItemBuilder;
+import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.l2library.repack.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
@@ -142,14 +143,23 @@ public class GolemItems {
 
 	}
 
-	public static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
+	public static ItemBuilder<UpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, String modid) {
+		var reg = regUpgradeImpl(id, mod, 1, false);
+		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.tag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
+		return reg;
+	}
+
+	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
 		return regUpgrade(id, mod, 1, false);
 	}
 
-	public static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
+	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
+		return regUpgradeImpl(id, mod, level, foil).tag(TagGen.GOLEM_UPGRADES);
+	}
+
+	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
 		return REGISTRATE.item(id, p -> new UpgradeItem(p, mod.get()::get, level, foil))
-				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/upgrades/" + id)))
-				.tag(TagGen.GOLEM_UPGRADES);
+				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/upgrades/" + id)));
 	}
 
 	public static void register() {

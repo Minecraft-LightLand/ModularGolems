@@ -62,7 +62,7 @@ public class GolemModifiers {
 		IMMUNITY = reg("immunity", ImmunityModifier::new, "Immune to all damage, except void damage.");
 		SWIM = reg("swim", SwimModifier::new, "Golem can swim");
 		PLAYER_IMMUNE = reg("player_immune", PlayerImmuneModifier::new, "Immune to friendly fire.");
-		SONIC = reg("sonic_boom",SonicModifier::new, "Golem can use Sonic Boom Attack. If the golem can perform area attack, then Sonic Boom can hit multiple targets.");
+		SONIC = reg("sonic_boom", SonicModifier::new, "Golem can use Sonic Boom Attack. If the golem can perform area attack, then Sonic Boom can hit multiple targets.");
 		ENDER_SIGHT = reg("ender_sight", EnderSightModifier::new, "Golem can see through wall and ceilings.");
 		BELL = reg("bell", BellModifier::new, "When the golem wants to attack, it will ring its bell, attracting all enemies and light them up.");
 	}

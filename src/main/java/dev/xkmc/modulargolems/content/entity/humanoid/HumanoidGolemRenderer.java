@@ -78,10 +78,6 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 
 	@Override
 	public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
-		model.leftArmPose = HumanoidModel.ArmPose.EMPTY;
-		if (entity.isBlocking()) {
-			model.leftArmPose = HumanoidModel.ArmPose.BLOCK;
-		}
 		super.render(entity, f1, f2, stack, source, i);
 	}
 }

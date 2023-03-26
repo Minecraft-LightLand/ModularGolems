@@ -1,4 +1,4 @@
-// 1.19.2	2023-02-21T21:39:15.854034	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.2	2023-03-25T20:51:21.644344	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 98a9f74e83bdf9fd8e173ddcef6a7704297550c1 assets/modulargolems/lang/en_ud.json
 751433c3182a9c94d26869c8b90031e3a0dc13e0 assets/modulargolems/lang/en_us.json
 ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
@@ -150,4 +150,4 @@ b283b14d4b2dd3fc3b73671b6f395f140e5a470a data/modulargolems/recipes/steeleaf.jso
 0ff0909d28c29ae47fd17620ccf9d12ead26d8ca data/modulargolems/tags/items/holders.json
 1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 3c136ad71b9cc1a962b06ab779e09369ea8e25a9 data/modulargolems/tags/items/sculk_materials.json
-b2eb559da380a08d8e6a6fbf20f3797695e98aa5 data/modulargolems/tags/items/upgrades.json
+1568fd444e7edd46f9e26a6e903da8cc3551b2f5 data/modulargolems/tags/items/upgrades.json

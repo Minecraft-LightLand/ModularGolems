@@ -2,10 +2,10 @@ package dev.xkmc.modulargolems.init;
 
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
-import dev.xkmc.l2library.serial.unified.UnifiedCodec;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.events.CraftEvents;
-import dev.xkmc.modulargolems.events.GolemEvents;
+import dev.xkmc.modulargolems.events.CraftEventListeners;
+import dev.xkmc.modulargolems.events.GolemEventListeners;
+import dev.xkmc.modulargolems.events.ModifierEventListeners;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
@@ -51,8 +51,9 @@ public class ModularGolems {
 	}
 
 	private static void registerForgeEvents() {
-		MinecraftForge.EVENT_BUS.register(GolemEvents.class);
-		MinecraftForge.EVENT_BUS.register(CraftEvents.class);
+		MinecraftForge.EVENT_BUS.register(ModifierEventListeners.class);
+		MinecraftForge.EVENT_BUS.register(CraftEventListeners.class);
+		MinecraftForge.EVENT_BUS.register(GolemEventListeners.class);
 	}
 
 	private static void registerModBusEvents(IEventBus bus) {

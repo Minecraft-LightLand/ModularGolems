@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.modifier;
 
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
-import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -119,7 +118,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return GolemPartConfig.get().getFilter(part).getOrDefault(type, 0d) > 0;
 	}
 
-	public void onSetTarget(AbstractGolemEntity<?,?> golem, Mob mob, int level) {
+	public void onSetTarget(AbstractGolemEntity<?, ?> golem, Mob mob, int level) {
 	}
 
 }

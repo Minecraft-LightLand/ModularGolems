@@ -17,7 +17,7 @@ import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class GolemEvents {
+public class ModifierEventListeners {
 
 	@SubscribeEvent
 	public static void onGolemSpawn(EntityJoinLevelEvent event) {

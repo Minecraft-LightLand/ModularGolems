@@ -31,7 +31,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		return flag;
 	}
 
-	protected AABB getTargetBoundingBox(Entity target){
+	protected AABB getTargetBoundingBox(Entity target) {
 		return target.getBoundingBox();
 	}
 

@@ -14,7 +14,7 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class CraftEvents {
+public class CraftEventListeners {
 
 	@SubscribeEvent
 	public static void onAnvilCraft(AnvilUpdateEvent event) {
