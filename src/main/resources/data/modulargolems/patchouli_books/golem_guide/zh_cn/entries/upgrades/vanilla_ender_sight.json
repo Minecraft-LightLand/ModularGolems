@@ -1,0 +1,12 @@
+{
+  "name": "透视升级",
+  "icon": "modulargolems:ender_sight",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:ender_sight",
+	  "text": "傀儡能看到所有索敌范围内天空下的，5格以内的，和位置比自己高的被遮挡的敌人"
+	}
+  ]
+}

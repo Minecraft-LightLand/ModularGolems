@@ -1,12 +1,12 @@
 {
-  "name": "Netherite Upgrade",
+  "name": "下界合金升级",
   "icon": "modulargolems:netherite",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:netherite",
-	  "text": "Adds armor value and toughness to golems. Improve golem survivability by a lot. Max: 2"
+	  "text": "为傀儡提供大量护甲值与攻击力。最大等级：2"
 	}
   ]
 }

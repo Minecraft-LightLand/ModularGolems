@@ -1,0 +1,29 @@
+{
+  "flag": "mod:l2complements",
+  "name": "永恒",
+  "icon": "l2complements:eternium_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 404,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "l2complements:eternium_ingot",
+	  "text": "制造永恒傀儡部件的材料。永恒傀儡身体部件能让傀儡免疫虚空伤害以外的所有伤害。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:eternium\"},{part:\"modulargolems:metal_golem_body\",material:\"l2complements:eternium\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:eternium\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2complements:eternium\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2complements:eternium\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2complements:eternium\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2complements:eternium\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"l2complements:eternium\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2complements:eternium\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	}
+  ]
+}

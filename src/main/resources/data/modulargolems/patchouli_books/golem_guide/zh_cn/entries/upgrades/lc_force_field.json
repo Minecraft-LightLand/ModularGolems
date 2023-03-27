@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "凋零护体升级",
+  "icon": "modulargolems:force_field",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:force_field",
+	  "text": "傀儡将会拥有和凋零一样的护体效果，免疫并反弹弹射物。最大等级：1"
+	}
+  ]
+}

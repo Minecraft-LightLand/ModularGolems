@@ -1,0 +1,16 @@
+{
+  "name": "回收手杖",
+  "icon": "modulargolems:retrieval_wand",
+  "category": "modulargolems:golems",
+  "sortnum": 20,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "右键傀儡把傀儡收回背包。$(br2)右键空中把半径20格内的全部傀儡收回背包。$(br2)Shift右键收回准星指向的最多64格远的傀儡。"
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:retrieval_wand",
+	  "text": "批量回收傀儡的道具。"
+	}
+  ]
+}

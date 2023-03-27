@@ -1,6 +1,6 @@
 {
-  "mod": "create",
-  "name": "Andesite Alloy",
+  "flag": "mod:create",
+  "name": "安山合金",
   "icon": "create:andesite_alloy",
   "category": "modulargolems:materials",
   "sortnum": 302,
@@ -8,17 +8,22 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "create:andesite_alloy",
-	  "text": "Main material to craft Andesite Alloy golem parts. It is cheap to fix and provides speed boost and magic damage resistance."
+	  "text": "制作安山合金傀儡部件的主要材料，修复成本低廉，可为傀儡提供额外移动速度和魔法抗性"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"create:andesite_alloy\"},{part:\"modulargolems:metal_golem_body\",material:\"create:andesite_alloy\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:andesite_alloy\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:andesite_alloy\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:andesite_alloy\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:andesite_alloy\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:andesite_alloy\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"create:andesite_alloy\"},{part:\"modulargolems:dog_golem_legs\",material:\"create:andesite_alloy\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

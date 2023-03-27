@@ -1,0 +1,16 @@
+{
+  "name": "命令手杖",
+  "icon": "modulargolems:command_wand",
+  "category": "modulargolems:golems",
+  "sortnum": 21,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "右键傀儡改变傀儡行为模式。$(br2)跟随模式：默认模式。傀儡跟随玩家。$(br2)巡逻模式：切换至巡逻模式时的地点为巡逻点。傀儡会待在巡逻点附近，如同有玩家站在巡逻点上。巡逻模式的傀儡不能改变纬度。回收傀儡时取消巡逻模式。"
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:command_wand",
+	  "text": "改变傀儡行为模式的道具。"
+	}
+  ]
+}

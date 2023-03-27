@@ -1,16 +1,16 @@
 {
-  "name": "Humanoid Golem",
+  "name": "人形傀儡",
   "icon": "modulargolems:humanoid_golem_holder",
   "category": "modulargolems:golems",
   "sortnum": 11,
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "Humanoid golem is a player-like golem. It can use armor, meelee weapons, and shield. Right click the golem with equipments to equip, and shift-right click the golem to un-equip all. If you shift-right click with empty hand, the golem will be retrieved naked as well. Right click the golem with empty hand to retrieve the golem with equipments stored within."
+	  "text": "人形傀儡和玩家十分相似。理所当然它可以装备盔甲，近战武器或盾牌。手持装备右键傀儡将其给予，空手右键傀儡以查看装备信息。shift加右键会卸下傀儡身上的所有装备，空手进行该操作会同时回收傀儡本身。"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:humanoid_golem_holder",
-	  "text": "Humanoid golem can perform area attack if and only if it holds a sword-like item.$(br2)Humanoid golem can use shield, but can be bypassed if the enemy attacks from behind or holds an axe."
+	  "text": "手持剑类装备的傀儡将对敌人造成范围伤害。$(br2)人形傀儡装备盾牌后可以格挡除了来自背后和斧类武器以外的所有伤害。"
 	}
   ]
 }

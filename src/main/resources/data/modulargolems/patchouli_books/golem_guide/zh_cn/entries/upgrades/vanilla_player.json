@@ -1,0 +1,12 @@
+{
+  "name": "玩家免疫升级",
+  "icon": "modulargolems:player",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:player",
+	  "text": "傀儡将免疫任何来自友方的伤害。"
+	}
+  ]
+}

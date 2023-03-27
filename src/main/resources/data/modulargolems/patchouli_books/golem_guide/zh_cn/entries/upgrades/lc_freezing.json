@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "寒霜升级",
+  "icon": "modulargolems:freezing",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:freezing",
+	  "text": "傀儡攻击时施加霜冻效果并且自身免疫霜冻。最大等级：3"
+	}
+  ]
+}

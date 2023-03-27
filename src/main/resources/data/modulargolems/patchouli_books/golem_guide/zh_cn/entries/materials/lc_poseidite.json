@@ -1,0 +1,29 @@
+{
+  "flag": "mod:l2complements",
+  "name": "海神",
+  "icon": "l2complements:poseidite_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 402,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "l2complements:poseidite_ingot",
+	  "text": "制造海神傀儡部件的材料。含有海神傀儡身体部件的傀儡能够游泳，在水下也会获得加成。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:poseidite\"},{part:\"modulargolems:metal_golem_body\",material:\"l2complements:poseidite\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:poseidite\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2complements:poseidite\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2complements:poseidite\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2complements:poseidite\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2complements:poseidite\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"l2complements:poseidite\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2complements:poseidite\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	}
+  ]
+}

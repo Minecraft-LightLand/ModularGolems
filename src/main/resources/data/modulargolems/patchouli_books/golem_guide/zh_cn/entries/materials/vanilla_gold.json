@@ -1,5 +1,5 @@
 {
-  "name": "Gold",
+  "name": "金",
   "icon": "minecraft:gold_ingot",
   "category": "modulargolems:materials",
   "sortnum": 103,
@@ -7,17 +7,22 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:gold_ingot",
-	  "text": "Main material to craft gold golem parts. Gold golem parts feature health regeneration, while having very low stats for all attributes.$(br2)It is recommended for body or legs if you want regeneration, and the other body or legs component should be some other material to get decent health for the golem."
+	  "text": "制作黄金傀儡部件的主要材料，黄金傀儡部件拥有生命恢复能力，但都极为脆弱。$(br2)如果你想要傀儡拥有自愈能力，黄金躯干或腿是个不错的选择,其他部位则需要选择拥有较高生命值的傀儡部件。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:gold\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:gold\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:gold\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:gold\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:gold\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:gold\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:gold\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:gold\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:gold\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

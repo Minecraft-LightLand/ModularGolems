@@ -1,0 +1,13 @@
+{
+  "flag": "mod:create",
+  "name": "机械手升级",
+  "icon": "modulargolems:push",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:push",
+	  "text": "大幅提升攻击击退。最大等级: 1"
+	}
+  ]
+}

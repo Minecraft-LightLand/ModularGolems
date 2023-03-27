@@ -1,12 +1,12 @@
 {
-  "name": "Thunder Immune",
+  "name": "导电升级",
   "icon": "modulargolems:thunder_immune",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:thunder_immune",
-	  "text": "Make golem immune to thunder damages"
+	  "text": "令傀儡免疫雷电伤害。被雷击中时获得火焰免疫，并回复部分血量。"
 	}
   ]
 }

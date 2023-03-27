@@ -1,0 +1,12 @@
+{
+  "name": "漂浮升级",
+  "icon": "modulargolems:float",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:float",
+	  "text": "让傀儡浮在水上。"
+	}
+  ]
+}
