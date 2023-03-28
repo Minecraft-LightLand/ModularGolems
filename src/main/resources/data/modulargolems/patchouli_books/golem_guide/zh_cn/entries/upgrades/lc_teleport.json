@@ -1,6 +1,6 @@
 {
   "flag": "mod:l2complements",
-  "name": "传送升级",
+  "name": "瞬移升级",
   "icon": "modulargolems:teleport",
   "category": "modulargolems:upgrades",
   "pages": [
