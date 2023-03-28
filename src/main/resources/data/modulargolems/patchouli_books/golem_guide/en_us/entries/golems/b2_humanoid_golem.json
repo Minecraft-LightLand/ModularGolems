@@ -6,11 +6,12 @@
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "Humanoid golem is a player-like golem. It can use armor, meelee weapons, and shield. Right click the golem with equipments to equip, and shift-right click the golem to un-equip all. If you shift-right click with empty hand, the golem will be retrieved naked as well. Right click the golem with empty hand to retrieve the golem with equipments stored within."
-	},{
+	  "text": "Humanoid golem is a player-like golem. It can use armor, meelee weapons, bows, crossbows, trident, and shield. Right click the golem with equipments to equip, and shift-right click the golem to un-equip all. If you shift-right click with empty hand, the golem will be retrieved naked as well. Right click the golem with empty hand to retrieve the golem with equipments stored within."
+	},
+	{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:humanoid_golem_holder",
-	  "text": "Humanoid golem can perform area attack if and only if it holds a sword-like item.$(br2)Humanoid golem can use shield, but can be bypassed if the enemy attacks from behind or holds an axe."
+	  "text": "Humanoid golem can perform area attack if and only if it holds a sword-like item.$(br2)Humanoid golem can use shield, but can be bypassed if the enemy attacks from behind or holds an axe. $(br2)It can also use bow and crossbows, but would consume arrows. Infinity bow is recommended."
 	}
   ]
 }
