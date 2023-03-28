@@ -1,13 +1,13 @@
 {
   "flag": "mod:l2complements",
-  "name": "Wither Armor Upgrade",
+  "name": "凋零护体升级",
   "icon": "modulargolems:force_field",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:force_field",
-	  "text": "Golems will be immune to projectiles and repel them. There will be also a swirling wither armor effect on golems. Max: 1"
+	  "text": "傀儡将会拥有和凋零一样的护体效果，免疫并反弹弹射物。最大等级：1"
 	}
   ]
 }
