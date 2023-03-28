@@ -1,17 +1,24 @@
 package dev.xkmc.modulargolems.content.modifier;
 
 import dev.xkmc.l2library.base.NamedEntry;
+import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class GolemModifier extends NamedEntry<GolemModifier> {
 
@@ -21,7 +28,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public final int maxLevel;
 
 	public GolemModifier(StatFilterType type, int maxLevel) {
-		super(GolemTypeRegistry.MODIFIERS);
+		super(GolemTypes.MODIFIERS);
 		this.type = type;
 		this.maxLevel = maxLevel;
 	}
@@ -29,7 +36,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public Component getTooltip(int v) {
 		MutableComponent ans = getDesc();
 		if (maxLevel > 1)
-			ans = ans.append(Component.translatable("potion.potency." + (v - 1)));
+			ans = ans.append(" ").append(Component.translatable("potion.potency." + (v - 1)));
 		return ans.withStyle(ChatFormatting.LIGHT_PURPLE);
 	}
 
@@ -95,6 +102,23 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	 */
 	public int addSlot() {
 		return 0;
+	}
+
+	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
+	}
+
+	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public void onClientTick(AbstractGolemEntity<?, ?> entity, int level) {
+	}
+
+	public boolean canExistOn(GolemPart<?, ?> part) {
+		return GolemPartConfig.get().getFilter(part).getOrDefault(type, 0d) > 0;
+	}
+
+	public void onSetTarget(AbstractGolemEntity<?, ?> golem, Mob mob, int level) {
 	}
 
 }

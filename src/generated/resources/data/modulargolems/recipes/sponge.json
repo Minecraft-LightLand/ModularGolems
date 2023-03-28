@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:wet_sponge"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "modulargolems:sponge"
+  }
+}

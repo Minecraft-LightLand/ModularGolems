@@ -10,7 +10,7 @@
 	},
 	{
 	  "type": "patchouli:text",
-	  "text": "$(li)$(l:upgrades/recycle)Recycle Upgrade$(/l) will protect your golems from unrepairable damages.$(li)$(l:upgrades/diamond)Diamond$(/l) and $(l:upgrades/netherite)netherite$(/l) upgrade will improve golem defense.$(li)$(l:upgrades/gold)Golden apple upgrade$(/l) will allow golems to repair itself."
+	  "text": "$(li)$(l:upgrades/vanilla_recycle)Recycle Upgrade$(/l) will protect your golems from unrepairable damages.$(li)$(l:upgrades/vanilla_diamond)Diamond$(/l) and $(l:upgrades/vanilla_netherite)netherite$(/l) upgrade will improve golem defense.$(li)$(l:upgrades/vanilla_gold)Golden apple upgrade$(/l) will allow golems to repair itself."
 	}
   ]
 }

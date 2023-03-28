@@ -14,7 +14,7 @@
       "item": "minecraft:netherite_ingot"
     },
     "modulargolems:sculk": {
-      "item": "minecraft:echo_shard"
+      "tag": "modulargolems:sculk_materials"
     }
   },
   "modifiers": {
@@ -27,7 +27,8 @@
       "modulargolems:fire_immune": 1
     },
     "modulargolems:sculk": {
-      "modulargolems:fire_immune": 1
+      "modulargolems:fire_immune": 1,
+      "modulargolems:sonic_boom": 1
     }
   },
   "stats": {

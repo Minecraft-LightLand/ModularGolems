@@ -5,13 +5,13 @@ import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.Carminite
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.FieryModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFDamageModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFHealingModifier;
+import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
-import dev.xkmc.modulargolems.content.upgrades.UpgradeItem;
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 
-import static dev.xkmc.modulargolems.init.registrate.GolemItemRegistry.regUpgrade;
-import static dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry.THORN;
-import static dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry.reg;
+import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
+import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.THORN;
+import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class TFCompatRegistry {
 
@@ -29,18 +29,18 @@ public class TFCompatRegistry {
 		TF_HEALING = reg("tf_healing", TFHealingModifier::new, "TF Healing Bonus", "Healing becomes %s%% in twilight forest");
 		CARMINITE = reg("carminite", CarminiteModifier::new, "After being hurt, turn invisible and invinsible for %s seconds");
 		NAGA = reg("naga", () -> new AttributeGolemModifier(2,
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ARMOR, 10),
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_SPEED, 0.3),
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ATTACK, 4),
-				new AttributeGolemModifier.AttrEntry(GolemTypeRegistry.STAT_ATKKB, 1)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_SPEED, 0.3),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATTACK, 4),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, 1)
 		)).register();
 
-		UP_CARMINITE = regUpgrade("carminite", () -> CARMINITE).lang("Carminite Upgrade").register();
-		UP_STEELEAF = regUpgrade("steeleaf", () -> TF_DAMAGE).lang("Steeleaf Upgrade").register();
-		UP_FIERY = regUpgrade("fiery", () -> FIERY).lang("Fiery Upgrade").register();
-		UP_IRONWOOD = regUpgrade("ironwood", () -> TF_HEALING).lang("Ironwood Upgrade").register();
-		UP_KNIGHTMETAL = regUpgrade("knightmetal", () -> THORN).lang("Knightmetal Upgrade").register();
-		UP_NAGA = regUpgrade("naga", () -> NAGA).lang("Naga Upgrade").register();
+		UP_CARMINITE = regModUpgrade("carminite", () -> CARMINITE, TFDispatch.MODID).lang("Carminite Upgrade").register();
+		UP_STEELEAF = regModUpgrade("steeleaf", () -> TF_DAMAGE, TFDispatch.MODID).lang("Steeleaf Upgrade").register();
+		UP_FIERY = regModUpgrade("fiery", () -> FIERY, TFDispatch.MODID).lang("Fiery Upgrade").register();
+		UP_IRONWOOD = regModUpgrade("ironwood", () -> TF_HEALING, TFDispatch.MODID).lang("Ironwood Upgrade").register();
+		UP_KNIGHTMETAL = regModUpgrade("knightmetal", () -> THORN, TFDispatch.MODID).lang("Knightmetal Upgrade").register();
+		UP_NAGA = regModUpgrade("naga", () -> NAGA, TFDispatch.MODID).lang("Naga Upgrade").register();
 
 	}
 

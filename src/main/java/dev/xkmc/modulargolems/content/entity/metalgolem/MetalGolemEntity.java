@@ -3,9 +3,14 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
+import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
+import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -18,7 +23,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
@@ -60,15 +64,17 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	private int attackAnimationTick;
 
 	protected void registerGoals() {
+		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
-		this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
+		//this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
+		this.goalSelector.addGoal(6, new FollowOwnerGoal(this));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		registerTargetGoals();
 	}
 
 	protected void doPush(Entity p_28839_) {
-		if (p_28839_ instanceof Enemy && !(p_28839_ instanceof Creeper) && this.getRandom().nextInt(20) == 0) {
+		if (p_28839_ instanceof Enemy && !(p_28839_ instanceof Creeper)) {
 			this.setTarget((LivingEntity) p_28839_);
 		}
 		super.doPush(p_28839_);
@@ -94,8 +100,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	public boolean doHurtTarget(Entity target) {
 		this.attackAnimationTick = 10;
 		this.level.broadcastEntityEvent(this, (byte) 4);
-		float rawDamage = this.getAttackDamage();
-		float damage = (int) rawDamage > 0 ? rawDamage / 2.0F + (float) this.random.nextInt((int) rawDamage) : rawDamage;
+		float damage = this.getAttackDamage();
 		double kb;
 		if (target instanceof LivingEntity livingentity) {
 			kb = livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
@@ -170,6 +175,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (getMaterials().size() != MetalGolemPartType.values().length)
 			return super.mobInteract(player, hand);
@@ -187,6 +193,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 				this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
 				if (!player.getAbilities().instabuild) {
 					itemstack.shrink(1);
+				}
+				if (!this.level.isClientSide()) {
+					GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
 				}
 				return InteractionResult.sidedSuccess(this.level.isClientSide);
 			}

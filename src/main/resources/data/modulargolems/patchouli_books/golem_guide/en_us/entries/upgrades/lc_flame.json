@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Soul Flame Upgrade",
+  "icon": "modulargolems:soul_flame",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:soul_flame",
+	  "text": "Golems will apply soul flame effect to target when attacking, and to attacker when attacked. Golem will also immune to soul flame damage. Max: 3"
+	}
+  ]
+}

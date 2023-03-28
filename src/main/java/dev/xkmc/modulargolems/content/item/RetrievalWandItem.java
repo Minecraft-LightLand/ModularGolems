@@ -1,0 +1,56 @@
+package dev.xkmc.modulargolems.content.item;
+
+import dev.xkmc.l2library.util.code.Wrappers;
+import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.entity.EntityTypeTest;
+
+public class RetrievalWandItem extends Item implements WandItem {
+
+	public RetrievalWandItem(Properties props) {
+		super(props);
+	}
+
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
+		ItemStack stack = user.getItemInHand(hand);
+		if (user.isShiftKeyDown()) {
+			var result = RayTraceUtil.rayTraceEntity(user, 64, e -> (e instanceof AbstractGolemEntity<?, ?> golem) && golem.isAlliedTo(user));
+			if (result == null) return InteractionResultHolder.fail(stack);
+			var golem = result.getEntity();
+			return attemptRetrieve(level, user, Wrappers.cast(golem)) ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
+		} else {
+			var list = level.getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), user.getBoundingBox().inflate(20), e -> true);
+			if (list.size() == 0) {
+				return InteractionResultHolder.pass(stack);
+			}
+			boolean success = false;
+			for (var golem : list) {
+				success |= attemptRetrieve(level, user, golem);
+			}
+			return success ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
+		}
+	}
+
+	@Override
+	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity target, InteractionHand hand) {
+		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return InteractionResult.PASS;
+		return attemptRetrieve(target.getLevel(), user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+	}
+
+	private static boolean attemptRetrieve(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
+		if (!golem.isAlliedTo(user)) return false;
+		if (level.isClientSide()) return true;
+		user.getInventory().placeItemBackInInventory(golem.toItem());
+		return true;
+	}
+
+}

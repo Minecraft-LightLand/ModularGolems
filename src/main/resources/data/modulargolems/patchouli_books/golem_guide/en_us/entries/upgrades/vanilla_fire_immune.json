@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:fire_immune",
-	  "text": "Make golem immune to fire damages."
+	  "text": "Make golem immune to fire damages. Also make golem float on lava."
 	}
   ]
 }
