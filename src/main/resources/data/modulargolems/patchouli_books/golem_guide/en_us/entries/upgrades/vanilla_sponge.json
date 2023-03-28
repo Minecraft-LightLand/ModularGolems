@@ -1,0 +1,12 @@
+{
+  "name": "Sponge Upgrade",
+  "icon": "modulargolems:sponge",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:sponge",
+	  "text": "Golem takes less explosion damage, and any explosions hurting the golem will not break blocks."
+	}
+  ]
+}

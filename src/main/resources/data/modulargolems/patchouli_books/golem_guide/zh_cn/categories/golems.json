@@ -1,5 +1,5 @@
 {
-  "name": "Golem Types",
-  "description": "Types of golems player can craft and summon",
+  "name": "傀儡种类",
+  "description": "可制作的傀儡种类",
   "icon": "modulargolems:metal_golem_holder"
 }

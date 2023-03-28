@@ -1,0 +1,29 @@
+{
+  "flag": "mod:blazegear",
+  "name": "Brimsteel",
+  "icon": "blazegear:brimsteel_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 501,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "blazegear:brimsteel_ingot",
+	  "text": "Main material to craft Brimsteel golem parts. It is fire resistant and can shoot fireballs when enemy is far away."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:metal_golem_body\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:metal_golem_arm\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:metal_golem_legs\",material:\"blazegear:brimsteel\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"blazegear:brimsteel\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"blazegear:brimsteel\"},{part:\"modulargolems:dog_golem_legs\",material:\"blazegear:brimsteel\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "minecraft:copper_ingot",
-	  "text": "Main material to craft copper golem parts. Copper golem parts feature very cheap price while maintain sufficient stats. Thunder immunity is a minor bonus.$(br2)You can use copper golem as a dispensable guard. It is also very cheap to fix if you use copper body."
+	  "text": "Main material to craft copper golem parts. Copper golem parts feature very cheap price while maintain sufficient stats. Thunder immunity also works as a lightning rod.$(br2)You can use copper golem as a dispensable guard. It is also very cheap to fix if you use copper body."
 	},
 	{
 	  "type": "patchouli:spotlight",
@@ -17,6 +17,11 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:copper\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:copper\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:copper\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:copper\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:copper\"}]}",
 	  "text": "Use JEI (press R) to check part stats of each part made of this material."
 	}
   ]

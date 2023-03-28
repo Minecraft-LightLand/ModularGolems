@@ -1,0 +1,12 @@
+{
+  "name": "Bell Upgrade",
+  "icon": "modulargolems:bell",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:bell",
+	  "text": "When golem set or switch attack target, it will ring its bell, attract all enemies within 48 blocks, and apply glow effect to them."
+	}
+  ]
+}

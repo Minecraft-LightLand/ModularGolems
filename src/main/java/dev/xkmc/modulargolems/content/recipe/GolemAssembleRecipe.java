@@ -1,8 +1,9 @@
 package dev.xkmc.modulargolems.content.recipe;
 
 import dev.xkmc.l2library.base.recipe.AbstractShapedRecipe;
-import dev.xkmc.modulargolems.content.item.GolemHolder;
-import dev.xkmc.modulargolems.content.item.GolemPart;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -40,6 +41,11 @@ public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecip
 			}
 		}
 		return stack;
+	}
+
+	@Override
+	public Serializer<GolemAssembleRecipe> getSerializer() {
+		return GolemMiscs.ASSEMBLE.get();
 	}
 
 }

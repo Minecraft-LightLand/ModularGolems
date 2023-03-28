@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Teleport Upgrade",
+  "icon": "modulargolems:teleport",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:teleport",
+	  "text": "Golem will teleport to target if target is too far away When attacked, golem will attempt to teleport away to avoid damage. Max: 1"
+	}
+  ]
+}

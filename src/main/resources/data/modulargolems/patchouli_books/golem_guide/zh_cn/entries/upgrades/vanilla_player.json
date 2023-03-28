@@ -1,0 +1,12 @@
+{
+  "name": "Player Immune Upgrade",
+  "icon": "modulargolems:player",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:player",
+	  "text": "Golem will be immune to friendly fire (damage caused by those who golems won't attack). Max: 1"
+	}
+  ]
+}

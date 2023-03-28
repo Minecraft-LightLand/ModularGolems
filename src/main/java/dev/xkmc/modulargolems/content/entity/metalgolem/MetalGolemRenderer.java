@@ -4,12 +4,64 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemPartType, MetalGolemModel> {
+
+	protected static void transform(PoseStack stack, ItemTransforms.TransformType transform, @Nullable MetalGolemPartType part) {
+		switch (transform) {
+			case GUI:
+			case FIRST_PERSON_LEFT_HAND:
+			case FIRST_PERSON_RIGHT_HAND:
+				break;
+			case THIRD_PERSON_LEFT_HAND:
+			case THIRD_PERSON_RIGHT_HAND: {
+				stack.translate(0.25, 0.4, 0.5);
+				float size = 0.625f;
+				stack.scale(size, size, size);
+				break;
+			}
+			case GROUND: {
+				stack.translate(0.25, 0, 0.5);
+				float size = 0.625f;
+				stack.scale(size, size, size);
+				break;
+			}
+			case NONE:
+			case HEAD:
+			case FIXED: {
+				stack.translate(0.5, 0.5, 0.5);
+				float size = 0.45f;
+				stack.scale(size, -size, size);
+				stack.translate(0, -0.15, 0);
+				return;
+			}
+		}
+		stack.mulPose(Vector3f.ZP.rotationDegrees(135));
+		stack.mulPose(Vector3f.YP.rotationDegrees(-155));
+		if (part == null) {
+			float size = 0.375f;
+			stack.scale(size, size, size);
+			stack.translate(0, -2.2, 0);
+		} else if (part == MetalGolemPartType.BODY) {
+			float size = 0.525f;
+			stack.scale(size, size, size);
+			stack.translate(0, -1, 0);
+		} else if (part == MetalGolemPartType.LEG) {
+			float size = 0.6f;
+			stack.scale(size, size, size);
+			stack.translate(0, -2.2, 0);
+		} else if (part == MetalGolemPartType.LEFT) {
+			float size = 0.55f;
+			stack.scale(size, size, size);
+			stack.translate(-0.7, -1.7, 0);
+		}
+	}
 
 	public MetalGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new MetalGolemModel(ctx.bakeLayer(ModelLayers.IRON_GOLEM)), 0.7F, MetalGolemPartType::values);

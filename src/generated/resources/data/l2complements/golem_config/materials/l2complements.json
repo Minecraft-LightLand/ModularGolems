@@ -1,0 +1,55 @@
+{
+  "_class": "dev.xkmc.modulargolems.content.config.GolemMaterialConfig",
+  "ingredients": {
+    "l2complements:eternium": {
+      "item": "l2complements:eternium_ingot"
+    },
+    "l2complements:poseidite": {
+      "item": "l2complements:poseidite_ingot"
+    },
+    "l2complements:shulkerate": {
+      "item": "l2complements:shulkerate_ingot"
+    },
+    "l2complements:totemic_gold": {
+      "item": "l2complements:totemic_gold_ingot"
+    }
+  },
+  "modifiers": {
+    "l2complements:eternium": {
+      "modulargolems:immunity": 1
+    },
+    "l2complements:poseidite": {
+      "modulargolems:conduit": 1,
+      "modulargolems:swim": 1
+    },
+    "l2complements:shulkerate": {
+      "modulargolems:damage_cap": 2,
+      "modulargolems:projectile_reject": 1
+    },
+    "l2complements:totemic_gold": {
+      "modulargolems:recycle": 1
+    }
+  },
+  "stats": {
+    "l2complements:eternium": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 1000.0,
+      "modulargolems:regen": 1000.0
+    },
+    "l2complements:poseidite": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 200.0
+    },
+    "l2complements:shulkerate": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 1000.0,
+      "modulargolems:weight": -0.4
+    },
+    "l2complements:totemic_gold": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 100.0,
+      "modulargolems:regen": 10.0,
+      "modulargolems:weight": -0.4
+    }
+  }
+}

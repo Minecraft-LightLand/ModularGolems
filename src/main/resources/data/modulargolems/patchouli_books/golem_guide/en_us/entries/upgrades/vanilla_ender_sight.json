@@ -1,0 +1,12 @@
+{
+  "name": "Ender Sight Upgrade",
+  "icon": "modulargolems:ender_sight",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:ender_sight",
+	  "text": "Golem can see through wall and ceilings. It can see all mobs within range that is under the sky, within 5 blocks, or above the golem."
+	}
+  ]
+}

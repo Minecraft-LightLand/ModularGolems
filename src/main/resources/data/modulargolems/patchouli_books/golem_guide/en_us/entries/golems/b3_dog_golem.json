@@ -1,0 +1,16 @@
+{
+  "name": "Dog Golem",
+  "icon": "modulargolems:dog_golem_holder",
+  "category": "modulargolems:golems",
+  "sortnum": 12,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "Dog golem is a wolf-like golem. It runs fast and has high attack. Right click the golem with an item or shift click it to sit it down. Right click the golem with empty hand to retrieve the golem."
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:dog_golem_holder",
+	  "text": "Dog golem is relatively cheap to make, but also has low health. 2 parts of the golem have uneven cost and stats."
+	}
+  ]
+}

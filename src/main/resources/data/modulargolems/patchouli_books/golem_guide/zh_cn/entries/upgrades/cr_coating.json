@@ -1,0 +1,13 @@
+{
+  "flag": "mod:create",
+  "name": "镀层升级",
+  "icon": "modulargolems:coating",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:coating",
+	  "text": "受到的伤害下降一个固定值。最大等级: 5"
+	}
+  ]
+}

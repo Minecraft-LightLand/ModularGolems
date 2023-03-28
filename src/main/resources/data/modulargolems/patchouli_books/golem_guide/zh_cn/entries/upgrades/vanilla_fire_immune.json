@@ -1,12 +1,12 @@
 {
-  "name": "Fire Immune",
+  "name": "抗火升级",
   "icon": "modulargolems:fire_immune",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:fire_immune",
-	  "text": "Make golem immune to fire damages."
+	  "text": "令傀儡免疫火焰伤害，并浮在岩浆上。"
 	}
   ]
 }

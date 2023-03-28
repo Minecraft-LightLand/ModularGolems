@@ -1,12 +1,12 @@
 {
-  "name": "Metal Golem",
+  "name": "大型金属傀儡",
   "icon": "modulargolems:metal_golem_holder",
   "category": "modulargolems:golems",
   "sortnum": 10,
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "Metal Golem is similar to vanilla iron golem. Other than being fixed in anvil, it can also be healed directly by using ingots matching body material on the golem directly.$(br2)If the golem has netherite arm, it can have area attack and hit all surrounding mobs at once."
+	  "text": "大型金属傀儡和原版铁傀儡十分相似。可以在铁砧上或直接使用对应金属锭修复。$(br2)拥有下界合金手臂的傀儡攻击将会造成范围伤害。"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:metal_golem_holder"

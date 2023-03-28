@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.common;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2library.util.Proxy;
+import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import net.minecraft.client.model.EntityModel;
@@ -10,15 +11,21 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends EntityModel<T> & IGolemModel<T, P, M>> extends MobRenderer<T, M> {
+
+	public static final List<Function<AbstractGolemRenderer<?, ?, ?>, RenderLayer<? extends AbstractGolemEntity<?, ?>, ?>>> LIST = new ArrayList<>();
 
 	private static final ResourceLocation GOLEM_LOCATION = new ResourceLocation("textures/entity/iron_golem/iron_golem.png");
 
@@ -28,6 +35,8 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 	public AbstractGolemRenderer(EntityRendererProvider.Context ctx, M model, float f, Supplier<P[]> list) {
 		super(ctx, model, f);
 		this.list = list;
+		LIST.forEach(e -> this.addLayer(Wrappers.cast(e.apply(this))));
+
 	}
 
 	@Deprecated

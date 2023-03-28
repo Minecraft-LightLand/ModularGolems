@@ -1,11 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
   "key": {
     "A": {
       "item": "twilightforest:steeleaf_ingot"
     },
     "B": {
-      "item": "minecraft:amethyst_shard"
+      "item": "modulargolems:empty_upgrade"
     }
   },
   "pattern": [

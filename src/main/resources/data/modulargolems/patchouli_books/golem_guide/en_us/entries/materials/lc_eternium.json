@@ -1,0 +1,29 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Eternium",
+  "icon": "l2complements:eternium_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 404,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "l2complements:eternium_ingot",
+	  "text": "Main material to craft Eternium golem parts. Eternium golem is invincible. It is immune to all damage except void damage."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:eternium\"},{part:\"modulargolems:metal_golem_body\",material:\"l2complements:eternium\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:eternium\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2complements:eternium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2complements:eternium\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2complements:eternium\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2complements:eternium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"l2complements:eternium\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2complements:eternium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

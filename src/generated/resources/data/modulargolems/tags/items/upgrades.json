@@ -1,0 +1,66 @@
+{
+  "values": [
+    "modulargolems:fire_immune",
+    "modulargolems:thunder_immune",
+    "modulargolems:recycle",
+    "modulargolems:diamond",
+    "modulargolems:netherite",
+    "modulargolems:quartz",
+    "modulargolems:gold",
+    "modulargolems:enchanted_gold",
+    "modulargolems:float",
+    "modulargolems:sponge",
+    "modulargolems:swim",
+    "modulargolems:player",
+    "modulargolems:ender_sight",
+    "modulargolems:bell",
+    {
+      "id": "modulargolems:carminite",
+      "required": false
+    },
+    {
+      "id": "modulargolems:steeleaf",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ironwood",
+      "required": false
+    },
+    {
+      "id": "modulargolems:knightmetal",
+      "required": false
+    },
+    {
+      "id": "modulargolems:naga",
+      "required": false
+    },
+    {
+      "id": "modulargolems:coating",
+      "required": false
+    },
+    {
+      "id": "modulargolems:push",
+      "required": false
+    },
+    {
+      "id": "modulargolems:force_field",
+      "required": false
+    },
+    {
+      "id": "modulargolems:freezing",
+      "required": false
+    },
+    {
+      "id": "modulargolems:soul_flame",
+      "required": false
+    },
+    {
+      "id": "modulargolems:teleport",
+      "required": false
+    }
+  ]
+}

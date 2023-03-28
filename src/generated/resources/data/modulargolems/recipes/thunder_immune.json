@@ -5,7 +5,7 @@
       "item": "minecraft:lightning_rod"
     },
     "B": {
-      "item": "minecraft:amethyst_shard"
+      "item": "modulargolems:empty_upgrade"
     }
   },
   "pattern": [

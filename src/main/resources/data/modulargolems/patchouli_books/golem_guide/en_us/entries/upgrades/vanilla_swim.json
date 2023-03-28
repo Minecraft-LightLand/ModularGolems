@@ -1,0 +1,12 @@
+{
+  "name": "Swim Upgrade",
+  "icon": "modulargolems:swim",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:swim",
+	  "text": "Golem can swim in water."
+	}
+  ]
+}

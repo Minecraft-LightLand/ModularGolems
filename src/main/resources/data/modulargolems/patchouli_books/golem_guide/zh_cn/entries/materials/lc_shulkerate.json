@@ -1,0 +1,29 @@
+{
+  "flag": "mod:l2complements",
+  "name": "潜影",
+  "icon": "l2complements:shulkerate_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 403,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "l2complements:shulkerate_ingot",
+	  "text": "制造潜影傀儡部件的主要材料。潜影傀儡部件能提供极其恐怖的血量，同时还会限制受到的伤害，进一步强化生存能力。和生命回复材料或镀膜升级相性极佳。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:shulkerate\"},{part:\"modulargolems:metal_golem_body\",material:\"l2complements:shulkerate\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:shulkerate\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2complements:shulkerate\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2complements:shulkerate\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2complements:shulkerate\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2complements:shulkerate\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"l2complements:shulkerate\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2complements:shulkerate\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

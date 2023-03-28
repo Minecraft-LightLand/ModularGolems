@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init.data;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.patchouli.PatchouliLang;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -17,7 +18,9 @@ import java.util.Locale;
 public enum LangData {
 	HEALTH("tooltip.health", "Health: %s/%s", 2, null),
 	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null),
-	SHIFT("tooltip.shift", "Press SHIFT to show modifier details", 0, ChatFormatting.GRAY);
+	SHIFT("tooltip.shift", "Press SHIFT to show modifier details", 0, ChatFormatting.GRAY),
+	MODE_FOLLOWING("tooltip.following", "Golem will follow you", 0, ChatFormatting.AQUA),
+	MODE_GUARDING("tooltip.guarding", "Golem will stay around (%s, %s, %s)", 3, ChatFormatting.AQUA);
 
 	private final String key, def;
 	private final int arg;
@@ -72,6 +75,10 @@ public enum LangData {
 		for (var type : HumaniodGolemPartType.values()) {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.humanoid_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
+		}
+		for (var type : DogGolemPartType.values()) {
+			String name = type.name().toLowerCase(Locale.ROOT);
+			pvd.add("golem_part.dog_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
 		}
 
 		PatchouliLang.genLang(pvd);

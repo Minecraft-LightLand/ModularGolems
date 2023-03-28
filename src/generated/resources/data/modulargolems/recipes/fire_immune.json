@@ -5,7 +5,7 @@
       "item": "minecraft:magma_cream"
     },
     "B": {
-      "item": "minecraft:amethyst_shard"
+      "item": "modulargolems:empty_upgrade"
     }
   },
   "pattern": [

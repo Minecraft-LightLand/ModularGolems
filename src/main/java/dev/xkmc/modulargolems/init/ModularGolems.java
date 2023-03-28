@@ -2,18 +2,16 @@ package dev.xkmc.modulargolems.init;
 
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
-import dev.xkmc.l2library.serial.unified.UnifiedCodec;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.events.CraftEvents;
-import dev.xkmc.modulargolems.events.GolemEvents;
-import dev.xkmc.modulargolems.init.data.ConfigGen;
-import dev.xkmc.modulargolems.init.data.LangData;
-import dev.xkmc.modulargolems.init.data.ModConfig;
-import dev.xkmc.modulargolems.init.data.RecipeGen;
-import dev.xkmc.modulargolems.init.registrate.GolemItemRegistry;
-import dev.xkmc.modulargolems.init.registrate.GolemMiscRegistry;
-import dev.xkmc.modulargolems.init.registrate.GolemModifierRegistry;
-import dev.xkmc.modulargolems.init.registrate.GolemTypeRegistry;
+import dev.xkmc.modulargolems.events.CraftEventListeners;
+import dev.xkmc.modulargolems.events.GolemEventListeners;
+import dev.xkmc.modulargolems.events.ModifierEventListeners;
+import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import dev.xkmc.modulargolems.init.data.*;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -36,20 +34,26 @@ public class ModularGolems {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	private static void registerRegistrates(IEventBus bus) {
-		GolemTypeRegistry.register();
-		GolemMiscRegistry.register();
-		GolemModifierRegistry.register();
-		GolemItemRegistry.register();
+		GolemItems.register();
+		GolemTypes.register();
+		GolemMiscs.register();
+		GolemModifiers.register();
 		ModConfig.init();
 		NetworkManager.register();
 		CompatManager.register();
+		GolemTriggers.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, LangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
+		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, TagGen::onBlockTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, TagGen::onItemTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ENTITY_TAGS, TagGen::onEntityTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, AdvGen::genAdvancements);
 	}
 
 	private static void registerForgeEvents() {
-		MinecraftForge.EVENT_BUS.register(GolemEvents.class);
-		MinecraftForge.EVENT_BUS.register(CraftEvents.class);
+		MinecraftForge.EVENT_BUS.register(ModifierEventListeners.class);
+		MinecraftForge.EVENT_BUS.register(CraftEventListeners.class);
+		MinecraftForge.EVENT_BUS.register(GolemEventListeners.class);
 	}
 
 	private static void registerModBusEvents(IEventBus bus) {
@@ -60,7 +64,6 @@ public class ModularGolems {
 	}
 
 	public ModularGolems() {
-		UnifiedCodec.DEBUG = true;
 		FMLJavaModLoadingContext ctx = FMLJavaModLoadingContext.get();
 		IEventBus bus = ctx.getModEventBus();
 		registerModBusEvents(bus);

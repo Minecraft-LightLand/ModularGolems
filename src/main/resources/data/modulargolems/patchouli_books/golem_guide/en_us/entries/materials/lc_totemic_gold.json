@@ -1,0 +1,29 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Totemic Gold",
+  "icon": "l2complements:totemic_gold_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 401,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "l2complements:totemic_gold_ingot",
+	  "text": "Main material to craft totemic golem parts. Totemic golem parts feature absurdly high regeneration with decent health. It is recommended for body parts. Make your golem invincible!"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:totemic_gold\"},{part:\"modulargolems:metal_golem_body\",material:\"l2complements:totemic_gold\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:totemic_gold\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2complements:totemic_gold\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2complements:totemic_gold\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2complements:totemic_gold\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2complements:totemic_gold\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"l2complements:totemic_gold\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2complements:totemic_gold\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

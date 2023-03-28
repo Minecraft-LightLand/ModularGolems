@@ -1,0 +1,29 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Poseidite",
+  "icon": "l2complements:poseidite_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 402,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "l2complements:poseidite_ingot",
+	  "text": "Main material to craft Poseidite golem parts. Poseidite golem can swim, and is stronger when in water. Bring it to ocean monument!"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:poseidite\"},{part:\"modulargolems:metal_golem_body\",material:\"l2complements:poseidite\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2complements:poseidite\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2complements:poseidite\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2complements:poseidite\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2complements:poseidite\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2complements:poseidite\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"l2complements:poseidite\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2complements:poseidite\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

@@ -1,13 +1,13 @@
 {
-  "mod": "twilightforest",
-  "name": "Knight Metal Upgrade",
+  "flag": "mod:twilightforest",
+  "name": "骑士升级",
   "icon": "modulargolems:knightmetal",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:knightmetal",
-	  "text": "Deal thorn damage to those who attack this golem. Max: 5"
+	  "text": "攻击傀儡的敌人会受到荆棘伤害。最大等级：5"
 	}
   ]
 }

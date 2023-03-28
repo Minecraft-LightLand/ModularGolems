@@ -1,0 +1,37 @@
+{
+  "parent": "modulargolems:golems/craft",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "modulargolems:retrieval_wand"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.modulargolems.advancements.golems.retrieve.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "modulargolems:retrieval_wand"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.modulargolems.advancements.golems.retrieve.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ]
+}

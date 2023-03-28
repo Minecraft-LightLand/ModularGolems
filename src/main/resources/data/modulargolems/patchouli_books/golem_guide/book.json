@@ -1,5 +1,7 @@
 {
   "name": "patchouli.modulargolems.title",
   "landing_text": "patchouli.modulargolems.landing",
-  "version": 1
+  "version": 1,
+  "model": "modulargolems:book",
+  "creative_tab": "modulargolems.golems"
 }

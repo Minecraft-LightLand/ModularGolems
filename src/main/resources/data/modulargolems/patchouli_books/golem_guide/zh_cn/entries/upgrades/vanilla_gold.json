@@ -1,17 +1,17 @@
 {
-  "name": "Golden Apple Upgrade",
+  "name": "金苹果升级",
   "icon": "modulargolems:gold",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:gold",
-	  "text": "Increase golem health regeneration by 1 level. Max level: 5"
+	  "text": "使傀儡自愈能力提升一级。最大等级：5"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:enchanted_gold",
-	  "text": "Increase golem health regeneration by 2 level. Max level: 5"
+	  "text": "使傀儡自愈能力提升两级。最大等级：5"
 	}
   ]
 }

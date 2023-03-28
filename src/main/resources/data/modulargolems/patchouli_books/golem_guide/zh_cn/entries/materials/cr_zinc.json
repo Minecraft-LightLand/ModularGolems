@@ -1,6 +1,6 @@
 {
-  "mod": "create",
-  "name": "Zinc",
+  "flag": "mod:create",
+  "name": "锌",
   "icon": "create:zinc_ingot",
   "category": "modulargolems:materials",
   "sortnum": 301,
@@ -8,17 +8,22 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "create:zinc_ingot",
-	  "text": "Main material to craft Zinc golem parts, though it's not very useful."
+	  "text": "制作锌质傀儡部件的主要材料。数值很低，但是可以降低受到的伤害。适合用于对付伤害较低的怪物。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"create:zinc\"},{part:\"modulargolems:metal_golem_body\",material:\"create:zinc\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:zinc\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:zinc\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:zinc\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:zinc\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:zinc\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"create:zinc\"},{part:\"modulargolems:dog_golem_legs\",material:\"create:zinc\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]
 }

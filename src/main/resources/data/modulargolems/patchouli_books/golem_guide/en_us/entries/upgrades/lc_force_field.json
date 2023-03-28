@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Wither Armor Upgrade",
+  "icon": "modulargolems:force_field",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:force_field",
+	  "text": "Golems will be immune to projectiles and repel them. There will be also a swirling wither armor effect on golems. Max: 1"
+	}
+  ]
+}

@@ -1,12 +1,12 @@
 {
-  "name": "Quartz Upgrade",
+  "name": "石英升级",
   "icon": "modulargolems:quartz",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:quartz",
-	  "text": "Increase golem attack damage by a bit. Max: 5"
+	  "text": "略微提升傀儡攻击伤害。最大等级：5"
 	}
   ]
 }
