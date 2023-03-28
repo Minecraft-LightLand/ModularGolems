@@ -4,6 +4,7 @@ import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
+import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemBowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemCrossbowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
@@ -51,8 +52,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	private final GolemBowAttackGoal bowGoal = new GolemBowAttackGoal(this, 1.0D, 20, 15.0F);
 	private final GolemCrossbowAttackGoal crossbowGoal = new GolemCrossbowAttackGoal(this, 1.0D, 15.0F);
-	private final MeleeAttackGoal meleeGoal = new MeleeAttackGoal(this, 1.0D, true);
-	private final GolemTridentAttackGoal tridentGoal = new GolemTridentAttackGoal(this, 1, 40, 15);
+	private final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this, 1.0D, true);
+	private final GolemTridentAttackGoal tridentGoal = new GolemTridentAttackGoal(this, 1, 40, 15, meleeGoal);
 
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
@@ -74,6 +75,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			ItemStack weapon = getItemInHand(hand);
 			if (!weapon.isEmpty() && GolemShooterHelper.isValidThrowableWeapon(this, weapon, hand).isThrowable()) {
 				this.goalSelector.addGoal(1, this.tridentGoal);
+				this.goalSelector.addGoal(2, this.meleeGoal);
 				return;
 			}
 			if (!weapon.isEmpty() && weapon.getItem() instanceof BowItem) {

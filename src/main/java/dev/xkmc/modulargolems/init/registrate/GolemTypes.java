@@ -25,6 +25,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
@@ -61,7 +62,9 @@ public class GolemTypes {
 					.add(Attributes.ATTACK_DAMAGE, 15.0D)
 					.add(Attributes.MOVEMENT_SPEED, 0.25D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+					.add(Attributes.ATTACK_SPEED, 4.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
+					.add(ForgeMod.ATTACK_RANGE.get(), 0)
 					.add(Attributes.FOLLOW_RANGE, 35)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get())
@@ -79,7 +82,9 @@ public class GolemTypes {
 					.add(Attributes.ATTACK_DAMAGE, 4.0D)
 					.add(Attributes.MOVEMENT_SPEED, 0.25D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+					.add(Attributes.ATTACK_SPEED, 4.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
+					.add(ForgeMod.ATTACK_RANGE.get(), 0)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get(), 1)
@@ -97,7 +102,9 @@ public class GolemTypes {
 					.add(Attributes.ATTACK_DAMAGE, 4.0D)
 					.add(Attributes.MOVEMENT_SPEED, 0.3D)
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
+					.add(Attributes.ATTACK_SPEED, 4.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
+					.add(ForgeMod.ATTACK_RANGE.get(), 0)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
 			).tag(TagGen.GOLEM_FRIENDLY).register();
