@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
 import dev.xkmc.modulargolems.events.CraftEventListeners;
 import dev.xkmc.modulargolems.events.GolemEventListeners;
 import dev.xkmc.modulargolems.events.ModifierEventListeners;
@@ -42,6 +43,7 @@ public class ModularGolems {
 		NetworkManager.register();
 		CompatManager.register();
 		GolemTriggers.register();
+		GolemModes.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, LangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
 		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, TagGen::onBlockTagGen);

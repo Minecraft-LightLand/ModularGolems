@@ -1,27 +1,21 @@
 package dev.xkmc.modulargolems.events.event;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 
-public class GolemBowAttackEvent extends HumanoidGolemEvent {
-
-	private final ItemStack stack;
+public class GolemBowAttackEvent extends GolemItemUseEvent {
 
 	private AbstractArrow entity;
 	private boolean noPickup, noConsume;
 	private double speed = 3, gravity = 0.05;
 
-	public GolemBowAttackEvent(HumanoidGolemEntity golem, ItemStack stack, AbstractArrow entity, boolean infinite) {
-		super(golem);
-		this.stack = stack;
+	public GolemBowAttackEvent(HumanoidGolemEntity golem, ItemStack stack, InteractionHand hand, AbstractArrow entity, boolean infinite) {
+		super(golem, stack, hand);
 		this.entity = entity;
 		this.noPickup = infinite;
 		this.noConsume = infinite;
-	}
-
-	public ItemStack getStack() {
-		return stack;
 	}
 
 	public void setArrow(AbstractArrow entity) {

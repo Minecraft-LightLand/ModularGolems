@@ -5,7 +5,6 @@ import dev.xkmc.l2library.base.overlay.OverlayUtils;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.WandItem;
-import dev.xkmc.modulargolems.init.data.LangData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.player.LocalPlayer;
@@ -30,12 +29,7 @@ public class GolemStatusOverlay extends GuiComponent implements IGuiOverlay {
 		gui.setupOverlayRenderState(true, false);
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
-		if (golem.getMode() == 0) {
-			text.add(LangData.MODE_FOLLOWING.get());
-		} else {
-			var p = golem.getGuardPos();
-			text.add(LangData.MODE_GUARDING.get(p.getX(), p.getY(), p.getZ()));
-		}
+		text.add(golem.getMode().getDesc(golem));
 		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
 		OverlayUtils util = new OverlayUtils(screenWidth, screenHeight);
 		util.renderLongText(gui, poseStack, text);

@@ -23,7 +23,6 @@ public class TagGen {
 	public static final TagKey<Item> GOLEM_HOLDERS = createItemTag("holders");
 	public static final TagKey<Item> GOLEM_UPGRADES = createItemTag("upgrades");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
-	public static final TagKey<EntityType<?>> NO_SPEED_TRACK = createEntityTag("no_speed_track");
 
 	public static final List<Consumer<RegistrateItemTagsProvider>> OPTIONALS = new ArrayList<>();
 
@@ -37,7 +36,6 @@ public class TagGen {
 
 	public static void onEntityTagGen(RegistrateTagsProvider<EntityType<?>> pvd) {
 		pvd.tag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
-		pvd.tag(NO_SPEED_TRACK).add(EntityType.SLIME, EntityType.MAGMA_CUBE);
 	}
 
 	private static TagKey<Item> createItemTag(String id) {

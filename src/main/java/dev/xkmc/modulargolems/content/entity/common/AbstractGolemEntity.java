@@ -9,6 +9,8 @@ import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
+import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.common.swim.GolemSwimMoveControl;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.WandItem;
@@ -182,6 +184,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void travel(Vec3 pTravelVector) {
+		if (!getMode().isMovable()) {
+			pTravelVector = Vec3.ZERO;
+		}
 		if (this.isEffectiveAi() && this.isInWater() && canSwim()) {
 			this.moveRelative(0.01F, pTravelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
@@ -198,8 +203,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	}
 
+	@Override
+	public boolean isPushable() {
+		return getMode().isMovable();
+	}
+
 	public boolean isPushedByFluid() {
-		return !this.isSwimming();
+		return !this.isSwimming() && getMode().isMovable();
 	}
 
 	// ------ ownable entity
@@ -225,7 +235,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.addAdditionalSaveData(tag);
 		this.addPersistentAngerSaveData(tag);
 		tag.put("auto-serial", Objects.requireNonNull(TagCodec.toTag(new CompoundTag(), this)));
-		tag.putInt("follow_mode", getMode());
+		tag.putInt("follow_mode", getMode().getID());
 		new NBTObj(tag).getSub("guard_pos").fromBlockPos(getGuardPos());
 	}
 
@@ -363,8 +373,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private static final EntityDataAccessor<Integer> DATA_MODE = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<BlockPos> GUARD_POS = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BLOCK_POS);
 
-	public int getMode() {
-		return this.entityData.get(DATA_MODE);
+	public GolemMode getMode() {
+		return GolemModes.get(this.entityData.get(DATA_MODE));
 	}
 
 	public BlockPos getGuardPos() {
@@ -378,7 +388,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canChangeDimensions() {
-		return getMode() == 0 && super.canChangeDimensions();
+		return getMode().canChangeDimensions() && super.canChangeDimensions();
 	}
 
 	// ------ persistent anger
@@ -479,7 +489,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public Vec3 getTargetPos() {
-		if (getMode() == 1) {
+		if (getMode().hasPos()) {
 			BlockPos pos = getGuardPos();
 			return new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 		}

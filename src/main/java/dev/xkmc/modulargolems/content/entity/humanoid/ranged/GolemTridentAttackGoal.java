@@ -17,7 +17,9 @@ public class GolemTridentAttackGoal extends RangedAttackGoal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		return super.canUse() && GolemShooterHelper.isValidThrowableWeapon(this.golem, this.golem.getMainHandItem()).isThrowable();
+		if (!super.canUse()) return false;
+		InteractionHand hand = golem.getWeaponHand();
+		return GolemShooterHelper.isValidThrowableWeapon(this.golem, this.golem.getItemInHand(hand), hand).isThrowable();
 	}
 
 	/**

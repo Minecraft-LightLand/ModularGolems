@@ -72,10 +72,10 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> imple
 	public void prepareMobModel(HumanoidGolemEntity entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick) {
 		this.rightArmPose = ArmPose.EMPTY;
 		this.leftArmPose = ArmPose.EMPTY;
-		ItemStack itemstack = entity.getItemInHand(InteractionHand.MAIN_HAND);
+		InteractionHand hand = entity.getWeaponHand();
+		ItemStack itemstack = entity.getItemInHand(hand);
 		ArmPose pos = ArmPose.EMPTY;
-		ArmPose anti_pos = ArmPose.EMPTY;
-		if (entity.isAggressive() && GolemShooterHelper.isValidThrowableWeapon(entity, itemstack).isThrowable() && entity.isUsingItem()) {
+		if (entity.isAggressive() && GolemShooterHelper.isValidThrowableWeapon(entity, itemstack, hand).isThrowable() && entity.isUsingItem()) {
 			pos = ArmPose.THROW_SPEAR;
 		} else if (entity.isAggressive() && itemstack.getItem() instanceof BowItem) {
 			pos = ArmPose.BOW_AND_ARROW;
@@ -87,6 +87,11 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> imple
 			}
 		} else if (entity.isAggressive()) {
 			pos = ArmPose.ITEM;
+		}
+		ArmPose anti_pos = ArmPose.EMPTY;
+		if (hand == InteractionHand.OFF_HAND) {
+			anti_pos = pos;
+			pos = ArmPose.EMPTY;
 		}
 		if (entity.isBlocking()) {
 			if (entity.getMainHandItem().canPerformAction(ToolActions.SHIELD_BLOCK)) {

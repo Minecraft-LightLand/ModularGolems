@@ -179,10 +179,11 @@
   "modifier.modulargolems.thunder_immune.desc": "Immune to lightning bolt damage. Attract Lightning. When struck, gain fire resistance for 10 seconds, and heal %s health.",
   "modifier.modulargolems.toughness_up": "Toughness Up",
   "modulargolems.tooltip.following": "Golem will follow you",
-  "modulargolems.tooltip.guarding": "Golem will stay around (%s, %s, %s)",
+  "modulargolems.tooltip.guarding": "Golem will wander around (%s, %s, %s)",
   "modulargolems.tooltip.health": "Health: %s/%s",
   "modulargolems.tooltip.shift": "Press SHIFT to show modifier details",
   "modulargolems.tooltip.slot": "Remaining Upgrade Slot: %s",
+  "modulargolems.tooltip.standing": "Golem will stay at (%s, %s, %s)",
   "patchouli.modulargolems.landing": "Welcome to Tinker-like golem assembly and upgrade mod",
   "patchouli.modulargolems.title": "Modular Golem Guide"
 }

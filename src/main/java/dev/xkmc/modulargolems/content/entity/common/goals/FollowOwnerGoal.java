@@ -52,7 +52,7 @@ public class FollowOwnerGoal extends Goal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		if (this.golem.isInSittingPose())
+		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
 			return false;
 		Vec3 target = this.golem.getTargetPos();
 		return !(this.golem.distanceToSqr(target) < (double) (this.startDistance * this.startDistance));
@@ -64,7 +64,7 @@ public class FollowOwnerGoal extends Goal {
 	public boolean canContinueToUse() {
 		if (this.navigation.isDone())
 			return false;
-		if (this.golem.isInSittingPose())
+		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
 			return false;
 		Vec3 target = this.golem.getTargetPos();
 		return !(this.golem.distanceToSqr(target) <= (double) (this.stopDistance * this.stopDistance));

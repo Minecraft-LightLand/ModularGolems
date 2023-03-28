@@ -40,6 +40,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
@@ -69,8 +70,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			this.goalSelector.removeGoal(this.bowGoal);
 			this.goalSelector.removeGoal(this.crossbowGoal);
 			this.goalSelector.removeGoal(this.tridentGoal);
-			ItemStack weapon = this.getMainHandItem();
-			if (!weapon.isEmpty() && GolemShooterHelper.isValidThrowableWeapon(this, weapon).isThrowable()) {
+			InteractionHand hand = getWeaponHand();
+			ItemStack weapon = getItemInHand(hand);
+			if (!weapon.isEmpty() && GolemShooterHelper.isValidThrowableWeapon(this, weapon, hand).isThrowable()) {
 				this.goalSelector.addGoal(1, this.tridentGoal);
 				return;
 			}
@@ -154,10 +156,20 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.onCrossbowAttackPerformed();
 	}
 
+	public InteractionHand getWeaponHand() {
+		ItemStack stack = this.getMainHandItem();
+		InteractionHand hand = InteractionHand.MAIN_HAND;
+		if (stack.canPerformAction(ToolActions.SHIELD_BLOCK)) {
+			hand = InteractionHand.OFF_HAND;
+		}
+		return hand;
+	}
+
 	@Override
 	public void performRangedAttack(LivingEntity pTarget, float dist) {
-		ItemStack stack = this.getMainHandItem();
-		var throwable = GolemShooterHelper.isValidThrowableWeapon(this, stack);
+		InteractionHand hand = getWeaponHand();
+		ItemStack stack = getItemInHand(hand);
+		var throwable = GolemShooterHelper.isValidThrowableWeapon(this, stack, hand);
 		if (throwable.isThrowable()) {
 			Projectile projectile = throwable.createProjectile(level);
 			GolemShooterHelper.shootAimHelper(pTarget, projectile);
@@ -171,7 +183,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			if (arrowStack.isEmpty()) return;
 			AbstractArrow arrowEntity = bow.customArrow(getArrow(arrowStack, dist));
 			boolean infinite = GolemShooterHelper.arrowIsInfinite(arrowStack, stack);
-			GolemBowAttackEvent event = new GolemBowAttackEvent(this, stack, arrowEntity, infinite);
+			GolemBowAttackEvent event = new GolemBowAttackEvent(this, stack, hand, arrowEntity, infinite);
 			MinecraftForge.EVENT_BUS.post(event);
 			arrowEntity = event.getArrow();
 			if (event.isNoPickup()) {
@@ -306,25 +318,36 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public boolean isBlocking() {
-		return shieldCooldown == 0 && getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ToolActions.SHIELD_BLOCK);
+		return shieldCooldown == 0 && shieldSlot() != null;
+	}
+
+	@Nullable
+	public InteractionHand shieldSlot() {
+		return getItemBySlot(EquipmentSlot.MAINHAND).canPerformAction(ToolActions.SHIELD_BLOCK) ? InteractionHand.MAIN_HAND :
+				getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ToolActions.SHIELD_BLOCK) ? InteractionHand.OFF_HAND :
+						null;
 	}
 
 	protected void hurtCurrentlyUsedShield(float damage) {
-		ItemStack stack = getItemBySlot(EquipmentSlot.OFFHAND);
-		if (!stack.canPerformAction(ToolActions.SHIELD_BLOCK)) return;
+		InteractionHand hand = shieldSlot();
+		if (hand == null) return;
+		ItemStack stack = getItemInHand(hand);
 		if (damage < 3.0F) return;
 		int i = 1 + Mth.floor(damage);
-		stack.hurtAndBreak(i, this, (self) -> self.broadcastBreakEvent(EquipmentSlot.OFFHAND));
+		stack.hurtAndBreak(i, this, (self) -> self.broadcastBreakEvent(hand));
 		if (stack.isEmpty()) {
-			this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
+			this.setItemInHand(hand, ItemStack.EMPTY);
 		}
 		this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + this.level.random.nextFloat() * 0.4F);
 	}
 
 	protected void blockUsingShield(LivingEntity source) {
 		super.blockUsingShield(source);
-		boolean canDisable = source.canDisableShield() || source.getMainHandItem().canDisableShield(this.getOffhandItem(), this, source);
-		GolemDisableShieldEvent event = new GolemDisableShieldEvent(this, source, canDisable);
+		InteractionHand hand = shieldSlot();
+		if (hand == null) return;
+		ItemStack stack = getItemInHand(hand);
+		boolean canDisable = source.canDisableShield() || source.getMainHandItem().canDisableShield(stack, this, source);
+		GolemDisableShieldEvent event = new GolemDisableShieldEvent(this, stack, hand, source, canDisable);
 		MinecraftForge.EVENT_BUS.post(event);
 		if (event.shouldDisable()) {
 			this.shieldCooldown = 100;
