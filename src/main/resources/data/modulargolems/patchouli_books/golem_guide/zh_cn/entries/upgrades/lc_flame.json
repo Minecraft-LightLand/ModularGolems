@@ -1,13 +1,13 @@
 {
   "flag": "mod:l2complements",
-  "name": "Soul Flame Upgrade",
+  "name": "魂火升级",
   "icon": "modulargolems:soul_flame",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:soul_flame",
-	  "text": "Golems will apply soul flame effect to target when attacking, and to attacker when attacked. Golem will also immune to soul flame damage. Max: 3"
+	  "text": "傀儡攻击敌人会施加魂火效果且自身免疫魂火伤害。最大等级: 3"
 	}
   ]
 }

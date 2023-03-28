@@ -1,13 +1,13 @@
 {
   "flag": "mod:l2complements",
-  "name": "Teleport Upgrade",
+  "name": "传送升级",
   "icon": "modulargolems:teleport",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:teleport",
-	  "text": "Golem will teleport to target if target is too far away When attacked, golem will attempt to teleport away to avoid damage. Max: 1"
+	  "text": "傀儡可以通过传送规避伤害并且接近那些远距离的敌人。最大等级：1"
 	}
   ]
 }
