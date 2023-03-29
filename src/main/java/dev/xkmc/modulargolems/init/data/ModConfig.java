@@ -26,6 +26,7 @@ public class ModConfig {
 		public final ForgeConfigSpec.DoubleValue conduitBoostReduction;
 		public final ForgeConfigSpec.DoubleValue conduitBoostSpeed;
 		public final ForgeConfigSpec.IntValue thunderHeal;
+		public final ForgeConfigSpec.IntValue teleportRadius;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
@@ -75,6 +76,8 @@ public class ModConfig {
 					.defineInRange("conduitBoostSpeed", 0.2, 0, 100);
 			conduitBoostReduction = builder.comment("Conduit modifier reduce damage taken when golem is in water (multiplicative)")
 					.defineInRange("conduitBoostReduction", 0.2, 0, 100);
+			teleportRadius = builder.comment("Teleport max radius")
+					.defineInRange("teleportRadius", 6, 1, 32);
 			builder.pop();
 		}
 

@@ -27,7 +27,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.player.Player;
@@ -203,6 +202,27 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 	}
 
+	protected boolean rendering, render_trigger = false;
+
+	@Override
+	public boolean isBlocking() {
+		boolean ans = shieldCooldown == 0 && shieldSlot() != null;
+		if (ans && rendering) {
+			render_trigger = true;
+		}
+		return ans;
+	}
+
+	public ItemStack getUseItem() {
+		ItemStack ans = super.getUseItem();
+		if (rendering && render_trigger) {
+			render_trigger = false;
+			InteractionHand hand = shieldSlot();
+			if (hand != null) return getItemInHand(hand);
+		}
+		return ans;
+	}
+
 	// ------ common golem behavior
 
 	protected void registerGoals() {
@@ -316,11 +336,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				itemstack.hurtAndBreak((int) damage, this, (entity) -> entity.broadcastBreakEvent(slot));
 			}
 		}
-	}
-
-	@Override
-	public boolean isBlocking() {
-		return shieldCooldown == 0 && shieldSlot() != null;
 	}
 
 	@Nullable

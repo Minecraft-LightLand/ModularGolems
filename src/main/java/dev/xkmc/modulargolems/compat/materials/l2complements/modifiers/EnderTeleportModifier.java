@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.compat.materials.l2complements.modifiers;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.init.data.ModConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -44,7 +45,7 @@ public class EnderTeleportModifier extends GolemModifier {
 	public static boolean teleportTowards(AbstractGolemEntity<?, ?> entity, Entity pTarget) {
 		Vec3 vec3 = new Vec3(entity.getX() - pTarget.getX(), entity.getY(0.5D) - pTarget.getEyeY(), entity.getZ() - pTarget.getZ());
 		vec3 = vec3.normalize();
-		int r = 8;
+		int r = ModConfig.COMMON.teleportRadius.get();
 		double d1 = entity.getX() + (entity.getRandom().nextDouble() - 0.5D) * r - vec3.x * r * 2;
 		double d2 = entity.getY() + (double) (entity.getRandom().nextInt(r * 2) - r) - vec3.y * r * 2;
 		double d3 = entity.getZ() + (entity.getRandom().nextDouble() - 0.5D) * r - vec3.z * r * 2;
@@ -52,7 +53,7 @@ public class EnderTeleportModifier extends GolemModifier {
 	}
 
 	private static boolean teleport(AbstractGolemEntity<?, ?> entity) {
-		int r = 32;
+		int r = ModConfig.COMMON.teleportRadius.get();
 		if (!entity.level.isClientSide() && entity.isAlive()) {
 			double d0 = entity.getX() + (entity.getRandom().nextDouble() - 0.5D) * r * 2;
 			double d1 = entity.getY() + (double) (entity.getRandom().nextInt(r * 2) - r);

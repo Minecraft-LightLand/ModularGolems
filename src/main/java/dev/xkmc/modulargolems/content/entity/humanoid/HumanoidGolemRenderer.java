@@ -73,7 +73,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
 		this.addLayer(new CustomHeadLayer<>(this, ctx.getModelSet(), 1, 1, 1, ctx.getItemInHandRenderer()));
 		this.addLayer(new ElytraLayer<>(this, ctx.getModelSet()));
-		this.addLayer(new ItemInHandLayer<>(this, ctx.getItemInHandRenderer()));
+		this.addLayer(new LayerWrapper<>(this, new ItemInHandLayer<>(this, ctx.getItemInHandRenderer())));
 	}
 
 	@Override

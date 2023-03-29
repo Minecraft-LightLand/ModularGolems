@@ -24,7 +24,7 @@ public class DamageCapModifier extends GolemModifier {
 			return;
 		}
 
-		float factor = (float) Math.max(0, (6 - level) * ModConfig.COMMON.damageCap.get());
+		float factor = (float) Math.max(0, (2 - level * 0.2) * ModConfig.COMMON.damageCap.get());
 		if (event.getAmount() > factor * entity.getMaxHealth()) {
 			event.setAmount(factor * entity.getMaxHealth());
 			entity.level.broadcastEntityEvent(entity, EntityEvent.ATTACK_BLOCKED);
@@ -33,7 +33,7 @@ public class DamageCapModifier extends GolemModifier {
 
 	@Override
 	public List<MutableComponent> getDetail(int level) {
-		float factor = (float) Math.max(0, (6 - level) * ModConfig.COMMON.damageCap.get());
+		float factor = (float) Math.max(0, (2 - level * 0.2) * ModConfig.COMMON.damageCap.get());
 		int perc = Math.round(100 * factor);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", perc).withStyle(ChatFormatting.GREEN));
 	}

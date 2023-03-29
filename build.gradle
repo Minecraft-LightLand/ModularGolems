@@ -139,7 +139,7 @@ dependencies {
 
     runtimeOnly fg.deobf('dev.xkmc.l2backpack:l2backpack:1.7.1')
     runtimeOnly fg.deobf('dev.xkmc.l2archery:l2archery:1.2.0')
-    runtimeOnly fg.deobf('dev.xkmc.l2weaponry:l2weaponry:0.4.0')
+    runtimeOnly fg.deobf('dev.xkmc.l2weaponry:l2weaponry:0.4.3')
 
     runtimeOnly fg.deobf('curse.maven:wthit-forge-455982:3947982')
     runtimeOnly fg.deobf('curse.maven:badpackets-615134:3903799')
