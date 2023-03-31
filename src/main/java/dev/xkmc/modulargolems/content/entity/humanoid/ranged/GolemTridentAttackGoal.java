@@ -35,7 +35,7 @@ public class GolemTridentAttackGoal extends RangedAttackGoal {
 	public void start() {
 		super.start();
 		this.golem.setAggressive(true);
-		this.golem.startUsingItem(InteractionHand.MAIN_HAND);
+		this.golem.startUsingItem(golem.getWeaponHand());
 	}
 
 	/**

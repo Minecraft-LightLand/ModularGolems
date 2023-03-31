@@ -36,7 +36,8 @@ public class GolemBowAttackGoal extends Goal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		return this.mob.getTarget() != null && this.isHoldingBow() && !this.mob.getProjectile(this.mob.getMainHandItem()).isEmpty();
+		return this.mob.getTarget() != null && this.isHoldingBow() && !this.mob.getProjectile(
+				this.mob.getItemInHand(mob.getWeaponHand())).isEmpty();
 	}
 
 	protected boolean isHoldingBow() {

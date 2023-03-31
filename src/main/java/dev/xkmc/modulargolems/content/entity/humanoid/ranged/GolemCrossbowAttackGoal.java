@@ -104,7 +104,7 @@ public class GolemCrossbowAttackGoal extends Goal {
 
 			this.mob.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
 			if (this.crossbowState == GolemCrossbowAttackGoal.CrossbowState.UNCHARGED) {
-				if (!flag2 && !this.mob.getProjectile(this.mob.getMainHandItem()).isEmpty()) {
+				if (!flag2 && !this.mob.getProjectile(this.mob.getItemInHand(mob.getWeaponHand())).isEmpty()) {
 					this.mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(this.mob, item -> item instanceof CrossbowItem));
 					this.crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGING;
 					this.mob.setChargingCrossbow(true);
