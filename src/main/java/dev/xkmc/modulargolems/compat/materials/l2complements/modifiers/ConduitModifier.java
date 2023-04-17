@@ -51,7 +51,7 @@ public class ConduitModifier extends GolemModifier {
 		int armor = ModConfig.COMMON.conduitBoostArmor.get() * level;
 		int tough = ModConfig.COMMON.conduitBoostToughness.get() * level;
 		int damage = ModConfig.COMMON.conduitDamage.get() * level;
-		int freq = ModConfig.COMMON.conduitCooldown.get();
+		int freq = ModConfig.COMMON.conduitCooldown.get() / 20;
 		return List.of(Component.translatable(getDescriptionId() + ".desc", red, freq, damage).withStyle(ChatFormatting.GREEN),
 				Component.translatable(Attributes.ATTACK_DAMAGE.getDescriptionId()).append(": +" + atk + "%").withStyle(ChatFormatting.BLUE),
 				Component.translatable(Attributes.MOVEMENT_SPEED.getDescriptionId()).append(": +" + spe + "%").withStyle(ChatFormatting.BLUE),

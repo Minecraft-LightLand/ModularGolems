@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackG
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemBowAttackEvent;
+import dev.xkmc.modulargolems.events.event.GolemDamageShieldEvent;
 import dev.xkmc.modulargolems.events.event.GolemDisableShieldEvent;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -349,8 +350,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		InteractionHand hand = shieldSlot();
 		if (hand == null) return;
 		ItemStack stack = getItemInHand(hand);
-		if (damage < 3.0F) return;
-		int i = 1 + Mth.floor(damage);
+		int i = damage < 3f ? 0 : 1 + Mth.floor(damage);
+		GolemDamageShieldEvent event = new GolemDamageShieldEvent(this, stack, hand, damage, i);
+		MinecraftForge.EVENT_BUS.post(event);
+		i = event.getCost();
+		if (i <= 0) return;
 		stack.hurtAndBreak(i, this, (self) -> self.broadcastBreakEvent(hand));
 		if (stack.isEmpty()) {
 			this.setItemInHand(hand, ItemStack.EMPTY);
