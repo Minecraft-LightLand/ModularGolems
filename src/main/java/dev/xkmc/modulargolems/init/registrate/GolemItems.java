@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.CommandWandItem;
 import dev.xkmc.modulargolems.content.item.RetrievalWandItem;
+import dev.xkmc.modulargolems.content.item.DispenseWand;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -52,12 +53,14 @@ public class GolemItems {
 
 	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
+	public static final ItemEntry<DispenseWand> DISPENSE_WAND;
 
 	static {
 
 		GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new).defaultModel().defaultLang().register();
 		RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
 		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
+		DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1))).defaultModel().defaultLang().register();
 
 		// upgrades
 		{

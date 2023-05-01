@@ -1,6 +1,6 @@
-// 1.19.2	2023-03-27T21:17:24.748594	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-eb9a2532469696ca01e069bb01a1ed45b6900d96 assets/modulargolems/lang/en_ud.json
-c6ce27fbe60a47d92cd9e3f1a97e75271d27ea03 assets/modulargolems/lang/en_us.json
+// 1.19.2	2023-04-17T10:25:28.351023	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+12721d1b8e05505473d252b25cadd81ebbe57259 assets/modulargolems/lang/en_ud.json
+3144d5ce3b35605ca39c420a25b290116d649896 assets/modulargolems/lang/en_us.json
 ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 a9bfdc6c816b787e0e70c42ddbb0de5b53c94c51 assets/modulargolems/models/item/coating.json
@@ -39,6 +39,7 @@ cd5c3b221411fb57e35fcfc1ac5c223eb495adef assets/modulargolems/models/item/recycl
 5e469ae54bf8071148673f3a371bcb1448f83b67 assets/modulargolems/models/item/soul_flame.json
 d98f7f2e288f24c3dc1c01aa98f1d149e64d66f7 assets/modulargolems/models/item/sponge.json
 71382a00c3ff5370d88fc93b43062458016222d9 assets/modulargolems/models/item/steeleaf.json
+98edbb3998d3bc847d50e98870a641284c58e883 assets/modulargolems/models/item/summon_wand.json
 81fbbdc6ebe1a4bcdd9c2c0370c4d914f1909879 assets/modulargolems/models/item/swim.json
 a7cc9194987185cd4c7acefb2b372482cdd97ee6 assets/modulargolems/models/item/teleport.json
 1898e07c979f496fcda02b4c7677e644d9c8bffe assets/modulargolems/models/item/thunder_immune.json
@@ -102,6 +103,7 @@ c1258b5a005712976cb062df85d02547c0978c57 data/modulargolems/advancements/recipes
 d8519b749a689966ec059d151e53cdcd8eed2449 data/modulargolems/advancements/recipes/modulargolems.golems/soul_flame.json
 05a44bc751713917cb450d1f9fd747e7c890021a data/modulargolems/advancements/recipes/modulargolems.golems/sponge.json
 4edf7e5cecacb36611911fc1932fc215932c9db2 data/modulargolems/advancements/recipes/modulargolems.golems/steeleaf.json
+22783fe81c05722a447bf5d42cd4552c99520853 data/modulargolems/advancements/recipes/modulargolems.golems/summon_wand.json
 0b50787fe3a4d36976919455ceebb866a5ef6244 data/modulargolems/advancements/recipes/modulargolems.golems/swim.json
 f88dfa07af9fb5e08f39cc015385654ec5bc6c39 data/modulargolems/advancements/recipes/modulargolems.golems/teleport.json
 0529dcaaffb40917862e3f5b8465a1cc1f6d0fe5 data/modulargolems/advancements/recipes/modulargolems.golems/thunder_immune.json
@@ -143,6 +145,7 @@ f6a574afdac23a5033caee32f5ef29b14df64356 data/modulargolems/recipes/naga.json
 2455c4126bf0de17267db1b53964b410a01f40ff data/modulargolems/recipes/soul_flame.json
 a70d4751e03d611b838cd3866f73758f0d71426d data/modulargolems/recipes/sponge.json
 b283b14d4b2dd3fc3b73671b6f395f140e5a470a data/modulargolems/recipes/steeleaf.json
+dc9828376ce7222eaf70e84e17da50c12da9b9a3 data/modulargolems/recipes/summon_wand.json
 474005977ece2d82be8a4a375e3219c828d78384 data/modulargolems/recipes/swim.json
 56ad9f8fdccbc67374e13efa7ea5748ccafa95e9 data/modulargolems/recipes/teleport.json
 8d37017d64ca070a9fb157acf63de2533e1e8332 data/modulargolems/recipes/thunder_immune.json

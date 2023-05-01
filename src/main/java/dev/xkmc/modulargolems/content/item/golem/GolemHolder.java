@@ -197,13 +197,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	@Override
-	public InteractionResult useOn(UseOnContext context) {
-		ItemStack stack = context.getItemInHand();
+	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
 		CompoundTag root = stack.getTag();
 		if (root == null) {
 			return InteractionResult.PASS;
 		}
-
 		Level level = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
 		Direction direction = context.getClickedFace();
@@ -215,13 +213,17 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			spawnPos = blockpos.relative(direction);
 		}
 		Vec3 pos = new Vec3(spawnPos.getX() + 0.5, spawnPos.getY() + 0.05, spawnPos.getZ() + 0.5);
+		return summon(stack, level, pos, context.getPlayer()) ? InteractionResult.CONSUME : InteractionResult.FAIL;
+	}
 
+	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player) {
+		CompoundTag root = stack.getTag();
+		if (root == null) return false;
 		if (root.contains(KEY_ENTITY)) {
 			if (getHealth(stack) <= 0)
-				return InteractionResult.FAIL;
+				return false;
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
-				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				golem.moveTo(pos);
@@ -230,16 +232,15 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				}
 				golem.setMode(0, BlockPos.ZERO);
 				level.addFreshEntity(golem);
-				stack.shrink(1);
 				stack.removeTagKey(KEY_ENTITY);
+				stack.shrink(1);
 			}
-			return InteractionResult.CONSUME;
+			return true;
 		}
 		if (root.contains(KEY_MATERIAL)) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create(level);
 				golem.moveTo(pos);
-				Player player = context.getPlayer();
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
 				if (stack.hasCustomHoverName()) {
@@ -251,9 +252,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 					stack.shrink(1);
 				}
 			}
-			return InteractionResult.CONSUME;
+			return true;
 		}
-		return InteractionResult.PASS;
+		return false;
 	}
 
 	@Override

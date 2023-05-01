@@ -34,6 +34,13 @@ public class RecipeGen {
 				.define('T', GolemItems.GOLEM_TEMPLATE.get())
 				.save(pvd);
 
+		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.DISPENSE_WAND.get())::unlockedBy, Items.DISPENSER)
+				.pattern(" ET").pattern(" SE").pattern("S  ")
+				.define('E', Items.DISPENSER)
+				.define('S', Items.STICK)
+				.define('T', GolemItems.GOLEM_TEMPLATE.get())
+				.save(pvd);
+
 		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.COMMAND_WAND.get())::unlockedBy, Items.GOLD_INGOT)
 				.pattern(" ET").pattern(" SE").pattern("S  ")
 				.define('E', Items.GOLD_INGOT)

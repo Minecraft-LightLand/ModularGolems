@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "E": {
+      "item": "minecraft:dispenser"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    " ET",
+    " SE",
+    "S  "
+  ],
+  "result": {
+    "item": "modulargolems:summon_wand"
+  }
+}
