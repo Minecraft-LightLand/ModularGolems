@@ -19,7 +19,7 @@ public class TFHealingModifier extends GolemModifier {
 
 	@Override
 	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
-		if (entity.getLevel().dimensionType() == TFDimensionSettings.TWILIGHT_DIM_TYPE.get()) {
+		if (entity.getLevel().dimensionTypeId().equals(TFDimensionSettings.TWILIGHT_DIM_TYPE)) {
 			return heal * (1 + ModConfig.COMMON.compatTFHealing.get() * level);
 		}
 		return heal;

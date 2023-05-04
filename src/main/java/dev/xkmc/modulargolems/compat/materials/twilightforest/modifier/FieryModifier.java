@@ -29,7 +29,6 @@ public class FieryModifier extends GolemModifier {
 	@Override
 	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
 		if (!event.getEntity().fireImmune()) {
-			event.getSource().setIsFire();
 			event.getEntity().setSecondsOnFire(10);
 			event.setAmount(event.getAmount() * (1 + getPercent() * level));
 		}

@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
@@ -22,7 +23,7 @@ public class FireImmuneModifier extends GolemModifier {
 
 	@Override
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (level > 0 && event.getSource().isFire()) {
+		if (level > 0 && event.getSource().is(DamageTypeTags.IS_FIRE)) {
 			event.setCanceled(true);
 		}
 	}

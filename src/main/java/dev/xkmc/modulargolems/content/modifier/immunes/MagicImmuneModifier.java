@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.modifier.immunes;
 
+import dev.xkmc.l2library.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
@@ -13,7 +14,7 @@ public class MagicImmuneModifier extends GolemModifier {
 
 	@Override
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (level > 0 && event.getSource().isMagic()) {
+		if (level > 0 && event.getSource().is(L2DamageTypes.MAGIC)) {
 			event.setCanceled(true);
 		}
 	}

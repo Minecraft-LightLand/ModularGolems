@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.jei;
 
 import com.mojang.datafixers.util.Pair;
+import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -44,7 +45,7 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 				inputs.add(List.of(stacks));
 			}
 		}
-		ItemStack resultItem = recipe.getResultItem();
+		ItemStack resultItem = recipe.getResultItem(Proxy.getClientWorld().registryAccess());
 		List<ItemStack> list = new ArrayList<>();
 		if (resultItem.getItem() instanceof GolemHolder<?, ?> holder) {
 			Pair<GolemPart<?, ?>, ResourceLocation> fix = null;

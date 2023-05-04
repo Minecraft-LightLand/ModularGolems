@@ -109,7 +109,7 @@ public class FollowOwnerGoal extends Goal {
 	}
 
 	private void teleportToOwner() {
-		BlockPos blockpos = new BlockPos(this.golem.getTargetPos());
+		BlockPos blockpos = BlockPos.containing(this.golem.getTargetPos());
 
 		for (int i = 0; i < 10; ++i) {
 			int j = this.randomIntInclusive(-3, 3);

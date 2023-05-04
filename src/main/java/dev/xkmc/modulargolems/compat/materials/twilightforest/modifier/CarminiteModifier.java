@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.init.data.ModConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -34,7 +35,9 @@ public class CarminiteModifier extends GolemModifier {
 
 	@Override
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (event.getSource().isBypassInvul() || event.getSource().isBypassMagic()) return;
+		if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) ||
+				event.getSource().is(DamageTypeTags.BYPASSES_EFFECTS))
+			return;
 		var eff = entity.getEffect(MobEffects.DAMAGE_RESISTANCE);
 		if (eff == null || eff.getAmplifier() < 4) return;
 		event.setCanceled(true);

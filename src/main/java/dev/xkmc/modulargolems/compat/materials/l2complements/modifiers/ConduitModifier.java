@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -38,7 +38,9 @@ public class ConduitModifier extends GolemModifier {
 
 	@Override
 	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
-		if (event.getSource().isBypassInvul() || event.getSource().isBypassMagic() || !entity.isInWaterRainOrBubble())
+		if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) ||
+				event.getSource().is(DamageTypeTags.BYPASSES_EFFECTS) ||
+				!entity.isInWaterRainOrBubble())
 			return;
 		event.setAmount((float) (event.getAmount() * Math.pow(1 - ModConfig.COMMON.conduitBoostReduction.get(), level)));
 	}
@@ -111,7 +113,7 @@ public class ConduitModifier extends GolemModifier {
 			pLevel.playSound(null, target.getX(), target.getY(), target.getZ(),
 					SoundEvents.CONDUIT_ATTACK_TARGET, SoundSource.NEUTRAL,
 					1.0F, 1.0F);
-			golem.getTarget().hurt(DamageSource.mobAttack(golem).setMagic().bypassArmor(), damage);
+			golem.getTarget().hurt(pLevel.damageSources().indirectMagic(golem, golem), damage);
 		}
 	}
 

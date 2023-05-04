@@ -23,7 +23,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
@@ -50,7 +49,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
 		}
-		boolean succeed = target.hurt(DamageSource.mobAttack(this), damage);
+		boolean succeed = target.hurt(level.damageSources().mobAttack(this), damage);
 		if (succeed) {
 			double d1 = Math.max(0.0D, 1.0D - kb);
 			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;
