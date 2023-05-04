@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "minecraft:lightning_rod"
@@ -15,5 +16,6 @@
   ],
   "result": {
     "item": "modulargolems:thunder_immune"
-  }
+  },
+  "show_notification": true
 }

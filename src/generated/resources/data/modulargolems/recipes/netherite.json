@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "minecraft:netherite_ingot"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "modulargolems:netherite"
-  }
+  },
+  "show_notification": true
 }

@@ -1,5 +1,6 @@
 {
-  "type": "modulargolems:golem_assemble",
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "modulargolems:dog_golem_body"
@@ -14,5 +15,6 @@
   ],
   "result": {
     "item": "modulargolems:dog_golem_holder"
-  }
+  },
+  "show_notification": false
 }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "conditions": [
     {
       "type": "forge:mod_loaded",
@@ -24,5 +25,6 @@
   ],
   "result": {
     "item": "modulargolems:fiery"
-  }
+  },
+  "show_notification": true
 }

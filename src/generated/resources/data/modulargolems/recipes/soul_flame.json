@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "conditions": [
     {
       "type": "forge:mod_loaded",
@@ -34,5 +35,6 @@
   ],
   "result": {
     "item": "modulargolems:soul_flame"
-  }
+  },
+  "show_notification": true
 }

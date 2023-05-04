@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "minecraft:wet_sponge"
@@ -15,5 +16,6 @@
   ],
   "result": {
     "item": "modulargolems:sponge"
-  }
+  },
+  "show_notification": true
 }
