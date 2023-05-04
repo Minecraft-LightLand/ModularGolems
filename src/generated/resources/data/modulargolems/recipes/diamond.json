@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "minecraft:diamond_block"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "modulargolems:diamond"
-  }
+  },
+  "show_notification": true
 }

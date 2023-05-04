@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "minecraft:amethyst_shard"
@@ -19,5 +20,6 @@
   "result": {
     "count": 4,
     "item": "modulargolems:empty_upgrade"
-  }
+  },
+  "show_notification": true
 }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "E": {
       "item": "minecraft:gold_ingot"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "modulargolems:command_wand"
-  }
+  },
+  "show_notification": true
 }

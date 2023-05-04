@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "minecraft:golden_apple"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "modulargolems:gold"
-  }
+  },
+  "show_notification": true
 }

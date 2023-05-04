@@ -1,5 +1,6 @@
 {
-  "type": "modulargolems:golem_assemble",
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "A": {
       "item": "modulargolems:humanoid_golem_body"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "modulargolems:humanoid_golem_holder"
-  }
+  },
+  "show_notification": false
 }
