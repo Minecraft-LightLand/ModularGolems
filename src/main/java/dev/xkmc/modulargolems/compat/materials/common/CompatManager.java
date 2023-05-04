@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.common;
 
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
+import com.tterrag.registrate.providers.RegistrateLangProvider;
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;

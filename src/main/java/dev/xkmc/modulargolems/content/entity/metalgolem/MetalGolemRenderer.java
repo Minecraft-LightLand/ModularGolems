@@ -1,11 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 @OnlyIn(Dist.CLIENT)
 public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemPartType, MetalGolemModel> {
 
-	protected static void transform(PoseStack stack, ItemTransforms.TransformType transform, @Nullable MetalGolemPartType part) {
+	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable MetalGolemPartType part) {
 		switch (transform) {
 			case GUI:
 			case FIRST_PERSON_LEFT_HAND:
@@ -42,8 +42,8 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 				return;
 			}
 		}
-		stack.mulPose(Vector3f.ZP.rotationDegrees(135));
-		stack.mulPose(Vector3f.YP.rotationDegrees(-155));
+		stack.mulPose(Axis.ZP.rotationDegrees(135));
+		stack.mulPose(Axis.YP.rotationDegrees(-155));
 		if (part == null) {
 			float size = 0.375f;
 			stack.scale(size, size, size);
@@ -70,11 +70,11 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 
 	protected void setupRotations(MetalGolemEntity entity, PoseStack stack, float v1, float v2, float v3) {
 		super.setupRotations(entity, stack, v1, v2, v3);
-		if (!((double) entity.animationSpeed < 0.01D)) {
+		if (!((double) entity.walkAnimation.speed() < 0.01D)) {
 			float f = 13.0F;
-			float f1 = entity.animationPosition - entity.animationSpeed * (1.0F - v3) + 6.0F;
+			float f1 = entity.walkAnimation.position() - entity.walkAnimation.speed() * (1.0F - v3) + 6.0F;
 			float f2 = (Math.abs(f1 % f - 6.5F) - 3.25F) / 3.25F;
-			stack.mulPose(Vector3f.ZP.rotationDegrees(6.5F * f2));
+			stack.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
 		}
 	}
 

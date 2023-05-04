@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -32,7 +33,7 @@ public class FreezingModifier extends GolemModifier {
 
 	@Override
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (event.getSource() == DamageSource.FREEZE) {
+		if (event.getSource().is(DamageTypeTags.IS_FREEZING)) {
 			event.setCanceled(true);
 		}
 	}

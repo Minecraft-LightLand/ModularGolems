@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
-import dev.xkmc.l2library.repack.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.ConduitModifier;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.EnderTeleportModifier;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.FreezingModifier;

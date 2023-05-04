@@ -1,10 +1,11 @@
 package dev.xkmc.modulargolems.init.registrate;
 
+import com.tterrag.registrate.builders.ItemBuilder;
+import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2library.base.L2Registrate;
-import dev.xkmc.l2library.repack.registrate.builders.ItemBuilder;
-import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
-import dev.xkmc.l2library.repack.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
@@ -12,17 +13,16 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.CommandWandItem;
-import dev.xkmc.modulargolems.content.item.RetrievalWandItem;
 import dev.xkmc.modulargolems.content.item.DispenseWand;
+import dev.xkmc.modulargolems.content.item.RetrievalWandItem;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.TagGen;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
@@ -31,10 +31,10 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
 
-	public static final Tab GOLEMS = new Tab("golems");
-
 	static {
-		REGISTRATE.creativeModeTab(() -> GOLEMS);
+		L2Complements.REGISTRATE.creativeModeTab("golems", b -> b
+				.icon(GolemItems.HOLDER_GOLEM::asStack)
+				.title(Component.translatable("itemGroup." + ModularGolems.MODID + ".golems")));
 	}
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
@@ -148,7 +148,7 @@ public class GolemItems {
 
 	public static ItemBuilder<UpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, String modid) {
 		var reg = regUpgradeImpl(id, mod, 1, false);
-		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.tag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
+		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.addTag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
 		return reg;
 	}
 
@@ -166,18 +166,6 @@ public class GolemItems {
 	}
 
 	public static void register() {
-	}
-
-	public static class Tab extends CreativeModeTab {
-
-		public Tab(String label) {
-			super(ModularGolems.MODID + "." + label);
-		}
-
-		@Override
-		public ItemStack makeIcon() {
-			return HOLDER_GOLEM.asStack();
-		}
 	}
 
 }

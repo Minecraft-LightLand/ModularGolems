@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.init.data;
 
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateItemTagsProvider;
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateTagsProvider;
+import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
+import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -30,12 +30,12 @@ public class TagGen {
 	}
 
 	public static void onItemTagGen(RegistrateItemTagsProvider pvd) {
-		pvd.tag(SCULK_MATS).add(Items.ECHO_SHARD);
+		pvd.addTag(SCULK_MATS).add(Items.ECHO_SHARD);
 		OPTIONALS.forEach(e -> e.accept(pvd));
 	}
 
-	public static void onEntityTagGen(RegistrateTagsProvider<EntityType<?>> pvd) {
-		pvd.tag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
+	public static void onEntityTagGen(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> pvd) {
+		pvd.addTag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
@@ -43,7 +43,7 @@ public class TagGen {
 	}
 
 	private static TagKey<EntityType<?>> createEntityTag(String id) {
-		return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(ModularGolems.MODID, id));
+		return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(ModularGolems.MODID, id));
 	}
 
 }

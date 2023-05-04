@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.init;
 
+import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2library.base.L2Registrate;
-import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
 import dev.xkmc.modulargolems.events.CraftEventListeners;

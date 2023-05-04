@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.core;
 
+import com.tterrag.registrate.util.entry.EntityEntry;
 import dev.xkmc.l2library.base.NamedEntry;
-import dev.xkmc.l2library.repack.registrate.util.entry.EntityEntry;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

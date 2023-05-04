@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
@@ -30,7 +31,7 @@ public enum HumaniodGolemPartType implements IGolemPart<HumaniodGolemPartType> {
 	}
 
 	@Override
-	public void setupItemRender(PoseStack stack, ItemTransforms.TransformType transform, @Nullable HumaniodGolemPartType part) {
+	public void setupItemRender(PoseStack stack, ItemDisplayContext transform, @Nullable HumaniodGolemPartType part) {
 		HumanoidGolemRenderer.transform(stack, transform, part);
 	}
 

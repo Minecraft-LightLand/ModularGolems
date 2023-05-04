@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.init.data;
 
+import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
 import dev.xkmc.l2library.base.advancements.AdvancementGenerator;
 import dev.xkmc.l2library.base.advancements.CriterionBuilder;
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateAdvancementProvider;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;

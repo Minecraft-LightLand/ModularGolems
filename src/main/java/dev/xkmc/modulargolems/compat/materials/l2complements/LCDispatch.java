@@ -1,15 +1,16 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
+import com.tterrag.registrate.providers.RegistrateLangProvider;
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2complements.init.registrate.LCEnchantments;
 import dev.xkmc.l2complements.init.registrate.LCItems;
 import dev.xkmc.l2library.base.ingredients.EnchantmentIngredient;
 import dev.xkmc.l2library.base.recipe.ConditionalRecipeWrapper;
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
@@ -33,12 +34,12 @@ public class LCDispatch extends ModDispatch {
 	@Override
 	public void genRecipe(RegistrateRecipeProvider pvd) {
 
-		safeUpgrade(pvd, new ShapelessRecipeBuilder(LCCompatRegistry.FORCE_FIELD.get(), 1)::unlockedBy, LCItems.FORCE_FIELD.get())
+		safeUpgrade(pvd, new ShapelessRecipeBuilder(RecipeCategory.MISC, LCCompatRegistry.FORCE_FIELD.get(), 1)::unlockedBy, LCItems.FORCE_FIELD.get())
 				.requires(GolemItems.EMPTY_UPGRADE.get())
 				.requires(LCItems.FORCE_FIELD.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(LCCompatRegistry.FREEZE_UP.get())::unlockedBy, LCItems.HARD_ICE.get())
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LCCompatRegistry.FREEZE_UP.get())::unlockedBy, LCItems.HARD_ICE.get())
 				.pattern("CAC").pattern("1B2").pattern("CAC")
 				.define('C', Items.GOLD_INGOT)
 				.define('A', LCItems.HARD_ICE.get())
@@ -47,7 +48,7 @@ public class LCDispatch extends ModDispatch {
 				.define('2', new EnchantmentIngredient(LCEnchantments.ICE_BLADE.get(), 1))
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(LCCompatRegistry.FLAME_UP.get())::unlockedBy, LCItems.SOUL_FLAME.get())
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LCCompatRegistry.FLAME_UP.get())::unlockedBy, LCItems.SOUL_FLAME.get())
 				.pattern("CAC").pattern("1B2").pattern("CAC")
 				.define('C', Items.GOLD_INGOT)
 				.define('A', LCItems.SOUL_FLAME.get())
@@ -56,7 +57,7 @@ public class LCDispatch extends ModDispatch {
 				.define('2', new EnchantmentIngredient(LCEnchantments.FLAME_BLADE.get(), 1))
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, new ShapelessRecipeBuilder(LCCompatRegistry.TELEPORT_UP.get(), 1)::unlockedBy, LCItems.VOID_EYE.get())
+		safeUpgrade(pvd, new ShapelessRecipeBuilder(RecipeCategory.MISC, LCCompatRegistry.TELEPORT_UP.get(), 1)::unlockedBy, LCItems.VOID_EYE.get())
 				.requires(GolemItems.EMPTY_UPGRADE.get())
 				.requires(LCItems.VOID_EYE.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));

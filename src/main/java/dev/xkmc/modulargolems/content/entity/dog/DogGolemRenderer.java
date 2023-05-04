@@ -1,11 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 @OnlyIn(Dist.CLIENT)
 public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogGolemPartType, DogGolemModel> {
 
-	protected static void transform(PoseStack stack, ItemTransforms.TransformType transform, @Nullable DogGolemPartType part) {
+	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable DogGolemPartType part) {
 		switch (transform) {
 			case GUI:
 			case FIRST_PERSON_LEFT_HAND:
@@ -42,8 +42,8 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 				return;
 			}
 		}
-		stack.mulPose(Vector3f.ZP.rotationDegrees(135));
-		stack.mulPose(Vector3f.YP.rotationDegrees(-155));
+		stack.mulPose(Axis.ZP.rotationDegrees(135));
+		stack.mulPose(Axis.YP.rotationDegrees(-155));
 		if (part == null) {
 			float size = 0.8f;
 			stack.scale(size, size, size);
