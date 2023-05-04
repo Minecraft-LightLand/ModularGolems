@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.init.registrate;
 
+import com.tterrag.registrate.util.entry.EntityEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.base.L2Registrate;
-import dev.xkmc.l2library.repack.registrate.util.entry.EntityEntry;
-import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -64,7 +64,7 @@ public class GolemTypes {
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_SPEED, 4.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-					.add(ForgeMod.ATTACK_RANGE.get(), 0)
+					.add(ForgeMod.ENTITY_REACH.get(), 0)
 					.add(Attributes.FOLLOW_RANGE, 35)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get())
@@ -84,7 +84,7 @@ public class GolemTypes {
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_SPEED, 4.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
-					.add(ForgeMod.ATTACK_RANGE.get(), 0)
+					.add(ForgeMod.ENTITY_REACH.get(), 0)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get(), 1)
@@ -104,7 +104,7 @@ public class GolemTypes {
 					.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 					.add(Attributes.ATTACK_SPEED, 4.0D)
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
-					.add(ForgeMod.ATTACK_RANGE.get(), 0)
+					.add(ForgeMod.ENTITY_REACH.get(), 0)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
 			).tag(TagGen.GOLEM_FRIENDLY).register();

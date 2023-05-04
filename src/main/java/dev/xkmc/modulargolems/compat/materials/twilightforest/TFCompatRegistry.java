@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
-import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.CarminiteModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.FieryModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFDamageModifier;

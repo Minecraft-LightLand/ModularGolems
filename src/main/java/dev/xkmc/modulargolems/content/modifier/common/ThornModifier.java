@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.modifier.common;
 
+import dev.xkmc.l2library.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -8,7 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -30,11 +31,11 @@ public class ThornModifier extends GolemModifier {
 			return;
 		}
 		DamageSource source = event.getSource();
-		if (source.isMagic() || source instanceof EntityDamageSource eds && eds.isThorns()) {
+		if (source.is(L2DamageTypes.MAGIC) || source.is(DamageTypes.THORNS)) {
 			return;
 		}
 		if (source.getDirectEntity() instanceof LivingEntity living && living.isAlive()) {
-			living.hurt(DamageSource.thorns(entity), event.getAmount() * getPercent() * level);
+			living.hurt(entity.level.damageSources().thorns(entity), event.getAmount() * getPercent() * level);
 		}
 	}
 

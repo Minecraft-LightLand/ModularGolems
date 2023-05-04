@@ -1,22 +1,22 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
 
 public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel> {
 
-	protected static void transform(PoseStack stack, ItemTransforms.TransformType transform, @Nullable HumaniodGolemPartType part) {
+	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable HumaniodGolemPartType part) {
 		switch (transform) {
 			case GUI:
 			case FIRST_PERSON_LEFT_HAND:
@@ -45,8 +45,8 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 				return;
 			}
 		}
-		stack.mulPose(Vector3f.ZP.rotationDegrees(135));
-		stack.mulPose(Vector3f.YP.rotationDegrees(-155));
+		stack.mulPose(Axis.ZP.rotationDegrees(135));
+		stack.mulPose(Axis.YP.rotationDegrees(-155));
 		if (part == null) {
 			float size = 0.45f;
 			stack.scale(size, size, size);
@@ -70,7 +70,8 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(ModelLayers.PLAYER)), 0.5f, HumaniodGolemPartType::values);
 		this.addLayer(new HumanoidArmorLayer<>(this,
 				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
-				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
+				ctx.getModelManager()));
 		this.addLayer(new CustomHeadLayer<>(this, ctx.getModelSet(), 1, 1, 1, ctx.getItemInHandRenderer()));
 		this.addLayer(new ElytraLayer<>(this, ctx.getModelSet()));
 		this.addLayer(new LayerWrapper<>(this, new ItemInHandLayer<>(this, ctx.getItemInHandRenderer())));

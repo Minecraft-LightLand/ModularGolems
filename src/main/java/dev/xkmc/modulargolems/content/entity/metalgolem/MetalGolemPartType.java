@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
@@ -16,7 +17,7 @@ public enum MetalGolemPartType implements IGolemPart<MetalGolemPartType> {
 	RIGHT, BODY, LEFT, LEG;
 
 	@Override
-	public void setupItemRender(PoseStack stack, ItemTransforms.TransformType transform, @Nullable MetalGolemPartType part) {
+	public void setupItemRender(PoseStack stack, ItemDisplayContext transform, @Nullable MetalGolemPartType part) {
 		MetalGolemRenderer.transform(stack, transform, part);
 	}
 
