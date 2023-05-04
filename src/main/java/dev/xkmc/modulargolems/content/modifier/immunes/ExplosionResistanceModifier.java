@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.init.data.ModConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ExplosionResistanceModifier extends GolemModifier {
 	@Override
 	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
 		float factor = (float) Math.max(0, 1 - level * ModConfig.COMMON.explosionResistance.get());
-		if (!event.getSource().isBypassInvul() && event.getSource().isExplosion()) {
+		if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) && event.getSource().is(DamageTypeTags.IS_EXPLOSION)) {
 			event.setAmount(event.getAmount() * factor);
 		}
 	}

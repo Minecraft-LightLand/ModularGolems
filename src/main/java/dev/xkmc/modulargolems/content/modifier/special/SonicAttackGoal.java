@@ -5,7 +5,6 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -102,7 +101,7 @@ public class SonicAttackGoal extends Goal {
 				target.add(le);
 			}
 			for (var e : target) {
-				e.hurt(DamageSource.sonicBoom(warden), 10 * lv);
+				e.hurt(warden.level.damageSources().sonicBoom(warden), 10 * lv);
 				double d1 = 0.5D * (1.0D - e.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
 				double d0 = 2.5D * (1.0D - e.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
 				e.push(dir.x() * d0, dir.y() * d1, dir.z() * d0);

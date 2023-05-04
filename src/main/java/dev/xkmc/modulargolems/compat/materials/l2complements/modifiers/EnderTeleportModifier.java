@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements.modifiers;
 
+import dev.xkmc.l2library.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -32,7 +33,7 @@ public class EnderTeleportModifier extends GolemModifier {
 
 	@Override
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (event.getSource().isMagic())
+		if (event.getSource().is(L2DamageTypes.MAGIC))
 			return;
 		for (int i = 0; i < 16; i++) {
 			if (teleport(entity)) {

@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.init.data.ModConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -20,7 +21,7 @@ public class DamageCapModifier extends GolemModifier {
 
 	@Override
 	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
-		if (event.getSource().isBypassInvul() || event.getSource().isBypassMagic()) {
+		if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) || event.getSource().is(DamageTypeTags.BYPASSES_EFFECTS)) {
 			return;
 		}
 

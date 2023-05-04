@@ -49,7 +49,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
 		}
-		boolean succeed = target.hurt(DamageSource.mobAttack(this), damage);
+		boolean succeed = target.hurt(level.damageSources().mobAttack(this), damage);
 		if (succeed) {
 			double d1 = Math.max(0.0D, 1.0D - kb);
 			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;

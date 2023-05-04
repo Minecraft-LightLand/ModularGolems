@@ -19,7 +19,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	}
 
 	public double getAttackReachSqr(LivingEntity pAttackTarget) {
-		return super.getAttackReachSqr(pAttackTarget) + mob.getAttributeValue(ForgeMod.ATTACK_RANGE.get());
+		return super.getAttackReachSqr(pAttackTarget) + mob.getAttributeValue(ForgeMod.ENTITY_REACH.get());
 	}
 
 }

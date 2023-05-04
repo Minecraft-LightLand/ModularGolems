@@ -25,11 +25,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
@@ -161,7 +163,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void actuallyHurt(DamageSource source, float damage) {
-		if (source.isBypassInvul()) damage *= 1000;
+		if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) damage *= 1000;
 		super.actuallyHurt(source, damage);
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			Player player = getOwner();
@@ -259,7 +261,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		setMode(tag.getInt("follow_mode"), new NBTObj(tag).getSub("guard_pos").toBlockPos());
 	}
 
-	public Packet<?> getAddEntityPacket() {
+	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
