@@ -41,7 +41,6 @@ public class ModularGolems {
 		GolemModifiers.register();
 		ModConfig.init();
 		NetworkManager.register();
-		CompatManager.register();
 		GolemTriggers.register();
 		GolemModes.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, LangData::genLang);

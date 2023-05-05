@@ -4,8 +4,8 @@ import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2library.base.L2Registrate;
+import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
@@ -22,6 +22,7 @@ import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.TagGen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
 
@@ -31,8 +32,10 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
 
+	public static final Supplier<CreativeModeTab> TAB;
+
 	static {
-		L2Complements.REGISTRATE.creativeModeTab("golems", b -> b
+		TAB = REGISTRATE.buildCreativeModeTab("golems", b -> b
 				.icon(GolemItems.HOLDER_GOLEM::asStack)
 				.title(Component.translatable("itemGroup." + ModularGolems.MODID + ".golems")));
 	}
@@ -81,21 +84,26 @@ public class GolemItems {
 			BELL = regUpgrade("bell", () -> GolemModifiers.BELL).lang("Bell Upgrade").register();
 		}
 
+		CompatManager.register();
+
 		// holders
 		{
 			HOLDER_GOLEM = REGISTRATE.item("metal_golem_holder", p ->
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_GOLEM))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.HOLDER_GOLEM.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_HOLDERS).defaultLang().register();
 
 			HOLDER_HUMANOID = REGISTRATE.item("humanoid_golem_holder", p ->
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.HOLDER_HUMANOID.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_HOLDERS).defaultLang().register();
 
 			HOLDER_DOG = REGISTRATE.item("dog_golem_holder", p ->
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_DOG))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.HOLDER_DOG.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_HOLDERS).defaultLang().register();
 		}
 
@@ -104,14 +112,17 @@ public class GolemItems {
 			GOLEM_BODY = REGISTRATE.item("metal_golem_body", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.BODY, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.GOLEM_BODY.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.GOLEM_ARM.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.GOLEM_LEGS.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
@@ -120,14 +131,17 @@ public class GolemItems {
 			HUMANOID_BODY = REGISTRATE.item("humanoid_golem_body", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.HUMANOID_BODY.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.HUMANOID_ARMS.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.HUMANOID_LEGS.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
@@ -136,11 +150,13 @@ public class GolemItems {
 			DOG_BODY = REGISTRATE.item("dog_golem_body", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.DOG_BODY.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
 
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity")))
+					.tab(TAB::get, e -> GolemItems.DOG_LEGS.get().fillItemCategory(e))
 					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
