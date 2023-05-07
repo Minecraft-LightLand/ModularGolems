@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.recipe;
 
-import dev.xkmc.l2library.base.recipe.CustomShapedBuilder;
+import dev.xkmc.l2library.serial.recipe.CustomShapedBuilder;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.world.level.ItemLike;
 

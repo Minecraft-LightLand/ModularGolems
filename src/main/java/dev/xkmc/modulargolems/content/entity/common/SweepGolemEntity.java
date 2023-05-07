@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
-import dev.xkmc.l2library.serial.SerialClass;
+import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.world.entity.Entity;
