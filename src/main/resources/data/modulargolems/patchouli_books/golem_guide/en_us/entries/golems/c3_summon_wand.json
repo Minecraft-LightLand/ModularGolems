@@ -1,0 +1,16 @@
+{
+  "name": "Summon Wand",
+  "icon": "modulargolems:summon_wand",
+  "category": "modulargolems:golems",
+  "sortnum": 22,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "Right click to summon a golem on target block, from your off hand or inventory.$(br2)Shift right click to summon all golems from your inventory around you."
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:summon_wand",
+	  "text": "Wand for massive golem summon."
+	}
+  ]
+}
