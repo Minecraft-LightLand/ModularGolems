@@ -2,8 +2,8 @@ package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import dev.xkmc.l2library.base.recipe.ConditionalRecipeWrapper;
-import dev.xkmc.l2library.serial.network.ConfigDataProvider;
+import dev.xkmc.l2library.serial.config.ConfigDataProvider;
+import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;

@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.item;
 
-import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
+import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

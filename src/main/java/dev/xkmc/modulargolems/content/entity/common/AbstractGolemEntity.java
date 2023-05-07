@@ -1,11 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
-import dev.xkmc.l2library.serial.SerialClass;
-import dev.xkmc.l2library.serial.codec.PacketCodec;
-import dev.xkmc.l2library.serial.codec.TagCodec;
 import dev.xkmc.l2library.util.annotation.ServerOnly;
-import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.l2library.util.nbt.NBTObj;
+import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.codec.PacketCodec;
+import dev.xkmc.l2serial.serialization.codec.TagCodec;
+import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;

@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.init.registrate;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import dev.xkmc.l2library.base.recipe.AbstractShapedRecipe;
+import dev.xkmc.l2library.serial.recipe.AbstractShapedRecipe;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
