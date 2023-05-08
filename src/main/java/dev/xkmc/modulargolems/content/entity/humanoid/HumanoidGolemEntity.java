@@ -177,6 +177,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			Projectile projectile = throwable.createProjectile(level);
 			GolemShooterHelper.shootAimHelper(pTarget, projectile);
 			this.playSound(SoundEvents.TRIDENT_THROW, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+			projectile.getPersistentData().putInt("DespawnFactor", 20);
 			this.level.addFreshEntity(projectile);
 			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		} else if (stack.getItem() instanceof CrossbowItem) {
@@ -199,6 +200,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			}
 			GolemShooterHelper.shootAimHelper(pTarget, arrowEntity, event.speed(), event.gravity());
 			this.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+			arrowEntity.getPersistentData().putInt("DespawnFactor", 20);
 			this.level.addFreshEntity(arrowEntity);
 			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		}
