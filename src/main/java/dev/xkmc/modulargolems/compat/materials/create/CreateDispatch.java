@@ -42,10 +42,12 @@ public class CreateDispatch extends ModDispatch {
 				.define('C', AllItems.PRECISION_MECHANISM.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
+		CreateMixingRecipeGen.genAllUpgradeRecipes(pvd);
+
 	}
 
 	@Override
-	protected ConfigDataProvider getDataGen(DataGenerator gen) {
+	public ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new CreateConfigGen(gen);
 	}
 

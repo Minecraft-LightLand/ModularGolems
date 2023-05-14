@@ -28,7 +28,7 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 			}
 			case GROUND: {
 				stack.translate(0.25, 0, 0.5);
-				float size = 1F;
+				float size = 0.5F;
 				stack.scale(size, size, size);
 				break;
 			}

@@ -70,7 +70,7 @@ public class TFDispatch extends ModDispatch {
 	}
 
 	@Override
-	protected ConfigDataProvider getDataGen(DataGenerator gen) {
+	public ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new TFConfigGen(gen);
 	}
 

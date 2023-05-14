@@ -63,7 +63,7 @@ public class LCDispatch extends ModDispatch {
 	}
 
 	@Override
-	protected ConfigDataProvider getDataGen(DataGenerator gen) {
+	public ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new LCConfigGen(gen);
 	}
 

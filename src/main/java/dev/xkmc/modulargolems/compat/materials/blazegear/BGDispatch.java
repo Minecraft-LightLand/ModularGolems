@@ -26,7 +26,7 @@ public class BGDispatch extends ModDispatch {
 	}
 
 	@Override
-	protected ConfigDataProvider getDataGen(DataGenerator gen) {
+	public ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new BGConfigGen(gen);
 	}
 
