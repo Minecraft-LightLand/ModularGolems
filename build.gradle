@@ -137,13 +137,13 @@ dependencies {
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
     implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}-slim")
     implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.0.0")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.2.0.pre0')
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.2.0.pre1')
 
     runtimeOnly fg.deobf("dev.xkmc.l2modularblock:l2modularblock:1.0.0")
-    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.2.0.pre0-slim")
-    runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.2.0.pre0")
-    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.2.0.pre0")
-    runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.2.0.pre0")
+    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.2.0.pre4-slim")
+    runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.2.0.pre4")
+    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.2.0.pre1")
+    runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.2.0.pre1")
 
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")

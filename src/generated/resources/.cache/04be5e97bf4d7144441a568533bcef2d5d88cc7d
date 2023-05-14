@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-03T23:47:34.790454	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.4	2023-05-13T22:45:49.430293	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 426fe1092ae36b31f6191326f9eb5bc89f4184c5 assets/modulargolems/lang/en_ud.json
 81c05ab41cb7fc3b424de092e2b256bb7ac1f541 assets/modulargolems/lang/en_us.json
 ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
@@ -108,7 +108,7 @@ dc596e8c44d0890a56ae27706218e3de079d8117 data/modulargolems/recipes/carminite.js
 56f97d9a7c9740dab60608888045879b7278ebd5 data/modulargolems/recipes/command_wand.json
 c43c0fa86027cbff515983bb84e036820d1f879b data/modulargolems/recipes/diamond.json
 7c77fca8fb6291ec838b12969ed6b8071052c3e2 data/modulargolems/recipes/dog_golem_body_from_metal_golem_template_stonecutting.json
-38d87602a0495ac3d0d003679d99c03be563a7aa data/modulargolems/recipes/dog_golem_holder.json
+ddc0f24d831849206f4207291ab74e00766895f3 data/modulargolems/recipes/dog_golem_holder.json
 c6deded7a4f51cd808017d2bf9275ee389b6f7d9 data/modulargolems/recipes/dog_golem_legs_from_metal_golem_template_stonecutting.json
 e8a36d544b3950c8927325b92219dfb834d865f4 data/modulargolems/recipes/empty_upgrade.json
 e3b4a93720ca1fcd176c390e9f199bca8ea20c89 data/modulargolems/recipes/enchanted_gold.json
@@ -121,13 +121,13 @@ e8d35564be3b5f3ac87ca87d1cc70ee38d04a833 data/modulargolems/recipes/fire_immune.
 990bf49c01d89b0a0a662ffaddbf658e424218c6 data/modulargolems/recipes/gold.json
 1ba51d77ecfb0c508600960e226fc3f3a0338600 data/modulargolems/recipes/humanoid_golem_arms_from_metal_golem_template_stonecutting.json
 f9374f863ebf991639c9a9f98362d8347adcff09 data/modulargolems/recipes/humanoid_golem_body_from_metal_golem_template_stonecutting.json
-2391a3296dcb665496a939eb2ab488c8b9647f41 data/modulargolems/recipes/humanoid_golem_holder.json
+05a2e682e872a84f02400f8ec20c87d247f0b465 data/modulargolems/recipes/humanoid_golem_holder.json
 f27446fa7ace6efc162fd9c0f59f10ff91b136b3 data/modulargolems/recipes/humanoid_golem_legs_from_metal_golem_template_stonecutting.json
 542ba364939078611c83add645e35a4188466221 data/modulargolems/recipes/ironwood.json
 8b666537f2fcc4b87b9d672c5c9ef9ac85915deb data/modulargolems/recipes/knightmetal.json
 1939d0383543026b38bc08beb5a80a485db8f739 data/modulargolems/recipes/metal_golem_arm_from_metal_golem_template_stonecutting.json
 ed9146bed7ed4f73898a52b747410f53b7efa544 data/modulargolems/recipes/metal_golem_body_from_metal_golem_template_stonecutting.json
-43088f046016a21bb9484b7cb821492b5ca6e91a data/modulargolems/recipes/metal_golem_holder.json
+5d2af1d8e3877408fda635c70fcfd3ff340526c4 data/modulargolems/recipes/metal_golem_holder.json
 b4f958b915e3d624f0a149fe06471a8d0445ff51 data/modulargolems/recipes/metal_golem_legs_from_metal_golem_template_stonecutting.json
 71fabab803d96f283ae692baa9ae07234be3ca3d data/modulargolems/recipes/metal_golem_template.json
 f35e41872f3fd31391ef03fe15512a13d4ba462d data/modulargolems/recipes/naga.json
