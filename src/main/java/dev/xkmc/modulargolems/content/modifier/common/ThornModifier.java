@@ -10,7 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class ThornModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
+	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
 		if (level == 0) {
 			return;
 		}
