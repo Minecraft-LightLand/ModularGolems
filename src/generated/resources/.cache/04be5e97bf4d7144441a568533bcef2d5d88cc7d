@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-13T22:45:49.430293	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.4	2023-05-19T21:18:14.464403	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 426fe1092ae36b31f6191326f9eb5bc89f4184c5 assets/modulargolems/lang/en_ud.json
 81c05ab41cb7fc3b424de092e2b256bb7ac1f541 assets/modulargolems/lang/en_us.json
 ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
@@ -41,6 +41,7 @@ d98f7f2e288f24c3dc1c01aa98f1d149e64d66f7 assets/modulargolems/models/item/sponge
 81fbbdc6ebe1a4bcdd9c2c0370c4d914f1909879 assets/modulargolems/models/item/swim.json
 a7cc9194987185cd4c7acefb2b372482cdd97ee6 assets/modulargolems/models/item/teleport.json
 1898e07c979f496fcda02b4c7677e644d9c8bffe assets/modulargolems/models/item/thunder_immune.json
+dbc88df4cfcff5888207cc5474fd10d66fab5e5c data/minecraft/tags/entity_types/fall_damage_immune.json
 f89bb8abd7364635e90923e51514b09ec6b29d2e data/modulargolems/advancements/golems/anvil_fix.json
 f7317487ed9951d461023cc6a27a875a5f8faa6c data/modulargolems/advancements/golems/apply.json
 f985d4a5ce589a9aa17eb391e10c00136c329f52 data/modulargolems/advancements/golems/apply_sculk.json

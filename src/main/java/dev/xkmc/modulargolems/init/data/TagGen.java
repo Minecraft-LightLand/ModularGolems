@@ -3,8 +3,10 @@ package dev.xkmc.modulargolems.init.data;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -36,6 +38,8 @@ public class TagGen {
 
 	public static void onEntityTagGen(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> pvd) {
 		pvd.addTag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
+		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
+				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
