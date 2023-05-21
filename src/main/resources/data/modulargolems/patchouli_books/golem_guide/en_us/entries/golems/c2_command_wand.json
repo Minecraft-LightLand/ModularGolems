@@ -11,7 +11,7 @@
 	{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:command_wand",
-	  "text": "Wand for switching behavior of the golem.$(br2)Golems in guarding/standing mode cannot change dimensions, and will switch back to following mode when retrieved."
+	  "text": "Wand for switching behavior of the golem.$(br2)Shift right click Humanoid golem to configure equipments.$(br2)Golems in guarding/standing mode cannot change dimensions, and will switch back to following mode when retrieved."
 	}
   ]
 }

@@ -50,4 +50,6 @@ public class DispenseWand extends Item implements WandItem {
 		return InteractionResultHolder.success(stack);
 	}
 
+
+
 }

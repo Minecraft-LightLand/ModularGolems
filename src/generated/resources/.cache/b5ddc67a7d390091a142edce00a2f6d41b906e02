@@ -1,6 +1,6 @@
-// 1.19.2	2023-05-13T16:02:08.010525	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-12721d1b8e05505473d252b25cadd81ebbe57259 assets/modulargolems/lang/en_ud.json
-3144d5ce3b35605ca39c420a25b290116d649896 assets/modulargolems/lang/en_us.json
+// 1.19.2	2023-05-20T23:44:37.553254	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+0390d65afb5ce095c01532731abd2365bfdb0b75 assets/modulargolems/lang/en_ud.json
+0c88e20a12419bc9ada6d365bb84719846a0d4fc assets/modulargolems/lang/en_us.json
 ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 a9bfdc6c816b787e0e70c42ddbb0de5b53c94c51 assets/modulargolems/models/item/coating.json

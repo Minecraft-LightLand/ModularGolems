@@ -1,6 +1,10 @@
 {
     "side": [
-        "slot"
+        "altas_helmet",
+        "altas_chestplate",
+        "altas_leggings",
+        "altas_boots",
+        "altas_shield"
     ],
     "comp": {
         "hand": {

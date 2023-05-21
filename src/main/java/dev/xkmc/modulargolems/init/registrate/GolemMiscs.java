@@ -18,7 +18,7 @@ public class GolemMiscs {
 			reg("golem_assemble", () -> new AbstractShapedRecipe.Serializer<>(GolemAssembleRecipe::new));
 
 	public static final MenuEntry<EquipmentsMenu> EQUIPMENTS =
-			REGISTRATE.menu(EquipmentsMenu::fromNetwork, () -> EquipmentsScreen::new)
+			REGISTRATE.menu("equipments", EquipmentsMenu::fromNetwork, () -> EquipmentsScreen::new)
 					.register();
 
 	private static <A extends RecipeSerializer<?>> RegistryEntry<A> reg(String id, NonNullSupplier<A> sup) {

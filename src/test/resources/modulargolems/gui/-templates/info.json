@@ -20,7 +20,12 @@
             "_body",
             "_bracelet",
             "_belt",
-            "_disabled"
+            "_disabled",
+            "_shield",
+            "_helmet",
+            "_chestplate",
+            "_leggings",
+            "_boots"
         ],
         "w": 16,
         "h": 16

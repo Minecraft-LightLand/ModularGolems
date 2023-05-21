@@ -35,8 +35,8 @@ public abstract class ResourceOrganizer {
         //new BlockFileOrganizer();
         //new ArmorFileOrganizer();
         //new RecipeFileOrganizer();
-        //new AssetMisc();
-        //new DataMisc();
+        new AssetMisc();
+        new DataMisc();
         //new ConfigFileOrganizer();
         //new GeckoMisc();
         File f = new File("./src/test/resources");

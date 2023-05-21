@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -27,6 +28,9 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 
 	public static Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades) {
 		HashMap<GolemStatType, Double> values = new HashMap<>();
+		for (GolemStatType type : GolemTypes.STAT_TYPES.get().getValues()) {
+			updateStat(values, type, 0);
+		}
 		for (GolemMaterial stats : list) {
 			stats.stats.forEach((k, v) -> updateStat(values, k, v));
 		}

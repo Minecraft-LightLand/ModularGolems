@@ -183,15 +183,21 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				}
 			}
 			list.add(LangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
-			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
+			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> {
+				if (v != 0) {
+					list.add(k.getTooltip(v));
+				}
+			});
 			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
 			list.add(LangData.SHIFT.get());
 		} else {
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
 			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> {
-				list.add(k.getTooltip(v));
-				list.addAll(k.getDetail(v));
+				if (v != 0) {
+					list.add(k.getTooltip(v));
+					list.addAll(k.getDetail(v));
+				}
 			});
 		}
 	}

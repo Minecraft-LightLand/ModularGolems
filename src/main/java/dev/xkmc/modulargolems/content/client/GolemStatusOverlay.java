@@ -16,16 +16,17 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class GolemStatusOverlay extends GuiComponent implements IGuiOverlay {
 			h += ctc.getHeight();
 		}
 
-		int x = (int)(sw * 0.7);
+		int x = (int) (sw * 0.7);
 		int y = Math.round((float) (sh - h) / 2.0F);
 		if (x + w > sw) {
 			x -= 28 + w;
@@ -136,17 +137,27 @@ public class GolemStatusOverlay extends GuiComponent implements IGuiOverlay {
 
 		@Override
 		public void renderImage(Font font, int mx, int my, PoseStack pose, ItemRenderer ir, int offset) {
-			renderSlot(font, mx, my + 18, pose, golem.getItemBySlot(EquipmentSlot.MAINHAND), ir, offset);
-			renderSlot(font, mx, my + 36, pose, golem.getItemBySlot(EquipmentSlot.OFFHAND), ir, offset);
-			renderSlot(font, mx + 18, my, pose, golem.getItemBySlot(EquipmentSlot.HEAD), ir, offset);
-			renderSlot(font, mx + 18, my + 18, pose, golem.getItemBySlot(EquipmentSlot.CHEST), ir, offset);
-			renderSlot(font, mx + 18, my + 36, pose, golem.getItemBySlot(EquipmentSlot.LEGS), ir, offset);
-			renderSlot(font, mx + 18, my + 54, pose, golem.getItemBySlot(EquipmentSlot.FEET), ir, offset);
+			renderSlot(font, mx, my + 18, pose, golem.getItemBySlot(EquipmentSlot.MAINHAND), ir, offset, null);
+			renderSlot(font, mx, my + 36, pose, golem.getItemBySlot(EquipmentSlot.OFFHAND), ir, offset, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+			renderSlot(font, mx + 18, my, pose, golem.getItemBySlot(EquipmentSlot.HEAD), ir, offset, InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
+			renderSlot(font, mx + 18, my + 18, pose, golem.getItemBySlot(EquipmentSlot.CHEST), ir, offset, InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE);
+			renderSlot(font, mx + 18, my + 36, pose, golem.getItemBySlot(EquipmentSlot.LEGS), ir, offset, InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS);
+			renderSlot(font, mx + 18, my + 54, pose, golem.getItemBySlot(EquipmentSlot.FEET), ir, offset, InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS);
 		}
 
-		private void renderSlot(Font font, int x, int y, PoseStack pose, ItemStack stack, ItemRenderer ir, int offset) {
+		private void renderSlot(Font font, int x, int y, PoseStack pose, ItemStack stack, ItemRenderer ir, int offset, @Nullable ResourceLocation atlasID) {
 			this.blit(pose, x, y, offset);
-			if (stack.isEmpty()) return;
+			if (stack.isEmpty()) {
+				if (atlasID != null) {
+					TextureAtlasSprite atlas = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
+							.apply(atlasID);
+					RenderSystem.disableDepthTest();
+					RenderSystem.setShaderTexture(0, atlas.atlas().location());
+					GuiComponent.blit(pose, x + 1, y + 1, 100, 16, 16, atlas);
+					RenderSystem.enableDepthTest();
+				}
+				return;
+			}
 			ir.renderAndDecorateItem(stack, x + 1, y + 1, 0);
 			ir.renderGuiItemDecorations(font, stack, x + 1, y + 1);
 		}
