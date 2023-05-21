@@ -1,0 +1,22 @@
+{
+    "side": [
+        "slot"
+    ],
+    "comp": {
+        "hand": {
+            "sprite": "slot",
+            "x": 79,
+            "y": 18,
+            "rx": 1,
+            "ry": 2
+        },
+        "armor": {
+            "sprite": "slot",
+            "x": 97,
+            "y": 0,
+            "rx": 1,
+            "ry": 4
+        }
+    },
+    "isContainer": true
+}

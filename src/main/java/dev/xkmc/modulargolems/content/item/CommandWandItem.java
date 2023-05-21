@@ -4,7 +4,10 @@ import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.menu.EquipmentsMenuPvd;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,6 +31,13 @@ public class CommandWandItem extends Item implements WandItem {
 	private static boolean command(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!golem.isAlliedTo(user)) return false;
 		if (level.isClientSide()) return true;
+		if (user.isShiftKeyDown()) {
+			if (golem instanceof HumanoidGolemEntity e) {
+				new EquipmentsMenuPvd(e).open((ServerPlayer) user);
+				return true;
+			}
+			return false;
+		}
 		GolemMode mode = GolemModes.nextMode(golem.getMode());
 		golem.setMode(mode.getID(), mode.hasPos() ? golem.blockPosition() : BlockPos.ZERO);
 		return true;
