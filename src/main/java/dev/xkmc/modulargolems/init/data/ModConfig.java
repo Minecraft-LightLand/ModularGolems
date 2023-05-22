@@ -27,10 +27,13 @@ public class ModConfig {
 		public final ForgeConfigSpec.DoubleValue conduitBoostSpeed;
 		public final ForgeConfigSpec.IntValue thunderHeal;
 		public final ForgeConfigSpec.IntValue teleportRadius;
+		public final ForgeConfigSpec.BooleanValue exponentialStat;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
 					.define("barehandRetrieve", true);
+			exponentialStat = builder.comment("Percentage modifiers stack exponentially")
+					.define("exponentialStat", false);
 
 			builder.push("modifiers");
 			thorn = builder.comment("Percentage damage reflection per level of thorn")
