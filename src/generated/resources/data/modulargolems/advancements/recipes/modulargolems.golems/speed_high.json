@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:speed_high"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wind_capture_bottle": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "modulargolems:empty_upgrade"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_wind_capture_bottle",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:speed_high"
+    ]
+  }
+}

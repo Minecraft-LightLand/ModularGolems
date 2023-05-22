@@ -8,6 +8,8 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,6 +21,12 @@ public class GolemShooterHelper {
 	private static final HashSet<Class<?>> BLACKLIST = new HashSet<>();
 
 	public static GolemThrowableEvent isValidThrowableWeapon(HumanoidGolemEntity golem, ItemStack stack, InteractionHand hand) {
+		if (stack.getEnchantmentLevel(Enchantments.LOYALTY) > 0) {
+			stack = stack.copy();
+			var map = stack.getAllEnchantments();
+			map.remove(Enchantments.LOYALTY);
+			EnchantmentHelper.setEnchantments(map, stack);
+		}//TODO find a cleaner approach
 		GolemThrowableEvent event = new GolemThrowableEvent(golem, stack, hand);
 		MinecraftForge.EVENT_BUS.post(event);
 		return event;

@@ -14,6 +14,7 @@
     "modulargolems:player",
     "modulargolems:ender_sight",
     "modulargolems:bell",
+    "modulargolems:speed",
     {
       "id": "modulargolems:carminite",
       "required": false
@@ -60,6 +61,14 @@
     },
     {
       "id": "modulargolems:teleport",
+      "required": false
+    },
+    {
+      "id": "modulargolems:attack_high",
+      "required": false
+    },
+    {
+      "id": "modulargolems:speed_high",
       "required": false
     }
   ]

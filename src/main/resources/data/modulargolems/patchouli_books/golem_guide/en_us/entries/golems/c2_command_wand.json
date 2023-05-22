@@ -9,9 +9,9 @@
 	  "text": "Right click to switch between modes for the golems.$(li)Following Mode: the default mode. Golem follows player.$(li)Guarding mode: Golem will stay around a region as if the player stands there. Center point is the position of the golem when it's set to this mode.$(li)Golems in standing mode will not move."
 	},
 	{
-	  "type": "patchouli:crafting",
-	  "recipe": "modulargolems:command_wand",
-	  "text": "Wand for switching behavior of the golem.$(br2)Shift right click Humanoid golem to configure equipments.$(br2)Golems in guarding/standing mode cannot change dimensions, and will switch back to following mode when retrieved."
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:command_wand",
+	  "text": "Shift right click Humanoid golem to configure equipments.$(br2)Attack entity with this wand to call all your surrounding golems to attack that entity.$(br2)Golems in guarding/standing mode cannot change dimensions, and will switch back to following mode when retrieved."
 	}
   ]
 }

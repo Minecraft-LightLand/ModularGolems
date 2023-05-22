@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Attack Upgrade V",
+  "icon": "modulargolems:attack_high",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:attack_high",
+	  "text": "Increase golem attack by a lot. Same as 5 quartz upgrades."
+	}
+  ]
+}

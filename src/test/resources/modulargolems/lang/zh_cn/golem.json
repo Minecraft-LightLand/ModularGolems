@@ -65,6 +65,7 @@
 	"bell": "钟声",
 	"bell.desc": "傀儡切换攻击目标时，敲钟并吸引范围内的敌人，同时施加发光效果。",
 	"ender_sight": "透视",
-	"ender_sight.desc": "傀儡能看穿墙壁和天花板"
+	"ender_sight.desc": "傀儡能看穿墙壁和天花板",
+	"speed_up": "移动速度提升"
   }
 }

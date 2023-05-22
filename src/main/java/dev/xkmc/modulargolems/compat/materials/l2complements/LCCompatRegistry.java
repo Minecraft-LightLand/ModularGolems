@@ -19,7 +19,7 @@ public class LCCompatRegistry {
 	public static final RegistryEntry<SoulFlameModifier> FLAME;
 	public static final RegistryEntry<EnderTeleportModifier> TELEPORT;
 
-	public static final ItemEntry<UpgradeItem> FORCE_FIELD, FREEZE_UP, FLAME_UP, TELEPORT_UP;
+	public static final ItemEntry<UpgradeItem> FORCE_FIELD, FREEZE_UP, FLAME_UP, TELEPORT_UP, ATK_UP, SPEED_UP;
 
 	static {
 		CONDUIT = reg("conduit", ConduitModifier::new, "When in water: Reduce damage taken to %s%%. Every %s seconds, deal %s conduit damage to target in water/rain remotely. Boost following stats:");
@@ -31,6 +31,8 @@ public class LCCompatRegistry {
 		FREEZE_UP = regModUpgrade("freezing", () -> FREEZE, LCDispatch.MODID).lang("Freezing Upgrade").register();
 		FLAME_UP = regModUpgrade("soul_flame", () -> FLAME, LCDispatch.MODID).lang("Soul Flame Upgrade").register();
 		TELEPORT_UP = regModUpgrade("teleport", () -> TELEPORT, LCDispatch.MODID).lang("Teleport Upgrade").register();
+		ATK_UP = regModUpgrade("attack_high", () -> GolemModifiers.DAMAGE, 5, LCDispatch.MODID).lang("Attack Upgrade V").register();
+		SPEED_UP = regModUpgrade("speed_high", () -> GolemModifiers.SPEED, 5, LCDispatch.MODID).lang("Speed Upgrade V").register();
 	}
 
 	public static void register() {

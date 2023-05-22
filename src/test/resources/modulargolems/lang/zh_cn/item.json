@@ -29,6 +29,9 @@
 	"swim": "游泳升级",
 	"player": "友伤免疫升级",
 	"bell": "钟升级",
-	"ender_sight": "透视升级"
+	"ender_sight": "透视升级",
+	"attack_high": "伤害升级V",
+	"speed": "速度升级",
+	"speed_high": "速度升级V"
   }
 }
