@@ -20,7 +20,7 @@ public abstract class ModDispatch {
 
 	public abstract void genRecipe(RegistrateRecipeProvider pvd);
 
-	protected abstract ConfigDataProvider getDataGen(DataGenerator gen);
+	public abstract ConfigDataProvider getDataGen(DataGenerator gen);
 
 	public static <T> T safeUpgrade(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {
 		return func.apply("has_" + pvd.safeName(item), DataIngredient.items(GolemItems.EMPTY_UPGRADE.get()).getCritereon(pvd));

@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.GrindstoneEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -65,6 +66,18 @@ public class CraftEventListeners {
 				var ing = GolemMaterialConfig.get().ingredients.get(mat.id());
 				if (ing == null || !ing.test(block)) return;
 				GolemTriggers.ANVIL_FIX.trigger((ServerPlayer) event.getEntity(), mat.id());
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onGrindStone(GrindstoneEvent.OnplaceItem event) {
+		if (event.getTopItem().getItem() instanceof GolemHolder) {
+			ItemStack copy = event.getTopItem().copy();
+			if (GolemHolder.getUpgrades(copy).size() > 0) {
+				copy.getOrCreateTag().remove(GolemHolder.KEY_UPGRADES);
+				event.setOutput(copy);
+				event.setXp(0);
 			}
 		}
 	}

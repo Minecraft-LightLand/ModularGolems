@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.content.item;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.LangData;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -10,8 +12,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class RetrievalWandItem extends Item implements WandItem {
 
@@ -52,5 +58,11 @@ public class RetrievalWandItem extends Item implements WandItem {
 		user.getInventory().placeItemBackInInventory(golem.toItem());
 		return true;
 	}
+
+	@Override
+	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> list, TooltipFlag pIsAdvanced) {
+		list.add(LangData.WAND_RETRIEVE.get());
+	}
+
 
 }

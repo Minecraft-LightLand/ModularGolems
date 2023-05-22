@@ -167,6 +167,10 @@ public class RecipeGen {
 					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.ENDER_EYE)
 					.save(pvd);
 
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItems.SPEED.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.RABBIT_FOOT)
+					.save(pvd);
+
 		}
 
 		CompatManager.dispatchGenRecipe(pvd);

@@ -183,7 +183,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			}
 			list.add(LangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
 			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
-			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> list.add(k.getTotalTooltip(v)));
+			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> {
+				if (Math.abs(v.getSecond()) > 1e-3) {
+					list.add(v.getFirst().getTotalTooltip(v.getSecond()));
+				}
+			});
 			list.add(LangData.SHIFT.get());
 		} else {
 			var mats = getMaterial(stack);

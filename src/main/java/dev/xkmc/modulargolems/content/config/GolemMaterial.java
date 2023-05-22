@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.config;
 
-import dev.xkmc.l2serial.util.Wrappers;
+import com.mojang.datafixers.util.Pair;
+import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -9,10 +10,13 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.ModConfig;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,23 +29,27 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 
 	public static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
-	public static Map<GolemStatType, Double> collectAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades) {
-		HashMap<GolemStatType, Double> values = new HashMap<>();
+	public static Map<Attribute, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades) {
+		HashMap<Attribute, Pair<GolemStatType, Double>> values = new HashMap<>();
+		for (GolemStatType type : GolemTypes.STAT_TYPES.get().getValues()) {
+			updateStat(values, type, 0);
+		}
 		for (GolemMaterial stats : list) {
 			stats.stats.forEach((k, v) -> updateStat(values, k, v));
 		}
-		for (UpgradeItem item : upgrades) {
-			if (item.get() instanceof AttributeGolemModifier attr) {
+		for (var entry : collectModifiers(list, upgrades).entrySet()) {
+			if (entry.getKey() instanceof AttributeGolemModifier attr) {
 				for (var ent : attr.entries) {
-					updateStat(values, ent.type().get(), ent.getValue(item.level));
+					updateStat(values, ent.type().get(), ent.getValue(entry.getValue()));
 				}
 			}
 		}
 		return values;
 	}
 
-	private static void updateStat(HashMap<GolemStatType, Double> values, GolemStatType k, double v) {
-		values.compute(k, (a, old) -> a.kind == GolemStatType.Kind.PERCENT ? (old == null ? 1 : old) * (1 + v) : (old == null ? 0 : old) + v);
+	private static void updateStat(Map<Attribute, Pair<GolemStatType, Double>> values, GolemStatType k, double v) {
+		values.compute(k.getAttribute(), (a, old) -> Pair.of(k, ModConfig.COMMON.exponentialStat.get() && k.kind == GolemStatType.Kind.PERCENT ?
+				(old == null ? 1 : old.getSecond()) * (1 + v) : (old == null ? 0 : old.getSecond()) + v));
 	}
 
 	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<UpgradeItem> upgrades) {
@@ -56,13 +64,13 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void addAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades, T entity) {
 		var map = DefaultAttributes.getSupplier(Wrappers.cast(entity.getType()));
 		var attrs = collectAttributes(list, upgrades);
-		attrs.keySet().stream().map(GolemStatType::getAttribute).distinct().forEach(e -> {
+		attrs.keySet().forEach(e -> {
 			var attr = entity.getAttribute(e);
 			if (attr != null) {
 				attr.setBaseValue(map.getBaseValue(e));
 			}
 		});
-		attrs.forEach((k, v) -> k.applyToEntity(entity, v));
+		attrs.forEach((k, v) -> v.getFirst().applyToEntity(entity, v.getSecond()));
 	}
 
 	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {

@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Speed Upgrade V",
+  "icon": "modulargolems:speed_high",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:speed_high",
+	  "text": "Increase golem movement speed by a lot. Same as 5 speed upgrades."
+	}
+  ]
+}

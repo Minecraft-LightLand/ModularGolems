@@ -1,0 +1,12 @@
+{
+  "name": "Speed Upgrade",
+  "icon": "modulargolems:speed",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:speed",
+	  "text": "Increase golem movement speed by a bit. Max: 5"
+	}
+  ]
+}

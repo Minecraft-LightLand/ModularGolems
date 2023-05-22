@@ -32,7 +32,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<SonicModifier> SONIC;
 	public static final RegistryEntry<EnderSightModifier> ENDER_SIGHT;
 	public static final RegistryEntry<BellModifier> BELL;
-	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN;
+	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new, "Immune to fire damage. Floats in Lava.");
@@ -49,6 +49,9 @@ public class GolemModifiers {
 		)).register();
 		DAMAGE = reg("damage_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATTACK, 2)
+		)).register();
+		SPEED = reg("speed_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_SPEED, 0.2)
 		)).register();
 		REGEN = reg("regeneration_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_REGEN, 1)

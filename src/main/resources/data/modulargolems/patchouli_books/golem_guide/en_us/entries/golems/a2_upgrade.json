@@ -6,7 +6,7 @@
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "To upgrade the golem, craft the upgrades and apply them in anvil. Upgrade can provide modifiers to golems, which adds special abilities or improve stats. Golem can only have limited upgrades, and each modifier has its own max level."
+	  "text": "To upgrade the golem, craft the upgrades and apply them in anvil. Upgrade can provide modifiers to golems, which adds special abilities or improve stats. Golem can only have limited upgrades, and each modifier has its own max level.$(br2)Use grindstone to remove all golem upgrades."
 	},
 	{
 	  "type": "patchouli:text",
