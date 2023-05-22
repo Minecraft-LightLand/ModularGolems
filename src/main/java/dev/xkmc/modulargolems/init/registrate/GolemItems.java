@@ -147,14 +147,14 @@ public class GolemItems {
 
 	}
 
-	public static ItemBuilder<UpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, String modid) {
-		var reg = regUpgradeImpl(id, mod, lv, false);
+	public static ItemBuilder<UpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {
+		var reg = regUpgradeImpl(id, mod, lv, foil);
 		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.tag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
 		return reg;
 	}
 
 	public static ItemBuilder<UpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, String modid) {
-		return regModUpgrade(id, mod, 1, modid);
+		return regModUpgrade(id, mod, 1, false, modid);
 	}
 
 	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {

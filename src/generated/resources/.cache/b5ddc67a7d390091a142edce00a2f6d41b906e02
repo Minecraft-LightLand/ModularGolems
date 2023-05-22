@@ -1,4 +1,4 @@
-// 1.19.2	2023-05-21T20:35:38.649856	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.2	2023-05-22T12:42:10.833322	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 1e182cff7d5f4a4c5ad10adc519f1300d1942013 assets/modulargolems/lang/en_ud.json
 0e1541b27f8eeaa92f3e3b2e3586256010bf860d assets/modulargolems/lang/en_us.json
 62f1eb011b4ccc4679fe89112c482992909403ae assets/modulargolems/models/item/attack_high.json
@@ -106,7 +106,7 @@ c1258b5a005712976cb062df85d02547c0978c57 data/modulargolems/advancements/recipes
 2e2a43768bba1deaea6b7f5a08d07cdc8833dc20 data/modulargolems/advancements/recipes/modulargolems.golems/retrieval_wand.json
 d8519b749a689966ec059d151e53cdcd8eed2449 data/modulargolems/advancements/recipes/modulargolems.golems/soul_flame.json
 c427565759e26b290384cf02a125824e9768e95d data/modulargolems/advancements/recipes/modulargolems.golems/speed.json
-3a463ab6d0f24df5a558074d5c0bdce1211d6dc4 data/modulargolems/advancements/recipes/modulargolems.golems/speed_high.json
+f76aae1f9fcc266120bf649bc77d94d73ffc9b33 data/modulargolems/advancements/recipes/modulargolems.golems/speed_high.json
 05a44bc751713917cb450d1f9fd747e7c890021a data/modulargolems/advancements/recipes/modulargolems.golems/sponge.json
 4edf7e5cecacb36611911fc1932fc215932c9db2 data/modulargolems/advancements/recipes/modulargolems.golems/steeleaf.json
 22783fe81c05722a447bf5d42cd4552c99520853 data/modulargolems/advancements/recipes/modulargolems.golems/summon_wand.json
@@ -295,7 +295,7 @@ f6a574afdac23a5033caee32f5ef29b14df64356 data/modulargolems/recipes/naga.json
 247cc4f54474d15bafd77d3d72a248ba99847c2a data/modulargolems/recipes/retrieval_wand.json
 2455c4126bf0de17267db1b53964b410a01f40ff data/modulargolems/recipes/soul_flame.json
 61334fd75aad49409eaa8806de481c9863a8265c data/modulargolems/recipes/speed.json
-d08c8d1ebcbe89aa066bd81a317017e2c0b4a927 data/modulargolems/recipes/speed_high.json
+38ca4f443f87f91afbf216670cd8fef3f9438e89 data/modulargolems/recipes/speed_high.json
 a70d4751e03d611b838cd3866f73758f0d71426d data/modulargolems/recipes/sponge.json
 b283b14d4b2dd3fc3b73671b6f395f140e5a470a data/modulargolems/recipes/steeleaf.json
 dc9828376ce7222eaf70e84e17da50c12da9b9a3 data/modulargolems/recipes/summon_wand.json

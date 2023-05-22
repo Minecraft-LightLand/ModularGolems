@@ -1,13 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "modulargolems:speed_high"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_wind_capture_bottle": {
+    "has_captured_wind": {
       "conditions": {
         "items": [
           {
@@ -18,11 +12,17 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:speed_high"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_wind_capture_bottle",
+      "has_captured_wind",
       "has_the_recipe"
     ]
   ],

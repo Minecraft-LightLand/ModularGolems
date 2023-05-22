@@ -31,8 +31,8 @@ public class LCCompatRegistry {
 		FREEZE_UP = regModUpgrade("freezing", () -> FREEZE, LCDispatch.MODID).lang("Freezing Upgrade").register();
 		FLAME_UP = regModUpgrade("soul_flame", () -> FLAME, LCDispatch.MODID).lang("Soul Flame Upgrade").register();
 		TELEPORT_UP = regModUpgrade("teleport", () -> TELEPORT, LCDispatch.MODID).lang("Teleport Upgrade").register();
-		ATK_UP = regModUpgrade("attack_high", () -> GolemModifiers.DAMAGE, 5, LCDispatch.MODID).lang("Attack Upgrade V").register();
-		SPEED_UP = regModUpgrade("speed_high", () -> GolemModifiers.SPEED, 5, LCDispatch.MODID).lang("Speed Upgrade V").register();
+		ATK_UP = regModUpgrade("attack_high", () -> GolemModifiers.DAMAGE, 5, true, LCDispatch.MODID).lang("Attack Upgrade V").register();
+		SPEED_UP = regModUpgrade("speed_high", () -> GolemModifiers.SPEED, 5, true, LCDispatch.MODID).lang("Speed Upgrade V").register();
 	}
 
 	public static void register() {

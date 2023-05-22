@@ -66,9 +66,9 @@ public class LCDispatch extends ModDispatch {
 				.requires(LCItems.EXPLOSION_SHARD.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, new ShapelessRecipeBuilder(LCCompatRegistry.SPEED_UP.get(), 1)::unlockedBy, LCItems.WIND_BOTTLE.get())
+		safeUpgrade(pvd, new ShapelessRecipeBuilder(LCCompatRegistry.SPEED_UP.get(), 1)::unlockedBy, LCItems.CAPTURED_WIND.get())
 				.requires(GolemItems.EMPTY_UPGRADE.get())
-				.requires(LCItems.WIND_BOTTLE.get())
+				.requires(LCItems.CAPTURED_WIND.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 	}
 

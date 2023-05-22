@@ -37,10 +37,10 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 		for (GolemMaterial stats : list) {
 			stats.stats.forEach((k, v) -> updateStat(values, k, v));
 		}
-		for (UpgradeItem item : upgrades) {
-			if (item.get() instanceof AttributeGolemModifier attr) {
+		for (var entry : collectModifiers(list, upgrades).entrySet()) {
+			if (entry.getKey() instanceof AttributeGolemModifier attr) {
 				for (var ent : attr.entries) {
-					updateStat(values, ent.type().get(), ent.getValue(item.level));
+					updateStat(values, ent.type().get(), ent.getValue(entry.getValue()));
 				}
 			}
 		}
