@@ -20,6 +20,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.TagGen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -148,7 +149,7 @@ public class GolemItems {
 	}
 
 	public static ItemBuilder<UpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {
-		var reg = regUpgradeImpl(id, mod, lv, foil);
+		var reg = regUpgradeImpl(id, mod, lv, foil, modid);
 		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.tag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
 		return reg;
 	}
@@ -162,12 +163,12 @@ public class GolemItems {
 	}
 
 	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
-		return regUpgradeImpl(id, mod, level, foil).tag(TagGen.GOLEM_UPGRADES);
+		return regUpgradeImpl(id, mod, level, foil, ModularGolems.MODID).tag(TagGen.GOLEM_UPGRADES);
 	}
 
-	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
+	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil, String modid) {
 		return REGISTRATE.item(id, p -> new UpgradeItem(p, mod.get()::get, level, foil))
-				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/upgrades/" + id)));
+				.model((ctx, pvd) -> pvd.generated(ctx, new ResourceLocation(modid, "item/upgrades/" + id)));
 	}
 
 	public static void register() {
