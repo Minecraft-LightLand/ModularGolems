@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Mob;
@@ -16,7 +17,9 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModifierEventListeners {
 
 	@SubscribeEvent

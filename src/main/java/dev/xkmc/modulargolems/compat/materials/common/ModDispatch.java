@@ -29,7 +29,7 @@ public abstract class ModDispatch {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public void dispatchClientSetup(IEventBus bus) {
+	public void dispatchClientSetup() {
 	}
 
 }

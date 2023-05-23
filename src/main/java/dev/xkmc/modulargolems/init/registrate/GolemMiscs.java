@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.init.registrate;
 
-import dev.xkmc.l2library.base.recipe.AbstractShapedRecipe;
-import dev.xkmc.l2library.repack.registrate.util.entry.MenuEntry;
-import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
-import dev.xkmc.l2library.repack.registrate.util.nullness.NonNullSupplier;
+import com.tterrag.registrate.util.entry.MenuEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import dev.xkmc.l2library.serial.recipe.AbstractShapedRecipe;
 import dev.xkmc.modulargolems.content.menu.EquipmentsMenu;
 import dev.xkmc.modulargolems.content.menu.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
