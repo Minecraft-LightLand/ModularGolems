@@ -14,7 +14,6 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.eventbus.api.IEventBus;
 
 public class LCDispatch extends ModDispatch {
 
