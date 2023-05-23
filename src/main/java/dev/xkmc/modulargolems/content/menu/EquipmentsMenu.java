@@ -36,8 +36,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable HumanoidGolemEntity golem) {
 		super(type, wid, plInv, MANAGER, EquipmentsContainer::new, false);
 		this.golem = golem;
-		addSlot("hand", (i, e) -> isValid(SLOTS[i], e), (i, e) -> {
-		});
+		addSlot("hand", (i, e) -> isValid(SLOTS[i], e));
 		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e), (i, e) -> {
 		});//TODO remove in 1.19.4
 	}
@@ -59,7 +58,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	}
 
 	@Override
-	protected PredSlot getAsPredSlot(String name, int i, int j) {
+	public PredSlot getAsPredSlot(String name, int i, int j) {
 		return super.getAsPredSlot(name, i, j);
 	}
 

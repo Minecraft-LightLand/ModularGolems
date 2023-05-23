@@ -16,19 +16,11 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GolemClient {
-
-	private static IEventBus clientBus;
-
-	public static void onCtorClient(IEventBus bus, IEventBus eventBus) {
-		clientBus = bus;
-		bus.addListener(GolemClient::clientSetup);
-		bus.addListener(GolemClient::onResourceReload);
-		bus.addListener(GolemClient::registerOverlays);
-		MinecraftForge.EVENT_BUS.register(ClientHolderManager.class);
-	}
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
@@ -36,16 +28,15 @@ public class GolemClient {
 			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
 					entity != null && entity.isBlocking() && entity.getUseItem() == stack ? 1.0F : 0.0F;
 			ItemProperties.register(Items.SHIELD, new ResourceLocation("blocking"), func);
-			CompatManager.dispatchClientSetup(clientBus);
+			CompatManager.dispatchClientSetup();
 		});
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
 	public static void registerOverlays(RegisterGuiOverlaysEvent event) {
 		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "golem_stats", new GolemStatusOverlay());
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void onResourceReload(RegisterClientReloadListenersEvent event) {
 		event.registerReloadListener(GolemBEWLR.INSTANCE.get());

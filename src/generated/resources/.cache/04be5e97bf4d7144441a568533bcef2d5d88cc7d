@@ -1,13 +1,14 @@
-// 1.19.4	2023-05-19T21:18:14.464403	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-426fe1092ae36b31f6191326f9eb5bc89f4184c5 assets/modulargolems/lang/en_ud.json
-81c05ab41cb7fc3b424de092e2b256bb7ac1f541 assets/modulargolems/lang/en_us.json
+// 1.19.4	2023-05-22T21:28:44.651239	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+1484d38fe86d8739f65d6db7d3da5b84607a46a1 assets/modulargolems/lang/en_ud.json
+3bddad971e48556e5cc32ac3a4375493e4974dca assets/modulargolems/lang/en_us.json
+62f1eb011b4ccc4679fe89112c482992909403ae assets/modulargolems/models/item/attack_high.json
 ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
 7106ff52cc7aed545201de4f97daab2c51a4008d assets/modulargolems/models/item/carminite.json
 4769ec561a30aaf33eec61a67175bbc7e7ec2380 assets/modulargolems/models/item/command_wand.json
 1944c2312dc28e55270781c133191dced9b12de1 assets/modulargolems/models/item/diamond.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/dog_golem_body.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/dog_golem_holder.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/dog_golem_legs.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/dog_golem_body.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/dog_golem_holder.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/dog_golem_legs.json
 f633e91eabc355ef7116b199b2d49785aa4a5e9d assets/modulargolems/models/item/empty_upgrade.json
 9f4145920cab9ff763911fa096cb23f9683c5e21 assets/modulargolems/models/item/enchanted_gold.json
 84a008b484dc6a7a61cab7b8ab0c374e9baf1216 assets/modulargolems/models/item/ender_sight.json
@@ -17,16 +18,16 @@ f2804b228690b09f680fa1db86cd9698f4d68ca5 assets/modulargolems/models/item/float.
 4eb32cfdb179a980298bb5c6c757f5aaa93446b9 assets/modulargolems/models/item/force_field.json
 6905e8b801219a15a41cbc5322389ac527fc7324 assets/modulargolems/models/item/freezing.json
 86efaebff342d3c7d6de7b058ff54eb77d997aac assets/modulargolems/models/item/gold.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/humanoid_golem_arms.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/humanoid_golem_body.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/humanoid_golem_holder.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/humanoid_golem_legs.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_arms.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_body.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_holder.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_legs.json
 91200fbcc2c911ad8cc8de25757b97718b75cdd5 assets/modulargolems/models/item/ironwood.json
 95ea1eec6bb7c44349ba9312e36d187d8d1bd207 assets/modulargolems/models/item/knightmetal.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_arm.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_body.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_holder.json
-e0f7b66a84e6588f01abbbce75b1803ffe5d46e2 assets/modulargolems/models/item/metal_golem_legs.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_arm.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_body.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_holder.json
+f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_legs.json
 6c6f737e1088fb1327e1fb25d8673a1f236c707f assets/modulargolems/models/item/metal_golem_template.json
 7055df1c1b0dcb14cf879f27b6d1283cd4aec940 assets/modulargolems/models/item/naga.json
 d864125084b476a58d79a97a792e24b1f0489865 assets/modulargolems/models/item/netherite.json
@@ -35,6 +36,8 @@ d864125084b476a58d79a97a792e24b1f0489865 assets/modulargolems/models/item/nether
 cd5c3b221411fb57e35fcfc1ac5c223eb495adef assets/modulargolems/models/item/recycle.json
 295b30187a6f2f55f4089bec3ff128db02269865 assets/modulargolems/models/item/retrieval_wand.json
 5e469ae54bf8071148673f3a371bcb1448f83b67 assets/modulargolems/models/item/soul_flame.json
+49f5de287ef578fcba7c65af1717b510ca9a7b48 assets/modulargolems/models/item/speed.json
+bfc510f9c2d6c052764f6cdc78af3439e269ec18 assets/modulargolems/models/item/speed_high.json
 d98f7f2e288f24c3dc1c01aa98f1d149e64d66f7 assets/modulargolems/models/item/sponge.json
 71382a00c3ff5370d88fc93b43062458016222d9 assets/modulargolems/models/item/steeleaf.json
 98edbb3998d3bc847d50e98870a641284c58e883 assets/modulargolems/models/item/summon_wand.json
@@ -67,6 +70,7 @@ a3bac15e73f608a634a62fbb7c0c307a3a23a59d data/modulargolems/advancements/golems/
 4c4e689df776050233091e9e92e504c7ad172a98 data/modulargolems/advancements/recipes/dog_golem_holder.json
 ae0017c3967c0bb3cdb09f93c63c0d6eb5845cfb data/modulargolems/advancements/recipes/humanoid_golem_holder.json
 a012acb7f8f7cc8b2c2f1f29d64b2714943bdbf5 data/modulargolems/advancements/recipes/metal_golem_holder.json
+34ae78cfae697dffc012b5a41c2ac1a99634db52 data/modulargolems/advancements/recipes/misc/attack_high.json
 54a6687779370033bdae83ca985d6a1ce4a11454 data/modulargolems/advancements/recipes/misc/bell.json
 2830f39d025b466dd3eddbb715d4679ccd2e14e8 data/modulargolems/advancements/recipes/misc/carminite.json
 4d3fe9dc4e3126d2ef41aa5e72e0ae08d154c038 data/modulargolems/advancements/recipes/misc/command_wand.json
@@ -98,12 +102,15 @@ e60f2cda4877885d566c005a2e82360cfdfbd6b8 data/modulargolems/advancements/recipes
 50d83baf8f5fcd53bf62d82c18af94073e45a9cf data/modulargolems/advancements/recipes/misc/recycle.json
 2e2a43768bba1deaea6b7f5a08d07cdc8833dc20 data/modulargolems/advancements/recipes/misc/retrieval_wand.json
 d8519b749a689966ec059d151e53cdcd8eed2449 data/modulargolems/advancements/recipes/misc/soul_flame.json
+c427565759e26b290384cf02a125824e9768e95d data/modulargolems/advancements/recipes/misc/speed.json
+f76aae1f9fcc266120bf649bc77d94d73ffc9b33 data/modulargolems/advancements/recipes/misc/speed_high.json
 05a44bc751713917cb450d1f9fd747e7c890021a data/modulargolems/advancements/recipes/misc/sponge.json
 4edf7e5cecacb36611911fc1932fc215932c9db2 data/modulargolems/advancements/recipes/misc/steeleaf.json
 22783fe81c05722a447bf5d42cd4552c99520853 data/modulargolems/advancements/recipes/misc/summon_wand.json
 0b50787fe3a4d36976919455ceebb866a5ef6244 data/modulargolems/advancements/recipes/misc/swim.json
 f88dfa07af9fb5e08f39cc015385654ec5bc6c39 data/modulargolems/advancements/recipes/misc/teleport.json
 0529dcaaffb40917862e3f5b8465a1cc1f6d0fe5 data/modulargolems/advancements/recipes/misc/thunder_immune.json
+3a7fd066bd1f336f3ec6d21d4a48f3ae8e10fe65 data/modulargolems/recipes/attack_high.json
 37829b88e4ef8393bce5a75d0836f39e9e7ab811 data/modulargolems/recipes/bell.json
 dc596e8c44d0890a56ae27706218e3de079d8117 data/modulargolems/recipes/carminite.json
 56f97d9a7c9740dab60608888045879b7278ebd5 data/modulargolems/recipes/command_wand.json
@@ -138,6 +145,8 @@ eb32a59cf3080c68e079b253b3076aed0157ca21 data/modulargolems/recipes/quartz.json
 56978dda4f0c7b1c846bab8332497110ff089179 data/modulargolems/recipes/recycle.json
 00390e623b970f5214794c01704368f45184fbb9 data/modulargolems/recipes/retrieval_wand.json
 04c757e7cc9487979a129225070ab43c71155fe5 data/modulargolems/recipes/soul_flame.json
+b19c0d80bbf67416d11880c1d224e220fe0c5fff data/modulargolems/recipes/speed.json
+7ae84989d20c82bb78b892cf6b4e615303230f35 data/modulargolems/recipes/speed_high.json
 5082160f7260f8beeae05d04de0bfbf182fad776 data/modulargolems/recipes/sponge.json
 d00ae044d2adac435b2de1a582f35bdd4cc03542 data/modulargolems/recipes/steeleaf.json
 c1db24f55c0282a9d4f5049ba5d109436203d90f data/modulargolems/recipes/summon_wand.json
@@ -148,4 +157,4 @@ c6d9643c5427fbbefa510044c33857e9f45f1d74 data/modulargolems/recipes/thunder_immu
 0ff0909d28c29ae47fd17620ccf9d12ead26d8ca data/modulargolems/tags/items/holders.json
 1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 3c136ad71b9cc1a962b06ab779e09369ea8e25a9 data/modulargolems/tags/items/sculk_materials.json
-37b21db3ffded1c298d3d1707e75a4c82384bd22 data/modulargolems/tags/items/upgrades.json
+f0af4c511a56c8846316c939bd6bb7b72845626d data/modulargolems/tags/items/upgrades.json
