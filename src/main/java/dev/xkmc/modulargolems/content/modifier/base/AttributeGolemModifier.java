@@ -1,8 +1,8 @@
-package dev.xkmc.modulargolems.content.modifier.common;
+package dev.xkmc.modulargolems.content.modifier.base;
 
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.ModConfig;
 import net.minecraft.network.chat.MutableComponent;
 

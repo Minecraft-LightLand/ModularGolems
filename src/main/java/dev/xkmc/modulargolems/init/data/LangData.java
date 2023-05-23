@@ -19,6 +19,8 @@ public enum LangData {
 	HEALTH("tooltip.health", "Health: %s/%s", 2, null),
 	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null),
 	SHIFT("tooltip.shift", "Press SHIFT to show modifier details", 0, ChatFormatting.GRAY),
+	POTION("tooltip.potion", "Inflict %s to enemies attacking or attacked.", 1, ChatFormatting.GREEN),
+
 	MODE_FOLLOWING("tooltip.following", "Golem will follow you", 0, ChatFormatting.AQUA),
 	MODE_GUARDING("tooltip.guarding", "Golem will wander around (%s, %s, %s)", 3, ChatFormatting.AQUA),
 	MODE_STANDING("tooltip.standing", "Golem will stay at (%s, %s, %s)", 3, ChatFormatting.AQUA),

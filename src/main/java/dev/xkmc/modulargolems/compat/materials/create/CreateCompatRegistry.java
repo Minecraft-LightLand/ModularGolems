@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.compat.materials.create;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.create.modifier.CoatingModifier;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
-import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;

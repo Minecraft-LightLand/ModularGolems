@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.l2complements.modifiers;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.ModConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

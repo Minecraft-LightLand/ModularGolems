@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.modifier.common;
 import dev.xkmc.l2library.base.effects.EffectUtil;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;

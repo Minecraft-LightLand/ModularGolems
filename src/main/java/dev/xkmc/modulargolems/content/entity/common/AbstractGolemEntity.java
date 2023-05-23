@@ -15,7 +15,7 @@ import dev.xkmc.modulargolems.content.entity.common.swim.GolemSwimMoveControl;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.ModConfig;
 import dev.xkmc.modulargolems.init.data.TagGen;

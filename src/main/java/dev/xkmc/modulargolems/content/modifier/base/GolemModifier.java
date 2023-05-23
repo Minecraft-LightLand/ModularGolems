@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.modifier;
+package dev.xkmc.modulargolems.content.modifier.base;
 
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;

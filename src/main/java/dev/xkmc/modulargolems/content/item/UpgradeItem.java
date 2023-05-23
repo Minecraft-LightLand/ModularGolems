@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.item;
 
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

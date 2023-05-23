@@ -5,12 +5,19 @@ import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.l2library.repack.registrate.providers.ProviderType;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.repack.registrate.util.nullness.NonNullSupplier;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.PotionGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.common.*;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
 import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
+
+import javax.annotation.Nullable;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
@@ -33,6 +40,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<EnderSightModifier> ENDER_SIGHT;
 	public static final RegistryEntry<BellModifier> BELL;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED;
+	public static final RegistryEntry<PotionGolemModifier> SLOW, WEAK, WITHER;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new, "Immune to fire damage. Floats in Lava.");
@@ -68,6 +76,12 @@ public class GolemModifiers {
 		SONIC = reg("sonic_boom", SonicModifier::new, "Golem can use Sonic Boom Attack. If the golem can perform area attack, then Sonic Boom can hit multiple targets.");
 		ENDER_SIGHT = reg("ender_sight", EnderSightModifier::new, "Golem can see through wall and ceilings.");
 		BELL = reg("bell", BellModifier::new, "When the golem wants to attack, it will ring its bell, attracting all enemies and light them up.");
+		SLOW = reg("slow", () -> new PotionGolemModifier(StatFilterType.MASS, 3,
+				i -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, i - 1)), null);
+		WEAK = reg("weak", () -> new PotionGolemModifier(StatFilterType.MASS, 3,
+				i -> new MobEffectInstance(MobEffects.WEAKNESS, 60, i - 1)), null);
+		WITHER = reg("wither", () -> new PotionGolemModifier(StatFilterType.MASS, 3,
+				i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)), null);
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, String def) {
@@ -80,10 +94,12 @@ public class GolemModifiers {
 		return result;
 	}
 
-	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String def) {
+	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, @Nullable String def) {
 		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
 		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
-		ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
+		if (def != null) {
+			ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
+		}
 		var result = ans.register();
 		holder.setValue(result);
 		return result;

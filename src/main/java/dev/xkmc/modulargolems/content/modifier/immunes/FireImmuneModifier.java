@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.modifier.immunes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
