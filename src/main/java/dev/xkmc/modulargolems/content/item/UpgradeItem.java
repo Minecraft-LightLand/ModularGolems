@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.item;
 
-import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -10,29 +10,20 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
-public class UpgradeItem extends Item {
+public abstract class UpgradeItem extends Item {
 
 	public static final List<UpgradeItem> LIST = new ArrayList<>();
 
-	private final Supplier<GolemModifier> modifier;
 	private final boolean foil;
 
-	public final int level;
-
-
-	public UpgradeItem(Properties props, Supplier<GolemModifier> modifier, int level, boolean foil) {
+	protected UpgradeItem(Properties props, boolean foil) {
 		super(props);
-		this.modifier = modifier;
-		this.level = level;
 		this.foil = foil;
 		LIST.add(this);
 	}
 
-	public GolemModifier get() {
-		return modifier.get();
-	}
+	public abstract List<ModifierInstance> get();
 
 	@Override
 	public boolean isFoil(ItemStack stack) {
@@ -41,7 +32,9 @@ public class UpgradeItem extends Item {
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		list.add(modifier.get().getTooltip(this.level));
-		list.addAll(modifier.get().getDetail(this.level));
+		for (var e : get()) {
+			list.add(e.mod().getTooltip(e.level()));
+			list.addAll(e.mod().getDetail(e.level()));
+		}
 	}
 }

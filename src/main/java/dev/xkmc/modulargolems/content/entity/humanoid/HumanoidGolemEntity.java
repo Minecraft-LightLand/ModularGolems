@@ -11,10 +11,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackGoal;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.events.event.GolemBowAttackEvent;
-import dev.xkmc.modulargolems.events.event.GolemDamageShieldEvent;
-import dev.xkmc.modulargolems.events.event.GolemDisableShieldEvent;
-import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
+import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -246,19 +243,26 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public boolean doHurtTarget(Entity target) {
 		boolean can_sweep = getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP);
 		if (!can_sweep) {
-			return super.doHurtTarget(target);
-		} else {
-			if (performRangedDamage(target, 0, 0)) {
+			if (super.doHurtTarget(target)) {
 				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
 				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 				return true;
 			}
-			return false;
+		} else {
+			if (performRangedDamage(target, 0, 0)) {// trigger vanilla attack code, ignore values
+				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
+				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+				return true;
+			}
 		}
+		return false;
 	}
 
-	protected AABB getTargetBoundingBox(Entity target) {
-		return target.getBoundingBox();
+	@Override
+	protected AABB getAttackBoundingBox(Entity target, double range) {
+		GolemSweepEvent event = new GolemSweepEvent(this, getMainHandItem(), target, range);
+		MinecraftForge.EVENT_BUS.post(event);
+		return event.getBox();
 	}
 
 	@Override

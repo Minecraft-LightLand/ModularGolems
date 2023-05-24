@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.ModConfig;
 import dev.xkmc.modulargolems.init.data.TagGen;
@@ -507,6 +508,21 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public boolean isPowered() {
 		return true;
+	}
+
+	@Override
+	public boolean isInvulnerable() {
+		return modifiers.getOrDefault(GolemModifiers.IMMUNITY.get(), 0) > 0;
+	}
+
+	@Override
+	public void die(DamageSource source) {
+		ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
+		Player owner = getOwner();
+		if (owner != null) {
+			owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
+		}
+		super.die(source);
 	}
 
 }

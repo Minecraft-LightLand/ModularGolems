@@ -1,6 +1,6 @@
-// 1.19.2	2023-05-23T23:02:48.435311	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-04e31d08c2991a878a26f77e99e58d1d7f3fdfde assets/modulargolems/lang/en_ud.json
-2594f5551822992a772237ce140cac3733f06e15 assets/modulargolems/lang/en_us.json
+// 1.19.2	2023-05-24T17:55:55.229272	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+470d057e39612cd0e7090c25b41624542775fc6b assets/modulargolems/lang/en_ud.json
+8fc66d7415b8115a3c034b79527708185efebc43 assets/modulargolems/lang/en_us.json
 eee7619b64e72c1510a6fdee44b2d440778ae09d assets/modulargolems/models/item/attack_high.json
 ee6f338ea0daaab24897310f1d2e6a145426d175 assets/modulargolems/models/item/bell.json
 d90106569fa23cb18c1845662980941ce5fdd87b assets/modulargolems/models/item/carminite.json
@@ -36,6 +36,9 @@ f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_
 6c6f737e1088fb1327e1fb25d8673a1f236c707f assets/modulargolems/models/item/metal_golem_template.json
 ea599d39f5fc31fa89c41a96ad9790c588ae1ea7 assets/modulargolems/models/item/naga.json
 d864125084b476a58d79a97a792e24b1f0489865 assets/modulargolems/models/item/netherite.json
+943fd73b3760e43c09cd7561697b1e3969608846 assets/modulargolems/models/item/pickup.json
+1d1242efa655c8b5401a196dfd6b9616332448ac assets/modulargolems/models/item/pickup_mending.json
+99555f1839353c4e4d5ad5d3b4982a16163cbfdc assets/modulargolems/models/item/pickup_no_destroy.json
 98a84bc52527f0e36b855c75cd964b8ee9a86d29 assets/modulargolems/models/item/player.json
 da96e8c9d52840e35cf8b1e7420247ac92a7ecd4 assets/modulargolems/models/item/push.json
 0cec7e73777067f4d6f7c602c9324315b14a03a3 assets/modulargolems/models/item/quartz.json
@@ -110,6 +113,9 @@ a012acb7f8f7cc8b2c2f1f29d64b2714943bdbf5 data/modulargolems/advancements/recipes
 15229999b1591f0efc05e8c061579519a02d8fdc data/modulargolems/advancements/recipes/modulargolems.golems/metal_golem_template.json
 731fa6c0d3974ec3d5eae9b5506011422b406aae data/modulargolems/advancements/recipes/modulargolems.golems/naga.json
 4544cbad0d08685424f032353ce1be6e7a14d2e2 data/modulargolems/advancements/recipes/modulargolems.golems/netherite.json
+196dab4bd12e0ccb1eb7ad1494d0ea89574284fd data/modulargolems/advancements/recipes/modulargolems.golems/pickup.json
+6256f6d934ec0bd20935a58e1ec27c8fe1121d21 data/modulargolems/advancements/recipes/modulargolems.golems/pickup_mending.json
+9b9e1b039d83ea818ebca42058ad19b0ec21176a data/modulargolems/advancements/recipes/modulargolems.golems/pickup_no_destroy.json
 752ac37112773de5cd7096b9bca102b90490f1f7 data/modulargolems/advancements/recipes/modulargolems.golems/player.json
 c1258b5a005712976cb062df85d02547c0978c57 data/modulargolems/advancements/recipes/modulargolems.golems/push.json
 5033e3b0da176318810986cc88880e87838ff682 data/modulargolems/advancements/recipes/modulargolems.golems/quartz.json
@@ -306,6 +312,9 @@ f595b6656c8b543bbc7cb9da17acbdacbfd5546d data/modulargolems/recipes/mixing/metal
 bb9b7e009797c02152dbac1e7246d143f14173ae data/modulargolems/recipes/mixing/metal_golem_legs_apply_zinc.json
 f6a574afdac23a5033caee32f5ef29b14df64356 data/modulargolems/recipes/naga.json
 93264f2b71c216864cc9c37eb456ec7d38e0f2c5 data/modulargolems/recipes/netherite.json
+fb216ae83306e9b58250aa9d6de0d071cc100490 data/modulargolems/recipes/pickup.json
+a87ab6cf969c3c5a12f313c11948faac28bdc512 data/modulargolems/recipes/pickup_mending.json
+7354052a6d7386f194290935a508f6f96780b028 data/modulargolems/recipes/pickup_no_destroy.json
 5096b633dca73336af81c2430d3e7951f660c897 data/modulargolems/recipes/player.json
 1d33b6f261f1b142a87df8cd4b8adb30e2b5259d data/modulargolems/recipes/push.json
 58dbc59506ca6a6d59e08c3574471985f9f73bd6 data/modulargolems/recipes/quartz.json
@@ -327,4 +336,4 @@ dc9828376ce7222eaf70e84e17da50c12da9b9a3 data/modulargolems/recipes/summon_wand.
 0ff0909d28c29ae47fd17620ccf9d12ead26d8ca data/modulargolems/tags/items/holders.json
 1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 3c136ad71b9cc1a962b06ab779e09369ea8e25a9 data/modulargolems/tags/items/sculk_materials.json
-00fd1b5bea614241f606081054199a5b045eb7d2 data/modulargolems/tags/items/upgrades.json
+d9b60f22e0b139797363c40711a116dddf7e79e0 data/modulargolems/tags/items/upgrades.json

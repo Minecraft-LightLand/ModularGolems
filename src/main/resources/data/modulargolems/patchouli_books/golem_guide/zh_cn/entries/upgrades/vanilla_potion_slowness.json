@@ -1,0 +1,12 @@
+{
+  "name": "药水升级：缓慢",
+  "icon": "modulargolems:slow",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:slow",
+	  "text": "对攻击傀儡和被傀儡攻击的敌人施加3秒的缓慢效果。效果等级和升级等级相同。最高等级：3"
+	}
+  ]
+}

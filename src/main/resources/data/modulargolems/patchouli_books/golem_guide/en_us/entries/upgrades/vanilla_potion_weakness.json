@@ -1,0 +1,12 @@
+{
+  "name": "Potion Upgrade: Weakness",
+  "icon": "modulargolems:weak",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:weak",
+	  "text": "Inflict 3 seconds of weakness to mobs attacking the golem or attacked by the golem. The potion level will be the same as the upgrade level. Max: 3"
+	}
+  ]
+}

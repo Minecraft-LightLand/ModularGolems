@@ -19,6 +19,9 @@
     "modulargolems:weak",
     "modulargolems:wither",
     "modulargolems:emerald",
+    "modulargolems:pickup",
+    "modulargolems:pickup_mending",
+    "modulargolems:pickup_no_destroy",
     {
       "id": "modulargolems:carminite",
       "required": false

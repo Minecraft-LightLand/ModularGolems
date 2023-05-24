@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.create;
 
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.create.modifier.CoatingModifier;
+import dev.xkmc.modulargolems.content.item.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -14,7 +15,7 @@ public class CreateCompatRegistry {
 	public static final RegistryEntry<CoatingModifier> COATING;
 	public static final RegistryEntry<AttributeGolemModifier> PUSH;
 
-	public static final RegistryEntry<UpgradeItem> UP_COATING, UP_PUSH;
+	public static final RegistryEntry<SimpleUpgradeItem> UP_COATING, UP_PUSH;
 
 	static {
 		COATING = reg("coating", CoatingModifier::new, "Reduce damage taken by %s");

@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Potion Upgrade: Cleanse",
+  "icon": "modulargolems:cleanse",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:cleanse",
+	  "text": "Golem will gain cleanse effect, which actively removes any other effects. Useful against enemies that inflict annoying effects. Max: 1"
+	}
+  ]
+}

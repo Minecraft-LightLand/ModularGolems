@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.EnderTele
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.FreezingModifier;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.SoulFlameModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.item.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.PotionAttackModifier;
 import dev.xkmc.modulargolems.content.modifier.base.PotionDefenseModifier;
@@ -29,7 +30,7 @@ public class LCCompatRegistry {
 	public static final RegistryEntry<PotionDefenseModifier> CLEANSE;
 	public static final RegistryEntry<TargetBonusModifier> POSEIDITE, TOTEMIC_GOLD;
 
-	public static final ItemEntry<UpgradeItem> FORCE_FIELD, FREEZE_UP, FLAME_UP, TELEPORT_UP, ATK_UP, SPEED_UP,
+	public static final ItemEntry<SimpleUpgradeItem> FORCE_FIELD, FREEZE_UP, FLAME_UP, TELEPORT_UP, ATK_UP, SPEED_UP,
 			UPGRADE_CURSE, UPGRADE_INCARCERATE, UPGRADE_CLEANSE;
 
 	static {

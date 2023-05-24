@@ -80,7 +80,7 @@
   "modifier.modulargolems.damage_cap": "伤害限制",
   "modifier.modulargolems.damage_cap.desc": "一次受到的伤害不会超过最高血量的%s%%",
   "modifier.modulargolems.immunity": "不灭",
-  "modifier.modulargolems.immunity.desc": "免疫虚空伤害以外的所有伤害",
+  "modifier.modulargolems.immunity.desc": "免疫虚空伤害以外的所有伤害。怪物不会攻击这个傀儡。",
   "modifier.modulargolems.projectile_reject": "弹射物反射",
   "modifier.modulargolems.projectile_reject.desc": "反射弹射物，不受弹射物伤害",
   "modifier.modulargolems.swim": "游泳",

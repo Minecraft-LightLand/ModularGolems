@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "药水升级：净化",
+  "icon": "modulargolems:cleanse",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:cleanse",
+	  "text": "傀儡获得永久的净化效果。获得净化效果后傀儡将对所有其他药水效果免疫。最高等级：1"
+	}
+  ]
+}

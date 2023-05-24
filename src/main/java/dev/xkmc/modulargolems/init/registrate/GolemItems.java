@@ -11,10 +11,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
-import dev.xkmc.modulargolems.content.item.CommandWandItem;
-import dev.xkmc.modulargolems.content.item.DispenseWand;
-import dev.xkmc.modulargolems.content.item.RetrievalWandItem;
-import dev.xkmc.modulargolems.content.item.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.*;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -49,9 +46,9 @@ public class GolemItems {
 	public static final ItemEntry<GolemPart<DogGolemEntity, DogGolemPartType>> DOG_BODY, DOG_LEGS;
 	public static final ItemEntry<GolemHolder<DogGolemEntity, DogGolemPartType>> HOLDER_DOG;
 
-	public static final ItemEntry<UpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ,
+	public static final ItemEntry<SimpleUpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ,
 			GOLD, ENCHANTED_GOLD, FLOAT, SPONGE, SWIM, PLAYER_IMMUNE, ENDER_SIGHT, BELL, SPEED, SLOW, WEAK, WITHER,
-			EMERALD;
+			EMERALD, PICKUP, PICKUP_MENDING, PICKUP_NO_DESTROY;
 
 	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
@@ -86,6 +83,9 @@ public class GolemItems {
 			WEAK = regUpgrade("weak", () -> GolemModifiers.SLOW).lang("Potion Upgrade: Weakness").register();
 			WITHER = regUpgrade("wither", () -> GolemModifiers.WITHER).lang("Potion Upgrade: Wither").register();
 			EMERALD = regUpgrade("emerald", () -> GolemModifiers.EMERALD).lang("Emerald Upgrade").register();
+			PICKUP = regUpgrade("pickup", () -> GolemModifiers.PICKUP).lang("Emerald Upgrade").register();
+			PICKUP_MENDING = regUpgrade("pickup_mending", () -> GolemModifiers.PICKUP_MENDING).lang("Emerald Upgrade").register();
+			PICKUP_NO_DESTROY = regUpgrade("pickup_no_destroy", () -> GolemModifiers.PICKUP_NODESTROY).lang("Emerald Upgrade").register();
 		}
 
 		// holders
@@ -153,26 +153,26 @@ public class GolemItems {
 
 	}
 
-	public static ItemBuilder<UpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {
+	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {
 		var reg = regUpgradeImpl(id, mod, lv, foil, modid);
 		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.tag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
 		return reg;
 	}
 
-	public static ItemBuilder<UpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, String modid) {
+	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, String modid) {
 		return regModUpgrade(id, mod, 1, false, modid);
 	}
 
-	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
+	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod) {
 		return regUpgrade(id, mod, 1, false);
 	}
 
-	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
+	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
 		return regUpgradeImpl(id, mod, level, foil, ModularGolems.MODID).tag(TagGen.GOLEM_UPGRADES);
 	}
 
-	private static ItemBuilder<UpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil, String modid) {
-		return REGISTRATE.item(id, p -> new UpgradeItem(p, mod.get()::get, level, foil))
+	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil, String modid) {
+		return REGISTRATE.item(id, p -> new SimpleUpgradeItem(p, mod.get()::get, level, foil))
 				.model((ctx, pvd) -> pvd.generated(ctx, new ResourceLocation(modid, "item/upgrades/" + id)));
 	}
 

@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.init.data;
 
+import dev.xkmc.l2library.base.ingredients.EnchantmentIngredient;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.repack.registrate.util.DataIngredient;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
@@ -11,6 +12,7 @@ import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITagManager;
 
@@ -22,69 +24,71 @@ public class RecipeGen {
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
 		ITagManager<Item> manager = Objects.requireNonNull(ForgeRegistries.ITEMS.tags());
 
-		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.GOLEM_TEMPLATE.get())::unlockedBy,
-				Items.CLAY).pattern("CBC").pattern("BAB").pattern("CBC")
-				.define('A', Items.COPPER_INGOT).define('B', Items.STICK)
-				.define('C', Items.CLAY_BALL).save(pvd);
+		// golem base
+		{
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.GOLEM_TEMPLATE.get())::unlockedBy,
+					Items.CLAY).pattern("CBC").pattern("BAB").pattern("CBC")
+					.define('A', Items.COPPER_INGOT).define('B', Items.STICK)
+					.define('C', Items.CLAY_BALL).save(pvd);
 
-		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.RETRIEVAL_WAND.get())::unlockedBy, Items.ENDER_PEARL)
-				.pattern(" ET").pattern(" SE").pattern("S  ")
-				.define('E', Items.ENDER_PEARL)
-				.define('S', Items.STICK)
-				.define('T', GolemItems.GOLEM_TEMPLATE.get())
-				.save(pvd);
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.RETRIEVAL_WAND.get())::unlockedBy, Items.ENDER_PEARL)
+					.pattern(" ET").pattern(" SE").pattern("S  ")
+					.define('E', Items.ENDER_PEARL)
+					.define('S', Items.STICK)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd);
 
-		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.DISPENSE_WAND.get())::unlockedBy, Items.DISPENSER)
-				.pattern(" ET").pattern(" SE").pattern("S  ")
-				.define('E', Items.DISPENSER)
-				.define('S', Items.STICK)
-				.define('T', GolemItems.GOLEM_TEMPLATE.get())
-				.save(pvd);
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.DISPENSE_WAND.get())::unlockedBy, Items.DISPENSER)
+					.pattern(" ET").pattern(" SE").pattern("S  ")
+					.define('E', Items.DISPENSER)
+					.define('S', Items.STICK)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd);
 
-		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.COMMAND_WAND.get())::unlockedBy, Items.GOLD_INGOT)
-				.pattern(" ET").pattern(" SE").pattern("S  ")
-				.define('E', Items.GOLD_INGOT)
-				.define('S', Items.STICK)
-				.define('T', GolemItems.GOLEM_TEMPLATE.get())
-				.save(pvd);
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.COMMAND_WAND.get())::unlockedBy, Items.GOLD_INGOT)
+					.pattern(" ET").pattern(" SE").pattern("S  ")
+					.define('E', Items.GOLD_INGOT)
+					.define('S', Items.STICK)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd);
 
-		unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.EMPTY_UPGRADE.get(), 4)::unlockedBy,
-				Items.AMETHYST_SHARD).pattern("CBC").pattern("BAB").pattern("CBC")
-				.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
-				.define('C', Items.CLAY_BALL).save(pvd);
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.EMPTY_UPGRADE.get(), 4)::unlockedBy,
+					Items.AMETHYST_SHARD).pattern("CBC").pattern("BAB").pattern("CBC")
+					.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
+					.define('C', Items.CLAY_BALL).save(pvd);
 
-		pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.GOLEM_BODY);
-		pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.GOLEM_ARM);
-		pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.GOLEM_LEGS);
-		pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.HUMANOID_BODY);
-		pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.HUMANOID_ARMS);
-		pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.HUMANOID_LEGS);
-		pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.DOG_BODY);
-		pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.DOG_LEGS);
+			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.GOLEM_BODY);
+			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.GOLEM_ARM);
+			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.GOLEM_LEGS);
+			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.HUMANOID_BODY);
+			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.HUMANOID_ARMS);
+			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.HUMANOID_LEGS);
+			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.DOG_BODY);
+			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), GolemItems.DOG_LEGS);
 
-		unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_GOLEM.get(), 1)::unlockedBy,
-				GolemItems.GOLEM_BODY.get())
-				.pattern("ABA").pattern(" L ")
-				.define('A', GolemItems.GOLEM_ARM.get())
-				.define('B', GolemItems.GOLEM_BODY.get())
-				.define('L', GolemItems.GOLEM_LEGS.get())
-				.save(pvd);
+			unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_GOLEM.get(), 1)::unlockedBy,
+					GolemItems.GOLEM_BODY.get())
+					.pattern("ABA").pattern(" L ")
+					.define('A', GolemItems.GOLEM_ARM.get())
+					.define('B', GolemItems.GOLEM_BODY.get())
+					.define('L', GolemItems.GOLEM_LEGS.get())
+					.save(pvd);
 
-		unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_HUMANOID.get(), 1)::unlockedBy,
-				GolemItems.HUMANOID_BODY.get())
-				.pattern("A").pattern("B").pattern("C")
-				.define('A', GolemItems.HUMANOID_BODY.get())
-				.define('B', GolemItems.HUMANOID_ARMS.get())
-				.define('C', GolemItems.HUMANOID_LEGS.get())
-				.save(pvd);
+			unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_HUMANOID.get(), 1)::unlockedBy,
+					GolemItems.HUMANOID_BODY.get())
+					.pattern("A").pattern("B").pattern("C")
+					.define('A', GolemItems.HUMANOID_BODY.get())
+					.define('B', GolemItems.HUMANOID_ARMS.get())
+					.define('C', GolemItems.HUMANOID_LEGS.get())
+					.save(pvd);
 
-		unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_DOG.get(), 1)::unlockedBy,
-				GolemItems.HUMANOID_BODY.get())
-				.pattern("A").pattern("B")
-				.define('A', GolemItems.DOG_BODY.get())
-				.define('B', GolemItems.DOG_LEGS.get())
-				.save(pvd);
-
+			unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_DOG.get(), 1)::unlockedBy,
+					GolemItems.HUMANOID_BODY.get())
+					.pattern("A").pattern("B")
+					.define('A', GolemItems.DOG_BODY.get())
+					.define('B', GolemItems.DOG_LEGS.get())
+					.save(pvd);
+		}
 		// upgrades
 		{
 
@@ -200,6 +204,24 @@ public class RecipeGen {
 					.define('A', Items.EMERALD_BLOCK)
 					.define('B', GolemItems.EMPTY_UPGRADE.get())
 					.define('C', Items.EMERALD)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.PICKUP.get())::unlockedBy, Items.HOPPER)
+					.pattern("AAA").pattern("DBD").pattern(" C ")
+					.define('A', Items.HOPPER)
+					.define('B', GolemItems.EMPTY_UPGRADE.get())
+					.define('C', Items.LAVA_BUCKET)
+					.define('D', Items.ENDER_PEARL)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItems.PICKUP_MENDING.get())::unlockedBy, GolemItems.PICKUP.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get())
+					.requires(new EnchantmentIngredient(Enchantments.MENDING, 1))
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(GolemItems.PICKUP_NO_DESTROY.get())::unlockedBy, GolemItems.PICKUP.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get())
+					.requires(Items.ZOMBIE_HEAD)
 					.save(pvd);
 
 		}

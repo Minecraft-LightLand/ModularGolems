@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.content.modifier.base.PotionAttackModifier;
 import dev.xkmc.modulargolems.content.modifier.base.TargetBonusModifier;
 import dev.xkmc.modulargolems.content.modifier.common.*;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
+import dev.xkmc.modulargolems.content.modifier.special.PickupModifier;
 import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -41,6 +42,8 @@ public class GolemModifiers {
 	public static final RegistryEntry<SonicModifier> SONIC;
 	public static final RegistryEntry<EnderSightModifier> ENDER_SIGHT;
 	public static final RegistryEntry<BellModifier> BELL;
+	public static final RegistryEntry<PickupModifier> PICKUP;
+	public static final RegistryEntry<GolemModifier> PICKUP_NODESTROY, PICKUP_MENDING;
 	public static final RegistryEntry<TargetBonusModifier> EMERALD;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED;
 	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
@@ -73,7 +76,7 @@ public class GolemModifiers {
 		EXPLOSION_RES = reg("explosion_resistant", ExplosionResistanceModifier::new, "Explosion damage taken reduced to %s%% of original, and will not break blocks.");
 		DAMAGE_CAP = reg("damage_cap", DamageCapModifier::new, "Damage taken are limited within %s%% of max health.");
 		PROJECTILE_REJECT = reg("projectile_reject", ProjectileRejectModifier::new, "Deflect projectiles. Takes no projectile damage.");
-		IMMUNITY = reg("immunity", ImmunityModifier::new, "Immune to all damage, except void damage.");
+		IMMUNITY = reg("immunity", ImmunityModifier::new, "Immune to all damage, except void damage. Mobs won't attack invulnerable golem.");
 		SWIM = reg("swim", SwimModifier::new, "Golem can swim");
 		PLAYER_IMMUNE = reg("player_immune", PlayerImmuneModifier::new, "Immune to friendly fire.");
 		SONIC = reg("sonic_boom", SonicModifier::new, "Golem can use Sonic Boom Attack. If the golem can perform area attack, then Sonic Boom can hit multiple targets.");
@@ -82,11 +85,16 @@ public class GolemModifiers {
 		SLOW = reg("slow", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
 				i -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, i - 1)), "Potion Upgrade: Slowness", null);
 		WEAK = reg("weak", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(MobEffects.WEAKNESS, 60, i - 1)), "Potion Upgrade: Weakness",null);
+				i -> new MobEffectInstance(MobEffects.WEAKNESS, 60, i - 1)), "Potion Upgrade: Weakness", null);
 		WITHER = reg("wither", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)), "Potion Upgrade: Wither",null);
+				i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)), "Potion Upgrade: Wither", null);
 		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.ILLAGER),
 				"Deal %s%% more damage to illagers");
+		PICKUP = reg("pickup", PickupModifier::new, "Pickup", "Golems will pickup items and experiences and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them");
+		PICKUP_NODESTROY = reg("pickup_no_destroy", ()->new GolemModifier(StatFilterType.MASS,1),
+				"Pickup Augment: No Destroy", "When a golem attempts to pickup an item and find nowhere to place it, it will not pickup the item instead. It will cause lag if the golem is in a region with lots of items.");
+		PICKUP_MENDING = reg("pickup_mending", ()->new GolemModifier(StatFilterType.MASS,1),
+				"Pickup Augment: Mending", "When a golem picks up experiences, it will try to heal itself with the experience.");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {

@@ -112,7 +112,9 @@ public class CraftEventListeners {
 		int remaining = holder.getRemaining(mats, upgrades);
 		if (remaining <= 0) return;
 		var map = GolemMaterial.collectModifiers(GolemHolder.getMaterial(stack), upgrades);
-		if (map.getOrDefault(upgrade.get(), 0) >= upgrade.get().maxLevel) return;
+		for (var e : upgrade.get()) {
+			if (map.getOrDefault(e.mod(), 0) >= e.mod().maxLevel) return;
+		}
 		ItemStack result = stack.copy();
 		GolemHolder.addUpgrade(result, upgrade);
 		event.setOutput(result);

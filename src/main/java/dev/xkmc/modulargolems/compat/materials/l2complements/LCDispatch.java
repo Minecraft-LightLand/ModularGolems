@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
+import dev.xkmc.l2complements.init.data.LCConfig;
 import dev.xkmc.l2complements.init.registrate.LCEnchantments;
 import dev.xkmc.l2complements.init.registrate.LCItems;
 import dev.xkmc.l2library.base.ingredients.EnchantmentIngredient;
@@ -8,13 +9,17 @@ import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.network.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class LCDispatch extends ModDispatch {
 
@@ -22,6 +27,7 @@ public class LCDispatch extends ModDispatch {
 
 	public LCDispatch() {
 		LCCompatRegistry.register();
+		MinecraftForge.EVENT_BUS.register(LCDispatch.class);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
@@ -109,4 +115,14 @@ public class LCDispatch extends ModDispatch {
 	public void dispatchClientSetup(IEventBus bus) {
 		ForceFieldLayer.registerLayer();
 	}
+
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public static void onGolemSweep(GolemSweepEvent event) {
+		int lv = event.getStack().getEnchantmentLevel(LCEnchantments.WIND_SWEEP.get());
+		if (lv > 0) {
+			double amount = LCConfig.COMMON.windSweepIncrement.get();
+			event.setBox(event.getBox().inflate(amount * lv));
+		}
+	}
+
 }

@@ -1,0 +1,12 @@
+{
+  "name": "Emerald Upgrade",
+  "icon": "modulargolems:emerald",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:emerald",
+	  "text": "Damage dealt to illagers will increase by a lot. Max: 2"
+	}
+  ]
+}

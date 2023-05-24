@@ -17,7 +17,7 @@ public class TargetBonusModifier extends GolemModifier {
 	private final Predicate<LivingEntity> pred;
 
 	public TargetBonusModifier(Predicate<LivingEntity> pred) {
-		super(StatFilterType.ATTACK, 3);
+		super(StatFilterType.ATTACK, 2);
 		this.pred = pred;
 	}
 
