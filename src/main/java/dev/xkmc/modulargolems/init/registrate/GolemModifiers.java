@@ -50,7 +50,7 @@ public class GolemModifiers {
 		THUNDER_IMMUNE = reg("thunder_immune", ThunderImmuneModifier::new, "Immune to lightning bolt damage. Attract Lightning. When struck, gain fire resistance for 10 seconds, and heal %s health.");
 		MAGIC_IMMUNE = reg("magic_immune", MagicImmuneModifier::new, "Immune to magic damage");
 		MAGIC_RES = reg("magic_resistant", MagicResistanceModifier::new, "Magic damage taken reduced to %s%% of original");
-		RECYCLE = reg("recycle", RecycleModifier::new, "Drop golem holder of 0 health when killed");
+		RECYCLE = reg("recycle", RecycleModifier::new, "Drop golem holder of 0 health when killed. Holder will return to inventory is player is present.");
 		ARMOR = reg("armor_up", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10)
 		)).register();

@@ -161,7 +161,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (source.isBypassInvul()) damage *= 1000;
 		super.actuallyHurt(source, damage);
 		if (getHealth() <= 0 && modifiers.getOrDefault(GolemModifiers.RECYCLE.get(), 0) > 0) {
-			spawnAtLocation(GolemHolder.setEntity(getThis()));
+			Player player = getOwner();
+			ItemStack stack = GolemHolder.setEntity(getThis());
+			if (player != null) {
+				player.getInventory().placeItemBackInInventory(stack);
+			} else {
+				spawnAtLocation(stack);
+			}
 			level.broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
 		}

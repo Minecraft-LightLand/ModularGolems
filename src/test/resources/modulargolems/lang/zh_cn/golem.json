@@ -39,7 +39,7 @@
 	"magic_immune": "魔法免疫",
 	"magic_immune.desc": "免疫魔法伤害",
 	"recycle": "傀儡回收",
-	"recycle.desc": "傀儡死亡时掉落0血量的可修复物品形态",
+	"recycle.desc": "傀儡死亡时掉落0血量的可修复物品形态。如果玩家存在，物品直接加入玩家背包",
 	"armor_up": "防御提升",
 	"toughness_up": "韧性提升",
 	"damage_up": "伤害提升",

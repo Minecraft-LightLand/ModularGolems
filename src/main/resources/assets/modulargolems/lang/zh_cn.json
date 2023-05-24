@@ -66,7 +66,7 @@
   "modifier.modulargolems.magic_immune": "魔法免疫",
   "modifier.modulargolems.magic_immune.desc": "免疫魔法伤害",
   "modifier.modulargolems.recycle": "傀儡回收",
-  "modifier.modulargolems.recycle.desc": "傀儡死亡时掉落0血量的可修复物品形态",
+  "modifier.modulargolems.recycle.desc": "傀儡死亡时掉落0血量的可修复物品形态。如果玩家存在，物品直接加入玩家背包",
   "modifier.modulargolems.armor_up": "防御提升",
   "modifier.modulargolems.toughness_up": "韧性提升",
   "modifier.modulargolems.damage_up": "伤害提升",
