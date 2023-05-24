@@ -15,6 +15,10 @@
     "modulargolems:ender_sight",
     "modulargolems:bell",
     "modulargolems:speed",
+    "modulargolems:slow",
+    "modulargolems:weak",
+    "modulargolems:wither",
+    "modulargolems:emerald",
     {
       "id": "modulargolems:carminite",
       "required": false
@@ -69,6 +73,18 @@
     },
     {
       "id": "modulargolems:speed_high",
+      "required": false
+    },
+    {
+      "id": "modulargolems:curse",
+      "required": false
+    },
+    {
+      "id": "modulargolems:incarcerate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:cleanse",
       "required": false
     }
   ]

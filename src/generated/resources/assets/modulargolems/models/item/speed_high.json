@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "modulargolems:item/upgrades/speed_high"
+    "layer0": "l2complements:item/upgrades/speed_high"
   }
 }

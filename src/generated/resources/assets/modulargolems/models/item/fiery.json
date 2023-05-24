@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "modulargolems:item/upgrades/fiery"
+    "layer0": "twilightforest:item/upgrades/fiery"
   }
 }

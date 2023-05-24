@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:dragon_breath"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    "D": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "CDC",
+    "ABA",
+    "CDC"
+  ],
+  "result": {
+    "item": "modulargolems:weak"
+  }
+}

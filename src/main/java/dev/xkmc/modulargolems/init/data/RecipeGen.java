@@ -170,6 +170,38 @@ public class RecipeGen {
 					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.RABBIT_FOOT)
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.WEAK.get())::unlockedBy, Items.DRAGON_BREATH)
+					.pattern("CDC").pattern("ABA").pattern("CDC")
+					.define('A', Items.DRAGON_BREATH)
+					.define('B', GolemItems.EMPTY_UPGRADE.get())
+					.define('C', Items.FERMENTED_SPIDER_EYE)
+					.define('D', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.SLOW.get())::unlockedBy, Items.DRAGON_BREATH)
+					.pattern("CDC").pattern("ABA").pattern("EDE")
+					.define('A', Items.DRAGON_BREATH)
+					.define('B', GolemItems.EMPTY_UPGRADE.get())
+					.define('C', Items.FERMENTED_SPIDER_EYE)
+					.define('D', Items.REDSTONE)
+					.define('E', Items.SUGAR)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.WITHER.get())::unlockedBy, Items.DRAGON_BREATH)
+					.pattern("CDC").pattern("ABA").pattern("CDC")
+					.define('A', Items.DRAGON_BREATH)
+					.define('B', GolemItems.EMPTY_UPGRADE.get())
+					.define('C', Items.WITHER_ROSE)
+					.define('D', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(GolemItems.EMERALD.get())::unlockedBy, Items.EMERALD)
+					.pattern("CAC").pattern("ABA").pattern("CAC")
+					.define('A', Items.EMERALD_BLOCK)
+					.define('B', GolemItems.EMPTY_UPGRADE.get())
+					.define('C', Items.EMERALD)
+					.save(pvd);
+
 		}
 
 		CompatManager.dispatchGenRecipe(pvd);

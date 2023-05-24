@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "modulargolems:item/upgrades/force_field"
+    "layer0": "l2complements:item/upgrades/force_field"
   }
 }

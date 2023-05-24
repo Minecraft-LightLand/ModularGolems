@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "l2complements:item/upgrades/teleport"
+    "layer0": "modulargolems:item/upgrades/slow"
   }
 }

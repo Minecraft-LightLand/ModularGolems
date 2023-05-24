@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "key": {
+    "1": {
+      "type": "l2library:enchantment",
+      "enchantment": "minecraft:binding_curse",
+      "min_level": 1
+    },
+    "2": {
+      "item": "minecraft:nether_star"
+    },
+    "A": {
+      "item": "l2complements:blackstone_core"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "item": "minecraft:dragon_breath"
+    }
+  },
+  "pattern": [
+    "A1A",
+    "CBC",
+    "A2A"
+  ],
+  "result": {
+    "item": "modulargolems:incarcerate"
+  }
+}

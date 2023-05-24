@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "modulargolems:item/upgrades/naga"
+    "layer0": "twilightforest:item/upgrades/naga"
   }
 }

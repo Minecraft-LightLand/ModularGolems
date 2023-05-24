@@ -13,6 +13,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 public class LCDispatch extends ModDispatch {
@@ -69,6 +70,33 @@ public class LCDispatch extends ModDispatch {
 		safeUpgrade(pvd, new ShapelessRecipeBuilder(LCCompatRegistry.SPEED_UP.get(), 1)::unlockedBy, LCItems.CAPTURED_WIND.get())
 				.requires(GolemItems.EMPTY_UPGRADE.get())
 				.requires(LCItems.CAPTURED_WIND.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(LCCompatRegistry.UPGRADE_CURSE.get())::unlockedBy, LCItems.CURSED_DROPLET.get())
+				.pattern("A1A").pattern("CBC").pattern("A2A")
+				.define('C', Items.DRAGON_BREATH)
+				.define('A', LCItems.CURSED_DROPLET.get())
+				.define('B', GolemItems.EMPTY_UPGRADE.get())
+				.define('1', new EnchantmentIngredient(LCEnchantments.CURSE_BLADE.get(), 1))
+				.define('2', Items.NETHER_STAR)
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(LCCompatRegistry.UPGRADE_INCARCERATE.get())::unlockedBy, LCItems.BLACKSTONE_CORE.get())
+				.pattern("A1A").pattern("CBC").pattern("A2A")
+				.define('C', Items.DRAGON_BREATH)
+				.define('A', LCItems.BLACKSTONE_CORE.get())
+				.define('B', GolemItems.EMPTY_UPGRADE.get())
+				.define('1', new EnchantmentIngredient(Enchantments.BINDING_CURSE, 1))
+				.define('2', Items.NETHER_STAR)
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(LCCompatRegistry.UPGRADE_CLEANSE.get())::unlockedBy, LCItems.LIFE_ESSENCE.get())
+				.pattern("A1A").pattern("CBC").pattern("A2A")
+				.define('C', Items.DRAGON_BREATH)
+				.define('A', LCItems.LIFE_ESSENCE.get())
+				.define('B', GolemItems.EMPTY_UPGRADE.get())
+				.define('1', new EnchantmentIngredient(LCEnchantments.CURSE_BLADE.get(), 1))
+				.define('2', Items.HEART_OF_THE_SEA)
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 	}
 

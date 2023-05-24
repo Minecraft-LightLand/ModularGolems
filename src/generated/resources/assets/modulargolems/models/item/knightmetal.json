@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "modulargolems:item/upgrades/knightmetal"
+    "layer0": "twilightforest:item/upgrades/knightmetal"
   }
 }

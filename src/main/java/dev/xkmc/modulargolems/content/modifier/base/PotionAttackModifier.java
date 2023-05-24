@@ -16,11 +16,11 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import java.util.List;
 import java.util.function.Function;
 
-public class PotionGolemModifier extends GolemModifier {
+public class PotionAttackModifier extends GolemModifier {
 
 	private final Function<Integer, MobEffectInstance> func;
 
-	public PotionGolemModifier(StatFilterType type, int maxLevel, Function<Integer, MobEffectInstance> func) {
+	public PotionAttackModifier(StatFilterType type, int maxLevel, Function<Integer, MobEffectInstance> func) {
 		super(type, maxLevel);
 		this.func = func;
 	}
@@ -52,11 +52,12 @@ public class PotionGolemModifier extends GolemModifier {
 			lang = Component.translatable("potion.withAmplifier", lang,
 					Component.translatable("potion.potency." + ins.getAmplifier()));
 		}
-		if (ins.getDuration() > 20) {
+		if (ins.getDuration() >= 20) {
 			lang = Component.translatable("potion.withDuration", lang,
 					MobEffectUtil.formatDuration(ins, 1));
 		}
 		lang = lang.withStyle(mobeffect.getCategory().getTooltipFormatting());
-		return List.of(LangData.POTION.get(lang).withStyle(ChatFormatting.GREEN));
+		return List.of(LangData.POTION_ATTACK.get(lang).withStyle(ChatFormatting.GREEN));
 	}
+
 }

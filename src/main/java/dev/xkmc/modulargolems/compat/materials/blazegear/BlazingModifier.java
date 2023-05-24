@@ -21,11 +21,6 @@ public class BlazingModifier extends GolemModifier {
 		addGoal.accept(5, new BlazeAttackGoal(entity, lv));
 	}
 
-	@Override
-	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
-		return super.onHealTick(heal, entity, level);
-	}
-
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void onClientTick(AbstractGolemEntity<?, ?> entity, int value) {

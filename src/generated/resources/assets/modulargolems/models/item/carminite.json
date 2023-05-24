@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "modulargolems:item/upgrades/carminite"
+    "layer0": "twilightforest:item/upgrades/carminite"
   }
 }

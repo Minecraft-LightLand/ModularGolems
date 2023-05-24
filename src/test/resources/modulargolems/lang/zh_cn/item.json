@@ -32,6 +32,13 @@
 	"ender_sight": "透视升级",
 	"attack_high": "伤害升级V",
 	"speed": "速度升级",
-	"speed_high": "速度升级V"
+	"speed_high": "速度升级V",
+	"cleanse": "药水升级：净化",
+	"curse": "药水升级：诅咒",
+	"emerald": "绿宝石升级",
+	"incarcerate": "药水升级：禁锢",
+	"slow": "药水升级：缓慢",
+	"weak": "药水升级：虚弱",
+	"wither": "药水升级：凋零"
   }
 }

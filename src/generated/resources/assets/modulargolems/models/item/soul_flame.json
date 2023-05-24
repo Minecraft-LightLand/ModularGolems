@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "modulargolems:item/upgrades/soul_flame"
+    "layer0": "l2complements:item/upgrades/soul_flame"
   }
 }

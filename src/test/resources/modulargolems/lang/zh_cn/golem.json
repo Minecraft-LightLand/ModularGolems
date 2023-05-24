@@ -66,6 +66,18 @@
 	"bell.desc": "傀儡切换攻击目标时，敲钟并吸引范围内的敌人，同时施加发光效果。",
 	"ender_sight": "透视",
 	"ender_sight.desc": "傀儡能看穿墙壁和天花板",
-	"speed_up": "移动速度提升"
+	"speed_up": "移动速度提升",
+	"cleanse": "药水升级：净化",
+	"curse": "药水升级：诅咒",
+	"emerald": "掠夺者杀手",
+	"emerald.desc": "对掠夺者造成+%s%%伤害",
+	"incarcerate": "药水升级：禁锢",
+	"poseidite": "海神",
+	"poseidite.desc": "对怕水生物和水生生物造成+%s%%伤害",
+	"slow": "药水升级：缓慢",
+	"totemic_gold": "生命",
+	"totemic_gold.desc": "对亡灵生物造成+%s%%伤害",
+	"weak": "药水升级：虚弱",
+	"wither": "药水升级：凋零"
   }
 }
