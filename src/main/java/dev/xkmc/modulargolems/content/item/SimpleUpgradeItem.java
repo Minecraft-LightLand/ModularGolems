@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class SimpleUpgradeItem extends UpgradeItem{
+public class SimpleUpgradeItem extends UpgradeItem {
 
 	private final Supplier<GolemModifier> modifier;
 	private final int level;

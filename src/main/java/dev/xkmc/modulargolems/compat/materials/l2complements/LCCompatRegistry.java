@@ -9,7 +9,6 @@ import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.FreezingM
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.SoulFlameModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.SimpleUpgradeItem;
-import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.PotionAttackModifier;
 import dev.xkmc.modulargolems.content.modifier.base.PotionDefenseModifier;
 import dev.xkmc.modulargolems.content.modifier.base.TargetBonusModifier;
@@ -40,15 +39,15 @@ public class LCCompatRegistry {
 		TELEPORT = reg("teleport", EnderTeleportModifier::new, "Teleport randomly to avoid attack, and teleport toward target when attacking.");
 
 		CURSE = reg("curse", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(LCEffects.CURSE.get(), 60 * i)), "Potion Upgrade: Curse",null);
+				i -> new MobEffectInstance(LCEffects.CURSE.get(), 60 * i)), "Potion Upgrade: Curse", null);
 		INCARCERATE = reg("incarcerate", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(LCEffects.STONE_CAGE.get(), 20 * i)), "Potion Upgrade: Incarceration",null);
+				i -> new MobEffectInstance(LCEffects.STONE_CAGE.get(), 20 * i)), "Potion Upgrade: Incarceration", null);
 
 		POSEIDITE = reg("poseidite", () -> new TargetBonusModifier(e -> e.isSensitiveToWater() || e.getMobType() == MobType.WATER),
 				"Deal %s%% more damage to mobs sensitive to water or water based mobs");
 		TOTEMIC_GOLD = reg("totemic_gold", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.UNDEAD),
 				"Deal %s%% more damage to undead mobs");
-		CLEANSE = reg("cleanse", () -> new PotionDefenseModifier(1, LCEffects.CLEANSE::get), "Potion Upgrade: Cleanse",null);
+		CLEANSE = reg("cleanse", () -> new PotionDefenseModifier(1, LCEffects.CLEANSE::get), "Potion Upgrade: Cleanse", null);
 
 		FORCE_FIELD = regModUpgrade("force_field", () -> GolemModifiers.PROJECTILE_REJECT, LCDispatch.MODID).lang("Wither Armor Upgrade").register();
 		FREEZE_UP = regModUpgrade("freezing", () -> FREEZE, LCDispatch.MODID).lang("Freezing Upgrade").register();

@@ -94,13 +94,13 @@ public class GolemModifiers {
 		BELL = reg("bell", BellModifier::new,
 				"When the golem wants to attack, it will ring its bell, attracting all enemies and light them up.");
 		SLOW = reg("slow", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, i - 1)),
+						i -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, i - 1)),
 				"Potion Upgrade: Slowness", null);
 		WEAK = reg("weak", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(MobEffects.WEAKNESS, 60, i - 1)),
+						i -> new MobEffectInstance(MobEffects.WEAKNESS, 60, i - 1)),
 				"Potion Upgrade: Weakness", null);
 		WITHER = reg("wither", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)),
+						i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)),
 				"Potion Upgrade: Wither", null);
 		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.ILLAGER),
 				"Deal %s%% more damage to illagers");
