@@ -1,5 +1,5 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 public enum GolemFlags {
-	FIRE_IMMUNE, FREEZE_IMMUNE, SEE_THROUGH
+	IMMUNITY, FIRE_IMMUNE, FREEZE_IMMUNE, THUNDER_IMMUNE, SEE_THROUGH, RECYCLE, FLOAT, SWIM, MENDING, NO_DESTROY
 }

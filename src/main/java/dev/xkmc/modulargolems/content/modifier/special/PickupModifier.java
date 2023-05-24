@@ -15,7 +15,7 @@ public class PickupModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-
+		addGoal.accept(0, new PickupGoal(entity, lv));
 	}
 
 }

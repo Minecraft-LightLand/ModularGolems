@@ -78,6 +78,13 @@
 	"totemic_gold": "生命",
 	"totemic_gold.desc": "对亡灵生物造成+%s%%伤害",
 	"weak": "药水升级：虚弱",
-	"wither": "药水升级：凋零"
+	"wither": "药水升级：凋零",
+	"pickup": "拾取升级",
+	"pickup.desc": "傀儡会捡起附近的物品和经验并交给你。详细机制请查阅帕秋莉说明书。如果傀儡找不到地方放物品/经验，傀儡会把物品/经验销毁。",
+	"pickup_mending": "拾取附属：经验修补",
+	"pickup_mending.desc": "傀儡拾取经验时，会试图使用经验修补自身。",
+	"pickup_no_destroy": "拾取附属：取消销毁",
+	"pickup_no_destroy.desc": "傀儡找不到地方放物品时不会销毁物品，也不会拾取物品。注意：这个升级可能会造成卡顿。"
+
   }
 }

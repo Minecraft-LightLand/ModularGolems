@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier.special;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.LangData;
 import dev.xkmc.modulargolems.init.data.ModConfig;
@@ -23,17 +24,14 @@ public class PickupGoal extends Goal {
 
 	private final AbstractGolemEntity<?, ?> golem;
 	private final int lv;
-	private final boolean destroyItems, repairSelf;
 
 	private int delay = 0;
 
 	private int destroyItemCount = 0, destroyExpCount = 0;
 
-	public PickupGoal(AbstractGolemEntity<?, ?> golem, int lv, boolean destroyItems, boolean repairSelf) {
+	public PickupGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		this.golem = golem;
 		this.lv = lv;
-		this.destroyItems = destroyItems;
-		this.repairSelf = repairSelf;
 	}
 
 	@Override
@@ -108,7 +106,7 @@ public class PickupGoal extends Goal {
 			int remain = ratio <= 0 ? 0 : (int) Math.max(0, exp - recovered / ratio);
 			return remain > 0 ? this.repairGolemAndItems(remain) : 0;
 		}
-		if (!repairSelf) {
+		if (!golem.hasFlag(GolemFlags.MENDING)) {
 			return exp;
 		}
 		float lost = golem.getMaxHealth() - golem.getHealth();
@@ -120,7 +118,7 @@ public class PickupGoal extends Goal {
 	}
 
 	private void handleLeftoverItem(ItemEntity item) {
-		if (!destroyItems || item.hasPickUpDelay()) {
+		if (golem.hasFlag(GolemFlags.NO_DESTROY) || item.hasPickUpDelay()) {
 			return;
 		}
 		destroyItemCount += item.getItem().getCount();

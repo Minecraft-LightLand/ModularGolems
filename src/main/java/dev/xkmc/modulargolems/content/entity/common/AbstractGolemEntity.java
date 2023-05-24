@@ -9,9 +9,9 @@ import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.common.goals.GolemSwimMoveControl;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
-import dev.xkmc.modulargolems.content.entity.common.swim.GolemSwimMoveControl;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -99,6 +99,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
 		this.maxUpStep = 1;
+		if (!level.isClientSide()) {
+			getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
+		}
 		if (canSwim()) {
 			this.moveControl = new GolemSwimMoveControl(this);
 			this.navigation = waterNavigation;
@@ -126,8 +129,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return modifiers;
 	}
 
-	public void addFlag(GolemFlags flag) {
-		golemFlags.add(flag);
+	public boolean hasFlag(GolemFlags flag) {
+		return golemFlags.contains(flag);
 	}
 
 	@Override
@@ -154,14 +157,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean fireImmune() {
-		return golemFlags.contains(GolemFlags.FIRE_IMMUNE);
+		return hasFlag(GolemFlags.FIRE_IMMUNE);
 	}
 
 	@Override
 	protected void actuallyHurt(DamageSource source, float damage) {
 		if (source.isBypassInvul()) damage *= 1000;
 		super.actuallyHurt(source, damage);
-		if (getHealth() <= 0 && modifiers.getOrDefault(GolemModifiers.RECYCLE.get(), 0) > 0) {
+		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			Player player = getOwner();
 			ItemStack stack = GolemHolder.setEntity(getThis());
 			if (player != null) {
@@ -187,7 +190,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	// ------ swim
 
 	public boolean canSwim() {
-		return this.modifiers.getOrDefault(GolemModifiers.SWIM.get(), 0) > 0;
+		return hasFlag(GolemFlags.SWIM);
 	}
 
 	public void travel(Vec3 pTravelVector) {
@@ -277,7 +280,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean hasLineOfSight(Entity target) {
-		if (target.level == this.level && golemFlags.contains(GolemFlags.SEE_THROUGH)) {
+		if (target.level == this.level && hasFlag(GolemFlags.SEE_THROUGH)) {
 			Vec3 self = new Vec3(this.getX(), this.getEyeY(), this.getZ());
 			Vec3 tarp = new Vec3(target.getX(), target.getEyeY(), target.getZ());
 			double dist = tarp.distanceTo(self);
@@ -295,7 +298,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canFreeze() {
-		return !golemFlags.contains(GolemFlags.FREEZE_IMMUNE);
+		return !hasFlag(GolemFlags.FREEZE_IMMUNE);
 	}
 
 	@Override
@@ -512,7 +515,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean isInvulnerable() {
-		return modifiers.getOrDefault(GolemModifiers.IMMUNITY.get(), 0) > 0;
+		return hasFlag(GolemFlags.IMMUNITY);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class FreezingModifier extends GolemModifier {
 
@@ -38,7 +39,8 @@ public class FreezingModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		entity.addFlag(GolemFlags.FREEZE_IMMUNE);
+	public void onRegisterFlag(Consumer<GolemFlags> addFlag) {
+		addFlag.accept(GolemFlags.FREEZE_IMMUNE);
 	}
+
 }

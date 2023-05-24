@@ -4,6 +4,7 @@ import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
@@ -19,6 +20,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class GolemModifier extends NamedEntry<GolemModifier> {
 
@@ -105,6 +107,10 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
+	}
+
+	public void onRegisterFlag(Consumer<GolemFlags> addFlag) {
+
 	}
 
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {

@@ -39,6 +39,9 @@
 	"incarcerate": "药水升级：禁锢",
 	"slow": "药水升级：缓慢",
 	"weak": "药水升级：虚弱",
-	"wither": "药水升级：凋零"
+	"wither": "药水升级：凋零",
+	"pickup": "拾取升级",
+	"pickup_mending": "拾取附属：经验修补",
+	"pickup_no_destroy": "拾取附属：取消销毁"
   }
 }
