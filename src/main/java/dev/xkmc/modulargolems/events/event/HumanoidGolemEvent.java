@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.events.event;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import net.minecraftforge.event.entity.living.LivingEvent;
 
 public class HumanoidGolemEvent extends GolemEvent {
 

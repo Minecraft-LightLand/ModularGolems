@@ -23,7 +23,7 @@ public class GolemClient {
 
 	private static IEventBus clientBus;
 
-	public static void onCtorClient(IEventBus bus, IEventBus eventBus) {
+	public static void onCtorClient(IEventBus bus) {
 		clientBus = bus;
 		bus.addListener(GolemClient::clientSetup);
 		bus.addListener(GolemClient::onResourceReload);

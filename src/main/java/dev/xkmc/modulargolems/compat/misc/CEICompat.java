@@ -32,7 +32,7 @@ public class CEICompat {
 				var lazyOpt = be.getCapability(ForgeCapabilities.FLUID_HANDLER);
 				if (lazyOpt.resolve().isPresent()) {
 					var cap = lazyOpt.resolve().get();
-					if (cap instanceof SmartFluidTankBehaviour.InternalFluidHandler tank){
+					if (cap instanceof SmartFluidTankBehaviour.InternalFluidHandler tank) {
 						int fill = tank.forceFill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
 						val -= fill;
 					}
