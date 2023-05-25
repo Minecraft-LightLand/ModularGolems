@@ -173,7 +173,7 @@
   "modifier.modulargolems.magic_resistant.desc": "Magic damage taken reduced to %s%% of original",
   "modifier.modulargolems.naga": "Naga",
   "modifier.modulargolems.pickup": "Pickup",
-  "modifier.modulargolems.pickup.desc": "Golems will pickup items and experiences and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them",
+  "modifier.modulargolems.pickup.desc": "Golems will pickup items and experiences within %s blocks and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them",
   "modifier.modulargolems.pickup_mending": "Pickup Augment: Mending",
   "modifier.modulargolems.pickup_mending.desc": "When a golem picks up experiences, it will try to heal itself with the experience.",
   "modifier.modulargolems.pickup_no_destroy": "Pickup Augment: No Destroy",

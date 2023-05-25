@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "modulargolems:item/wither_blue",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    }
+  ],
   "textures": {
     "layer0": "modulargolems:item/upgrades/wither"
   }

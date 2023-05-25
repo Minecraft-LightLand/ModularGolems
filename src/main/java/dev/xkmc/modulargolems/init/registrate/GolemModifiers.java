@@ -105,7 +105,7 @@ public class GolemModifiers {
 		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.ILLAGER),
 				"Deal %s%% more damage to illagers");
 		PICKUP = reg("pickup", PickupModifier::new, "Pickup",
-				"Golems will pickup items and experiences and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them");
+				"Golems will pickup items and experiences within %s blocks and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them");
 		PICKUP_NODESTROY = reg("pickup_no_destroy", () -> new SimpleFlagModifier(StatFilterType.MASS, GolemFlags.NO_DESTROY),
 				"Pickup Augment: No Destroy", "When a golem attempts to pickup an item and find nowhere to place it, it will not pickup the item instead. It will cause lag if the golem is in a region with lots of items.");
 		PICKUP_MENDING = reg("pickup_mending", () -> new SimpleFlagModifier(StatFilterType.MASS, GolemFlags.MENDING),

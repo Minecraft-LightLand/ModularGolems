@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "modulargolems:item/soul_flame_blue",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    }
+  ],
   "textures": {
     "layer0": "l2complements:item/upgrades/soul_flame"
   }

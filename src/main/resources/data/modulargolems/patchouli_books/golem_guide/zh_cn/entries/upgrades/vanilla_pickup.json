@@ -1,0 +1,23 @@
+{
+  "name": "拾取升级",
+  "icon": "modulargolems:pickup",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:pickup",
+	  "text": "让傀儡能拾取附近的物品和经验。拾取半径与升级等级成正比。最高等级：3$(br2)这个升级有2个附加升级，还支持莱特兰背包和附魔工业中接受物品/经验的容器。$(br2)请注意傀儡不会主动寻找物品和经验，只是路过的时候捡起来。"
+	},{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:pickup_no_destroy",
+	  "text": "傀儡拾取物品时首先会试图放入绑定的容器。容器在傀儡被召唤出来时绑定。如果容器不存在或者已满（不会寻找下一个容器），则会试图把物品传送给玩家。如果玩家不存在，则会销毁物品（为了防止卡顿）使用取消销毁升级，则会把剩余物品留在原地不拾取。"
+	},{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:pickup_mending",
+	  "text": "傀儡拾取经验时首先会试图用经验来修复身上的经验修补装备。之后如果有经验修补升级则会用经验修补自身，之后，傀儡会试图把剩余经验传送给玩家。如果玩家不存在，则销毁经验。"
+	},{
+	  "type": "patchouli:text",
+	  "text": "如果装了莱特兰背包，傀儡在寻找容器前会试图把物品放入背上的空间背包中。$(br2)如果装了附魔工业，如果傀儡站在祛魔池上，傀儡会在把经验传送给玩家前试图把经验注入泄魔池。"
+	}
+  ]
+}

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.patchouli;
+package dev.xkmc.modulargolems.compat.misc;
 
 import dev.xkmc.l2library.repack.registrate.providers.RegistrateLangProvider;
 import dev.xkmc.modulargolems.init.ModularGolems;

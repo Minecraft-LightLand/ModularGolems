@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "modulargolems:item/fiery_blue",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    }
+  ],
   "textures": {
     "layer0": "twilightforest:item/upgrades/fiery"
   }

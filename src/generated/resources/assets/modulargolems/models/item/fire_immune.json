@@ -1,5 +1,13 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "modulargolems:item/fire_immune_blue",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    }
+  ],
   "textures": {
     "layer0": "modulargolems:item/upgrades/fire_immune"
   }

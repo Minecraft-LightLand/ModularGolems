@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.compat.patchouli;
+package dev.xkmc.modulargolems.compat.misc;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

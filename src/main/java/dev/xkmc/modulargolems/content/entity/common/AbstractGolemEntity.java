@@ -521,7 +521,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void die(DamageSource source) {
 		ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
 		Player owner = getOwner();
-		if (owner != null) {
+		if (owner != null && !level.isClientSide) {
 			owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
 		}
 		super.die(source);

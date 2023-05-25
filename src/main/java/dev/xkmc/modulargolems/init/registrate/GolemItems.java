@@ -176,7 +176,13 @@ public class GolemItems {
 
 	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil, String modid) {
 		return REGISTRATE.item(id, p -> new SimpleUpgradeItem(p, mod.get()::get, level, foil))
-				.model((ctx, pvd) -> pvd.generated(ctx, new ResourceLocation(modid, "item/upgrades/" + id)));
+				.model((ctx, pvd) -> pvd.generated(ctx, new ResourceLocation(modid, "item/upgrades/" + id))
+						.override().predicate(new ResourceLocation(ModularGolems.MODID, "blue_arrow"), 0.5f)
+						.model(pvd.getBuilder(pvd.name(ctx) + "_blue")
+								.parent(new ModelFile.UncheckedModelFile("item/generated"))
+								.texture("layer0", new ResourceLocation(modid, "item/upgrades/" + id))
+								.texture("layer1", new ResourceLocation(ModularGolems.MODID, "item/blue_arrow")))
+						.end());
 	}
 
 	public static void register() {

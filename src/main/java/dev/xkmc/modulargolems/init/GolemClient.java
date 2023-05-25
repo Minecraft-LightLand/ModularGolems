@@ -2,8 +2,10 @@ package dev.xkmc.modulargolems.init;
 
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.GolemStatusOverlay;
+import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
+import dev.xkmc.modulargolems.init.data.TagGen;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +17,6 @@ import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class GolemClient {
@@ -30,12 +31,15 @@ public class GolemClient {
 		MinecraftForge.EVENT_BUS.register(ClientHolderManager.class);
 	}
 
-	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
 			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
 					entity != null && entity.isBlocking() && entity.getUseItem() == stack ? 1.0F : 0.0F;
 			ItemProperties.register(Items.SHIELD, new ResourceLocation("blocking"), func);
+			ClampedItemPropertyFunction arrow = (stack, level, entity, layer) ->
+					stack.is(TagGen.BLUE_UPGRADES) ? 1 : 0;
+			for (var item : UpgradeItem.LIST)
+				ItemProperties.register(item, new ResourceLocation(ModularGolems.MODID, "blue_arrow"), arrow);
 			CompatManager.dispatchClientSetup(clientBus);
 		});
 	}
@@ -46,7 +50,6 @@ public class GolemClient {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	@SubscribeEvent
 	public static void onResourceReload(RegisterClientReloadListenersEvent event) {
 		event.registerReloadListener(GolemBEWLR.INSTANCE.get());
 	}

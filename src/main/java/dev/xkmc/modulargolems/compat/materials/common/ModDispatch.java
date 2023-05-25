@@ -12,6 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
 
+import javax.annotation.Nullable;
 import java.util.function.BiFunction;
 
 public abstract class ModDispatch {
@@ -20,6 +21,7 @@ public abstract class ModDispatch {
 
 	public abstract void genRecipe(RegistrateRecipeProvider pvd);
 
+	@Nullable
 	public abstract ConfigDataProvider getDataGen(DataGenerator gen);
 
 	public static <T> T safeUpgrade(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {
