@@ -12,7 +12,9 @@ import dev.xkmc.modulargolems.content.modifier.common.BellModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
 import dev.xkmc.modulargolems.content.modifier.special.PickupModifier;
+import dev.xkmc.modulargolems.content.modifier.special.PotionMetaModifier;
 import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
+import dev.xkmc.modulargolems.content.modifier.special.TalentMetaModifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.MobType;
@@ -39,6 +41,8 @@ public class GolemModifiers {
 	public static final RegistryEntry<BellModifier> BELL;
 	public static final RegistryEntry<PickupModifier> PICKUP;
 	public static final RegistryEntry<TargetBonusModifier> EMERALD;
+	public static final RegistryEntry<TalentMetaModifier> TALENTED;
+	public static final RegistryEntry<PotionMetaModifier> CAULDRON;
 	public static final RegistryEntry<SimpleFlagModifier> FLOAT, SWIM, ENDER_SIGHT, RECYCLE, PICKUP_NODESTROY, PICKUP_MENDING;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED;
 	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
@@ -110,6 +114,10 @@ public class GolemModifiers {
 				"Pickup Augment: No Destroy", "When a golem attempts to pickup an item and find nowhere to place it, it will not pickup the item instead. It will cause lag if the golem is in a region with lots of items.");
 		PICKUP_MENDING = reg("pickup_mending", () -> new SimpleFlagModifier(StatFilterType.MASS, GolemFlags.MENDING),
 				"Pickup Augment: Mending", "When a golem picks up experiences, it will try to heal itself with the experience.");
+		TALENTED = reg("talented", TalentMetaModifier::new, "Talented",
+				"First of every kind of upgrades with blue arrow will no longer consume upgrade slots (up to 4)");
+		CAULDRON = reg("cauldron", PotionMetaModifier::new, "Cauldron",
+				"Repeated potion upgrades will no longer consume upgrade slots.");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {

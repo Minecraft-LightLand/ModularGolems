@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:wither"
+        "recipe": "modulargolems:cauldron"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:wither"
+      "modulargolems:cauldron"
     ]
   }
 }

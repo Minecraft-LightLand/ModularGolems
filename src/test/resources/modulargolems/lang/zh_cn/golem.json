@@ -67,24 +67,18 @@
 	"ender_sight": "透视",
 	"ender_sight.desc": "傀儡能看穿墙壁和天花板",
 	"speed_up": "移动速度提升",
-	"cleanse": "药水升级：净化",
-	"curse": "药水升级：诅咒",
 	"emerald": "掠夺者杀手",
 	"emerald.desc": "对掠夺者造成+%s%%伤害",
-	"incarcerate": "药水升级：禁锢",
-	"poseidite": "海神",
-	"poseidite.desc": "对怕水生物和水生生物造成+%s%%伤害",
 	"slow": "药水升级：缓慢",
-	"totemic_gold": "生命",
-	"totemic_gold.desc": "对亡灵生物造成+%s%%伤害",
 	"weak": "药水升级：虚弱",
 	"wither": "药水升级：凋零",
 	"pickup": "拾取升级",
-	"pickup.desc": "傀儡会捡起附近的物品和经验并交给你。详细机制请查阅帕秋莉说明书。如果傀儡找不到地方放物品/经验，傀儡会把物品/经验销毁。",
+	"pickup.desc": "傀儡会捡起附近的物品和经验并交给你。详细机制请查阅帕秋莉说明书。如果傀儡找不到地方放物品/经验，傀儡会把物品/经验销毁",
 	"pickup_mending": "拾取附属：经验修补",
 	"pickup_mending.desc": "傀儡拾取经验时，会试图使用经验修补自身。",
 	"pickup_no_destroy": "拾取附属：取消销毁",
-	"pickup_no_destroy.desc": "傀儡找不到地方放物品时不会销毁物品，也不会拾取物品。注意：这个升级可能会造成卡顿。"
-
+	"pickup_no_destroy.desc": "傀儡找不到地方放物品时不会销毁物品，也不会拾取物品。注意：在大量掉落物的区域使用这个升级可能会造成卡顿",
+	"talented": "多才多艺",
+	"talented.desc": "前4种蓝色升级的第一个升级不消耗升级槽"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "name": "辅助升级：多才多艺",
+  "icon": "modulargolems:talented",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:talented",
+	  "text": "前4种蓝色升级的第一个升级都不消耗升级槽。已消耗的升级槽会返还。同种升级的重复升级还是会消耗升级槽。"
+	}
+  ]
+}

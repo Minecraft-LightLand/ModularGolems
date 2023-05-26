@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pickup": {
+    "has_empty_upgrade": {
       "conditions": {
         "items": [
           {
             "items": [
-              "modulargolems:pickup"
+              "modulargolems:empty_upgrade"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_pickup",
+      "has_empty_upgrade",
       "has_the_recipe"
     ]
   ],

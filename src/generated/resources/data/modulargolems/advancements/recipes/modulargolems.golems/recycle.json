@@ -1,28 +1,28 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "modulargolems:recycle"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_totem_of_undying": {
+    "has_empty_upgrade": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:totem_of_undying"
+              "modulargolems:empty_upgrade"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:recycle"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_totem_of_undying",
+      "has_empty_upgrade",
       "has_the_recipe"
     ]
   ],

@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.common.modifier;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -20,7 +21,8 @@ public class AddSlotModifier extends GolemModifier {
 	}
 
 	@Override
-	public int addSlot() {
-		return 1;
+	public int addSlot(List<UpgradeItem> list, int lv) {
+		return lv;
 	}
+
 }

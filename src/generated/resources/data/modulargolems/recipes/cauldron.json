@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:nether_star"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "item": "minecraft:dragon_breath"
+    },
+    "D": {
+      "item": "minecraft:cauldron"
+    },
+    "E": {
+      "item": "minecraft:dragon_head"
+    }
+  },
+  "pattern": [
+    "CEC",
+    "ABA",
+    "CDC"
+  ],
+  "result": {
+    "item": "modulargolems:cauldron"
+  }
+}

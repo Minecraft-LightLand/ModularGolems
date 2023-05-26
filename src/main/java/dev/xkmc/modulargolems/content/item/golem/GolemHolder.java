@@ -9,6 +9,8 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -38,10 +40,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
@@ -324,7 +323,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		int base = getEntityType().values().length - upgrades.size();
 		var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 		for (var ent : modifiers.entrySet()) {
-			base += ent.getKey().addSlot() * ent.getValue();
+			base += ent.getKey().addSlot(upgrades, ent.getValue());
 		}
 		return base;
 	}

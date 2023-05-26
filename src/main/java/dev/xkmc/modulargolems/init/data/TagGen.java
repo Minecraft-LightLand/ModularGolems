@@ -26,6 +26,7 @@ public class TagGen {
 	public static final TagKey<Item> GOLEM_HOLDERS = createItemTag("holders");
 	public static final TagKey<Item> GOLEM_UPGRADES = createItemTag("upgrades");
 	public static final TagKey<Item> BLUE_UPGRADES = createItemTag("blue_upgrades");
+	public static final TagKey<Item> POTION_UPGRADES = createItemTag("potion_upgrades");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
 
@@ -52,6 +53,11 @@ public class TagGen {
 				GolemItems.PICKUP_NO_DESTROY.get(),
 				GolemItems.RECYCLE.get(),
 				GolemItems.SWIM.get()
+		);
+		pvd.tag(POTION_UPGRADES).add(
+				GolemItems.WEAK.get(),
+				GolemItems.SLOW.get(),
+				GolemItems.WITHER.get()
 		);
 	}
 

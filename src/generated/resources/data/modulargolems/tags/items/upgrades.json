@@ -22,6 +22,8 @@
     "modulargolems:pickup",
     "modulargolems:pickup_mending",
     "modulargolems:pickup_no_destroy",
+    "modulargolems:talented",
+    "modulargolems:cauldron",
     {
       "id": "modulargolems:carminite",
       "required": false

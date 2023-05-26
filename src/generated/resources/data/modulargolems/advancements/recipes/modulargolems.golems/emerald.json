@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_emerald": {
+    "has_empty_upgrade": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:emerald"
+              "modulargolems:empty_upgrade"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_emerald",
+      "has_empty_upgrade",
       "has_the_recipe"
     ]
   ],
