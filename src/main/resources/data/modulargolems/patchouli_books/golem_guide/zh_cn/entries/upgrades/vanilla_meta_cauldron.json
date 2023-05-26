@@ -1,0 +1,12 @@
+{
+  "name": "Meta Upgrade: Cauldron",
+  "icon": "modulargolems:cauldron",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:cauldron",
+	  "text": "重复的药水升级不消耗升级槽。一种药水升级不论等级只消耗一个槽。"
+	}
+  ]
+}

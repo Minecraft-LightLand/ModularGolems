@@ -1,0 +1,12 @@
+{
+  "name": "Meta Upgrade: Cauldron",
+  "icon": "modulargolems:cauldron",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:cauldron",
+	  "text": "Repeated potion upgrades will not consume upgrade slot. One kind of potion upgrade will consume one slot regardless of its level."
+	}
+  ]
+}

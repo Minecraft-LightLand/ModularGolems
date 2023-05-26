@@ -43,6 +43,7 @@
 	"pickup": "拾取升级",
 	"pickup_mending": "拾取附属：经验修补",
 	"pickup_no_destroy": "拾取附属：取消销毁",
-	"talented": "辅助升级：多才多艺"
+	"talented": "辅助升级：多才多艺",
+	"cauldron": "辅助升级：炼药锅"
   }
 }

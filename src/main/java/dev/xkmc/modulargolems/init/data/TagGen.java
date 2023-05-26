@@ -52,7 +52,10 @@ public class TagGen {
 				GolemItems.PICKUP_MENDING.get(),
 				GolemItems.PICKUP_NO_DESTROY.get(),
 				GolemItems.RECYCLE.get(),
-				GolemItems.SWIM.get()
+				GolemItems.SWIM.get(),
+				GolemItems.FIRE_IMMUNE.get(),
+				GolemItems.THUNDER_IMMUNE.get(),
+				GolemItems.PLAYER_IMMUNE.get()
 		);
 		pvd.tag(POTION_UPGRADES).add(
 				GolemItems.WEAK.get(),

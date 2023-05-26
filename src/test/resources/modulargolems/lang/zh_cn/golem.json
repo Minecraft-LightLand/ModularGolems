@@ -79,6 +79,8 @@
 	"pickup_no_destroy": "拾取附属：取消销毁",
 	"pickup_no_destroy.desc": "傀儡找不到地方放物品时不会销毁物品，也不会拾取物品。注意：在大量掉落物的区域使用这个升级可能会造成卡顿",
 	"talented": "多才多艺",
-	"talented.desc": "前4种蓝色升级的第一个升级不消耗升级槽"
+	"talented.desc": "前4种蓝色升级的第一个升级不消耗升级槽",
+	"cauldron": "炼药锅",
+	"cauldron.desc": "重复的药水升级不消耗升级槽"
   }
 }

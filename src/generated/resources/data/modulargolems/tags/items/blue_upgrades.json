@@ -7,6 +7,9 @@
     "modulargolems:pickup_mending",
     "modulargolems:pickup_no_destroy",
     "modulargolems:recycle",
-    "modulargolems:swim"
+    "modulargolems:swim",
+    "modulargolems:fire_immune",
+    "modulargolems:thunder_immune",
+    "modulargolems:player"
   ]
 }

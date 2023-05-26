@@ -9,8 +9,6 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.LangData;
-import dev.xkmc.modulargolems.init.data.TagGen;
-import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -40,7 +38,10 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
@@ -192,10 +193,21 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		} else {
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
-			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> {
+			var map = GolemMaterial.collectModifiers(mats, upgrades);
+			int size = map.size();
+			int index = 0;
+			for (var entry : map.entrySet()) {
+				index++;
+				var k = entry.getKey();
+				var v = entry.getValue();
 				list.add(k.getTooltip(v));
+				if (size > 4) {
+					if (level == null) continue;
+					if (!level.isClientSide()) continue;
+					if (level.getGameTime() / 30 % size != index - 1) continue;
+				}
 				list.addAll(k.getDetail(v));
-			});
+			}
 		}
 	}
 
