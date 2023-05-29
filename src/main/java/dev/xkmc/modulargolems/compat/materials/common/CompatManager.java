@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.common;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,7 +21,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(TFDispatch.MODID)) LIST.add(new TFDispatch());
 		//if (ModList.get().isLoaded(CreateDispatch.MODID)) LIST.add(new CreateDispatch()); TODO
 		if (ModList.get().isLoaded(LCDispatch.MODID)) LIST.add(new LCDispatch());
-		//if (ModList.get().isLoaded(BGDispatch.MODID)) LIST.add(new BGDispatch()); TODO
+		if (ModList.get().isLoaded(BGDispatch.MODID)) LIST.add(new BGDispatch());
 	}
 
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {

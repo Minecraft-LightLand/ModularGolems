@@ -29,8 +29,9 @@ public class ModularGolems {
 	public static final String MODID = "modulargolems";
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
+	public static final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
-	private static void registerRegistrates(IEventBus bus) {
+	private static void registerRegistrates() {
 		GolemItems.register();
 		GolemTypes.register();
 		GolemMiscs.register();
@@ -48,9 +49,7 @@ public class ModularGolems {
 	}
 
 	public ModularGolems() {
-		FMLJavaModLoadingContext ctx = FMLJavaModLoadingContext.get();
-		IEventBus bus = ctx.getModEventBus();
-		registerRegistrates(bus);
+		registerRegistrates();
 	}
 
 	@SubscribeEvent
