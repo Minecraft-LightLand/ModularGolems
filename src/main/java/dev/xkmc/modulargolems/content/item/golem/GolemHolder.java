@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.golem;
 
+import com.mojang.datafixers.util.Pair;
 import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
@@ -9,6 +10,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -25,6 +27,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -161,6 +164,31 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		super(props.stacksTo(1));
 		this.type = type;
 		GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
+	}
+
+	@Override
+	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+		CompoundTag root = stack.getTag();
+		if (root == null) return;
+		if (root.contains(KEY_ENTITY) && entity.tickCount % 20 == 0) {
+			var health = getHealth(stack);
+			var maxHealth = getMaxHealth(stack);
+			if (health < maxHealth) {
+				var mats = getMaterial(stack);
+				var upgrades = getUpgrades(stack);
+				var attr = GolemMaterial.collectAttributes(mats, upgrades);
+				var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
+				double heal = attr.getOrDefault(GolemTypes.GOLEM_REGEN.get(), Pair.of(GolemTypes.STAT_REGEN.get(), 0d)).getSecond();
+				if (heal > 0) {
+					for (var entry : modifiers.entrySet()) {
+						heal = entry.getKey().onInventoryHealTick(heal, entity, entry.getValue());
+					}
+					if (heal > 0) {
+						setHealth(stack, Math.min(maxHealth, (float) heal + health));
+					}
+				}
+			}
+		}
 	}
 
 	@Override

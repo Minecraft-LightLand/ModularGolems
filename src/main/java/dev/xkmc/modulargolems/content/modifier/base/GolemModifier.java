@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraftforge.api.distmarker.Dist;
@@ -90,6 +91,13 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	 * modify healing
 	 */
 	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
+		return onInventoryHealTick(heal, entity, level);
+	}
+
+	/**
+	 * modify healing
+	 */
+	public double onInventoryHealTick(double heal, Entity entity, int level) {
 		return heal;
 	}
 
