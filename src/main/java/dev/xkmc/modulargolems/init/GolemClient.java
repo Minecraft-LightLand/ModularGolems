@@ -37,7 +37,7 @@ public class GolemClient {
 					entity != null && entity.isBlocking() && entity.getUseItem() == stack ? 1.0F : 0.0F;
 			ItemProperties.register(Items.SHIELD, new ResourceLocation("blocking"), func);
 			ClampedItemPropertyFunction arrow = (stack, level, entity, layer) ->
-					stack.is(TagGen.BLUE_UPGRADES) ? 1 : 0;
+					stack.is(TagGen.BLUE_UPGRADES) ? 1 : stack.is(TagGen.POTION_UPGRADES) ? 0.5f : 0;
 			for (var item : UpgradeItem.LIST)
 				ItemProperties.register(item, new ResourceLocation(ModularGolems.MODID, "blue_arrow"), arrow);
 			CompatManager.dispatchClientSetup(clientBus);

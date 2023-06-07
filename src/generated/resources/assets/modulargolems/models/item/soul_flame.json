@@ -4,7 +4,7 @@
     {
       "model": "modulargolems:item/soul_flame_blue",
       "predicate": {
-        "modulargolems:blue_arrow": 0.5
+        "modulargolems:blue_arrow": 1.0
       }
     }
   ],
