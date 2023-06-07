@@ -41,6 +41,6 @@ public class PotionDefenseModifier extends GolemModifier {
 					Component.translatable("potion.potency." + ins.getAmplifier()));
 		}
 		lang = lang.withStyle(mobeffect.getCategory().getTooltipFormatting());
-		return List.of(LangData.POTION_ATTACK.get(lang).withStyle(ChatFormatting.GREEN));
+		return List.of(LangData.POTION_DEFENSE.get(lang).withStyle(ChatFormatting.GREEN));
 	}
 }
