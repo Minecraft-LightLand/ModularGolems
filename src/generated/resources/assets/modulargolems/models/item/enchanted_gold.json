@@ -2,6 +2,12 @@
   "parent": "minecraft:item/generated",
   "overrides": [
     {
+      "model": "modulargolems:item/enchanted_gold_purple",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    },
+    {
       "model": "modulargolems:item/enchanted_gold_blue",
       "predicate": {
         "modulargolems:blue_arrow": 1.0

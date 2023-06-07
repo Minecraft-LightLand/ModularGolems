@@ -184,7 +184,7 @@ public class GolemItems {
 								.parent(new ModelFile.UncheckedModelFile("item/generated"))
 								.texture("layer0", new ResourceLocation(modid, "item/upgrades/" + id))
 								.texture("layer1", new ResourceLocation(ModularGolems.MODID, "item/purple_arrow")))
-						.predicate(new ResourceLocation(ModularGolems.MODID, "blue_arrow"), 1)
+						.end().override().predicate(new ResourceLocation(ModularGolems.MODID, "blue_arrow"), 1)
 						.model(pvd.getBuilder(pvd.name(ctx) + "_blue")
 								.parent(new ModelFile.UncheckedModelFile("item/generated"))
 								.texture("layer0", new ResourceLocation(modid, "item/upgrades/" + id))

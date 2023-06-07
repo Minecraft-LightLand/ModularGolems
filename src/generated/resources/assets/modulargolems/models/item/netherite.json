@@ -2,6 +2,12 @@
   "parent": "minecraft:item/generated",
   "overrides": [
     {
+      "model": "modulargolems:item/netherite_purple",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    },
+    {
       "model": "modulargolems:item/netherite_blue",
       "predicate": {
         "modulargolems:blue_arrow": 1.0

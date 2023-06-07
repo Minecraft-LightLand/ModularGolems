@@ -2,6 +2,12 @@
   "parent": "minecraft:item/generated",
   "overrides": [
     {
+      "model": "modulargolems:item/sponge_purple",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    },
+    {
       "model": "modulargolems:item/sponge_blue",
       "predicate": {
         "modulargolems:blue_arrow": 1.0
