@@ -65,8 +65,10 @@ public class LCCompatRegistry {
 		TagGen.OPTIONAL_ITEM.add(e -> e.tag(TagGen.POTION_UPGRADES)
 				.addOptional(FLAME_UP.getId())
 				.addOptional(FREEZE_UP.getId())
-				.addOptional(CURSE.getId())
-				.addOptional(INCARCERATE.getId()));
+				.addOptional(UPGRADE_CURSE.getId())
+				.addOptional(UPGRADE_INCARCERATE.getId()));
+		TagGen.OPTIONAL_ITEM.add(e -> e.tag(TagGen.BLUE_UPGRADES)
+				.addOptional(UPGRADE_CLEANSE.getId()));
 	}
 
 }

@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "伤害升级 V",
+  "icon": "modulargolems:attack_high",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:attack_high",
+	  "text": "大幅提升傀儡伤害，等同于5个石英升级"
+	}
+  ]
+}

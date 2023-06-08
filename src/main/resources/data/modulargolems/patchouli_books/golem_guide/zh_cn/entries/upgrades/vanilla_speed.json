@@ -1,0 +1,12 @@
+{
+  "name": "速度升级",
+  "icon": "modulargolems:speed",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:speed",
+	  "text": "提升傀儡速度。最高5级"
+	}
+  ]
+}

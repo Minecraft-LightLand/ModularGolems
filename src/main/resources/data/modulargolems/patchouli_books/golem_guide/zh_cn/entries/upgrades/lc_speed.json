@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "速度升级 V",
+  "icon": "modulargolems:speed_high",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:speed_high",
+	  "text": "大幅提升傀儡速度。等同于5个速度升级"
+	}
+  ]
+}

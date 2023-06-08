@@ -1,4 +1,4 @@
-// 1.19.2	2023-06-07T11:27:53.220978	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.19.2	2023-06-07T22:12:43.835497	Registrate Provider for modulargolems [Recipes, Advancements, Loot tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 6700cd0a7cf3a62d86f19a42865dac2c8eb0177e assets/modulargolems/lang/en_ud.json
 48ba471f1a209c0db4e3cc5e0bc3150e5cd99abf assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
@@ -422,7 +422,7 @@ dc9828376ce7222eaf70e84e17da50c12da9b9a3 data/modulargolems/recipes/summon_wand.
 9b42881e16fbd2fbe9aa80145fae6ff1f746f529 data/modulargolems/recipes/wither.json
 8c7f8c2a4ce49e14ec689a131ffac7866307c9ac data/modulargolems/tags/blocks/potential_destination.json
 945fa724fc2c471d03c5f1e3da78d41a600d5703 data/modulargolems/tags/entity_types/friendly.json
-0cb051ffecd7c70a2939bcffa3f8e194e96d8925 data/modulargolems/tags/items/blue_upgrades.json
+52cb9fddebf86a2e526b567f788fbc05fa58c21a data/modulargolems/tags/items/blue_upgrades.json
 0ff0909d28c29ae47fd17620ccf9d12ead26d8ca data/modulargolems/tags/items/holders.json
 1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 b6a68b2e48cecf36bcdf9a71fd230aa942ef5ab6 data/modulargolems/tags/items/potion_upgrades.json
