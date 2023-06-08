@@ -173,7 +173,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (root.contains(KEY_ENTITY) && entity.tickCount % 20 == 0) {
 			var health = getHealth(stack);
 			var maxHealth = getMaxHealth(stack);
-			if (health < maxHealth) {
+			if (health > 0 && health < maxHealth) {
 				var mats = getMaterial(stack);
 				var upgrades = getUpgrades(stack);
 				var attr = GolemMaterial.collectAttributes(mats, upgrades);
