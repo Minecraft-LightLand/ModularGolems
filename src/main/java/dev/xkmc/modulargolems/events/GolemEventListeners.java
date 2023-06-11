@@ -9,6 +9,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class GolemEventListeners  {
 	@SubscribeEvent
 	public static void onEquip(GolemEquipEvent event) {
+		if (event.getStack().getItem() instanceof ArrowItem) {
+			event.setSlot(EquipmentSlot.OFFHAND, event.getStack().getCount());
+		}
 		if (!event.getEntity().getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
 			if (event.getStack().getItem() instanceof BowItem) {
 				event.setSlot(EquipmentSlot.OFFHAND, event.getStack().getCount());
