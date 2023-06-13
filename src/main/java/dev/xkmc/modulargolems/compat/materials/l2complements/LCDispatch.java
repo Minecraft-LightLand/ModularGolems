@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
-import dev.xkmc.l2complements.init.data.LCConfig;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.l2complements.init.data.LCConfig;
 import dev.xkmc.l2complements.init.registrate.LCEnchantments;
 import dev.xkmc.l2complements.init.registrate.LCItems;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
@@ -69,17 +69,17 @@ public class LCDispatch extends ModDispatch {
 				.requires(LCItems.VOID_EYE.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, new ShapelessRecipeBuilder(LCCompatRegistry.ATK_UP.get(), 1)::unlockedBy, LCItems.EXPLOSION_SHARD.get())
+		safeUpgrade(pvd, new ShapelessRecipeBuilder(RecipeCategory.MISC, LCCompatRegistry.ATK_UP.get(), 1)::unlockedBy, LCItems.EXPLOSION_SHARD.get())
 				.requires(GolemItems.QUARTZ.get())
 				.requires(LCItems.EXPLOSION_SHARD.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, new ShapelessRecipeBuilder(LCCompatRegistry.SPEED_UP.get(), 1)::unlockedBy, LCItems.CAPTURED_WIND.get())
+		safeUpgrade(pvd, new ShapelessRecipeBuilder(RecipeCategory.MISC, LCCompatRegistry.SPEED_UP.get(), 1)::unlockedBy, LCItems.CAPTURED_WIND.get())
 				.requires(GolemItems.SPEED.get())
 				.requires(LCItems.CAPTURED_WIND.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(LCCompatRegistry.UPGRADE_CURSE.get())::unlockedBy, LCItems.CURSED_DROPLET.get())
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LCCompatRegistry.UPGRADE_CURSE.get())::unlockedBy, LCItems.CURSED_DROPLET.get())
 				.pattern("A1A").pattern("CBC").pattern("A2A")
 				.define('C', Items.DRAGON_BREATH)
 				.define('A', LCItems.CURSED_DROPLET.get())
@@ -88,7 +88,7 @@ public class LCDispatch extends ModDispatch {
 				.define('2', Items.NETHER_STAR)
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(LCCompatRegistry.UPGRADE_INCARCERATE.get())::unlockedBy, LCItems.BLACKSTONE_CORE.get())
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LCCompatRegistry.UPGRADE_INCARCERATE.get())::unlockedBy, LCItems.BLACKSTONE_CORE.get())
 				.pattern("A1A").pattern("CBC").pattern("A2A")
 				.define('C', Items.DRAGON_BREATH)
 				.define('A', LCItems.BLACKSTONE_CORE.get())
@@ -97,7 +97,7 @@ public class LCDispatch extends ModDispatch {
 				.define('2', Items.NETHER_STAR)
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(LCCompatRegistry.UPGRADE_CLEANSE.get())::unlockedBy, LCItems.LIFE_ESSENCE.get())
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LCCompatRegistry.UPGRADE_CLEANSE.get())::unlockedBy, LCItems.LIFE_ESSENCE.get())
 				.pattern("A1A").pattern("CBC").pattern("A2A")
 				.define('C', Items.DRAGON_BREATH)
 				.define('A', LCItems.LIFE_ESSENCE.get())
@@ -113,7 +113,7 @@ public class LCDispatch extends ModDispatch {
 	}
 
 	@Override
-	public void dispatchClientSetup() {
+	public void dispatchClientSetup(IEventBus bus) {
 		ForceFieldLayer.registerLayer();
 	}
 

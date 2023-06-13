@@ -192,7 +192,7 @@ public class GolemItems {
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {
 		var reg = regUpgradeImpl(id, mod, lv, foil, modid);
-		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.tag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
+		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.addTag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
 		return reg;
 	}
 

@@ -19,7 +19,7 @@ public class TFDamageModifier extends GolemModifier {
 
 	@Override
 	public float modifyDamage(float damage, AbstractGolemEntity<?, ?> entity, int level) {
-		if (entity.getLevel().dimensionTypeId().equals(TFDimensionSettings.TWILIGHT_DIM_TYPE.getKey())) {
+		if (entity.getLevel().dimensionTypeId().equals(TFDimensionSettings.TWILIGHT_DIM_TYPE)) {
 			return (float) (damage * (1 + ModConfig.COMMON.compatTFDamage.get() * level));
 		}
 		return damage;
