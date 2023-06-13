@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.blazegear;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,11 +19,6 @@ public class BlazingModifier extends GolemModifier {
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
 		addGoal.accept(5, new BlazeAttackGoal(entity, lv));
-	}
-
-	@Override
-	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
-		return super.onHealTick(heal, entity, level);
 	}
 
 	@OnlyIn(Dist.CLIENT)

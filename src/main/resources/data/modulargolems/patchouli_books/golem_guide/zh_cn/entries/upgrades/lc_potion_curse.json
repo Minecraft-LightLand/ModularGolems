@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "药水升级：诅咒",
+  "icon": "modulargolems:curse",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:curse",
+	  "text": "对攻击傀儡和被傀儡攻击的敌人施加每级3秒的诅咒效果。诅咒效果会阻止敌方回血。最高等级：3"
+	}
+  ]
+}

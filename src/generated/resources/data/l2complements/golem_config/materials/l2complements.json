@@ -20,6 +20,7 @@
     },
     "l2complements:poseidite": {
       "modulargolems:conduit": 1,
+      "modulargolems:poseidite": 1,
       "modulargolems:swim": 1
     },
     "l2complements:shulkerate": {
@@ -27,7 +28,8 @@
       "modulargolems:projectile_reject": 1
     },
     "l2complements:totemic_gold": {
-      "modulargolems:recycle": 1
+      "modulargolems:recycle": 1,
+      "modulargolems:totemic_gold": 1
     }
   },
   "stats": {

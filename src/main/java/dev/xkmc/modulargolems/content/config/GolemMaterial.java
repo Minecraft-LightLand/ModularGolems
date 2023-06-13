@@ -7,8 +7,8 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
-import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.ModConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -57,7 +57,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 		for (GolemMaterial stats : list) {
 			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
 		}
-		upgrades.forEach(e -> values.compute(e.get(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + e.level)));
+		upgrades.stream().flatMap(e -> e.get().stream()).forEach(e -> values.compute(e.mod(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + e.level())));
 		return values;
 	}
 

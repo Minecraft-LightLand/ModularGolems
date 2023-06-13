@@ -1,0 +1,19 @@
+{
+  "values": [
+    {
+      "id": "modulargolems:cleanse",
+      "required": false
+    },
+    "modulargolems:bell",
+    "modulargolems:ender_sight",
+    "modulargolems:float",
+    "modulargolems:pickup",
+    "modulargolems:pickup_mending",
+    "modulargolems:pickup_no_destroy",
+    "modulargolems:recycle",
+    "modulargolems:swim",
+    "modulargolems:fire_immune",
+    "modulargolems:thunder_immune",
+    "modulargolems:player"
+  ]
+}

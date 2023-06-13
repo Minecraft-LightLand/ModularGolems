@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:nether_star"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "tag": "forge:heads"
+    },
+    "E": {
+      "item": "minecraft:dragon_head"
+    }
+  },
+  "pattern": [
+    "CEC",
+    "ABA",
+    "CAC"
+  ],
+  "result": {
+    "item": "modulargolems:talented"
+  }
+}

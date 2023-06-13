@@ -1,0 +1,12 @@
+{
+  "name": "Meta Upgrade: Talented",
+  "icon": "modulargolems:talented",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:talented",
+	  "text": "First of each kind of upgrades with blue arrows will no longer consume upgrade slots (up to 4). Already consumed slots will be returned. New blue upgrades can be applied even when there are no slots left. Multiple blue arrow upgrades of the same kind would still consume slots."
+	}
+  ]
+}

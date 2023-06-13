@@ -2,6 +2,8 @@ package dev.xkmc.modulargolems.content.item.golem;
 
 import com.tterrag.registrate.util.CreativeModeTabModifier;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.mojang.datafixers.util.Pair;
+import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -10,6 +12,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -25,6 +28,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -163,6 +167,31 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	@Override
+	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+		CompoundTag root = stack.getTag();
+		if (root == null) return;
+		if (root.contains(KEY_ENTITY) && entity.tickCount % 20 == 0) {
+			var health = getHealth(stack);
+			var maxHealth = getMaxHealth(stack);
+			if (health > 0 && health < maxHealth) {
+				var mats = getMaterial(stack);
+				var upgrades = getUpgrades(stack);
+				var attr = GolemMaterial.collectAttributes(mats, upgrades);
+				var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
+				double heal = attr.getOrDefault(GolemTypes.GOLEM_REGEN.get(), Pair.of(GolemTypes.STAT_REGEN.get(), 0d)).getSecond();
+				if (heal > 0) {
+					for (var entry : modifiers.entrySet()) {
+						heal = entry.getKey().onInventoryHealTick(heal, entity, entry.getValue());
+					}
+					if (heal > 0) {
+						setHealth(stack, Math.min(maxHealth, (float) heal + health));
+					}
+				}
+			}
+		}
+	}
+
+	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		if (!Screen.hasShiftDown()) {
 			float max = getMaxHealth(stack);
@@ -192,10 +221,21 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		} else {
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
-			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> {
+			var map = GolemMaterial.collectModifiers(mats, upgrades);
+			int size = map.size();
+			int index = 0;
+			for (var entry : map.entrySet()) {
+				index++;
+				var k = entry.getKey();
+				var v = entry.getValue();
 				list.add(k.getTooltip(v));
+				if (size > 4) {
+					if (level == null) continue;
+					if (!level.isClientSide()) continue;
+					if (level.getGameTime() / 30 % size != index - 1) continue;
+				}
 				list.addAll(k.getDetail(v));
-			});
+			}
 		}
 	}
 
@@ -321,7 +361,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		int base = getEntityType().values().length - upgrades.size();
 		var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 		for (var ent : modifiers.entrySet()) {
-			base += ent.getKey().addSlot() * ent.getValue();
+			base += ent.getKey().addSlot(upgrades, ent.getValue());
 		}
 		return base;
 	}

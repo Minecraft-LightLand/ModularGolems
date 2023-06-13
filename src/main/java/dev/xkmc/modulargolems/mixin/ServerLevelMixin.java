@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.mixin;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
@@ -19,7 +19,6 @@ import java.util.Optional;
 @Mixin(ServerLevel.class)
 public class ServerLevelMixin {
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Inject(at = @At("HEAD"), method = "findLightningRod", cancellable = true)
 	public void findLightningRod(BlockPos blockpos, CallbackInfoReturnable<Optional<BlockPos>> cir) {
 		ServerLevel self = (ServerLevel) (Object) this;
@@ -30,8 +29,7 @@ public class ServerLevelMixin {
 
 		AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.getX(), self.getMaxBuildHeight(), blockpos.getZ()))).inflate(64);
 		List<AbstractGolemEntity> list = self.getEntitiesOfClass(AbstractGolemEntity.class, aabb, (e) -> e != null &&
-				e.isAlive() && self.canSeeSky(e.blockPosition()) &&
-				(Integer) e.getModifiers().getOrDefault(GolemModifiers.THUNDER_IMMUNE.get(), 0) > 0);
+				e.isAlive() && self.canSeeSky(e.blockPosition()) && e.hasFlag(GolemFlags.THUNDER_IMMUNE));
 		if (list.size() > 0) {
 			cir.setReturnValue(Optional.of(list.get(self.random.nextInt(list.size())).blockPosition()));
 		}

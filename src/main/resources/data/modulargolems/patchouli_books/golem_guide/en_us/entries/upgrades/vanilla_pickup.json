@@ -1,0 +1,23 @@
+{
+  "name": "Pickup Upgrade",
+  "icon": "modulargolems:pickup",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:pickup",
+	  "text": "Allow golems to pick up items and experiences. The pickup radius increase with upgrade level. Max: 3$(br2)There are 2 Augments available, also it supports L2Backpack and Create Enchantment Industry as destination to receive items and experiences.$(br2)Note that golem will not actively find items and experiences."
+	},{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:pickup_no_destroy",
+	  "text": "The golem will first try to put the items into the closest container it finds when it spawns. If it cannot find containers or the closest container is full (it will not search again once binded), it will attempt to teleport the item to player. And if the player is not present, it will destroy the item to prevent lag. If the golem has No Destroy Augment, it will not destroy the item."
+	},{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:pickup_mending",
+	  "text": "The golem will first try to use the experiences to fix its mending equipments. Then if the golem has Mending Augment, it will try to heal itself with the experiences. Then, if the player is present, it will give the experiences to player. Otherwise, it will destroy the experiences."
+	},{
+	  "type": "patchouli:text",
+	  "text": "If you installed L2Backpack, golem can use Dimensional Backpack and will try to insert items into its Dimensional Backpack before searching for containers.$(br2)If you installed Create Enchantment Industry, golem will try to insert experiences into the disenchanter if it stands on one, before trying to teleport the items to player."
+	}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "药水升级：凋零",
+  "icon": "modulargolems:wither",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:wither",
+	  "text": "对攻击傀儡和被傀儡攻击的敌人施加3秒的凋零效果。效果等级和升级等级相同。最高等级：3"
+	}
+  ]
+}

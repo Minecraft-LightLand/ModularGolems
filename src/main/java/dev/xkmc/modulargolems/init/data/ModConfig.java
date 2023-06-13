@@ -28,6 +28,9 @@ public class ModConfig {
 		public final ForgeConfigSpec.IntValue thunderHeal;
 		public final ForgeConfigSpec.IntValue teleportRadius;
 		public final ForgeConfigSpec.BooleanValue exponentialStat;
+		public final ForgeConfigSpec.DoubleValue targetDamageBonus;
+		public final ForgeConfigSpec.IntValue basePickupRange;
+		public final ForgeConfigSpec.IntValue mendingXpCost;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
@@ -81,6 +84,12 @@ public class ModConfig {
 					.defineInRange("conduitBoostReduction", 0.2, 0, 100);
 			teleportRadius = builder.comment("Teleport max radius")
 					.defineInRange("teleportRadius", 6, 1, 32);
+			targetDamageBonus = builder.comment("Damage bonus for attacking specific type of enemy")
+					.defineInRange("targetDamageBonus", 0.5, 0, 100);
+			basePickupRange = builder.comment("Pickup range per level for pickup upgrade")
+					.defineInRange("basePickupRange", 6, 1, 16);
+			mendingXpCost = builder.comment("Mending Xp Cost per health point")
+					.defineInRange("mendingXpCost", 2, 1, 10000);
 			builder.pop();
 		}
 

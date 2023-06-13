@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "l2complements:eternium_ingot",
-	  "text": "制造永恒傀儡部件的材料。永恒傀儡身体部件能让傀儡免疫虚空伤害以外的所有伤害。"
+	  "text": "制造永恒傀儡部件的材料。永恒傀儡身体部件能让傀儡免疫虚空伤害以外的所有伤害。怪物不会攻击这个傀儡，有钟升级也一样。"
 	},
 	{
 	  "type": "patchouli:spotlight",

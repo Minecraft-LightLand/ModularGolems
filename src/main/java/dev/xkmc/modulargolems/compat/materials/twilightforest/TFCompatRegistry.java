@@ -5,8 +5,8 @@ import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.Carminite
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.FieryModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFDamageModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFHealingModifier;
-import dev.xkmc.modulargolems.content.item.UpgradeItem;
-import dev.xkmc.modulargolems.content.modifier.common.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.item.SimpleUpgradeItem;
+import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
@@ -21,7 +21,7 @@ public class TFCompatRegistry {
 	public static final RegistryEntry<CarminiteModifier> CARMINITE;
 	public static final RegistryEntry<AttributeGolemModifier> NAGA;
 
-	public static final RegistryEntry<UpgradeItem> UP_CARMINITE, UP_STEELEAF, UP_FIERY, UP_IRONWOOD, UP_KNIGHTMETAL, UP_NAGA;
+	public static final RegistryEntry<SimpleUpgradeItem> UP_CARMINITE, UP_STEELEAF, UP_FIERY, UP_IRONWOOD, UP_KNIGHTMETAL, UP_NAGA;
 
 	static {
 		FIERY = reg("fiery", FieryModifier::new, "Deal %s%% fire damage to mobs not immune to fire");

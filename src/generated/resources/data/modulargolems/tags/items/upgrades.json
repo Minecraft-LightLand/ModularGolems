@@ -15,6 +15,15 @@
     "modulargolems:ender_sight",
     "modulargolems:bell",
     "modulargolems:speed",
+    "modulargolems:slow",
+    "modulargolems:weak",
+    "modulargolems:wither",
+    "modulargolems:emerald",
+    "modulargolems:pickup",
+    "modulargolems:pickup_mending",
+    "modulargolems:pickup_no_destroy",
+    "modulargolems:talented",
+    "modulargolems:cauldron",
     {
       "id": "modulargolems:carminite",
       "required": false
@@ -61,6 +70,18 @@
     },
     {
       "id": "modulargolems:speed_high",
+      "required": false
+    },
+    {
+      "id": "modulargolems:curse",
+      "required": false
+    },
+    {
+      "id": "modulargolems:incarcerate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:cleanse",
       "required": false
     }
   ]

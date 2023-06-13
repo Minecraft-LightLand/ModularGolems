@@ -1,5 +1,19 @@
 {
   "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "modulargolems:item/diamond_purple",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    },
+    {
+      "model": "modulargolems:item/diamond_blue",
+      "predicate": {
+        "modulargolems:blue_arrow": 1.0
+      }
+    }
+  ],
   "textures": {
     "layer0": "modulargolems:item/upgrades/diamond"
   }

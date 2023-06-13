@@ -1,28 +1,28 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "modulargolems:sponge"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_wet_sponge": {
+    "has_empty_upgrade": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:wet_sponge"
+              "modulargolems:empty_upgrade"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:sponge"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_wet_sponge",
+      "has_empty_upgrade",
       "has_the_recipe"
     ]
   ],

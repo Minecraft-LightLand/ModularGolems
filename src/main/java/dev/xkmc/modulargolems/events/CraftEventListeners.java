@@ -16,8 +16,11 @@ import net.minecraftforge.event.GrindstoneEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+
+
 public class CraftEventListeners {
 
 	@SubscribeEvent
@@ -112,14 +115,18 @@ public class CraftEventListeners {
 		ItemStack stack = event.getLeft();
 		var mats = GolemHolder.getMaterial(stack);
 		var upgrades = GolemHolder.getUpgrades(stack);
-		int remaining = holder.getRemaining(mats, upgrades);
-		if (remaining <= 0) return;
+		var copy = new ArrayList<>(upgrades);
+		copy.add(upgrade);
+		int remaining = holder.getRemaining(mats, copy);
+		if (remaining < 0) return; // check if it overflows when adding the new upgrade
 		var map = GolemMaterial.collectModifiers(GolemHolder.getMaterial(stack), upgrades);
-		if (map.getOrDefault(upgrade.get(), 0) >= upgrade.get().maxLevel) return;
+		for (var e : upgrade.get()) {
+			if (map.getOrDefault(e.mod(), 0) >= e.mod().maxLevel) return;
+		}
 		ItemStack result = stack.copy();
 		GolemHolder.addUpgrade(result, upgrade);
 		event.setOutput(result);
-		event.setCost(4 << upgrades.size());
+		event.setCost(Math.min(39, 4 * (1 + upgrades.size())));
 		event.setMaterialCost(1);
 	}
 

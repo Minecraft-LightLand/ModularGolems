@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.twilightforest.modifier;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.modifier.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.ModConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -19,7 +19,7 @@ public class TFDamageModifier extends GolemModifier {
 
 	@Override
 	public float modifyDamage(float damage, AbstractGolemEntity<?, ?> entity, int level) {
-		if (entity.getLevel().dimensionTypeId().equals(TFDimensionSettings.TWILIGHT_DIM_TYPE)) {
+		if (entity.getLevel().dimensionTypeId().equals(TFDimensionSettings.TWILIGHT_DIM_TYPE.getKey())) {
 			return (float) (damage * (1 + ModConfig.COMMON.compatTFDamage.get() * level));
 		}
 		return damage;

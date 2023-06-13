@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2complements",
+  "name": "Potion Upgrade: Incarceration",
+  "icon": "modulargolems:incarcerate",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:incarcerate",
+	  "text": "Inflict incarceration effect to mobs attacking the golem or attacked by the golem. The duration will be 1 second per level. Max: 3$(br2)This effect will prevent enemy from moving."
+	}
+  ]
+}

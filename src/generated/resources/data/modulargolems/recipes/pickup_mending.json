@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "modulargolems:empty_upgrade"
+    },
+    {
+      "type": "l2library:enchantment",
+      "enchantment": "minecraft:mending",
+      "min_level": 1
+    }
+  ],
+  "result": {
+    "item": "modulargolems:pickup_mending"
+  }
+}

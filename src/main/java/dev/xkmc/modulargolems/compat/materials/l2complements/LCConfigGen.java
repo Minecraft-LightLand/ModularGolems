@@ -25,13 +25,15 @@ public class LCConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
 				.addStat(GolemTypes.STAT_REGEN.get(), 10)
-				.addModifier(GolemModifiers.RECYCLE.get(), 1).end()
+				.addModifier(GolemModifiers.RECYCLE.get(), 1)
+				.addModifier(LCCompatRegistry.TOTEMIC_GOLD.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(LCDispatch.MODID, "poseidite"), Ingredient.of(LCMats.POSEIDITE.getIngot()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addModifier(GolemModifiers.SWIM.get(), 1)
-				.addModifier(LCCompatRegistry.CONDUIT.get(), 1).end()
+				.addModifier(LCCompatRegistry.CONDUIT.get(), 1)
+				.addModifier(LCCompatRegistry.POSEIDITE.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(LCDispatch.MODID, "shulkerate"), Ingredient.of(LCMats.SHULKERATE.getIngot()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
