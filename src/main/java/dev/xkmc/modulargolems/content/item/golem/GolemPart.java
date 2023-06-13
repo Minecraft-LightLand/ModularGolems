@@ -8,7 +8,6 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
