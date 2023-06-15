@@ -252,8 +252,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			if (performRangedDamage(target, 0, 0)) {// trigger vanilla attack code, ignore values
 				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
 				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-				ItemStack stack2 = getItemBySlot(EquipmentSlot.OFFHAND);
-				stack2.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.OFFHAND));
 				return true;
 
 			}
@@ -408,52 +406,59 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			}
 
 		}
-		LivingEntity livingentity = getTarget();
+		attackStep();
+
+	}
+	public void attackStep(){
+		if (tickCount % 20 == 0) {
+			LivingEntity livingentity = getTarget();
+			InteractionHand hand = getWeaponHand();
+			ItemStack stack = getItemInHand(hand);
+			ItemStack temp = getItemBySlot(EquipmentSlot.MAINHAND);
+			ItemStack temp2 = getItemBySlot(EquipmentSlot.OFFHAND);
+			ItemStack temp3 = temp;
+			if (getMainHandItem().getItem() instanceof BowItem) {
+
+				if (getProjectile(stack).isEmpty()) {
+					if (getOffhandItem().getItem() instanceof SwordItem) {
+						temp = temp2;
+						temp2 = temp3;
+						setItemSlot(EquipmentSlot.MAINHAND, temp);
+						setItemSlot(EquipmentSlot.OFFHAND, temp2);
 
 
-		InteractionHand hand = getWeaponHand();
-		ItemStack stack = getItemInHand(hand);
-		ItemStack temp = getItemBySlot(EquipmentSlot.MAINHAND);
-		ItemStack temp2 = getItemBySlot(EquipmentSlot.OFFHAND);
-		ItemStack temp3 = temp;
-		if (getMainHandItem().getItem() instanceof BowItem) {
-
-			if (getProjectile(stack).isEmpty()) {
-				if (getOffhandItem().getItem() instanceof SwordItem) {
-					temp = temp2;
-					temp2 = temp3;
-					setItemSlot(EquipmentSlot.MAINHAND, temp);
-					setItemSlot(EquipmentSlot.OFFHAND, temp2);
-
+					}
 
 				}
+			}
+			if (getMainHandItem().getItem() instanceof SwordItem) {
+				if (!getProjectile(stack).isEmpty()) {
+					ItemStack temp4 = getItemBySlot(EquipmentSlot.MAINHAND);
+					ItemStack temp5 = getItemBySlot(EquipmentSlot.OFFHAND);
+					ItemStack temp6 = temp4;
+					temp4 = temp5;
+					temp5 = temp6;
+					setItemSlot(EquipmentSlot.MAINHAND, temp4);
+					setItemSlot(EquipmentSlot.OFFHAND, temp5);
+
+				}
+			}
+			if (livingentity == null) {
+				return;
+			}
+			double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
+			if (meleeGoal.getAttackReachSqr(livingentity) > d0) {
+				temp = temp2;
+				temp2 = temp3;
+				setItemSlot(EquipmentSlot.MAINHAND, temp);
+				setItemSlot(EquipmentSlot.OFFHAND, temp2);
 
 			}
-		}
-         if (getMainHandItem().getItem() instanceof SwordItem){
-			 if (!getProjectile(stack).isEmpty()) {
-					 ItemStack temp4=getItemBySlot(EquipmentSlot.MAINHAND);
-					 ItemStack temp5=getItemBySlot(EquipmentSlot.OFFHAND);
-					 ItemStack temp6=temp4;temp4=temp5;temp5=temp6;
-					 setItemSlot(EquipmentSlot.MAINHAND, temp4);
-					 setItemSlot(EquipmentSlot.OFFHAND, temp5);
 
-			 }
-		 }
-		 if(livingentity==null){
-			 return;
-		 }
-		double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-		if(meleeGoal.getAttackReachSqr(livingentity)>=d0){
-			temp = temp2;
-			temp2 = temp3;
-			setItemSlot(EquipmentSlot.MAINHAND, temp);
-			setItemSlot(EquipmentSlot.OFFHAND, temp2);
-
-			}
-		}
 
 		}
+	}
+}
 
 
 
