@@ -430,6 +430,17 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 					}
 
 				}
+				if (livingentity == null) {
+					return;
+				}
+				double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
+				if (meleeGoal.getAttackReachSqr(livingentity) > d0) {
+					temp = temp2;
+					temp2 = temp3;
+					setItemSlot(EquipmentSlot.MAINHAND, temp);
+					setItemSlot(EquipmentSlot.OFFHAND, temp2);
+
+				}
 			}
 			if (getMainHandItem().getItem() instanceof SwordItem) {
 				if (!getProjectile(stack).isEmpty()) {
@@ -442,17 +453,17 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 					setItemSlot(EquipmentSlot.OFFHAND, temp5);
 
 				}
-			}
-			if (livingentity == null) {
-				return;
-			}
-			double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-			if (meleeGoal.getAttackReachSqr(livingentity) > d0) {
-				temp = temp2;
-				temp2 = temp3;
-				setItemSlot(EquipmentSlot.MAINHAND, temp);
-				setItemSlot(EquipmentSlot.OFFHAND, temp2);
+				if (livingentity == null) {
+					return;
+				}
+				double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
+				if (meleeGoal.getAttackReachSqr(livingentity) <= d0) {
+					temp = temp2;
+					temp2 = temp3;
+					setItemSlot(EquipmentSlot.MAINHAND, temp);
+					setItemSlot(EquipmentSlot.OFFHAND, temp2);
 
+				}
 			}
 
 
