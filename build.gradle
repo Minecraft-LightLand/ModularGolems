@@ -6,13 +6,16 @@ buildscript {
         maven { url = 'https://maven.parchmentmc.org' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath "org.spongepowered:mixingradle:${mixingradle_version}"
         classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle'
+
+plugins {
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
@@ -109,18 +112,6 @@ repositories {
             includeGroup "curse.maven"
         }
     }
-    maven {
-        url "https://maven.architectury.dev/"
-    }
-    maven { url "https://maven.bai.lol" }
-    maven {
-        url "https://maven.saps.dev/minecraft"
-        content {
-            includeGroup "dev.latvian.mods"
-            includeGroup "dev.ftb.mods"
-        }
-    }
-    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     flatDir {
         dirs 'libs'
     }
@@ -161,6 +152,7 @@ dependencies {
     runtimeOnly fg.deobf('curse.maven:bookshelf-228525:4454755')
     runtimeOnly fg.deobf('curse.maven:enchantment-descriptions-250419:4445054')
     runtimeOnly fg.deobf('curse.maven:appleskin-248787:4440123')
+    implementation fg.deobf("curse.maven:patchouli-306770:4581485")
 
 
     //compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
