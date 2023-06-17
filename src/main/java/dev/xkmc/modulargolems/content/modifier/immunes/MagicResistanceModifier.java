@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.modifier.immunes;
 
-import dev.xkmc.l2library.init.data.L2DamageTypes;
+import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;

@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.menu;
 
-import dev.xkmc.l2library.base.menu.BaseContainerMenu;
+import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import net.minecraft.world.item.ItemStack;
 
 public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<EquipmentsMenu> {

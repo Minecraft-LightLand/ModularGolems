@@ -3,14 +3,14 @@ package dev.xkmc.modulargolems.init.advancement;
 import dev.xkmc.l2library.serial.advancements.BaseCriterion;
 import dev.xkmc.l2library.serial.advancements.BaseCriterionInstance;
 import dev.xkmc.l2serial.serialization.SerialClass;
-import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class GolemHotFixTrigger extends BaseCriterion<GolemHotFixTrigger.Ins, GolemHotFixTrigger> {
 
 	public static Ins ins() {
-		return new Ins(GolemTriggers.HOT_FIX.getId(), EntityPredicate.Composite.ANY);
+		return new Ins(GolemTriggers.HOT_FIX.getId(), ContextAwarePredicate.ANY);
 	}
 
 	public GolemHotFixTrigger(ResourceLocation id) {
@@ -24,7 +24,7 @@ public class GolemHotFixTrigger extends BaseCriterion<GolemHotFixTrigger.Ins, Go
 	@SerialClass
 	public static class Ins extends BaseCriterionInstance<Ins, GolemHotFixTrigger> {
 
-		public Ins(ResourceLocation id, EntityPredicate.Composite player) {
+		public Ins(ResourceLocation id, ContextAwarePredicate player) {
 			super(id, player);
 		}
 

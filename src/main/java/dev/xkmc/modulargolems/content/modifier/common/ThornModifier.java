@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.modifier.common;
 
-import dev.xkmc.l2library.init.data.L2DamageTypes;
+import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -35,7 +35,7 @@ public class ThornModifier extends GolemModifier {
 			return;
 		}
 		if (source.getDirectEntity() instanceof LivingEntity living && living.isAlive()) {
-			living.hurt(entity.level.damageSources().thorns(entity), event.getAmount() * getPercent() * level);
+			living.hurt(entity.level().damageSources().thorns(entity), event.getAmount() * getPercent() * level);
 		}
 	}
 

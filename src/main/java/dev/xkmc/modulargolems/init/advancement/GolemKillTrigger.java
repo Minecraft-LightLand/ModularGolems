@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init.advancement;
 import dev.xkmc.l2library.serial.advancements.BaseCriterion;
 import dev.xkmc.l2library.serial.advancements.BaseCriterionInstance;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,7 +15,7 @@ import javax.annotation.Nullable;
 public class GolemKillTrigger extends BaseCriterion<GolemKillTrigger.Ins, GolemKillTrigger> {
 
 	public static Ins ins() {
-		return new Ins(GolemTriggers.KILL.getId(), EntityPredicate.Composite.ANY);
+		return new Ins(GolemTriggers.KILL.getId(), ContextAwarePredicate.ANY);
 	}
 
 	public static Ins byType(EntityType<?> type) {
@@ -38,7 +39,7 @@ public class GolemKillTrigger extends BaseCriterion<GolemKillTrigger.Ins, GolemK
 		@SerialClass.SerialField
 		private EntityType<?> type;
 
-		public Ins(ResourceLocation id, EntityPredicate.Composite player) {
+		public Ins(ResourceLocation id, ContextAwarePredicate player) {
 			super(id, player);
 		}
 
