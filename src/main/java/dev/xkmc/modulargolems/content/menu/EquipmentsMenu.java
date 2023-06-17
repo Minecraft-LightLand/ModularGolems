@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.menu;
 
-import dev.xkmc.l2library.base.menu.BaseContainerMenu;
-import dev.xkmc.l2library.base.menu.PredSlot;
-import dev.xkmc.l2library.base.menu.SpriteManager;
+import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
+import dev.xkmc.l2library.base.menu.base.PredSlot;
+import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;

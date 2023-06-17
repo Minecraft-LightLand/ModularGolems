@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements.modifiers;
 
-import dev.xkmc.l2library.init.data.L2DamageTypes;
+import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -55,7 +55,7 @@ public class EnderTeleportModifier extends GolemModifier {
 
 	private static boolean teleport(AbstractGolemEntity<?, ?> entity) {
 		int r = ModConfig.COMMON.teleportRadius.get();
-		if (!entity.level.isClientSide() && entity.isAlive()) {
+		if (!entity.level().isClientSide() && entity.isAlive()) {
 			double d0 = entity.getX() + (entity.getRandom().nextDouble() - 0.5D) * r * 2;
 			double d1 = entity.getY() + (double) (entity.getRandom().nextInt(r * 2) - r);
 			double d2 = entity.getZ() + (entity.getRandom().nextDouble() - 0.5D) * r * 2;
@@ -68,12 +68,12 @@ public class EnderTeleportModifier extends GolemModifier {
 	private static boolean teleport(AbstractGolemEntity<?, ?> entity, double pX, double pY, double pZ) {
 		BlockPos.MutableBlockPos ipos = new BlockPos.MutableBlockPos(pX, pY, pZ);
 
-		while (ipos.getY() > entity.level.getMinBuildHeight() && !entity.level.getBlockState(ipos).getMaterial().blocksMotion()) {
+		while (ipos.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ipos).blocksMotion()) {
 			ipos.move(Direction.DOWN);
 		}
 
-		BlockState blockstate = entity.level.getBlockState(ipos);
-		boolean flag = blockstate.getMaterial().blocksMotion();
+		BlockState blockstate = entity.level().getBlockState(ipos);
+		boolean flag = blockstate.blocksMotion();
 		boolean flag1 = blockstate.getFluidState().is(FluidTags.WATER);
 		if (flag && !flag1) {
 			EntityTeleportEvent.EnderEntity event = ForgeEventFactory.onEnderTeleport(entity, pX, pY, pZ);
@@ -81,9 +81,9 @@ public class EnderTeleportModifier extends GolemModifier {
 			Vec3 vec3 = entity.position();
 			boolean flag2 = entity.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);
 			if (flag2) {
-				entity.level.gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(entity));
+				entity.level().gameEvent(GameEvent.TELEPORT, vec3, GameEvent.Context.of(entity));
 				if (!entity.isSilent()) {
-					entity.level.playSound(null, entity.xo, entity.yo, entity.zo, SoundEvents.ENDERMAN_TELEPORT, entity.getSoundSource(), 1.0F, 1.0F);
+					entity.level().playSound(null, entity.xo, entity.yo, entity.zo, SoundEvents.ENDERMAN_TELEPORT, entity.getSoundSource(), 1.0F, 1.0F);
 					entity.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
 				}
 			}

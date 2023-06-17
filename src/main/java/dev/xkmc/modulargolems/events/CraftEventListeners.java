@@ -49,7 +49,7 @@ public class CraftEventListeners {
 
 	@SubscribeEvent
 	public static void onAnvilFinish(AnvilRepairEvent event) {
-		if (event.getEntity().getLevel().isClientSide())
+		if (event.getEntity().level().isClientSide())
 			return;
 		ItemStack stack = event.getLeft();
 		ItemStack block = event.getRight();
@@ -78,7 +78,7 @@ public class CraftEventListeners {
 	}
 
 	@SubscribeEvent
-	public static void onGrindStone(GrindstoneEvent.OnplaceItem event) {
+	public static void onGrindStone(GrindstoneEvent.OnPlaceItem event) {
 		if (event.getTopItem().getItem() instanceof GolemHolder) {
 			ItemStack copy = event.getTopItem().copy();
 			if (GolemHolder.getUpgrades(copy).size() > 0) {

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init.advancement;
 import dev.xkmc.l2library.serial.advancements.BaseCriterion;
 import dev.xkmc.l2library.serial.advancements.BaseCriterionInstance;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,7 +13,7 @@ import javax.annotation.Nullable;
 public class GolemAnvilFixTrigger extends BaseCriterion<GolemAnvilFixTrigger.Ins, GolemAnvilFixTrigger> {
 
 	public static Ins ins() {
-		return new Ins(GolemTriggers.ANVIL_FIX.getId(), EntityPredicate.Composite.ANY);
+		return new Ins(GolemTriggers.ANVIL_FIX.getId(), ContextAwarePredicate.ANY);
 	}
 
 	public static Ins withMat(ResourceLocation mat) {
@@ -36,7 +37,7 @@ public class GolemAnvilFixTrigger extends BaseCriterion<GolemAnvilFixTrigger.Ins
 		@SerialClass.SerialField
 		private ResourceLocation rl = null;
 
-		public Ins(ResourceLocation id, EntityPredicate.Composite player) {
+		public Ins(ResourceLocation id, ContextAwarePredicate player) {
 			super(id, player);
 		}
 

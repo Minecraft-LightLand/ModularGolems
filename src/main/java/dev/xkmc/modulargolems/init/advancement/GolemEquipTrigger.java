@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init.advancement;
 import dev.xkmc.l2library.serial.advancements.BaseCriterion;
 import dev.xkmc.l2library.serial.advancements.BaseCriterionInstance;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -10,7 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 public class GolemEquipTrigger extends BaseCriterion<GolemEquipTrigger.Ins, GolemEquipTrigger> {
 
 	public static Ins ins(int min) {
-		Ins ans = new Ins(GolemTriggers.EQUIP.getId(), EntityPredicate.Composite.ANY);
+		Ins ans = new Ins(GolemTriggers.EQUIP.getId(), ContextAwarePredicate.ANY);
 		ans.minimum = min;
 		return ans;
 	}
@@ -29,7 +30,7 @@ public class GolemEquipTrigger extends BaseCriterion<GolemEquipTrigger.Ins, Gole
 		@SerialClass.SerialField
 		private int minimum = 0;
 
-		public Ins(ResourceLocation id, EntityPredicate.Composite player) {
+		public Ins(ResourceLocation id, ContextAwarePredicate player) {
 			super(id, player);
 		}
 
