@@ -4,7 +4,6 @@ import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
@@ -22,7 +21,6 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.TagGen;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -37,7 +35,7 @@ public class GolemItems {
 	public static final RegistryEntry<CreativeModeTab> TAB;
 
 	static {
-		TAB = REGISTRATE.buildL2CreativeTab("golems","Modular Golems", b -> b
+		TAB = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems", b -> b
 				.icon(GolemItems.HOLDER_GOLEM::asStack));
 	}
 
