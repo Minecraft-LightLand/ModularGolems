@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:ender_sight"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

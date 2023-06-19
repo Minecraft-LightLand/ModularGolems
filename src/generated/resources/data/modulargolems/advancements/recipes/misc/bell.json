@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:bell"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

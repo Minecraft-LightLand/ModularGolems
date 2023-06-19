@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:speed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

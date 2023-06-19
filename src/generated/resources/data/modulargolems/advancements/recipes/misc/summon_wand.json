@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:summon_wand"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

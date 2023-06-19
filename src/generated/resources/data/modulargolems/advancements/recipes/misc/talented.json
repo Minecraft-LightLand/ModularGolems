@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:talented"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:retrieval_wand"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

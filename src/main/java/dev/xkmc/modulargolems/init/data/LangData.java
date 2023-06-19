@@ -67,7 +67,6 @@ public enum LangData {
 		for (LangData lang : LangData.values()) {
 			pvd.add(lang.key, lang.def);
 		}
-		pvd.add("itemGroup." + ModularGolems.MODID + ".golems", "Modular Golems");
 		pvd.add("attribute.name.golem_regen", "Golem Regen");
 		pvd.add("attribute.name.golem_sweep", "Sweep Range");
 

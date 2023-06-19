@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:emerald"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

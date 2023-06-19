@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:incarcerate"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

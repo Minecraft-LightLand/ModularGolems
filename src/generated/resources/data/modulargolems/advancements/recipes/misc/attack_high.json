@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:attack_high"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -3,7 +3,6 @@ package organize;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import organize.sub.*;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -33,16 +32,13 @@ public abstract class ResourceOrganizer {
         new LangFileOrganizer();
         //new ItemFileOrganizer();
         //new BlockFileOrganizer();
-        //new ArmorFileOrganizer();
-        //new RecipeFileOrganizer();
-        new AssetMisc();
-        new DataMisc();
-        //new ConfigFileOrganizer();
-        //new GeckoMisc();
+        //new AssetMisc();
+        //new DataMisc();
         File f = new File("./src/test/resources");
         for (File fi : f.listFiles()) {
             MODID = fi.getName();
-            //delete(new File("./src/main/resources/assets/l2artifacts/"));
+            //delete(new File("./src/main/resources/assets/l2backpack/"));
+            //delete(new File("./src/main/resources/data/l2backpack/recipes"));
             if (!fi.isDirectory())
                 continue;
             for (ResourceOrganizer obj : MAP.values()) {
@@ -79,7 +75,7 @@ public abstract class ResourceOrganizer {
     }
 
     public final String getResourceFolder(boolean main) {
-        return (main ? "./src/main/resources/" : "./src/test/resources/");
+        return (main ? "./src/main/resources/" : "l2backpack/src/test/resources/");
     }
 
     protected String readFile(String path) {
