@@ -20,7 +20,7 @@ public class BellModifier extends GolemModifier {
 	@Override
 	public void onSetTarget(AbstractGolemEntity<?, ?> golem, Mob mob, int level) {
 		var aabb = golem.getBoundingBox().inflate(48);
-		var list = golem.level.getEntitiesOfClass(Mob.class, aabb, golem::canAttack);
+		var list = golem.level().getEntitiesOfClass(Mob.class, aabb, golem::canAttack);
 		boolean sound = false;
 		for (var e : list) {
 			if (e instanceof Enemy && !(e instanceof Creeper) && e.canAttack(golem)) {

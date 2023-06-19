@@ -34,7 +34,7 @@ public class FollowOwnerGoal extends Goal {
 
 	private FollowOwnerGoal(AbstractGolemEntity<?, ?> golem, double speed, float start, float max, float stop, boolean fly) {
 		this.golem = golem;
-		this.level = golem.level;
+		this.level = golem.level();
 		this.speedModifier = speed;
 		this.navigation = golem.getNavigation();
 		this.startDistance = start;

@@ -32,7 +32,7 @@ public class CommandWandItem extends Item implements WandItem {
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity target, InteractionHand hand) {
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return InteractionResult.PASS;
-		return command(target.getLevel(), user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+		return command(target.level(), user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 	}
 
 	private static boolean command(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
@@ -52,7 +52,7 @@ public class CommandWandItem extends Item implements WandItem {
 
 	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		var list = target.level.getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), attacker.getBoundingBox().inflate(20), e -> true);
+		var list = target.level().getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), attacker.getBoundingBox().inflate(20), e -> true);
 		for (var e : list) {
 			if (e.getOwner() == attacker) {
 				e.setTarget(target);

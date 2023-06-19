@@ -8,7 +8,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.NetworkManager;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.apache.http.util.Asserts;
@@ -21,7 +21,7 @@ import java.util.TreeSet;
 public class GolemMaterialConfig extends BaseConfig {
 
 	public static GolemMaterialConfig get() {
-		return NetworkManager.MATERIALS.getMerged();
+		return ModularGolems.MATERIALS.getMerged();
 	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)

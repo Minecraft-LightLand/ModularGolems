@@ -60,7 +60,7 @@ public class GolemShooterHelper {
 		double c = dx * dx + dz * dz + dy * dy;
 		boolean completed = false;
 		if (target instanceof Slime) {
-			var clip = target.level.clip(new ClipContext(target.position(), target.position().add(0, -3, 0),
+			var clip = target.level().clip(new ClipContext(target.position(), target.position().add(0, -3, 0),
 					ClipContext.Block.COLLIDER, ClipContext.Fluid.ANY, target));
 			if (clip.getType() == HitResult.Type.BLOCK) {
 				dy += clip.getLocation().y() - target.getY();

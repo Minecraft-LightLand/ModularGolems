@@ -82,7 +82,7 @@ public class SonicAttackGoal extends Goal {
 
 			for (int i = 1; i < 17; ++i) {
 				Vec3 vec33 = src.add(dir.scale(i));
-				if (warden.level instanceof ServerLevel level)
+				if (warden.level() instanceof ServerLevel level)
 					level.sendParticles(ParticleTypes.SONIC_BOOM, vec33.x, vec33.y, vec33.z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
 			}
 
@@ -91,7 +91,7 @@ public class SonicAttackGoal extends Goal {
 			List<LivingEntity> target = new ArrayList<>();
 			if (attr != null && attr.getValue() > 0) {
 				AABB aabb = new AABB(src, src.add(dir.scale(16)));
-				for (var e : warden.level.getEntities(warden, aabb)) {
+				for (var e : warden.level().getEntities(warden, aabb)) {
 					if (e instanceof LivingEntity x && warden.canAttack(x)) {
 						target.add(x);
 					}
@@ -101,7 +101,7 @@ public class SonicAttackGoal extends Goal {
 				target.add(le);
 			}
 			for (var e : target) {
-				e.hurt(warden.level.damageSources().sonicBoom(warden), 10 * lv);
+				e.hurt(warden.level().damageSources().sonicBoom(warden), 10 * lv);
 				double d1 = 0.5D * (1.0D - e.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
 				double d0 = 2.5D * (1.0D - e.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
 				e.push(dir.x() * d0, dir.y() * d1, dir.z() * d0);

@@ -63,7 +63,7 @@ public class PickupGoal extends Goal {
 
 	private void tryHandleItem(AABB box) {
 		Player player = golem.getOwner();
-		var items = golem.level.getEntities(EntityTypeTest.forClass(ItemEntity.class),
+		var items = golem.level().getEntities(EntityTypeTest.forClass(ItemEntity.class),
 				box, e -> true);
 		validateTarget();
 		for (var item : items) {
@@ -80,7 +80,7 @@ public class PickupGoal extends Goal {
 
 	private void tryHandleExp(AABB box) {
 		Player player = golem.getOwner();
-		var exps = golem.level.getEntities(EntityTypeTest.forClass(ExperienceOrb.class),
+		var exps = golem.level().getEntities(EntityTypeTest.forClass(ExperienceOrb.class),
 				box, e -> true);
 		ExperienceOrb first = null;
 		for (var exp : exps) {
@@ -193,10 +193,10 @@ public class PickupGoal extends Goal {
 			for (int j = -r; j <= r; j++) {
 				for (int k = -r; k <= r; k++) {
 					pos.setWithOffset(origin, i, j, k);
-					if (!golem.level.getBlockState(pos).is(TagGen.POTENTIAL_DST)) {
+					if (!golem.level().getBlockState(pos).is(TagGen.POTENTIAL_DST)) {
 						continue;
 					}
-					BlockEntity be = golem.level.getBlockEntity(pos);
+					BlockEntity be = golem.level().getBlockEntity(pos);
 					if (be != null && be.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve().isPresent()) {
 						double d = pos.distToCenterSqr(golem.position());
 						if (d < dist) {

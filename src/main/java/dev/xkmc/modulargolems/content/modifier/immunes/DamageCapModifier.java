@@ -28,7 +28,7 @@ public class DamageCapModifier extends GolemModifier {
 		float factor = (float) Math.max(0, (2 - level * 0.2) * ModConfig.COMMON.damageCap.get());
 		if (event.getAmount() > factor * entity.getMaxHealth()) {
 			event.setAmount(factor * entity.getMaxHealth());
-			entity.level.broadcastEntityEvent(entity, EntityEvent.ATTACK_BLOCKED);
+			entity.level().broadcastEntityEvent(entity, EntityEvent.ATTACK_BLOCKED);
 		}
 	}
 

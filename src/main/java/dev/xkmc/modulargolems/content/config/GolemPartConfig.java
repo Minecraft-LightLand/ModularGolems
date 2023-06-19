@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
-import dev.xkmc.modulargolems.init.NetworkManager;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class GolemPartConfig extends BaseConfig {
 
 	public static GolemPartConfig get() {
-		return NetworkManager.PARTS.getMerged();
+		return ModularGolems.PARTS.getMerged();
 	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)

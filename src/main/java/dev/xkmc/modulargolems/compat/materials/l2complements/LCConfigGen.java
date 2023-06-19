@@ -1,25 +1,25 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
 import dev.xkmc.l2complements.init.materials.LCMats;
-import dev.xkmc.l2library.serial.config.BaseConfig;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.Map;
-
 public class LCConfigGen extends ConfigDataProvider {
 
 	public LCConfigGen(DataGenerator generator) {
-		super(generator, "data/" + LCDispatch.MODID + "/golem_config/", "Golem Config for L2Complements");
+		super(generator, "Golem Config for L2Complements");
 	}
 
-	public void add(Map<String, BaseConfig> map) {
-		map.put("materials/" + LCDispatch.MODID, new GolemMaterialConfig()
+
+	@Override
+	public void add(Collector collector) {
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(LCDispatch.MODID, LCDispatch.MODID), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LCDispatch.MODID, "totemic_gold"), Ingredient.of(LCMats.TOTEMIC_GOLD.getIngot()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 100)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
@@ -50,5 +50,4 @@ public class LCConfigGen extends ConfigDataProvider {
 
 		);
 	}
-
 }
