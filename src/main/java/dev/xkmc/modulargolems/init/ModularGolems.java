@@ -2,7 +2,11 @@ package dev.xkmc.modulargolems.init;
 
 import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2library.base.L2Registrate;
+import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
+import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
@@ -10,6 +14,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -31,13 +36,21 @@ public class ModularGolems {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 	public static final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
+	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
+			new ResourceLocation(ModularGolems.MODID, "main"), 1
+	);
+
+	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
+			new ConfigTypeEntry<>(HANDLER, "parts", GolemPartConfig.class);
+	public static final ConfigTypeEntry<GolemMaterialConfig> MATERIALS =
+			new ConfigTypeEntry<>(HANDLER, "materials", GolemMaterialConfig.class);
+
 	private static void registerRegistrates() {
 		GolemItems.register();
 		GolemTypes.register();
 		GolemMiscs.register();
 		GolemModifiers.register();
 		ModConfig.init();
-		NetworkManager.register();
 		GolemTriggers.register();
 		GolemModes.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, LangData::genLang);

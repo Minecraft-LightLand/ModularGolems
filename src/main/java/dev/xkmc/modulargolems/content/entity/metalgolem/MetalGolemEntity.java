@@ -49,7 +49,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
 		}
-		boolean succeed = target.hurt(level.damageSources().mobAttack(this), damage);
+		boolean succeed = target.hurt(level().damageSources().mobAttack(this), damage);
 		if (succeed) {
 			double d1 = Math.max(0.0D, 1.0D - kb);
 			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;
@@ -90,16 +90,16 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			int j = Mth.floor(this.getY() - (double) 0.2F);
 			int k = Mth.floor(this.getZ());
 			BlockPos pos = new BlockPos(i, j, k);
-			BlockState blockstate = this.level.getBlockState(pos);
+			BlockState blockstate = this.level().getBlockState(pos);
 			if (!blockstate.isAir()) {
-				this.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate).setPos(pos), this.getX() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), this.getY() + 0.1D, this.getZ() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), 4.0D * ((double) this.random.nextFloat() - 0.5D), 0.5D, ((double) this.random.nextFloat() - 0.5D) * 4.0D);
+				this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate).setPos(pos), this.getX() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), this.getY() + 0.1D, this.getZ() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), 4.0D * ((double) this.random.nextFloat() - 0.5D), 0.5D, ((double) this.random.nextFloat() - 0.5D) * 4.0D);
 			}
 		}
 	}
 
 	public boolean doHurtTarget(Entity target) {
 		this.attackAnimationTick = 10;
-		this.level.broadcastEntityEvent(this, (byte) 4);
+		this.level().broadcastEntityEvent(this, (byte) 4);
 		float damage = this.getAttackDamage();
 		double kb;
 		if (target instanceof LivingEntity livingentity) {
@@ -194,10 +194,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 				if (!player.getAbilities().instabuild) {
 					itemstack.shrink(1);
 				}
-				if (!this.level.isClientSide()) {
+				if (!this.level().isClientSide()) {
 					GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
 				}
-				return InteractionResult.sidedSuccess(this.level.isClientSide);
+				return InteractionResult.sidedSuccess(this.level().isClientSide);
 			}
 		}
 	}

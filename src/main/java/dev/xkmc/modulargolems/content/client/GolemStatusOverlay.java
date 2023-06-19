@@ -1,20 +1,15 @@
 package dev.xkmc.modulargolems.content.client;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.l2library.base.overlay.OverlayUtil;
-import dev.xkmc.l2library.base.overlay.OverlayUtils;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -67,33 +62,31 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		}
 
 		@Override
-		public void renderImage(Font font, int mx, int my, GuiGraphics pose, ItemRenderer ir) {
-			renderSlot(font, mx, my + 18, pose, golem.getItemBySlot(EquipmentSlot.MAINHAND), ir, null);
-			renderSlot(font, mx, my + 36, pose, golem.getItemBySlot(EquipmentSlot.OFFHAND), ir, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
-			renderSlot(font, mx + 18, my, pose, golem.getItemBySlot(EquipmentSlot.HEAD), ir, InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
-			renderSlot(font, mx + 18, my + 18, pose, golem.getItemBySlot(EquipmentSlot.CHEST), ir, InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE);
-			renderSlot(font, mx + 18, my + 36, pose, golem.getItemBySlot(EquipmentSlot.LEGS), ir, InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS);
-			renderSlot(font, mx + 18, my + 54, pose, golem.getItemBySlot(EquipmentSlot.FEET), ir, InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS);
+		public void renderImage(Font font, int mx, int my, GuiGraphics g) {
+			renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.MAINHAND), null);
+			renderSlot(font, mx, my + 36, g, golem.getItemBySlot(EquipmentSlot.OFFHAND), InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+			renderSlot(font, mx + 18, my, g, golem.getItemBySlot(EquipmentSlot.HEAD), InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
+			renderSlot(font, mx + 18, my + 18, g, golem.getItemBySlot(EquipmentSlot.CHEST), InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE);
+			renderSlot(font, mx + 18, my + 36, g, golem.getItemBySlot(EquipmentSlot.LEGS), InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS);
+			renderSlot(font, mx + 18, my + 54, g, golem.getItemBySlot(EquipmentSlot.FEET), InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS);
 		}
 
-		private void renderSlot(Font font, int x, int y, GuiGraphics pose, ItemStack stack, ItemRenderer ir, @Nullable ResourceLocation atlasID) {
-			this.blit(pose, x, y);
+		private void renderSlot(Font font, int x, int y, GuiGraphics g, ItemStack stack, @Nullable ResourceLocation atlasID) {
+			this.blit(g, x, y);
 			if (stack.isEmpty()) {
 				if (atlasID != null) {
 					TextureAtlasSprite atlas = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
 							.apply(atlasID);
-					pose.blit(atlas.atlasLocation(), x + 1, y + 1, 100, 16, 16, atlas);
+					g.blit(x + 1, y + 1, 100, 16, 16, atlas);
 				}
 				return;
 			}
-			ir.renderAndDecorateItem(pose, stack, x + 1, y + 1, 0);
-			ir.renderGuiItemDecorations(pose, font, stack, x + 1, y + 1);
+			g.renderItem(stack, x + 1, y + 1, 0);
+			g.renderItemDecorations(font, stack, x + 1, y + 1);
 		}
 
-		private void blit(GuiGraphics poseStack, int x, int y) {
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			RenderSystem.setShaderTexture(0, TEXTURE_LOCATION);
-			GuiComponent.blit(poseStack, x, y, 0, 0, 0, 18, 18, 128, 128);
+		private void blit(GuiGraphics g, int x, int y) {
+			g.blit(TEXTURE_LOCATION, x, y, 0, 0, 0, 18, 18, 128, 128);
 		}
 
 	}

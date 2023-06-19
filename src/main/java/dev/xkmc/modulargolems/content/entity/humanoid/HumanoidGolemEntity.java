@@ -58,13 +58,13 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(type, level);
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			reassessWeaponGoal();
 		}
 	}
 
 	public void reassessWeaponGoal() {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.goalSelector.removeGoal(this.meleeGoal);
 			this.goalSelector.removeGoal(this.bowGoal);
 			this.goalSelector.removeGoal(this.crossbowGoal);
@@ -106,7 +106,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
 		super.setItemSlot(pSlot, pStack);
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.reassessWeaponGoal();
 		}
 	}
@@ -151,7 +151,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
 		ItemStack itemstack = pUser.getItemInHand(interactionhand);
 		if (pUser.isHolding(is -> is.getItem() instanceof CrossbowItem)) {
-			CrossbowItem.performShooting(pUser.level, pUser, interactionhand, itemstack, pVelocity, 0);
+			CrossbowItem.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0);
 		}
 		this.onCrossbowAttackPerformed();
 	}
@@ -171,11 +171,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		ItemStack stack = getItemInHand(hand);
 		var throwable = GolemShooterHelper.isValidThrowableWeapon(this, stack, hand);
 		if (throwable.isThrowable()) {
-			Projectile projectile = throwable.createProjectile(level);
+			Projectile projectile = throwable.createProjectile(level());
 			GolemShooterHelper.shootAimHelper(pTarget, projectile);
 			this.playSound(SoundEvents.TRIDENT_THROW, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			projectile.getPersistentData().putInt("DespawnFactor", 20);
-			this.level.addFreshEntity(projectile);
+			this.level().addFreshEntity(projectile);
 			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		} else if (stack.getItem() instanceof CrossbowItem) {
 			performCrossbowAttack(this, 3);
@@ -198,7 +198,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			GolemShooterHelper.shootAimHelper(pTarget, arrowEntity, event.speed(), event.gravity());
 			this.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			arrowEntity.getPersistentData().putInt("DespawnFactor", 20);
-			this.level.addFreshEntity(arrowEntity);
+			this.level().addFreshEntity(arrowEntity);
 			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		}
 	}
@@ -295,7 +295,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		GolemEquipEvent event = new GolemEquipEvent(this, itemstack);
 		MinecraftForge.EVENT_BUS.post(event);
 		if (event.canEquip()) {
-			if (level.isClientSide()) {
+			if (level().isClientSide()) {
 				return InteractionResult.SUCCESS;
 			}
 			if (hasItemInSlot(event.getSlot())) {
@@ -366,7 +366,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (stack.isEmpty()) {
 			this.setItemInHand(hand, ItemStack.EMPTY);
 		}
-		this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + this.level.random.nextFloat() * 0.4F);
+		this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
 	}
 
 	protected void blockUsingShield(LivingEntity source) {
@@ -379,7 +379,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		MinecraftForge.EVENT_BUS.post(event);
 		if (event.shouldDisable()) {
 			this.shieldCooldown = 100;
-			this.level.broadcastEntityEvent(this, EntityEvent.SHIELD_DISABLED);
+			this.level().broadcastEntityEvent(this, EntityEvent.SHIELD_DISABLED);
 		}
 	}
 
@@ -403,7 +403,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			ItemStack stack = getItemBySlot(slot);
 			if (!stack.isEmpty()) {
-				stack.inventoryTick(level, this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
+				stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
 			}
 		}
 	}

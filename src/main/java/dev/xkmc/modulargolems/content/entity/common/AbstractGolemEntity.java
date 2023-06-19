@@ -100,7 +100,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
 		this.maxUpStep = 1;
-		if (!level.isClientSide()) {
+		if (!level().isClientSide()) {
 			getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
 		}
 		if (canSwim()) {
@@ -108,7 +108,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.navigation = waterNavigation;
 			this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 		}
-		if (!level.isClientSide()) {
+		if (!level().isClientSide()) {
 			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
 		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
@@ -140,7 +140,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
 		if (!ModConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
-			if (!level.isClientSide()) {
+			if (!level().isClientSide()) {
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
 			}
 			return InteractionResult.SUCCESS;
@@ -151,7 +151,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@ServerOnly
 	public ItemStack toItem() {
 		var ans = GolemHolder.setEntity(getThis());
-		level.broadcastEntityEvent(this, EntityEvent.POOF);
+		level().broadcastEntityEvent(this, EntityEvent.POOF);
 		this.discard();
 		return ans;
 	}
@@ -173,7 +173,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			} else {
 				spawnAtLocation(stack);
 			}
-			level.broadcastEntityEvent(this, EntityEvent.POOF);
+			level().broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
 		}
 	}
@@ -208,7 +208,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void updateSwimming() {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.setSwimming(this.isEffectiveAi() && this.isInWater() && this.canSwim());
 		}
 
@@ -234,7 +234,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public Player getOwner() {
 		try {
 			UUID uuid = this.getOwnerUUID();
-			return uuid == null ? null : this.level.getPlayerByUUID(uuid);
+			return uuid == null ? null : this.level().getPlayerByUUID(uuid);
 		} catch (IllegalArgumentException illegalargumentexception) {
 			return null;
 		}
@@ -252,7 +252,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		this.readPersistentAngerSaveData(this.level, tag);
+		this.readPersistentAngerSaveData(this.level(), tag);
 		if (tag.contains("auto-serial")) {
 			Wrappers.run(() -> {
 				TagCodec.fromTag(tag.getCompound("auto-serial"), this.getClass(), this, (f) -> true);
@@ -281,12 +281,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean hasLineOfSight(Entity target) {
-		if (target.level == this.level && hasFlag(GolemFlags.SEE_THROUGH)) {
+		if (target.level() == this.level() && hasFlag(GolemFlags.SEE_THROUGH)) {
 			Vec3 self = new Vec3(this.getX(), this.getEyeY(), this.getZ());
 			Vec3 tarp = new Vec3(target.getX(), target.getEyeY(), target.getZ());
 			double dist = tarp.distanceTo(self);
 			if (dist <= 128.0D) {
-				if (target.level.canSeeSky(target.blockPosition()))
+				if (target.level().canSeeSky(target.blockPosition()))
 					return true;
 				if (dist < 5)
 					return true;
@@ -340,7 +340,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.level.isClientSide) {
+		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
 			}
@@ -360,11 +360,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				this.heal((float) heal);
 			}
 		}
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onAiStep(this, entry.getValue());
 			}
-			this.updatePersistentAnger((ServerLevel) this.level, true);
+			this.updatePersistentAnger((ServerLevel) this.level(), true);
 		}
 	}
 
@@ -373,10 +373,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean wasKilled(ServerLevel level, LivingEntity target) {
+	public boolean killedEntity(ServerLevel level, LivingEntity target) {
 		Player player = getOwner();
 		if (player != null) GolemTriggers.KILL.trigger((ServerPlayer) player, target);
-		return super.wasKilled(level, target);
+		return super.killedEntity(level, target);
 	}
 
 	// mode
@@ -523,7 +523,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void die(DamageSource source) {
 		ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
 		Player owner = getOwner();
-		if (owner != null && !level.isClientSide) {
+		if (owner != null && !level().isClientSide) {
 			owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
 		}
 		super.die(source);

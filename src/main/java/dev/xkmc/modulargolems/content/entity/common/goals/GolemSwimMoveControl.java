@@ -38,7 +38,7 @@ public class GolemSwimMoveControl extends MoveControl {
 			this.golem.setSpeed(f2);
 			this.golem.setDeltaMovement(this.golem.getDeltaMovement().add((double) f2 * d0 * 0.005D, (double) f2 * d1 * 0.1D, (double) f2 * d2 * 0.005D));
 		} else {
-			if (!this.golem.isOnGround()) {
+			if (!this.golem.onGround()) {
 				this.golem.setDeltaMovement(this.golem.getDeltaMovement().add(0.0D, -0.008D, 0.0D));
 			}
 			super.tick();

@@ -99,7 +99,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	public boolean hurt(DamageSource source, float amount) {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.setInSittingPose(false);
 		}
 		return super.hurt(source, amount);
@@ -127,7 +127,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
 			return super.mobInteract(player, hand);
 		else {
-			if (!this.level.isClientSide())
+			if (!this.level().isClientSide())
 				this.setInSittingPose(!this.isInSittingPose());
 			return InteractionResult.SUCCESS;
 		}

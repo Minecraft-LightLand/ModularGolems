@@ -49,7 +49,7 @@ public class RetrievalWandItem extends Item implements WandItem {
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity target, InteractionHand hand) {
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return InteractionResult.PASS;
-		return attemptRetrieve(target.getLevel(), user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+		return attemptRetrieve(target.level(), user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 	}
 
 	private static boolean attemptRetrieve(Level level, Player user, AbstractGolemEntity<?, ?> golem) {

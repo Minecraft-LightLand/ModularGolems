@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.init.data;
 
-import dev.xkmc.l2library.serial.config.BaseConfig;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
@@ -14,19 +13,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.Map;
-
 public class ConfigGen extends ConfigDataProvider {
 
 	public ConfigGen(DataGenerator generator) {
-		super(generator, "data/modulargolems/golem_config/", "Golem Config");
+		super(generator, "Golem Config");
 	}
 
 	@Override
-	public void add(Map<String, BaseConfig> map) {
-		// stats of the material
-		// the value represents what if the entire golem is made of this material
-		map.put("materials/vanilla", new GolemMaterialConfig()
+	public void add(Collector map) {
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "vanilla"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "copper"), Ingredient.of(Items.COPPER_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 50)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
@@ -58,7 +53,7 @@ public class ConfigGen extends ConfigDataProvider {
 		);
 
 		// Choose which stat to use, and what percentage for the complete golem
-		map.put("parts/default", new GolemPartConfig()
+		map.add(ModularGolems.PARTS, new ResourceLocation(ModularGolems.MODID, "default"), new GolemPartConfig()
 				.addPart(GolemItems.GOLEM_BODY.get())
 				.addFilter(StatFilterType.HEALTH, 0.5)
 				.addFilter(StatFilterType.ATTACK, 0)

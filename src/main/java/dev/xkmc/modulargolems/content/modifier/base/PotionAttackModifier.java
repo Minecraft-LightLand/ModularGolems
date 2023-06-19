@@ -38,7 +38,7 @@ public class PotionAttackModifier extends GolemModifier {
 	}
 
 	private void applyPotion(AbstractGolemEntity<?, ?> self, LivingEntity target, int level) {
-		if (!target.level.isClientSide()) {
+		if (!target.level().isClientSide()) {
 			EffectUtil.addEffect(target, func.apply(level), EffectUtil.AddReason.NONE, self);
 		}
 	}

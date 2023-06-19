@@ -109,7 +109,7 @@ public class ConduitModifier extends GolemModifier {
 				target.isInWaterRainOrBubble() &&
 				golem.tickCount % ModConfig.COMMON.conduitCooldown.get() == 0) {
 			int damage = ModConfig.COMMON.conduitDamage.get() * level;
-			Level pLevel = golem.level;
+			Level pLevel = golem.level();
 			pLevel.playSound(null, target.getX(), target.getY(), target.getZ(),
 					SoundEvents.CONDUIT_ATTACK_TARGET, SoundSource.NEUTRAL,
 					1.0F, 1.0F);
