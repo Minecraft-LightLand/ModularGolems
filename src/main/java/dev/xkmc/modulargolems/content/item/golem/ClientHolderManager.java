@@ -29,6 +29,7 @@ public class ClientHolderManager {
 		TimedCache(int life, @Nullable AbstractGolemEntity<?, ?> entity) {
 			this.life = life;
 			this.entity = entity;
+			if (entity != null) entity.addTag("ClientOnly");
 		}
 
 	}
