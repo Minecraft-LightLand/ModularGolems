@@ -39,9 +39,10 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		text.add(golem.getName());
 		text.add(golem.getMode().getDesc(golem));
 		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
-		OverlayUtil util = new OverlayUtil(g, (int) (screenWidth * 0.6), -1, -1);
-		util.renderLongText(gui.getFont(), text);
+		new OverlayUtil(g, Math.round(screenWidth / 8f), -1, -1)
+				.renderLongText(gui.getFont(), text);
 		if (!(golem instanceof HumanoidGolemEntity humanoid)) return;
+		OverlayUtil util = new OverlayUtil(g, (int) (screenWidth * 0.6), -1, -1);
 		util.bg = 0xffc6c6c6;
 		List<ClientTooltipComponent> list = List.of(new GolemEquipmentTooltip(humanoid));
 		util.renderTooltipInternal(gui.getFont(), list);
