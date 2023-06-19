@@ -99,8 +99,8 @@ public class GUIGenerator {
 
     GUIGenerator(String modid) {
         GUI = "./src/test/resources/" + modid + "/gui/";
-        DST = "./src/test/resources/" + modid + "/assets/textures/gui/";
-        CDST = "./src/test/resources/" + modid + "/data/" + modid + "/gui/";
+        DST = "./src/main/resources/assets/" + modid + "/textures/gui/";
+        CDST = "./src/main/resources/data/" + modid + "/l2library_config/menu_layout/";
         CONT = GUI + "-templates/container/" + modid + "/";
     }
 
@@ -173,8 +173,7 @@ public class GUIGenerator {
             File fx = new File(DST + "container/" + fi.getName().split("\\.")[0] + ".png");
             check(fx);
             ImageIO.write(bimg, "PNG", fx);
-            write(DST + "coords/" + fi.getName(), out);
-            write(CDST + "coords/" + fi.getName(), out);
+            write(CDST + fi.getName(), out);
 
         }
 

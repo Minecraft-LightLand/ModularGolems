@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:swim"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

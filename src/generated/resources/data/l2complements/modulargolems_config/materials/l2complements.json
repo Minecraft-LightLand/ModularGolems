@@ -1,5 +1,4 @@
 {
-  "_class": "dev.xkmc.modulargolems.content.config.GolemMaterialConfig",
   "ingredients": {
     "l2complements:eternium": {
       "item": "l2complements:eternium_ingot"

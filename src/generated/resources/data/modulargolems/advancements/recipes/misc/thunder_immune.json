@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:thunder_immune"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

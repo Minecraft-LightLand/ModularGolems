@@ -1,10 +1,9 @@
-package organize.sub;
+package organize;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.datafixers.util.Pair;
-import organize.ResourceOrganizer;
 
 import java.io.File;
 import java.io.FileReader;

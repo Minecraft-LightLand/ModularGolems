@@ -23,7 +23,7 @@ public class PotionDefenseModifier extends GolemModifier {
 	}
 
 	private MobEffectInstance getIns(int lv) {
-		return new MobEffectInstance(effect.get(), 40, lv, false, false);
+		return new MobEffectInstance(effect.get(), 40, lv - 1, false, false);
 	}
 
 	@Override

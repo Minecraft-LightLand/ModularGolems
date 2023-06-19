@@ -1,5 +1,4 @@
 {
-  "_class": "dev.xkmc.modulargolems.content.config.GolemPartConfig",
   "filters": {
     "modulargolems:dog_golem_body": {
       "ATTACK": 1.0,

@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:dog_golem_body_from_metal_golem_template_stonecutting"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

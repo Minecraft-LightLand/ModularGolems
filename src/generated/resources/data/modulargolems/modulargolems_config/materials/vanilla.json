@@ -1,5 +1,4 @@
 {
-  "_class": "dev.xkmc.modulargolems.content.config.GolemMaterialConfig",
   "ingredients": {
     "modulargolems:copper": {
       "item": "minecraft:copper_ingot"

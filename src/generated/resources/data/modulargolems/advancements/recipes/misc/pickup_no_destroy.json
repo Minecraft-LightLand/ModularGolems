@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:pickup_no_destroy"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

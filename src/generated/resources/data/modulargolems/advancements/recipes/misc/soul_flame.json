@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:soul_flame"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

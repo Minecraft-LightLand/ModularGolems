@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:sponge"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

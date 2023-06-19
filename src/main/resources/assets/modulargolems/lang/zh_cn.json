@@ -116,7 +116,7 @@
   "modifier.modulargolems.cauldron.desc": "重复的药水升级不消耗升级槽",
   "attribute.name.golem_regen": "生命回复",
   "attribute.name.golem_sweep": "范围攻击",
-  "itemGroup.modulargolems.golems": "模块化傀儡",
+  "itemGroup.l2library.golems": "模块化傀儡",
   "modulargolems.tooltip.health": "血量: %s/%s",
   "modulargolems.tooltip.slot": "剩余升级槽: %s",
   "modulargolems.tooltip.shift": "按 SHIFT 显示特殊效果细节",

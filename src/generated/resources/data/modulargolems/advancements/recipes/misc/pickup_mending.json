@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:pickup_mending"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:float"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

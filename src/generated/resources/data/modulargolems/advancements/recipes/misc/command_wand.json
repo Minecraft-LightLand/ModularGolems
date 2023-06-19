@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:command_wand"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

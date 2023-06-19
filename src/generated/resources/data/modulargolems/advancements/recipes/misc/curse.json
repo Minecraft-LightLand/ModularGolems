@@ -30,5 +30,6 @@
     "recipes": [
       "modulargolems:curse"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
