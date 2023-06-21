@@ -18,8 +18,8 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
-import dev.xkmc.modulargolems.init.data.ModConfig;
-import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
@@ -186,8 +186,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 						spawnAtLocation(stack);
 					}
 				});
-				level().broadcastEntityEvent(this, EntityEvent.POOF);
-				this.discard();
 			}
 		}
 	}
