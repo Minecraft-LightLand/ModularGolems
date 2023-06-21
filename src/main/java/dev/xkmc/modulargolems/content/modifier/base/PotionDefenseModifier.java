@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.modifier.base;
 import dev.xkmc.l2library.base.effects.EffectUtil;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -41,6 +41,6 @@ public class PotionDefenseModifier extends GolemModifier {
 					Component.translatable("potion.potency." + ins.getAmplifier()));
 		}
 		lang = lang.withStyle(mobeffect.getCategory().getTooltipFormatting());
-		return List.of(LangData.POTION_DEFENSE.get(lang).withStyle(ChatFormatting.GREEN));
+		return List.of(MGLangData.POTION_DEFENSE.get(lang).withStyle(ChatFormatting.GREEN));
 	}
 }

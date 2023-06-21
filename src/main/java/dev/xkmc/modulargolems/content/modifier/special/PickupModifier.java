@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.modifier.special;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.ModConfig;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -25,7 +25,7 @@ public class PickupModifier extends GolemModifier {
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		int range = ModConfig.COMMON.basePickupRange.get() * v;
+		int range = MGConfig.COMMON.basePickupRange.get() * v;
 		return List.of(Component.translatable(getDescriptionId() + ".desc", range).withStyle(ChatFormatting.GREEN));
 	}
 }

@@ -22,7 +22,7 @@ version = "${ll_version}"
 group = "dev.kxmc.${modid}"
 archivesBaseName = "${modid}"
 
-if (lljij) jarJar.enable()
+if (lljij.toBoolean()) jarJar.enable()
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -115,7 +115,7 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-if (lljij) {
+if (lljij.toBoolean()) {
 
     reobf {
         jarJar {}
@@ -136,7 +136,7 @@ if (lljij) {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixin_extras_version}"))
-    if (rootMod) {
+    if (rootMod.toBoolean()) {
         implementation(jarJar("com.github.llamalad7.mixinextras:mixinextras-forge:${mixin_extras_version}")) {
             transitive = false
             jarJar.ranged(it, "[${mixin_extras_version},)")
@@ -146,7 +146,7 @@ dependencies {
     }
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
-    if (rootMod) {
+    if (rootMod.toBoolean()) {
         jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: "[MC1.20,MC1.21)")
     }
 }
@@ -190,22 +190,22 @@ dependencies {
     runtimeOnly fg.deobf("dev.xkmc.l2modularblock:l2modularblock:1.1.0")
     implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:0.1.1")
     implementation fg.deobf("dev.xkmc.l2screentracker:l2screentracker:0.1.0")
-    implementation fg.deobf("dev.xkmc.l2itemselector:l2itemselector:0.1.0")
+    implementation fg.deobf("dev.xkmc.l2itemselector:l2itemselector:0.1.1")
 
-    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.1.0")) {
+    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.1.2")) {
         transitive = false
-        jarJar.ranged(it, "[0.1.0,)")
+        jarJar.ranged(it, "[0.1.2,)")
     }
 
-    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.0-a1-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.0-a0-slim')
+    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.1-slim")
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.3-slim')
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
     //runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.2.0.pre4")
-    //runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.2.0.pre1")
-    //runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.2.0.pre1")
+    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.1")
+    runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.2")
 
     //implementation fg.deobf('curse.maven:the-twilight-forest-227639:4539671')
     //implementation fg.deobf('zip.local.blazegear:blazegear:1.3.5')

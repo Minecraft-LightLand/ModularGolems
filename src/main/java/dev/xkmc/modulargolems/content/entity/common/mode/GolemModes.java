@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.common.mode;
 
-import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,9 @@ public class GolemModes {
 
 	static final List<GolemMode> LIST = new ArrayList<>();
 
-	public static final GolemMode FOLLOW = new GolemMode(false, true, LangData.MODE_FOLLOWING);
-	public static final GolemMode GUARD = new GolemMode(true, true, LangData.MODE_GUARDING);
-	public static final GolemMode STAND = new GolemMode(true, false, LangData.MODE_STANDING);
+	public static final GolemMode FOLLOW = new GolemMode(false, true, MGLangData.MODE_FOLLOWING);
+	public static final GolemMode GUARD = new GolemMode(true, true, MGLangData.MODE_GUARDING);
+	public static final GolemMode STAND = new GolemMode(true, false, MGLangData.MODE_STANDING);
 
 	public static GolemMode get(int i) {
 		return LIST.get(i);

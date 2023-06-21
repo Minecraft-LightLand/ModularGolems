@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class TagGen {
+public class MGTagGen {
 
 	public static final TagKey<Item> SCULK_MATS = createItemTag("sculk_materials");
 	public static final TagKey<Item> GOLEM_PARTS = createItemTag("parts");

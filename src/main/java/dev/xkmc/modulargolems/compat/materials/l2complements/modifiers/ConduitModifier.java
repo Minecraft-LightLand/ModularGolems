@@ -4,7 +4,7 @@ import dev.xkmc.l2library.util.math.MathHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.ModConfig;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -42,18 +42,18 @@ public class ConduitModifier extends GolemModifier {
 				event.getSource().is(DamageTypeTags.BYPASSES_EFFECTS) ||
 				!entity.isInWaterRainOrBubble())
 			return;
-		event.setAmount((float) (event.getAmount() * Math.pow(1 - ModConfig.COMMON.conduitBoostReduction.get(), level)));
+		event.setAmount((float) (event.getAmount() * Math.pow(1 - MGConfig.COMMON.conduitBoostReduction.get(), level)));
 	}
 
 	@Override
 	public List<MutableComponent> getDetail(int level) {
-		int red = (int) Math.round(100 * Math.pow(1 - ModConfig.COMMON.conduitBoostReduction.get(), level));
-		int atk = (int) Math.round(ModConfig.COMMON.conduitBoostAttack.get() * level * 100);
-		int spe = (int) Math.round(ModConfig.COMMON.conduitBoostSpeed.get() * level * 100);
-		int armor = ModConfig.COMMON.conduitBoostArmor.get() * level;
-		int tough = ModConfig.COMMON.conduitBoostToughness.get() * level;
-		int damage = ModConfig.COMMON.conduitDamage.get() * level;
-		int freq = ModConfig.COMMON.conduitCooldown.get() / 20;
+		int red = (int) Math.round(100 * Math.pow(1 - MGConfig.COMMON.conduitBoostReduction.get(), level));
+		int atk = (int) Math.round(MGConfig.COMMON.conduitBoostAttack.get() * level * 100);
+		int spe = (int) Math.round(MGConfig.COMMON.conduitBoostSpeed.get() * level * 100);
+		int armor = MGConfig.COMMON.conduitBoostArmor.get() * level;
+		int tough = MGConfig.COMMON.conduitBoostToughness.get() * level;
+		int damage = MGConfig.COMMON.conduitDamage.get() * level;
+		int freq = MGConfig.COMMON.conduitCooldown.get() / 20;
 		return List.of(Component.translatable(getDescriptionId() + ".desc", red, freq, damage).withStyle(ChatFormatting.GREEN),
 				Component.translatable(Attributes.ATTACK_DAMAGE.getDescriptionId()).append(": +" + atk + "%").withStyle(ChatFormatting.BLUE),
 				Component.translatable(Attributes.MOVEMENT_SPEED.getDescriptionId()).append(": +" + spe + "%").withStyle(ChatFormatting.BLUE),
@@ -86,10 +86,10 @@ public class ConduitModifier extends GolemModifier {
 			return;
 		}
 
-		double atk = ModConfig.COMMON.conduitBoostAttack.get() * level;
-		double spe = ModConfig.COMMON.conduitBoostSpeed.get() * level;
-		int armor = ModConfig.COMMON.conduitBoostArmor.get() * level;
-		double tough = ModConfig.COMMON.conduitBoostToughness.get() * level;
+		double atk = MGConfig.COMMON.conduitBoostAttack.get() * level;
+		double spe = MGConfig.COMMON.conduitBoostSpeed.get() * level;
+		int armor = MGConfig.COMMON.conduitBoostArmor.get() * level;
+		double tough = MGConfig.COMMON.conduitBoostToughness.get() * level;
 
 		if (gatk != null && gatk.getModifier(ID_ATK) == null) {
 			gatk.addTransientModifier(new AttributeModifier(ID_ATK, STR_ATK, atk, AttributeModifier.Operation.MULTIPLY_BASE));
@@ -107,8 +107,8 @@ public class ConduitModifier extends GolemModifier {
 		LivingEntity target = golem.getTarget();
 		if (level > 0 && target != null && target.hurtTime == 0 &&
 				target.isInWaterRainOrBubble() &&
-				golem.tickCount % ModConfig.COMMON.conduitCooldown.get() == 0) {
-			int damage = ModConfig.COMMON.conduitDamage.get() * level;
+				golem.tickCount % MGConfig.COMMON.conduitCooldown.get() == 0) {
+			int damage = MGConfig.COMMON.conduitDamage.get() * level;
 			Level pLevel = golem.level();
 			pLevel.playSound(null, target.getX(), target.getY(), target.getZ(),
 					SoundEvents.CONDUIT_ATTACK_TARGET, SoundSource.NEUTRAL,

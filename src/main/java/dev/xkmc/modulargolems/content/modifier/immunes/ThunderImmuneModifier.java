@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
-import dev.xkmc.modulargolems.init.data.ModConfig;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -31,7 +31,7 @@ public class ThunderImmuneModifier extends GolemModifier {
 		if (level > 0 && event.getSource().is(DamageTypeTags.IS_LIGHTNING)) {
 			event.setCanceled(true);
 			EffectUtil.addEffect(entity, new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200), EffectUtil.AddReason.SELF, entity);
-			entity.heal(ModConfig.COMMON.thunderHeal.get() * level);
+			entity.heal(MGConfig.COMMON.thunderHeal.get() * level);
 			Player player = entity.getOwner();
 			if (player instanceof ServerPlayer pl) {
 				GolemTriggers.THUNDER.trigger(pl);
@@ -45,7 +45,7 @@ public class ThunderImmuneModifier extends GolemModifier {
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		int heal = ModConfig.COMMON.thunderHeal.get() * v;
+		int heal = MGConfig.COMMON.thunderHeal.get() * v;
 		return List.of(Component.translatable(getDescriptionId() + ".desc", heal).withStyle(ChatFormatting.GREEN));
 	}
 

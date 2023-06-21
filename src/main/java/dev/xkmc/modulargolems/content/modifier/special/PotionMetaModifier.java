@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.modifier.special;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +20,7 @@ public class PotionMetaModifier extends GolemModifier {
 		int ans = 0;
 		Set<UpgradeItem> set = new HashSet<>();
 		for (UpgradeItem item : upgrades) {
-			if (item.getDefaultInstance().is(TagGen.POTION_UPGRADES)) {
+			if (item.getDefaultInstance().is(MGTagGen.POTION_UPGRADES)) {
 				if (set.contains(item)) {
 					ans++;
 				} else {

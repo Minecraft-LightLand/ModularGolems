@@ -139,7 +139,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		this.unRide();
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
-		if (!ModConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
+		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
@@ -335,7 +335,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canAttackType(EntityType<?> pType) {
-		return !pType.is(TagGen.GOLEM_FRIENDLY);
+		return !pType.is(MGTagGen.GOLEM_FRIENDLY);
 	}
 
 	@Override
