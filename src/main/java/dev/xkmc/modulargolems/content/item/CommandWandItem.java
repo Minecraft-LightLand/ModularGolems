@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.menu.EquipmentsMenuPvd;
-import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -63,7 +63,7 @@ public class CommandWandItem extends Item implements WandItem {
 
 	@Override
 	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> list, TooltipFlag pIsAdvanced) {
-		list.add(LangData.WAND_COMMAND.get());
+		list.add(MGLangData.WAND_COMMAND.get());
 	}
 
 

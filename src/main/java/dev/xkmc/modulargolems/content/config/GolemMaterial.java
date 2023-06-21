@@ -10,7 +10,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.modulargolems.init.data.ModConfig;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -48,7 +48,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 	}
 
 	private static void updateStat(Map<Attribute, Pair<GolemStatType, Double>> values, GolemStatType k, double v) {
-		values.compute(k.getAttribute(), (a, old) -> Pair.of(k, ModConfig.COMMON.exponentialStat.get() && k.kind == GolemStatType.Kind.PERCENT ?
+		values.compute(k.getAttribute(), (a, old) -> Pair.of(k, MGConfig.COMMON.exponentialStat.get() && k.kind == GolemStatType.Kind.PERCENT ?
 				(old == null ? 1 : old.getSecond()) * (1 + v) : (old == null ? 0 : old.getSecond()) + v));
 	}
 

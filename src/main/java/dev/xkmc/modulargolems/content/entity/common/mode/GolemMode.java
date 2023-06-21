@@ -1,16 +1,16 @@
 package dev.xkmc.modulargolems.content.entity.common.mode;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 
 public class GolemMode {
 
 	private final int id;
 	private final boolean positioned, movable;
-	private final LangData lang;
+	private final MGLangData lang;
 
-	protected GolemMode(boolean positioned, boolean movable, LangData lang) {
+	protected GolemMode(boolean positioned, boolean movable, MGLangData lang) {
 		this.positioned = positioned;
 		this.movable = movable;
 		this.lang = lang;

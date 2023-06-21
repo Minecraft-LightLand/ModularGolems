@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.modifier.base;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.data.ModConfig;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -24,12 +24,12 @@ public class TargetBonusModifier extends GolemModifier {
 	@Override
 	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
 		if (pred.test(event.getEntity())) {
-			event.setAmount((float) (event.getAmount() * (1 + level * ModConfig.COMMON.targetDamageBonus.get())));
+			event.setAmount((float) (event.getAmount() * (1 + level * MGConfig.COMMON.targetDamageBonus.get())));
 		}
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		int perc = (int) (ModConfig.COMMON.targetDamageBonus.get() * 100 * v);
+		int perc = (int) (MGConfig.COMMON.targetDamageBonus.get() * 100 * v);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", perc).withStyle(ChatFormatting.GREEN));
 	}
 }

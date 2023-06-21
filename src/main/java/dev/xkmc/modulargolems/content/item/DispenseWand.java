@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.item;
 
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -57,7 +57,7 @@ public class DispenseWand extends Item implements WandItem {
 
 	@Override
 	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> list, TooltipFlag pIsAdvanced) {
-		list.add(LangData.WAND_SUMMON.get());
+		list.add(MGLangData.WAND_SUMMON.get());
 	}
 
 }

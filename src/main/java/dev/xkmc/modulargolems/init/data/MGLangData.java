@@ -14,7 +14,7 @@ import net.minecraft.network.chat.MutableComponent;
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-public enum LangData {
+public enum MGLangData {
 	HEALTH("tooltip.health", "Health: %s/%s", 2, null),
 	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null),
 	SHIFT("tooltip.shift", "Press SHIFT to show modifier details", 0, ChatFormatting.GRAY),
@@ -38,7 +38,7 @@ public enum LangData {
 	private final ChatFormatting format;
 
 
-	LangData(String key, String def, int arg, @Nullable ChatFormatting format) {
+	MGLangData(String key, String def, int arg, @Nullable ChatFormatting format) {
 		this.key = ModularGolems.MODID + "." + key;
 		this.def = def;
 		this.arg = arg;
@@ -64,7 +64,7 @@ public enum LangData {
 	}
 
 	public static void genLang(RegistrateLangProvider pvd) {
-		for (LangData lang : LangData.values()) {
+		for (MGLangData lang : MGLangData.values()) {
 			pvd.add(lang.key, lang.def);
 		}
 		pvd.add("attribute.name.golem_regen", "Golem Regen");

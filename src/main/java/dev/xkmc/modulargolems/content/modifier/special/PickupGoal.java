@@ -5,9 +5,9 @@ import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.events.event.GolemHandleExpEvent;
 import dev.xkmc.modulargolems.events.event.GolemHandleItemEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.modulargolems.init.data.LangData;
-import dev.xkmc.modulargolems.init.data.ModConfig;
-import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.mixin.ExperienceOrbAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -56,7 +56,7 @@ public class PickupGoal extends Goal {
 			return;
 		}
 		delay = INTERVAL;
-		AABB box = golem.getBoundingBox().inflate(lv * ModConfig.COMMON.basePickupRange.get());
+		AABB box = golem.getBoundingBox().inflate(lv * MGConfig.COMMON.basePickupRange.get());
 		tryHandleItem(box);
 		tryHandleExp(box);
 	}
@@ -71,8 +71,8 @@ public class PickupGoal extends Goal {
 		}
 		if (destroyItemCount > 0) {
 			if (player != null) {
-				ModularGolems.LOGGER.info(LangData.DESTROY_ITEM.get(golem, destroyItemCount).getString());
-				player.sendSystemMessage(LangData.DESTROY_ITEM.get(golem, destroyItemCount));
+				ModularGolems.LOGGER.info(MGLangData.DESTROY_ITEM.get(golem, destroyItemCount).getString());
+				player.sendSystemMessage(MGLangData.DESTROY_ITEM.get(golem, destroyItemCount));
 				destroyItemCount = 0;
 			}
 		}
@@ -98,7 +98,7 @@ public class PickupGoal extends Goal {
 		}
 		if (destroyExpCount > 0) {
 			if (player != null) {
-				player.sendSystemMessage(LangData.DESTROY_EXP.get(golem, destroyExpCount));
+				player.sendSystemMessage(MGLangData.DESTROY_EXP.get(golem, destroyExpCount));
 				destroyExpCount = 0;
 			}
 		}
@@ -118,7 +118,7 @@ public class PickupGoal extends Goal {
 			return exp;
 		}
 		float lost = golem.getMaxHealth() - golem.getHealth();
-		float ratio = ModConfig.COMMON.mendingXpCost.get();
+		float ratio = MGConfig.COMMON.mendingXpCost.get();
 		float heal = Math.min(lost, exp / ratio);
 		int cost = (int) (heal * ratio);
 		golem.heal(heal);
@@ -193,7 +193,7 @@ public class PickupGoal extends Goal {
 			for (int j = -r; j <= r; j++) {
 				for (int k = -r; k <= r; k++) {
 					pos.setWithOffset(origin, i, j, k);
-					if (!golem.level().getBlockState(pos).is(TagGen.POTENTIAL_DST)) {
+					if (!golem.level().getBlockState(pos).is(MGTagGen.POTENTIAL_DST)) {
 						continue;
 					}
 					BlockEntity be = golem.level().getBlockEntity(pos);

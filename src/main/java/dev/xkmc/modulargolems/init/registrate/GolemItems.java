@@ -20,7 +20,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -104,21 +104,21 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_HOLDERS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 
 			HOLDER_HUMANOID = REGISTRATE.item("humanoid_golem_holder", p ->
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_HOLDERS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 
 			HOLDER_DOG = REGISTRATE.item("dog_golem_holder", p ->
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_DOG))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_HOLDERS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 		}
 
 		// metal golem
@@ -128,19 +128,19 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
 		// humanoid golem
@@ -150,19 +150,19 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
 		// dog golem
@@ -172,21 +172,21 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(TagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
 	}
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {
 		var reg = regUpgradeImpl(id, mod, lv, foil, modid);
-		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.addTag(TagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
+		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.addTag(MGTagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
 		return reg;
 	}
 
@@ -199,7 +199,7 @@ public class GolemItems {
 	}
 
 	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil) {
-		return regUpgradeImpl(id, mod, level, foil, ModularGolems.MODID).tag(TagGen.GOLEM_UPGRADES);
+		return regUpgradeImpl(id, mod, level, foil, ModularGolems.MODID).tag(MGTagGen.GOLEM_UPGRADES);
 	}
 
 	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int level, boolean foil, String modid) {

@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.item;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -61,7 +61,7 @@ public class RetrievalWandItem extends Item implements WandItem {
 
 	@Override
 	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> list, TooltipFlag pIsAdvanced) {
-		list.add(LangData.WAND_RETRIEVE.get());
+		list.add(MGLangData.WAND_RETRIEVE.get());
 	}
 
 

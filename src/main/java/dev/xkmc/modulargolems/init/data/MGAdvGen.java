@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 
-public class AdvGen {
+public class MGAdvGen {
 
 	public static void genAdvancements(RegistrateAdvancementProvider pvd) {
 		AdvancementGenerator gen = new AdvancementGenerator(pvd, ModularGolems.MODID);
@@ -23,7 +23,7 @@ public class AdvGen {
 						CriterionBuilder.item(Items.CLAY_BALL),
 						"Welcome to Modular Golems", "Craft your army!");
 		var arm = root
-				.create("start", GolemItems.GOLEM_BODY.get(), CriterionBuilder.item(TagGen.GOLEM_PARTS),
+				.create("start", GolemItems.GOLEM_BODY.get(), CriterionBuilder.item(MGTagGen.GOLEM_PARTS),
 						"The Beginning of Everything", "Craft a Golem Template and use Stone Cutter to cut it into a golem part")
 				.create("apply", GolemPart.setMaterial(GolemItems.GOLEM_BODY.asStack(),
 								new ResourceLocation(ModularGolems.MODID, "iron")),
@@ -60,7 +60,7 @@ public class AdvGen {
 
 		var golem = arm.create("craft", GolemItems.HOLDER_GOLEM.get().withUniformMaterial(
 						new ResourceLocation(ModularGolems.MODID, "iron")),
-				CriterionBuilder.item(TagGen.GOLEM_HOLDERS),
+				CriterionBuilder.item(MGTagGen.GOLEM_HOLDERS),
 				"A Brand New Golem", "Craft a Golem Holder with metal golem parts.");
 		golem.create("thunder", Items.LIGHTNING_ROD,
 						CriterionBuilder.one(GolemThunderTrigger.ins()),
@@ -82,7 +82,7 @@ public class AdvGen {
 				CriterionBuilder.item(GolemItems.COMMAND_WAND.get()),
 				"Guard Your Home", "Craft a command wand");
 		var upgrade = golem.create("upgrade", GolemItems.EMPTY_UPGRADE.get(),
-				CriterionBuilder.item(TagGen.GOLEM_UPGRADES),
+				CriterionBuilder.item(MGTagGen.GOLEM_UPGRADES),
 				"Upgrade Your Golem", "Obtain an upgrade");
 		upgrade.create("full", GolemItems.EMPTY_UPGRADE.get(),
 				CriterionBuilder.one(UpgradeApplyTrigger.withRemain(0)),

@@ -50,15 +50,15 @@ public class ModularGolems {
 		GolemTypes.register();
 		GolemMiscs.register();
 		GolemModifiers.register();
-		ModConfig.init();
+		MGConfig.init();
 		GolemTriggers.register();
 		GolemModes.register();
-		REGISTRATE.addDataGenerator(ProviderType.LANG, LangData::genLang);
+		REGISTRATE.addDataGenerator(ProviderType.LANG, MGLangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
-		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, TagGen::onBlockTagGen);
-		REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, TagGen::onItemTagGen);
-		REGISTRATE.addDataGenerator(ProviderType.ENTITY_TAGS, TagGen::onEntityTagGen);
-		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, AdvGen::genAdvancements);
+		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, MGTagGen::onBlockTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, MGTagGen::onItemTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ENTITY_TAGS, MGTagGen::onEntityTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, MGAdvGen::genAdvancements);
 	}
 
 	public ModularGolems() {
@@ -77,7 +77,7 @@ public class ModularGolems {
 
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
-		event.getGenerator().addProvider(event.includeServer(), new ConfigGen(event.getGenerator()));
+		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(event.getGenerator()));
 		CompatManager.gatherData(event);
 	}
 
