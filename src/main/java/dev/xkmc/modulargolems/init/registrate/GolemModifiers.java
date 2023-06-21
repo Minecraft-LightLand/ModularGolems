@@ -115,7 +115,7 @@ public class GolemModifiers {
 		PICKUP_MENDING = reg("pickup_mending", () -> new SimpleFlagModifier(StatFilterType.MASS, GolemFlags.MENDING),
 				"Pickup Augment: Mending", "When a golem picks up experiences, it will try to heal itself with the experience.");
 		UPGRADE_RECYCLE = reg("upgrade_recycle", () -> new SimpleFlagModifier(StatFilterType.HEALTH, GolemFlags.UPGRADE_RECYCLE),
-				"Upgrade-recycle Upgrade", "Drop upgrades except itself when killed. Dropped upgrades will return to inventory is player is present.");
+				"Upgrade Recycle", "Drop upgrades except itself when killed. Dropped upgrades will return to inventory is player is present");
 		TALENTED = reg("talented", TalentMetaModifier::new, "Talented",
 				"First of every kind of upgrades with blue arrow will no longer consume upgrade slots (up to 4)");
 		CAULDRON = reg("cauldron", PotionMetaModifier::new, "Cauldron",

@@ -92,7 +92,7 @@ public class GolemItems {
 			PICKUP_NO_DESTROY = regUpgrade("pickup_no_destroy", () -> GolemModifiers.PICKUP_NODESTROY).lang("Pickup Augment: No Destroy").register();
 			TALENTED = regUpgrade("talented", () -> GolemModifiers.TALENTED).lang("Meta Upgrade: Talented").register();
 			CAULDRON = regUpgrade("cauldron", () -> GolemModifiers.CAULDRON).lang("Meta Upgrade: Cauldron").register();
-			UPGRADE_RECYCLE = regUpgrade("upgrade_recycle", () -> GolemModifiers.RECYCLE).lang("Upgrade-recycle Ugpgrade").register();
+			UPGRADE_RECYCLE = regUpgrade("upgrade_recycle", () -> GolemModifiers.UPGRADE_RECYCLE).lang("Upgrade-recycle Ugpgrade").register();
 		}
 
 
