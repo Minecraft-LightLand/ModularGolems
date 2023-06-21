@@ -43,7 +43,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<TargetBonusModifier> EMERALD;
 	public static final RegistryEntry<TalentMetaModifier> TALENTED;
 	public static final RegistryEntry<PotionMetaModifier> CAULDRON;
-	public static final RegistryEntry<SimpleFlagModifier> FLOAT, SWIM, ENDER_SIGHT, RECYCLE, PICKUP_NODESTROY, PICKUP_MENDING;
+	public static final RegistryEntry<SimpleFlagModifier> FLOAT, SWIM, ENDER_SIGHT, RECYCLE, PICKUP_NODESTROY, PICKUP_MENDING, UPGRADE_RECYCLE;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED;
 	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
 
@@ -114,6 +114,8 @@ public class GolemModifiers {
 				"Pickup Augment: No Destroy", "When a golem attempts to pickup an item and find nowhere to place it, it will not pickup the item instead. It will cause lag if the golem is in a region with lots of items.");
 		PICKUP_MENDING = reg("pickup_mending", () -> new SimpleFlagModifier(StatFilterType.MASS, GolemFlags.MENDING),
 				"Pickup Augment: Mending", "When a golem picks up experiences, it will try to heal itself with the experience.");
+		UPGRADE_RECYCLE = reg("upgrade_recycle", () -> new SimpleFlagModifier(StatFilterType.HEALTH, GolemFlags.UPGRADE_RECYCLE),
+				"Upgrade Recycle", "Drop upgrades except itself when killed. Dropped upgrades will return to inventory is player is present");
 		TALENTED = reg("talented", TalentMetaModifier::new, "Talented",
 				"First of every kind of upgrades with blue arrow will no longer consume upgrade slots (up to 4)");
 		CAULDRON = reg("cauldron", PotionMetaModifier::new, "Cauldron",

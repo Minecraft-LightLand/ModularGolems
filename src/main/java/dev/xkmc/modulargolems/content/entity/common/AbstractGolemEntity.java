@@ -20,6 +20,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -165,16 +166,27 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void actuallyHurt(DamageSource source, float damage) {
 		if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) damage *= 1000;
 		super.actuallyHurt(source, damage);
-		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
-			Player player = getOwner();
-			ItemStack stack = GolemHolder.setEntity(getThis());
-			if (player != null) {
-				player.getInventory().placeItemBackInInventory(stack);
-			} else {
-				spawnAtLocation(stack);
+		if (getHealth() <= 0) {
+			if(hasFlag(GolemFlags.RECYCLE)){
+				Player player = getOwner();
+				ItemStack stack = GolemHolder.setEntity(getThis());
+				if (player != null) {
+					player.getInventory().placeItemBackInInventory(stack);
+				} else {
+					spawnAtLocation(stack);
+				}
+				level().broadcastEntityEvent(this, EntityEvent.POOF);
+				this.discard();
+			} else if (hasFlag(GolemFlags.UPGRADE_RECYCLE)){
+				Player player = getOwner();
+				getUpgrades().stream().filter(item->!item.equals(GolemItems.UPGRADE_RECYCLE.get())).map(Item::getDefaultInstance).toList().forEach(stack->{
+					if (player != null) {
+						player.getInventory().placeItemBackInInventory(stack);
+					} else {
+						spawnAtLocation(stack);
+					}
+				});
 			}
-			level().broadcastEntityEvent(this, EntityEvent.POOF);
-			this.discard();
 		}
 	}
 

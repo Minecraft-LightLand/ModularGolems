@@ -95,7 +95,7 @@ jar {
 java {
     withSourcesJar()
 }
-
+jar.exclude(".cache")
 jar.finalizedBy('reobfJar')
 
 publishing {
@@ -121,6 +121,7 @@ if (lljij.toBoolean()) {
         jarJar {}
     }
 
+    tasks.jarJar.exclude(".cache")
     tasks.jarJar.finalizedBy('reobfJarJar')
 
     tasks.jarJar.configure {

@@ -28,3 +28,4 @@ run
 
 .DS_Store
 temp/
+/src/generated/resources/.cache/
