@@ -5,7 +5,7 @@ import dev.xkmc.modulargolems.content.client.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
-import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -37,7 +37,7 @@ public class GolemClient {
 					entity != null && entity.isBlocking() && entity.getUseItem() == stack ? 1.0F : 0.0F;
 			ItemProperties.register(Items.SHIELD, new ResourceLocation("blocking"), func);
 			ClampedItemPropertyFunction arrow = (stack, level, entity, layer) ->
-					stack.is(TagGen.BLUE_UPGRADES) ? 1 : stack.is(TagGen.POTION_UPGRADES) ? 0.5f : 0;
+					stack.is(MGTagGen.BLUE_UPGRADES) ? 1 : stack.is(MGTagGen.POTION_UPGRADES) ? 0.5f : 0;
 			for (var item : UpgradeItem.LIST)
 				ItemProperties.register(item, new ResourceLocation(ModularGolems.MODID, "blue_arrow"), arrow);
 			CompatManager.dispatchClientSetup(clientBus);

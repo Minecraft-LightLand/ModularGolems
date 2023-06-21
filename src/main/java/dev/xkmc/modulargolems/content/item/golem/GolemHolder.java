@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
-import dev.xkmc.modulargolems.init.data.LangData;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -200,7 +200,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				float f = Mth.clamp(health / max, 0f, 1f);
 				int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 				MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
-				list.add(LangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
+				list.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
 			}
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
@@ -210,14 +210,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 					list.add(parts[i].getDesc(mats.get(i).getDesc()));
 				}
 			}
-			list.add(LangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
+			list.add(MGLangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
 			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
 			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> {
 				if (Math.abs(v.getSecond()) > 1e-3) {
 					list.add(v.getFirst().getTotalTooltip(v.getSecond()));
 				}
 			});
-			list.add(LangData.SHIFT.get());
+			list.add(MGLangData.SHIFT.get());
 		} else {
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);

@@ -18,8 +18,8 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
-import dev.xkmc.modulargolems.init.data.ModConfig;
-import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -138,7 +138,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		this.unRide();
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
-		if (!ModConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
+		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
@@ -321,7 +321,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canAttackType(EntityType<?> pType) {
-		return !pType.is(TagGen.GOLEM_FRIENDLY);
+		return !pType.is(MGTagGen.GOLEM_FRIENDLY);
 	}
 
 	@Override

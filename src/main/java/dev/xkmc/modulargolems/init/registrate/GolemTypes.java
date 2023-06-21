@@ -19,7 +19,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderer;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -68,7 +68,7 @@ public class GolemTypes {
 					.add(Attributes.FOLLOW_RANGE, 35)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get())
-			).tag(TagGen.GOLEM_FRIENDLY).register();
+			).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 	public static final RegistryEntry<GolemType<MetalGolemEntity, MetalGolemPartType>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",
 					() -> new GolemType<>(ENTITY_GOLEM, MetalGolemPartType::values, MetalGolemPartType.BODY, () -> MetalGolemModel::new))
@@ -88,7 +88,7 @@ public class GolemTypes {
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get(), 1)
-			).tag(TagGen.GOLEM_FRIENDLY).register();
+			).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 	public static final RegistryEntry<GolemType<HumanoidGolemEntity, HumaniodGolemPartType>> TYPE_HUMANOID = REGISTRATE.generic(TYPES, "humanoid_golem",
 					() -> new GolemType<>(ENTITY_HUMANOID, HumaniodGolemPartType::values, HumaniodGolemPartType.BODY, () -> HumanoidGolemModel::new))
@@ -107,7 +107,7 @@ public class GolemTypes {
 					.add(ForgeMod.ENTITY_REACH.get(), 0)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
-			).tag(TagGen.GOLEM_FRIENDLY).register();
+			).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 	public static final RegistryEntry<GolemType<DogGolemEntity, DogGolemPartType>> TYPE_DOG = REGISTRATE.generic(TYPES, "dog_golem",
 					() -> new GolemType<>(ENTITY_DOG, DogGolemPartType::values, DogGolemPartType.BODY, () -> DogGolemModel::new))

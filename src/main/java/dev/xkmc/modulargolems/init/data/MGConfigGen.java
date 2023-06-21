@@ -13,9 +13,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public class ConfigGen extends ConfigDataProvider {
+public class MGConfigGen extends ConfigDataProvider {
 
-	public ConfigGen(DataGenerator generator) {
+	public MGConfigGen(DataGenerator generator) {
 		super(generator, "Golem Config");
 	}
 
@@ -44,7 +44,7 @@ public class ConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
 
-				.addMaterial(new ResourceLocation(ModularGolems.MODID, "sculk"), Ingredient.of(TagGen.SCULK_MATS))
+				.addMaterial(new ResourceLocation(ModularGolems.MODID, "sculk"), Ingredient.of(MGTagGen.SCULK_MATS))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.5)
