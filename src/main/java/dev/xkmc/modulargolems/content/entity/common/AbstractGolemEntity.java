@@ -9,6 +9,7 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemSwimMoveControl;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
@@ -527,6 +528,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
 		}
 		super.die(source);
+	}
+
+	public double getPerceivedTargetDistanceSquareForMeleeAttack(LivingEntity target) {
+		return GolemMeleeGoal.calculateDistSqr(this, target);
 	}
 
 }
