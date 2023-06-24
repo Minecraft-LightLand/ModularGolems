@@ -28,13 +28,20 @@ public class UpgradeApplyTrigger extends BaseCriterion<UpgradeApplyTrigger.Ins, 
 		return ans;
 	}
 
+	public static Ins withTotal(int total) {
+		Ins ans = ins();
+		ans.total = total;
+		return ans;
+	}
+
 	public UpgradeApplyTrigger(ResourceLocation id) {
 		super(id, Ins::new, Ins.class);
 	}
 
-	public void trigger(ServerPlayer player, ItemStack upgrade, int remain) {
+	public void trigger(ServerPlayer player, ItemStack upgrade, int remain, int total) {
 		this.trigger(player, e -> (e.ingredient.isEmpty() || e.ingredient.test(upgrade)) &&
-				(e.remain < 0 || e.remain >= remain));
+				(e.remain < 0 || e.remain >= remain) &&
+				(e.total < 0 || e.total <= total));
 	}
 
 	@SerialClass
@@ -44,7 +51,7 @@ public class UpgradeApplyTrigger extends BaseCriterion<UpgradeApplyTrigger.Ins, 
 		private Ingredient ingredient = Ingredient.EMPTY;
 
 		@SerialClass.SerialField
-		private int remain = -1;
+		private int remain = -1, total = -1;
 
 		public Ins(ResourceLocation id, ContextAwarePredicate player) {
 			super(id, player);

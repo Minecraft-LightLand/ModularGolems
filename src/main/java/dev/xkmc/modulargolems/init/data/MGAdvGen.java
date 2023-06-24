@@ -75,6 +75,12 @@ public class MGAdvGen {
 				.create("kill_warden", Items.SCULK_CATALYST,
 						CriterionBuilder.one(GolemKillTrigger.byType(EntityType.WARDEN)),
 						"Ship of Theseus", "Let a golem kill a Warden").type(FrameType.CHALLENGE);
+		golem.create("summon", GolemItems.DISPENSE_WAND.get(),
+						CriterionBuilder.item(GolemItems.DISPENSE_WAND.get()),
+						"Airborne Battalion", "Craft a summon wand")
+				.create("summon_mass", GolemItems.DISPENSE_WAND.get(),
+						CriterionBuilder.one(GolemMassSummonTrigger.atLeast(24)),
+						"Portable Military", "Summon at least 24 golems at once").type(FrameType.CHALLENGE);
 		golem.create("retrieve", GolemItems.RETRIEVAL_WAND.get(),
 				CriterionBuilder.item(GolemItems.RETRIEVAL_WAND.get()),
 				"Everyone Comes Back", "Craft a retrieval wand");
@@ -85,8 +91,11 @@ public class MGAdvGen {
 				CriterionBuilder.item(MGTagGen.GOLEM_UPGRADES),
 				"Upgrade Your Golem", "Obtain an upgrade");
 		upgrade.create("full", GolemItems.EMPTY_UPGRADE.get(),
-				CriterionBuilder.one(UpgradeApplyTrigger.withRemain(0)),
-				"No More Room", "Apply the maximum number of upgrades on a golem").type(FrameType.TASK);
+						CriterionBuilder.one(UpgradeApplyTrigger.withRemain(0)),
+						"No More Room", "Use up all upgrade slots").type(FrameType.TASK)
+				.create("max", GolemItems.TALENTED.get(),
+						CriterionBuilder.one(UpgradeApplyTrigger.withTotal(12)),
+						"Above and Beyond", "Apply 12 upgrades on a golem").type(FrameType.CHALLENGE);
 		upgrade.create("recycle", GolemItems.RECYCLE.get(),
 				CriterionBuilder.one(UpgradeApplyTrigger.withUpgrade(GolemItems.RECYCLE.get())),
 				"Immortal Golem", "Apply a recycle upgrade on a golem").type(FrameType.CHALLENGE);

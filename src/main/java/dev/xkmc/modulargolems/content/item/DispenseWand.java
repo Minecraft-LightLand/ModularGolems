@@ -2,8 +2,10 @@ package dev.xkmc.modulargolems.content.item;
 
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -45,12 +47,19 @@ public class DispenseWand extends Item implements WandItem {
 				}
 			}
 			Vec3 finalPos = pos;
+			int[] counter = new int[]{0};
 			iter(user, golem -> {
 				if (golem.getItem() instanceof GolemHolder holder) {
-					return holder.summon(golem, level, finalPos, user) && !all;
+					if (holder.summon(golem, level, finalPos, user)) {
+						counter[0]++;
+						return !all;
+					}
 				}
 				return false;
 			});
+			if (counter[0] > 1 && user instanceof ServerPlayer sp) {
+				GolemTriggers.MAS_SUMMON.trigger(sp, counter[0]);
+			}
 		}
 		return InteractionResultHolder.success(stack);
 	}

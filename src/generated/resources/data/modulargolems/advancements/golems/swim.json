@@ -6,7 +6,8 @@
         "ingredient": {
           "item": "modulargolems:swim"
         },
-        "remain": -1
+        "remain": -1,
+        "total": -1
       },
       "trigger": "modulargolems:upgrade_apply"
     }

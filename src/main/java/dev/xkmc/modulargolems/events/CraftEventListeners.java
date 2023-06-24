@@ -63,7 +63,8 @@ public class CraftEventListeners {
 				var mats = GolemHolder.getMaterial(result);
 				var upgrades = GolemHolder.getUpgrades(result);
 				int remaining = holder.getRemaining(mats, upgrades);
-				GolemTriggers.UPGRADE_APPLY.trigger((ServerPlayer) event.getEntity(), block, remaining);
+				int total = upgrades.size();
+				GolemTriggers.UPGRADE_APPLY.trigger((ServerPlayer) event.getEntity(), block, remaining, total);
 			} else {
 				var mats = GolemHolder.getMaterial(stack);
 				var type = holder.getEntityType();

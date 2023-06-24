@@ -1,6 +1,6 @@
-// 1.20	2023-06-19T17:34:34.047924	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-3e8ef441251b5052f94535f2515324d497a26c4e assets/modulargolems/lang/en_ud.json
-b3cae9a10cccfdb0ef07a62dd0b455e7662ece6f assets/modulargolems/lang/en_us.json
+// 1.20	2023-06-23T22:20:22.59666	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+1cc780a5ca86347db464a664de3955e68275d341 assets/modulargolems/lang/en_ud.json
+649c5951cf254412ee9d2d20226a81b3171ba6a4 assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
 d85abebd3b51deaa8937c6da80cbbf428430c517 assets/modulargolems/models/item/attack_high_blue.json
 92a0cc59e60b552d9ea9a11552515396113f90b9 assets/modulargolems/models/item/attack_high_purple.json
@@ -123,20 +123,23 @@ e6f98fd447ec8c46bf7ed55bd40fe772a81cf31f data/modulargolems/advancements/golems/
 774daf32cc6267f181b949bc3efb786c54d5c6ec data/modulargolems/advancements/golems/command.json
 febc0e2a27b1ff3c4e8f14cd7e237a0d0682c377 data/modulargolems/advancements/golems/craft.json
 503b0ca2a41e95dcaf1656605164d0ae0d17bb73 data/modulargolems/advancements/golems/dog.json
-e2857cb8536e60eccad94f3255789664d5f28e9e data/modulargolems/advancements/golems/full.json
+0fb010c03c67882976f3ba6bb7fed88e61551be3 data/modulargolems/advancements/golems/full.json
 8a4f6379dd27d2653d5e63ae763d8be1159f808b data/modulargolems/advancements/golems/fully_equipped.json
 6b57e4ab47eb436d08bc164bfd814f32a3f7c03e data/modulargolems/advancements/golems/hot_fix.json
 d6afb1ca884f597c7dfa484418b650a934ea98d0 data/modulargolems/advancements/golems/humanoid.json
 eb3f785b98c1af6f2859d044ef676a5ce044f8f1 data/modulargolems/advancements/golems/kill_creeper.json
 f6bdc2bf4fa115e91dd4b29d712e0e5109071d18 data/modulargolems/advancements/golems/kill_guardian.json
 bef87c982b33c5e7c5bdfed73bf83693b92043ce data/modulargolems/advancements/golems/kill_warden.json
+30f2922be0bbdfd6edc33cd9eb1f64b102bac82f data/modulargolems/advancements/golems/max.json
 06d033879b4f0f66378f24e50fc91a60edd3bd12 data/modulargolems/advancements/golems/oops.json
-38fc88c44d387d80c1149eb335139d6ea0bea4c5 data/modulargolems/advancements/golems/recycle.json
+cbc5d5e1ed31487716326811d3404dea6960749d data/modulargolems/advancements/golems/recycle.json
 46ea5362752a9e3230452094debdd7a30dabeb32 data/modulargolems/advancements/golems/retrieve.json
 b9aba1da22efbb880a2ca1ed9b6abe3461ef885b data/modulargolems/advancements/golems/root.json
-94daf13e20289667668ea9ca78b4b900cd9cb943 data/modulargolems/advancements/golems/sponge.json
+686ce3263229eb15ab99571504b8bdaf3f6966fa data/modulargolems/advancements/golems/sponge.json
 a4f1403e986a9ec9d851d3ece928bc7d6873f135 data/modulargolems/advancements/golems/start.json
-17537bff1d612dc544a260813aff3100e27d43d5 data/modulargolems/advancements/golems/swim.json
+19728c7c51637de83636c009eb402ed8fa87fd94 data/modulargolems/advancements/golems/summon.json
+b3b0ad07337ab0888239a5f7c433b73e6d78d95f data/modulargolems/advancements/golems/summon_mass.json
+559985e6e0046ad9f2b44ab419a2f8325071405e data/modulargolems/advancements/golems/swim.json
 dfbf4b51d291ee09b4147015497695c6941efff9 data/modulargolems/advancements/golems/thunder.json
 da47e70d8f7aa7bd826a56743038fd4426055b16 data/modulargolems/advancements/golems/upgrade.json
 9348b34d10f02f1c22814e4f8e5e015fd93d095a data/modulargolems/advancements/recipes/dog_golem_holder.json
