@@ -1,10 +1,10 @@
 {
-  "parent": "modulargolems:golems/upgrade",
+  "parent": "modulargolems:golems/full",
   "criteria": {
     "0": {
       "conditions": {
-        "remain": 0,
-        "total": -1
+        "remain": -1,
+        "total": 12
       },
       "trigger": "modulargolems:upgrade_apply"
     }
@@ -12,16 +12,16 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.modulargolems.advancements.golems.full.description"
+      "translate": "advancements.modulargolems.advancements.golems.max.description"
     },
-    "frame": "task",
+    "frame": "challenge",
     "hidden": false,
     "icon": {
-      "item": "modulargolems:empty_upgrade"
+      "item": "modulargolems:talented"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.modulargolems.advancements.golems.full.title"
+      "translate": "advancements.modulargolems.advancements.golems.max.title"
     }
   },
   "requirements": [

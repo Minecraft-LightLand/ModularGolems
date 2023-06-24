@@ -43,6 +43,12 @@
 	"thunder.description": "让一个免疫雷电的傀儡被闪电击中",
 	"thunder.title": "行走的避雷针",
 	"upgrade.description": "获取一个升级模块",
-	"upgrade.title": "是时候升级了"
+	"upgrade.title": "是时候升级了",
+	"summon.description": "制作召唤手杖",
+	"summon.title": "空降部队",
+	"summon_mass.description": "一次召唤至少24只傀儡",
+	"summon_mass.title": "一车面包人",
+	"max.description": "对傀儡使用12个升级",
+	"max.title": "超越极限"
   }
 }
