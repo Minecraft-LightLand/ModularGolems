@@ -44,6 +44,7 @@ import java.util.function.Predicate;
 
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> implements CrossbowAttackMob {
+
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private final GolemBowAttackGoal bowGoal = new GolemBowAttackGoal(this, 1.0D, 20, 15.0F);
@@ -94,7 +95,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			return net.minecraftforge.common.ForgeHooks.getProjectile(this, pShootable, itemstack);
 		} else {
 			return net.minecraftforge.common.ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
-
 		}
 	}
 
@@ -222,6 +222,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	// ------ common golem behavior
+
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(6, new FollowOwnerGoal(this));
@@ -326,6 +327,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	// ------ player equipment hurt
+
 	@Override
 	protected void hurtArmor(DamageSource source, float damage) {
 		if (damage <= 0.0F) return;
@@ -406,61 +408,38 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	public void attackStep() {
-		if (tickCount % 20 == 0) {
-			LivingEntity livingentity = getTarget();
-			InteractionHand hand = getWeaponHand();
-			ItemStack stack = getItemInHand(hand);
-			ItemStack temp = getItemBySlot(EquipmentSlot.MAINHAND);
-			ItemStack temp2 = getItemBySlot(EquipmentSlot.OFFHAND);
-			ItemStack temp3 = temp;
-			if (getMainHandItem().getItem() instanceof BowItem) {
-
-				if (getProjectile(stack).isEmpty()) {
-					if (getOffhandItem().getItem() instanceof SwordItem) {
-						temp = temp2;
-						temp2 = temp3;
-						setItemSlot(EquipmentSlot.MAINHAND, temp);
-						setItemSlot(EquipmentSlot.OFFHAND, temp2);
-
-
-					}
-
-				}
-				if (livingentity == null) {
+		if (tickCount % 20 != 0) return;
+		LivingEntity target = getTarget();
+		ItemStack main = getItemBySlot(EquipmentSlot.MAINHAND);
+		ItemStack off = getItemBySlot(EquipmentSlot.OFFHAND);
+		if (main.getItem() instanceof ProjectileWeaponItem) {
+			if (getProjectile(main).isEmpty()) {
+				if (off.getItem() instanceof ProjectileWeaponItem) {
 					return;
 				}
-				double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-				if (meleeGoal.getAttackReachSqr(livingentity) > d0) {
-					temp = temp2;
-					temp2 = temp3;
-					setItemSlot(EquipmentSlot.MAINHAND, temp);
-					setItemSlot(EquipmentSlot.OFFHAND, temp2);
-
+			} else {
+				if (target == null) {
+					return;
+				}
+				double d0 = distanceToSqr(target.getX(), target.getY(), target.getZ());
+				if (meleeGoal.getAttackReachSqr(target) < d0) {
+					return;
 				}
 			}
-			if (getMainHandItem().getItem() instanceof SwordItem) {
-				if (!getProjectile(stack).isEmpty()) {
-					ItemStack temp4 = getItemBySlot(EquipmentSlot.MAINHAND);
-					ItemStack temp5 = getItemBySlot(EquipmentSlot.OFFHAND);
-					ItemStack temp6 = temp4;
-					temp4 = temp5;
-					temp5 = temp6;
-					setItemSlot(EquipmentSlot.MAINHAND, temp4);
-					setItemSlot(EquipmentSlot.OFFHAND, temp5);
-
-				}
-				if (livingentity == null) {
-					return;
-				}
-				double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-				if (meleeGoal.getAttackReachSqr(livingentity) <= d0) {
-					temp = temp2;
-					temp2 = temp3;
-					setItemSlot(EquipmentSlot.MAINHAND, temp);
-					setItemSlot(EquipmentSlot.OFFHAND, temp2);
-
-				}
+		} else if (off.getItem() instanceof ProjectileWeaponItem) {
+			if (getProjectile(off).isEmpty()) {
+				return;
+			}
+			if (target == null) {
+				return;
+			}
+			double d0 = distanceToSqr(target.getX(), target.getY(), target.getZ());
+			if (meleeGoal.getAttackReachSqr(target) > d0) {
+				return;
 			}
 		}
+		setItemInHand(InteractionHand.MAIN_HAND, off);
+		setItemInHand(InteractionHand.OFF_HAND, main);
 	}
+
 }
