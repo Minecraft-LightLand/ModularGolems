@@ -58,7 +58,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			reassessWeaponGoal();
 		}
 	}
-
 	public void reassessWeaponGoal() {
 		if (!this.level.isClientSide) {
 			this.goalSelector.removeGoal(this.meleeGoal);
@@ -84,7 +83,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			this.goalSelector.addGoal(1, this.meleeGoal);
 		}
 	}
-
 	public ItemStack getProjectile(ItemStack pShootable) {
 		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
 			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
@@ -94,57 +92,45 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			return net.minecraftforge.common.ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
 
 		}
-
 	}
-
 	public void readAdditionalSaveData(CompoundTag pCompound) {
 		super.readAdditionalSaveData(pCompound);
 		this.reassessWeaponGoal();
 	}
-
 	public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
 		super.setItemSlot(pSlot, pStack);
 		if (!this.level.isClientSide) {
 			this.reassessWeaponGoal();
 		}
 	}
-
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(IS_CHARGING_CROSSBOW, false);
 	}
-
 	protected AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity) {
 		return ProjectileUtil.getMobArrow(this, pArrowStack, pVelocity);
 	}
-
 	public boolean canFireProjectileWeapon(ProjectileWeaponItem pProjectileWeapon) {
 		return true;
 	}
-
 	public boolean isChargingCrossbow() {
 		return this.entityData.get(IS_CHARGING_CROSSBOW);
 	}
-
 	public void setChargingCrossbow(boolean pIsCharging) {
 		this.entityData.set(IS_CHARGING_CROSSBOW, pIsCharging);
 	}
-
 	@Override
 	public void shootCrossbowProjectile(LivingEntity pTarget, ItemStack pCrossbowStack, Projectile pProjectile, float pProjectileAngle) {
 		shootCrossbowProjectile(this, pTarget, pProjectile, pProjectileAngle, 1.6F);
 	}
-
 	public void shootCrossbowProjectile(LivingEntity pUser, LivingEntity pTarget, Projectile pProjectile, float pProjectileAngle, float pVelocity) {
 		GolemShooterHelper.shootAimHelper(pTarget, pProjectile);
 		pUser.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (pUser.getRandom().nextFloat() * 0.4F + 0.8F));
 	}
-
 	@Override
 	public void onCrossbowAttackPerformed() {
 		noActionTime = 0;
 	}
-
 	public void performCrossbowAttack(LivingEntity pUser, float pVelocity) {
 		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
 		ItemStack itemstack = pUser.getItemInHand(interactionhand);
@@ -153,7 +139,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		this.onCrossbowAttackPerformed();
 	}
-
 	public InteractionHand getWeaponHand() {
 		ItemStack stack = this.getMainHandItem();
 		InteractionHand hand = InteractionHand.MAIN_HAND;
@@ -162,7 +147,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return hand;
 	}
-
 	@Override
 	public void performRangedAttack(LivingEntity pTarget, float dist) {
 		InteractionHand hand = getWeaponHand();
@@ -198,10 +182,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		}
 	}
-
-
 	protected boolean rendering, render_trigger = false;
-
 	@Override
 	public boolean isBlocking() {
 		boolean ans = shieldCooldown == 0 && shieldSlot() != null;
@@ -210,7 +191,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return ans;
 	}
-
 	public ItemStack getUseItem() {
 		ItemStack ans = super.getUseItem();
 		if (rendering && render_trigger) {
@@ -220,9 +200,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return ans;
 	}
-
 	// ------ common golem behavior
-
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(6, new FollowOwnerGoal(this));
@@ -258,19 +236,16 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return false;
 	}
-
 	@Override
 	protected AABB getAttackBoundingBox(Entity target, double range) {
 		GolemSweepEvent event = new GolemSweepEvent(this, getMainHandItem(), target, range);
 		MinecraftForge.EVENT_BUS.post(event);
 		return event.getBox();
 	}
-
 	@Override
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
 		return super.doHurtTarget(target);
 	}
-
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
@@ -309,14 +284,12 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return InteractionResult.FAIL;
 	}
-
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			dropSlot(slot, true);
 		}
 		super.dropCustomDeathLoot(source, i, b);
 	}
-
 	private void dropSlot(EquipmentSlot slot, boolean isDeath) {
 		ItemStack itemstack = this.getItemBySlot(slot);
 		if (itemstack.isEmpty()) return;
@@ -325,9 +298,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.spawnAtLocation(itemstack);
 		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
-
 	// ------ player equipment hurt
-
 	@Override
 	protected void hurtArmor(DamageSource source, float damage) {
 		if (damage <= 0.0F) return;
@@ -394,20 +365,16 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		super.tick();
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
 	}
-
 	@Override
 	public void aiStep() {
-
 		super.aiStep();
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			ItemStack stack = getItemBySlot(slot);
 			if (!stack.isEmpty()) {
 				stack.inventoryTick(level, this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
 			}
-
 		}
 		attackStep();
-
 	}
 	public void attackStep(){
 		if (tickCount % 20 == 0) {
@@ -465,22 +432,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 				}
 			}
-
-
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
