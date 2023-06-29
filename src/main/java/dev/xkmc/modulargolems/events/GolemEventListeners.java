@@ -11,6 +11,7 @@ import net.minecraft.world.item.TridentItem;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class GolemEventListeners {
+	
 	@SubscribeEvent
 	public static void onEquip(GolemEquipEvent event) {
 		if (!event.getEntity().getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
