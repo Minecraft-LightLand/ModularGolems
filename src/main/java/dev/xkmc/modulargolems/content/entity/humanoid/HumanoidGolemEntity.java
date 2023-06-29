@@ -1,5 +1,4 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
-
 import dev.xkmc.l2library.serial.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
@@ -37,14 +36,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
-
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> implements CrossbowAttackMob {
-
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private final GolemBowAttackGoal bowGoal = new GolemBowAttackGoal(this, 1.0D, 20, 15.0F);
@@ -61,7 +58,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			reassessWeaponGoal();
 		}
 	}
-
 	public void reassessWeaponGoal() {
 		if (!this.level.isClientSide) {
 			this.goalSelector.removeGoal(this.meleeGoal);
@@ -87,7 +83,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			this.goalSelector.addGoal(1, this.meleeGoal);
 		}
 	}
-
 	public ItemStack getProjectile(ItemStack pShootable) {
 		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
 			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
@@ -95,57 +90,47 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			return net.minecraftforge.common.ForgeHooks.getProjectile(this, pShootable, itemstack);
 		} else {
 			return net.minecraftforge.common.ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
+
 		}
 	}
-
 	public void readAdditionalSaveData(CompoundTag pCompound) {
 		super.readAdditionalSaveData(pCompound);
 		this.reassessWeaponGoal();
 	}
-
 	public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
 		super.setItemSlot(pSlot, pStack);
 		if (!this.level.isClientSide) {
 			this.reassessWeaponGoal();
 		}
 	}
-
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(IS_CHARGING_CROSSBOW, false);
 	}
-
 	protected AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity) {
 		return ProjectileUtil.getMobArrow(this, pArrowStack, pVelocity);
 	}
-
 	public boolean canFireProjectileWeapon(ProjectileWeaponItem pProjectileWeapon) {
 		return true;
 	}
-
 	public boolean isChargingCrossbow() {
 		return this.entityData.get(IS_CHARGING_CROSSBOW);
 	}
-
 	public void setChargingCrossbow(boolean pIsCharging) {
 		this.entityData.set(IS_CHARGING_CROSSBOW, pIsCharging);
 	}
-
 	@Override
 	public void shootCrossbowProjectile(LivingEntity pTarget, ItemStack pCrossbowStack, Projectile pProjectile, float pProjectileAngle) {
 		shootCrossbowProjectile(this, pTarget, pProjectile, pProjectileAngle, 1.6F);
 	}
-
 	public void shootCrossbowProjectile(LivingEntity pUser, LivingEntity pTarget, Projectile pProjectile, float pProjectileAngle, float pVelocity) {
 		GolemShooterHelper.shootAimHelper(pTarget, pProjectile);
 		pUser.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (pUser.getRandom().nextFloat() * 0.4F + 0.8F));
 	}
-
 	@Override
 	public void onCrossbowAttackPerformed() {
 		noActionTime = 0;
 	}
-
 	public void performCrossbowAttack(LivingEntity pUser, float pVelocity) {
 		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
 		ItemStack itemstack = pUser.getItemInHand(interactionhand);
@@ -154,7 +139,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		this.onCrossbowAttackPerformed();
 	}
-
 	public InteractionHand getWeaponHand() {
 		ItemStack stack = this.getMainHandItem();
 		InteractionHand hand = InteractionHand.MAIN_HAND;
@@ -163,7 +147,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return hand;
 	}
-
 	@Override
 	public void performRangedAttack(LivingEntity pTarget, float dist) {
 		InteractionHand hand = getWeaponHand();
@@ -199,9 +182,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
 		}
 	}
-
 	protected boolean rendering, render_trigger = false;
-
 	@Override
 	public boolean isBlocking() {
 		boolean ans = shieldCooldown == 0 && shieldSlot() != null;
@@ -210,7 +191,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return ans;
 	}
-
 	public ItemStack getUseItem() {
 		ItemStack ans = super.getUseItem();
 		if (rendering && render_trigger) {
@@ -220,9 +200,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return ans;
 	}
-
 	// ------ common golem behavior
-
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(6, new FollowOwnerGoal(this));
@@ -253,23 +231,21 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
 				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 				return true;
+
 			}
 		}
 		return false;
 	}
-
 	@Override
 	protected AABB getAttackBoundingBox(Entity target, double range) {
 		GolemSweepEvent event = new GolemSweepEvent(this, getMainHandItem(), target, range);
 		MinecraftForge.EVENT_BUS.post(event);
 		return event.getBox();
 	}
-
 	@Override
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
 		return super.doHurtTarget(target);
 	}
-
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
@@ -308,14 +284,12 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return InteractionResult.FAIL;
 	}
-
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			dropSlot(slot, true);
 		}
 		super.dropCustomDeathLoot(source, i, b);
 	}
-
 	private void dropSlot(EquipmentSlot slot, boolean isDeath) {
 		ItemStack itemstack = this.getItemBySlot(slot);
 		if (itemstack.isEmpty()) return;
@@ -324,9 +298,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.spawnAtLocation(itemstack);
 		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
-
 	// ------ player equipment hurt
-
 	@Override
 	protected void hurtArmor(DamageSource source, float damage) {
 		if (damage <= 0.0F) return;
@@ -393,7 +365,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		super.tick();
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
 	}
-
 	@Override
 	public void aiStep() {
 		super.aiStep();
@@ -403,6 +374,64 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				stack.inventoryTick(level, this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
 			}
 		}
+		attackStep();
 	}
+	public void attackStep(){
+		if (tickCount % 20 == 0) {
+			LivingEntity livingentity = getTarget();
+			InteractionHand hand = getWeaponHand();
+			ItemStack stack = getItemInHand(hand);
+			ItemStack temp = getItemBySlot(EquipmentSlot.MAINHAND);
+			ItemStack temp2 = getItemBySlot(EquipmentSlot.OFFHAND);
+			ItemStack temp3 = temp;
+			if (getMainHandItem().getItem() instanceof BowItem) {
 
+				if (getProjectile(stack).isEmpty()) {
+					if (getOffhandItem().getItem() instanceof SwordItem) {
+						temp = temp2;
+						temp2 = temp3;
+						setItemSlot(EquipmentSlot.MAINHAND, temp);
+						setItemSlot(EquipmentSlot.OFFHAND, temp2);
+
+
+					}
+
+				}
+				if (livingentity == null) {
+					return;
+				}
+				double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
+				if (meleeGoal.getAttackReachSqr(livingentity) > d0) {
+					temp = temp2;
+					temp2 = temp3;
+					setItemSlot(EquipmentSlot.MAINHAND, temp);
+					setItemSlot(EquipmentSlot.OFFHAND, temp2);
+
+				}
+			}
+			if (getMainHandItem().getItem() instanceof SwordItem) {
+				if (!getProjectile(stack).isEmpty()) {
+					ItemStack temp4 = getItemBySlot(EquipmentSlot.MAINHAND);
+					ItemStack temp5 = getItemBySlot(EquipmentSlot.OFFHAND);
+					ItemStack temp6 = temp4;
+					temp4 = temp5;
+					temp5 = temp6;
+					setItemSlot(EquipmentSlot.MAINHAND, temp4);
+					setItemSlot(EquipmentSlot.OFFHAND, temp5);
+
+				}
+				if (livingentity == null) {
+					return;
+				}
+				double d0 = distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
+				if (meleeGoal.getAttackReachSqr(livingentity) <= d0) {
+					temp = temp2;
+					temp2 = temp3;
+					setItemSlot(EquipmentSlot.MAINHAND, temp);
+					setItemSlot(EquipmentSlot.OFFHAND, temp2);
+
+				}
+			}
+		}
+	}
 }
