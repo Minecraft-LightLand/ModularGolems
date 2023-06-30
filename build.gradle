@@ -184,20 +184,16 @@ repositories {
 
 dependencies {
 
-    implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}-slim")
-    implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.2.0")
-    runtimeOnly fg.deobf("dev.xkmc.l2modularblock:l2modularblock:1.1.0")
-    implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:0.1.1")
-    implementation fg.deobf("dev.xkmc.l2screentracker:l2screentracker:0.1.0")
-    implementation fg.deobf("dev.xkmc.l2itemselector:l2itemselector:0.1.1")
-
-    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.1.2")) {
-        transitive = false
-        jarJar.ranged(it, "[0.1.2,)")
+    for (File f : new File("./libs").listFiles()) {
+        String str = f.getName();
+        String[] strs = str.substring(0, str.length() - 4).split("-");
+        String artifact = "dev.xkmc.${strs[0]}:${strs[0]}:${strs[1]}";
+        if(strs.length == 3) artifact += "-"+strs[2];
+        implementation fg.deobf(jarJar(artifact)) {
+            transitive = false
+            jarJar.ranged(it, "[${strs[1]},)")
+        }
     }
-
-    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.1-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.5-slim')
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
