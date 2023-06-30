@@ -197,13 +197,13 @@ dependencies {
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.1-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.3-slim')
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.5-slim')
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
     //runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.2.0.pre4")
-    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.4")
+    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.5")
     runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.4")
 
     //implementation fg.deobf('curse.maven:the-twilight-forest-227639:4539671')
