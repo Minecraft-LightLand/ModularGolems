@@ -3,5 +3,6 @@
   "landing_text": "patchouli.modulargolems.landing",
   "version": 1,
   "model": "modulargolems:book",
-  "creative_tab": "modulargolems.golems"
+  "creative_tab": "l2library:golems",
+  "use_resource_pack": true
 }
