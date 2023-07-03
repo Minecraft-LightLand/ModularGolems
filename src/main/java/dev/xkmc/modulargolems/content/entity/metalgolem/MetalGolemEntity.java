@@ -42,7 +42,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(type, level);
-		this.maxUpStep = 1.0F;
+		this.setMaxUpStep(1);
 	}
 
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
