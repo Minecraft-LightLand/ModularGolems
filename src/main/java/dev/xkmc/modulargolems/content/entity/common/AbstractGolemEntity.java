@@ -100,7 +100,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
-		this.maxUpStep = 1;
+		this.setMaxUpStep(1);
 		if (!level().isClientSide()) {
 			getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
 		}
