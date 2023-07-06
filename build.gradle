@@ -144,7 +144,7 @@ dependencies {
         implementation("com.github.llamalad7.mixinextras:mixinextras-forge:${mixin_extras_version}")
     }
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
-    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+    compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
     if (rootMod.toBoolean()) {
         jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: "[MC1.20,MC1.21)")
     }

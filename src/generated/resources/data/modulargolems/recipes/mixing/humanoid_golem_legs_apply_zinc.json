@@ -1,0 +1,41 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:humanoid_golem_legs"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:humanoid_golem_legs",
+      "nbt": {
+        "golem_material": "create:zinc"
+      }
+    }
+  ]
+}
