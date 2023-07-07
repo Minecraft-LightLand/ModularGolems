@@ -1,0 +1,50 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:metal_golem_body"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "tag": "forge:ingots/zinc"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:metal_golem_body",
+      "nbt": {
+        "golem_material": "create:zinc"
+      }
+    }
+  ]
+}

@@ -25,6 +25,14 @@
     "modulargolems:talented",
     "modulargolems:cauldron",
     {
+      "id": "modulargolems:coating",
+      "required": false
+    },
+    {
+      "id": "modulargolems:push",
+      "required": false
+    },
+    {
       "id": "modulargolems:force_field",
       "required": false
     },

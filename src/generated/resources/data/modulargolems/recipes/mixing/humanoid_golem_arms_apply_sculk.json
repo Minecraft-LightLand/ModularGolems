@@ -1,0 +1,41 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:humanoid_golem_arms"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:humanoid_golem_arms",
+      "nbt": {
+        "golem_material": "modulargolems:sculk"
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:humanoid_golem_arms"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:humanoid_golem_arms",
+      "nbt": {
+        "golem_material": "modulargolems:iron"
+      }
+    }
+  ]
+}
