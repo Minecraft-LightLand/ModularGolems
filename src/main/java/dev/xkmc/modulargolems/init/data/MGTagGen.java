@@ -1,12 +1,14 @@
 package dev.xkmc.modulargolems.init.data;
 
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateItemTagsProvider;
-import dev.xkmc.l2library.repack.registrate.providers.RegistrateTagsProvider;
+import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
+import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.core.Registry;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -34,7 +36,7 @@ public class MGTagGen {
 	public static final List<Consumer<RegistrateTagsProvider<Block>>> OPTIONAL_BLOCK = new ArrayList<>();
 
 	public static void onBlockTagGen(RegistrateTagsProvider<Block> pvd) {
-		pvd.tag(POTENTIAL_DST)
+		pvd.addTag(POTENTIAL_DST)
 				.addTag(BlockTags.SHULKER_BOXES)
 				.addTag(Tags.Blocks.CHESTS)
 				.addTag(Tags.Blocks.BARRELS);
@@ -42,9 +44,9 @@ public class MGTagGen {
 	}
 
 	public static void onItemTagGen(RegistrateItemTagsProvider pvd) {
-		pvd.tag(SCULK_MATS).add(Items.ECHO_SHARD);
+		pvd.addTag(SCULK_MATS).add(Items.ECHO_SHARD);
 		OPTIONAL_ITEM.forEach(e -> e.accept(pvd));
-		pvd.tag(BLUE_UPGRADES).add(
+		pvd.addTag(BLUE_UPGRADES).add(
 				GolemItems.BELL.get(),
 				GolemItems.ENDER_SIGHT.get(),
 				GolemItems.FLOAT.get(),
@@ -57,15 +59,17 @@ public class MGTagGen {
 				GolemItems.THUNDER_IMMUNE.get(),
 				GolemItems.PLAYER_IMMUNE.get()
 		);
-		pvd.tag(POTION_UPGRADES).add(
+		pvd.addTag(POTION_UPGRADES).add(
 				GolemItems.WEAK.get(),
 				GolemItems.SLOW.get(),
 				GolemItems.WITHER.get()
 		);
 	}
 
-	public static void onEntityTagGen(RegistrateTagsProvider<EntityType<?>> pvd) {
-		pvd.tag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
+	public static void onEntityTagGen(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> pvd) {
+		pvd.addTag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
+		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
+				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
@@ -73,11 +77,11 @@ public class MGTagGen {
 	}
 
 	private static TagKey<EntityType<?>> createEntityTag(String id) {
-		return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(ModularGolems.MODID, id));
+		return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(ModularGolems.MODID, id));
 	}
 
 	private static TagKey<Block> createBlockTag(String id) {
-		return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(ModularGolems.MODID, id));
+		return TagKey.create(Registries.BLOCK, new ResourceLocation(ModularGolems.MODID, id));
 	}
 
 }

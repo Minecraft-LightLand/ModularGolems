@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
+import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2complements.init.registrate.LCEffects;
-import dev.xkmc.l2library.repack.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.ConduitModifier;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.EnderTeleportModifier;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.FreezingModifier;
@@ -12,7 +12,7 @@ import dev.xkmc.modulargolems.content.item.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.PotionAttackModifier;
 import dev.xkmc.modulargolems.content.modifier.base.PotionDefenseModifier;
 import dev.xkmc.modulargolems.content.modifier.base.TargetBonusModifier;
-import dev.xkmc.modulargolems.init.data.TagGen;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.MobType;
@@ -62,12 +62,12 @@ public class LCCompatRegistry {
 	}
 
 	public static void register() {
-		TagGen.OPTIONAL_ITEM.add(e -> e.tag(TagGen.POTION_UPGRADES)
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.POTION_UPGRADES)
 				.addOptional(FLAME_UP.getId())
 				.addOptional(FREEZE_UP.getId())
 				.addOptional(UPGRADE_CURSE.getId())
 				.addOptional(UPGRADE_INCARCERATE.getId()));
-		TagGen.OPTIONAL_ITEM.add(e -> e.tag(TagGen.BLUE_UPGRADES)
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.BLUE_UPGRADES)
 				.addOptional(UPGRADE_CLEANSE.getId()));
 	}
 

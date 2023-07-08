@@ -1,7 +1,8 @@
 package dev.xkmc.modulargolems.content.item.golem;
 
 import com.mojang.datafixers.util.Pair;
-import dev.xkmc.l2library.repack.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.CreativeModeTabModifier;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -15,7 +16,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -29,7 +29,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -338,16 +337,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return type.get();
 	}
 
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
-		if (this.allowedIn(tab)) {
-			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
-				ItemStack stack = new ItemStack(this);
-				for (P part : getEntityType().values()) {
-					addMaterial(stack, part.toItem(), rl);
-				}
-				list.add(stack);
+	public void fillItemCategory(CreativeModeTabModifier tab) {
+		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			ItemStack stack = new ItemStack(this);
+			for (P part : getEntityType().values()) {
+				addMaterial(stack, part.toItem(), rl);
 			}
+			tab.accept(stack);
+
 		}
 	}
 

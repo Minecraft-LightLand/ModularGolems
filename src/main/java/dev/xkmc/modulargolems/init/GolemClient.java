@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.init;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
-import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
@@ -11,26 +10,20 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GolemClient {
 
 	private static IEventBus clientBus;
 
-	public static void onCtorClient(IEventBus bus) {
-		clientBus = bus;
-		bus.addListener(GolemClient::clientSetup);
-		bus.addListener(GolemClient::onResourceReload);
-		bus.addListener(GolemClient::registerOverlays);
-		MinecraftForge.EVENT_BUS.register(ClientHolderManager.class);
-	}
-
+	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
 			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
@@ -44,12 +37,12 @@ public class GolemClient {
 		});
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
 	public static void registerOverlays(RegisterGuiOverlaysEvent event) {
 		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "golem_stats", new GolemStatusOverlay());
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
 	public static void onResourceReload(RegisterClientReloadListenersEvent event) {
 		event.registerReloadListener(GolemBEWLR.INSTANCE.get());
 	}

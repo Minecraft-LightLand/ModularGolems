@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.golem;
 
+import com.tterrag.registrate.util.CreativeModeTabModifier;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
@@ -10,7 +11,6 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -98,15 +98,13 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		return part;
 	}
 
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
-		if (this.allowedIn(tab)) {
-			list.add(new ItemStack(this));
-			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
-				ItemStack stack = new ItemStack(this);
-				list.add(setMaterial(stack, rl));
-			}
+	public void fillItemCategory(CreativeModeTabModifier tab) {
+		tab.accept(new ItemStack(this));
+		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			ItemStack stack = new ItemStack(this);
+			tab.accept(setMaterial(stack, rl));
 		}
+
 	}
 
 }
