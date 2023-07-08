@@ -187,11 +187,16 @@ dependencies {
     for (File f : new File("./libs").listFiles()) {
         String str = f.getName();
         String[] strs = str.substring(0, str.length() - 4).split("-");
-        String artifact = "dev.xkmc.${strs[0]}:${strs[0]}:${strs[1]}";
-        if(strs.length == 3) artifact += "-"+strs[2];
+        int endIndex = str.length() - 4;
+        String fullVer = str.substring(strs[0].length() + 1, endIndex);
+        if (strs[strs.size() - 1].equals("slim")) {
+            endIndex -= 5;
+        }
+        String suffix = str.substring(strs[0].length() + 1, endIndex);
+        String artifact = "dev.xkmc.${strs[0]}:${strs[0]}:${fullVer}";
         implementation fg.deobf(jarJar(artifact)) {
             transitive = false
-            jarJar.ranged(it, "[${strs[1]},)")
+            jarJar.ranged(it, "[${suffix},)")
         }
     }
 
