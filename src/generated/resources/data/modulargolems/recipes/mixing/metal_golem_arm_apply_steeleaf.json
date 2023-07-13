@@ -1,0 +1,54 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:metal_golem_arm"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    },
+    {
+      "tag": "forge:ingots/steeleaf"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:metal_golem_arm",
+      "nbt": {
+        "golem_material": "twilightforest:steeleaf"
+      }
+    }
+  ]
+}
