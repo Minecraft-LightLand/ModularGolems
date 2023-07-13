@@ -22,7 +22,7 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 			case THIRD_PERSON_LEFT_HAND:
 			case THIRD_PERSON_RIGHT_HAND: {
 				stack.translate(0.25, 0.4, 0.5);
-				float size = 1F;
+				float size = 0.5F;
 				stack.scale(size, size, size);
 				break;
 			}
@@ -60,7 +60,7 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 	}
 
 	public DogGolemRenderer(EntityRendererProvider.Context ctx) {
-		super(ctx, new DogGolemModel(ctx.bakeLayer(ModelLayers.WOLF)), 0.5F, DogGolemPartType::values);
+		super(ctx, new DogGolemModel(ctx.bakeLayer(ModelLayers.WOLF)), 1F, DogGolemPartType::values);
 	}
 
 	protected float getBob(DogGolemEntity dog, float pPartialTicks) {

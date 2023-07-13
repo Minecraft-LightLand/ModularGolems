@@ -1,6 +1,6 @@
-// 1.20	2023-06-23T22:20:22.59666	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-1cc780a5ca86347db464a664de3955e68275d341 assets/modulargolems/lang/en_ud.json
-649c5951cf254412ee9d2d20226a81b3171ba6a4 assets/modulargolems/lang/en_us.json
+// 1.20.1	2023-07-13T01:15:49.9767353	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+2f06c40e6dd079dca249fad62e6a8fe007a8e305 assets/modulargolems/lang/en_ud.json
+f2f90e417d1105c0a77388f9c912f7234adfdd73 assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
 d85abebd3b51deaa8937c6da80cbbf428430c517 assets/modulargolems/models/item/attack_high_blue.json
 92a0cc59e60b552d9ea9a11552515396113f90b9 assets/modulargolems/models/item/attack_high_purple.json
@@ -82,6 +82,7 @@ c551f7f40b62278b6423b57b00126deec9035225 assets/modulargolems/models/item/quartz
 43717a5eb1b01a2e9640f297929c1b5d838cbd26 assets/modulargolems/models/item/recycle_blue.json
 e21189fc27b4253bd81cbafcc4bfeee9bd19683c assets/modulargolems/models/item/recycle_purple.json
 295b30187a6f2f55f4089bec3ff128db02269865 assets/modulargolems/models/item/retrieval_wand.json
+2b92cf818596b85466df98f955ce653f3eeddb55 assets/modulargolems/models/item/rider_wand.json
 9806afe1161ebd9726ce1a694c0c8cbd8f081122 assets/modulargolems/models/item/slow.json
 9c32e472d6fddd1120cd945cfcd0f36e5adaa630 assets/modulargolems/models/item/slow_blue.json
 95f8a06aead32162ab7be1fdd8aece601f509835 assets/modulargolems/models/item/slow_purple.json
