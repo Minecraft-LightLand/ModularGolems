@@ -33,9 +33,6 @@ import net.minecraft.world.phys.Vec3;
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
 	private float standAnimO;
 	protected boolean isJumping;
-	protected float playerJumpPendingScale;
-
-
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
 		setMaxUpStep(1);
@@ -73,8 +70,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
 		if (this.isControlledByLocalInstance()) {
 			if (this.onGround()) {
-				if (isJumping) {
-					this.executeRidersJump(this.playerJumpPendingScale, vec3);
+				if (player.jumping) {
+					this.executeRidersJump(vec3);
 				}
 			}
 		}
@@ -108,18 +105,16 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	public void setIsJumping(boolean p_30656_) {
 		this.isJumping = p_30656_;
 	}
-	protected void executeRidersJump(float p_248808_, Vec3 p_275435_) {
-		double d0 = this.getCustomJump() * (double)p_248808_ * (double)this.getBlockJumpFactor();
-		double d1 = d0 + (double)this.getJumpBoostPower();
+	protected void executeRidersJump(Vec3 p_275435_) {
 		Vec3 vec3 = this.getDeltaMovement();
-		this.setDeltaMovement(vec3.x, d1, vec3.z);
+		this.setDeltaMovement(vec3.x, 0.53F, vec3.z);
 		this.setIsJumping(true);
 		this.hasImpulse = true;
 		net.minecraftforge.common.ForgeHooks.onLivingJump(this);
 		if (p_275435_.z > 0.0D) {
 			float f = Mth.sin(this.getYRot() * ((float)Math.PI / 180F));
 			float f1 = Mth.cos(this.getYRot() * ((float)Math.PI / 180F));
-			this.setDeltaMovement(this.getDeltaMovement().add((double)(-0.4F * f * p_248808_), 0.0D, (double)(0.4F * f1 * p_248808_)));
+			this.setDeltaMovement(this.getDeltaMovement().add((double)(-0.4F * f * 0.53F), 0.0D, (double)(0.4F * f1 *0.53F)));
 		}
 
 	}
