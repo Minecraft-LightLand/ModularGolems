@@ -67,7 +67,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
 
 
-    protected AbstractGolemEntity(EntityType<T> type, Level level) {
+	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
 		this.waterNavigation = new AmphibiousPathNavigation(this, level);
 		this.groundNavigation = new GroundPathNavigation(this, level);
@@ -305,8 +305,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean attackable() {
-		return super.attackable();
+	public boolean canBeSeenAsEnemy() {
+		return hasFlag(GolemFlags.PASSIVE) || super.canBeSeenAsEnemy();
 	}
 
 	@Override
