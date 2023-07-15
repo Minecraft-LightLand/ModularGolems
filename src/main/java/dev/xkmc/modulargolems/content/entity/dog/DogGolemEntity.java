@@ -29,10 +29,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
 	private float standAnimO;
 	protected boolean isJumping;
+
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
 		setMaxUpStep(1);
@@ -46,23 +48,26 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 			return (0.55F - percentage * 0.16F) * (float) Math.PI;
 		}
 	}
+
 	//ride
 	public void aiStep() {
 		super.aiStep();
 	}
+
 	protected void positionRider(Entity p_289569_, Entity.MoveFunction p_289558_) {
 		super.positionRider(p_289569_, p_289558_);
 		if (this.standAnimO > 0.0F) {
-			float f = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F));
-			float f1 = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F));
+			float f = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
+			float f1 = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
 			float f2 = 0.7F * this.standAnimO;
 			float f3 = 0.15F * this.standAnimO;
-			p_289558_.accept(p_289569_, this.getX() + (double)(f2 * f), this.getY() + this.getPassengersRidingOffset() + p_289569_.getMyRidingOffset() + (double)f3, this.getZ() - (double)(f2 * f1));
+			p_289558_.accept(p_289569_, this.getX() + (double) (f2 * f), this.getY() + this.getPassengersRidingOffset() + p_289569_.getMyRidingOffset() + (double) f3, this.getZ() - (double) (f2 * f1));
 			if (p_289569_ instanceof LivingEntity) {
-				((LivingEntity)p_289569_).yBodyRot = this.yBodyRot;
+				((LivingEntity) p_289569_).yBodyRot = this.yBodyRot;
 			}
 		}
 	}
+
 	protected void tickRidden(Player player, Vec3 vec3) {
 		super.tickRidden(player, vec3);
 		Vec2 vec2 = this.getRiddenRotation(player);
@@ -77,34 +82,41 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 
 	}
+
 	protected Vec2 getRiddenRotation(LivingEntity p_275502_) {
 		return new Vec2(p_275502_.getXRot() * 0.5F, p_275502_.getYRot());
 	}
+
 	protected Vec3 getRiddenInput(Player p_278278_, Vec3 p_275506_) {
-			float f = p_278278_.xxa * 0.5F;
-			float f1 = p_278278_.zza;
-			if (f1 <= 0.0F) {
-				f1 *= 0.25F;
-			}
-			return new Vec3((double)f, 0.0D, (double)f1);
+		float f = p_278278_.xxa * 0.5F;
+		float f1 = p_278278_.zza;
+		if (f1 <= 0.0F) {
+			f1 *= 0.25F;
 		}
+		return new Vec3(f, 0.0D, f1);
+	}
+
 	public LivingEntity getControllingPassenger() {
-			Entity entity = this.getFirstPassenger();
-			if (entity instanceof LivingEntity) {
-				return (LivingEntity) entity;
-			}
-			return null;
+		Entity entity = this.getFirstPassenger();
+		if (entity instanceof LivingEntity) {
+			return (LivingEntity) entity;
+		}
+		return null;
 	}
+
 	protected float getRiddenSpeed(Player p_278336_) {
-		return (float)this.getAttributeValue(Attributes.MOVEMENT_SPEED);
+		return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
 	}
+
 	//jump when ridding
 	public double getCustomJump() {
 		return 2;
 	}
+
 	public void setIsJumping(boolean p_30656_) {
 		this.isJumping = p_30656_;
 	}
+
 	protected void executeRidersJump(Vec3 p_275435_) {
 		Vec3 vec3 = this.getDeltaMovement();
 		this.setDeltaMovement(vec3.x, 0.53F, vec3.z);
@@ -112,9 +124,9 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		this.hasImpulse = true;
 		net.minecraftforge.common.ForgeHooks.onLivingJump(this);
 		if (p_275435_.z > 0.0D) {
-			float f = Mth.sin(this.getYRot() * ((float)Math.PI / 180F));
-			float f1 = Mth.cos(this.getYRot() * ((float)Math.PI / 180F));
-			this.setDeltaMovement(this.getDeltaMovement().add((double)(-0.4F * f * 0.53F), 0.0D, (double)(0.4F * f1 *0.53F)));
+			float f = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
+			float f1 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
+			this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * 0.53F, 0.0D, 0.4F * f1 * 0.53F));
 		}
 
 	}
