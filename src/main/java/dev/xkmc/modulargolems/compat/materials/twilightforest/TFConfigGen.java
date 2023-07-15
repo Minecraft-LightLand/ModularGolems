@@ -1,4 +1,3 @@
-
 package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;

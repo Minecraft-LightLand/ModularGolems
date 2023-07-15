@@ -1,6 +1,6 @@
-// 1.20.1	2023-07-13T23:33:05.092551	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-d3c2cb7df6b968fa259f3caff7a8dc2d31ae7a08 assets/modulargolems/lang/en_ud.json
-3a7ab163ba940ac282f0dbb97f0e7a819227e7a1 assets/modulargolems/lang/en_us.json
+// 1.20.1	2023-07-15T16:59:45.31482	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+e846ba9207dd281eb796b25ce4b9599db4b0b2fa assets/modulargolems/lang/en_ud.json
+ce5c3a196a29557a6b7d5544acbb7c88636a1429 assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
 d85abebd3b51deaa8937c6da80cbbf428430c517 assets/modulargolems/models/item/attack_high_blue.json
 92a0cc59e60b552d9ea9a11552515396113f90b9 assets/modulargolems/models/item/attack_high_purple.json
