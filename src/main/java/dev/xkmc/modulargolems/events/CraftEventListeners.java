@@ -114,6 +114,7 @@ public class CraftEventListeners {
 
 	private static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void appendUpgrade(AnvilUpdateEvent event, GolemHolder<T, P> holder, UpgradeItem upgrade) {
+		if (!upgrade.fitsOn(holder.getEntityType())) return;
 		ItemStack stack = event.getLeft();
 		var mats = GolemHolder.getMaterial(stack);
 		var upgrades = GolemHolder.getUpgrades(stack);
