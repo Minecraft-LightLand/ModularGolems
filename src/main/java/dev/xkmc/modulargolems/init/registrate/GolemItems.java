@@ -12,20 +12,24 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
-import dev.xkmc.modulargolems.content.item.CommandWandItem;
-import dev.xkmc.modulargolems.content.item.DispenseWand;
-import dev.xkmc.modulargolems.content.item.RetrievalWandItem;
-import dev.xkmc.modulargolems.content.item.SimpleUpgradeItem;
+import dev.xkmc.modulargolems.content.item.*;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.model.generators.ModelFile;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
@@ -57,6 +61,8 @@ public class GolemItems {
 	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND;
+	public static final ItemEntry<RiderWandItem> RIDER_WAND;
+
 
 	static {
 
@@ -64,7 +70,7 @@ public class GolemItems {
 		RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
 		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
 		DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1))).defaultModel().defaultLang().register();
-
+		RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
 		// upgrades
 		{
 			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();

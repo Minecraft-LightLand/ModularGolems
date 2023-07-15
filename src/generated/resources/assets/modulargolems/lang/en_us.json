@@ -127,6 +127,7 @@
   "item.modulargolems.quartz": "Quartz Upgrade",
   "item.modulargolems.recycle": "Recycle Ugpgrade",
   "item.modulargolems.retrieval_wand": "Retrieval Wand",
+  "item.modulargolems.rider_wand": "Rider Wand",
   "item.modulargolems.slow": "Potion Upgrade: Slowness",
   "item.modulargolems.soul_flame": "Potion Upgrade: Soul Flame",
   "item.modulargolems.speed": "Speed Upgrade",
@@ -232,6 +233,7 @@
   "modulargolems.tooltip.standing": "Golem will stay at (%s, %s, %s)",
   "modulargolems.wand.command": "Right click to switch modes for golems. Shift right click Humanoid golem to configure inventory. Attacking entity with this wand will call all your surrounding golems to switch target to it.",
   "modulargolems.wand.retrieve": "Right click to retrieve all your surrounding golems. Shift right click faraway golems to retrieve golem back into inventory.",
+  "modulargolems.wand.rider": "Right click to your doggolem to ride on it.",
   "modulargolems.wand.summon": "Right click to summon one golem to a faraway position pointed by the wand. Shift right click to summon all golems from your inventory.",
   "patchouli.modulargolems.landing": "Welcome to Tinker-like golem assembly and upgrade mod",
   "patchouli.modulargolems.title": "Modular Golem Guide"

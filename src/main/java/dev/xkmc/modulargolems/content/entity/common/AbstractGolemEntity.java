@@ -66,7 +66,8 @@ import java.util.*;
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
 		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
 
-	protected AbstractGolemEntity(EntityType<T> type, Level level) {
+
+    protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
 		this.waterNavigation = new AmphibiousPathNavigation(this, level);
 		this.groundNavigation = new GroundPathNavigation(this, level);

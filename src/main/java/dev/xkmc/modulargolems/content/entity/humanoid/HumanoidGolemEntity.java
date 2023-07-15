@@ -90,7 +90,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	public ItemStack getProjectile(ItemStack pShootable) {
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
+		if (pShootable.getItem() instanceof ProjectileWeaponItem ) {
 			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
 			ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
 			return net.minecraftforge.common.ForgeHooks.getProjectile(this, pShootable, itemstack);
@@ -406,6 +406,45 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
 			}
 		}
+		attackStep();
 	}
 
-}
+	public void attackStep() {
+			if (tickCount % 2 != 0) return;
+			LivingEntity target = getTarget();
+			ItemStack main = getItemBySlot(EquipmentSlot.MAINHAND);
+			ItemStack off = getItemBySlot(EquipmentSlot.OFFHAND);
+			if (main.getItem() instanceof ProjectileWeaponItem) {
+				if (getProjectile(main).isEmpty()) {
+					if (off.getItem() instanceof ProjectileWeaponItem) {
+						return;
+					}
+				} else {
+					if (target == null) {
+						return;
+					}
+					double d0 = distanceToSqr(target.getX(), target.getY(), target.getZ());
+					if (meleeGoal.getAttackReachSqr(target) < d0) {
+						return;
+					}
+				}
+			} else if (off.getItem() instanceof ProjectileWeaponItem) {
+				super.setItemInHand(InteractionHand.MAIN_HAND, off);
+				boolean noArrow = getProjectile(off).isEmpty();
+				super.setItemInHand(InteractionHand.MAIN_HAND, main);
+				if (noArrow) {
+					return;
+				}
+				if (target != null) {
+					double d0 = distanceToSqr(target.getX(), target.getY(), target.getZ());
+					if (meleeGoal.getAttackReachSqr(target) > d0) {
+						return;
+					}
+				}
+			} else {
+				return;
+			}
+			setItemInHand(InteractionHand.MAIN_HAND, off);
+			setItemInHand(InteractionHand.OFF_HAND, main);
+		}
+	}
