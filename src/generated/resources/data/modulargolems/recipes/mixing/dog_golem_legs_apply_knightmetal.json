@@ -1,0 +1,36 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:dog_golem_legs"
+    },
+    {
+      "tag": "forge:ingots/knightmetal"
+    },
+    {
+      "tag": "forge:ingots/knightmetal"
+    },
+    {
+      "tag": "forge:ingots/knightmetal"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:dog_golem_legs",
+      "nbt": {
+        "golem_material": "twilightforest:knightmetal"
+      }
+    }
+  ]
+}

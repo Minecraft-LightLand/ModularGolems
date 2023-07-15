@@ -1,0 +1,32 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:dog_golem_legs"
+    },
+    {
+      "item": "create:railway_casing"
+    },
+    {
+      "item": "create:railway_casing"
+    },
+    {
+      "item": "create:railway_casing"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:dog_golem_legs",
+      "nbt": {
+        "golem_material": "create:railway"
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:metal_golem_body"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    },
+    {
+      "tag": "forge:ingots/ironwood"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:metal_golem_body",
+      "nbt": {
+        "golem_material": "twilightforest:ironwood"
+      }
+    }
+  ]
+}

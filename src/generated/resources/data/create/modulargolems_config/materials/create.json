@@ -1,0 +1,54 @@
+{
+  "ingredients": {
+    "create:andesite_alloy": {
+      "item": "create:andesite_alloy"
+    },
+    "create:brass": {
+      "tag": "forge:ingots/brass"
+    },
+    "create:railway": {
+      "item": "create:railway_casing"
+    },
+    "create:zinc": {
+      "tag": "forge:ingots/zinc"
+    }
+  },
+  "modifiers": {
+    "create:andesite_alloy": {
+      "modulargolems:magic_resistant": 1
+    },
+    "create:brass": {
+      "modulargolems:magic_resistant": 2
+    },
+    "create:railway": {
+      "modulargolems:fire_immune": 1,
+      "modulargolems:magic_resistant": 2
+    },
+    "create:zinc": {
+      "modulargolems:coating": 1
+    }
+  },
+  "stats": {
+    "create:andesite_alloy": {
+      "modulargolems:attack": 5.0,
+      "modulargolems:max_health": 20.0,
+      "modulargolems:speed": 0.1
+    },
+    "create:brass": {
+      "modulargolems:attack": 16.0,
+      "modulargolems:max_health": 160.0,
+      "modulargolems:speed": 0.2
+    },
+    "create:railway": {
+      "modulargolems:attack": 16.0,
+      "modulargolems:attack_knockback": 1.0,
+      "modulargolems:max_health": 320.0,
+      "modulargolems:speed": 0.4,
+      "modulargolems:sweep": 1.0
+    },
+    "create:zinc": {
+      "modulargolems:attack": 5.0,
+      "modulargolems:max_health": 20.0
+    }
+  }
+}
