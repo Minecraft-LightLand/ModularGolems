@@ -8,6 +8,8 @@ import com.mojang.datafixers.util.Pair;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +63,7 @@ public class LangFileOrganizer extends ResourceOrganizer {
 					});
 				}
 			}
-			FileWriter w = new FileWriter(target);
+			FileWriter w = new FileWriter(target, StandardCharsets.UTF_8);
 			w.write(GSON.toJson(dst_json));
 			w.close();
 		}

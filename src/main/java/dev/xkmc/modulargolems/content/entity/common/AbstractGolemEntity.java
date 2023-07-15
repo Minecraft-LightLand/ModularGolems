@@ -304,6 +304,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
+	public boolean attackable() {
+		return super.attackable();
+	}
+
+	@Override
 	public void setTarget(@Nullable LivingEntity pTarget) {
 		if (pTarget != null && !canAttack(pTarget)) {
 			return;
@@ -322,6 +327,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canAttackType(EntityType<?> pType) {
+		if (hasFlag(GolemFlags.PASSIVE)) {
+			return false;
+		}
 		return !pType.is(MGTagGen.GOLEM_FRIENDLY);
 	}
 
