@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item;
 
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -37,4 +38,13 @@ public abstract class UpgradeItem extends Item {
 			list.addAll(e.mod().getDetail(e.level()));
 		}
 	}
+
+	public boolean fitsOn(GolemType<?, ?> type) {
+		boolean fits = false;
+		for (var e : get()) {
+			fits |= e.mod().fitsOn(type);
+		}
+		return fits;
+	}
+
 }
