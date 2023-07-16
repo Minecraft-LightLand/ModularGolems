@@ -53,7 +53,7 @@ public class GolemTypes {
 	public static final RegistryEntry<GolemStatType> STAT_ATKKB = regStat("attack_knockback", () -> Attributes.ATTACK_KNOCKBACK, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
 	public static final RegistryEntry<GolemStatType> STAT_WEIGHT = regStat("weight", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MASS);
 	public static final RegistryEntry<GolemStatType> STAT_SPEED = regStat("speed", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
-
+	public static final RegistryEntry<GolemStatType> STAT_JUMP = regStat("jump_strength", () -> Attributes.JUMP_STRENGTH, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
 			.renderer(() -> MetalGolemRenderer::new)
@@ -106,6 +106,7 @@ public class GolemTypes {
 					.add(Attributes.ATTACK_KNOCKBACK, 0.4D)
 					.add(ForgeMod.ENTITY_REACH.get(), 1.5)
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
+					.add(Attributes.JUMP_STRENGTH,0.5D)
 					.add(GOLEM_REGEN.get())
 			).tag(MGTagGen.GOLEM_FRIENDLY).register();
 

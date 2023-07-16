@@ -105,7 +105,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected float getRiddenSpeed(Player p_278336_) {
-		return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED);
+		return (float) ((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED)*0.8);
 	}
 
 	//jump when ridding
@@ -119,14 +119,14 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	protected void executeRidersJump(Vec3 p_275435_) {
 		Vec3 vec3 = this.getDeltaMovement();
-		this.setDeltaMovement(vec3.x, 0.53F, vec3.z);
+		this.setDeltaMovement(vec3.x, 0.50F, vec3.z);
 		this.setIsJumping(true);
 		this.hasImpulse = true;
 		net.minecraftforge.common.ForgeHooks.onLivingJump(this);
 		if (p_275435_.z > 0.0D) {
 			float f = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
 			float f1 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
-			this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * 0.53F, 0.0D, 0.4F * f1 * 0.53F));
+			this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * 0.50F, 0.0D, 0.4F * f1 * 0.50F));
 		}
 
 	}
