@@ -1,6 +1,6 @@
-// 1.20.1	2023-07-15T16:59:45.31482	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-e846ba9207dd281eb796b25ce4b9599db4b0b2fa assets/modulargolems/lang/en_ud.json
-ce5c3a196a29557a6b7d5544acbb7c88636a1429 assets/modulargolems/lang/en_us.json
+// 1.20.1	2023-07-18T21:29:46.017579	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+e73d4605d31d338060d559affa000345d3fde960 assets/modulargolems/lang/en_ud.json
+e8209a6375667bca04f2629525bd936e842eff34 assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
 d85abebd3b51deaa8937c6da80cbbf428430c517 assets/modulargolems/models/item/attack_high_blue.json
 92a0cc59e60b552d9ea9a11552515396113f90b9 assets/modulargolems/models/item/attack_high_purple.json
@@ -75,6 +75,9 @@ f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_holder.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_legs.json
 6c6f737e1088fb1327e1fb25d8673a1f236c707f assets/modulargolems/models/item/metal_golem_template.json
+e6a3bfba8e420145a023b8468ae2e43bc666291b assets/modulargolems/models/item/mount_upgrade.json
+7faedb9cc5426266fb386eab3170d2c846577c14 assets/modulargolems/models/item/mount_upgrade_blue.json
+3fbc39e0b4549ce1601fa6f9299706820c44dc02 assets/modulargolems/models/item/mount_upgrade_purple.json
 ab43f7516507dff0ce011f9f50dd74b2a3101ba5 assets/modulargolems/models/item/naga.json
 8bf4914ffa1a3946e1e2c91daf4010e5909e24f2 assets/modulargolems/models/item/naga_blue.json
 1aa6244dfc545828d71205348139ba96df6ef67c assets/modulargolems/models/item/naga_purple.json
@@ -424,4 +427,4 @@ dfc824ea1db84c607a957dccfaf6b48710476ce7 data/modulargolems/recipes/wither.json
 1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 b6a68b2e48cecf36bcdf9a71fd230aa942ef5ab6 data/modulargolems/tags/items/potion_upgrades.json
 3c136ad71b9cc1a962b06ab779e09369ea8e25a9 data/modulargolems/tags/items/sculk_materials.json
-acbb51b2923527215fcb1e121d150178660525af data/modulargolems/tags/items/upgrades.json
+b3bc50bfc351075e46a0c6c4e0c661b50de0ad3b data/modulargolems/tags/items/upgrades.json

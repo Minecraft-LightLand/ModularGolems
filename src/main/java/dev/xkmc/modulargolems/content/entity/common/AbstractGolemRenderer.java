@@ -57,9 +57,15 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		if (this.handle.get() == null) return null;
 		boolean flag = this.isBodyVisible(entity);
 		boolean flag1 = !flag && !entity.isInvisibleTo(Proxy.getClientPlayer());
+		PoseStack pose = handle.get().stack();
+		pose.pushPose();
+		float r = entity.getScale();
+		pose.translate(0, (1 - r) * 1.5, 0);//TODO generify for all golems
+		pose.scale(r, r, r);
 		for (P p : list.get()) {
 			renderPart(p, entity, b1, b2, b3, flag1);
 		}
+		pose.popPose();
 		return null;
 	}
 
