@@ -66,8 +66,11 @@ import java.util.*;
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
 		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
-	public float getScale(){
-		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.get())/DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get()));
+	public float getScale() {
+		if (getTags().contains("ClientOnly")) {
+			return 1;
+		}
+		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.get()) / DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get()));
 
 	}
 
@@ -118,6 +121,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
 		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
+		refreshDimensions();
 	}
 
 	public EntityType<T> getType() {
@@ -277,6 +281,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void readSpawnData(FriendlyByteBuf data) {
 		PacketCodec.from(data, Wrappers.cast(this.getClass()), getThis());
+		updateAttributes(materials, Wrappers.cast(upgrades), owner);
+		refreshDimensions();
 	}
 
 	public T getThis() {

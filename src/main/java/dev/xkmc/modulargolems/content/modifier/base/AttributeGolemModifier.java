@@ -17,8 +17,7 @@ public class AttributeGolemModifier extends GolemModifier {
 	public record AttrEntry(Supplier<GolemStatType> type, double value) {
 
 		public double getValue(int level) {
-			return MGConfig.COMMON.exponentialStat.get() && type.get().kind == GolemStatType.Kind.PERCENT ?
-					Math.pow(1 + value, level) - 1 : value * level;
+			return value * level;
 		}
 	}
 

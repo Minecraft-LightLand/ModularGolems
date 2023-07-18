@@ -124,7 +124,7 @@ public class GolemModifiers {
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED,0.3),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP,0.25),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P,0.2),
-		        new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE,2.0))).register();
+		        new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE,1))).register();
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {

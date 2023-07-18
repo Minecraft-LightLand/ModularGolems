@@ -44,6 +44,7 @@ public class GolemTypes {
 			() -> new RangedAttribute("attribute.name.golem_sweep", 0, 0, 1000).setSyncable(true));
 	public static RegistryEntry<Attribute> GOLEM_SIZE = REGISTRATE.simple("golem_size", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
 			() -> new RangedAttribute("attribute.name.golem_size", 1, 0, 1000).setSyncable(true));
+
 	public static final RegistryEntry<GolemStatType> STAT_HEALTH = regStat("max_health", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.BASE, StatFilterType.HEALTH);
 	public static final RegistryEntry<GolemStatType> STAT_ATTACK = regStat("attack", () -> Attributes.ATTACK_DAMAGE, GolemStatType.Kind.BASE, StatFilterType.ATTACK);
 	public static final RegistryEntry<GolemStatType> STAT_REGEN = regStat("regen", GOLEM_REGEN, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
@@ -56,7 +57,8 @@ public class GolemTypes {
 	public static final RegistryEntry<GolemStatType> STAT_SPEED = regStat("speed", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
 	public static final RegistryEntry<GolemStatType> STAT_JUMP = regStat("jump_strength",() -> Attributes.JUMP_STRENGTH, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
 	public static final RegistryEntry<GolemStatType> STAT_HEALTH_P= regStat("max_health_percent", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
-	public static final RegistryEntry<GolemStatType> STAT_SIZE= regStat("max_size", GOLEM_SIZE, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
+	public static final RegistryEntry<GolemStatType> STAT_SIZE= regStat("max_size", GOLEM_SIZE, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
+
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
 			.renderer(() -> MetalGolemRenderer::new)

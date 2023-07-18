@@ -24,6 +24,7 @@
     "modulargolems:pickup_no_destroy",
     "modulargolems:talented",
     "modulargolems:cauldron",
+    "modulargolems:mount_upgrade",
     {
       "id": "modulargolems:carminite",
       "required": false
