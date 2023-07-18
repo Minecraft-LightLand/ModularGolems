@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.modifier.base.*;
 import dev.xkmc.modulargolems.content.modifier.common.BellModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
+import dev.xkmc.modulargolems.content.modifier.ride.RideUpgrade;
 import dev.xkmc.modulargolems.content.modifier.special.PickupModifier;
 import dev.xkmc.modulargolems.content.modifier.special.PotionMetaModifier;
 import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
@@ -46,6 +47,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<SimpleFlagModifier> FLOAT, SWIM, ENDER_SIGHT, RECYCLE, PICKUP_NODESTROY, PICKUP_MENDING;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED;
 	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
+	public static final RegistryEntry<RideUpgrade> MOUNT_UPGRADE;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
@@ -118,6 +120,11 @@ public class GolemModifiers {
 				"First of every kind of upgrades with blue arrow will no longer consume upgrade slots (up to 4)");
 		CAULDRON = reg("cauldron", PotionMetaModifier::new, "Cauldron",
 				"Repeated potion upgrades will no longer consume upgrade slots.");
+		MOUNT_UPGRADE = reg("ridding_speed_up", () -> new RideUpgrade(1,
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED,0.3),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP,0.25),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P,0.2),
+		        new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE,2.0))).register();
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {

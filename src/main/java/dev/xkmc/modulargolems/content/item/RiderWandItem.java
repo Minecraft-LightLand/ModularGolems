@@ -31,6 +31,9 @@ public class RiderWandItem extends Item implements WandItem {
 		if (!golem.isAlliedTo(user)) return false;
 		if (level.isClientSide()) return true;
 		if (golem instanceof DogGolemEntity e) {
+			if(e.isInSittingPose()){
+				return false;
+			}
 			user.startRiding(e, true);
 			return true;
 		}
