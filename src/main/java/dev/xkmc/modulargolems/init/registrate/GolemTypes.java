@@ -42,7 +42,8 @@ public class GolemTypes {
 			() -> new RangedAttribute("attribute.name.golem_regen", 0, 0, 1000).setSyncable(true));
 	public static RegistryEntry<Attribute> GOLEM_SWEEP = REGISTRATE.simple("golem_sweep", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
 			() -> new RangedAttribute("attribute.name.golem_sweep", 0, 0, 1000).setSyncable(true));
-
+	public static RegistryEntry<Attribute> GOLEM_SIZE = REGISTRATE.simple("golem_size", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
+			() -> new RangedAttribute("attribute.name.golem_size", 1, 0, 1000).setSyncable(true));
 	public static final RegistryEntry<GolemStatType> STAT_HEALTH = regStat("max_health", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.BASE, StatFilterType.HEALTH);
 	public static final RegistryEntry<GolemStatType> STAT_ATTACK = regStat("attack", () -> Attributes.ATTACK_DAMAGE, GolemStatType.Kind.BASE, StatFilterType.ATTACK);
 	public static final RegistryEntry<GolemStatType> STAT_REGEN = regStat("regen", GOLEM_REGEN, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
@@ -53,7 +54,9 @@ public class GolemTypes {
 	public static final RegistryEntry<GolemStatType> STAT_ATKKB = regStat("attack_knockback", () -> Attributes.ATTACK_KNOCKBACK, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
 	public static final RegistryEntry<GolemStatType> STAT_WEIGHT = regStat("weight", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MASS);
 	public static final RegistryEntry<GolemStatType> STAT_SPEED = regStat("speed", () -> Attributes.MOVEMENT_SPEED, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
-	public static final RegistryEntry<GolemStatType> STAT_JUMP = regStat("jump_strength", () -> Attributes.JUMP_STRENGTH, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
+	public static final RegistryEntry<GolemStatType> STAT_JUMP = regStat("jump_strength",() -> Attributes.JUMP_STRENGTH, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
+	public static final RegistryEntry<GolemStatType> STAT_HEALTH_P= regStat("max_health_percent", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
+	public static final RegistryEntry<GolemStatType> STAT_SIZE= regStat("max_size", GOLEM_SIZE, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
 			.renderer(() -> MetalGolemRenderer::new)
@@ -68,6 +71,7 @@ public class GolemTypes {
 					.add(Attributes.FOLLOW_RANGE, 35)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get())
+					.add(GOLEM_SIZE.get(),3)
 			).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 	public static final RegistryEntry<GolemType<MetalGolemEntity, MetalGolemPartType>> TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",
@@ -88,11 +92,11 @@ public class GolemTypes {
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(GOLEM_REGEN.get())
 					.add(GOLEM_SWEEP.get(), 1)
+					.add(GOLEM_SIZE.get(),2)
 			).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 	public static final RegistryEntry<GolemType<HumanoidGolemEntity, HumaniodGolemPartType>> TYPE_HUMANOID = REGISTRATE.generic(TYPES, "humanoid_golem",
-					() -> new GolemType<>(ENTITY_HUMANOID, HumaniodGolemPartType::values, HumaniodGolemPartType.BODY, () -> HumanoidGolemModel::new))
-			.defaultLang().register();
+					() -> new GolemType<>(ENTITY_HUMANOID, HumaniodGolemPartType::values, HumaniodGolemPartType.BODY, () -> HumanoidGolemModel::new)).defaultLang().register();
 
 	public static final EntityEntry<DogGolemEntity> ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
 			.properties(e -> e.sized(0.85F, 0.6F).clientTrackingRange(10))
@@ -108,6 +112,7 @@ public class GolemTypes {
 					.add(Attributes.FOLLOW_RANGE, 35.0D)
 					.add(Attributes.JUMP_STRENGTH,0.5D)
 					.add(GOLEM_REGEN.get())
+					.add(GOLEM_SIZE.get(),1D)
 			).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 	public static final RegistryEntry<GolemType<DogGolemEntity, DogGolemPartType>> TYPE_DOG = REGISTRATE.generic(TYPES, "dog_golem",

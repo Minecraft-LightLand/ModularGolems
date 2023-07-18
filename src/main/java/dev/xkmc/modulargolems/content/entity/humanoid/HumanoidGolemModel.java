@@ -18,11 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ToolActions;
 
 public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> implements IGolemModel<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel> {
-
 	public HumanoidGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(ModelLayers.PLAYER));
 	}
-
 	public HumanoidGolemModel(ModelPart modelPart) {
 		super(modelPart);
 	}

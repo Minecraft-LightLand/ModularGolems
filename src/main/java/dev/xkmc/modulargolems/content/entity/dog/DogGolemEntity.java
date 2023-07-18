@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,11 +31,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
+import static net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH;
+
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
 	private float standAnimO;
 	protected boolean isJumping;
-
+	public float getjumpvalue(){
+		return (float)getAttributeValue(JUMP_STRENGTH);
+	}
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
 		setMaxUpStep(1);
@@ -109,26 +114,20 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	//jump when ridding
-	public double getCustomJump() {
-		return 2;
-	}
-
 	public void setIsJumping(boolean p_30656_) {
 		this.isJumping = p_30656_;
 	}
-
 	protected void executeRidersJump(Vec3 p_275435_) {
 		Vec3 vec3 = this.getDeltaMovement();
-		this.setDeltaMovement(vec3.x, 0.50F, vec3.z);
+		this.setDeltaMovement(vec3.x, getjumpvalue(), vec3.z);
 		this.setIsJumping(true);
 		this.hasImpulse = true;
 		net.minecraftforge.common.ForgeHooks.onLivingJump(this);
 		if (p_275435_.z > 0.0D) {
 			float f = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
 			float f1 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
-			this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * 0.50F, 0.0D, 0.4F * f1 * 0.50F));
+			this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * getjumpvalue(), 0.0D, 0.4F * f1 * getjumpvalue()));
 		}
-
 	}
 	// sit
 

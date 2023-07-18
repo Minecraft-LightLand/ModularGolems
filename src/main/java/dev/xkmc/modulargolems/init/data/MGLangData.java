@@ -32,10 +32,7 @@ public enum MGLangData {
 
 	DESTROY_ITEM("msg.destroy_item", "Golem %s destroyed %s items because it finds no place to store.", 2, ChatFormatting.RED),
 	DESTROY_EXP("msg.destroy_exp", "Golem %s destroyed %s experience because it finds no place to store.", 2, ChatFormatting.RED),
-
-	RIDDING_SPEED("tooltip.ridding_speed","Your mount's speed will increases by 25%",0,ChatFormatting.GRAY),
-	MOUNT_HEALTH("mount_health","Your mount's health will increases by 20%",0,ChatFormatting.GRAY),
-	MOUNT_JUMP_STRENGTH("mount_jump_strength","Your mount's jump strength will increases by 25%",0,ChatFormatting.GRAY);
+	MOUNT_UPGRADE("mount_UPGRADE","Upgrade your mount's health,jump strength,size and speed.",0,ChatFormatting.GRAY);
 
 	private final String key, def;
 	private final int arg;
@@ -73,6 +70,8 @@ public enum MGLangData {
 		}
 		pvd.add("attribute.name.golem_regen", "Golem Regen");
 		pvd.add("attribute.name.golem_sweep", "Sweep Range");
+		pvd.add("attribute.name.golem_size","Golem Size");
+		pvd.add("attribute.name.horse.jump_strength","Golem Jump Strength");
 
 		pvd.add("golem_material." + ModularGolems.MODID + ".copper", "Copper");
 		pvd.add("golem_material." + ModularGolems.MODID + ".iron", "Iron");

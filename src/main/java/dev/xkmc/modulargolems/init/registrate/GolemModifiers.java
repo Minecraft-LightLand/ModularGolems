@@ -47,7 +47,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<SimpleFlagModifier> FLOAT, SWIM, ENDER_SIGHT, RECYCLE, PICKUP_NODESTROY, PICKUP_MENDING;
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED;
 	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
-	public static final RegistryEntry<RideUpgrade> RIDDING_SPEED,MOUNT_HEALTH,MOUNT_JUMPING;
+	public static final RegistryEntry<RideUpgrade> MOUNT_UPGRADE;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
@@ -120,16 +120,11 @@ public class GolemModifiers {
 				"First of every kind of upgrades with blue arrow will no longer consume upgrade slots (up to 4)");
 		CAULDRON = reg("cauldron", PotionMetaModifier::new, "Cauldron",
 				"Repeated potion upgrades will no longer consume upgrade slots.");
-		RIDDING_SPEED = reg("riddingspeed_up", () -> new RideUpgrade(GolemModifier.MAX_LEVEL,
-				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.3)
-		)).register();
-		MOUNT_HEALTH = reg("mounthealth_up", () -> new RideUpgrade(GolemModifier.MAX_LEVEL,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH, 0.2)
-		)).register();
-		MOUNT_JUMPING = reg("mounthealth_up", () -> new RideUpgrade(GolemModifier.MAX_LEVEL,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP, 0.25)
-		)).register();
-
+		MOUNT_UPGRADE = reg("ridding_speed_up", () -> new RideUpgrade(1,
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED,0.3),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP,0.25),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P,0.2),
+		        new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE,2.0))).register();
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {
