@@ -49,7 +49,7 @@ public class GolemItems {
 
 	public static final ItemEntry<SimpleUpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ,
 			GOLD, ENCHANTED_GOLD, FLOAT, SPONGE, SWIM, PLAYER_IMMUNE, ENDER_SIGHT, BELL, SPEED, SLOW, WEAK, WITHER,
-			EMERALD, PICKUP, PICKUP_MENDING, PICKUP_NO_DESTROY, TALENTED, CAULDRON,MOUNT_UPGRADE;
+			EMERALD, PICKUP, PICKUP_MENDING, PICKUP_NO_DESTROY, TALENTED, CAULDRON, MOUNT_UPGRADE, SIZE_UPGRADE;
 
 	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
@@ -91,7 +91,8 @@ public class GolemItems {
 			PICKUP_NO_DESTROY = regUpgrade("pickup_no_destroy", () -> GolemModifiers.PICKUP_NODESTROY).lang("Pickup Augment: No Destroy").register();
 			TALENTED = regUpgrade("talented", () -> GolemModifiers.TALENTED).lang("Meta Upgrade: Talented").register();
 			CAULDRON = regUpgrade("cauldron", () -> GolemModifiers.CAULDRON).lang("Meta Upgrade: Cauldron").register();
-			MOUNT_UPGRADE = regUpgrade("mount_upgrade",() -> GolemModifiers.MOUNT_UPGRADE).lang("Mount Upgrade").register();
+			MOUNT_UPGRADE = regUpgrade("mount_upgrade", () -> GolemModifiers.MOUNT_UPGRADE).lang("Mount Upgrade").register();
+			SIZE_UPGRADE = regUpgrade("size_upgrade", () -> GolemModifiers.SIZE_UPGRADE).lang("Size Upgrade").register();
 
 		}
 

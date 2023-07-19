@@ -45,7 +45,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<TalentMetaModifier> TALENTED;
 	public static final RegistryEntry<PotionMetaModifier> CAULDRON;
 	public static final RegistryEntry<SimpleFlagModifier> FLOAT, SWIM, ENDER_SIGHT, RECYCLE, PICKUP_NODESTROY, PICKUP_MENDING;
-	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED;
+	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED, SIZE_UPGRADE;
 	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
 	public static final RegistryEntry<RideUpgrade> MOUNT_UPGRADE;
 
@@ -120,11 +120,19 @@ public class GolemModifiers {
 				"First of every kind of upgrades with blue arrow will no longer consume upgrade slots (up to 4)");
 		CAULDRON = reg("cauldron", PotionMetaModifier::new, "Cauldron",
 				"Repeated potion upgrades will no longer consume upgrade slots.");
-		MOUNT_UPGRADE = reg("ridding_speed_up", () -> new RideUpgrade(1,
-				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED,0.3),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP,0.25),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P,0.2),
-		        new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE,1))).register();
+
+		MOUNT_UPGRADE = reg("ridding_speed_up", () -> new RideUpgrade(3,
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.3),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP, 0.25),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, 0.2)
+		)).register();
+
+		SIZE_UPGRADE = reg("size_up", () -> new AttributeGolemModifier(3,
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.3),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, 0.2),
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE, 1),
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, 1)
+		)).register();
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {

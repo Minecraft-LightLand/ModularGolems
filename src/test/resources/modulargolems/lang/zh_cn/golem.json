@@ -81,6 +81,8 @@
 	"talented": "多才多艺",
 	"talented.desc": "前4种蓝色升级的第一个升级不消耗升级槽",
 	"cauldron": "炼药锅",
-	"cauldron.desc": "重复的药水升级不消耗升级槽"
+	"cauldron.desc": "重复的药水升级不消耗升级槽",
+	"ridding_speed_up": "坐骑升级",
+	"size_up": "体型升级"
   }
 }

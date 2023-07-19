@@ -66,13 +66,6 @@ import java.util.*;
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
 		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
-	public float getScale() {
-		if (getTags().contains("ClientOnly")) {
-			return 1;
-		}
-		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.get()) / DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get()));
-
-	}
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
@@ -198,6 +191,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
 	}
 
+	public float getScale() {
+		if (materials == null || materials.isEmpty() || getTags().contains("ClientOnly")) {
+			return 1;
+		}
+		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.get()) / DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get()));
+	}
+
 	// ------ swim
 
 	public boolean canSwim() {
@@ -282,7 +282,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void readSpawnData(FriendlyByteBuf data) {
 		PacketCodec.from(data, Wrappers.cast(this.getClass()), getThis());
 		updateAttributes(materials, Wrappers.cast(upgrades), owner);
-		refreshDimensions();
 	}
 
 	public T getThis() {
