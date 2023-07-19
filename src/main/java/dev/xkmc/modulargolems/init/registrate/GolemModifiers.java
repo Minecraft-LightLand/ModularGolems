@@ -125,7 +125,7 @@ public class GolemModifiers {
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.3),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP, 0.25),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, 0.2)
-		)).register();
+		),"Mount Upgrade","Golem will not attack, and will not be targeted for attack.");
 
 		SIZE_UPGRADE = reg("size_up", () -> new AttributeGolemModifier(3,
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.3),

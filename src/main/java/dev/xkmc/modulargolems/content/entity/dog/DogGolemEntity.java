@@ -106,6 +106,10 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 	}
 
+	public double getPassengersRidingOffset() {
+		return this.getBbHeight() * 0.75D;
+	}
+
 	// sit
 
 	protected static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BYTE);
