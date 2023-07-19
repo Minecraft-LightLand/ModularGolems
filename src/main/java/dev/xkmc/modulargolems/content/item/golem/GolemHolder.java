@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -26,8 +27,10 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -239,6 +242,25 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	@Override
+	public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
+		CompoundTag root = stack.getTag();
+		if (root == null) {
+			return InteractionResult.PASS;
+		}
+		Level level = player.level();
+		Vec3 pos = target.position();
+		Consumer<AbstractGolemEntity<?, ?>> cb = null;
+		if (target instanceof DogGolemEntity dog) {
+			cb = e -> e.startRiding(dog);
+		}
+		if (summon(stack, level, pos, player, cb)) {
+			return InteractionResult.CONSUME;
+		} else {
+			return InteractionResult.FAIL;
+		}
+	}
+
+	@Override
 	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
 		CompoundTag root = stack.getTag();
 		if (root == null) {
@@ -255,10 +277,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			spawnPos = blockpos.relative(direction);
 		}
 		Vec3 pos = new Vec3(spawnPos.getX() + 0.5, spawnPos.getY() + 0.05, spawnPos.getZ() + 0.5);
-		return summon(stack, level, pos, context.getPlayer()) ? InteractionResult.CONSUME : InteractionResult.FAIL;
+		if (summon(stack, level, pos, context.getPlayer(), null)) {
+			return InteractionResult.CONSUME;
+		} else {
+			return InteractionResult.FAIL;
+		}
 	}
 
-	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player) {
+	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player, @Nullable Consumer<AbstractGolemEntity<?, ?>> callback) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return false;
 		if (root.contains(KEY_ENTITY)) {
@@ -276,6 +302,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				level.addFreshEntity(golem);
 				stack.removeTagKey(KEY_ENTITY);
 				stack.shrink(1);
+				if (callback != null) {
+					callback.accept(golem);
+				}
 			}
 			return true;
 		}
@@ -292,6 +321,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				level.addFreshEntity(golem);
 				if (player == null || !player.getAbilities().instabuild) {
 					stack.shrink(1);
+				}
+				if (callback != null) {
+					callback.accept(golem);
 				}
 			}
 			return true;

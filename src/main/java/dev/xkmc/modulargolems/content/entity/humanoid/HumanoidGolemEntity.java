@@ -409,6 +409,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	public void attackStep() {
+		if (level().isClientSide()) return;
 		if (tickCount % 2 != 0) return;
 		LivingEntity target = getTarget();
 		ItemStack main = getItemBySlot(EquipmentSlot.MAINHAND);
@@ -428,9 +429,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				}
 			}
 		} else if (off.getItem() instanceof ProjectileWeaponItem) {
-			super.setItemInHand(InteractionHand.MAIN_HAND, off);
 			boolean noArrow = getProjectile(off).isEmpty();
-			super.setItemInHand(InteractionHand.MAIN_HAND, main);
 			if (noArrow) {
 				return;
 			}
@@ -443,7 +442,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		} else {
 			return;
 		}
-		setItemInHand(InteractionHand.MAIN_HAND, off);
-		setItemInHand(InteractionHand.OFF_HAND, main);
+		super.setItemSlot(EquipmentSlot.MAINHAND, off);
+		super.setItemSlot(EquipmentSlot.OFFHAND, main);
+		reassessWeaponGoal();
 	}
 }

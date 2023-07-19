@@ -57,7 +57,8 @@ public class MGTagGen {
 				GolemItems.SWIM.get(),
 				GolemItems.FIRE_IMMUNE.get(),
 				GolemItems.THUNDER_IMMUNE.get(),
-				GolemItems.PLAYER_IMMUNE.get()
+				GolemItems.PLAYER_IMMUNE.get(),
+				GolemItems.MOUNT_UPGRADE.get()
 		);
 		pvd.addTag(POTION_UPGRADES).add(
 				GolemItems.WEAK.get(),

@@ -50,7 +50,7 @@ public class DispenseWand extends Item implements WandItem {
 			int[] counter = new int[]{0};
 			iter(user, golem -> {
 				if (golem.getItem() instanceof GolemHolder holder) {
-					if (holder.summon(golem, level, finalPos, user)) {
+					if (holder.summon(golem, level, finalPos, user,null)) {
 						counter[0]++;
 						return !all;
 					}

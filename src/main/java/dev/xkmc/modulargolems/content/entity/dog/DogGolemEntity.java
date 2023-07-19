@@ -6,6 +6,8 @@ import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -109,7 +111,48 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	public double getPassengersRidingOffset() {
-		return this.getBbHeight() * 1.2 - 0.2;
+		return this.getBbHeight() * 1.4 - 0.7;
+	}
+
+	protected void positionRider(Entity rider, Entity.MoveFunction setPos) {
+		int index = this.getPassengers().indexOf(rider);
+		int total = this.getPassengers().size();
+		if (index < 0) return;
+		float width = getBbWidth();
+		float pos = width / 2 - width / (total) * (index + 1);
+		double dy = rider.getMyRidingOffset() + getPassengersRidingOffset();
+		Vec3 vec3 = new Vec3(0, 0, pos).yRot(-this.yBodyRot * ((float) Math.PI / 180F));
+		setPos.accept(rider, this.getX() + vec3.x, this.getY() + dy, this.getZ() + vec3.z);
+		if (index > 0) {
+			this.clampRotation(rider);
+		}
+	}
+
+	public void onPassengerTurned(Entity rider) {
+		if (this.getControllingPassenger() != rider) {
+			this.clampRotation(rider);
+		}
+	}
+
+	private void clampRotation(Entity rider) {
+		rider.setYBodyRot(this.getYRot());
+		float yr0 = rider.getYRot();
+		float dyr = Mth.wrapDegrees(yr0 - this.getYRot());
+		float yr1 = Mth.clamp(dyr, -160.0F, 160.0F);
+		rider.yRotO += yr1 - dyr;
+		float yr2 = yr0 + yr1 - dyr;
+		rider.setYRot(yr2);
+		rider.setYHeadRot(yr2);
+	}
+
+	protected boolean canAddPassenger(Entity entity) {
+		return this.getPassengers().size() <= getModifiers().getOrDefault(GolemModifiers.SIZE_UPGRADE.get(), 0);
+	}
+
+	@Override
+	protected void addPassenger(Entity rider) {
+		setInSittingPose(false);
+		super.addPassenger(rider);
 	}
 
 	// sit
@@ -193,6 +236,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
+		if (player.getItemInHand(hand).getItem() instanceof GolemHolder) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
 			return super.mobInteract(player, hand);
