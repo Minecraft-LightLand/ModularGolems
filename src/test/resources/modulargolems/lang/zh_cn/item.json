@@ -46,6 +46,7 @@
 	"pickup_no_destroy": "拾取附属：取消销毁",
 	"talented": "辅助升级：多才多艺",
 	"cauldron": "辅助升级：炼药锅",
-	  "mount_upgrade":"坐骑升级"
+	"mount_upgrade": "坐骑升级",
+	"size_upgrade": "体形升级"
   }
 }

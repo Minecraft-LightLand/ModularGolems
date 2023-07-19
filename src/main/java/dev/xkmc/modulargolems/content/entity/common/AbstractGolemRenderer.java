@@ -60,7 +60,7 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		PoseStack pose = handle.get().stack();
 		pose.pushPose();
 		float r = entity.getScale();
-		pose.translate(0, (1 - r) * 1.5, 0);//TODO generify for all golems
+		pose.translate(0, (1 - r) * 1.501, 0);
 		pose.scale(r, r, r);
 		for (P p : list.get()) {
 			renderPart(p, entity, b1, b2, b3, flag1);

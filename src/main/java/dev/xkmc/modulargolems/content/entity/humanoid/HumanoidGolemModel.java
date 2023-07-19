@@ -21,6 +21,7 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> imple
 	public HumanoidGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(ModelLayers.PLAYER));
 	}
+
 	public HumanoidGolemModel(ModelPart modelPart) {
 		super(modelPart);
 	}

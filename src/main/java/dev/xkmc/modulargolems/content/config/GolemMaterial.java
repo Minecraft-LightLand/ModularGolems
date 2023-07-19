@@ -57,7 +57,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 				continue;
 			}
 			if (!sorted.containsKey(GolemStatType.Kind.BASE)) {
-				throw new IllegalStateException("Only attributes with BASE modification allows multi-operation. Attribute: "+ent.getKey().getDescriptionId());
+				throw new IllegalStateException("Only attributes with BASE modification allows multi-operation. Attribute: " + ent.getKey().getDescriptionId());
 			}
 			Pair<GolemStatType, Double> candidate = sorted.get(GolemStatType.Kind.BASE);
 			GolemStatType type = candidate.getFirst();

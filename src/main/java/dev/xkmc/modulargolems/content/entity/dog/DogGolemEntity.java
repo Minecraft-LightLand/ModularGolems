@@ -30,16 +30,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-
-import static net.minecraft.world.entity.ai.attributes.Attributes.JUMP_STRENGTH;
+import net.minecraftforge.common.ForgeHooks;
 
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
-	private float standAnimO;
-	protected boolean isJumping;
-	public float getjumpvalue(){
-		return (float)getAttributeValue(JUMP_STRENGTH);
+
+	public float getJumpStrength() {
+		return (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
 	}
+
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
 		setMaxUpStep(1);
@@ -54,24 +53,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 	}
 
-	//ride
-	public void aiStep() {
-		super.aiStep();
-	}
-
-	protected void positionRider(Entity p_289569_, Entity.MoveFunction p_289558_) {
-		super.positionRider(p_289569_, p_289558_);
-		if (this.standAnimO > 0.0F) {
-			float f = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
-			float f1 = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
-			float f2 = 0.7F * this.standAnimO;
-			float f3 = 0.15F * this.standAnimO;
-			p_289558_.accept(p_289569_, this.getX() + (double) (f2 * f), this.getY() + this.getPassengersRidingOffset() + p_289569_.getMyRidingOffset() + (double) f3, this.getZ() - (double) (f2 * f1));
-			if (p_289569_ instanceof LivingEntity) {
-				((LivingEntity) p_289569_).yBodyRot = this.yBodyRot;
-			}
-		}
-	}
+	// ride
 
 	protected void tickRidden(Player player, Vec3 vec3) {
 		super.tickRidden(player, vec3);
@@ -88,13 +70,13 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	}
 
-	protected Vec2 getRiddenRotation(LivingEntity p_275502_) {
-		return new Vec2(p_275502_.getXRot() * 0.5F, p_275502_.getYRot());
+	protected Vec2 getRiddenRotation(LivingEntity rider) {
+		return new Vec2(rider.getXRot() * 0.5F, rider.getYRot());
 	}
 
-	protected Vec3 getRiddenInput(Player p_278278_, Vec3 p_275506_) {
-		float f = p_278278_.xxa * 0.5F;
-		float f1 = p_278278_.zza;
+	protected Vec3 getRiddenInput(Player player, Vec3 input) {
+		float f = player.xxa * 0.5F;
+		float f1 = player.zza;
 		if (f1 <= 0.0F) {
 			f1 *= 0.25F;
 		}
@@ -109,26 +91,27 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return null;
 	}
 
-	protected float getRiddenSpeed(Player p_278336_) {
-		return (float) ((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED)*0.8);
+	protected float getRiddenSpeed(Player rider) {
+		return (float) (this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.8);//TODO to config
 	}
 
-	//jump when ridding
-	public void setIsJumping(boolean p_30656_) {
-		this.isJumping = p_30656_;
-	}
-	protected void executeRidersJump(Vec3 p_275435_) {
+	protected void executeRidersJump(Vec3 action) {
 		Vec3 vec3 = this.getDeltaMovement();
-		this.setDeltaMovement(vec3.x, getjumpvalue(), vec3.z);
-		this.setIsJumping(true);
+		float jump = getJumpStrength();
+		this.setDeltaMovement(vec3.x, jump, vec3.z);
 		this.hasImpulse = true;
-		net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-		if (p_275435_.z > 0.0D) {
-			float f = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
-			float f1 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
-			this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * getjumpvalue(), 0.0D, 0.4F * f1 * getjumpvalue()));
+		ForgeHooks.onLivingJump(this);
+		if (action.z > 0.0D) {
+			float x0 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
+			float z0 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
+			this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * x0 * jump, 0.0D, 0.4F * z0 * jump));
 		}
 	}
+
+	public double getPassengersRidingOffset() {
+		return this.getBbHeight() * 1.2 - 0.2;
+	}
+
 	// sit
 
 	protected static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BYTE);
