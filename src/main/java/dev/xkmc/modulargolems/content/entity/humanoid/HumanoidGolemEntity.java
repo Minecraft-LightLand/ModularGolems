@@ -327,6 +327,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
 
+	@Override
+	public double getMyRidingOffset() {
+		return -0.35;
+	}
+
 	// ------ player equipment hurt
 
 	@Override

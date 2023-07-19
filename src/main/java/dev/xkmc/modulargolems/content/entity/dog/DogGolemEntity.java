@@ -111,7 +111,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	public double getPassengersRidingOffset() {
-		return this.getBbHeight() * 1.4 - 0.7;
+		return this.getBbHeight() * 1.4 - 0.35;
 	}
 
 	protected void positionRider(Entity rider, Entity.MoveFunction setPos) {

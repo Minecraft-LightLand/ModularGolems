@@ -1,4 +1,4 @@
-// 1.20.1	2023-07-19T09:47:55.49597	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.20.1	2023-07-19T22:19:59.605999	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 7be071230933853478914e5fa0801c7bc69be034 assets/modulargolems/lang/en_ud.json
 f9549ddfe03237ca0f3213e46b92ca6880697349 assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
@@ -19,7 +19,7 @@ cfc6c23594670bcd63478e5c8e5b0db5d8d27b4f assets/modulargolems/models/item/cleans
 1a85bc8d050f4da6cf051ba25ef64886ce2476a9 assets/modulargolems/models/item/coating.json
 adeb15e75838cbb6874b2749b79cc2c370d78e60 assets/modulargolems/models/item/coating_blue.json
 c08dc1608f6d23f4595e4893f769146d04dd627d assets/modulargolems/models/item/coating_purple.json
-4769ec561a30aaf33eec61a67175bbc7e7ec2380 assets/modulargolems/models/item/command_wand.json
+5d4c85ceb9c657a5d3b1b921f9410c58a0f8b308 assets/modulargolems/models/item/command_wand.json
 9ea9d5a7620e2c04cfcdf25f733f56c2662f0020 assets/modulargolems/models/item/curse.json
 16ae2216ee23ac7936bdb83338dd2b9b839eff27 assets/modulargolems/models/item/curse_blue.json
 39de550c4b5027e3c50b77aad37fe31c5fd53f36 assets/modulargolems/models/item/curse_purple.json
@@ -105,8 +105,8 @@ c551f7f40b62278b6423b57b00126deec9035225 assets/modulargolems/models/item/quartz
 7ded08c4b1b03ba74a4a8453b1e13ad240775a4e assets/modulargolems/models/item/recycle.json
 43717a5eb1b01a2e9640f297929c1b5d838cbd26 assets/modulargolems/models/item/recycle_blue.json
 e21189fc27b4253bd81cbafcc4bfeee9bd19683c assets/modulargolems/models/item/recycle_purple.json
-295b30187a6f2f55f4089bec3ff128db02269865 assets/modulargolems/models/item/retrieval_wand.json
-2b92cf818596b85466df98f955ce653f3eeddb55 assets/modulargolems/models/item/rider_wand.json
+ef4be3e6b28a06b84238dc98823ae28c11c1d7e2 assets/modulargolems/models/item/retrieval_wand.json
+92d118d2d3ea2a9fc8aca2c871b8a0f26c24fd4d assets/modulargolems/models/item/rider_wand.json
 3a12394deed7452c0c0983e6d9e2beacdb37fd1c assets/modulargolems/models/item/size_upgrade.json
 24b69d1ca590ff171045022afb0b29f45550531d assets/modulargolems/models/item/size_upgrade_blue.json
 6a272678a0ae358dae2f60ab9358987f3f3d1bc7 assets/modulargolems/models/item/size_upgrade_purple.json
@@ -128,7 +128,7 @@ b3e0d5535236229a636685a3c2021664294147f2 assets/modulargolems/models/item/speed_
 e439740c14e801ee3f421baaa98602501c993db4 assets/modulargolems/models/item/steeleaf.json
 eb4be1dcd47a20d373776a04f18ed0edf3a9ce15 assets/modulargolems/models/item/steeleaf_blue.json
 451060f2e67d36095504677cc8a2013ce1b1c286 assets/modulargolems/models/item/steeleaf_purple.json
-98edbb3998d3bc847d50e98870a641284c58e883 assets/modulargolems/models/item/summon_wand.json
+aaba77ea0968a565d1bf544fef42d62998ecc670 assets/modulargolems/models/item/summon_wand.json
 acfdb0443c66aa8b9d8a5854105658dd17900f6a assets/modulargolems/models/item/swim.json
 1c1a345f1e61967a961b2d0192030920464ad138 assets/modulargolems/models/item/swim_blue.json
 d9d84d6b49d887b1714d728cb89787c4282b0935 assets/modulargolems/models/item/swim_purple.json
@@ -425,7 +425,7 @@ c5a37fc9f116e739cdc4a66083e7cf2b3c2fa3ba data/modulargolems/recipes/weak.json
 dfc824ea1db84c607a957dccfaf6b48710476ce7 data/modulargolems/recipes/wither.json
 8c7f8c2a4ce49e14ec689a131ffac7866307c9ac data/modulargolems/tags/blocks/potential_destination.json
 945fa724fc2c471d03c5f1e3da78d41a600d5703 data/modulargolems/tags/entity_types/friendly.json
-52cb9fddebf86a2e526b567f788fbc05fa58c21a data/modulargolems/tags/items/blue_upgrades.json
+10922ade77dc9c48f73cfb47e445e8297cdf1222 data/modulargolems/tags/items/blue_upgrades.json
 0ff0909d28c29ae47fd17620ccf9d12ead26d8ca data/modulargolems/tags/items/holders.json
 1ba3bd036f6d3eb09eda0bc155fc888fd108f440 data/modulargolems/tags/items/parts.json
 b6a68b2e48cecf36bcdf9a71fd230aa942ef5ab6 data/modulargolems/tags/items/potion_upgrades.json
