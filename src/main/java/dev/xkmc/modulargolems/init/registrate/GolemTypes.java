@@ -102,7 +102,7 @@ public class GolemTypes {
 						.add(Attributes.FOLLOW_RANGE, 35.0D)
 						.add(GOLEM_REGEN.get())
 						.add(GOLEM_SWEEP.get(), 1)
-						.add(GOLEM_SIZE.get(), 2)
+						.add(GOLEM_SIZE.get(), 2.5)
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
@@ -119,7 +119,7 @@ public class GolemTypes {
 						.add(Attributes.FOLLOW_RANGE, 35.0D)
 						.add(GOLEM_JUMP.get(), 0.5D)
 						.add(GOLEM_REGEN.get())
-						.add(GOLEM_SIZE.get(), 1D)
+						.add(GOLEM_SIZE.get(), 2)
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",

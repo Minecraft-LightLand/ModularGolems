@@ -53,6 +53,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 	}
 
+	// ride
+
 	protected void tickRidden(Player player, Vec3 vec3) {
 		super.tickRidden(player, vec3);
 		Vec2 vec2 = this.getRiddenRotation(player);
@@ -107,7 +109,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	public double getPassengersRidingOffset() {
-		return this.getBbHeight() * 0.75D;
+		return this.getBbHeight() * 1.2 - 0.2;
 	}
 
 	// sit
