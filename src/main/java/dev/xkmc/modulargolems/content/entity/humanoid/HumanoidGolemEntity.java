@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemBowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemCrossbowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackGoal;
-import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -52,7 +52,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	private final GolemCrossbowAttackGoal crossbowGoal = new GolemCrossbowAttackGoal(this, 1.0D, 15.0F);
 	private final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this, 1.0D, true);
 	private final GolemTridentAttackGoal tridentGoal = new GolemTridentAttackGoal(this, 1, 40, 15, meleeGoal);
-
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
 
@@ -328,6 +327,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
 
+	@Override
+	public double getMyRidingOffset() {
+		return -0.35;
+	}
+
 	// ------ player equipment hurt
 
 	@Override
@@ -410,6 +414,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	public void attackStep() {
+		if (level().isClientSide()) return;
 		if (tickCount % 2 != 0) return;
 		LivingEntity target = getTarget();
 		ItemStack main = getItemBySlot(EquipmentSlot.MAINHAND);
@@ -429,9 +434,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				}
 			}
 		} else if (off.getItem() instanceof ProjectileWeaponItem) {
-			super.setItemInHand(InteractionHand.MAIN_HAND, off);
 			boolean noArrow = getProjectile(off).isEmpty();
-			super.setItemInHand(InteractionHand.OFF_HAND, main);
 			if (noArrow) {
 				return;
 			}
@@ -444,7 +447,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		} else {
 			return;
 		}
-		setItemInHand(InteractionHand.MAIN_HAND, off);
-		setItemInHand(InteractionHand.OFF_HAND, main);
+		super.setItemSlot(EquipmentSlot.MAINHAND, off);
+		super.setItemSlot(EquipmentSlot.OFFHAND, main);
+		reassessWeaponGoal();
 	}
 }

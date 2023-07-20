@@ -1,0 +1,32 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:dog_golem_legs"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    },
+    {
+      "tag": "modulargolems:sculk_materials"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:dog_golem_legs",
+      "nbt": {
+        "golem_material": "modulargolems:sculk"
+      }
+    }
+  ]
+}

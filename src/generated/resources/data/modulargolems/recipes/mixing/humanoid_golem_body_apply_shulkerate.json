@@ -1,0 +1,45 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:humanoid_golem_body"
+    },
+    {
+      "item": "l2complements:shulkerate_ingot"
+    },
+    {
+      "item": "l2complements:shulkerate_ingot"
+    },
+    {
+      "item": "l2complements:shulkerate_ingot"
+    },
+    {
+      "item": "l2complements:shulkerate_ingot"
+    },
+    {
+      "item": "l2complements:shulkerate_ingot"
+    },
+    {
+      "item": "l2complements:shulkerate_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:humanoid_golem_body",
+      "nbt": {
+        "golem_material": "l2complements:shulkerate"
+      }
+    }
+  ]
+}

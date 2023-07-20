@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
+import net.minecraft.client.CameraType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -79,6 +81,11 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 
 	@Override
 	public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+		var camera = Minecraft.getInstance().getCameraEntity();
+		if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON &&
+				camera != null && camera.getVehicle() != null &&
+				entity.getVehicle() == camera.getVehicle())
+			return;
 		super.render(entity, f1, f2, stack, source, i);
 	}
 }

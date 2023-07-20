@@ -5,12 +5,11 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.item.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -30,26 +29,53 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 	public static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
 	public static Map<Attribute, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades) {
-		HashMap<Attribute, Pair<GolemStatType, Double>> values = new HashMap<>();
+		HashMap<Attribute, Map<GolemStatType, Double>> values = new LinkedHashMap<>();
 		for (GolemStatType type : GolemTypes.STAT_TYPES.get().getValues()) {
-			updateStat(values, type, 0);
+			appendStat(values, type, 0);
 		}
 		for (GolemMaterial stats : list) {
-			stats.stats.forEach((k, v) -> updateStat(values, k, v));
+			stats.stats.forEach((k, v) -> appendStat(values, k, v));
 		}
 		for (var entry : collectModifiers(list, upgrades).entrySet()) {
 			if (entry.getKey() instanceof AttributeGolemModifier attr) {
 				for (var ent : attr.entries) {
-					updateStat(values, ent.type().get(), ent.getValue(entry.getValue()));
+					appendStat(values, ent.type().get(), ent.getValue(entry.getValue()));
 				}
 			}
 		}
-		return values;
+		HashMap<Attribute, Pair<GolemStatType, Double>> ans = new LinkedHashMap<>();
+		for (var ent : values.entrySet()) {
+			HashMap<GolemStatType.Kind, Pair<GolemStatType, Double>> sorted = new LinkedHashMap<>();
+			for (var entry : ent.getValue().entrySet()) {
+				sorted.compute(entry.getKey().kind, (k, old) -> Pair.of(entry.getKey(), (old == null ? 0 : old.getSecond()) + entry.getValue()));
+			}
+			if (sorted.size() == 0) {
+				continue;
+			}
+			if (sorted.size() == 1) {
+				ans.put(ent.getKey(), sorted.values().stream().findFirst().get());
+				continue;
+			}
+			if (!sorted.containsKey(GolemStatType.Kind.BASE)) {
+				throw new IllegalStateException("Only attributes with BASE modification allows multi-operation. Attribute: " + ent.getKey().getDescriptionId());
+			}
+			Pair<GolemStatType, Double> candidate = sorted.get(GolemStatType.Kind.BASE);
+			GolemStatType type = candidate.getFirst();
+			double val = candidate.getSecond();
+			if (sorted.containsKey(GolemStatType.Kind.ADD)) {
+				val += sorted.get(GolemStatType.Kind.ADD).getSecond();
+			}
+			if (sorted.containsKey(GolemStatType.Kind.PERCENT)) {
+				val *= 1 + sorted.get(GolemStatType.Kind.PERCENT).getSecond();
+			}
+			ans.put(ent.getKey(), Pair.of(type, val));
+		}
+		return ans;
 	}
 
-	private static void updateStat(Map<Attribute, Pair<GolemStatType, Double>> values, GolemStatType k, double v) {
-		values.compute(k.getAttribute(), (a, old) -> Pair.of(k, MGConfig.COMMON.exponentialStat.get() && k.kind == GolemStatType.Kind.PERCENT ?
-				(old == null ? 1 : old.getSecond()) * (1 + v) : (old == null ? 0 : old.getSecond()) + v));
+	private static void appendStat(Map<Attribute, Map<GolemStatType, Double>> values, GolemStatType k, double v) {
+		values.computeIfAbsent(k.getAttribute(), e -> new LinkedHashMap<>())
+				.compute(k, (e, old) -> (old == null ? 0 : old) + v);
 	}
 
 	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<UpgradeItem> upgrades) {

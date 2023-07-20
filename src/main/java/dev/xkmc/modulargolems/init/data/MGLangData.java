@@ -28,10 +28,10 @@ public enum MGLangData {
 	WAND_RETRIEVE("wand.retrieve", "Right click to retrieve all your surrounding golems. Shift right click faraway golems to retrieve golem back into inventory.", 0, ChatFormatting.GRAY),
 	WAND_COMMAND("wand.command", "Right click to switch modes for golems. Shift right click Humanoid golem to configure inventory. Attacking entity with this wand will call all your surrounding golems to switch target to it.", 0, ChatFormatting.GRAY),
 	WAND_SUMMON("wand.summon", "Right click to summon one golem to a faraway position pointed by the wand. Shift right click to summon all golems from your inventory.", 0, ChatFormatting.GRAY),
+	WAND_RIDER("wand.rider", "Right click to your doggolem to ride on it.", 0, ChatFormatting.GRAY),
 
 	DESTROY_ITEM("msg.destroy_item", "Golem %s destroyed %s items because it finds no place to store.", 2, ChatFormatting.RED),
-	DESTROY_EXP("msg.destroy_exp", "Golem %s destroyed %s experience because it finds no place to store.", 2, ChatFormatting.RED),
-	;
+	DESTROY_EXP("msg.destroy_exp", "Golem %s destroyed %s experience because it finds no place to store.", 2, ChatFormatting.RED);
 
 	private final String key, def;
 	private final int arg;
@@ -69,6 +69,8 @@ public enum MGLangData {
 		}
 		pvd.add("attribute.name.golem_regen", "Golem Regen");
 		pvd.add("attribute.name.golem_sweep", "Sweep Range");
+		pvd.add("attribute.name.golem_size", "Golem Size");
+		pvd.add("attribute.name.golem_jump", "Golem Jump Strength");
 
 		pvd.add("golem_material." + ModularGolems.MODID + ".copper", "Copper");
 		pvd.add("golem_material." + ModularGolems.MODID + ".iron", "Iron");

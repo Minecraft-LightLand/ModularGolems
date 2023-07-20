@@ -24,6 +24,40 @@
     "modulargolems:pickup_no_destroy",
     "modulargolems:talented",
     "modulargolems:cauldron",
+    "modulargolems:mount_upgrade",
+    "modulargolems:size_upgrade",
+    {
+      "id": "modulargolems:carminite",
+      "required": false
+    },
+    {
+      "id": "modulargolems:steeleaf",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ironwood",
+      "required": false
+    },
+    {
+      "id": "modulargolems:knightmetal",
+      "required": false
+    },
+    {
+      "id": "modulargolems:naga",
+      "required": false
+    },
+    {
+      "id": "modulargolems:coating",
+      "required": false
+    },
+    {
+      "id": "modulargolems:push",
+      "required": false
+    },
     {
       "id": "modulargolems:force_field",
       "required": false

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dispenser": {
+    "has_metal_golem_template": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:dispenser"
+              "modulargolems:metal_golem_template"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_dispenser",
+      "has_metal_golem_template",
       "has_the_recipe"
     ]
   ],

@@ -13,8 +13,8 @@ import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemSwimMoveControl;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
-import dev.xkmc.modulargolems.content.item.UpgradeItem;
-import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -40,6 +40,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
@@ -113,6 +114,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
 		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
+		refreshDimensions();
 	}
 
 	public EntityType<T> getType() {
@@ -187,6 +189,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
 		}
 		drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
+	}
+
+	public float getScale() {
+		if (materials == null || materials.isEmpty() || getTags().contains("ClientOnly")) {
+			return 1;
+		}
+		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.get()) / DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get()));
 	}
 
 	// ------ swim
@@ -272,6 +281,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void readSpawnData(FriendlyByteBuf data) {
 		PacketCodec.from(data, Wrappers.cast(this.getClass()), getThis());
+		updateAttributes(materials, Wrappers.cast(upgrades), owner);
 	}
 
 	public T getThis() {
@@ -304,6 +314,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
+	public boolean canBeSeenAsEnemy() {
+		return hasFlag(GolemFlags.PASSIVE) || super.canBeSeenAsEnemy();
+	}
+
+	@Override
 	public void setTarget(@Nullable LivingEntity pTarget) {
 		if (pTarget != null && !canAttack(pTarget)) {
 			return;
@@ -322,6 +337,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canAttackType(EntityType<?> pType) {
+		if (hasFlag(GolemFlags.PASSIVE)) {
+			return false;
+		}
 		return !pType.is(MGTagGen.GOLEM_FRIENDLY);
 	}
 

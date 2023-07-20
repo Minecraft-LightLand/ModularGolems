@@ -2,10 +2,11 @@ package dev.xkmc.modulargolems.content.modifier.base;
 
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
-import dev.xkmc.modulargolems.content.item.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
@@ -134,6 +135,10 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	public void onSetTarget(AbstractGolemEntity<?, ?> golem, Mob mob, int level) {
+	}
+
+	public boolean fitsOn(GolemType<?, ?> type) {
+		return true;
 	}
 
 }
