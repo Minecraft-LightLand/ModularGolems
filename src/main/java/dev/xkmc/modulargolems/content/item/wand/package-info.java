@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.wand;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

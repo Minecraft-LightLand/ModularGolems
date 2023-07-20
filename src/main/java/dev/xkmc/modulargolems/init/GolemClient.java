@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.init;
 
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.GolemStatusOverlay;
-import dev.xkmc.modulargolems.content.item.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GolemClient {
 
-	private static IEventBus clientBus;
+	private static IEventBus clientBus;//TODO fill
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {

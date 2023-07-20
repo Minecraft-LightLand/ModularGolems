@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.content.core;
 
 import dev.xkmc.l2library.base.NamedEntry;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -48,9 +47,7 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 
 	public MutableComponent getTotalTooltip(double val) {
 		if (kind == Kind.PERCENT) {
-			if (MGConfig.COMMON.exponentialStat.get())
-				val = (val - 1) * 100;
-			else val = val * 100;
+			val = val * 100;
 		}
 		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,
@@ -67,7 +64,7 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 		switch (kind) {
 			case BASE -> ins.setBaseValue(v);
 			case ADD -> ins.setBaseValue(ins.getValue() + v);
-			case PERCENT -> ins.setBaseValue(ins.getValue() * (MGConfig.COMMON.exponentialStat.get() ? v : 1 + v));
+			case PERCENT -> ins.setBaseValue(ins.getValue() * (1 + v));
 		}
 	}
 

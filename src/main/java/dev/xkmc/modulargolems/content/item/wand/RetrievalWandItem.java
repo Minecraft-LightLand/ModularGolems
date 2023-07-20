@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.wand;
 
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;

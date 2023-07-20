@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.upgrade;
 
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;

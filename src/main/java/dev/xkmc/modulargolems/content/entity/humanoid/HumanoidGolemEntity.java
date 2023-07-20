@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemBowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemCrossbowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackGoal;
-import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -52,7 +52,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	private final GolemCrossbowAttackGoal crossbowGoal = new GolemCrossbowAttackGoal(this, 1.0D, 15.0F);
 	private final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this, 1.0D, true);
 	private final GolemTridentAttackGoal tridentGoal = new GolemTridentAttackGoal(this, 1, 40, 15, meleeGoal);
-
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
 
@@ -328,6 +327,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
 
+	@Override
+	public double getMyRidingOffset() {
+		return -0.35;
+	}
+
 	// ------ player equipment hurt
 
 	@Override
@@ -406,6 +410,45 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
 			}
 		}
+		attackStep();
 	}
 
+	public void attackStep() {
+		if (level().isClientSide()) return;
+		if (tickCount % 2 != 0) return;
+		LivingEntity target = getTarget();
+		ItemStack main = getItemBySlot(EquipmentSlot.MAINHAND);
+		ItemStack off = getItemBySlot(EquipmentSlot.OFFHAND);
+		if (main.getItem() instanceof ProjectileWeaponItem) {
+			if (getProjectile(main).isEmpty()) {
+				if (off.getItem() instanceof ProjectileWeaponItem) {
+					return;
+				}
+			} else {
+				if (target == null) {
+					return;
+				}
+				double d0 = distanceToSqr(target.getX(), target.getY(), target.getZ());
+				if (meleeGoal.getAttackReachSqr(target) < d0) {
+					return;
+				}
+			}
+		} else if (off.getItem() instanceof ProjectileWeaponItem) {
+			boolean noArrow = getProjectile(off).isEmpty();
+			if (noArrow) {
+				return;
+			}
+			if (target != null) {
+				double d0 = distanceToSqr(target.getX(), target.getY(), target.getZ());
+				if (meleeGoal.getAttackReachSqr(target) > d0) {
+					return;
+				}
+			}
+		} else {
+			return;
+		}
+		super.setItemSlot(EquipmentSlot.MAINHAND, off);
+		super.setItemSlot(EquipmentSlot.OFFHAND, main);
+		reassessWeaponGoal();
+	}
 }
