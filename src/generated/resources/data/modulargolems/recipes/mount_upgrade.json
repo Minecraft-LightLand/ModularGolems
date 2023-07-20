@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "modulargolems:empty_upgrade"
+    },
+    {
+      "item": "minecraft:saddle"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:mount_upgrade"
+  }
+}

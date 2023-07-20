@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_metal_golem_template": {
+    "has_empty_upgrade": {
       "conditions": {
         "items": [
           {
             "items": [
-              "modulargolems:metal_golem_template"
+              "modulargolems:empty_upgrade"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:command_wand"
+        "recipe": "modulargolems:size_upgrade"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_metal_golem_template",
+      "has_empty_upgrade",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:command_wand"
+      "modulargolems:size_upgrade"
     ]
   },
   "sends_telemetry_event": false

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.wand;
 
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -28,15 +28,13 @@ public class RiderWandItem extends Item implements WandItem {
 	}
 
 	private static boolean ride(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
-		if (!golem.isAlliedTo(user)) return false;
+		if (!golem.isAlliedTo(user) && !(golem.getControllingPassenger() instanceof Player)) return false;
 		if (level.isClientSide()) return true;
 		if (golem instanceof DogGolemEntity e) {
 			user.startRiding(e, false);
 			return true;
 		}
 		return true;
-
-
 	}
 
 	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> list, TooltipFlag pIsAdvanced) {

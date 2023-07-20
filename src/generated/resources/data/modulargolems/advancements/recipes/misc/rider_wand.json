@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:command_wand"
+        "recipe": "modulargolems:rider_wand"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:command_wand"
+      "modulargolems:rider_wand"
     ]
   },
   "sends_telemetry_event": false

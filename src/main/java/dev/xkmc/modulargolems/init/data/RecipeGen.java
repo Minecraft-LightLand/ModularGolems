@@ -33,23 +33,30 @@ public class RecipeGen {
 					.define('A', Items.COPPER_INGOT).define('B', Items.STICK)
 					.define('C', Items.CLAY_BALL).save(pvd);
 
-			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.RETRIEVAL_WAND.get())::unlockedBy, Items.ENDER_PEARL)
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.RETRIEVAL_WAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.pattern(" ET").pattern(" SE").pattern("S  ")
 					.define('E', Items.ENDER_PEARL)
 					.define('S', Items.STICK)
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
 					.save(pvd);
 
-			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.DISPENSE_WAND.get())::unlockedBy, Items.DISPENSER)
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.DISPENSE_WAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.pattern(" ET").pattern(" SE").pattern("S  ")
 					.define('E', Items.DISPENSER)
 					.define('S', Items.STICK)
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
 					.save(pvd);
 
-			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.COMMAND_WAND.get())::unlockedBy, Items.GOLD_INGOT)
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.COMMAND_WAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.pattern(" ET").pattern(" SE").pattern("S  ")
 					.define('E', Items.GOLD_INGOT)
+					.define('S', Items.STICK)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.RIDER_WAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.pattern(" ET").pattern(" SE").pattern("S  ")
+					.define('E', Items.WHITE_BANNER)
 					.define('S', Items.STICK)
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
 					.save(pvd);
@@ -241,6 +248,17 @@ public class RecipeGen {
 					.define('C', Items.DRAGON_BREATH)
 					.define('D', Items.CAULDRON)
 					.define('E', Items.DRAGON_HEAD)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.MOUNT_UPGRADE.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.SADDLE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.SIZE_UPGRADE.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
+					.pattern("CAC").pattern("ABA").pattern("CAC")
+					.define('A', Items.IRON_BLOCK)
+					.define('B', GolemItems.EMPTY_UPGRADE.get())
+					.define('C', Items.COPPER_BLOCK)
 					.save(pvd);
 
 		}

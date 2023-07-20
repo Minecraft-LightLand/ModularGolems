@@ -15,6 +15,7 @@
     "modulargolems:fire_immune",
     "modulargolems:thunder_immune",
     "modulargolems:player",
-    "modulargolems:mount_upgrade"
+    "modulargolems:mount_upgrade",
+    "modulargolems:size_upgrade"
   ]
 }
