@@ -223,7 +223,7 @@ dependencies {
     implementation fg.deobf("curse.maven:create-328085:4626108")
     implementation fg.deobf("curse.maven:the-twilight-forest-227639:4635921")
 
-    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4633797")
+    //runtimeOnly fg.deobf("curse.maven:patchouli-306770:4633797")
 
     //implementation fg.deobf('curse.maven:ic2-classic-242942:4441313')
 
