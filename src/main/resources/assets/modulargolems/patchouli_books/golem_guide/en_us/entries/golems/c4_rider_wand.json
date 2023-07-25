@@ -1,0 +1,15 @@
+{
+  "name": "Rider Wand",
+  "icon": "modulargolems:rider_wand",
+  "category": "modulargolems:golems",
+  "sortnum": 23,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "Right click dog golem to ride it."
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:rider_wand"
+	}
+  ]
+}

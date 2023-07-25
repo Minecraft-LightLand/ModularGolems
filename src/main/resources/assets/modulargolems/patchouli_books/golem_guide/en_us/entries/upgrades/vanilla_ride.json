@@ -1,0 +1,12 @@
+{
+  "name": "Ride Upgrade",
+  "icon": "modulargolems:mount_upgrade",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:mount_upgrade",
+	  "text": "For dog golem only. Make golem unable to attack or targeted for attack. Increase health, speed, and jump strength."
+	}
+  ]
+}

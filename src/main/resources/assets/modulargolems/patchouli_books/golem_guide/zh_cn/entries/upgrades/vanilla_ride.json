@@ -1,0 +1,12 @@
+{
+  "name": "骑乘升级",
+  "icon": "modulargolems:mount_upgrade",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:mount_upgrade",
+	  "text": "只对犬型傀儡有效。让傀儡不能攻击，也不能被攻击。大幅提升血量，移动速度，跳跃高度。"
+	}
+  ]
+}

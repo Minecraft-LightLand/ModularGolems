@@ -13,9 +13,9 @@ import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemSwimMoveControl;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
-import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -474,6 +474,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		if (owner != null) {
 			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
+		}
+		if (other instanceof Player && getOwnerUUID() == null) {
+			return true;
 		}
 		return super.isAlliedTo(other);
 	}

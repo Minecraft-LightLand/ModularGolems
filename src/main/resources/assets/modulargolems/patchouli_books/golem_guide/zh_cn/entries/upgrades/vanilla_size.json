@@ -1,0 +1,12 @@
+{
+  "name": "体型升级",
+  "icon": "modulargolems:size_upgrade",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:size_upgrade",
+	  "text": "提升傀儡体型，速度，血量，攻击范围。体型提升因傀儡而异。最大叠加：2。$(br2)对于狗傀儡，每个体型升级提升1个最大骑乘人数（基础1人，最高级3人）"
+	}
+  ]
+}

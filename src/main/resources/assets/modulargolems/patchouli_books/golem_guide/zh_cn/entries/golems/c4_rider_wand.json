@@ -1,0 +1,15 @@
+{
+  "name": "骑乘手杖",
+  "icon": "modulargolems:rider_wand",
+  "category": "modulargolems:golems",
+  "sortnum": 23,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "右键骑上犬型傀儡。"
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:rider_wand"
+	}
+  ]
+}
