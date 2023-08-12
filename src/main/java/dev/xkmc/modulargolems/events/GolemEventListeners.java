@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
+import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

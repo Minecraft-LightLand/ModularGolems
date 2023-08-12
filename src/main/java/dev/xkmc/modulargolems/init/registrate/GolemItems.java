@@ -12,6 +12,8 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
+import dev.xkmc.modulargolems.content.item.equipments.GolemGuardChestplateItem;
+import dev.xkmc.modulargolems.content.item.equipments.GolemGuardHelmetItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -29,6 +31,8 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
 
+import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.CHESTPLATES;
+import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.HELMETS;
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
@@ -59,7 +63,8 @@ public class GolemItems {
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND;
-
+	public static final ItemEntry<GolemGuardHelmetItem> GOLEMGUARD_HELMET;
+	public static final ItemEntry<GolemGuardChestplateItem> GOLEMGUARD_CHESTPLATE;
 
 	static {
 
@@ -68,7 +73,13 @@ public class GolemItems {
 		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 		DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 		RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+		// golemguard armor
+		{
+		GOLEMGUARD_HELMET = REGISTRATE.item("golemguard_helmet",p ->new GolemGuardHelmetItem(p.stacksTo(1), HELMETS)).model((ctx, pvd) -> pvd.generated(ctx,pvd.modLoc("item/equipments/"+ctx.getName()))).defaultLang().register();
+		GOLEMGUARD_CHESTPLATE = REGISTRATE.item("golemguard_chestplate",p ->new GolemGuardChestplateItem(p.stacksTo(1), CHESTPLATES)).model((ctx, pvd) -> pvd.generated(ctx,pvd.modLoc("item/equipments/"+ctx.getName()))).defaultLang().register();
+		}
 		// upgrades
+
 		{
 			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifiers.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();

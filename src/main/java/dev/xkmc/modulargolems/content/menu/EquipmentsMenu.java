@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.content.menu;
-
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
@@ -20,7 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
 import javax.annotation.Nullable;
 
 public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
-
+	public AbstractGolemEntity age;
 	public static EquipmentsMenu fromNetwork(MenuType<EquipmentsMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		Entity entity = Proxy.getClientWorld().getEntity(buf.readInt());
 		return new EquipmentsMenu(type, wid, plInv, entity instanceof HumanoidGolemEntity golem ? golem : null);
@@ -32,7 +32,6 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
 	@Nullable
 	protected final HumanoidGolemEntity golem;
-
 	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable HumanoidGolemEntity golem) {
 		super(type, wid, plInv, MANAGER, EquipmentsContainer::new, false);
 		this.golem = golem;
@@ -42,6 +41,9 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	}
 
 	private boolean isValid(EquipmentSlot slot, ItemStack stack) {
+		if(!(age instanceof HumanoidGolemEntity)){
+			return false;
+		}
 		if (golem == null || !stillValid(inventory.player)) {
 			return false;
 		}
