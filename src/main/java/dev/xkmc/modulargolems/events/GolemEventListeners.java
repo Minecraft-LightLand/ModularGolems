@@ -23,7 +23,7 @@ public class GolemEventListeners {
 		}
 		if (!event.getEntity().getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
 			if (event.getStack().getItem() instanceof BowItem) {
-				event.setSlot(EquipmentSlot.OFFHAND, event.getStack().getCount());
+				event.setSlot(EquipmentSlot.OFFHAND, 1);
 			}
 		}
 	}

@@ -7,7 +7,9 @@ import net.minecraft.world.item.ItemStack;
 import static net.minecraft.world.entity.LivingEntity.getEquipmentSlotForItem;
 
 public class GolemEquipEvent extends HumanoidGolemEvent {
+
 	private final ItemStack stack;
+
 	private EquipmentSlot slot;
 	private boolean canEquip;
 	private int amount;
