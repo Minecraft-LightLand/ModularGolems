@@ -1,0 +1,12 @@
+{
+  "name": "Size Upgrade",
+  "icon": "modulargolems:size_upgrade",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:size_upgrade",
+	  "text": "Increase Golem size, speed, health, and attack range. Size bonus differs by golem types. Max: 2$(br2)For dog golems, increase 1 maximum passenger capacity, max 3 passengers."
+	}
+  ]
+}

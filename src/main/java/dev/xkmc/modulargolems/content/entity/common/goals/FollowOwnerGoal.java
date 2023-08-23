@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.common.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -139,16 +140,18 @@ public class FollowOwnerGoal extends Goal {
 
 	private boolean canTeleportTo(BlockPos pPos) {
 		BlockPathTypes blockpathtypes = WalkNodeEvaluator.getBlockPathTypeStatic(this.level, pPos.mutable());
-		if (blockpathtypes != BlockPathTypes.WALKABLE) {
+		boolean allow = blockpathtypes == BlockPathTypes.WALKABLE;
+		if (golem.hasFlag(GolemFlags.FLOAT) || golem.hasFlag(GolemFlags.SWIM)) {
+			allow |= blockpathtypes == BlockPathTypes.WATER;
+			allow |= blockpathtypes == BlockPathTypes.WATER_BORDER;
+		}
+		if (!allow) return false;
+		BlockState blockstate = this.level.getBlockState(pPos.below());
+		if (!this.canFly && blockstate.getBlock() instanceof LeavesBlock) {
 			return false;
 		} else {
-			BlockState blockstate = this.level.getBlockState(pPos.below());
-			if (!this.canFly && blockstate.getBlock() instanceof LeavesBlock) {
-				return false;
-			} else {
-				BlockPos blockpos = pPos.subtract(this.golem.blockPosition());
-				return this.level.noCollision(this.golem, this.golem.getBoundingBox().move(blockpos));
-			}
+			BlockPos blockpos = pPos.subtract(this.golem.blockPosition());
+			return this.level.noCollision(this.golem, this.golem.getBoundingBox().move(blockpos));
 		}
 	}
 

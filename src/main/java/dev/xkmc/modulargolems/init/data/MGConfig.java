@@ -40,9 +40,19 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue basePickupRange;
 		public final ForgeConfigSpec.IntValue mendingXpCost;
 
+		public final ForgeConfigSpec.IntValue summonDistance;
+		public final ForgeConfigSpec.IntValue retrieveDistance;
+		public final ForgeConfigSpec.IntValue retrieveRange;
+
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
 					.define("barehandRetrieve", true);
+			summonDistance = builder.comment("Max distance to summon single golem")
+					.defineInRange("summonDistance", 64, 1, 1000);
+			retrieveDistance = builder.comment("Max distance to retrieve single golem")
+					.defineInRange("retrieveDistance", 64, 1, 1000);
+			retrieveRange = builder.comment("Max distance to retrieve all golems")
+					.defineInRange("retrieveRange", 20, 1, 1000);
 
 			builder.push("modifiers");
 			thorn = builder.comment("Percentage damage reflection per level of thorn")

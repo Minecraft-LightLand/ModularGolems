@@ -6,7 +6,7 @@
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "犬型傀儡类似狗，移动速度高，攻击力高，但是血量偏低，而且不能范围攻击。$(br2)蹲下或者用物品右键犬型傀儡能让它坐下。空手右键犬型傀儡能回收傀儡。"
+	  "text": "犬型傀儡类似狗，移动速度高，攻击力高，但是血量偏低，而且不能范围攻击。$(br2)蹲下或者用物品右键犬型傀儡能让它坐下。空手右键犬型傀儡能回收傀儡。$(br2)通过$(l:golems/c4_rider_wand)骑乘手杖$(/l)你可以骑上犬型傀儡，也可以用人形傀儡右键犬型傀儡让人形骑上去。使用$(l:upgrades/vanilla_size)体型升级$(/l)可以增加最大骑乘人数"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:dog_golem_holder",

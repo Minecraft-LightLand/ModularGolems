@@ -26,11 +26,14 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -395,5 +398,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			base += ent.getKey().addSlot(upgrades, ent.getValue());
 		}
 		return base;
+	}
+
+	@Override
+	public void onDestroyed(ItemEntity entity, DamageSource source) {
+		if (source.is(DamageTypeTags.IS_EXPLOSION)) {
+			for (var e : getUpgrades(entity.getItem())) {
+				entity.level().addFreshEntity(new ItemEntity(entity.level(), entity.getX(), entity.getY(), entity.getZ(), e.getDefaultInstance()));
+			}
+		}
 	}
 }

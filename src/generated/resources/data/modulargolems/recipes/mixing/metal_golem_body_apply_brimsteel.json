@@ -1,0 +1,54 @@
+{
+  "type": "create:mixing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "blazegear"
+    }
+  ],
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "modulargolems:metal_golem_body"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    },
+    {
+      "item": "blazegear:brimsteel_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "modulargolems:metal_golem_body",
+      "nbt": {
+        "golem_material": "blazegear:brimsteel"
+      }
+    }
+  ]
+}
