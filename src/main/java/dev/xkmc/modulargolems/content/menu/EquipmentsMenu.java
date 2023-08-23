@@ -1,4 +1,5 @@
 package dev.xkmc.modulargolems.content.menu;
+
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
@@ -18,9 +19,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+
 import javax.annotation.Nullable;
+
 public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
-	public AbstractGolemEntity golem;
+
 	public static EquipmentsMenu fromNetwork(MenuType<EquipmentsMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		assert Proxy.getClientWorld() != null;
 		Entity entity = Proxy.getClientWorld().getEntity(buf.readInt());
@@ -30,21 +33,23 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	public static EquipmentSlot[] SLOTS = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
 
 	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "equipments");
-	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable AbstractGolemEntity golem) {
+
+	public final AbstractGolemEntity<?, ?> golem;
+
+	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable AbstractGolemEntity<?, ?> golem) {
 		super(type, wid, plInv, MANAGER, EquipmentsContainer::new, false);
 		this.golem = golem;
 		addSlot("hand", (i, e) -> isValid(SLOTS[i], e));
-		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e), (i, e) -> {
-		});//TODO remove in 1.19.4
+		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e));
 	}
 
 	private boolean isValid(EquipmentSlot slot, ItemStack stack) {
-			return getSlotForItem(stack) == slot;
+		return getSlotForItem(stack) == slot;
 	}
 
 	@Override
 	public boolean stillValid(Player player) {
-			return golem != null && !golem.isRemoved();
+		return golem != null && !golem.isRemoved();
 	}
 
 	@Override
@@ -54,13 +59,13 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
 	@Override
 	public ItemStack quickMoveStack(Player pl, int id) {
-		if (golem !=null) {
+		if (golem != null) {
 			ItemStack stack = this.slots.get(id).getItem();
 			if (id >= 36) {
 				this.moveItemStackTo(stack, 0, 36, true);
 			} else {
-			EquipmentSlot es = getSlotForItem(stack);
-			for (int i = 0; i < 6; i++) {
+				EquipmentSlot es = getSlotForItem(stack);
+				for (int i = 0; i < 6; i++) {
 					if (SLOTS[i] == es) {
 						this.moveItemStackTo(stack, 36 + i, 37 + i, false);
 					}
@@ -70,6 +75,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		}
 		return ItemStack.EMPTY;
 	}
+
 	@Nullable
 	public EquipmentSlot getSlotForItem(ItemStack stack) {
 		if (!stillValid(inventory.player) || golem == null) {
@@ -78,21 +84,22 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		if (!stack.getItem().canFitInsideContainerItems()) return null;
 		if (stack.getItem() instanceof GolemHolder) return null;
 		if (golem instanceof HumanoidGolemEntity humanoidGolem) {
-		GolemEquipEvent event = new GolemEquipEvent(humanoidGolem, stack);
+			GolemEquipEvent event = new GolemEquipEvent(humanoidGolem, stack);
 			MinecraftForge.EVENT_BUS.post(event);
-			if(event.canEquip()) {
+			if (event.canEquip()) {
 				return event.getSlot();
-			}else {
+			} else {
 				return null;
 			}
 		}
-		if(golem instanceof MetalGolemEntity){
-		    if(stack.getItem() instanceof MetalGolemArmorItem mgai) {
+		if (golem instanceof MetalGolemEntity) {
+			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
 				return mgai.getSlot();
-			}else {
+			} else {
 				return null;
 			}
 		}
 		return null;
 	}
+
 }

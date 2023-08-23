@@ -17,15 +17,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
 
-import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.*;
+import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.GolemModelPath;
+import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.LIST;
 
 public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalGolemModel> {
 	public HashMap<ModelLayerLocation, MetalGolemModel> map = new HashMap<>();
 
 	public GolemEquipmentRenderer(RenderLayerParent<MetalGolemEntity, MetalGolemModel> r, EntityRendererProvider.Context e) {
 		super(r);
-		map.put(HELMET_LAYER, new MetalGolemModel(e.bakeLayer(HELMET_LAYER)));
-		map.put(CHESTPLATE_LAYER, new MetalGolemModel(e.bakeLayer(CHESTPLATE_LAYER)));
+		for (var l : LIST) {
+			map.put(l, new MetalGolemModel(e.bakeLayer(l)));
+		}
 	}
 
 	@Override
