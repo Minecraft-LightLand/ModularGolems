@@ -14,13 +14,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class MetalGolemCrackinessLayer extends RenderLayer<MetalGolemEntity, MetalGolemModel<LivingEntity>> {
+public class MetalGolemCrackinessLayer extends RenderLayer<MetalGolemEntity, MetalGolemModel> {
 	private static final Map<IronGolem.Crackiness, ResourceLocation> TEXTURES = ImmutableMap.of(
 			IronGolem.Crackiness.LOW, new ResourceLocation("textures/entity/iron_golem/iron_golem_crackiness_low.png"),
 			IronGolem.Crackiness.MEDIUM, new ResourceLocation("textures/entity/iron_golem/iron_golem_crackiness_medium.png"),
 			IronGolem.Crackiness.HIGH, new ResourceLocation("textures/entity/iron_golem/iron_golem_crackiness_high.png"));
 
-	public MetalGolemCrackinessLayer(RenderLayerParent<MetalGolemEntity, MetalGolemModel<LivingEntity>> p_117135_) {
+	public MetalGolemCrackinessLayer(RenderLayerParent<MetalGolemEntity, MetalGolemModel> p_117135_) {
 		super(p_117135_);
 	}
 

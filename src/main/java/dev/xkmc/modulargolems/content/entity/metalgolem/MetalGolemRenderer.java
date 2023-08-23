@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 @OnlyIn(Dist.CLIENT)
-public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemPartType, MetalGolemModel<LivingEntity>> {
+public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemPartType, MetalGolemModel> {
 
 	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable MetalGolemPartType part) {
 		switch (transform) {
@@ -66,7 +66,7 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 	}
 
 	public MetalGolemRenderer(EntityRendererProvider.Context ctx) {
-		super(ctx, new MetalGolemModel<LivingEntity>(ctx.bakeLayer(ModelLayers.IRON_GOLEM)), 0.7F, MetalGolemPartType::values);
+		super(ctx, new MetalGolemModel(ctx.bakeLayer(ModelLayers.IRON_GOLEM)), 0.7F, MetalGolemPartType::values);
 		this.addLayer(new MetalGolemCrackinessLayer(this));
 		this.addLayer(new GolemEquipmentRenderer(this,ctx));
 	}
