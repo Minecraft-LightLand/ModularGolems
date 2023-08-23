@@ -2,16 +2,19 @@ package dev.xkmc.modulargolems.content.item.equipments;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.ForgeRegistries;
 import java.util.EnumMap;
 import java.util.UUID;
-
 public class MetalGolemArmorItem extends Item {
+    public ResourceLocation a= new ResourceLocation("","");
+    private final GolemEquipmentModels.GolemModelPath gmp;
     protected final ArmorItem.Type type;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
     private static final EnumMap<ArmorItem.Type, UUID> ARMOR_MODIFIER_UUID_PER_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), (p_266744_) -> {
@@ -20,10 +23,11 @@ public class MetalGolemArmorItem extends Item {
         p_266744_.put(ArmorItem.Type.CHESTPLATE, UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"));
         p_266744_.put(ArmorItem.Type.HELMET, UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150"));
     });
-    public MetalGolemArmorItem(Properties p_41383_, ArmorItem.Type p_266831_, GolemEquipmentModels.GolemModelPath armor_path, int defense, float toughness) {
+    public MetalGolemArmorItem(Properties p_41383_, ArmorItem.Type type, int defense, float toughness,GolemEquipmentModels.GolemModelPath gmp) {
         super(p_41383_);
-        this.type = p_266831_;
-        UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(p_266831_);
+        this.gmp=gmp;
+        this.type = type;
+        UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", defense, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", toughness, AttributeModifier.Operation.ADDITION));
@@ -33,29 +37,39 @@ public class MetalGolemArmorItem extends Item {
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot p_40390_) {
         return p_40390_ == this.type.getSlot() ? this.defaultModifiers : super.getDefaultAttributeModifiers(p_40390_);
     }
+    public ResourceLocation customResLocation(){
+        ResourceLocation rl=ForgeRegistries.ITEMS.getKey(this);
+        assert rl != null;
+        return new ResourceLocation(rl.getNamespace(),"textures/equipments/"+ rl.getPath()+".png");
+    }
+    public GolemEquipmentModels.GolemModelPath getModelPath() {
+    return gmp;
+    }
 
+    public EquipmentSlot getSlot(){
+       return type.getSlot();
+    }
+
+    public ArmorItem.Type getType() {
+        return type;
+    }
 
     public enum Type {
         HELMET(EquipmentSlot.HEAD, "helmet"),
         CHESTPLATE(EquipmentSlot.CHEST, "chestplate"),
         LEGGINGS(EquipmentSlot.LEGS, "leggings"),
         BOOTS(EquipmentSlot.FEET, "boots");
-
         private final EquipmentSlot slot;
         private final String name;
-
         Type(EquipmentSlot p_266754_, String p_266886_) {
             this.slot = p_266754_;
             this.name = p_266886_;
         }
-
         public EquipmentSlot getSlot() {
             return this.slot;
         }
-
         public String getName() {
             return this.name;
         }
-
     }
 }

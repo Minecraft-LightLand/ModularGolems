@@ -34,7 +34,7 @@ public class GolemEquipmentModels {
     public static LayerDefinition createChesplateLayer(){
         MeshDefinition mesh=BuildGolemBaseLayers();
         PartDefinition root2=mesh.getRoot().getChild("body");
-        PartDefinition Mainbody2 = root2.addOrReplaceChild("main_body", CubeListBuilder.create().texOffs(0, 0).addBox(-9.0F, -2.0F, -6.0F, 18.2F, 12.1F, 11.2F), PartPose.offset(0.0F, -7.0F, -2.0F));
+        PartDefinition Mainbody2 = root2.addOrReplaceChild("main_body", CubeListBuilder.create().texOffs(0, 0).addBox(-9.1F, -2.1F, -6.1F, 18.2F, 12.1F, 11.2F), PartPose.offset(0.0F, -7.0F, 0.0F));
         return LayerDefinition.create(mesh, 64, 64);
     }
 
