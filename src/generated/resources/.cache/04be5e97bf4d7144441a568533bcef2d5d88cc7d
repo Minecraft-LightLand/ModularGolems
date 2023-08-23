@@ -1,6 +1,6 @@
-// 1.20.1	2023-07-20T08:42:10.712713	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-7be071230933853478914e5fa0801c7bc69be034 assets/modulargolems/lang/en_ud.json
-f9549ddfe03237ca0f3213e46b92ca6880697349 assets/modulargolems/lang/en_us.json
+// 1.20.1	2023-08-11T23:03:15.0736102	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+6f7844d1cdebd002543d7830fb7da6153220322e assets/modulargolems/lang/en_ud.json
+b66c6573c5a0be72411cff3ae645c430028e753a assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
 d85abebd3b51deaa8937c6da80cbbf428430c517 assets/modulargolems/models/item/attack_high_blue.json
 92a0cc59e60b552d9ea9a11552515396113f90b9 assets/modulargolems/models/item/attack_high_purple.json
@@ -57,6 +57,8 @@ b546d70c5a2977304d71f744ed2c706306a2929b assets/modulargolems/models/item/force_
 199713d96f1118682220b51776da8c7a0da54089 assets/modulargolems/models/item/gold.json
 5e063cf974342a6bf4c37657a288a11742b8723b assets/modulargolems/models/item/gold_blue.json
 a89405db5be093449c625f382071ac75432107aa assets/modulargolems/models/item/gold_purple.json
+e5be1ae70ff902bcac987f23b7417832ba659f99 assets/modulargolems/models/item/golemguard_chestplate.json
+b714a5181c27adf26b69786cb05f6e1e3e6d637b assets/modulargolems/models/item/golemguard_helmet.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_arms.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_body.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_holder.json
