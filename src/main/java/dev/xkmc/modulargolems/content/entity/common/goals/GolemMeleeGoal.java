@@ -42,4 +42,8 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 		return val * val;
 	}
 
+	public boolean canReachTarget(LivingEntity le) {
+		return getAttackReachSqr(le) >= mob.getPerceivedTargetDistanceSquareForMeleeAttack(le);
+	}
+
 }

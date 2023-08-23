@@ -24,7 +24,7 @@ public class GolemTridentAttackGoal extends RangedAttackGoal {
 		LivingEntity livingentity = golem.getTarget();
 		if (livingentity == null || !super.canUse()) return false;
 		double d0 = golem.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-		if (melee.getAttackReachSqr(livingentity) > d0) return false;
+		if (melee.canReachTarget(livingentity)) return false;
 		InteractionHand hand = golem.getWeaponHand();
 		return GolemShooterHelper.isValidThrowableWeapon(this.golem, this.golem.getItemInHand(hand), hand).isThrowable();
 	}
