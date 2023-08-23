@@ -47,11 +47,8 @@ public class GolemClient {
 		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "golem_stats", new GolemStatusOverlay());
 	}
 	@SubscribeEvent
-	public static void registerHeadLayer(EntityRenderersEvent.RegisterLayerDefinitions event){
+	public static void registerArmorLayer(EntityRenderersEvent.RegisterLayerDefinitions event){
 		event.registerLayerDefinition(HELMET_LAYER, GolemEquipmentModels::createHelmetLayer);
-	}
-	@SubscribeEvent
-	public static void registerBodyLayer(EntityRenderersEvent.RegisterLayerDefinitions event){
 		event.registerLayerDefinition(CHESTPLATE_LAYER, GolemEquipmentModels::createChesplateLayer);
 	}
 

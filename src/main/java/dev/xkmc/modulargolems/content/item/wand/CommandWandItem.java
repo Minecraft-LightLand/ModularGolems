@@ -4,7 +4,6 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.menu.EquipmentsMenuPvd;
@@ -29,11 +28,13 @@ public class CommandWandItem extends Item implements WandItem {
 	public CommandWandItem(Properties props) {
 		super(props);
 	}
+
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity target, InteractionHand hand) {
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return InteractionResult.PASS;
 		return command(target.level(), user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 	}
+
 	private static boolean command(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!golem.isAlliedTo(user)) return false;
 		if (level.isClientSide()) return true;
