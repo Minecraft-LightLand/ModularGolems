@@ -27,7 +27,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	public static EquipmentsMenu fromNetwork(MenuType<EquipmentsMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		assert Proxy.getClientWorld() != null;
 		Entity entity = Proxy.getClientWorld().getEntity(buf.readInt());
-		return new EquipmentsMenu(type, wid, plInv, entity instanceof HumanoidGolemEntity golem ? golem : null);
+		return new EquipmentsMenu(type, wid, plInv, entity instanceof AbstractGolemEntity<?, ?> golem ? golem : null);
 	}
 
 	public static EquipmentSlot[] SLOTS = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};

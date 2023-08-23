@@ -39,10 +39,13 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 					MetalGolemModel model = map.get(gmpath.mll());
 					model.copyFrom(getParentModel());
 					ModelPart gemr = model.root();
+					stack.pushPose();
 					for (String s : ls) {
+						gemr.translateAndRotate(stack);
 						gemr = gemr.getChild(s);
 					}
 					gemr.render(stack, source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.customResLocation())), i, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+					stack.popPose();
 				}
 			}
 		}

@@ -48,7 +48,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		util.renderTooltipInternal(gui.getFont(), list);
 	}
 
-	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {
+	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {//TODO
 
 		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
 

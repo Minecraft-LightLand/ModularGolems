@@ -10,9 +10,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.Nullable;
 
-public record EquipmentsMenuPvd(AbstractGolemEntity e) implements MenuProvider {
+public record EquipmentsMenuPvd(AbstractGolemEntity<?, ?> e) implements MenuProvider {
 
 	@Override
 	public Component getDisplayName() {
@@ -27,7 +26,6 @@ public record EquipmentsMenuPvd(AbstractGolemEntity e) implements MenuProvider {
 		NetworkHooks.openScreen(player, this, this::writeBuffer);
 	}
 
-	@Nullable
 	@Override
 	public AbstractContainerMenu createMenu(int wid, Inventory inv, Player player) {
 		return new EquipmentsMenu(GolemMiscs.EQUIPMENTS.get(), wid, inv, e);
