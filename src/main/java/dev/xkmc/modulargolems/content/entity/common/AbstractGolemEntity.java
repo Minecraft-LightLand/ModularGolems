@@ -109,6 +109,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.moveControl = new GolemSwimMoveControl(this);
 			this.navigation = waterNavigation;
 			this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+			this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
 		}
 		if (!level().isClientSide()) {
 			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
