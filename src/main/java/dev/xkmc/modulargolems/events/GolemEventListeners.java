@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
+import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,9 +18,12 @@ public class GolemEventListeners {
 
 	@SubscribeEvent
 	public static void onEquip(GolemEquipEvent event) {
+		if (event.getStack().getItem() instanceof ArrowItem) {
+			event.setSlot(EquipmentSlot.OFFHAND, event.getStack().getCount());
+		}
 		if (!event.getEntity().getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
 			if (event.getStack().getItem() instanceof BowItem) {
-				event.setSlot(EquipmentSlot.OFFHAND, event.getStack().getCount());
+				event.setSlot(EquipmentSlot.OFFHAND, 1);
 			}
 		}
 	}

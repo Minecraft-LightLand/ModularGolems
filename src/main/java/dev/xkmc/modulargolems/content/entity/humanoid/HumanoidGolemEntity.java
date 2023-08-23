@@ -9,8 +9,8 @@ import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemBowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemCrossbowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackGoal;
-import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.nbt.CompoundTag;
@@ -421,15 +421,13 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		ItemStack off = getItemBySlot(EquipmentSlot.OFFHAND);
 		if (main.getItem() instanceof ProjectileWeaponItem) {
 			if (getProjectile(main).isEmpty()) {
-				if (off.getItem() instanceof ProjectileWeaponItem) {
+				if (off.isEmpty() ||
+						off.getItem() instanceof ProjectileWeaponItem ||
+						off.getItem() instanceof ArrowItem) {
 					return;
 				}
 			} else {
-				if (target == null) {
-					return;
-				}
-				double d0 = distanceToSqr(target.getX(), target.getY(), target.getZ());
-				if (meleeGoal.getAttackReachSqr(target) < d0) {
+				if (target == null || !meleeGoal.canReachTarget(target)) {
 					return;
 				}
 			}
@@ -438,11 +436,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			if (noArrow) {
 				return;
 			}
-			if (target != null) {
-				double d0 = distanceToSqr(target.getX(), target.getY(), target.getZ());
-				if (meleeGoal.getAttackReachSqr(target) > d0) {
-					return;
-				}
+			if (target != null && meleeGoal.canReachTarget(target)) {
+				return;
 			}
 		} else {
 			return;
@@ -451,4 +446,5 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		super.setItemSlot(EquipmentSlot.OFFHAND, main);
 		reassessWeaponGoal();
 	}
+
 }
