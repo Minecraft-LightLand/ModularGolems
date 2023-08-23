@@ -41,6 +41,15 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		return this.root;
 	}
 
+	public void copyFrom(MetalGolemModel other) {
+		head.copyFrom(other.head);
+		body.copyFrom(other.body);
+		rightArm.copyFrom(other.rightArm);
+		leftArm.copyFrom(other.leftArm);
+		rightLeg.copyFrom(other.rightLeg);
+		leftLeg.copyFrom(other.leftLeg);
+	}
+
 	public void setupAnim(MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
 		this.head.yRot = f4 * ((float) Math.PI / 180F);
 		this.head.xRot = f5 * ((float) Math.PI / 180F);

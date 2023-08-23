@@ -37,7 +37,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 				GolemModelPath gmpath = mgaitem.getModelPath();
 				for (List<String> ls : gmpath.l()) {
 					MetalGolemModel model = map.get(gmpath.mll());
-					model.setupAnim(entity, f1, f2, f4, f5, f6);
+					model.copyFrom(getParentModel());
 					ModelPart gemr = model.root();
 					for (String s : ls) {
 						gemr = gemr.getChild(s);
