@@ -1,8 +1,9 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.wand;
 
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,7 +42,7 @@ public class DispenseWand extends Item implements WandItem {
 			boolean all = user.isShiftKeyDown();
 			Vec3 pos = user.position();
 			if (!all) {
-				var result = RayTraceUtil.rayTraceBlock(level, user, 64);
+				var result = RayTraceUtil.rayTraceBlock(level, user, MGConfig.COMMON.summonDistance.get());
 				if (result.getType() == HitResult.Type.BLOCK) {
 					pos = result.getLocation();
 				}
@@ -49,8 +50,8 @@ public class DispenseWand extends Item implements WandItem {
 			Vec3 finalPos = pos;
 			int[] counter = new int[]{0};
 			iter(user, golem -> {
-				if (golem.getItem() instanceof GolemHolder holder) {
-					if (holder.summon(golem, level, finalPos, user)) {
+				if (golem.getItem() instanceof GolemHolder<?, ?> holder) {
+					if (holder.summon(golem, level, finalPos, user, null)) {
 						counter[0]++;
 						return !all;
 					}

@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "minecraft:white_banner"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    " ET",
+    " SE",
+    "S  "
+  ],
+  "result": {
+    "item": "modulargolems:rider_wand"
+  },
+  "show_notification": true
+}

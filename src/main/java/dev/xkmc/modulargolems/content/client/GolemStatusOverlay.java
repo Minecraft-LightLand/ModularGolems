@@ -4,7 +4,7 @@ import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -48,7 +48,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		util.renderTooltipInternal(gui.getFont(), list);
 	}
 
-	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {
+	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {//TODO
 
 		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
 

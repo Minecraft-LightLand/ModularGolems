@@ -1,8 +1,9 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.wand;
 
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -29,12 +30,12 @@ public class RetrievalWandItem extends Item implements WandItem {
 	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
 		if (user.isShiftKeyDown()) {
-			var result = RayTraceUtil.rayTraceEntity(user, 64, e -> (e instanceof AbstractGolemEntity<?, ?> golem) && golem.isAlliedTo(user));
+			var result = RayTraceUtil.rayTraceEntity(user, MGConfig.COMMON.retrieveDistance.get(), e -> (e instanceof AbstractGolemEntity<?, ?> golem) && golem.isAlliedTo(user));
 			if (result == null) return InteractionResultHolder.fail(stack);
 			var golem = result.getEntity();
 			return attemptRetrieve(level, user, Wrappers.cast(golem)) ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
 		} else {
-			var list = level.getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), user.getBoundingBox().inflate(20), e -> true);
+			var list = level.getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), user.getBoundingBox().inflate(MGConfig.COMMON.retrieveRange.get()), e -> true);
 			if (list.size() == 0) {
 				return InteractionResultHolder.pass(stack);
 			}

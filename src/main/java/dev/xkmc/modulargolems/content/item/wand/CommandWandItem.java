@@ -1,10 +1,11 @@
-package dev.xkmc.modulargolems.content.item;
+package dev.xkmc.modulargolems.content.item.wand;
 
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.menu.EquipmentsMenuPvd;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.core.BlockPos;
@@ -24,7 +25,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class CommandWandItem extends Item implements WandItem {
-
 	public CommandWandItem(Properties props) {
 		super(props);
 	}
@@ -39,8 +39,8 @@ public class CommandWandItem extends Item implements WandItem {
 		if (!golem.isAlliedTo(user)) return false;
 		if (level.isClientSide()) return true;
 		if (user.isShiftKeyDown()) {
-			if (golem instanceof HumanoidGolemEntity e) {
-				new EquipmentsMenuPvd(e).open((ServerPlayer) user);
+			if (golem instanceof HumanoidGolemEntity || golem instanceof MetalGolemEntity) {
+				new EquipmentsMenuPvd(golem).open((ServerPlayer) user);
 				return true;
 			}
 			return false;

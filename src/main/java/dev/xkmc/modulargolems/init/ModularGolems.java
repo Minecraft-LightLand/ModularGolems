@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
+import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
@@ -72,6 +73,7 @@ public class ModularGolems {
 	@SubscribeEvent
 	public static void setup(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
+			GolemDispenserBehaviors.registerDispenseBehaviors();
 		});
 	}
 

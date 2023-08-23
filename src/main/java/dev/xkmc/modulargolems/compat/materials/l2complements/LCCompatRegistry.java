@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.EnderTele
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.FreezingModifier;
 import dev.xkmc.modulargolems.compat.materials.l2complements.modifiers.SoulFlameModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
-import dev.xkmc.modulargolems.content.item.SimpleUpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.PotionAttackModifier;
 import dev.xkmc.modulargolems.content.modifier.base.PotionDefenseModifier;
 import dev.xkmc.modulargolems.content.modifier.base.TargetBonusModifier;

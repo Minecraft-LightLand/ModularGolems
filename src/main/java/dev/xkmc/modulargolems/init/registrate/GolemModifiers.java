@@ -121,13 +121,13 @@ public class GolemModifiers {
 		CAULDRON = reg("cauldron", PotionMetaModifier::new, "Cauldron",
 				"Repeated potion upgrades will no longer consume upgrade slots.");
 
-		MOUNT_UPGRADE = reg("ridding_speed_up", () -> new RideUpgrade(3,
+		MOUNT_UPGRADE = reg("ridding_speed_up", () -> new RideUpgrade(1,
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.3),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP, 0.25),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, 0.2)
-		),"Mount Upgrade","Golem will not attack, and will not be targeted for attack.");
+		), "Mount Upgrade", "Golem will not attack, and will not be targeted for attack.");
 
-		SIZE_UPGRADE = reg("size_up", () -> new AttributeGolemModifier(3,
+		SIZE_UPGRADE = reg("size_up", () -> new AttributeGolemModifier(2,
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.15),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, 0.2),
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE, 0.5),

@@ -12,19 +12,27 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
-import dev.xkmc.modulargolems.content.item.*;
+import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
+import dev.xkmc.modulargolems.content.item.wand.CommandWandItem;
+import dev.xkmc.modulargolems.content.item.wand.DispenseWand;
+import dev.xkmc.modulargolems.content.item.wand.RetrievalWandItem;
+import dev.xkmc.modulargolems.content.item.wand.RiderWandItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
 
+import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.CHESTPLATES;
+import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.HELMETS;
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
@@ -56,14 +64,16 @@ public class GolemItems {
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND;
 
+	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, GOLEMGUARD_CHESTPLATE;
 
 	static {
 
 		GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new).defaultModel().defaultLang().register();
-		RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
-		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
-		DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1))).defaultModel().defaultLang().register();
-		RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1))).defaultModel().defaultLang().register();
+		RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+		DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+		RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+
 		// upgrades
 		{
 			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
@@ -96,6 +106,17 @@ public class GolemItems {
 
 		}
 
+		// golemguard armor
+		{
+			GOLEMGUARD_HELMET = REGISTRATE.item("golemguard_helmet", p ->
+							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 6, 3, HELMETS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("golemguard_chestplate", p ->
+							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 10, 5, CHESTPLATES))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+		}
 
 		CompatManager.register();
 
