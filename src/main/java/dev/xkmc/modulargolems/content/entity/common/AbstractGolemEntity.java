@@ -473,11 +473,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (other == owner) {
 			return true;
 		}
-		if (owner != null) {
-			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
-		}
 		if (other instanceof Player && getOwnerUUID() == null) {
 			return true;
+		}
+		if (MGConfig.COMMON.ownerPickupOnly.get()) {
+			return false;
+		}
+		if (owner != null) {
+			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
 		}
 		return super.isAlliedTo(other);
 	}

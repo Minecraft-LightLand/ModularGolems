@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -254,7 +255,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		Vec3 pos = target.position();
 		Consumer<AbstractGolemEntity<?, ?>> cb = null;
 		if (target instanceof DogGolemEntity dog) {
-			cb = e -> e.startRiding(dog);
+			cb = e -> {
+				if (e instanceof HumanoidGolemEntity) e.startRiding(dog);
+			};
 		}
 		if (summon(stack, level, pos, player, cb)) {
 			return InteractionResult.CONSUME;

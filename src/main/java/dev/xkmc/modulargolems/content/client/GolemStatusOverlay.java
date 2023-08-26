@@ -2,6 +2,8 @@ package dev.xkmc.modulargolems.content.client;
 
 import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
+import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
+import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
@@ -13,6 +15,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
@@ -28,12 +31,19 @@ public class GolemStatusOverlay implements IGuiOverlay {
 
 	@Override
 	public void render(ForgeGui gui, GuiGraphics g, float partialTick, int screenWidth, int screenHeight) {
+		if (Minecraft.getInstance().screen != null) return;
 		LocalPlayer player = Proxy.getClientPlayer();
 		if (player == null) return;
-		if (!(player.getMainHandItem().getItem() instanceof WandItem)) return;
-		var hit = Minecraft.getInstance().hitResult;
-		if (!(hit instanceof EntityHitResult entityHit)) return;
-		if (!(entityHit.getEntity() instanceof AbstractGolemEntity<?, ?> golem)) return;
+		if (!(player.getMainHandItem().getItem() instanceof WandItem wand)) return;
+		Entity target;
+		if (wand instanceof IGlowingTarget) {
+			target = RayTraceUtil.serverGetTarget(player);
+		} else {
+			var hit = Minecraft.getInstance().hitResult;
+			if (!(hit instanceof EntityHitResult entityHit)) return;
+			target = entityHit.getEntity();
+		}
+		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return;
 		gui.setupOverlayRenderState(true, false);
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());

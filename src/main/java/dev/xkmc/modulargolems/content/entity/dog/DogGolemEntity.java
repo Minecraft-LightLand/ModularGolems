@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.common.goals.TeleportToOwnerGoal;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
+import org.jetbrains.annotations.Nullable;
 
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
@@ -195,8 +197,9 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
-		this.goalSelector.addGoal(1, new GolemMeleeGoal(this, 1.0D, true));
-		this.goalSelector.addGoal(6, new FollowOwnerGoal(this));
+		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
+		this.goalSelector.addGoal(3, new FollowOwnerGoal(this));
+		this.goalSelector.addGoal(2, new GolemMeleeGoal(this, 1.0D, true));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		registerTargetGoals();
@@ -242,11 +245,18 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
 			return super.mobInteract(player, hand);
 		else {
-			if (!this.level().isClientSide())
+			if (!this.level().isClientSide() && isAlliedTo(player))
 				this.setInSittingPose(!this.isInSittingPose());
 			return InteractionResult.SUCCESS;
 		}
 	}
 
+	@Override
+	public void setTarget(@Nullable LivingEntity pTarget) {
+		if (pTarget != null && isInSittingPose()) {
+			return;
+		}
+		super.setTarget(pTarget);
+	}
 }
 
