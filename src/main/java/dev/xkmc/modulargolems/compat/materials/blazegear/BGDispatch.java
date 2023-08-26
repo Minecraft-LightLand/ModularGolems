@@ -1,4 +1,3 @@
-
 package dev.xkmc.modulargolems.compat.materials.blazegear;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;

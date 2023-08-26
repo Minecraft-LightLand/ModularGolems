@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
 import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.common.goals.TeleportToOwnerGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemBowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemCrossbowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
@@ -71,20 +72,20 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			InteractionHand hand = getWeaponHand();
 			ItemStack weapon = getItemInHand(hand);
 			if (!weapon.isEmpty() && GolemShooterHelper.isValidThrowableWeapon(this, weapon, hand).isThrowable()) {
-				this.goalSelector.addGoal(1, this.tridentGoal);
-				this.goalSelector.addGoal(2, this.meleeGoal);
+				this.goalSelector.addGoal(2, this.tridentGoal);
+				this.goalSelector.addGoal(3, this.meleeGoal);
 				return;
 			}
 			if (!weapon.isEmpty() && weapon.getItem() instanceof BowItem) {
 				this.bowGoal.setMinAttackInterval(20);
-				this.goalSelector.addGoal(1, this.bowGoal);
+				this.goalSelector.addGoal(2, this.bowGoal);
 				return;
 			}
 			if (!weapon.isEmpty() && weapon.getItem() instanceof CrossbowItem) {
-				this.goalSelector.addGoal(1, this.crossbowGoal);
+				this.goalSelector.addGoal(2, this.crossbowGoal);
 				return;
 			}
-			this.goalSelector.addGoal(1, this.meleeGoal);
+			this.goalSelector.addGoal(2, this.meleeGoal);
 		}
 	}
 
@@ -227,7 +228,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
-		this.goalSelector.addGoal(6, new FollowOwnerGoal(this));
+		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
+		this.goalSelector.addGoal(3, new FollowOwnerGoal(this));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 		registerTargetGoals();
