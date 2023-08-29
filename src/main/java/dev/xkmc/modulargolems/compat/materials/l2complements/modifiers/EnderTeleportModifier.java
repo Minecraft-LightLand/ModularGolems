@@ -5,9 +5,13 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -18,39 +22,59 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 
 public class EnderTeleportModifier extends GolemModifier {
+
+	private static final String KEY = "modulargolems:teleport";
 
 	public EnderTeleportModifier() {
 		super(StatFilterType.HEALTH, 1);
 	}
 
 	@Override
+	public List<MutableComponent> getDetail(int v) {
+		int seconds = MGConfig.COMMON.teleportCooldown.get() / 20;
+		return List.of(Component.translatable(getDescriptionId() + ".desc", seconds).withStyle(ChatFormatting.GREEN));
+	}
+
+	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(10, new EnderTeleportGoal(entity, lv));
+		addGoal.accept(10, new EnderTeleportGoal(entity));
 	}
 
 	@Override
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
 		if (event.getSource().is(L2DamageTypes.MAGIC))
 			return;
+		if (event.getSource().is(DamageTypeTags.IS_PROJECTILE)) {
+			event.setCanceled(true);
+		}
+		if (!mayTeleport(entity)) {
+			return;
+		}
 		for (int i = 0; i < 16; i++) {
 			if (teleport(entity)) {
 				event.setCanceled(true);
+				resetCooldown(entity);
 				return;
 			}
 		}
 	}
 
+	public static boolean mayTeleport(AbstractGolemEntity<?, ?> entity) {
+		long time = entity.getPersistentData().getLong(KEY);
+		long current = entity.level().getGameTime();
+		return current >= time + MGConfig.COMMON.teleportCooldown.get();
+	}
+
+	public static void resetCooldown(AbstractGolemEntity<?, ?> entity) {
+		entity.getPersistentData().putLong(KEY, entity.level().getGameTime());
+	}
+
 	public static boolean teleportTowards(AbstractGolemEntity<?, ?> entity, Entity pTarget) {
-		Vec3 vec3 = new Vec3(entity.getX() - pTarget.getX(), entity.getY(0.5D) - pTarget.getEyeY(), entity.getZ() - pTarget.getZ());
-		vec3 = vec3.normalize();
-		int r = MGConfig.COMMON.teleportRadius.get();
-		double d1 = entity.getX() + (entity.getRandom().nextDouble() - 0.5D) * r - vec3.x * r * 2;
-		double d2 = entity.getY() + (double) (entity.getRandom().nextInt(r * 2) - r) - vec3.y * r * 2;
-		double d3 = entity.getZ() + (entity.getRandom().nextDouble() - 0.5D) * r - vec3.z * r * 2;
-		return teleport(entity, d1, d2, d3);
+		return teleport(entity, pTarget.getX(), pTarget.getY(), pTarget.getZ());
 	}
 
 	private static boolean teleport(AbstractGolemEntity<?, ?> entity) {

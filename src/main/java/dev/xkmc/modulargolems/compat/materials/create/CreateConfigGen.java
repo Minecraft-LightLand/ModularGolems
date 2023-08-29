@@ -44,6 +44,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 						Ingredient.of(AllTags.forgeItemTag("ingots/brass")))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 160)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 16)
+				.addStat(GolemTypes.STAT_KBRES.get(), 0.5)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.2)
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 2).end()
 
@@ -53,6 +54,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_ATTACK.get(), 16)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.4)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 1)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()

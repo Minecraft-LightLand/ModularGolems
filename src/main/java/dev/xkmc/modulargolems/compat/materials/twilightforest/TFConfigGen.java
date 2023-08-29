@@ -35,6 +35,7 @@ public class TFConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addModifier(GolemModifiers.THORN.get(), 2)
 				.addModifier(TFCompatRegistry.TF_DAMAGE.get(), 1)
 				.addModifier(TFCompatRegistry.TF_HEALING.get(), 1)

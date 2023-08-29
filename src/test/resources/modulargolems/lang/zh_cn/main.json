@@ -26,7 +26,7 @@
 	"msg": {
 	  "destroy_exp": "%s销毁了%s经验",
 	  "destroy_item": "%s找不到地方放，销毁了%s个物品",
-	  "call_attack": "傀儡将会攻击%s"
+	  "call_attack": "%s个傀儡将会攻击%s"
 	}
   },
   "patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",

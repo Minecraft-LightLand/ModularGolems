@@ -47,12 +47,14 @@
     },
     "modulargolems:netherite": {
       "modulargolems:attack": 30.0,
+      "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 300.0,
       "modulargolems:sweep": 2.0,
       "modulargolems:weight": -0.4
     },
     "modulargolems:sculk": {
       "modulargolems:attack": 30.0,
+      "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 500.0,
       "modulargolems:speed": 0.5
     }

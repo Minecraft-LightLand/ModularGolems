@@ -269,7 +269,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				TagCodec.fromTag(tag.getCompound("auto-serial"), this.getClass(), this, (f) -> true);
 			});
 		}
+		updateAttributes(materials, Wrappers.cast(getUpgrades()), owner);
 		setMode(tag.getInt("follow_mode"), new NBTObj(tag).getSub("guard_pos").toBlockPos());
+
 	}
 
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {

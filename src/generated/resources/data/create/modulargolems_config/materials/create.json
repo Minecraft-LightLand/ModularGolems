@@ -36,12 +36,14 @@
     },
     "create:brass": {
       "modulargolems:attack": 16.0,
+      "modulargolems:knockback_resistance": 0.5,
       "modulargolems:max_health": 160.0,
       "modulargolems:speed": 0.2
     },
     "create:railway": {
       "modulargolems:attack": 16.0,
       "modulargolems:attack_knockback": 1.0,
+      "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 320.0,
       "modulargolems:speed": 0.4,
       "modulargolems:sweep": 1.0

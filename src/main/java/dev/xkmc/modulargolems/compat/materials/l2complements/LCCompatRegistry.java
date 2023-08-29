@@ -37,7 +37,7 @@ public class LCCompatRegistry {
 		CONDUIT = reg("conduit", ConduitModifier::new, "When in water: Reduce damage taken to %s%%. Every %s seconds, deal %s conduit damage to target in water/rain remotely. Boost following stats:");
 		FREEZE = reg("freezing", FreezingModifier::new, "Potion Upgrade: Freezing", "Get Ice Blade and Ice Thorn enchantment effects. Immune to freezing damage.");
 		FLAME = reg("soul_flame", SoulFlameModifier::new, "Potion Upgrade: Soul Flame", "Get Soul Flame Blade and Soul Flame Thorn enchantment effects. Immune to soul flame damage.");
-		TELEPORT = reg("teleport", EnderTeleportModifier::new, "Teleport randomly to avoid attack, and teleport toward target when attacking.");
+		TELEPORT = reg("teleport", EnderTeleportModifier::new, "Teleport randomly to avoid physical damage. Teleport toward target when attacking. Teleport has %ss cool down.");
 
 		CURSE = reg("curse", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
 				i -> new MobEffectInstance(LCEffects.CURSE.get(), 60 * i)), "Potion Upgrade: Curse", null);
