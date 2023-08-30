@@ -210,7 +210,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			pTravelVector = Vec3.ZERO;
 		}
 		if (this.isEffectiveAi() && this.isInWater() && canSwim()) {
-			this.moveRelative(0.01F, pTravelVector);
+			this.moveRelative(0.02F, pTravelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
 		} else {
