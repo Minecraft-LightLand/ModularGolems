@@ -47,6 +47,7 @@
     },
     "twilightforest:knightmetal": {
       "modulargolems:attack": 20.0,
+      "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 300.0,
       "modulargolems:weight": -0.4
     },

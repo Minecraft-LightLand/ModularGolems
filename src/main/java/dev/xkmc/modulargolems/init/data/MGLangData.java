@@ -32,7 +32,7 @@ public enum MGLangData {
 
 	DESTROY_ITEM("msg.destroy_item", "Golem %s destroyed %s items because it finds no place to store.", 2, ChatFormatting.RED),
 	DESTROY_EXP("msg.destroy_exp", "Golem %s destroyed %s experience because it finds no place to store.", 2, ChatFormatting.RED),
-	CALL_ATTACK("msg.call_attack", "Golems will attack %s", 1, null);
+	CALL_ATTACK("msg.call_attack", "%s Golems will attack %s", 2, null);
 
 	private final String key, def;
 	private final int arg;

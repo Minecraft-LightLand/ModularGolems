@@ -8,13 +8,11 @@ public class EnderTeleportGoal extends Goal {
 	private static final int INIT_CD = 20, SUCCESS_CD = 100, FAIL_CD = 20, DIST = 6;
 
 	private final AbstractGolemEntity<?, ?> entity;
-	private final int lv;
 
 	private int coolDown = 0;
 
-	public EnderTeleportGoal(AbstractGolemEntity<?, ?> entity, int lv) {
+	public EnderTeleportGoal(AbstractGolemEntity<?, ?> entity) {
 		this.entity = entity;
-		this.lv = lv;
 	}
 
 	@Override
@@ -43,8 +41,12 @@ public class EnderTeleportGoal extends Goal {
 		}
 		var target = entity.getTarget();
 		if (target == null) return;
+		if (!EnderTeleportModifier.mayTeleport(entity)) {
+			return;
+		}
 		if (coolDown <= 0) {
 			if (EnderTeleportModifier.teleportTowards(entity, target)) {
+				EnderTeleportModifier.resetCooldown(entity);
 				coolDown = SUCCESS_CD;
 			} else {
 				coolDown = FAIL_CD;

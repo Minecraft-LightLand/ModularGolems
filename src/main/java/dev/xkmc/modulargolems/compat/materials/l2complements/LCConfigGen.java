@@ -39,6 +39,7 @@ public class LCConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
 				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1).end()
 
@@ -46,6 +47,7 @@ public class LCConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
 				.addStat(GolemTypes.STAT_REGEN.get(), 1000)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addModifier(GolemModifiers.IMMUNITY.get(), 1).end()
 
 		);

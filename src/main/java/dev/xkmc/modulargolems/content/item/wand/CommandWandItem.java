@@ -18,6 +18,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class CommandWandItem extends Item implements WandItem, IGlowingTarget {
 
-	private static final int RANGE = 32;
+	private static final int RANGE = 64;
 
 	public CommandWandItem(Properties props) {
 		super(props);
@@ -88,14 +89,21 @@ public class CommandWandItem extends Item implements WandItem, IGlowingTarget {
 
 	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		if (attacker instanceof ServerPlayer pl) {
-			pl.sendSystemMessage(MGLangData.CALL_ATTACK.get(target.getDisplayName()), true);
-		}
-		var list = target.level().getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), attacker.getBoundingBox().inflate(20), e -> true);
+		var list = target.level().getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), attacker.getBoundingBox().inflate(32), e -> true);
+		int size = 0;
 		for (var e : list) {
 			if (e.getOwner() == attacker) {
+				size++;
 				e.setTarget(target);
+				for (var goal : e.targetSelector.getAvailableGoals()) {
+					if (goal.getGoal() instanceof NearestAttackableTargetGoal tg) {
+						tg.setTarget(target);
+					}
+				}
 			}
+		}
+		if (attacker instanceof ServerPlayer pl) {
+			pl.sendSystemMessage(MGLangData.CALL_ATTACK.get(size, target.getDisplayName()), true);
 		}
 		return false;
 	}

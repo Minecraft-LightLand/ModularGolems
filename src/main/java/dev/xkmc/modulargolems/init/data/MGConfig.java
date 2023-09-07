@@ -36,6 +36,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue conduitBoostSpeed;
 		public final ForgeConfigSpec.IntValue thunderHeal;
 		public final ForgeConfigSpec.IntValue teleportRadius;
+		public final ForgeConfigSpec.IntValue teleportCooldown;
 		public final ForgeConfigSpec.DoubleValue targetDamageBonus;
 		public final ForgeConfigSpec.IntValue basePickupRange;
 		public final ForgeConfigSpec.IntValue mendingXpCost;
@@ -110,6 +111,8 @@ public class MGConfig {
 							.defineInRange("conduitBoostReduction", 0.2, 0, 100);
 					teleportRadius = builder.comment("Teleport max radius")
 							.defineInRange("teleportRadius", 6, 1, 32);
+					teleportCooldown = builder.comment("Teleport cooldown in ticks for avoiding physical damage")
+							.defineInRange("teleportCooldown", 40, 1, 10000);
 					targetDamageBonus = builder.comment("Damage bonus for attacking specific type of enemy")
 							.defineInRange("targetDamageBonus", 0.5, 0, 100);
 					basePickupRange = builder.comment("Pickup range per level for pickup upgrade")

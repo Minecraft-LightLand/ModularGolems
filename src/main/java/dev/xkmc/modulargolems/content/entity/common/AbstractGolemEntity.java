@@ -210,7 +210,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			pTravelVector = Vec3.ZERO;
 		}
 		if (this.isEffectiveAi() && this.isInWater() && canSwim()) {
-			this.moveRelative(0.01F, pTravelVector);
+			this.moveRelative(0.02F, pTravelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
 		} else {
@@ -269,7 +269,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				TagCodec.fromTag(tag.getCompound("auto-serial"), this.getClass(), this, (f) -> true);
 			});
 		}
+		updateAttributes(materials, Wrappers.cast(getUpgrades()), owner);
 		setMode(tag.getInt("follow_mode"), new NBTObj(tag).getSub("guard_pos").toBlockPos());
+
 	}
 
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {

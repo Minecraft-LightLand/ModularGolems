@@ -34,6 +34,7 @@
   "stats": {
     "l2complements:eternium": {
       "modulargolems:attack": 10.0,
+      "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 1000.0,
       "modulargolems:regen": 1000.0
     },
@@ -43,6 +44,7 @@
     },
     "l2complements:shulkerate": {
       "modulargolems:attack": 10.0,
+      "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 1000.0,
       "modulargolems:weight": -0.4
     },

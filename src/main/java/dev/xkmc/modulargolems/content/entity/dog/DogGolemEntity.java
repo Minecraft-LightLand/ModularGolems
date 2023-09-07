@@ -89,8 +89,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	public LivingEntity getControllingPassenger() {
 		Entity entity = this.getFirstPassenger();
-		if (entity instanceof LivingEntity) {
-			return (LivingEntity) entity;
+		if (entity instanceof Player pl) {
+			return pl;
 		}
 		return null;
 	}

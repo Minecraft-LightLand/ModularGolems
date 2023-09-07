@@ -24,6 +24,9 @@ public class GolemFloatGoal extends FloatGoal {
 			var target = golem.getTarget();
 			if (target != null && target.isInWater())
 				return false;
+			if (target == null && golem.getOwner() != null && golem.getOwner().getY() < golem.getY() + 2) {
+				return false;
+			}
 			if (golem.getDeltaMovement().y() > 0.01)
 				return false;
 		}

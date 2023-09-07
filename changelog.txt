@@ -1,0 +1,27 @@
+- 2.4.12
+    - Fix golem not following player under water with swim upgrade
+    - Increase golem speed under water
+    - Fix golem always  trying to float up even when player is deep under water
+    - Now pickup upgrade will not destroy item when owner is present
+    - Humanoid and dog golem are no longer knock back resistant
+    - Add knockback resistance to materials
+    - Fix custom Goals not added to golems when reloading world
+    - Increase command wand target range
+    - Improve command wand message when ordering entities to attack others
+
+- 2.4.11
+    - Fix golem not teleport to player when having an attack target
+    - Fix dog chasing target even when in sit position, when commanded by wand
+    - Fix dog riding one another
+    - Fix golems being able to be picked up by other players under some circumstances
+    - Allow command wand to target far away entities
+
+- 2.4.10
+    - Add BlazeGear compat
+    - Fix golem weapon switching
+    - Fix golem teleport when having swim upgrade
+
+- 2.4.9
+    - add mount upgrade and size upgrade
+    - add dispenser behavior for golems
+    - make wand activation range configurable

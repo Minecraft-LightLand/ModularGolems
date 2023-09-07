@@ -3,9 +3,6 @@ package dev.xkmc.modulargolems.content.entity.common.goals;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 
@@ -14,7 +11,6 @@ import java.util.EnumSet;
 public class FollowOwnerGoal extends Goal {
 	private final AbstractGolemEntity<?, ?> golem;
 	private final double speedModifier;
-	private final PathNavigation navigation;
 	private int timeToRecalcPath;
 	private final float stopDistance;
 	private final float startDistance;
@@ -27,13 +23,9 @@ public class FollowOwnerGoal extends Goal {
 	private FollowOwnerGoal(AbstractGolemEntity<?, ?> golem, double speed, float start, float stop) {
 		this.golem = golem;
 		this.speedModifier = speed;
-		this.navigation = golem.getNavigation();
 		this.startDistance = start;
 		this.stopDistance = stop;
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
-		if (!(golem.getNavigation() instanceof GroundPathNavigation) && !(golem.getNavigation() instanceof FlyingPathNavigation)) {
-			throw new IllegalArgumentException("Unsupported mob type for FollowOwnerGoal");
-		}
 	}
 
 	/**
@@ -51,7 +43,7 @@ public class FollowOwnerGoal extends Goal {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	public boolean canContinueToUse() {
-		if (this.navigation.isDone())
+		if (golem.getNavigation().isDone())
 			return false;
 		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
 			return false;
@@ -72,7 +64,7 @@ public class FollowOwnerGoal extends Goal {
 	 * Reset the task's internal state. Called when this task is interrupted by another one
 	 */
 	public void stop() {
-		this.navigation.stop();
+		golem.getNavigation().stop();
 		this.golem.setPathfindingMalus(BlockPathTypes.WATER, this.oldWaterCost);
 	}
 
@@ -87,7 +79,7 @@ public class FollowOwnerGoal extends Goal {
 		if (--this.timeToRecalcPath <= 0) {
 			this.timeToRecalcPath = this.adjustedTickDelay(10);
 			if (!this.golem.isLeashed() && !this.golem.isPassenger()) {
-				this.navigation.moveTo(target.x(), target.y(), target.z(), this.speedModifier);
+				golem.getNavigation().moveTo(target.x(), target.y(), target.z(), this.speedModifier);
 			}
 		}
 	}
