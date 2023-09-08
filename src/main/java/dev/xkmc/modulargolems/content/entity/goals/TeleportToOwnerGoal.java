@@ -1,11 +1,12 @@
-package dev.xkmc.modulargolems.content.entity.common.goals;
+package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -14,29 +15,21 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.EnumSet;
-
 public class TeleportToOwnerGoal extends Goal {
 	private final AbstractGolemEntity<?, ?> golem;
 	private final LevelReader level;
 	private final PathNavigation navigation;
 	private final boolean canFly;
-	private final float maxDist;
 
 	public TeleportToOwnerGoal(AbstractGolemEntity<?, ?> golem) {
-		this(golem, 30, false);
+		this(golem, false);
 	}
 
-	private TeleportToOwnerGoal(AbstractGolemEntity<?, ?> golem, float max, boolean fly) {
+	private TeleportToOwnerGoal(AbstractGolemEntity<?, ?> golem, boolean fly) {
 		this.golem = golem;
 		this.level = golem.level();
 		this.navigation = golem.getNavigation();
 		this.canFly = fly;
-		this.maxDist = max;
-		this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-		if (!(golem.getNavigation() instanceof GroundPathNavigation) && !(golem.getNavigation() instanceof FlyingPathNavigation)) {
-			throw new IllegalArgumentException("Unsupported mob type for FollowOwnerGoal");
-		}
 	}
 
 	/**
@@ -46,11 +39,12 @@ public class TeleportToOwnerGoal extends Goal {
 	public boolean canUse() {
 		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
 			return false;
-		if (this.golem.isLeashed() || this.golem.isPassenger()) {
+		if (this.golem.isLeashed()) {
 			return false;
 		}
 		Vec3 target = this.golem.getTargetPos();
-		return this.golem.distanceToSqr(target) >= this.maxDist * this.maxDist;
+		double maxDist = MGConfig.COMMON.maxWanderRadius.get();
+		return this.golem.distanceToSqr(target) >= maxDist * maxDist;
 	}
 
 	/**
@@ -97,7 +91,11 @@ public class TeleportToOwnerGoal extends Goal {
 		} else if (!this.canTeleportTo(new BlockPos(pX, pY, pZ))) {
 			return false;
 		} else {
-			this.golem.moveTo((double) pX + 0.5D, pY, (double) pZ + 0.5D, this.golem.getYRot(), this.golem.getXRot());
+			Entity e = golem;
+			while (e.getControlledVehicle() instanceof LivingEntity le) {
+				e = le;
+			}
+			e.moveTo((double) pX + 0.5D, pY, (double) pZ + 0.5D, this.golem.getYRot(), this.golem.getXRot());
 			this.navigation.stop();
 			return true;
 		}

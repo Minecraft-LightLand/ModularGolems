@@ -45,6 +45,10 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue retrieveDistance;
 		public final ForgeConfigSpec.IntValue retrieveRange;
 		public final ForgeConfigSpec.BooleanValue ownerPickupOnly;
+		public final ForgeConfigSpec.DoubleValue startFollowRadius;
+		public final ForgeConfigSpec.DoubleValue stopWanderRadius;
+		public final ForgeConfigSpec.DoubleValue maxWanderRadius;
+		public final ForgeConfigSpec.DoubleValue riddenSpeedFactor;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
@@ -57,6 +61,14 @@ public class MGConfig {
 					.defineInRange("retrieveRange", 20, 1, 1000);
 			ownerPickupOnly = builder.comment("Only owner can pickup")
 					.define("ownerPickupOnly", true);
+			startFollowRadius = builder.comment("Max golem activity radius before following player in follow mode")
+					.defineInRange("startFollowRadius", 10d, 1, 100);
+			stopWanderRadius = builder.comment("Max golem activity radius before willing to go back to origin in wander mode")
+					.defineInRange("stopWanderRadius", 20d, 1, 100);
+			maxWanderRadius = builder.comment("Max golem activity radius before being teleported back")
+					.defineInRange("maxWanderRadius", 30d, 1, 100);
+			riddenSpeedFactor = builder.comment("Speed factor for dog golem when ridden by entities")
+					.defineInRange("riddenSpeedFactor", 0.8, 0, 2);
 
 			// modifiers
 			{

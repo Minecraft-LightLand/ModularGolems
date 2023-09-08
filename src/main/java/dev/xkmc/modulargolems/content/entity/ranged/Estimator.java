@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
+package dev.xkmc.modulargolems.content.entity.ranged;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;

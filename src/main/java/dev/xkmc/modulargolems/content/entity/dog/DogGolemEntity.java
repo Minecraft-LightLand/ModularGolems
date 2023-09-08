@@ -2,12 +2,10 @@ package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.TeleportToOwnerGoal;
+import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
@@ -25,8 +23,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -92,11 +88,15 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (entity instanceof Player pl) {
 			return pl;
 		}
+		if (entity instanceof AbstractGolemEntity<?, ?> pl) {
+			return pl;
+		}
 		return null;
 	}
 
 	protected float getRiddenSpeed(Player rider) {
-		return (float) (this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.8);//TODO to config
+		return (float) (this.getAttributeValue(Attributes.MOVEMENT_SPEED) *
+				MGConfig.COMMON.riddenSpeedFactor.get());
 	}
 
 	protected void executeRidersJump(Vec3 action) {
@@ -196,13 +196,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	// ------ vanilla golem behavior
 
 	protected void registerGoals() {
-		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
-		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
-		this.goalSelector.addGoal(3, new FollowOwnerGoal(this));
 		this.goalSelector.addGoal(2, new GolemMeleeGoal(this, 1.0D, true));
-		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-		registerTargetGoals();
+		super.registerGoals();
 	}
 
 	@Override

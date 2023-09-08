@@ -1,6 +1,8 @@
-package dev.xkmc.modulargolems.content.entity.common.goals;
+package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -13,17 +15,15 @@ public class FollowOwnerGoal extends Goal {
 	private final double speedModifier;
 	private int timeToRecalcPath;
 	private final float stopDistance;
-	private final float startDistance;
 	private float oldWaterCost;
 
 	public FollowOwnerGoal(AbstractGolemEntity<?, ?> golem) {
-		this(golem, 1, 10, 3);
+		this(golem, 1, 3);
 	}
 
-	private FollowOwnerGoal(AbstractGolemEntity<?, ?> golem, double speed, float start, float stop) {
+	private FollowOwnerGoal(AbstractGolemEntity<?, ?> golem, double speed, float stop) {
 		this.golem = golem;
 		this.speedModifier = speed;
-		this.startDistance = start;
 		this.stopDistance = stop;
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
@@ -36,7 +36,9 @@ public class FollowOwnerGoal extends Goal {
 		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
 			return false;
 		Vec3 target = this.golem.getTargetPos();
-		return !(this.golem.distanceToSqr(target) < (double) (this.startDistance * this.startDistance));
+		double startDistance = golem.getMode() == GolemModes.GUARD ? MGConfig.COMMON.stopWanderRadius.get() :
+				MGConfig.COMMON.startFollowRadius.get();
+		return this.golem.distanceToSqr(target) > startDistance * startDistance;
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class FollowOwnerGoal extends Goal {
 			this.golem.getLookControl().setLookAt(owner, 10.0F, (float) this.golem.getMaxHeadXRot());
 		if (--this.timeToRecalcPath <= 0) {
 			this.timeToRecalcPath = this.adjustedTickDelay(10);
-			if (!this.golem.isLeashed() && !this.golem.isPassenger()) {
+			if (!this.golem.isLeashed()) {
 				golem.getNavigation().moveTo(target.x(), target.y(), target.z(), this.speedModifier);
 			}
 		}

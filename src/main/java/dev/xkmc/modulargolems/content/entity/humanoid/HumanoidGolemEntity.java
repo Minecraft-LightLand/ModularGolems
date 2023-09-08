@@ -2,14 +2,12 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.TeleportToOwnerGoal;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemBowAttackGoal;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemCrossbowAttackGoal;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackGoal;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.ranged.GolemBowAttackGoal;
+import dev.xkmc.modulargolems.content.entity.ranged.GolemCrossbowAttackGoal;
+import dev.xkmc.modulargolems.content.entity.ranged.GolemShooterHelper;
+import dev.xkmc.modulargolems.content.entity.ranged.GolemTridentAttackGoal;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.events.event.*;
@@ -26,8 +24,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -225,15 +223,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	// ------ common golem behavior
-
-	protected void registerGoals() {
-		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
-		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
-		this.goalSelector.addGoal(3, new FollowOwnerGoal(this));
-		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-		registerTargetGoals();
-	}
 
 	@Override
 	public void broadcastBreakEvent(EquipmentSlot pSlot) {
@@ -447,6 +436,18 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		super.setItemSlot(EquipmentSlot.MAINHAND, off);
 		super.setItemSlot(EquipmentSlot.OFFHAND, main);
 		reassessWeaponGoal();
+	}
+
+	@Override
+	public void checkRide(LivingEntity target) {
+		if (target instanceof DogGolemEntity || target instanceof AbstractHorse) {
+			startRiding(target);
+		}
+	}
+
+	@Override
+	public PathNavigation getNavigation() {
+		return super.getNavigation();
 	}
 
 }

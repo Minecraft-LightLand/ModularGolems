@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.common.goals;
+package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
