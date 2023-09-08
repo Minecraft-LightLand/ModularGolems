@@ -1,3 +1,13 @@
+- 2.4.13
+    - Fix advancement logspam
+    - Add config for distances starting to go back (default 10 for following, 20 for wandering)
+    - Add config for distances golem would be forced to teleport back (default 30)
+    - Humanoid can now ride horse
+    - Now humanoid golem riding dog golem will control dog golem
+    - Add dog golem ridden speed factor to config
+    - Golems ridden or riding other living entities as controller can also teleport to player
+    - Golems summoned in creative will also consume stack
+
 - 2.4.12
     - Fix golem not following player under water with swim upgrade
     - Increase golem speed under water
