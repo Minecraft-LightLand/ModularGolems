@@ -1,3 +1,9 @@
+- 2.4.14
+    - Golems will attack enemies touching it first
+    - Fix shield block sound
+    - Now humanoid can open doors
+    - Fix grindstone remove upgrade
+
 - 2.4.13
     - Fix advancement logspam
     - Add config for distances starting to go back (default 10 for following, 20 for wandering)

@@ -58,6 +58,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		super(type, level);
 		if (!this.level().isClientSide) {
 			reassessWeaponGoal();
+			this.groundNavigation.setCanOpenDoors(true);
 		}
 	}
 
@@ -356,12 +357,15 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		GolemDamageShieldEvent event = new GolemDamageShieldEvent(this, stack, hand, damage, i);
 		MinecraftForge.EVENT_BUS.post(event);
 		i = event.getCost();
-		if (i <= 0) return;
-		stack.hurtAndBreak(i, this, (self) -> self.broadcastBreakEvent(hand));
+		if (i > 0) {
+			stack.hurtAndBreak(i, this, (self) -> self.broadcastBreakEvent(hand));
+		}
 		if (stack.isEmpty()) {
 			this.setItemInHand(hand, ItemStack.EMPTY);
+			this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
+		} else {
+			this.playSound(SoundEvents.SHIELD_BLOCK, 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
 		}
-		this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
 	}
 
 	protected void blockUsingShield(LivingEntity source) {
