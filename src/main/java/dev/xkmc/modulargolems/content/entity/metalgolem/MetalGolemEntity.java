@@ -63,13 +63,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		super.registerGoals();
 	}
 
-	protected void doPush(Entity p_28839_) {
-		if (p_28839_ instanceof Enemy && !(p_28839_ instanceof Creeper)) {
-			this.setTarget((LivingEntity) p_28839_);
-		}
-		super.doPush(p_28839_);
-	}
-
 	public void aiStep() {
 		super.aiStep();
 		if (this.attackAnimationTick > 0) {

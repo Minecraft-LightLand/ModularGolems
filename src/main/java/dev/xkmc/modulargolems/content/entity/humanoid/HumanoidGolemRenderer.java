@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
-import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
@@ -70,7 +69,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(ModelLayers.PLAYER)), 0.5f, HumaniodGolemPartType::values);
-		this.addLayer(new HumanoidArmorLayer<>(this,
+		this.addLayer(new HumanoidGolemArmorLayer<>(this,
 				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
 				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
 				ctx.getModelManager()));

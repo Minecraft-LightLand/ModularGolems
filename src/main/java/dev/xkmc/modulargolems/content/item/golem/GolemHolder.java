@@ -260,6 +260,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	@Override
+	public boolean canGrindstoneRepair(ItemStack stack) {
+		return true;
+	}
+
+	@Override
 	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
 		CompoundTag root = stack.getTag();
 		if (root == null) {

@@ -89,7 +89,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private final HashSet<GolemFlags> golemFlags = new HashSet<>();
 
 	protected final PathNavigation waterNavigation;
-	protected final PathNavigation groundNavigation;
+	protected final GroundPathNavigation groundNavigation;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -486,6 +486,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
 		}
 		return super.isAlliedTo(other);
+	}
+
+	protected void doPush(Entity entity) {
+		if (entity instanceof Enemy && !(entity instanceof Creeper)) {
+			this.setTarget((LivingEntity) entity);
+		}
+		super.doPush(entity);
 	}
 
 	@Override
