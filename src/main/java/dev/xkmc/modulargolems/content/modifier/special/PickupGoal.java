@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.mixin.ExperienceOrbAccessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -30,7 +31,8 @@ import java.util.Map;
 
 public class PickupGoal extends Goal {
 
-	private static final int INTERVAL = 10;
+	private static final int INTERVAL = 10, DELAY = 80;
+	private static final String KEY = "modulargolems:pickup_delay";
 
 	private final AbstractGolemEntity<?, ?> golem;
 	private final int lv;
@@ -126,6 +128,11 @@ public class PickupGoal extends Goal {
 	}
 
 	private void handleLeftoverItem(ItemEntity item, @Nullable Player player) {
+		if (item.getPersistentData().contains(KEY, Tag.TAG_LONG)) {
+			if (item.getPersistentData().getLong(KEY) > item.level().getGameTime()) {
+				return;
+			}
+		}
 		GolemHandleItemEvent event = new GolemHandleItemEvent(golem, item);
 		MinecraftForge.EVENT_BUS.post(event);
 		if (item.getItem().isEmpty()) {
@@ -148,6 +155,11 @@ public class PickupGoal extends Goal {
 		}
 		if (player != null) {
 			item.playerTouch(player);
+			if (!item.isRemoved()) {
+				item.moveTo(player.position());
+				item.getPersistentData().putLong(KEY, item.level().getGameTime() + DELAY);
+				return;
+			}
 		}
 		if (item.isRemoved()) {
 			return;

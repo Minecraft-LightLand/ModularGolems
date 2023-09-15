@@ -3,9 +3,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.goals.FollowOwnerGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemFloatGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.core.BlockPos;
@@ -22,8 +20,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
@@ -63,20 +59,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	private int attackAnimationTick;
 
 	protected void registerGoals() {
-		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
-		this.goalSelector.addGoal(1, new GolemMeleeGoal(this, 1.0D, true));
-		//this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
-		this.goalSelector.addGoal(6, new FollowOwnerGoal(this));
-		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-		registerTargetGoals();
-	}
-
-	protected void doPush(Entity p_28839_) {
-		if (p_28839_ instanceof Enemy && !(p_28839_ instanceof Creeper)) {
-			this.setTarget((LivingEntity) p_28839_);
-		}
-		super.doPush(p_28839_);
+		this.goalSelector.addGoal(2, new GolemMeleeGoal(this, 1.0D, true));
+		super.registerGoals();
 	}
 
 	public void aiStep() {

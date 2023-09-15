@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.content.entity.common.goals;
+package dev.xkmc.modulargolems.content.entity.mode;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

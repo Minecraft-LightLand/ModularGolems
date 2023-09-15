@@ -6,6 +6,7 @@
   "refmap": "modulargolems.refmap.json",
   "mixins": [
 	"ExperienceOrbAccessor",
+	"LivingEntityMixin",
 	"ServerLevelMixin"
   ],
   "client": [

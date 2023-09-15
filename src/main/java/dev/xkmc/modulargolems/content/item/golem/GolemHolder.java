@@ -9,7 +9,6 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -252,15 +251,17 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		Level level = player.level();
 		Vec3 pos = target.position();
-		Consumer<AbstractGolemEntity<?, ?>> cb = null;
-		if (target instanceof DogGolemEntity dog) {
-			cb = e -> e.startRiding(dog);
-		}
-		if (summon(stack, level, pos, player, cb)) {
+		if (summon(stack, level, pos, player, e -> e.checkRide(target))) {
+			player.setItemInHand(hand, ItemStack.EMPTY);
 			return InteractionResult.CONSUME;
 		} else {
 			return InteractionResult.FAIL;
 		}
+	}
+
+	@Override
+	public boolean canGrindstoneRepair(ItemStack stack) {
+		return true;
 	}
 
 	@Override
@@ -281,6 +282,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		Vec3 pos = new Vec3(spawnPos.getX() + 0.5, spawnPos.getY() + 0.05, spawnPos.getZ() + 0.5);
 		if (summon(stack, level, pos, context.getPlayer(), null)) {
+			if (context.getPlayer() != null)
+				context.getPlayer().setItemInHand(context.getHand(), ItemStack.EMPTY);
 			return InteractionResult.CONSUME;
 		} else {
 			return InteractionResult.FAIL;
