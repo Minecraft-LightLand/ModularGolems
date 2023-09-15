@@ -238,6 +238,7 @@
   "modulargolems.msg.destroy_exp": "Golem %s destroyed %s experience because it finds no place to store.",
   "modulargolems.msg.destroy_item": "Golem %s destroyed %s items because it finds no place to store.",
   "modulargolems.tooltip.following": "Golem will follow you",
+  "modulargolems.tooltip.golem_equipment": "Only effective on %s",
   "modulargolems.tooltip.guarding": "Golem will wander around (%s, %s, %s)",
   "modulargolems.tooltip.health": "Health: %s/%s",
   "modulargolems.tooltip.potion_attack": "Inflict %s to enemies attacking or attacked.",

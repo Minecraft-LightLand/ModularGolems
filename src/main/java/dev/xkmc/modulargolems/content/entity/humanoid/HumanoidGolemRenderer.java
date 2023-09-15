@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
+import dev.xkmc.modulargolems.content.entity.common.ResizedLayer;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
@@ -69,13 +71,15 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(ModelLayers.PLAYER)), 0.5f, HumaniodGolemPartType::values);
-		this.addLayer(new HumanoidGolemArmorLayer<>(this,
+		this.addLayer(new ResizedLayer<>(this, new HumanoidArmorLayer<>(this,
 				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
 				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
-				ctx.getModelManager()));
-		this.addLayer(new CustomHeadLayer<>(this, ctx.getModelSet(), 1, 1, 1, ctx.getItemInHandRenderer()));
-		this.addLayer(new ElytraLayer<>(this, ctx.getModelSet()));
-		this.addLayer(new LayerWrapper<>(this, new ItemInHandLayer<>(this, ctx.getItemInHandRenderer())));
+				ctx.getModelManager())));
+		this.addLayer(new ResizedLayer<>(this, new CustomHeadLayer<>(this, ctx.getModelSet(),
+				1, 1, 1, ctx.getItemInHandRenderer())));
+		this.addLayer(new ResizedLayer<>(this, new ElytraLayer<>(this, ctx.getModelSet())));
+		this.addLayer(new ResizedLayer<>(this, new LayerWrapper<>(this,
+				new ItemInHandLayer<>(this, ctx.getItemInHandRenderer()))));
 	}
 
 	@Override

@@ -6,10 +6,10 @@ import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -89,6 +89,15 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		String id = rl.getNamespace();
 		String mat = rl.getPath();
 		return new ResourceLocation(id, "textures/entity/metal_golem/" + mat + ".png");
+	}
+
+	public void transformToHand(EquipmentSlot slot, PoseStack pose) {
+		if (slot == EquipmentSlot.MAINHAND) {
+			rightArm.translateAndRotate(pose);
+		}
+		if (slot == EquipmentSlot.OFFHAND) {
+			leftArm.translateAndRotate(pose);
+		}
 	}
 
 }
