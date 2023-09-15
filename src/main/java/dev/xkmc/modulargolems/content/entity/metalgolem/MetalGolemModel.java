@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -24,7 +25,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 	private final ModelPart body;
 
 	public MetalGolemModel(EntityModelSet set) {
-		this(set.bakeLayer(ModelLayers.IRON_GOLEM));
+		this(set.bakeLayer(GolemEquipmentModels.METALGOLEM));
 	}
 
 	public MetalGolemModel(ModelPart part) {

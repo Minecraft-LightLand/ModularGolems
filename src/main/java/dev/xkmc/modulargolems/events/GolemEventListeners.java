@@ -27,7 +27,6 @@ public class GolemEventListeners {
 			}
 		}
 	}
-
 	@SubscribeEvent
 	public static void isThrowable(GolemThrowableEvent event) {
 		if (event.getStack().getItem() instanceof TridentItem) {
@@ -38,5 +37,4 @@ public class GolemEventListeners {
 			});
 		}
 	}
-
 }
