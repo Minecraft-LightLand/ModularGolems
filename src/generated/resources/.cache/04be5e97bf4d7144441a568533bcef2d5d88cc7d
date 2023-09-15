@@ -1,6 +1,6 @@
-// 1.20.1	2023-08-23T16:38:23.638182	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-75e008d63a92920cf02dd3858b7befc679bde423 assets/modulargolems/lang/en_ud.json
-cfe22bfb5be9b7323c81fd476162d9a437692ae5 assets/modulargolems/lang/en_us.json
+// 1.20.1	2023-09-14T01:56:30.5511581	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+4a32bf67d06178d418f1fa7c20f647cd6b44c0c8 assets/modulargolems/lang/en_ud.json
+b6dc78ab229f9fed0f64db02fc2d3a0618dbf5f8 assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
 d85abebd3b51deaa8937c6da80cbbf428430c517 assets/modulargolems/models/item/attack_high_blue.json
 92a0cc59e60b552d9ea9a11552515396113f90b9 assets/modulargolems/models/item/attack_high_purple.json
@@ -72,6 +72,7 @@ e26352cb2d038e24b23b96862560eabcb35d8c6a assets/modulargolems/models/item/incarc
 21badafa0ca1d94b106466e1e50bc2465602504e assets/modulargolems/models/item/knightmetal.json
 ad99cbc673cbbc76e8019556e33bec013e34dec1 assets/modulargolems/models/item/knightmetal_blue.json
 64f75bee4f8fb14c5688f07a37ead3a4d264935f assets/modulargolems/models/item/knightmetal_purple.json
+0b9617f5fb301dc8e004235a286f718519446d3d assets/modulargolems/models/item/metalgolem_spear.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_arm.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_body.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_holder.json
