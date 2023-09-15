@@ -111,7 +111,9 @@ public class GolemItems {
 
 		// golemguard armor
 		{
-			GOLEMGUARD_HELMET = REGISTRATE.item("golemguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 6, 3, HELMETS)).model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName()))).defaultLang().register();
+			GOLEMGUARD_HELMET = REGISTRATE.item("golemguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 6, 3, HELMETS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
 			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("golemguard_chestplate", p ->
 							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 10, 5, CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
@@ -119,7 +121,9 @@ public class GolemItems {
 		}
 		//metalgolem weapon
 		{
-			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1),10,-2f,4f)).register();
+			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1), 10, -2f, 4f))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
 		}
 
 		CompatManager.register();

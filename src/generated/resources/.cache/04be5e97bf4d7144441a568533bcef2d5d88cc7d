@@ -1,6 +1,6 @@
-// 1.20.1	2023-09-09T02:42:23.986323	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-93ef1ca4d9aa553cb03f96bdf5bdfa9bfc8bf0d7 assets/modulargolems/lang/en_ud.json
-ca742021e0342f6a5d3c559704dfd2f84f2bb98c assets/modulargolems/lang/en_us.json
+// 1.20.1	2023-09-15T14:38:54.312934	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+768259b47bbc83da15abae37cf5701eb99ee81e8 assets/modulargolems/lang/en_ud.json
+0bd2d0cba6506a533bf41a571863268b4b23ff6e assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
 d85abebd3b51deaa8937c6da80cbbf428430c517 assets/modulargolems/models/item/attack_high_blue.json
 92a0cc59e60b552d9ea9a11552515396113f90b9 assets/modulargolems/models/item/attack_high_purple.json
@@ -77,6 +77,7 @@ f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_holder.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_legs.json
 6c6f737e1088fb1327e1fb25d8673a1f236c707f assets/modulargolems/models/item/metal_golem_template.json
+ba96c574440433f12aacad927af04dd03a7080e6 assets/modulargolems/models/item/metalgolem_spear.json
 e6a3bfba8e420145a023b8468ae2e43bc666291b assets/modulargolems/models/item/mount_upgrade.json
 7faedb9cc5426266fb386eab3170d2c846577c14 assets/modulargolems/models/item/mount_upgrade_blue.json
 3fbc39e0b4549ce1601fa6f9299706820c44dc02 assets/modulargolems/models/item/mount_upgrade_purple.json
