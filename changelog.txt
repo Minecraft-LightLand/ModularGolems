@@ -1,3 +1,7 @@
+- 2.4.15
+    - Add metal golem equipments
+    - Fix rendering of decorative layers on golems with size upgrade
+
 - 2.4.14
     - Golems will attack enemies touching it first
     - Fix shield block sound
