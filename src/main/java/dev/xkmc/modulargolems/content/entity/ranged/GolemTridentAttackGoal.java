@@ -1,6 +1,6 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
+package dev.xkmc.modulargolems.content.entity.ranged;
 
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;

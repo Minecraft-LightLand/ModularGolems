@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.common.goals;
+package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -24,6 +24,9 @@ public class GolemFloatGoal extends FloatGoal {
 			var target = golem.getTarget();
 			if (target != null && target.isInWater())
 				return false;
+			if (target == null && golem.getOwner() != null && golem.getOwner().getY() < golem.getY() + 2) {
+				return false;
+			}
 			if (golem.getDeltaMovement().y() > 0.01)
 				return false;
 		}

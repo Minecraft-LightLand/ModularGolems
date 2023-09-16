@@ -13,7 +13,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.content.item.equipments.MetalGolemSpearItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -67,7 +67,7 @@ public class GolemItems {
 
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE;
-	public static final ItemEntry<MetalGolemWeaponItem> METALGOLEM_SPEAR;
+	public static final ItemEntry<MetalGolemSpearItem> METALGOLEM_SPEAR;
 
 	static {
 
@@ -111,7 +111,9 @@ public class GolemItems {
 
 		// golemguard armor
 		{
-			GOLEMGUARD_HELMET = REGISTRATE.item("golemguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 6, 3, HELMETS)).model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName()))).defaultLang().register();
+			GOLEMGUARD_HELMET = REGISTRATE.item("golemguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 6, 3, HELMETS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
 			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("golemguard_chestplate", p ->
 							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 10, 5, CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
@@ -119,7 +121,9 @@ public class GolemItems {
 		}
 		//metalgolem weapon
 		{
-			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1),10,-2f,4f)).register();
+			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemSpearItem(p.stacksTo(1), 10, 2f, 2f))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
 		}
 
 		CompatManager.register();

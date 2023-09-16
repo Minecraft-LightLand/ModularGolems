@@ -41,6 +41,7 @@ public class MGConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
 
@@ -48,6 +49,7 @@ public class MGConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.5)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addModifier(GolemModifiers.SONIC.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
 		);

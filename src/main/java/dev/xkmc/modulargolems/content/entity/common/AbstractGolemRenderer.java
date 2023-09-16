@@ -35,7 +35,7 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 	public AbstractGolemRenderer(EntityRendererProvider.Context ctx, M model, float f, Supplier<P[]> list) {
 		super(ctx, model, f);
 		this.list = list;
-		LIST.forEach(e -> this.addLayer(Wrappers.cast(e.apply(this))));
+		LIST.forEach(e -> this.addLayer(new ResizedLayer<>(this, Wrappers.cast(e.apply(this)))));
 
 	}
 

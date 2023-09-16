@@ -9,10 +9,9 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.entity.common.goals.GolemSwimMoveControl;
-import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
-import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
+import dev.xkmc.modulargolems.content.entity.goals.*;
+import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
+import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
@@ -41,6 +40,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
@@ -88,7 +89,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private final HashSet<GolemFlags> golemFlags = new HashSet<>();
 
 	protected final PathNavigation waterNavigation;
-	protected final PathNavigation groundNavigation;
+	protected final GroundPathNavigation groundNavigation;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -210,7 +211,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			pTravelVector = Vec3.ZERO;
 		}
 		if (this.isEffectiveAi() && this.isInWater() && canSwim()) {
-			this.moveRelative(0.01F, pTravelVector);
+			this.moveRelative(0.02F, pTravelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
 		} else {
@@ -269,7 +270,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				TagCodec.fromTag(tag.getCompound("auto-serial"), this.getClass(), this, (f) -> true);
 			});
 		}
+		updateAttributes(materials, Wrappers.cast(getUpgrades()), owner);
 		setMode(tag.getInt("follow_mode"), new NBTObj(tag).getSub("guard_pos").toBlockPos());
+
 	}
 
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
@@ -473,13 +476,23 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (other == owner) {
 			return true;
 		}
-		if (owner != null) {
-			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
-		}
 		if (other instanceof Player && getOwnerUUID() == null) {
 			return true;
 		}
+		if (MGConfig.COMMON.ownerPickupOnly.get()) {
+			return false;
+		}
+		if (owner != null) {
+			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
+		}
 		return super.isAlliedTo(other);
+	}
+
+	protected void doPush(Entity entity) {
+		if (entity instanceof Enemy && !(entity instanceof Creeper)) {
+			this.setTarget((LivingEntity) entity);
+		}
+		super.doPush(entity);
 	}
 
 	@Override
@@ -490,7 +503,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.doHurtTarget(target);
 	}
 
-	protected void registerTargetGoals() {
+	protected void registerGoals() {
+		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
+		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
+		this.goalSelector.addGoal(3, new FollowOwnerGoal(this));
+		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+		this.goalSelector.addGoal(8, new GolemRandomStrollGoal(this));
+		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
 		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicateSecondaryTarget));
@@ -554,6 +573,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public double getPerceivedTargetDistanceSquareForMeleeAttack(LivingEntity target) {
 		return GolemMeleeGoal.calculateDistSqr(this, target);
+	}
+
+	public void checkRide(LivingEntity target) {
 	}
 
 }

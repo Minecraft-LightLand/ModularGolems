@@ -3,9 +3,8 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
+import dev.xkmc.modulargolems.content.entity.common.ResizedLayer;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels;
-import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentRenderer;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
@@ -67,8 +66,8 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 
 	public MetalGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new MetalGolemModel(ctx.bakeLayer(GolemEquipmentModels.METALGOLEM)), 0.7F, MetalGolemPartType::values);
-		this.addLayer(new MetalGolemCrackinessLayer(this));
-		this.addLayer(new GolemEquipmentRenderer(this, ctx));
+		this.addLayer(new ResizedLayer<>(this,new MetalGolemCrackinessLayer(this)));
+		this.addLayer(new ResizedLayer<>(this,new GolemEquipmentRenderer(this, ctx)));
 	}
 
 	protected void setupRotations(MetalGolemEntity entity, PoseStack stack, float v1, float v2, float v3) {

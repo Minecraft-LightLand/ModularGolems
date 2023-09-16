@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class GolemEquipmentModels {
 
-	record GolemModelPath(ModelLayerLocation mll, List<List<String>> l) {
+	public record GolemModelPath(ModelLayerLocation mll, List<List<String>> l) {
 	}
 
 	public static final List<ModelLayerLocation> LIST = new ArrayList<>();

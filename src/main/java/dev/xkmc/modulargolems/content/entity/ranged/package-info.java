@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
+package dev.xkmc.modulargolems.content.entity.ranged;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

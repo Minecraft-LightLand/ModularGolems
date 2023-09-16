@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.common.mode;
+package dev.xkmc.modulargolems.content.entity.mode;
 
 import dev.xkmc.modulargolems.init.data.MGLangData;
 
