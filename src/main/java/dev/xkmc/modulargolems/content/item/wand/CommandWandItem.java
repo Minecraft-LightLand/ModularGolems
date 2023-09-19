@@ -73,6 +73,7 @@ public class CommandWandItem extends Item implements WandItem, IGlowingTarget {
 	}
 
 	private static boolean command(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
+		//TODO offhand card
 		if (!golem.isAlliedTo(user)) return false;
 		if (level.isClientSide()) return true;
 		if (user.isShiftKeyDown()) {

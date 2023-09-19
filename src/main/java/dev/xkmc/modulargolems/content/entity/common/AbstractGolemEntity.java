@@ -1,17 +1,19 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2library.util.annotation.ServerOnly;
-import dev.xkmc.l2library.util.nbt.NBTObj;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.content.capability.GolemCommandEntry;
+import dev.xkmc.modulargolems.content.capability.GolemCommandStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
@@ -27,8 +29,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
@@ -67,6 +67,8 @@ import java.util.*;
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
 		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
+
+	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity.class);
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
@@ -258,8 +260,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.addAdditionalSaveData(tag);
 		this.addPersistentAngerSaveData(tag);
 		tag.put("auto-serial", Objects.requireNonNull(TagCodec.toTag(new CompoundTag(), this)));
-		tag.putInt("follow_mode", getMode().getID());
-		new NBTObj(tag).getSub("guard_pos").fromBlockPos(getGuardPos());
+		GOLEM_DATA.write(tag, entityData);
 	}
 
 	public void readAdditionalSaveData(CompoundTag tag) {
@@ -271,7 +272,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			});
 		}
 		updateAttributes(materials, Wrappers.cast(getUpgrades()), owner);
-		setMode(tag.getInt("follow_mode"), new NBTObj(tag).getSub("guard_pos").toBlockPos());
+		GOLEM_DATA.read(tag, entityData);
 
 	}
 
@@ -404,8 +405,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// mode
 
-	private static final EntityDataAccessor<Integer> DATA_MODE = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<BlockPos> GUARD_POS = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BLOCK_POS);
+	private static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
+	private static final EntityDataAccessor<BlockPos> GUARD_POS = GOLEM_DATA.define(SyncedData.BLOCK_POS, BlockPos.ZERO, "guard_pos");
 
 	public GolemMode getMode() {
 		return GolemModes.get(this.entityData.get(DATA_MODE));
@@ -425,19 +426,33 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return getMode().canChangeDimensions() && super.canChangeDimensions();
 	}
 
+	private static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
+	private static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
+
+	@Nullable
+	public GolemCommandEntry getConfigEntry() {
+		UUID configOwner = entityData.get(CONFIG_ID).orElse(null);
+		int configColor = entityData.get(CONFIG_COLOR);
+		if (configColor < 0 || configOwner == null) return null;
+		return GolemCommandStorage.get(level()).getStorage(configOwner, configColor);
+	}
+
+	public void setConfigCard(UUID owner, int color) {
+		entityData.set(CONFIG_ID, Optional.of(owner));
+		entityData.set(CONFIG_COLOR, color);
+	}
+
 	// ------ persistent anger
 
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-	private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
 
 	@Nullable
 	private UUID persistentAngerTarget;
 
 	protected void defineSynchedData() {
 		super.defineSynchedData();
-		this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
-		this.entityData.define(DATA_MODE, 0);
-		this.entityData.define(GUARD_POS, BlockPos.ZERO);
+		GOLEM_DATA.register(this.entityData);
 	}
 
 	public void startPersistentAngerTimer() {

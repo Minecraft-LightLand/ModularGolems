@@ -1,8 +1,11 @@
 package dev.xkmc.modulargolems.events;
 
+import dev.xkmc.modulargolems.content.capability.GolemCommandCapability;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -10,6 +13,8 @@ import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -97,6 +102,16 @@ public class ModifierEventListeners {
 				if (ans != null) {
 					mob.targetSelector.addGoal(priority, ans);
 				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onAttachLevelCapabilities(AttachCapabilitiesEvent<Level> event) {
+		if (event.getObject() instanceof ServerLevel level) {
+			if (level.dimension() == Level.OVERWORLD) {
+				event.addCapability(new ResourceLocation(ModularGolems.MODID, "command"),
+						new GolemCommandCapability(level));
 			}
 		}
 	}
