@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.create.modifier;
+package dev.xkmc.modulargolems.compat.materials.create;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

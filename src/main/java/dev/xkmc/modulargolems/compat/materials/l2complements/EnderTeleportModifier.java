@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.l2complements.modifiers;
+package dev.xkmc.modulargolems.compat.materials.l2complements;
 
 import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;

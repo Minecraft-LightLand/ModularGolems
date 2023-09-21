@@ -114,23 +114,31 @@ public class CraftEventListeners {
 
 	private static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void appendUpgrade(AnvilUpdateEvent event, GolemHolder<T, P> holder, UpgradeItem upgrade) {
-		if (!upgrade.fitsOn(holder.getEntityType())) return;
 		ItemStack stack = event.getLeft();
+		var upgrades = GolemHolder.getUpgrades(stack);
+		ItemStack result = appendUpgrade(stack, holder, upgrade);
+		if (result.isEmpty()) return;
+		event.setOutput(result);
+		event.setCost(Math.min(39, 4 * (1 + upgrades.size())));
+		event.setMaterialCost(1);
+	}
+
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
+	ItemStack appendUpgrade(ItemStack stack, GolemHolder<T, P> holder, UpgradeItem upgrade) {
+		if (!upgrade.fitsOn(holder.getEntityType())) return ItemStack.EMPTY;
 		var mats = GolemHolder.getMaterial(stack);
 		var upgrades = GolemHolder.getUpgrades(stack);
 		var copy = new ArrayList<>(upgrades);
 		copy.add(upgrade);
 		int remaining = holder.getRemaining(mats, copy);
-		if (remaining < 0) return; // check if it overflows when adding the new upgrade
+		if (remaining < 0) return ItemStack.EMPTY; // check if it overflows when adding the new upgrade
 		var map = GolemMaterial.collectModifiers(GolemHolder.getMaterial(stack), upgrades);
 		for (var e : upgrade.get()) {
-			if (map.getOrDefault(e.mod(), 0) >= e.mod().maxLevel) return;
+			if (map.getOrDefault(e.mod(), 0) >= e.mod().maxLevel) return ItemStack.EMPTY;
 		}
 		ItemStack result = stack.copy();
 		GolemHolder.addUpgrade(result, upgrade);
-		event.setOutput(result);
-		event.setCost(Math.min(39, 4 * (1 + upgrades.size())));
-		event.setMaterialCost(1);
+		return result;
 	}
 
 }

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.l2complements.modifiers;
+package dev.xkmc.modulargolems.compat.materials.l2complements;
 
 import dev.xkmc.l2library.util.math.MathHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
