@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.events;
 
-import dev.xkmc.modulargolems.content.capability.GolemCommandCapability;
+import dev.xkmc.modulargolems.content.capability.GolemConfigCapability;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
@@ -111,7 +111,7 @@ public class ModifierEventListeners {
 		if (event.getObject() instanceof ServerLevel level) {
 			if (level.dimension() == Level.OVERWORLD) {
 				event.addCapability(new ResourceLocation(ModularGolems.MODID, "command"),
-						new GolemCommandCapability(level));
+						new GolemConfigCapability(level));
 			}
 		}
 	}

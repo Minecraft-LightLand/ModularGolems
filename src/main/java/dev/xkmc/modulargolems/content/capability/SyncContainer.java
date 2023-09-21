@@ -4,6 +4,7 @@ import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 public class SyncContainer {
 
-	private static final int LIFETIME = 100;
+	private static final int LIFETIME = 200, HEARTBEAT = 100;
 
 	public final Map<UUID, Long> players = new LinkedHashMap<>();
 
@@ -39,4 +40,19 @@ public class SyncContainer {
 		}
 	}
 
+	private long tick = 0;
+
+	public void clientTick(GolemConfigEntry entry, Level level, boolean updated) {
+		long current = level.getGameTime();
+		if (updated) {
+			tick = current;
+		} else if (current - tick >= HEARTBEAT) {
+			ModularGolems.HANDLER.toServer(new ConfigHeartBeatToServer(entry.getID(), entry.getColor()));
+			tick = current;
+		}
+	}
+
+	public void clientReplace(SyncContainer sync) {
+		this.tick = sync.tick;
+	}
 }

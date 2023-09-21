@@ -14,14 +14,14 @@ public class ConfigSyncToClient extends SerialPacketBase {
 	@SerialClass.SerialField
 	public int color;
 	@SerialClass.SerialField
-	public GolemCommandEntry entry;
+	public GolemConfigEntry entry;
 
 	@Deprecated
 	public ConfigSyncToClient() {
 
 	}
 
-	public ConfigSyncToClient(GolemCommandEntry entry) {
+	public ConfigSyncToClient(GolemConfigEntry entry) {
 		this.entry = entry;
 		this.id = entry.getID();
 		this.color = entry.getColor();

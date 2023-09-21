@@ -34,6 +34,10 @@ public enum MGLangData {
 	DESTROY_ITEM("msg.destroy_item", "Golem %s destroyed %s items because it finds no place to store.", 2, ChatFormatting.RED),
 	DESTROY_EXP("msg.destroy_exp", "Golem %s destroyed %s experience because it finds no place to store.", 2, ChatFormatting.RED),
 	CALL_ATTACK("msg.call_attack", "%s Golems will attack %s", 2, null),
+
+	LOADING("config.loading", "Loading...", 0, ChatFormatting.GRAY),
+	NO_CONFIG("config.no", "No config card assigned", 0, ChatFormatting.GRAY),
+
 	;
 
 	private final String key, def;

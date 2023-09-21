@@ -5,8 +5,8 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.util.Wrappers;
-import dev.xkmc.modulargolems.content.capability.GolemCommandEntry;
-import dev.xkmc.modulargolems.content.capability.GolemCommandStorage;
+import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
+import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
@@ -26,6 +26,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -430,11 +431,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
 
 	@Nullable
-	public GolemCommandEntry getConfigEntry() {
+	public GolemConfigEntry getConfigEntry(@Nullable Component dummy) {
 		UUID configOwner = entityData.get(CONFIG_ID).orElse(null);
 		int configColor = entityData.get(CONFIG_COLOR);
 		if (configColor < 0 || configOwner == null) return null;
-		return GolemCommandStorage.get(level()).getStorage(configOwner, configColor);
+		var storage = GolemConfigStorage.get(level());
+		if (dummy == null) {
+			return storage.getStorage(configOwner, configColor);
+		} else {
+			return storage.getOrCreateStorage(configOwner, configColor, dummy);
+		}
 	}
 
 	public void setConfigCard(UUID owner, int color) {

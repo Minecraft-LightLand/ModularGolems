@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
-import dev.xkmc.modulargolems.content.menu.EquipmentsMenuPvd;
+import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenuPvd;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

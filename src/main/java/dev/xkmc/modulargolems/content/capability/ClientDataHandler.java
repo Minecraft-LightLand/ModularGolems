@@ -5,10 +5,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 
 public class ClientDataHandler {
 
-	public static void handleUpdate(GolemCommandEntry init) {
+	public static void handleUpdate(GolemConfigEntry init) {
 		ClientLevel level = Proxy.getClientWorld();
 		if (level == null) return;
-		GolemCommandStorage storage = GolemCommandStorage.get(level);
+		GolemConfigStorage storage = GolemConfigStorage.get(level);
 		storage.replaceStorage(init);
 	}
 

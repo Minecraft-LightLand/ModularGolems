@@ -5,6 +5,10 @@ import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
 import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.capability.ConfigHeartBeatToServer;
+import dev.xkmc.modulargolems.content.capability.ConfigSyncToClient;
+import dev.xkmc.modulargolems.content.capability.ConfigUpdateToServer;
+import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
@@ -24,6 +28,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.NetworkDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,7 +43,10 @@ public class ModularGolems {
 	public static final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(ModularGolems.MODID, "main"), 1
+			new ResourceLocation(ModularGolems.MODID, "main"), 1,
+			e -> e.create(ConfigSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
+			e -> e.create(ConfigUpdateToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(ConfigHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
@@ -54,6 +62,7 @@ public class ModularGolems {
 		MGConfig.init();
 		GolemTriggers.register();
 		GolemModes.register();
+		GolemConfigStorage.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, MGLangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
 		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, MGTagGen::onBlockTagGen);

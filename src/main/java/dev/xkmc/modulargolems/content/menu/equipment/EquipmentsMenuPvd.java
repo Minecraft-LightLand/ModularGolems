@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.menu;
+package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;

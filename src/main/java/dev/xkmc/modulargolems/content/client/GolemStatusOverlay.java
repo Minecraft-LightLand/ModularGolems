@@ -7,6 +7,7 @@ import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.WandItem;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -48,6 +49,11 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
 		text.add(golem.getMode().getDesc(golem));
+		var config = golem.getConfigEntry(MGLangData.LOADING.get());
+		if (config != null) {
+			config.clientTick(player.level(), false);
+			text.add(config.getDisplayName());
+		}
 		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
 		new OverlayUtil(g, Math.round(screenWidth / 8f), -1, -1)
 				.renderLongText(gui.getFont(), text);
@@ -58,7 +64,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		util.renderTooltipInternal(gui.getFont(), list);
 	}
 
-	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {//TODO
+	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {
 
 		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
 

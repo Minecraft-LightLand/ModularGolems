@@ -30,7 +30,7 @@ public class ConfigHeartBeatToServer extends SerialPacketBase {
 	public void handle(NetworkEvent.Context context) {
 		ServerPlayer player = context.getSender();
 		if (player == null) return;
-		var entry = GolemCommandStorage.get(player.level()).getStorage(id, color);
+		var entry = GolemConfigStorage.get(player.level()).getStorage(id, color);
 		if (entry == null) return;
 		entry.heartBeat(player.serverLevel(), player);
 	}

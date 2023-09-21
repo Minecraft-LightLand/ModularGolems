@@ -1,17 +1,19 @@
 package dev.xkmc.modulargolems.content.capability;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 
 import java.util.UUID;
 
 @SerialClass
-public class GolemCommandEntry {
+public class GolemConfigEntry {
 
-	public static GolemCommandEntry getDefault(UUID id, int color, Component name) {
-		return new GolemCommandEntry(name).init(id, color);
+	public static GolemConfigEntry getDefault(UUID id, int color, Component name) {
+		return new GolemConfigEntry(name).init(id, color);
 	}
 
 	private final SyncContainer sync = new SyncContainer();
@@ -21,15 +23,17 @@ public class GolemCommandEntry {
 	private Component nameComp;
 
 	@SerialClass.SerialField
-	private String name;
+	protected String name;
 
+	@SerialClass.SerialField
+	protected int defaultMode;
 
 	@Deprecated
-	public GolemCommandEntry() {
+	public GolemConfigEntry() {
 
 	}
 
-	public GolemCommandEntry(Component comp) {
+	public GolemConfigEntry(Component comp) {
 		nameComp = comp;
 		name = Component.Serializer.toJson(comp);
 	}
@@ -41,10 +45,11 @@ public class GolemCommandEntry {
 		if (nameComp == null) {
 			nameComp = Component.literal("Unnamed");
 		}
+		// TODO color
 		return nameComp;
 	}
 
-	public GolemCommandEntry init(UUID id, int color) {
+	public GolemConfigEntry init(UUID id, int color) {
 		this.id = id;
 		this.color = color;
 		return this;
@@ -62,4 +67,20 @@ public class GolemCommandEntry {
 		return color;
 	}
 
+	public void clientTick(Level level, boolean updated) {
+		sync.clientTick(this, level, updated);
+	}
+
+	public void sync(Level level) {
+		if (level instanceof ServerLevel sl) {
+			sync.sendToAllTracking(sl, new ConfigSyncToClient(this));
+		} else {
+			ModularGolems.HANDLER.toServer(new ConfigUpdateToServer(level, this));
+		}
+	}
+
+	public GolemConfigEntry copyFrom(GolemConfigEntry entry) {
+		sync.clientReplace(entry.sync);
+		return this;
+	}
 }

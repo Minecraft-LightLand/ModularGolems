@@ -14,22 +14,22 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @SerialClass
-public class GolemCommandCapability implements ICapabilitySerializable<CompoundTag> {
+public class GolemConfigCapability implements ICapabilitySerializable<CompoundTag> {
 
 	public final ServerLevel w;
-	public final GolemCommandStorage handler;
-	public final LazyOptional<GolemCommandStorage> lo;
+	public final GolemConfigStorage handler;
+	public final LazyOptional<GolemConfigStorage> lo;
 
-	public GolemCommandCapability(ServerLevel level) {
+	public GolemConfigCapability(ServerLevel level) {
 		this.w = level;
-		handler = new GolemCommandStorage(level);
+		handler = new GolemConfigStorage(level);
 		lo = LazyOptional.of(() -> this.handler);
 	}
 
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction direction) {
-		if (capability == GolemCommandStorage.CAPABILITY)
+		if (capability == GolemConfigStorage.CAPABILITY)
 			return lo.cast();
 		return LazyOptional.empty();
 	}
@@ -41,7 +41,7 @@ public class GolemCommandCapability implements ICapabilitySerializable<CompoundT
 
 	@Override
 	public void deserializeNBT(CompoundTag tag) {
-		Wrappers.get(() -> TagCodec.fromTag(tag, GolemCommandStorage.class, handler, f -> true));
+		Wrappers.get(() -> TagCodec.fromTag(tag, GolemConfigStorage.class, handler, f -> true));
 		handler.init();
 	}
 

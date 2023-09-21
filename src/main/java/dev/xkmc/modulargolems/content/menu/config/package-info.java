@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.content.menu;
+package dev.xkmc.modulargolems.content.menu.config;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

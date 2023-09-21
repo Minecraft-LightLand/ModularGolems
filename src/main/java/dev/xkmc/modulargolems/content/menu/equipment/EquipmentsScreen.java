@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.menu;
+package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import net.minecraft.client.gui.GuiGraphics;
