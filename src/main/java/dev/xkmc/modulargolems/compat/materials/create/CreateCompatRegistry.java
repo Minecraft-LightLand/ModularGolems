@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.create;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.compat.materials.create.modifier.CoatingModifier;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;

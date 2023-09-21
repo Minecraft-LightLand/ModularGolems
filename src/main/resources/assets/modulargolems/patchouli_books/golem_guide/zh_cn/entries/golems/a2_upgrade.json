@@ -10,7 +10,7 @@
 	},
 	{
 	  "type": "patchouli:text",
-	  "text": "$(li)$(l:upgrades/vanilla_recycle)回收升级$(/l)将会让傀儡死亡时掉落完整的待修复傀儡而非金属锭。$(li)$(l:upgrades/vanilla_diamond)钻石升级$(/l)和$(l:upgrades/vanilla_netherite)下界合金升级$(/l)可提高傀儡的防御。$(li)$(l:upgrades/vanilla_gold)金苹果升级$(/l)可以让傀儡自我愈合。"
+	  "text": "如果你安装了机械动力，可以通过机械手给傀儡自动添加升级，不需要消耗经验"
 	}
   ]
 }

@@ -11,6 +11,8 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModList;
 
 public class CreateDispatch extends ModDispatch {
 
@@ -18,6 +20,11 @@ public class CreateDispatch extends ModDispatch {
 
 	public CreateDispatch() {
 		CreateCompatRegistry.register();
+		MinecraftForge.EVENT_BUS.register(CreateRecipeEvents.class);
+		if (ModList.get().isLoaded("jei")) {
+			MinecraftForge.EVENT_BUS.register(CreateJEIEvents.class);
+		}
+
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

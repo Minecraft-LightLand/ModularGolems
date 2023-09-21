@@ -1,6 +1,10 @@
-- 2.4.15
+- 2.4.16
     - Add metal golem equipments
     - Fix rendering of decorative layers on golems with size upgrade
+
+- 2.4.15
+    - Fix non-owner being able to change humanoid equipment
+    - Add Create deployer automation
 
 - 2.4.14
     - Golems will attack enemies touching it first

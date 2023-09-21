@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.common.modifier;
+package dev.xkmc.modulargolems.compat.materials.common;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;

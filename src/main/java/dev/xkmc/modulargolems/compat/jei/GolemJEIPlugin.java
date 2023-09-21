@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class GolemJEIPlugin implements IModPlugin {
 		addRepairRecipes(recipes, config, registration.getVanillaRecipeFactory());
 		addUpgradeRecipes(recipes, config, registration.getVanillaRecipeFactory());
 		registration.addRecipes(RecipeTypes.ANVIL, recipes);
+		MinecraftForge.EVENT_BUS.post(new CustomRecipeEvent(registration));
 	}
 
 	@Override

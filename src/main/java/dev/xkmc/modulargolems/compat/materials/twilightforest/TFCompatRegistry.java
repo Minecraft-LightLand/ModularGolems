@@ -1,10 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.CarminiteModifier;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.FieryModifier;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFDamageModifier;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.modifier.TFHealingModifier;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;

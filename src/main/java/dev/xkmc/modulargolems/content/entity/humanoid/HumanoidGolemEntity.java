@@ -269,8 +269,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (player.isShiftKeyDown()) {
-			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				dropSlot(slot, false);
+			if (isAlliedTo(player)) {
+				for (EquipmentSlot slot : EquipmentSlot.values()) {
+					dropSlot(slot, false);
+				}
 			}
 			if (itemstack.isEmpty()) {
 				super.mobInteract(player, hand);
@@ -280,7 +282,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (itemstack.isEmpty()) {
 			return super.mobInteract(player, hand);
 		}
-		if ((itemstack.getItem() instanceof GolemHolder) || !itemstack.getItem().canFitInsideContainerItems()) {
+		if ((itemstack.getItem() instanceof GolemHolder) ||
+				!itemstack.getItem().canFitInsideContainerItems() ||
+				!isAlliedTo(player)) {
 			return InteractionResult.FAIL;
 		}
 		GolemEquipEvent event = new GolemEquipEvent(this, itemstack);

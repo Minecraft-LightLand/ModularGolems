@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.l2complements.modifiers;
+package dev.xkmc.modulargolems.compat.materials.l2complements;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
