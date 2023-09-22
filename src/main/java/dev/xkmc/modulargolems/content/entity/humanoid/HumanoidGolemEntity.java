@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.content.entity.ranged.GolemCrossbowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.entity.ranged.GolemTridentAttackGoal;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.content.item.wand.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.nbt.CompoundTag;
@@ -266,7 +266,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
+		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (player.isShiftKeyDown()) {
 			if (isAlliedTo(player)) {

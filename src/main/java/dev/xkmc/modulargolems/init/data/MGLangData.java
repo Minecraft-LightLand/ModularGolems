@@ -37,8 +37,8 @@ public enum MGLangData {
 
 	LOADING("config.loading", "Loading...", 0, ChatFormatting.GRAY),
 	NO_CONFIG("config.no", "No config card assigned", 0, ChatFormatting.GRAY),
-
-	;
+	SUMMON_FAILED("msg.summon_failed", "Failed to summon %s, as target position is too far", 1, ChatFormatting.RED),
+	SUMMON_FAR("msg.summon_far", "Summoned %s, at (%s,%s,%s)", 4, ChatFormatting.GOLD);
 
 	private final String key, def;
 	private final int arg;

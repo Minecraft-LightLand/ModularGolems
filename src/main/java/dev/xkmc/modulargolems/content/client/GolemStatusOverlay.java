@@ -6,7 +6,7 @@ import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.item.wand.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -35,7 +35,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		if (Minecraft.getInstance().screen != null) return;
 		LocalPlayer player = Proxy.getClientPlayer();
 		if (player == null) return;
-		if (!(player.getMainHandItem().getItem() instanceof WandItem wand)) return;
+		if (!(player.getMainHandItem().getItem() instanceof GolemInteractItem wand)) return;
 		Entity target;
 		if (wand instanceof IGlowingTarget) {
 			target = RayTraceUtil.serverGetTarget(player);

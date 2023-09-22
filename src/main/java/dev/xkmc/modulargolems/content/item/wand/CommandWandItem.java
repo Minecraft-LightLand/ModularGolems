@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class CommandWandItem extends Item implements WandItem, IGlowingTarget {
+public class CommandWandItem extends Item implements GolemInteractItem, IGlowingTarget {
 
 	private static final int RANGE = 64;
 

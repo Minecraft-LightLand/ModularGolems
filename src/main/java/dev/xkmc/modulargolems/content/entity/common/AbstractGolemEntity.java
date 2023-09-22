@@ -16,11 +16,12 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
@@ -90,6 +91,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 	@SerialClass.SerialField(toClient = true)
 	private final HashSet<GolemFlags> golemFlags = new HashSet<>();
+	@SerialClass.SerialField
+	private Vec3 recordedPosition = Vec3.ZERO;
+	@SerialClass.SerialField
+	private BlockPos recordedGuardPos = BlockPos.ZERO;
 
 	protected final PathNavigation waterNavigation;
 	protected final GroundPathNavigation groundNavigation;
@@ -145,7 +150,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		this.unRide();
-		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
+		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
 		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
@@ -158,6 +163,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@ServerOnly
 	public ItemStack toItem() {
+		recordedPosition = position();
+		recordedGuardPos = getGuardPos();
 		var ans = GolemHolder.setEntity(getThis());
 		level().broadcastEntityEvent(this, EntityEvent.POOF);
 		this.discard();
@@ -420,6 +427,29 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void setMode(int mode, BlockPos pos) {
 		this.entityData.set(DATA_MODE, mode);
 		this.entityData.set(GUARD_POS, pos);
+	}
+
+	public boolean initMode(@Nullable Player player) {
+		var config = getConfigEntry(null);
+		int mode = config == null ? 0 : config.defaultMode;
+		boolean far = config != null && config.summonToPosition && mode != 0 && recordedPosition.lengthSqr() > 0;
+		BlockPos guard = far ? recordedGuardPos : blockPosition();
+		Vec3 pos = far ? recordedPosition : position();
+		boolean succeed = level().isLoaded(BlockPos.containing(pos)) &&
+				pos.distanceTo(position()) < MGConfig.COMMON.summonDistance.get();
+		if (succeed) {
+			if (player instanceof ServerPlayer sp) {
+				sp.sendSystemMessage(MGLangData.SUMMON_FAILED.get(getDisplayName()));
+			}
+			return false;
+		} else {
+			if (far && player instanceof ServerPlayer sp) {
+				sp.sendSystemMessage(MGLangData.SUMMON_FAR.get(getDisplayName(), (int) pos.x(), (int) pos.y(), (int) pos.z()));
+			}
+		}
+		setMode(mode, mode == 0 ? BlockPos.ZERO : guard);
+		moveTo(pos);
+		return true;
 	}
 
 	@Override

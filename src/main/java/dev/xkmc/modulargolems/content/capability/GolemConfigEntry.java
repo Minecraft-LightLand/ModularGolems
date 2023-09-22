@@ -16,7 +16,7 @@ public class GolemConfigEntry {
 		return new GolemConfigEntry(name).init(id, color);
 	}
 
-	private final SyncContainer sync = new SyncContainer();
+	public final SyncContainer sync = new SyncContainer();
 
 	private UUID id;
 	private int color;
@@ -26,7 +26,10 @@ public class GolemConfigEntry {
 	protected String name;
 
 	@SerialClass.SerialField
-	protected int defaultMode;
+	public int defaultMode;
+
+	@SerialClass.SerialField
+	public boolean summonToPosition;
 
 	@Deprecated
 	public GolemConfigEntry() {
@@ -82,5 +85,10 @@ public class GolemConfigEntry {
 	public GolemConfigEntry copyFrom(GolemConfigEntry entry) {
 		sync.clientReplace(entry.sync);
 		return this;
+	}
+
+	public void setName(Component hoverName) {
+		nameComp = hoverName;
+		name = Component.Serializer.toJson(hoverName);
 	}
 }

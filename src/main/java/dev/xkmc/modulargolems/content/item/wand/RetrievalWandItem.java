@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class RetrievalWandItem extends Item implements WandItem {
+public class RetrievalWandItem extends Item implements GolemInteractItem {
 
 	public RetrievalWandItem(Properties props) {
 		super(props);

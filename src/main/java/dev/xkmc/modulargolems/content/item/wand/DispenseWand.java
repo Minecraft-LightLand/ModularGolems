@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class DispenseWand extends Item implements WandItem {
+public class DispenseWand extends Item implements GolemInteractItem {
 
 	private static void iter(Player player, Predicate<ItemStack> use) {
 		if (use.test(player.getOffhandItem())) return;

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class RiderWandItem extends Item implements WandItem {
+public class RiderWandItem extends Item implements GolemInteractItem {
 	public RiderWandItem(Properties props) {
 		super(props);
 	}
