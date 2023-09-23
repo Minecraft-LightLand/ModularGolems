@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.modifier.special;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.events.event.GolemHandleExpEvent;
 import dev.xkmc.modulargolems.events.event.GolemHandleItemEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -141,7 +142,7 @@ public class PickupGoal extends Goal {
 		if (item.isRemoved()) {
 			return;
 		}
-		if (target != null) {
+		if (target != null && golem.getMode() == GolemModes.STAND) {
 			var opt = target.getCapability(ForgeCapabilities.ITEM_HANDLER);
 			if (opt.resolve().isPresent()) {
 				var handler = opt.resolve().get();
@@ -193,13 +194,13 @@ public class PickupGoal extends Goal {
 	}
 
 	private void validateTarget() {
-		if (target != null && !target.isRemoved()) {
+		if (target != null && !target.isRemoved() && target.getLevel() == golem.level() && target.getBlockPos().distSqr(golem.blockPosition()) <= 9) {
 			return;
 		}
 		target = null;
 		BlockPos origin = golem.blockPosition();
 		BlockPos.MutableBlockPos pos = origin.mutable();
-		int r = 4;
+		int r = 1;
 		double dist = Double.POSITIVE_INFINITY;
 		for (int i = -r; i <= r; i++) {
 			for (int j = -r; j <= r; j++) {
