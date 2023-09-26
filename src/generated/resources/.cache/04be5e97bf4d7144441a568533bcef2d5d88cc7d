@@ -1,6 +1,6 @@
-// 1.20.1	2023-09-15T21:34:22.421898	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-a5ad9a17a1bb4e0fd3aea8948997077ad81752e3 assets/modulargolems/lang/en_ud.json
-0a1108d08a5ee16a38c62da1dd5fdf25a49f27f5 assets/modulargolems/lang/en_us.json
+// 1.20.1	2023-09-22T23:31:04.5711423	Registrate Provider for modulargolems [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+656d19c5514c650afa9c43ae2a122fe433252d90 assets/modulargolems/lang/en_ud.json
+cac3e7005b05df04d554fb5bad72482296314bf9 assets/modulargolems/lang/en_us.json
 7b851e985a8d2869b89311f804ba46a58c8e34dc assets/modulargolems/models/item/attack_high.json
 d85abebd3b51deaa8937c6da80cbbf428430c517 assets/modulargolems/models/item/attack_high_blue.json
 92a0cc59e60b552d9ea9a11552515396113f90b9 assets/modulargolems/models/item/attack_high_purple.json
@@ -57,7 +57,6 @@ b546d70c5a2977304d71f744ed2c706306a2929b assets/modulargolems/models/item/force_
 199713d96f1118682220b51776da8c7a0da54089 assets/modulargolems/models/item/gold.json
 5e063cf974342a6bf4c37657a288a11742b8723b assets/modulargolems/models/item/gold_blue.json
 a89405db5be093449c625f382071ac75432107aa assets/modulargolems/models/item/gold_purple.json
-e5be1ae70ff902bcac987f23b7417832ba659f99 assets/modulargolems/models/item/golemguard_chestplate.json
 b714a5181c27adf26b69786cb05f6e1e3e6d637b assets/modulargolems/models/item/golemguard_helmet.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_arms.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/humanoid_golem_body.json
@@ -72,12 +71,12 @@ e26352cb2d038e24b23b96862560eabcb35d8c6a assets/modulargolems/models/item/incarc
 21badafa0ca1d94b106466e1e50bc2465602504e assets/modulargolems/models/item/knightmetal.json
 ad99cbc673cbbc76e8019556e33bec013e34dec1 assets/modulargolems/models/item/knightmetal_blue.json
 64f75bee4f8fb14c5688f07a37ead3a4d264935f assets/modulargolems/models/item/knightmetal_purple.json
+ba96c574440433f12aacad927af04dd03a7080e6 assets/modulargolems/models/item/metalgolem_spear.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_arm.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_body.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_holder.json
 f8cec8e901392bca215ad2afb6f84e86ac385741 assets/modulargolems/models/item/metal_golem_legs.json
 6c6f737e1088fb1327e1fb25d8673a1f236c707f assets/modulargolems/models/item/metal_golem_template.json
-ba96c574440433f12aacad927af04dd03a7080e6 assets/modulargolems/models/item/metalgolem_spear.json
 e6a3bfba8e420145a023b8468ae2e43bc666291b assets/modulargolems/models/item/mount_upgrade.json
 7faedb9cc5426266fb386eab3170d2c846577c14 assets/modulargolems/models/item/mount_upgrade_blue.json
 3fbc39e0b4549ce1601fa6f9299706820c44dc02 assets/modulargolems/models/item/mount_upgrade_purple.json
@@ -110,6 +109,8 @@ c551f7f40b62278b6423b57b00126deec9035225 assets/modulargolems/models/item/quartz
 e21189fc27b4253bd81cbafcc4bfeee9bd19683c assets/modulargolems/models/item/recycle_purple.json
 ef4be3e6b28a06b84238dc98823ae28c11c1d7e2 assets/modulargolems/models/item/retrieval_wand.json
 92d118d2d3ea2a9fc8aca2c871b8a0f26c24fd4d assets/modulargolems/models/item/rider_wand.json
+2620948502a8388ec70d349e6a18f2195c052b34 assets/modulargolems/models/item/romanguard_chestplate.json
+142798b2f13604b68887cf28188d1eb9cf0c85e2 assets/modulargolems/models/item/romanguard_shinguard.json
 3a12394deed7452c0c0983e6d9e2beacdb37fd1c assets/modulargolems/models/item/size_upgrade.json
 24b69d1ca590ff171045022afb0b29f45550531d assets/modulargolems/models/item/size_upgrade_blue.json
 6a272678a0ae358dae2f60ab9358987f3f3d1bc7 assets/modulargolems/models/item/size_upgrade_purple.json

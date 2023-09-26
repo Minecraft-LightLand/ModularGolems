@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
@@ -23,6 +24,8 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
 	private final ModelPart body;
+	private final ModelPart leftForeArm;
+	private final ModelPart rightForeArm;
 
 	public MetalGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(GolemEquipmentModels.METALGOLEM));
@@ -36,6 +39,8 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftArm = part.getChild("left_arm");
 		this.rightLeg = part.getChild("right_leg");
 		this.leftLeg = part.getChild("left_leg");
+		this.leftForeArm=leftArm.getChild("left_forearm");
+		this.rightForeArm=rightArm.getChild("right_forearm");
 	}
 
 	public ModelPart root() {
@@ -49,8 +54,9 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		leftArm.copyFrom(other.leftArm);
 		rightLeg.copyFrom(other.rightLeg);
 		leftLeg.copyFrom(other.leftLeg);
+		leftForeArm.copyFrom(other.leftForeArm);
+		rightForeArm.copyFrom(other.rightForeArm);
 	}
-
 	public void setupAnim(MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
 		this.head.yRot = f4 * ((float) Math.PI / 180F);
 		this.head.xRot = f5 * ((float) Math.PI / 180F);
@@ -68,6 +74,9 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		} else {
 			this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
 			this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
+		}
+		if(entity.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof MetalGolemWeaponItem){
+			MMGHandAngle.HaveWeapon(entity,rightArm,rightForeArm);
 		}
 	}
 
