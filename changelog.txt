@@ -5,7 +5,7 @@
 - 2.4.15
     - Fix non-owner being able to change humanoid equipment
     - Add Create deployer automation
-    - Golem now will only access chest within <2 blocks
+    - Golem now will only access chest within <2 blocks, and only access them in standing mode
 
 - 2.4.14
     - Golems will attack enemies touching it first
