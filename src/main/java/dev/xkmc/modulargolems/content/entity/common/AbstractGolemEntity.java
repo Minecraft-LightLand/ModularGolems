@@ -45,6 +45,7 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -173,7 +174,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			Player player = getOwner();
 			ItemStack stack = GolemHolder.setEntity(getThis());
-			if (player != null) {
+			if (player != null && player.isAlive()) {
 				player.getInventory().placeItemBackInInventory(stack);
 			} else {
 				spawnAtLocation(stack);
@@ -578,6 +579,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void checkRide(LivingEntity target) {
 	}
 
+	public void resetTarget(@Nullable LivingEntity le) {
+		for (var e : targetSelector.getAvailableGoals()) {
+			if (e.getGoal() instanceof TargetGoal t) {
+				t.stop();
+			}
+		}
+		if (le != null) {
+			setLastHurtByMob(le);
+		}
+	}
 }
 
 

@@ -37,8 +37,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		super(type, wid, plInv, MANAGER, EquipmentsContainer::new, false);
 		this.golem = golem;
 		addSlot("hand", (i, e) -> isValid(SLOTS[i], e));
-		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e), (i, e) -> {
-		});//TODO remove in 1.19.4
+		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e));
 	}
 
 	private boolean isValid(EquipmentSlot slot, ItemStack stack) {

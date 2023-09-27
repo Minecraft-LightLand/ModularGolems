@@ -154,7 +154,7 @@ public class PickupGoal extends Goal {
 				item.setItem(remain);
 			}
 		}
-		if (player != null) {
+		if (player != null && player.isAlive()) {
 			item.playerTouch(player);
 			if (!item.isRemoved()) {
 				item.moveTo(player.position());

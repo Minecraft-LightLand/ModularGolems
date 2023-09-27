@@ -49,9 +49,9 @@ public abstract class CompatManager {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void dispatchClientSetup(IEventBus bus) {
+	public static void dispatchClientSetup() {
 		for (ModDispatch dispatch : LIST) {
-			dispatch.dispatchClientSetup(bus);
+			dispatch.dispatchClientSetup();
 		}
 	}
 
