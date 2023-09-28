@@ -48,14 +48,17 @@ public class GolemConfigStorage {
 		if (entries[color] == null) {
 			entries[color] = GolemConfigEntry.getDefault(id, color, comp);
 		}
-		return entries[color];
+		return entries[color].init(id, color);
 	}
 
 	@Nullable
 	public GolemConfigEntry getStorage(UUID id, int color) {
 		if (color < 0 || color > 15) return null;
 		GolemConfigEntry[] entries = storage.computeIfAbsent(id, k -> new GolemConfigEntry[16]);
-		return entries[color];
+		var ans = entries[color];
+		if (ans == null) return null;
+		ans.init(id, color);
+		return ans;
 	}
 
 	public void replaceStorage(GolemConfigEntry entry) {

@@ -17,16 +17,14 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemSpearItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.CommandWandItem;
-import dev.xkmc.modulargolems.content.item.wand.DispenseWand;
-import dev.xkmc.modulargolems.content.item.wand.RetrievalWandItem;
-import dev.xkmc.modulargolems.content.item.wand.RiderWandItem;
+import dev.xkmc.modulargolems.content.item.wand.*;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
 
@@ -65,6 +63,8 @@ public class GolemItems {
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND;
 
+	public static final ItemEntry<ConfigCard>[] CARD;
+
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE;
 	public static final ItemEntry<MetalGolemSpearItem> METALGOLEM_SPEAR;
@@ -76,7 +76,16 @@ public class GolemItems {
 		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 		DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 		RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
-
+		{
+			CARD = new ItemEntry[16];
+			for (int i = 0; i < 16; i++) {
+				DyeColor color = DyeColor.byId(i);
+				String name = color.getName();
+				REGISTRATE.item(name + "_config_card", p -> new ConfigCard(p.stacksTo(1), color))
+						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/" + name)))
+						.defaultLang().register();
+			}
+		}
 		// upgrades
 		{
 			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();

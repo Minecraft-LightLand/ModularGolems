@@ -48,5 +48,34 @@
 	"cauldron": "辅助升级：炼药锅",
 	"mount_upgrade": "坐骑升级",
 	"size_upgrade": "体形升级"
+  },
+  "-cartesian": {
+	"backpack": {
+	  "path": "item.l2backpack",
+	  "reverse": true,
+	  "list": [
+		{
+		  "black": "黑色",
+		  "blue": "蓝色",
+		  "brown": "棕色",
+		  "cyan": "青色",
+		  "gray": "灰色",
+		  "green": "绿色",
+		  "light_blue": "淡蓝色",
+		  "light_gray": "淡灰色",
+		  "lime": "黄绿色",
+		  "magenta": "品红色",
+		  "orange": "橙色",
+		  "pink": "粉红色",
+		  "purple": "紫色",
+		  "red": "红色",
+		  "white": "白色",
+		  "yellow": "黄色"
+		},
+		{
+		  "config_card": "配置卡片"
+		}
+	  ]
+	}
   }
 }

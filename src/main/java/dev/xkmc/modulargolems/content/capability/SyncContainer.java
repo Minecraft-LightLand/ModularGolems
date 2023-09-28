@@ -25,9 +25,10 @@ public class SyncContainer {
 		lastUpdateTime = time;
 	}
 
-	public void heartBeat(ServerLevel level, UUID uuid) {
-		players.put(uuid, level.getGameTime());
+	public boolean heartBeat(ServerLevel level, UUID uuid) {
+		boolean newPlayer = players.put(uuid, level.getGameTime()) == null;
 		serverUpdate(level);
+		return newPlayer;
 	}
 
 	public void sendToAllTracking(ServerLevel level, SerialPacketBase packet) {

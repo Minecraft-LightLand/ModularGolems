@@ -437,7 +437,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		Vec3 pos = far ? recordedPosition : position();
 		boolean succeed = level().isLoaded(BlockPos.containing(pos)) &&
 				pos.distanceTo(position()) < MGConfig.COMMON.summonDistance.get();
-		if (succeed) {
+		if (!succeed) {
 			if (player instanceof ServerPlayer sp) {
 				sp.sendSystemMessage(MGLangData.SUMMON_FAILED.get(getDisplayName()));
 			}

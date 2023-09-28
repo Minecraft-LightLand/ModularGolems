@@ -15,7 +15,11 @@
 	  "guarding": "傀儡会在(%s, %s, %s)附近行动",
 	  "standing": "傀儡会停在(%s, %s, %s)",
 	  "potion_attack": "对攻击傀儡和被傀儡攻击的敌人施加：%s",
-	  "potion_defense": "傀儡获得：%s"
+	  "potion_defense": "傀儡获得：%s",
+	  "follow": "跟随",
+	  "golem_equipment": "只对%s生效",
+	  "guard": "巡逻",
+	  "stand": "停留"
 	},
 	"wand": {
 	  "command": "右键改变傀儡行动模式。蹲下右键配置人形傀儡装备。右键或攻击实体使周围所有你的傀儡优先攻击该目标。",
@@ -26,9 +30,24 @@
 	"msg": {
 	  "destroy_exp": "%s销毁了%s经验",
 	  "destroy_item": "%s找不到地方放，销毁了%s个物品",
-	  "call_attack": "%s个傀儡将会攻击%s"
+	  "call_attack": "%s个傀儡将会攻击%s",
+	  "summon_failed": "召唤%s失败，因为目标地点太远",
+	  "summon_far": "将%s召唤于(%s,%s,%s)"
+	},
+	"config": {
+	  "loading": "加载中...",
+	  "mode": "默认傀儡模式",
+	  "mode_tooltip": "傀儡的被召唤时的默认模式。不影响已经在世界中的傀儡。傀儡被召唤时采用这个模式，而非被回收时的模式",
+	  "no": "无配置卡片",
+	  "pos": "召唤至",
+	  "pos_original": "回收地点",
+	  "pos_original_tooltip": "如果傀儡是被收回的，把傀儡召唤至上次收回的地点。如果傀儡是新做的则不生效。如果上次收回地点太远，则召唤失败",
+	  "pos_target": "指向位置",
+	  "pos_target_tooltip": "把傀儡召唤至玩家指向的弟弟",
+	  "set": "把傀儡放在这设置卡片"
 	}
   },
   "patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",
   "patchouli.modulargolems.title": "模块化傀儡"
+
 }

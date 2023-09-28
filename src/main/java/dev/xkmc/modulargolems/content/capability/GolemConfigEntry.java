@@ -59,7 +59,9 @@ public class GolemConfigEntry {
 	}
 
 	public void heartBeat(ServerLevel level, ServerPlayer player) {
-		sync.heartBeat(level, player.getUUID());
+		if (sync.heartBeat(level, player.getUUID())) {
+			ModularGolems.HANDLER.toClientPlayer(new ConfigSyncToClient(this), player);
+		}
 	}
 
 	public UUID getID() {

@@ -1,9 +1,12 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
+import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -11,6 +14,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -59,21 +63,23 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		} else {
 			if (level instanceof ServerLevel sl) {
 				GolemConfigEditor editor;
+				GolemConfigEntry entry;
 				if (player.getUUID().equals(uuid)) {
-					var entry = GolemConfigStorage.get(level).getOrCreateStorage(uuid, color.getId(), stack.getHoverName());
+					entry = GolemConfigStorage.get(level).getOrCreateStorage(uuid, color.getId(), stack.getHoverName());
 					entry.sync.heartBeat(sl, player.getUUID());
 					entry.setName(stack.getHoverName());
 					editor = new GolemConfigEditor.Writable(level, entry);
 				} else {
-					var entry = GolemConfigStorage.get(level).getStorage(uuid, color.getId());
+					entry = GolemConfigStorage.get(level).getStorage(uuid, color.getId());
 					if (entry != null) {
 						editor = new GolemConfigEditor.Writable(level, entry);
 					} else {
 						editor = null;
 					}
 				}
-				if (editor != null) {
-					//TODO open menu
+				if (editor != null && player instanceof ServerPlayer sp) {
+					var pvd = new ConfigMenuProvider(uuid, color.getId(), editor);
+					NetworkHooks.openScreen(sp, pvd, pvd::writeBuffer);
 					return InteractionResultHolder.success(stack);
 				}
 

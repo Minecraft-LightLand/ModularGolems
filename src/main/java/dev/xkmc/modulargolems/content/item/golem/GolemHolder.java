@@ -283,7 +283,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		Level level = player.level();
 		Vec3 pos = target.position();
 		if (summon(stack, level, pos, player, e -> e.checkRide(target))) {
-			player.setItemInHand(hand, ItemStack.EMPTY);
+			if (!level.isClientSide()) {
+				player.setItemInHand(hand, ItemStack.EMPTY);
+			}
 			return InteractionResult.CONSUME;
 		} else {
 			return InteractionResult.FAIL;
@@ -313,7 +315,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		Vec3 pos = new Vec3(spawnPos.getX() + 0.5, spawnPos.getY() + 0.05, spawnPos.getZ() + 0.5);
 		if (summon(stack, level, pos, context.getPlayer(), null)) {
-			if (context.getPlayer() != null)
+			if (context.getPlayer() != null && !context.getLevel().isClientSide())
 				context.getPlayer().setItemInHand(context.getHand(), ItemStack.EMPTY);
 			return InteractionResult.CONSUME;
 		} else {

@@ -22,6 +22,9 @@ public enum MGLangData {
 	POTION_DEFENSE("tooltip.potion_defense", "Golem gain %s.", 1, ChatFormatting.GREEN),
 	GOLEM_EQUIPMENT("tooltip.golem_equipment", "Only effective on %s", 1, ChatFormatting.LIGHT_PURPLE),
 
+	MODE_FOLLOW("tooltip.follow", "Follow", 0, ChatFormatting.AQUA),
+	MODE_GUARD("tooltip.guard", "Wander", 0, ChatFormatting.AQUA),
+	MODE_STAND("tooltip.stand", "Stand", 0, ChatFormatting.AQUA),
 	MODE_FOLLOWING("tooltip.following", "Golem will follow you", 0, ChatFormatting.AQUA),
 	MODE_GUARDING("tooltip.guarding", "Golem will wander around (%s, %s, %s)", 3, ChatFormatting.AQUA),
 	MODE_STANDING("tooltip.standing", "Golem will stay at (%s, %s, %s)", 3, ChatFormatting.AQUA),
@@ -38,7 +41,17 @@ public enum MGLangData {
 	LOADING("config.loading", "Loading...", 0, ChatFormatting.GRAY),
 	NO_CONFIG("config.no", "No config card assigned", 0, ChatFormatting.GRAY),
 	SUMMON_FAILED("msg.summon_failed", "Failed to summon %s, as target position is too far", 1, ChatFormatting.RED),
-	SUMMON_FAR("msg.summon_far", "Summoned %s, at (%s,%s,%s)", 4, ChatFormatting.GOLD);
+	SUMMON_FAR("msg.summon_far", "Summoned %s, at (%s,%s,%s)", 4, ChatFormatting.GOLD),
+
+	CONFIG_SET("config.set", "Insert to set config", 0, null),
+	CONFIG_MODE("config.mode", "Default Mode", 0, null),
+	CONFIG_POS("config.pos", "Summon to", 0, null),
+	CONFIG_TO_POSITION("config.pos_original", "Original Position", 0, ChatFormatting.AQUA),
+	CONFIG_TO_TARGET("config.pos_target", "Pointed Position", 0, ChatFormatting.AQUA),
+	CONFIG_MODE_TOOLTIP("config.mode_tooltip", "The default mode golem will take when summoned. Does not affect golem in world already. Retrieved golems will take this mode instead of old mode when summoned.", 0, ChatFormatting.GRAY),
+	CONFIG_TO_POSITION_TOOLTIP("config.pos_original_tooltip", "If golem is retrieved, summon this golem to the original position. It would not take effect if the golem is fresh. If the original position is too far away, summon would fail.", 0, ChatFormatting.GRAY),
+	CONFIG_TO_TARGET_TOOLTIP("config.pos_target_tooltip", "Summon golem to the position player points to.", 0, ChatFormatting.GRAY),
+	;
 
 	private final String key, def;
 	private final int arg;
