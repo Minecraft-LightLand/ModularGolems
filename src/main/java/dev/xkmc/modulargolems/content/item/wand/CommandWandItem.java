@@ -95,12 +95,7 @@ public class CommandWandItem extends Item implements GolemInteractItem, IGlowing
 		for (var e : list) {
 			if (e.getOwner() == attacker) {
 				size++;
-				e.setTarget(target);
-				for (var goal : e.targetSelector.getAvailableGoals()) {
-					if (goal.getGoal() instanceof NearestAttackableTargetGoal tg) {
-						tg.setTarget(target);
-					}
-				}
+				e.resetTarget(target);
 			}
 		}
 		if (attacker instanceof ServerPlayer pl) {

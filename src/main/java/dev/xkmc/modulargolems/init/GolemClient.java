@@ -25,8 +25,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GolemClient {
 
-	private static IEventBus clientBus;//TODO fill
-
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
@@ -37,7 +35,7 @@ public class GolemClient {
 					stack.is(MGTagGen.BLUE_UPGRADES) ? 1 : stack.is(MGTagGen.POTION_UPGRADES) ? 0.5f : 0;
 			for (var item : UpgradeItem.LIST)
 				ItemProperties.register(item, new ResourceLocation(ModularGolems.MODID, "blue_arrow"), arrow);
-			CompatManager.dispatchClientSetup(clientBus);
+			CompatManager.dispatchClientSetup();
 		});
 	}
 

@@ -113,7 +113,7 @@ public class LCDispatch extends ModDispatch {
 	}
 
 	@Override
-	public void dispatchClientSetup(IEventBus bus) {
+	public void dispatchClientSetup() {
 		ForceFieldLayer.registerLayer();
 	}
 

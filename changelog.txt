@@ -2,9 +2,14 @@
     - Add metal golem equipments
     - Fix rendering of decorative layers on golems with size upgrade
 
+- 2.4.16-pre0
+    - Make golem give up target after 5 seconds not approaching
+    - Make player not picking up items when dead
+
 - 2.4.15
     - Fix non-owner being able to change humanoid equipment
-    - Add Create deployer automation
+    - Add Create deployer automation for upgrades
+    - Golem now will only access chest within <2 blocks, and only access them in standing mode
 
 - 2.4.14
     - Golems will attack enemies touching it first

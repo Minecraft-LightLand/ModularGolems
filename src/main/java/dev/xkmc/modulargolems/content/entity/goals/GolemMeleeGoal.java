@@ -27,8 +27,22 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 		return x * x + y * y + z * z;
 	}
 
+	public static int getTargetResetTime() {
+		return 100;//TODO
+	}
+
+	public static double getTargetDistanceDelta() {
+		return 0.5d;//TODO
+	}
+
+	private final AbstractGolemEntity<?, ?> golem;
+
+	private double lastDist;
+	private double timeNoMovement;
+
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity, double speedModifier, boolean bypassSightCheck) {
 		super(entity, speedModifier, bypassSightCheck);
+		golem = entity;
 	}
 
 	@Override
@@ -44,6 +58,36 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 
 	public boolean canReachTarget(LivingEntity le) {
 		return getAttackReachSqr(le) >= mob.getPerceivedTargetDistanceSquareForMeleeAttack(le);
+	}
+
+	@Override
+	public void tick() {
+		if (isTimeToAttack() && golem.getTarget() != null) {
+			timeNoMovement++;
+		}
+		super.tick();
+	}
+
+	@Override
+	protected void checkAndPerformAttack(LivingEntity target, double distSqr) {
+		if (isTimeToAttack()) {
+			double dist = Math.sqrt(distSqr);
+			if (dist < lastDist - getTargetDistanceDelta()) {
+				lastDist = dist;
+				timeNoMovement = 0;
+			}
+		}
+		super.checkAndPerformAttack(target, distSqr);
+		if (!isTimeToAttack()) {
+			lastDist = 1000;
+			timeNoMovement = 0;
+		} else {
+			if (timeNoMovement > getTargetResetTime()) {
+				golem.resetTarget(null);
+				lastDist = 1000;
+				timeNoMovement = 0;
+			}
+		}
 	}
 
 }

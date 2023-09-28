@@ -10,7 +10,7 @@
 	},{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:pickup_no_destroy",
-	  "text": "The golem will first try to put the items into the closest container it finds when it spawns. If it cannot find containers or the closest container is full (it will not search again once binded), it will attempt to teleport the item to player. And if the player is not present, it will destroy the item to prevent lag. If the golem has No Destroy Augment, it will not destroy the item."
+	  "text": "The golem will attempt to teleport the item to player. If it's in standing mode, it will first try to put the items into the closest container within 1 blocks. If neither container nor the player is present, it will destroy the item to prevent lag. If the golem has No Destroy Augment, it will not destroy the item."
 	},{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:pickup_mending",
