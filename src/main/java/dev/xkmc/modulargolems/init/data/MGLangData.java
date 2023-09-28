@@ -32,7 +32,9 @@ public enum MGLangData {
 	WAND_RETRIEVE("wand.retrieve", "Right click to retrieve all your surrounding golems. Shift right click faraway golems to retrieve golem back into inventory.", 0, ChatFormatting.GRAY),
 	WAND_COMMAND("wand.command", "Right click to switch modes for golems. Shift right click Humanoid golem to configure inventory. Right click or attack entity with this wand to call all your surrounding golems to switch target to it.", 0, ChatFormatting.GRAY),
 	WAND_SUMMON("wand.summon", "Right click to summon one golem to a faraway position pointed by the wand. Shift right click to summon all golems from your inventory.", 0, ChatFormatting.GRAY),
-	WAND_RIDER("wand.rider", "Right click at your doggolem to ride on it.", 0, ChatFormatting.GRAY),
+	WAND_RIDER("wand.rider", "Right click at your dog golem to ride on it.", 0, ChatFormatting.GRAY),
+	CONFIG_CARD("wand.config", "Right click golem to set config. When in offhand, wands would only target golems having this config.", 0, ChatFormatting.GRAY),
+	CONFIG_INIT("wand.config_init", "Right click to initialize config", 0, ChatFormatting.GRAY),
 
 	DESTROY_ITEM("msg.destroy_item", "Golem %s destroyed %s items because it finds no place to store.", 2, ChatFormatting.RED),
 	DESTROY_EXP("msg.destroy_exp", "Golem %s destroyed %s experience because it finds no place to store.", 2, ChatFormatting.RED),

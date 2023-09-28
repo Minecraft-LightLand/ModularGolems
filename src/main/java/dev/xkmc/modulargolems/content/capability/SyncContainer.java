@@ -21,14 +21,13 @@ public class SyncContainer {
 	public void serverUpdate(ServerLevel level) {
 		long time = level.getGameTime();
 		if (lastUpdateTime == time) return;
-		players.entrySet().removeIf(e -> level.getServer().getPlayerList().getPlayer(e.getKey()) != null && e.getValue() + LIFETIME < time);
+		players.entrySet().removeIf(e -> level.getServer().getPlayerList().getPlayer(e.getKey()) == null || e.getValue() + LIFETIME < time);
 		lastUpdateTime = time;
 	}
 
 	public boolean heartBeat(ServerLevel level, UUID uuid) {
-		boolean newPlayer = players.put(uuid, level.getGameTime()) == null;
 		serverUpdate(level);
-		return newPlayer;
+		return players.put(uuid, level.getGameTime()) == null;
 	}
 
 	public void sendToAllTracking(ServerLevel level, SerialPacketBase packet) {

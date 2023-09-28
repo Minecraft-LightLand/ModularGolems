@@ -51,7 +51,6 @@ public class DispenseWand extends Item implements GolemInteractItem {
 			int[] counter = new int[]{0};
 			iter(user, golem -> {
 				if (golem.getItem() instanceof GolemHolder<?, ?> holder) {
-					//TODO offhand card
 					if (holder.summon(golem, level, finalPos, user, null)) {
 						counter[0]++;
 						return !all;

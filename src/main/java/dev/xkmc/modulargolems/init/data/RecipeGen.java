@@ -5,12 +5,15 @@ import com.tterrag.registrate.util.DataIngredient;
 import dev.xkmc.l2library.serial.ingredients.EnchantmentIngredient;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -60,6 +63,20 @@ public class RecipeGen {
 					.define('S', Items.STICK)
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
 					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.CARD[DyeColor.WHITE.getId()].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.pattern(" P ").pattern("PTP").pattern(" P ")
+					.define('P', Items.PAPER)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd, new ResourceLocation(ModularGolems.MODID, "craft_config_card"));
+
+			for (int i = 0; i < 16; i++) {
+				Item dye = ForgeRegistries.ITEMS.getValue(new ResourceLocation(DyeColor.byId(i).getName() + "_dye"));
+				assert dye != null;
+				unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD[i].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+						.requires(MGTagGen.CONFIG_CARD).requires(dye).save(pvd);
+
+			}
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.EMPTY_UPGRADE.get(), 4)::unlockedBy,
 					Items.AMETHYST_SHARD).pattern("CBC").pattern("BAB").pattern("CBC")

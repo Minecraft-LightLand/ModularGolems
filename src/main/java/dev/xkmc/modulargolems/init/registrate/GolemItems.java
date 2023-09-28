@@ -81,9 +81,9 @@ public class GolemItems {
 			for (int i = 0; i < 16; i++) {
 				DyeColor color = DyeColor.byId(i);
 				String name = color.getName();
-				REGISTRATE.item(name + "_config_card", p -> new ConfigCard(p.stacksTo(1), color))
+				CARD[i] = REGISTRATE.item(name + "_config_card", p -> new ConfigCard(p.stacksTo(1), color))
 						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/" + name)))
-						.defaultLang().register();
+						.tag(MGTagGen.CONFIG_CARD).defaultLang().register();
 			}
 		}
 		// upgrades

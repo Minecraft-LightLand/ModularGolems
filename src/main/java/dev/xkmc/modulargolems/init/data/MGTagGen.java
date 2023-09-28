@@ -29,6 +29,7 @@ public class MGTagGen {
 	public static final TagKey<Item> GOLEM_UPGRADES = createItemTag("upgrades");
 	public static final TagKey<Item> BLUE_UPGRADES = createItemTag("blue_upgrades");
 	public static final TagKey<Item> POTION_UPGRADES = createItemTag("potion_upgrades");
+	public static final TagKey<Item> CONFIG_CARD = createItemTag("config_card");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
 

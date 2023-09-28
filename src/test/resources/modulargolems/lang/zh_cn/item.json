@@ -51,7 +51,7 @@
   },
   "-cartesian": {
 	"backpack": {
-	  "path": "item.l2backpack",
+	  "path": "item.modulargolems",
 	  "reverse": true,
 	  "list": [
 		{

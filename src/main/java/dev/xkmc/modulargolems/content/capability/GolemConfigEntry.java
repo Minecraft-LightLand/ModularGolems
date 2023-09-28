@@ -89,8 +89,9 @@ public class GolemConfigEntry {
 		return this;
 	}
 
-	public void setName(Component hoverName) {
+	public void setName(Component hoverName, ServerLevel level) {
 		nameComp = hoverName;
 		name = Component.Serializer.toJson(hoverName);
+		sync(level);
 	}
 }
