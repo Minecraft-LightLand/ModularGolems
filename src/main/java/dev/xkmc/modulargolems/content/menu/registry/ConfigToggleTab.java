@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.menu.registry;
 
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
