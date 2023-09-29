@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.config;
 
+import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
@@ -10,7 +11,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 
-public class ToggleGolemConfigMenu extends BaseGolemConfigMenu<ToggleGolemConfigMenu> {
+public class ToggleGolemConfigMenu extends BaseContainerMenu<ToggleGolemConfigMenu> {
 
 	protected static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "config_toggle");
 
@@ -25,7 +26,7 @@ public class ToggleGolemConfigMenu extends BaseGolemConfigMenu<ToggleGolemConfig
 	final GolemConfigEditor editor;
 
 	protected ToggleGolemConfigMenu(MenuType<?> type, int wid, Inventory plInv, GolemConfigEditor editor) {
-		super(type, wid, plInv, MANAGER, menu -> new BaseContainer<>(1, menu));
+		super(type, wid, plInv, MANAGER, menu -> new BaseContainer<>(1, menu), true);
 		this.editor = editor;
 		this.addSlot("hand", e -> e.getItem() instanceof GolemHolder<?, ?>);
 	}

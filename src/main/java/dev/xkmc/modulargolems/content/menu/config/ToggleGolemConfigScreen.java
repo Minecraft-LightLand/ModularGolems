@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.config;
 
+import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -10,7 +11,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class ToggleGolemConfigScreen extends BaseGolemConfigScreen<ToggleGolemConfigMenu> {
+public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConfigMenu> {
 
 	public ToggleGolemConfigScreen(ToggleGolemConfigMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
@@ -37,6 +38,12 @@ public class ToggleGolemConfigScreen extends BaseGolemConfigScreen<ToggleGolemCo
 						MGLangData.CONFIG_POS.get(), this::positionChange);
 		updatePositionTooltip(btn, pos);
 		addRenderableWidget(btn);
+	}
+
+	@Override
+	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
+		var sr = menu.sprite.get().getRenderer(this);
+		sr.start(g);
 	}
 
 	@Override

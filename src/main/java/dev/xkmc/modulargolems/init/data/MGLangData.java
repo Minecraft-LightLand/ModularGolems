@@ -54,6 +54,13 @@ public enum MGLangData {
 	CONFIG_MODE_TOOLTIP("config.mode_tooltip", "The default mode golem will take when summoned. Does not affect golem in world already. Retrieved golems will take this mode instead of old mode when summoned.", 0, ChatFormatting.GRAY),
 	CONFIG_TO_POSITION_TOOLTIP("config.pos_original_tooltip", "If golem is retrieved, summon this golem to the original position. It would not take effect if the golem is fresh. If the original position is too far away, summon would fail.", 0, ChatFormatting.GRAY),
 	CONFIG_TO_TARGET_TOOLTIP("config.pos_target_tooltip", "Summon golem to the position player points to.", 0, ChatFormatting.GRAY),
+
+	UI_WHITELIST("config.whitelist", "Using whitelist. Click to switch to blacklist.", 0, null),
+	UI_BLACKLIST("config.blacklist", "Using blacklist. Click to switch to whitelist.", 0, null),
+	UI_MATCH_ITEM("config.match_item", "Match item only. Click to match NBT.", 0, null),
+	UI_MATCH_TAG("config.match_tag", "Match item and NBT. Click to match item only.", 0, null),
+
+
 	;
 
 	private final String key, def;

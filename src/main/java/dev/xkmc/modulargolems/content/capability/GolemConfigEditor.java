@@ -24,7 +24,7 @@ public interface GolemConfigEditor {
 
 	default void setDefaultMode(GolemMode mode) {
 		entry().defaultMode = mode.getID();
-		entry().sync(level());
+		sync();
 	}
 
 	default boolean summonToPosition() {
@@ -33,7 +33,15 @@ public interface GolemConfigEditor {
 
 	default void setSummonToPosition(boolean bool) {
 		entry().summonToPosition = bool;
+		sync();
+	}
+
+	default void sync() {
 		entry().sync(level());
+	}
+
+	default PickupFilterEditor getFilter() {
+		return new PickupFilterEditor(this);
 	}
 
 	record Writable(Level level, GolemConfigEntry entry) implements GolemConfigEditor {

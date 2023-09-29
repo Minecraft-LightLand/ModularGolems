@@ -8,6 +8,8 @@ import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigMenu;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
+import dev.xkmc.modulargolems.content.menu.ghost.ItemConfigMenu;
+import dev.xkmc.modulargolems.content.menu.ghost.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,6 +27,10 @@ public class GolemMiscs {
 
 	public static final MenuEntry<ToggleGolemConfigMenu> CONFIG_TOGGLE =
 			REGISTRATE.menu("config_toggle", ToggleGolemConfigMenu::fromNetwork, () -> ToggleGolemConfigScreen::new)
+					.register();
+
+	public static final MenuEntry<ItemConfigMenu> CONFIG_PICKUP =
+			REGISTRATE.menu("config_pickup", ItemConfigMenu::fromNetwork, () -> ItemConfigScreen::new)
 					.register();
 
 	private static <A extends RecipeSerializer<?>> RegistryEntry<A> reg(String id, NonNullSupplier<A> sup) {
