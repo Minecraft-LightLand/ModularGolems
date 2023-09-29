@@ -21,11 +21,11 @@ public class ToggleGolemConfigScreen extends BaseGolemConfigScreen<ToggleGolemCo
 		super.init();
 		int left = getGuiLeft();
 		int top = getGuiTop();
-		int width =getXSize();
+		int width = getXSize();
 		addRenderableWidget(new CycleButton.Builder<>(GolemMode::getName)
 				.withValues(GolemModes.LIST)
 				.withInitialValue(menu.editor.getDefaultMode())
-				.create(left + 7, top + 44, width-14, 20,
+				.create(left + 7, top + 44, width - 14, 20,
 						MGLangData.CONFIG_MODE.get(), this::modeChange));
 
 		var pos = menu.editor.summonToPosition();
@@ -33,7 +33,7 @@ public class ToggleGolemConfigScreen extends BaseGolemConfigScreen<ToggleGolemCo
 						MGLangData.CONFIG_TO_POSITION.get(),
 						MGLangData.CONFIG_TO_TARGET.get())
 				.withInitialValue(pos)
-				.create(left + 7, top + 74, width-14, 20,
+				.create(left + 7, top + 74, width - 14, 20,
 						MGLangData.CONFIG_POS.get(), this::positionChange);
 		updatePositionTooltip(btn, pos);
 		addRenderableWidget(btn);

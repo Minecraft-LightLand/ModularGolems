@@ -39,8 +39,8 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftArm = part.getChild("left_arm");
 		this.rightLeg = part.getChild("right_leg");
 		this.leftLeg = part.getChild("left_leg");
-		this.leftForeArm=leftArm.getChild("left_forearm");
-		this.rightForeArm=rightArm.getChild("right_forearm");
+		this.leftForeArm = leftArm.getChild("left_forearm");
+		this.rightForeArm = rightArm.getChild("right_forearm");
 	}
 
 	public ModelPart root() {
@@ -57,6 +57,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		leftForeArm.copyFrom(other.leftForeArm);
 		rightForeArm.copyFrom(other.rightForeArm);
 	}
+
 	public void setupAnim(MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
 		this.head.yRot = f4 * ((float) Math.PI / 180F);
 		this.head.xRot = f5 * ((float) Math.PI / 180F);
@@ -75,8 +76,8 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 			this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
 			this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
 		}
-		if(entity.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof MetalGolemWeaponItem){
-			MMGHandAngle.HaveWeapon(entity,rightArm,rightForeArm);
+		if (entity.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof MetalGolemWeaponItem) {
+			MMGHandAngle.HaveWeapon(entity, rightArm, rightForeArm);
 		}
 	}
 

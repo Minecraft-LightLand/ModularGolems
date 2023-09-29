@@ -70,7 +70,7 @@ public class GolemConfigStorage {
 
 	}
 
-	public static void register(){
+	public static void register() {
 
 	}
 

@@ -15,5 +15,4 @@ public class BaseGolemConfigMenu<T extends BaseGolemConfigMenu<T>> extends BaseC
 	}
 
 
-
 }
