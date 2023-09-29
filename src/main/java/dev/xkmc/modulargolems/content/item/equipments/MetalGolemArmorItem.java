@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.item.equipments;
 
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
@@ -10,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.UUID;
 
-public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemModelItem{
+public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemModelItem {
 
 	private final GolemEquipmentModels.GolemModelPath model;
 

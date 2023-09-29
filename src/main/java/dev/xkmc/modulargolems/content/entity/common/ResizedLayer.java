@@ -1,12 +1,10 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.resources.model.ModelManager;
 
 public class ResizedLayer<T extends AbstractGolemEntity<?, ?>, M extends EntityModel<T>> extends RenderLayer<T, M> {
 

@@ -13,7 +13,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemSpearItem;
+import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -30,8 +30,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
 
-import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.CHESTPLATES;
-import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.HELMETS;
+import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.*;
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
@@ -63,11 +62,11 @@ public class GolemItems {
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND;
 
+	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
+	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
+	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
+	public static final ItemEntry<MetalGolemWeaponItem> METALGOLEM_SPEAR;
 	public static final ItemEntry<ConfigCard>[] CARD;
-
-	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET;
-	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE;
-	public static final ItemEntry<MetalGolemSpearItem> METALGOLEM_SPEAR;
 
 	static {
 
@@ -120,17 +119,44 @@ public class GolemItems {
 
 		// golemguard armor
 		{
-			GOLEMGUARD_HELMET = REGISTRATE.item("golemguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 6, 3, HELMETS))
+			GOLEMGUARD_HELMET = REGISTRATE.item("romanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 12, 5, HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
-			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("golemguard_chestplate", p ->
-							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 10, 5, CHESTPLATES))
+			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("romanguard_chestplate", p ->
+							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 20, 8, CHESTPLATES))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			GOLEMGUARD_SHINGUARD = REGISTRATE.item("romanguard_shinguard", p ->
+							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.LEGGINGS, 8, 7, LEGGINGS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+
+			WINDSPIRIT_HELMET = REGISTRATE.item("windspirit_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 7, 5, HELMETS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			WINDSPIRIT_CHESTPLATE = REGISTRATE.item("windspirit_chestplate", p ->
+							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 15, 8, CHESTPLATES))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			WINDSPIRIT_SHINGUARD = REGISTRATE.item("windspirit_shinguard", p ->
+							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.LEGGINGS, 8, 6, LEGGINGS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaricvanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 17, 8, HELMETS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaricvanguard_chestplate", p ->
+							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 25, 10, CHESTPLATES))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaricvanguard_shinguard", p ->
+							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.LEGGINGS, 8, 6, LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 		}
 		//metalgolem weapon
 		{
-			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemSpearItem(p.stacksTo(1), 10, 2f, 2f))
+			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1), 10, 2f, 2f))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 		}

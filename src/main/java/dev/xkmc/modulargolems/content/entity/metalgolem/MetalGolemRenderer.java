@@ -66,8 +66,8 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 
 	public MetalGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new MetalGolemModel(ctx.bakeLayer(GolemEquipmentModels.METALGOLEM)), 0.7F, MetalGolemPartType::values);
-		this.addLayer(new ResizedLayer<>(this,new MetalGolemCrackinessLayer(this)));
-		this.addLayer(new ResizedLayer<>(this,new GolemEquipmentRenderer(this, ctx)));
+		this.addLayer(new ResizedLayer<>(this, new MetalGolemCrackinessLayer(this)));
+		this.addLayer(new ResizedLayer<>(this, new GolemEquipmentRenderer(this, ctx)));
 	}
 
 	protected void setupRotations(MetalGolemEntity entity, PoseStack stack, float v1, float v2, float v3) {

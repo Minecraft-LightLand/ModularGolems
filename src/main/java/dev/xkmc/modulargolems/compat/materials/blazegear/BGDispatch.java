@@ -8,7 +8,6 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.IEventBus;
 
 public class BGDispatch extends ModDispatch {
 

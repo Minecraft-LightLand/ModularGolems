@@ -6,9 +6,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
 
-public class MetalGolemSpearItem extends GolemEquipmentItem {
+public class MetalGolemWeaponItem extends GolemEquipmentItem {
 
-	public MetalGolemSpearItem(Properties properties, int attackDamage, float range, float sweep) {
+	public MetalGolemWeaponItem(Properties properties, int attackDamage, float range, float sweep) {
 		super(properties, EquipmentSlot.MAINHAND, GolemTypes.ENTITY_GOLEM::get, builder -> {
 			var uuid = UUID.get(EquipmentSlot.MAINHAND);
 			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
