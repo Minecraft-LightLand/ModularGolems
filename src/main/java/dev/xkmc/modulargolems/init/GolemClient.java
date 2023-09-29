@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.client.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -33,6 +34,8 @@ public class GolemClient {
 			for (var item : UpgradeItem.LIST)
 				ItemProperties.register(item, new ResourceLocation(ModularGolems.MODID, "blue_arrow"), arrow);
 			CompatManager.dispatchClientSetup();
+
+			GolemTabRegistry.register();
 		});
 	}
 

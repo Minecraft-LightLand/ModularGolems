@@ -60,6 +60,10 @@ public enum MGLangData {
 	UI_MATCH_ITEM("config.match_item", "Match item only. Click to match NBT.", 0, null),
 	UI_MATCH_TAG("config.match_tag", "Match item and NBT. Click to match item only.", 0, null),
 
+	TAB_TOGGLE("tab.toggle", "General Config", 0, null),
+	TAB_PICKUP("tab.pickup", "Pickup Filter Config", 0, null),
+	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
+	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
 	;
 

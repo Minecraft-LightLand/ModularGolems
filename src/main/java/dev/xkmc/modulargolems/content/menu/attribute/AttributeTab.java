@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +17,7 @@ public class AttributeTab extends GolemTabBase<EquipmentGroup, AttributeTab> {
 
 	@Override
 	public void onTabClicked() {
-		Minecraft.getInstance().setScreen(new AttributeScreen(manager.token.golem, Component.literal("TODO")));//TODO
+		Minecraft.getInstance().setScreen(new AttributeScreen(manager.token.golem, MGLangData.TAB_ATTRIBUTE.get()));
 	}
 
 }

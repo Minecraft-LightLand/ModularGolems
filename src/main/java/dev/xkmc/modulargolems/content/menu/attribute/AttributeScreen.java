@@ -21,13 +21,14 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.util.Lazy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AttributeScreen extends BaseTextScreen implements ITabScreen {
 
-	public static final List<AttributeEntry> ATTRIBUTES = List.of(
+	public static final Lazy<List<AttributeEntry>> ATTRIBUTES = Lazy.of(() -> List.of(
 			new AttributeEntry(Attributes.MAX_HEALTH, false, 0),
 			new AttributeEntry(Attributes.ATTACK_DAMAGE, false, 1),
 			new AttributeEntry(Attributes.ARMOR, false, 2),
@@ -39,7 +40,7 @@ public class AttributeScreen extends BaseTextScreen implements ITabScreen {
 			new AttributeEntry(GolemTypes.GOLEM_SWEEP.get(), false, 8),
 			new AttributeEntry(GolemTypes.GOLEM_SIZE.get(), false, 9),
 			new AttributeEntry(GolemTypes.GOLEM_JUMP.get(), false, 10)
-	);
+	));
 
 	private final AbstractGolemEntity<?, ?> golem;
 
@@ -61,7 +62,7 @@ public class AttributeScreen extends BaseTextScreen implements ITabScreen {
 		int y = this.topPos + 6;
 		Attribute focus = null;
 
-		for (AttributeEntry entry : ATTRIBUTES) {
+		for (AttributeEntry entry : ATTRIBUTES.get()) {
 			if (golem.getAttribute(entry.attr()) == null) continue;
 			double val = golem.getAttributeValue(entry.attr());
 			Component comp = Component.translatable("attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
