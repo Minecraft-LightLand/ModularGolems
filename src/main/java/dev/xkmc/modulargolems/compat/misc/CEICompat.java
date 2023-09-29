@@ -1,6 +1,17 @@
 package dev.xkmc.modulargolems.compat.misc;
 
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import dev.xkmc.modulargolems.events.event.GolemHandleExpEvent;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import plus.dragons.createenchantmentindustry.content.contraptions.enchanting.disenchanter.DisenchanterBlockEntity;
+import plus.dragons.createenchantmentindustry.entry.CeiFluids;
+
+import java.util.List;
 
 public class CEICompat {
 
@@ -8,7 +19,6 @@ public class CEICompat {
 		MinecraftForge.EVENT_BUS.register(CEICompat.class);
 	}
 
-	/*
 	@SubscribeEvent
 	public static void onHandleExp(GolemHandleExpEvent event) {
 		if (event.getOrb().isRemoved()) return;
@@ -31,6 +41,6 @@ public class CEICompat {
 			}
 		}
 		event.getOrb().value = val;
-	}TODO*/
+	}
 
 }
