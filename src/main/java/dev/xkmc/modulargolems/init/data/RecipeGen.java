@@ -115,6 +115,71 @@ public class RecipeGen {
 					.define('B', GolemItems.DOG_LEGS.get())
 					.save(pvd);
 		}
+		// armor
+		{
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_HELMET.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.IRON_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_CHESTPLATE.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.IRON_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_SHINGUARD.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.IRON_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.WINDSPIRIT_HELMET.get())::unlockedBy, Items.DIAMOND)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.DIAMOND_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.WINDSPIRIT_CHESTPLATE.get())::unlockedBy, Items.DIAMOND)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.DIAMOND_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.WINDSPIRIT_SHINGUARD.get())::unlockedBy, Items.DIAMOND)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.DIAMOND_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_HELMET.get())::unlockedBy, Items.DIAMOND)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.NETHERITE_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get())::unlockedBy, Items.DIAMOND)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.NETHERITE_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())::unlockedBy, Items.DIAMOND)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.NETHERITE_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+		}
 		// upgrades
 		{
 
