@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.ghost;
 
+import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemConfigScreen extends AbstractContainerScreen<ItemConfigMenu> {
+public class ItemConfigScreen extends AbstractContainerScreen<ItemConfigMenu> implements ITabScreen {
 
 	public ItemConfigScreen(ItemConfigMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
@@ -75,6 +76,16 @@ public class ItemConfigScreen extends AbstractContainerScreen<ItemConfigMenu> {
 	public void addGhost(int ind, ItemStack stack) {
 		menu.setSlotContent(ind, stack);
 		ModularGolems.HANDLER.toServer(new SetItemFilterToServer(ind, stack));
+	}
+
+	@Override
+	public int screenWidth() {
+		return getXSize();
+	}
+
+	@Override
+	public int screenHeight() {
+		return getYSize();
 	}
 
 }

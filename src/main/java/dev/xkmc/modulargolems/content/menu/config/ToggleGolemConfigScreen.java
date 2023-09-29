@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.menu.config;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
@@ -11,7 +12,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConfigMenu> {
+public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConfigMenu> implements ITabScreen {
 
 	public ToggleGolemConfigScreen(ToggleGolemConfigMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
@@ -62,6 +63,16 @@ public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConf
 
 	private void updatePositionTooltip(AbstractButton button, boolean bool) {
 		button.setTooltip(Tooltip.create(bool ? MGLangData.CONFIG_TO_POSITION_TOOLTIP.get() : MGLangData.CONFIG_TO_TARGET_TOOLTIP.get()));
+	}
+
+	@Override
+	public int screenWidth() {
+		return getXSize();
+	}
+
+	@Override
+	public int screenHeight() {
+		return getYSize();
 	}
 
 }

@@ -7,12 +7,16 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
+import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.ghost.ItemConfigScreen;
+import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.gui.handlers.IGuiProperties;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
@@ -20,12 +24,14 @@ import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import mezz.jei.gui.GuiProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +71,30 @@ public class GolemJEIPlugin implements IModPlugin {
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registration) {
 		registration.addGhostIngredientHandler(ItemConfigScreen.class, new ItemFilterHandler());
+
+		registration.addGuiScreenHandler(EquipmentsScreen.class, GolemJEIPlugin::create);
+		registration.addGuiScreenHandler(ToggleGolemConfigScreen.class, GolemJEIPlugin::create);
+		registration.addGuiScreenHandler(ItemConfigScreen.class, GolemJEIPlugin::create);
 	}
+
+	@Nullable
+	public static IGuiProperties create(ITabScreen screen) {
+		if (screen.screenWidth() <= 0 || screen.screenHeight() <= 0) {
+			return null;
+		}
+		int x = screen.getGuiLeft();
+		int y = screen.getGuiTop();
+		int width = screen.getXSize() + 32;
+		int height = screen.getYSize();
+		if (width <= 0 || height <= 0) {
+			return null;
+		}
+		return new GuiProperties(screen.asScreen().getClass(),
+				x, y, width, height,
+				screen.screenWidth(), screen.screenHeight()
+		);
+	}
+
 
 	private static String partSubtype(ItemStack stack, UidContext ctx) {
 		return GolemPart.getMaterial(stack).orElse(GolemMaterial.EMPTY).toString();
