@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "modulargolems:item/equipments/barbaric_vanguard_helmet"
+  }
+}

@@ -17,9 +17,9 @@ public class GolemEquipmentModels {
 
 	public static final List<ModelLayerLocation> LIST = new ArrayList<>();
 
-	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golemguard_helmet"), "main");
-	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "romanguard_chestplate"), "main");
-	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "romanguard_shinguard"), "main");
+	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_helmet"), "main");
+	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_chestplate"), "main");
+	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_shinguard"), "main");
 	public static final ModelLayerLocation METALGOLEM = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "metalgolem"), "model");
 
 	public static final GolemModelPath HELMETS = new GolemModelPath(HELMET_LAYER, List.of(List.of("head", "helmet3"), List.of("head", "helmet17"), List.of("head", "helmet16"), List.of("head", "helmet15"), List.of("head", "helmet8"), List.of("head", "helmet9"), List.of("head", "helmet10"), List.of("head", "helmet11"), List.of("head", "helmet4"), List.of("head", "helmet6"), List.of("head", "helmet5"), List.of("head", "helmet7"), List.of("head", "helmet")));

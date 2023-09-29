@@ -6,7 +6,7 @@
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "大型金属傀儡和原版铁傀儡十分相似。可以在铁砧上或直接使用对应金属锭修复。$(br2)拥有下界合金手臂的傀儡攻击将会造成范围伤害。"
+	  "text": "大型金属傀儡和原版铁傀儡十分相似。可以在铁砧上或直接使用对应金属锭修复。$(br2)使用命令手杖可以给大型傀儡装备特殊盔甲。"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:metal_golem_holder"
