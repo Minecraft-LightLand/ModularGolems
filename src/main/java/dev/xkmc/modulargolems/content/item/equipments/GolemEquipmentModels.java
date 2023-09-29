@@ -19,8 +19,8 @@ public class GolemEquipmentModels {
 	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "romanguard_shinguard"), "main");
 	public static final ModelLayerLocation METALGOLEM =new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID,"metalgolem"),"model");
 
-	public static final GolemModelPath HELMETS = new GolemModelPath(HELMET_LAYER, List.of(List.of("head", "main_head")));
-	public static final GolemModelPath CHESTPLATES = new GolemModelPath(CHESTPLATE_LAYER, List.of(List.of("body", "main_body"),List.of("right_arm","main_rightarm2"),List.of("right_arm","right_forearm","main_rightforearm"),List.of("right_arm","main_rightarm1"),List.of("left_arm","left_forearm","main_rightforearm"),List.of("left_arm","main_leftarm1"),List.of("left_arm","main_leftarm2")));
+	public static final GolemModelPath HELMETS = new GolemModelPath(HELMET_LAYER, List.of(List.of("head", "helmet3"),List.of("head", "helmet17"),List.of("head", "helmet16"),List.of("head", "helmet15"),List.of("head", "helmet8"),List.of("head", "helmet9"),List.of("head", "helmet10"),List.of("head", "helmet11"),List.of("head", "helmet4"),List.of("head", "helmet6"),List.of("head", "helmet5"),List.of("head", "helmet7"),List.of("head", "helmet")));
+	public static final GolemModelPath CHESTPLATES = new GolemModelPath(CHESTPLATE_LAYER, List.of(List.of("body", "main_body"),List.of("right_arm","main_rightarm2"),List.of("right_arm","right_forearm","main_rightforearm"),List.of("right_arm","main_rightarm1"),List.of("left_arm","left_forearm","main_leftforearm"),List.of("left_arm","main_leftarm1"),List.of("left_arm","main_leftarm2")));
 	public static final GolemModelPath LEGGINGS = new GolemModelPath(SHINGUARD_LAYER, List.of(List.of("body","main_shinguard"),List.of("right_leg","shinguard1"),List.of("left_leg","shinguard2")));
 
 	public static MeshDefinition buildGolemBaseLayers() {
@@ -42,8 +42,33 @@ public class GolemEquipmentModels {
 	public static LayerDefinition createHelmetLayer() {
 		MeshDefinition mesh = buildGolemBaseLayers();
 		PartDefinition root = mesh.getRoot().getChild("head");
-		root.addOrReplaceChild("main_head", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -5.0F, -4.5F, 10.0F, 10.0F, 10.0F), PartPose.offset(0.0F, -7.0F, -2.0F));
-		return LayerDefinition.create(mesh, 64, 64);
+		root.addOrReplaceChild("helmet3", CubeListBuilder.create().texOffs(0, 48).addBox(-4.0F, -44.0F, -8.0F, 9.0F, 12.0F, 9.0F, new CubeDeformation(0.0F))
+				.texOffs(76, 39).addBox(-4.5F, -37.0F, -6.25F, 10.0F, 5.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.5F, 31.0F, 2.0F));
+
+		root.addOrReplaceChild("helmet17", CubeListBuilder.create().texOffs(48, 105).addBox(-5.5F, 28.0F, 0.0F, 9.0F, 12.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.5F, -43.0F, -1.5F, 0.0F, 0.8727F, 0.0F));
+
+		root.addOrReplaceChild("helmet16", CubeListBuilder.create().texOffs(108, 52).addBox(-3.5F, 28.0F, 0.0F, 9.0F, 12.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.5F, -43.0F, -1.5F, 0.0F, -0.8727F, 0.0F));
+
+		root.addOrReplaceChild("helmet15", CubeListBuilder.create(), PartPose.offsetAndRotation(0.5F, -36.0F, -5.25F, 0.4363F, 0.0F, 0.0F));
+
+		root.addOrReplaceChild("helmet8", CubeListBuilder.create(), PartPose.offsetAndRotation(1.0F, 0.0F, -2.0F, 0.0F, 0.3491F, 0.0F));
+
+		root.addOrReplaceChild("helmet9", CubeListBuilder.create().texOffs(50, 0).addBox(2.0F, 28.0F, -2.0F, 6.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.5F, -40.5F, -3.5F, 0.0F, 0.0F, 0.2182F));
+
+		root.addOrReplaceChild("helmet10", CubeListBuilder.create().texOffs(70, 39).addBox(13.0F, 24.5F, 0.5F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.8669F, -41.8411F, -3.5F, 0.0F, 0.1309F, 0.5672F));
+
+		root.addOrReplaceChild("helmet11", CubeListBuilder.create().texOffs(0, 0).addBox(-17.0F, -4.5F, -5.5F, 4.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.384F, -0.549F, 0.0F, 0.0F, 0.0873F, 0.7418F));
+
+		root.addOrReplaceChild("helmet4", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, -2.0F, 0.0F, -0.3491F, 0.0F));
+
+		root.addOrReplaceChild("helmet6", CubeListBuilder.create().texOffs(105, 14).addBox(-8.0F, 28.0F, -2.0F, 6.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.5F, -40.5F, -3.5F, 0.0F, 0.0F, -0.2182F));
+
+	    root.addOrReplaceChild("helmet5", CubeListBuilder.create().texOffs(73, 18).addBox(-16.0F, 24.5F, 0.5F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.8669F, -41.8411F, -3.5F, 0.0F, -0.1309F, -0.5672F));
+
+		root.addOrReplaceChild("helmet7", CubeListBuilder.create().texOffs(0, 5).addBox(14.0F, -4.5F, -5.5F, 4.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.384F, -0.549F, 0.0F, 0.0F, -0.0873F, -0.7418F));
+
+		root.addOrReplaceChild("helmet", CubeListBuilder.create().texOffs(58, 12).addBox(-1.0F, -49.0F, -6.0F, 1.0F, 14.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 2.0F));
+		return LayerDefinition.create(mesh, 128, 128);
 	}
 
 	public static LayerDefinition createChestplateLayer() {
@@ -56,7 +81,7 @@ public class GolemEquipmentModels {
 		PartDefinition root_rfa =mesh.getRoot().getChild("right_arm").getChild("right_forearm");
 		root_ra1.addOrReplaceChild("main_rightarm1", CubeListBuilder.create().texOffs(0, 83).addBox(-14.5F, -33.5F, -3.5F, 6.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)),PartPose.offset(0.0F, 31.0F, 0.0F));
 		root_rfa.addOrReplaceChild("main_rightforearm",CubeListBuilder.create().texOffs(89, 104).addBox(-13.0F, -29.5F, -6.5F, 4.01F, 7.0F, 7.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 111).addBox(-17.0F, -25.75F, -2.0F, 5.0F, 12.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
+				.texOffs(0, 111).addBox(-17.0F, -32.75F, -3.5F, 5.0F, 12.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
 		root_ra1.addOrReplaceChild("main_rightarm2",CubeListBuilder.create().texOffs(90, 65).addBox(27.75F, 8.75F, -5.0F, 7.0F, 3.0F, 8.0F, new CubeDeformation(0.0F))
 				.texOffs(76, 52).addBox(27F, 4.75F, -5.5F, 7.0F, 4.0F, 9.0F, new CubeDeformation(0.0F))
 				.texOffs(65, 67).addBox(26.25F, 2.75F, -6.5F, 7.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-11.75F, -31.75F, 1.0F, 0.0F, 0.0F, 1.3526F));
@@ -66,8 +91,8 @@ public class GolemEquipmentModels {
 		root_la1.addOrReplaceChild("main_leftarm2", CubeListBuilder.create().texOffs(96, 82).addBox(-34.5F, 8.75F, -5.0F, 7.0F, 3.0F, 8.0F, new CubeDeformation(0.0F))
 				.texOffs(47, 81).addBox(-33.75F, 4.75F, -5.5F, 7.0F, 4.0F, 9.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 69).addBox(-33.0F, 2.75F, -6.5F, 7.0F, 3.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.75F, -31.75F, 1.0F, 0.0F, 0.0F, -1.3526F));
-		root_lfa.addOrReplaceChild("main_leftforearm",CubeListBuilder.create().texOffs(105, 0).addBox(8.75F, -29.5F, -6.5F, 4.01F, 7.0F, 7.0F, new CubeDeformation(0.0F))
-				.texOffs(68, 111).addBox(12.75F, -21.75F, 0.0F, 5.0F, 12.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
+		root_lfa.addOrReplaceChild("main_leftforearm",CubeListBuilder.create().texOffs(105, 0).addBox(8.98F, -29.5F, -6.5F, 4.01F, 7.0F, 7.0F, new CubeDeformation(0.0F))
+				.texOffs(68, 111).addBox(11.75F, -32.75F, -3.5F, 5.0F, 12.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
 		return LayerDefinition.create(mesh, 128, 128);
 	}
 
