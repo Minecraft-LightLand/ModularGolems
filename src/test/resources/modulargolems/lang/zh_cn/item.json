@@ -50,7 +50,7 @@
 	"size_upgrade": "体形升级"
   },
   "-cartesian": {
-	"backpack": {
+	"config": {
 	  "path": "item.modulargolems",
 	  "reverse": true,
 	  "list": [
@@ -74,6 +74,21 @@
 		},
 		{
 		  "config_card": "配置卡片"
+		}
+	  ]
+	},
+	"armor": {
+	  "path": "item.modulargolems",
+	  "list": [
+		{
+		  "barbaric_vanguard": "蛮荒",
+		  "roman_guard": "罗马",
+		  "wind_spirit": "风行"
+		},
+		{
+		  "chestplate": "护甲",
+		  "helmet": "头盔",
+		  "shinguard": "护腿"
 		}
 	  ]
 	}
