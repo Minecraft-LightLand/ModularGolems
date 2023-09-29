@@ -1,5 +1,8 @@
 package dev.xkmc.modulargolems.content.menu.ghost;
 
+import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
+import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -18,6 +21,13 @@ public class ItemConfigScreen extends AbstractContainerScreen<ItemConfigMenu> im
 		super(cont, plInv, title);
 		this.imageHeight = this.menu.sprite.getHeight();
 		this.inventoryLabelY = this.menu.sprite.getPlInvY() - 11;
+	}
+
+	@Override
+	protected void init() {
+		super.init();
+		new GolemTabManager<>(this, new ConfigGroup(menu.editor.editor()))
+				.init(this::addRenderableWidget, GolemTabRegistry.CONFIG_ITEM);
 	}
 
 	public void render(GuiGraphics stack, int mx, int my, float partial) {

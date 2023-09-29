@@ -3,6 +3,9 @@ package dev.xkmc.modulargolems.content.menu.config;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
+import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,6 +24,8 @@ public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConf
 	@Override
 	protected void init() {
 		super.init();
+		new GolemTabManager<>(this, new ConfigGroup(menu.editor))
+				.init(this::addRenderableWidget, GolemTabRegistry.CONFIG_TOGGLE);
 		int left = getGuiLeft();
 		int top = getGuiTop();
 		int width = getXSize();

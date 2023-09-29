@@ -1,5 +1,7 @@
-package dev.xkmc.modulargolems.content.menu.registry;
+package dev.xkmc.modulargolems.content.menu.equipment;
 
+import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
+import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
@@ -15,7 +17,7 @@ public class EquipmentTab extends GolemTabBase<EquipmentGroup, EquipmentTab> {
 
 	@Override
 	public void onTabClicked() {
-		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(manager.token.golem, OpenEquipmentMenuToServer.Type.EQUIPMENT));
+		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(manager.token.golem.getUUID(), OpenEquipmentMenuToServer.Type.EQUIPMENT));
 	}
 
 }

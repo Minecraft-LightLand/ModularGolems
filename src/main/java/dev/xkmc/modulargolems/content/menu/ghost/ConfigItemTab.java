@@ -1,5 +1,7 @@
-package dev.xkmc.modulargolems.content.menu.registry;
+package dev.xkmc.modulargolems.content.menu.ghost;
 
+import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
+import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;

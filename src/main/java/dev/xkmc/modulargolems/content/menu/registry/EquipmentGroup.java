@@ -1,16 +1,15 @@
 package dev.xkmc.modulargolems.content.menu.registry;
 
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabGroup;
-
-import java.util.UUID;
 
 public class EquipmentGroup extends GolemTabGroup<EquipmentGroup> {
 
-	public UUID golem;
+	public AbstractGolemEntity<?, ?> golem;
 
-	public EquipmentGroup(UUID uuid) {
+	public EquipmentGroup(AbstractGolemEntity<?, ?> golem) {
 		super(GolemTabRegistry.LIST_EQUIPMENT);
-		this.golem = uuid;
+		this.golem = golem;
 	}
 
 }
