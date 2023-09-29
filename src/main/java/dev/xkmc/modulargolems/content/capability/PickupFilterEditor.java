@@ -1,8 +1,9 @@
 package dev.xkmc.modulargolems.content.capability;
 
+import dev.xkmc.modulargolems.content.menu.ghost.ReadOnlyContainer;
 import net.minecraft.world.item.ItemStack;
 
-public record PickupFilterEditor(GolemConfigEditor editor) {
+public record PickupFilterEditor(GolemConfigEditor editor) implements ReadOnlyContainer {
 
 	public PickupFilterConfig getFilter() {
 		return editor().entry().pickupFilter;
@@ -24,6 +25,16 @@ public record PickupFilterEditor(GolemConfigEditor editor) {
 
 	public boolean internalMatch(ItemStack stack) {
 		return getFilter().internalMatch(stack);
+	}
+
+	@Override
+	public int getContainerSize() {
+		return size();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return size() == 0;
 	}
 
 	public ItemStack getItem(int slot) {

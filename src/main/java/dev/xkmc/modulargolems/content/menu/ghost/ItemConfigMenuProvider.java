@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.menu.config;
+package dev.xkmc.modulargolems.content.menu.ghost;
 
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
@@ -13,10 +13,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 
 import java.util.UUID;
 
-public record ConfigMenuProvider(UUID id, int color, GolemConfigEditor editor) implements IMenuPvd {
+public record ItemConfigMenuProvider(UUID id, int color, GolemConfigEditor editor) implements IMenuPvd {
 
-	public static ConfigMenuProvider fromPacket(ServerLevel level, GolemConfigEntry entry) {
-		return new ConfigMenuProvider(entry.getID(), entry.getColor(), new GolemConfigEditor.Writable(level, entry));
+	public static ItemConfigMenuProvider fromPacket(ServerLevel level, GolemConfigEntry entry) {
+		return new ItemConfigMenuProvider(entry.getID(), entry.getColor(), new GolemConfigEditor.Writable(level, entry));
 	}
 
 	public void writeBuffer(FriendlyByteBuf buf) {
@@ -31,6 +31,7 @@ public record ConfigMenuProvider(UUID id, int color, GolemConfigEditor editor) i
 
 	@Override
 	public AbstractContainerMenu createMenu(int wid, Inventory inv, Player player) {
-		return new ToggleGolemConfigMenu(GolemMiscs.CONFIG_TOGGLE.get(), wid, inv, editor());
+		var filter = editor().getFilter();
+		return new ItemConfigMenu(GolemMiscs.CONFIG_PICKUP.get(), wid, inv, filter, filter);
 	}
 }

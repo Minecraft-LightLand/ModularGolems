@@ -7,16 +7,15 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-public class ConfigToggleTab extends GolemTabBase<ConfigGroup, ConfigToggleTab> {
+public class EquipmentTab extends GolemTabBase<EquipmentGroup, EquipmentTab> {
 
-	public ConfigToggleTab(int index, GolemTabToken<ConfigGroup, ConfigToggleTab> token, GolemTabManager<ConfigGroup> manager, ItemStack stack, Component title) {
+	public EquipmentTab(int index, GolemTabToken<EquipmentGroup, EquipmentTab> token, GolemTabManager<EquipmentGroup> manager, ItemStack stack, Component title) {
 		super(index, token, manager, stack, title);
 	}
 
 	@Override
 	public void onTabClicked() {
-		var entry = manager.token.editor.entry();
-		ModularGolems.HANDLER.toServer(new OpenConfigMenuToServer(entry.getID(), entry.getColor(), OpenConfigMenuToServer.Type.TOGGLE));
+		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(manager.token.golem, OpenEquipmentMenuToServer.Type.EQUIPMENT));
 	}
 
 }

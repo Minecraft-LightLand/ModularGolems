@@ -1,17 +1,17 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.network.NetworkHooks;
 
-public record EquipmentsMenuPvd(AbstractGolemEntity<?, ?> e) implements MenuProvider {
+public record EquipmentsMenuPvd(AbstractGolemEntity<?, ?> e) implements IMenuPvd {
 
 	@Override
 	public Component getDisplayName() {

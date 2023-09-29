@@ -14,8 +14,9 @@ public class GolemTabRegistry {
 	public static final List<GolemTabToken<EquipmentGroup, ?>> LIST_EQUIPMENT = new ArrayList<>();
 
 	public static void register() {
-		LIST_CONFIG.add(new GolemTabToken<>(ConfigToggleTab::new, GolemItems.CARD[0]::get, Component.literal("toggle")));
+		LIST_CONFIG.add(new GolemTabToken<>(ConfigToggleTab::new, GolemItems.CARD[0]::get, Component.literal("toggle")));//TODO
 		LIST_CONFIG.add(new GolemTabToken<>(ConfigItemTab::new, () -> Items.HOPPER, Component.literal("item")));
+		LIST_EQUIPMENT.add(new GolemTabToken<>(EquipmentTab::new, GolemItems.COMMAND_WAND::get, Component.literal("equipment")));
 	}
 
 }

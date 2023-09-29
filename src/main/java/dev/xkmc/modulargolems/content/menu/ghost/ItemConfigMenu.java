@@ -30,17 +30,17 @@ public class ItemConfigMenu extends AbstractContainerMenu {
 		int color = buf.readInt();
 		var level = Proxy.getClientWorld();
 		var editor = new GolemConfigEditor.Readable(level, id, color);
-		return new ItemConfigMenu(type, wid, plInv, new SimpleContainer(SIZE), editor);
+		return new ItemConfigMenu(type, wid, plInv, new SimpleContainer(SIZE), editor.getFilter());
 	}
 
 	protected final Inventory inventory;
 	protected final MenuLayoutConfig sprite;
 	protected final Container container;
-	protected final GolemConfigEditor editor;
+	protected final PickupFilterEditor editor;
 
 	private int added = 0;
 
-	protected ItemConfigMenu(MenuType<?> type, int wid, Inventory plInv, Container container, GolemConfigEditor editor) {
+	protected ItemConfigMenu(MenuType<?> type, int wid, Inventory plInv, Container container, PickupFilterEditor editor) {
 		super(type, wid);
 		this.inventory = plInv;
 		this.sprite = MANAGER.get();
@@ -72,7 +72,7 @@ public class ItemConfigMenu extends AbstractContainerMenu {
 	}
 
 	protected PickupFilterEditor getConfig() {
-		return editor.getFilter();
+		return editor;
 	}
 
 	protected ItemStack getSlotContent(int slot) {

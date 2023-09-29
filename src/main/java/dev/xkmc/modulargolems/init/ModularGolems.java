@@ -13,6 +13,8 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
+import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
+import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
@@ -48,7 +50,9 @@ public class ModularGolems {
 			e -> e.create(ConfigSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(ConfigUpdateToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ConfigHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(SetItemFilterToServer.class, NetworkDirection.PLAY_TO_SERVER)
+			e -> e.create(SetItemFilterToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(OpenConfigMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(OpenEquipmentMenuToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
