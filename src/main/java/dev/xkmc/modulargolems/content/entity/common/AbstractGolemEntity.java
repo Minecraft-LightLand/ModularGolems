@@ -474,8 +474,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 	}
 
-	public void setConfigCard(UUID owner, int color) {
-		entityData.set(CONFIG_ID, Optional.of(owner));
+	public void setConfigCard(@Nullable UUID owner, int color) {
+		entityData.set(CONFIG_ID, Optional.ofNullable(owner));
 		entityData.set(CONFIG_COLOR, color);
 	}
 

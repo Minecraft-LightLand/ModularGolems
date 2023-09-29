@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
+import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
@@ -68,7 +69,12 @@ public class ConfigCard extends Item implements GolemInteractItem {
 			if (uuid == null) {
 				stack.getOrCreateTag().putUUID(KEY_OWNER, uuid = player.getUUID());
 			}
-			golem.setConfigCard(uuid, color.getId());
+			var old = golem.getConfigEntry(null);
+			if (old != null && old.getID().equals(uuid) && old.getColor() == color.getId()) {
+				golem.setConfigCard(null, 0);
+			} else {
+				golem.setConfigCard(uuid, color.getId());
+			}
 			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;
@@ -111,15 +117,22 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		var id = getUUID(stack);
 		if (id == null) {
 			list.add(MGLangData.CONFIG_INIT.get());
-		} else if (level != null) {
-			var entry = GolemConfigStorage.get(level).getStorage(id, color.getId());
-			if (entry == null) {
-				list.add(MGLangData.LOADING.get());
-			} else {
-				list.add(entry.getDisplayName());
+		} else {
+			if (level != null) {
+				var entry = GolemConfigStorage.get(level).getStorage(id, color.getId());
+				if (entry == null) {
+					list.add(MGLangData.LOADING.get());
+				} else {
+					list.add(entry.getDisplayName());
+				}
+			}
+			Player player = Proxy.getClientPlayer();
+			if (player == null || !id.equals(player.getUUID())) {
+				list.add(MGLangData.CONFIG_OTHER.get());
 			}
 			list.add(MGLangData.CONFIG_CARD.get());
 		}
+
 	}
 
 }

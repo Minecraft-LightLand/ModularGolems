@@ -1,0 +1,17 @@
+{
+  "name": "配置卡",
+  "icon": "modulargolems:white_config_card",
+  "category": "modulargolems:golems",
+  "sortnum": 24,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:white_config_card",
+	  "text": "右键傀儡设置配置卡，再次右键移除。副手持有时，手杖只对持有相同配置卡的傀儡生效。$(br2)重命名物品并右键可以把配置名字设为物品名字。相同所有者且相同颜色的配置卡本质上都是同一个配置卡。"
+	},
+	{
+	  "type": "patchouli:text",
+	  "text": "在配置界面中，放入傀儡可以让傀儡绑定此配置。你可以选择傀儡被召唤时的模式，也可以选择傀儡将会被召唤到指向地点还是上次收回的地点。$(br2)注意如果收回的地点在64格以外则不会生效，且如果默认模式是跟随，则还是会在指向地点召唤。"
+	}
+  ]
+}

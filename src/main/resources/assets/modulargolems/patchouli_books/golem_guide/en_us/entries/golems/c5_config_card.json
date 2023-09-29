@@ -1,0 +1,17 @@
+{
+  "name": "Config Card",
+  "icon": "modulargolems:white_config_card",
+  "category": "modulargolems:golems",
+  "sortnum": 24,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:white_config_card",
+	  "text": "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.$(br2)Rename the item and right click to set the item name as config name. All card from the same owner and same color are in fact the same config."
+	},
+	{
+	  "type": "patchouli:text",
+	  "text": "In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.$(br2)Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode."
+	}
+  ]
+}
