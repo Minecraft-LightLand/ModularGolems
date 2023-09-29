@@ -202,7 +202,6 @@ dependencies {
     runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.7")
     runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.8")
 
-    //implementation fg.deobf('curse.maven:the-twilight-forest-227639:4539671')
     implementation fg.deobf('zip.local.blazegear:blazegear:1.3.6')
 
     runtimeOnly fg.deobf("curse.maven:badpackets-615134:4438956")
@@ -211,11 +210,10 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:bookshelf-228525:4581675")
     runtimeOnly fg.deobf("curse.maven:enchantment-descriptions-250419:4587429")
 
-    //runtimeOnly fg.deobf('curse.maven:bookshelf-228525:4454755')
-    //runtimeOnly fg.deobf('curse.maven:enchantment-descriptions-250419:4445054')
     //runtimeOnly fg.deobf('curse.maven:appleskin-248787:4440123')
 
-    implementation fg.deobf("curse.maven:create-328085:4626108")
+    implementation fg.deobf("curse.maven:create-enchantment-industry-688768:4764843")
+    implementation fg.deobf("curse.maven:create-328085:4762216")
     implementation fg.deobf("curse.maven:the-twilight-forest-227639:4635921")
 
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:4633797")

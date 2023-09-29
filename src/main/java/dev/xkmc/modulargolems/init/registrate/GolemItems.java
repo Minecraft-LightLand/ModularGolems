@@ -102,11 +102,11 @@ public class GolemItems {
 					.defaultLang().register();
 
 			WINDSPIRIT_HELMET = REGISTRATE.item("wind_spirit_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.HELMET, 10, 6, HELMETS))
+							ArmorItem.Type.HELMET, 11, 6, HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			WINDSPIRIT_CHESTPLATE = REGISTRATE.item("wind_spirit_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.CHESTPLATE, 12, 6, CHESTPLATES))
+							ArmorItem.Type.CHESTPLATE, 14, 6, CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			WINDSPIRIT_SHINGUARD = REGISTRATE.item("wind_spirit_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1),
@@ -115,11 +115,11 @@ public class GolemItems {
 					.defaultLang().register();
 
 			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.HELMET, 12, 8, HELMETS))
+							ArmorItem.Type.HELMET, 14, 8, HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaric_vanguard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.CHESTPLATE, 14, 8, CHESTPLATES))
+							ArmorItem.Type.CHESTPLATE, 18, 8, CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
