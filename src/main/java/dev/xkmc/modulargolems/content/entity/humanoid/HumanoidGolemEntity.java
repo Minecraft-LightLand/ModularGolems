@@ -306,23 +306,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		return InteractionResult.FAIL;
 	}
-
-	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			dropSlot(slot, true);
-		}
-		super.dropCustomDeathLoot(source, i, b);
-	}
-
-	private void dropSlot(EquipmentSlot slot, boolean isDeath) {
-		ItemStack itemstack = this.getItemBySlot(slot);
-		if (itemstack.isEmpty()) return;
-		if (!isDeath && EnchantmentHelper.hasBindingCurse(itemstack)) return;
-		if (isDeath && EnchantmentHelper.hasVanishingCurse(itemstack)) return;
-		this.spawnAtLocation(itemstack);
-		this.setItemSlot(slot, ItemStack.EMPTY);
-	}
-
 	@Override
 	public double getMyRidingOffset() {
 		return -0.35;

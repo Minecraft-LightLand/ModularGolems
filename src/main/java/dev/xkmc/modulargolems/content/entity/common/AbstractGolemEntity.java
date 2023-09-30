@@ -57,6 +57,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
@@ -209,7 +210,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
 		}
 		drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
+		for (EquipmentSlot slot : EquipmentSlot.values()) {
+			dropSlot(slot, true);
+		}
 	}
+
+	protected void dropSlot(EquipmentSlot slot, boolean isDeath) {
+		ItemStack itemstack = this.getItemBySlot(slot);
+		if (itemstack.isEmpty()) return;
+		if (!isDeath && EnchantmentHelper.hasBindingCurse(itemstack)) return;
+		if (isDeath && EnchantmentHelper.hasVanishingCurse(itemstack)) return;
+		this.spawnAtLocation(itemstack);
+		this.setItemSlot(slot, ItemStack.EMPTY);
+	}
+
 
 	public float getScale() {
 		if (materials == null || materials.isEmpty() || getTags().contains("ClientOnly")) {

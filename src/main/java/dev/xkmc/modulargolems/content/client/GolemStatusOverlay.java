@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -53,6 +54,9 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		if (config != null) {
 			config.clientTick(player.level(), false);
 			text.add(config.getDisplayName());
+			if (config.locked) {
+				text.add(MGLangData.CONFIG_LOCK.get().withStyle(ChatFormatting.RED));
+			}
 		}
 		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
 		new OverlayUtil(g, Math.round(screenWidth / 8f), -1, -1)
