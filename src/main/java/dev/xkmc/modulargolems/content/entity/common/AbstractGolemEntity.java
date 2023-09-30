@@ -152,7 +152,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
 		this.unRide();
 		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
-		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.isAlliedTo(player)) return InteractionResult.FAIL;
+		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.canModify(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
@@ -160,6 +160,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return InteractionResult.SUCCESS;
 		}
 		return super.mobInteract(player, hand);
+	}
+
+	public boolean canModify(Player player) {
+		var entry = getConfigEntry(null);
+		if(entry!=null&&entry.locked)
+			return false;
+		return isAlliedTo(player);
 	}
 
 	@ServerOnly

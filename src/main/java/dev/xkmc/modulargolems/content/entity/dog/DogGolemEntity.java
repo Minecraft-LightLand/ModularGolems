@@ -240,7 +240,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
 			return super.mobInteract(player, hand);
 		else {
-			if (!this.level().isClientSide() && isAlliedTo(player))
+			if (!this.level().isClientSide() && canModify(player))
 				this.setInSittingPose(!this.isInSittingPose());
 			return InteractionResult.SUCCESS;
 		}

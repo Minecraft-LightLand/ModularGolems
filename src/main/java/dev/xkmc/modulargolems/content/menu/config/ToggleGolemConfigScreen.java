@@ -44,12 +44,20 @@ public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConf
 						MGLangData.CONFIG_POS.get(), this::positionChange);
 		updatePositionTooltip(btn, pos);
 		addRenderableWidget(btn);
+
+		addRenderableWidget(CycleButton.onOffBuilder(menu.editor.locked())
+				.create(left + 7, top + 104, width - 14, 20,
+						MGLangData.CONFIG_LOCK.get(), this::lockChange));
+
 	}
 
 	@Override
 	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
 		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(g);
+		if (menu.container.getItem(0).isEmpty()) {
+			sr.draw(g, "hand", "altas_golem");
+		}
 	}
 
 	@Override
@@ -68,6 +76,10 @@ public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConf
 
 	private void updatePositionTooltip(AbstractButton button, boolean bool) {
 		button.setTooltip(Tooltip.create(bool ? MGLangData.CONFIG_TO_POSITION_TOOLTIP.get() : MGLangData.CONFIG_TO_TARGET_TOOLTIP.get()));
+	}
+
+	private void lockChange(CycleButton<Boolean> btn, Boolean lock) {
+		menu.editor.setLocked(lock);
 	}
 
 	@Override

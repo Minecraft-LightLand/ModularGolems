@@ -49,6 +49,7 @@ public enum MGLangData {
 	CONFIG_SET("config.set", "Insert to set config", 0, null),
 	CONFIG_MODE("config.mode", "Default Mode", 0, null),
 	CONFIG_POS("config.pos", "Summon to", 0, null),
+	CONFIG_LOCK("config.lock", "Lock Interaction", 0, null),
 	CONFIG_TO_POSITION("config.pos_original", "Original Position", 0, ChatFormatting.AQUA),
 	CONFIG_TO_TARGET("config.pos_target", "Pointed Position", 0, ChatFormatting.AQUA),
 	CONFIG_MODE_TOOLTIP("config.mode_tooltip", "The default mode golem will take when summoned. Does not affect golem in world already. Retrieved golems will take this mode instead of old mode when summoned.", 0, ChatFormatting.GRAY),

@@ -73,7 +73,7 @@ public class CommandWandItem extends Item implements GolemInteractItem, IGlowing
 
 	private static boolean command(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
-		if (!golem.isAlliedTo(user)) return false;
+		if (!golem.canModify(user)) return false;
 		if (level.isClientSide()) return true;
 		if (user.isShiftKeyDown()) {
 			if (golem instanceof HumanoidGolemEntity || golem instanceof MetalGolemEntity) {

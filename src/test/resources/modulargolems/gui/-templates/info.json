@@ -25,7 +25,8 @@
             "_helmet",
             "_chestplate",
             "_leggings",
-            "_boots"
+            "_boots",
+            "_golem"
         ],
         "w": 16,
         "h": 16

@@ -30,7 +30,7 @@ public class RetrievalWandItem extends Item implements GolemInteractItem {
 	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
 		if (user.isShiftKeyDown()) {
-			var result = RayTraceUtil.rayTraceEntity(user, MGConfig.COMMON.retrieveDistance.get(), e -> (e instanceof AbstractGolemEntity<?, ?> golem) && golem.isAlliedTo(user));
+			var result = RayTraceUtil.rayTraceEntity(user, MGConfig.COMMON.retrieveDistance.get(), e -> (e instanceof AbstractGolemEntity<?, ?> golem) && golem.canModify(user));
 			if (result == null) return InteractionResultHolder.fail(stack);
 			var golem = result.getEntity();
 			return attemptRetrieve(level, user, Wrappers.cast(golem)) ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
@@ -55,7 +55,7 @@ public class RetrievalWandItem extends Item implements GolemInteractItem {
 
 	private static boolean attemptRetrieve(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
-		if (!golem.isAlliedTo(user)) return false;
+		if (!golem.canModify(user)) return false;
 		if (level.isClientSide()) return true;
 		user.getInventory().placeItemBackInInventory(golem.toItem());
 		return true;

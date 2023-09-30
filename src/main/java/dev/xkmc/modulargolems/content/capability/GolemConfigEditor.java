@@ -36,6 +36,15 @@ public interface GolemConfigEditor {
 		sync();
 	}
 
+	default boolean locked() {
+		return entry().locked;
+	}
+
+	default void setLocked(boolean lock) {
+		entry().locked = lock;
+		sync();
+	}
+
 	default void sync() {
 		entry().sync(level());
 	}

@@ -75,16 +75,6 @@ public class GolemItems {
 		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 		DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 		RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
-		{
-			CARD = new ItemEntry[16];
-			for (int i = 0; i < 16; i++) {
-				DyeColor color = DyeColor.byId(i);
-				String name = color.getName();
-				CARD[i] = REGISTRATE.item(name + "_config_card", p -> new ConfigCard(p.stacksTo(1), color))
-						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/" + name)))
-						.tag(MGTagGen.CONFIG_CARD).defaultLang().register();
-			}
-		}
 
 		// golemguard armor
 		{
@@ -133,6 +123,17 @@ public class GolemItems {
 			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1), 10, 2f, 2f))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.removeTab(TAB.getKey()).defaultLang().register();// TODO no tab
+		}
+
+		{
+			CARD = new ItemEntry[16];
+			for (int i = 0; i < 16; i++) {
+				DyeColor color = DyeColor.byId(i);
+				String name = color.getName();
+				CARD[i] = REGISTRATE.item(name + "_config_card", p -> new ConfigCard(p.stacksTo(1), color))
+						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/" + name)))
+						.tag(MGTagGen.CONFIG_CARD).defaultLang().register();
+			}
 		}
 
 		// upgrades

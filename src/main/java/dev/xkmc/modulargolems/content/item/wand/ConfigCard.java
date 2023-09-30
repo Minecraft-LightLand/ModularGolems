@@ -63,7 +63,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
 		if (target instanceof AbstractGolemEntity<?, ?> golem) {
-			if (!golem.isAlliedTo(player)) return InteractionResult.FAIL;
+			if (!golem.canModify(player)) return InteractionResult.FAIL;
 			if (player.level().isClientSide()) return InteractionResult.SUCCESS;
 			UUID uuid = getUUID(stack);
 			if (uuid == null) {

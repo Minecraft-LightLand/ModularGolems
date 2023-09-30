@@ -31,6 +31,9 @@ public class GolemConfigEntry {
 	@SerialClass.SerialField
 	protected PickupFilterConfig pickupFilter = new PickupFilterConfig();
 
+	@SerialClass.SerialField
+	public boolean locked;
+
 	@Deprecated
 	public GolemConfigEntry() {
 
