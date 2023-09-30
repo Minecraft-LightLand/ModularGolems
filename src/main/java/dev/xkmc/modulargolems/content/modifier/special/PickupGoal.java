@@ -69,7 +69,13 @@ public class PickupGoal extends Goal {
 		var items = golem.level().getEntities(EntityTypeTest.forClass(ItemEntity.class),
 				box, e -> true);
 		validateTarget();
+		var config = golem.getConfigEntry(null);
 		for (var item : items) {
+			if (config != null) {
+				if (!config.pickupFilter.allowPickup(item.getItem())) {
+					continue;
+				}
+			}
 			handleLeftoverItem(item, player);
 		}
 		if (destroyItemCount > 0) {

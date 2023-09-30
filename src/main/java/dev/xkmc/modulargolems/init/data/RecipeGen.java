@@ -204,8 +204,7 @@ public class RecipeGen {
 					.save(pvd);
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.DIAMOND.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
-					.pattern("CAC").pattern("ABA").pattern("CAC")
-					.define('A', Items.DIAMOND_BLOCK)
+					.pattern("CCC").pattern("CBC").pattern("CCC")
 					.define('B', GolemItems.EMPTY_UPGRADE.get())
 					.define('C', Items.DIAMOND)
 					.save(pvd);

@@ -64,7 +64,7 @@ public class GolemModifiers {
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10)
 		)).register();
 		TOUGH = reg("toughness_up", () -> new AttributeGolemModifier(2,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 15),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_TOUGH, 6)
 		)).register();
 		DAMAGE = reg("damage_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,

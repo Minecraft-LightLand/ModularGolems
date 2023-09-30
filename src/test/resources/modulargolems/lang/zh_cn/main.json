@@ -47,7 +47,18 @@
 	  "pos_original_tooltip": "如果傀儡是被收回的，把傀儡召唤至上次收回的地点。如果傀儡是新做的则不生效。如果上次收回地点太远，则召唤失败",
 	  "pos_target": "指向位置",
 	  "pos_target_tooltip": "把傀儡召唤至玩家指向的地点",
-	  "set": "把傀儡放在这设置卡片"
+	  "set": "把傀儡放在这设置卡片",
+	  "blacklist": "使用黑名单。点击切换至白名单",
+	  "lock": "锁定交互",
+	  "match_item": "匹配物品。点击启用匹配NBT",
+	  "match_tag": "匹配物品和NBT。点击切换至只匹配物品",
+	  "whitelist": "使用白名单。点击切换至黑名单"
+	},
+	"tab": {
+	  "attribute": "傀儡数值",
+	  "equipment": "傀儡装备",
+	  "pickup": "拾取升级过滤器",
+	  "toggle": "通用配置"
 	}
   },
   "patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",

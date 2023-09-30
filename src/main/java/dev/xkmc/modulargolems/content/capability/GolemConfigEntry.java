@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class GolemConfigEntry {
 	@SerialClass.SerialField
 	public boolean summonToPosition;
 	@SerialClass.SerialField
-	protected PickupFilterConfig pickupFilter = new PickupFilterConfig();
+	public PickupFilterConfig pickupFilter = new PickupFilterConfig();
 
 	@SerialClass.SerialField
 	public boolean locked;
@@ -97,4 +98,5 @@ public class GolemConfigEntry {
 		name = Component.Serializer.toJson(hoverName);
 		sync(level);
 	}
+
 }

@@ -455,7 +455,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		var config = getConfigEntry(null);
 		int mode = config == null ? 0 : config.defaultMode;
 		boolean far = config != null && config.summonToPosition && mode != 0 && recordedPosition.lengthSqr() > 0;
-		BlockPos guard = far ? recordedGuardPos : blockPosition();
+		BlockPos guard = far && !recordedGuardPos.equals(BlockPos.ZERO) ? recordedGuardPos : blockPosition();
 		Vec3 pos = far ? recordedPosition : position();
 		boolean succeed = level().isLoaded(BlockPos.containing(pos)) &&
 				pos.distanceTo(position()) < MGConfig.COMMON.summonDistance.get();

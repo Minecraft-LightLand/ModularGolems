@@ -15,7 +15,7 @@ public record PickupFilterEditor(GolemConfigEditor editor) implements ReadOnlyCo
 
 	public void set(int slot, ItemStack stack) {
 		var filter = getFilter();
-		if (slot > filter.filter.size()) {
+		if (slot >= filter.filter.size()) {
 			filter.filter.add(stack);
 		} else {
 			filter.filter.set(slot, stack);

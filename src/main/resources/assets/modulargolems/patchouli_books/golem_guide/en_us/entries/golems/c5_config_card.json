@@ -12,6 +12,10 @@
 	{
 	  "type": "patchouli:text",
 	  "text": "In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.$(br2)Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode."
+	},
+	{
+	  "type": "patchouli:text",
+	  "text": "You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. $(br2)You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables."
 	}
   ]
 }

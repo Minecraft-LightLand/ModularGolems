@@ -32,4 +32,8 @@ public class PickupFilterConfig {
 		return false;
 	}
 
+	public boolean allowPickup(ItemStack stack) {
+		return internalMatch(stack) != blacklist;
+	}
+
 }
