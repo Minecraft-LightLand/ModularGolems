@@ -50,7 +50,7 @@ public class OpenEquipmentMenuToServer extends SerialPacketBase {
 		if (player == null) return;
 		var entry = player.serverLevel().getEntity(uuid);
 		if (!(entry instanceof AbstractGolemEntity<?, ?> golem)) return;
-		if (entry.isAlliedTo(player)) return;
+		if (!entry.isAlliedTo(player)) return;
 		IMenuPvd pvd = type.construct(golem);
 		NetworkHooks.openScreen(player, pvd, pvd::writeBuffer);
 	}

@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 
 public class ItemConfigMenu extends AbstractContainerMenu {
 
-	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "config_item");
+	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "config_pickup");
 	public static final int SIZE = 18;
 
 	public static ItemConfigMenu fromNetwork(MenuType<ItemConfigMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {

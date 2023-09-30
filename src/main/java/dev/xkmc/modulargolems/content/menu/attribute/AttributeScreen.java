@@ -69,7 +69,7 @@ public class AttributeScreen extends BaseTextScreen implements ITabScreen {
 					ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100.0D : val),
 					Component.translatable(entry.attr().getDescriptionId()));
 			g.drawString(this.font, comp, x, y, 0, false);
-			if (mx > x && my > y && my < y + 10) {
+			if (mx > x && mx < leftPos + imageWidth && my > y && my < y + 10) {
 				focus = entry.attr();
 			}
 			y += 10;
@@ -142,12 +142,12 @@ public class AttributeScreen extends BaseTextScreen implements ITabScreen {
 
 	@Override
 	public int getGuiLeft() {
-		return 0;
+		return leftPos;
 	}
 
 	@Override
 	public int getGuiTop() {
-		return 0;
+		return topPos;
 	}
 
 	@Override
@@ -162,12 +162,12 @@ public class AttributeScreen extends BaseTextScreen implements ITabScreen {
 
 	@Override
 	public int getXSize() {
-		return 0;
+		return imageWidth;
 	}
 
 	@Override
 	public int getYSize() {
-		return 0;
+		return imageHeight;
 	}
 
 }
