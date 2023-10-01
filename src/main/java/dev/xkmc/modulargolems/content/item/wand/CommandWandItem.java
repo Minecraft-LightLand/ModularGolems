@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
+import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
@@ -11,7 +12,6 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenuPvd;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -19,21 +19,17 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class CommandWandItem extends Item implements GolemInteractItem, IGlowingTarget {
+public class CommandWandItem extends BaseWandItem implements GolemInteractItem, IGlowingTarget {
 
 	private static final int RANGE = 64;
 
-	public CommandWandItem(Properties props) {
-		super(props);
+	public CommandWandItem(Properties properties, @Nullable ItemEntry<? extends BaseWandItem> base) {
+		super(properties, MGLangData.WAND_COMMAND_RIGHT, MGLangData.WAND_COMMAND_SHIFT, base);
 	}
 
 	@Override
@@ -102,11 +98,5 @@ public class CommandWandItem extends Item implements GolemInteractItem, IGlowing
 		}
 		return false;
 	}
-
-	@Override
-	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> list, TooltipFlag pIsAdvanced) {
-		list.add(MGLangData.WAND_COMMAND.get());
-	}
-
 
 }

@@ -47,7 +47,11 @@
 	"talented": "辅助升级：多才多艺",
 	"cauldron": "辅助升级：炼药锅",
 	"mount_upgrade": "坐骑升级",
-	"size_upgrade": "体形升级"
+	"size_upgrade": "体形升级",
+	"omnipotent_wand_command": "万能手杖：命令",
+	"omnipotent_wand_retrieval": "万能手杖：回收",
+	"omnipotent_wand_rider": "万能手杖：骑乘",
+	"omnipotent_wand_summon": "万能手杖：召唤"
   },
   "-cartesian": {
 	"config": {

@@ -21,6 +21,7 @@ public class MGConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
+
 		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "vanilla"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "copper"), Ingredient.of(Items.COPPER_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 50)

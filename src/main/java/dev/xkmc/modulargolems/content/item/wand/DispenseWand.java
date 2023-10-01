@@ -1,27 +1,24 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
+import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Predicate;
 
-public class DispenseWand extends Item implements GolemInteractItem {
+public class DispenseWand extends BaseWandItem implements GolemInteractItem {
 
 	private static void iter(Player player, Predicate<ItemStack> use) {
 		if (use.test(player.getOffhandItem())) return;
@@ -31,8 +28,8 @@ public class DispenseWand extends Item implements GolemInteractItem {
 		}
 	}
 
-	public DispenseWand(Properties props) {
-		super(props);
+	public DispenseWand(Properties properties, @Nullable ItemEntry<? extends BaseWandItem> base) {
+		super(properties, MGLangData.WAND_SUMMON_RIGHT, MGLangData.WAND_SUMMON_SHIFT, base);
 	}
 
 	@Override
@@ -63,11 +60,6 @@ public class DispenseWand extends Item implements GolemInteractItem {
 			}
 		}
 		return InteractionResultHolder.success(stack);
-	}
-
-	@Override
-	public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> list, TooltipFlag pIsAdvanced) {
-		list.add(MGLangData.WAND_SUMMON.get());
 	}
 
 }
