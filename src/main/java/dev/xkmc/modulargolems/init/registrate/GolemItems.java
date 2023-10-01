@@ -58,10 +58,10 @@ public class GolemItems {
 			GOLD, ENCHANTED_GOLD, FLOAT, SPONGE, SWIM, PLAYER_IMMUNE, ENDER_SIGHT, BELL, SPEED, SLOW, WEAK, WITHER,
 			EMERALD, PICKUP, PICKUP_MENDING, PICKUP_NO_DESTROY, TALENTED, CAULDRON, MOUNT_UPGRADE, SIZE_UPGRADE;
 
-	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
-	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
-	public static final ItemEntry<DispenseWand> DISPENSE_WAND;
-	public static final ItemEntry<RiderWandItem> RIDER_WAND;
+	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND, OMNI_RETRIVAL;
+	public static final ItemEntry<CommandWandItem> COMMAND_WAND, OMNI_COMMAND;
+	public static final ItemEntry<DispenseWand> DISPENSE_WAND, OMNI_DISPENSE;
+	public static final ItemEntry<RiderWandItem> RIDER_WAND, OMNI_RIDER;
 
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
@@ -84,19 +84,19 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 
 
-			REGISTRATE.item("omnipotent_wand_command", p -> new CommandWandItem(p.stacksTo(1), COMMAND_WAND))
+			OMNI_COMMAND = REGISTRATE.item("omnipotent_wand_command", p -> new CommandWandItem(p.stacksTo(1), COMMAND_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Command").tag(L2ISTagGen.SELECTABLE)
 					.register();
-			REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
+			OMNI_RETRIVAL = REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Retrieval").tag(L2ISTagGen.SELECTABLE)
 					.removeTab(TAB.getKey()).register();
-			REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
+			OMNI_DISPENSE = REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Summon").tag(L2ISTagGen.SELECTABLE)
 					.removeTab(TAB.getKey()).register();
-			REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
+			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE)
 					.removeTab(TAB.getKey()).register();

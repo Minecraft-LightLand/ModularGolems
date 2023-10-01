@@ -1,0 +1,10 @@
+{
+  "map": {
+    "modulargolems:wand": [
+      "modulargolems:omnipotent_wand_command",
+      "modulargolems:omnipotent_wand_summon",
+      "modulargolems:omnipotent_wand_retrieval",
+      "modulargolems:omnipotent_wand_rider"
+    ]
+  }
+}

@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.init.data;
 
+import dev.xkmc.l2itemselector.init.L2ItemSelector;
+import dev.xkmc.l2itemselector.select.item.SimpleItemSelectConfig;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
@@ -21,6 +23,12 @@ public class MGConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
+
+		map.add(L2ItemSelector.ITEM_SELECTOR, new ResourceLocation(ModularGolems.MODID, "wand"), new SimpleItemSelectConfig()
+				.add(new ResourceLocation(ModularGolems.MODID, "wand"),
+						GolemItems.OMNI_COMMAND.get(), GolemItems.OMNI_DISPENSE.get(),
+						GolemItems.OMNI_RETRIVAL.get(), GolemItems.OMNI_RIDER.get())
+		);
 
 		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "vanilla"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "copper"), Ingredient.of(Items.COPPER_INGOT))

@@ -64,6 +64,16 @@ public class RecipeGen {
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.OMNI_COMMAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.pattern(" 1T").pattern("2S3").pattern("S4 ")
+					.define('1', GolemItems.COMMAND_WAND.get())
+					.define('2', GolemItems.DISPENSE_WAND.get())
+					.define('3', GolemItems.RETRIEVAL_WAND.get())
+					.define('4', GolemItems.RIDER_WAND.get())
+					.define('S', Items.GOLD_INGOT)
+					.define('T', Items.REDSTONE_BLOCK)
+					.save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.CARD[DyeColor.WHITE.getId()].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.pattern(" P ").pattern("PTP").pattern(" P ")
 					.define('P', Items.PAPER)

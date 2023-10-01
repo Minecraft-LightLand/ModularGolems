@@ -165,7 +165,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public boolean canModify(Player player) {
 		var entry = getConfigEntry(null);
-		if(entry!=null&&entry.locked)
+		if (entry != null && entry.locked)
 			return false;
 		return isAlliedTo(player);
 	}
