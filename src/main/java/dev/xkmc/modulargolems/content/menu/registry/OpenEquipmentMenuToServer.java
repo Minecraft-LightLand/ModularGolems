@@ -2,10 +2,12 @@ package dev.xkmc.modulargolems.content.menu.registry;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenuPvd;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -14,7 +16,8 @@ import java.util.function.Function;
 public class OpenEquipmentMenuToServer extends SerialPacketBase {
 
 	public enum Type {
-		EQUIPMENT(EquipmentsMenuPvd::new);
+		EQUIPMENT(EquipmentsMenuPvd::new),
+		CURIOS(CurioCompatRegistry::create);
 
 		private final Function<AbstractGolemEntity<?, ?>, IMenuPvd> func;
 
@@ -22,6 +25,7 @@ public class OpenEquipmentMenuToServer extends SerialPacketBase {
 			this.func = func;
 		}
 
+		@Nullable
 		public IMenuPvd construct(AbstractGolemEntity<?, ?> entry) {
 			return func.apply(entry);
 		}
@@ -52,7 +56,9 @@ public class OpenEquipmentMenuToServer extends SerialPacketBase {
 		if (!(entry instanceof AbstractGolemEntity<?, ?> golem)) return;
 		if (!entry.isAlliedTo(player)) return;
 		IMenuPvd pvd = type.construct(golem);
-		NetworkHooks.openScreen(player, pvd, pvd::writeBuffer);
+		if (pvd != null) {
+			NetworkHooks.openScreen(player, pvd, pvd::writeBuffer);
+		}
 	}
 
 }

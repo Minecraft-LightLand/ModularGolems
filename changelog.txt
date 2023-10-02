@@ -1,5 +1,6 @@
 - 2.4.17
-    - TODO make item selector a built in dependency
+    - Omnipotent Wand
+    - Curios support for backpack
 
 - 2.4.16
     - Add metal golem armors

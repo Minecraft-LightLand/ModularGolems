@@ -196,7 +196,7 @@ dependencies {
         jarJar.ranged(it, "[0.1.5,)")
     }
 
-    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.5-slim")
+    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.12-slim")
     implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.11-slim')
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")

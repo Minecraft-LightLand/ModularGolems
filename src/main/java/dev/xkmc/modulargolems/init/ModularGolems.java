@@ -4,6 +4,7 @@ import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
 import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
+import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.ConfigHeartBeatToServer;
 import dev.xkmc.modulargolems.content.capability.ConfigSyncToClient;
@@ -69,6 +70,7 @@ public class ModularGolems {
 		GolemTriggers.register();
 		GolemModes.register();
 		GolemConfigStorage.register();
+		CurioCompatRegistry.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, MGLangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
 		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, MGTagGen::onBlockTagGen);
@@ -96,6 +98,7 @@ public class ModularGolems {
 	public static void gatherData(GatherDataEvent event) {
 		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(event.getGenerator()));
 		CompatManager.gatherData(event);
+		event.getGenerator().addProvider(event.includeServer(), new SlotGen(event.getGenerator()));
 	}
 
 	@SubscribeEvent

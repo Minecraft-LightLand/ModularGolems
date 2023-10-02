@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.init;
 
+import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels;
@@ -36,6 +37,7 @@ public class GolemClient {
 			CompatManager.dispatchClientSetup();
 
 			GolemTabRegistry.register();
+			CurioCompatRegistry.clientRegister();
 		});
 	}
 

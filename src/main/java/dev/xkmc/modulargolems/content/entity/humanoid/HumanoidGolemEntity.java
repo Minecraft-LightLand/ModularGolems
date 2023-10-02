@@ -397,10 +397,21 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public void attackStep() {
 		if (level().isClientSide()) return;
-		if (tickCount % 2 != 0) return;
+		if (tickCount % 5 != 0) return;
+		switchWeapon(
+				getWrapperOfHand(EquipmentSlot.MAINHAND),
+				getWrapperOfHand(EquipmentSlot.OFFHAND)
+		);
+	}
+
+	private ItemWrapper getWrapperOfHand(EquipmentSlot slot) {
+		return ItemWrapper.simple(() -> this.getItemBySlot(slot), e -> super.setItemSlot(slot, e));
+	}
+
+	private void switchWeapon(ItemWrapper mainhand, ItemWrapper offhand) {
 		LivingEntity target = getTarget();
-		ItemStack main = getItemBySlot(EquipmentSlot.MAINHAND);
-		ItemStack off = getItemBySlot(EquipmentSlot.OFFHAND);
+		ItemStack main = mainhand.getItem();
+		ItemStack off = offhand.getItem();
 		if (main.getItem() instanceof ProjectileWeaponItem) {
 			if (getProjectile(main).isEmpty()) {
 				if (off.isEmpty() ||
@@ -424,8 +435,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		} else {
 			return;
 		}
-		super.setItemSlot(EquipmentSlot.MAINHAND, off);
-		super.setItemSlot(EquipmentSlot.OFFHAND, main);
+		mainhand.setItem(off);
+		offhand.setItem(main);
 		reassessWeaponGoal();
 	}
 

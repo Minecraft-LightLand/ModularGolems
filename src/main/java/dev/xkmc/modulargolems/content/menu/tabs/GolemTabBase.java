@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.tabs;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -33,11 +34,15 @@ public abstract class GolemTabBase<G extends GolemTabGroup<G>, T extends GolemTa
 	public void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
 			token.type.draw(g, getX(), getY(), manager.selected == token, index);
-			token.type.drawIcon(g, getX(), getY(), index, this.stack);
+			renderIcon(g);
 		}
 		if (this == manager.list.get(manager.list.size() - 1)) { // draw on last
 			manager.onToolTipRender(g, mouseX, mouseY);
 		}
+	}
+
+	protected void renderIcon(GuiGraphics g){
+		token.type.drawIcon(g, getX(), getY(), index, this.stack);
 	}
 
 }

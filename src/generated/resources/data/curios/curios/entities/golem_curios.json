@@ -1,0 +1,11 @@
+{
+  "conditions": [],
+  "entities": [
+    "modulargolems:metal_golem",
+    "modulargolems:humanoid_golem",
+    "modulargolems:dog_golem"
+  ],
+  "slots": [
+    "back"
+  ]
+}

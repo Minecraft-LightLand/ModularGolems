@@ -20,7 +20,4 @@ public interface ITabScreen {
 		return (Screen) this;
 	}
 
-	default void onSwitch() {
-	}
-
 }

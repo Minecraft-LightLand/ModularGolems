@@ -40,12 +40,12 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 
 	@Override
 	public int screenWidth() {
-		return getXSize();
+		return width;
 	}
 
 	@Override
 	public int screenHeight() {
-		return getYSize();
+		return height;
 	}
 
 }

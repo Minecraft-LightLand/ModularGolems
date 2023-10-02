@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.jei;
 
+import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
@@ -75,6 +77,7 @@ public class GolemJEIPlugin implements IModPlugin {
 		registration.addGuiScreenHandler(EquipmentsScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(ToggleGolemConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(ItemConfigScreen.class, GolemJEIPlugin::create);
+		CurioCompatRegistry.onJEIRegistry(e -> registration.addGuiScreenHandler(Wrappers.cast(e), GolemJEIPlugin::create));
 	}
 
 	@Nullable
