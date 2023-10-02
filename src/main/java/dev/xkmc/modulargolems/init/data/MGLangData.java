@@ -54,6 +54,15 @@ public enum MGLangData {
 	SUMMON_FAILED("msg.summon_failed", "Failed to summon %s, as target position is too far", 1, ChatFormatting.RED),
 	SUMMON_FAR("msg.summon_far", "Summoned %s, at (%s,%s,%s)", 4, ChatFormatting.GOLD),
 
+	SLOT_MAIN("slot.main", "Main Hand Slot", 0, ChatFormatting.YELLOW),
+	SLOT_OFF("slot.off", "Off Hand Slot", 0, ChatFormatting.YELLOW),
+	SLOT_BACKUP("slot.backup", "Secondary Weapon Slot", 0, ChatFormatting.YELLOW),
+	SLOT_ARROW("slot.arrow", "Arrow Slot", 0, ChatFormatting.YELLOW),
+	SLOT_MAIN_DESC("slot.main_desc", "Place weapons here. Accepts anything.", 0, ChatFormatting.GRAY),
+	SLOT_BACKUP_DESC("slot.backup_desc", "Place secondary weapons here.", 0, ChatFormatting.GRAY),
+	SLOT_BACKUP_INFO("slot.backup_info", "If you have bow and sword, one in main hand and one in backup slot, your golem can switch between them depending on distance to enemies.", 0, ChatFormatting.GRAY),
+	SLOT_ARROW_DESC("slot.arrow_desc", "Place arrows here to free up off hand for shields", 0, ChatFormatting.GRAY),
+
 	CONFIG_SET("config.set", "Insert to set config", 0, null),
 	CONFIG_MODE("config.mode", "Default Mode", 0, null),
 	CONFIG_POS("config.pos", "Summon to", 0, null),

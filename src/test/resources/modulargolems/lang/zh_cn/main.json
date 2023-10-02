@@ -66,9 +66,18 @@
 	  "equipment": "傀儡装备",
 	  "pickup": "拾取升级过滤器",
 	  "toggle": "通用配置"
+	},
+	"slot": {
+	  "main": "主手槽",
+	  "off": "副手槽",
+	  "backup": "第二武器槽",
+	  "arrow": "箭矢槽",
+	  "arrow_desc": "把箭放在这可以腾出副手持盾",
+	  "backup_desc": "把第二把武器放在这",
+	  "backup_info": "如果主手槽和第二武器槽分别持有近战武器和弓，傀儡会根据敌人的距离灵活切换武器战斗",
+	  "main_desc": "在这放武器。当然什么都可以放"
 	}
   },
   "patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",
   "patchouli.modulargolems.title": "模块化傀儡"
-
 }

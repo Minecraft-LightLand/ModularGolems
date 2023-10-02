@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
 import net.minecraft.world.item.ItemStack;
 
 public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<EquipmentsMenu> {
@@ -9,22 +11,33 @@ public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<Equipme
 		super(0, menu);
 	}
 
+	private ItemWrapper getWrapper(int index) {
+		if (parent.golem == null || index < 0) return ItemWrapper.EMPTY;
+		if (index < 6) {
+			return parent.golem.getWrapperOfHand(EquipmentsMenu.SLOTS[index]);
+		}
+		if (!(parent.golem instanceof HumanoidGolemEntity humanoid))
+			return ItemWrapper.EMPTY;
+		if (index == 6)
+			return humanoid.getBackupHand();
+		if (index == 7)
+			return humanoid.getArrowSlot();
+		return ItemWrapper.EMPTY;
+	}
+
 	@Override
 	public ItemStack getItem(int index) {
-		if (parent.golem == null) return ItemStack.EMPTY;
-		return parent.golem.getItemBySlot(EquipmentsMenu.SLOTS[index]);
+		return getWrapper(index).getItem();
 	}
 
 	@Override
 	public void setItem(int index, ItemStack stack) {
-		if (parent.golem == null) return;
-		parent.golem.setItemSlot(EquipmentsMenu.SLOTS[index], stack);
+		getWrapper(index).setItem(stack);
 	}
 
 	@Override
 	public ItemStack removeItem(int index, int count) {
-		if (parent.golem == null) return ItemStack.EMPTY;
-		return parent.golem.getItemBySlot(EquipmentsMenu.SLOTS[index]).split(count);
+		return getWrapper(index).getItem().split(count);
 	}
 
 }

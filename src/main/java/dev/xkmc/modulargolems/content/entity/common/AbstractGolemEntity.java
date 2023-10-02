@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
+import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
@@ -97,6 +98,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private Vec3 recordedPosition = Vec3.ZERO;
 	@SerialClass.SerialField
 	private BlockPos recordedGuardPos = BlockPos.ZERO;
+
+	// marks opened inventory
+	public int inventoryTick = 0;
 
 	protected final PathNavigation waterNavigation;
 	protected final GroundPathNavigation groundNavigation;
@@ -394,6 +398,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public void tick() {
 		super.tick();
+		if (this.inventoryTick > 0) {
+			this.inventoryTick--;
+		}
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
@@ -661,6 +668,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			setLastHurtByMob(le);
 		}
 	}
+
+	public ItemWrapper getWrapperOfHand(EquipmentSlot slot) {
+		return ItemWrapper.simple(() -> this.getItemBySlot(slot), e -> super.setItemSlot(slot, e));
+	}
+
 }
 
 

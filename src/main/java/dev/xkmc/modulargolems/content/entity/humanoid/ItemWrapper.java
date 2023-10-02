@@ -7,6 +7,9 @@ import java.util.function.Supplier;
 
 public interface ItemWrapper {
 
+	ItemWrapper EMPTY = simple(() -> ItemStack.EMPTY, e -> {
+	});
+
 	static ItemWrapper simple(Supplier<ItemStack> getter, Consumer<ItemStack> setter) {
 		return new Simple(getter, setter);
 	}

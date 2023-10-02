@@ -1,6 +1,8 @@
 - 2.4.17
     - Omnipotent Wand
     - Curios support for backpack
+    - Add secondary weapon slot and arrow slot
+    - Add weapon switch delay of 10 ticks
 
 - 2.4.16
     - Add metal golem armors

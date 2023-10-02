@@ -34,14 +34,19 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	public static EquipmentSlot[] SLOTS = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
 
 	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "equipments");
+	public static final SpriteManager EXTRA = new SpriteManager(ModularGolems.MODID, "equipments_extra");
 
 	public final AbstractGolemEntity<?, ?> golem;
 
 	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable AbstractGolemEntity<?, ?> golem) {
-		super(type, wid, plInv, MANAGER, EquipmentsContainer::new, false);
+		super(type, wid, plInv, golem instanceof HumanoidGolemEntity ? EXTRA : MANAGER, EquipmentsContainer::new, false);
 		this.golem = golem;
 		addSlot("hand", (i, e) -> isValid(SLOTS[i], e));
 		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e));
+		if (golem instanceof HumanoidGolemEntity) {
+			addSlot("backup", e -> isValid(EquipmentSlot.MAINHAND, e));
+			addSlot("arrow", ItemStack::isStackable);
+		}
 	}
 
 	private boolean isValid(EquipmentSlot slot, ItemStack stack) {

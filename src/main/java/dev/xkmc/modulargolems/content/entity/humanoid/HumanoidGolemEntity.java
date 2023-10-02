@@ -24,7 +24,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.player.Player;
@@ -34,6 +33,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
 
@@ -52,6 +52,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	private final GolemTridentAttackGoal tridentGoal = new GolemTridentAttackGoal(this, 1, 40, 15, meleeGoal);
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
+	@SerialClass.SerialField
+	private ItemStack backupHand = ItemStack.EMPTY;
+	@SerialClass.SerialField
+	private ItemStack arrowSlot = ItemStack.EMPTY;
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(type, level);
@@ -90,10 +94,13 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public ItemStack getProjectile(ItemStack pShootable) {
 		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
 			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
-			ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-			return net.minecraftforge.common.ForgeHooks.getProjectile(this, pShootable, itemstack);
+			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
+			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
+				stack = arrowSlot;
+			}
+			return ForgeHooks.getProjectile(this, pShootable, stack);
 		} else {
-			return net.minecraftforge.common.ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
+			return ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
 		}
 	}
 
@@ -397,15 +404,22 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public void attackStep() {
 		if (level().isClientSide()) return;
-		if (tickCount % 5 != 0) return;
+		if (inventoryTick > 0) return;
+		inventoryTick = 4;
 		switchWeapon(
 				getWrapperOfHand(EquipmentSlot.MAINHAND),
-				getWrapperOfHand(EquipmentSlot.OFFHAND)
+				!backupHand.isEmpty() ?
+						getBackupHand() :
+						getWrapperOfHand(EquipmentSlot.OFFHAND)
 		);
 	}
 
-	private ItemWrapper getWrapperOfHand(EquipmentSlot slot) {
-		return ItemWrapper.simple(() -> this.getItemBySlot(slot), e -> super.setItemSlot(slot, e));
+	public ItemWrapper getBackupHand() {
+		return ItemWrapper.simple(() -> this.backupHand, e -> this.backupHand = e);
+	}
+
+	public ItemWrapper getArrowSlot() {
+		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
 	}
 
 	private void switchWeapon(ItemWrapper mainhand, ItemWrapper offhand) {
@@ -432,12 +446,15 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			if (target != null && meleeGoal.canReachTarget(target)) {
 				return;
 			}
+		} else if (main.isEmpty() && !off.isEmpty()) {
+
 		} else {
 			return;
 		}
 		mainhand.setItem(off);
 		offhand.setItem(main);
 		reassessWeaponGoal();
+		inventoryTick = 10;
 	}
 
 	@Override
@@ -445,11 +462,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (target instanceof DogGolemEntity || target instanceof AbstractHorse) {
 			startRiding(target);
 		}
-	}
-
-	@Override
-	public PathNavigation getNavigation() {
-		return super.getNavigation();
 	}
 
 }
