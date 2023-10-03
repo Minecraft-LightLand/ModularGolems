@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.client;
 
+import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
 import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
@@ -34,6 +35,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 	@Override
 	public void render(ForgeGui gui, GuiGraphics g, float partialTick, int screenWidth, int screenHeight) {
 		if (Minecraft.getInstance().screen != null) return;
+		if (ItemSelectionOverlay.INSTANCE.isRendering()) return;
 		LocalPlayer player = Proxy.getClientPlayer();
 		if (player == null) return;
 		if (!(player.getMainHandItem().getItem() instanceof GolemInteractItem wand)) return;

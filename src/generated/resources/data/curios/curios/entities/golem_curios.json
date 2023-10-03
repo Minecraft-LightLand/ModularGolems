@@ -6,6 +6,9 @@
     "modulargolems:dog_golem"
   ],
   "slots": [
-    "back"
+    "head",
+    "back",
+    "ring",
+    "charm"
   ]
 }

@@ -217,6 +217,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+		if (Screen.hasAltDown()) {
+			NBTAnalytic.analyze(stack, list);
+			return;
+		}
 		if (!Screen.hasShiftDown()) {
 			float max = getMaxHealth(stack);
 			if (max >= 0) {
