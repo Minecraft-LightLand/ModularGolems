@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.item.equipments;
+package dev.xkmc.modulargolems.content.client;
 
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -12,19 +12,12 @@ import java.util.List;
 
 public class GolemEquipmentModels {
 
-	public record GolemModelPath(ModelLayerLocation mll, List<List<String>> l) {
-	}
-
 	public static final List<ModelLayerLocation> LIST = new ArrayList<>();
 
 	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_helmet"), "main");
 	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_chestplate"), "main");
 	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_shinguard"), "main");
 	public static final ModelLayerLocation METALGOLEM = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "metalgolem"), "model");
-
-	public static final GolemModelPath HELMETS = new GolemModelPath(HELMET_LAYER, List.of(List.of("head", "helmet3"), List.of("head", "helmet17"), List.of("head", "helmet16"), List.of("head", "helmet15"), List.of("head", "helmet8"), List.of("head", "helmet9"), List.of("head", "helmet10"), List.of("head", "helmet11"), List.of("head", "helmet4"), List.of("head", "helmet6"), List.of("head", "helmet5"), List.of("head", "helmet7"), List.of("head", "helmet")));
-	public static final GolemModelPath CHESTPLATES = new GolemModelPath(CHESTPLATE_LAYER, List.of(List.of("body", "main_body"), List.of("right_arm", "main_rightarm2"), List.of("right_arm", "right_forearm", "main_rightforearm"), List.of("right_arm", "main_rightarm1"), List.of("left_arm", "left_forearm", "main_leftforearm"), List.of("left_arm", "main_leftarm1"), List.of("left_arm", "main_leftarm2")));
-	public static final GolemModelPath LEGGINGS = new GolemModelPath(SHINGUARD_LAYER, List.of(List.of("body", "main_shinguard"), List.of("right_leg", "shinguard1"), List.of("left_leg", "shinguard2")));
 
 	public static MeshDefinition buildGolemBaseLayers() {
 		MeshDefinition mesh = new MeshDefinition();
@@ -124,5 +117,6 @@ public class GolemEquipmentModels {
 		event.registerLayerDefinition(SHINGUARD_LAYER, GolemEquipmentModels::createShinGuard);
 		event.registerLayerDefinition(METALGOLEM, GolemEquipmentModels::createGolemLayer);
 	}
+
 }
 

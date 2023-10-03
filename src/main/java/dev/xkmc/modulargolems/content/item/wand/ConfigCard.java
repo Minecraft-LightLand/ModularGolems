@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -51,6 +52,11 @@ public class ConfigCard extends Item implements GolemInteractItem {
 			}
 		}
 		return e -> true;
+	}
+
+	private static boolean mayClientEdit(UUID id) {
+		LocalPlayer player = Proxy.getClientPlayer();
+		return player != null && player.getUUID().equals(id);
 	}
 
 	private final DyeColor color;
@@ -112,7 +118,6 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		return InteractionResultHolder.pass(stack);
 	}
 
-
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag pIsAdvanced) {
 		var id = getUUID(stack);
 		if (id == null) {
@@ -126,8 +131,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 					list.add(entry.getDisplayName());
 				}
 			}
-			Player player = Proxy.getClientPlayer();
-			if (player == null || !id.equals(player.getUUID())) {
+			if (!mayClientEdit(id)) {
 				list.add(MGLangData.CONFIG_OTHER.get());
 			}
 			list.add(MGLangData.CONFIG_CARD.get());

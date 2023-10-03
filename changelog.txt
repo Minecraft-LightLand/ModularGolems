@@ -3,6 +3,7 @@
     - Curios support for backpack
     - Add secondary weapon slot and arrow slot
     - Add weapon switch delay of 10 ticks
+    - Disable weapon switch when editing weapons
 
 - 2.4.16
     - Add metal golem armors

@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.content.menu.ghost;
 import dev.xkmc.l2library.base.menu.base.MenuLayoutConfig;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
-import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.PickupFilterEditor;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -28,9 +27,8 @@ public class ItemConfigMenu extends AbstractContainerMenu {
 	public static ItemConfigMenu fromNetwork(MenuType<ItemConfigMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		var id = buf.readUUID();
 		int color = buf.readInt();
-		var level = Proxy.getClientWorld();
-		var editor = new GolemConfigEditor.Readable(level, id, color);
-		return new ItemConfigMenu(type, wid, plInv, new SimpleContainer(SIZE), editor.getFilter());
+		return new ItemConfigMenu(type, wid, plInv, new SimpleContainer(SIZE),
+				GolemConfigEditor.readable(id, color).getFilter());
 	}
 
 	protected final Inventory inventory;

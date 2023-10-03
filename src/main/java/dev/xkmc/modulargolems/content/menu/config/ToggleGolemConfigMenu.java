@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.menu.config;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
-import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -18,9 +17,7 @@ public class ToggleGolemConfigMenu extends BaseContainerMenu<ToggleGolemConfigMe
 	public static ToggleGolemConfigMenu fromNetwork(MenuType<ToggleGolemConfigMenu> type, int wid, Inventory inv, FriendlyByteBuf buf) {
 		var id = buf.readUUID();
 		int color = buf.readInt();
-		var level = Proxy.getClientWorld();
-		var editor = new GolemConfigEditor.Readable(level, id, color);
-		return new ToggleGolemConfigMenu(type, wid, inv, editor);
+		return new ToggleGolemConfigMenu(type, wid, inv, GolemConfigEditor.readable(id, color));
 	}
 
 	final GolemConfigEditor editor;

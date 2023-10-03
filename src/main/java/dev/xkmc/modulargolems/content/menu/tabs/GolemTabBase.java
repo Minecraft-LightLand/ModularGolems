@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.menu.tabs;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -41,7 +40,7 @@ public abstract class GolemTabBase<G extends GolemTabGroup<G>, T extends GolemTa
 		}
 	}
 
-	protected void renderIcon(GuiGraphics g){
+	protected void renderIcon(GuiGraphics g) {
 		token.type.drawIcon(g, getX(), getY(), index, this.stack);
 	}
 

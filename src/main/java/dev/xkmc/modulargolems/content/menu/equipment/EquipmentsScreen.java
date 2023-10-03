@@ -27,19 +27,19 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		sr.start(g);
 
 		if (menu.getAsPredSlot("hand", 0, 1).getItem().isEmpty())
-			sr.draw(g, "hand", "altas_shield", 1, 19);
+			sr.draw(g, "hand", "altas_shield", 0, 18);
 		if (menu.getAsPredSlot("armor", 0, 0).getItem().isEmpty())
-			sr.draw(g, "armor", "altas_helmet", 1, 1);
+			sr.draw(g, "armor", "altas_helmet", 0, 0);
 		if (menu.getAsPredSlot("armor", 0, 1).getItem().isEmpty())
-			sr.draw(g, "armor", "altas_chestplate", 1, 1 + 18);
+			sr.draw(g, "armor", "altas_chestplate", 0, 18);
 		if (menu.getAsPredSlot("armor", 0, 2).getItem().isEmpty())
-			sr.draw(g, "armor", "altas_leggings", 1, 1 + 18 * 2);
+			sr.draw(g, "armor", "altas_leggings", 0, 18 * 2);
 		if (menu.getAsPredSlot("armor", 0, 3).getItem().isEmpty())
-			sr.draw(g, "armor", "altas_boots", 1, 1 + 18 * 3);
+			sr.draw(g, "armor", "altas_boots", 0, 18 * 3);
 
 		if (menu.golem instanceof HumanoidGolemEntity) {
 			if (menu.getAsPredSlot("arrow", 0, 0).getItem().isEmpty())
-				sr.draw(g, "arrow", "altas_arrow", 1, 1);
+				sr.draw(g, "arrow", "slotbg_arrow", -1, -1);
 		}
 	}
 

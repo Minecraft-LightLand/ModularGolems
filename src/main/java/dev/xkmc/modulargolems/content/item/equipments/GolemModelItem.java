@@ -6,6 +6,6 @@ public interface GolemModelItem {
 
 	ResourceLocation getModelTexture();
 
-	GolemEquipmentModels.GolemModelPath getModelPath();
+	ResourceLocation getModelPath();
 
 }

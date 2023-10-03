@@ -15,9 +15,9 @@ import java.util.UUID;
 
 public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemModelItem {
 
-	private final GolemEquipmentModels.GolemModelPath model;
+	private final ResourceLocation model;
 
-	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, GolemEquipmentModels.GolemModelPath model) {
+	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type.getSlot(), GolemTypes.ENTITY_GOLEM::get, builder -> {
 			UUID uuid = UUID.get(type.getSlot());
 			builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", defense, AttributeModifier.Operation.ADDITION));
@@ -62,7 +62,7 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 		return super.canApplyAtEnchantingTable(stack, enchantment);
 	}
 
-	public GolemEquipmentModels.GolemModelPath getModelPath() {
+	public ResourceLocation getModelPath() {
 		return model;
 	}
 

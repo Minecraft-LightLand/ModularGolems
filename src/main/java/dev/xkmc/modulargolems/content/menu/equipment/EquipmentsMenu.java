@@ -55,7 +55,9 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
 	@Override
 	public boolean stillValid(Player player) {
-		return golem != null && !golem.isRemoved();
+		if (golem == null) return false;
+		golem.inventoryTick = 5;
+		return golem.isAlive() && !golem.isRemoved();
 	}
 
 	@Override

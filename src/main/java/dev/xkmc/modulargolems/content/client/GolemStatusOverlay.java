@@ -35,7 +35,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 	@Override
 	public void render(ForgeGui gui, GuiGraphics g, float partialTick, int screenWidth, int screenHeight) {
 		if (Minecraft.getInstance().screen != null) return;
-		if (ItemSelectionOverlay.INSTANCE.isRendering()) return;
+		boolean offset = ItemSelectionOverlay.INSTANCE.isRendering();
 		LocalPlayer player = Proxy.getClientPlayer();
 		if (player == null) return;
 		if (!(player.getMainHandItem().getItem() instanceof GolemInteractItem wand)) return;
@@ -61,7 +61,8 @@ public class GolemStatusOverlay implements IGuiOverlay {
 			}
 		}
 		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
-		new OverlayUtil(g, Math.round(screenWidth / 8f), -1, -1)
+		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
+		new OverlayUtil(g, textPos, -1, -1)
 				.renderLongText(gui.getFont(), text);
 		if (!(golem instanceof HumanoidGolemEntity humanoid)) return;
 		OverlayUtil util = new OverlayUtil(g, (int) (screenWidth * 0.6), -1, -1);

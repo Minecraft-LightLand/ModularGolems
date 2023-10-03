@@ -7,6 +7,7 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.client.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
@@ -31,7 +32,6 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
 
-import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.*;
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
@@ -105,41 +105,41 @@ public class GolemItems {
 		// golemguard armor
 		{
 			GOLEMGUARD_HELMET = REGISTRATE.item("roman_guard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.HELMET, 8, 4, HELMETS))
+							ArmorItem.Type.HELMET, 8, 4, GolemModelPaths.HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("roman_guard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.CHESTPLATE, 10, 4, CHESTPLATES))
+							ArmorItem.Type.CHESTPLATE, 10, 4, GolemModelPaths.CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			GOLEMGUARD_SHINGUARD = REGISTRATE.item("roman_guard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.LEGGINGS, 6, 4, LEGGINGS))
+							ArmorItem.Type.LEGGINGS, 6, 4, GolemModelPaths.LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 
 			WINDSPIRIT_HELMET = REGISTRATE.item("wind_spirit_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.HELMET, 11, 6, HELMETS))
+							ArmorItem.Type.HELMET, 11, 6, GolemModelPaths.HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			WINDSPIRIT_CHESTPLATE = REGISTRATE.item("wind_spirit_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.CHESTPLATE, 14, 6, CHESTPLATES))
+							ArmorItem.Type.CHESTPLATE, 14, 6, GolemModelPaths.CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			WINDSPIRIT_SHINGUARD = REGISTRATE.item("wind_spirit_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.LEGGINGS, 8, 6, LEGGINGS))
+							ArmorItem.Type.LEGGINGS, 8, 6, GolemModelPaths.LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 
 			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.HELMET, 14, 8, HELMETS))
+							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaric_vanguard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.CHESTPLATE, 18, 8, CHESTPLATES))
+							ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.LEGGINGS, 10, 8, LEGGINGS))
+							ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 		}
