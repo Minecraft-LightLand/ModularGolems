@@ -79,7 +79,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 	}
 
 	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<UpgradeItem> upgrades) {
-		HashMap<GolemModifier, Integer> values = new HashMap<>();
+		HashMap<GolemModifier, Integer> values = new LinkedHashMap<>();
 		for (GolemMaterial stats : list) {
 			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
 		}

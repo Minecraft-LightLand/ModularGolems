@@ -91,7 +91,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Nullable
 	private UUID owner;
 	@SerialClass.SerialField(toClient = true)
-	private HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
+	private HashMap<GolemModifier, Integer> modifiers = new LinkedHashMap<>();
 	@SerialClass.SerialField(toClient = true)
 	private final HashSet<GolemFlags> golemFlags = new HashSet<>();
 	@SerialClass.SerialField
@@ -412,8 +412,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void aiStep() {
 		this.updateSwingTime();
 		super.aiStep();
-		double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
-		if (heal > 0 && this.tickCount % 20 == 0) {
+		if (this.tickCount % 20 == 0) {
+			double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
 			for (var entry : getModifiers().entrySet()) {
 				heal = entry.getKey().onHealTick(heal, this, entry.getValue());
 			}

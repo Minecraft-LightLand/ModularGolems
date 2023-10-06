@@ -25,10 +25,10 @@ public class TFCompatRegistry {
 		TF_HEALING = reg("tf_healing", TFHealingModifier::new, "TF Healing Bonus", "Healing becomes %s%% in twilight forest");
 		CARMINITE = reg("carminite", CarminiteModifier::new, "After being hurt, turn invisible and invinsible for %s seconds");
 		NAGA = reg("naga", () -> new AttributeGolemModifier(2,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_SPEED, 0.3),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATTACK, 4),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, 1)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, () -> 10),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_SPEED, () -> 0.3),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATTACK, () -> 4),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, () -> 1)
 		)).register();
 
 		UP_CARMINITE = regModUpgrade("carminite", () -> CARMINITE, TFDispatch.MODID).lang("Carminite Upgrade").register();

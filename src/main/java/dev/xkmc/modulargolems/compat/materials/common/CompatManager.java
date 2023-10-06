@@ -5,6 +5,7 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
+import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,6 +25,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(CreateDispatch.MODID)) LIST.add(new CreateDispatch());
 		if (ModList.get().isLoaded(LCDispatch.MODID)) LIST.add(new LCDispatch());
 		if (ModList.get().isLoaded(BGDispatch.MODID)) LIST.add(new BGDispatch());
+		if (ModList.get().isLoaded(LHDispatch.MODID)) LIST.add(new LHDispatch());
 		if (ModList.get().isLoaded("create_enchantment_industry")) CEICompat.register();
 	}
 
