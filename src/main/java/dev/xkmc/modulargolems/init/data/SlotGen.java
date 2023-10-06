@@ -27,7 +27,7 @@ public class SlotGen extends RecordDataProvider {
 		));
 
 		map.accept("curios/curios/entities/golem_curios", new CurioEntityBuilder(entities,
-				new ArrayList<>(List.of("head", "back", "ring", "charm")), SlotCondition.of()
+				new ArrayList<>(List.of("head", "back", "ring", "charm", "hands")), SlotCondition.of()
 		));
 
 		map.accept("curios/curios/entities/golem_artifacts", new CurioEntityBuilder(entities,
