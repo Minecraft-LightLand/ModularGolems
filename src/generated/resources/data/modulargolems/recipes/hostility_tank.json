@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "l2hostility"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "modulargolems:netherite"
+    },
+    "B": {
+      "item": "l2complements:warden_bone_shard"
+    },
+    "C": {
+      "item": "l2hostility:tank"
+    }
+  },
+  "pattern": [
+    "CBC",
+    "BAB",
+    "CBC"
+  ],
+  "result": {
+    "item": "modulargolems:hostility_tank"
+  },
+  "show_notification": true
+}

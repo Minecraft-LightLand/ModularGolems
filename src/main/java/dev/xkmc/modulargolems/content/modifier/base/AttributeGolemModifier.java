@@ -6,6 +6,7 @@ import net.minecraft.network.chat.MutableComponent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 /**
@@ -13,10 +14,10 @@ import java.util.function.Supplier;
  */
 public class AttributeGolemModifier extends GolemModifier {
 
-	public record AttrEntry(Supplier<GolemStatType> type, double value) {
+	public record AttrEntry(Supplier<GolemStatType> type, DoubleSupplier value) {
 
 		public double getValue(int level) {
-			return value * level;
+			return value.getAsDouble() * level;
 		}
 	}
 

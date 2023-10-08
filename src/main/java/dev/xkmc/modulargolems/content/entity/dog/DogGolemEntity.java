@@ -4,7 +4,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.content.item.wand.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -234,13 +234,13 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (player.getItemInHand(hand).getItem() instanceof WandItem) return InteractionResult.PASS;
+		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
 		if (player.getItemInHand(hand).getItem() instanceof GolemHolder) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
 			return super.mobInteract(player, hand);
 		else {
-			if (!this.level().isClientSide() && isAlliedTo(player))
+			if (!this.level().isClientSide() && canModify(player))
 				this.setInSittingPose(!this.isInSittingPose());
 			return InteractionResult.SUCCESS;
 		}

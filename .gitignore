@@ -28,3 +28,5 @@ run
 
 .DS_Store
 temp/
+
+.cache

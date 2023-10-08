@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.tterrag.registrate.util.CreativeModeTabModifier;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
+import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
@@ -57,7 +58,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			KEY_UPGRADES = "golem_upgrades",
 			KEY_ENTITY = "golem_entity",
 			KEY_DISPLAY = "golem_display",
-			KEY_ICON = "golem_icon";
+			KEY_ICON = "golem_icon",
+			KEY_CONFIG = "golem_config";
 	public static final String KEY_PART = "part", KEY_MAT = "material";
 
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
@@ -92,6 +94,20 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return ans;
 	}
 
+	public static Optional<Pair<UUID, Integer>> getGolemConfig(ItemStack stack) {
+		var tag = stack.getTagElement(KEY_CONFIG);
+		if (tag != null) {
+			return Optional.of(Pair.of(tag.getUUID("id"), tag.getInt("color")));
+		}
+		return Optional.empty();
+	}
+
+	public static void setGolemConfig(ItemStack stack, UUID id, int color) {
+		var tag = ItemCompoundTag.of(stack).getSubTag(KEY_CONFIG).getOrCreate();
+		tag.putUUID("id", id);
+		tag.putInt("color", color);
+	}
+
 	public static void addMaterial(ItemStack stack, GolemPart<?, ?> item, ResourceLocation material) {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
 		assert rl != null;
@@ -113,6 +129,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		GolemHolder<T, P> holder = GolemType.getGolemHolder(entity.getType());
 		ItemStack stack = new ItemStack(holder);
 		ItemCompoundTag tag = ItemCompoundTag.of(stack);
+		var config = entity.getConfigEntry(null);
+		if (config != null) {
+			setGolemConfig(stack, config.getID(), config.getColor());
+		}
 		var matlist = tag.getSubList(KEY_MATERIAL, Tag.TAG_COMPOUND);
 		for (GolemMaterial mat : entity.getMaterials()) {
 			ResourceLocation rl = ForgeRegistries.ITEMS.getKey(mat.part());
@@ -197,6 +217,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+		if (Screen.hasAltDown()) {
+			NBTAnalytic.analyze(stack, list);
+			return;
+		}
 		if (!Screen.hasShiftDown()) {
 			float max = getMaxHealth(stack);
 			if (max >= 0) {
@@ -205,6 +229,17 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 				MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
 				list.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
+			}
+			var config = getGolemConfig(stack);
+			if (level == null || config.isEmpty()) {
+				list.add(MGLangData.NO_CONFIG.get());
+			} else {
+				var id = config.get().getFirst();
+				var color = config.get().getSecond();
+				var entry = GolemConfigStorage.get(level)
+						.getOrCreateStorage(id, color, MGLangData.LOADING.get());
+				entry.clientTick(level, false);
+				list.add(entry.getDisplayName());
 			}
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
@@ -252,7 +287,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		Level level = player.level();
 		Vec3 pos = target.position();
 		if (summon(stack, level, pos, player, e -> e.checkRide(target))) {
-			player.setItemInHand(hand, ItemStack.EMPTY);
+			if (!level.isClientSide()) {
+				player.setItemInHand(hand, ItemStack.EMPTY);
+			}
 			return InteractionResult.CONSUME;
 		} else {
 			return InteractionResult.FAIL;
@@ -282,7 +319,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		Vec3 pos = new Vec3(spawnPos.getX() + 0.5, spawnPos.getY() + 0.05, spawnPos.getZ() + 0.5);
 		if (summon(stack, level, pos, context.getPlayer(), null)) {
-			if (context.getPlayer() != null)
+			if (context.getPlayer() != null && !context.getLevel().isClientSide())
 				context.getPlayer().setItemInHand(context.getHand(), ItemStack.EMPTY);
 			return InteractionResult.CONSUME;
 		} else {
@@ -301,10 +338,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				golem.moveTo(pos);
+				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.getFirst(), e.getSecond()));
 				if (stack.hasCustomHoverName()) {
 					golem.setCustomName(stack.getHoverName());
 				}
-				golem.setMode(0, BlockPos.ZERO);
+				if (!golem.initMode(player)) {
+					return false;
+				}
 				level.addFreshEntity(golem);
 				stack.removeTagKey(KEY_ENTITY);
 				stack.shrink(1);
@@ -320,10 +360,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				golem.moveTo(pos);
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
+				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.getFirst(), e.getSecond()));
 				if (stack.hasCustomHoverName()) {
 					golem.setCustomName(stack.getHoverName());
 				}
-				golem.setMode(0, BlockPos.ZERO);
+				if (!golem.initMode(player)) {
+					return false;
+				}
 				level.addFreshEntity(golem);
 				if (player == null || !player.getAbilities().instabuild) {
 					stack.shrink(1);

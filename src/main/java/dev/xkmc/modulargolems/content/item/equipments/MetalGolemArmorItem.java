@@ -6,15 +6,18 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.UUID;
 
-public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemModelItem{
+public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemModelItem {
 
-	private final GolemEquipmentModels.GolemModelPath model;
+	private final ResourceLocation model;
 
-	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, GolemEquipmentModels.GolemModelPath model) {
+	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type.getSlot(), GolemTypes.ENTITY_GOLEM::get, builder -> {
 			UUID uuid = UUID.get(type.getSlot());
 			builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", defense, AttributeModifier.Operation.ADDITION));
@@ -29,7 +32,37 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 		return new ResourceLocation(rl.getNamespace(), "textures/equipments/" + rl.getPath() + ".png");
 	}
 
-	public GolemEquipmentModels.GolemModelPath getModelPath() {
+	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public int getEnchantmentValue() {
+		return 15;
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		if (enchantment.category == EnchantmentCategory.ARMOR) {
+			return true;
+		}
+		if (enchantment.category == EnchantmentCategory.ARMOR_HEAD && getSlot() == EquipmentSlot.HEAD) {
+			return true;
+		}
+		if (enchantment.category == EnchantmentCategory.ARMOR_CHEST && getSlot() == EquipmentSlot.CHEST) {
+			return true;
+		}
+		if (enchantment.category == EnchantmentCategory.ARMOR_LEGS && getSlot() == EquipmentSlot.LEGS) {
+			return true;
+		}
+		if (enchantment.category == EnchantmentCategory.ARMOR_FEET && getSlot() == EquipmentSlot.FEET) {
+			return true;
+		}
+		return super.canApplyAtEnchantingTable(stack, enchantment);
+	}
+
+	public ResourceLocation getModelPath() {
 		return model;
 	}
 

@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.create;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.compat.materials.create.modifier.CoatingModifier;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -19,7 +18,7 @@ public class CreateCompatRegistry {
 	static {
 		COATING = reg("coating", CoatingModifier::new, "Reduce damage taken by %s");
 		PUSH = reg("push", () -> new AttributeGolemModifier(1,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, 1)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, () -> 1)
 		)).register();
 		UP_COATING = regModUpgrade("coating", () -> COATING, CreateDispatch.MODID).lang("Zinc Upgrade").register();
 		UP_PUSH = regModUpgrade("push", () -> PUSH, CreateDispatch.MODID).lang("Extendo Upgrade").register();

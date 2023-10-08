@@ -10,7 +10,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.IEventBus;
 
 import javax.annotation.Nullable;
 import java.util.function.BiFunction;
@@ -29,7 +28,7 @@ public abstract class ModDispatch {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public void dispatchClientSetup(IEventBus bus) {
+	public void dispatchClientSetup() {
 	}
 
 }

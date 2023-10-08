@@ -1,3 +1,29 @@
+- 2.4.17
+    - Omnipotent Wand
+    - Curios support for backpack
+    - Add secondary weapon slot and arrow slot
+    - Add weapon switch delay of 10 ticks
+    - Disable weapon switch when editing weapons
+
+- 2.4.16
+    - Add metal golem armors
+    - Fix rendering of decorative layers on golems with size upgrade
+    - Make golem give up target after 5 seconds not approaching
+    - Make player not picking up items when dead
+    - Add CEI compat
+    - Add Attribute tab
+    - Add config cards:
+        - configure default golem mode when summoned
+        - configure summon location: old position or current location
+        - limit wand targets
+        - configure lock interaction
+        - pickup upgrade item filter
+
+- 2.4.15
+    - Fix non-owner being able to change humanoid equipment
+    - Add Create deployer automation for upgrades
+    - Golem now will only access chest within <2 blocks, and only access them in standing mode
+
 - 2.4.14
     - Golems will attack enemies touching it first
     - Fix shield block sound

@@ -47,6 +47,54 @@
 	"talented": "辅助升级：多才多艺",
 	"cauldron": "辅助升级：炼药锅",
 	"mount_upgrade": "坐骑升级",
-	"size_upgrade": "体形升级"
+	"size_upgrade": "体形升级",
+	"omnipotent_wand_command": "万能手杖：命令",
+	"omnipotent_wand_retrieval": "万能手杖：回收",
+	"omnipotent_wand_rider": "万能手杖：骑乘",
+	"omnipotent_wand_summon": "万能手杖：召唤"
+  },
+  "-cartesian": {
+	"config": {
+	  "path": "item.modulargolems",
+	  "reverse": true,
+	  "list": [
+		{
+		  "black": "黑色",
+		  "blue": "蓝色",
+		  "brown": "棕色",
+		  "cyan": "青色",
+		  "gray": "灰色",
+		  "green": "绿色",
+		  "light_blue": "淡蓝色",
+		  "light_gray": "淡灰色",
+		  "lime": "黄绿色",
+		  "magenta": "品红色",
+		  "orange": "橙色",
+		  "pink": "粉红色",
+		  "purple": "紫色",
+		  "red": "红色",
+		  "white": "白色",
+		  "yellow": "黄色"
+		},
+		{
+		  "config_card": "配置卡片"
+		}
+	  ]
+	},
+	"armor": {
+	  "path": "item.modulargolems",
+	  "list": [
+		{
+		  "barbaric_vanguard": "蛮荒",
+		  "roman_guard": "罗马",
+		  "wind_spirit": "风行"
+		},
+		{
+		  "chestplate": "护甲",
+		  "helmet": "头盔",
+		  "shinguard": "护腿"
+		}
+	  ]
+	}
   }
 }

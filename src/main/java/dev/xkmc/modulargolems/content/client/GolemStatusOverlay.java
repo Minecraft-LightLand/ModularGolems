@@ -1,12 +1,15 @@
 package dev.xkmc.modulargolems.content.client;
 
+import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
 import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.item.wand.WandItem;
+import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
+import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,9 +35,10 @@ public class GolemStatusOverlay implements IGuiOverlay {
 	@Override
 	public void render(ForgeGui gui, GuiGraphics g, float partialTick, int screenWidth, int screenHeight) {
 		if (Minecraft.getInstance().screen != null) return;
+		boolean offset = ItemSelectionOverlay.INSTANCE.isRendering();
 		LocalPlayer player = Proxy.getClientPlayer();
 		if (player == null) return;
-		if (!(player.getMainHandItem().getItem() instanceof WandItem wand)) return;
+		if (!(player.getMainHandItem().getItem() instanceof GolemInteractItem wand)) return;
 		Entity target;
 		if (wand instanceof IGlowingTarget) {
 			target = RayTraceUtil.serverGetTarget(player);
@@ -48,8 +52,17 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
 		text.add(golem.getMode().getDesc(golem));
+		var config = golem.getConfigEntry(MGLangData.LOADING.get());
+		if (config != null) {
+			config.clientTick(player.level(), false);
+			text.add(config.getDisplayName());
+			if (config.locked) {
+				text.add(MGLangData.CONFIG_LOCK.get().withStyle(ChatFormatting.RED));
+			}
+		}
 		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
-		new OverlayUtil(g, Math.round(screenWidth / 8f), -1, -1)
+		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
+		new OverlayUtil(g, textPos, -1, -1)
 				.renderLongText(gui.getFont(), text);
 		if (!(golem instanceof HumanoidGolemEntity humanoid)) return;
 		OverlayUtil util = new OverlayUtil(g, (int) (screenWidth * 0.6), -1, -1);
@@ -58,7 +71,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		util.renderTooltipInternal(gui.getFont(), list);
 	}
 
-	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {//TODO
+	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {
 
 		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
 

@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.xkmc.modulargolems.content.client.GolemModelPath;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -20,8 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
 
-import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.GolemModelPath;
-import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.LIST;
+import static dev.xkmc.modulargolems.content.client.GolemEquipmentModels.LIST;
 
 public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalGolemModel> {
 
@@ -39,9 +39,9 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		for (var e : EquipmentSlot.values()) {
 			ItemStack stack = entity.getItemBySlot(e);
 			if (stack.getItem() instanceof GolemModelItem mgaitem) {
-				GolemModelPath gmpath = mgaitem.getModelPath();
-				for (List<String> ls : gmpath.l()) {
-					MetalGolemModel model = map.get(gmpath.mll());
+				GolemModelPath gmpath = GolemModelPath.get(mgaitem.getModelPath());
+				for (List<String> ls : gmpath.paths()) {
+					MetalGolemModel model = map.get(gmpath.models());
 					model.copyFrom(getParentModel());
 					ModelPart gemr = model.root();
 					pose.pushPose();

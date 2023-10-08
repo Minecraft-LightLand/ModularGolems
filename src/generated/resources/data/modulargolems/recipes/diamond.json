@@ -2,9 +2,6 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:diamond_block"
-    },
     "B": {
       "item": "modulargolems:empty_upgrade"
     },
@@ -13,9 +10,9 @@
     }
   },
   "pattern": [
-    "CAC",
-    "ABA",
-    "CAC"
+    "CCC",
+    "CBC",
+    "CCC"
   ],
   "result": {
     "item": "modulargolems:diamond"

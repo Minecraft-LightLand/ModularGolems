@@ -4,8 +4,10 @@ import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.client.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
@@ -17,22 +19,19 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.CommandWandItem;
-import dev.xkmc.modulargolems.content.item.wand.DispenseWand;
-import dev.xkmc.modulargolems.content.item.wand.RetrievalWandItem;
-import dev.xkmc.modulargolems.content.item.wand.RiderWandItem;
+import dev.xkmc.modulargolems.content.item.wand.*;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
 
-import static dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentModels.*;
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
@@ -59,23 +58,109 @@ public class GolemItems {
 			GOLD, ENCHANTED_GOLD, FLOAT, SPONGE, SWIM, PLAYER_IMMUNE, ENDER_SIGHT, BELL, SPEED, SLOW, WEAK, WITHER,
 			EMERALD, PICKUP, PICKUP_MENDING, PICKUP_NO_DESTROY, TALENTED, CAULDRON, MOUNT_UPGRADE, SIZE_UPGRADE;
 
-	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND;
-	public static final ItemEntry<CommandWandItem> COMMAND_WAND;
-	public static final ItemEntry<DispenseWand> DISPENSE_WAND;
-	public static final ItemEntry<RiderWandItem> RIDER_WAND;
+	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND, OMNI_RETRIVAL;
+	public static final ItemEntry<CommandWandItem> COMMAND_WAND, OMNI_COMMAND;
+	public static final ItemEntry<DispenseWand> DISPENSE_WAND, OMNI_DISPENSE;
+	public static final ItemEntry<RiderWandItem> RIDER_WAND, OMNI_RIDER;
 
-	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET,WINDSPIRIT_HELMET,BARBARICFLAMEVANGUARD_HELMET;
-	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE,WINDSPIRIT_CHESTPLATE,BARBARICFLAMEVANGUARD_CHESTPLATE;
-	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD,WINDSPIRIT_SHINGUARD,BARBARICFLAMEVANGUARD_SHINGUARD;
+	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
+	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
+	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
 	public static final ItemEntry<MetalGolemWeaponItem> METALGOLEM_SPEAR;
+	public static final ItemEntry<ConfigCard>[] CARD;
 
 	static {
 
 		GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new).defaultModel().defaultLang().register();
-		RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
-		COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
-		DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
-		RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1))).model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+
+		{
+			RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1), null))
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+			COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1), null))
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+			DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1), null))
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+			RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1), null))
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+
+
+			OMNI_COMMAND = REGISTRATE.item("omnipotent_wand_command", p -> new CommandWandItem(p.stacksTo(1), COMMAND_WAND))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.lang("Omnipotent Wand: Command").tag(L2ISTagGen.SELECTABLE)
+					.register();
+			OMNI_RETRIVAL = REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.lang("Omnipotent Wand: Retrieval").tag(L2ISTagGen.SELECTABLE)
+					.removeTab(TAB.getKey()).register();
+			OMNI_DISPENSE = REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.lang("Omnipotent Wand: Summon").tag(L2ISTagGen.SELECTABLE)
+					.removeTab(TAB.getKey()).register();
+			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE)
+					.removeTab(TAB.getKey()).register();
+
+		}
+		// golemguard armor
+		{
+			GOLEMGUARD_HELMET = REGISTRATE.item("roman_guard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.HELMET, 8, 4, GolemModelPaths.HELMETS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("roman_guard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.CHESTPLATE, 10, 4, GolemModelPaths.CHESTPLATES))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			GOLEMGUARD_SHINGUARD = REGISTRATE.item("roman_guard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.LEGGINGS, 6, 4, GolemModelPaths.LEGGINGS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+
+			WINDSPIRIT_HELMET = REGISTRATE.item("wind_spirit_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.HELMET, 11, 6, GolemModelPaths.HELMETS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			WINDSPIRIT_CHESTPLATE = REGISTRATE.item("wind_spirit_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.CHESTPLATE, 14, 6, GolemModelPaths.CHESTPLATES))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			WINDSPIRIT_SHINGUARD = REGISTRATE.item("wind_spirit_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.LEGGINGS, 8, 6, GolemModelPaths.LEGGINGS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+
+			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
+							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaric_vanguard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
+							ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.CHESTPLATES))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
+							ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+		}
+
+		//metalgolem weapon
+		{
+			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1), 10, 2f, 2f))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.removeTab(TAB.getKey()).defaultLang().register();// TODO no tab
+		}
+
+		{
+			CARD = new ItemEntry[16];
+			for (int i = 0; i < 16; i++) {
+				DyeColor color = DyeColor.byId(i);
+				String name = color.getName();
+				CARD[i] = REGISTRATE.item(name + "_config_card", p -> new ConfigCard(p.stacksTo(1), color))
+						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/" + name)))
+						.tag(MGTagGen.CONFIG_CARD).defaultLang().register();
+			}
+		}
 
 		// upgrades
 		{
@@ -108,51 +193,6 @@ public class GolemItems {
 			SIZE_UPGRADE = regUpgrade("size_upgrade", () -> GolemModifiers.SIZE_UPGRADE).lang("Size Upgrade").register();
 
 		}
-
-		// golemguard armor
-		{
-			GOLEMGUARD_HELMET = REGISTRATE.item("romanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 12, 5, HELMETS))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("romanguard_chestplate", p ->
-							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 20, 8, CHESTPLATES))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-			GOLEMGUARD_SHINGUARD = REGISTRATE.item("romanguard_shinguard", p ->
-							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.LEGGINGS, 8, 7,LEGGINGS))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-
-			WINDSPIRIT_HELMET = REGISTRATE.item("windspirit_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 7, 5, HELMETS))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-			WINDSPIRIT_CHESTPLATE = REGISTRATE.item("windspirit_chestplate", p ->
-							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 15, 8, CHESTPLATES))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-			WINDSPIRIT_SHINGUARD = REGISTRATE.item("windspirit_shinguard", p ->
-							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.LEGGINGS, 8, 6,LEGGINGS))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaricvanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.HELMET, 17, 8, HELMETS))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaricvanguard_chestplate", p ->
-							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.CHESTPLATE, 25, 10, CHESTPLATES))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaricvanguard_shinguard", p ->
-							new MetalGolemArmorItem(p.stacksTo(1), ArmorItem.Type.LEGGINGS, 8, 6,LEGGINGS))
-					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-		}
-		//metalgolem weapon
-		{
-			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1), 10, 2f, 2f))
-					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
-		}
-
 		CompatManager.register();
 
 		// holders

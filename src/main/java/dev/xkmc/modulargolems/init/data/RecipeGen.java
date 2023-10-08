@@ -5,12 +5,15 @@ import com.tterrag.registrate.util.DataIngredient;
 import dev.xkmc.l2library.serial.ingredients.EnchantmentIngredient;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -61,6 +64,30 @@ public class RecipeGen {
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.OMNI_COMMAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.pattern(" 1T").pattern("2S3").pattern("S4 ")
+					.define('1', GolemItems.COMMAND_WAND.get())
+					.define('2', GolemItems.DISPENSE_WAND.get())
+					.define('3', GolemItems.RETRIEVAL_WAND.get())
+					.define('4', GolemItems.RIDER_WAND.get())
+					.define('S', Items.GOLD_INGOT)
+					.define('T', Items.REDSTONE_BLOCK)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.CARD[DyeColor.WHITE.getId()].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.pattern(" P ").pattern("PTP").pattern(" P ")
+					.define('P', Items.PAPER)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd, new ResourceLocation(ModularGolems.MODID, "craft_config_card"));
+
+			for (int i = 0; i < 16; i++) {
+				Item dye = ForgeRegistries.ITEMS.getValue(new ResourceLocation(DyeColor.byId(i).getName() + "_dye"));
+				assert dye != null;
+				unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD[i].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+						.requires(MGTagGen.CONFIG_CARD).requires(dye).save(pvd);
+
+			}
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.EMPTY_UPGRADE.get(), 4)::unlockedBy,
 					Items.AMETHYST_SHARD).pattern("CBC").pattern("BAB").pattern("CBC")
 					.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
@@ -98,6 +125,71 @@ public class RecipeGen {
 					.define('B', GolemItems.DOG_LEGS.get())
 					.save(pvd);
 		}
+		// armor
+		{
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_HELMET.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.IRON_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_CHESTPLATE.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.IRON_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_SHINGUARD.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.IRON_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.WINDSPIRIT_HELMET.get())::unlockedBy, Items.DIAMOND)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.DIAMOND_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.WINDSPIRIT_CHESTPLATE.get())::unlockedBy, Items.DIAMOND)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.DIAMOND_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.WINDSPIRIT_SHINGUARD.get())::unlockedBy, Items.DIAMOND)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.DIAMOND_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_HELMET.get())::unlockedBy, Items.DIAMOND)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.NETHERITE_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get())::unlockedBy, Items.DIAMOND)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.NETHERITE_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())::unlockedBy, Items.DIAMOND)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.NETHERITE_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+		}
 		// upgrades
 		{
 
@@ -122,8 +214,7 @@ public class RecipeGen {
 					.save(pvd);
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.DIAMOND.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
-					.pattern("CAC").pattern("ABA").pattern("CAC")
-					.define('A', Items.DIAMOND_BLOCK)
+					.pattern("CCC").pattern("CBC").pattern("CCC")
 					.define('B', GolemItems.EMPTY_UPGRADE.get())
 					.define('C', Items.DIAMOND)
 					.save(pvd);

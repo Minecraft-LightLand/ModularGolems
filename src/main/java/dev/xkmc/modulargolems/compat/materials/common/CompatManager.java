@@ -5,11 +5,12 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
+import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
+import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(CreateDispatch.MODID)) LIST.add(new CreateDispatch());
 		if (ModList.get().isLoaded(LCDispatch.MODID)) LIST.add(new LCDispatch());
 		if (ModList.get().isLoaded(BGDispatch.MODID)) LIST.add(new BGDispatch());
-		//if (ModList.get().isLoaded("create_enchantment_industry")) CEICompat.register();TODO
+		if (ModList.get().isLoaded(LHDispatch.MODID)) LIST.add(new LHDispatch());
+		if (ModList.get().isLoaded("create_enchantment_industry")) CEICompat.register();
 	}
 
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {
@@ -49,9 +51,9 @@ public abstract class CompatManager {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void dispatchClientSetup(IEventBus bus) {
+	public static void dispatchClientSetup() {
 		for (ModDispatch dispatch : LIST) {
-			dispatch.dispatchClientSetup(bus);
+			dispatch.dispatchClientSetup();
 		}
 	}
 

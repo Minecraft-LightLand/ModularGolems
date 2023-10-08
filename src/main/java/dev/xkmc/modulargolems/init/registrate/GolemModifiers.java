@@ -61,20 +61,20 @@ public class GolemModifiers {
 		RECYCLE = reg("recycle", () -> new SimpleFlagModifier(StatFilterType.HEALTH, GolemFlags.RECYCLE),
 				"Drop golem holder of 0 health when killed. Holder will return to inventory is player is present.");
 		ARMOR = reg("armor_up", () -> new AttributeGolemModifier(2,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, () -> 10)
 		)).register();
 		TOUGH = reg("toughness_up", () -> new AttributeGolemModifier(2,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, 10),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_TOUGH, 6)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, () -> 15),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_TOUGH, () -> 6)
 		)).register();
 		DAMAGE = reg("damage_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATTACK, 2)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATTACK, () -> 2)
 		)).register();
 		SPEED = reg("speed_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_SPEED, 0.2)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_SPEED, () -> 0.2)
 		)).register();
 		REGEN = reg("regeneration_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_REGEN, 1)
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_REGEN, () -> 1)
 		)).register();
 
 		THORN = reg("thorn", ThornModifier::new,
@@ -122,16 +122,16 @@ public class GolemModifiers {
 				"Repeated potion upgrades will no longer consume upgrade slots.");
 
 		MOUNT_UPGRADE = reg("ridding_speed_up", () -> new RideUpgrade(1,
-				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.3),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP, 0.25),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, 0.2)
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, () -> 0.3),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP, () -> 0.25),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, () -> 0.2)
 		), "Mount Upgrade", "Golem will not attack, and will not be targeted for attack.");
 
 		SIZE_UPGRADE = reg("size_up", () -> new AttributeGolemModifier(2,
-				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, 0.15),
-				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, 0.2),
-				new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE, 0.5),
-				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, 0.5)
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, () -> 0.15),
+				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, () -> 0.2),
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE, () -> 0.5),
+				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, () -> 0.5)
 		)).register();
 	}
 

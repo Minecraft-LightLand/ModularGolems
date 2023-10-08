@@ -8,12 +8,13 @@ public class GolemMode {
 
 	private final int id;
 	private final boolean positioned, movable;
-	private final MGLangData lang;
+	private final MGLangData lang, name;
 
-	protected GolemMode(boolean positioned, boolean movable, MGLangData lang) {
+	protected GolemMode(boolean positioned, boolean movable, MGLangData lang, MGLangData name) {
 		this.positioned = positioned;
 		this.movable = movable;
 		this.lang = lang;
+		this.name = name;
 		id = GolemModes.LIST.size();
 		GolemModes.LIST.add(this);
 	}
@@ -32,6 +33,10 @@ public class GolemMode {
 
 	public boolean hasPos() {
 		return positioned;
+	}
+
+	public Component getName() {
+		return name.get();
 	}
 
 	public Component getDesc(AbstractGolemEntity<?, ?> golem) {
