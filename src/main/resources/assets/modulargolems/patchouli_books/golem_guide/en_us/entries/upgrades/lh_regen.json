@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "Hostility Upgrade: Regeneration",
+  "icon": "modulargolems:hostility_regen",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_regen",
+	  "text": "Same effect as Regeneration trait on mobs. Max level: 5"
+	}
+  ]
+}

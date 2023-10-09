@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "恶意升级：药水",
+  "icon": "modulargolems:hostility_potion",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_potion",
+	  "text": "每个第一级的药水升级不消耗升级槽。和炼药锅升级一起使用时，所有药水升级都不消耗升级槽。"
+	}
+  ]
+}

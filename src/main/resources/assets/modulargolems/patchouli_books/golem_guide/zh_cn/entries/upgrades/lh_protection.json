@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "恶意升级：保护",
+  "icon": "modulargolems:hostility_protection",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_protection",
+	  "text": "等价于莱特兰恶意的保护词条。最高5级"
+	}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "恶意升级：重装",
+  "icon": "modulargolems:hostility_tank",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_tank",
+	  "text": "等价于莱特兰恶意的重装词条。最高5级"
+	}
+  ]
+}

@@ -427,6 +427,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			}
 			this.updatePersistentAnger((ServerLevel) this.level(), true);
 		}
+		for (EquipmentSlot slot : EquipmentSlot.values()) {
+			ItemStack stack = getItemBySlot(slot);
+			if (!stack.isEmpty()) {
+				stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
+			}
+		}
 	}
 
 	protected int decreaseAirSupply(int air) {
