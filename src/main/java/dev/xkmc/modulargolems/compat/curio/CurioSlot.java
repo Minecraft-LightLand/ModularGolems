@@ -43,7 +43,7 @@ public class CurioSlot extends SlotItemHandler {
 		this.slotContext = new SlotContext(identifier, player, index, false, renders.get(index));
 		this.setBackground(InventoryMenu.BLOCK_ATLAS,
 				player.getCommandSenderWorld().isClientSide() ?
-						CuriosApi.getIconHelper().getIcon(identifier)
+						CuriosApi.getSlotIcon(identifier)
 						: new ResourceLocation(Curios.MODID, "slot/empty_curio_slot"));
 	}
 
@@ -77,11 +77,12 @@ public class CurioSlot extends SlotItemHandler {
 
 		if (!flag && !ItemStack.matches(current, stack) &&
 				!((AccessorEntity) this.player).getFirstTick()) {
-			CuriosApi.getCuriosHelper().getCurio(stack)
+			CuriosApi.getCurio(stack)
 					.ifPresent(curio -> curio.onEquipFromUse(this.slotContext));
 		}
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	@Override
 	public boolean mayPlace(@Nonnull ItemStack stack) {
 		CurioEquipEvent equipEvent = new CurioEquipEvent(stack, slotContext);
@@ -92,8 +93,8 @@ public class CurioSlot extends SlotItemHandler {
 			return false;
 		}
 		return result == Event.Result.ALLOW ||
-				(CuriosApi.getCuriosHelper().isStackValid(slotContext, stack) &&
-						CuriosApi.getCuriosHelper().getCurio(stack).map(curio -> curio.canEquip(slotContext))
+				(CuriosApi.isStackValid(slotContext, stack) &&
+						CuriosApi.getCurio(stack).map(curio -> curio.canEquip(slotContext))
 								.orElse(true) && super.mayPlace(stack));
 	}
 
@@ -109,7 +110,7 @@ public class CurioSlot extends SlotItemHandler {
 		}
 		return result == Event.Result.ALLOW ||
 				((stack.isEmpty() || playerIn.isCreative() || !EnchantmentHelper.hasBindingCurse(stack)) &&
-						CuriosApi.getCuriosHelper().getCurio(stack).map(curio -> curio.canUnequip(slotContext))
+						CuriosApi.getCurio(stack).map(curio -> curio.canUnequip(slotContext))
 								.orElse(true) && super.mayPickup(playerIn));
 	}
 }

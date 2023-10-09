@@ -92,13 +92,13 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	 * modify healing
 	 */
 	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
-		return onInventoryHealTick(heal, entity, level);
+		return onInventoryHealTick(heal, new HealingContext(entity.getHealth(), entity.getMaxHealth(), entity), level);
 	}
 
 	/**
 	 * modify healing
 	 */
-	public double onInventoryHealTick(double heal, Entity entity, int level) {
+	public double onInventoryHealTick(double heal, HealingContext ctx, int level) {
 		return heal;
 	}
 
@@ -139,6 +139,10 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 
 	public boolean fitsOn(GolemType<?, ?> type) {
 		return true;
+	}
+
+	public record HealingContext(float health, float maxHealth, Entity owner) {
+
 	}
 
 }

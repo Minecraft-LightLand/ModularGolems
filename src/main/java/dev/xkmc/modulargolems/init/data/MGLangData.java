@@ -21,6 +21,7 @@ public enum MGLangData {
 	POTION_ATTACK("tooltip.potion_attack", "Inflict %s to enemies attacking or attacked.", 1, ChatFormatting.GREEN),
 	POTION_DEFENSE("tooltip.potion_defense", "Golem gain %s.", 1, ChatFormatting.GREEN),
 	GOLEM_EQUIPMENT("tooltip.golem_equipment", "Only effective on %s", 1, ChatFormatting.LIGHT_PURPLE),
+	UPGRADE_COUNT("tooltip.modifier", "Total %s modifiers from %s upgrades", 2, ChatFormatting.LIGHT_PURPLE),
 
 	MODE_FOLLOW("tooltip.follow", "Follow", 0, ChatFormatting.AQUA),
 	MODE_GUARD("tooltip.guard", "Wander", 0, ChatFormatting.AQUA),

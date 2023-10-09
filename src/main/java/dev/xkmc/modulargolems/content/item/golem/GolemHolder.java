@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
@@ -203,13 +204,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				var attr = GolemMaterial.collectAttributes(mats, upgrades);
 				var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 				double heal = attr.getOrDefault(GolemTypes.GOLEM_REGEN.get(), Pair.of(GolemTypes.STAT_REGEN.get(), 0d)).getSecond();
+				var ctx = new GolemModifier.HealingContext(health, maxHealth, entity);
+				for (var entry : modifiers.entrySet()) {
+					heal = entry.getKey().onInventoryHealTick(heal, ctx, entry.getValue());
+				}
 				if (heal > 0) {
-					for (var entry : modifiers.entrySet()) {
-						heal = entry.getKey().onInventoryHealTick(heal, entity, entry.getValue());
-					}
-					if (heal > 0) {
-						setHealth(stack, Math.min(maxHealth, (float) heal + health));
-					}
+					setHealth(stack, Math.min(maxHealth, (float) heal + health));
 				}
 			}
 		}
@@ -250,7 +250,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				}
 			}
 			list.add(MGLangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
-			GolemMaterial.collectModifiers(mats, upgrades).forEach((k, v) -> list.add(k.getTooltip(v)));
+			var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
+			if (modifiers.size() > 8) {
+				list.add(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.size()));
+			} else {
+				modifiers.forEach((k, v) -> list.add(k.getTooltip(v)));
+			}
 			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> {
 				if (Math.abs(v.getSecond()) > 1e-3) {
 					list.add(v.getFirst().getTotalTooltip(v.getSecond()));
@@ -268,6 +273,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				var k = entry.getKey();
 				var v = entry.getValue();
 				list.add(k.getTooltip(v));
+				if (size > 12) {
+					continue;
+				}
 				if (size > 4) {
 					if (level == null) continue;
 					if (!level.isClientSide()) continue;
