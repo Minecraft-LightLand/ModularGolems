@@ -6,11 +6,14 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.UUID;
 
 public interface GolemConfigEditor {
 
+	@OnlyIn(Dist.CLIENT)
 	static GolemConfigEditor readable(UUID id, int color) {
 		return new Readable(Proxy.getClientWorld(), id, color);
 	}

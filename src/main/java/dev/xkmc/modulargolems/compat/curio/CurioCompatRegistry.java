@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.curio;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
+import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
@@ -9,6 +10,7 @@ import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +48,15 @@ public class CurioCompatRegistry {
 		var ins = get();
 		if (ins == null) return;
 		ins.onJEIRegistryImpl(consumer);
+	}
+
+	public static void freezeMenu(AbstractGolemEntity<?, ?> golem) {
+		LocalPlayer player = Proxy.getClientPlayer();
+		if (player.containerMenu instanceof GolemCuriosListMenu menu) {
+			if (menu.curios.golem == golem) {
+				menu.slots.clear();
+			}
+		}
 	}
 
 	public static IMenuPvd create(AbstractGolemEntity<?, ?> entity) {

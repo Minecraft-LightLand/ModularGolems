@@ -124,19 +124,15 @@ public class ConfigCard extends Item implements GolemInteractItem {
 			list.add(MGLangData.CONFIG_INIT.get());
 		} else {
 			if (level != null) {
-				var entry = GolemConfigStorage.get(level).getStorage(id, color.getId());
-				if (entry == null) {
-					list.add(MGLangData.LOADING.get());
-				} else {
-					list.add(entry.getDisplayName());
-				}
+				var entry = GolemConfigStorage.get(level).getOrCreateStorage(id, color.getId(), MGLangData.LOADING.get());
+				entry.clientTick(level, false);
+				list.add(entry.getDisplayName());
 			}
 			if (!mayClientEdit(id)) {
 				list.add(MGLangData.CONFIG_OTHER.get());
 			}
 			list.add(MGLangData.CONFIG_CARD.get());
 		}
-
 	}
 
 }
