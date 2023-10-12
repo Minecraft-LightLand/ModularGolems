@@ -73,9 +73,9 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		pose.pushPose();
 		getParentModel().transformToHand(slot, pose);
 		boolean offhand = slot == EquipmentSlot.OFFHAND;
-		pose.mulPose(Axis.XP.rotationDegrees(-90.0F));
+		pose.mulPose(Axis.XP.rotationDegrees(-100.0F));
 		pose.mulPose(Axis.YP.rotationDegrees(180.0F));
-		pose.translate((offhand ? -1 : 1) * 0.7f, 0.125F, -1.625F);
+		pose.translate((offhand ? -1 : 1) * 0.7f, 0.5F, -0.75F);
 		Minecraft.getInstance().getItemRenderer()
 				.renderStatic(entity, stack, ctx, offhand,
 						pose, source, entity.level(), light, OverlayTexture.NO_OVERLAY,
