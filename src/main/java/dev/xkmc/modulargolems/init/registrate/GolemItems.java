@@ -147,8 +147,7 @@ public class GolemItems {
 		//metalgolem weapon
 		{
 			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1), 10, 2f, 2f))
-					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.removeTab(TAB.getKey()).defaultLang().register();// TODO no tab
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName()))).defaultLang().register();
 		}
 
 		{

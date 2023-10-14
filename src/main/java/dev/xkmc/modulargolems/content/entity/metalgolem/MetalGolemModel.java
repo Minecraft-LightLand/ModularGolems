@@ -68,16 +68,21 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 	}
 
 	public void prepareMobModel(MetalGolemEntity entity, float f1, float f2, float f3) {
-		int i = entity.getAttackAnimationTick();
-		if (i > 0) {
-			this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
-			this.leftArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
-		} else {
-			this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
-			this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
-		}
 		if (entity.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof MetalGolemWeaponItem) {
 			MMGHandAngle.HaveWeapon(entity, rightArm, rightForeArm);
+			if(entity.isAggressive()){
+				MMGHandAngle.warning(entity,rightArm);
+			}
+		}else{
+			MMGHandAngle.NoWeapon(rightArm, rightForeArm);
+			int i = entity.getAttackAnimationTick();
+			if (i > 0) {
+				this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
+				this.leftArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
+			} else {
+				this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
+				this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
+			}
 		}
 	}
 
@@ -103,7 +108,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	public void transformToHand(EquipmentSlot slot, PoseStack pose) {
 		if (slot == EquipmentSlot.MAINHAND) {
-			rightArm.translateAndRotate(pose);
+			rightForeArm.translateAndRotate(pose);
 		}
 		if (slot == EquipmentSlot.OFFHAND) {
 			leftArm.translateAndRotate(pose);
