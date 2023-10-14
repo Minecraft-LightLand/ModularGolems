@@ -23,6 +23,14 @@ public enum MGLangData {
 	GOLEM_EQUIPMENT("tooltip.golem_equipment", "Only effective on %s", 1, ChatFormatting.LIGHT_PURPLE),
 	UPGRADE_COUNT("tooltip.modifier", "Total %s modifiers from %s upgrades", 2, ChatFormatting.LIGHT_PURPLE),
 
+	TARGET_UUID_ADD("tooltip.target.uuid_add", "Right click entity to add entity UUID to the list", 0, ChatFormatting.GRAY),
+	TARGET_UUID_REMOVE("tooltip.target.uuid_remove", "Sneak right click entity to remove entity UUID from the list", 0, ChatFormatting.GRAY),
+	TARGET_TYPE_ADD("tooltip.target.type_add", "Right click entity to add entity type to the list", 0, ChatFormatting.GRAY),
+	TARGET_TYPE_REMOVE("tooltip.target.type_remove", "Sneak right click entity to remove entity type from the list", 0, ChatFormatting.GRAY),
+	TARGET_NAME("tooltip.target.name", "Rename the item and right click to add the name as entity type or entity type tag to the list", 0, ChatFormatting.GRAY),
+	TARGET_REMOVE("tooltip.target.remove", "Sneak right click to remove last entry from the list", 0, ChatFormatting.GRAY),
+	TARGET_SHIFT("tooltip.target.shift", "Press SHIFT to show usage", 0, ChatFormatting.GRAY),
+
 	MODE_FOLLOW("tooltip.follow", "Follow", 0, ChatFormatting.AQUA),
 	MODE_GUARD("tooltip.guard", "Wander", 0, ChatFormatting.AQUA),
 	MODE_STAND("tooltip.stand", "Stand", 0, ChatFormatting.AQUA),
