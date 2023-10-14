@@ -14,12 +14,19 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
+import dev.xkmc.modulargolems.content.item.card.ConfigCard;
+import dev.xkmc.modulargolems.content.item.card.EntityTypeFilterCard;
+import dev.xkmc.modulargolems.content.item.card.NameFilterCard;
+import dev.xkmc.modulargolems.content.item.card.UuidFilterCard;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.*;
+import dev.xkmc.modulargolems.content.item.wand.CommandWandItem;
+import dev.xkmc.modulargolems.content.item.wand.DispenseWand;
+import dev.xkmc.modulargolems.content.item.wand.RetrievalWandItem;
+import dev.xkmc.modulargolems.content.item.wand.RiderWandItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -68,6 +75,9 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
 	public static final ItemEntry<MetalGolemWeaponItem> METALGOLEM_SPEAR;
 	public static final ItemEntry<ConfigCard>[] CARD;
+	public static final ItemEntry<NameFilterCard> CARD_NAME;
+	public static final ItemEntry<EntityTypeFilterCard> CARD_TYPE;
+	public static final ItemEntry<UuidFilterCard> CARD_UUID;
 
 	static {
 
@@ -160,6 +170,16 @@ public class GolemItems {
 						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/" + name)))
 						.tag(MGTagGen.CONFIG_CARD).defaultLang().register();
 			}
+
+			CARD_NAME = REGISTRATE.item("target_filter_name", p -> new NameFilterCard(p.stacksTo(1)))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/name")))
+					.lang("Target Filter: Datapack").register();
+			CARD_TYPE = REGISTRATE.item("target_filter_type", p -> new EntityTypeFilterCard(p.stacksTo(1)))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/type")))
+					.lang("Target Filter: Entity Type").register();
+			CARD_UUID = REGISTRATE.item("target_filter_uuid", p -> new UuidFilterCard(p.stacksTo(1)))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/uuid")))
+					.lang("Target Filter: Entity UUID").register();
 		}
 
 		// upgrades

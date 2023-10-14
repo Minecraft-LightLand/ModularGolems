@@ -88,6 +88,24 @@ public class RecipeGen {
 
 			}
 
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_NAME.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.BOOK)
+					.requires(Items.INK_SAC)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_TYPE.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.PAPER)
+					.requires(Items.CLAY_BALL)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_UUID.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.PAPER)
+					.requires(Items.INK_SAC)
+					.save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.EMPTY_UPGRADE.get(), 4)::unlockedBy,
 					Items.AMETHYST_SHARD).pattern("CBC").pattern("BAB").pattern("CBC")
 					.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
