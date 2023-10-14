@@ -62,10 +62,11 @@ public abstract class ClickEntityFilterCard<T> extends TargetFilterCard {
 
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
+		ItemStack item = player.getItemInHand(hand);
 		if (player.isShiftKeyDown()) {
-			return removeTargetEntity(stack, target);
+			return removeTargetEntity(item, target);
 		} else {
-			return addTargetEntity(stack, target);
+			return addTargetEntity(item, target);
 		}
 	}
 

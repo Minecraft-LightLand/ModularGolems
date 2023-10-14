@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.modulargolems.content.client.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
+import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import net.minecraft.client.model.HierarchicalModel;
@@ -19,13 +21,14 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	private final ModelPart root;
 	private final ModelPart head;
-	private final ModelPart rightArm;
-	private final ModelPart leftArm;
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
 	private final ModelPart body;
-	private final ModelPart leftForeArm;
-	private final ModelPart rightForeArm;
+
+	public final ModelPart rightArm;
+	public final ModelPart leftArm;
+	public final ModelPart leftForeArm;
+	public final ModelPart rightForeArm;
 
 	public MetalGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(GolemEquipmentModels.METALGOLEM));
@@ -67,22 +70,18 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftLeg.yRot = 0.0F;
 	}
 
-	public void prepareMobModel(MetalGolemEntity entity, float f1, float f2, float f3) {
-		if (entity.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof MetalGolemWeaponItem) {
-			MMGHandAngle.HaveWeapon(entity, rightArm, rightForeArm);
-			if(entity.isAggressive()){
-				MMGHandAngle.warning(entity,rightArm);
-			}
-		}else{
-			MMGHandAngle.NoWeapon(rightArm, rightForeArm);
-			int i = entity.getAttackAnimationTick();
-			if (i > 0) {
-				this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
-				this.leftArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
-			} else {
-				this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
-				this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
-			}
+	public void prepareMobModel(MetalGolemEntity entity, float bob, float speed, float pTick) {
+		MetalGolemPose pose = MetalGolemPose.DEFAULT;
+		if (entity.getMainHandItem().getItem() instanceof MetalGolemWeaponItem weapon) {
+			pose = WeaponPose.WEAPON;
+		}
+		int atkTick = entity.getAttackAnimationTick();
+		if (atkTick > 0) {
+			pose.attackModel(entity, this, atkTick - pTick);
+		} else if (entity.isAggressive()) {
+			pose.aggressive(entity, this, bob, speed, pTick);
+		} else {
+			pose.walking(entity, this, bob, speed, pTick);
 		}
 	}
 
@@ -111,7 +110,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 			rightForeArm.translateAndRotate(pose);
 		}
 		if (slot == EquipmentSlot.OFFHAND) {
-			leftArm.translateAndRotate(pose);
+			leftForeArm.translateAndRotate(pose);
 		}
 	}
 

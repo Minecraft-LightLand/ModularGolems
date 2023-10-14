@@ -44,19 +44,32 @@ public class NameFilterCard extends TargetFilterCard {
 		List<Either<EntityType<?>, TagKey<EntityType<?>>>> ans = new ArrayList<>();
 		for (var str : strs) {
 			if (str.startsWith("#")) {
-				TagKey<EntityType<?>> key = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(str.substring(1)));
+				ResourceLocation rl = getRL(str.substring(1));
+				if (rl == null) continue;
+				TagKey<EntityType<?>> key = TagKey.create(Registries.ENTITY_TYPE, rl);
 				var manager = ForgeRegistries.ENTITY_TYPES.tags();
 				if (manager != null && manager.isKnownTagName(key)) {
 					ans.add(Either.right(key));
 				}
 			} else {
-				var type = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(str));
+				ResourceLocation rl = getRL(str);
+				if (rl == null) continue;
+				var type = ForgeRegistries.ENTITY_TYPES.getValue(rl);
 				if (type != null) {
 					ans.add(Either.left(type));
 				}
 			}
 		}
 		return ans;
+	}
+
+	@Nullable
+	private static ResourceLocation getRL(String str) {
+		try {
+			return new ResourceLocation(str);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	private static void setList(ItemStack stack, List<Either<EntityType<?>, TagKey<EntityType<?>>>> list) {
