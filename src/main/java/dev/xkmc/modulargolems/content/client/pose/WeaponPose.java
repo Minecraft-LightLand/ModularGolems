@@ -30,9 +30,6 @@ public class WeaponPose extends MetalGolemPose {
 
 	public void walking(MetalGolemEntity entity, MetalGolemModel model, float walkTick, float speed, float pTick) {
 		super.walking(entity, model, walkTick, speed, pTick);
-
-		//FIXME for debug
-		model.rightForeArm.xRot = -amplitude() * 0.5f * (1 + Mth.triangleWave((entity.tickCount + pTick) * 0.1f, 10));
 	}
 
 }

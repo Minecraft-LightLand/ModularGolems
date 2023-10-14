@@ -6,7 +6,6 @@ import dev.xkmc.modulargolems.content.client.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
 import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
@@ -72,7 +71,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	public void prepareMobModel(MetalGolemEntity entity, float bob, float speed, float pTick) {
 		MetalGolemPose pose = MetalGolemPose.DEFAULT;
-		if (entity.getMainHandItem().getItem() instanceof MetalGolemWeaponItem weapon) {
+		if (!entity.getMainHandItem().isEmpty()) {
 			pose = WeaponPose.WEAPON;
 		}
 		int atkTick = entity.getAttackAnimationTick();
@@ -107,9 +106,11 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	public void transformToHand(EquipmentSlot slot, PoseStack pose) {
 		if (slot == EquipmentSlot.MAINHAND) {
+			rightArm.translateAndRotate(pose);
 			rightForeArm.translateAndRotate(pose);
 		}
 		if (slot == EquipmentSlot.OFFHAND) {
+			leftArm.translateAndRotate(pose);
 			leftForeArm.translateAndRotate(pose);
 		}
 	}
