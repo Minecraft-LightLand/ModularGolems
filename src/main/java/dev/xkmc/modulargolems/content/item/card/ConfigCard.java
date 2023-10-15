@@ -1,10 +1,11 @@
-package dev.xkmc.modulargolems.content.item.wand;
+package dev.xkmc.modulargolems.content.item.card;
 
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.player.LocalPlayer;
@@ -47,7 +48,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 			UUID uuid = getUUID(stack);
 			if (uuid != null) {
 				return e -> Optional.ofNullable(e.getConfigEntry(null))
-						.map(x -> x.getID().equals(player.getUUID()) && x.getColor() == card.color.getId())
+						.map(x -> x.getID().equals(uuid) && x.getColor() == card.color.getId())
 						.orElse(true);
 			}
 		}
@@ -124,19 +125,15 @@ public class ConfigCard extends Item implements GolemInteractItem {
 			list.add(MGLangData.CONFIG_INIT.get());
 		} else {
 			if (level != null) {
-				var entry = GolemConfigStorage.get(level).getStorage(id, color.getId());
-				if (entry == null) {
-					list.add(MGLangData.LOADING.get());
-				} else {
-					list.add(entry.getDisplayName());
-				}
+				var entry = GolemConfigStorage.get(level).getOrCreateStorage(id, color.getId(), MGLangData.LOADING.get());
+				entry.clientTick(level, false);
+				list.add(entry.getDisplayName());
 			}
 			if (!mayClientEdit(id)) {
 				list.add(MGLangData.CONFIG_OTHER.get());
 			}
 			list.add(MGLangData.CONFIG_CARD.get());
 		}
-
 	}
 
 }

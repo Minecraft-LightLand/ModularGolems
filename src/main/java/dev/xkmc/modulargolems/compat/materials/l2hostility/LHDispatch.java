@@ -36,6 +36,16 @@ public class LHDispatch extends ModDispatch {
 				.define('C', LHTraits.ADAPTIVE.get().asItem())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
+		safeUpgrade(pvd, new ShapedRecipeBuilder(RecipeCategory.MISC, LHCompatRegistry.POTION.get(), 1)::unlockedBy, LHTraits.CURSED.get().asItem())
+				.pattern("1B2").pattern("BAB").pattern("3B4")
+				.define('1', LHTraits.CURSED.get().asItem())
+				.define('2', LHTraits.SOUL_BURNER.get().asItem())
+				.define('3', LHTraits.SLOWNESS.get().asItem())
+				.define('4', LHTraits.WEAKNESS.get().asItem())
+				.define('A', GolemItems.CAULDRON.get())
+				.define('B', LCItems.STORM_CORE.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
 		safeUpgrade(pvd, new ShapedRecipeBuilder(RecipeCategory.MISC, LHCompatRegistry.TANK.get(), 1)::unlockedBy, LHTraits.TANK.get().asItem())
 				.pattern("CBC").pattern("BAB").pattern("CBC")
 				.define('A', GolemItems.NETHERITE.get())

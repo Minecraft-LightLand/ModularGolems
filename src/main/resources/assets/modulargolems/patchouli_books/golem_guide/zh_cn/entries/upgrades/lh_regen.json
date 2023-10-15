@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "恶意升级：再生",
+  "icon": "modulargolems:hostility_regen",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_regen",
+	  "text": "等价于莱特兰恶意的再生词条。最高5级"
+	}
+  ]
+}

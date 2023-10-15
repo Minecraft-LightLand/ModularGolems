@@ -393,12 +393,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@Override
 	public void aiStep() {
 		super.aiStep();
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			ItemStack stack = getItemBySlot(slot);
-			if (!stack.isEmpty()) {
-				stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
-			}
-		}
 		attackStep();
 	}
 

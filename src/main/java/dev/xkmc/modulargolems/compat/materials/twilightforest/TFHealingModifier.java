@@ -6,7 +6,6 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.entity.Entity;
 import twilightforest.init.TFDimensionSettings;
 
 import java.util.List;
@@ -18,8 +17,8 @@ public class TFHealingModifier extends GolemModifier {
 	}
 
 	@Override
-	public double onInventoryHealTick(double heal, Entity entity, int level) {
-		if (entity.level().dimensionTypeId().equals(TFDimensionSettings.TWILIGHT_DIM_TYPE)) {
+	public double onInventoryHealTick(double heal, HealingContext ctx, int level) {
+		if (ctx.owner().level().dimensionTypeId().equals(TFDimensionSettings.TWILIGHT_DIM_TYPE)) {
 			return heal * (1 + MGConfig.COMMON.compatTFHealing.get() * level);
 		}
 		return heal;

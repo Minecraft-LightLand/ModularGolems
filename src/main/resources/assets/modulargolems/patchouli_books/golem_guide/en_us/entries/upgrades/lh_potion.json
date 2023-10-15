@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "Hostility Upgrade: Potion",
+  "icon": "modulargolems:hostility_potion",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_potion",
+	  "text": "First level of potion upgrades do not consume slot. When used with Cauldron upgrade, all potion upgrades do no consume slots."
+	}
+  ]
+}

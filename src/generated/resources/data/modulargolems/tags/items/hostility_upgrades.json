@@ -1,6 +1,10 @@
 {
   "values": [
     {
+      "id": "modulargolems:hostility_potion",
+      "required": false
+    },
+    {
       "id": "modulargolems:hostility_tank",
       "required": false
     },

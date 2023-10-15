@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "恶意核心升级",
+  "icon": "modulargolems:hostility_core",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_core",
+	  "text": "其他恶意升级不消耗升级槽。这个升级能大幅拔高傀儡的上限"
+	}
+  ]
+}

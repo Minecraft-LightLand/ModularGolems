@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "Hostility Upgrade: Tanky",
+  "icon": "modulargolems:hostility_tank",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_tank",
+	  "text": "Same effect as Tanky trait on mobs. Max level: 5"
+	}
+  ]
+}

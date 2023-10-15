@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "恶意升级：神速",
+  "icon": "modulargolems:hostility_speed",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_speed",
+	  "text": "等价于莱特兰恶意的神速词条。最高5级"
+	}
+  ]
+}

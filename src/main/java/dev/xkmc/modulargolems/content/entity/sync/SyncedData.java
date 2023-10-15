@@ -7,7 +7,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -33,11 +32,11 @@ public class SyncedData {
 				tag -> Optional.ofNullable(tag).map(NbtUtils::loadUUID));
 	}
 
-	private final Class<? extends Entity> cls;
+	private final Definer cls;
 
 	private final List<Data<?>> list = new ArrayList<>();
 
-	public SyncedData(Class<? extends Entity> cls) {
+	public SyncedData(Definer cls) {
 		this.cls = cls;
 	}
 
@@ -74,7 +73,7 @@ public class SyncedData {
 
 		private Data(Serializer<T> ser, T init, @Nullable String name) {
 			this.ser = ser;
-			this.data = SynchedEntityData.defineId(cls, ser.ser());
+			this.data = cls.define(ser.ser());
 			this.init = init;
 			this.name = name;
 		}
@@ -107,6 +106,12 @@ public class SyncedData {
 		public T read(@Nullable Tag tag) {
 			return read.apply(tag);
 		}
+
+	}
+
+	public interface Definer {
+
+		<T> EntityDataAccessor<T> define(EntityDataSerializer<T> ser);
 
 	}
 

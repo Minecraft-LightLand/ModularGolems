@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "Hostility Upgrade: Protection",
+  "icon": "modulargolems:hostility_protection",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_protection",
+	  "text": "Same effect as Protection trait on mobs. Max level: 5"
+	}
+  ]
+}

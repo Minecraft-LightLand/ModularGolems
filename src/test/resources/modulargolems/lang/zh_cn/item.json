@@ -51,7 +51,14 @@
 	"omnipotent_wand_command": "万能手杖：命令",
 	"omnipotent_wand_retrieval": "万能手杖：回收",
 	"omnipotent_wand_rider": "万能手杖：骑乘",
-	"omnipotent_wand_summon": "万能手杖：召唤"
+	"omnipotent_wand_summon": "万能手杖：召唤",
+	"hostility_core": "恶意核心",
+	"hostility_potion": "恶意升级：药水",
+	"hostility_protection": "恶意升级：保护",
+	"hostility_reflect": "恶意升级：反射",
+	"hostility_regen": "恶意升级：再生",
+	"hostility_speed": "恶意升级：神速",
+	"hostility_tank": "恶意升级：重装"
   },
   "-cartesian": {
 	"config": {

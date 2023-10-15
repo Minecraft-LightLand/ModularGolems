@@ -3,12 +3,10 @@ package dev.xkmc.modulargolems.compat.materials.l2hostility;
 import dev.xkmc.l2hostility.init.data.LHConfig;
 import dev.xkmc.l2hostility.init.registrate.LHTraits;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
-import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +18,8 @@ public class RegenModifier extends GolemModifier {
 	}
 
 	@Override
-	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
-		return super.onHealTick(heal, entity, level);
+	public double onInventoryHealTick(double heal, HealingContext ctx, int level) {
+		return heal + ctx.maxHealth() * LHConfig.COMMON.regen.get() * level;
 	}
 
 	@Override

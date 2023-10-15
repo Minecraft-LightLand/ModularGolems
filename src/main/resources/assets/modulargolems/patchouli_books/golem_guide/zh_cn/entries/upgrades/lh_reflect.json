@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "恶意升级：反射",
+  "icon": "modulargolems:hostility_reflect",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_reflect",
+	  "text": "等价于莱特兰恶意的反射词条。最高5级"
+	}
+  ]
+}

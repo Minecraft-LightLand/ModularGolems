@@ -3,23 +3,26 @@ package dev.xkmc.modulargolems.compat.materials.l2hostility;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class HostilityModifier extends GolemModifier {
+public class HostilityPotionModifier extends GolemModifier {
 
-	public HostilityModifier(StatFilterType type, int maxLevel) {
+	public HostilityPotionModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
 	}
 
 	@Override
 	public int addSlot(List<UpgradeItem> upgrades, int lv) {
-		int ans = 0;
+		Set<UpgradeItem> set = new HashSet<>();
 		for (var e : upgrades) {
-			if (e.getDefaultInstance().is(LHCompatRegistry.HOSTILITY_UPGRADE)) {
-				ans++;
+			if (e.getDefaultInstance().is(MGTagGen.POTION_UPGRADES)) {
+				set.add(e);
 			}
 		}
-		return ans;
+		return set.size();
 	}
 }

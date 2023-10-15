@@ -1,0 +1,13 @@
+{
+  "flag": "mod:l2hostility",
+  "name": "Hostility Upgrade: Speedy",
+  "icon": "modulargolems:hostility_speed",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hostility_speed",
+	  "text": "Same effect as Speedy trait on mobs. Max level: 5"
+	}
+  ]
+}

@@ -32,6 +32,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
@@ -73,7 +75,11 @@ import java.util.*;
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
 		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
 
-	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity.class);
+	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
+		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
+	}
+
+	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity::defineId);
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
@@ -426,6 +432,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				entry.getKey().onAiStep(this, entry.getValue());
 			}
 			this.updatePersistentAnger((ServerLevel) this.level(), true);
+		}
+		for (EquipmentSlot slot : EquipmentSlot.values()) {
+			ItemStack stack = getItemBySlot(slot);
+			if (!stack.isEmpty()) {
+				stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
+			}
 		}
 	}
 

@@ -21,20 +21,24 @@ import net.minecraft.world.item.Item;
 
 public class LHCompatRegistry {
 
-	public static final RegistryEntry<HostilityModifier> LH_CORE;
+	public static final RegistryEntry<HostilityCoreModifier> LH_CORE;
+	public static final RegistryEntry<HostilityPotionModifier> LH_POTION;
 
 	public static final RegistryEntry<AttributeGolemModifier> LH_TANK, LH_SPEED;
 	public static final RegistryEntry<PotionDefenseModifier> LH_PROTECTION;
 	public static final RegistryEntry<RegenModifier> LH_REGEN;
 	public static final RegistryEntry<ReflectiveModifier> LH_REFLECTIVE;
 
-	public static final ItemEntry<SimpleUpgradeItem> CORE, TANK, SPEED, PROTECTION, REGEN, REFLECTIVE;
+	public static final ItemEntry<SimpleUpgradeItem> CORE, POTION, TANK, SPEED, PROTECTION, REGEN, REFLECTIVE;
 
 	public static final TagKey<Item> HOSTILITY_UPGRADE = ItemTags.create(new ResourceLocation(ModularGolems.MODID, "hostility_upgrades"));
 
 	static {
-		LH_CORE = GolemModifiers.reg("hostility_core", () -> new HostilityModifier(StatFilterType.HEALTH, 1), "Hostility Core",
+		LH_CORE = GolemModifiers.reg("hostility_core", () -> new HostilityCoreModifier(StatFilterType.HEALTH, 1), "Hostility Core",
 				"All other hostility upgrades don't consume upgrade slots");
+
+		LH_POTION = GolemModifiers.reg("hostility_potion", () -> new HostilityPotionModifier(StatFilterType.HEALTH, 1), "Hostility Upgrade: Potions",
+				"First level of each kind of potion upgrades don't consume upgrade slot");
 
 		LH_TANK = GolemModifiers.reg("hostility_tank", () -> new AttributeGolemModifier(5,
 						new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, LHConfig.COMMON.tankHealth::get),
@@ -56,15 +60,17 @@ public class LHCompatRegistry {
 				"Hostility Upgrade: Reflective", null);
 
 		CORE = GolemItems.regModUpgrade("hostility_core", () -> LH_CORE, L2Hostility.MODID).lang("Hostility Core").register();
+		POTION = GolemItems.regModUpgrade("hostility_potion", () -> LH_POTION, L2Hostility.MODID).lang("Hostility Upgrade: Potion").register();
 		TANK = GolemItems.regModUpgrade("hostility_tank", () -> LH_TANK, L2Hostility.MODID).lang("Hostility Upgrade: Tanky").register();
-		SPEED = GolemItems.regModUpgrade("hostility_speed", () -> LH_TANK, L2Hostility.MODID).lang("Hostility Upgrade: Speedy").register();
-		PROTECTION = GolemItems.regModUpgrade("hostility_protection", () -> LH_TANK, L2Hostility.MODID).lang("Hostility Upgrade: Protection").register();
-		REGEN = GolemItems.regModUpgrade("hostility_regen", () -> LH_TANK, L2Hostility.MODID).lang("Hostility Upgrade: Regeneration").register();
-		REFLECTIVE = GolemItems.regModUpgrade("hostility_reflect", () -> LH_TANK, L2Hostility.MODID).lang("Hostility Upgrade: Reflective").register();
+		SPEED = GolemItems.regModUpgrade("hostility_speed", () -> LH_SPEED, L2Hostility.MODID).lang("Hostility Upgrade: Speedy").register();
+		PROTECTION = GolemItems.regModUpgrade("hostility_protection", () -> LH_PROTECTION, L2Hostility.MODID).lang("Hostility Upgrade: Protection").register();
+		REGEN = GolemItems.regModUpgrade("hostility_regen", () -> LH_REGEN, L2Hostility.MODID).lang("Hostility Upgrade: Regeneration").register();
+		REFLECTIVE = GolemItems.regModUpgrade("hostility_reflect", () -> LH_REFLECTIVE, L2Hostility.MODID).lang("Hostility Upgrade: Reflective").register();
 	}
 
 	public static void register() {
 		MGTagGen.OPTIONAL_ITEM.add(pvd -> pvd.addTag(HOSTILITY_UPGRADE)
+				.addOptional(POTION.getId())
 				.addOptional(TANK.getId())
 				.addOptional(SPEED.getId())
 				.addOptional(PROTECTION.getId())
