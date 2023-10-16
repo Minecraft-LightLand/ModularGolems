@@ -30,6 +30,8 @@ public class GolemConfigEntry {
 	public boolean summonToPosition;
 	@SerialClass.SerialField
 	public PickupFilterConfig pickupFilter = new PickupFilterConfig();
+	@SerialClass.SerialField
+	public TargetFilterConfig targetFilter = new TargetFilterConfig();
 
 	@SerialClass.SerialField
 	public boolean locked;
