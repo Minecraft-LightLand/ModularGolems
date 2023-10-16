@@ -27,6 +27,8 @@ import dev.xkmc.modulargolems.content.item.wand.RiderWandItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
+import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -70,7 +72,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
-	public static final ItemEntry<MetalGolemWeaponItem> METALGOLEM_SPEAR;
+	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
 	public static final ItemEntry<ConfigCard>[] CARD;
 	public static final ItemEntry<NameFilterCard> CARD_NAME;
 	public static final ItemEntry<EntityTypeFilterCard> CARD_TYPE;
@@ -154,8 +156,7 @@ public class GolemItems {
 
 		//metalgolem weapon
 		{
-			METALGOLEM_SPEAR = REGISTRATE.item("metalgolem_spear", p -> new MetalGolemWeaponItem(p.stacksTo(1), 10, 2f, 2f))
-					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/equipments/" + ctx.getName()))).defaultLang().register();
+			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
 		}
 
 		{
