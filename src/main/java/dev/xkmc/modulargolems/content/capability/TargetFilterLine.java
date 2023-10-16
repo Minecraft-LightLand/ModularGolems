@@ -22,12 +22,17 @@ public record TargetFilterLine(GolemConfigEditor editor, ArrayList<ItemStack> li
 	}
 
 	public void set(int slot, ItemStack stack) {
-		if (!(stack.getItem() instanceof TargetFilterCard)) return;
+		if (!stack.isEmpty() && !(stack.getItem() instanceof TargetFilterCard)) return;
 		slot -= offset;
+		if (slot < 0) slot = listSize();
 		if (slot >= list.size()) {
-			list.add(stack);
+			if (!stack.isEmpty())
+				list.add(stack);
 		} else {
-			list.set(slot, stack);
+			if (!stack.isEmpty())
+				list.set(slot, stack);
+			else
+				list.remove(slot);
 		}
 	}
 

@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.content.item.card;
 import com.mojang.datafixers.util.Either;
 import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.StringTag;
@@ -82,6 +84,12 @@ public class NameFilterCard extends TargetFilterCard {
 
 	public NameFilterCard(Properties properties) {
 		super(properties);
+	}
+
+	public static ItemStack getFriendly() {
+		ItemStack friendly = GolemItems.CARD_NAME.asStack();
+		NameFilterCard.setList(friendly, List.of(Either.right(MGTagGen.GOLEM_FRIENDLY)));
+		return friendly;
 	}
 
 	@Override

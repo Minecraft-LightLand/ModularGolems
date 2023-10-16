@@ -26,11 +26,6 @@ public class ItemConfigScreen extends GhostItemScreen<ItemConfigMenu> {
 				.init(this::addRenderableWidget, GolemTabRegistry.CONFIG_ITEM);
 	}
 
-	public void render(GuiGraphics stack, int mx, int my, float partial) {
-		super.render(stack, mx, my, partial);
-		this.renderTooltip(stack, mx, my);
-	}
-
 	@Override
 	protected void renderBg(GuiGraphics poseStack, float ptick, int mx, int my) {
 		var sr = menu.sprite.getRenderer(this);

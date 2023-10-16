@@ -74,12 +74,12 @@ public abstract class GhostItemMenu extends AbstractContainerMenu {
 			stack = stack.copy();
 			stack.setCount(1);
 			if (cont.internalMatch(stack)) return;
-			cont.set(cont.listSize(), stack);
+			cont.set(-1, stack);
 		}
 	}
 
 	protected void removeContent(int slot) {
-		if (slot < 0 || slot >= getContainer(slot).listSize())
+		if (slot < 0 || getContainer(slot).getItem(slot).isEmpty())
 			return;
 		getContainer(slot).set(slot, ItemStack.EMPTY);
 	}

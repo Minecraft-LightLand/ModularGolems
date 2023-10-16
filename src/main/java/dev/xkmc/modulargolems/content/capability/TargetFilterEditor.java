@@ -17,7 +17,6 @@ public record TargetFilterEditor(GolemConfigEditor editor) implements ReadOnlyCo
 		return editor.entry().targetFilter;
 	}
 
-
 	@Override
 	public int getContainerSize() {
 		return TargetFilterConfig.LINE * 2;
@@ -32,4 +31,15 @@ public record TargetFilterEditor(GolemConfigEditor editor) implements ReadOnlyCo
 	public ItemStack getItem(int slot) {
 		return slot < TargetFilterConfig.LINE ? targetHostile().getItem(slot) : targetFriendly().getItem(slot);
 	}
+
+	public void resetHostile() {
+		getConfig().resetHostile();
+		editor().sync();
+	}
+
+	public void resetFriendly() {
+		getConfig().resetFriendly();
+		editor().sync();
+	}
+
 }

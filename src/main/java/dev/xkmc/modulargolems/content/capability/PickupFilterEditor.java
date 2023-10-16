@@ -15,6 +15,7 @@ public record PickupFilterEditor(GolemConfigEditor editor) implements IGhostCont
 	}
 
 	public void set(int slot, ItemStack stack) {
+		if (slot < 0) slot = listSize();
 		var filter = getFilter();
 		if (slot >= filter.filter.size()) {
 			if (!stack.isEmpty()) {

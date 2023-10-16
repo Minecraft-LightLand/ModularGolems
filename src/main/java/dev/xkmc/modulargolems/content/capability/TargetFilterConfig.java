@@ -1,16 +1,13 @@
 package dev.xkmc.modulargolems.content.capability;
 
-import com.mojang.datafixers.util.Either;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.item.card.NameFilterCard;
 import dev.xkmc.modulargolems.content.item.card.TargetFilterCard;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @SerialClass
 public class TargetFilterConfig {
@@ -57,9 +54,18 @@ public class TargetFilterConfig {
 	}
 
 	public void initDefault() {
-		ItemStack friendly = GolemItems.CARD_NAME.asStack();
-		NameFilterCard.setList(friendly, List.of(Either.right(MGTagGen.GOLEM_FRIENDLY)));
-		friendlyTo.add(friendly);
+		resetHostile();
+		resetFriendly();
+	}
+
+	public void resetHostile() {
+		hostileTo.clear();
+		hostileTo.add(GolemItems.CARD_DEF.asStack());
+	}
+
+	public void resetFriendly() {
+		friendlyTo.clear();
+		friendlyTo.add(NameFilterCard.getFriendly());
 	}
 
 }

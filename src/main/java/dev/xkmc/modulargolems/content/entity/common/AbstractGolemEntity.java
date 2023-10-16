@@ -15,6 +15,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
+import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
@@ -641,7 +642,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected boolean predicateSecondaryTarget(LivingEntity e) {
-		return e instanceof Enemy && !(e instanceof Creeper);//TODO
+		var config = getConfigEntry(null);
+		if (config == null) {
+			return DefaultFilterCard.defaultPredicate(e);
+		} else {
+			return config.targetFilter.aggressiveToward(e);
+		}
 	}
 
 	public boolean isInSittingPose() {

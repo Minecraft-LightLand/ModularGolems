@@ -14,10 +14,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
-import dev.xkmc.modulargolems.content.item.card.ConfigCard;
-import dev.xkmc.modulargolems.content.item.card.EntityTypeFilterCard;
-import dev.xkmc.modulargolems.content.item.card.NameFilterCard;
-import dev.xkmc.modulargolems.content.item.card.UuidFilterCard;
+import dev.xkmc.modulargolems.content.item.card.*;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -78,6 +75,7 @@ public class GolemItems {
 	public static final ItemEntry<NameFilterCard> CARD_NAME;
 	public static final ItemEntry<EntityTypeFilterCard> CARD_TYPE;
 	public static final ItemEntry<UuidFilterCard> CARD_UUID;
+	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
 
 	static {
 
@@ -179,6 +177,9 @@ public class GolemItems {
 			CARD_UUID = REGISTRATE.item("target_filter_uuid", p -> new UuidFilterCard(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/uuid")))
 					.lang("Target Filter: Entity UUID").register();
+			CARD_DEF = REGISTRATE.item("target_filter_default", p -> new DefaultFilterCard(p.stacksTo(1)))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/default")))
+					.lang("Target Filter: Default Target").register();
 		}
 
 		// upgrades

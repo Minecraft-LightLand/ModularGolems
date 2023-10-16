@@ -16,6 +16,10 @@
 	{
 	  "type": "patchouli:text",
 	  "text": "You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. $(br2)You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables."
+	},
+	{
+	  "type": "patchouli:text",
+	  "text":"You can configure golem attack targets. The hostile target list contains targets golems will actively attack. The friendly target list containers targets golems will never attack.$(br2)There are default cards but you can remove them and insert your own, so that you can use golems to fight other golems or other players."
 	}
   ]
 }
