@@ -72,7 +72,7 @@ public class NameFilterCard extends TargetFilterCard {
 		}
 	}
 
-	private static void setList(ItemStack stack, List<Either<EntityType<?>, TagKey<EntityType<?>>>> list) {
+	public static void setList(ItemStack stack, List<Either<EntityType<?>, TagKey<EntityType<?>>>> list) {
 		var tag = ItemCompoundTag.of(stack).getSubList(KEY, Tag.TAG_STRING).getOrCreate();
 		for (var e : list) {
 			e.map(l -> Optional.ofNullable(ForgeRegistries.ENTITY_TYPES.getKey(l)).map(ResourceLocation::toString),
@@ -123,7 +123,9 @@ public class NameFilterCard extends TargetFilterCard {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		var strs = getStrings(stack);
 		if (strs.size() > 0 && !Screen.hasShiftDown()) {
-			//TODO add names
+			for (var e : strs) {
+				list.add(Component.literal(e));
+			}
 			list.add(MGLangData.TARGET_SHIFT.get());
 		} else {
 			list.add(MGLangData.TARGET_NAME.get());

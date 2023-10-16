@@ -42,9 +42,10 @@ public class GolemConfigEntry {
 
 	}
 
-	public GolemConfigEntry(Component comp) {
+	private GolemConfigEntry(Component comp) {
 		nameComp = comp;
 		name = Component.Serializer.toJson(comp);
+		targetFilter.initDefault();
 	}
 
 	public Component getDisplayName() {

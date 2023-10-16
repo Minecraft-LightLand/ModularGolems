@@ -364,12 +364,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public void setTarget(@Nullable LivingEntity pTarget) {
-		if (pTarget != null && !canAttack(pTarget)) {
+	public void setTarget(@Nullable LivingEntity target) {
+		if (target != null && !canAttack(target)) {
 			return;
 		}
-		super.setTarget(pTarget);
-		if (pTarget instanceof Mob mob) {
+		super.setTarget(target);
+		if (target instanceof Mob mob) {
 			if (mob.getTarget() == null && mob.canAttack(this)) {
 				mob.setTarget(this);
 			}
@@ -381,16 +381,31 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean canAttackType(EntityType<?> pType) {
-		if (hasFlag(GolemFlags.PASSIVE)) {
-			return false;
-		}
-		return !pType.is(MGTagGen.GOLEM_FRIENDLY);
+	public boolean canAttackType(EntityType<?> type) {
+		return !hasFlag(GolemFlags.PASSIVE);
 	}
 
 	@Override
-	public boolean canAttack(LivingEntity pTarget) {
-		return !this.isAlliedTo(pTarget) && canAttackType(pTarget.getType()) && super.canAttack(pTarget);
+	public boolean canAttack(LivingEntity target) {
+		if (target == getOwner()) {
+			return false;
+		}
+		if (target instanceof OwnableEntity own) {
+			if (getOwner() == own.getOwner()) {
+				return false;
+			}
+		}
+		var config = getConfigEntry(null);
+		if (config == null) {
+			if (target.getType().is(MGTagGen.GOLEM_FRIENDLY)) {
+				return false;
+			}
+		} else {
+			if (config.targetFilter.friendlyToward(target)) {
+				return false;
+			}
+		}
+		return !this.isAlliedTo(target) && canAttackType(target.getType()) && super.canAttack(target);
 	}
 
 	protected float getAttackDamage() {
@@ -626,7 +641,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected boolean predicateSecondaryTarget(LivingEntity e) {
-		return e instanceof Enemy && !(e instanceof Creeper);
+		return e instanceof Enemy && !(e instanceof Creeper);//TODO
 	}
 
 	public boolean isInSittingPose() {
@@ -686,5 +701,3 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 }
-
-

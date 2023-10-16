@@ -247,11 +247,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	@Override
-	public void setTarget(@Nullable LivingEntity pTarget) {
-		if (pTarget != null && isInSittingPose()) {
+	public void setTarget(@Nullable LivingEntity target) {
+		if (target != null && isInSittingPose()) {
 			return;
 		}
-		super.setTarget(pTarget);
+		super.setTarget(target);
 	}
 }
 
