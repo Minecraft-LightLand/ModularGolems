@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.menu.registry;
 import dev.xkmc.modulargolems.content.menu.attribute.AttributeTab;
 import dev.xkmc.modulargolems.content.menu.config.ConfigToggleTab;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentTab;
-import dev.xkmc.modulargolems.content.menu.ghost.ConfigItemTab;
+import dev.xkmc.modulargolems.content.menu.filter.ConfigItemTab;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;

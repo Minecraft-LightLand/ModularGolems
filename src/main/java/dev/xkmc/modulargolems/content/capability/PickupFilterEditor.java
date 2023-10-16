@@ -1,9 +1,10 @@
 package dev.xkmc.modulargolems.content.capability;
 
+import dev.xkmc.modulargolems.content.menu.ghost.IGhostContainer;
 import dev.xkmc.modulargolems.content.menu.ghost.ReadOnlyContainer;
 import net.minecraft.world.item.ItemStack;
 
-public record PickupFilterEditor(GolemConfigEditor editor) implements ReadOnlyContainer {
+public record PickupFilterEditor(GolemConfigEditor editor) implements IGhostContainer, ReadOnlyContainer {
 
 	public PickupFilterConfig getFilter() {
 		return editor().entry().pickupFilter;

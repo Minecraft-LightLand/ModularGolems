@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.menu.ghost;
+package dev.xkmc.modulargolems.content.menu.filter;
 
 import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;

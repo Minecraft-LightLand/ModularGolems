@@ -11,7 +11,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
-import dev.xkmc.modulargolems.content.menu.ghost.ItemConfigScreen;
+import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;

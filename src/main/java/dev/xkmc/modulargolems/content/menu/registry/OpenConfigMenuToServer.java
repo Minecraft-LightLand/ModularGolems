@@ -5,7 +5,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
-import dev.xkmc.modulargolems.content.menu.ghost.ItemConfigMenuProvider;
+import dev.xkmc.modulargolems.content.menu.filter.ItemConfigMenuProvider;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;

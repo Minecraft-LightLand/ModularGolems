@@ -14,7 +14,7 @@ import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
-import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
+import dev.xkmc.modulargolems.content.menu.filter.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;

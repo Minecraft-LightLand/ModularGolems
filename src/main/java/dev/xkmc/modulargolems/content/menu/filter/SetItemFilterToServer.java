@@ -1,7 +1,8 @@
-package dev.xkmc.modulargolems.content.menu.ghost;
+package dev.xkmc.modulargolems.content.menu.filter;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.modulargolems.content.menu.ghost.GhostItemMenu;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
@@ -28,7 +29,7 @@ public class SetItemFilterToServer extends SerialPacketBase {
 	public void handle(NetworkEvent.Context context) {
 		ServerPlayer sender = context.getSender();
 		if (sender == null) return;
-		if (sender.containerMenu instanceof ItemConfigMenu menu) {
+		if (sender.containerMenu instanceof GhostItemMenu menu) {
 			menu.setSlotContent(slot, stack);
 		}
 	}
