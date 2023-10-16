@@ -20,7 +20,16 @@
 	  "golem_equipment": "只对%s生效",
 	  "guard": "巡逻",
 	  "stand": "停留",
-	  "modifier": "总计%s个技能，%s个升级"
+	  "modifier": "总计%s个技能，%s个升级",
+	  "target": {
+		"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
+		"remove": "蹲下右键移除最后一行",
+		"shift": "按SHIFT显示用法",
+		"type_add": "右键实体把实体类型加入过滤器",
+		"type_remove": "蹲下右键实体把实体类型从过滤器中移除",
+		"uuid_add": "右键实体把实体ID加入过滤器",
+		"uuid_remove": "蹲下右键实体把实体ID从过滤器中移除"
+	  }
 	},
 	"wand": {
 	  "mode": "目前模式: %s",
@@ -60,13 +69,16 @@
 	  "lock": "锁定交互",
 	  "match_item": "匹配物品。点击启用匹配NBT",
 	  "match_tag": "匹配物品和NBT。点击切换至只匹配物品",
-	  "whitelist": "使用白名单。点击切换至黑名单"
+	  "whitelist": "使用白名单。点击切换至黑名单",
+	  "friendly": "友好列表",
+	  "hostile": "主动攻击目标"
 	},
 	"tab": {
 	  "attribute": "傀儡数值",
 	  "equipment": "傀儡装备",
 	  "pickup": "拾取升级过滤器",
-	  "toggle": "通用配置"
+	  "toggle": "通用配置",
+	  "target": "攻击目标过滤器"
 	},
 	"slot": {
 	  "main": "主手槽",

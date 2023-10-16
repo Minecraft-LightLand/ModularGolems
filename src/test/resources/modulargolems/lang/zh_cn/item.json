@@ -58,7 +58,10 @@
 	"hostility_reflect": "恶意升级：反射",
 	"hostility_regen": "恶意升级：再生",
 	"hostility_speed": "恶意升级：神速",
-	"hostility_tank": "恶意升级：重装"
+	"hostility_tank": "恶意升级：重装",
+	"target_filter_name": "生物过滤器: 数据包格式",
+	"target_filter_type": "生物过滤器: 实体类型",
+	"target_filter_uuid": "生物过滤器: 实体ID"
   },
   "-cartesian": {
 	"config": {
