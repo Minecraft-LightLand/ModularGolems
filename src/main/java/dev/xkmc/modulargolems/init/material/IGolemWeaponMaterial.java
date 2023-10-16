@@ -8,6 +8,8 @@ public interface IGolemWeaponMaterial {
 
 	String getName();
 
+	Item getIngot();
+
 	default Item.Properties modify(Item.Properties prop) {
 		if (fireResistant()) {
 			prop = prop.fireResistant();

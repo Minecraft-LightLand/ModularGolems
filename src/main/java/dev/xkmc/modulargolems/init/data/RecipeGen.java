@@ -7,16 +7,20 @@ import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.item.card.NameFilterCard;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
+import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -228,6 +232,26 @@ public class RecipeGen {
 					.save(pvd);
 		}
 
+		// weapon
+		{
+			for (var type : GolemWeaponType.values()) {
+				for (var mat : VanillaGolemWeaponMaterial.values()) {
+					Item item = GolemItems.METALGOLEM_WEAPON[type.ordinal()][mat.ordinal()].get();
+					if (mat == VanillaGolemWeaponMaterial.NETHERITE) {
+						Item prev = GolemItems.METALGOLEM_WEAPON[type.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()].get();
+						smithing(pvd, prev, mat.getIngot(), item);
+					} else {
+						type.pattern(unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, item)::unlockedBy, mat.getIngot()))
+								.define('I', mat.getIngot())
+								.define('S', Items.STICK)
+								.define('T', GolemItems.GOLEM_TEMPLATE.get())
+								.save(pvd);
+					}
+				}
+			}
+
+		}
+
 		// upgrades
 		{
 
@@ -398,5 +422,17 @@ public class RecipeGen {
 	public static <T> T unlock(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {
 		return func.apply("has_" + pvd.safeName(item), DataIngredient.items(item).getCritereon(pvd));
 	}
+
+	public static void smithing(RegistrateRecipeProvider pvd, Item in, Item mat, Item out) {
+		Ingredient ing = Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(ing, Ingredient.of(in), Ingredient.of(mat),
+				RecipeCategory.COMBAT, out)::unlocks, mat).save(pvd, getID(out));
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	private static ResourceLocation getID(Item item) {
+		return new ResourceLocation(ModularGolems.MODID, ForgeRegistries.ITEMS.getKey(item).getPath());
+	}
+
 
 }
