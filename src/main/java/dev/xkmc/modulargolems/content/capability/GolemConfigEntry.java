@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -89,8 +90,9 @@ public class GolemConfigEntry {
 		}
 	}
 
-	public GolemConfigEntry copyFrom(GolemConfigEntry entry) {
-		sync.clientReplace(entry.sync);
+	public GolemConfigEntry copyFrom(@Nullable GolemConfigEntry entry) {
+		if (entry != null)
+			sync.clientReplace(entry.sync);
 		return this;
 	}
 

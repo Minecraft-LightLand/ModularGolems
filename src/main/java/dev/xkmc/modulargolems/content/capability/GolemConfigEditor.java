@@ -61,12 +61,8 @@ public interface GolemConfigEditor {
 		return new PickupFilterEditor(this);
 	}
 
-	default TargetFilterEditor targetHostile() {
-		return new TargetFilterEditor(this, entry().targetFilter.hostileTo);
-	}
-
-	default TargetFilterEditor targetFriendly() {
-		return new TargetFilterEditor(this, entry().targetFilter.friendlyTo);
+	default TargetFilterEditor target() {
+		return new TargetFilterEditor(this);
 	}
 
 	record Writable(Level level, GolemConfigEntry entry) implements GolemConfigEditor {

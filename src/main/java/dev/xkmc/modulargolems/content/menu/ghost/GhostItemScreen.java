@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.menu.ghost;
 
-import dev.xkmc.modulargolems.content.menu.filter.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

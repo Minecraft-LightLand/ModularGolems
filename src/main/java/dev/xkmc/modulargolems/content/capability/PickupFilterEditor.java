@@ -10,18 +10,23 @@ public record PickupFilterEditor(GolemConfigEditor editor) implements IGhostCont
 		return editor().entry().pickupFilter;
 	}
 
-	public int size() {
+	public int listSize() {
 		return getFilter().filter.size();
 	}
 
 	public void set(int slot, ItemStack stack) {
 		var filter = getFilter();
 		if (slot >= filter.filter.size()) {
-			filter.filter.add(stack);
+			if (!stack.isEmpty()) {
+				filter.filter.add(stack);
+			}
 		} else {
-			filter.filter.set(slot, stack);
+			if (!stack.isEmpty()) {
+				filter.filter.set(slot, stack);
+			} else {
+				filter.filter.remove(slot);
+			}
 		}
-		editor().sync();
 	}
 
 	public boolean internalMatch(ItemStack stack) {
@@ -30,12 +35,12 @@ public record PickupFilterEditor(GolemConfigEditor editor) implements IGhostCont
 
 	@Override
 	public int getContainerSize() {
-		return size();
+		return PickupFilterConfig.SIZE;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return size() == 0;
+		return listSize() == 0;
 	}
 
 	public ItemStack getItem(int slot) {

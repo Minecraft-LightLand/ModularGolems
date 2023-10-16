@@ -10,6 +10,7 @@ public interface IGhostContainer {
 
 	void set(int slot, ItemStack stack);
 
-	int size();
+	int listSize();
 
+	int getContainerSize();
 }

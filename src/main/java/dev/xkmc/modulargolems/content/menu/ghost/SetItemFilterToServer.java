@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.menu.filter;
+package dev.xkmc.modulargolems.content.menu.ghost;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
@@ -20,7 +20,7 @@ public class SetItemFilterToServer extends SerialPacketBase {
 
 	}
 
-	public SetItemFilterToServer(int slot, ItemStack stack) {
+	protected SetItemFilterToServer(int slot, ItemStack stack) {
 		this.slot = slot;
 		this.stack = stack;
 	}

@@ -43,7 +43,6 @@ public abstract class GhostItemMenu extends AbstractContainerMenu {
 		for (k = 0; k < 9; ++k) {
 			this.addSlot(new Slot(plInv, k, x + k * 18, y + 58));
 		}
-
 	}
 
 	protected void addSlot(String name, Predicate<ItemStack> pred) {
@@ -51,8 +50,6 @@ public abstract class GhostItemMenu extends AbstractContainerMenu {
 	}
 
 	protected abstract IGhostContainer getContainer(int slot);
-
-	protected abstract int getSize();
 
 	protected ItemStack getSlotContent(int slot) {
 		return getContainer(slot).getItem(slot);
@@ -72,16 +69,17 @@ public abstract class GhostItemMenu extends AbstractContainerMenu {
 	}
 
 	protected void tryAddContent(int slot, ItemStack stack) {
-		if (getContainer(slot).size() < getSize()) {
+		var cont = getContainer(slot);
+		if (cont.listSize() < cont.getContainerSize()) {
 			stack = stack.copy();
 			stack.setCount(1);
-			if (getContainer(slot).internalMatch(stack)) return;
-			getContainer(slot).set(getContainer(slot).size(), stack);
+			if (cont.internalMatch(stack)) return;
+			cont.set(cont.listSize(), stack);
 		}
 	}
 
 	protected void removeContent(int slot) {
-		if (slot < 0 || slot >= getContainer(slot).size())
+		if (slot < 0 || slot >= getContainer(slot).listSize())
 			return;
 		getContainer(slot).set(slot, ItemStack.EMPTY);
 	}

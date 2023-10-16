@@ -8,6 +8,8 @@ import java.util.ArrayList;
 @SerialClass
 public class TargetFilterConfig {
 
+	public static final int LINE = 18;
+
 	@SerialClass.SerialField
 	protected final ArrayList<ItemStack> hostileTo = new ArrayList<>();
 
