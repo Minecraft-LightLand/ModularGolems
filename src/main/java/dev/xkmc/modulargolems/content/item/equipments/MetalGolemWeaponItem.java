@@ -8,12 +8,21 @@ import net.minecraftforge.common.ForgeMod;
 
 public class MetalGolemWeaponItem extends GolemEquipmentItem {
 
-	public MetalGolemWeaponItem(Properties properties, int attackDamage, float range, float sweep) {
+	public MetalGolemWeaponItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep) {
 		super(properties, EquipmentSlot.MAINHAND, GolemTypes.ENTITY_GOLEM::get, builder -> {
 			var uuid = UUID.get(EquipmentSlot.MAINHAND);
-			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
-			builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(uuid, "spear_range", range, AttributeModifier.Operation.ADDITION));
-			builder.put(GolemTypes.GOLEM_SWEEP.get(), new AttributeModifier(uuid, "spear_sweep", sweep, AttributeModifier.Operation.ADDITION));
+			if (attackDamage > 0) {
+				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
+			}
+			if (percentAttack > 0) {
+				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Weapon modifier", percentAttack, AttributeModifier.Operation.MULTIPLY_BASE));
+			}
+			if (range > 0) {
+				builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(uuid, "spear_range", range, AttributeModifier.Operation.ADDITION));
+			}
+			if (sweep > 0) {
+				builder.put(GolemTypes.GOLEM_SWEEP.get(), new AttributeModifier(uuid, "spear_sweep", sweep, AttributeModifier.Operation.ADDITION));
+			}
 		});
 	}
 

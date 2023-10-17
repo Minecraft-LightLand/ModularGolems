@@ -19,7 +19,7 @@ public class CuriosWrapper {
 
 	public CuriosWrapper(AbstractGolemEntity<?, ?> player, int page) {
 		this.golem = player;
-		int max = 6;//TODO
+		int max = 6;
 		Optional<ICuriosItemHandler> opt = player.getCapability(CuriosCapability.INVENTORY).resolve();
 		this.page = page;
 		if (opt.isEmpty()) {

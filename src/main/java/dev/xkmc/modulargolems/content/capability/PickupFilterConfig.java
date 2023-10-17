@@ -8,6 +8,8 @@ import java.util.ArrayList;
 @SerialClass
 public class PickupFilterConfig {
 
+	public static final int SIZE = 27;
+
 	@SerialClass.SerialField
 	protected final ArrayList<ItemStack> filter = new ArrayList<>();
 

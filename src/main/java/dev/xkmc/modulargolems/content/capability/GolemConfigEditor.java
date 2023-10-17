@@ -61,6 +61,10 @@ public interface GolemConfigEditor {
 		return new PickupFilterEditor(this);
 	}
 
+	default TargetFilterEditor target() {
+		return new TargetFilterEditor(this);
+	}
+
 	record Writable(Level level, GolemConfigEntry entry) implements GolemConfigEditor {
 
 	}

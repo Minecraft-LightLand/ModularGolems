@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.menu.ghost;
+package dev.xkmc.modulargolems.content.menu.target;
 
 import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
@@ -9,16 +9,16 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-public class ConfigItemTab extends GolemTabBase<ConfigGroup, ConfigItemTab> {
+public class ConfigTargetTab extends GolemTabBase<ConfigGroup, ConfigTargetTab> {
 
-	public ConfigItemTab(int index, GolemTabToken<ConfigGroup, ConfigItemTab> token, GolemTabManager<ConfigGroup> manager, ItemStack stack, Component title) {
+	public ConfigTargetTab(int index, GolemTabToken<ConfigGroup, ConfigTargetTab> token, GolemTabManager<ConfigGroup> manager, ItemStack stack, Component title) {
 		super(index, token, manager, stack, title);
 	}
 
 	@Override
 	public void onTabClicked() {
 		var entry = manager.token.editor.entry();
-		ModularGolems.HANDLER.toServer(new OpenConfigMenuToServer(entry.getID(), entry.getColor(), OpenConfigMenuToServer.Type.ITEM));
+		ModularGolems.HANDLER.toServer(new OpenConfigMenuToServer(entry.getID(), entry.getColor(), OpenConfigMenuToServer.Type.TARGET));
 	}
 
 }

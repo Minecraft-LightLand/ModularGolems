@@ -3,12 +3,7 @@ package dev.xkmc.modulargolems.content.menu.ghost;
 import dev.xkmc.l2library.base.menu.base.MenuLayoutConfig;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
-import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
-import dev.xkmc.modulargolems.content.capability.PickupFilterEditor;
-import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -19,37 +14,23 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Predicate;
 
-public class ItemConfigMenu extends AbstractContainerMenu {
-
-	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "config_pickup");
-	public static final int SIZE = 18;
-
-	public static ItemConfigMenu fromNetwork(MenuType<ItemConfigMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
-		var id = buf.readUUID();
-		int color = buf.readInt();
-		return new ItemConfigMenu(type, wid, plInv, new SimpleContainer(SIZE),
-				GolemConfigEditor.readable(id, color).getFilter());
-	}
+public abstract class GhostItemMenu extends AbstractContainerMenu {
 
 	protected final Inventory inventory;
-	protected final MenuLayoutConfig sprite;
+	public final MenuLayoutConfig sprite;
 	protected final Container container;
-	protected final PickupFilterEditor editor;
 
 	private int added = 0;
 
-	protected ItemConfigMenu(MenuType<?> type, int wid, Inventory plInv, Container container, PickupFilterEditor editor) {
+	protected GhostItemMenu(MenuType<?> type, int wid, Inventory plInv, SpriteManager manager, Container container) {
 		super(type, wid);
 		this.inventory = plInv;
-		this.sprite = MANAGER.get();
+		this.sprite = manager.get();
 		this.container = container;
-		this.editor = editor;
 
 		int x = sprite.getPlInvX();
 		int y = sprite.getPlInvY();
 		this.bindPlayerInventory(plInv, x, y);
-
-		addSlot("grid", e -> true);
 	}
 
 	protected void bindPlayerInventory(Inventory plInv, int x, int y) {
@@ -62,47 +43,45 @@ public class ItemConfigMenu extends AbstractContainerMenu {
 		for (k = 0; k < 9; ++k) {
 			this.addSlot(new Slot(plInv, k, x + k * 18, y + 58));
 		}
-
 	}
 
 	protected void addSlot(String name, Predicate<ItemStack> pred) {
 		this.sprite.getSlot(name, (x, y) -> new PredSlot(this.container, this.added++, x, y, pred), (n, i, j, s) -> addSlot(s));
 	}
 
-	protected PickupFilterEditor getConfig() {
-		return editor;
-	}
+	protected abstract IGhostContainer getContainer(int slot);
 
 	protected ItemStack getSlotContent(int slot) {
-		return getConfig().getItem(slot);
+		return getContainer(slot).getItem(slot);
 	}
 
 	public void setSlotContent(int slot, ItemStack stack) {
 		if (stack.isEmpty()) {
 			removeContent(slot);
-		} else if (getConfig().getItem(slot).isEmpty()) {
-			tryAddContent(stack);
+		} else if (getContainer(slot).getItem(slot).isEmpty()) {
+			tryAddContent(slot, stack);
 		} else {
 			stack = stack.copy();
 			stack.setCount(1);
-			if (getConfig().internalMatch(stack)) return;
-			getConfig().set(slot, stack);
+			if (getContainer(slot).internalMatch(stack)) return;
+			getContainer(slot).set(slot, stack);
 		}
 	}
 
-	protected void tryAddContent(ItemStack stack) {
-		if (getConfig().size() < SIZE) {
+	protected void tryAddContent(int slot, ItemStack stack) {
+		var cont = getContainer(slot);
+		if (cont.listSize() < cont.getContainerSize()) {
 			stack = stack.copy();
 			stack.setCount(1);
-			if (getConfig().internalMatch(stack)) return;
-			getConfig().set(getConfig().size(), stack);
+			if (cont.internalMatch(stack)) return;
+			cont.set(-1, stack);
 		}
 	}
 
 	protected void removeContent(int slot) {
-		if (slot < 0 || slot >= getConfig().size())
+		if (slot < 0 || getContainer(slot).getItem(slot).isEmpty())
 			return;
-		getConfig().set(slot, ItemStack.EMPTY);
+		getContainer(slot).set(slot, ItemStack.EMPTY);
 	}
 
 	public void clicked(int slotId, int dragType, ClickType clickTypeIn, Player player) {
@@ -138,7 +117,7 @@ public class ItemConfigMenu extends AbstractContainerMenu {
 	public ItemStack quickMoveStack(Player playerIn, int index) {
 		if (index < 36) {
 			ItemStack stackToInsert = getSlot(index).getItem();
-			tryAddContent(stackToInsert);
+			tryAddContent(0, stackToInsert);
 		} else {
 			removeContent(index - 36);
 		}

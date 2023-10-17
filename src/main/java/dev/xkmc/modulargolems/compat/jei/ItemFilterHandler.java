@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.jei;
 
 import dev.xkmc.l2serial.util.Wrappers;
-import dev.xkmc.modulargolems.content.menu.ghost.ItemConfigScreen;
+import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.ghost.ItemTarget;
 import mezz.jei.api.gui.handlers.IGhostIngredientHandler;
 import mezz.jei.api.ingredients.ITypedIngredient;

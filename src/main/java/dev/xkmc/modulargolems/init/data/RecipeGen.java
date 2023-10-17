@@ -4,18 +4,23 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
 import dev.xkmc.l2library.serial.ingredients.EnchantmentIngredient;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.item.card.NameFilterCard;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
+import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -74,38 +79,6 @@ public class RecipeGen {
 					.define('T', Items.REDSTONE_BLOCK)
 					.save(pvd);
 
-			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.CARD[DyeColor.WHITE.getId()].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
-					.pattern(" P ").pattern("PTP").pattern(" P ")
-					.define('P', Items.PAPER)
-					.define('T', GolemItems.GOLEM_TEMPLATE.get())
-					.save(pvd, new ResourceLocation(ModularGolems.MODID, "craft_config_card"));
-
-			for (int i = 0; i < 16; i++) {
-				Item dye = ForgeRegistries.ITEMS.getValue(new ResourceLocation(DyeColor.byId(i).getName() + "_dye"));
-				assert dye != null;
-				unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD[i].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
-						.requires(MGTagGen.CONFIG_CARD).requires(dye).save(pvd);
-
-			}
-
-			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_NAME.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
-					.requires(GolemItems.GOLEM_TEMPLATE.get())
-					.requires(Items.BOOK)
-					.requires(Items.INK_SAC)
-					.save(pvd);
-
-			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_TYPE.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
-					.requires(GolemItems.GOLEM_TEMPLATE.get())
-					.requires(Items.PAPER)
-					.requires(Items.CLAY_BALL)
-					.save(pvd);
-
-			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_UUID.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
-					.requires(GolemItems.GOLEM_TEMPLATE.get())
-					.requires(Items.PAPER)
-					.requires(Items.INK_SAC)
-					.save(pvd);
-
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.EMPTY_UPGRADE.get(), 4)::unlockedBy,
 					Items.AMETHYST_SHARD).pattern("CBC").pattern("BAB").pattern("CBC")
 					.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
@@ -143,6 +116,56 @@ public class RecipeGen {
 					.define('B', GolemItems.DOG_LEGS.get())
 					.save(pvd);
 		}
+
+		// card
+		{
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.CARD[DyeColor.WHITE.getId()].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.pattern(" P ").pattern("PTP").pattern(" P ")
+					.define('P', Items.PAPER)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd, new ResourceLocation(ModularGolems.MODID, "craft_config_card"));
+
+			for (int i = 0; i < 16; i++) {
+				Item dye = ForgeRegistries.ITEMS.getValue(new ResourceLocation(DyeColor.byId(i).getName() + "_dye"));
+				assert dye != null;
+				unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD[i].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+						.requires(MGTagGen.CONFIG_CARD).requires(dye).save(pvd);
+
+			}
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_NAME.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.BOOK)
+					.requires(Items.INK_SAC)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_NAME.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.BOOK)
+					.requires(Items.INK_SAC)
+					.requires(Items.PAPER)
+					.save(e -> pvd.accept(new NBTRecipe(e, NameFilterCard.getFriendly())), new ResourceLocation(ModularGolems.MODID, "target_filter_friendly"));
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_DEF.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.PAPER)
+					.requires(Items.IRON_INGOT)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_TYPE.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.PAPER)
+					.requires(Items.CLAY_BALL)
+					.save(pvd);
+
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_UUID.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.PAPER)
+					.requires(Items.INK_SAC)
+					.save(pvd);
+		}
+
 		// armor
 		{
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_HELMET.get())::unlockedBy, Items.IRON_INGOT)
@@ -208,6 +231,27 @@ public class RecipeGen {
 					.define('B', Items.QUARTZ)
 					.save(pvd);
 		}
+
+		// weapon
+		{
+			for (var type : GolemWeaponType.values()) {
+				for (var mat : VanillaGolemWeaponMaterial.values()) {
+					Item item = GolemItems.METALGOLEM_WEAPON[type.ordinal()][mat.ordinal()].get();
+					if (mat == VanillaGolemWeaponMaterial.NETHERITE) {
+						Item prev = GolemItems.METALGOLEM_WEAPON[type.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()].get();
+						smithing(pvd, prev, mat.getIngot(), item);
+					} else {
+						type.pattern(unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, item)::unlockedBy, mat.getIngot()))
+								.define('I', mat.getIngot())
+								.define('S', Items.STICK)
+								.define('T', GolemItems.GOLEM_TEMPLATE.get())
+								.save(pvd);
+					}
+				}
+			}
+
+		}
+
 		// upgrades
 		{
 
@@ -378,5 +422,17 @@ public class RecipeGen {
 	public static <T> T unlock(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {
 		return func.apply("has_" + pvd.safeName(item), DataIngredient.items(item).getCritereon(pvd));
 	}
+
+	public static void smithing(RegistrateRecipeProvider pvd, Item in, Item mat, Item out) {
+		Ingredient ing = Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(ing, Ingredient.of(in), Ingredient.of(mat),
+				RecipeCategory.COMBAT, out)::unlocks, mat).save(pvd, getID(out));
+	}
+
+	@SuppressWarnings("ConstantConditions")
+	private static ResourceLocation getID(Item item) {
+		return new ResourceLocation(ModularGolems.MODID, ForgeRegistries.ITEMS.getKey(item).getPath());
+	}
+
 
 }

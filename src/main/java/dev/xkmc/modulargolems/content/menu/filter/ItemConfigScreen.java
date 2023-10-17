@@ -1,26 +1,22 @@
-package dev.xkmc.modulargolems.content.menu.ghost;
+package dev.xkmc.modulargolems.content.menu.filter;
 
+import dev.xkmc.modulargolems.content.menu.ghost.GhostItemScreen;
+import dev.xkmc.modulargolems.content.menu.ghost.ItemTarget;
 import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
-import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
-import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemConfigScreen extends AbstractContainerScreen<ItemConfigMenu> implements ITabScreen {
+public class ItemConfigScreen extends GhostItemScreen<ItemConfigMenu> {
 
 	public ItemConfigScreen(ItemConfigMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
-		this.imageHeight = this.menu.sprite.getHeight();
-		this.inventoryLabelY = this.menu.sprite.getPlInvY() - 11;
 	}
 
 	@Override
@@ -28,11 +24,6 @@ public class ItemConfigScreen extends AbstractContainerScreen<ItemConfigMenu> im
 		super.init();
 		new GolemTabManager<>(this, new ConfigGroup(menu.editor.editor()))
 				.init(this::addRenderableWidget, GolemTabRegistry.CONFIG_ITEM);
-	}
-
-	public void render(GuiGraphics stack, int mx, int my, float partial) {
-		super.render(stack, mx, my, partial);
-		this.renderTooltip(stack, mx, my);
 	}
 
 	@Override
@@ -81,21 +72,6 @@ public class ItemConfigScreen extends AbstractContainerScreen<ItemConfigMenu> im
 			}
 		}
 		return ans;
-	}
-
-	public void addGhost(int ind, ItemStack stack) {
-		menu.setSlotContent(ind, stack);
-		ModularGolems.HANDLER.toServer(new SetItemFilterToServer(ind, stack));
-	}
-
-	@Override
-	public int screenWidth() {
-		return width;
-	}
-
-	@Override
-	public int screenHeight() {
-		return height;
 	}
 
 }

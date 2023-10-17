@@ -11,8 +11,9 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
-import dev.xkmc.modulargolems.content.menu.ghost.ItemConfigScreen;
+import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
+import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import mezz.jei.api.IModPlugin;
@@ -77,6 +78,7 @@ public class GolemJEIPlugin implements IModPlugin {
 		registration.addGuiScreenHandler(EquipmentsScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(ToggleGolemConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(ItemConfigScreen.class, GolemJEIPlugin::create);
+		registration.addGuiScreenHandler(TargetConfigScreen.class, GolemJEIPlugin::create);
 		CurioCompatRegistry.onJEIRegistry(e -> registration.addGuiScreenHandler(Wrappers.cast(e), GolemJEIPlugin::create));
 	}
 

@@ -28,6 +28,7 @@ public enum MGLangData {
 	TARGET_TYPE_ADD("tooltip.target.type_add", "Right click entity to add entity type to the list", 0, ChatFormatting.GRAY),
 	TARGET_TYPE_REMOVE("tooltip.target.type_remove", "Sneak right click entity to remove entity type from the list", 0, ChatFormatting.GRAY),
 	TARGET_NAME("tooltip.target.name", "Rename the item and right click to add the name as entity type or entity type tag to the list", 0, ChatFormatting.GRAY),
+	TARGET_DEFAULT("tooltip.target.default", "Default Iron Golem hostile targets: all enemies except creeper.", 0, ChatFormatting.GRAY),
 	TARGET_REMOVE("tooltip.target.remove", "Sneak right click to remove last entry from the list", 0, ChatFormatting.GRAY),
 	TARGET_SHIFT("tooltip.target.shift", "Press SHIFT to show usage", 0, ChatFormatting.GRAY),
 
@@ -86,9 +87,13 @@ public enum MGLangData {
 	UI_BLACKLIST("config.blacklist", "Using blacklist. Click to switch to whitelist.", 0, null),
 	UI_MATCH_ITEM("config.match_item", "Match item only. Click to match NBT.", 0, null),
 	UI_MATCH_TAG("config.match_tag", "Match item and NBT. Click to match item only.", 0, null),
+	UI_TARGET_HOSTILE("config.hostile", "Hostile List", 0, null),
+	UI_TARGET_FRIENDLY("config.friendly", "Friendly List", 0, null),
+	UI_TARGET_RESET("config.reset", "Reset", 0, null),
 
 	TAB_TOGGLE("tab.toggle", "General Config", 0, null),
 	TAB_PICKUP("tab.pickup", "Pickup Filter Config", 0, null),
+	TAB_TARGET("tab.target", "Target Filter Config", 0, null),
 	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 

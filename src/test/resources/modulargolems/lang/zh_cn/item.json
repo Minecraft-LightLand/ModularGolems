@@ -58,7 +58,11 @@
 	"hostility_reflect": "恶意升级：反射",
 	"hostility_regen": "恶意升级：再生",
 	"hostility_speed": "恶意升级：神速",
-	"hostility_tank": "恶意升级：重装"
+	"hostility_tank": "恶意升级：重装",
+	"target_filter_name": "生物过滤器: 数据包格式",
+	"target_filter_type": "生物过滤器: 实体类型",
+	"target_filter_uuid": "生物过滤器: 实体ID",
+	"target_filter_default": "生物过滤器: 默认攻击目标"
   },
   "-cartesian": {
 	"config": {
@@ -100,6 +104,23 @@
 		  "chestplate": "护甲",
 		  "helmet": "头盔",
 		  "shinguard": "护腿"
+		}
+	  ]
+	},
+	"weapon": {
+	  "path": "item.modulargolems",
+	  "list": [
+		{
+		  "iron": "铁",
+		  "diamond": "钻石",
+		  "netherite": "下界合金"
+		},
+		{
+		  "golem": "傀儡"
+		},
+		{
+		  "spear": "长枪",
+		  "axe": "战斧"
 		}
 	  ]
 	}

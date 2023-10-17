@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -30,6 +31,8 @@ public class GolemConfigEntry {
 	public boolean summonToPosition;
 	@SerialClass.SerialField
 	public PickupFilterConfig pickupFilter = new PickupFilterConfig();
+	@SerialClass.SerialField
+	public TargetFilterConfig targetFilter = new TargetFilterConfig();
 
 	@SerialClass.SerialField
 	public boolean locked;
@@ -39,9 +42,10 @@ public class GolemConfigEntry {
 
 	}
 
-	public GolemConfigEntry(Component comp) {
+	private GolemConfigEntry(Component comp) {
 		nameComp = comp;
 		name = Component.Serializer.toJson(comp);
+		targetFilter.initDefault();
 	}
 
 	public Component getDisplayName() {
@@ -87,8 +91,9 @@ public class GolemConfigEntry {
 		}
 	}
 
-	public GolemConfigEntry copyFrom(GolemConfigEntry entry) {
-		sync.clientReplace(entry.sync);
+	public GolemConfigEntry copyFrom(@Nullable GolemConfigEntry entry) {
+		if (entry != null)
+			sync.clientReplace(entry.sync);
 		return this;
 	}
 

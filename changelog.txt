@@ -2,6 +2,7 @@
     - Add hostility compat
     - Now metalgolem will also tick equipments
     - Curios support slot modifiers
+    - Add target cards and target filter tab
 
 - 2.4.17
     - Omnipotent Wand
