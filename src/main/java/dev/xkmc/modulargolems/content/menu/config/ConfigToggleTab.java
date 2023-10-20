@@ -1,17 +1,18 @@
 package dev.xkmc.modulargolems.content.menu.config;
 
+import dev.xkmc.l2tabs.tabs.core.TabBase;
+import dev.xkmc.l2tabs.tabs.core.TabManager;
+import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-public class ConfigToggleTab extends GolemTabBase<ConfigGroup, ConfigToggleTab> {
+public class ConfigToggleTab extends TabBase<ConfigGroup, ConfigToggleTab> {
 
-	public ConfigToggleTab(int index, GolemTabToken<ConfigGroup, ConfigToggleTab> token, GolemTabManager<ConfigGroup> manager, ItemStack stack, Component title) {
+	public ConfigToggleTab(int index, TabToken<ConfigGroup, ConfigToggleTab> token,
+						   TabManager<ConfigGroup> manager, ItemStack stack, Component title) {
 		super(index, token, manager, stack, title);
 	}
 

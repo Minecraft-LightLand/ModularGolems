@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.jei;
 
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -12,7 +13,6 @@ import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
-import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;

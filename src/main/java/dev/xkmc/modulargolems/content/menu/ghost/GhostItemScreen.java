@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.ghost;
 
-import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
+import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -24,16 +24,6 @@ public abstract class GhostItemScreen<T extends GhostItemMenu> extends AbstractC
 	public void render(GuiGraphics stack, int mx, int my, float partial) {
 		super.render(stack, mx, my, partial);
 		this.renderTooltip(stack, mx, my);
-	}
-
-	@Override
-	public int screenWidth() {
-		return width;
-	}
-
-	@Override
-	public int screenHeight() {
-		return height;
 	}
 
 }

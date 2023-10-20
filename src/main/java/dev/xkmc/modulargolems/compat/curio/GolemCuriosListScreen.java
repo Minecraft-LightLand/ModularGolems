@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.compat.curio;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2tabs.tabs.core.ITabScreen;
+import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
-import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -23,7 +23,7 @@ public class GolemCuriosListScreen extends BaseContainerScreen<GolemCuriosListMe
 		super.init();
 		var compat = CurioCompatRegistry.get();
 		assert compat != null;
-		new GolemTabManager<>(this, new EquipmentGroup(menu.curios.golem)).init(this::addRenderableWidget, compat.tab);
+		new TabManager<>(this, new EquipmentGroup(menu.curios.golem)).init(this::addRenderableWidget, compat.tab);
 	}
 
 	@Override
@@ -47,16 +47,6 @@ public class GolemCuriosListScreen extends BaseContainerScreen<GolemCuriosListMe
 			}
 		}
 		super.renderTooltip(g, mx, my);
-	}
-
-	@Override
-	public int screenWidth() {
-		return width;
-	}
-
-	@Override
-	public int screenHeight() {
-		return height;
 	}
 
 }
