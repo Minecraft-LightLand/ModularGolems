@@ -198,12 +198,12 @@ dependencies {
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.12-slim")
     implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.19-pre3-slim')
-    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.9-pre2-slim")
+    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.5.0-pre0-slim")
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
-    runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.4.8-slim")
+    runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.5.0-slim")
     runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.7")
     runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.18")
 
