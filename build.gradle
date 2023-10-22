@@ -198,7 +198,7 @@ dependencies {
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.12-slim")
     implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.19-pre3-slim')
-    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.9-pre2-slim")
+    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.11-pre1-slim")
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
