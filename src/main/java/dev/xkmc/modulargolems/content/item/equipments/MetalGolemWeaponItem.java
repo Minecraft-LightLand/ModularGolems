@@ -4,6 +4,9 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.common.ForgeMod;
 
 public class MetalGolemWeaponItem extends GolemEquipmentItem {
@@ -24,6 +27,14 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 				builder.put(GolemTypes.GOLEM_SWEEP.get(), new AttributeModifier(uuid, "spear_sweep", sweep, AttributeModifier.Operation.ADDITION));
 			}
 		});
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		if (enchantment.category == EnchantmentCategory.WEAPON) {
+			return true;
+		}
+		return super.canApplyAtEnchantingTable(stack, enchantment);
 	}
 
 }
