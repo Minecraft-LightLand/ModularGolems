@@ -1,3 +1,6 @@
+- 2.4.20
+    - fix filter tab
+
 - 2.4.19
     - texture fix
 

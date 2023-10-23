@@ -4,7 +4,7 @@ import dev.xkmc.modulargolems.content.menu.ghost.IGhostContainer;
 import dev.xkmc.modulargolems.content.menu.ghost.ReadOnlyContainer;
 import net.minecraft.world.item.ItemStack;
 
-public record PickupFilterEditor(GolemConfigEditor editor) implements IGhostContainer, ReadOnlyContainer {
+public record PickupFilterEditor(GolemConfigEditor editor) implements IGhostContainer {
 
 	public PickupFilterConfig getFilter() {
 		return editor().entry().pickupFilter;
@@ -37,11 +37,6 @@ public record PickupFilterEditor(GolemConfigEditor editor) implements IGhostCont
 	@Override
 	public int getContainerSize() {
 		return PickupFilterConfig.SIZE;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return listSize() == 0;
 	}
 
 	public ItemStack getItem(int slot) {
