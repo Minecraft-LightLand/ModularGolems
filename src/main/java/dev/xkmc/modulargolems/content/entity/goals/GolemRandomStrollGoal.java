@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
-import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
@@ -19,12 +18,12 @@ public class GolemRandomStrollGoal extends RandomStrollGoal {
 
 	@Override
 	public boolean canUse() {
-		return golem.getMode() == GolemModes.GUARD && super.canUse();
+		return golem.getMode().couldRandomStroll() && super.canUse();
 	}
 
 	@Override
 	public boolean canContinueToUse() {
-		return golem.getMode() == GolemModes.GUARD && super.canContinueToUse();
+		return golem.getMode().couldRandomStroll() && super.canContinueToUse();
 	}
 
 	protected Vec3 getPosition() {

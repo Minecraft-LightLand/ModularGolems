@@ -1,8 +1,15 @@
+- 2.4.20
+    - fix filter tab
+
+- 2.4.19
+    - texture fix
+
 - 2.4.18
     - Add hostility compat
+    - Add target cards and target filter tab
+    - Add metalgolem weapons
     - Now metalgolem will also tick equipments
     - Curios support slot modifiers
-    - Add target cards and target filter tab
 
 - 2.4.17
     - Omnipotent Wand

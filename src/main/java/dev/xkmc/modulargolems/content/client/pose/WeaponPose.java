@@ -2,29 +2,25 @@ package dev.xkmc.modulargolems.content.client.pose;
 
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
-import net.minecraft.util.Mth;
+import net.minecraft.client.model.AnimationUtils;
 
 public class WeaponPose extends MetalGolemPose {
 
 	public static final MetalGolemPose WEAPON = new WeaponPose();
 
-	private static float amplitude() {
-		return (float) (Math.PI / 2);
-	}
-
 	@Override
 	public void attackModel(MetalGolemEntity entity, MetalGolemModel model, float atkTick) {
-		model.rightArm.xRot = 0;
+		AnimationUtils.swingWeaponDown(model.rightArm, model.leftArm, entity, model.attackTime, atkTick);
 		model.leftArm.xRot = 0;
-		model.rightForeArm.xRot = -amplitude() * 0.5f * (1 + Mth.triangleWave(atkTick, 10));
+		model.rightForeArm.xRot = 0;
 		model.leftForeArm.xRot = 0;
 	}
 
 	@Override
 	public void aggressive(MetalGolemEntity entity, MetalGolemModel model, float walkTick, float speed, float pTick) {
-		model.rightArm.xRot = 0;
+		model.rightArm.xRot = -1.8f;
 		model.leftArm.xRot = 0;
-		model.rightForeArm.xRot = -amplitude();
+		model.rightForeArm.xRot = 0;
 		model.leftForeArm.xRot = 0;
 	}
 
