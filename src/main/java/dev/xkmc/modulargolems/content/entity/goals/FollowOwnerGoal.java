@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -36,7 +35,8 @@ public class FollowOwnerGoal extends Goal {
 		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
 			return false;
 		Vec3 target = this.golem.getTargetPos();
-		double startDistance = golem.getMode() == GolemModes.GUARD ? MGConfig.COMMON.stopWanderRadius.get() :
+		double startDistance = golem.getMode().couldRandomStroll() ?
+				MGConfig.COMMON.stopWanderRadius.get() :
 				MGConfig.COMMON.startFollowRadius.get();
 		return this.golem.distanceToSqr(target) > startDistance * startDistance;
 	}

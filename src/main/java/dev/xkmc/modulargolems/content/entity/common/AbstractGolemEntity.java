@@ -654,12 +654,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return false;
 	}
 
+	@Nullable
+	public LivingEntity getFollowTarget() {
+		return getOwner();//TODO switch follow target based on modes
+	}
+
 	public Vec3 getTargetPos() {
 		if (getMode().hasPos()) {
 			BlockPos pos = getGuardPos();
 			return new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 		}
-		LivingEntity owner = getOwner();
+		LivingEntity owner = getFollowTarget();
 		if (owner == null) return getPosition(1);
 		return owner.getPosition(1);
 	}
