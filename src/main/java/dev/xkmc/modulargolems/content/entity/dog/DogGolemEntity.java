@@ -121,7 +121,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		int total = this.getPassengers().size();
 		if (index < 0) return;
 		float width = getBbWidth();
-		float offset = index == 0 ? index + 0.7f : index + 1.2f;
+		float offset = index == 0 ? index + 0.7f : index + (getControllingPassenger() instanceof Player ? 1.7f : 1.2f);
 		float pos = width / 2 - width / total * offset;
 		double dy = rider.getMyRidingOffset() + getPassengersRidingOffset();
 		Vec3 vec3 = new Vec3(0, 0, pos).yRot(-this.yBodyRot * ((float) Math.PI / 180F));

@@ -15,6 +15,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -44,7 +45,8 @@ public class NameFilterCard extends TargetFilterCard {
 
 	private static List<Either<EntityType<?>, TagKey<EntityType<?>>>> getList(List<String> strs) {
 		List<Either<EntityType<?>, TagKey<EntityType<?>>>> ans = new ArrayList<>();
-		for (var str : strs) {
+		for (var s : strs) {
+			String str = s.trim();
 			if (str.startsWith("#")) {
 				ResourceLocation rl = getRL(str.substring(1));
 				if (rl == null) continue;
@@ -56,6 +58,7 @@ public class NameFilterCard extends TargetFilterCard {
 			} else {
 				ResourceLocation rl = getRL(str);
 				if (rl == null) continue;
+				if (!ForgeRegistries.ENTITY_TYPES.containsKey(rl)) continue;
 				var type = ForgeRegistries.ENTITY_TYPES.getValue(rl);
 				if (type != null) {
 					ans.add(Either.left(type));
@@ -76,6 +79,7 @@ public class NameFilterCard extends TargetFilterCard {
 
 	public static void setList(ItemStack stack, List<Either<EntityType<?>, TagKey<EntityType<?>>>> list) {
 		var tag = ItemCompoundTag.of(stack).getSubList(KEY, Tag.TAG_STRING).getOrCreate();
+		tag.clear();
 		for (var e : list) {
 			e.map(l -> Optional.ofNullable(ForgeRegistries.ENTITY_TYPES.getKey(l)).map(ResourceLocation::toString),
 					r -> Optional.of("#" + r.location())).map(StringTag::valueOf).ifPresent(tag::add);
@@ -106,24 +110,32 @@ public class NameFilterCard extends TargetFilterCard {
 	}
 
 	@Override
-	protected InteractionResultHolder<ItemStack> removeLast(ItemStack stack) {
-		var list = getList(getStrings(stack));
-		if (list.size() == 0) return InteractionResultHolder.fail(stack);
-		list.remove(list.size() - 1);
-		setList(stack, list);
+	protected InteractionResultHolder<ItemStack> removeLast(Player player, ItemStack stack) {
+		var list = getStrings(stack);
+		if (list.size() == 0) {
+			return InteractionResultHolder.fail(stack);
+		}
+		if (!player.level().isClientSide()) {
+			String e = list.remove(list.size() - 1);
+			setList(stack, getList(list));
+			player.sendSystemMessage(MGLangData.TARGET_MSG_REMOVED.get(Component.literal(e)));
+		}
 		return InteractionResultHolder.success(stack);
 	}
 
 	@Override
-	protected InteractionResultHolder<ItemStack> onUse(ItemStack stack) {
+	protected InteractionResultHolder<ItemStack> onUse(Player player, ItemStack stack) {
 		var strs = getStrings(stack);
 		String name = stack.getHoverName().getString();
 		if (strs.contains(name)) {
 			return InteractionResultHolder.success(stack);
 		}
-		strs.add(name);
-		setList(stack, getList(strs));
-		stack.setHoverName(null);
+		if (!player.level().isClientSide()) {
+			strs.add(name);
+			setList(stack, getList(strs));
+			stack.setHoverName(null);
+			player.sendSystemMessage(MGLangData.TARGET_MSG_ADDED.get(Component.literal(name)));
+		}
 		return InteractionResultHolder.success(stack);
 	}
 

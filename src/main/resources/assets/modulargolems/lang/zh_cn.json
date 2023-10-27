@@ -220,6 +220,8 @@
   "modulargolems.msg.call_attack": "%s个傀儡将会攻击%s",
   "modulargolems.msg.summon_failed": "召唤%s失败，因为目标地点太远",
   "modulargolems.msg.summon_far": "将%s召唤于(%s,%s,%s)",
+  "modulargolems.msg.add_target": "已将%s加入过滤器",
+  "modulargolems.msg.remove_target": "已将%s移除过滤器",
   "modulargolems.config.loading": "加载中...",
   "modulargolems.config.mode": "默认傀儡模式",
   "modulargolems.config.mode_tooltip": "傀儡的被召唤时的默认模式。不影响已经在世界中的傀儡。傀儡被召唤时采用这个模式，而非被回收时的模式",

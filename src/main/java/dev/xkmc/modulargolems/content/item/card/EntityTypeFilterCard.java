@@ -31,6 +31,11 @@ public class EntityTypeFilterCard extends ClickEntityFilterCard<EntityType<?>> {
 		return entity.getType();
 	}
 
+	@Override
+	protected Component getName(EntityType<?> entityType) {
+		return entityType.getDescription();
+	}
+
 	protected List<EntityType<?>> getList(ItemStack stack) {
 		var tag = stack.getTag();
 		List<EntityType<?>> ans = new ArrayList<>();
@@ -61,7 +66,7 @@ public class EntityTypeFilterCard extends ClickEntityFilterCard<EntityType<?>> {
 		var types = getList(stack);
 		if (types.size() > 0 && !Screen.hasShiftDown()) {
 			for (var e : types) {
-				list.add(e.getDescription());
+				list.add(getName(e));
 			}
 			list.add(MGLangData.TARGET_SHIFT.get());
 		} else {
