@@ -3,6 +3,7 @@
     - target filter action show in message
     - fix datapack target filter removing
     - trim name on datapack target filter
+    - target reset time changed from 5 sec to 3 sec
 
 - 2.4.20
     - fix filter tab

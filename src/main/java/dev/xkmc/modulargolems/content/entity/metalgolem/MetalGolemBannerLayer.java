@@ -6,41 +6,33 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
-import net.minecraft.client.model.SkullModelBase;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.SkullBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class MetalGolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends EntityModel<T> & HeadedModel> extends RenderLayer<T, M> {
 	private final float scaleX;
 	private final float scaleY;
 	private final float scaleZ;
-	private final Map<SkullBlock.Type, SkullModelBase> skullModels;
 	private final ItemInHandRenderer itemInHandRenderer;
 
-	public MetalGolemBannerLayer(RenderLayerParent<T, M> parent, EntityModelSet models, ItemInHandRenderer iihr) {
-		this(parent, models, 1.0F, 1.0F, 1.0F, iihr);
+	public MetalGolemBannerLayer(RenderLayerParent<T, M> parent, ItemInHandRenderer iihr) {
+		this(parent, 1.0F, 1.0F, 1.0F, iihr);
 	}
 
-	public MetalGolemBannerLayer(RenderLayerParent<T, M> parent, EntityModelSet models, float sx, float sy, float sz, ItemInHandRenderer iihr) {
+	public MetalGolemBannerLayer(RenderLayerParent<T, M> parent, float sx, float sy, float sz, ItemInHandRenderer iihr) {
 		super(parent);
 		this.scaleX = sx;
 		this.scaleY = sy;
 		this.scaleZ = sz;
-		this.skullModels = SkullBlockRenderer.createSkullRenderers(models);
 		this.itemInHandRenderer = iihr;
 	}
 

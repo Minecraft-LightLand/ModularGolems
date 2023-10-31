@@ -50,6 +50,9 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue maxWanderRadius;
 		public final ForgeConfigSpec.DoubleValue riddenSpeedFactor;
 
+		public final ForgeConfigSpec.IntValue targetResetTime;
+		public final ForgeConfigSpec.DoubleValue targetResetNoMovementRange;
+
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
 					.define("barehandRetrieve", true);
@@ -69,6 +72,10 @@ public class MGConfig {
 					.defineInRange("maxWanderRadius", 30d, 1, 100);
 			riddenSpeedFactor = builder.comment("Speed factor for dog golem when ridden by entities")
 					.defineInRange("riddenSpeedFactor", 0.8, 0, 2);
+			targetResetTime = builder.comment("Target reset time after no movement, in ticks")
+					.defineInRange("targetResetTime", 600, 1, 10000);
+			targetResetNoMovementRange = builder.comment("Distance considered as no movement")
+					.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
 
 			// modifiers
 			{
