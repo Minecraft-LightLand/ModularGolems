@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.ResizedLayer;
+import dev.xkmc.modulargolems.content.entity.metalgolem.GolemBannerLayer;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -80,6 +81,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 		this.addLayer(new ResizedLayer<>(this, new ElytraLayer<>(this, ctx.getModelSet())));
 		this.addLayer(new ResizedLayer<>(this, new LayerWrapper<>(this,
 				new ItemInHandLayer<>(this, ctx.getItemInHandRenderer()))));
+		this.addLayer(new ResizedLayer<>(this, new GolemBannerLayer<>(this, ctx.getItemInHandRenderer())));
 	}
 
 	@Override
