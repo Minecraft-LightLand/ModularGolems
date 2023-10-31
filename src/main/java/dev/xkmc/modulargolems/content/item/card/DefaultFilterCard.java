@@ -6,6 +6,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -30,7 +31,7 @@ public class DefaultFilterCard extends TargetFilterCard {
 	}
 
 	@Override
-	protected InteractionResultHolder<ItemStack> removeLast(ItemStack stack) {
+	protected InteractionResultHolder<ItemStack> removeLast(Player player, ItemStack stack) {
 		return InteractionResultHolder.pass(stack);
 	}
 

@@ -31,6 +31,8 @@ public enum MGLangData {
 	TARGET_DEFAULT("tooltip.target.default", "Default Iron Golem hostile targets: all enemies except creeper.", 0, ChatFormatting.GRAY),
 	TARGET_REMOVE("tooltip.target.remove", "Sneak right click to remove last entry from the list", 0, ChatFormatting.GRAY),
 	TARGET_SHIFT("tooltip.target.shift", "Press SHIFT to show usage", 0, ChatFormatting.GRAY),
+	TARGET_MSG_ADDED("msg.add_target","Add %s to filter",1,null),
+	TARGET_MSG_REMOVED("msg.remove_target","Remove %s from filter",1,null),
 
 	MODE_FOLLOW("tooltip.follow", "Follow", 0, ChatFormatting.AQUA),
 	MODE_GUARD("tooltip.guard", "Wander", 0, ChatFormatting.AQUA),

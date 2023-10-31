@@ -53,7 +53,9 @@
 	  "destroy_item": "%s找不到地方放，销毁了%s个物品",
 	  "call_attack": "%s个傀儡将会攻击%s",
 	  "summon_failed": "召唤%s失败，因为目标地点太远",
-	  "summon_far": "将%s召唤于(%s,%s,%s)"
+	  "summon_far": "将%s召唤于(%s,%s,%s)",
+	  "add_target": "已将%s加入过滤器",
+	  "remove_target": "已将%s移除过滤器"
 	},
 	"config": {
 	  "loading": "加载中...",

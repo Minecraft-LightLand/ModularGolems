@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -28,11 +29,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	}
 
 	public static int getTargetResetTime() {
-		return 100;//TODO
+		return MGConfig.COMMON.targetResetTime.get();
 	}
 
 	public static double getTargetDistanceDelta() {
-		return 0.5d;//TODO
+		return MGConfig.COMMON.targetResetNoMovementRange.get();
 	}
 
 	private final AbstractGolemEntity<?, ?> golem;
