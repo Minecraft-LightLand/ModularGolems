@@ -7,6 +7,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ArrowItem;
+import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,6 +26,9 @@ public class GolemEventListeners {
 			if (event.getStack().getItem() instanceof BowItem) {
 				event.setSlot(EquipmentSlot.OFFHAND, 1);
 			}
+		}
+		if (event.getStack().getItem() instanceof BannerItem) {
+			event.setSlot(EquipmentSlot.HEAD, 1);
 		}
 	}
 

@@ -1,8 +1,8 @@
 - 2.4.21
-    - fix datapack target filter removing
     - fix riding flickering
-    - trim name on datapack target filter
     - target filter action show in message
+    - fix datapack target filter removing
+    - trim name on datapack target filter
 
 - 2.4.20
     - fix filter tab
