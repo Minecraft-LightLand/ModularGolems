@@ -1,3 +1,11 @@
+- 2.4.22
+    - add free wander mode TODO
+    - add squad mode TODO
+    - add captain config TODO
+    - fix golem riding horse will be unusable when retrieved TODO
+    - fix compatibility with REI
+    - captain patchouli TODO
+
 - 2.4.21
     - fix riding flickering
     - target filter action show in message
