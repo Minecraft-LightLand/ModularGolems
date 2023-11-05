@@ -653,10 +653,23 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean isInSittingPose() {
 		return false;
 	}
-
 	@Nullable
 	public LivingEntity getFollowTarget() {
-		return getOwner();//TODO switch follow target based on modes
+		return getOwner();
+	}
+	@Nullable
+	public LivingEntity getCaptain(){
+		var config = getConfigEntry(null);
+		if (config == null) return null;
+		var uuid = config.squadConfig.getCaptainId();
+		if (level() instanceof ServerLevel sl) {
+			var captain = sl.getEntity(uuid);
+			if (captain == null) return null;
+			if (!captain.isAlive() || captain.level() != sl) return null;
+			if (captain instanceof LivingEntity le) {
+				return le;
+			} else return null;
+		} else return null;
 	}
 
 	public Vec3 getTargetPos() {

@@ -18,9 +18,12 @@ public class GolemModes {
 	public static final GolemMode STAND = new GolemMode(true, false, false,
 			MGLangData.MODE_STANDING, MGLangData.MODE_STAND);
 
-	// TODO free wander
-	// TODO squad
-	// TODO route
+	public static final GolemMode FREE_WANDER = new GolemMode(false, true, true,
+			MGLangData.MODE_WANDERING, MGLangData.MODE_WANDER);
+
+	public static final GolemMode SQUAD = new GolemMode(false, true, false,
+			MGLangData.MODE_TEAMING, MGLangData.MODE_SQUAD);
+	//public static final GolemMode ROUTE = new GolemMode(true, true, true,MGLangData.MODE_PATROLLING, MGLangData.MODE_PATROL); //TODO finish route mode
 
 	public static GolemMode get(int i) {
 		return LIST.get(i);

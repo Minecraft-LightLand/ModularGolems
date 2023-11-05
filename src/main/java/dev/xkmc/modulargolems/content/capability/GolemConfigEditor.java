@@ -47,6 +47,7 @@ public interface GolemConfigEditor {
 	default boolean locked() {
 		return entry().locked;
 	}
+	default SquadEditor getSquad(){return new SquadEditor(this);}
 
 	default void setLocked(boolean lock) {
 		entry().locked = lock;

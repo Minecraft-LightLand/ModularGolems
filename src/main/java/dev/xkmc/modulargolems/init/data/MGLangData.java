@@ -37,10 +37,15 @@ public enum MGLangData {
 	MODE_FOLLOW("tooltip.follow", "Follow", 0, ChatFormatting.AQUA),
 	MODE_GUARD("tooltip.guard", "Wander", 0, ChatFormatting.AQUA),
 	MODE_STAND("tooltip.stand", "Stand", 0, ChatFormatting.AQUA),
+	MODE_WANDER("tooltip.wander", "Wander", 0, ChatFormatting.AQUA),
+	MODE_SQUAD("tooltip.team", "Squad", 0, ChatFormatting.AQUA),
+	MODE_PATROL("tooltip.patrol", "Patrol", 0, ChatFormatting.AQUA),
 	MODE_FOLLOWING("tooltip.following", "Golem will follow you", 0, ChatFormatting.AQUA),
 	MODE_GUARDING("tooltip.guarding", "Golem will wander around (%s, %s, %s)", 3, ChatFormatting.AQUA),
 	MODE_STANDING("tooltip.standing", "Golem will stay at (%s, %s, %s)", 3, ChatFormatting.AQUA),
-
+	MODE_WANDERING("tooltip.wandering", "Golem will move freely", 3, ChatFormatting.AQUA),
+	MODE_TEAMING("tooltip.teaming", "Golem will follow their captain", 0, ChatFormatting.AQUA),
+	MODE_PATROLLING("tooltip.patrolling", "Golem will patrol in a designated way", 0, ChatFormatting.AQUA),
 	WAND_SWITCH("wand.switch", "Scroll or use up/down arrow key to switch between modes", 0, ChatFormatting.GRAY),
 	WAND_MODE("wand.mode", "Current Mode: %s", 1, ChatFormatting.GOLD),
 	WAND_RIGHT("wand.right_click", "On right click:", 0, ChatFormatting.YELLOW),
@@ -52,7 +57,7 @@ public enum MGLangData {
 	WAND_SUMMON_RIGHT("wand.summon_right", "Summon one golem to a faraway position pointed by the wand.", 0, ChatFormatting.GRAY),
 	WAND_SUMMON_SHIFT("wand.summon_shift", "Summon all golems from your inventory.", 0, ChatFormatting.GRAY),
 	WAND_RIDER("wand.rider", "Target your dog golem to ride on it. If it's not your golem, you can ride when its owner", 0, ChatFormatting.GRAY),
-
+    WAND_COHORT("wand.cohort","Right click to any golem which you want it to be the captain",0,ChatFormatting.GRAY),
 	CONFIG_CARD("wand.config", "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.", 0, ChatFormatting.GRAY),
 	CONFIG_INIT("wand.config_init", "Right click to initialize config", 0, ChatFormatting.GRAY),
 	CONFIG_OTHER("wand.config_other", "Not your card. You cannot edit it", 0, ChatFormatting.RED),
@@ -96,6 +101,7 @@ public enum MGLangData {
 	TAB_TOGGLE("tab.toggle", "General Config", 0, null),
 	TAB_PICKUP("tab.pickup", "Pickup Filter Config", 0, null),
 	TAB_TARGET("tab.target", "Target Filter Config", 0, null),
+	TAB_COHORT("tab.cohort", "cohort formation Config", 0, null),
 	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
