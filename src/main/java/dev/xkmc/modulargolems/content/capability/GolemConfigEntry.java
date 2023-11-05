@@ -33,9 +33,12 @@ public class GolemConfigEntry {
 	public PickupFilterConfig pickupFilter = new PickupFilterConfig();
 	@SerialClass.SerialField
 	public TargetFilterConfig targetFilter = new TargetFilterConfig();
-
+	@SerialClass.SerialField
+    public SquadConfig squadConfig = null;
 	@SerialClass.SerialField
 	public boolean locked;
+
+
 
 	@Deprecated
 	public GolemConfigEntry() {
@@ -47,7 +50,6 @@ public class GolemConfigEntry {
 		name = Component.Serializer.toJson(comp);
 		targetFilter.initDefault();
 	}
-
 	public Component getDisplayName() {
 		if (nameComp == null) {
 			nameComp = Component.Serializer.fromJson(name);
@@ -55,7 +57,6 @@ public class GolemConfigEntry {
 		if (nameComp == null) {
 			nameComp = Component.literal("Unnamed");
 		}
-		// TODO color
 		return nameComp;
 	}
 

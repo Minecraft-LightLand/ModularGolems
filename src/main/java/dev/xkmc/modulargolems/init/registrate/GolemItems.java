@@ -20,10 +20,7 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.CommandWandItem;
-import dev.xkmc.modulargolems.content.item.wand.DispenseWand;
-import dev.xkmc.modulargolems.content.item.wand.RetrievalWandItem;
-import dev.xkmc.modulargolems.content.item.wand.RiderWandItem;
+import dev.xkmc.modulargolems.content.item.wand.*;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -68,6 +65,7 @@ public class GolemItems {
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND, OMNI_COMMAND;
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND, OMNI_DISPENSE;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND, OMNI_RIDER;
+	public static final ItemEntry<SquadWandItem> COHORT_WAND;
 
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
@@ -91,6 +89,8 @@ public class GolemItems {
 			DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1), null))
 					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 			RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1), null))
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+			COHORT_WAND = REGISTRATE.item("cohort_wand", p -> new SquadWandItem(p.stacksTo(1), null))
 					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 
 

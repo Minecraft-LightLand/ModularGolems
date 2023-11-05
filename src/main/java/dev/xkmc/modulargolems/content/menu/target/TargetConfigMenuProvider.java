@@ -18,7 +18,6 @@ public record TargetConfigMenuProvider(UUID id, int color, GolemConfigEditor edi
 	public static TargetConfigMenuProvider fromPacket(ServerLevel level, GolemConfigEntry entry) {
 		return new TargetConfigMenuProvider(entry.getID(), entry.getColor(), new GolemConfigEditor.Writable(level, entry));
 	}
-
 	public void writeBuffer(FriendlyByteBuf buf) {
 		buf.writeUUID(id);
 		buf.writeInt(color);
