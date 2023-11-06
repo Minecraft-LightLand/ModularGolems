@@ -27,7 +27,8 @@ public class MGConfigGen extends ConfigDataProvider {
 		map.add(L2ItemSelector.ITEM_SELECTOR, new ResourceLocation(ModularGolems.MODID, "wand"), new SimpleItemSelectConfig()
 				.add(new ResourceLocation(ModularGolems.MODID, "wand"),
 						GolemItems.OMNI_COMMAND.get(), GolemItems.OMNI_DISPENSE.get(),
-						GolemItems.OMNI_RETRIVAL.get(), GolemItems.OMNI_RIDER.get())
+						GolemItems.OMNI_RETRIVAL.get(), GolemItems.OMNI_RIDER.get(),
+						GolemItems.OMNI_SQUAD.get())
 		);
 
 		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "vanilla"), new GolemMaterialConfig()

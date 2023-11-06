@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.ResizedLayer;
-import dev.xkmc.modulargolems.content.entity.metalgolem.GolemBannerLayer;
+import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;

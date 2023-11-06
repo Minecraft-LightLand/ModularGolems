@@ -19,6 +19,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.UUID;
+
 
 public class SquadWandItem extends BaseWandItem implements GolemInteractItem, IGlowingTarget {
 
@@ -67,8 +69,14 @@ public class SquadWandItem extends BaseWandItem implements GolemInteractItem, IG
 		if (!(golem instanceof DogGolemEntity)) {
 			GolemConfigEntry entry = golem.getConfigEntry(null);
 			if (entry != null) {
-				GolemConfigEditor editor = new GolemConfigEditor.Writable(level, entry);
-				editor.getSquad().setCaptainId(golem.getUUID());
+				var editor = new GolemConfigEditor.Writable(level, entry).getSquad();
+				UUID capId = editor.getCaptainId();
+				UUID golemId = golem.getUUID();
+				if (capId != null && capId.equals(golemId)) {
+					editor.setCaptainId(null);
+				} else {
+					editor.setCaptainId(golemId);
+				}
 			} else return false;
 
 		}

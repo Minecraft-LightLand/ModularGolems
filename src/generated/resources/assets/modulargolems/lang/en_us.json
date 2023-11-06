@@ -364,7 +364,7 @@
   "modulargolems.wand.rider": "Target your dog golem to ride on it. If it's not your golem, you can ride when its owner",
   "modulargolems.wand.right_click": "On right click:",
   "modulargolems.wand.shift_click": "On sneak right click:",
-  "modulargolems.wand.squad": "Right click a golem with config to set it as captain",
+  "modulargolems.wand.squad": "Click a golem with config to set it as captain. Click a captain to remove its captain status.",
   "modulargolems.wand.summon_right": "Summon one golem to a faraway position pointed by the wand.",
   "modulargolems.wand.summon_shift": "Summon all golems from your inventory.",
   "modulargolems.wand.switch": "Scroll or use up/down arrow key to switch between modes",

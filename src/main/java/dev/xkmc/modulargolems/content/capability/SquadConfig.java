@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
+@SerialClass
 public class SquadConfig {
 
 	@SerialClass.SerialField
@@ -26,7 +27,7 @@ public class SquadConfig {
 		return captainId;
 	}
 
-	public void setCaptainId(UUID captainId) {
+	public void setCaptainId(@Nullable UUID captainId) {
 		this.captainId = captainId;
 	}
 

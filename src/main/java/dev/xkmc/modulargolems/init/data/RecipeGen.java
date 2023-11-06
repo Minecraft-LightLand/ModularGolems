@@ -396,10 +396,10 @@ public class RecipeGen {
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.TALENTED.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
 					.pattern("CEC").pattern("ABA").pattern("CAC")
-					.define('A', Items.NETHER_STAR)
+					.define('E', Items.NETHER_STAR)
 					.define('B', GolemItems.EMPTY_UPGRADE.get())
 					.define('C', Tags.Items.HEADS)
-					.define('E', Items.DRAGON_HEAD)
+					.define('A', Items.CHORUS_FLOWER)
 					.save(pvd);
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.CAULDRON.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())

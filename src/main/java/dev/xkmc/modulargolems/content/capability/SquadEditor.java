@@ -15,7 +15,7 @@ public record SquadEditor(GolemConfigEditor editor) {
 		return editor().entry().squadConfig.getRadius();
 	}
 
-	public void setCaptainId(UUID captainId) {
+	public void setCaptainId(@Nullable UUID captainId) {
 		editor().entry().squadConfig.setCaptainId(captainId);
 		editor.sync();
 	}

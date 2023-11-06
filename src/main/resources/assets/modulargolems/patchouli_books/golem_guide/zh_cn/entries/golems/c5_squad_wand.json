@@ -1,0 +1,16 @@
+{
+  "name": "编队手杖",
+  "icon": "modulargolems:squad_wand",
+  "category": "modulargolems:golems",
+  "sortnum": 24,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "右键有配置卡的傀儡将其设为队长。一个配置卡只能有一个队长。$(br2)不是队长的傀儡被设为编队模式时，会跟随那个傀儡的配置卡的队长。队长本身不应该被设为编队模式，因为队长本身需要带领队员。"
+	},
+	{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:squad_wand"
+	}
+  ]
+}

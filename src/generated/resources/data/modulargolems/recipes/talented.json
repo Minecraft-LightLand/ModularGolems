@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "A": {
-      "item": "minecraft:nether_star"
+      "item": "minecraft:chorus_flower"
     },
     "B": {
       "item": "modulargolems:empty_upgrade"
@@ -12,7 +12,7 @@
       "tag": "forge:heads"
     },
     "E": {
-      "item": "minecraft:dragon_head"
+      "item": "minecraft:nether_star"
     }
   },
   "pattern": [
