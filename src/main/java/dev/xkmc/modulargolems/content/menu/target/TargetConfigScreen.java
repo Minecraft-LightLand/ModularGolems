@@ -19,7 +19,6 @@ public class TargetConfigScreen extends GhostItemScreen<TargetConfigMenu> {
 		super(cont, plInv, title);
 	}
 
-
 	@Override
 	protected void init() {
 		super.init();

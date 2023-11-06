@@ -63,7 +63,7 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 		var entry = entity.getConfigEntry(MGLangData.LOADING.get());
 		if (entry != null) {
 			entry.clientTick(entity.level(), false);
-			UUID captainId = null;//TODO entry.squadConfig.getCaptainId();
+			UUID captainId = entry.squadConfig.getCaptainId();
 			boolean showFlag = captainId != null && entity.getUUID().equals(captainId);
 			if (showFlag) {
 				String color = DyeColor.values()[entry.getColor()].getName();

@@ -70,6 +70,13 @@ public class RecipeGen {
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.SQUAD_WAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.pattern("  T").pattern(" E ").pattern("S  ")
+					.define('E', Items.WHITE_BANNER)
+					.define('S', Items.STICK)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.OMNI_COMMAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.pattern(" 1T").pattern("2S3").pattern("S4 ")
 					.define('1', GolemItems.COMMAND_WAND.get())
