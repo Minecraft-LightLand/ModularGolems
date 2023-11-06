@@ -47,7 +47,6 @@ public interface GolemConfigEditor {
 	default boolean locked() {
 		return entry().locked;
 	}
-	default SquadEditor getSquad(){return new SquadEditor(this);}
 
 	default void setLocked(boolean lock) {
 		entry().locked = lock;
@@ -64,6 +63,10 @@ public interface GolemConfigEditor {
 
 	default TargetFilterEditor target() {
 		return new TargetFilterEditor(this);
+	}
+
+	default SquadEditor getSquad() {
+		return new SquadEditor(this);
 	}
 
 	record Writable(Level level, GolemConfigEntry entry) implements GolemConfigEditor {

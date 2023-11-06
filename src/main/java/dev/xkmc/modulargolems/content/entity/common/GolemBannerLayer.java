@@ -1,12 +1,12 @@
-package dev.xkmc.modulargolems.content.entity.metalgolem;
+package dev.xkmc.modulargolems.content.entity.common;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -21,7 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
-public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends EntityModel<T> & HeadedModel> extends RenderLayer<T, M> {
+public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends EntityModel<T> & IHeadedModel> extends RenderLayer<T, M> {
 	private final float scaleX;
 	private final float scaleY;
 	private final float scaleZ;
@@ -45,7 +45,7 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 		pose.pushPose();
 		pose.scale(this.scaleX, this.scaleY, this.scaleZ);
 		this.getParentModel().getHead().translateAndRotate(pose);
-		translateToHead(pose);
+		this.getParentModel().translateToHead(pose);
 		this.itemInHandRenderer.renderItem(entity, stack, ItemDisplayContext.HEAD, false, pose, buffer, light);
 		pose.popPose();
 
@@ -63,7 +63,7 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 		var entry = entity.getConfigEntry(MGLangData.LOADING.get());
 		if (entry != null) {
 			entry.clientTick(entity.level(), false);
-			UUID captainId = null;//TODO entry.squadConfig.getCaptainId();
+			UUID captainId = entry.squadConfig.getCaptainId();
 			boolean showFlag = captainId != null && entity.getUUID().equals(captainId);
 			if (showFlag) {
 				String color = DyeColor.values()[entry.getColor()].getName();
@@ -80,9 +80,4 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 		return stack.getItem() instanceof BannerItem;
 	}
 
-	public static void translateToHead(PoseStack pose) {
-		pose.translate(0.0F, -0.25F, 0.0F);
-		pose.mulPose(Axis.YP.rotationDegrees(180.0F));
-		pose.scale(0.625F, -0.625F, -0.625F);
-	}
 }

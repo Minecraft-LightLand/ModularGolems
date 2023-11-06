@@ -653,16 +653,22 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean isInSittingPose() {
 		return false;
 	}
+
 	@Nullable
 	public LivingEntity getFollowTarget() {
+		if (getMode() == GolemModes.SQUAD) {
+			return getCaptain();
+		}
 		return getOwner();
 	}
+
 	@Nullable
-	public LivingEntity getCaptain(){
-		var config = getConfigEntry(null);
-		if (config == null) return null;
-		var uuid = config.squadConfig.getCaptainId();
+	public LivingEntity getCaptain() {
 		if (level() instanceof ServerLevel sl) {
+			var config = getConfigEntry(null);
+			if (config == null) return null;
+			var uuid = config.squadConfig.getCaptainId();
+			if (uuid == null) return null;
 			var captain = sl.getEntity(uuid);
 			if (captain == null) return null;
 			if (!captain.isAlive() || captain.level() != sl) return null;

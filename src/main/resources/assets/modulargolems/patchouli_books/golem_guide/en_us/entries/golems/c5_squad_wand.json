@@ -1,0 +1,15 @@
+{
+  "name": "Squad Wand",
+  "icon": "modulargolems:squad_wand",
+  "category": "modulargolems:golems",
+  "sortnum": 24,
+  "pages": [
+	{
+	  "type": "patchouli:text",
+	  "text": "Right click golem to set it as captain. Golems must have config card in order to be a captain. Each config card may only have one captain.$(br2)When a non-captain golem is set to Squad mode, it will follow the captain of the same config card. Captain should not have be in squad mode, as it needs to lead the team."
+	},{
+	  "type": "patchouli:crafting",
+	  "recipe": "modulargolems:squad_wand"
+	}
+  ]
+}

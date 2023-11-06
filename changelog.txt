@@ -1,9 +1,18 @@
+- 2.4.22
+    - fix compatibility with REI
+    - add captain and squad mode
+    - add free wander mode
+    - make takented upgrade cheaper
+    - squad wand texture TODO
+    - fix golem riding horse will be unusable when retrieved TODO
+
 - 2.4.21
     - fix riding flickering
     - target filter action show in message
     - fix datapack target filter removing
     - trim name on datapack target filter
     - target reset time changed from 5 sec to 3 sec
+    - fix wand scrolling
 
 - 2.4.20
     - fix filter tab

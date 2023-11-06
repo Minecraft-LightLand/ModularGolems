@@ -65,7 +65,7 @@ public class GolemItems {
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND, OMNI_COMMAND;
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND, OMNI_DISPENSE;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND, OMNI_RIDER;
-	public static final ItemEntry<SquadWandItem> COHORT_WAND;
+	public static final ItemEntry<SquadWandItem> SQUAD_WAND, OMNI_SQUAD;
 
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
@@ -90,7 +90,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 			RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1), null))
 					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
-			COHORT_WAND = REGISTRATE.item("cohort_wand", p -> new SquadWandItem(p.stacksTo(1), null))
+			SQUAD_WAND = REGISTRATE.item("squad_wand", p -> new SquadWandItem(p.stacksTo(1), null))
 					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 
 
@@ -109,6 +109,10 @@ public class GolemItems {
 			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE)
+					.removeTab(TAB.getKey()).register();
+			OMNI_SQUAD = REGISTRATE.item("omnipotent_wand_squad", p -> new SquadWandItem(p.stacksTo(1), SQUAD_WAND))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.lang("Omnipotent Wand: Squad").tag(L2ISTagGen.SELECTABLE)
 					.removeTab(TAB.getKey()).register();
 
 		}
