@@ -35,9 +35,7 @@ public class FollowOwnerGoal extends Goal {
 		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
 			return false;
 		Vec3 target = this.golem.getTargetPos();
-		double startDistance = golem.getMode().couldRandomStroll() ?
-				MGConfig.COMMON.stopWanderRadius.get() :
-				MGConfig.COMMON.startFollowRadius.get();
+		double startDistance = golem.getMode().getStartFollowDistance(golem);
 		return this.golem.distanceToSqr(target) > startDistance * startDistance;
 	}
 

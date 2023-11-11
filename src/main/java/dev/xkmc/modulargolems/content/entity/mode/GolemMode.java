@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.mode;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 
@@ -53,4 +54,15 @@ public class GolemMode {
 		}
 	}
 
+	public double getStartFollowDistance(AbstractGolemEntity<?, ?> golem) {
+		if (this == GolemModes.SQUAD) {
+			var entry = golem.getConfigEntry(null);
+			if (entry != null) {
+				return entry.squadConfig.getRadius();
+			}
+		}
+		return couldRandomStroll() ?
+				MGConfig.COMMON.stopWanderRadius.get() :
+				MGConfig.COMMON.startFollowRadius.get();
+	}
 }
