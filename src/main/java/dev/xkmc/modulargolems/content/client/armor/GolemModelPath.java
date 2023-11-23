@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.client;
+package dev.xkmc.modulargolems.content.client.armor;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;

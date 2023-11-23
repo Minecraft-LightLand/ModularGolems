@@ -2,8 +2,8 @@ package dev.xkmc.modulargolems.init;
 
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.content.client.GolemEquipmentModels;
-import dev.xkmc.modulargolems.content.client.GolemStatusOverlay;
+import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;

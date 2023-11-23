@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import net.minecraft.client.model.EntityModel;
@@ -83,8 +84,8 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 	private RenderType getRenderTypeInternal(P type, T entity, boolean b1, boolean b2, boolean b3) {
 		var materials = entity.getMaterials();
 		int index = type.ordinal();
-		ResourceLocation material = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;
-		ResourceLocation resourcelocation = model.getTextureLocationInternal(material);
+		ResourceLocation rl = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;
+		ResourceLocation resourcelocation = model.getTextureLocationInternal(ModelOverrides.getOverride(rl).getTexture(entity, rl));
 		if (b2) {
 			return RenderType.itemEntityTranslucentCull(resourcelocation);
 		} else if (b1) {

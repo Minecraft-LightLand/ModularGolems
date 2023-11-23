@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.client;
+package dev.xkmc.modulargolems.content.client.armor;
 
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;

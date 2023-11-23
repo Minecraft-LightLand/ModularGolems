@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.content.client;
+package dev.xkmc.modulargolems.content.client.armor;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

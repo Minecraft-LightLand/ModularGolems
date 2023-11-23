@@ -1,10 +1,12 @@
+
+    - squad wand texture TODO
+    - fix golem riding horse will be unusable when retrieved TODO
+
 - 2.4.22
     - fix compatibility with REI
     - add captain and squad mode
     - add free wander mode
     - make takented upgrade cheaper
-    - squad wand texture TODO
-    - fix golem riding horse will be unusable when retrieved TODO
 
 - 2.4.21
     - fix riding flickering

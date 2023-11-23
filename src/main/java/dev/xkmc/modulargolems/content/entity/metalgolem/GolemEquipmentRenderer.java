@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import dev.xkmc.modulargolems.content.client.GolemModelPath;
+import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.List;
 
-import static dev.xkmc.modulargolems.content.client.GolemEquipmentModels.LIST;
+import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.LIST;
 
 public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalGolemModel> {
 

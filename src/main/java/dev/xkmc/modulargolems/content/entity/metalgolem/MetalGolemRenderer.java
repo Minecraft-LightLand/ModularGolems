@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import dev.xkmc.modulargolems.content.client.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
 import dev.xkmc.modulargolems.content.entity.common.ResizedLayer;
