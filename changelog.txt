@@ -2,6 +2,10 @@
     - squad wand texture TODO
     - fix golem riding horse will be unusable when retrieved TODO
 
+- 2.4.23
+    - Fix command wand attack config
+    - Fix damage calculation
+
 - 2.4.22
     - fix compatibility with REI
     - add captain and squad mode
