@@ -124,9 +124,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
 		this.setMaxUpStep(1);
-		if (!level().isClientSide()) {
-			getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
-		}
+		getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
 		if (canSwim()) {
 			this.moveControl = new GolemSwimMoveControl(this);
 			this.navigation = waterNavigation;
@@ -253,10 +251,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!getMode().isMovable()) {
 			pTravelVector = Vec3.ZERO;
 		}
-		if (this.isEffectiveAi() && this.isInWater() && canSwim()) {
-			this.moveRelative(0.02F, pTravelVector);
+		if ((this.isControlledByLocalInstance() || this.isEffectiveAi()) && this.isInWater() && canSwim()) {
+			this.moveRelative(0.08F, pTravelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+			if (this.isControlledByLocalInstance()) {
+				super.travel(pTravelVector);
+			}
 		} else {
 			super.travel(pTravelVector);
 		}
@@ -361,7 +362,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canBeSeenAsEnemy() {
-		return hasFlag(GolemFlags.PASSIVE) || super.canBeSeenAsEnemy();
+		return !hasFlag(GolemFlags.PASSIVE) && super.canBeSeenAsEnemy();
 	}
 
 	@Override

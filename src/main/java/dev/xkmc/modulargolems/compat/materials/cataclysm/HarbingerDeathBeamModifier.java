@@ -14,13 +14,14 @@ import java.util.function.BiConsumer;
 
 public class HarbingerDeathBeamModifier extends GolemModifier {
 
-	public static void addBeam(LivingEntity user) {
-		Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(),
+	public static Death_Laser_Beam_Entity addBeam(LivingEntity user) {
+		Death_Laser_Beam_Entity beam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(),
 				user.level(), user, user.getX(), user.getEyeY(), user.getZ(),
 				(user.yHeadRot + 90.0F) * Mth.DEG_TO_RAD,
 				-user.getXRot() * Mth.DEG_TO_RAD,
 				60);
-		user.level().addFreshEntity(DeathBeam);
+		user.level().addFreshEntity(beam);
+		return beam;
 	}
 
 	public HarbingerDeathBeamModifier(StatFilterType type, int maxLevel) {

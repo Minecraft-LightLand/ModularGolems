@@ -53,6 +53,10 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue targetResetTime;
 		public final ForgeConfigSpec.DoubleValue targetResetNoMovementRange;
 
+		public final ForgeConfigSpec.IntValue dogGolemSlot;
+		public final ForgeConfigSpec.IntValue humanoidGolemSlot;
+		public final ForgeConfigSpec.IntValue largeGolemSlot;
+
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
 					.define("barehandRetrieve", true);
@@ -76,6 +80,13 @@ public class MGConfig {
 					.defineInRange("targetResetTime", 600, 1, 10000);
 			targetResetNoMovementRange = builder.comment("Distance considered as no movement")
 					.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
+
+			largeGolemSlot = builder.comment("Default slots for large golem")
+					.defineInRange("largeGolemSlot", 4, 0, 100);
+			humanoidGolemSlot = builder.comment("Default slots for humanoid golem")
+					.defineInRange("humanoidGolemSlot", 3, 0, 100);
+			dogGolemSlot = builder.comment("Default slots for dog golem")
+					.defineInRange("dogGolemSlot", 2, 0, 100);
 
 			// modifiers
 			{
