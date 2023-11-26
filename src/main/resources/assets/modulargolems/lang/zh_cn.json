@@ -219,7 +219,7 @@
   "modulargolems.wand.retrieve_shift": "指向远处的一个傀儡，将其回收",
   "modulargolems.wand.summon_right": "把一个傀儡召唤至指向的远处的方块",
   "modulargolems.wand.summon_shift": "召唤背包中所有傀儡",
-  "modulargolems.wand.rider": "右键一个犬型傀儡以骑在它身上。",
+  "modulargolems.wand.rider": "右键一个犬型傀儡以骑在它身上。如果不是你的傀儡，那个傀儡的主人骑乘时你才能骑上去。在傀儡上右键任意地方取消骑乘。",
   "modulargolems.wand.config": "右键傀儡设置配置卡，再次右键移除。副手持有时，手杖只对持有相同配置卡的傀儡生效",
   "modulargolems.wand.config_init": "右键初始化配置卡",
   "modulargolems.wand.config_other": "这不是你的卡片，你不能编辑",

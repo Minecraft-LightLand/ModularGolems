@@ -81,6 +81,9 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 			f1 *= 0.25F;
 		}
 		var ans = new Vec3(f, 0.0D, f1);
+		if (player.isShiftKeyDown()) {
+			ans = ans.add(0, -1, 0);
+		}
 		return ans;
 	}
 

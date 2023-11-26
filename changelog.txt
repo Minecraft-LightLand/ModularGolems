@@ -1,6 +1,4 @@
 
-    - fix golem riding horse will be unusable when retrieved TODO
-
 - 2.4.23
     - Add Cataclysm compat
     - Fix command wand attack config
@@ -8,6 +6,7 @@
     - Fix damage calculation
     - Greatly improved golem swimming speed with Swim upgrade
     - Allow golems to jump in water
+    - When mounted, shift in water means sink down
 
 - 2.4.22
     - fix compatibility with REI

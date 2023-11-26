@@ -56,7 +56,7 @@ public enum MGLangData {
 	WAND_COMMAND_SHIFT("wand.command_shift", "Click golem to configure inventory and view stats.", 0, ChatFormatting.GRAY),
 	WAND_SUMMON_RIGHT("wand.summon_right", "Summon one golem to a faraway position pointed by the wand.", 0, ChatFormatting.GRAY),
 	WAND_SUMMON_SHIFT("wand.summon_shift", "Summon all golems from your inventory.", 0, ChatFormatting.GRAY),
-	WAND_RIDER("wand.rider", "Target your dog golem to ride on it. If it's not your golem, you can ride when its owner", 0, ChatFormatting.GRAY),
+	WAND_RIDER("wand.rider", "Target your dog golem to ride on it. If it's not your golem, you can ride when its owner is riding. When mounted, right click anything to dismount.", 0, ChatFormatting.GRAY),
 	WAND_SQUAD("wand.squad", "Click a golem with config to set it as captain. Click a captain to remove its captain status.", 0, ChatFormatting.GRAY),
 	CONFIG_CARD("wand.config", "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.", 0, ChatFormatting.GRAY),
 	CONFIG_INIT("wand.config_init", "Right click to initialize config", 0, ChatFormatting.GRAY),

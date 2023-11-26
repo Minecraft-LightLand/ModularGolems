@@ -371,7 +371,7 @@
   "modulargolems.wand.mode": "Current Mode: %s",
   "modulargolems.wand.retrieve_right": "Retrieve all your surrounding golems.",
   "modulargolems.wand.retrieve_shift": "Target a faraway golem to retrieve it.",
-  "modulargolems.wand.rider": "Target your dog golem to ride on it. If it's not your golem, you can ride when its owner",
+  "modulargolems.wand.rider": "Target your dog golem to ride on it. If it's not your golem, you can ride when its owner is riding. When mounted, right click anything to dismount.",
   "modulargolems.wand.right_click": "On right click:",
   "modulargolems.wand.shift_click": "On sneak right click:",
   "modulargolems.wand.squad": "Click a golem with config to set it as captain. Click a captain to remove its captain status.",
