@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.curio;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
@@ -23,7 +24,7 @@ public class GolemCuriosListScreen extends BaseContainerScreen<GolemCuriosListMe
 		super.init();
 		var compat = CurioCompatRegistry.get();
 		assert compat != null;
-		new GolemTabManager<>(this, new EquipmentGroup(menu.curios.golem)).init(this::addRenderableWidget, compat.tab);
+		new GolemTabManager<>(this, new EquipmentGroup((AbstractGolemEntity<?, ?>) menu.curios.entity)).init(this::addRenderableWidget, compat.tab);
 	}
 
 	@Override

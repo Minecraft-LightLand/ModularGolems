@@ -50,15 +50,6 @@ public class CurioCompatRegistry {
 		ins.onJEIRegistryImpl(consumer);
 	}
 
-	public static void freezeMenu(AbstractGolemEntity<?, ?> golem) {
-		LocalPlayer player = Proxy.getClientPlayer();
-		if (player.containerMenu instanceof GolemCuriosListMenu menu) {
-			if (menu.curios.golem == golem) {
-				menu.slots.clear();
-			}
-		}
-	}
-
 	public static IMenuPvd create(AbstractGolemEntity<?, ?> entity) {
 		return new GolemCuriosMenuPvd(entity, 0);
 	}
