@@ -55,7 +55,7 @@ public class GolemMode {
 	}
 
 	public double getStartFollowDistance(AbstractGolemEntity<?, ?> golem) {
-		if (false && this == GolemModes.SQUAD) {//TODO
+		if (false) {//TODO
 			var entry = golem.getConfigEntry(null);
 			if (entry != null) {
 				return entry.squadConfig.getRadius();

@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.curio;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
-import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
@@ -10,7 +9,6 @@ import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.Nullable;

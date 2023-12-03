@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
+import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
@@ -160,14 +161,24 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		this.unRide();
 		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
 		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.canModify(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
+				this.unRide();
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
 			}
 			return InteractionResult.SUCCESS;
+		} else {
+			ItemStack stack = player.getItemInHand(hand);
+			if (stack.getItem() instanceof GolemEquipmentItem item) {
+				if (item.isFor(getType()) && getItemBySlot(item.getSlot()).isEmpty()) {
+					if (!level().isClientSide()) {
+						setItemSlot(item.getSlot(), stack.split(1));
+					}
+					return InteractionResult.CONSUME;
+				}
+			}
 		}
 		return super.mobInteract(player, hand);
 	}
@@ -585,8 +596,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (other == owner) {
 			return true;
 		}
-		if (other instanceof Player && getOwnerUUID() == null) {
-			return true;
+		if (other instanceof Player player) {
+			if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player))
+				return true;
 		}
 		if (MGConfig.COMMON.ownerPickupOnly.get()) {
 			return false;
@@ -621,7 +633,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicateSecondaryTarget));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, this::predicateSecondaryTarget));
 		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 

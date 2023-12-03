@@ -7,6 +7,7 @@
     - Greatly improved golem swimming speed with Swim upgrade
     - Allow golems to jump in water
     - When mounted, shift in water means sink down
+    - Fix not able to attack player actively
 
 - 2.4.22
     - fix compatibility with REI

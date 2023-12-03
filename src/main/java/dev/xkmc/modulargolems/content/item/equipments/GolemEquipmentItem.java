@@ -56,6 +56,10 @@ public abstract class GolemEquipmentItem extends Item {
 		return slot;
 	}
 
+	public boolean isFor(EntityType<?> type) {
+		return this.type.get() == type;
+	}
+
 	public Multimap<Attribute, AttributeModifier> getGolemModifiers(ItemStack stack, @Nullable Entity entity, EquipmentSlot slot) {
 		if (this.slot == slot && (entity == null || this.type.get() == entity.getType())) {
 			return getDefaultGolemModifiers(stack, slot);

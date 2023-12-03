@@ -142,7 +142,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return true;
 	}
 
-	public void modifySource(AbstractGolemEntity<?,?> golem, CreateSourceEvent event, int value) {
+	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
 	}
 
 	public record HealingContext(float health, float maxHealth, Entity owner) {

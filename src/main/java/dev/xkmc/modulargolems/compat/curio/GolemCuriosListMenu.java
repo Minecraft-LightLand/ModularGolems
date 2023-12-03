@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.curio;
 
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2tabs.compat.BaseCuriosListMenu;
+import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.l2tabs.compat.CuriosWrapper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -32,10 +33,10 @@ public class GolemCuriosListMenu extends BaseCuriosListMenu<GolemCuriosListMenu>
 	}
 
 	@Override
-	public void switchPage(ServerPlayer serverPlayer, int i) {
+	public void switchPage(ServerPlayer player, int i) {
 		if (curios.entity instanceof AbstractGolemEntity<?, ?> golem) {
 			var pvd = new GolemCuriosMenuPvd(golem, i);
-			NetworkHooks.openScreen(serverPlayer, pvd, pvd::writeBuffer);
+			CuriosEventHandler.openMenuWrapped(player, () -> NetworkHooks.openScreen(player, pvd, pvd::writeBuffer));
 		}
 	}
 

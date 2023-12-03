@@ -4,7 +4,6 @@ import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entit
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
