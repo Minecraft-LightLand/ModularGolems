@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:hostility_protection",
-	  "text": "Same effect as Protection trait on mobs. Max level: 5"
+	  "text": "Same effect as Protection trait on mobs. Max level: 4"
 	}
   ]
 }

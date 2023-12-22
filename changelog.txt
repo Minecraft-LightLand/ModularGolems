@@ -1,6 +1,6 @@
+    - Add Cataclysm compat
 
 - 2.4.23
-    - Add Cataclysm compat
     - Fix command wand attack config
     - Add upgrade slot config
     - Fix damage calculation
