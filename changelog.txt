@@ -1,5 +1,9 @@
     - Add Cataclysm compat
 
+- 2.4.24
+    - Fix the bug that golem with corrupted data cannot be placed
+    - Prevent future golem data corruption
+
 - 2.4.23
     - Fix command wand attack config
     - Add upgrade slot config

@@ -211,6 +211,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.actuallyHurt(source, damage);
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			Player player = getOwner();
+			unRide();
 			ItemStack stack = GolemHolder.setEntity(getThis());
 			if (player != null && player.isAlive()) {
 				player.getInventory().placeItemBackInInventory(stack);
