@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[46,)"
+loaderVersion="[47,)"
 license="All rights reserved"
 [[mods]]
 modId="modulargolems"
@@ -14,7 +14,7 @@ This mod adds golems that can be crafted with different materials in a Tinker-li
 [[dependencies.modulargolems]]
     modId="forge"
     mandatory=true
-    versionRange="[46,)"
+    versionRange="[47.1.0,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.modulargolems]]
@@ -26,11 +26,11 @@ This mod adds golems that can be crafted with different materials in a Tinker-li
 [[dependencies.modulargolems]]
     modId="l2library"
     mandatory=true
-    versionRange="[2.4.18,)"
+    versionRange="[2.4.22,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.modulargolems]]
     modId="curios"
     mandatory=false
-    versionRange="[5.3.4,)"
+    versionRange="[5.4.5,)"
     side="BOTH"

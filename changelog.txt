@@ -1,5 +1,10 @@
     - Add Cataclysm compat
 
+- 2.4.25
+    - Fix enchantment damage bonus not working on Large Golem Weapons
+    - Fix large golem weapon cannot be enchanted in enchanting table
+    - Fix compatibility with newest L2Library attribute tab
+
 - 2.4.24
     - Fix the bug that golem with corrupted data cannot be placed
     - Prevent future golem data corruption

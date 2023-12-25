@@ -30,6 +30,16 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 	}
 
 	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public int getEnchantmentValue() {
+		return 15;
+	}
+
+	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
 		if (enchantment.category == EnchantmentCategory.WEAPON) {
 			return true;
