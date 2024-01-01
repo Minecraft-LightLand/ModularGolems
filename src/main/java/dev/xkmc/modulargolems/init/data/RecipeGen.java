@@ -5,6 +5,8 @@ import dev.xkmc.l2library.repack.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.repack.registrate.util.DataIngredient;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
+import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -19,6 +21,8 @@ import net.minecraftforge.registries.tags.ITagManager;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
+
+import static dev.xkmc.l2complements.init.data.RecipeGen.smithing;
 
 public class RecipeGen {
 
@@ -241,6 +245,92 @@ public class RecipeGen {
 					.define('D', Items.CAULDRON)
 					.define('E', Items.DRAGON_HEAD)
 					.save(pvd);
+
+		}
+
+		// armor
+		{
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.GOLEMGUARD_HELMET.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.IRON_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.GOLEMGUARD_CHESTPLATE.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.IRON_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.GOLEMGUARD_SHINGUARD.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.IRON_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.WINDSPIRIT_HELMET.get())::unlockedBy, Items.DIAMOND)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.DIAMOND_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.WINDSPIRIT_CHESTPLATE.get())::unlockedBy, Items.DIAMOND)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.DIAMOND_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.WINDSPIRIT_SHINGUARD.get())::unlockedBy, Items.DIAMOND)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.DIAMOND_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.BARBARICFLAMEVANGUARD_HELMET.get())::unlockedBy, Items.DIAMOND)
+					.pattern(" B ").pattern("III").pattern("IAI")
+					.define('I', Items.NETHERITE_HELMET)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get())::unlockedBy, Items.DIAMOND)
+					.pattern("IAI").pattern("III").pattern("BIB")
+					.define('I', Items.NETHERITE_CHESTPLATE)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped( GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())::unlockedBy, Items.DIAMOND)
+					.pattern("BIB").pattern(" A ").pattern("I I")
+					.define('I', Items.NETHERITE_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.QUARTZ)
+					.save(pvd);
+		}
+
+		// weapon
+		{
+			for (var type : GolemWeaponType.values()) {
+				for (var mat : VanillaGolemWeaponMaterial.values()) {
+					Item item = GolemItems.METALGOLEM_WEAPON[type.ordinal()][mat.ordinal()].get();
+					if (mat == VanillaGolemWeaponMaterial.NETHERITE) {
+						Item prev = GolemItems.METALGOLEM_WEAPON[type.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()].get();
+						smithing(pvd, prev, mat.getIngot(), item);
+					} else {
+						type.pattern(unlock(pvd, ShapedRecipeBuilder.shaped( item)::unlockedBy, mat.getIngot()))
+								.define('I', mat.getIngot())
+								.define('S', Items.STICK)
+								.define('T', GolemItems.GOLEM_TEMPLATE.get())
+								.save(pvd);
+					}
+				}
+			}
 
 		}
 

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "I": {
+      "item": "minecraft:diamond"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "III",
+    "IS ",
+    "TST"
+  ],
+  "result": {
+    "item": "modulargolems:diamond_golem_axe"
+  }
+}

@@ -15,13 +15,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel> {
 
-	private final ModelPart root;
-	private final ModelPart head;
-	private final ModelPart rightArm;
-	private final ModelPart leftArm;
-	private final ModelPart rightLeg;
-	private final ModelPart leftLeg;
-	private final ModelPart body;
+	public final ModelPart root;
+	public final ModelPart head;
+	public final ModelPart rightArm;
+	public final ModelPart leftArm;
+	public final ModelPart rightLeg;
+	public final ModelPart leftLeg;
+	public final ModelPart body;
 
 	public MetalGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(ModelLayers.IRON_GOLEM));

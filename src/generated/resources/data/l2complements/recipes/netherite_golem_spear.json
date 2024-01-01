@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "base": {
+    "item": "modulargolems:diamond_golem_spear"
+  },
+  "result": {
+    "item": "modulargolems:netherite_golem_spear"
+  }
+}
