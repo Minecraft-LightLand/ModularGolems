@@ -55,6 +55,7 @@ public class RetrievalWandItem extends Item implements WandItem {
 	private static boolean attemptRetrieve(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!golem.isAlliedTo(user)) return false;
 		if (level.isClientSide()) return true;
+		golem.unRide();
 		user.getInventory().placeItemBackInInventory(golem.toItem());
 		return true;
 	}

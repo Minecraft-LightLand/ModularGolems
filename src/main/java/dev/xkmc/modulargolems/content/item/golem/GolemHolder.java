@@ -262,7 +262,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return false;
-		if (root.contains(KEY_ENTITY)) {
+		if (root.contains(KEY_ENTITY) && getMaxHealth(stack) >= 0) {
 			if (getHealth(stack) <= 0)
 				return false;
 			if (!level.isClientSide()) {
