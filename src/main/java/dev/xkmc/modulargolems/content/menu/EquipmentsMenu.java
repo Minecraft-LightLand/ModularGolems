@@ -6,6 +6,7 @@ import dev.xkmc.l2library.base.menu.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -58,6 +59,10 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 			GolemEquipEvent event = new GolemEquipEvent(human, stack);
 			MinecraftForge.EVENT_BUS.post(event);
 			return event.canEquip() ? event.getSlot() : null;
+		}
+		if (stack.getItem() instanceof GolemEquipmentItem equip) {
+			if (golem != null && equip.isFor(golem.getType()))
+				return equip.getSlot();
 		}
 		return null;
 	}

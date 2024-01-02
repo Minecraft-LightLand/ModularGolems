@@ -2,6 +2,10 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
+import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
+import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -9,6 +13,7 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -17,14 +22,14 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	public final ModelPart root;
 	public final ModelPart head;
-	public final ModelPart rightArm;
-	public final ModelPart leftArm;
+	public final ModelPart rightArm, rightForeArm;
+	public final ModelPart leftArm, leftForeArm;
 	public final ModelPart rightLeg;
 	public final ModelPart leftLeg;
 	public final ModelPart body;
 
 	public MetalGolemModel(EntityModelSet set) {
-		this(set.bakeLayer(ModelLayers.IRON_GOLEM));
+		this(set.bakeLayer(GolemEquipmentModels.METALGOLEM));
 	}
 
 	public MetalGolemModel(ModelPart part) {
@@ -35,10 +40,23 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftArm = part.getChild("left_arm");
 		this.rightLeg = part.getChild("right_leg");
 		this.leftLeg = part.getChild("left_leg");
+		this.leftForeArm = leftArm.getChild("left_forearm");
+		this.rightForeArm = rightArm.getChild("right_forearm");
 	}
 
 	public ModelPart root() {
 		return this.root;
+	}
+
+	public void copyFrom(MetalGolemModel other) {
+		head.copyFrom(other.head);
+		body.copyFrom(other.body);
+		rightArm.copyFrom(other.rightArm);
+		leftArm.copyFrom(other.leftArm);
+		rightLeg.copyFrom(other.rightLeg);
+		leftLeg.copyFrom(other.leftLeg);
+		leftForeArm.copyFrom(other.leftForeArm);
+		rightForeArm.copyFrom(other.rightForeArm);
 	}
 
 	public void setupAnim(MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
@@ -50,14 +68,18 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftLeg.yRot = 0.0F;
 	}
 
-	public void prepareMobModel(MetalGolemEntity entity, float f1, float f2, float f3) {
-		int i = entity.getAttackAnimationTick();
-		if (i > 0) {
-			this.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
-			this.leftArm.xRot = -2.0F + 1.5F * Mth.triangleWave((float) i - f3, 10.0F);
+	public void prepareMobModel(MetalGolemEntity entity, float bob, float speed, float pTick) {
+		MetalGolemPose pose = MetalGolemPose.DEFAULT;
+		if (!entity.getMainHandItem().isEmpty()) {
+			pose = WeaponPose.WEAPON;
+		}
+		int atkTick = entity.getAttackAnimationTick();
+		if (atkTick > 0) {
+			pose.attackModel(entity, this, atkTick - pTick);
+		} else if (entity.isAggressive()) {
+			pose.aggressive(entity, this, bob, speed, pTick);
 		} else {
-			this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
-			this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(f1, 13.0F)) * f2;
+			pose.walking(entity, this, bob, speed, pTick);
 		}
 	}
 
@@ -79,6 +101,17 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		String id = rl.getNamespace();
 		String mat = rl.getPath();
 		return new ResourceLocation(id, "textures/entity/metal_golem/" + mat + ".png");
+	}
+
+	public void transformToHand(EquipmentSlot slot, PoseStack pose) {
+		if (slot == EquipmentSlot.MAINHAND) {
+			rightArm.translateAndRotate(pose);
+			rightForeArm.translateAndRotate(pose);
+		}
+		if (slot == EquipmentSlot.OFFHAND) {
+			leftArm.translateAndRotate(pose);
+			leftForeArm.translateAndRotate(pose);
+		}
 	}
 
 }

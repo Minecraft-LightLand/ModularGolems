@@ -31,6 +31,7 @@ public class GolemClient {
 		bus.addListener(GolemClient::clientSetup);
 		bus.addListener(GolemClient::onResourceReload);
 		bus.addListener(GolemClient::registerOverlays);
+		bus.addListener(GolemClient::registerArmorLayer);
 		MinecraftForge.EVENT_BUS.register(ClientHolderManager.class);
 	}
 
@@ -51,7 +52,7 @@ public class GolemClient {
 	public static void registerOverlays(RegisterGuiOverlaysEvent event) {
 		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "golem_stats", new GolemStatusOverlay());
 	}
-	
+
 	@SubscribeEvent
 	public static void registerArmorLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		GolemEquipmentModels.registerArmorLayer(event);
