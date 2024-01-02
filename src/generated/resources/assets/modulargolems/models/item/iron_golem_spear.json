@@ -1,0 +1,6 @@
+{
+  "parent": "modulargolems:item/long_weapon",
+  "textures": {
+    "layer0": "modulargolems:item/equipments/iron_golem_spear"
+  }
+}

@@ -2,9 +2,9 @@ package dev.xkmc.modulargolems.content.item;
 
 import dev.xkmc.l2library.util.code.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.menu.EquipmentsMenuPvd;
 import dev.xkmc.modulargolems.init.data.LangData;
 import net.minecraft.core.BlockPos;
@@ -39,8 +39,8 @@ public class CommandWandItem extends Item implements WandItem {
 		if (!golem.isAlliedTo(user)) return false;
 		if (level.isClientSide()) return true;
 		if (user.isShiftKeyDown()) {
-			if (golem instanceof HumanoidGolemEntity e) {
-				new EquipmentsMenuPvd(e).open((ServerPlayer) user);
+			if (golem instanceof SweepGolemEntity<?, ?>) {
+				new EquipmentsMenuPvd(golem).open((ServerPlayer) user);
 				return true;
 			}
 			return false;
