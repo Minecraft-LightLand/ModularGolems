@@ -2,10 +2,12 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.xkmc.modulargolems.content.client.GolemEquipmentModels;
+import com.mojang.math.Axis;
+import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
 import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
@@ -16,7 +18,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel> {
+public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
 
 	private final ModelPart root;
 	private final ModelPart head;
@@ -113,6 +115,17 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 			leftArm.translateAndRotate(pose);
 			leftForeArm.translateAndRotate(pose);
 		}
+	}
+
+	@Override
+	public ModelPart getHead() {
+		return head;
+	}
+
+	public void translateToHead(PoseStack pose) {
+		pose.translate(0.0F, -0.45F, -0.08F);
+		pose.mulPose(Axis.YP.rotationDegrees(180.0F));
+		pose.scale(0.625F, -0.625F, -0.625F);
 	}
 
 }

@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
+import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
@@ -124,9 +125,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
 		this.setMaxUpStep(1);
-		if (!level().isClientSide()) {
-			getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
-		}
+		getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
 		if (canSwim()) {
 			this.moveControl = new GolemSwimMoveControl(this);
 			this.navigation = waterNavigation;
@@ -162,14 +161,24 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		this.unRide();
 		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
 		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.canModify(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
+				this.unRide();
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
 			}
 			return InteractionResult.SUCCESS;
+		} else {
+			ItemStack stack = player.getItemInHand(hand);
+			if (stack.getItem() instanceof GolemEquipmentItem item) {
+				if (item.isFor(getType()) && getItemBySlot(item.getSlot()).isEmpty()) {
+					if (!level().isClientSide()) {
+						setItemSlot(item.getSlot(), stack.split(1));
+					}
+					return InteractionResult.CONSUME;
+				}
+			}
 		}
 		return super.mobInteract(player, hand);
 	}
@@ -202,6 +211,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.actuallyHurt(source, damage);
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			Player player = getOwner();
+			unRide();
 			ItemStack stack = GolemHolder.setEntity(getThis());
 			if (player != null && player.isAlive()) {
 				player.getInventory().placeItemBackInInventory(stack);
@@ -253,10 +263,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!getMode().isMovable()) {
 			pTravelVector = Vec3.ZERO;
 		}
-		if (this.isEffectiveAi() && this.isInWater() && canSwim()) {
-			this.moveRelative(0.02F, pTravelVector);
+		if ((this.isControlledByLocalInstance() || this.isEffectiveAi()) && this.isInWater() && canSwim()) {
+			this.moveRelative(0.08F, pTravelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+			if (this.isControlledByLocalInstance()) {
+				super.travel(pTravelVector);
+			}
 		} else {
 			super.travel(pTravelVector);
 		}
@@ -361,7 +374,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canBeSeenAsEnemy() {
-		return hasFlag(GolemFlags.PASSIVE) || super.canBeSeenAsEnemy();
+		return !hasFlag(GolemFlags.PASSIVE) && super.canBeSeenAsEnemy();
 	}
 
 	@Override
@@ -584,8 +597,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (other == owner) {
 			return true;
 		}
-		if (other instanceof Player && getOwnerUUID() == null) {
-			return true;
+		if (other instanceof Player player) {
+			if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player))
+				return true;
 		}
 		if (MGConfig.COMMON.ownerPickupOnly.get()) {
 			return false;
@@ -620,7 +634,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicateSecondaryTarget));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, this::predicateSecondaryTarget));
 		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
@@ -654,12 +668,36 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return false;
 	}
 
+	@Nullable
+	public LivingEntity getFollowTarget() {
+		if (getMode() == GolemModes.SQUAD) {
+			return getCaptain();
+		}
+		return getOwner();
+	}
+
+	@Nullable
+	public LivingEntity getCaptain() {
+		if (level() instanceof ServerLevel sl) {
+			var config = getConfigEntry(null);
+			if (config == null) return null;
+			var uuid = config.squadConfig.getCaptainId();
+			if (uuid == null) return null;
+			var captain = sl.getEntity(uuid);
+			if (captain == null) return null;
+			if (!captain.isAlive() || captain.level() != sl) return null;
+			if (captain instanceof LivingEntity le) {
+				return le;
+			} else return null;
+		} else return null;
+	}
+
 	public Vec3 getTargetPos() {
 		if (getMode().hasPos()) {
 			BlockPos pos = getGuardPos();
 			return new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 		}
-		LivingEntity owner = getOwner();
+		LivingEntity owner = getFollowTarget();
 		if (owner == null) return getPosition(1);
 		return owner.getPosition(1);
 	}

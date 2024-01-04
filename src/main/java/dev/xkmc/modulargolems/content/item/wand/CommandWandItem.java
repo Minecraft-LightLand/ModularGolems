@@ -86,9 +86,12 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 
 	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		if (!(attacker instanceof Player player)) return false;
 		var list = target.level().getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), attacker.getBoundingBox().inflate(32), e -> true);
 		int size = 0;
 		for (var e : list) {
+			if (!ConfigCard.getFilter(player).test(e)) return false;
+			if (!e.canModify(player)) return false;
 			if (e.getOwner() == attacker) {
 				size++;
 				e.resetTarget(target);

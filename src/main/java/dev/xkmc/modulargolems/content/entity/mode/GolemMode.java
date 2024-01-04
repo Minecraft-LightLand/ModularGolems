@@ -1,18 +1,20 @@
 package dev.xkmc.modulargolems.content.entity.mode;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 
 public class GolemMode {
 
 	private final int id;
-	private final boolean positioned, movable;
+	private final boolean positioned, movable, wander;
 	private final MGLangData lang, name;
 
-	protected GolemMode(boolean positioned, boolean movable, MGLangData lang, MGLangData name) {
+	protected GolemMode(boolean positioned, boolean movable, boolean wander, MGLangData lang, MGLangData name) {
 		this.positioned = positioned;
 		this.movable = movable;
+		this.wander = wander;
 		this.lang = lang;
 		this.name = name;
 		id = GolemModes.LIST.size();
@@ -35,6 +37,10 @@ public class GolemMode {
 		return positioned;
 	}
 
+	public boolean couldRandomStroll() {
+		return wander;
+	}
+
 	public Component getName() {
 		return name.get();
 	}
@@ -48,4 +54,15 @@ public class GolemMode {
 		}
 	}
 
+	public double getStartFollowDistance(AbstractGolemEntity<?, ?> golem) {
+		if (false) {//TODO
+			var entry = golem.getConfigEntry(null);
+			if (entry != null) {
+				return entry.squadConfig.getRadius();
+			}
+		}
+		return couldRandomStroll() ?
+				MGConfig.COMMON.stopWanderRadius.get() :
+				MGConfig.COMMON.startFollowRadius.get();
+	}
 }

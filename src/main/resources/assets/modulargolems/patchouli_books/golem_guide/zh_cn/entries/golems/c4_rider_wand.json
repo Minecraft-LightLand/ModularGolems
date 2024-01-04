@@ -6,7 +6,7 @@
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "右键骑上犬型傀儡。"
+	  "text": "右键骑上犬型傀儡。如果傀儡在水中，蹲下会使傀儡加速下沉。这个时候，你不能通过蹲下来脱离，需要用骑乘手杖右键来脱离。"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:rider_wand"

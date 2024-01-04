@@ -29,6 +29,11 @@ public class UuidFilterCard extends ClickEntityFilterCard<UUID> {
 		return entity.getUUID();
 	}
 
+	@Override
+	protected Component getName(UUID uuid) {
+		return Component.literal(uuid.toString().substring(0, 8));
+	}
+
 	public List<UUID> getList(ItemStack stack) {
 		var tag = stack.getTag();
 		List<UUID> ans = new ArrayList<>();
@@ -53,7 +58,7 @@ public class UuidFilterCard extends ClickEntityFilterCard<UUID> {
 		var ids = getList(stack);
 		if (ids.size() > 0 && !Screen.hasShiftDown()) {
 			for (var e : ids) {
-				list.add(Component.literal(e.toString().substring(0, 8)));
+				list.add(getName(e));
 			}
 			list.add(MGLangData.TARGET_SHIFT.get());
 		} else {

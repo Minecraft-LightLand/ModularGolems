@@ -6,7 +6,7 @@
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "Right click dog golem to ride it."
+	  "text": "Right click dog golem to ride it. If golem is in water, shift will make golem sink faster. Thus, you cannot use shift to dismount. Instead, you need to right click with rider wand."
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:rider_wand"

@@ -2,7 +2,9 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import dev.xkmc.modulargolems.content.entity.ranged.GolemShooterHelper;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
@@ -17,7 +19,8 @@ import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ToolActions;
 
-public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> implements IGolemModel<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel> {
+public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> implements
+		IGolemModel<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel>, IHeadedModel {
 	public HumanoidGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(ModelLayers.PLAYER));
 	}
@@ -107,6 +110,13 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> imple
 			this.rightArmPose = anti_pos;
 		}
 		super.prepareMobModel(entity, pLimbSwing, pLimbSwingAmount, pPartialTick);
+	}
+
+	@Override
+	public void translateToHead(PoseStack pose) {
+		pose.translate(0.0F, -0.25F, 0.0F);
+		pose.mulPose(Axis.YP.rotationDegrees(180.0F));
+		pose.scale(0.625F, -0.625F, -0.625F);
 	}
 
 }

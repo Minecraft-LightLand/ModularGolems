@@ -2,11 +2,13 @@ package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.capability.GolemConfigCapability;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
@@ -19,6 +21,7 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -112,6 +115,17 @@ public class ModifierEventListeners {
 			if (level.dimension() == Level.OVERWORLD) {
 				event.addCapability(new ResourceLocation(ModularGolems.MODID, "command"),
 						new GolemConfigCapability(level));
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onTargetCardClick(PlayerInteractEvent.EntityInteract event) {
+		if (event.getItemStack().getItem() instanceof ClickEntityFilterCard<?>) {
+			if (event.getTarget() instanceof LivingEntity le) {
+				event.setCancellationResult(event.getItemStack().interactLivingEntity(event.getEntity(),
+						le, event.getHand()));
+				event.setCanceled(true);
 			}
 		}
 	}

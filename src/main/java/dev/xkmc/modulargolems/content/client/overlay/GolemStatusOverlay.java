@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.client;
+package dev.xkmc.modulargolems.content.client.overlay;
 
 import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
 import dev.xkmc.l2library.base.overlay.OverlayUtil;

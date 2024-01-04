@@ -30,12 +30,14 @@ public class GolemConfigEntry {
 	@SerialClass.SerialField
 	public boolean summonToPosition;
 	@SerialClass.SerialField
+	public boolean locked;
+
+	@SerialClass.SerialField
 	public PickupFilterConfig pickupFilter = new PickupFilterConfig();
 	@SerialClass.SerialField
 	public TargetFilterConfig targetFilter = new TargetFilterConfig();
-
 	@SerialClass.SerialField
-	public boolean locked;
+	public SquadConfig squadConfig = new SquadConfig();
 
 	@Deprecated
 	public GolemConfigEntry() {
@@ -55,7 +57,6 @@ public class GolemConfigEntry {
 		if (nameComp == null) {
 			nameComp = Component.literal("Unnamed");
 		}
-		// TODO color
 		return nameComp;
 	}
 

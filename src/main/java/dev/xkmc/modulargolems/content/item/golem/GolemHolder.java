@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
@@ -338,7 +339,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player, @Nullable Consumer<AbstractGolemEntity<?, ?>> callback) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return false;
-		if (root.contains(KEY_ENTITY)) {
+		if (root.contains(KEY_ENTITY) && getMaxHealth(stack) >= 0) {
 			if (getHealth(stack) <= 0)
 				return false;
 			if (!level.isClientSide()) {
@@ -433,7 +434,6 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				addMaterial(stack, part.toItem(), rl);
 			}
 			tab.accept(stack);
-
 		}
 	}
 
@@ -446,7 +446,15 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public int getRemaining(ArrayList<GolemMaterial> mats, ArrayList<UpgradeItem> upgrades) {
-		int base = getEntityType().values().length - upgrades.size();
+		int base = getEntityType().values().length;
+		if (type.get() == GolemTypes.TYPE_GOLEM.get()) {
+			base = MGConfig.COMMON.largeGolemSlot.get();
+		} else if (type.get() == GolemTypes.TYPE_HUMANOID.get()) {
+			base = MGConfig.COMMON.humanoidGolemSlot.get();
+		} else if (type.get() == GolemTypes.TYPE_DOG.get()) {
+			base = MGConfig.COMMON.dogGolemSlot.get();
+		}
+		base -= upgrades.size();
 		var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 		for (var ent : modifiers.entrySet()) {
 			base += ent.getKey().addSlot(upgrades, ent.getValue());

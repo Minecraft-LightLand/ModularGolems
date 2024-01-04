@@ -20,6 +20,12 @@
 	  "golem_equipment": "只对%s生效",
 	  "guard": "巡逻",
 	  "stand": "停留",
+	  "patrol": "固定路线",
+	  "patrolling": "傀儡会根据既定路线移动",
+	  "squad": "编队",
+	  "team_up": "傀儡会跟随队长",
+	  "wander": "自由行动",
+	  "wandering": "傀儡会自由随机移动",
 	  "modifier": "总计%s个技能，%s个升级",
 	  "target": {
 		"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
@@ -43,17 +49,20 @@
 	  "retrieve_shift": "指向远处的一个傀儡，将其回收",
 	  "summon_right": "把一个傀儡召唤至指向的远处的方块",
 	  "summon_shift": "召唤背包中所有傀儡",
-	  "rider": "右键一个犬型傀儡以骑在它身上。",
+	  "rider": "右键一个犬型傀儡以骑在它身上。如果不是你的傀儡，那个傀儡的主人骑乘时你才能骑上去。在傀儡上右键任意地方取消骑乘。",
 	  "config": "右键傀儡设置配置卡，再次右键移除。副手持有时，手杖只对持有相同配置卡的傀儡生效",
 	  "config_init": "右键初始化配置卡",
-	  "config_other": "这不是你的卡片，你不能编辑"
+	  "config_other": "这不是你的卡片，你不能编辑",
+	  "squad": "设置傀儡为当前配置卡的队长。点队长取消其队长状态"
 	},
 	"msg": {
 	  "destroy_exp": "%s销毁了%s经验",
 	  "destroy_item": "%s找不到地方放，销毁了%s个物品",
 	  "call_attack": "%s个傀儡将会攻击%s",
 	  "summon_failed": "召唤%s失败，因为目标地点太远",
-	  "summon_far": "将%s召唤于(%s,%s,%s)"
+	  "summon_far": "将%s召唤于(%s,%s,%s)",
+	  "add_target": "已将%s加入过滤器",
+	  "remove_target": "已将%s移除过滤器"
 	},
 	"config": {
 	  "loading": "加载中...",

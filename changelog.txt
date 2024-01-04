@@ -1,3 +1,43 @@
+    - Add Cataclysm compat
+
+- 2.4.25
+    - Fix enchantment damage bonus not working on Large Golem Weapons
+    - Fix large golem weapon cannot be enchanted in enchanting table
+    - Fix compatibility with newest L2Library attribute tab
+
+- 2.4.24
+    - Fix the bug that golem with corrupted data cannot be placed
+    - Prevent future golem data corruption
+
+- 2.4.23
+    - Fix command wand attack config
+    - Add upgrade slot config
+    - Fix damage calculation
+    - Greatly improved golem swimming speed with Swim upgrade
+    - Allow golems to jump in water
+    - When mounted, shift in water means sink down
+    - Fix not able to attack player actively
+
+- 2.4.22
+    - fix compatibility with REI
+    - add captain and squad mode
+    - add free wander mode
+    - make talented upgrade cheaper
+
+- 2.4.21
+    - fix riding flickering
+    - target filter action show in message
+    - fix datapack target filter removing
+    - trim name on datapack target filter
+    - target reset time changed from 5 sec to 3 sec
+    - fix wand scrolling
+
+- 2.4.20
+    - fix filter tab
+
+- 2.4.19
+    - texture fix
+
 - 2.4.18
     - Add hostility compat
     - Add target cards and target filter tab

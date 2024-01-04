@@ -7,7 +7,7 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.content.client.GolemModelPaths;
+import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
@@ -20,10 +20,7 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.CommandWandItem;
-import dev.xkmc.modulargolems.content.item.wand.DispenseWand;
-import dev.xkmc.modulargolems.content.item.wand.RetrievalWandItem;
-import dev.xkmc.modulargolems.content.item.wand.RiderWandItem;
+import dev.xkmc.modulargolems.content.item.wand.*;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -68,6 +65,7 @@ public class GolemItems {
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND, OMNI_COMMAND;
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND, OMNI_DISPENSE;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND, OMNI_RIDER;
+	public static final ItemEntry<SquadWandItem> SQUAD_WAND, OMNI_SQUAD;
 
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
@@ -92,6 +90,8 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 			RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1), null))
 					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+			SQUAD_WAND = REGISTRATE.item("squad_wand", p -> new SquadWandItem(p.stacksTo(1), null))
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
 
 
 			OMNI_COMMAND = REGISTRATE.item("omnipotent_wand_command", p -> new CommandWandItem(p.stacksTo(1), COMMAND_WAND))
@@ -109,6 +109,10 @@ public class GolemItems {
 			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE)
+					.removeTab(TAB.getKey()).register();
+			OMNI_SQUAD = REGISTRATE.item("omnipotent_wand_squad", p -> new SquadWandItem(p.stacksTo(1), SQUAD_WAND))
+					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.lang("Omnipotent Wand: Squad").tag(L2ISTagGen.SELECTABLE)
 					.removeTab(TAB.getKey()).register();
 
 		}

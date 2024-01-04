@@ -65,6 +65,10 @@ public interface GolemConfigEditor {
 		return new TargetFilterEditor(this);
 	}
 
+	default SquadEditor getSquad() {
+		return new SquadEditor(this);
+	}
+
 	record Writable(Level level, GolemConfigEntry entry) implements GolemConfigEditor {
 
 	}

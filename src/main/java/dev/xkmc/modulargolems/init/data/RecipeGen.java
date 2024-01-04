@@ -70,6 +70,13 @@ public class RecipeGen {
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.SQUAD_WAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.pattern("  T").pattern(" E ").pattern("S  ")
+					.define('E', Items.WHITE_BANNER)
+					.define('S', Items.STICK)
+					.define('T', GolemItems.GOLEM_TEMPLATE.get())
+					.save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.OMNI_COMMAND.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.pattern(" 1T").pattern("2S3").pattern("S4 ")
 					.define('1', GolemItems.COMMAND_WAND.get())
@@ -389,10 +396,10 @@ public class RecipeGen {
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.TALENTED.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
 					.pattern("CEC").pattern("ABA").pattern("CAC")
-					.define('A', Items.NETHER_STAR)
+					.define('E', Items.NETHER_STAR)
 					.define('B', GolemItems.EMPTY_UPGRADE.get())
 					.define('C', Tags.Items.HEADS)
-					.define('E', Items.DRAGON_HEAD)
+					.define('A', Items.CHORUS_FLOWER)
 					.save(pvd);
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.CAULDRON.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())

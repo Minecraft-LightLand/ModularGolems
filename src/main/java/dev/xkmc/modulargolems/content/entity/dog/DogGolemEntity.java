@@ -61,7 +61,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		this.setRot(vec2.y, vec2.x);
 		this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
 		if (this.isControlledByLocalInstance()) {
-			if (this.onGround()) {
+			if (this.onGround() || this.isInWaterOrBubble()) {
 				if (player.jumping) {
 					this.executeRidersJump(vec3);
 				}
@@ -80,7 +80,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (f1 <= 0.0F) {
 			f1 *= 0.25F;
 		}
-		return new Vec3(f, 0.0D, f1);
+		var ans = new Vec3(f, 0.0D, f1);
+		if (player.isShiftKeyDown()) {
+			ans = ans.add(0, -1, 0);
+		}
+		return ans;
 	}
 
 	public LivingEntity getControllingPassenger() {
@@ -121,7 +125,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		int total = this.getPassengers().size();
 		if (index < 0) return;
 		float width = getBbWidth();
-		float offset = index == 0 ? index + 0.7f : index + 1.2f;
+		float offset = index == 0 ? index + 0.7f : index + (getControllingPassenger() instanceof Player ? 1.7f : 1.2f);
 		float pos = width / 2 - width / total * offset;
 		double dy = rider.getMyRidingOffset() + getPassengersRidingOffset();
 		Vec3 vec3 = new Vec3(0, 0, pos).yRot(-this.yBodyRot * ((float) Math.PI / 180F));

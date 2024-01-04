@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.menu.ghost;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
-import dev.xkmc.modulargolems.content.menu.ghost.GhostItemMenu;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;

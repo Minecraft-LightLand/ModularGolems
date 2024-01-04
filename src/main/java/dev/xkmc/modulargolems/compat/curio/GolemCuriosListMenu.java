@@ -1,32 +1,20 @@
 package dev.xkmc.modulargolems.compat.curio;
 
-import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
-import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
-import dev.xkmc.l2tabs.init.L2Tabs;
+import dev.xkmc.l2tabs.compat.BaseCuriosListMenu;
+import dev.xkmc.l2tabs.compat.CuriosEventHandler;
+import dev.xkmc.l2tabs.compat.CuriosWrapper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class GolemCuriosListMenu extends BaseContainerMenu<GolemCuriosListMenu> {
-
-	public static final SpriteManager[] MANAGER;
-
-	static {
-		MANAGER = new SpriteManager[4];
-		for (int i = 0; i < 4; i++) {
-			MANAGER[i] = new SpriteManager(L2Tabs.MODID, "curios_" + (i + 3));
-		}
-	}
-
-	private static SpriteManager getManager(int size) {
-		int n = (size + 8) / 9;
-		return MANAGER[Math.min(Math.max(n - 3, 0), 3)];
-	}
+public class GolemCuriosListMenu extends BaseCuriosListMenu<GolemCuriosListMenu> {
 
 	@Nullable
 	public static GolemCuriosListMenu fromNetwork(MenuType<GolemCuriosListMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
@@ -40,23 +28,16 @@ public class GolemCuriosListMenu extends BaseContainerMenu<GolemCuriosListMenu> 
 		return null;
 	}
 
-	protected CuriosWrapper curios;
-
 	protected GolemCuriosListMenu(MenuType<?> type, int wid, Inventory plInv, CuriosWrapper curios) {
-		super(type, wid, plInv, getManager(curios.getSize()), e -> new BaseContainer<>(curios.getSize(), e), false);
-		addCurioSlot("grid", curios);
-		this.curios = curios;
+		super(type, wid, plInv, curios);
 	}
 
-	protected void addCurioSlot(String name, CuriosWrapper curios) {
-		int current = added;
-		sprite.get().getSlot(name, (x, y) -> {
-			int i = added - current;
-			if (i >= curios.getSize()) return null;
-			var ans = curios.get(i).toSlot(x, y);
-			added++;
-			return ans;
-		}, this::addSlot);
+	@Override
+	public void switchPage(ServerPlayer player, int i) {
+		if (curios.entity instanceof AbstractGolemEntity<?, ?> golem) {
+			var pvd = new GolemCuriosMenuPvd(golem, i);
+			CuriosEventHandler.openMenuWrapped(player, () -> NetworkHooks.openScreen(player, pvd, pvd::writeBuffer));
+		}
 	}
 
 }

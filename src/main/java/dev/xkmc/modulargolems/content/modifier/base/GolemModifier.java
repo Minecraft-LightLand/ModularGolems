@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.modifier.base;
 
+import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
@@ -139,6 +140,9 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 
 	public boolean fitsOn(GolemType<?, ?> type) {
 		return true;
+	}
+
+	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
 	}
 
 	public record HealingContext(float health, float maxHealth, Entity owner) {

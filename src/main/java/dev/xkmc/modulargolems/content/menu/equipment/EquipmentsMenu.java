@@ -18,6 +18,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -100,11 +101,15 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 				return null;
 			}
 		}
-		if (golem instanceof MetalGolemEntity) {
+		if (golem instanceof MetalGolemEntity) {//TODO use events
 			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
 				return mgai.getSlot();
 			} else if (stack.getItem() instanceof MetalGolemWeaponItem) {
 				return EquipmentSlot.MAINHAND;
+			} else if (stack.getItem() instanceof BannerItem) {
+				if (golem.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+					return EquipmentSlot.HEAD;
+				else return EquipmentSlot.FEET;
 			}
 		}
 		return null;

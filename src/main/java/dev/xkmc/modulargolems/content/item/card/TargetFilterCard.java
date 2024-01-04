@@ -19,9 +19,9 @@ public abstract class TargetFilterCard extends Item implements GolemInteractItem
 
 	public abstract Predicate<LivingEntity> mayTarget(ItemStack stack);
 
-	protected abstract InteractionResultHolder<ItemStack> removeLast(ItemStack stack);
+	protected abstract InteractionResultHolder<ItemStack> removeLast(Player player, ItemStack stack);
 
-	protected InteractionResultHolder<ItemStack> onUse(ItemStack stack) {
+	protected InteractionResultHolder<ItemStack> onUse(Player player, ItemStack stack) {
 		return InteractionResultHolder.pass(stack);
 	}
 
@@ -29,9 +29,9 @@ public abstract class TargetFilterCard extends Item implements GolemInteractItem
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (player.isShiftKeyDown()) {
-			return removeLast(stack);
+			return removeLast(player, stack);
 		} else {
-			return onUse(stack);
+			return onUse(player, stack);
 		}
 	}
 
