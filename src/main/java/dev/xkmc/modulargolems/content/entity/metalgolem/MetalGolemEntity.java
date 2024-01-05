@@ -30,6 +30,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
@@ -48,6 +49,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
+			damage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), le.getMobType());
+			kb += (float) EnchantmentHelper.getKnockbackBonus(this);
 		}
 		boolean succeed = target.hurt(DamageSource.mobAttack(this), damage);
 		if (succeed) {

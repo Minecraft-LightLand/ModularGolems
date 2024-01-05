@@ -14,6 +14,7 @@ import dev.xkmc.modulargolems.content.entity.common.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.common.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.WandItem;
+import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -142,8 +143,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
 			}
 			return InteractionResult.SUCCESS;
+		} else {
+			ItemStack stack = player.getItemInHand(hand);
+			if (stack.getItem() instanceof GolemEquipmentItem item) {
+				if (item.isFor(getType()) && getItemBySlot(item.getSlot()).isEmpty()) {
+					if (!level.isClientSide()) {
+						setItemSlot(item.getSlot(), stack.split(1));
+					}
+					return InteractionResult.CONSUME;
+				}
+			}
 		}
 		return super.mobInteract(player, hand);
+
 	}
 
 	@ServerOnly

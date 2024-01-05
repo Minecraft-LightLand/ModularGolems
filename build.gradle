@@ -87,6 +87,7 @@ mixin {
 }
 
 repositories {
+    maven { url 'https://jitpack.io' }
     maven {
         // Location of the maven that hosts JEI files (and TiC)
         name 'Progwml6 maven'
@@ -130,6 +131,13 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    compileOnly(annotationProcessor("com.github.llamalad7.mixinextras:mixinextras-common:${mixin_extras_version}"))
+    implementation(jarJar("com.github.llamalad7.mixinextras:mixinextras-forge:${mixin_extras_version}")) {
+        transitive = false
+        jarJar.ranged(it, "[${mixin_extras_version},)")
+    }
+
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
     implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}")
@@ -173,6 +181,10 @@ jar {
     }
 }
 
+reobf {
+    jarJar { }
+}
+
 // Example configuration to allow publishing using the maven-publish plugin
 // This is the preferred method to reobfuscate your jar file
 jar.finalizedBy('reobfJar')
@@ -190,4 +202,21 @@ publishing {
             url "file://${project.projectDir}/mcmodsrepo"
         }
     }
+}
+
+tasks.jarJar.finalizedBy('reobfJarJar')
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+tasks.jarJar.configure {
+    classifier ''
+    from "LICENSE"
+}
+
+jar {
+    // this now conflicts with jarJar as filenames are the same
+    // append a `-slim` to this jar, as this jar contains no pre-packaged libs
+    classifier 'slim'
 }

@@ -6,6 +6,7 @@ import com.mojang.math.Matrix4f;
 import dev.xkmc.l2library.base.overlay.OverlayUtils;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.WandItem;
 import net.minecraft.client.Minecraft;
@@ -47,7 +48,7 @@ public class GolemStatusOverlay extends GuiComponent implements IGuiOverlay {
 		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
 		OverlayUtils util = new OverlayUtils(screenWidth, screenHeight);
 		util.renderLongText(gui, poseStack, text);
-		if (!(golem instanceof HumanoidGolemEntity humanoid)) return;
+		if (!(golem instanceof SweepGolemEntity<?,?> humanoid)) return;
 		util.bg = 0xffc6c6c6;
 		List<ClientTooltipComponent> list = List.of(new GolemEquipmentTooltip(humanoid));
 		renderTooltipInternal(util, poseStack, screenWidth, screenHeight, list);
@@ -121,7 +122,7 @@ public class GolemStatusOverlay extends GuiComponent implements IGuiOverlay {
 		ir.blitOffset = f;
 	}
 
-	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {
+	private record GolemEquipmentTooltip(AbstractGolemEntity<?,?> golem) implements ClientTooltipComponent {
 
 		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
 
