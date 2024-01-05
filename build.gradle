@@ -189,9 +189,9 @@ dependencies {
 
     implementation fg.deobf("dev.xkmc.l2itemselector:l2itemselector:0.1.7")
 
-    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.2.4")) {
+    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.2.6")) {
         transitive = false
-        jarJar.ranged(it, "[0.2.4,)")
+        jarJar.ranged(it, "[0.2.6,)")
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.12-slim")
