@@ -175,7 +175,6 @@ repositories {
     maven {
         url = "https://maven.theillusivec4.top/"
     }
-    mavenLocal()
 }
 
 dependencies {
@@ -226,6 +225,8 @@ dependencies {
     implementation fg.deobf("curse.maven:l_ender-s-cataclysm-551586:4778613")
     implementation fg.deobf("curse.maven:citadel-331936:4848887")
     implementation fg.deobf("curse.maven:alexs-caves-924854:4852042")
+
+    implementation fg.deobf("curse.maven:touhou-little-maid-355044:4968578")
 
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:4636277")
 

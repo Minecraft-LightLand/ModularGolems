@@ -5,11 +5,12 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
-public record GolemCuriosMenuPvd(AbstractGolemEntity<?, ?> e, int page) implements IMenuPvd {
+public record GolemCuriosMenuPvd(LivingEntity e, int page) implements IMenuPvd {
 
 	@Override
 	public Component getDisplayName() {

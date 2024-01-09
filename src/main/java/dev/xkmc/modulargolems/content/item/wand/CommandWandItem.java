@@ -4,6 +4,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
@@ -19,6 +20,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -60,8 +62,12 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity target, InteractionHand hand) {
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) {
-			if (!user.level().isClientSide()) {
-				hurtEnemy(stack, target, user);
+			if (user instanceof ServerPlayer sp) {
+				if (target instanceof OwnableEntity ownable && ownable.getOwner() == user) {
+					CurioCompatRegistry.tryOpen(sp, target);
+				} else {
+					hurtEnemy(stack, target, user);
+				}
 			}
 			return InteractionResult.SUCCESS;
 		}

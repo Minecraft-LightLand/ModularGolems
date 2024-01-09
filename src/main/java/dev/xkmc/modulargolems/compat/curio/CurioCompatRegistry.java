@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.curio;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
+import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
@@ -9,9 +10,13 @@ import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.function.Consumer;
 
@@ -50,6 +55,16 @@ public class CurioCompatRegistry {
 
 	public static IMenuPvd create(AbstractGolemEntity<?, ?> entity) {
 		return new GolemCuriosMenuPvd(entity, 0);
+	}
+
+	public static void tryOpen(ServerPlayer player, LivingEntity target) {
+		if (get() == null) return;
+		var opt = CuriosApi.getCuriosInventory(target).resolve();
+		if (opt.isEmpty()) return;
+		if (opt.get().getSlots() == 0) return;
+		var pvd = new GolemCuriosMenuPvd(target, 0);
+		CuriosEventHandler.openMenuWrapped(player, () -> NetworkHooks.openScreen(player, pvd, pvd::writeBuffer));
+
 	}
 
 	public MenuEntry<GolemCuriosListMenu> menuType;
