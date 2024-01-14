@@ -31,12 +31,15 @@ public class ModConfig {
 		public final ForgeConfigSpec.DoubleValue targetDamageBonus;
 		public final ForgeConfigSpec.IntValue basePickupRange;
 		public final ForgeConfigSpec.IntValue mendingXpCost;
+		public final ForgeConfigSpec.BooleanValue doEnemyAggro;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
 					.define("barehandRetrieve", true);
 			exponentialStat = builder.comment("Percentage modifiers stack exponentially")
 					.define("exponentialStat", false);
+			doEnemyAggro = builder.comment("Make mobs aggro to iron golem automatically aggro to modular golems")
+					.define("doEnemyAggro", true);
 
 			builder.push("modifiers");
 			thorn = builder.comment("Percentage damage reflection per level of thorn")

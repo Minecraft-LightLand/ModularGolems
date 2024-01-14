@@ -4,6 +4,15 @@
     "modulargolems:humanoid_golem",
     "modulargolems:dog_golem",
     "minecraft:player",
-    "minecraft:snow_golem"
+    "minecraft:snow_golem",
+    "minecraft:villager",
+    {
+      "id": "minecolonies:citizen",
+      "required": false
+    },
+    {
+      "id": "minecolonies:visitor",
+      "required": false
+    }
   ]
 }

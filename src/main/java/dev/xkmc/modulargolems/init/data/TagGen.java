@@ -65,7 +65,9 @@ public class TagGen {
 	}
 
 	public static void onEntityTagGen(RegistrateTagsProvider<EntityType<?>> pvd) {
-		pvd.tag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
+		pvd.tag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM, EntityType.VILLAGER)
+				.addOptional(new ResourceLocation("minecolonies","citizen"))
+				.addOptional(new ResourceLocation("minecolonies","visitor"));
 	}
 
 	private static TagKey<Item> createItemTag(String id) {

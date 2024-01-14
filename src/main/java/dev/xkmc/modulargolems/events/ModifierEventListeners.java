@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.ModConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Mob;
@@ -77,6 +78,7 @@ public class ModifierEventListeners {
 
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
+		if (!ModConfig.COMMON.doEnemyAggro.get()) return;
 		if (event.getEntity() instanceof Mob mob && !event.getLevel().isClientSide()) {
 			if (mob instanceof Enemy && !(mob instanceof Creeper)) {
 				int priority = 0;
