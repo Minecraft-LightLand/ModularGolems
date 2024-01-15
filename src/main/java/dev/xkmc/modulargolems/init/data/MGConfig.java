@@ -56,10 +56,13 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue dogGolemSlot;
 		public final ForgeConfigSpec.IntValue humanoidGolemSlot;
 		public final ForgeConfigSpec.IntValue largeGolemSlot;
+		public final ForgeConfigSpec.BooleanValue doEnemyAggro;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
 					.define("barehandRetrieve", true);
+			doEnemyAggro = builder.comment("Make mobs aggro to iron golem automatically aggro to modular golems")
+					.define("doEnemyAggro", true);
 			summonDistance = builder.comment("Max distance to summon single golem")
 					.defineInRange("summonDistance", 64, 1, 1000);
 			retrieveDistance = builder.comment("Max distance to retrieve single golem")

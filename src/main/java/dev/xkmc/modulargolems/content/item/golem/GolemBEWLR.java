@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.humanoid.PlayerSkinRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -51,7 +53,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		entityModelSet = set;
 	}
 
-	public void onResourceManagerReload(ResourceManager p_172555_) {
+	public void onResourceManagerReload(ResourceManager manager) {
 		map.clear();
 		GolemType.GOLEM_TYPE_TO_MODEL.forEach((k, v) -> map.put(k, v.get().generateModel(entityModelSet)));
 	}

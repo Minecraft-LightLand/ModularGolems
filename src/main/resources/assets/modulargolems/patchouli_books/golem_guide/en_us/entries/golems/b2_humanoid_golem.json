@@ -12,6 +12,7 @@
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:humanoid_golem_holder",
 	  "text": "Humanoid golem can perform area attack if and only if it holds a sword-like item.$(br2)Humanoid golem can use shield, but can be bypassed if the enemy attacks from behind or holds an axe. $(br2)It can also use bow and crossbows, but would consume arrows. Infinity bow is recommended."
-	}
+	},
+	"Equip a head/skull named as a player in Golem Skin slot to use player skin.$(br2)Requires the player to have a valid Minecraft account, and requires internet connection to download skins from Minecraft Server."
   ]
 }

@@ -67,6 +67,8 @@ public class MGTagGen {
 				GolemItems.SLOW.get(),
 				GolemItems.WITHER.get()
 		);
+		pvd.addTag(ItemTags.create(new ResourceLocation("curios", "golem_skin")))
+				.add(Items.PLAYER_HEAD, Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
 	}
 
 	public static void onEntityTagGen(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> pvd) {

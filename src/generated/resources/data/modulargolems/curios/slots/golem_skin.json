@@ -1,0 +1,11 @@
+{
+  "add_cosmetic": false,
+  "conditions": [],
+  "icon": "modulargolems:slot/empty_skin_slot",
+  "operation": "SET",
+  "order": 1000,
+  "render_toggle": true,
+  "replace": false,
+  "size": 1,
+  "use_native_gui": true
+}

@@ -151,6 +151,8 @@ public enum MGLangData {
 		pvd.add("golem_material." + ModularGolems.MODID + ".netherite", "Netherite");
 		pvd.add("golem_material." + ModularGolems.MODID + ".sculk", "Sculk");
 
+		pvd.add("curios.identifier.golem_skim", "Humanoid Golem Skin");
+
 		CompatManager.dispatchGenLang(pvd);
 
 		for (var type : MetalGolemPartType.values()) {

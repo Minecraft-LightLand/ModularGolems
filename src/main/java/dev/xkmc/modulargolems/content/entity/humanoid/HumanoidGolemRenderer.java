@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
-import dev.xkmc.modulargolems.content.entity.common.ResizedLayer;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -71,17 +70,21 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 	}
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx) {
-		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(ModelLayers.PLAYER)), 0.5f, HumaniodGolemPartType::values);
-		this.addLayer(new ResizedLayer<>(this, new HumanoidArmorLayer<>(this,
-				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
-				new HumanoidModel<>(ctx.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
-				ctx.getModelManager())));
-		this.addLayer(new ResizedLayer<>(this, new CustomHeadLayer<>(this, ctx.getModelSet(),
-				1, 1, 1, ctx.getItemInHandRenderer())));
-		this.addLayer(new ResizedLayer<>(this, new ElytraLayer<>(this, ctx.getModelSet())));
-		this.addLayer(new ResizedLayer<>(this, new LayerWrapper<>(this,
-				new ItemInHandLayer<>(this, ctx.getItemInHandRenderer()))));
-		this.addLayer(new ResizedLayer<>(this, new GolemBannerLayer<>(this, ctx.getItemInHandRenderer())));
+		this(ctx, false);
+	}
+
+	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx, boolean slim) {
+		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER)), 0.5f, HumaniodGolemPartType::values);
+		this.addLayer(new HumanoidArmorLayer<>(this,
+				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)),
+				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR)),
+				ctx.getModelManager()));
+		this.addLayer(new CustomHeadLayer<>(this, ctx.getModelSet(),
+				1, 1, 1, ctx.getItemInHandRenderer()));
+		this.addLayer(new ElytraLayer<>(this, ctx.getModelSet()));
+		this.addLayer(new LayerWrapper<>(this,
+				new ItemInHandLayer<>(this, ctx.getItemInHandRenderer())));
+		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
 	}
 
 	@Override
@@ -91,6 +94,22 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 				camera != null && camera.getVehicle() != null &&
 				entity.getVehicle() == camera.getVehicle())
 			return;
+		var profile = ClientProfileManager.get(entity);
+		if (profile != null) {
+			if (profile.slim() && PlayerSkinRenderer.SLIM != null) {
+				PlayerSkinRenderer.SLIM.render(entity, f1, f2, stack, source, i);
+				return;
+			}
+			if (!profile.slim() && PlayerSkinRenderer.REGULAR != null) {
+				PlayerSkinRenderer.REGULAR.render(entity, f1, f2, stack, source, i);
+				return;
+			}
+		}
+		renderImpl(entity, f1, f2, stack, source, i);
+	}
+
+	public void renderImpl(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 		super.render(entity, f1, f2, stack, source, i);
 	}
+
 }

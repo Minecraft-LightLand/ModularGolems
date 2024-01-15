@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.capability.GolemConfigCapability;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -88,6 +89,7 @@ public class ModifierEventListeners {
 
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
+		if (!MGConfig.COMMON.doEnemyAggro.get()) return;
 		if (event.getEntity() instanceof Mob mob && !event.getLevel().isClientSide()) {
 			if (mob instanceof Enemy && !(mob instanceof Creeper)) {
 				int priority = 0;

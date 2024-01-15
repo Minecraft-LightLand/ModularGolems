@@ -4,6 +4,7 @@ import com.tterrag.registrate.util.entry.MenuEntry;
 import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 import java.util.function.Consumer;
 
@@ -81,6 +83,13 @@ public class CurioCompatRegistry {
 
 	private void onJEIRegistryImpl(Consumer<Class<? extends ITabScreen>> consumer) {
 		consumer.accept(GolemCuriosListScreen.class);
+	}
+
+	@Nullable
+	public String getSkin(HumanoidGolemEntity le) {
+		return CuriosApi.getCuriosInventory(le).resolve().flatMap(e -> e.getStacksHandler("golem_skin"))
+				.map(ICurioStacksHandler::getStacks).map(e -> e.getSlots() == 0 ? null : e.getStackInSlot(0))
+				.map(e -> e.getHoverName().getString()).orElse(null);
 	}
 
 }

@@ -264,6 +264,7 @@
   "modulargolems.slot.main_desc": "在这放武器。当然什么都可以放",
   "patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",
   "patchouli.modulargolems.title": "模块化傀儡",
+  "curios.identifier.golem_skim": "人形傀儡皮肤",
   "golem_material.create.zinc": "锌",
   "golem_material.create.andesite_alloy": "安山合金",
   "golem_material.create.brass": "黄铜",
@@ -369,15 +370,5 @@
   "modifier.modulargolems.totemic_gold.desc": "对亡灵生物造成+%s%%伤害",
   "golem_material.blazegear.brimsteel": "烈焰钢",
   "modifier.modulargolems.blazing": "烈焰",
-  "modifier.modulargolems.blazing.desc": "对远处的敌人发射火球",
-  "golem_material.cataclysm.ignitium": "Ignitium",
-  "golem_material.cataclysm.witherite": "Witherite",
-  "modifier.modulargolems.harbinger_death_beam": "Harbinger Death Beam",
-  "modifier.modulargolems.harbinger_death_beam.desc": "Shoot Death Beam toward target.",
-  "modifier.modulargolems.harbinger_missile": "Harbinger Missile",
-  "modifier.modulargolems.harbinger_missile.desc": "Shoot Homing Missile toward target.",
-  "modifier.modulargolems.ignis_attack": "Ignis Attack",
-  "modifier.modulargolems.ignis_attack.desc": "Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.",
-  "modifier.modulargolems.ignis_fireball": "Ignis Fireball",
-  "modifier.modulargolems.ignis_fireball.desc": "Shoot Ignis fireballs toward target."
+  "modifier.modulargolems.blazing.desc": "对远处的敌人发射火球"
 }

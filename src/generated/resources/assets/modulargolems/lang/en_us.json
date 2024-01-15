@@ -53,6 +53,7 @@
   "attribute.name.golem_regen": "Golem Regen",
   "attribute.name.golem_size": "Golem Size",
   "attribute.name.golem_sweep": "Sweep Range",
+  "curios.identifier.golem_skim": "Humanoid Golem Skin",
   "entity.modulargolems.dog_golem": "Dog Golem",
   "entity.modulargolems.humanoid_golem": "Humanoid Golem",
   "entity.modulargolems.metal_golem": "Metal Golem",

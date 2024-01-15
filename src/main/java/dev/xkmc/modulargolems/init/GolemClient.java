@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
+import dev.xkmc.modulargolems.content.entity.humanoid.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
@@ -54,6 +55,12 @@ public class GolemClient {
 	@SubscribeEvent
 	public static void onResourceReload(RegisterClientReloadListenersEvent event) {
 		event.registerReloadListener(GolemBEWLR.INSTANCE.get());
+	}
+
+	@SubscribeEvent
+	public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
+		PlayerSkinRenderer.SLIM = new PlayerSkinRenderer(event.getContext(), true);
+		PlayerSkinRenderer.REGULAR = new PlayerSkinRenderer(event.getContext(), false);
 	}
 
 }
