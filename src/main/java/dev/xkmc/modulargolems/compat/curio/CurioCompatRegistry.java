@@ -89,7 +89,7 @@ public class CurioCompatRegistry {
 	public String getSkin(HumanoidGolemEntity le) {
 		return CuriosApi.getCuriosInventory(le).resolve().flatMap(e -> e.getStacksHandler("golem_skin"))
 				.map(ICurioStacksHandler::getStacks).map(e -> e.getSlots() == 0 ? null : e.getStackInSlot(0))
-				.map(e -> e.getHoverName().getString()).orElse(null);
+				.filter(e->!e.isEmpty()).map(e -> e.getHoverName().getString()).orElse(null);
 	}
 
 }

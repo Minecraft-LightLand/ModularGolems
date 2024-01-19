@@ -1,9 +1,12 @@
     - Add Cataclysm compat
 
+- 2.4.27
+    - Fix humanoid golems use player skin by default
+
 - 2.4.26
-    - Touhou Little Maid compat: command wand can edit their curio
-    - Add config option to not make hostile mobs automatically hostile to golems
     - Add player skin support for golems
+    - Add config option to not make hostile mobs automatically hostile to golems
+    - Touhou Little Maid compat: command wand can edit their curio
 
 - 2.4.25
     - Fix enchantment damage bonus not working on Large Golem Weapons
