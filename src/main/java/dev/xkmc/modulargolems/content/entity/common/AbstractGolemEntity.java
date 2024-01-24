@@ -183,13 +183,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.mobInteract(player, hand);
 	}
 
-	public boolean canModify(Player player) {
-		var entry = getConfigEntry(null);
-		if (entry != null && entry.locked)
-			return false;
-		return isAlliedTo(player);
-	}
-
 	@ServerOnly
 	public ItemStack toItem() {
 		recordedPosition = position();
@@ -592,17 +585,26 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.getTeam();
 	}
 
+	public boolean canModify(Player player) {
+		var entry = getConfigEntry(null);
+		if (entry != null && entry.locked)
+			return false;
+		LivingEntity owner = this.getOwner();
+		if (player == owner) {
+			return true;
+		}
+		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player))
+			return true;
+		if (MGConfig.COMMON.ownerPickupOnly.get()) {
+			return false;
+		}
+		return isAlliedTo(player);
+	}
+
 	public boolean isAlliedTo(Entity other) {
 		LivingEntity owner = this.getOwner();
 		if (other == owner) {
 			return true;
-		}
-		if (other instanceof Player player) {
-			if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player))
-				return true;
-		}
-		if (MGConfig.COMMON.ownerPickupOnly.get()) {
-			return false;
 		}
 		if (owner != null) {
 			return owner.isAlliedTo(other) || other.isAlliedTo(owner);

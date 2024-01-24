@@ -55,7 +55,7 @@ public class OpenEquipmentMenuToServer extends SerialPacketBase {
 		if (player == null) return;
 		var entry = player.serverLevel().getEntity(uuid);
 		if (!(entry instanceof AbstractGolemEntity<?, ?> golem)) return;
-		if (!entry.isAlliedTo(player)) return;
+		if (!golem.canModify(player)) return;
 		IMenuPvd pvd = type.construct(golem);
 		if (pvd != null) {
 			CuriosEventHandler.openMenuWrapped(player, () -> NetworkHooks.openScreen(player, pvd, pvd::writeBuffer));
