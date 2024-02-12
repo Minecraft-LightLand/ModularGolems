@@ -370,5 +370,15 @@
   "modifier.modulargolems.totemic_gold.desc": "对亡灵生物造成+%s%%伤害",
   "golem_material.blazegear.brimsteel": "烈焰钢",
   "modifier.modulargolems.blazing": "烈焰",
-  "modifier.modulargolems.blazing.desc": "对远处的敌人发射火球"
+  "modifier.modulargolems.blazing.desc": "对远处的敌人发射火球",
+  "golem_material.cataclysm.ignitium": "腾炎",
+  "golem_material.cataclysm.witherite": "凋零合金",
+  "modifier.modulargolems.harbinger_death_beam": "先驱者激光",
+  "modifier.modulargolems.harbinger_death_beam.desc": "对目标发射激光",
+  "modifier.modulargolems.harbinger_missile": "先驱者导弹",
+  "modifier.modulargolems.harbinger_missile.desc": "对目标发射追踪导弹",
+  "modifier.modulargolems.ignis_attack": "焰魔之刃",
+  "modifier.modulargolems.ignis_attack.desc": "对攻击目标叠加炽热烙印效果并吸血。半血以下时伤害穿透护甲",
+  "modifier.modulargolems.ignis_fireball": "焰魔火球",
+  "modifier.modulargolems.ignis_fireball.desc": "对目标发射焰魔火球"
 }

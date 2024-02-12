@@ -18,7 +18,6 @@ public class CataConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector collector) {
-		if (true)return;//TODO
 		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, CataDispatch.MODID), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "ignitium"), Ingredient.of(ModItems.IGNITIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 450)
