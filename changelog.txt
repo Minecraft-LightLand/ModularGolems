@@ -1,4 +1,7 @@
+- 2.4.28
     - Add Cataclysm compat
+    - Make cyclic damage detection default off
+    - Fix player immune upgrade to be only immune to owner and applies
 
 - 2.4.27
     - Fix humanoid golems use player skin by default

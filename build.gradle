@@ -188,9 +188,9 @@ dependencies {
 
     implementation fg.deobf("dev.xkmc.l2itemselector:l2itemselector:0.1.7")
 
-    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.2.6")) {
+    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.2.7")) {
         transitive = false
-        jarJar.ranged(it, "[0.2.6,)")
+        jarJar.ranged(it, "[0.2.7,)")
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.12-slim")
@@ -206,7 +206,6 @@ dependencies {
 
     implementation fg.deobf('zip.local.blazegear:blazegear:1.3.6')
 
-    runtimeOnly fg.deobf("curse.maven:jade-324717:4654448")
     runtimeOnly fg.deobf("curse.maven:attributefix-280510:4588114")
     runtimeOnly fg.deobf("curse.maven:bookshelf-228525:4581675")
     runtimeOnly fg.deobf("curse.maven:enchantment-descriptions-250419:4587429")
