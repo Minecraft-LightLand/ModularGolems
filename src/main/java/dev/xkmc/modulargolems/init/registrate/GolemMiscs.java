@@ -10,6 +10,8 @@ import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigMenu;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
+import dev.xkmc.modulargolems.content.menu.path.PathConfigMenu;
+import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenu;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
@@ -37,6 +39,10 @@ public class GolemMiscs {
 
 	public static final MenuEntry<TargetConfigMenu> CONFIG_TARGET =
 			REGISTRATE.menu("config_target", TargetConfigMenu::fromNetwork, () -> TargetConfigScreen::new)
+					.register();
+
+	public static final MenuEntry<PathConfigMenu> CONFIG_PATH =
+			REGISTRATE.menu("config_path", PathConfigMenu::fromNetwork, () -> PathConfigScreen::new)
 					.register();
 
 	private static <A extends RecipeSerializer<?>> RegistryEntry<A> reg(String id, NonNullSupplier<A> sup) {

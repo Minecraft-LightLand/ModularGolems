@@ -69,6 +69,10 @@ public interface GolemConfigEditor {
 		return new SquadEditor(this);
 	}
 
+	default PathEditor getPath() {
+		return new PathEditor(this);
+	}
+
 	record Writable(Level level, GolemConfigEntry entry) implements GolemConfigEditor {
 
 	}

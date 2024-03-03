@@ -53,7 +53,11 @@
 	  "config": "右键傀儡设置配置卡，再次右键移除。副手持有时，手杖只对持有相同配置卡的傀儡生效",
 	  "config_init": "右键初始化配置卡",
 	  "config_other": "这不是你的卡片，你不能编辑",
-	  "squad": "设置傀儡为当前配置卡的队长。点队长取消其队长状态"
+	  "squad": "设置傀儡为当前配置卡的队长。点队长取消其队长状态",
+	  "path_record": "右键方块添加路径点，再次右键同方块移除。路径点首尾相连成环",
+	  "add_node": "已添加路径点",
+	  "node_count": "包含%s个路径点",
+	  "remove_node": "已移除路径点"
 	},
 	"msg": {
 	  "destroy_exp": "%s销毁了%s经验",
@@ -89,7 +93,8 @@
 	  "equipment": "傀儡装备",
 	  "pickup": "拾取升级过滤器",
 	  "toggle": "通用配置",
-	  "target": "攻击目标过滤器"
+	  "target": "攻击目标过滤器",
+	  "path": "巡逻配置"
 	},
 	"slot": {
 	  "main": "主手槽",
@@ -104,5 +109,7 @@
   },
   "patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",
   "patchouli.modulargolems.title": "模块化傀儡",
-  "curios.identifier.golem_skim": "人形傀儡皮肤"
+  "curios.identifier.golem_skin": "人形傀儡皮肤"
+
+
 }

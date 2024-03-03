@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
+import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
@@ -522,6 +523,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
 	private static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
+	private static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
 
 	@Nullable
 	public GolemConfigEntry getConfigEntry(@Nullable Component dummy) {
@@ -539,6 +541,41 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void setConfigCard(@Nullable UUID owner, int color) {
 		entityData.set(CONFIG_ID, Optional.ofNullable(owner));
 		entityData.set(CONFIG_COLOR, color);
+	}
+
+	public void setPatrolStage(int stage) {
+		entityData.set(PATROL_STAGE, stage);
+	}
+
+	public int getPatrolStage() {
+		return entityData.get(PATROL_STAGE);
+	}
+
+	public void advancePatrolStage() {
+		var config = getConfigEntry(null);
+		if (config == null) return;
+		var list = config.pathConfig.getList();
+		int stage = getPatrolStage();
+		stage++;
+		if (stage >= list.size()) {
+			stage = 0;
+		}
+		setPatrolStage(stage);
+	}
+
+	public List<PathRecordCard.Pos> getPatrolList() {
+		var config = getConfigEntry(null);
+		if (config == null) return List.of();
+		var list = config.pathConfig.getList();
+		int stage = getPatrolStage();
+		if (stage > 0 && stage < list.size()) {
+			var first = list.subList(stage, list.size());
+			var second = list.subList(0, stage);
+			var ans = new ArrayList<>(first);
+			ans.addAll(second);
+			return ans;
+		}
+		return list;
 	}
 
 	// ------ persistent anger
@@ -695,6 +732,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public Vec3 getTargetPos() {
+		if (getMode() == GolemModes.ROUTE) {
+			var config = getConfigEntry(null);
+			if (config != null) {
+				var list = config.pathConfig.getList();
+				int target = getPatrolStage();
+				if (!list.isEmpty()) {
+					return list.get(Math.min(target, list.size() - 1))
+							.pos().getCenter();
+				}
+			}
+			return position();
+		}
 		if (getMode().hasPos()) {
 			BlockPos pos = getGuardPos();
 			return new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);

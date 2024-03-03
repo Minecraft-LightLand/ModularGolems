@@ -24,8 +24,8 @@ public class GolemModes {
 	public static final GolemMode SQUAD = new GolemMode(false, true, false,
 			MGLangData.MODE_TEAMING, MGLangData.MODE_SQUAD);
 
-	//public static final GolemMode ROUTE = new GolemMode(true, true, true,MGLangData.MODE_PATROLLING, MGLangData.MODE_PATROL);
-	// TODO finish route mode
+	public static final GolemMode ROUTE = new PatrolMode(false, true, false,
+			MGLangData.MODE_PATROLLING, MGLangData.MODE_PATROL);
 
 	public static GolemMode get(int i) {
 		return LIST.get(i);

@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.menu.attribute.AttributeTab;
 import dev.xkmc.modulargolems.content.menu.config.ConfigToggleTab;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentTab;
 import dev.xkmc.modulargolems.content.menu.filter.ConfigItemTab;
+import dev.xkmc.modulargolems.content.menu.path.ConfigPathTab;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
 import dev.xkmc.modulargolems.content.menu.target.ConfigTargetTab;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -27,6 +28,9 @@ public class GolemTabRegistry {
 	public static final GolemTabToken<ConfigGroup, ConfigTargetTab> CONFIG_TARGET =
 			new GolemTabToken<>(ConfigTargetTab::new, () -> Items.BELL, MGLangData.TAB_TARGET.get());
 
+	public static final GolemTabToken<ConfigGroup, ConfigPathTab> CONFIG_PATH =
+			new GolemTabToken<>(ConfigPathTab::new, () -> Items.DIRT_PATH, MGLangData.TAB_PATH.get());
+
 	public static final GolemTabToken<EquipmentGroup, EquipmentTab> EQUIPMENT =
 			new GolemTabToken<>(EquipmentTab::new, () -> Items.DIAMOND_CHESTPLATE, MGLangData.TAB_EQUIPMENT.get());
 
@@ -37,6 +41,7 @@ public class GolemTabRegistry {
 		LIST_CONFIG.add(CONFIG_TOGGLE);
 		LIST_CONFIG.add(CONFIG_ITEM);
 		LIST_CONFIG.add(CONFIG_TARGET);
+		LIST_CONFIG.add(CONFIG_PATH);
 		LIST_EQUIPMENT.add(EQUIPMENT);
 		LIST_EQUIPMENT.add(ATTRIBUTE);
 	}

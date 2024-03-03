@@ -23,7 +23,7 @@ public class IgnisAttackModifier extends GolemModifier {
 		LivingEntity target = event.getEntity();
 		var eff = ModEffect.EFFECTBLAZING_BRAND.get();
 		var old = target.getEffect(eff);
-		int i = old == null ? 0 : old.getAmplifier() + 1;
+		int i = old == null ? 0 : Math.min(4, old.getAmplifier() + 1);
 		MobEffectInstance ins = new MobEffectInstance(eff, 240, i, false, true, true);
 		target.addEffect(ins);
 		golem.heal(level * (float) CMConfig.IgnisHealingMultiplier * (float) (i + 1));

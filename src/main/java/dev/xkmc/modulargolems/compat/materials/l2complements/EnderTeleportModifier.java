@@ -89,7 +89,7 @@ public class EnderTeleportModifier extends GolemModifier {
 		}
 	}
 
-	private static boolean teleport(AbstractGolemEntity<?, ?> entity, double pX, double pY, double pZ) {
+	public static boolean teleport(AbstractGolemEntity<?, ?> entity, double pX, double pY, double pZ) {
 		BlockPos.MutableBlockPos ipos = new BlockPos.MutableBlockPos(pX, pY, pZ);
 
 		while (ipos.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ipos).blocksMotion()) {

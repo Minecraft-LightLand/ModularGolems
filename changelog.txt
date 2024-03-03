@@ -1,3 +1,8 @@
+- 2.4.29
+    - Ignis attack modifier can apply blazing brand up to 5 layers only
+    - Fix humanoid golem player skin renderer not rendering outer layer
+    - Add patrol mode
+
 - 2.4.28
     - Add Cataclysm compat
     - Make cyclic damage detection default off

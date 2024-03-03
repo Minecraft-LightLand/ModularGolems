@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigMenuProvider;
+import dev.xkmc.modulargolems.content.menu.path.PathConfigMenuProvider;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenuProvider;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.network.NetworkEvent;
@@ -20,7 +21,8 @@ public class OpenConfigMenuToServer extends SerialPacketBase {
 	public enum Type {
 		TOGGLE(ConfigMenuProvider::fromPacket),
 		ITEM(ItemConfigMenuProvider::fromPacket),
-		TARGET(TargetConfigMenuProvider::fromPacket);
+		TARGET(TargetConfigMenuProvider::fromPacket),
+		PATH(PathConfigMenuProvider::fromPacket);
 
 		private final BiFunction<ServerLevel, GolemConfigEntry, IMenuPvd> func;
 

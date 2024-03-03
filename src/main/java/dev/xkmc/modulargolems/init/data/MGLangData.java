@@ -61,6 +61,10 @@ public enum MGLangData {
 	CONFIG_CARD("wand.config", "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.", 0, ChatFormatting.GRAY),
 	CONFIG_INIT("wand.config_init", "Right click to initialize config", 0, ChatFormatting.GRAY),
 	CONFIG_OTHER("wand.config_other", "Not your card. You cannot edit it", 0, ChatFormatting.RED),
+	PATH("wand.path_record", "Right click block to add to path, right click again to remove. Path forms a cycle.", 0, ChatFormatting.GRAY),
+	PATH_ADD("wand.add_node", "Added node to path", 0, null),
+	PATH_REMOVE("wand.remove_node", "Removed node from path", 0, null),
+	PATH_COUNT("wand.node_count", "Path has %s nodes", 1, ChatFormatting.GRAY),
 
 	DESTROY_ITEM("msg.destroy_item", "Golem %s destroyed %s items because it finds no place to store.", 2, ChatFormatting.RED),
 	DESTROY_EXP("msg.destroy_exp", "Golem %s destroyed %s experience because it finds no place to store.", 2, ChatFormatting.RED),
@@ -101,6 +105,7 @@ public enum MGLangData {
 	TAB_TOGGLE("tab.toggle", "General Config", 0, null),
 	TAB_PICKUP("tab.pickup", "Pickup Filter Config", 0, null),
 	TAB_TARGET("tab.target", "Target Filter Config", 0, null),
+	TAB_PATH("tab.path", "Patrol Path Config", 0, null),
 	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
@@ -151,7 +156,7 @@ public enum MGLangData {
 		pvd.add("golem_material." + ModularGolems.MODID + ".netherite", "Netherite");
 		pvd.add("golem_material." + ModularGolems.MODID + ".sculk", "Sculk");
 
-		pvd.add("curios.identifier.golem_skim", "Humanoid Golem Skin");
+		pvd.add("curios.identifier.golem_skin", "Humanoid Golem Skin");
 
 		CompatManager.dispatchGenLang(pvd);
 
