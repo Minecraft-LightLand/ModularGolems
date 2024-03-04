@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "cataclysm:item/upgrades/ancient_remnant_sandstorm",
+    "layer1": "modulargolems:item/purple_arrow"
+  }
+}

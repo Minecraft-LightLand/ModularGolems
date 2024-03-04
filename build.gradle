@@ -221,7 +221,7 @@ dependencies {
 
 
     implementation fg.deobf("curse.maven:jade-324717:4654448")
-    implementation fg.deobf("curse.maven:l_ender-s-cataclysm-551586:4778613")
+    implementation fg.deobf("curse.maven:lendercataclysm-551586:5058433")
     implementation fg.deobf("curse.maven:citadel-331936:4848887")
     implementation fg.deobf("curse.maven:alexs-caves-924854:4852042")
 

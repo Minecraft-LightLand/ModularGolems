@@ -22,7 +22,7 @@ public class EnderGuardianVoidRuneModifier extends GolemModifier {
 		double maxY = Math.max(target.getY(), user.getY()) + 1;
 		Vec3 v = target.getEyePosition().subtract(user.getEyePosition()).normalize();
 		float angle = (float) (Mth.atan2(v.z, v.x));
-		for (int j = 1; j <= 10 * lv; ++j) {
+		for (int j = 1; j <= 15; ++j) {
 			double dist = 1.25 * j;
 			spawnFangs(user, user.getX() + Mth.cos(angle) * dist, user.getZ() + Mth.sin(angle) * dist, minY, maxY, angle, j);
 
@@ -59,7 +59,7 @@ public class EnderGuardianVoidRuneModifier extends GolemModifier {
 
 
 	public EnderGuardianVoidRuneModifier() {
-		super(StatFilterType.MASS, 3);
+		super(StatFilterType.MASS, 1);
 	}
 
 	@Override

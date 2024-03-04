@@ -40,6 +40,14 @@ public class CataDispatch extends ModDispatch {
 		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.LEVIATHAN.get())::unlockedBy,
 				ModItems.TIDAL_CLAWS.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.TIDAL_CLAWS.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.MONSTROSITY.get())::unlockedBy,
+				ModItems.INFERNAL_FORGE.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.INFERNAL_FORGE.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.ANCIENT_REMNANT.get())::unlockedBy,
+				ModItems.SANDSTORM_IN_A_BOTTLE.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.SANDSTORM_IN_A_BOTTLE.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 	}
 
 	@Override

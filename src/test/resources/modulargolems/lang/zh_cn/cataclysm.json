@@ -1,8 +1,12 @@
 {
   "golem_material.cataclysm.ignitium": "腾炎",
   "golem_material.cataclysm.witherite": "凋零合金",
-  "item.modulargolems.ender_guardian_void_rune": "末影守卫升级",
-  "item.modulargolems.leviathan_blast_portal": "利维坦升级",
+  "item.modulargolems": {
+    "ender_guardian_void_rune": "末影守卫升级",
+    "leviathan_blast_portal": "利维坦升级",
+    "ancient_remnant_sandstorm": "远古遗魂升级",
+    "netherite_monstrosity_earthquake": "下界合金巨兽升级"
+  },
   "modifier.modulargolems": {
     "harbinger_death_beam": "先驱者激光",
     "harbinger_death_beam.desc": "对目标发射激光",
@@ -15,6 +19,10 @@
     "ender_guardian_void_rune": "虚空符文",
     "ender_guardian_void_rune.desc": "对目标放出虚空符文",
     "leviathan_blast_portal": "深渊冲击波",
-    "leviathan_blast_portal.desc": "在目标位置放出深渊冲击波"
+    "leviathan_blast_portal.desc": "在目标位置放出深渊冲击波",
+    "ancient_remnant_sandstorm": "遗魂沙暴",
+    "ancient_remnant_sandstorm.desc": "在傀儡周围召唤沙暴",
+    "netherite_monstrosity_earthquake": "巨兽撼地",
+    "netherite_monstrosity_earthquake.desc": "傀儡会起跳砸地造成范围伤害"
   }
 }

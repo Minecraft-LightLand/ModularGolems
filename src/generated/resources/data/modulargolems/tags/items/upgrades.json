@@ -129,6 +129,14 @@
     {
       "id": "modulargolems:ender_guardian_void_rune",
       "required": false
+    },
+    {
+      "id": "modulargolems:netherite_monstrosity_earthquake",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ancient_remnant_sandstorm",
+      "required": false
     }
   ]
 }

@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 
@@ -17,7 +16,10 @@ public class CataCompatRegistry {
 
 	public static final RegistryEntry<LeviathanBlastPortalModifier> PORTAL;
 	public static final RegistryEntry<EnderGuardianVoidRuneModifier> RUNE;
-	public static final RegistryEntry<SimpleUpgradeItem> LEVIATHAN, ENDER_GUARDIAN;
+	public static final RegistryEntry<NetheriteMonstrosityEarthquakeModifier> EARTHQUAKE;
+	public static final RegistryEntry<AncientRemnantSandstormModifier> SANDSTORM;
+
+	public static final RegistryEntry<SimpleUpgradeItem> LEVIATHAN, ENDER_GUARDIAN, MONSTROSITY, ANCIENT_REMNANT;
 
 	static {
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
@@ -34,9 +36,17 @@ public class CataCompatRegistry {
 
 		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "Create blast portal at target");
 		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon void rune toward target");
+		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on land");
+		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm around the golem");
 
-		LEVIATHAN = regModUpgrade("leviathan_blast_portal", () -> PORTAL, CataDispatch.MODID).lang("Leviathan Upgrade").register();
-		ENDER_GUARDIAN = regModUpgrade("ender_guardian_void_rune", () -> RUNE, CataDispatch.MODID).lang("Ender Guardian Upgrade").register();
+		LEVIATHAN = regModUpgrade("leviathan_blast_portal", () -> PORTAL, CataDispatch.MODID)
+				.lang("Leviathan Upgrade").register();
+		ENDER_GUARDIAN = regModUpgrade("ender_guardian_void_rune", () -> RUNE, CataDispatch.MODID)
+				.lang("Ender Guardian Upgrade").register();
+		MONSTROSITY = regModUpgrade("netherite_monstrosity_earthquake", () -> EARTHQUAKE, CataDispatch.MODID)
+				.lang("Netherite Monstrosity Upgrade").register();
+		ANCIENT_REMNANT = regModUpgrade("ancient_remnant_sandstorm", () -> SANDSTORM, CataDispatch.MODID)
+				.lang("Ancient Remnant Upgrade").register();
 
 	}
 

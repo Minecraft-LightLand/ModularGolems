@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:empty_upgrade"
+    },
+    {
+      "item": "cataclysm:sandstorm_in_a_bottle"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:ancient_remnant_sandstorm"
+  }
+}

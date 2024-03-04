@@ -60,7 +60,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	private int attackAnimationTick;
 
 	protected void registerGoals() {
-		this.goalSelector.addGoal(2, new GolemMeleeGoal(this, 1.0D, true));
+		this.goalSelector.addGoal(2, new GolemMeleeGoal(this));
 		super.registerGoals();
 	}
 

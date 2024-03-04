@@ -475,6 +475,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.killedEntity(level, target);
 	}
 
+	@Override
+	public void handleEntityEvent(byte event) {
+		for (var e : modifiers.entrySet()) {
+			e.getKey().handleEvent(this, e.getValue(), event);
+		}
+		super.handleEntityEvent(event);
+	}
+
 	// mode
 
 	private static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
@@ -639,6 +647,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public boolean isAlliedTo(Entity other) {
+		if (other == this) return true;
 		LivingEntity owner = this.getOwner();
 		if (other == owner) {
 			return true;
