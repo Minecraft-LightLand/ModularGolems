@@ -4,6 +4,7 @@ import com.google.common.collect.Multimap;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -41,6 +42,16 @@ public abstract class LivingEntityMixin extends Entity {
 		} else {
 			return op.call(stack, slot);
 		}
+	}
+
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;position()Lnet/minecraft/world/phys/Vec3;"), method = "dropExperience")
+	public Vec3 modulargolems$dropExperience$moveToGolem(LivingEntity killed, Operation<Vec3> original) {
+		if (killed.getLastHurtMob() instanceof AbstractGolemEntity<?, ?> e) {
+			if (e.hasFlag(GolemFlags.PICKUP)) {
+				return e.position();
+			}
+		}
+		return original.call(killed);
 	}
 
 }
