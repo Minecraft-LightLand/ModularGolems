@@ -23,21 +23,21 @@ public class CataCompatRegistry {
 
 	static {
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
-				"Shoot Ignis fireballs toward target.");
+				"When target is faraway, shoot Ignis fireballs toward target.");
 
 		IGNIS_ATTACK = reg("ignis_attack", () -> new IgnisAttackModifier(StatFilterType.ATTACK, 2),
 				"Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");
 
 		HARBINGER_BEAM = reg("harbinger_death_beam", () -> new HarbingerDeathBeamModifier(StatFilterType.HEAD, 1),
-				"Shoot Death Beam toward target.");
+				"When target is faraway, shoot Death Beam toward target.");
 
 		HARBINGER_MISSILE = reg("harbinger_missile", () -> new HarbingerHomingMissileModifier(StatFilterType.ATTACK, 2),
-				"Shoot Homing Missile toward target.");
+				"When target is faraway, shoot Homing Missile toward target.");
 
-		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "Create blast portal at target position");
+		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "When target is faraway, create blast portal at target position");
 		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon void rune toward target");
 		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on land");
-		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position");
+		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "When target is faraway, summon sandstorm at target position");
 
 		LEVIATHAN = regModUpgrade("leviathan_blast_portal", () -> PORTAL, CataDispatch.MODID)
 				.lang("Leviathan Upgrade").register();
