@@ -631,19 +631,49 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public boolean canModify(Player player) {
+		ModularGolems.LOGGER.info("Start predicate golem modification");
+		ModularGolems.LOGGER.info("------");
+		ModularGolems.LOGGER.info("| - Golem: " + this);
+		ModularGolems.LOGGER.info("| - Player: " + player);
+		ModularGolems.LOGGER.info("| - Owner: " + getOwner());
+		ModularGolems.LOGGER.info("------");
 		var entry = getConfigEntry(null);
-		if (entry != null && entry.locked)
+		if (entry != null && entry.locked) {
+			ModularGolems.LOGGER.info("| - Golem is locked");
+			ModularGolems.LOGGER.info("------");
 			return false;
+		}
+		ModularGolems.LOGGER.info("| - Config is not locked");
 		LivingEntity owner = this.getOwner();
 		if (player == owner) {
+			ModularGolems.LOGGER.info("| - Golem is picked up by owner");
+			ModularGolems.LOGGER.info("------");
 			return true;
 		}
-		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player))
+		ModularGolems.LOGGER.info("| - Player is not owner");
+		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player)) {
+			if (player.getAbilities().instabuild) {
+				ModularGolems.LOGGER.info("| - Player is creative");
+			} else {
+				ModularGolems.LOGGER.info("| - Golem has no owner and cannot attack player");
+			}
+			ModularGolems.LOGGER.info("------");
 			return true;
+		}
+		ModularGolems.LOGGER.info("| - Player is not eligible to pickup directly");
 		if (MGConfig.COMMON.ownerPickupOnly.get()) {
+			ModularGolems.LOGGER.info("| - Only owner can pickup");
+			ModularGolems.LOGGER.info("------");
 			return false;
 		}
-		return isAlliedTo(player);
+		boolean ally = isAlliedTo(player);
+		if (ally) {
+			ModularGolems.LOGGER.info("| - Player is owner ally");
+		} else {
+			ModularGolems.LOGGER.info("| - Player is not owner ally, pickup failed");
+		}
+		ModularGolems.LOGGER.info("------");
+		return ally;
 	}
 
 	public boolean isAlliedTo(Entity other) {
