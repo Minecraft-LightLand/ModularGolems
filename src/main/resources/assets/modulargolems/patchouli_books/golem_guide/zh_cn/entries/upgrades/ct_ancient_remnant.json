@@ -1,0 +1,13 @@
+{
+  "flag": "mod:cataclysm",
+  "name": "远古遗魂升级",
+  "icon": "modulargolems:ancient_remnant",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:ancient_remnant",
+	  "text": "攻击目标较远时，在目标位置召唤沙暴。最高等级: 1"
+	}
+  ]
+}

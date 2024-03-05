@@ -1,0 +1,29 @@
+{
+  "flag": "mod:cataclysm",
+  "name": "Witherite",
+  "icon": "cataclysm:witherite_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 501,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "cataclysm:witherite_ingot",
+	  "text": "Main material to craft Witherite golem parts. Body part provides the ability to fire laser beam, and arm parts allows golem to shoot homing missiles."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:witherite\"},{part:\"modulargolems:metal_golem_body\",material:\"cataclysm:witherite\"},{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:witherite\"},{part:\"modulargolems:metal_golem_legs\",material:\"cataclysm:witherite\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"cataclysm:witherite\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"cataclysm:witherite\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"cataclysm:witherite\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"cataclysm:witherite\"},{part:\"modulargolems:dog_golem_legs\",material:\"cataclysm:witherite\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

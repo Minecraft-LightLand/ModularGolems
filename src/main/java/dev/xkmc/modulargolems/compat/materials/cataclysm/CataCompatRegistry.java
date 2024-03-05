@@ -34,10 +34,10 @@ public class CataCompatRegistry {
 		HARBINGER_MISSILE = reg("harbinger_missile", () -> new HarbingerHomingMissileModifier(StatFilterType.ATTACK, 2),
 				"Shoot Homing Missile toward target.");
 
-		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "Create blast portal at target");
+		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "Create blast portal at target position");
 		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon void rune toward target");
 		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on land");
-		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm around the golem");
+		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position");
 
 		LEVIATHAN = regModUpgrade("leviathan_blast_portal", () -> PORTAL, CataDispatch.MODID)
 				.lang("Leviathan Upgrade").register();

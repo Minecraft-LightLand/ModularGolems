@@ -1,0 +1,29 @@
+{
+  "flag": "mod:cataclysm",
+  "name": "Ignitium",
+  "icon": "cataclysm:ignitium_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 501,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "cataclysm:ignitium_ingot",
+	  "text": "Main material to craft Ignitium golem parts. Body part provides the ability to shoot Ignis fireballs, and arm parts allows golem to inflict branding blaze and heal from attack."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:ignitium\"},{part:\"modulargolems:metal_golem_body\",material:\"cataclysm:ignitium\"},{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:ignitium\"},{part:\"modulargolems:metal_golem_legs\",material:\"cataclysm:ignitium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"cataclysm:ignitium\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"cataclysm:ignitium\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"cataclysm:ignitium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"cataclysm:ignitium\"},{part:\"modulargolems:dog_golem_legs\",material:\"cataclysm:ignitium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

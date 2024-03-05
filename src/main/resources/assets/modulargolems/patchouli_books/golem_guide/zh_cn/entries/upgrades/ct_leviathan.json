@@ -1,0 +1,13 @@
+{
+  "flag": "mod:cataclysm",
+  "name": "利维坦升级",
+  "icon": "modulargolems:leviathan",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:leviathan",
+	  "text": "攻击目标较远时，在目标位置放出深渊冲击波。最高等级: 1"
+	}
+  ]
+}
