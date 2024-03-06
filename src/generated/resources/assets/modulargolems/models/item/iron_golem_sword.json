@@ -1,0 +1,6 @@
+{
+  "parent": "modulargolems:item/sword",
+  "textures": {
+    "layer0": "modulargolems:item/equipments/iron_golem_sword"
+  }
+}
