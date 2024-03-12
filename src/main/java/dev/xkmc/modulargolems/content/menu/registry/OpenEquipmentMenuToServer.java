@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.menu.registry;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenuPvd;
@@ -54,10 +55,10 @@ public class OpenEquipmentMenuToServer extends SerialPacketBase {
 		if (player == null) return;
 		var entry = player.serverLevel().getEntity(uuid);
 		if (!(entry instanceof AbstractGolemEntity<?, ?> golem)) return;
-		if (!entry.isAlliedTo(player)) return;
+		if (!golem.canModify(player)) return;
 		IMenuPvd pvd = type.construct(golem);
 		if (pvd != null) {
-			NetworkHooks.openScreen(player, pvd, pvd::writeBuffer);
+			CuriosEventHandler.openMenuWrapped(player, () -> NetworkHooks.openScreen(player, pvd, pvd::writeBuffer));
 		}
 	}
 

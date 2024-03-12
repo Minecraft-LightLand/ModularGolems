@@ -2,48 +2,56 @@
   "filters": {
     "modulargolems:dog_golem_body": {
       "ATTACK": 1.0,
+      "HEAD": 1.0,
       "HEALTH": 0.7,
       "MASS": 0.7,
       "MOVEMENT": 0.0
     },
     "modulargolems:dog_golem_legs": {
       "ATTACK": 0.0,
+      "HEAD": 0.0,
       "HEALTH": 0.3,
       "MASS": 0.3,
       "MOVEMENT": 1.0
     },
     "modulargolems:humanoid_golem_arms": {
       "ATTACK": 1.0,
+      "HEAD": 0.0,
       "HEALTH": 0.0,
       "MASS": 0.3,
       "MOVEMENT": 0.0
     },
     "modulargolems:humanoid_golem_body": {
       "ATTACK": 0.0,
+      "HEAD": 1.0,
       "HEALTH": 0.5,
       "MASS": 0.4,
       "MOVEMENT": 0.0
     },
     "modulargolems:humanoid_golem_legs": {
       "ATTACK": 0.0,
+      "HEAD": 0.0,
       "HEALTH": 0.5,
       "MASS": 0.3,
       "MOVEMENT": 1.0
     },
     "modulargolems:metal_golem_arm": {
       "ATTACK": 0.5,
+      "HEAD": 0.0,
       "HEALTH": 0.0,
       "MASS": 0.2,
       "MOVEMENT": 0.0
     },
     "modulargolems:metal_golem_body": {
       "ATTACK": 0.0,
+      "HEAD": 1.0,
       "HEALTH": 0.5,
       "MASS": 0.3,
       "MOVEMENT": 0.0
     },
     "modulargolems:metal_golem_legs": {
       "ATTACK": 0.0,
+      "HEAD": 0.0,
       "HEALTH": 0.5,
       "MASS": 0.3,
       "MOVEMENT": 1.0

@@ -1,11 +1,14 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.NetheriteMonstrosityEarthquakeModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
 public class GolemMeleeGoal extends MeleeAttackGoal {
@@ -41,8 +44,10 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	private double lastDist;
 	private double timeNoMovement;
 
-	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity, double speedModifier, boolean bypassSightCheck) {
-		super(entity, speedModifier, bypassSightCheck);
+	private boolean earthQuake = false;
+
+	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
+		super(entity, 1, true);
 		golem = entity;
 	}
 
@@ -78,7 +83,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 				timeNoMovement = 0;
 			}
 		}
-		super.checkAndPerformAttack(target, distSqr);
+		doRealAttack(target, distSqr);
 		if (!isTimeToAttack()) {
 			lastDist = 1000;
 			timeNoMovement = 0;
@@ -89,6 +94,29 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 				timeNoMovement = 0;
 			}
 		}
+	}
+
+	protected void doRealAttack(LivingEntity target, double distSqr) {
+		if (isTimeToAttack()) {
+			if (golem.hasFlag(GolemFlags.EARTH_QUAKE) && !golem.isInWater() && golem.onGround()) {
+				if (earthQuake) {
+					earthQuake = false;
+					resetAttackCooldown();
+					NetheriteMonstrosityEarthquakeModifier.performEarthQuake(golem);
+					return;
+				} else {
+					double d0 = this.getAttackReachSqr(target);
+					if (d0 < distSqr && distSqr <= d0 + NetheriteMonstrosityEarthquakeModifier.RANGE) {
+						golem.addDeltaMovement(new Vec3(0, 1, 0));
+						golem.hasImpulse = true;
+						earthQuake = true;
+						return;
+					}
+				}
+			}
+		}
+		if (earthQuake && !golem.onGround()) return;
+		super.checkAndPerformAttack(target, distSqr);
 	}
 
 }

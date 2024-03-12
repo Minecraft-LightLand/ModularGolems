@@ -48,7 +48,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	private final GolemBowAttackGoal bowGoal = new GolemBowAttackGoal(this, 1.0D, 20, 15.0F);
 	private final GolemCrossbowAttackGoal crossbowGoal = new GolemCrossbowAttackGoal(this, 1.0D, 15.0F);
-	private final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this, 1.0D, true);
+	private final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this);
 	private final GolemTridentAttackGoal tridentGoal = new GolemTridentAttackGoal(this, 1, 40, 15, meleeGoal);
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;

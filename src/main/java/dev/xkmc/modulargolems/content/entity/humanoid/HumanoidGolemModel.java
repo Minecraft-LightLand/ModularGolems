@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import dev.xkmc.modulargolems.content.entity.ranged.GolemShooterHelper;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
@@ -19,14 +20,15 @@ import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ToolActions;
 
-public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> implements
+public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> implements
 		IGolemModel<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel>, IHeadedModel {
+
 	public HumanoidGolemModel(EntityModelSet set) {
-		this(set.bakeLayer(ModelLayers.PLAYER));
+		this(set.bakeLayer(ModelLayers.PLAYER), false);
 	}
 
-	public HumanoidGolemModel(ModelPart modelPart) {
-		super(modelPart);
+	public HumanoidGolemModel(ModelPart modelPart, boolean slim) {
+		super(modelPart, slim);
 	}
 
 	@Override
@@ -61,6 +63,10 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemEntity> imple
 				this.rightArm.xRot = -1.8F;
 			}
 		}
+
+		this.leftSleeve.copyFrom(this.leftArm);
+		this.rightSleeve.copyFrom(this.rightArm);
+
 	}
 
 	protected void setupAttackAnimation(HumanoidGolemEntity entity, float time) {

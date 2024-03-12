@@ -61,7 +61,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		this.setRot(vec2.y, vec2.x);
 		this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
 		if (this.isControlledByLocalInstance()) {
-			if (this.onGround()) {
+			if (this.onGround() || this.isInWaterOrBubble()) {
 				if (player.jumping) {
 					this.executeRidersJump(vec3);
 				}
@@ -80,7 +80,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (f1 <= 0.0F) {
 			f1 *= 0.25F;
 		}
-		return new Vec3(f, 0.0D, f1);
+		var ans = new Vec3(f, 0.0D, f1);
+		if (player.isShiftKeyDown()) {
+			ans = ans.add(0, -1, 0);
+		}
+		return ans;
 	}
 
 	public LivingEntity getControllingPassenger() {
@@ -196,7 +200,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	// ------ vanilla golem behavior
 
 	protected void registerGoals() {
-		this.goalSelector.addGoal(2, new GolemMeleeGoal(this, 1.0D, true));
+		this.goalSelector.addGoal(2, new GolemMeleeGoal(this));
 		super.registerGoals();
 	}
 

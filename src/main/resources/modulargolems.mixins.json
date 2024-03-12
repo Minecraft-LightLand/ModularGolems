@@ -7,6 +7,7 @@
   "mixins": [
 	"ExperienceOrbAccessor",
 	"LivingEntityMixin",
+	"PlayerMixin",
 	"ServerLevelMixin"
   ],
   "client": [

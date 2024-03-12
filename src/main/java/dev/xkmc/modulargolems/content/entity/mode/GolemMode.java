@@ -55,14 +55,17 @@ public class GolemMode {
 	}
 
 	public double getStartFollowDistance(AbstractGolemEntity<?, ?> golem) {
-		if (this == GolemModes.SQUAD) {
-			var entry = golem.getConfigEntry(null);
-			if (entry != null) {
-				return entry.squadConfig.getRadius();
-			}
-		}
 		return couldRandomStroll() ?
 				MGConfig.COMMON.stopWanderRadius.get() :
 				MGConfig.COMMON.startFollowRadius.get();
 	}
+
+	public void tick(AbstractGolemEntity<?, ?> golem) {
+
+	}
+
+	public double getStopDistance() {
+		return 3;
+	}
+
 }

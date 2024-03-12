@@ -16,6 +16,8 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
+import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
+import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
@@ -124,9 +126,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
 		this.setMaxUpStep(1);
-		if (!level().isClientSide()) {
-			getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
-		}
+		getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
 		if (canSwim()) {
 			this.moveControl = new GolemSwimMoveControl(this);
 			this.navigation = waterNavigation;
@@ -162,23 +162,26 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		this.unRide();
 		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
 		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.canModify(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
+				this.unRide();
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
 			}
 			return InteractionResult.SUCCESS;
+		} else {
+			ItemStack stack = player.getItemInHand(hand);
+			if (stack.getItem() instanceof GolemEquipmentItem item) {
+				if (item.isFor(getType()) && getItemBySlot(item.getSlot()).isEmpty()) {
+					if (!level().isClientSide()) {
+						setItemSlot(item.getSlot(), stack.split(1));
+					}
+					return InteractionResult.CONSUME;
+				}
+			}
 		}
 		return super.mobInteract(player, hand);
-	}
-
-	public boolean canModify(Player player) {
-		var entry = getConfigEntry(null);
-		if (entry != null && entry.locked)
-			return false;
-		return isAlliedTo(player);
 	}
 
 	@ServerOnly
@@ -202,6 +205,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.actuallyHurt(source, damage);
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			Player player = getOwner();
+			unRide();
 			ItemStack stack = GolemHolder.setEntity(getThis());
 			if (player != null && player.isAlive()) {
 				player.getInventory().placeItemBackInInventory(stack);
@@ -253,10 +257,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!getMode().isMovable()) {
 			pTravelVector = Vec3.ZERO;
 		}
-		if (this.isEffectiveAi() && this.isInWater() && canSwim()) {
-			this.moveRelative(0.02F, pTravelVector);
+		if ((this.isControlledByLocalInstance() || this.isEffectiveAi()) && this.isInWater() && canSwim()) {
+			this.moveRelative(0.08F, pTravelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+			if (this.isControlledByLocalInstance()) {
+				super.travel(pTravelVector);
+			}
 		} else {
 			super.travel(pTravelVector);
 		}
@@ -361,7 +368,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canBeSeenAsEnemy() {
-		return hasFlag(GolemFlags.PASSIVE) || super.canBeSeenAsEnemy();
+		return !hasFlag(GolemFlags.PASSIVE) && super.canBeSeenAsEnemy();
 	}
 
 	@Override
@@ -468,6 +475,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.killedEntity(level, target);
 	}
 
+	@Override
+	public void handleEntityEvent(byte event) {
+		for (var e : modifiers.entrySet()) {
+			e.getKey().handleEvent(this, e.getValue(), event);
+		}
+		super.handleEntityEvent(event);
+	}
+
 	// mode
 
 	private static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
@@ -516,6 +531,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
 	private static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
+	private static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
 
 	@Nullable
 	public GolemConfigEntry getConfigEntry(@Nullable Component dummy) {
@@ -533,6 +549,41 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void setConfigCard(@Nullable UUID owner, int color) {
 		entityData.set(CONFIG_ID, Optional.ofNullable(owner));
 		entityData.set(CONFIG_COLOR, color);
+	}
+
+	public void setPatrolStage(int stage) {
+		entityData.set(PATROL_STAGE, stage);
+	}
+
+	public int getPatrolStage() {
+		return entityData.get(PATROL_STAGE);
+	}
+
+	public void advancePatrolStage() {
+		var config = getConfigEntry(null);
+		if (config == null) return;
+		var list = config.pathConfig.getList();
+		int stage = getPatrolStage();
+		stage++;
+		if (stage >= list.size()) {
+			stage = 0;
+		}
+		setPatrolStage(stage);
+	}
+
+	public List<PathRecordCard.Pos> getPatrolList() {
+		var config = getConfigEntry(null);
+		if (config == null) return List.of();
+		var list = config.pathConfig.getList();
+		int stage = getPatrolStage();
+		if (stage > 0 && stage < list.size()) {
+			var first = list.subList(stage, list.size());
+			var second = list.subList(0, stage);
+			var ans = new ArrayList<>(first);
+			ans.addAll(second);
+			return ans;
+		}
+		return list;
 	}
 
 	// ------ persistent anger
@@ -579,16 +630,27 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.getTeam();
 	}
 
+	public boolean canModify(Player player) {
+		var entry = getConfigEntry(null);
+		if (entry != null && entry.locked)
+			return false;
+		LivingEntity owner = this.getOwner();
+		if (player == owner) {
+			return true;
+		}
+		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player))
+			return true;
+		if (MGConfig.COMMON.ownerPickupOnly.get()) {
+			return false;
+		}
+		return isAlliedTo(player);
+	}
+
 	public boolean isAlliedTo(Entity other) {
+		if (other == this) return true;
 		LivingEntity owner = this.getOwner();
 		if (other == owner) {
 			return true;
-		}
-		if (other instanceof Player && getOwnerUUID() == null) {
-			return true;
-		}
-		if (MGConfig.COMMON.ownerPickupOnly.get()) {
-			return false;
 		}
 		if (owner != null) {
 			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
@@ -620,7 +682,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicateSecondaryTarget));
+		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, this::predicateSecondaryTarget));
 		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
@@ -679,6 +741,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public Vec3 getTargetPos() {
+		if (getMode() == GolemModes.ROUTE) {
+			var config = getConfigEntry(null);
+			if (config != null) {
+				var list = config.pathConfig.getList();
+				int target = getPatrolStage();
+				if (!list.isEmpty()) {
+					return list.get(Math.min(target, list.size() - 1))
+							.pos().getCenter();
+				}
+			}
+			return position();
+		}
 		if (getMode().hasPos()) {
 			BlockPos pos = getGuardPos();
 			return new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);

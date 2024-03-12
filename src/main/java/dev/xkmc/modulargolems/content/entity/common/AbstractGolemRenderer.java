@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import net.minecraft.client.model.EntityModel;
@@ -35,8 +36,13 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 	public AbstractGolemRenderer(EntityRendererProvider.Context ctx, M model, float f, Supplier<P[]> list) {
 		super(ctx, model, f);
 		this.list = list;
-		LIST.forEach(e -> this.addLayer(new ResizedLayer<>(this, Wrappers.cast(e.apply(this)))));
+		LIST.forEach(e -> this.addLayer(Wrappers.cast(e.apply(this))));
+	}
 
+	@Override
+	protected void scale(T entity, PoseStack pose, float f) {
+		float r = entity.getScale();
+		pose.scale(r, r, r);
 	}
 
 	@Deprecated
@@ -44,24 +50,28 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		return GOLEM_LOCATION;
 	}
 
+	protected boolean delegated(T entity) {
+		return false;
+	}
+
 	@Override
 	public void render(T entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 		this.handle.set(new RenderHandle<>(entity, f1, f2, stack, source, i));
 		super.render(entity, f1, f2, stack, source, i);
-		this.handle.set(null);
+		this.handle.remove();
 	}
 
 	@Nullable
 	@Override
 	protected RenderType getRenderType(T entity, boolean b1, boolean b2, boolean b3) {
+		if (delegated(entity)) {
+			return super.getRenderType(entity, b1, b2, b3);
+		}
 		if (this.handle.get() == null) return null;
 		boolean flag = this.isBodyVisible(entity);
 		boolean flag1 = !flag && !entity.isInvisibleTo(Proxy.getClientPlayer());
 		PoseStack pose = handle.get().stack();
 		pose.pushPose();
-		float r = entity.getScale();
-		pose.translate(0, (1 - r) * 1.501, 0);
-		pose.scale(r, r, r);
 		for (P p : list.get()) {
 			renderPart(p, entity, b1, b2, b3, flag1);
 		}
@@ -83,8 +93,8 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 	private RenderType getRenderTypeInternal(P type, T entity, boolean b1, boolean b2, boolean b3) {
 		var materials = entity.getMaterials();
 		int index = type.ordinal();
-		ResourceLocation material = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;
-		ResourceLocation resourcelocation = model.getTextureLocationInternal(material);
+		ResourceLocation rl = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;
+		ResourceLocation resourcelocation = model.getTextureLocationInternal(ModelOverrides.getOverride(rl).getTexture(entity, rl));
 		if (b2) {
 			return RenderType.itemEntityTranslucentCull(resourcelocation);
 		} else if (b1) {

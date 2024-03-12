@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:recipes/root",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:leviathan_blast_portal"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tidal_claws": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cataclysm:tidal_claws"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tidal_claws",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:leviathan_blast_portal"
+    ]
+  },
+  "sends_telemetry_event": false
+}

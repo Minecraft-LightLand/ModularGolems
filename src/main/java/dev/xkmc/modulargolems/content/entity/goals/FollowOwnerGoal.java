@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -13,17 +12,15 @@ public class FollowOwnerGoal extends Goal {
 	private final AbstractGolemEntity<?, ?> golem;
 	private final double speedModifier;
 	private int timeToRecalcPath;
-	private final float stopDistance;
 	private float oldWaterCost;
 
 	public FollowOwnerGoal(AbstractGolemEntity<?, ?> golem) {
-		this(golem, 1, 3);
+		this(golem, 1);
 	}
 
-	private FollowOwnerGoal(AbstractGolemEntity<?, ?> golem, double speed, float stop) {
+	private FollowOwnerGoal(AbstractGolemEntity<?, ?> golem, double speed) {
 		this.golem = golem;
 		this.speedModifier = speed;
-		this.stopDistance = stop;
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
@@ -43,12 +40,16 @@ public class FollowOwnerGoal extends Goal {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	public boolean canContinueToUse() {
-		if (golem.getNavigation().isDone())
-			return false;
+		if (golem.getNavigation().isDone()) {
+			golem.getMode().tick(golem);
+			if (golem.getNavigation().isDone())
+				return false;
+		}
 		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
 			return false;
 		Vec3 target = this.golem.getTargetPos();
-		return !(this.golem.distanceToSqr(target) <= (double) (this.stopDistance * this.stopDistance));
+		double stop = golem.getMode().getStopDistance();
+		return !(this.golem.distanceToSqr(target) <= stop * stop);
 	}
 
 	/**
@@ -72,7 +73,8 @@ public class FollowOwnerGoal extends Goal {
 	 * Keep ticking a continuous task that has already been started
 	 */
 	public void tick() {
-		Vec3 target = this.golem.getTargetPos();
+		float offset = 0;//-(golem.getBbWidth() + 1) / 2;
+		Vec3 target = this.golem.getTargetPos().add(offset, 0, offset);
 		LivingEntity owner = this.golem.getOwner();
 		if (owner != null)
 			this.golem.getLookControl().setLookAt(owner, 10.0F, (float) this.golem.getMaxHeadXRot());
@@ -80,8 +82,10 @@ public class FollowOwnerGoal extends Goal {
 			this.timeToRecalcPath = this.adjustedTickDelay(10);
 			if (!this.golem.isLeashed()) {
 				golem.getNavigation().moveTo(target.x(), target.y(), target.z(), this.speedModifier);
+				return;
 			}
 		}
+		golem.getMode().tick(golem);
 	}
 
 }

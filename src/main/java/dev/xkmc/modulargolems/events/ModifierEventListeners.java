@@ -2,8 +2,10 @@ package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.capability.GolemConfigCapability;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +22,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
@@ -88,6 +91,7 @@ public class ModifierEventListeners {
 
 	@SubscribeEvent
 	public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
+		if (!MGConfig.COMMON.doEnemyAggro.get()) return;
 		if (event.getEntity() instanceof Mob mob && !event.getLevel().isClientSide()) {
 			if (mob instanceof Enemy && !(mob instanceof Creeper)) {
 				int priority = 0;
@@ -105,6 +109,15 @@ public class ModifierEventListeners {
 				if (ans != null) {
 					mob.targetSelector.addGoal(priority, ans);
 				}
+			}
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void onLivingDrop(LivingDropsEvent event) {
+		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> e) {
+			if (e.hasFlag(GolemFlags.PICKUP)) {
+				event.getDrops().forEach(x -> x.moveTo(e.position()));
 			}
 		}
 	}

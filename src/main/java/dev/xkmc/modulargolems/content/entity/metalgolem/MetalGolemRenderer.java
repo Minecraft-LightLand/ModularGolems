@@ -2,10 +2,9 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import dev.xkmc.modulargolems.content.client.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
-import dev.xkmc.modulargolems.content.entity.common.ResizedLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
@@ -67,9 +66,9 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 
 	public MetalGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new MetalGolemModel(ctx.bakeLayer(GolemEquipmentModels.METALGOLEM)), 0.7F, MetalGolemPartType::values);
-		this.addLayer(new ResizedLayer<>(this, new MetalGolemCrackinessLayer(this)));
-		this.addLayer(new ResizedLayer<>(this, new GolemEquipmentRenderer(this, ctx)));
-		this.addLayer(new ResizedLayer<>(this, new GolemBannerLayer<>(this, ctx.getItemInHandRenderer())));
+		this.addLayer(new MetalGolemCrackinessLayer(this));
+		this.addLayer(new GolemEquipmentRenderer(this, ctx));
+		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
 	}
 
 	protected void setupRotations(MetalGolemEntity entity, PoseStack stack, float v1, float v2, float v3) {

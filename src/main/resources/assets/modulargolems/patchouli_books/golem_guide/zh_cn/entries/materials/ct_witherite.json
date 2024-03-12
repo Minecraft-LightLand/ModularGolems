@@ -1,0 +1,29 @@
+{
+  "flag": "mod:cataclysm",
+  "name": "凋零合金",
+  "icon": "cataclysm:witherite_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 501,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "cataclysm:witherite_ingot",
+	  "text": "制作凋零合金傀儡部件的主要材料。身体部件让傀儡能发射激光。手臂部件让傀儡能发射导弹"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:witherite\"},{part:\"modulargolems:metal_golem_body\",material:\"cataclysm:witherite\"},{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:witherite\"},{part:\"modulargolems:metal_golem_legs\",material:\"cataclysm:witherite\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"cataclysm:witherite\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"cataclysm:witherite\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"cataclysm:witherite\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"cataclysm:witherite\"},{part:\"modulargolems:dog_golem_legs\",material:\"cataclysm:witherite\"}]}",
+	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+	}
+  ]
+}

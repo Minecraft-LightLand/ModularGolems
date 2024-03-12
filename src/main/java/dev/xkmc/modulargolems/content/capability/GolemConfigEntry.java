@@ -38,6 +38,8 @@ public class GolemConfigEntry {
 	public TargetFilterConfig targetFilter = new TargetFilterConfig();
 	@SerialClass.SerialField
 	public SquadConfig squadConfig = new SquadConfig();
+	@SerialClass.SerialField
+	public PathConfig pathConfig = new PathConfig();
 
 	@Deprecated
 	public GolemConfigEntry() {

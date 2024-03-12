@@ -142,6 +142,11 @@ public class RecipeGen {
 
 			}
 
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_PATH.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.MAP).requires(Items.INK_SAC)
+					.save(pvd);
+
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_NAME.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.requires(GolemItems.GOLEM_TEMPLATE.get())
 					.requires(Items.BOOK)

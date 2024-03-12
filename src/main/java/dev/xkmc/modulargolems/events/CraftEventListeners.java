@@ -20,15 +20,13 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-
-
 public class CraftEventListeners {
 
 	@SubscribeEvent
 	public static void onAnvilCraft(AnvilUpdateEvent event) {
 		ItemStack stack = event.getLeft();
 		ItemStack block = event.getRight();
-		if (stack.getItem() instanceof GolemPart part && part.count <= block.getCount()) {
+		if (stack.getItem() instanceof GolemPart<?, ?> part && part.count <= block.getCount()) {
 			var mat = GolemMaterial.getMaterial(block);
 			if (mat.isPresent()) {
 				ItemStack new_stack = stack.copy();
@@ -53,7 +51,7 @@ public class CraftEventListeners {
 			return;
 		ItemStack stack = event.getLeft();
 		ItemStack block = event.getRight();
-		if (stack.getItem() instanceof GolemPart part && part.count <= block.getCount()) {
+		if (stack.getItem() instanceof GolemPart<?, ?> part && part.count <= block.getCount()) {
 			var mat = GolemMaterial.getMaterial(block);
 			mat.ifPresent(rl -> GolemTriggers.PART_CRAFT.trigger((ServerPlayer) event.getEntity(), rl));
 		}
@@ -82,7 +80,7 @@ public class CraftEventListeners {
 	public static void onGrindStone(GrindstoneEvent.OnPlaceItem event) {
 		if (event.getTopItem().getItem() instanceof GolemHolder) {
 			ItemStack copy = event.getTopItem().copy();
-			if (GolemHolder.getUpgrades(copy).size() > 0) {
+			if (!GolemHolder.getUpgrades(copy).isEmpty()) {
 				copy.getOrCreateTag().remove(GolemHolder.KEY_UPGRADES);
 				event.setOutput(copy);
 				event.setXp(0);

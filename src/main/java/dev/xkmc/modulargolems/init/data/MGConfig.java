@@ -53,9 +53,16 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue targetResetTime;
 		public final ForgeConfigSpec.DoubleValue targetResetNoMovementRange;
 
+		public final ForgeConfigSpec.IntValue dogGolemSlot;
+		public final ForgeConfigSpec.IntValue humanoidGolemSlot;
+		public final ForgeConfigSpec.IntValue largeGolemSlot;
+		public final ForgeConfigSpec.BooleanValue doEnemyAggro;
+
 		Common(ForgeConfigSpec.Builder builder) {
 			barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
 					.define("barehandRetrieve", true);
+			doEnemyAggro = builder.comment("Make mobs aggro to iron golem automatically aggro to modular golems")
+					.define("doEnemyAggro", true);
 			summonDistance = builder.comment("Max distance to summon single golem")
 					.defineInRange("summonDistance", 64, 1, 1000);
 			retrieveDistance = builder.comment("Max distance to retrieve single golem")
@@ -76,6 +83,13 @@ public class MGConfig {
 					.defineInRange("targetResetTime", 600, 1, 10000);
 			targetResetNoMovementRange = builder.comment("Distance considered as no movement")
 					.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
+
+			largeGolemSlot = builder.comment("Default slots for large golem")
+					.defineInRange("largeGolemSlot", 4, 0, 100);
+			humanoidGolemSlot = builder.comment("Default slots for humanoid golem")
+					.defineInRange("humanoidGolemSlot", 3, 0, 100);
+			dogGolemSlot = builder.comment("Default slots for dog golem")
+					.defineInRange("dogGolemSlot", 2, 0, 100);
 
 			// modifiers
 			{

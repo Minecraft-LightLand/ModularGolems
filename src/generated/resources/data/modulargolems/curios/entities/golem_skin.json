@@ -1,0 +1,9 @@
+{
+  "conditions": [],
+  "entities": [
+    "modulargolems:humanoid_golem"
+  ],
+  "slots": [
+    "golem_skin"
+  ]
+}

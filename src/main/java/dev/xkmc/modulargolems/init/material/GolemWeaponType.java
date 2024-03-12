@@ -14,6 +14,7 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 public enum GolemWeaponType {
 	SPEAR("item/long_weapon", (p, i) -> new MetalGolemWeaponItem(p, i, 0, 2, 0), "TII", " SI", "S T"),
 	AXE("item/battle_axe", (p, i) -> new MetalGolemWeaponItem(p, 0, i * 0.05, 0, 2), "III", "IS ", "TST"),
+	SWORD("item/sword", (p, i) -> new MetalGolemWeaponItem(p, i, 0, 1, 2), "TII", "ISI", "SIT"),
 	;
 
 	private final BiFunction<Item.Properties, Integer, MetalGolemWeaponItem> factory;

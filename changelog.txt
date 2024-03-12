@@ -1,10 +1,47 @@
+- 2.4.29
+    - Add patrol mode
+    - Fix humanoid golem player skin renderer not rendering outer layer
+    - Mobs killed by golem with pickup upgrade will have drops spawned at the golem position
+    - Add Leviathan, Ender Guardian, Netherite Monstrosity, and Ancient Remnant upgrade
+    - Add Damage Cap modifier to Cataclysm materials
+    - Ignis attack modifier can apply blazing brand up to 5 layers only
+
+- 2.4.28
+    - Add Cataclysm compat
+    - Make cyclic damage detection default off
+    - Fix player immune upgrade to be only immune to owner and applies
+
+- 2.4.27
+    - Fix humanoid golems use player skin by default
+
+- 2.4.26
+    - Add player skin support for golems
+    - Add config option to not make hostile mobs automatically hostile to golems
+    - Touhou Little Maid compat: command wand can edit their curio
+
+- 2.4.25
+    - Fix enchantment damage bonus not working on Large Golem Weapons
+    - Fix large golem weapon cannot be enchanted in enchanting table
+    - Fix compatibility with newest L2Library attribute tab
+
+- 2.4.24
+    - Fix the bug that golem with corrupted data cannot be placed
+    - Prevent future golem data corruption
+
+- 2.4.23
+    - Fix command wand attack config
+    - Add upgrade slot config
+    - Fix damage calculation
+    - Greatly improved golem swimming speed with Swim upgrade
+    - Allow golems to jump in water
+    - When mounted, shift in water means sink down
+    - Fix not able to attack player actively
+
 - 2.4.22
     - fix compatibility with REI
     - add captain and squad mode
     - add free wander mode
-    - make takented upgrade cheaper
-    - squad wand texture TODO
-    - fix golem riding horse will be unusable when retrieved TODO
+    - make talented upgrade cheaper
 
 - 2.4.21
     - fix riding flickering

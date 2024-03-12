@@ -1,0 +1,13 @@
+{
+  "flag": "mod:cataclysm",
+  "name": "下界合金巨兽升级",
+  "icon": "modulargolems:netherite_monstrosity",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:netherite_monstrosity",
+	  "text": "傀儡会起跳砸地造成范围伤害。最高等级: 1"
+	}
+  ]
+}

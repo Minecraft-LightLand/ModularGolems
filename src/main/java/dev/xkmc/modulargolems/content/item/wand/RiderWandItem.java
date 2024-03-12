@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,8 +22,24 @@ public class RiderWandItem extends BaseWandItem implements GolemInteractItem {
 	}
 
 	public InteractionResult interactLivingEntity(ItemStack stack, Player user, LivingEntity target, InteractionHand hand) {
+		if (user.getVehicle() instanceof AbstractGolemEntity<?, ?>) {
+			if (!user.level().isClientSide())
+				user.stopRiding();
+			return InteractionResult.SUCCESS;
+		}
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return InteractionResult.PASS;
 		return ride(target.level(), user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+	}
+
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
+		ItemStack stack = user.getItemInHand(hand);
+		if (user.getVehicle() instanceof AbstractGolemEntity<?, ?>) {
+			if (!level.isClientSide())
+				user.stopRiding();
+			return InteractionResultHolder.success(stack);
+		}
+		return InteractionResultHolder.pass(stack);
 	}
 
 	private static boolean ride(Level level, Player user, AbstractGolemEntity<?, ?> golem) {

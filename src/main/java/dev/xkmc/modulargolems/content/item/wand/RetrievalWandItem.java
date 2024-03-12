@@ -54,6 +54,7 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
 		if (!golem.canModify(user)) return false;
 		if (level.isClientSide()) return true;
+		golem.unRide();
 		user.getInventory().placeItemBackInInventory(golem.toItem());
 		return true;
 	}

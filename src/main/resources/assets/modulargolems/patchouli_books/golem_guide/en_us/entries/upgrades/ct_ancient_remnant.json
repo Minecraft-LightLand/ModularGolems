@@ -1,0 +1,13 @@
+{
+  "flag": "mod:cataclysm",
+  "name": "Ancient Remnant Upgrade",
+  "icon": "modulargolems:ancient_remnant",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:ancient_remnant",
+	  "text": "Summon sandstorm at target position. Max: 1"
+	}
+  ]
+}

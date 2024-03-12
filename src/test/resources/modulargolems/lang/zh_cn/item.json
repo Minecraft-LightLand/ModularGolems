@@ -64,7 +64,8 @@
 	"target_filter_name": "生物过滤器: 数据包格式",
 	"target_filter_type": "生物过滤器: 实体类型",
 	"target_filter_uuid": "生物过滤器: 实体ID",
-	"target_filter_default": "生物过滤器: 默认攻击目标"
+	"target_filter_default": "生物过滤器: 默认攻击目标",
+	"patrol_path_recorder": "巡逻手册"
   },
   "-cartesian": {
 	"config": {
@@ -122,7 +123,8 @@
 		},
 		{
 		  "spear": "长枪",
-		  "axe": "战斧"
+		  "axe": "战斧",
+		  "sword": "大剑"
 		}
 	  ]
 	}

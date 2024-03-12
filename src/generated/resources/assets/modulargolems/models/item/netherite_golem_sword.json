@@ -1,0 +1,6 @@
+{
+  "parent": "modulargolems:item/sword",
+  "textures": {
+    "layer0": "modulargolems:item/equipments/netherite_golem_sword"
+  }
+}
