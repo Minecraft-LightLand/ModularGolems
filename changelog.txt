@@ -5,6 +5,7 @@
     - Add Leviathan, Ender Guardian, Netherite Monstrosity, and Ancient Remnant upgrade
     - Add Damage Cap modifier to Cataclysm materials
     - Ignis attack modifier can apply blazing brand up to 5 layers only
+    - Fix selection conflict with backpack
 
 - 2.4.28
     - Add Cataclysm compat
