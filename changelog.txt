@@ -1,3 +1,7 @@
+- 2.4.30
+    - Fix Patchouli Book for cataclysm
+    - Add patrol patchouli entries
+
 - 2.4.29
     - Add patrol mode
     - Fix humanoid golem player skin renderer not rendering outer layer

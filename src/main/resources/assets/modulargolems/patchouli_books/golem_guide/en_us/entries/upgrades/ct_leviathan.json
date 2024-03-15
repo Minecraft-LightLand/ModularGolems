@@ -1,12 +1,12 @@
 {
   "flag": "mod:cataclysm",
   "name": "Leviathan Upgrade",
-  "icon": "modulargolems:leviathan",
+  "icon": "modulargolems:leviathan_blast_portal",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:leviathan",
+	  "item": "modulargolems:leviathan_blast_portal",
 	  "text": "Create blast portal at target position. Max: 1"
 	}
   ]

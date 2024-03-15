@@ -7,8 +7,9 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:command_wand",
-	  "text": "Shift right click golem to configure equipments.$(br2)Attack entity with this wand to call all your surrounding golems to attack that entity.$(br2)Golems in guarding/standing mode cannot change dimensions."
+	  "text": "Shift right click golem to configure equipments, view golem attributes, and configure curios.$(br2)Attack entity with this wand, or right click faraway entity with this wand to call all your surrounding golems to attack that entity."
 	},
-	"Right click to switch between modes for the golems.$(li)Following Mode: the default mode. Golem follows player.$(li)Guarding mode: Golem will wander around the point when it's set to this mode.$(li)Golems in standing mode will not move.$(li)Golems in wandering mode will wander around freely.$(li)Golems in squad mode will follow its captain (with the same config), and when no captain is present, it will wander freely."
+	"Right click to switch between 6 modes for the golems.$(li)Following Mode: the default mode. Golem follows player.$(li)Guarding mode: Golems will wander around the point when it's set to this mode. Golems in this mode cannot change dimension.$(li)Standing Mode: Golems will not move. Golems in this mode cannot change dimension.$(li)Wandering Mode: Golems will wander around freely.",
+	"$(li)Squad Mode: Golems will follow its captain (with the same config), and when itself is the captain or when no captain is present, it will wander freely.$(li)Patrol Mode: Golems will follow the path specified in its config card. They will deviate from their path if they find attack target."
   ]
 }

@@ -1,12 +1,12 @@
 {
   "flag": "mod:cataclysm",
   "name": "末影守卫升级",
-  "icon": "modulargolems:ender_guardian",
+  "icon": "modulargolems:ender_guardian_void_rune",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:ender_guardian",
+	  "item": "modulargolems:ender_guardian_void_rune",
 	  "text": "对目标放出虚空符文。最高等级: 1"
 	}
   ]
