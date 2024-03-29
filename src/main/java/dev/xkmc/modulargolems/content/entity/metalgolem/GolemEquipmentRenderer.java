@@ -6,6 +6,7 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -64,6 +65,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 				if (!entity.isAddedToWorld())
 					return;
 				var color = new float[]{1.0F, 1.0F, 1.0F};
+				renderBeacon(pose, source, i, entity.level().getGameTime(), entity.getBbHeight());
 				renderBeam(pose, source, i, 1F, entity.level().getGameTime(), entity.getBbHeight(), color);
 			} else {
 				renderArmWithItem(entity, stack, e, pose, source, i);
@@ -94,6 +96,27 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 						entity.getId() + slot.ordinal());
 		pose.popPose();
 
+	}
+
+	final ResourceLocation BEACON_LOCATION = new ResourceLocation(ModularGolems.MODID, "textures/equipments/beacon.png");
+	protected void renderBeacon(PoseStack pose, MultiBufferSource source, float pTick, long gameTick, float height) {
+		float width = 3F;
+
+		pose.pushPose();
+		pose.scale(1, -1, 1);
+		pose.translate(0D, - height / 2, 0D);
+		float accurateTick = (float)Math.floorMod(gameTick, 90) + pTick;
+		pose.mulPose(Axis.YP.rotationDegrees(accurateTick - 45.0F));
+
+		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(BEACON_LOCATION));
+		PoseStack.Pose posestack$pose = pose.last();
+		Matrix4f matrix4f = posestack$pose.pose();
+		Matrix3f matrix3f = posestack$pose.normal();
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, 0, 0, width,  0, 0);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, 0, width, 0,  0, 1);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, 0, 0, -width, 1, 1);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, 0, -width, 0, 1, 0);
+		pose.popPose();
 	}
 
 	final ResourceLocation BEAM_LOCATION = new ResourceLocation("textures/entity/beacon_beam.png");
