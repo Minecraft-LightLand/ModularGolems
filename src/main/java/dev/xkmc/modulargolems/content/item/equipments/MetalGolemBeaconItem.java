@@ -2,8 +2,6 @@ package dev.xkmc.modulargolems.content.item.equipments;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
