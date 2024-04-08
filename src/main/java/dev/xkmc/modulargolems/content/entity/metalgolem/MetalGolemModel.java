@@ -1,5 +1,4 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -16,7 +15,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
+import dev.xkmc.modulargolems.content.client.pose.CustomModelAnimation;
+import net.minecraft.client.animation.KeyframeAnimations;
 @OnlyIn(Dist.CLIENT)
 public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
 
@@ -80,7 +80,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		if (atkTick > 0) {
 			pose.attackModel(entity, this, atkTick - pTick);
 		} else if (entity.isAggressive()) {
-			pose.aggressive(entity, this, bob, speed, pTick);
+			pose.aggressive(entity,this,bob,speed,pTick);
 		} else {
 			pose.walking(entity, this, bob, speed, pTick);
 		}

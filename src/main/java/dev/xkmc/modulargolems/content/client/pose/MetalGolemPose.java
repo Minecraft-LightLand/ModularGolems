@@ -2,6 +2,10 @@ package dev.xkmc.modulargolems.content.client.pose;
 
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
+import net.minecraft.client.animation.AnimationChannel;
+import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.client.animation.Keyframe;
+import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.util.Mth;
 
 public class MetalGolemPose {
@@ -14,7 +18,6 @@ public class MetalGolemPose {
 		model.rightForeArm.xRot = 0;
 		model.leftForeArm.xRot = 0;
 	}
-
 	public void aggressive(MetalGolemEntity entity, MetalGolemModel model, float walkTick, float speed, float pTick) {
 		walking(entity, model, walkTick, speed, pTick);
 	}
