@@ -65,9 +65,9 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	public void setupAnim(MetalGolemEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-
-		this.animate(pEntity.attackAnimationState, CustomModelAnimation.offensive, pAgeInTicks);
-
+		if (!pEntity.getMainHandItem().isEmpty()) {
+			this.animate(pEntity.armedStandardAnimationState, CustomModelAnimation.standard, pAgeInTicks);
+		}
 	}
 
 	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {

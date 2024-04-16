@@ -35,7 +35,8 @@ import net.minecraft.world.phys.Vec3;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
-	public final AnimationState attackAnimationState = new AnimationState();
+	public final AnimationState armedAttackAnimationState = new AnimationState();
+	public final AnimationState armedStandardAnimationState = new AnimationState();
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(type, level);
@@ -111,9 +112,11 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return IronGolem.Crackiness.byFraction(this.getHealth() / this.getMaxHealth());
 	}
 
-	public void handleEntityEvent(byte pId) {
+	public void handleEntityEvent(MetalGolemEntity pEntity,byte pId) {
 		if (pId == 4) {
-			this.attackAnimationState.start(this.tickCount);
+			if (!pEntity.getMainHandItem().isEmpty()) {
+				this.armedStandardAnimationState.start(this.tickCount);
+			}
 		}
 	}
 
