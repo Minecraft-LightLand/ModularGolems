@@ -16,6 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,6 +35,8 @@ import net.minecraft.world.phys.Vec3;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
+	public final AnimationState attackAnimationState = new AnimationState();
+
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(type, level);
 		this.setMaxUpStep(1);
@@ -63,7 +66,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		this.goalSelector.addGoal(2, new GolemMeleeGoal(this));
 		super.registerGoals();
 	}
-
 	public void aiStep() {
 		super.aiStep();
 		if (this.attackAnimationTick > 0) {
@@ -109,14 +111,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return IronGolem.Crackiness.byFraction(this.getHealth() / this.getMaxHealth());
 	}
 
-	public void handleEntityEvent(byte event) {
-		if (event == 4) {
-			this.attackAnimationTick = 10;
-			this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-		} else {
-			super.handleEntityEvent(event);
+	public void handleEntityEvent(byte pId) {
+		if (pId == 4) {
+			this.attackAnimationState.start(this.tickCount);
 		}
-
 	}
 
 	public int getAttackAnimationTick() {

@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
 import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
+import net.minecraft.client.animation.definitions.FrogAnimation;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
@@ -62,28 +63,11 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		rightForeArm.copyFrom(other.rightForeArm);
 	}
 
-	public void setupAnim(MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
-		this.head.yRot = f4 * ((float) Math.PI / 180F);
-		this.head.xRot = f5 * ((float) Math.PI / 180F);
-		this.rightLeg.xRot = -1.5F * Mth.triangleWave(f1, 13.0F) * f2;
-		this.leftLeg.xRot = 1.5F * Mth.triangleWave(f1, 13.0F) * f2;
-		this.rightLeg.yRot = 0.0F;
-		this.leftLeg.yRot = 0.0F;
-	}
+	public void setupAnim(MetalGolemEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-	public void prepareMobModel(MetalGolemEntity entity, float bob, float speed, float pTick) {
-		MetalGolemPose pose = MetalGolemPose.DEFAULT;
-		if (!entity.getMainHandItem().isEmpty()) {
-			pose = WeaponPose.WEAPON;
-		}
-		int atkTick = entity.getAttackAnimationTick();
-		if (atkTick > 0) {
-			pose.attackModel(entity, this, atkTick - pTick);
-		} else if (entity.isAggressive()) {
-			pose.aggressive(entity,this,bob,speed,pTick);
-		} else {
-			pose.walking(entity, this, bob, speed, pTick);
-		}
+		this.animate(pEntity.attackAnimationState, CustomModelAnimation.offensive, pAgeInTicks);
+
 	}
 
 	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
