@@ -60,4 +60,10 @@ public abstract class CompatManager {
 		}
 	}
 
+	public static void lateRegister() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.lateRegister();
+		}
+	}
+
 }

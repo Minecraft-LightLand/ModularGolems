@@ -8,7 +8,6 @@ import com.mojang.datafixers.util.Pair;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class LangFileOrganizer extends ResourceOrganizer {
 										finalMap.add(Pair.of(ent1.getKey(), ent1.getValue().getAsString())));
 							} else {
 								map = map.stream().flatMap(ent1 -> vector.getAsJsonObject().entrySet().stream()
-												.map(ent2 -> Pair.of(ent1.getFirst() + con + ent2.getKey(),
+												.map(ent2 -> Pair.of(ent1.getFirst().isEmpty() ? ent2.getKey() : ent1.getFirst() + con + ent2.getKey(),
 														reverse ? ent2.getValue().getAsString() + ent1.getSecond() :
 																ent1.getSecond() + ent2.getValue().getAsString())))
 										.collect(Collectors.toList());

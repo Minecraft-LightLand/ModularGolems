@@ -1,0 +1,88 @@
+{
+  "type": "create:sequenced_assembly",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredient": {
+    "item": "modulargolems:humanoid_golem_legs"
+  },
+  "loops": 6,
+  "results": [
+    {
+      "item": "modulargolems:humanoid_golem_legs",
+      "nbt": {
+        "golem_material": "create:brass"
+      }
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_legs"
+        },
+        {
+          "tag": "forge:ingots/brass"
+        }
+      ],
+      "results": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_legs"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_legs"
+        }
+      ],
+      "results": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_legs"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_legs"
+        },
+        {
+          "item": "create:precision_mechanism"
+        }
+      ],
+      "results": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_legs"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_legs"
+        },
+        {
+          "item": "create:wrench"
+        }
+      ],
+      "keepHeldItem": true,
+      "results": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_legs"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "modulargolems:incomplete_humanoid_golem_legs"
+  }
+}

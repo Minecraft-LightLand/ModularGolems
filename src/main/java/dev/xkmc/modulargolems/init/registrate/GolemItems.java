@@ -310,6 +310,8 @@ public class GolemItems {
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
+		CompatManager.lateRegister();
+
 	}
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {

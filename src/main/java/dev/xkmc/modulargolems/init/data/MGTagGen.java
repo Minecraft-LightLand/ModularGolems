@@ -30,6 +30,7 @@ public class MGTagGen {
 	public static final TagKey<Item> BLUE_UPGRADES = createItemTag("blue_upgrades");
 	public static final TagKey<Item> POTION_UPGRADES = createItemTag("potion_upgrades");
 	public static final TagKey<Item> CONFIG_CARD = createItemTag("config_card");
+	public static final TagKey<Item> SPECIAL_CRAFT = createItemTag("special_crafting_material");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
 
@@ -46,6 +47,7 @@ public class MGTagGen {
 
 	public static void onItemTagGen(RegistrateItemTagsProvider pvd) {
 		pvd.addTag(SCULK_MATS).add(Items.ECHO_SHARD);
+		pvd.addTag(SPECIAL_CRAFT);
 		OPTIONAL_ITEM.forEach(e -> e.accept(pvd));
 		pvd.addTag(BLUE_UPGRADES).add(
 				GolemItems.BELL.get(),

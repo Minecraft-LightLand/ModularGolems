@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
-import dev.xkmc.modulargolems.content.entity.humanoid.PlayerSkinRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -18,7 +17,6 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -63,8 +61,8 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 							 MultiBufferSource bufferSource, int light, int overlay) {
 		BEWLRHandle handle = new BEWLRHandle(stack, type, poseStack, bufferSource, light, overlay);
 		poseStack.pushPose();
-		if (stack.getItem() instanceof GolemPart<?, ?> part) {
-			render(handle, part);
+		if (stack.getItem() instanceof IGolemPartItem part) {
+			render(handle, part.asPart());
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
 			if (!renderEntity(handle, holder))
