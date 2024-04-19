@@ -114,6 +114,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	public void handleEntityEvent(MetalGolemEntity pEntity,byte pId) {
 		if (pId == 4) {
+			this.attackAnimationTick=4;
 			if (!pEntity.getMainHandItem().isEmpty()) {
 				this.armedStandardAnimationState.start(this.tickCount);
 			}
