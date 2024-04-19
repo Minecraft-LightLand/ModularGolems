@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "create:brass_ingot",
-	  "text": "制作黄铜傀儡部件的主要材料。可为傀儡提供更高的额外移动速度及高魔法抗性。"
+	  "text": "制作黄铜傀儡部件的主要材料。可为傀儡提供更高的魔法抗性。消耗燃料可以提升速度和攻击伤害"
 	},
 	{
 	  "type": "patchouli:spotlight",

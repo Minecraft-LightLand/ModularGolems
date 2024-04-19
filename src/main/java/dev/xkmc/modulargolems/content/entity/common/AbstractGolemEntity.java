@@ -161,8 +161,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+	protected final InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
+		if (player.getItemInHand(hand).getItem() instanceof GolemHolder) return InteractionResult.PASS;
+		for (var ent : modifiers.entrySet()) {
+			var result = ent.getKey().interact(player, this, hand);
+			if (result != InteractionResult.PASS) {
+				return result;
+			}
+		}
+		return mobInteractImpl(player, hand);
+	}
+
+	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
 		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.canModify(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
@@ -181,7 +192,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				}
 			}
 		}
-		return super.mobInteract(player, hand);
+		return InteractionResult.PASS;
 	}
 
 	@ServerOnly

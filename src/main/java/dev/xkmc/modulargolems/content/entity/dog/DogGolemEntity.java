@@ -237,12 +237,10 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return new Vec3(0.0D, 0.6F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
 	}
 
-	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
-		if (player.getItemInHand(hand).getItem() instanceof GolemHolder) return InteractionResult.PASS;
+	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
-			return super.mobInteract(player, hand);
+			return super.mobInteractImpl(player, hand);
 		else {
 			if (!this.level().isClientSide() && canModify(player))
 				this.setInSittingPose(!this.isInSittingPose());

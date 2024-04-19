@@ -11,6 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -36,13 +37,18 @@ public class MGTagGen {
 
 	public static final List<Consumer<RegistrateItemTagsProvider>> OPTIONAL_ITEM = new ArrayList<>();
 	public static final List<Consumer<RegistrateTagsProvider<Block>>> OPTIONAL_BLOCK = new ArrayList<>();
+	public static final List<Consumer<RegistrateTagsProvider<MobEffect>>> OPTIONAL_EFF = new ArrayList<>();
 
-	public static void onBlockTagGen(RegistrateTagsProvider<Block> pvd) {
+	public static void onBlockTagGen(RegistrateTagsProvider.IntrinsicImpl<Block> pvd) {
 		pvd.addTag(POTENTIAL_DST)
 				.addTag(BlockTags.SHULKER_BOXES)
 				.addTag(Tags.Blocks.CHESTS)
 				.addTag(Tags.Blocks.BARRELS);
 		OPTIONAL_BLOCK.forEach(e -> e.accept(pvd));
+	}
+
+	public static void onEffTagGen(RegistrateTagsProvider.IntrinsicImpl<MobEffect> pvd) {
+		OPTIONAL_EFF.forEach(e -> e.accept(pvd));
 	}
 
 	public static void onItemTagGen(RegistrateItemTagsProvider pvd) {

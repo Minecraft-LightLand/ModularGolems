@@ -25,6 +25,9 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue compatTFDamage;
 		public final ForgeConfigSpec.IntValue carminiteTime;
 		public final ForgeConfigSpec.DoubleValue coating;
+		public final ForgeConfigSpec.DoubleValue mechSpeed;
+		public final ForgeConfigSpec.DoubleValue mechAttack;
+		public final ForgeConfigSpec.IntValue mechMaxFuel;
 		public final ForgeConfigSpec.BooleanValue barehandRetrieve;
 		public final ForgeConfigSpec.DoubleValue damageCap;
 		public final ForgeConfigSpec.IntValue conduitCooldown;
@@ -124,6 +127,12 @@ public class MGConfig {
 				builder.push("create compat");
 				coating = builder.comment("Damage absorbed per level of coating")
 						.defineInRange("coating", 1d, 0, 10000);
+				mechSpeed = builder.comment("Speed boost per level of Mechanical Mobility")
+						.defineInRange("mechSpeed", 0.2, 0, 1);
+				mechAttack = builder.comment("Attack boost per level of Mechanical Force")
+						.defineInRange("mechAttack", 0.2, 0, 1);
+				mechMaxFuel = builder.comment("Maximum number of fuel item that can be added at the same time")
+						.defineInRange("mechMaxFuel", 3, 1, 364);
 				builder.pop();
 
 				builder.push("l2complements compat");

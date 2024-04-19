@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "create:railway_casing",
-	  "text": "Main material to craft Railway golem parts. It provides high speed boost, high magic damage resistance, fire resistance, range attack, and high knock back. It attacks as if it is a train running into mobs"
+	  "text": "Main material to craft Railway golem parts. It provides high magic damage resistance, fire resistance, range attack, and high knock back. Boosts speed and damage significantly when consuming fuels. It attacks as if it is a train running into mobs"
 	},
 	{
 	  "type": "patchouli:spotlight",

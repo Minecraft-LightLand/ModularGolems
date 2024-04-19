@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "create:andesite_alloy",
-	  "text": "制作安山合金傀儡部件的主要材料，修复成本低廉，可为傀儡提供额外移动速度和魔法抗性"
+	  "text": "制作安山合金傀儡部件的主要材料，修复成本低廉，可为傀儡提供额外魔法抗性。消耗燃料可以提升速度和攻击伤害"
 	},
 	{
 	  "type": "patchouli:spotlight",

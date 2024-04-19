@@ -271,8 +271,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	@Override
-	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
+	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (player.isShiftKeyDown()) {
 			if (canModify(player)) {
@@ -281,12 +280,12 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				}
 			}
 			if (itemstack.isEmpty()) {
-				super.mobInteract(player, hand);
+				super.mobInteractImpl(player, hand);
 			}
 			return InteractionResult.SUCCESS;
 		}
 		if (itemstack.isEmpty()) {
-			return super.mobInteract(player, hand);
+			return super.mobInteractImpl(player, hand);
 		}
 		if ((itemstack.getItem() instanceof GolemHolder) ||
 				!itemstack.getItem().canFitInsideContainerItems() ||

@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "modulargolems:mechanical_mobility",
+      "required": false
+    },
+    {
+      "id": "modulargolems:mechanical_force",
+      "required": false
+    }
+  ]
+}

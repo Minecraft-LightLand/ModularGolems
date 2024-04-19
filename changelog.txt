@@ -1,3 +1,7 @@
+- 2.4.31
+    - Damage cap redo
+    - Create material / recipe overhaul
+
 - 2.4.30
     - Fix Patchouli Book for cataclysm
     - Add patrol patchouli entries
