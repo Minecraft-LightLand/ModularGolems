@@ -121,10 +121,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 	}
 
-	public int getAttackAnimationTick() {
-		return this.attackAnimationTick;
-	}
-
 	protected SoundEvent getHurtSound(DamageSource p_28872_) {
 		return SoundEvents.IRON_GOLEM_HURT;
 	}
