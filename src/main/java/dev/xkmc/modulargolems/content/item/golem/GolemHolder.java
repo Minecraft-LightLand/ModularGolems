@@ -389,6 +389,25 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return false;
 	}
 
+	@Nullable
+	public T createDummy(ItemStack stack, Level level) {
+		CompoundTag root = stack.getTag();
+		if (root == null) return null;
+		T golem;
+		if (root.contains(KEY_ENTITY)) {
+			golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
+			golem.updateAttributes(getMaterial(stack), getUpgrades(stack), null);
+		} else if (root.contains(KEY_MATERIAL)) {
+			golem = type.get().create(level);
+			golem.onCreate(getMaterial(stack), getUpgrades(stack), null);
+		} else return null;
+		getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.getFirst(), e.getSecond()));
+		if (stack.hasCustomHoverName()) {
+			golem.setCustomName(stack.getHoverName());
+		}
+		return golem;
+	}
+
 	@Override
 	public boolean isBarVisible(ItemStack stack) {
 		if (stack.getTag() != null && stack.getTag().contains(KEY_DISPLAY))

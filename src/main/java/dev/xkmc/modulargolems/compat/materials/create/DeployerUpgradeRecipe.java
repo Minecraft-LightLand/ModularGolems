@@ -11,22 +11,22 @@ import net.minecraft.world.level.Level;
 
 public record DeployerUpgradeRecipe(ItemStack result) implements Recipe<Container> {
 	@Override
-	public boolean matches(Container p_44002_, Level p_44003_) {
+	public boolean matches(Container container, Level level) {
 		return false;
 	}
 
 	@Override
-	public ItemStack assemble(Container p_44001_, RegistryAccess p_267165_) {
+	public ItemStack assemble(Container container, RegistryAccess access) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public boolean canCraftInDimensions(int p_43999_, int p_44000_) {
+	public boolean canCraftInDimensions(int w, int h) {
 		return false;
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess p_267052_) {
+	public ItemStack getResultItem(RegistryAccess access) {
 		return result.copy();
 	}
 
