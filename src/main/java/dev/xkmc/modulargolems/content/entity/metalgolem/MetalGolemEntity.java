@@ -112,12 +112,13 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return IronGolem.Crackiness.byFraction(this.getHealth() / this.getMaxHealth());
 	}
 
-	public void handleEntityEvent(MetalGolemEntity pEntity,byte pId) {
+	public void handleEntityEvent(byte pId) {
 		if (pId == 4) {
 			this.attackAnimationTick=4;
-			if (!pEntity.getMainHandItem().isEmpty()) {
-				this.armedStandardAnimationState.start(this.tickCount);
-			}
+				this.armedAttackAnimationState.start(this.tickCount);
+				this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+		}else{
+			super.handleEntityEvent(pId);
 		}
 	}
 

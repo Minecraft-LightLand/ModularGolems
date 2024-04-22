@@ -67,6 +67,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		if (!pEntity.getMainHandItem().isEmpty()) {
 			this.animate(pEntity.armedStandardAnimationState, CustomModelAnimation.standard, pAgeInTicks);
+			this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.offensive, pAgeInTicks);
 		}
 	}
 
