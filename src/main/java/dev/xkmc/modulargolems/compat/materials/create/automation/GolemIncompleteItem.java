@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.create;
+package dev.xkmc.modulargolems.compat.materials.create.automation;
 
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
 import com.tterrag.registrate.util.entry.ItemEntry;

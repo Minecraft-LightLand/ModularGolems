@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.create;
+package dev.xkmc.modulargolems.compat.materials.create.modifier;
 
 import dev.xkmc.l2library.base.effects.api.InherentEffect;
 import dev.xkmc.l2library.util.math.MathHelper;
@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class MechMobileEffect extends InherentEffect {
 
-	protected MechMobileEffect(MobEffectCategory category, int color) {
+	public MechMobileEffect(MobEffectCategory category, int color) {
 		super(category, color);
 		var uuid = MathHelper.getUUIDFromString("modulargolems:mech_mobility");
 		addAttributeModifier(Attributes.MOVEMENT_SPEED, uuid.toString(), 0.2, AttributeModifier.Operation.MULTIPLY_BASE);

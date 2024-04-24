@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.create;
+package dev.xkmc.modulargolems.compat.materials.create.automation;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
@@ -9,6 +9,8 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
+import dev.xkmc.modulargolems.compat.materials.create.automation.ConditionalSARecipeBuilder;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;

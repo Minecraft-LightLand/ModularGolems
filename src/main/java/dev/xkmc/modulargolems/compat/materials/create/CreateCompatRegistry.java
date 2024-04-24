@@ -2,14 +2,18 @@ package dev.xkmc.modulargolems.compat.materials.create;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
+import dev.xkmc.modulargolems.compat.materials.create.automation.DummyFurnace;
+import dev.xkmc.modulargolems.compat.materials.create.modifier.*;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -30,7 +34,8 @@ public class CreateCompatRegistry {
 	public static final RegistryEntry<MechMobileEffect> EFF_MOBILE;
 	public static final RegistryEntry<MechForceEffect> EFF_FORCE;
 
-	public static final RegistryEntry<SimpleUpgradeItem> UP_COATING, UP_PUSH;
+	public static final ItemEntry<SimpleUpgradeItem> UP_COATING, UP_PUSH;
+	public static final ItemEntry<DummyFurnace> DUMMY;
 
 	static {
 		COATING = reg("coating", CoatingModifier::new, "Reduce damage taken by %s");
@@ -47,6 +52,11 @@ public class CreateCompatRegistry {
 				"Increase golem movement speed");
 		EFF_FORCE = genEffect("mechanical_force", () -> new MechForceEffect(MobEffectCategory.BENEFICIAL, 0xffffffff),
 				"Increase golem attack damage");
+
+		DUMMY = ModularGolems.REGISTRATE.item("dummy_furnace", p -> new DummyFurnace())
+				.model((ctx, pvd) -> pvd.withExistingParent("item/" + ctx.getName(), "block/air"))
+				.removeTab(GolemItems.TAB.getKey())
+				.register();
 	}
 
 	private static <T extends MobEffect> RegistryEntry<T> genEffect(String name, NonNullSupplier<T> sup, String desc) {

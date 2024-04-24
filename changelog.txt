@@ -1,6 +1,12 @@
+- 2.4.32
+    - Fix create fuel feeding
+
 - 2.4.31
-    - Damage cap redo
-    - Create material / recipe overhaul
+    - Damage cap modifier fix
+    - Change create material stats, add new modifiers
+    - Create material recipe using sequenced assembly only
+    - Create generic material recipe switched from heated mixing to sequenced assembly
+    - Allow deployer to put equipments and curios onto golems
 
 - 2.4.30
     - Fix Patchouli Book for cataclysm

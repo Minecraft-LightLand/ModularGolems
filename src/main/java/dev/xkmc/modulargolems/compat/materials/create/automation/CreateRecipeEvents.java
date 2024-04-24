@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.create;
+package dev.xkmc.modulargolems.compat.materials.create.automation;
 
 import com.simibubi.create.content.kinetics.deployer.DeployerRecipeSearchEvent;
 import dev.xkmc.modulargolems.content.core.IGolemPart;

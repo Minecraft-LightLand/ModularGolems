@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.create;
+package dev.xkmc.modulargolems.compat.materials.create.modifier;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -11,15 +11,20 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 import java.util.List;
 
-public class MechMobileModifier extends GolemModifier {
+public class CoatingModifier extends GolemModifier {
 
-	public MechMobileModifier() {
-		super(StatFilterType.MOVEMENT, 5);
+	public CoatingModifier() {
+		super(StatFilterType.MASS, 5);
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		int reduce = (int) Math.round(v * MGConfig.COMMON.mechSpeed.get() * 100);
+		double reduce = v * MGConfig.COMMON.coating.get();
 		return List.of(Component.translatable(getDescriptionId() + ".desc", reduce).withStyle(ChatFormatting.GREEN));
+	}
+
+	@Override
+	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
+		event.setAmount((float) Math.max(0, event.getAmount() - level * MGConfig.COMMON.coating.get()));
 	}
 
 }

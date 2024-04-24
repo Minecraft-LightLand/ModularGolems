@@ -16,17 +16,20 @@
   "modifiers": {
     "create:andesite_alloy": {
       "modulargolems:magic_resistant": 1,
+      "modulargolems:mechanical_engine": 1,
       "modulargolems:mechanical_force": 1,
       "modulargolems:mechanical_mobility": 1
     },
     "create:brass": {
       "modulargolems:magic_resistant": 2,
+      "modulargolems:mechanical_engine": 1,
       "modulargolems:mechanical_force": 1,
       "modulargolems:mechanical_mobility": 1
     },
     "create:railway": {
       "modulargolems:fire_immune": 1,
       "modulargolems:magic_resistant": 2,
+      "modulargolems:mechanical_engine": 1,
       "modulargolems:mechanical_force": 2,
       "modulargolems:mechanical_mobility": 2
     },
