@@ -1,8 +1,9 @@
 {
   "values": [
-    "minecraft:player_head",
-    "minecraft:zombie_head",
-    "minecraft:skeleton_skull",
-    "minecraft:wither_skeleton_skull"
+    "#modulargolems:player_skin",
+    {
+      "id": "touhou_little_maid:garage_kit",
+      "required": false
+    }
   ]
 }
