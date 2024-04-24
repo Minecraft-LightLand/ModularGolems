@@ -79,10 +79,9 @@ public class MGTagGen {
 				GolemItems.SLOW.get(),
 				GolemItems.WITHER.get()
 		);
-		pvd.addTag(PLAYER_SKIN).add(Items.PLAYER_HEAD, Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
-
+		pvd.addTag(PLAYER_SKIN).add(Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
 		var skin = pvd.addTag(CURIO_SKIN);
-		skin.addTag(PLAYER_SKIN);
+		skin.addTag(PLAYER_SKIN).add(Items.PLAYER_HEAD, Items.PIGLIN_HEAD);
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			skin.addOptional(new ResourceLocation(TouhouLittleMaid.MOD_ID, "garage_kit"));
 		}
