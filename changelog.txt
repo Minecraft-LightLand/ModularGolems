@@ -1,5 +1,6 @@
 - 2.4.32
     - Fix create fuel feeding
+    - Allow golems to use fuels from dimensional backpack on them or their captain
 
 - 2.4.31
     - Damage cap modifier fix
