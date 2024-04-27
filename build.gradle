@@ -231,7 +231,10 @@ dependencies {
 
     implementation fg.deobf("curse.maven:touhou-little-maid-355044:4968578")
 
-    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4636277")
+    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4966125")
+
+    //compileOnly fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE:api")
+    implementation fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE")
 
     //implementation fg.deobf('curse.maven:ic2-classic-242942:4441313')
 

@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.card.*;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
+import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -34,6 +35,8 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
@@ -71,8 +74,8 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
+	public static final ItemEntry<MetalGolemBeaconItem>[] METALGOLEM_BEACONS;
 	public static final ItemEntry<ConfigCard>[] CARD;
-	public static final ItemEntry<PathRecordCard> CARD_PATH;
 	public static final ItemEntry<NameFilterCard> CARD_NAME;
 	public static final ItemEntry<EntityTypeFilterCard> CARD_TYPE;
 	public static final ItemEntry<UuidFilterCard> CARD_UUID;
@@ -164,7 +167,13 @@ public class GolemItems {
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
 		}
 
-		// card
+		//metalgolem beacon
+		{
+			METALGOLEM_BEACONS = IntStream.range(1, 5).mapToObj(
+					i->REGISTRATE.item("golem_beacon_level_" + i, p -> new MetalGolemBeaconItem(p.stacksTo(1), i)).register()
+			).toArray(ItemEntry[]::new);
+		}
+
 		{
 			CARD = new ItemEntry[16];
 			for (int i = 0; i < 16; i++) {
@@ -314,8 +323,6 @@ public class GolemItems {
 					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
-
-		CompatManager.lateRegister();
 
 	}
 

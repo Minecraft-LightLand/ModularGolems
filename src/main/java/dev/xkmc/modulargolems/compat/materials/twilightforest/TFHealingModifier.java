@@ -25,7 +25,7 @@ public class TFHealingModifier extends GolemModifier {
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		int bonus = (int) Math.round((1 + MGConfig.COMMON.compatTFHealing.get() * v) * 100);
+		int bonus = (int) Math.round((MGConfig.COMMON.compatTFHealing.get() * v) * 100);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", bonus).withStyle(ChatFormatting.GREEN));
 	}
 

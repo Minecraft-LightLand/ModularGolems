@@ -23,6 +23,10 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue explosionResistance;
 		public final ForgeConfigSpec.DoubleValue compatTFHealing;
 		public final ForgeConfigSpec.DoubleValue compatTFDamage;
+		public final ForgeConfigSpec.IntValue manaMendingCost;
+		public final ForgeConfigSpec.DoubleValue manaMendingVal;
+		public final ForgeConfigSpec.DoubleValue manaBoostingDamage;
+		public final ForgeConfigSpec.IntValue manaBoostingCost;
 		public final ForgeConfigSpec.IntValue carminiteTime;
 		public final ForgeConfigSpec.DoubleValue coating;
 		public final ForgeConfigSpec.DoubleValue mechSpeed;
@@ -125,6 +129,19 @@ public class MGConfig {
 							.defineInRange("compatTFDamage", 0.2, 0, 100);
 					carminiteTime = builder.comment("Time for the golem to be invincible (in ticks) per level of carminite")
 							.defineInRange("carminiteTime", 20, 1, 100000);
+				}
+				builder.pop();
+
+				builder.push("botania compat");
+				{
+					manaMendingCost = builder.comment("Mana mending cost per HP")
+							.defineInRange("mendingManaCost", 500, 1, 50000);
+					manaMendingVal = builder.comment("Mana mending value per level")
+							.defineInRange("manaMendingVal", 1D, 0.1D, 100D);
+					manaBoostingDamage = builder.comment("Percentage damage bonus per level of mana boost")
+							.defineInRange("manaBoostingDamage", 0.2, 0, 100);
+					manaBoostingCost = builder.comment("Mana boosting cost per hit")
+							.defineInRange("manaBoostingCost", 1000, 0, 100000);
 				}
 				builder.pop();
 
