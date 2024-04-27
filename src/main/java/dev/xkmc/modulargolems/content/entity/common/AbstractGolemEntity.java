@@ -21,7 +21,6 @@ import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -163,8 +162,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected final InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
-		if (player.getItemInHand(hand).getItem() instanceof GolemHolder) return InteractionResult.PASS;
+		if (player.getItemInHand(hand).is(MGTagGen.GOLEM_INTERACT)) return InteractionResult.PASS;
 		for (var ent : modifiers.entrySet()) {
 			var result = ent.getKey().interact(player, this, hand);
 			if (result != InteractionResult.PASS) {
@@ -429,11 +427,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected float getAttackDamage() {
-		float ans = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-		for (var entry : getModifiers().entrySet()) {
-			ans = entry.getKey().modifyDamage(ans, this, entry.getValue());
-		}
-		return ans;
+		return (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 	}
 
 	@Override

@@ -8,8 +8,6 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
@@ -89,11 +87,8 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 		if (!golem.canModify(user)) return false;
 		if (level.isClientSide()) return true;
 		if (user.isShiftKeyDown()) {
-			if (golem instanceof HumanoidGolemEntity || golem instanceof MetalGolemEntity) {
-				new EquipmentsMenuPvd(golem).open((ServerPlayer) user);
-				return true;
-			}
-			return false;
+			new EquipmentsMenuPvd(golem).open((ServerPlayer) user);
+			return true;
 		}
 		GolemMode mode = GolemModes.nextMode(golem.getMode());
 		golem.setMode(mode.getID(), mode.hasPos() ? golem.blockPosition() : BlockPos.ZERO);
