@@ -18,6 +18,7 @@ import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
@@ -444,6 +445,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
+			}
+		}
+		for (var slot: EquipmentSlot.values()) {
+			var stack = this.getItemBySlot(slot);
+			if (stack.getItem() instanceof TickEquipmentItem tickItem) {
+				tickItem.tick(stack, this.level(), this);
 			}
 		}
 	}

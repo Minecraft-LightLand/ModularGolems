@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
+import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
@@ -104,6 +105,8 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		if (golem instanceof MetalGolemEntity) {//TODO use events
 			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
 				return mgai.getSlot();
+			} else if (stack.getItem() instanceof MetalGolemBeaconItem) {
+				return EquipmentSlot.FEET;
 			} else if (stack.getItem() instanceof MetalGolemWeaponItem) {
 				return EquipmentSlot.MAINHAND;
 			} else if (stack.getItem() instanceof BannerItem) {
