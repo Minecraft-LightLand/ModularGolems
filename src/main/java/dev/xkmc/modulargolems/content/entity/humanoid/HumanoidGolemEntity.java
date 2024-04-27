@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -273,6 +274,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@Override
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
+		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
+			return InteractionResult.PASS;
 		if (player.isShiftKeyDown()) {
 			if (canModify(player)) {
 				for (EquipmentSlot slot : EquipmentSlot.values()) {

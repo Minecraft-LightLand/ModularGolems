@@ -29,6 +29,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue mechAttack;
 		public final ForgeConfigSpec.IntValue mechMaxFuel;
 		public final ForgeConfigSpec.BooleanValue barehandRetrieve;
+		public final ForgeConfigSpec.BooleanValue strictInteract;
 		public final ForgeConfigSpec.DoubleValue damageCap;
 		public final ForgeConfigSpec.IntValue conduitCooldown;
 		public final ForgeConfigSpec.IntValue conduitDamage;
@@ -74,6 +75,9 @@ public class MGConfig {
 					.defineInRange("retrieveRange", 20, 1, 1000);
 			ownerPickupOnly = builder.comment("Only owner can pickup")
 					.define("ownerPickupOnly", true);
+			strictInteract = builder.comment("When enabled, the following features will be disabled when player holds item in hand:")
+					.comment("- give item to golem or take items from golem by right click").comment("- order dog golem to seat")
+					.define("strictInteract", false);
 			startFollowRadius = builder.comment("Max golem activity radius before following player in follow mode")
 					.defineInRange("startFollowRadius", 10d, 1, 100);
 			stopWanderRadius = builder.comment("Max golem activity radius before willing to go back to origin in wander mode")

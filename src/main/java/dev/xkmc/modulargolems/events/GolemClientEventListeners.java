@@ -18,10 +18,14 @@ public class GolemClientEventListeners {
 	@SubscribeEvent
 	public static void onHumanoidSkin(HumanoidSkinEvent event) {
 		if (event.getStack().is(Items.PLAYER_HEAD)) {
-			event.setSkin(new SpecialRenderProfile(true, new ResourceLocation(event.getStack().getHoverName().getString())));
+			String name = event.getStack().getHoverName().getString();
+			if (ResourceLocation.isValidResourceLocation(name))
+				event.setSkin(new SpecialRenderProfile(true, new ResourceLocation(name)));
 		}
 		if (event.getStack().is(Items.PIGLIN_HEAD)) {
-			event.setSkin(new SpecialRenderProfile(false, new ResourceLocation(event.getStack().getHoverName().getString())));
+			String name = event.getStack().getHoverName().getString();
+			if (ResourceLocation.isValidResourceLocation(name))
+				event.setSkin(new SpecialRenderProfile(false, new ResourceLocation(name)));
 		}
 		if (event.getStack().is(MGTagGen.PLAYER_SKIN)) {
 			event.setSkin(ClientProfileManager.get(event.getStack().getHoverName().getString()));

@@ -3,8 +3,6 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -239,6 +237,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
+		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
+			return InteractionResult.PASS;
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
 			return super.mobInteractImpl(player, hand);
 		else {

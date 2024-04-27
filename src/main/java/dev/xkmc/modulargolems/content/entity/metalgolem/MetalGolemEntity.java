@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -165,6 +166,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		var mat = getMaterials().get(MetalGolemPartType.BODY.ordinal());
 		Ingredient ing = GolemMaterialConfig.get().ingredients.get(mat.id());
 		if (!ing.test(itemstack)) {
+			if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
+				return InteractionResult.PASS;
 			return super.mobInteractImpl(player, hand);
 		} else {
 			float f = this.getHealth();

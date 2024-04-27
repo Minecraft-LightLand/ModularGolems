@@ -84,36 +84,36 @@ public class GolemItems {
 
 		{
 			RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1), null))
-					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 			COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1), null))
-					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 			DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1), null))
-					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 			RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1), null))
-					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 			SQUAD_WAND = REGISTRATE.item("squad_wand", p -> new SquadWandItem(p.stacksTo(1), null))
-					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().register();
+					.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 
 
 			OMNI_COMMAND = REGISTRATE.item("omnipotent_wand_command", p -> new CommandWandItem(p.stacksTo(1), COMMAND_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Command").tag(L2ISTagGen.SELECTABLE)
+					.lang("Omnipotent Wand: Command").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
 					.register();
 			OMNI_RETRIVAL = REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Retrieval").tag(L2ISTagGen.SELECTABLE)
+					.lang("Omnipotent Wand: Retrieval").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
 					.removeTab(TAB.getKey()).register();
 			OMNI_DISPENSE = REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Summon").tag(L2ISTagGen.SELECTABLE)
+					.lang("Omnipotent Wand: Summon").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
 					.removeTab(TAB.getKey()).register();
 			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE)
+					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
 					.removeTab(TAB.getKey()).register();
 			OMNI_SQUAD = REGISTRATE.item("omnipotent_wand_squad", p -> new SquadWandItem(p.stacksTo(1), SQUAD_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Squad").tag(L2ISTagGen.SELECTABLE)
+					.lang("Omnipotent Wand: Squad").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
 					.removeTab(TAB.getKey()).register();
 
 		}
@@ -177,18 +177,23 @@ public class GolemItems {
 
 			CARD_NAME = REGISTRATE.item("target_filter_name", p -> new NameFilterCard(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/name")))
+					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Target Filter: Datapack").register();
 			CARD_TYPE = REGISTRATE.item("target_filter_type", p -> new EntityTypeFilterCard(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/type")))
+					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Target Filter: Entity Type").register();
 			CARD_UUID = REGISTRATE.item("target_filter_uuid", p -> new UuidFilterCard(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/uuid")))
+					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Target Filter: Entity UUID").register();
 			CARD_DEF = REGISTRATE.item("target_filter_default", p -> new DefaultFilterCard(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/default")))
+					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Target Filter: Default Target").register();
 			CARD_PATH = REGISTRATE.item("patrol_path_recorder", p -> new PathRecordCard(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/path")))
+					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Patrol Path Recorder").register();
 		}
 
