@@ -180,32 +180,32 @@ repositories {
 dependencies {
 
     implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}-slim")
-    implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.2.1")
+    implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.2.2")
     runtimeOnly fg.deobf("dev.xkmc.l2modularblock:l2modularblock:1.1.0")
-    implementation fg.deobf("dev.xkmc.l2screentracker:l2screentracker:0.1.3")
+    implementation fg.deobf("dev.xkmc.l2screentracker:l2screentracker:0.1.4")
 
-    implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:0.2.3")
+    implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:0.3.2")
 
     implementation fg.deobf(jarJar("dev.xkmc.l2itemselector:l2itemselector:0.1.8")) {
         transitive = false
         jarJar.ranged(it, "[0.1.8,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.2.8")) {
+    implementation fg.deobf(jarJar("dev.xkmc.l2damagetracker:l2damagetracker:0.3.7")) {
         transitive = false
-        jarJar.ranged(it, "[0.2.8,)")
+        jarJar.ranged(it, "[0.3.7,)")
     }
 
-    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.12-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.24-slim')
-    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.13-pre18-slim")
+    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.35-slim')
+    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.20-slim")
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
-    runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.4.8-slim")
-    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.7")
-    runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.18")
+    runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.4.21-slim")
+    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.13")
+    runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.28")
 
     implementation fg.deobf('zip.local.blazegear:blazegear:1.3.6')
     implementation fg.deobf('zip.local.touhoulittlemaid:touhoulittlemaid:1.2.0')
