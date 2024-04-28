@@ -225,18 +225,18 @@ dependencies {
 
 
     implementation fg.deobf("curse.maven:jade-324717:4654448")
-    implementation fg.deobf("curse.maven:lendercataclysm-551586:5058433")
+    implementation fg.deobf("curse.maven:lionfish-api-1001614:5274401")
+    implementation fg.deobf("curse.maven:lendercataclysm-551586:5299092")
     implementation fg.deobf("curse.maven:citadel-331936:4848887")
     implementation fg.deobf("curse.maven:alexs-caves-924854:4852042")
 
-    implementation fg.deobf("curse.maven:touhou-little-maid-355044:4968578")
-
+    //implementation fg.deobf("curse.maven:touhou-little-maid-355044:4968578")
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:4966125")
-
-    //compileOnly fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE:api")
     implementation fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE")
-
-    //implementation fg.deobf('curse.maven:ic2-classic-242942:4441313')
+    runtimeOnly fg.deobf("curse.maven:geckolib-388172:4711657")
+    runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4587214")
+    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:4693050")
+    implementation fg.deobf("curse.maven:ars-nouveau-401955:4751471")
 
 }
 

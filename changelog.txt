@@ -2,6 +2,10 @@
     - entity interact bypass tag
     - strict interact config
     - allow attribute page to be opened for dog golem
+    - Fix equipment page description for non-humanoid
+    - Fix Twilight Forest damage modifier
+    - Allow humanoid golem to use custom texture skins, and TouhouLittleMaid skins
+    - Fix compat with newest Cataclysm (requires Cataclysm 1.99+)
 
 - 2.4.32
     - Fix create fuel feeding

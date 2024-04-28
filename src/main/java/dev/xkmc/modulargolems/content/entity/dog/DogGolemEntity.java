@@ -17,6 +17,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,7 +36,13 @@ import org.jetbrains.annotations.Nullable;
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
 
 	public float getJumpStrength() {
-		return (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
+		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
+		MobEffectInstance ins = getEffect(MobEffects.JUMP);
+		if (ins != null) {
+			int lv = ins.getAmplifier() + 1;
+			ans *= (1 + lv * 0.625f);
+		}
+		return ans;
 	}
 
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
