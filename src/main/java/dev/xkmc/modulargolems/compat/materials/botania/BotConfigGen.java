@@ -26,17 +26,21 @@ public class BotConfigGen extends ConfigDataProvider {
                 .end()
 
                 .addMaterial(new ResourceLocation(BotDispatch.MODID, "terrasteel"), Ingredient.of(BotaniaItems.terrasteel))
-                .addStat(GolemTypes.STAT_HEALTH.get(), 500)
+                .addStat(GolemTypes.STAT_HEALTH.get(), 300)
                 .addStat(GolemTypes.STAT_ATTACK.get(), 30)
                 .addModifier(BotCompatRegistry.MANA_MENDING.get(), 2)
                 .addModifier(BotCompatRegistry.MANA_BOOSTING.get(), 2)
+                .addModifier(BotCompatRegistry.MANA_PRODUCTION.get(), 1)
+                .addModifier(BotCompatRegistry.MANA_BURST.get(), 1)
                 .end()
 
                 .addMaterial(new ResourceLocation(BotDispatch.MODID, "elementium"), Ingredient.of(BotaniaItems.elementium))
-                .addStat(GolemTypes.STAT_HEALTH.get(), 250)
+                .addStat(GolemTypes.STAT_HEALTH.get(), 200)
                 .addStat(GolemTypes.STAT_ATTACK.get(), 15)
                 .addModifier(BotCompatRegistry.MANA_MENDING.get(), 1)
                 .addModifier(BotCompatRegistry.MANA_BOOSTING.get(), 1)
+                .addModifier(BotCompatRegistry.PIXIE_ATTACK.get(), 1)
+                .addModifier(BotCompatRegistry.PIXIE_COUNTERATTACK.get(), 1)
                 .end()
         );
     }

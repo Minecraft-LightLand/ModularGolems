@@ -12,17 +12,16 @@ import vazkii.botania.api.BotaniaForgeCapabilities;
 
 import java.util.List;
 
-public class ManaMendingModifier extends GolemModifier {
+public class ManaProductionModifier extends GolemModifier {
 
-    public ManaMendingModifier() {
+    public ManaProductionModifier() {
         super(StatFilterType.HEALTH, MAX_LEVEL);
     }
 
     @Override
     public double onInventoryHealTick(double heal, GolemModifier.HealingContext ctx, int level) {
         if (ctx.owner() instanceof LivingEntity le) {
-            var maxHeal = le.getMaxHealth() - le.getHealth();
-            if (maxHeal <= 0) return heal;
+            var prod = MGConfig.COMMON.manaProductionVal.get() * level;
 
             var opt = CuriosApi.getCuriosInventory(le).resolve();
             if (opt.isEmpty()) return heal;
@@ -31,17 +30,9 @@ public class ManaMendingModifier extends GolemModifier {
             for (var item: manaItems) {
                 var manaItem = item.stack().getCapability(BotaniaForgeCapabilities.MANA_ITEM).orElse(null);
                 if (manaItem != null) {
-                    var remainMana = manaItem.getMana();
-                    var eff = MGConfig.COMMON.manaMendingCost.get();
-                    var val = MGConfig.COMMON.manaMendingVal.get() * level;
-                    if (remainMana < eff) continue;
-
-                    var manaHeal = Math.min(1F * remainMana / eff, val);
-                    manaHeal = Math.min(manaHeal, maxHeal);
-                    int manaCost = (int) (-manaHeal * eff);
-                    manaItem.addMana(manaCost);
-                    //System.out.printf("cost %s mana for mending. remaining: %s\n", manaCost, manaItem.getMana());
-                    return heal + manaHeal;
+                    manaItem.addMana(prod);
+                    //System.out.println(manaItem.getMana());
+                    return heal;
                 }
             }
         }
@@ -49,8 +40,7 @@ public class ManaMendingModifier extends GolemModifier {
     }
 
     public List<MutableComponent> getDetail(int v) {
-        int eff = MGConfig.COMMON.manaMendingCost.get();
-        double val = MGConfig.COMMON.manaMendingVal.get() * v;
-        return List.of(Component.translatable(getDescriptionId() + ".desc", val, eff).withStyle(ChatFormatting.GREEN));
+        var prod = MGConfig.COMMON.manaProductionVal.get() * v;
+        return List.of(Component.translatable(getDescriptionId() + ".desc", prod).withStyle(ChatFormatting.GREEN));
     }
 }

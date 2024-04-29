@@ -1,0 +1,29 @@
+{
+  "flag": "mod:botania",
+  "name": "Manasteel",
+  "icon": "botania:manasteel_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 601,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "botania:manasteel_ingot",
+      "text": "Main material to craft manasteel golem parts. manasteel golem parts feature balanced attack and health. It's is capable of boosting damage and repairing itself at a faster speed when there is mana available in curios slots."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"botania:manasteel\"},{part:\"modulargolems:metal_golem_body\",material:\"botania:manasteel\"},{part:\"modulargolems:metal_golem_arm\",material:\"botania:manasteel\"},{part:\"modulargolems:metal_golem_legs\",material:\"botania:manasteel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"botania:manasteel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"botania:manasteel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"botania:manasteel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"botania:manasteel\"},{part:\"modulargolems:dog_golem_legs\",material:\"botania:manasteel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    }
+  ]
+}

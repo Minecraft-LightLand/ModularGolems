@@ -1,0 +1,29 @@
+{
+  "flag": "mod:botania",
+  "name": "源质钢",
+  "icon": "botania:elementium_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 603,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "botania:elementium_ingot",
+      "text": "制作源质钢傀儡部件的主要材料，源质钢傀儡部件具有不错的攻击力和生命值和魔钢傀儡的特性，并且在攻击和被攻击时都有几率召唤精灵攻击目标。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"botania:elementium\"},{part:\"modulargolems:metal_golem_body\",material:\"botania:elementium\"},{part:\"modulargolems:metal_golem_arm\",material:\"botania:elementium\"},{part:\"modulargolems:metal_golem_legs\",material:\"botania:elementium\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"botania:elementium\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"botania:elementium\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"botania:elementium\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"botania:elementium\"},{part:\"modulargolems:dog_golem_legs\",material:\"botania:elementium\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    }
+  ]
+}
