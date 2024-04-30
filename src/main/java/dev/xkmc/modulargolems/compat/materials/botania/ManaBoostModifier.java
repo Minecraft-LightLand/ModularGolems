@@ -22,13 +22,13 @@ public class ManaBoostModifier extends GolemModifier {
     public float modifyDamage(float damage, AbstractGolemEntity<?, ?> entity, int level) {
         var opt = CuriosApi.getCuriosInventory(entity).resolve();
         if (opt.isEmpty()) return damage;
+
         var manaItems = opt.get().findCurios(stack -> stack.getCapability(BotaniaForgeCapabilities.MANA_ITEM).orElse(null) != null);
         for (var item: manaItems) {
             var manaItem = item.stack().getCapability(BotaniaForgeCapabilities.MANA_ITEM).orElse(null);
             if (manaItem != null) {
-                System.out.println(manaItem);
                 var remainMana = manaItem.getMana();
-                var manaCost = MGConfig.COMMON.manaBoostingCost.get();
+                var manaCost = MGConfig.COMMON.manaBoostingCost.get() * level;
                 var damageBoost = MGConfig.COMMON.manaBoostingDamage.get() * level;
                 if (remainMana >= manaCost) {
                     manaItem.addMana(-manaCost);
@@ -44,7 +44,7 @@ public class ManaBoostModifier extends GolemModifier {
 
     public List<MutableComponent> getDetail(int v) {
         int bonus = (int) Math.round((MGConfig.COMMON.manaBoostingDamage.get() * v) * 100);
-        int manaCost = MGConfig.COMMON.manaBoostingCost.get();
+        int manaCost = MGConfig.COMMON.manaBoostingCost.get() * v;
         return List.of(Component.translatable(getDescriptionId() + ".desc", bonus, manaCost).withStyle(ChatFormatting.GREEN));
     }
 }

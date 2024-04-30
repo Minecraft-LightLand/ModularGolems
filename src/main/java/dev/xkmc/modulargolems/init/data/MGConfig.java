@@ -27,6 +27,11 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue manaMendingVal;
 		public final ForgeConfigSpec.DoubleValue manaBoostingDamage;
 		public final ForgeConfigSpec.IntValue manaBoostingCost;
+		public final ForgeConfigSpec.IntValue manaProductionVal;
+		public final ForgeConfigSpec.DoubleValue manaBurstProb;
+		public final ForgeConfigSpec.IntValue manaBurstCost;
+		public final ForgeConfigSpec.DoubleValue pixieAttackProb;
+		public final ForgeConfigSpec.DoubleValue pixieCounterattackProb;
 		public final ForgeConfigSpec.IntValue carminiteTime;
 		public final ForgeConfigSpec.DoubleValue coating;
 		public final ForgeConfigSpec.DoubleValue mechSpeed;
@@ -135,13 +140,23 @@ public class MGConfig {
 				builder.push("botania compat");
 				{
 					manaMendingCost = builder.comment("Mana mending cost per HP")
-							.defineInRange("mendingManaCost", 500, 1, 50000);
+							.defineInRange("mendingManaCost", 200, 1, 50000);
 					manaMendingVal = builder.comment("Mana mending value per level")
 							.defineInRange("manaMendingVal", 1D, 0.1D, 100D);
 					manaBoostingDamage = builder.comment("Percentage damage bonus per level of mana boost")
 							.defineInRange("manaBoostingDamage", 0.2, 0, 100);
-					manaBoostingCost = builder.comment("Mana boosting cost per hit")
-							.defineInRange("manaBoostingCost", 1000, 0, 100000);
+					manaBoostingCost = builder.comment("Mana boosting cost per level (of 1 hit)")
+							.defineInRange("manaBoostingCost", 500, 0, 100000);
+					manaProductionVal = builder.comment("Mana production value per level")
+							.defineInRange("manaProductionVal", 20, 0, 100000);
+					manaBurstProb = builder.comment("Probability of emitting a magic burst of 1 hit")
+							.defineInRange("manaBurstProb", 0.25, 0, 1.0);
+					manaBurstCost = builder.comment("Mana burst cost (of 1 burst)")
+							.defineInRange("manaBurstCost", 500, 0, 100000);
+					pixieAttackProb = builder.comment("Probability of summoning a pixie when attacking")
+							.defineInRange("pixieAttackProb", 0.05, 0, 1.0);
+					pixieCounterattackProb = builder.comment("Probability of summoning a pixie when attacked")
+							.defineInRange("pixiecounterattackProb", 0.25, 0, 1.0);
 				}
 				builder.pop();
 
