@@ -3,11 +3,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
-import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
-import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
-import net.minecraft.client.animation.definitions.FrogAnimation;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
@@ -17,7 +14,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import dev.xkmc.modulargolems.content.client.pose.CustomModelAnimation;
-import net.minecraft.client.animation.KeyframeAnimations;
 @OnlyIn(Dist.CLIENT)
 public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
 
