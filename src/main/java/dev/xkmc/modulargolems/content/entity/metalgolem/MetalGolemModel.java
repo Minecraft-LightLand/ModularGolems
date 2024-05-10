@@ -74,6 +74,10 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftLeg.xRot = 1.5F * Mth.triangleWave(pLimbSwing, 13.0F) * pLimbSwingAmount;
 		this.rightLeg.yRot = 0.0F;
 		this.leftLeg.yRot = 0.0F;
+		this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(walkTick, 13.0F)) * speed;
+		this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(walkTick, 13.0F)) * speed;
+		this.rightForeArm.xRot = 0;
+		this.leftForeArm.xRot = 0;
 		this.resetArmPoses();
 	}
 	private void resetArmPoses() {
