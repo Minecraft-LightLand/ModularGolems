@@ -61,11 +61,10 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	public void setupAnim(MetalGolemEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
+		this.animateWalk(pNetHeadYaw,pHeadPitch,pLimbSwing,pLimbSwingAmount);
 		if (!pEntity.getMainHandItem().isEmpty()) {
-			this.animate(pEntity.armedStandardAnimationState, CustomModelAnimation.standard, pAgeInTicks);
 			this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.offensive, pAgeInTicks);
 		}
-            this.animateWalk(pNetHeadYaw,pHeadPitch,pLimbSwing,pLimbSwingAmount);
 	}
 	private void animateWalk(float pNetHeadYaw, float pHeadPitch,float pLimbSwing,float pLimbSwingAmount) {
 		this.head.yRot = pNetHeadYaw * ((float) Math.PI / 180F);
@@ -84,11 +83,11 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftArm.yRot = 0.0F;
 		this.leftArm.z = 0.0F;
 		this.leftArm.x = 0.0F;
-		this.leftArm.y = -0.0F;
+		this.leftArm.y = -7.0F;
 		this.rightArm.yRot = 0.0F;
 		this.rightArm.z = 0.0F;
 		this.rightArm.x = -0.0F;
-		this.rightArm.y = -0.0F;
+		this.rightArm.y = -7.0F;
 	}
 	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
 		if (type == MetalGolemPartType.BODY) {
