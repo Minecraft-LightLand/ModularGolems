@@ -65,7 +65,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 			this.animate(pEntity.armedStandardAnimationState, CustomModelAnimation.standard, pAgeInTicks);
 			this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.offensive, pAgeInTicks);
 		}
-
+            this.animateWalk(pNetHeadYaw,pHeadPitch,pLimbSwing,pLimbSwingAmount);
 	}
 	private void animateWalk(float pNetHeadYaw, float pHeadPitch,float pLimbSwing,float pLimbSwingAmount) {
 		this.head.yRot = pNetHeadYaw * ((float) Math.PI / 180F);
@@ -74,21 +74,21 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftLeg.xRot = 1.5F * Mth.triangleWave(pLimbSwing, 13.0F) * pLimbSwingAmount;
 		this.rightLeg.yRot = 0.0F;
 		this.leftLeg.yRot = 0.0F;
-		this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(walkTick, 13.0F)) * speed;
-		this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(walkTick, 13.0F)) * speed;
+		this.rightArm.xRot = (-0.2F + 1.5F * Mth.triangleWave(pLimbSwing, 13.0F)) * pLimbSwingAmount;
+		this.leftArm.xRot = (-0.2F - 1.5F * Mth.triangleWave(pLimbSwing, 13.0F)) * pLimbSwingAmount;
 		this.rightForeArm.xRot = 0;
 		this.leftForeArm.xRot = 0;
 		this.resetArmPoses();
 	}
 	private void resetArmPoses() {
 		this.leftArm.yRot = 0.0F;
-		this.leftArm.z = 1.0F;
-		this.leftArm.x = 13.0F;
-		this.leftArm.y = -13.0F;
+		this.leftArm.z = 0.0F;
+		this.leftArm.x = 0.0F;
+		this.leftArm.y = -0.0F;
 		this.rightArm.yRot = 0.0F;
-		this.rightArm.z = 1.0F;
-		this.rightArm.x = -13.0F;
-		this.rightArm.y = -13.0F;
+		this.rightArm.z = 0.0F;
+		this.rightArm.x = -0.0F;
+		this.rightArm.y = -0.0F;
 	}
 	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
 		if (type == MetalGolemPartType.BODY) {
