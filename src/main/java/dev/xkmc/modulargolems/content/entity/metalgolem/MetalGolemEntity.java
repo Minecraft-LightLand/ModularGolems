@@ -107,7 +107,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 		return flag;
 	}
-
+	public int getAttackAnimationTick() {
+		return this.attackAnimationTick;
+	}
 	public IronGolem.Crackiness getCrackiness() {
 		return IronGolem.Crackiness.byFraction(this.getHealth() / this.getMaxHealth());
 	}

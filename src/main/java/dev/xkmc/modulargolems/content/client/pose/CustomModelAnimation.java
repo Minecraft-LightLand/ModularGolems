@@ -12,23 +12,23 @@ import net.minecraft.client.animation.KeyframeAnimations;
  */
 public class CustomModelAnimation {
 	public static final AnimationDefinition standard = AnimationDefinition.Builder.withLength(1.0F)
-		.addAnimation("rightArm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+		.addAnimation("right_arm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.0833F, KeyframeAnimations.degreeVec(-110.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
 		))
-		.addAnimation("rightForeArm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+		.addAnimation("right_forearm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(-2160.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.5F, KeyframeAnimations.degreeVec(-75.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
 		))
 		.build();
 
 	public static final AnimationDefinition offensive = AnimationDefinition.Builder.withLength(1.25F)
-		.addAnimation("rightArm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+		.addAnimation("right_arm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(-110.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.25F, KeyframeAnimations.degreeVec(-32.5F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.5F, KeyframeAnimations.degreeVec(-110.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
 		))
-		.addAnimation("rightForeArm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+		.addAnimation("right_forearm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(-75.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.25F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.5F, KeyframeAnimations.degreeVec(-75.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
