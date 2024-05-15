@@ -11,7 +11,7 @@ import net.minecraft.client.animation.KeyframeAnimations;
  * @author Author
  */
 public class CustomModelAnimation {
-	public static final AnimationDefinition warningInSpear = AnimationDefinition.Builder.withLength(1.0F)
+	public static final AnimationDefinition warningInAxe = AnimationDefinition.Builder.withLength(1.0F)
 		.addAnimation("right_arm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.0833F, KeyframeAnimations.degreeVec(-110.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
@@ -53,7 +53,7 @@ public class CustomModelAnimation {
 			))
 			.build();
 
-	public static final AnimationDefinition WarningInSpear = AnimationDefinition.Builder.withLength(0.7083F)
+	public static final AnimationDefinition warningInSpear = AnimationDefinition.Builder.withLength(0.7083F)
 			.addAnimation("right_arm", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 					new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 					new Keyframe(0.2083F, KeyframeAnimations.degreeVec(85.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)

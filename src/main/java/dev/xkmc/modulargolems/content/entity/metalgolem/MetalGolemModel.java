@@ -6,7 +6,6 @@ import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
-import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
@@ -14,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import dev.xkmc.modulargolems.content.client.pose.CustomModelAnimation;
@@ -72,7 +70,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 				if (atkTick > 0) {
 					this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
 				} else if (pEntity.isAggressive()) {
-
+					this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInAxe, pAgeInTicks);
 			} else {
 					this.animateWalk(pNetHeadYaw, pHeadPitch, pLimbSwing, pLimbSwingAmount);
 				}
