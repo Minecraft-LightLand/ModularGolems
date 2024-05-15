@@ -64,25 +64,24 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		int atkTick = pEntity.getAttackAnimationTick();
         Item its =pEntity.getMainHandItem().getItem();
+		this.animateWalk(pNetHeadYaw, pHeadPitch, pLimbSwing, pLimbSwingAmount);
 			if(its instanceof MetalGolemWeaponItem wi){
-			switch (wi.getGolemWeaponType(wi)) {
-				case SWORD:
-				case AXE:
-				if (atkTick > 0) {
-					this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
-				} else if (pEntity.isAggressive()) {
-					this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInAxe, pAgeInTicks);
-			}
-				break;
-				case SPEAR:
-					if (atkTick > 0) {
-						this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInSpear, pAgeInTicks);
-					} else if (pEntity.isAggressive()) {
-						this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
+				switch (wi.getGolemWeaponType(wi)) {
+					case SWORD, AXE -> {
+						if (atkTick > 0) {
+							this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
+						}if (pEntity.isAggressive()) {
+							this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInAxe, pAgeInTicks);
+						}
 					}
-					return;
-			}
-				this.animateWalk(pNetHeadYaw, pHeadPitch, pLimbSwing, pLimbSwingAmount);
+					case SPEAR -> {
+						if (atkTick > 0) {
+							this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInSpear, pAgeInTicks);
+						} else if (pEntity.isAggressive()) {
+							this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
+						}
+					}
+				}
 			}
 	}
 	private void animateWalk(float pNetHeadYaw, float pHeadPitch,float pLimbSwing,float pLimbSwingAmount) {
