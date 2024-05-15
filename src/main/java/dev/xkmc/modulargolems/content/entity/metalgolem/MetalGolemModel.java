@@ -66,15 +66,23 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
         Item its =pEntity.getMainHandItem().getItem();
 			if(its instanceof MetalGolemWeaponItem wi){
 			switch (wi.getGolemWeaponType(wi)) {
+				case SWORD:
 				case AXE:
 				if (atkTick > 0) {
 					this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
 				} else if (pEntity.isAggressive()) {
 					this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInAxe, pAgeInTicks);
-			} else {
-					this.animateWalk(pNetHeadYaw, pHeadPitch, pLimbSwing, pLimbSwingAmount);
-				}
 			}
+				break;
+				case SPEAR:
+					if (atkTick > 0) {
+						this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInSpear, pAgeInTicks);
+					} else if (pEntity.isAggressive()) {
+						this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
+					}
+					return;
+			}
+				this.animateWalk(pNetHeadYaw, pHeadPitch, pLimbSwing, pLimbSwingAmount);
 			}
 	}
 	private void animateWalk(float pNetHeadYaw, float pHeadPitch,float pLimbSwing,float pLimbSwingAmount) {
