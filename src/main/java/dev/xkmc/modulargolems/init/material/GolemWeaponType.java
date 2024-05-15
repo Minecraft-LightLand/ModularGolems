@@ -7,16 +7,15 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.Locale;
-import java.util.function.BiFunction;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 interface MGFunction{
 	MetalGolemWeaponItem create(Item.Properties properties, int rank, GolemWeaponType type);
 }
 public enum GolemWeaponType {
-	SPEAR("item/long_weapon", (p, i) -> new MetalGolemWeaponItem(p, i, 0, 2, 0,), "TII", " SI", "S T"),
-	AXE("item/battle_axe", (p, i) -> new MetalGolemWeaponItem(p, 0, i * 0.05, 0, 2), "III", "IS ", "TST"),
-	SWORD("item/sword", (p, i) -> new MetalGolemWeaponItem(p, i, 0, 1, 2), "TII", "ISI", "SIT"),;
+	SPEAR("item/long_weapon", (p, i,t) -> new MetalGolemWeaponItem(p, i, 0, 2, 0,t),"TII", " SI", "S T"),
+	AXE("item/battle_axe", (p, i,t) -> new MetalGolemWeaponItem(p, 0, i * 0.05, 0, 2,t), "III", "IS ", "TST"),
+	SWORD("item/sword", (p, i,t) -> new MetalGolemWeaponItem(p, i, 0, 1, 2,t), "TII", "ISI", "SIT"),;
 
 	private final MGFunction function;
 	private final String[] pattern;

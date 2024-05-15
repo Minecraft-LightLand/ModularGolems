@@ -65,9 +65,9 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 	public void setupAnim(MetalGolemEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		int atkTick = pEntity.getAttackAnimationTick();
-        ItemStack it =pEntity.getMainHandItem();
-			if(it.getItem() instanceof MetalGolemWeaponItem wi){
-			switch () {
+        Item its =pEntity.getMainHandItem().getItem();
+			if(its instanceof MetalGolemWeaponItem wi){
+			switch (wi.getGolemWeaponType(wi)) {
 				case AXE:
 				if (atkTick > 0) {
 					this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
