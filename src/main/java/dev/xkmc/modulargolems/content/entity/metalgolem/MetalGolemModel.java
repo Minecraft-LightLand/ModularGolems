@@ -70,7 +70,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 					case SWORD, AXE -> {
 						if (atkTick > 0) {
 							this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
-						}if (pEntity.isAggressive()) {
+						}else if (pEntity.isAggressive()) {
 							this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInAxe, pAgeInTicks);
 						}
 					}
