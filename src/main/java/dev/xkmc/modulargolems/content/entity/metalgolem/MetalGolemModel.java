@@ -78,7 +78,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 						if (atkTick > 0) {
 							this.animate(pEntity.spearAttackAnimationState, CustomModelAnimation.attackInSpear, pAgeInTicks);
 						} else if (pEntity.isAggressive()) {
-							this.animate(pEntity.spearAttackAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
+							this.animate(pEntity.spearWarningAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
 						}
 					}
 				}
