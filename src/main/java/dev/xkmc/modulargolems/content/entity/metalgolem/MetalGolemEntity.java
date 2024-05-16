@@ -36,7 +36,9 @@ import net.minecraft.world.phys.Vec3;
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 	public final AnimationState axeAttackAnimationState = new AnimationState();
+	public final AnimationState axeWarningAnimationState = new AnimationState();
 	public final AnimationState spearAttackAnimationState = new AnimationState();
+	public final AnimationState spearWarningAnimationState = new AnimationState();
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(type, level);
 		this.setMaxUpStep(1);
