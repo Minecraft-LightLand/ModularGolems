@@ -69,16 +69,16 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 				switch (wi.getGolemWeaponType(wi)) {
 					case SWORD, AXE -> {
 						if (atkTick > 0) {
-							this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
+							this.animate(pEntity.axeAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
 						}else if (pEntity.isAggressive()) {
 							this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInAxe, pAgeInTicks);
 						}
 					}
 					case SPEAR -> {
 						if (atkTick > 0) {
-							this.animate(pEntity.armedAttackAnimationState, CustomModelAnimation.attackInSpear, pAgeInTicks);
+							this.animate(pEntity.spearAttackAnimationState, CustomModelAnimation.attackInSpear, pAgeInTicks);
 						} else if (pEntity.isAggressive()) {
-							this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
+							this.animate(pEntity.spearAttackAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
 						}
 					}
 				}
