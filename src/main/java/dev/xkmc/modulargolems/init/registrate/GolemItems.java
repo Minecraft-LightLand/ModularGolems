@@ -79,7 +79,6 @@ public class GolemItems {
 	public static final ItemEntry<EntityTypeFilterCard> CARD_TYPE;
 	public static final ItemEntry<UuidFilterCard> CARD_UUID;
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
-	public static final ItemEntry<PathRecordCard> CARD_PATH;
 
 	static {
 
@@ -120,6 +119,7 @@ public class GolemItems {
 					.removeTab(TAB.getKey()).register();
 
 		}
+
 		// golemguard armor
 		{
 			GOLEMGUARD_HELMET = REGISTRATE.item("roman_guard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
@@ -173,8 +173,9 @@ public class GolemItems {
 			for (int i = 0; i < 5; i++) {
 				int lv = i + 1;
 				METALGOLEM_BEACONS[i] = REGISTRATE.item("golem_beacon_level_" + lv,
-						p -> new MetalGolemBeaconItem(p.stacksTo(1), lv)
-				).register();
+								p -> new MetalGolemBeaconItem(p.stacksTo(1), lv))
+						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+						.removeTab(TAB.getKey()).register();
 			}
 		}
 

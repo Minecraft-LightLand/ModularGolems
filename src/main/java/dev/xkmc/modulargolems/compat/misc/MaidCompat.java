@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderSkin;
 import dev.xkmc.modulargolems.events.event.HumanoidSkinEvent;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -45,7 +46,11 @@ public class MaidCompat {
 		@Override
 		public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 			if (RENDERER == null) return;
-			RENDERER.render(entity, f1, f2, stack, source, i);
+			try {
+				RENDERER.render(entity, f1, f2, stack, source, i);
+			} catch (Exception e) {
+				ModularGolems.LOGGER.debug("Error rendering golem with TLM skin", e);
+			}
 		}
 	}
 

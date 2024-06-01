@@ -1,3 +1,7 @@
+- 2.4.35
+    - Add botania golems
+    - Nerf steeleaf attack
+
 - 2.4.34
     - Allow humanoid golem to use TouhouLittleMaid skins
     - when range mode humanoid golem has empty/bow/arrow/shield in offhand, golem will not switch to melee mode
