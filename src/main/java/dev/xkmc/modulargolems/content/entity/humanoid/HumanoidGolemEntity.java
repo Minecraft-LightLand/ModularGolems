@@ -9,7 +9,6 @@ import dev.xkmc.modulargolems.content.entity.ranged.GolemCrossbowAttackGoal;
 import dev.xkmc.modulargolems.content.entity.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.entity.ranged.GolemTridentAttackGoal;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -423,16 +422,18 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		ItemStack main = mainhand.getItem();
 		ItemStack off = offhand.getItem();
 		if (main.getItem() instanceof ProjectileWeaponItem) {
-			if (getProjectile(main).isEmpty()) {
-				if (off.isEmpty() ||
-						off.getItem() instanceof ProjectileWeaponItem ||
-						off.getItem() instanceof ArrowItem) {
+			if (!getProjectile(main).isEmpty()) {
+				if (off.canPerformAction(ToolActions.SHIELD_BLOCK)) {
 					return;
 				}
-			} else {
-				if (target == null || !meleeGoal.canReachTarget(target)) {
-					return;
-				}
+			}
+			if (off.isEmpty() ||
+					off.getItem() instanceof ProjectileWeaponItem ||
+					off.getItem() instanceof ArrowItem) {
+				return;
+			}
+			if (target == null || !meleeGoal.canReachTarget(target)) {
+				return;
 			}
 		} else if (off.getItem() instanceof ProjectileWeaponItem) {
 			boolean noArrow = getProjectile(off).isEmpty();
@@ -442,9 +443,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			if (target != null && meleeGoal.canReachTarget(target)) {
 				return;
 			}
-		} else if (main.isEmpty() && !off.isEmpty()) {
-
-		} else {
+		} else if (!main.isEmpty() || off.isEmpty()) {
 			return;
 		}
 		mainhand.setItem(off);

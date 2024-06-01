@@ -1,7 +1,15 @@
+- 2.4.34
+    - Allow humanoid golem to use TouhouLittleMaid skins
+    - when range mode humanoid golem has empty/bow/arrow/shield in offhand, golem will not switch to melee mode
+
 - 2.4.33
     - entity interact bypass tag
     - strict interact config
     - allow attribute page to be opened for dog golem
+    - Fix equipment page description for non-humanoid
+    - Fix Twilight Forest damage modifier
+    - Allow humanoid golem to use custom texture skins using player head or piglin head
+    - Fix compat with newest Cataclysm (requires Cataclysm 1.99+)
 
 - 2.4.32
     - Fix create fuel feeding

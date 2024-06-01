@@ -1,0 +1,21 @@
+{
+  "values": [
+    "modulargolems:retrieval_wand",
+    "modulargolems:command_wand",
+    "modulargolems:summon_wand",
+    "modulargolems:rider_wand",
+    "modulargolems:squad_wand",
+    "modulargolems:omnipotent_wand_command",
+    "modulargolems:omnipotent_wand_retrieval",
+    "modulargolems:omnipotent_wand_summon",
+    "modulargolems:omnipotent_wand_rider",
+    "modulargolems:omnipotent_wand_squad",
+    "modulargolems:target_filter_name",
+    "modulargolems:target_filter_type",
+    "modulargolems:target_filter_uuid",
+    "modulargolems:target_filter_default",
+    "modulargolems:patrol_path_recorder",
+    "#modulargolems:config_card",
+    "#modulargolems:holders"
+  ]
+}

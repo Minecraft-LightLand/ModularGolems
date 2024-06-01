@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.misc;
 
-import com.github.tartaricacid.touhoulittlemaid.api.event.client.ConvertMaidEvent;
-import com.github.tartaricacid.touhoulittlemaid.api.event.client.EntityMaidRenderable;
+import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
+import com.github.tartaricacid.touhoulittlemaid.api.event.ConvertMaidEvent;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemGarageKit;
@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderSkin;
 import dev.xkmc.modulargolems.events.event.HumanoidSkinEvent;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -50,16 +49,11 @@ public class MaidCompat {
 		}
 	}
 
-	private record MaidWrapper(Mob mob, String id) implements EntityMaidRenderable {
+	private record MaidWrapper(Mob mob, String id) implements IMaid {
 
 		@Override
 		public String getModelId() {
 			return id;
-		}
-
-		@Override
-		public ItemStack getHeadBlock(Mob mob) {
-			return ItemStack.EMPTY;
 		}
 
 		@Override

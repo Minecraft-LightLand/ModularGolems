@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.init;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.compat.misc.MaidCompat;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
@@ -30,9 +29,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GolemClient {
 
+	private static final boolean ENABLE_TLM = true;
+
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
-		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			MinecraftForge.EVENT_BUS.register(MaidCompat.class);
 		}
 		event.enqueueWork(() -> {
@@ -69,7 +70,7 @@ public class GolemClient {
 	public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
 		PlayerSkinRenderer.SLIM = new PlayerSkinRenderer(event.getContext(), true);
 		PlayerSkinRenderer.REGULAR = new PlayerSkinRenderer(event.getContext(), false);
-		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			MaidCompat.addLayers(event);
 		}
 	}
