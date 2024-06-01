@@ -79,6 +79,7 @@ public class GolemItems {
 	public static final ItemEntry<EntityTypeFilterCard> CARD_TYPE;
 	public static final ItemEntry<UuidFilterCard> CARD_UUID;
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
+	public static final ItemEntry<PathRecordCard> CARD_PATH;
 
 	static {
 
