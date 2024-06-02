@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.compat.materials.botania;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -26,8 +25,9 @@ public class ManaBurstModifier extends ManaModifier {
         var manaCost = MGConfig.COMMON.manaBurstCost.get() * level;
         var prob = MGConfig.COMMON.manaBurstProb.get() * level;
         if (entity.getRandom().nextDouble() > prob) return;
-        if (BotUtils.getMana(entity) < manaCost) return;
-        BotUtils.consumeMana(entity, manaCost);
+        var bot = new BotUtils(entity);
+        if (bot.getMana() < manaCost) return;
+        bot.consumeMana(manaCost);
         var burst = getBurst(entity);
         entity.level().addFreshEntity(burst);
     }

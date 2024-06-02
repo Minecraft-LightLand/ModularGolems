@@ -413,6 +413,7 @@
   "modifier.modulargolems.pixie_attack.desc": "攻击时有%s%%几率召唤一个精灵袭击目标，并且精灵伤害+%s",
   "modifier.modulargolems.pixie_counterattack": "精灵反击",
   "modifier.modulargolems.pixie_counterattack.desc": "被攻击时有%s%%几率召唤一个精灵反击目标",
+  "modulargolems.msg.botania_mana": "魔力: %s/%s",
   "golem_material.cataclysm.ignitium": "腾炎",
   "golem_material.cataclysm.witherite": "凋零合金",
   "item.modulargolems.ender_guardian_void_rune": "末影守卫升级",

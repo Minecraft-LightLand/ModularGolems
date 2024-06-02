@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.compat.materials.botania;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -23,7 +22,7 @@ public class ManaMendingModifier extends ManaModifier {
         int maxHeal = (int) Math.floor(Math.min(healthDiff, MGConfig.COMMON.manaMendingVal.get() * level));
         if (maxHeal <= 0) return heal;
         int maxCost = maxHeal * cost;
-        int consume = BotUtils.consumeMana(le, maxCost);
+        int consume = new BotUtils(le).consumeMana(maxCost);
         double toHeal = 1d * consume / cost;
         return heal + toHeal;
     }

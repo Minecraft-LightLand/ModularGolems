@@ -142,7 +142,7 @@ public class MGConfig {
 					manaMendingCost = builder.comment("Mana mending cost per HP")
 							.defineInRange("mendingManaCost", 200, 1, 50000);
 					manaMendingVal = builder.comment("Mana mending value per level")
-							.defineInRange("manaMendingVal", 1D, 0.1D, 100D);
+							.defineInRange("manaMendingVal", 4D, 0.1D, 100D);
 					manaBoostingDamage = builder.comment("Percentage damage bonus per level of mana boost")
 							.defineInRange("manaBoostingDamage", 0.2, 0, 100);
 					manaBoostingCost = builder.comment("Mana boosting cost per level (of 1 hit)")
