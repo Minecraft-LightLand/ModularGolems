@@ -28,7 +28,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue manaBoostingDamage;
 		public final ForgeConfigSpec.IntValue manaBoostingCost;
 		public final ForgeConfigSpec.IntValue manaProductionVal;
-		public final ForgeConfigSpec.DoubleValue manaBurstProb;
+		public final ForgeConfigSpec.DoubleValue manaBurstDamage;
 		public final ForgeConfigSpec.IntValue manaBurstCost;
 		public final ForgeConfigSpec.DoubleValue pixieAttackProb;
 		public final ForgeConfigSpec.DoubleValue pixieCounterattackProb;
@@ -149,10 +149,10 @@ public class MGConfig {
 							.defineInRange("manaBoostingCost", 500, 0, 100000);
 					manaProductionVal = builder.comment("Mana production value per level")
 							.defineInRange("manaProductionVal", 20, 0, 100000);
-					manaBurstProb = builder.comment("Probability of emitting a magic burst of 1 hit")
-							.defineInRange("manaBurstProb", 0.25, 0, 1.0);
-					manaBurstCost = builder.comment("Mana burst cost (of 1 burst)")
-							.defineInRange("manaBurstCost", 500, 0, 100000);
+					manaBurstDamage = builder.comment("Damage of magic burst as percentage of attack damage")
+							.defineInRange("manaBurstDamage", 0.25, 0, 1.0);
+					manaBurstCost = builder.comment("Mana burst cost per level")
+							.defineInRange("manaBurstCost", 2000, 0, 100000);
 					pixieAttackProb = builder.comment("Probability of summoning a pixie when attacking")
 							.defineInRange("pixieAttackProb", 0.05, 0, 1.0);
 					pixieCounterattackProb = builder.comment("Probability of summoning a pixie when attacked")

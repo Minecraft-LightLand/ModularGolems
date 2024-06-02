@@ -32,6 +32,10 @@ public class BotUtils {
 		list = getManaItems(e);
 	}
 
+	public int count() {
+		return list.size();
+	}
+
 	public int getMana() {
 		int total = 0;
 		for (var manaItem : list) {
@@ -90,6 +94,7 @@ public class BotUtils {
 
 	public static Component getDesc(LivingEntity golem) {
 		var bot = new BotUtils(golem);
+		if (bot.count() == 0) return MGLangData.BOT_NO_RING.get().withStyle(ChatFormatting.RED);
 		return MGLangData.BOT_MANA.get(parse(bot.getMana()), parse(bot.getMaxMana()))
 				.withStyle(ChatFormatting.LIGHT_PURPLE);
 	}

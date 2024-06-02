@@ -8,7 +8,7 @@
     {
       "type": "patchouli:spotlight",
       "item": "botania:terrasteel_ingot",
-      "text": "Main material to craft terrasteel golem parts. terrasteel golem parts feature high attack and health, as well as higher level of manasteel traits. It is also capable of passively producting mana and has a chance to emit a mana burst when attacking."
+      "text": "Main material to craft terrasteel golem parts. terrasteel golem parts feature high attack and health, as well as higher level of manasteel traits. It is also capable of passively producting mana and shoot mana burst toward faraway targets."
     },
     {
       "type": "patchouli:spotlight",
