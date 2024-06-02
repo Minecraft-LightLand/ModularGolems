@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
+import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -18,11 +20,12 @@ public class TFDamageModifier extends GolemModifier {
 	}
 
 	@Override
-	public float modifyDamage(float damage, AbstractGolemEntity<?, ?> entity, int level) {
+	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
 		if (entity.level().dimensionTypeId().equals(TFDimensionSettings.TWILIGHT_DIM_TYPE)) {
-			return (float) (damage * (1 + MGConfig.COMMON.compatTFDamage.get() * level));
+			double dmg = MGConfig.COMMON.compatTFDamage.get() * level;
+			cache.addHurtModifier(DamageModifier.multTotal(1 + (float) dmg));
 		}
-		return damage;
+
 	}
 
 	public List<MutableComponent> getDetail(int v) {

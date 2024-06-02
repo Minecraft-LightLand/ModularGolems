@@ -9,15 +9,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import top.theillusivec4.curios.api.CuriosApi;
-import vazkii.botania.api.BotaniaForgeCapabilities;
 import vazkii.botania.api.internal.ManaBurst;
 import vazkii.botania.common.entity.BotaniaEntities;
 import vazkii.botania.common.entity.ManaBurstEntity;
 
 import java.util.List;
 
-public class ManaBurstModifier extends GolemModifier {
+public class ManaBurstModifier extends ManaModifier {
 
     public ManaBurstModifier() {
         super(StatFilterType.ATTACK, MAX_LEVEL);
@@ -25,29 +23,13 @@ public class ManaBurstModifier extends GolemModifier {
 
     @Override
     public void onHurtTarget(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
-        var opt = CuriosApi.getCuriosInventory(entity).resolve();
-        if (opt.isEmpty()) return;
-
-        var manaItems = opt.get().findCurios(stack -> stack.getCapability(BotaniaForgeCapabilities.MANA_ITEM).orElse(null) != null);
-        for (var item: manaItems) {
-            var manaItem = item.stack().getCapability(BotaniaForgeCapabilities.MANA_ITEM).orElse(null);
-            if (manaItem != null) {
-                var remainMana = manaItem.getMana();
-                var manaCost = MGConfig.COMMON.manaBurstCost.get() * level;
-                var prob = MGConfig.COMMON.manaBurstProb.get() * level;
-                if (remainMana >= manaCost) {
-                    if (entity.getRandom().nextDouble() < prob) {
-                        manaItem.addMana(-manaCost);
-                        var burst = getBurst(entity);
-                        entity.level().addFreshEntity(burst);
-                        return;
-                    }
-                } else {
-                    continue;
-                }
-            }
-        }
-        return;
+        var manaCost = MGConfig.COMMON.manaBurstCost.get() * level;
+        var prob = MGConfig.COMMON.manaBurstProb.get() * level;
+        if (entity.getRandom().nextDouble() > prob) return;
+        if (BotUtils.getMana(entity) < manaCost) return;
+        BotUtils.consumeMana(entity, manaCost);
+        var burst = getBurst(entity);
+        entity.level().addFreshEntity(burst);
     }
 
     public static ManaBurstEntity getBurst(LivingEntity golem) {
@@ -55,7 +37,6 @@ public class ManaBurstModifier extends GolemModifier {
         burst.setPos(golem.getX(), golem.getEyeY() - (double)0.1F, golem.getZ());
 
         burst.setBurstSourceCoords(ManaBurst.NO_SOURCE);
-        //burst.setRot(golem.getYRot() + 180, -golem.getXRot());
         burst.setYRot((golem.getYRot() + 180) % 360.0F);
         burst.setXRot(-golem.getXRot() % 360.0F);
         burst.setDeltaMovement(ManaBurstEntity.calculateBurstVelocity(burst.getXRot(), burst.getYRot()));
@@ -78,4 +59,5 @@ public class ManaBurstModifier extends GolemModifier {
         int manaCost = MGConfig.COMMON.manaBurstCost.get();
         return List.of(Component.translatable(getDescriptionId() + ".desc", prob, manaCost).withStyle(ChatFormatting.GREEN));
     }
+
 }

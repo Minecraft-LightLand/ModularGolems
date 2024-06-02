@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.modifier.base;
 
+import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
@@ -110,8 +111,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	/**
 	 * modify damage
 	 */
-	public float modifyDamage(float damage, AbstractGolemEntity<?, ?> entity, int level) {
-		return damage;
+	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
 	}
 
 	/**

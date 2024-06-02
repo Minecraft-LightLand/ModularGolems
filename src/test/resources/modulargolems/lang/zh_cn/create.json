@@ -21,9 +21,9 @@
 	"push": "机械手升级"
   },
   "effect.modulargolems": {
-	"effect.modulargolems.mechanical_force": "工业长路",
-	"effect.modulargolems.mechanical_force.description": "提升傀儡攻击伤害",
-	"effect.modulargolems.mechanical_mobility": "汽鸣铁道",
-	"effect.modulargolems.mechanical_mobility.description": "提升傀儡移动速度"
+	"mechanical_force": "工业长路",
+	"mechanical_force.description": "提升傀儡攻击伤害",
+	"mechanical_mobility": "汽鸣铁道",
+	"mechanical_mobility.description": "提升傀儡移动速度"
   }
 }
