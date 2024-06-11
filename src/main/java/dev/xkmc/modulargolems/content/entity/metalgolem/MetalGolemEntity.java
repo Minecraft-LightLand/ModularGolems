@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -160,15 +161,16 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return new Vec3(0.0D, 0.875F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
 	}
 
-	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
+	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (getMaterials().size() != MetalGolemPartType.values().length)
-			return super.mobInteract(player, hand);
+			return super.mobInteractImpl(player, hand);
 		var mat = getMaterials().get(MetalGolemPartType.BODY.ordinal());
 		Ingredient ing = GolemMaterialConfig.get().ingredients.get(mat.id());
 		if (!ing.test(itemstack)) {
-			return super.mobInteract(player, hand);
+			if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
+				return InteractionResult.PASS;
+			return super.mobInteractImpl(player, hand);
 		} else {
 			float f = this.getHealth();
 			this.heal(getMaxHealth() / 4f);

@@ -18,9 +18,9 @@ import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -161,8 +161,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
+	protected final InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getItemInHand(hand).is(MGTagGen.GOLEM_INTERACT)) return InteractionResult.PASS;
+		for (var ent : modifiers.entrySet()) {
+			var result = ent.getKey().interact(player, this, hand);
+			if (result != InteractionResult.PASS) {
+				return result;
+			}
+		}
+		return mobInteractImpl(player, hand);
+	}
+
+	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
 		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.canModify(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
@@ -181,7 +191,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				}
 			}
 		}
-		return super.mobInteract(player, hand);
+		return InteractionResult.PASS;
 	}
 
 	@ServerOnly
@@ -417,11 +427,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected float getAttackDamage() {
-		float ans = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-		for (var entry : getModifiers().entrySet()) {
-			ans = entry.getKey().modifyDamage(ans, this, entry.getValue());
-		}
-		return ans;
+		return (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
 	}
 
 	@Override
@@ -433,6 +439,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
+			}
+		}
+		for (var slot: EquipmentSlot.values()) {
+			var stack = this.getItemBySlot(slot);
+			if (stack.getItem() instanceof TickEquipmentItem tickItem) {
+				tickItem.tick(stack, this.level(), this);
 			}
 		}
 	}

@@ -1,10 +1,12 @@
 package dev.xkmc.modulargolems.init;
 
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.compat.misc.MaidCompat;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
-import dev.xkmc.modulargolems.content.entity.humanoid.PlayerSkinRenderer;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
@@ -18,15 +20,22 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class GolemClient {
 
+	private static final boolean ENABLE_TLM = true;
+
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
+		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+			MinecraftForge.EVENT_BUS.register(MaidCompat.class);
+		}
 		event.enqueueWork(() -> {
 			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
 					entity != null && entity.isBlocking() && entity.getUseItem() == stack ? 1.0F : 0.0F;
@@ -61,6 +70,9 @@ public class GolemClient {
 	public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
 		PlayerSkinRenderer.SLIM = new PlayerSkinRenderer(event.getContext(), true);
 		PlayerSkinRenderer.REGULAR = new PlayerSkinRenderer(event.getContext(), false);
+		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+			MaidCompat.addLayers(event);
+		}
 	}
 
 }

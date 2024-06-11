@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -94,16 +95,10 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 				camera != null && camera.getVehicle() != null &&
 				entity.getVehicle() == camera.getVehicle())
 			return;
-		var profile = ClientProfileManager.get(entity);
+		var profile = ClientSkinDispatch.get(entity);
 		if (profile != null) {
-			if (profile.slim() && PlayerSkinRenderer.SLIM != null) {
-				PlayerSkinRenderer.SLIM.render(entity, f1, f2, stack, source, i);
-				return;
-			}
-			if (!profile.slim() && PlayerSkinRenderer.REGULAR != null) {
-				PlayerSkinRenderer.REGULAR.render(entity, f1, f2, stack, source, i);
-				return;
-			}
+			profile.render(entity, f1, f2, stack, source, i);
+			return;
 		}
 		renderImpl(entity, f1, f2, stack, source, i);
 	}

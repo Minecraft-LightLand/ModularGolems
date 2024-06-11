@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -107,6 +108,14 @@ public class GolemJEIPlugin implements IModPlugin {
 	private static void addPartCraftRecipes(List<IJeiAnvilRecipe> recipes, GolemMaterialConfig config, IVanillaRecipeFactory factory) {
 		for (var mat : config.getAllMaterials()) {
 			var arr = config.ingredients.get(mat).getItems();
+			boolean special = false;
+			for (ItemStack stack : arr) {
+				if (stack.is(MGTagGen.SPECIAL_CRAFT)) {
+					special = true;
+					break;
+				}
+			}
+			if (special) continue;
 			for (var item : GolemPart.LIST) {
 				List<ItemStack> list = new ArrayList<>();
 				for (ItemStack stack : arr) {

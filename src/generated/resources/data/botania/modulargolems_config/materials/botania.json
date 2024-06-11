@@ -1,0 +1,45 @@
+{
+  "ingredients": {
+    "botania:elementium": {
+      "item": "botania:elementium_ingot"
+    },
+    "botania:manasteel": {
+      "item": "botania:manasteel_ingot"
+    },
+    "botania:terrasteel": {
+      "item": "botania:terrasteel_ingot"
+    }
+  },
+  "modifiers": {
+    "botania:elementium": {
+      "modulargolems:mana_boosting": 1,
+      "modulargolems:mana_mending": 1,
+      "modulargolems:pixie_attack": 1,
+      "modulargolems:pixie_counterattack": 1
+    },
+    "botania:manasteel": {
+      "modulargolems:mana_boosting": 1,
+      "modulargolems:mana_mending": 1
+    },
+    "botania:terrasteel": {
+      "modulargolems:mana_boosting": 2,
+      "modulargolems:mana_burst": 1,
+      "modulargolems:mana_mending": 2,
+      "modulargolems:mana_production": 1
+    }
+  },
+  "stats": {
+    "botania:elementium": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 200.0
+    },
+    "botania:manasteel": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 150.0
+    },
+    "botania:terrasteel": {
+      "modulargolems:attack": 30.0,
+      "modulargolems:max_health": 300.0
+    }
+  }
+}

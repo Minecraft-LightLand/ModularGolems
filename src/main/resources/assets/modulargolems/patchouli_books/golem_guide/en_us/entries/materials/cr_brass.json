@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "create:brass_ingot",
-	  "text": "Main material to craft Brass golem parts. It provides speed boost and high magic damage resistance."
+	  "text": "Main material to craft Brass golem parts. It provides high magic damage resistance. Boosts speed and damage when consuming fuels.$(br2)Fuels can be automatically consumed from Dimensional Backpack (from L2Backpack) equipped on the golem or the captain of the team."
 	},
 	{
 	  "type": "patchouli:spotlight",

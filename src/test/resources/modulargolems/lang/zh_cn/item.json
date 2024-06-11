@@ -1,17 +1,9 @@
 {
   "item.modulargolems": {
-	"metal_golem_arm": "大型金属傀儡-手臂",
-	"metal_golem_body": "大型金属傀儡-身体",
-	"metal_golem_holder": "大型金属傀儡",
-	"metal_golem_legs": "大型金属傀儡-双腿",
 	"metal_golem_template": "傀儡胚料",
-	"humanoid_golem_arms": "人形金属傀儡-双臂",
-	"humanoid_golem_body": "人形金属傀儡-躯干",
+	"metal_golem_holder": "大型金属傀儡",
 	"humanoid_golem_holder": "人形金属傀儡",
-	"humanoid_golem_legs": "人形金属傀儡-双腿",
-	"dog_golem_body": "犬形金属傀儡-躯干",
 	"dog_golem_holder": "犬形金属傀儡",
-	"dog_golem_legs": "犬形金属傀儡-四肢",
 	"diamond": "钻石升级",
 	"fire_immune": "防火升级",
 	"thunder_immune": "导电升级",
@@ -68,6 +60,26 @@
 	"patrol_path_recorder": "巡逻手册"
   },
   "-cartesian": {
+	"golem": {
+	  "path": "item.modulargolems",
+	  "reverse": true,
+	  "list": [
+		{
+		  "": "",
+		  "incomplete": "（半成品）"
+		},
+		{
+		  "metal_golem_arm": "大型金属傀儡-手臂",
+		  "metal_golem_body": "大型金属傀儡-身体",
+		  "metal_golem_legs": "大型金属傀儡-双腿",
+		  "humanoid_golem_arms": "人形金属傀儡-双臂",
+		  "humanoid_golem_body": "人形金属傀儡-躯干",
+		  "humanoid_golem_legs": "人形金属傀儡-双腿",
+		  "dog_golem_body": "犬形金属傀儡-躯干",
+		  "dog_golem_legs": "犬形金属傀儡-四肢"
+		}
+	  ]
+	},
 	"config": {
 	  "path": "item.modulargolems",
 	  "reverse": true,

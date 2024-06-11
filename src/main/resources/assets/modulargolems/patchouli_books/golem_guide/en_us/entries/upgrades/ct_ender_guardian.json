@@ -1,12 +1,12 @@
 {
   "flag": "mod:cataclysm",
   "name": "Ender Guardian Upgrade",
-  "icon": "modulargolems:ender_guardian",
+  "icon": "modulargolems:ender_guardian_void_rune",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:ender_guardian",
+	  "item": "modulargolems:ender_guardian_void_rune",
 	  "text": "Summon void rune toward target. Max: 1"
 	}
   ]

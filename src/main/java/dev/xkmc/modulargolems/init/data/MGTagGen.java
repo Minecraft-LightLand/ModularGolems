@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.init.data;
 
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -11,11 +12,13 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.fml.ModList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +33,18 @@ public class MGTagGen {
 	public static final TagKey<Item> BLUE_UPGRADES = createItemTag("blue_upgrades");
 	public static final TagKey<Item> POTION_UPGRADES = createItemTag("potion_upgrades");
 	public static final TagKey<Item> CONFIG_CARD = createItemTag("config_card");
+	public static final TagKey<Item> SPECIAL_CRAFT = createItemTag("special_crafting_material");
+	public static final TagKey<Item> GOLEM_INTERACT = createItemTag("golem_interact");
+	public static final TagKey<Item> CURIO_SKIN = ItemTags.create(new ResourceLocation("curios", "golem_skin"));
+	public static final TagKey<Item> PLAYER_SKIN = createItemTag("player_skin");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
 
 	public static final List<Consumer<RegistrateItemTagsProvider>> OPTIONAL_ITEM = new ArrayList<>();
 	public static final List<Consumer<RegistrateTagsProvider<Block>>> OPTIONAL_BLOCK = new ArrayList<>();
+	public static final List<Consumer<RegistrateTagsProvider<MobEffect>>> OPTIONAL_EFF = new ArrayList<>();
 
-	public static void onBlockTagGen(RegistrateTagsProvider<Block> pvd) {
+	public static void onBlockTagGen(RegistrateTagsProvider.IntrinsicImpl<Block> pvd) {
 		pvd.addTag(POTENTIAL_DST)
 				.addTag(BlockTags.SHULKER_BOXES)
 				.addTag(Tags.Blocks.CHESTS)
@@ -44,8 +52,14 @@ public class MGTagGen {
 		OPTIONAL_BLOCK.forEach(e -> e.accept(pvd));
 	}
 
+	public static void onEffTagGen(RegistrateTagsProvider.IntrinsicImpl<MobEffect> pvd) {
+		OPTIONAL_EFF.forEach(e -> e.accept(pvd));
+	}
+
 	public static void onItemTagGen(RegistrateItemTagsProvider pvd) {
 		pvd.addTag(SCULK_MATS).add(Items.ECHO_SHARD);
+		pvd.addTag(SPECIAL_CRAFT);
+		pvd.addTag(GOLEM_INTERACT).addTag(CONFIG_CARD).addTag(GOLEM_HOLDERS);
 		OPTIONAL_ITEM.forEach(e -> e.accept(pvd));
 		pvd.addTag(BLUE_UPGRADES).add(
 				GolemItems.BELL.get(),
@@ -67,8 +81,12 @@ public class MGTagGen {
 				GolemItems.SLOW.get(),
 				GolemItems.WITHER.get()
 		);
-		pvd.addTag(ItemTags.create(new ResourceLocation("curios", "golem_skin")))
-				.add(Items.PLAYER_HEAD, Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
+		pvd.addTag(PLAYER_SKIN).add(Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
+		var skin = pvd.addTag(CURIO_SKIN);
+		skin.addTag(PLAYER_SKIN).add(Items.PLAYER_HEAD, Items.PIGLIN_HEAD);
+		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+			skin.addOptional(new ResourceLocation(TouhouLittleMaid.MOD_ID, "garage_kit"));
+		}
 	}
 
 	public static void onEntityTagGen(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> pvd) {

@@ -23,9 +23,22 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue explosionResistance;
 		public final ForgeConfigSpec.DoubleValue compatTFHealing;
 		public final ForgeConfigSpec.DoubleValue compatTFDamage;
+		public final ForgeConfigSpec.IntValue manaMendingCost;
+		public final ForgeConfigSpec.DoubleValue manaMendingVal;
+		public final ForgeConfigSpec.DoubleValue manaBoostingDamage;
+		public final ForgeConfigSpec.IntValue manaBoostingCost;
+		public final ForgeConfigSpec.IntValue manaProductionVal;
+		public final ForgeConfigSpec.DoubleValue manaBurstDamage;
+		public final ForgeConfigSpec.IntValue manaBurstCost;
+		public final ForgeConfigSpec.DoubleValue pixieAttackProb;
+		public final ForgeConfigSpec.DoubleValue pixieCounterattackProb;
 		public final ForgeConfigSpec.IntValue carminiteTime;
 		public final ForgeConfigSpec.DoubleValue coating;
+		public final ForgeConfigSpec.DoubleValue mechSpeed;
+		public final ForgeConfigSpec.DoubleValue mechAttack;
+		public final ForgeConfigSpec.IntValue mechMaxFuel;
 		public final ForgeConfigSpec.BooleanValue barehandRetrieve;
+		public final ForgeConfigSpec.BooleanValue strictInteract;
 		public final ForgeConfigSpec.DoubleValue damageCap;
 		public final ForgeConfigSpec.IntValue conduitCooldown;
 		public final ForgeConfigSpec.IntValue conduitDamage;
@@ -71,6 +84,9 @@ public class MGConfig {
 					.defineInRange("retrieveRange", 20, 1, 1000);
 			ownerPickupOnly = builder.comment("Only owner can pickup")
 					.define("ownerPickupOnly", true);
+			strictInteract = builder.comment("When enabled, the following features will be disabled when player holds item in hand:")
+					.comment("- give item to golem or take items from golem by right click").comment("- order dog golem to seat")
+					.define("strictInteract", false);
 			startFollowRadius = builder.comment("Max golem activity radius before following player in follow mode")
 					.defineInRange("startFollowRadius", 10d, 1, 100);
 			stopWanderRadius = builder.comment("Max golem activity radius before willing to go back to origin in wander mode")
@@ -121,9 +137,38 @@ public class MGConfig {
 				}
 				builder.pop();
 
+				builder.push("botania compat");
+				{
+					manaMendingCost = builder.comment("Mana mending cost per HP")
+							.defineInRange("mendingManaCost", 200, 1, 50000);
+					manaMendingVal = builder.comment("Mana mending value per level")
+							.defineInRange("manaMendingVal", 4D, 0.1D, 100D);
+					manaBoostingDamage = builder.comment("Percentage damage bonus per level of mana boost")
+							.defineInRange("manaBoostingDamage", 0.2, 0, 100);
+					manaBoostingCost = builder.comment("Mana boosting cost per level (of 1 hit)")
+							.defineInRange("manaBoostingCost", 500, 0, 100000);
+					manaProductionVal = builder.comment("Mana production value per level")
+							.defineInRange("manaProductionVal", 20, 0, 100000);
+					manaBurstDamage = builder.comment("Damage of magic burst as percentage of attack damage")
+							.defineInRange("manaBurstDamage", 0.25, 0, 1.0);
+					manaBurstCost = builder.comment("Mana burst cost per level")
+							.defineInRange("manaBurstCost", 2000, 0, 100000);
+					pixieAttackProb = builder.comment("Probability of summoning a pixie when attacking")
+							.defineInRange("pixieAttackProb", 0.05, 0, 1.0);
+					pixieCounterattackProb = builder.comment("Probability of summoning a pixie when attacked")
+							.defineInRange("pixiecounterattackProb", 0.25, 0, 1.0);
+				}
+				builder.pop();
+
 				builder.push("create compat");
 				coating = builder.comment("Damage absorbed per level of coating")
 						.defineInRange("coating", 1d, 0, 10000);
+				mechSpeed = builder.comment("Speed boost per level of Mechanical Mobility")
+						.defineInRange("mechSpeed", 0.2, 0, 1);
+				mechAttack = builder.comment("Attack boost per level of Mechanical Force")
+						.defineInRange("mechAttack", 0.2, 0, 1);
+				mechMaxFuel = builder.comment("Maximum number of fuel item that can be added at the same time")
+						.defineInRange("mechMaxFuel", 3, 1, 364);
 				builder.pop();
 
 				builder.push("l2complements compat");
