@@ -7,6 +7,7 @@ import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
+import dev.xkmc.modulargolems.content.capability.PathConfig;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
@@ -441,7 +442,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				entry.getKey().onClientTick(this, entry.getValue());
 			}
 		}
-		for (var slot: EquipmentSlot.values()) {
+		for (var slot : EquipmentSlot.values()) {
 			var stack = this.getItemBySlot(slot);
 			if (stack.getItem() instanceof TickEquipmentItem tickItem) {
 				tickItem.tick(stack, this.level(), this);
@@ -572,9 +573,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void advancePatrolStage() {
-		var config = getConfigEntry(null);
-		if (config == null) return;
-		var list = config.pathConfig.getList();
+		var list = PathConfig.getPath(this);
+		if (list == null) return;
 		int stage = getPatrolStage();
 		stage++;
 		if (stage >= list.size()) {
@@ -584,9 +584,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public List<PathRecordCard.Pos> getPatrolList() {
-		var config = getConfigEntry(null);
-		if (config == null) return List.of();
-		var list = config.pathConfig.getList();
+		var list = PathConfig.getPath(this);
+		if (list == null) return List.of();
 		int stage = getPatrolStage();
 		if (stage > 0 && stage < list.size()) {
 			var first = list.subList(stage, list.size());
@@ -754,9 +753,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public Vec3 getTargetPos() {
 		if (getMode() == GolemModes.ROUTE) {
-			var config = getConfigEntry(null);
-			if (config != null) {
-				var list = config.pathConfig.getList();
+			var list = PathConfig.getPath(this);
+			if (list != null) {
 				int target = getPatrolStage();
 				if (!list.isEmpty()) {
 					return list.get(Math.min(target, list.size() - 1))

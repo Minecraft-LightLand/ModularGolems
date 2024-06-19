@@ -160,6 +160,7 @@ public enum MGLangData {
 		pvd.add("golem_material." + ModularGolems.MODID + ".sculk", "Sculk");
 
 		pvd.add("curios.identifier.golem_skin", "Humanoid Golem Skin");
+		pvd.add("curios.identifier.golem_route", "Golem Patrol Path");
 
 		CompatManager.dispatchGenLang(pvd);
 
