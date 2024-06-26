@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.compat.curio;
 
-import com.mojang.datafixers.util.Pair;
 import com.tterrag.registrate.util.entry.MenuEntry;
 import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
@@ -20,8 +19,10 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class CurioCompatRegistry {
@@ -37,6 +38,11 @@ public class CurioCompatRegistry {
 			return INSTANCE;
 		}
 		return null;
+	}
+
+	public static Optional<ItemStack> getItem(LivingEntity e, String slot) {
+		return CuriosApi.getCuriosInventory(e).resolve()
+				.flatMap(x -> x.findCurio(slot, 0).map(SlotResult::stack));
 	}
 
 	public static void register() {

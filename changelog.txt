@@ -1,3 +1,6 @@
+- 2.4.36
+    - Allow Patrol Path in curios slot
+
 - 2.4.35
     - Add botania golems
     - Nerf steeleaf attack
