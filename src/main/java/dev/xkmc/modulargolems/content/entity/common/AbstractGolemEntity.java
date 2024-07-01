@@ -454,16 +454,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void aiStep() {
 		this.updateSwingTime();
 		super.aiStep();
-		if (this.tickCount % 20 == 0) {
-			double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
-			for (var entry : getModifiers().entrySet()) {
-				heal = entry.getKey().onHealTick(heal, this, entry.getValue());
-			}
-			if (heal > 0) {
-				this.heal((float) heal);
-			}
-		}
 		if (!this.level().isClientSide) {
+			if (this.tickCount % 20 == 0) {
+				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
+				for (var entry : getModifiers().entrySet()) {
+					heal = entry.getKey().onHealTick(heal, this, entry.getValue());
+				}
+				if (heal > 0) {
+					this.heal((float) heal);
+				}
+			}
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onAiStep(this, entry.getValue());
 			}

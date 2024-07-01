@@ -1,3 +1,7 @@
+- 2.4.37
+    - Fix healing desync when golem healing is prevented
+    - Fix config card crash when Curios is not installed
+
 - 2.4.36
     - Allow Patrol Path in curios slot
 
