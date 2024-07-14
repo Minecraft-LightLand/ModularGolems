@@ -693,8 +693,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, this::predicateSecondaryTarget));
-		this.targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
+		this.targetSelector.addGoal(3, new Golem3DTargetGoal<>(this, Mob.class, 5, true, false, this::predicatePriorityTarget));
+		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, this::predicateSecondaryTarget));
+		this.targetSelector.addGoal(5, new Golem3DTargetGoal<>(this, LivingEntity.class, 5, true, false, this::predicateSecondaryTarget));
+		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
 	protected boolean predicatePriorityTarget(LivingEntity e) {

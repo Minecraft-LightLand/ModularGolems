@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.mode;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.world.entity.Entity;
 
 public class PatrolMode extends GolemMode {
 
@@ -16,7 +17,9 @@ public class PatrolMode extends GolemMode {
 
 	@Override
 	public void tick(AbstractGolemEntity<?, ?> golem) {
-		if (!golem.isInWater() && !golem.onGround()) return;
+		Entity e = golem;
+		if (e.isPassenger()) e = e.getRootVehicle();
+		if (!e.isInWater() && !e.onGround()) return;
 		if (golem.getNavigation().isDone()) {
 			golem.advancePatrolStage();
 		}

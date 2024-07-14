@@ -30,3 +30,4 @@ run
 temp/
 
 .cache
+secrets.properties

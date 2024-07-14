@@ -1,3 +1,8 @@
+- 2.4.38
+    - Fix golem patrol when riding something
+    - Increase golem shooting range
+    - Add config for editing curios for other ownable mobs
+
 - 2.4.37
     - Fix healing desync when golem healing is prevented
     - Fix config card crash when Curios is not installed

@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenuPvd;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -72,7 +73,8 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) {
 			if (user instanceof ServerPlayer sp) {
 				if (target instanceof OwnableEntity ownable && ownable.getOwner() == user) {
-					CurioCompatRegistry.tryOpen(sp, target);
+					if (MGConfig.COMMON.allowEditCuriosForOthers.get())
+						CurioCompatRegistry.tryOpen(sp, target);
 				} else {
 					hurtEnemy(stack, target, user);
 				}

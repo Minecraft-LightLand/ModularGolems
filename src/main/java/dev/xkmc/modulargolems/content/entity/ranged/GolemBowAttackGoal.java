@@ -9,21 +9,24 @@ import net.minecraft.world.item.BowItem;
 import java.util.EnumSet;
 
 public class GolemBowAttackGoal extends Goal {
+
+	private static double attackRadiusSqr() {
+		return 25 * 25;
+	}
+
 	private final HumanoidGolemEntity mob;
 	private final double speedModifier;
 	private int attackIntervalMin;
-	private final float attackRadiusSqr;
 	private int attackTime = -1;
 	private int seeTime;
 	private boolean strafingClockwise;
 	private boolean strafingBackwards;
 	private int strafingTime = -1;
 
-	public GolemBowAttackGoal(HumanoidGolemEntity pMob, double pSpeedModifier, int pAttackIntervalMin, float pAttackRadius) {
+	public GolemBowAttackGoal(HumanoidGolemEntity pMob, double pSpeedModifier, int pAttackIntervalMin) {
 		this.mob = pMob;
 		this.speedModifier = pSpeedModifier;
 		this.attackIntervalMin = pAttackIntervalMin;
-		this.attackRadiusSqr = pAttackRadius * pAttackRadius;
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
@@ -93,7 +96,7 @@ public class GolemBowAttackGoal extends Goal {
 				--this.seeTime;
 			}
 
-			if (!(d0 > (double) this.attackRadiusSqr) && this.seeTime >= 20) {
+			if (!(d0 > attackRadiusSqr()) && this.seeTime >= 20) {
 				this.mob.getNavigation().stop();
 				++this.strafingTime;
 			} else {
@@ -114,9 +117,9 @@ public class GolemBowAttackGoal extends Goal {
 			}
 
 			if (this.strafingTime > -1) {
-				if (d0 > (double) (this.attackRadiusSqr * 0.75F)) {
+				if (d0 > attackRadiusSqr() * 0.75) {
 					this.strafingBackwards = false;
-				} else if (d0 < (double) (this.attackRadiusSqr * 0.25F)) {
+				} else if (d0 < attackRadiusSqr() * 0.25) {
 					this.strafingBackwards = true;
 				}
 

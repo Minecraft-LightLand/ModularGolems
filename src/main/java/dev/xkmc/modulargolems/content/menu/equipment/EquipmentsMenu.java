@@ -46,7 +46,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		addSlot("hand", (i, e) -> isValid(SLOTS[i], e));
 		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e));
 		if (golem instanceof HumanoidGolemEntity) {
-			addSlot("backup", e -> isValid(EquipmentSlot.MAINHAND, e));
+			addSlot("backup", e -> isValid(EquipmentSlot.MAINHAND, e) || isValid(EquipmentSlot.OFFHAND, e));
 			addSlot("arrow", ItemStack::isStackable);
 		}
 	}

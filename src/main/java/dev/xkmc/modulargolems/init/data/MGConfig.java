@@ -58,6 +58,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue retrieveDistance;
 		public final ForgeConfigSpec.IntValue retrieveRange;
 		public final ForgeConfigSpec.BooleanValue ownerPickupOnly;
+		public final ForgeConfigSpec.BooleanValue allowEditCuriosForOthers;
 		public final ForgeConfigSpec.DoubleValue startFollowRadius;
 		public final ForgeConfigSpec.DoubleValue stopWanderRadius;
 		public final ForgeConfigSpec.DoubleValue maxWanderRadius;
@@ -87,6 +88,8 @@ public class MGConfig {
 			strictInteract = builder.comment("When enabled, the following features will be disabled when player holds item in hand:")
 					.comment("- give item to golem or take items from golem by right click").comment("- order dog golem to seat")
 					.define("strictInteract", false);
+			allowEditCuriosForOthers = builder.comment("Allow command wand to edit curios of other mobs you own")
+					.define("allowEditCuriosForOthers", true);
 			startFollowRadius = builder.comment("Max golem activity radius before following player in follow mode")
 					.defineInRange("startFollowRadius", 10d, 1, 100);
 			stopWanderRadius = builder.comment("Max golem activity radius before willing to go back to origin in wander mode")
