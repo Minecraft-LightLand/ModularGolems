@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.apache.http.util.Asserts;
 
@@ -40,7 +41,13 @@ public class GolemMaterialConfig extends BaseConfig {
 		TreeSet<ResourceLocation> set = new TreeSet<>(stats.keySet());
 		set.retainAll(modifiers.keySet());
 		set.retainAll(ingredients.keySet());
+		set.removeIf(e -> isEmpty(ingredients.get(e)));
 		return set;
+	}
+
+	private static boolean isEmpty(Ingredient ing) {
+		var items = ing.getItems();
+		return items.length == 0 || items[0].is(Items.BARRIER);
 	}
 
 	@DataGenOnly
