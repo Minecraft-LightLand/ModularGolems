@@ -251,10 +251,21 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     mainFile.addEnvironment("Client", "Server")
     mainFile.addGameVersion("1.20.1")
     mainFile.addModLoader("Forge","NeoForge")
-    mainFile.addRequirement("l2-complements", "l2library")
-    mainFile.addOptional("the-twilight-forest", "ice-and-fire-dragons", "aerial-hell", "the-undergarden",
-            "modulargolems", "ars-nouveau", "passive-skill-tree",
-            "better-combat-by-daedelus", "just-enough-effect-descriptions-jeed")
+    mainFile.addRequirement("l2library")
+    mainFile.addOptional(
+            "blaze-gear",
+            "botania",
+            "create",
+            "jei",
+            "l2-archery",
+            "l2-backpack",
+            "l2-complements",
+            "l2hostility",
+            "l2weaponry",
+            "lendercataclysm",
+            "patchouli",
+            "the-twilight-forest",
+            "touhou-little-maid")
     mainFile.releaseType = "release"
     disableVersionDetection()
 }
@@ -271,13 +282,16 @@ modrinth {
     changelog = new File('./changelog.txt').text.split("\n\n")[0]
     dependencies {
         required.project "l2library"
-        required.project "l2-complements"
-        optional.project "better-combat"
-        optional.project "just-enough-effect-descriptions-jeed"
-        optional.project "the-undergarden"
-        optional.project "ice-and-fire-dragons"
-        optional.project "ars-nouveau"
-        optional.project "modular-golems"
-        optional.project "aerial-hell"
+        optional.project "botania"
+        optional.project "create"
+        optional.project "jei"
+        optional.project "l2archery"
+        optional.project "l2backpack"
+        optional.project "l2-complements"
+        optional.project "l2hostility"
+        optional.project "l2weaponry"
+        optional.project "l_enders-cataclysm"
+        optional.project "patchouli"
+        optional.project "touhou-little-maid"
     }
 }
