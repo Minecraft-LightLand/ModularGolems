@@ -56,6 +56,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 						Ingredient.of(AllBlocks.RAILWAY_CASING.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
+				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.2)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 1)
 				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)

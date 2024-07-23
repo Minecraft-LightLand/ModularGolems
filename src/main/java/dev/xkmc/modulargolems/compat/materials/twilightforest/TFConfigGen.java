@@ -26,8 +26,10 @@ public class TFConfigGen extends ConfigDataProvider {
 				.addModifier(TFCompatRegistry.TF_HEALING.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(TFDispatch.MODID, "steeleaf"), Ingredient.of(ItemTagGenerator.STEELEAF_INGOTS))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 20)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 24)
+				.addStat(GolemTypes.STAT_HEALTH.get(), 40)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
+				.addStat(GolemTypes.STAT_WEIGHT.get(), 0.2)
+				.addStat(GolemTypes.STAT_REGEN.get(), 4)
 				.addModifier(TFCompatRegistry.TF_DAMAGE.get(), 1)
 				.addModifier(TFCompatRegistry.TF_HEALING.get(), 1).end()
 
