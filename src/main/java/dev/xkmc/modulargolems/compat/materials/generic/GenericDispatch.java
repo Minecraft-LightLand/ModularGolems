@@ -10,6 +10,11 @@ public class GenericDispatch extends ModDispatch {
 
     public static final String MODID = "generic";
 
+    public GenericDispatch() {
+        GenericCompatRegistry.register();
+    }
+
+
     @Override
     protected void genLang(RegistrateLangProvider pvd) {
         pvd.add("golem_material." + MODID + ".lead", "Lead");
