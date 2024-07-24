@@ -242,6 +242,9 @@ dependencies {
     implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:4693050")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4751471")
 
+    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:5374122")
+    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:5443583")
+
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {

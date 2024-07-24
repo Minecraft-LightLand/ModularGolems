@@ -1,0 +1,12 @@
+{
+  "golem_material.generic": {
+    "silver": "银",
+    "lead": "铅"
+  },
+  "modifier.modulargolems": {
+    "divine": "神圣",
+    "divine.desc": "对亡灵生物造成+%s%%伤害",
+    "poisonous": "毒手",
+    "poisonous.desc": "被攻击的目标会获得中毒%s,持续5秒"
+  }
+}
