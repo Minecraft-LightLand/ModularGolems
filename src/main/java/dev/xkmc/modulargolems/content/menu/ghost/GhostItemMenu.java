@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.menu.ghost;
 
-import dev.xkmc.l2library.base.menu.base.MenuLayoutConfig;
-import dev.xkmc.l2library.base.menu.base.PredSlot;
-import dev.xkmc.l2library.base.menu.base.SpriteManager;
+import dev.xkmc.l2core.base.menu.base.MenuLayoutConfig;
+import dev.xkmc.l2core.base.menu.base.PredSlot;
+import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +25,7 @@ public abstract class GhostItemMenu extends AbstractContainerMenu {
 	protected GhostItemMenu(MenuType<?> type, int wid, Inventory plInv, SpriteManager manager, Container container) {
 		super(type, wid);
 		this.inventory = plInv;
-		this.sprite = manager.get();
+		this.sprite = manager.get(plInv.player.level().registryAccess());
 		this.container = container;
 
 		int x = sprite.getPlInvX();

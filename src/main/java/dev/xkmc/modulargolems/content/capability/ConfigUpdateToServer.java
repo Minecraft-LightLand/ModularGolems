@@ -1,45 +1,31 @@
 package dev.xkmc.modulargolems.content.capability;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
-import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkEvent;
 
 import java.util.UUID;
 
-@SerialClass
-public class ConfigUpdateToServer extends SerialPacketBase {
+public record ConfigUpdateToServer(
+		UUID id, int color, GolemConfigEntry entry
+) implements SerialPacketBase<ConfigUpdateToServer> {
 
-	@SerialClass.SerialField
-	public UUID id;
-	@SerialClass.SerialField
-	public int color;
-	@SerialClass.SerialField
-	public GolemConfigEntry entry;
-
-	@Deprecated
-	public ConfigUpdateToServer() {
-
-	}
-
-	public ConfigUpdateToServer(Level level, GolemConfigEntry entry) {
-		this.entry = entry;
-		this.id = entry.getID();
-		this.color = entry.getColor();
+	public static ConfigUpdateToServer of(Level level, GolemConfigEntry entry) {
 		entry.clientTick(level, true);
+		return new ConfigUpdateToServer(entry.getID(), entry.getColor(), entry);
 	}
 
 	@Override
-	public void handle(NetworkEvent.Context context) {
-		var sender = context.getSender();
-		if (sender == null) return;
+	public void handle(Player player) {
+		if (!(player instanceof ServerPlayer sender)) return;
 		var data = GolemConfigStorage.get(sender.serverLevel())
 				.getOrCreateStorage(id, color, entry.init(id, color).getDisplayName());
-		CompoundTag tag = TagCodec.toTag(new CompoundTag(), entry);
+		CompoundTag tag = new TagCodec(player.level().registryAccess()).toTag(new CompoundTag(), entry);
 		assert tag != null;
-		TagCodec.fromTag(tag, GolemConfigEntry.class, data, e -> true);
+		new TagCodec(player.level().registryAccess()).fromTag(tag, GolemConfigEntry.class, data);
 		data.sync(sender.serverLevel());
 	}
 

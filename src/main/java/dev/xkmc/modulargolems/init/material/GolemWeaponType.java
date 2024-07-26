@@ -3,8 +3,10 @@ package dev.xkmc.modulargolems.init.material;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 
 import java.util.Locale;
 import java.util.function.BiFunction;
@@ -35,6 +37,7 @@ public enum GolemWeaponType {
 		return REGISTRATE.item(material.getName() + "_" + getName(), p -> factory.apply(material.modify(p.stacksTo(1)), material.getDamage()))
 				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
 						.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
+				.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE)
 				.defaultLang().register();
 	}
 

@@ -26,8 +26,7 @@ public class ServerLevelMixin {
 				(pos) -> pos.getY() == self.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()) - 1,
 				blockpos, 128, PoiManager.Occupancy.ANY);
 		if (optional.isPresent()) cir.setReturnValue(optional);
-
-		AABB aabb = (new AABB(blockpos, new BlockPos(blockpos.getX(), self.getMaxBuildHeight(), blockpos.getZ()))).inflate(64);
+		AABB aabb = (AABB.encapsulatingFullBlocks(blockpos, new BlockPos(blockpos.getX(), self.getMaxBuildHeight(), blockpos.getZ()))).inflate(64);
 		List<AbstractGolemEntity> list = self.getEntitiesOfClass(AbstractGolemEntity.class, aabb, (e) -> e != null &&
 				e.isAlive() && self.canSeeSky(e.blockPosition()) && e.hasFlag(GolemFlags.THUNDER_IMMUNE));
 		if (list.size() > 0) {

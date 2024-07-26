@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.capability;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -8,10 +9,10 @@ import java.util.UUID;
 @SerialClass
 public class SquadConfig {
 
-	@SerialClass.SerialField
+	@SerialField
 	protected UUID captainId = null;
 
-	@SerialClass.SerialField
+	@SerialField
 	protected double radius = 0D;
 
 	public double getRadius() {

@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.capability;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -21,24 +22,23 @@ public class GolemConfigEntry {
 
 	private UUID id;
 	private int color;
-	private Component nameComp;
 
-	@SerialClass.SerialField
-	protected String name;
-	@SerialClass.SerialField
+	@SerialField
+	private Component name;
+	@SerialField
 	public int defaultMode;
-	@SerialClass.SerialField
+	@SerialField
 	public boolean summonToPosition;
-	@SerialClass.SerialField
+	@SerialField
 	public boolean locked;
 
-	@SerialClass.SerialField
+	@SerialField
 	public PickupFilterConfig pickupFilter = new PickupFilterConfig();
-	@SerialClass.SerialField
+	@SerialField
 	public TargetFilterConfig targetFilter = new TargetFilterConfig();
-	@SerialClass.SerialField
+	@SerialField
 	public SquadConfig squadConfig = new SquadConfig();
-	@SerialClass.SerialField
+	@SerialField
 	public PathConfig pathConfig = new PathConfig();
 
 	@Deprecated
@@ -47,19 +47,15 @@ public class GolemConfigEntry {
 	}
 
 	private GolemConfigEntry(Component comp) {
-		nameComp = comp;
-		name = Component.Serializer.toJson(comp);
+		name = comp;
 		targetFilter.initDefault();
 	}
 
 	public Component getDisplayName() {
-		if (nameComp == null) {
-			nameComp = Component.Serializer.fromJson(name);
+		if (name == null) {
+			name = Component.literal("Unnamed");
 		}
-		if (nameComp == null) {
-			nameComp = Component.literal("Unnamed");
-		}
-		return nameComp;
+		return name;
 	}
 
 	public GolemConfigEntry init(UUID id, int color) {
@@ -70,7 +66,7 @@ public class GolemConfigEntry {
 
 	public void heartBeat(ServerLevel level, ServerPlayer player) {
 		if (sync.heartBeat(level, player.getUUID())) {
-			ModularGolems.HANDLER.toClientPlayer(new ConfigSyncToClient(this), player);
+			ModularGolems.HANDLER.toClientPlayer(ConfigSyncToClient.of(this), player);
 		}
 	}
 
@@ -88,9 +84,9 @@ public class GolemConfigEntry {
 
 	public void sync(Level level) {
 		if (level instanceof ServerLevel sl) {
-			sync.sendToAllTracking(sl, new ConfigSyncToClient(this));
+			sync.sendToAllTracking(sl, ConfigSyncToClient.of(this));
 		} else {
-			ModularGolems.HANDLER.toServer(new ConfigUpdateToServer(level, this));
+			ModularGolems.HANDLER.toServer(ConfigUpdateToServer.of(level, this));
 		}
 	}
 
@@ -101,8 +97,7 @@ public class GolemConfigEntry {
 	}
 
 	public void setName(Component hoverName, ServerLevel level) {
-		nameComp = hoverName;
-		name = Component.Serializer.toJson(hoverName);
+		name = hoverName;
 		sync(level);
 	}
 

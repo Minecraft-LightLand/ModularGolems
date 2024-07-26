@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.item.golem;
 import com.mojang.datafixers.util.Pair;
 import com.tterrag.registrate.util.CreativeModeTabModifier;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
@@ -184,12 +185,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return golem;
 	}
 
-	private final RegistryEntry<GolemType<T, P>> type;
+	private final Val<GolemType<T, P>> type;
 
-	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
+	public GolemHolder(Properties props, Val<GolemType<T, P>> type) {
 		super(props.stacksTo(1));
 		this.type = type;
-		GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
+		GolemType.GOLEM_TYPE_TO_ITEM.put(type.id(), this);
 	}
 
 	@Override
@@ -435,11 +436,6 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			return Math.round(f * 13.0F);
 		}
 		return Math.round(Mth.clamp(getHealth(stack) / getMaxHealth(stack), 0, 1) * 13.0F);
-	}
-
-	@Override
-	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-		consumer.accept(GolemBEWLR.EXTENSIONS);
 	}
 
 	public GolemType<T, P> getEntityType() {

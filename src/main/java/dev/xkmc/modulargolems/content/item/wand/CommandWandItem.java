@@ -1,9 +1,8 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
-import com.simibubi.create.Create;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
-import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
+import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
+import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
@@ -26,7 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.entity.EntityTypeTest;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
 public class CommandWandItem extends BaseWandItem implements GolemInteractItem, IGlowingTarget {
@@ -41,7 +40,7 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
 		if (level.isClientSide() && selected && entity instanceof Player player) {
 			RayTraceUtil.clientUpdateTarget(player, RANGE);
-			if (ModList.get().isLoaded(Create.ID)) {
+			if (ModList.get().isLoaded("create")) {
 				if (RayTraceUtil.serverGetTarget(player) instanceof AbstractGolemEntity<?, ?> golem) {
 					if (golem.getMode() == GolemModes.ROUTE) {
 						BlockOutliner.drawOutlines(player, golem.getPatrolList());

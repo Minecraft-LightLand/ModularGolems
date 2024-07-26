@@ -1,21 +1,19 @@
 package dev.xkmc.modulargolems.content.core;
 
 import com.tterrag.registrate.util.entry.EntityEntry;
-import dev.xkmc.l2library.base.NamedEntry;
-import dev.xkmc.l2library.util.Proxy;
+import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -29,7 +27,7 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	public static final HashMap<ResourceLocation, Supplier<ModelProvider<?, ?>>> GOLEM_TYPE_TO_MODEL = new HashMap<>();
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> GolemType<T, P> getGolemType(EntityType<T> type) {
-		return Wrappers.cast(ENTITY_TYPE_TO_GOLEM_TYPE.get(ForgeRegistries.ENTITY_TYPES.getKey(type)));
+		return Wrappers.cast(ENTITY_TYPE_TO_GOLEM_TYPE.get(BuiltInRegistries.ENTITY_TYPE.getKey(type)));
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> GolemHolder<T, P> getGolemHolder(GolemType<T, ?> type) {
@@ -61,10 +59,11 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		return Wrappers.cast(EntityType.create(tag, level).get());
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Nullable
 	public T createForDisplay(CompoundTag tag) {
-		var ans = EntityType.create(tag, Proxy.getClientWorld()).orElse(null);
+		var level = Minecraft.getInstance().level;
+		if (level == null) return null;
+		var ans = EntityType.create(tag, level).orElse(null);
 		if (ans == null) return null;
 		T golem = Wrappers.cast(ans);
 		if (tag.contains("Attributes", 9)) {

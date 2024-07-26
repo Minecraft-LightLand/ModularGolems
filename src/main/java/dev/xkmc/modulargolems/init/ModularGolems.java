@@ -2,11 +2,12 @@ package dev.xkmc.modulargolems.init;
 
 import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2complements.init.L2Complements;
-import dev.xkmc.l2complements.init.data.TagGen;
+import dev.xkmc.l2core.init.L2TagGen;
+import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
+import dev.xkmc.l2core.serial.config.ConfigTypeEntry;
+import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
-import dev.xkmc.l2library.base.L2Registrate;
-import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
-import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
+import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.ConfigHeartBeatToServer;
@@ -28,37 +29,33 @@ import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkDirection;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ModularGolems.MODID)
-@Mod.EventBusSubscriber(modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModularGolems {
 
 	public static final String MODID = "modulargolems";
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
-	public static final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(ModularGolems.MODID, "main"), 1,
-			e -> e.create(ConfigSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
-			e -> e.create(ConfigUpdateToServer.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(ConfigHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(SetItemFilterToServer.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(OpenConfigMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(OpenEquipmentMenuToServer.class, NetworkDirection.PLAY_TO_SERVER)
+			MODID, 1,
+			e -> e.create(ConfigSyncToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
+			e -> e.create(ConfigUpdateToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(ConfigHeartBeatToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(SetItemFilterToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(OpenConfigMenuToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(OpenEquipmentMenuToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
@@ -66,7 +63,7 @@ public class ModularGolems {
 	public static final ConfigTypeEntry<GolemMaterialConfig> MATERIALS =
 			new ConfigTypeEntry<>(HANDLER, "materials", GolemMaterialConfig.class);
 
-	private static void registerRegistrates() {
+	public ModularGolems() {
 		GolemItems.register();
 		GolemTypes.register();
 		GolemMiscs.register();
@@ -85,8 +82,8 @@ public class ModularGolems {
 		AttackEventHandler.register(3500, new GolemAttackListener());
 	}
 
-	public ModularGolems() {
-		registerRegistrates();
+	public static ResourceLocation loc(String id) {
+		return ResourceLocation.fromNamespaceAndPath(MODID, id);
 	}
 
 	@SubscribeEvent
@@ -105,14 +102,9 @@ public class ModularGolems {
 		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(event.getGenerator()));
 		CompatManager.gatherData(event);
 		event.getGenerator().addProvider(event.includeServer(), new SlotGen(event.getGenerator()));
-		if (ModList.get().isLoaded(L2Complements.MODID)){
-			REGISTRATE.addDataGenerator(TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
+		if (ModList.get().isLoaded(L2Complements.MODID)) {
+			REGISTRATE.addDataGenerator(L2TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
 		}
-	}
-
-	@SubscribeEvent
-	public static void sendMessage(final InterModEnqueueEvent event) {
-
 	}
 
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,10 @@ public class GolemEquipmentModels {
 
 	public static final List<ModelLayerLocation> LIST = new ArrayList<>();
 
-	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_helmet"), "main");
-	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_chestplate"), "main");
-	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golem_shinguard"), "main");
-	public static final ModelLayerLocation METALGOLEM = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "metalgolem"), "model");
+	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(ModularGolems.loc( "golem_helmet"), "main");
+	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(ModularGolems.loc( "golem_chestplate"), "main");
+	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(ModularGolems.loc( "golem_shinguard"), "main");
+	public static final ModelLayerLocation METALGOLEM = new ModelLayerLocation(ModularGolems.loc( "metalgolem"), "model");
 
 	public static MeshDefinition buildGolemBaseLayers() {
 		MeshDefinition mesh = new MeshDefinition();

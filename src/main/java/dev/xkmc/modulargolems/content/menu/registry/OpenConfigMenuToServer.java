@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.registry;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
-import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
@@ -9,14 +8,15 @@ import dev.xkmc.modulargolems.content.menu.filter.ItemConfigMenuProvider;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigMenuProvider;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenuProvider;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 import java.util.function.BiFunction;
 
-@SerialClass
-public class OpenConfigMenuToServer extends SerialPacketBase {
+public record OpenConfigMenuToServer(
+		UUID uuid, int color, Type type
+) implements SerialPacketBase<OpenConfigMenuToServer> {
 
 	public enum Type {
 		TOGGLE(ConfigMenuProvider::fromPacket),
@@ -35,35 +35,14 @@ public class OpenConfigMenuToServer extends SerialPacketBase {
 		}
 	}
 
-	@SerialClass.SerialField
-	public Type type;
-
-	@SerialClass.SerialField
-	public UUID uuid;
-
-	@SerialClass.SerialField
-	public int color;
-
-	@Deprecated
-	public OpenConfigMenuToServer() {
-
-	}
-
-	public OpenConfigMenuToServer(UUID uuid, int color, Type type) {
-		this.uuid = uuid;
-		this.color = color;
-		this.type = type;
-	}
-
 	@Override
-	public void handle(NetworkEvent.Context context) {
-		var player = context.getSender();
-		if (player == null) return;
+	public void handle(Player player) {
+		if (!(player instanceof ServerPlayer sp)) return;
 		var entry = GolemConfigStorage.get(player.level()).getStorage(uuid, color);
 		if (entry == null) return;
 		if (!player.getUUID().equals(uuid)) return;
-		IMenuPvd pvd = type.construct(player.serverLevel(), entry);
-		NetworkHooks.openScreen(player, pvd, pvd::writeBuffer);
+		IMenuPvd pvd = type.construct(sp.serverLevel(), entry);
+		sp.openMenu(pvd, pvd::writeBuffer);
 	}
 
 }

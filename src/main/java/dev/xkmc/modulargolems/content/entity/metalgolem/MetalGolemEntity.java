@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;

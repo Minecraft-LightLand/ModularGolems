@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.capability;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -10,20 +11,20 @@ public class PickupFilterConfig {
 
 	public static final int SIZE = 27;
 
-	@SerialClass.SerialField
+	@SerialField
 	protected final ArrayList<ItemStack> filter = new ArrayList<>();
 
-	@SerialClass.SerialField
+	@SerialField
 	protected boolean blacklist = true;
 
-	@SerialClass.SerialField
+	@SerialField
 	protected boolean matchNBT = false;
 
 	public boolean internalMatch(ItemStack stack) {
 		for (ItemStack filter : filter) {
 			if (stack.getItem() == filter.getItem()) {
 				if (matchNBT) {
-					if (ItemStack.isSameItemSameTags(stack, filter)) {
+					if (ItemStack.isSameItemSameComponents(stack, filter)) {
 						return true;
 					}
 				} else {

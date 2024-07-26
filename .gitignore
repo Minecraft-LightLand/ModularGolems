@@ -24,7 +24,7 @@ hs_err_pid*
 .idea
 .gradle
 build
-run
+runs
 
 .DS_Store
 temp/

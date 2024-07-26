@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
-import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
+import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
+import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

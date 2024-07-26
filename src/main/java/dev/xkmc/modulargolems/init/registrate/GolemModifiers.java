@@ -1,10 +1,9 @@
 package dev.xkmc.modulargolems.init.registrate;
 
-import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import dev.xkmc.l2library.base.L2Registrate;
-import dev.xkmc.l2library.base.NamedEntry;
+import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
+import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.*;
@@ -16,9 +15,10 @@ import dev.xkmc.modulargolems.content.modifier.special.PickupModifier;
 import dev.xkmc.modulargolems.content.modifier.special.PotionMetaModifier;
 import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
 import dev.xkmc.modulargolems.content.modifier.special.TalentMetaModifier;
+import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.MobType;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -28,26 +28,26 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemModifiers {
 
-	public static final RegistryEntry<FireImmuneModifier> FIRE_IMMUNE;
-	public static final RegistryEntry<ThunderImmuneModifier> THUNDER_IMMUNE;
-	public static final RegistryEntry<MagicImmuneModifier> MAGIC_IMMUNE;
-	public static final RegistryEntry<MagicResistanceModifier> MAGIC_RES;
-	public static final RegistryEntry<ThornModifier> THORN;
-	public static final RegistryEntry<ExplosionResistanceModifier> EXPLOSION_RES;
-	public static final RegistryEntry<DamageCapModifier> DAMAGE_CAP;
-	public static final RegistryEntry<ProjectileRejectModifier> PROJECTILE_REJECT;
-	public static final RegistryEntry<ImmunityModifier> IMMUNITY;
-	public static final RegistryEntry<PlayerImmuneModifier> PLAYER_IMMUNE;
-	public static final RegistryEntry<SonicModifier> SONIC;
-	public static final RegistryEntry<BellModifier> BELL;
-	public static final RegistryEntry<PickupModifier> PICKUP;
-	public static final RegistryEntry<TargetBonusModifier> EMERALD;
-	public static final RegistryEntry<TalentMetaModifier> TALENTED;
-	public static final RegistryEntry<PotionMetaModifier> CAULDRON;
-	public static final RegistryEntry<SimpleFlagModifier> FLOAT, SWIM, ENDER_SIGHT, RECYCLE, PICKUP_NODESTROY, PICKUP_MENDING;
-	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED, SIZE_UPGRADE;
-	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
-	public static final RegistryEntry<RideUpgrade> MOUNT_UPGRADE;
+	public static final Val<FireImmuneModifier> FIRE_IMMUNE;
+	public static final Val<ThunderImmuneModifier> THUNDER_IMMUNE;
+	public static final Val<MagicImmuneModifier> MAGIC_IMMUNE;
+	public static final Val<MagicResistanceModifier> MAGIC_RES;
+	public static final Val<ThornModifier> THORN;
+	public static final Val<ExplosionResistanceModifier> EXPLOSION_RES;
+	public static final Val<DamageCapModifier> DAMAGE_CAP;
+	public static final Val<ProjectileRejectModifier> PROJECTILE_REJECT;
+	public static final Val<ImmunityModifier> IMMUNITY;
+	public static final Val<PlayerImmuneModifier> PLAYER_IMMUNE;
+	public static final Val<SonicModifier> SONIC;
+	public static final Val<BellModifier> BELL;
+	public static final Val<PickupModifier> PICKUP;
+	public static final Val<TargetBonusModifier> EMERALD;
+	public static final Val<TalentMetaModifier> TALENTED;
+	public static final Val<PotionMetaModifier> CAULDRON;
+	public static final Val<SimpleFlagModifier> FLOAT, SWIM, ENDER_SIGHT, RECYCLE, PICKUP_NODESTROY, PICKUP_MENDING;
+	public static final Val<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED, SIZE_UPGRADE;
+	public static final Val<PotionAttackModifier> SLOW, WEAK, WITHER;
+	public static final Val<RideUpgrade> MOUNT_UPGRADE;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
@@ -62,20 +62,20 @@ public class GolemModifiers {
 				"Drop golem holder of 0 health when killed. Holder will return to inventory is player is present.");
 		ARMOR = reg("armor_up", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, () -> 10)
-		)).register();
+		));
 		TOUGH = reg("toughness_up", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, () -> 15),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_TOUGH, () -> 6)
-		)).register();
+		));
 		DAMAGE = reg("damage_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATTACK, () -> 2)
-		)).register();
+		));
 		SPEED = reg("speed_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_SPEED, () -> 0.2)
-		)).register();
+		));
 		REGEN = reg("regeneration_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_REGEN, () -> 1)
-		)).register();
+		));
 
 		THORN = reg("thorn", ThornModifier::new,
 				"Reflect %s%% damage");
@@ -108,7 +108,7 @@ public class GolemModifiers {
 		WITHER = reg("wither", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
 						i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)),
 				"Potion Upgrade: Wither", null);
-		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.ILLAGER),
+		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getType().is(EntityTypeTags.ILLAGER)),
 				"Deal %s%% more damage to illagers");
 		PICKUP = reg("pickup", PickupModifier::new, "Pickup",
 				"Golems will pickup items and experiences within %s blocks and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them");
@@ -132,34 +132,25 @@ public class GolemModifiers {
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, () -> 0.2),
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE, () -> 0.5),
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, () -> 0.5)
-		)).register();
+		));
 	}
 
-	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {
-		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
+	public static <T extends GolemModifier> Val<T> reg(String id, NonNullSupplier<T> sup, @Nullable String name, @Nullable String def) {
+		Mutable<RegistryEntry<GolemModifier, T>> holder = new MutableObject<>();
 		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
-		ans.lang(NamedEntry::getDescriptionId, name);
-		if (def != null) {
-			ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
-		}
+		if (name != null) ans.lang(NamedEntry::getDescriptionId, name);
+		if (def != null) ans.getOwner().addRawLang("modifier." + ModularGolems.MODID + "." + id + ".desc", def);
 		var result = ans.register();
 		holder.setValue(result);
-		return result;
+		return new Val.Registrate<>(result);
 	}
 
-	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, @Nullable String def) {
-		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
-		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
-		if (def != null) {
-			ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
-		}
-		var result = ans.register();
-		holder.setValue(result);
-		return result;
+	public static <T extends GolemModifier> Val<T> reg(String id, NonNullSupplier<T> sup, String def) {
+		return reg(id, sup, null, def);
 	}
 
-	public static <T extends GolemModifier> L2Registrate.GenericBuilder<GolemModifier, T> reg(String id, NonNullSupplier<T> sup) {
-		return REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
+	public static <T extends GolemModifier> Val<T> reg(String id, NonNullSupplier<T> sup) {
+		return reg(id, sup, null, null);
 	}
 
 	public static void register() {

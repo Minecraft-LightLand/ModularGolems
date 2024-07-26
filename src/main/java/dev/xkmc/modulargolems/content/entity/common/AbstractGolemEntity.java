@@ -1,9 +1,10 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2library.util.annotation.ServerOnly;
-import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
@@ -32,6 +33,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -69,15 +71,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
-		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
+		implements IEntityWithComplexSpawn, NeutralMob, OwnableEntity, PowerableMob {
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
@@ -93,20 +95,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ materials
 
-	@SerialClass.SerialField(toClient = true)
+	@SerialField
 	private ArrayList<GolemMaterial> materials = new ArrayList<>();
-	@SerialClass.SerialField(toClient = true)
+	@SerialField
 	private ArrayList<Item> upgrades = new ArrayList<>();
-	@SerialClass.SerialField(toClient = true)
+	@SerialField
 	@Nullable
 	private UUID owner;
-	@SerialClass.SerialField(toClient = true)
+	@SerialField
 	private HashMap<GolemModifier, Integer> modifiers = new LinkedHashMap<>();
-	@SerialClass.SerialField(toClient = true)
+	@SerialField
 	private final HashSet<GolemFlags> golemFlags = new HashSet<>();
-	@SerialClass.SerialField
+	@SerialField(toClient = false)
 	private Vec3 recordedPosition = Vec3.ZERO;
-	@SerialClass.SerialField
+	@SerialField(toClient = false)
 	private BlockPos recordedGuardPos = BlockPos.ZERO;
 
 	// marks opened inventory
@@ -335,15 +337,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	}
 
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	public void writeSpawnData(FriendlyByteBuf buffer) {
+	public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
 		PacketCodec.to(buffer, this);
 	}
 
-	public void readSpawnData(FriendlyByteBuf data) {
+	public void readSpawnData(RegistryFriendlyByteBuf data) {
 		PacketCodec.from(data, Wrappers.cast(this.getClass()), getThis());
 		updateAttributes(materials, Wrappers.cast(upgrades), owner);
 	}

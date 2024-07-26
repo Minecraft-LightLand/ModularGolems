@@ -1,11 +1,12 @@
 package dev.xkmc.modulargolems.content.capability;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 @SerialClass
 public class PathConfig {
 
-	@SerialClass.SerialField
+	@SerialField
 	protected final ArrayList<ItemStack> path = new ArrayList<>();
 
 	@Nullable

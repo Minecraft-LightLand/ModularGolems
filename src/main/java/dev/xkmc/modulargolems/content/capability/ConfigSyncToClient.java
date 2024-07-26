@@ -1,34 +1,22 @@
 package dev.xkmc.modulargolems.content.capability;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
-import dev.xkmc.l2serial.serialization.SerialClass;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
-@SerialClass
-public class ConfigSyncToClient extends SerialPacketBase {
+public record ConfigSyncToClient(
+		UUID id,
+		int color,
+		GolemConfigEntry entry
+) implements SerialPacketBase<ConfigSyncToClient> {
 
-	@SerialClass.SerialField
-	public UUID id;
-	@SerialClass.SerialField
-	public int color;
-	@SerialClass.SerialField
-	public GolemConfigEntry entry;
-
-	@Deprecated
-	public ConfigSyncToClient() {
-
-	}
-
-	public ConfigSyncToClient(GolemConfigEntry entry) {
-		this.entry = entry;
-		this.id = entry.getID();
-		this.color = entry.getColor();
+	public static ConfigSyncToClient of(GolemConfigEntry entry) {
+		return new ConfigSyncToClient(entry.getID(), entry.getColor(), entry);
 	}
 
 	@Override
-	public void handle(NetworkEvent.Context context) {
+	public void handle(Player player) {
 		ClientDataHandler.handleUpdate(entry.init(id, color));
 	}
 

@@ -1,8 +1,9 @@
 package dev.xkmc.modulargolems.content.core;
 
-import dev.xkmc.l2library.base.NamedEntry;
+import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +12,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 
 import java.util.function.Supplier;
 
-import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
+import static net.minecraft.world.item.component.ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT;
 
 public class GolemStatType extends NamedEntry<GolemStatType> {
 
@@ -19,19 +20,19 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 		BASE, ADD, PERCENT
 	}
 
-	private final Supplier<Attribute> attribute;
+	private final Supplier<Holder<Attribute>> attribute;
 
 	public final Kind kind;
 	public final StatFilterType type;
 
-	public GolemStatType(Supplier<Attribute> attribute, Kind kind, StatFilterType type) {
+	public GolemStatType(Supplier<Holder<Attribute>> attribute, Kind kind, StatFilterType type) {
 		super(GolemTypes.STAT_TYPES);
 		this.attribute = attribute;
 		this.kind = kind;
 		this.type = type;
 	}
 
-	public Attribute getAttribute() {
+	public Holder<Attribute> getAttribute() {
 		return attribute.get();
 	}
 
@@ -42,7 +43,7 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,
 				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
-				Component.translatable(attribute.get().getDescriptionId())).withStyle(ChatFormatting.BLUE);
+				Component.translatable(attribute.get().value().getDescriptionId())).withStyle(ChatFormatting.BLUE);
 	}
 
 	public MutableComponent getTotalTooltip(double val) {
@@ -52,7 +53,7 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,
 				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
-				Component.translatable(attribute.get().getDescriptionId())).withStyle(ChatFormatting.BLUE);
+				Component.translatable(attribute.get().value().getDescriptionId())).withStyle(ChatFormatting.BLUE);
 	}
 
 	/**

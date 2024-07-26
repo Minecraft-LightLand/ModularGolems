@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.init.advancement;
 
+import dev.xkmc.l2core.serial.advancements.BaseCriterion;
+import dev.xkmc.l2core.serial.advancements.BaseCriterionInstance;
 import dev.xkmc.l2library.serial.advancements.BaseCriterion;
 import dev.xkmc.l2library.serial.advancements.BaseCriterionInstance;
 import dev.xkmc.l2serial.serialization.SerialClass;
@@ -21,7 +23,6 @@ public class GolemHotFixTrigger extends BaseCriterion<GolemHotFixTrigger.Ins, Go
 		this.trigger(player, e -> true);
 	}
 
-	@SerialClass
 	public static class Ins extends BaseCriterionInstance<Ins, GolemHotFixTrigger> {
 
 		public Ins(ResourceLocation id, ContextAwarePredicate player) {

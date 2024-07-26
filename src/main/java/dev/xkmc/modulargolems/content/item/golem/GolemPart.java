@@ -14,15 +14,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item implements IGolemPartItem {
@@ -54,8 +50,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(stack, level, list, flag);
+	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		getMaterial(stack).ifPresent(e -> {
 			GolemMaterial mat = parseMaterial(e);
 			list.add(mat.getDesc());
@@ -83,11 +78,6 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 			}
 		});
 		return new GolemMaterial(stats, modifiers, mat, this);
-	}
-
-	@Override
-	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-		consumer.accept(GolemBEWLR.EXTENSIONS);
 	}
 
 	@Override

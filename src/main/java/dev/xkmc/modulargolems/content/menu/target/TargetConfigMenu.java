@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.target;
 
-import dev.xkmc.l2library.base.menu.base.SpriteManager;
+import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.TargetFilterConfig;
 import dev.xkmc.modulargolems.content.capability.TargetFilterEditor;

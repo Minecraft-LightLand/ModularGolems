@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.capability;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.item.card.NameFilterCard;
 import dev.xkmc.modulargolems.content.item.card.TargetFilterCard;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
@@ -14,16 +15,16 @@ public class TargetFilterConfig {
 
 	public static final int LINE = 18;
 
-	@SerialClass.SerialField
+	@SerialField
 	protected final ArrayList<ItemStack> hostileTo = new ArrayList<>();
 
-	@SerialClass.SerialField
+	@SerialField
 	protected final ArrayList<ItemStack> friendlyTo = new ArrayList<>();
 
 	public boolean internalMatch(ArrayList<ItemStack> list, ItemStack stack) {
 		for (ItemStack filter : list) {
 			if (stack.getItem() == filter.getItem()) {
-				if (ItemStack.isSameItemSameTags(stack, filter)) {
+				if (ItemStack.isSameItemSameComponents(stack, filter)) {
 					return true;
 				}
 			}

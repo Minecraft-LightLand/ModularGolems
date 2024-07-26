@@ -1,10 +1,9 @@
 package dev.xkmc.modulargolems.content.menu.path;
 
-import dev.xkmc.l2library.base.menu.base.SpriteManager;
+import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.PathEditor;
 import dev.xkmc.modulargolems.content.capability.PickupFilterConfig;
-import dev.xkmc.modulargolems.content.capability.PickupFilterEditor;
 import dev.xkmc.modulargolems.content.menu.ghost.GhostItemMenu;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.FriendlyByteBuf;
@@ -12,7 +11,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
-import org.jetbrains.annotations.NotNull;
 
 public class PathConfigMenu extends GhostItemMenu {
 

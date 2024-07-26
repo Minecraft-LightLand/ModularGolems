@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.modifier.base;
 
+import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2library.base.NamedEntry;

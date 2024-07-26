@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 public interface IGolemPart<P extends IGolemPart<P>> {

@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.item.card;
 
-import dev.xkmc.l2library.util.Proxy;
+import dev.xkmc.l2core.util.Proxy;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
@@ -22,7 +22,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -112,7 +111,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 			}
 			if (editor != null && player instanceof ServerPlayer sp) {
 				var pvd = new ConfigMenuProvider(uuid, color.getId(), editor);
-				NetworkHooks.openScreen(sp, pvd, pvd::writeBuffer);
+				sp.openMenu(pvd, pvd::writeBuffer);
 				return InteractionResultHolder.success(stack);
 			}
 		}

@@ -1,10 +1,11 @@
 package dev.xkmc.modulargolems.content.config;
 
-import dev.xkmc.l2library.serial.config.BaseConfig;
-import dev.xkmc.l2library.serial.config.CollectType;
-import dev.xkmc.l2library.serial.config.ConfigCollect;
-import dev.xkmc.l2library.util.annotation.DataGenOnly;
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2core.serial.config.BaseConfig;
+import dev.xkmc.l2core.serial.config.CollectType;
+import dev.xkmc.l2core.serial.config.ConfigCollect;
+import dev.xkmc.l2core.util.DataGenOnly;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -25,15 +26,15 @@ public class GolemMaterialConfig extends BaseConfig {
 	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
-	@SerialClass.SerialField
+	@SerialField
 	public HashMap<ResourceLocation, HashMap<GolemStatType, Double>> stats = new HashMap<>();
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
-	@SerialClass.SerialField
+	@SerialField
 	public HashMap<ResourceLocation, HashMap<GolemModifier, Integer>> modifiers = new HashMap<>();
 
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
-	@SerialClass.SerialField
+	@SerialField
 	public HashMap<ResourceLocation, Ingredient> ingredients = new HashMap<>();
 
 	public Set<ResourceLocation> getAllMaterials() {

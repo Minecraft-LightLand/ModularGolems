@@ -1,38 +1,21 @@
 package dev.xkmc.modulargolems.content.capability;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
-import dev.xkmc.l2serial.serialization.SerialClass;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
-@SerialClass
-public class ConfigHeartBeatToServer extends SerialPacketBase {
-
-	@SerialClass.SerialField
-	public UUID id;
-
-	@SerialClass.SerialField
-	public int color;
-
-	@Deprecated
-	public ConfigHeartBeatToServer() {
-
-	}
-
-	public ConfigHeartBeatToServer(UUID id, int color) {
-		this.id = id;
-		this.color = color;
-	}
+public record ConfigHeartBeatToServer(
+		UUID id, int color
+) implements SerialPacketBase<ConfigHeartBeatToServer> {
 
 	@Override
-	public void handle(NetworkEvent.Context context) {
-		ServerPlayer player = context.getSender();
-		if (player == null) return;
+	public void handle(Player player) {
+		if (!(player instanceof ServerPlayer sp)) return;
 		var entry = GolemConfigStorage.get(player.level()).getStorage(id, color);
 		if (entry == null) return;
-		entry.heartBeat(player.serverLevel(), player);
+		entry.heartBeat(sp.serverLevel(), sp);
 	}
 
 }

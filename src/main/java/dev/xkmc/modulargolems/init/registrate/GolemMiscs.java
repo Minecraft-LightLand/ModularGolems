@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init.registrate;
 import com.tterrag.registrate.util.entry.MenuEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import dev.xkmc.l2core.serial.recipe.AbstractShapedRecipe;
 import dev.xkmc.l2library.serial.recipe.AbstractShapedRecipe;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigMenu;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;

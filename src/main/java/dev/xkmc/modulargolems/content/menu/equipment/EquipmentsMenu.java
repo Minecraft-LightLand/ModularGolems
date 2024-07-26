@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
+import dev.xkmc.l2core.base.menu.base.BaseContainerMenu;
+import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;

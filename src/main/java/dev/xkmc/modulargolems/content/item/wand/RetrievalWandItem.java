@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
+import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;

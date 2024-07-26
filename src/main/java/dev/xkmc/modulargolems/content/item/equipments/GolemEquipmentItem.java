@@ -27,6 +27,8 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static net.minecraft.world.item.component.ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT;
+
 public abstract class GolemEquipmentItem extends Item {
 
 	protected static final EnumMap<EquipmentSlot, UUID> UUID;
@@ -73,7 +75,7 @@ public abstract class GolemEquipmentItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		list.add(MGLangData.GOLEM_EQUIPMENT.get(type.get().getDescription().copy().withStyle(ChatFormatting.GOLD)));
 		Multimap<Attribute, AttributeModifier> multimap = getGolemModifiers(stack, null, slot);
 		if (multimap.isEmpty()) return;
@@ -83,11 +85,11 @@ public abstract class GolemEquipmentItem extends Item {
 
 		for (Map.Entry<Attribute, AttributeModifier> entry : multimap.entries()) {
 			AttributeModifier attr = entry.getValue();
-			double val = attr.getAmount();
+			double val = attr.amount();
 
 			double disp;
-			if (attr.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE &&
-					attr.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
+			if (attr.operation() != AttributeModifier.Operation.ADD_MULTIPLIED_BASE &&
+					attr.operation() != AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL) {
 				if (entry.getKey().equals(Attributes.KNOCKBACK_RESISTANCE)) {
 					disp = val * 10;
 				} else {
@@ -98,12 +100,12 @@ public abstract class GolemEquipmentItem extends Item {
 			}
 			if (val > 0) {
 				list.add(Component.translatable("attribute.modifier.plus." +
-								attr.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(disp),
+								attr.operation().id(), ATTRIBUTE_MODIFIER_FORMAT.format(disp),
 						Component.translatable(entry.getKey().getDescriptionId())).withStyle(ChatFormatting.BLUE));
 			} else if (val < 0) {
 				disp *= -1;
 				list.add(Component.translatable("attribute.modifier.take." +
-								attr.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(disp),
+								attr.operation().id(), ATTRIBUTE_MODIFIER_FORMAT.format(disp),
 						Component.translatable(entry.getKey().getDescriptionId())).withStyle(ChatFormatting.RED));
 
 			}
