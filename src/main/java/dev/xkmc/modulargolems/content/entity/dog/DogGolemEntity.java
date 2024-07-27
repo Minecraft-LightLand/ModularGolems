@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -17,8 +19,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,13 +36,7 @@ import org.jetbrains.annotations.Nullable;
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
 
 	public float getJumpStrength() {
-		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
-		MobEffectInstance ins = getEffect(MobEffects.JUMP);
-		if (ins != null) {
-			int lv = ins.getAmplifier() + 1;
-			ans *= (1 + lv * 0.625f);
-		}
-		return ans;
+		return (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
 	}
 
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
@@ -243,12 +237,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return new Vec3(0.0D, 0.6F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
 	}
 
-	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
+	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
+		if (player.getItemInHand(hand).getItem() instanceof GolemHolder) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
-		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
-			return InteractionResult.PASS;
 		if (!player.isShiftKeyDown() && itemstack.isEmpty())
-			return super.mobInteractImpl(player, hand);
+			return super.mobInteract(player, hand);
 		else {
 			if (!this.level().isClientSide() && canModify(player))
 				this.setInSittingPose(!this.isInSittingPose());

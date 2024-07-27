@@ -5,9 +5,7 @@ import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
-import dev.xkmc.modulargolems.compat.materials.botania.BotUtils;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -53,9 +51,6 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		gui.setupOverlayRenderState(true, false);
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
-		if (golem.hasFlag(GolemFlags.BOTANIA)) {
-			text.add(BotUtils.getDesc(golem));
-		}
 		text.add(golem.getMode().getDesc(golem));
 		var config = golem.getConfigEntry(MGLangData.LOADING.get());
 		if (config != null) {

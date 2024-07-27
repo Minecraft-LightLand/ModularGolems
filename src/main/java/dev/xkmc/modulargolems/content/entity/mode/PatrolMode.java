@@ -16,7 +16,6 @@ public class PatrolMode extends GolemMode {
 
 	@Override
 	public void tick(AbstractGolemEntity<?, ?> golem) {
-		if (!golem.isInWater() && !golem.onGround()) return;
 		if (golem.getNavigation().isDone()) {
 			golem.advancePatrolStage();
 		}

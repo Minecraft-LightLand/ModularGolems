@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.compat.curio;
 
-import com.mojang.datafixers.util.Pair;
 import com.tterrag.registrate.util.entry.MenuEntry;
 import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
@@ -14,7 +13,6 @@ import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
@@ -87,9 +85,11 @@ public class CurioCompatRegistry {
 		consumer.accept(GolemCuriosListScreen.class);
 	}
 
-	public ItemStack getSkin(HumanoidGolemEntity le) {
+	@Nullable
+	public String getSkin(HumanoidGolemEntity le) {
 		return CuriosApi.getCuriosInventory(le).resolve().flatMap(e -> e.getStacksHandler("golem_skin"))
-				.map(ICurioStacksHandler::getStacks).map(e -> e.getSlots() == 0 ? null : e.getStackInSlot(0)).orElse(ItemStack.EMPTY);
+				.map(ICurioStacksHandler::getStacks).map(e -> e.getSlots() == 0 ? null : e.getStackInSlot(0))
+				.filter(e->!e.isEmpty()).map(e -> e.getHoverName().getString()).orElse(null);
 	}
 
 }

@@ -13,18 +13,13 @@
 	  "type": "patchouli:text",
 	  "text": "在配置界面中，放入傀儡可以让傀儡绑定此配置。你可以选择傀儡被召唤时的模式，也可以选择傀儡将会被召唤到指向地点还是上次收回的地点。$(br2)注意如果收回的地点在64格以外则不会生效，且如果默认模式是跟随，则还是会在指向地点召唤。"
 	},
-	{ "type": "patchouli:text",
+	{
+	  "type": "patchouli:text",
 	  "text": "你也可以锁定傀儡交互，以避免不小心把傀儡拾起或者换掉装备。这时副手拿卡片也没用。如果卡片不小心弄丢了，可以做个同色的来解锁傀儡。$(br2)你也可以配置拾取升级的物品过滤器，以避免傀儡拾取不想要的物品或者不小心销毁重要物品。"
 	},
 	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:target_filter_type,modulargolems:target_filter_uuid,modulargolems:target_filter_name,modulargolems:target_filter_default",
+	  "type": "patchouli:text",
 	  "text": "你可以配置傀儡的主动攻击目标和友好列表。友好列表内的生物不会被攻击，主动攻击目标内的生物会主动被攻击，其他生物只有试图攻击傀儡和玩家的时候才会被攻击。$(br2)初始配置中存在默认攻击配置。你可以移除它们并放入你自己的配置，以允许傀儡攻击其他傀儡和其他玩家"
-	},
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:patrol_path_recorder",
-	  "text": "你可以配置傀儡在固定移动路线模式下的移动路径。手持巡逻手册右键方块记录路径。安装了机械动力时，同时会在世界中渲染路径点。固定移动路径模式下的傀儡发现攻击目标的时候会偏移路径进行战斗。"
 	}
   ]
 }

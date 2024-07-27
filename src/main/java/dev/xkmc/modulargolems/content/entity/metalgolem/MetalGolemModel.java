@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.client.armor.MetalGolemBasicModels;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
@@ -12,28 +12,25 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import dev.xkmc.modulargolems.content.client.pose.CustomModelAnimation;
 @OnlyIn(Dist.CLIENT)
 public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
-
 	private final ModelPart root;
 	private final ModelPart head;
 	private final ModelPart rightLeg;
 	private final ModelPart leftLeg;
 	private final ModelPart body;
-
-	public final ModelPart rightArm;
-	public final ModelPart leftArm;
-	public final ModelPart leftForeArm;
-	public final ModelPart rightForeArm;
-
+	private final ModelPart weapon;
+	private final ModelPart rightArm;
+	private final ModelPart leftArm;
+	private final ModelPart leftForeArm;
+	private final ModelPart rightForeArm;
+	private final ModelPart shield;
 	public MetalGolemModel(EntityModelSet set) {
-		this(set.bakeLayer(GolemEquipmentModels.METALGOLEM));
+		this(set.bakeLayer(MetalGolemBasicModels.METALGOLEM));
 	}
-
 	public MetalGolemModel(ModelPart part) {
 		this.root = part;
 		this.body = part.getChild("body");
@@ -44,12 +41,10 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftLeg = part.getChild("left_leg");
 		this.leftForeArm = leftArm.getChild("left_forearm");
 		this.rightForeArm = rightArm.getChild("right_forearm");
+		this.weapon=rightForeArm.getChild("weapon");
+		this.shield=leftForeArm.getChild("shield");
 	}
-
-	public ModelPart root() {
-		return this.root;
-	}
-
+	public ModelPart root() {return this.root;}
 	public void copyFrom(MetalGolemModel other) {
 		head.copyFrom(other.head);
 		body.copyFrom(other.body);
@@ -59,30 +54,25 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		leftLeg.copyFrom(other.leftLeg);
 		leftForeArm.copyFrom(other.leftForeArm);
 		rightForeArm.copyFrom(other.rightForeArm);
+		weapon.copyFrom(other.weapon);
+		shield.copyFrom(other.shield);
 	}
 	public void setupAnim(MetalGolemEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
-		int atkTick = pEntity.getAttackAnimationTick();
-        Item its =pEntity.getMainHandItem().getItem();
 		this.animateWalk(pNetHeadYaw, pHeadPitch, pLimbSwing, pLimbSwingAmount);
-			if(its instanceof MetalGolemWeaponItem wi){
-				switch (wi.getGolemWeaponType(wi)) {
-					case SWORD, AXE -> {
-						if (atkTick > 0) {
-							this.animate(pEntity.axeAttackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);
-						}else if(pEntity.isAggressive()) {
-							this.animate(pEntity.axeWarningAnimationState, CustomModelAnimation.warningInAxe, pAgeInTicks);
-						}
-					}
-					case SPEAR -> {
-						if (atkTick > 0) {
-							this.animate(pEntity.spearAttackAnimationState, CustomModelAnimation.attackInSpear, pAgeInTicks);
-						} else if (pEntity.isAggressive()) {
-							this.animate(pEntity.spearWarningAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
-						}
-					}
+		if(pEntity.getMainHandItem().getItem() instanceof MetalGolemWeaponItem mwi) {
+			switch (mwi.getGolemWeaponType()) {
+				case AXE, SWORD ->
+				{this.animate(pEntity.warningAnimationState, CustomModelAnimation.warningInAxe, pAgeInTicks);
+				this.animate(pEntity.attackAnimationState, CustomModelAnimation.attackInAxe, pAgeInTicks);}
+				case SPEAR -> {
+				this.animate(pEntity.attackAnimationState, CustomModelAnimation.attackInSpear, pAgeInTicks);
+				this.animate(pEntity.warningAnimationState, CustomModelAnimation.warningInSpear, pAgeInTicks);
 				}
 			}
+		}else {
+			this.animate(pEntity.attackAnimationState, CustomModelAnimation.attackUnarmed, pAgeInTicks);
+		}
 	}
 	private void animateWalk(float pNetHeadYaw, float pHeadPitch,float pLimbSwing,float pLimbSwingAmount) {
 		this.head.yRot = pNetHeadYaw * ((float) Math.PI / 180F);
@@ -102,10 +92,22 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftArm.z = 0.0F;
 		this.leftArm.x = 0.0F;
 		this.leftArm.y = -7.0F;
+		this.leftForeArm.yRot = 0.0F;
+		this.leftForeArm.z = 3.0F;
+		this.leftForeArm.x = -0.001F;
+		this.leftForeArm.y = 11.5F;
 		this.rightArm.yRot = 0.0F;
 		this.rightArm.z = 0.0F;
 		this.rightArm.x = -0.0F;
 		this.rightArm.y = -7.0F;
+		this.rightForeArm.yRot = 0.0F;
+		this.rightForeArm.z = 3.0F;
+		this.rightForeArm.x = -0.001F;
+		this.rightForeArm.y = 11.5F;
+		this.weapon.yRot=0.0f;
+		this.weapon.z=0.0f;
+		this.weapon.x=0.0f;
+		this.weapon.y =2.0F;
 	}
 	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
 		if (type == MetalGolemPartType.BODY) {
@@ -120,33 +122,30 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 			this.rightLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
 		}
 	}
-
 	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
 		String id = rl.getNamespace();
 		String mat = rl.getPath();
 		return new ResourceLocation(id, "textures/entity/metal_golem/" + mat + ".png");
 	}
-
 	public void transformToHand(EquipmentSlot slot, PoseStack pose) {
 		if (slot == EquipmentSlot.MAINHAND) {
 			rightArm.translateAndRotate(pose);
 			rightForeArm.translateAndRotate(pose);
+			weapon.translateAndRotate(pose);
 		}
 		if (slot == EquipmentSlot.OFFHAND) {
 			leftArm.translateAndRotate(pose);
 			leftForeArm.translateAndRotate(pose);
+            shield.translateAndRotate(pose);
 		}
 	}
-
 	@Override
 	public ModelPart getHead() {
 		return head;
 	}
-
 	public void translateToHead(PoseStack pose) {
 		pose.translate(0.0F, -0.45F, -0.08F);
 		pose.mulPose(Axis.YP.rotationDegrees(180.0F));
 		pose.scale(0.625F, -0.625F, -0.625F);
 	}
-
 }

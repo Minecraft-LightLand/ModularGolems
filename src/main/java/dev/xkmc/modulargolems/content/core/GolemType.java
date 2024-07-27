@@ -82,10 +82,6 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		return golem;
 	}
 
-	public EntityType<?> type() {
-		return type.get();
-	}
-
 	public P[] values() {
 		return list.get();
 	}

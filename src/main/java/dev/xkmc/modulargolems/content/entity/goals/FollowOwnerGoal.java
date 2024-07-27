@@ -73,7 +73,8 @@ public class FollowOwnerGoal extends Goal {
 	 * Keep ticking a continuous task that has already been started
 	 */
 	public void tick() {
-		Vec3 target = this.golem.getTargetPos();
+		float offset = 0;//-(golem.getBbWidth() + 1) / 2;
+		Vec3 target = this.golem.getTargetPos().add(offset, 0, offset);
 		LivingEntity owner = this.golem.getOwner();
 		if (owner != null)
 			this.golem.getLookControl().setLookAt(owner, 10.0F, (float) this.golem.getMaxHeadXRot());

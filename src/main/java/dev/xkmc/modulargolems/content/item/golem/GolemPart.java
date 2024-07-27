@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item implements IGolemPartItem {
+public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
 	public static final List<GolemPart<?, ?>> LIST = new ArrayList<>();
 
@@ -88,11 +88,6 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	@Override
 	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
 		consumer.accept(GolemBEWLR.EXTENSIONS);
-	}
-
-	@Override
-	public GolemPart<?, ?> asPart() {
-		return this;
 	}
 
 	public GolemType<T, P> getEntityType() {

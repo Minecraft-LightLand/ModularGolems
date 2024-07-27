@@ -13,7 +13,7 @@ public record GolemModelPath(ModelLayerLocation models, List<List<String>> paths
 
 	static {
 		register(GolemModelPaths.HELMETS,
-				new GolemModelPath(GolemEquipmentModels.HELMET_LAYER, List.of(
+				new GolemModelPath(MetalGolemBasicModels.HELMET_LAYER, List.of(
 						List.of("head", "helmet3"),
 						List.of("head", "helmet17"),
 						List.of("head", "helmet16"),
@@ -30,7 +30,7 @@ public record GolemModelPath(ModelLayerLocation models, List<List<String>> paths
 				)));
 
 		register(GolemModelPaths.CHESTPLATES,
-				new GolemModelPath(GolemEquipmentModels.CHESTPLATE_LAYER, List.of(
+				new GolemModelPath(MetalGolemBasicModels.CHESTPLATE_LAYER, List.of(
 						List.of("body", "main_body"),
 						List.of("right_arm", "main_rightarm2"),
 						List.of("right_arm", "right_forearm", "main_rightforearm"),
@@ -41,7 +41,7 @@ public record GolemModelPath(ModelLayerLocation models, List<List<String>> paths
 				)));
 
 		register(GolemModelPaths.LEGGINGS,
-				new GolemModelPath(GolemEquipmentModels.SHINGUARD_LAYER, List.of(
+				new GolemModelPath(MetalGolemBasicModels.SHINGUARD_LAYER, List.of(
 						List.of("body", "main_shinguard"),
 						List.of("right_leg", "shinguard1"),
 						List.of("left_leg", "shinguard2")

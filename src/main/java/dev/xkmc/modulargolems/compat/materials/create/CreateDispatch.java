@@ -4,21 +4,15 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
-import dev.xkmc.modulargolems.compat.materials.create.automation.*;
-import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
-
-import java.util.List;
 
 public class CreateDispatch extends ModDispatch {
 
@@ -31,21 +25,6 @@ public class CreateDispatch extends ModDispatch {
 			MinecraftForge.EVENT_BUS.register(CreateJEIEvents.class);
 		}
 
-	}
-
-	@Override
-	public void lateRegister() {
-		List<ItemEntry<?>> str = List.of(GolemItems.GOLEM_BODY, GolemItems.GOLEM_ARM, GolemItems.GOLEM_LEGS,
-				GolemItems.HUMANOID_BODY, GolemItems.HUMANOID_ARMS, GolemItems.HUMANOID_LEGS,
-				GolemItems.DOG_BODY, GolemItems.DOG_LEGS);
-		for (var part : str) {
-			ModularGolems.REGISTRATE.item("incomplete_" + part.getId().getPath(),
-							p -> new GolemIncompleteItem(p, part))
-					.removeTab(GolemItems.TAB.getKey())
-					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
-							.texture("particle", "minecraft:block/clay"))
-					.defaultLang().register();
-		}
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
@@ -71,7 +50,7 @@ public class CreateDispatch extends ModDispatch {
 				.define('C', AllItems.PRECISION_MECHANISM.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		CreateGolemRecipeGen.genAllUpgradeRecipes(pvd);
+		CreateMixingRecipeGen.genAllUpgradeRecipes(pvd);
 
 	}
 

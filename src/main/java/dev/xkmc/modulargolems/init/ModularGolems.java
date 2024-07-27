@@ -1,8 +1,6 @@
 package dev.xkmc.modulargolems.init;
 
 import com.tterrag.registrate.providers.ProviderType;
-import dev.xkmc.l2complements.init.L2Complements;
-import dev.xkmc.l2complements.init.data.TagGen;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
@@ -32,7 +30,6 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -105,9 +102,6 @@ public class ModularGolems {
 		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(event.getGenerator()));
 		CompatManager.gatherData(event);
 		event.getGenerator().addProvider(event.includeServer(), new SlotGen(event.getGenerator()));
-		if (ModList.get().isLoaded(L2Complements.MODID)){
-			REGISTRATE.addDataGenerator(TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
-		}
 	}
 
 	@SubscribeEvent

@@ -1,12 +1,12 @@
 {
   "flag": "mod:cataclysm",
   "name": "Netherite Monstrosity Upgrade",
-  "icon": "modulargolems:netherite_monstrosity_earthquake",
+  "icon": "modulargolems:netherite_monstrosity",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:netherite_monstrosity_earthquake",
+	  "item": "modulargolems:netherite_monstrosity",
 	  "text": "Jump and cause earthquake on land. Max: 1"
 	}
   ]

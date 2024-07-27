@@ -45,6 +45,7 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		pose.scale(r, r, r);
 	}
 
+	@Deprecated
 	public ResourceLocation getTextureLocation(T entity) {
 		return GOLEM_LOCATION;
 	}

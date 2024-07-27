@@ -34,8 +34,3 @@ This mod adds golems that can be crafted with different materials in a Tinker-li
     mandatory=false
     versionRange="[5.4.5,)"
     side="BOTH"
-[[dependencies.modulargolems]]
-    modId="touhou_little_maid"
-    mandatory=false
-    versionRange="[1.1.9,)"
-    side="BOTH"

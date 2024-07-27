@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.modifier.base;
 
-import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
@@ -15,12 +14,9 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -111,7 +107,8 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	/**
 	 * modify damage
 	 */
-	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+	public float modifyDamage(float damage, AbstractGolemEntity<?, ?> entity, int level) {
+		return damage;
 	}
 
 	/**
@@ -150,10 +147,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	public void handleEvent(AbstractGolemEntity<?,?> golem, int value, byte event) {
-	}
-
-	public InteractionResult interact(Player player, AbstractGolemEntity<?,?> golem, InteractionHand hand) {
-		return InteractionResult.PASS;
 	}
 
 	public record HealingContext(float health, float maxHealth, Entity owner) {

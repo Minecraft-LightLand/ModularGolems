@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.EntityEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
@@ -21,10 +20,11 @@ public class DamageCapModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
-		if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
+		if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) || event.getSource().is(DamageTypeTags.BYPASSES_EFFECTS)) {
 			return;
 		}
+
 		float factor = (float) Math.max(0, (2 - level * 0.2) * MGConfig.COMMON.damageCap.get());
 		if (event.getAmount() > factor * entity.getMaxHealth()) {
 			event.setAmount(factor * entity.getMaxHealth());

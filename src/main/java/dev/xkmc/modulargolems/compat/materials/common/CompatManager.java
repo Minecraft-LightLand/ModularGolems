@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.compat.materials.common;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
-import dev.xkmc.modulargolems.compat.materials.botania.BotDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
@@ -24,7 +23,6 @@ public abstract class CompatManager {
 	public static final List<ModDispatch> LIST = new ArrayList<>();
 
 	public static void register() {
-		if (ModList.get().isLoaded(BotDispatch.MODID)) LIST.add(new BotDispatch());
 		if (ModList.get().isLoaded(TFDispatch.MODID)) LIST.add(new TFDispatch());
 		if (ModList.get().isLoaded(CreateDispatch.MODID)) LIST.add(new CreateDispatch());
 		if (ModList.get().isLoaded(LCDispatch.MODID)) LIST.add(new LCDispatch());
@@ -59,12 +57,6 @@ public abstract class CompatManager {
 	public static void dispatchClientSetup() {
 		for (ModDispatch dispatch : LIST) {
 			dispatch.dispatchClientSetup();
-		}
-	}
-
-	public static void lateRegister() {
-		for (ModDispatch dispatch : LIST) {
-			dispatch.lateRegister();
 		}
 	}
 

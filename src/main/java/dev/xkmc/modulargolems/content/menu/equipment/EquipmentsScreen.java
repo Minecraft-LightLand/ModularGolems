@@ -53,23 +53,21 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	@Override
 	protected void renderTooltip(GuiGraphics g, int mx, int my) {
 		super.renderTooltip(g, mx, my);
-		if (menu.golem instanceof HumanoidGolemEntity &&
-				menu.getCarried().isEmpty() &&
-				hoveredSlot != null && !hoveredSlot.hasItem()) {
+		if (this.menu.getCarried().isEmpty() && this.hoveredSlot != null && !this.hoveredSlot.hasItem()) {
 			List<Component> list = null;
-			if (hoveredSlot.getContainerSlot() == 0) {
+			if (this.hoveredSlot.getContainerSlot() == 0) {
 				list = List.of(MGLangData.SLOT_MAIN.get(),
 						MGLangData.SLOT_MAIN_DESC.get());
 			}
-			if (hoveredSlot.getContainerSlot() == 1) {
+			if (this.hoveredSlot.getContainerSlot() == 1) {
 				list = List.of(MGLangData.SLOT_OFF.get());
 			}
-			if (hoveredSlot.getContainerSlot() == 6) {
+			if (this.hoveredSlot.getContainerSlot() == 6) {
 				list = List.of(MGLangData.SLOT_BACKUP.get(),
 						MGLangData.SLOT_BACKUP_DESC.get(),
 						MGLangData.SLOT_BACKUP_INFO.get());
 			}
-			if (hoveredSlot.getContainerSlot() == 7) {
+			if (this.hoveredSlot.getContainerSlot() == 7) {
 				list = List.of(MGLangData.SLOT_ARROW.get(),
 						MGLangData.SLOT_ARROW_DESC.get());
 

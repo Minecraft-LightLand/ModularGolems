@@ -11,18 +11,8 @@
 	{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:humanoid_golem_holder",
-	  "text": "Humanoid golem can perform area attack if and only if it holds a sword-like item.$(br2)Humanoid golem can use shield, trident, bow, and crossbow."
+	  "text": "Humanoid golem can perform area attack if and only if it holds a sword-like item.$(br2)Humanoid golem can use shield, but can be bypassed if the enemy attacks from behind or holds an axe. $(br2)It can also use bow and crossbows, but would consume arrows. Infinity bow is recommended."
 	},
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "minecraft:zombie_head,minecraft:skeleton_skull,minecraft:wither_skeleton_skull",
-	  "text": "Equip a zombie head / skeleton skull / wither skeleton skull named as a player in Golem Skin slot to use player skin.$(br2)Requires the player to have a valid Minecraft account, and requires internet connection to download skins from Minecraft Server."
-	},
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "minecraft:player_head,minecraft:piglin_head",
-	  "text": "Equip a player head / piglin skull in Golem Skin slot, named as the texture location of a humanoid texture, to use a custom texture for the golem.$(br2)Use player head for slim player model, and piglin head for normal player model."
-	},
-	"If Touhou Little Maid is installed, Garage Kit can be plced in Golem Skin slot to use the Maid model as well."
+	"Equip a head/skull named as a player in Golem Skin slot to use player skin.$(br2)Requires the player to have a valid Minecraft account, and requires internet connection to download skins from Minecraft Server."
   ]
 }

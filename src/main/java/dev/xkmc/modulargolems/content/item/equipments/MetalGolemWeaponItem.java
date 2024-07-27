@@ -46,7 +46,5 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 		}
 		return super.canApplyAtEnchantingTable(stack, enchantment);
 	}
-	public GolemWeaponType getGolemWeaponType(MetalGolemWeaponItem i) {
-      return i.gwt;
-	}
+	public GolemWeaponType getGolemWeaponType() {return this.gwt;}
 }

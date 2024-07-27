@@ -12,16 +12,6 @@
 	  "recipe": "modulargolems:humanoid_golem_holder",
 	  "text": "手持剑类装备的傀儡将对敌人造成范围伤害。$(br2)人形傀儡装备盾牌后可以格挡除了来自背后和斧类武器以外的所有伤害。$(br2)装备弓/弩时需要消耗箭，推荐使用无限弓。"
 	},
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "minecraft:zombie_head,minecraft:skeleton_skull,minecraft:wither_skeleton_skull",
-	  "text": "在傀儡皮肤槽中放入命名为玩家名字的僵尸/骷髅/凋零骷髅头颅来使用玩家皮肤。$(br2)要求该名字的玩家账号是正版账号，且游戏有网络连接才能从我的世界服务器下载皮肤。"
-	},
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "minecraft:player_head,minecraft:piglin_head",
-	  "text": "在傀儡皮肤槽中放入命名为贴图路径的玩家/猪灵头颅来使用自定义人形模型贴图皮肤。$(br2)使用纤瘦模型时使用玩家头颅。使用正常模型时使用猪灵头颅。$(br2)猪灵头颅也可以用于显示其他材料的人形傀儡贴图皮肤来伪装"
-	},
-	"如果安装了车万女仆，也可以在傀儡皮肤槽中放入手办来使用女仆模型"
+	"在傀儡皮肤槽中放入命名为玩家名字的人形生物头颅来使用玩家皮肤。$(br2)要求该名字的玩家账号是正版账号，且游戏有网络连接才能从我的世界服务器下载皮肤。"
   ]
 }

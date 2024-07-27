@@ -1,12 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
-
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.modulargolems.content.client.pose.PoseStateMachine;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,10 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.player.Player;
@@ -33,18 +29,15 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
-
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
-	public final AnimationState axeAttackAnimationState = new AnimationState();
-	public final AnimationState axeWarningAnimationState = new AnimationState();
-	public final AnimationState spearAttackAnimationState = new AnimationState();
-	public final AnimationState spearWarningAnimationState = new AnimationState();
+	public final AnimationState attackAnimationState = new AnimationState();
+	public final AnimationState warningAnimationState = new AnimationState();
+	private final PoseStateMachine psm = new PoseStateMachine(this);
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(type, level);
 		this.setMaxUpStep(1);
 	}
-
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
@@ -60,11 +53,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 		return succeed;
 	}
-
 	// ------ vanilla golem behavior
-
 	private int attackAnimationTick;
-
 	protected void registerGoals() {
 		this.goalSelector.addGoal(2, new GolemMeleeGoal(this));
 		super.registerGoals();
@@ -85,7 +75,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			}
 		}
 	}
-
 	public boolean doHurtTarget(Entity target) {
 		this.attackAnimationTick = 10;
 		this.level().broadcastEntityEvent(this, (byte) 4);
@@ -100,7 +89,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		return flag;
 	}
-
 	public boolean hurt(DamageSource source, float amount) {
 		IronGolem.Crackiness crack = this.getCrackiness();
 		boolean flag = super.hurt(source, amount);
@@ -115,17 +103,13 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	public IronGolem.Crackiness getCrackiness() {
 		return IronGolem.Crackiness.byFraction(this.getHealth() / this.getMaxHealth());
 	}
-
 	public void handleEntityEvent(byte pId) {
-		if (pId == 4) {
-			this.attackAnimationTick=4;
-				this.axeAttackAnimationState.start(this.tickCount);
-				this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-		}else{
+		if(pId == 4) {
+			this.attackAnimationTick = 10;
+			psm.signalAttacking();
 			super.handleEntityEvent(pId);
 		}
 	}
-
 	protected SoundEvent getHurtSound(DamageSource p_28872_) {
 		return SoundEvents.IRON_GOLEM_HURT;
 	}
@@ -137,7 +121,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	protected void playStepSound(BlockPos p_28864_, BlockState p_28865_) {
 		this.playSound(SoundEvents.IRON_GOLEM_STEP, 1.0F, 1.0F);
 	}
-
+	public void tick() {
+	super.tick();
+	psm.tick();
+	}
 	public boolean checkSpawnObstruction(LevelReader p_28853_) {
 		BlockPos blockpos = this.blockPosition();
 		BlockPos blockpos1 = blockpos.below();
@@ -161,16 +148,15 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return new Vec3(0.0D, 0.875F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
 	}
 
-	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
+	protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (player.getItemInHand(hand).getItem() instanceof GolemInteractItem) return InteractionResult.PASS;
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (getMaterials().size() != MetalGolemPartType.values().length)
-			return super.mobInteractImpl(player, hand);
+			return super.mobInteract(player, hand);
 		var mat = getMaterials().get(MetalGolemPartType.BODY.ordinal());
 		Ingredient ing = GolemMaterialConfig.get().ingredients.get(mat.id());
 		if (!ing.test(itemstack)) {
-			if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
-				return InteractionResult.PASS;
-			return super.mobInteractImpl(player, hand);
+			return super.mobInteract(player, hand);
 		} else {
 			float f = this.getHealth();
 			this.heal(getMaxHealth() / 4f);
