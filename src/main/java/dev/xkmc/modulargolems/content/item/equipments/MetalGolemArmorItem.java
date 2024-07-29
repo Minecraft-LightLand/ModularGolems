@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.equipments;
 
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -8,17 +9,15 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.UUID;
-
 public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemModelItem {
 
 	private final ResourceLocation model;
 
 	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type.getSlot(), GolemTypes.ENTITY_GOLEM::get, builder -> {
-			UUID uuid = UUID.get(type.getSlot());
-			builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", defense, AttributeModifier.Operation.ADD_VALUE));
-			builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", toughness, AttributeModifier.Operation.ADD_VALUE));
+			ResourceLocation rl = ModularGolems.loc(type.getName() + "_armor");
+			builder.put(Attributes.ARMOR, new AttributeModifier(rl, defense, AttributeModifier.Operation.ADD_VALUE));
+			builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(rl.withSuffix("_toughness"), toughness, AttributeModifier.Operation.ADD_VALUE));
 		});
 		this.model = model;
 	}
@@ -34,7 +33,7 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 	}
 
 	@Override
-	public int getEnchantmentValue() {
+	public int getEnchantmentValue(ItemStack stack) {
 		return 15;
 	}
 

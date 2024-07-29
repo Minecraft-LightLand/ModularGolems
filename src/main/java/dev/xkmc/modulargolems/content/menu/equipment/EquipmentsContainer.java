@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
-import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
+import dev.xkmc.l2core.base.menu.base.BaseContainerMenu;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
 import net.minecraft.world.item.ItemStack;

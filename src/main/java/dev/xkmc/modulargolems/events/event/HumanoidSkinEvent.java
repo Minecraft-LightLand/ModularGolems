@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.events.event;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderSkin;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 import org.jetbrains.annotations.Nullable;
 
 public class HumanoidSkinEvent extends Event {

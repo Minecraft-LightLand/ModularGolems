@@ -1,15 +1,11 @@
 package dev.xkmc.modulargolems.events;
 
-import dev.xkmc.modulargolems.content.capability.GolemConfigCapability;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -17,20 +13,15 @@ import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.ExplosionEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.ExplosionEvent;
 
-@Mod.EventBusSubscriber(modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class ModifierEventListeners {
 
 	@SubscribeEvent
@@ -38,42 +29,6 @@ public class ModifierEventListeners {
 		if (event.getLevel().isClientSide()) return;
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
 			entity.getModifiers().forEach((k, v) -> k.onGolemSpawn(entity, v));
-		}
-	}
-
-	@SubscribeEvent(priority = EventPriority.HIGH)
-	public static void onHurtPre(LivingHurtEvent event) {
-		DamageSource source = event.getSource();
-		if (source.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onHurtTarget(entity, event, v));
-		}
-	}
-
-	@SubscribeEvent(priority = EventPriority.HIGH)
-	public static void onAttackPre(LivingAttackEvent event) {
-		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onAttackTarget(entity, event, v));
-		}
-	}
-
-	@SubscribeEvent
-	public static void onAttacked(LivingAttackEvent event) {
-		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onAttacked(entity, event, v));
-		}
-	}
-
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public static void onHurtPost(LivingHurtEvent event) {
-		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onHurt(entity, event, v));
-		}
-	}
-
-	@SubscribeEvent
-	public static void onDamaged(LivingDamageEvent event) {
-		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onDamaged(entity, event, v));
 		}
 	}
 
@@ -118,16 +73,6 @@ public class ModifierEventListeners {
 		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> e) {
 			if (e.hasFlag(GolemFlags.PICKUP)) {
 				event.getDrops().forEach(x -> x.moveTo(e.position()));
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public static void onAttachLevelCapabilities(AttachCapabilitiesEvent<Level> event) {
-		if (event.getObject() instanceof ServerLevel level) {
-			if (level.dimension() == Level.OVERWORLD) {
-				event.addCapability(new ResourceLocation(ModularGolems.MODID, "command"),
-						new GolemConfigCapability(level));
 			}
 		}
 	}

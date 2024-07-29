@@ -2,8 +2,8 @@ package dev.xkmc.modulargolems.init.data;
 
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
-import dev.xkmc.l2library.serial.ingredients.EnchantmentIngredient;
-import dev.xkmc.l2library.serial.recipe.NBTRecipe;
+import dev.xkmc.l2core.serial.ingredients.EnchantmentIngredient;
+import dev.xkmc.l2core.serial.recipe.DataRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.item.card.NameFilterCard;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
@@ -11,7 +11,9 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -23,17 +25,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.tags.ITagManager;
 
-import java.util.Objects;
 import java.util.function.BiFunction;
 
 public class RecipeGen {
 
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
-		ITagManager<Item> manager = Objects.requireNonNull(ForgeRegistries.ITEMS.tags());
 
 		// golem base
 		{
@@ -132,10 +129,10 @@ public class RecipeGen {
 					.pattern(" P ").pattern("PTP").pattern(" P ")
 					.define('P', Items.PAPER)
 					.define('T', GolemItems.GOLEM_TEMPLATE.get())
-					.save(pvd, new ResourceLocation(ModularGolems.MODID, "craft_config_card"));
+					.save(pvd, ModularGolems.loc("craft_config_card"));
 
 			for (int i = 0; i < 16; i++) {
-				Item dye = ForgeRegistries.ITEMS.getValue(new ResourceLocation(DyeColor.byId(i).getName() + "_dye"));
+				Item dye = BuiltInRegistries.ITEM.get(ResourceLocation.withDefaultNamespace(DyeColor.byId(i).getName() + "_dye"));
 				assert dye != null;
 				unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD[i].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 						.requires(MGTagGen.CONFIG_CARD).requires(dye).save(pvd);
@@ -158,7 +155,7 @@ public class RecipeGen {
 					.requires(Items.BOOK)
 					.requires(Items.INK_SAC)
 					.requires(Items.PAPER)
-					.save(e -> pvd.accept(new NBTRecipe(e, NameFilterCard.getFriendly())), new ResourceLocation(ModularGolems.MODID, "target_filter_friendly"));
+					.save(new DataRecipeWrapper(pvd, NameFilterCard.getFriendly()), ModularGolems.loc("target_filter_friendly"));
 
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD_DEF.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.requires(GolemItems.GOLEM_TEMPLATE.get())
@@ -391,7 +388,7 @@ public class RecipeGen {
 
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.PICKUP_MENDING.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
 					.requires(GolemItems.EMPTY_UPGRADE.get())
-					.requires(new EnchantmentIngredient(Enchantments.MENDING, 1))
+					.requires(EnchantmentIngredient.of(pvd.getProvider(), Enchantments.MENDING, 1))
 					.save(pvd);
 
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.PICKUP_NO_DESTROY.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
@@ -403,7 +400,7 @@ public class RecipeGen {
 					.pattern("CEC").pattern("ABA").pattern("CAC")
 					.define('E', Items.NETHER_STAR)
 					.define('B', GolemItems.EMPTY_UPGRADE.get())
-					.define('C', Tags.Items.HEADS)
+					.define('C', ItemTags.SKULLS)
 					.define('A', Items.CHORUS_FLOWER)
 					.save(pvd);
 
@@ -432,8 +429,8 @@ public class RecipeGen {
 		CompatManager.dispatchGenRecipe(pvd);
 	}
 
-	public static <T> T unlock(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {
-		return func.apply("has_" + pvd.safeName(item), DataIngredient.items(item).getCritereon(pvd));
+	public static <T> T unlock(RegistrateRecipeProvider pvd, BiFunction<String, Criterion<InventoryChangeTrigger.TriggerInstance>, T> func, Item item) {
+		return func.apply("has_" + pvd.safeName(item), DataIngredient.items(item).getCriterion(pvd));
 	}
 
 	public static void smithing(RegistrateRecipeProvider pvd, Item in, Item mat, Item out) {
@@ -444,7 +441,7 @@ public class RecipeGen {
 
 	@SuppressWarnings("ConstantConditions")
 	private static ResourceLocation getID(Item item) {
-		return new ResourceLocation(ModularGolems.MODID, ForgeRegistries.ITEMS.getKey(item).getPath());
+		return ModularGolems.loc(BuiltInRegistries.ITEM.getKey(item).getPath());
 	}
 
 

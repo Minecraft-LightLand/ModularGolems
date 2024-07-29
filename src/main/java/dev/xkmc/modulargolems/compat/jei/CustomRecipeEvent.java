@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.jei;
 
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 public class CustomRecipeEvent extends Event {
 

@@ -1,10 +1,10 @@
 package dev.xkmc.modulargolems.content.modifier.immunes;
 
-import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.neoforge.common.Tags;
 
 public class MagicImmuneModifier extends GolemModifier {
 
@@ -13,10 +13,8 @@ public class MagicImmuneModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (level > 0 && event.getSource().is(L2DamageTypes.MAGIC)) {
-			event.setCanceled(true);
-		}
+	public boolean onAttacked(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
+		return level > 0 && event.getSource().is(Tags.DamageTypes.IS_MAGIC);
 	}
 
 }

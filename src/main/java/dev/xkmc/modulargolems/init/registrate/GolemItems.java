@@ -4,6 +4,8 @@ import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
+import dev.xkmc.l2core.init.reg.simple.DCReg;
+import dev.xkmc.l2core.init.reg.simple.DCVal;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
@@ -15,6 +17,10 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.card.*;
+import dev.xkmc.modulargolems.content.item.data.GolemConfigKey;
+import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
+import dev.xkmc.modulargolems.content.item.data.GolemIcon;
+import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
@@ -34,8 +40,10 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.CustomData;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
@@ -81,6 +89,17 @@ public class GolemItems {
 	public static final ItemEntry<EntityTypeFilterCard> CARD_TYPE;
 	public static final ItemEntry<UuidFilterCard> CARD_UUID;
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
+
+	private static final DCReg DC = DCReg.of(ModularGolems.REG);
+	public static final DCVal<ResourceLocation> DC_PART_MAT = DC.loc("part_material");
+	public static final DCVal<CustomData> ENTITY = DC.reg("golem_entity", CustomData.CODEC, CustomData.STREAM_CODEC, true);
+	public static final DCVal<GolemHolderMaterial> HOLDER_MAT = DC.reg("golem_materials", GolemHolderMaterial.class, true);
+	public static final DCVal<GolemUpgrade> UPGRADE = DC.reg("upgrades", GolemUpgrade.class, true);
+	public static final DCVal<GolemConfigKey> CONFIG_KEY = DC.reg("config_key", GolemConfigKey.class, true);
+	public static final DCVal<GolemIcon> DC_ICON = DC.reg("golem_as_icon", GolemIcon.class, true);
+	public static final DCVal<Double> DC_DISP_HP = DC.doubleVal("display_health");
+	public static final DCVal<UUID> DC_OWNER = DC.uuid("owner");
+	public static final DCVal<PathRecordCard.Pos> DC_PATH = DC.reg("path", PathRecordCard.Pos.class, true);
 
 	static {
 

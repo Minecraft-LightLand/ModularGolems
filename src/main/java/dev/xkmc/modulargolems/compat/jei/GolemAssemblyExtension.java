@@ -1,38 +1,42 @@
 package dev.xkmc.modulargolems.compat.jei;
 
 import com.mojang.datafixers.util.Pair;
-import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICraftingCategoryExtension {
+public record GolemAssemblyExtension(
+) implements ICraftingCategoryExtension<GolemAssembleRecipe> {
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
+	public void setRecipe(RecipeHolder<GolemAssembleRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
 		var out = focuses.getItemStackFocuses(RecipeIngredientRole.OUTPUT).findAny();
 		if (out.isPresent()) {
 			ItemStack outStack = out.get().getTypedValue().getIngredient();
-			setRecipeSpecial(builder, craftingGridHelper, outStack);
-		} else setRecipeAll(builder, craftingGridHelper, focuses);
+			setRecipeSpecial(holder, builder, craftingGridHelper, outStack);
+		} else setRecipeAll(holder, builder, craftingGridHelper, focuses);
 	}
 
-	private void setRecipeAll(IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
+	private void setRecipeAll(RecipeHolder<GolemAssembleRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
 		List<List<ItemStack>> inputs = new ArrayList<>();
-		for (Ingredient ing : recipe.getIngredients()) {
+		for (Ingredient ing : holder.value().getIngredients()) {
 			ItemStack[] stacks = ing.getItems();
 			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
 				List<ItemStack> list = new ArrayList<>();
@@ -45,9 +49,9 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 				inputs.add(List.of(stacks));
 			}
 		}
-		ItemStack resultItem = recipe.getResultItem(Proxy.getClientWorld().registryAccess());
+		ItemStack resultItem = holder.value().getResultItem(Minecraft.getInstance().level.registryAccess());
 		List<ItemStack> list = new ArrayList<>();
-		if (resultItem.getItem() instanceof GolemHolder<?, ?> holder) {
+		if (resultItem.getItem() instanceof GolemHolder<?, ?> golem) {
 			Pair<GolemPart<?, ?>, ResourceLocation> fix = null;
 			var focus = focuses.getItemStackFocuses(RecipeIngredientRole.INPUT).findAny();
 			if (focus.isPresent()) {
@@ -60,31 +64,32 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 				}
 			}
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
-				ItemStack stack = new ItemStack(holder);
-				for (var part : holder.getEntityType().values()) {
+				ItemStack stack = new ItemStack(golem);
+				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
+				for (var part : golem.getEntityType().values()) {
 					GolemPart<?, ?> partItem = part.toItem();
 					if (fix != null && fix.getFirst() == partItem) {
-						GolemHolder.addMaterial(stack, partItem, fix.getSecond());
+						mats.add(new GolemHolderMaterial.Entry(partItem, fix.getSecond()));
 					} else {
-						GolemHolder.addMaterial(stack, partItem, rl);
+						mats.add(new GolemHolderMaterial.Entry(partItem, rl));
 					}
 				}
-				list.add(stack);
+				list.add(GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(mats)));
 			}
 		} else {
 			list.add(resultItem);
 		}
-		int width = getWidth();
-		int height = getHeight();
+		int width = getWidth(holder);
+		int height = getHeight(holder);
 		craftingGridHelper.createAndSetOutputs(builder, list);
 		craftingGridHelper.createAndSetInputs(builder, inputs, width, height);
 	}
 
-	private void setRecipeSpecial(IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, ItemStack focusResult) {
+	private void setRecipeSpecial(RecipeHolder<GolemAssembleRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, ItemStack focusResult) {
 		var mats = GolemHolder.getMaterial(focusResult);
 		List<List<ItemStack>> inputs = new ArrayList<>();
 		int ind = 0;
-		for (Ingredient ing : recipe.getIngredients()) {
+		for (Ingredient ing : holder.value().getIngredients()) {
 			ItemStack[] stacks = ing.getItems();
 			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
 				GolemMaterial mat = mats.get(ind++);
@@ -92,20 +97,20 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 			} else inputs.add(List.of(stacks));
 
 		}
-		int width = getWidth();
-		int height = getHeight();
+		int width = getWidth(holder);
+		int height = getHeight(holder);
 		craftingGridHelper.createAndSetOutputs(builder, List.of(focusResult));
 		craftingGridHelper.createAndSetInputs(builder, inputs, width, height);
 	}
 
 	@Override
-	public int getWidth() {
-		return recipe.getWidth();
+	public int getWidth(RecipeHolder<GolemAssembleRecipe> recipeHolder) {
+		return recipeHolder.value().getWidth();
 	}
 
 	@Override
-	public int getHeight() {
-		return recipe.getHeight();
+	public int getHeight(RecipeHolder<GolemAssembleRecipe> recipeHolder) {
+		return recipeHolder.value().getHeight();
 	}
 
 }

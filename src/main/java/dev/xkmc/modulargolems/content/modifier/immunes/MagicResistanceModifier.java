@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier.immunes;
 
-import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -9,7 +10,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class MagicResistanceModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
+	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
 		float factor = (float) Math.max(0, 1 - level * MGConfig.COMMON.magicResistance.get());
-		if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) && event.getSource().is(L2DamageTypes.MAGIC)) {
-			event.setAmount(event.getAmount() * factor);
+		if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) && event.getSource().is(Tags.DamageTypes.IS_MAGIC)) {
+			event.addDealtModifier(DamageModifier.multTotal(factor, getRegistryName()));
 		}
 	}
 

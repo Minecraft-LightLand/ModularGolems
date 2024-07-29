@@ -7,11 +7,8 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
-@OnlyIn(Dist.CLIENT)
 public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemPartType, MetalGolemModel> {
 
 	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable MetalGolemPartType part) {
@@ -71,11 +68,11 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
 	}
 
-	protected void setupRotations(MetalGolemEntity entity, PoseStack stack, float v1, float v2, float v3) {
-		super.setupRotations(entity, stack, v1, v2, v3);
+	protected void setupRotations(MetalGolemEntity entity, PoseStack stack, float bob, float yr, float pt, float scale) {
+		super.setupRotations(entity, stack, bob, yr, pt, scale);
 		if (!((double) entity.walkAnimation.speed() < 0.01D)) {
 			float f = 13.0F;
-			float f1 = entity.walkAnimation.position() - entity.walkAnimation.speed() * (1.0F - v3) + 6.0F;
+			float f1 = entity.walkAnimation.position() - entity.walkAnimation.speed() * (1.0F - pt) + 6.0F;
 			float f2 = (Math.abs(f1 % f - 6.5F) - 3.25F) / 3.25F;
 			stack.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
 		}

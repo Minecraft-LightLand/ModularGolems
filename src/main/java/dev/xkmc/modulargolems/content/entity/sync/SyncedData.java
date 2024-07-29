@@ -1,8 +1,12 @@
 package dev.xkmc.modulargolems.content.entity.sync;
 
-import dev.xkmc.l2library.util.nbt.NBTObj;
+import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.*;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 
 public class SyncedData {
 
@@ -22,14 +25,9 @@ public class SyncedData {
 	public static final Serializer<Optional<UUID>> UUID;
 
 	static {
-		INT = new Serializer<>(EntityDataSerializers.INT, IntTag::valueOf, tag -> tag instanceof NumericTag n ? n.getAsInt() : 0);
-		BLOCK_POS = new Serializer<>(EntityDataSerializers.BLOCK_POS, pos -> {
-			var ans = new NBTObj();
-			ans.fromBlockPos(pos);
-			return ans.tag;
-		}, tag -> tag instanceof CompoundTag ct ? new NBTObj(ct).toBlockPos() : BlockPos.ZERO);
-		UUID = new Serializer<>(EntityDataSerializers.OPTIONAL_UUID, uuid -> uuid.map(NbtUtils::createUUID).orElse(null),
-				tag -> Optional.ofNullable(tag).map(NbtUtils::loadUUID));
+		INT = new Serializer<>(EntityDataSerializers.INT, Codec.INT);
+		BLOCK_POS = new Serializer<>(EntityDataSerializers.BLOCK_POS, BlockPos.CODEC);
+		UUID = new Serializer<>(EntityDataSerializers.OPTIONAL_UUID, UUIDUtil.CODEC.xmap(Optional::of, Optional::get));
 	}
 
 	private final Definer cls;
@@ -40,7 +38,7 @@ public class SyncedData {
 		this.cls = cls;
 	}
 
-	public void register(SynchedEntityData data) {
+	public void register(SynchedEntityData.Builder data) {
 		for (Data<?> entry : list) {
 			entry.register(data);
 		}
@@ -52,15 +50,15 @@ public class SyncedData {
 		return data.data;
 	}
 
-	public void write(CompoundTag tag, SynchedEntityData entityData) {
+	public void write(RegistryAccess pvd, CompoundTag tag, SynchedEntityData entityData) {
 		for (Data<?> entry : list) {
-			entry.write(tag, entityData);
+			entry.write(pvd, tag, entityData);
 		}
 	}
 
-	public void read(CompoundTag tag, SynchedEntityData entityData) {
+	public void read(RegistryAccess pvd, CompoundTag tag, SynchedEntityData entityData) {
 		for (Data<?> entry : list) {
-			entry.read(tag, entityData);
+			entry.read(pvd, tag, entityData);
 		}
 	}
 
@@ -78,33 +76,33 @@ public class SyncedData {
 			this.name = name;
 		}
 
-		private void register(SynchedEntityData data) {
+		private void register(SynchedEntityData.Builder data) {
 			data.define(this.data, this.init);
 		}
 
-		public void write(CompoundTag tag, SynchedEntityData entityData) {
+		public void write(RegistryAccess pvd, CompoundTag tag, SynchedEntityData entityData) {
 			if (name == null) return;
-			Tag ans = ser.write(entityData.get(data));
+			Tag ans = ser.write(pvd, entityData.get(data));
 			if (ans != null) tag.put(name, ans);
 		}
 
-		public void read(CompoundTag tag, SynchedEntityData entityData) {
+		public void read(RegistryAccess pvd, CompoundTag tag, SynchedEntityData entityData) {
 			if (name == null) return;
-			entityData.set(data, ser.read(tag.get(name)));
+			var in = tag.get(name);
+			entityData.set(data, Optional.ofNullable(in).map(e -> ser.read(pvd, e)).orElse(init));
 		}
 	}
 
-	public record Serializer<T>(EntityDataSerializer<T> ser,
-								Function<T, @Nullable Tag> write,
-								Function<@Nullable Tag, T> read) {
+	public record Serializer<T>(EntityDataSerializer<T> ser, Codec<T> codec) {
 
 		@Nullable
-		public Tag write(T t) {
-			return write.apply(t);
+		public Tag write(RegistryAccess pvd, T t) {
+			return codec.encodeStart(pvd.createSerializationContext(NbtOps.INSTANCE), t).getOrThrow();
 		}
 
-		public T read(@Nullable Tag tag) {
-			return read.apply(tag);
+		@Nullable
+		public T read(RegistryAccess pvd, Tag tag) {
+			return codec.decode(pvd.createSerializationContext(NbtOps.INSTANCE), tag).getOrThrow().getFirst();
 		}
 
 	}

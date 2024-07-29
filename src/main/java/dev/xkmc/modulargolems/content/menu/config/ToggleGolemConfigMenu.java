@@ -5,7 +5,7 @@ import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
@@ -14,7 +14,7 @@ public class ToggleGolemConfigMenu extends BaseContainerMenu<ToggleGolemConfigMe
 
 	protected static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "config_toggle");
 
-	public static ToggleGolemConfigMenu fromNetwork(MenuType<ToggleGolemConfigMenu> type, int wid, Inventory inv, FriendlyByteBuf buf) {
+	public static ToggleGolemConfigMenu fromNetwork(MenuType<ToggleGolemConfigMenu> type, int wid, Inventory inv, RegistryFriendlyByteBuf buf) {
 		var id = buf.readUUID();
 		int color = buf.readInt();
 		return new ToggleGolemConfigMenu(type, wid, inv, GolemConfigEditor.readable(id, color));

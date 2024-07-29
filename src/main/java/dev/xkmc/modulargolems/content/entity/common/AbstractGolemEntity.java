@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
-import dev.xkmc.l2library.util.annotation.ServerOnly;
+import dev.xkmc.l2core.util.ServerOnly;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
@@ -18,7 +18,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
-import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
+import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -32,11 +32,8 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -66,12 +63,12 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.scores.Team;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.world.scores.PlayerTeam;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 
 import javax.annotation.Nullable;
@@ -98,7 +95,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@SerialField
 	private ArrayList<GolemMaterial> materials = new ArrayList<>();
 	@SerialField
-	private ArrayList<Item> upgrades = new ArrayList<>();
+	private GolemUpgrade upgrades = new GolemUpgrade(0, new ArrayList<>());
 	@SerialField
 	@Nullable
 	private UUID owner;
@@ -128,13 +125,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
-		this.setMaxUpStep(1);
 		getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
 		if (canSwim()) {
 			this.moveControl = new GolemSwimMoveControl(this);
 			this.navigation = waterNavigation;
-			this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-			this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
+			this.setPathfindingMalus(PathType.WATER, 0.0F);
+			this.setPathfindingMalus(PathType.WATER_BORDER, 0.0F);
 		}
 		if (!level().isClientSide()) {
 			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
@@ -151,7 +147,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return materials;
 	}
 
-	public ArrayList<Item> getUpgrades() {
+	public GolemUpgrade getUpgrades() {
 		return upgrades;
 	}
 
@@ -231,7 +227,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
+	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
+		super.dropCustomDeathLoot(level, source, player);
 		Map<Item, Integer> drop = new HashMap<>();
 		for (GolemMaterial mat : getMaterials()) {
 			Item item = GolemMaterialConfig.get().ingredients.get(mat.id()).getItems()[0].getItem();
@@ -246,8 +243,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void dropSlot(EquipmentSlot slot, boolean isDeath) {
 		ItemStack itemstack = this.getItemBySlot(slot);
 		if (itemstack.isEmpty()) return;
-		if (!isDeath && EnchantmentHelper.hasBindingCurse(itemstack)) return;
-		if (isDeath && EnchantmentHelper.hasVanishingCurse(itemstack)) return;
+		var bind = EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE;
+		var vanish = EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP;
+		if (!isDeath && EnchantmentHelper.has(itemstack, bind)) return;
+		if (isDeath && EnchantmentHelper.has(itemstack, vanish)) return;
 		this.spawnAtLocation(itemstack);
 		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
@@ -257,7 +256,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (materials == null || materials.isEmpty() || getTags().contains("ClientOnly")) {
 			return 1;
 		}
-		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.get()) / DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get()));
+		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.holder()) / DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.holder()));
 	}
 
 	// ------ swim
@@ -320,20 +319,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		this.addPersistentAngerSaveData(tag);
-		tag.put("auto-serial", Objects.requireNonNull(TagCodec.toTag(new CompoundTag(), this)));
-		GOLEM_DATA.write(tag, entityData);
+		var pvd = level().registryAccess();
+		tag.put("auto-serial", Objects.requireNonNull(new TagCodec(pvd).toTag(new CompoundTag(), this)));
+		GOLEM_DATA.write(pvd, tag, entityData);
 	}
 
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 		this.readPersistentAngerSaveData(this.level(), tag);
+		var pvd = level().registryAccess();
 		if (tag.contains("auto-serial")) {
-			Wrappers.run(() -> {
-				TagCodec.fromTag(tag.getCompound("auto-serial"), this.getClass(), this, (f) -> true);
-			});
+			Wrappers.run(() -> new TagCodec(pvd).fromTag(tag.getCompound("auto-serial"), this.getClass(), this));
 		}
 		updateAttributes(materials, Wrappers.cast(getUpgrades()), owner);
-		GOLEM_DATA.read(tag, entityData);
+		GOLEM_DATA.read(pvd, tag, entityData);
 
 	}
 
@@ -454,7 +453,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.aiStep();
 		if (!this.level().isClientSide) {
 			if (this.tickCount % 20 == 0) {
-				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
+				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.holder());
 				for (var entry : getModifiers().entrySet()) {
 					heal = entry.getKey().onHealTick(heal, this, entry.getValue());
 				}
@@ -482,7 +481,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public boolean killedEntity(ServerLevel level, LivingEntity target) {
 		Player player = getOwner();
-		if (player != null) GolemTriggers.KILL.trigger((ServerPlayer) player, target);
+		if (player != null) GolemTriggers.KILL.get().trigger((ServerPlayer) player, target);
 		return super.killedEntity(level, target);
 	}
 
@@ -536,8 +535,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean canChangeDimensions() {
-		return getMode().canChangeDimensions() && super.canChangeDimensions();
+	public boolean canChangeDimensions(Level from, Level to) {
+		return getMode().canChangeDimensions() && super.canChangeDimensions(from, to);
 	}
 
 	private static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
@@ -572,27 +571,27 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void advancePatrolStage() {
 		var list = PathConfig.getPath(this);
-		if (list == null) return;
+		if (list == null || !list.match(level())) return;
 		int stage = getPatrolStage();
 		stage++;
-		if (stage >= list.size()) {
+		if (stage >= list.pos().size()) {
 			stage = 0;
 		}
 		setPatrolStage(stage);
 	}
 
-	public List<PathRecordCard.Pos> getPatrolList() {
+	public List<BlockPos> getPatrolList() {
 		var list = PathConfig.getPath(this);
-		if (list == null) return List.of();
+		if (list == null || !list.match(level())) return List.of();
 		int stage = getPatrolStage();
-		if (stage > 0 && stage < list.size()) {
-			var first = list.subList(stage, list.size());
-			var second = list.subList(0, stage);
+		if (stage > 0 && stage < list.pos().size()) {
+			var first = list.pos().subList(stage, list.pos().size());
+			var second = list.pos().subList(0, stage);
 			var ans = new ArrayList<>(first);
 			ans.addAll(second);
 			return ans;
 		}
-		return list;
+		return list.pos();
 	}
 
 	// ------ persistent anger
@@ -603,9 +602,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Nullable
 	private UUID persistentAngerTarget;
 
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		GOLEM_DATA.register(this.entityData);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		GOLEM_DATA.register(builder);
 	}
 
 	public void startPersistentAngerTimer() {
@@ -631,7 +630,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ tamable
 
-	public Team getTeam() {
+	public PlayerTeam getTeam() {
 		LivingEntity owner = this.getOwner();
 		if (owner != null) {
 			return owner.getTeam();
@@ -754,11 +753,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public Vec3 getTargetPos() {
 		if (getMode() == GolemModes.ROUTE) {
 			var list = PathConfig.getPath(this);
-			if (list != null) {
+			if (list != null && list.match(level())) {
 				int target = getPatrolStage();
-				if (!list.isEmpty()) {
-					return list.get(Math.min(target, list.size() - 1))
-							.pos().getCenter();
+				if (!list.pos().isEmpty()) {
+					return Vec3.atCenterOf(list.pos().get(Math.min(target, list.pos().size() - 1)));
 				}
 			}
 			return position();

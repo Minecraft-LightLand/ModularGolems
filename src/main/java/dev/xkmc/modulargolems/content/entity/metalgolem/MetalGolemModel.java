@@ -14,10 +14,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
 
 	private final ModelPart root;
@@ -101,9 +98,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 	}
 
 	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
-		String id = rl.getNamespace();
-		String mat = rl.getPath();
-		return new ResourceLocation(id, "textures/entity/metal_golem/" + mat + ".png");
+		return rl.withPath(e -> "textures/entity/metal_golem/" + e + ".png");
 	}
 
 	public void transformToHand(EquipmentSlot slot, PoseStack pose) {

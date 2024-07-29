@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
@@ -18,6 +19,7 @@ import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -33,7 +35,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ import java.util.List;
 @JeiPlugin
 public class GolemJEIPlugin implements IModPlugin {
 
-	public static final ResourceLocation ID = new ResourceLocation(ModularGolems.MODID, "main");
+	public static final ResourceLocation ID = ModularGolems.loc("main");
 
 	@Override
 	public ResourceLocation getPluginUid() {
@@ -64,12 +66,12 @@ public class GolemJEIPlugin implements IModPlugin {
 		addRepairRecipes(recipes, config, registration.getVanillaRecipeFactory());
 		addUpgradeRecipes(recipes, config, registration.getVanillaRecipeFactory());
 		registration.addRecipes(RecipeTypes.ANVIL, recipes);
-		MinecraftForge.EVENT_BUS.post(new CustomRecipeEvent(registration));
+		NeoForge.EVENT_BUS.post(new CustomRecipeEvent(registration));
 	}
 
 	@Override
 	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
-		registration.getCraftingCategory().addCategoryExtension(GolemAssembleRecipe.class, GolemAssemblyExtension::new);
+		registration.getCraftingCategory().addExtension(GolemAssembleRecipe.class, new GolemAssemblyExtension());
 	}
 
 	@Override
@@ -136,16 +138,16 @@ public class GolemJEIPlugin implements IModPlugin {
 			List<ItemStack> result = new ArrayList<>();
 			for (var mat : config.getAllMaterials()) {
 				ItemStack golem = new ItemStack(types);
+				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 				for (IGolemPart<?> part : types.getEntityType().values()) {
-					GolemHolder.addMaterial(golem, part.toItem(), mat);
+					mats.add(new GolemHolderMaterial.Entry(part.toItem(), mat));
 				}
+				golem = GolemItems.HOLDER_MAT.set(golem, new GolemHolderMaterial(mats));
 				ItemStack damaged = golem.copy();
-				damaged.getOrCreateTag().putFloat(GolemHolder.KEY_DISPLAY, 0.75f);
-				input.add(damaged);
+				input.add(GolemItems.DC_DISP_HP.set(damaged, 0.75));
 				var arr = config.ingredients.get(mat).getItems();
 				material.add(new ItemStack(arr.length > 0 ? arr[0].getItem() : Items.BARRIER));
-				golem.getOrCreateTag().putFloat(GolemHolder.KEY_DISPLAY, 1f);
-				result.add(golem);
+				result.add(GolemItems.DC_DISP_HP.set(golem, 1d));
 			}
 			recipes.add(factory.createAnvilRecipe(input, material, result));
 		}

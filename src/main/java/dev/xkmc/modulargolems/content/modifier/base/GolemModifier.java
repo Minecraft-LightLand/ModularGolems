@@ -1,12 +1,10 @@
 package dev.xkmc.modulargolems.content.modifier.base;
 
 import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
-import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
-import dev.xkmc.l2library.base.NamedEntry;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -22,11 +20,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -61,37 +54,43 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	/**
-	 * fires when this golem attacks others
-	 */
-	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-
-	}
-
-	/**
-	 * fires when this golem attacks others
-	 */
-	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
-
-	}
-
-	/**
 	 * fires when this golem is attacked. Damage cancellation phase
 	 */
-	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
+	public boolean onAttacked(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
+		return false;
+	}
+
+	/**
+	 * fires when this golem is attacked. Damage taking phase
+	 */
+	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
 
 	}
 
 	/**
 	 * fires when this golem is attacked. Damage calculation phase
 	 */
-	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
+	public void postDamaged(AbstractGolemEntity<?, ?> entity, DamageData.DefenceMax event, int level) {
 
 	}
 
 	/**
-	 * fires when this golem is attacked. Damage taking phase
+	 * fires when this golem attacks others
 	 */
-	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
+	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
+
+	}
+
+	/**
+	 * modify damage
+	 */
+	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, DamageData.Offence cache, int level) {
+	}
+
+	/**
+	 * fires when this golem attacks others
+	 */
+	public void postHurtTarget(AbstractGolemEntity<?, ?> entity, DamageData.DefenceMax event, int level) {
 
 	}
 
@@ -107,12 +106,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	 */
 	public double onInventoryHealTick(double heal, HealingContext ctx, int level) {
 		return heal;
-	}
-
-	/**
-	 * modify damage
-	 */
-	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
 	}
 
 	/**
@@ -132,7 +125,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public void onClientTick(AbstractGolemEntity<?, ?> entity, int level) {
 	}
 
@@ -150,10 +142,10 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
 	}
 
-	public void handleEvent(AbstractGolemEntity<?,?> golem, int value, byte event) {
+	public void handleEvent(AbstractGolemEntity<?, ?> golem, int value, byte event) {
 	}
 
-	public InteractionResult interact(Player player, AbstractGolemEntity<?,?> golem, InteractionHand hand) {
+	public InteractionResult interact(Player player, AbstractGolemEntity<?, ?> golem, InteractionHand hand) {
 		return InteractionResult.PASS;
 	}
 

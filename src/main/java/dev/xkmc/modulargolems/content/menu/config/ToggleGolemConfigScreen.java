@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.config;
 
-import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
@@ -53,7 +53,7 @@ public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConf
 
 	@Override
 	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
-		var sr = menu.sprite.get().getRenderer(this);
+		var sr = getRenderer();
 		sr.start(g);
 		if (menu.container.getItem(0).isEmpty()) {
 			sr.draw(g, "hand", "altas_golem");

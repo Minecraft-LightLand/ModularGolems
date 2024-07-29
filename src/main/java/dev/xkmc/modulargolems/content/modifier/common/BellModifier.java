@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.modifier.common;
 
-import dev.xkmc.l2library.base.effects.EffectUtil;
+import dev.xkmc.l2core.base.effects.EffectUtil;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -25,7 +25,7 @@ public class BellModifier extends GolemModifier {
 		for (var e : list) {
 			if (e instanceof Enemy && !(e instanceof Creeper) && e.canAttack(golem)) {
 				sound |= !e.hasEffect(MobEffects.GLOWING);
-				EffectUtil.addEffect(e, new MobEffectInstance(MobEffects.GLOWING, 200), EffectUtil.AddReason.NONE, golem);
+				EffectUtil.addEffect(e, new MobEffectInstance(MobEffects.GLOWING, 200), golem);
 				if (!(e.getTarget() instanceof AbstractGolemEntity<?, ?>))
 					e.setTarget(golem);
 			}

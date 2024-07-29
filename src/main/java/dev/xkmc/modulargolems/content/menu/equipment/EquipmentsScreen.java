@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
-import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
@@ -23,7 +23,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 
 	@Override
 	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
-		var sr = menu.sprite.get().getRenderer(this);
+		var sr = getRenderer();
 		sr.start(g);
 
 		if (menu.getAsPredSlot("hand", 0, 1).getItem().isEmpty())

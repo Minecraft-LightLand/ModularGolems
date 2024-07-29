@@ -1,16 +1,16 @@
 package dev.xkmc.modulargolems.init.advancement;
 
-import dev.xkmc.l2library.serial.advancements.BaseCriterion;
-import dev.xkmc.l2library.serial.advancements.BaseCriterionInstance;
-import dev.xkmc.l2serial.serialization.SerialClass;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
+import dev.xkmc.l2core.serial.advancements.BaseCriterion;
+import dev.xkmc.l2core.serial.advancements.BaseCriterionInstance;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class GolemMassSummonTrigger extends BaseCriterion<GolemMassSummonTrigger.Ins, GolemMassSummonTrigger> {
 
 	public static Ins ins() {
-		return new Ins(GolemTriggers.MAS_SUMMON.getId(), ContextAwarePredicate.ANY);
+		return new Ins();
 	}
 
 	public static Ins atLeast(int count) {
@@ -20,7 +20,7 @@ public class GolemMassSummonTrigger extends BaseCriterion<GolemMassSummonTrigger
 	}
 
 	public GolemMassSummonTrigger(ResourceLocation id) {
-		super(id, Ins::new, Ins.class);
+		super(Ins.class);
 	}
 
 	public void trigger(ServerPlayer player, int count) {
@@ -30,11 +30,11 @@ public class GolemMassSummonTrigger extends BaseCriterion<GolemMassSummonTrigger
 	@SerialClass
 	public static class Ins extends BaseCriterionInstance<Ins, GolemMassSummonTrigger> {
 
-		@SerialClass.SerialField
+		@SerialField
 		private int count;
 
-		public Ins(ResourceLocation id, ContextAwarePredicate player) {
-			super(id, player);
+		public Ins() {
+			super(GolemTriggers.MAS_SUMMON.get());
 		}
 
 	}

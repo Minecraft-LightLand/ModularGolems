@@ -1,10 +1,10 @@
 package dev.xkmc.modulargolems.content.modifier.immunes;
 
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 public class PlayerImmuneModifier extends GolemModifier {
 
@@ -13,13 +13,11 @@ public class PlayerImmuneModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (level == 0) return;
+	public boolean onAttacked(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
+		if (level == 0) return false;
 		Entity source = event.getSource().getEntity();
-		if (source == null) return;
-		if (entity.isAlliedTo(source)) {
-			event.setCanceled(true);
-		}
+		if (source == null) return false;
+		return entity.isAlliedTo(source);
 	}
 
 }

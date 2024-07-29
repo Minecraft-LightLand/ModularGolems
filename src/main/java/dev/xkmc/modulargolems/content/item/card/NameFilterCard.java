@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -18,7 +19,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
@@ -112,11 +112,11 @@ public class NameFilterCard extends TargetFilterCard {
 	@Override
 	protected InteractionResultHolder<ItemStack> removeLast(Player player, ItemStack stack) {
 		var list = getStrings(stack);
-		if (list.size() == 0) {
+		if (list.isEmpty()) {
 			return InteractionResultHolder.fail(stack);
 		}
 		if (!player.level().isClientSide()) {
-			String e = list.remove(list.size() - 1);
+			String e = list.removeLast();
 			setList(stack, getList(list));
 			player.sendSystemMessage(MGLangData.TARGET_MSG_REMOVED.get(Component.literal(e)));
 		}
@@ -133,16 +133,16 @@ public class NameFilterCard extends TargetFilterCard {
 		if (!player.level().isClientSide()) {
 			strs.add(name);
 			setList(stack, getList(strs));
-			stack.setHoverName(null);
+			stack.remove(DataComponents.CUSTOM_NAME);
 			player.sendSystemMessage(MGLangData.TARGET_MSG_ADDED.get(Component.literal(name)));
 		}
 		return InteractionResultHolder.success(stack);
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		var strs = getStrings(stack);
-		if (strs.size() > 0 && !Screen.hasShiftDown()) {
+		if (!strs.isEmpty() && !Screen.hasShiftDown()) {
 			for (var e : strs) {
 				list.add(Component.literal(e));
 			}

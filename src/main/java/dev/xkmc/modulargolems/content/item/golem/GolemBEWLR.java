@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.content.item.golem;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
@@ -100,15 +99,16 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> boolean renderEntity(BEWLRHandle handle, GolemHolder<T, P> item) {
 		T golem = ClientHolderManager.getEntityForDisplay(item, handle.stack());
-		if (golem == null) return false;
+		var player = Minecraft.getInstance().player;
+		if (player == null || golem == null) return false;
 		P[] parts = item.getEntityType().values();
 		PoseStack stack = handle.poseStack();
 		parts[0].setupItemRender(stack, handle.type(), null);
 		stack.translate(0, 1.501, 0);
 		stack.scale(1, -1, -1);
 		var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(golem);
-		golem.tickCount = Proxy.getClientPlayer().tickCount;
-		renderer.render(golem, 0, Minecraft.getInstance().getPartialTick(), handle.poseStack(), handle.bufferSource(), handle.light());
+		golem.tickCount = player.tickCount;
+		renderer.render(golem, 0, Minecraft.getInstance().getTimer().getGameTimeDeltaTicks(), handle.poseStack(), handle.bufferSource(), handle.light());
 		return true;
 	}
 }

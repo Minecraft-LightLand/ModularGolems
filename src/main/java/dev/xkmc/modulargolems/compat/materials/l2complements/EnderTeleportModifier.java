@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
-import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -18,9 +18,9 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -45,22 +45,28 @@ public class EnderTeleportModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (event.getSource().is(L2DamageTypes.MAGIC))
-			return;
+	public boolean onAttacked(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
+		if (event.getSource().is(Tags.DamageTypes.IS_MAGIC))
+			return false;
 		if (event.getSource().is(DamageTypeTags.IS_PROJECTILE)) {
-			event.setCanceled(true);
+			for (int i = 0; i < 16; i++) {
+				if (teleport(entity)) {
+					resetCooldown(entity);
+					return true;
+				}
+			}
+			return true;
 		}
 		if (!mayTeleport(entity)) {
-			return;
+			return false;
 		}
 		for (int i = 0; i < 16; i++) {
 			if (teleport(entity)) {
-				event.setCanceled(true);
 				resetCooldown(entity);
-				return;
+				return true;
 			}
 		}
+		return false;
 	}
 
 	public static boolean mayTeleport(AbstractGolemEntity<?, ?> entity) {
@@ -100,7 +106,7 @@ public class EnderTeleportModifier extends GolemModifier {
 		boolean flag = blockstate.blocksMotion();
 		boolean flag1 = blockstate.getFluidState().is(FluidTags.WATER);
 		if (flag && !flag1) {
-			EntityTeleportEvent.EnderEntity event = ForgeEventFactory.onEnderTeleport(entity, pX, pY, pZ);
+			EntityTeleportEvent.EnderEntity event = EventHooks.onEnderTeleport(entity, pX, pY, pZ);
 			if (event.isCanceled()) return false;
 			Vec3 vec3 = entity.position();
 			boolean flag2 = entity.randomTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ(), true);

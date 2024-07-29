@@ -23,9 +23,9 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -141,7 +141,7 @@ public class PickupGoal extends Goal {
 			}
 		}
 		GolemHandleItemEvent event = new GolemHandleItemEvent(golem, item);
-		MinecraftForge.EVENT_BUS.post(event);
+		NeoForge.EVENT_BUS.post(event);
 		if (item.getItem().isEmpty()) {
 			item.discard();
 		}
@@ -181,7 +181,7 @@ public class PickupGoal extends Goal {
 	private void handleLeftoverExp(ExperienceOrb exp, @Nullable Player player) {
 		exp.value = repairGolemAndItems(exp.value);
 		GolemHandleExpEvent event = new GolemHandleExpEvent(golem, exp);
-		MinecraftForge.EVENT_BUS.post(event);
+		NeoForge.EVENT_BUS.post(event);
 		if (exp.value <= 0) {
 			exp.discard();
 		}

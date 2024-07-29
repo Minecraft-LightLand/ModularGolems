@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.compat.materials.blazegear;
+package dev.xkmc.modulargolems.content.item.data;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

@@ -1,11 +1,11 @@
 package dev.xkmc.modulargolems.mixin;
 
-import com.google.common.collect.Multimap;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,6 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+
+import java.util.function.BiConsumer;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -35,12 +37,12 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getAttributeModifiers(Lnet/minecraft/world/entity/EquipmentSlot;)Lcom/google/common/collect/Multimap;"), method = "collectEquipmentChanges")
-	public Multimap<Attribute, AttributeModifier> modulargolems$collectEquipmentChanges$specialEquipment(ItemStack stack, EquipmentSlot slot, Operation<Multimap<Attribute, AttributeModifier>> op) {
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;forEachModifier(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V"), method = "collectEquipmentChanges")
+	public void modulargolems$collectEquipmentChanges$specialEquipment(ItemStack stack, EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> action, Operation<Void> op) {
 		if (stack.getItem() instanceof GolemEquipmentItem item) {
-			return item.getGolemModifiers(stack, this, slot);
+			item.forEachModifier(stack, this, slot, action);
 		} else {
-			return op.call(stack, slot);
+			op.call(stack, slot, action);
 		}
 	}
 

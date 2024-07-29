@@ -1,10 +1,9 @@
 package dev.xkmc.modulargolems.init.advancement;
 
-import dev.xkmc.l2library.serial.advancements.BaseCriterion;
-import dev.xkmc.l2library.serial.advancements.BaseCriterionInstance;
-import dev.xkmc.l2serial.serialization.SerialClass;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.resources.ResourceLocation;
+import dev.xkmc.l2core.serial.advancements.BaseCriterion;
+import dev.xkmc.l2core.serial.advancements.BaseCriterionInstance;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -14,7 +13,7 @@ import javax.annotation.Nullable;
 public class GolemKillTrigger extends BaseCriterion<GolemKillTrigger.Ins, GolemKillTrigger> {
 
 	public static Ins ins() {
-		return new Ins(GolemTriggers.KILL.getId(), ContextAwarePredicate.ANY);
+		return new Ins();
 	}
 
 	public static Ins byType(EntityType<?> type) {
@@ -23,8 +22,8 @@ public class GolemKillTrigger extends BaseCriterion<GolemKillTrigger.Ins, GolemK
 		return ans;
 	}
 
-	public GolemKillTrigger(ResourceLocation id) {
-		super(id, Ins::new, Ins.class);
+	public GolemKillTrigger() {
+		super(Ins.class);
 	}
 
 	public void trigger(ServerPlayer player, Entity killed) {
@@ -35,11 +34,11 @@ public class GolemKillTrigger extends BaseCriterion<GolemKillTrigger.Ins, GolemK
 	public static class Ins extends BaseCriterionInstance<Ins, GolemKillTrigger> {
 
 		@Nullable
-		@SerialClass.SerialField
+		@SerialField
 		private EntityType<?> type;
 
-		public Ins(ResourceLocation id, ContextAwarePredicate player) {
-			super(id, player);
+		public Ins() {
+			super(GolemTriggers.KILL.get());
 		}
 
 	}

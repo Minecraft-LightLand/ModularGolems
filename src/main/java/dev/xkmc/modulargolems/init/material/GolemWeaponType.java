@@ -5,7 +5,6 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 
 import java.util.Locale;

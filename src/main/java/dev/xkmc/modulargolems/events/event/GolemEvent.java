@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.events.event;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import net.minecraftforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
 public class GolemEvent extends LivingEvent {
 

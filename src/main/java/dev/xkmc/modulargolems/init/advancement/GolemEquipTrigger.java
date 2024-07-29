@@ -1,22 +1,21 @@
 package dev.xkmc.modulargolems.init.advancement;
 
-import dev.xkmc.l2library.serial.advancements.BaseCriterion;
-import dev.xkmc.l2library.serial.advancements.BaseCriterionInstance;
-import dev.xkmc.l2serial.serialization.SerialClass;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.resources.ResourceLocation;
+import dev.xkmc.l2core.serial.advancements.BaseCriterion;
+import dev.xkmc.l2core.serial.advancements.BaseCriterionInstance;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import net.minecraft.server.level.ServerPlayer;
 
 public class GolemEquipTrigger extends BaseCriterion<GolemEquipTrigger.Ins, GolemEquipTrigger> {
 
 	public static Ins ins(int min) {
-		Ins ans = new Ins(GolemTriggers.EQUIP.getId(), ContextAwarePredicate.ANY);
+		Ins ans = new Ins();
 		ans.minimum = min;
 		return ans;
 	}
 
-	public GolemEquipTrigger(ResourceLocation id) {
-		super(id, Ins::new, Ins.class);
+	public GolemEquipTrigger() {
+		super(Ins.class);
 	}
 
 	public void trigger(ServerPlayer player, int count) {
@@ -26,11 +25,11 @@ public class GolemEquipTrigger extends BaseCriterion<GolemEquipTrigger.Ins, Gole
 	@SerialClass
 	public static class Ins extends BaseCriterionInstance<Ins, GolemEquipTrigger> {
 
-		@SerialClass.SerialField
+		@SerialField
 		private int minimum = 0;
 
-		public Ins(ResourceLocation id, ContextAwarePredicate player) {
-			super(id, player);
+		public Ins() {
+			super(GolemTriggers.EQUIP.get());
 		}
 
 	}

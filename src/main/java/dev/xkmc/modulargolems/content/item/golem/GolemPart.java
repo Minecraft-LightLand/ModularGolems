@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -25,16 +26,12 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 
 	public static final List<GolemPart<?, ?>> LIST = new ArrayList<>();
 
-	private static final String KEY = "golem_material";
-
 	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {
-		return Optional.ofNullable(stack.getTag())
-				.map(e -> e.contains(KEY) ? new ResourceLocation(e.getString(KEY)) : null);
+		return Optional.ofNullable(GolemItems.DC_PART_MAT.get(stack));
 	}
 
 	public static ItemStack setMaterial(ItemStack stack, ResourceLocation material) {
-		stack.getOrCreateTag().putString(KEY, material.toString());
-		return stack;
+		return GolemItems.DC_PART_MAT.set(stack, material);
 	}
 
 	private final Supplier<GolemType<T, P>> type;

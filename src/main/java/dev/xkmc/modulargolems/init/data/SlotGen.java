@@ -25,10 +25,10 @@ public class SlotGen extends RecordDataProvider {
 	public void add(BiConsumer<String, Record> map) {
 
 		map.accept(ModularGolems.MODID + "/curios/slots/golem_skin", new CurioSlotBuilder(1000,
-				new ResourceLocation(ModularGolems.MODID, "slot/empty_skin_slot").toString()));
+				ModularGolems.loc("slot/empty_skin_slot").toString()));
 
 		map.accept(ModularGolems.MODID + "/curios/slots/golem_route", new CurioSlotBuilder(1100,
-				new ResourceLocation(ModularGolems.MODID, "slot/empty_route_slot").toString()));
+				ModularGolems.loc("slot/empty_route_slot").toString()));
 
 		map.accept(ModularGolems.MODID + "/curios/entities/golem_skin", new CurioEntityBuilder(
 				new ArrayList<>(List.of(GolemTypes.TYPE_HUMANOID.getId())),

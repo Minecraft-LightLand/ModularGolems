@@ -10,7 +10,6 @@ import net.neoforged.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.List;
 
 @SerialClass
 public class PathConfig {
@@ -19,7 +18,7 @@ public class PathConfig {
 	protected final ArrayList<ItemStack> path = new ArrayList<>();
 
 	@Nullable
-	public static List<PathRecordCard.Pos> getPath(AbstractGolemEntity<?, ?> e) {
+	public static PathRecordCard.Pos getPath(AbstractGolemEntity<?, ?> e) {
 		if (ModList.get().isLoaded("curios")) {
 			var opt = CurioCompatRegistry.getItem(e, "golem_route")
 					.map(PathRecordCard::getList);
@@ -32,12 +31,13 @@ public class PathConfig {
 		return null;
 	}
 
-	private List<PathRecordCard.Pos> getList() {
+	@Nullable
+	private PathRecordCard.Pos getList() {
 		for (var e : path) {
 			if (e.getItem() instanceof PathRecordCard) {
 				return PathRecordCard.getList(e);
 			}
 		}
-		return List.of();
+		return null;
 	}
 }

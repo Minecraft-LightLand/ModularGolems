@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.init.data;
 
+import dev.xkmc.l2core.serial.config.ConfigDataProvider;
 import dev.xkmc.l2itemselector.init.L2ItemSelector;
 import dev.xkmc.l2itemselector.select.item.SimpleItemSelectConfig;
-import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -10,44 +10,46 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import java.util.concurrent.CompletableFuture;
+
 public class MGConfigGen extends ConfigDataProvider {
 
-	public MGConfigGen(DataGenerator generator) {
-		super(generator, "Golem Config");
+	public MGConfigGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> pvd) {
+		super(generator, pvd, "Golem Config");
 	}
 
 	@Override
 	public void add(Collector map) {
 
-		map.add(L2ItemSelector.ITEM_SELECTOR, new ResourceLocation(ModularGolems.MODID, "wand"), new SimpleItemSelectConfig()
-				.add(new ResourceLocation(ModularGolems.MODID, "wand"),
+		map.add(L2ItemSelector.ITEM_SELECTOR, ModularGolems.loc("wand"), new SimpleItemSelectConfig()
+				.add(ModularGolems.loc("wand"),
 						GolemItems.OMNI_COMMAND.get(), GolemItems.OMNI_DISPENSE.get(),
 						GolemItems.OMNI_RETRIVAL.get(), GolemItems.OMNI_RIDER.get(),
 						GolemItems.OMNI_SQUAD.get())
 		);
 
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "vanilla"), new GolemMaterialConfig()
-				.addMaterial(new ResourceLocation(ModularGolems.MODID, "copper"), Ingredient.of(Items.COPPER_INGOT))
+		map.add(ModularGolems.MATERIALS, ModularGolems.loc("vanilla"), new GolemMaterialConfig()
+				.addMaterial(ModularGolems.loc("copper"), Ingredient.of(Items.COPPER_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 50)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
 				.addModifier(GolemModifiers.THUNDER_IMMUNE.get(), 1).end()
 
-				.addMaterial(new ResourceLocation(ModularGolems.MODID, "iron"), Ingredient.of(Items.IRON_INGOT))
+				.addMaterial(ModularGolems.loc("iron"), Ingredient.of(Items.IRON_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 100)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 15).end()
 
-				.addMaterial(new ResourceLocation(ModularGolems.MODID, "gold"), Ingredient.of(Items.GOLD_INGOT))
+				.addMaterial(ModularGolems.loc("gold"), Ingredient.of(Items.GOLD_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 20)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 5)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
 				.addStat(GolemTypes.STAT_REGEN.get(), 4).end()
 
-				.addMaterial(new ResourceLocation(ModularGolems.MODID, "netherite"), Ingredient.of(Items.NETHERITE_INGOT))
+				.addMaterial(ModularGolems.loc("netherite"), Ingredient.of(Items.NETHERITE_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
@@ -55,7 +57,7 @@ public class MGConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
 
-				.addMaterial(new ResourceLocation(ModularGolems.MODID, "sculk"), Ingredient.of(MGTagGen.SCULK_MATS))
+				.addMaterial(ModularGolems.loc("sculk"), Ingredient.of(MGTagGen.SCULK_MATS))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.5)
@@ -65,7 +67,7 @@ public class MGConfigGen extends ConfigDataProvider {
 		);
 
 		// Choose which stat to use, and what percentage for the complete golem
-		map.add(ModularGolems.PARTS, new ResourceLocation(ModularGolems.MODID, "default"), new GolemPartConfig()
+		map.add(ModularGolems.PARTS, ModularGolems.loc("default"), new GolemPartConfig()
 				.addPart(GolemItems.GOLEM_BODY.get())
 				.addFilter(StatFilterType.HEALTH, 0.5)
 				.addFilter(StatFilterType.ATTACK, 0)

@@ -10,20 +10,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.Collection;
-
 public class BlockOutliner {
 
-	public static void drawOutlines(Player player, Collection<PathRecordCard.Pos> selection) {
+	public static void drawOutlines(Player player, PathRecordCard.Pos selection) {
 		Level level = Minecraft.getInstance().level;
 		if (level == null) return;
 		if (Minecraft.getInstance().player != player) return;
 		BlockPos pre = null, first = null;
-		float time = (level.getGameTime() + Minecraft.getInstance().getPartialTick()) / 40f % 2 - 1;
-		for (var point : selection) {
-			var id = point.level();
-			if (!level.dimension().location().equals(id)) continue;
-			BlockPos pos = point.pos();
+		float time = (level.getGameTime() + Minecraft.getInstance().getTimer().getRealtimeDeltaTicks()) / 40f % 2 - 1;
+		for (var pos : selection.pos()) {
 			VoxelShape shape = Shapes.block();
 			CreateClient.OUTLINER.showAABB(point, shape.bounds().move(pos)).colored(pre == null ? 0x7fff7f : 8375776).lineWidth(0.0625F);
 			if (pre != null) {

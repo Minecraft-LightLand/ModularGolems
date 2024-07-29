@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -29,14 +29,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
 
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
 
 	public float getJumpStrength() {
-		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
+		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.holder());
 		MobEffectInstance ins = getEffect(MobEffects.JUMP);
 		if (ins != null) {
 			int lv = ins.getAmplifier() + 1;
@@ -47,7 +47,6 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
-		setMaxUpStep(1);
 	}
 
 	public float getTailAngle() {
@@ -114,7 +113,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		float jump = getJumpStrength();
 		this.setDeltaMovement(vec3.x, jump, vec3.z);
 		this.hasImpulse = true;
-		ForgeHooks.onLivingJump(this);
+		CommonHooks.onLivingJump(this);
 		if (action.z > 0.0D) {
 			float x0 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
 			float z0 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
@@ -172,9 +171,9 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	protected static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BYTE);
 
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(DATA_FLAGS_ID, (byte) 0);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_FLAGS_ID, (byte) 0);
 	}
 
 	public void addAdditionalSaveData(CompoundTag p_21819_) {

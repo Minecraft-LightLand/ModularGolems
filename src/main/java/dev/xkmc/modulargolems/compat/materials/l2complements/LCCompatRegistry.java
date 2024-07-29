@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2complements.init.registrate.LCEffects;
+import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.PotionAttackModifier;
@@ -10,21 +10,21 @@ import dev.xkmc.modulargolems.content.modifier.base.PotionDefenseModifier;
 import dev.xkmc.modulargolems.content.modifier.base.TargetBonusModifier;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.MobType;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class LCCompatRegistry {
 
-	public static final RegistryEntry<ConduitModifier> CONDUIT;
-	public static final RegistryEntry<FreezingModifier> FREEZE;
-	public static final RegistryEntry<SoulFlameModifier> FLAME;
-	public static final RegistryEntry<EnderTeleportModifier> TELEPORT;
-	public static final RegistryEntry<PotionAttackModifier> CURSE, INCARCERATE;
-	public static final RegistryEntry<PotionDefenseModifier> CLEANSE;
-	public static final RegistryEntry<TargetBonusModifier> POSEIDITE, TOTEMIC_GOLD;
+	public static final Val<ConduitModifier> CONDUIT;
+	public static final Val<FreezingModifier> FREEZE;
+	public static final Val<SoulFlameModifier> FLAME;
+	public static final Val<EnderTeleportModifier> TELEPORT;
+	public static final Val<PotionAttackModifier> CURSE, INCARCERATE;
+	public static final Val<PotionDefenseModifier> CLEANSE;
+	public static final Val<TargetBonusModifier> POSEIDITE, TOTEMIC_GOLD;
 
 	public static final ItemEntry<SimpleUpgradeItem> FORCE_FIELD, FREEZE_UP, FLAME_UP, TELEPORT_UP, ATK_UP, SPEED_UP,
 			UPGRADE_CURSE, UPGRADE_INCARCERATE, UPGRADE_CLEANSE;
@@ -36,15 +36,15 @@ public class LCCompatRegistry {
 		TELEPORT = reg("teleport", EnderTeleportModifier::new, "Teleport randomly to avoid physical damage. Teleport toward target when attacking. Teleport has %ss cool down.");
 
 		CURSE = reg("curse", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(LCEffects.CURSE.get(), 60 * i)), "Potion Upgrade: Curse", null);
+				i -> new MobEffectInstance(LCEffects.CURSE.holder(), 60 * i)), "Potion Upgrade: Curse", null);
 		INCARCERATE = reg("incarcerate", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-				i -> new MobEffectInstance(LCEffects.STONE_CAGE.get(), 20 * i)), "Potion Upgrade: Incarceration", null);
+				i -> new MobEffectInstance(LCEffects.INCARCERATE.holder(), 20 * i)), "Potion Upgrade: Incarceration", null);
 
-		POSEIDITE = reg("poseidite", () -> new TargetBonusModifier(e -> e.isSensitiveToWater() || e.getMobType() == MobType.WATER),
+		POSEIDITE = reg("poseidite", () -> new TargetBonusModifier(e -> e.isSensitiveToWater() || e.getType().is(EntityTypeTags.SENSITIVE_TO_IMPALING)),
 				"Deal %s%% more damage to mobs sensitive to water or water based mobs");
-		TOTEMIC_GOLD = reg("totemic_gold", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.UNDEAD),
+		TOTEMIC_GOLD = reg("totemic_gold", () -> new TargetBonusModifier(e -> e.getType().is(EntityTypeTags.SENSITIVE_TO_SMITE)),
 				"Deal %s%% more damage to undead mobs");
-		CLEANSE = reg("cleanse", () -> new PotionDefenseModifier(1, LCEffects.CLEANSE::get), "Potion Upgrade: Cleanse", null);
+		CLEANSE = reg("cleanse", () -> new PotionDefenseModifier(1, LCEffects.CLEANSE::holder), "Potion Upgrade: Cleanse", null);
 
 		FORCE_FIELD = regModUpgrade("force_field", () -> GolemModifiers.PROJECTILE_REJECT, LCDispatch.MODID).lang("Wither Armor Upgrade").register();
 		FREEZE_UP = regModUpgrade("freezing", () -> FREEZE, LCDispatch.MODID).lang("Potion Upgrade: Freezing").register();

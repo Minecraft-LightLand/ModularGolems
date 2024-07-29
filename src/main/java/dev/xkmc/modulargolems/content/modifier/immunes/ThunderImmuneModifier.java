@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier.immunes;
 
-import dev.xkmc.l2library.base.effects.EffectUtil;
+import dev.xkmc.l2core.base.effects.EffectUtil;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -15,7 +16,6 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -27,16 +27,17 @@ public class ThunderImmuneModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
+	public boolean onAttacked(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
 		if (level > 0 && event.getSource().is(DamageTypeTags.IS_LIGHTNING)) {
-			event.setCanceled(true);
-			EffectUtil.addEffect(entity, new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200), EffectUtil.AddReason.SELF, entity);
+			EffectUtil.addEffect(entity, new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200), entity);
 			entity.heal(MGConfig.COMMON.thunderHeal.get() * level);
 			Player player = entity.getOwner();
 			if (player instanceof ServerPlayer pl) {
-				GolemTriggers.THUNDER.trigger(pl);
+				GolemTriggers.THUNDER.get().trigger(pl);
 			}
+			return true;
 		}
+		return false;
 	}
 
 	@Override

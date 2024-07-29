@@ -56,7 +56,7 @@ public class DispenseWand extends BaseWandItem implements GolemInteractItem {
 				return false;
 			});
 			if (counter[0] > 1 && user instanceof ServerPlayer sp) {
-				GolemTriggers.MAS_SUMMON.trigger(sp, counter[0]);
+				GolemTriggers.MAS_SUMMON.get().trigger(sp, counter[0]);
 			}
 		}
 		return InteractionResultHolder.success(stack);

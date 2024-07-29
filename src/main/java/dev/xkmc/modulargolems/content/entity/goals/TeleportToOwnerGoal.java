@@ -11,7 +11,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
 
@@ -102,11 +102,11 @@ public class TeleportToOwnerGoal extends Goal {
 	}
 
 	private boolean canTeleportTo(BlockPos pPos) {
-		BlockPathTypes blockpathtypes = WalkNodeEvaluator.getBlockPathTypeStatic(this.level, pPos.mutable());
-		boolean allow = blockpathtypes == BlockPathTypes.WALKABLE;
+		PathType blockpathtypes = WalkNodeEvaluator.getPathTypeStatic(this.golem, pPos.mutable());
+		boolean allow = blockpathtypes == PathType.WALKABLE;
 		if (golem.hasFlag(GolemFlags.FLOAT) || golem.hasFlag(GolemFlags.SWIM)) {
-			allow |= blockpathtypes == BlockPathTypes.WATER;
-			allow |= blockpathtypes == BlockPathTypes.WATER_BORDER;
+			allow |= blockpathtypes == PathType.WATER;
+			allow |= blockpathtypes == PathType.WATER_BORDER;
 		}
 		if (!allow) return false;
 		BlockState blockstate = this.level.getBlockState(pPos.below());

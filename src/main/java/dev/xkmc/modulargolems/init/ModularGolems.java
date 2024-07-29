@@ -4,6 +4,7 @@ import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2core.init.L2TagGen;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
+import dev.xkmc.l2core.init.reg.simple.Reg;
 import dev.xkmc.l2core.serial.config.ConfigTypeEntry;
 import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
@@ -46,6 +47,7 @@ public class ModularGolems {
 
 	public static final String MODID = "modulargolems";
 	public static final Logger LOGGER = LogManager.getLogger();
+	public static final Reg REG = new Reg(MODID);
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(

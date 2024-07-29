@@ -8,6 +8,8 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -31,14 +33,9 @@ import java.util.function.Predicate;
 
 public class ConfigCard extends Item implements GolemInteractItem {
 
-	private static final String KEY_OWNER = "config_owner";
-
 	@Nullable
 	public static UUID getUUID(ItemStack stack) {
-		if (stack.getTag() != null && stack.getTag().contains(KEY_OWNER)) {
-			return stack.getTag().getUUID(KEY_OWNER);
-		}
-		return null;
+		return GolemItems.DC_OWNER.get(stack);
 	}
 
 	public static Predicate<AbstractGolemEntity<?, ?>> getFilter(Player player) {
@@ -73,7 +70,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 			if (player.level().isClientSide()) return InteractionResult.SUCCESS;
 			UUID uuid = getUUID(stack);
 			if (uuid == null) {
-				stack.getOrCreateTag().putUUID(KEY_OWNER, uuid = player.getUUID());
+				GolemItems.DC_OWNER.set(stack, uuid = player.getUUID());
 			}
 			var old = golem.getConfigEntry(null);
 			if (old != null && old.getID().equals(uuid) && old.getColor() == color.getId()) {
@@ -91,7 +88,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		ItemStack stack = player.getItemInHand(hand);
 		UUID uuid = getUUID(stack);
 		if (uuid == null) {
-			stack.getOrCreateTag().putUUID(KEY_OWNER, uuid = player.getUUID());
+			GolemItems.DC_OWNER.set(stack, uuid = player.getUUID());
 		}
 		if (level instanceof ServerLevel sl) {
 			GolemConfigEditor editor;
@@ -118,11 +115,12 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		return InteractionResultHolder.pass(stack);
 	}
 
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag pIsAdvanced) {
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag pIsAdvanced) {
 		var id = getUUID(stack);
 		if (id == null) {
 			list.add(MGLangData.CONFIG_INIT.get());
 		} else {
+			var level = Minecraft.getInstance().level;
 			if (level != null) {
 				var entry = GolemConfigStorage.get(level).getOrCreateStorage(id, color.getId(), MGLangData.LOADING.get());
 				entry.clientTick(level, false);

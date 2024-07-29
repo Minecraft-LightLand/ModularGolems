@@ -1,11 +1,8 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2core.base.menu.base.BaseContainerMenu;
+import dev.xkmc.l2core.base.menu.base.PredSlot;
 import dev.xkmc.l2core.base.menu.base.SpriteManager;
-import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
-import dev.xkmc.l2library.base.menu.base.PredSlot;
-import dev.xkmc.l2library.base.menu.base.SpriteManager;
-import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
@@ -15,7 +12,7 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,15 +20,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
 
 public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
-	public static EquipmentsMenu fromNetwork(MenuType<EquipmentsMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
-		assert Proxy.getClientWorld() != null;
-		Entity entity = Proxy.getClientWorld().getEntity(buf.readInt());
+	public static EquipmentsMenu fromNetwork(MenuType<EquipmentsMenu> type, int wid, Inventory plInv, RegistryFriendlyByteBuf buf) {
+		Entity entity = plInv.player.level().getEntity(buf.readInt());
 		return new EquipmentsMenu(type, wid, plInv, entity instanceof AbstractGolemEntity<?, ?> golem ? golem : null);
 	}
 
@@ -97,7 +93,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		if (stack.getItem() instanceof GolemHolder) return null;
 		if (golem instanceof HumanoidGolemEntity humanoidGolem) {
 			GolemEquipEvent event = new GolemEquipEvent(humanoidGolem, stack);
-			MinecraftForge.EVENT_BUS.post(event);
+			NeoForge.EVENT_BUS.post(event);
 			if (event.canEquip()) {
 				return event.getSlot();
 			} else {

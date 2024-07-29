@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier.immunes;
 
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -9,8 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.EntityEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
 
@@ -21,15 +21,19 @@ public class DamageCapModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
+	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
 		if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 			return;
 		}
 		float factor = (float) Math.max(0, (2 - level * 0.2) * MGConfig.COMMON.damageCap.get());
-		if (event.getAmount() > factor * entity.getMaxHealth()) {
-			event.setAmount(factor * entity.getMaxHealth());
-			entity.level().broadcastEntityEvent(entity, EntityEvent.ATTACK_BLOCKED);
-		}
+		float max = factor * entity.getMaxHealth();
+		event.addDealtModifier(DamageModifier.nonlinearMiddle(175, e -> {
+			if (e > max) {
+				entity.level().broadcastEntityEvent(entity, EntityEvent.ATTACK_BLOCKED);
+				return max;
+			}
+			return e;
+		}, getRegistryName()));
 	}
 
 	@Override

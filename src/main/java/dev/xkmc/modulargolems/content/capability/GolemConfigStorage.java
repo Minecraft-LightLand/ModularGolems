@@ -1,45 +1,24 @@
 package dev.xkmc.modulargolems.content.capability;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2core.capability.level.BaseSavedData;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.UUID;
 
 @SerialClass
-public class GolemConfigStorage {
+public class GolemConfigStorage extends BaseSavedData<GolemConfigStorage> {
 
-	public static Capability<GolemConfigStorage> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
-	});
-
-	public static GolemConfigStorage get(Level level) {
-		if (level instanceof ServerLevel sl)
-			return sl.getServer().overworld().getCapability(CAPABILITY).resolve().get();
-		else return getClientCache(level);
-	}
-
-	private static GolemConfigStorage CACHE = null;
-
-	private static GolemConfigStorage getClientCache(Level level) {
-		if (CACHE == null || CACHE.level != level) {
-			CACHE = new GolemConfigStorage(level);
-		}
-		return CACHE;
-	}
-
-	public final Level level;
-
-	@SerialClass.SerialField
+	@SerialField
 	private final HashMap<UUID, GolemConfigEntry[]> storage = new HashMap<>();
 
-	public GolemConfigStorage(Level level) {
-		this.level = level;
+	public GolemConfigStorage() {
+		super(GolemConfigStorage.class);
 	}
 
 	public GolemConfigEntry getOrCreateStorage(UUID id, int color, Component comp) {

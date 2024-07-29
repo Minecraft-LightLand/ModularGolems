@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
@@ -33,9 +34,9 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -50,11 +51,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	private final GolemCrossbowAttackGoal crossbowGoal = new GolemCrossbowAttackGoal(this, 1.0D, 15.0F);
 	private final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this);
 	private final GolemTridentAttackGoal tridentGoal = new GolemTridentAttackGoal(this, 1, 40, 15, meleeGoal);
-	@SerialClass.SerialField(toClient = true)
+	@SerialField
 	public int shieldCooldown = 0;
-	@SerialClass.SerialField
+	@SerialField
 	private ItemStack backupHand = ItemStack.EMPTY;
-	@SerialClass.SerialField
+	@SerialField
 	private ItemStack arrowSlot = ItemStack.EMPTY;
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
@@ -98,9 +99,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
 				stack = arrowSlot;
 			}
-			return ForgeHooks.getProjectile(this, pShootable, stack);
+			return CommonHooks.getProjectile(this, pShootable, stack);
 		} else {
-			return ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
+			return CommonHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
 		}
 	}
 
@@ -116,13 +117,13 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 	}
 
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(IS_CHARGING_CROSSBOW, false);
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(IS_CHARGING_CROSSBOW, false);
 	}
 
-	protected AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity) {
-		return ProjectileUtil.getMobArrow(this, pArrowStack, pVelocity);
+	protected AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity, ItemStack bowStack) {
+		return ProjectileUtil.getMobArrow(this, pArrowStack, pVelocity, bowStack);
 	}
 
 	public boolean canFireProjectileWeapon(ProjectileWeaponItem pProjectileWeapon) {
@@ -155,8 +156,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void performCrossbowAttack(LivingEntity pUser, float pVelocity) {
 		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
 		ItemStack itemstack = pUser.getItemInHand(interactionhand);
-		if (pUser.isHolding(is -> is.getItem() instanceof CrossbowItem)) {
-			CrossbowItem.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0);
+		if (itemstack.getItem() instanceof CrossbowItem cross) {
+			cross.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0, getTarget());
 		}
 		this.onCrossbowAttackPerformed();
 	}
@@ -164,7 +165,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public InteractionHand getWeaponHand() {
 		ItemStack stack = this.getMainHandItem();
 		InteractionHand hand = InteractionHand.MAIN_HAND;
-		if (stack.canPerformAction(ToolActions.SHIELD_BLOCK)) {
+		if (stack.canPerformAction(ItemAbilities.SHIELD_BLOCK)) {
 			hand = InteractionHand.OFF_HAND;
 		}
 		return hand;
@@ -178,19 +179,19 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (throwable.isThrowable()) {
 			Projectile projectile = throwable.createProjectile(level());
 			GolemShooterHelper.shootAimHelper(pTarget, projectile);
-			this.playSound(SoundEvents.TRIDENT_THROW, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+			this.playSound(SoundEvents.TRIDENT_THROW.value(), 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			projectile.getPersistentData().putInt("DespawnFactor", 20);
 			this.level().addFreshEntity(projectile);
-			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+			stack.hurtAndBreak(1, this, EquipmentSlot.MAINHAND);
 		} else if (stack.getItem() instanceof CrossbowItem) {
 			performCrossbowAttack(this, 3);
 		} else if (stack.getItem() instanceof BowItem bow) {
 			ItemStack arrowStack = this.getProjectile(stack);
 			if (arrowStack.isEmpty()) return;
-			AbstractArrow arrowEntity = bow.customArrow(getArrow(arrowStack, dist));
+			AbstractArrow arrowEntity = bow.customArrow(getArrow(arrowStack, dist, stack), arrowStack, stack);
 			boolean infinite = GolemShooterHelper.arrowIsInfinite(arrowStack, stack);
 			GolemBowAttackEvent event = new GolemBowAttackEvent(this, stack, hand, arrowEntity, infinite);
-			MinecraftForge.EVENT_BUS.post(event);
+			NeoForge.EVENT_BUS.post(event);
 			arrowEntity = event.getArrow();
 			if (event.isNoPickup()) {
 				arrowEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
@@ -204,7 +205,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			this.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
 			arrowEntity.getPersistentData().putInt("DespawnFactor", 20);
 			this.level().addFreshEntity(arrowEntity);
-			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
+			stack.hurtAndBreak(1, this, EquipmentSlot.MAINHAND);
 		}
 	}
 
@@ -231,27 +232,27 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	// ------ common golem behavior
 
+
 	@Override
-	public void broadcastBreakEvent(EquipmentSlot pSlot) {
-		super.broadcastBreakEvent(pSlot);
+	public void onEquippedItemBroken(Item item, EquipmentSlot slot) {
 		Player player = getOwner();
 		if (player != null) {
-			GolemTriggers.BREAK.trigger((ServerPlayer) player);
+			GolemTriggers.BREAK.get().trigger((ServerPlayer) player);
 		}
 	}
 
 	public boolean doHurtTarget(Entity target) {
-		boolean can_sweep = getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP);
+		boolean can_sweep = getMainHandItem().canPerformAction(ItemAbilities.SWORD_SWEEP);
 		if (!can_sweep) {
 			if (super.doHurtTarget(target)) {
 				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
-				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+				stack.hurtAndBreak(1, this, EquipmentSlot.MAINHAND);
 				return true;
 			}
 		} else {
 			if (performRangedDamage(target, 0, 0)) {// trigger vanilla attack code, ignore values
 				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
-				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+				stack.hurtAndBreak(1, this, EquipmentSlot.MAINHAND);
 				return true;
 			}
 		}
@@ -261,7 +262,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@Override
 	protected AABB getAttackBoundingBox(Entity target, double range) {
 		GolemSweepEvent event = new GolemSweepEvent(this, getMainHandItem(), target, range);
-		MinecraftForge.EVENT_BUS.post(event);
+		NeoForge.EVENT_BUS.post(event);
 		return event.getBox();
 	}
 
@@ -295,7 +296,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			return InteractionResult.FAIL;
 		}
 		GolemEquipEvent event = new GolemEquipEvent(this, itemstack);
-		MinecraftForge.EVENT_BUS.post(event);
+		NeoForge.EVENT_BUS.post(event);
 		if (event.canEquip()) {
 			if (level().isClientSide()) {
 				return InteractionResult.SUCCESS;
@@ -308,7 +309,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			}
 			setItemSlot(event.getSlot(), itemstack.split(event.getAmount()));
 			int count = (int) Arrays.stream(EquipmentSlot.values()).filter(e -> !getItemBySlot(e).isEmpty()).count();
-			GolemTriggers.EQUIP.trigger((ServerPlayer) player, count);
+			GolemTriggers.EQUIP.get().trigger((ServerPlayer) player, count);
 			return InteractionResult.CONSUME;
 		}
 		return InteractionResult.FAIL;
@@ -329,18 +330,18 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			damage = 1.0F;
 		}
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+			if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
 			ItemStack itemstack = this.getItemBySlot(slot);
 			if ((!source.is(DamageTypeTags.IS_FIRE) || !itemstack.getItem().isFireResistant()) && itemstack.getItem() instanceof ArmorItem) {
-				itemstack.hurtAndBreak((int) damage, this, (entity) -> entity.broadcastBreakEvent(slot));
+				itemstack.hurtAndBreak((int) damage, this, slot);
 			}
 		}
 	}
 
 	@Nullable
 	public InteractionHand shieldSlot() {
-		return getItemBySlot(EquipmentSlot.MAINHAND).canPerformAction(ToolActions.SHIELD_BLOCK) ? InteractionHand.MAIN_HAND :
-				getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ToolActions.SHIELD_BLOCK) ? InteractionHand.OFF_HAND :
+		return getItemBySlot(EquipmentSlot.MAINHAND).canPerformAction(ItemAbilities.SHIELD_BLOCK) ? InteractionHand.MAIN_HAND :
+				getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ItemAbilities.SHIELD_BLOCK) ? InteractionHand.OFF_HAND :
 						null;
 	}
 
@@ -350,10 +351,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		ItemStack stack = getItemInHand(hand);
 		int i = damage < 3f ? 0 : 1 + Mth.floor(damage);
 		GolemDamageShieldEvent event = new GolemDamageShieldEvent(this, stack, hand, damage, i);
-		MinecraftForge.EVENT_BUS.post(event);
+		NeoForge.EVENT_BUS.post(event);
 		i = event.getCost();
 		if (i > 0) {
-			stack.hurtAndBreak(i, this, (self) -> self.broadcastBreakEvent(hand));
+			stack.hurtAndBreak(i, this, LivingEntity.getSlotForHand(hand));
 		}
 		if (stack.isEmpty()) {
 			this.setItemInHand(hand, ItemStack.EMPTY);
@@ -370,7 +371,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		ItemStack stack = getItemInHand(hand);
 		boolean canDisable = source.canDisableShield() || source.getMainHandItem().canDisableShield(stack, this, source);
 		GolemDisableShieldEvent event = new GolemDisableShieldEvent(this, stack, hand, source, canDisable);
-		MinecraftForge.EVENT_BUS.post(event);
+		NeoForge.EVENT_BUS.post(event);
 		if (event.shouldDisable()) {
 			this.shieldCooldown = 100;
 			this.level().broadcastEntityEvent(this, EntityEvent.SHIELD_DISABLED);
@@ -423,7 +424,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		ItemStack off = offhand.getItem();
 		if (main.getItem() instanceof ProjectileWeaponItem) {
 			if (!getProjectile(main).isEmpty()) {
-				if (off.canPerformAction(ToolActions.SHIELD_BLOCK)) {
+				if (off.canPerformAction(ItemAbilities.SHIELD_BLOCK)) {
 					return;
 				}
 			}

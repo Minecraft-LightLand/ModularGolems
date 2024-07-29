@@ -4,7 +4,6 @@ import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
@@ -17,6 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Crackiness;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,9 +35,9 @@ import net.minecraft.world.phys.Vec3;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
+
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(type, level);
-		this.setMaxUpStep(1);
 	}
 
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
@@ -98,7 +98,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	public boolean hurt(DamageSource source, float amount) {
-		IronGolem.Crackiness crack = this.getCrackiness();
+		Crackiness.Level crack = this.getCrackiness();
 		boolean flag = super.hurt(source, amount);
 		if (flag && this.getCrackiness() != crack) {
 			this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);
@@ -106,8 +106,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return flag;
 	}
 
-	public IronGolem.Crackiness getCrackiness() {
-		return IronGolem.Crackiness.byFraction(this.getHealth() / this.getMaxHealth());
+	public Crackiness.Level getCrackiness() {
+		return Crackiness.GOLEM.byFraction(this.getHealth() / this.getMaxHealth());
 	}
 
 	public void handleEntityEvent(byte event) {
@@ -181,7 +181,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 					itemstack.shrink(1);
 				}
 				if (!this.level().isClientSide()) {
-					GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
+					GolemTriggers.HOT_FIX.get().trigger((ServerPlayer) player);
 				}
 				return InteractionResult.sidedSuccess(this.level().isClientSide);
 			}

@@ -11,15 +11,15 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.AnvilUpdateEvent;
-import net.minecraftforge.event.GrindstoneEvent;
-import net.minecraftforge.event.entity.player.AnvilRepairEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.AnvilUpdateEvent;
+import net.neoforged.neoforge.event.GrindstoneEvent;
+import net.neoforged.neoforge.event.entity.player.AnvilRepairEvent;
 
 import java.util.ArrayList;
 
-@Mod.EventBusSubscriber(modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class CraftEventListeners {
 
 	@SubscribeEvent
@@ -53,7 +53,7 @@ public class CraftEventListeners {
 		ItemStack block = event.getRight();
 		if (stack.getItem() instanceof GolemPart<?, ?> part && part.count <= block.getCount()) {
 			var mat = GolemMaterial.getMaterial(block);
-			mat.ifPresent(rl -> GolemTriggers.PART_CRAFT.trigger((ServerPlayer) event.getEntity(), rl));
+			mat.ifPresent(rl -> GolemTriggers.PART_CRAFT.get().trigger((ServerPlayer) event.getEntity(), rl));
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
 			if (block.getItem() instanceof UpgradeItem) {
@@ -62,7 +62,7 @@ public class CraftEventListeners {
 				var upgrades = GolemHolder.getUpgrades(result);
 				int remaining = holder.getRemaining(mats, upgrades);
 				int total = upgrades.size();
-				GolemTriggers.UPGRADE_APPLY.trigger((ServerPlayer) event.getEntity(), block, remaining, total);
+				GolemTriggers.UPGRADE_APPLY.get().trigger((ServerPlayer) event.getEntity(), block, remaining, total);
 			} else {
 				var mats = GolemHolder.getMaterial(stack);
 				var type = holder.getEntityType();
@@ -71,7 +71,7 @@ public class CraftEventListeners {
 				var mat = mats.get(part.ordinal());
 				var ing = GolemMaterialConfig.get().ingredients.get(mat.id());
 				if (ing == null || !ing.test(block)) return;
-				GolemTriggers.ANVIL_FIX.trigger((ServerPlayer) event.getEntity(), mat.id());
+				GolemTriggers.ANVIL_FIX.get().trigger((ServerPlayer) event.getEntity(), mat.id());
 			}
 		}
 	}

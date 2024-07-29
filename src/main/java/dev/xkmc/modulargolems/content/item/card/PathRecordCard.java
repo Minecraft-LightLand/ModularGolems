@@ -1,15 +1,10 @@
 package dev.xkmc.modulargolems.content.item.card;
 
-import com.simibubi.create.Create;
-import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
-import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
@@ -21,48 +16,42 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PathRecordCard extends Item {
 
-	private static final String KEY = "RecordedPath";
-
-	public static List<Pos> getList(ItemStack stack) {
-		List<Pos> ans = new ArrayList<>();
-		var root = stack.getTag();
-		if (root == null) return ans;
-		if (!root.contains(KEY)) return ans;
-		ListTag list = root.getList(KEY, Tag.TAG_COMPOUND);
-		for (int i = 0; i < list.size(); i++) {
-			ans.add(TagCodec.valueFromTag(list.getCompound(i), Pos.class));
-		}
-		return ans;
+	@Nullable
+	public static Pos getList(ItemStack stack) {
+		return GolemItems.DC_PATH.get(stack);
 	}
 
-	public static void addPos(ItemStack stack, Pos pos) {
-		ItemCompoundTag.of(stack).getSubList(KEY, Tag.TAG_COMPOUND)
-				.addCompound().setTag((CompoundTag) TagCodec.valueToTag(pos));
-	}
-
-	public static void setList(ItemStack stack, List<Pos> pos) {
-		ItemCompoundTag.of(stack).getSubList(KEY, Tag.TAG_COMPOUND).clear();
-		for (var e : pos) {
-			addPos(stack, e);
+	public static void addPos(ItemStack stack, Level level, BlockPos pos) {
+		var id = level.dimension().location();
+		Pos old = getList(stack);
+		if (old != null && old.level.equals(id)) {
+			old = old.copy();
+			old.pos.add(pos);
+			GolemItems.DC_PATH.set(stack, old);
+		} else {
+			GolemItems.DC_PATH.set(stack, new Pos(id, new ArrayList<>(List.of(pos))));
 		}
 	}
 
-	public static boolean togglePos(ItemStack stack, Pos pos) {
+	public static boolean togglePos(ItemStack stack, Level level, BlockPos pos) {
+		var id = level.dimension().location();
 		var ans = getList(stack);
-		if (!ans.contains(pos)) {
-			addPos(stack, pos);
+		if (ans == null || !ans.level().equals(id) || !ans.pos().contains(pos)) {
+			addPos(stack, level, pos);
 			return true;
 		}
-		ans.remove(pos);
-		setList(stack, ans);
+		ans = ans.copy();
+		ans.pos().remove(pos);
+		GolemItems.DC_PATH.set(stack, ans);
 		return false;
 	}
 
@@ -81,7 +70,7 @@ public class PathRecordCard extends Item {
 				pos = pos.relative(ctx.getClickedFace());
 			}
 			Player player = ctx.getPlayer();
-			if (togglePos(stack, new Pos(level.dimension().location(), pos))) {
+			if (togglePos(stack, level, pos)) {
 				if (player != null) {
 					player.sendSystemMessage(MGLangData.PATH_ADD.get());
 				}
@@ -96,20 +85,32 @@ public class PathRecordCard extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-		if (!ModList.get().isLoaded(Create.ID)) return;
+		if (!ModList.get().isLoaded("create")) return;
 		if (selected && entity instanceof Player player && level.isClientSide()) {
-			BlockOutliner.drawOutlines(player, getList(stack));
+			var pos = getList(stack);
+			if (pos != null && pos.level().equals(level.dimension().location())) {
+				BlockOutliner.drawOutlines(player, pos);
+			}
 		}
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.PATH_COUNT.get(Component.literal("" + getList(stack).size())
+	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
+		int size = Optional.ofNullable(getList(stack)).map(e -> e.pos().size()).orElse(0);
+		list.add(MGLangData.PATH_COUNT.get(Component.literal("" + size)
 				.withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
 		list.add(MGLangData.PATH.get().withStyle(ChatFormatting.GRAY));
 	}
 
-	public record Pos(ResourceLocation level, BlockPos pos) {
+	public record Pos(ResourceLocation level, ArrayList<BlockPos> pos) {
+
+		public Pos copy() {
+			return new Pos(level, new ArrayList<>(pos));
+		}
+
+		public boolean match(Level level) {
+			return level().equals(level.dimension().location());
+		}
 
 	}
 
