@@ -14,7 +14,6 @@ import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.ConfigHeartBeatToServer;
 import dev.xkmc.modulargolems.content.capability.ConfigSyncToClient;
 import dev.xkmc.modulargolems.content.capability.ConfigUpdateToServer;
-import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
@@ -73,7 +72,6 @@ public class ModularGolems {
 		MGConfig.init();
 		GolemTriggers.register();
 		GolemModes.register();
-		GolemConfigStorage.register();
 		CurioCompatRegistry.register();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, MGLangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
@@ -101,9 +99,11 @@ public class ModularGolems {
 
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
-		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(event.getGenerator()));
+		var gen = event.getGenerator();
+		var pvd = event.getLookupProvider();
+		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(gen, pvd));
 		CompatManager.gatherData(event);
-		event.getGenerator().addProvider(event.includeServer(), new SlotGen(event.getGenerator()));
+		event.getGenerator().addProvider(event.includeServer(), new SlotGen(gen.getPackOutput(), event.getExistingFileHelper(), pvd));
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			REGISTRATE.addDataGenerator(L2TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
 		}

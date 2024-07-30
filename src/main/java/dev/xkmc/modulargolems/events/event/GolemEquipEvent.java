@@ -4,8 +4,6 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
-import static net.minecraft.world.entity.LivingEntity.getEquipmentSlotForItem;
-
 public class GolemEquipEvent extends HumanoidGolemEvent {
 
 	private final ItemStack stack;
@@ -17,7 +15,7 @@ public class GolemEquipEvent extends HumanoidGolemEvent {
 	public GolemEquipEvent(HumanoidGolemEntity golem, ItemStack stack) {
 		super(golem);
 		this.stack = stack;
-		slot = getEquipmentSlotForItem(stack);
+		slot = golem.getEquipmentSlotForItem(stack);
 		canEquip = stack.canEquip(slot, golem);
 		amount = 1;
 	}

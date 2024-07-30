@@ -1,14 +1,14 @@
 package dev.xkmc.modulargolems.content.menu.registry;
 
+import dev.xkmc.l2tabs.tabs.core.TabGroupData;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabGroup;
 
-public class ConfigGroup extends GolemTabGroup<ConfigGroup> {
+public class ConfigGroup extends TabGroupData<ConfigGroup> {
 
 	public final GolemConfigEditor editor;
 
 	public ConfigGroup(GolemConfigEditor editor) {
-		super(GolemTabRegistry.LIST_CONFIG);
+		super(GolemTabRegistry.CONFIG);
 		this.editor = editor;
 	}
 

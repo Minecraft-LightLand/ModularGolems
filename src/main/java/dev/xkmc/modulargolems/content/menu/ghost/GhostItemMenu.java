@@ -17,6 +17,7 @@ import java.util.function.Predicate;
 public abstract class GhostItemMenu extends AbstractContainerMenu {
 
 	protected final Inventory inventory;
+	public final SpriteManager manager;
 	public final MenuLayoutConfig sprite;
 	protected final Container container;
 
@@ -25,6 +26,7 @@ public abstract class GhostItemMenu extends AbstractContainerMenu {
 	protected GhostItemMenu(MenuType<?> type, int wid, Inventory plInv, SpriteManager manager, Container container) {
 		super(type, wid);
 		this.inventory = plInv;
+		this.manager = manager;
 		this.sprite = manager.get(plInv.player.level().registryAccess());
 		this.container = container;
 

@@ -54,7 +54,7 @@ public class MGAdvGen {
 						"Fully Equipped", "Give Humaniod Golem full armor set, a sword, and a shield.").type(AdvancementType.GOAL)
 				.create("oops", GolemItems.HOLDER_HUMANOID.get().withUniformMaterial(
 								ModularGolems.loc("gold")),
-						CriterionBuilder.one(GolemBreakToolTrigger.ins()),
+						CriterionBuilder.player(GolemTriggers.BREAK.get()),
 						"Oops...", "Let Humanoid Golem break a piece of equipment").type(AdvancementType.CHALLENGE);
 
 		var golem = arm.create("craft", GolemItems.HOLDER_GOLEM.get().withUniformMaterial(
@@ -62,14 +62,14 @@ public class MGAdvGen {
 				CriterionBuilder.item(MGTagGen.GOLEM_HOLDERS),
 				"A Brand New Golem", "Craft a Golem Holder with metal golem parts.");
 		golem.create("thunder", Items.LIGHTNING_ROD,
-						CriterionBuilder.one(GolemThunderTrigger.ins()),
+						CriterionBuilder.player(GolemTriggers.THUNDER.get()),
 						"Walking Lightning Rod", "Let a golem with thunder immune be struck with a lightning bolt")
 				.type(AdvancementType.CHALLENGE);
 		golem.create("anvil_fix", Items.ANVIL,
 						CriterionBuilder.one(GolemAnvilFixTrigger.ins().build()),
 						"Healing the Wounds", "Repair a metal golem with ingots in an anvil")
 				.create("hot_fix", Items.IRON_INGOT,
-						CriterionBuilder.one(GolemHotFixTrigger.ins()),
+						CriterionBuilder.player(GolemTriggers.HOT_FIX.get()),
 						"Repair in Battle", "Repair a metal golem with ingots directly")
 				.create("kill_warden", Items.SCULK_CATALYST,
 						CriterionBuilder.one(GolemKillTrigger.byType(EntityType.WARDEN).build()),

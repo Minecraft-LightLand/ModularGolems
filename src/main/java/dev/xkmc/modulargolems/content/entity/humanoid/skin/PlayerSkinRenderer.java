@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.skin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.xkmc.l2library.util.Proxy;
+import dev.xkmc.l2core.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -39,7 +39,7 @@ public class PlayerSkinRenderer extends HumanoidGolemRenderer {
 			return profile.texture();
 		AbstractClientPlayer player = Proxy.getClientPlayer();
 		assert player != null;
-		return player.getSkinTextureLocation();
+		return player.getSkin().texture();
 	}
 
 }

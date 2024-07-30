@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.world.item.ItemStack;
@@ -13,11 +13,13 @@ public class GolemDispenserBehaviors {
 
 	public static void registerDispenseBehaviors() {
 		DispenseItemBehavior behavior = new DefaultDispenseItemBehavior() {
+
+
 			@Override
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
 				if (((GolemHolder<?, ?>) stack.getItem()).summon(
-						stack, source.getLevel(),
-						Vec3.atBottomCenterOf(source.getPos().relative(source.getBlockState().getValue(DispenserBlock.FACING))),
+						stack, source.level(),
+						Vec3.atBottomCenterOf(source.pos().relative(source.state().getValue(DispenserBlock.FACING))),
 						null, null)) {
 					stack.shrink(1);
 				}

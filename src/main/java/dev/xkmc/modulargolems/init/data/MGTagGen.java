@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.init.data;
 
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -17,8 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +33,8 @@ public class MGTagGen {
 	public static final TagKey<Item> CONFIG_CARD = createItemTag("config_card");
 	public static final TagKey<Item> SPECIAL_CRAFT = createItemTag("special_crafting_material");
 	public static final TagKey<Item> GOLEM_INTERACT = createItemTag("golem_interact");
-	public static final TagKey<Item> CURIO_SKIN = ItemTags.create(new ResourceLocation("curios", "golem_skin"));
-	public static final TagKey<Item> CURIO_PATH = ItemTags.create(new ResourceLocation("curios", "golem_route"));
+	public static final TagKey<Item> CURIO_SKIN = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_skin"));
+	public static final TagKey<Item> CURIO_PATH = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_route"));
 	public static final TagKey<Item> PLAYER_SKIN = createItemTag("player_skin");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
@@ -85,9 +83,12 @@ public class MGTagGen {
 		pvd.addTag(PLAYER_SKIN).add(Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
 		var skin = pvd.addTag(CURIO_SKIN);
 		skin.addTag(PLAYER_SKIN).add(Items.PLAYER_HEAD, Items.PIGLIN_HEAD);
+		/* TODO TLM
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			skin.addOptional(new ResourceLocation(TouhouLittleMaid.MOD_ID, "garage_kit"));
 		}
+
+		 */
 	}
 
 	public static void onEntityTagGen(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> pvd) {
@@ -97,15 +98,15 @@ public class MGTagGen {
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
-		return ItemTags.create(new ResourceLocation(ModularGolems.MODID, id));
+		return ItemTags.create(ModularGolems.loc(id));
 	}
 
 	private static TagKey<EntityType<?>> createEntityTag(String id) {
-		return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(ModularGolems.MODID, id));
+		return TagKey.create(Registries.ENTITY_TYPE, ModularGolems.loc(id));
 	}
 
 	private static TagKey<Block> createBlockTag(String id) {
-		return TagKey.create(Registries.BLOCK, new ResourceLocation(ModularGolems.MODID, id));
+		return TagKey.create(Registries.BLOCK, ModularGolems.loc(id));
 	}
 
 }

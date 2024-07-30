@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
+import dev.xkmc.l2core.base.entity.SyncedData;
 import dev.xkmc.l2core.util.ServerOnly;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
@@ -16,7 +17,6 @@ import dev.xkmc.modulargolems.content.entity.goals.*;
 import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
-import dev.xkmc.modulargolems.content.entity.sync.SyncedData;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;

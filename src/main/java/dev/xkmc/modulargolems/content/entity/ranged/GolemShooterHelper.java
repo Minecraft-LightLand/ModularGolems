@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.events.event.GolemThrowableEvent;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Slime;
@@ -10,9 +11,11 @@ import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.HashSet;
 
@@ -21,14 +24,22 @@ public class GolemShooterHelper {
 	private static final HashSet<Class<?>> BLACKLIST = new HashSet<>();
 
 	public static GolemThrowableEvent isValidThrowableWeapon(HumanoidGolemEntity golem, ItemStack stack, InteractionHand hand) {
-		if (stack.getEnchantmentLevel(Enchantments.LOYALTY) > 0) {
-			stack = stack.copy();
-			var map = stack.getAllEnchantments();
-			map.remove(Enchantments.LOYALTY);
-			EnchantmentHelper.setEnchantments(map, stack);
-		}//TODO find a cleaner approach
+		var reg = CommonHooks.resolveLookup(Registries.ENCHANTMENT);
+		if (reg != null) {
+			var loyalty = reg.get(Enchantments.LOYALTY);
+			if (loyalty.isPresent()) {
+				if (stack.getEnchantmentLevel(loyalty.get()) > 0) {
+					stack = stack.copy();
+					ItemEnchantments map = stack.getAllEnchantments(reg);
+					var mutable = new ItemEnchantments.Mutable(map);
+					mutable.set(loyalty.get(), 0);
+					EnchantmentHelper.setEnchantments(stack, mutable.toImmutable());
+				}
+			}
+		}
+
 		GolemThrowableEvent event = new GolemThrowableEvent(golem, stack, hand);
-		MinecraftForge.EVENT_BUS.post(event);
+		NeoForge.EVENT_BUS.post(event);
 		return event;
 	}
 

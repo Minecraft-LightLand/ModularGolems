@@ -1,3 +1,12 @@
+TODO
+- BlazeGear
+- Cataclysm
+- Botania
+- Twilight
+- Create
+- CEI
+- Maid
+
 2.4.38
 - Fix golem patrol when riding something
 - Increase golem shooting range

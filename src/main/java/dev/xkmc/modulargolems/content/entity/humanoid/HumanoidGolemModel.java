@@ -7,7 +7,6 @@ import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import dev.xkmc.modulargolems.content.entity.ranged.GolemShooterHelper;
 import net.minecraft.client.model.AnimationUtils;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -48,9 +47,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 
 	@Override
 	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
-		String id = rl.getNamespace();
-		String mat = rl.getPath();
-		return new ResourceLocation(id, "textures/entity/humanoid_golem/" + mat + ".png");
+		return rl.withPath(e -> "textures/entity/humanoid_golem/" + e + ".png");
 	}
 
 	@Override

@@ -10,11 +10,11 @@ import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.TridentItem;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 
-@Mod.EventBusSubscriber(modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class GolemEventListeners {
 
 	@SubscribeEvent

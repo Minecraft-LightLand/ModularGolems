@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraftforge.network.NetworkHooks;
 
 public record EquipmentsMenuPvd(AbstractGolemEntity<?, ?> e) implements IMenuPvd {
 
@@ -23,7 +22,7 @@ public record EquipmentsMenuPvd(AbstractGolemEntity<?, ?> e) implements IMenuPvd
 	}
 
 	public void open(ServerPlayer player) {
-		NetworkHooks.openScreen(player, this, this::writeBuffer);
+		player.openMenu(this, this::writeBuffer);
 	}
 
 	@Override

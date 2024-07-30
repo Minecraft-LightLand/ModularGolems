@@ -89,7 +89,7 @@ public class PathRecordCard extends Item {
 		if (selected && entity instanceof Player player && level.isClientSide()) {
 			var pos = getList(stack);
 			if (pos != null && pos.level().equals(level.dimension().location())) {
-				BlockOutliner.drawOutlines(player, pos);
+				BlockOutliner.drawOutlines(player, pos.pos);
 			}
 		}
 	}

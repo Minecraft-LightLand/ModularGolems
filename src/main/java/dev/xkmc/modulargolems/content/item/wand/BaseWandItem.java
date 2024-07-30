@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -34,7 +33,7 @@ public class BaseWandItem extends Item implements CustomDisplaySelectItem {
 	}
 
 	@Override
-	public final void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+	public final void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		if (base != null) {
 			list.add(MGLangData.WAND_MODE.get(base.asStack().getHoverName()));
 			list.add(MGLangData.WAND_SWITCH.get());

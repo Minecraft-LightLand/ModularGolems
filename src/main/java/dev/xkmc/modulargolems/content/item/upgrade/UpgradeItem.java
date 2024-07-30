@@ -32,7 +32,7 @@ public abstract class UpgradeItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		for (var e : get()) {
 			list.add(e.mod().getTooltip(e.level()));
 			list.addAll(e.mod().getDetail(e.level()));

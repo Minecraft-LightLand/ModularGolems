@@ -9,16 +9,13 @@ import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.UUID;
 
-@OnlyIn(Dist.CLIENT)
 public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends EntityModel<T> & IHeadedModel> extends RenderLayer<T, M> {
 	private final float scaleX;
 	private final float scaleY;
@@ -65,10 +62,8 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 			boolean showFlag = captainId != null && entity.getUUID().equals(captainId);
 			if (showFlag) {
 				String color = DyeColor.values()[entry.getColor()].getName();
-				Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(color + "_banner"));
-				if (item != null) {
-					return item.getDefaultInstance();
-				}
+				Item item = BuiltInRegistries.ITEM.get(ResourceLocation.withDefaultNamespace(color + "_banner"));
+				return item.getDefaultInstance();
 			}
 		}
 		return ItemStack.EMPTY;

@@ -12,23 +12,21 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.mixin.ExperienceOrbAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
-import java.util.Map;
 
 public class PickupGoal extends Goal {
 
@@ -114,9 +112,9 @@ public class PickupGoal extends Goal {
 	}
 
 	private int repairGolemAndItems(int exp) {
-		Map.Entry<EquipmentSlot, ItemStack> entry = EnchantmentHelper.getRandomItemWith(Enchantments.MENDING, golem, ItemStack::isDamaged);
-		if (entry != null) {
-			ItemStack itemstack = entry.getValue();
+		var entry = EnchantmentHelper.getRandomItemWith(EnchantmentEffectComponents.REPAIR_WITH_XP, golem, ItemStack::isDamaged);
+		if (entry.isPresent()) {
+			ItemStack itemstack = entry.get().itemStack();
 			float ratio = itemstack.getXpRepairRatio();
 			int recovered = Math.min((int) (exp * ratio), itemstack.getDamageValue());
 			itemstack.setDamageValue(itemstack.getDamageValue() - recovered);
@@ -148,10 +146,9 @@ public class PickupGoal extends Goal {
 		if (item.isRemoved()) {
 			return;
 		}
-		if (target != null && golem.getMode() == GolemModes.STAND) {
-			var opt = target.getCapability(ForgeCapabilities.ITEM_HANDLER);
-			if (opt.resolve().isPresent()) {
-				var handler = opt.resolve().get();
+		if (target != null && target.getLevel() != null && golem.getMode() == GolemModes.STAND) {
+			var handler = target.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, target.getBlockPos(), null);
+			if (handler != null) {
 				ItemStack remain = ItemHandlerHelper.insertItem(handler, item.getItem(), false);
 				if (remain.isEmpty()) {
 					item.discard();
@@ -216,7 +213,8 @@ public class PickupGoal extends Goal {
 						continue;
 					}
 					BlockEntity be = golem.level().getBlockEntity(pos);
-					if (be != null && be.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve().isPresent()) {
+					var handler = golem.level().getCapability(Capabilities.ItemHandler.BLOCK, target.getBlockPos(), null);
+					if (be != null && handler != null) {
 						double d = pos.distToCenterSqr(golem.position());
 						if (d < dist) {
 							target = be;

@@ -1,9 +1,7 @@
 package dev.xkmc.modulargolems.init;
 
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.compat.misc.MaidCompat;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
@@ -17,14 +15,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import net.neoforged.neoforge.common.NeoForge;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class GolemClient {
@@ -33,9 +29,11 @@ public class GolemClient {
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
+		/* TODO TLM
 		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			NeoForge.EVENT_BUS.register(MaidCompat.class);
 		}
+		 */
 		event.enqueueWork(() -> {
 			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
 					entity != null && entity.isBlocking() && entity.getUseItem() == stack ? 1.0F : 0.0F;
@@ -53,7 +51,7 @@ public class GolemClient {
 
 	@SubscribeEvent
 	public static void registerOverlays(RegisterGuiLayersEvent event) {
-		event.registerAbove(VanillaGuiLayers.CROSSHAIR, "golem_stats", new GolemStatusOverlay());
+		event.registerAbove(VanillaGuiLayers.CROSSHAIR, ModularGolems.loc("golem_stats"), new GolemStatusOverlay());
 	}
 
 	@SubscribeEvent
@@ -70,9 +68,11 @@ public class GolemClient {
 	public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
 		PlayerSkinRenderer.SLIM = new PlayerSkinRenderer(event.getContext(), true);
 		PlayerSkinRenderer.REGULAR = new PlayerSkinRenderer(event.getContext(), false);
+		/* TODO TLM
 		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			MaidCompat.addLayers(event);
 		}
+		 */
 	}
 
 }

@@ -87,7 +87,7 @@ public class SonicAttackGoal extends Goal {
 			}
 
 			warden.playSound(SoundEvents.WARDEN_SONIC_BOOM, 3.0F, 1.0F);
-			var attr = warden.getAttribute(GolemTypes.GOLEM_SWEEP.get());
+			var attr = warden.getAttribute(GolemTypes.GOLEM_SWEEP.holder());
 			List<LivingEntity> target = new ArrayList<>();
 			if (attr != null && attr.getValue() > 0) {
 				AABB aabb = new AABB(src, src.add(dir.scale(16)));

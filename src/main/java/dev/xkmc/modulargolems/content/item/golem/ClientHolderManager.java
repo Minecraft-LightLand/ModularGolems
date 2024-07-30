@@ -1,22 +1,21 @@
 package dev.xkmc.modulargolems.content.item.golem;
 
-import dev.xkmc.l2library.util.Proxy;
-import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import io.netty.util.collection.IntObjectHashMap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import org.jetbrains.annotations.Nullable;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class ClientHolderManager {
 
 	static final class TimedCache {
@@ -38,10 +37,7 @@ public class ClientHolderManager {
 	private static final IntObjectHashMap<TimedCache> CACHE = new IntObjectHashMap<>();
 
 	@SubscribeEvent
-	public static void tickEvent(TickEvent.ClientTickEvent event) {
-		if (event.phase == TickEvent.Phase.START) {
-			return;
-		}
+	public static void tickEvent(ClientTickEvent.Post event) {
 		if (CACHE.size() > 100) {
 			ModularGolems.LOGGER.error("Golem cache overflow. Clearing...");
 			CACHE.clear();
@@ -53,9 +49,9 @@ public class ClientHolderManager {
 	@Nullable
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	T getEntityForDisplay(GolemHolder<T, P> holder, ItemStack stack) {
-		CompoundTag root = stack.getTag();
-		if (root == null) return null;
-		if (!root.contains(GolemHolder.KEY_ENTITY) && !root.contains(GolemHolder.KEY_ICON)) return null;
+		var data = GolemItems.ENTITY.get(stack);
+		var icon = GolemItems.DC_ICON.get(stack);
+		if (data == null && icon == null) return null;
 		int hash = stack.hashCode();
 		if (CACHE.containsKey(hash)) {
 			AbstractGolemEntity<?, ?> ans = CACHE.get(stack.hashCode()).entity;
@@ -70,19 +66,17 @@ public class ClientHolderManager {
 	@Nullable
 	private static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	T getEntityForDisplayInternal(GolemHolder<T, P> holder, ItemStack stack) {
-		CompoundTag root = stack.getTag();
-		if (root == null) return null;
+		Level level = Minecraft.getInstance().level;
+		if (level == null) return null;
 		T ans = null;
-		if (root.contains(GolemHolder.KEY_ENTITY)) {
-			CompoundTag entity = root.getCompound(GolemHolder.KEY_ENTITY);
-			ans = holder.getEntityType().createForDisplay(entity);
-		} else if (root.contains(GolemHolder.KEY_ICON)) {
-			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(Proxy.getClientWorld());
+		var data = GolemItems.ENTITY.get(stack);
+		var icon = GolemItems.DC_ICON.get(stack);
+		if (data != null) {
+			ans = holder.getEntityType().createForDisplay(data.getUnsafe());
+		} else if (icon != null) {
+			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(level);
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
-			ItemCompoundTag tag = ItemCompoundTag.of(stack);
-			var list = tag.getSubList(GolemHolder.KEY_ICON, Tag.TAG_COMPOUND).getOrCreate();
-			for (int i = 0; i < list.size(); i++) {
-				ItemStack e = ItemStack.of(list.getCompound(i));
+			for (var e : icon.list()) {
 				golem.equipItemIfPossible(e);
 			}
 			ans = Wrappers.cast(golem);

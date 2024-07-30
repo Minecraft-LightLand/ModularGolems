@@ -1,20 +1,20 @@
 package dev.xkmc.modulargolems.content.client.overlay;
 
+import dev.xkmc.l2itemselector.overlay.OverlayUtil;
 import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
-import dev.xkmc.l2library.base.overlay.OverlayUtil;
-import dev.xkmc.l2library.util.Proxy;
-import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
-import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
-import dev.xkmc.modulargolems.compat.materials.botania.BotUtils;
+import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
+import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -25,20 +25,18 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GolemStatusOverlay implements IGuiOverlay {
+public class GolemStatusOverlay implements LayeredDraw.Layer {
 
 	@Override
-	public void render(ForgeGui gui, GuiGraphics g, float partialTick, int screenWidth, int screenHeight) {
+	public void render(GuiGraphics g, DeltaTracker delta) {
 		if (Minecraft.getInstance().screen != null) return;
 		boolean offset = ItemSelectionOverlay.INSTANCE.isRendering();
-		LocalPlayer player = Proxy.getClientPlayer();
+		LocalPlayer player = Minecraft.getInstance().player;
 		if (player == null) return;
 		if (!(player.getMainHandItem().getItem() instanceof GolemInteractItem wand)) return;
 		Entity target;
@@ -50,11 +48,12 @@ public class GolemStatusOverlay implements IGuiOverlay {
 			target = entityHit.getEntity();
 		}
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return;
-		gui.setupOverlayRenderState(true, false);
+		Font font = Minecraft.getInstance().font;
+		int screenWidth = g.guiWidth();
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
 		if (golem.hasFlag(GolemFlags.BOTANIA)) {
-			text.add(BotUtils.getDesc(golem));
+			//TODO bot text.add(BotUtils.getDesc(golem));
 		}
 		text.add(golem.getMode().getDesc(golem));
 		var config = golem.getConfigEntry(MGLangData.LOADING.get());
@@ -68,17 +67,17 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
 		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
 		new OverlayUtil(g, textPos, -1, -1)
-				.renderLongText(gui.getFont(), text);
+				.renderLongText(font, text);
 		if (!(golem instanceof HumanoidGolemEntity humanoid)) return;
 		OverlayUtil util = new OverlayUtil(g, (int) (screenWidth * 0.6), -1, -1);
 		util.bg = 0xffc6c6c6;
 		List<ClientTooltipComponent> list = List.of(new GolemEquipmentTooltip(humanoid));
-		util.renderTooltipInternal(gui.getFont(), list);
+		util.renderTooltipInternal(font, list);
 	}
 
 	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {
 
-		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
+		public static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.withDefaultNamespace("textures/gui/container/bundle.png");
 
 		@Override
 		public int getHeight() {

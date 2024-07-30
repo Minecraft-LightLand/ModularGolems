@@ -1,22 +1,21 @@
 package dev.xkmc.modulargolems.compat.curio;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
-import dev.xkmc.l2tabs.compat.CuriosEventHandler;
+import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.l2tabs.compat.common.CuriosEventHandler;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
+import dev.xkmc.l2tabs.tabs.core.ITabScreen;
+import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
-import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
@@ -41,7 +40,7 @@ public class CurioCompatRegistry {
 	}
 
 	public static Optional<ItemStack> getItem(LivingEntity e, String slot) {
-		return CuriosApi.getCuriosInventory(e).resolve()
+		return CuriosApi.getCuriosInventory(e)
 				.flatMap(x -> x.findCurio(slot, 0).map(SlotResult::stack));
 	}
 
@@ -69,24 +68,24 @@ public class CurioCompatRegistry {
 
 	public static void tryOpen(ServerPlayer player, LivingEntity target) {
 		if (get() == null) return;
-		var opt = CuriosApi.getCuriosInventory(target).resolve();
+		var opt = CuriosApi.getCuriosInventory(target);
 		if (opt.isEmpty()) return;
 		if (opt.get().getSlots() == 0) return;
 		var pvd = new GolemCuriosMenuPvd(target, 0);
-		CuriosEventHandler.openMenuWrapped(player, () -> NetworkHooks.openScreen(player, pvd, pvd::writeBuffer));
+		CuriosEventHandler.openMenuWrapped(player, () -> player.openMenu(pvd, pvd::writeBuffer));
 
 	}
 
 	public MenuEntry<GolemCuriosListMenu> menuType;
-	public GolemTabToken<EquipmentGroup, GolemCurioTab> tab;
+	public Val<TabToken<EquipmentGroup, GolemCurioTab>> tab;
 
 	public void registerImpl() {
 		menuType = ModularGolems.REGISTRATE.menu("golem_curios", GolemCuriosListMenu::fromNetwork, () -> GolemCuriosListScreen::new).register();
 	}
 
 	public void clientRegisterImpl() {
-		tab = new GolemTabToken<>(GolemCurioTab::new, () -> Items.AIR, L2TabsLangData.CURIOS.get());
-		GolemTabRegistry.LIST_EQUIPMENT.add(tab);
+		tab = GolemTabRegistry.TAB_REG.reg("curios", () -> GolemTabRegistry.EQUIPMENTS.registerTab(
+				() -> GolemCurioTab::new, L2TabsLangData.CURIOS.get()));
 	}
 
 	private void onJEIRegistryImpl(Consumer<Class<? extends ITabScreen>> consumer) {
@@ -94,7 +93,7 @@ public class CurioCompatRegistry {
 	}
 
 	public ItemStack getSkin(HumanoidGolemEntity le) {
-		return CuriosApi.getCuriosInventory(le).resolve().flatMap(e -> e.getStacksHandler("golem_skin"))
+		return CuriosApi.getCuriosInventory(le).flatMap(e -> e.getStacksHandler("golem_skin"))
 				.map(ICurioStacksHandler::getStacks).map(e -> e.getSlots() == 0 ? null : e.getStackInSlot(0)).orElse(ItemStack.EMPTY);
 	}
 

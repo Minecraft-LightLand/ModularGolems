@@ -20,6 +20,7 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -102,8 +103,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		GolemItems.HOLDER_MAT.set(stack, GolemHolderMaterial.parse(entity.getMaterials()));
 		GolemItems.UPGRADE.set(stack, entity.getUpgrades());
-
-		entity.save(tag.getSubTag(KEY_ENTITY).getOrCreate());
+		CustomData.update(GolemItems.ENTITY.get(), stack, entity::save);
 		Optional.ofNullable(entity.getCustomName()).ifPresent(e -> stack.set(DataComponents.CUSTOM_NAME, e));
 		return stack;
 	}
@@ -162,11 +162,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag flag) {
 		if (Screen.hasAltDown()) {
 			NBTAnalytic.analyze(stack, list);
 			return;
 		}
+		var level = Minecraft.getInstance().level;
 		if (!Screen.hasShiftDown()) {
 			float max = getMaxHealth(stack);
 			if (max >= 0) {
@@ -177,9 +178,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				list.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
 			}
 			var config = getGolemConfig(stack);
-			if (level.registries() == null || config.isEmpty()) {
+			if (ctx.registries() == null || config.isEmpty()) {
 				list.add(MGLangData.NO_CONFIG.get());
-			} else {
+			} else if (level != null) {
 				var id = config.get().id();
 				var color = config.get().color();
 				var entry = GolemConfigStorage.get(level)
@@ -223,8 +224,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 					continue;
 				}
 				if (size > 4) {
-					if (level == null) continue;
-					if (!level.isClientSide()) continue;
+					if (level == null || ctx.registries() == null) continue;
 					if (level.getGameTime() / 30 % size != index - 1) continue;
 				}
 				list.addAll(k.getDetail(v));
@@ -234,10 +234,6 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
-		CompoundTag root = stack.getTag();
-		if (root == null) {
-			return InteractionResult.PASS;
-		}
 		Level level = player.level();
 		Vec3 pos = target.position();
 		if (summon(stack, level, pos, player, e -> e.checkRide(target))) {
@@ -257,10 +253,6 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Override
 	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-		CompoundTag root = stack.getTag();
-		if (root == null) {
-			return InteractionResult.PASS;
-		}
 		Level level = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
 		Direction direction = context.getClickedFace();
@@ -282,13 +274,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player, @Nullable Consumer<AbstractGolemEntity<?, ?>> callback) {
-		CompoundTag root = stack.getTag();
-		if (root == null) return false;
-		if (root.contains(KEY_ENTITY) && getMaxHealth(stack) >= 0) {
+		var data = GolemItems.ENTITY.get(stack);
+		if (data != null && getMaxHealth(stack) >= 0) {
 			if (getHealth(stack) <= 0)
 				return false;
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
+				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, data.getUnsafe());
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				golem.moveTo(pos);
@@ -298,7 +289,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 					return false;
 				}
 				level.addFreshEntity(golem);
-				stack.removeTagKey(KEY_ENTITY);
+				stack.remove(GolemItems.ENTITY);
 				stack.shrink(1);
 				if (callback != null) {
 					callback.accept(golem);
@@ -306,7 +297,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			}
 			return true;
 		}
-		if (root.contains(KEY_MATERIAL)) {
+		var mat = GolemItems.HOLDER_MAT.get(stack);
+		if (mat != null) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create(level);
 				golem.moveTo(pos);
@@ -332,13 +324,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	@Nullable
 	public T createDummy(ItemStack stack, Level level) {
-		CompoundTag root = stack.getTag();
-		if (root == null) return null;
 		T golem;
-		if (root.contains(KEY_ENTITY)) {
-			golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
+		var data = GolemItems.ENTITY.get(stack);
+		var mat = GolemItems.HOLDER_MAT.get(stack);
+		if (data != null) {
+			golem = type.get().create((ServerLevel) level, data.getUnsafe());
 			golem.updateAttributes(getMaterial(stack), getUpgrades(stack), null);
-		} else if (root.contains(KEY_MATERIAL)) {
+		} else if (mat != null) {
 			golem = type.get().create(level);
 			golem.onCreate(getMaterial(stack), getUpgrades(stack), null);
 		} else return null;

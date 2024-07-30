@@ -1,14 +1,14 @@
 package dev.xkmc.modulargolems.content.menu.registry;
 
+import dev.xkmc.l2tabs.tabs.core.TabGroupData;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabGroup;
 
-public class EquipmentGroup extends GolemTabGroup<EquipmentGroup> {
+public class EquipmentGroup extends TabGroupData<EquipmentGroup> {
 
 	public AbstractGolemEntity<?, ?> golem;
 
 	public EquipmentGroup(AbstractGolemEntity<?, ?> golem) {
-		super(GolemTabRegistry.LIST_EQUIPMENT);
+		super(GolemTabRegistry.EQUIPMENTS);
 		this.golem = golem;
 	}
 

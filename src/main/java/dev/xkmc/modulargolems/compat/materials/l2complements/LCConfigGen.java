@@ -6,14 +6,17 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import java.util.concurrent.CompletableFuture;
+
 public class LCConfigGen extends ConfigDataProvider {
 
-	public LCConfigGen(DataGenerator generator) {
-		super(generator, "Golem Config for L2Complements");
+	public LCConfigGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> pvd) {
+		super(generator, pvd, "Golem Config for L2Complements");
 	}
 
 

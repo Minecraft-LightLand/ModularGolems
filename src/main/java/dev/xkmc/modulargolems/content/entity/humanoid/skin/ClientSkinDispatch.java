@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid.skin;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.events.event.HumanoidSkinEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
 
@@ -16,7 +16,7 @@ public class ClientSkinDispatch {
 		var name = curio.getSkin(entity);
 		if (name.isEmpty()) return null;
 		var event = new HumanoidSkinEvent(entity, name);
-		MinecraftForge.EVENT_BUS.post(event);
+		NeoForge.EVENT_BUS.post(event);
 		return event.getSkin();
 	}
 

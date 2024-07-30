@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.curio;
 
-import dev.xkmc.l2tabs.compat.CuriosWrapper;
-import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.l2tabs.compat.api.AccessoriesMultiplex;
 import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -26,6 +25,6 @@ public record GolemCuriosMenuPvd(LivingEntity e, int page) implements IMenuPvd {
 	public AbstractContainerMenu createMenu(int wid, Inventory inv, Player player) {
 		var compat = CurioCompatRegistry.get();
 		if (compat == null) return null;
-		return new GolemCuriosListMenu(compat.menuType.get(), wid, inv, new CuriosWrapper(e, page));
+		return new GolemCuriosListMenu(compat.menuType.get(), wid, inv, AccessoriesMultiplex.get().wrap(e, page));
 	}
 }

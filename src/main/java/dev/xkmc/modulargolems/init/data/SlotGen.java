@@ -1,55 +1,39 @@
 package dev.xkmc.modulargolems.init.data;
 
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
-import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
-import dev.xkmc.l2library.compat.curios.CurioEntityBuilder;
-import dev.xkmc.l2library.compat.curios.CurioSlotBuilder;
-import dev.xkmc.l2library.compat.curios.SlotCondition;
-import dev.xkmc.l2library.serial.config.RecordDataProvider;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import top.theillusivec4.curios.api.CuriosDataProvider;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.concurrent.CompletableFuture;
 
-public class SlotGen extends RecordDataProvider {
+public class SlotGen extends CuriosDataProvider {
 
-	public SlotGen(DataGenerator generator) {
-		super(generator, "Curios Generator");
+	public SlotGen(PackOutput output, ExistingFileHelper helper, CompletableFuture<HolderLookup.Provider> pvd) {
+		super(ModularGolems.MODID, output, helper, pvd);
 	}
 
 	@Override
-	public void add(BiConsumer<String, Record> map) {
+	public void generate(HolderLookup.Provider provider, ExistingFileHelper existingFileHelper) {
+		createSlot("golem_skin").icon(ModularGolems.loc("slot/empty_skin_slot")).order(1000);
+		createSlot("golem_route").icon(ModularGolems.loc("slot/empty_route_slot")).order(1100);
 
-		map.accept(ModularGolems.MODID + "/curios/slots/golem_skin", new CurioSlotBuilder(1000,
-				ModularGolems.loc("slot/empty_skin_slot").toString()));
+		createEntities("golem_skin").addSlots("golem_skin").addEntities(GolemTypes.TYPE_HUMANOID.get().type());
+		createEntities("golem_curios").addSlots("head", "back", "ring", "charm", "hands", "golem_route")
+				.addEntities(GolemTypes.TYPE_GOLEM.get().type(),
+						GolemTypes.TYPE_HUMANOID.get().type(),
+						GolemTypes.TYPE_DOG.get().type());
 
-		map.accept(ModularGolems.MODID + "/curios/slots/golem_route", new CurioSlotBuilder(1100,
-				ModularGolems.loc("slot/empty_route_slot").toString()));
+		createEntities("golem_artifacts").addSlots("artifact_head", "artifact_necklace", "artifact_bracelet", "artifact_body", "artifact_belt")
+				.addEntities(GolemTypes.TYPE_GOLEM.get().type(),
+						GolemTypes.TYPE_HUMANOID.get().type(),
+						GolemTypes.TYPE_DOG.get().type())
+				.addCondition(new ModLoadedCondition("l2artifacts"));
 
-		map.accept(ModularGolems.MODID + "/curios/entities/golem_skin", new CurioEntityBuilder(
-				new ArrayList<>(List.of(GolemTypes.TYPE_HUMANOID.getId())),
-				new ArrayList<>(List.of("golem_skin")), SlotCondition.of()
-		));
-
-		ArrayList<ResourceLocation> entities = new ArrayList<>(List.of(
-				GolemTypes.TYPE_GOLEM.getId(),
-				GolemTypes.TYPE_HUMANOID.getId(),
-				GolemTypes.TYPE_DOG.getId()
-		));
-
-		map.accept(ModularGolems.MODID + "/curios/entities/golem_curios", new CurioEntityBuilder(entities,
-				new ArrayList<>(List.of("head", "back", "ring", "charm", "hands", "golem_route")), SlotCondition.of()
-		));
-
-		map.accept(ModularGolems.MODID + "/curios/entities/golem_artifacts", new CurioEntityBuilder(entities,
-				new ArrayList<>(List.of("artifact_head", "artifact_necklace", "artifact_bracelet", "artifact_body", "artifact_belt")),
-				SlotCondition.of("l2artifacts")
-		));
-
+		/* TODO TLM
 		map.accept(ModularGolems.MODID + "/curios/entities/maid_artifacts", new CurioEntityBuilder(
 				new ArrayList<>(List.of(InitEntities.MAID.getId())),
 				new ArrayList<>(List.of("artifact_head", "artifact_necklace", "artifact_bracelet", "artifact_body", "artifact_belt")),
@@ -61,5 +45,7 @@ public class SlotGen extends RecordDataProvider {
 				new ArrayList<>(List.of("head", "back", "ring", "charm", "hands")),
 				SlotCondition.of(TouhouLittleMaid.MOD_ID)
 		));
+
+		 */
 	}
 }

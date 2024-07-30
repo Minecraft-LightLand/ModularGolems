@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.content.menu.target;
 
+import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.modulargolems.content.menu.ghost.GhostItemScreen;
 import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,8 +22,8 @@ public class TargetConfigScreen extends GhostItemScreen<TargetConfigMenu> {
 	@Override
 	protected void init() {
 		super.init();
-		new GolemTabManager<>(this, new ConfigGroup(menu.editor.editor()))
-				.init(this::addRenderableWidget, GolemTabRegistry.CONFIG_TARGET);
+		new TabManager<>(this, new ConfigGroup(menu.editor.editor()))
+				.init(this::addRenderableWidget, GolemTabRegistry.CONFIG_TARGET.get());
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class TargetConfigScreen extends GhostItemScreen<TargetConfigMenu> {
 
 	@Override
 	protected void renderBg(GuiGraphics poseStack, float ptick, int mx, int my) {
-		var sr = menu.sprite.getRenderer(this);
+		var sr = getRenderer();
 		sr.start(poseStack);
 	}
 

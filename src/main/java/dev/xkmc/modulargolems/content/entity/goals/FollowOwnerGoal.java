@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.entity.goals;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
@@ -57,8 +57,8 @@ public class FollowOwnerGoal extends Goal {
 	 */
 	public void start() {
 		this.timeToRecalcPath = 0;
-		this.oldWaterCost = this.golem.getPathfindingMalus(BlockPathTypes.WATER);
-		this.golem.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+		this.oldWaterCost = this.golem.getPathfindingMalus(PathType.WATER);
+		this.golem.setPathfindingMalus(PathType.WATER, 0.0F);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class FollowOwnerGoal extends Goal {
 	 */
 	public void stop() {
 		golem.getNavigation().stop();
-		this.golem.setPathfindingMalus(BlockPathTypes.WATER, this.oldWaterCost);
+		this.golem.setPathfindingMalus(PathType.WATER, this.oldWaterCost);
 	}
 
 	/**
