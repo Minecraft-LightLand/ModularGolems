@@ -1,15 +1,13 @@
 package dev.xkmc.modulargolems.content.item.card;
 
 import com.mojang.datafixers.util.Either;
-import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -19,28 +17,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 public class NameFilterCard extends TargetFilterCard {
 
-	private static final String KEY = "filterList";
-
 	private static List<String> getStrings(ItemStack stack) {
-		List<String> ans = new ArrayList<>();
-		var tag = stack.getTag();
-		if (tag == null || !tag.contains(KEY)) {
-			return ans;
-		}
-		for (var e : tag.getList(KEY, Tag.TAG_STRING)) {
-			ans.add(e.getAsString());
-		}
-		return ans;
+		return GolemItems.DC_FILTER_NAME.getOrDefault(stack, List.of());
 	}
 
 	private static List<Either<EntityType<?>, TagKey<EntityType<?>>>> getList(List<String> strs) {
@@ -48,42 +33,29 @@ public class NameFilterCard extends TargetFilterCard {
 		for (var s : strs) {
 			String str = s.trim();
 			if (str.startsWith("#")) {
-				ResourceLocation rl = getRL(str.substring(1));
+				ResourceLocation rl = ResourceLocation.tryParse(str.substring(1));
 				if (rl == null) continue;
 				TagKey<EntityType<?>> key = TagKey.create(Registries.ENTITY_TYPE, rl);
-				var manager = ForgeRegistries.ENTITY_TYPES.tags();
-				if (manager != null && manager.isKnownTagName(key)) {
+				var ref = BuiltInRegistries.ENTITY_TYPE.getTag(key);
+				if (ref.isPresent()) {
 					ans.add(Either.right(key));
 				}
 			} else {
-				ResourceLocation rl = getRL(str);
+				ResourceLocation rl = ResourceLocation.tryParse(str);
 				if (rl == null) continue;
-				if (!ForgeRegistries.ENTITY_TYPES.containsKey(rl)) continue;
-				var type = ForgeRegistries.ENTITY_TYPES.getValue(rl);
-				if (type != null) {
-					ans.add(Either.left(type));
-				}
+				if (!BuiltInRegistries.ENTITY_TYPE.containsKey(rl)) continue;
+				var type = BuiltInRegistries.ENTITY_TYPE.get(rl);
+				ans.add(Either.left(type));
 			}
 		}
 		return ans;
 	}
 
-	@Nullable
-	private static ResourceLocation getRL(String str) {
-		try {
-			return new ResourceLocation(str);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
 	public static void setList(ItemStack stack, List<Either<EntityType<?>, TagKey<EntityType<?>>>> list) {
-		var tag = ItemCompoundTag.of(stack).getSubList(KEY, Tag.TAG_STRING).getOrCreate();
-		tag.clear();
-		for (var e : list) {
-			e.map(l -> Optional.ofNullable(ForgeRegistries.ENTITY_TYPES.getKey(l)).map(ResourceLocation::toString),
-					r -> Optional.of("#" + r.location())).map(StringTag::valueOf).ifPresent(tag::add);
-		}
+		GolemItems.DC_FILTER_NAME.set(stack, list.stream().map(e -> e.map(
+				l -> BuiltInRegistries.ENTITY_TYPE.getKey(l).toString(),
+				r -> "#" + r.location()
+		)).toList());
 	}
 
 	public NameFilterCard(Properties properties) {

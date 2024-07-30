@@ -1,8 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
-import dev.xkmc.l2complements.content.enchantment.legacy.IceBladeEnchantment;
 import dev.xkmc.l2complements.init.registrate.LCEnchantments;
-import dev.xkmc.l2core.init.reg.ench.LegacyEnchantment;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -21,13 +19,13 @@ public class FreezingModifier extends GolemModifier {
 
 	@Override
 	public void postHurtTarget(AbstractGolemEntity<?, ?> entity, DamageData.DefenceMax event, int level) {
-		IceBladeEnchantment.doPostAttack(entity, event.getEntity(), level);
+		LCEnchantments.FREEZING_BLADE.legacy().get().onAttack(entity, event.getTarget(), level);
 	}
 
 	@Override
 	public void postDamaged(AbstractGolemEntity<?, ?> entity, DamageData.DefenceMax event, int level) {
 		if (event.getSource().getDirectEntity() instanceof LivingEntity attacker)
-			LCEnchantments.ICE_THORN.get().doPostHurt(entity, attacker, level);
+			LCEnchantments.FREEZING_THORN.legacy().get().onDamage(entity, attacker, level);
 	}
 
 	@Override

@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:teleport"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_void_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "modulargolems:empty_upgrade"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_void_eye"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:teleport"
+    ]
+  }
+}

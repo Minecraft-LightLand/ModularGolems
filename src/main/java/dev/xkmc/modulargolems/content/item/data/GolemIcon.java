@@ -8,7 +8,7 @@ public record GolemIcon(ArrayList<ItemStack> list) {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj.getClass() != GolemIcon.class) return false;
+		if (obj == null || obj.getClass() != GolemIcon.class) return false;
 		return hashCode() == obj.hashCode(); //Not really needed as it's display only
 	}
 

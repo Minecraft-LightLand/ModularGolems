@@ -1,0 +1,33 @@
+{
+  "parent": "modulargolems:golems/craft",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#modulargolems:upgrades"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.upgrade.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "modulargolems:empty_upgrade"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.upgrade.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

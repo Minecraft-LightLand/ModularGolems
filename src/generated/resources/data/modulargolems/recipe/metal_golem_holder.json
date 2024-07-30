@@ -1,0 +1,23 @@
+{
+  "type": "l2complements:golem_assemble",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_arm"
+    },
+    "B": {
+      "item": "modulargolems:metal_golem_body"
+    },
+    "L": {
+      "item": "modulargolems:metal_golem_legs"
+    }
+  },
+  "pattern": [
+    "ABA",
+    " L "
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:metal_golem_holder"
+  }
+}

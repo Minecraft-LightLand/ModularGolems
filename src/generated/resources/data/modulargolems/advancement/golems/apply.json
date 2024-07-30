@@ -1,0 +1,30 @@
+{
+  "parent": "modulargolems:golems/start",
+  "criteria": {
+    "0": {
+      "conditions": {},
+      "trigger": "modulargolems:part_craft"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.apply.description"
+    },
+    "icon": {
+      "components": {
+        "modulargolems:part_material": "modulargolems:iron"
+      },
+      "count": 1,
+      "id": "modulargolems:metal_golem_body"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.apply.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "B": {
+      "item": "minecraft:redstone"
+    },
+    "I": {
+      "item": "minecraft:iron_chestplate"
+    }
+  },
+  "pattern": [
+    "IAI",
+    "III",
+    "BIB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:roman_guard_chestplate"
+  }
+}

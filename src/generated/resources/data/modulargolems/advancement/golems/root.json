@@ -1,0 +1,57 @@
+{
+  "criteria": {
+    "0": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:clay_ball"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "modulargolems:textures/gui/advancements/backgrounds/golems.png",
+    "description": {
+      "translate": "advancements.modulargolems.golems.root.description"
+    },
+    "icon": {
+      "components": {
+        "modulargolems:golem_materials": {
+          "parts": [
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:metal_golem_arm"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:metal_golem_body"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:metal_golem_arm"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:metal_golem_legs"
+            }
+          ]
+        }
+      },
+      "count": 1,
+      "id": "modulargolems:metal_golem_holder"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.modulargolems.golems.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

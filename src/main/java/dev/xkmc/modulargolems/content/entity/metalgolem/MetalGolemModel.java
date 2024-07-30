@@ -83,17 +83,17 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		}
 	}
 
-	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
+	public void renderToBufferInternal(MetalGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j) {
 		if (type == MetalGolemPartType.BODY) {
-			this.body.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.head.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.body.render(stack, consumer, i, j);
+			this.head.render(stack, consumer, i, j);
 		} else if (type == MetalGolemPartType.LEFT) {
-			this.leftArm.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.leftArm.render(stack, consumer, i, j);
 		} else if (type == MetalGolemPartType.RIGHT) {
-			this.rightArm.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.rightArm.render(stack, consumer, i, j);
 		} else if (type == MetalGolemPartType.LEG) {
-			this.leftLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.rightLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.leftLeg.render(stack, consumer, i, j);
+			this.rightLeg.render(stack, consumer, i, j);
 		}
 	}
 

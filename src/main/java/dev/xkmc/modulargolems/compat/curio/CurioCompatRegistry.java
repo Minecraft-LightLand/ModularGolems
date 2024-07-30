@@ -81,11 +81,11 @@ public class CurioCompatRegistry {
 
 	public void registerImpl() {
 		menuType = ModularGolems.REGISTRATE.menu("golem_curios", GolemCuriosListMenu::fromNetwork, () -> GolemCuriosListScreen::new).register();
+		tab = GolemTabRegistry.TAB_REG.reg("curios", () -> GolemTabRegistry.EQUIPMENTS.registerTab(
+				() -> GolemCurioTab::new, L2TabsLangData.CURIOS.get()));
 	}
 
 	public void clientRegisterImpl() {
-		tab = GolemTabRegistry.TAB_REG.reg("curios", () -> GolemTabRegistry.EQUIPMENTS.registerTab(
-				() -> GolemCurioTab::new, L2TabsLangData.CURIOS.get()));
 	}
 
 	private void onJEIRegistryImpl(Consumer<Class<? extends ITabScreen>> consumer) {

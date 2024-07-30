@@ -53,8 +53,8 @@ public class LCDispatch extends ModDispatch {
 				.define('C', Items.GOLD_INGOT)
 				.define('A', LCItems.HARD_ICE.get())
 				.define('B', GolemItems.EMPTY_UPGRADE.get())
-				.define('1', EnchantmentIngredient.of(pvd.getProvider(), LCEnchantments.ICE_THORN.id(), 1))
-				.define('2', EnchantmentIngredient.of(pvd.getProvider(), LCEnchantments.ICE_BLADE.id(), 1))
+				.define('1', EnchantmentIngredient.of(pvd.getProvider(), LCEnchantments.FREEZING_THORN.id(), 1))
+				.define('2', EnchantmentIngredient.of(pvd.getProvider(), LCEnchantments.FREEZING_BLADE.id(), 1))
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LCCompatRegistry.FLAME_UP.get())::unlockedBy, LCItems.SOUL_FLAME.get())

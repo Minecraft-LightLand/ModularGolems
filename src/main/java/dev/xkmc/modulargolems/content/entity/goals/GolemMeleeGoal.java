@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.NetheriteMonstrosityEarthquakeModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -62,7 +61,8 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	}
 
 	public boolean canReachTarget(LivingEntity le) {
-		return getAttackReachSqr(le) >= mob.getPerceivedTargetDistanceSquareForMeleeAttack(le);
+		golem.isWithinMeleeAttackRange(le);
+		return getAttackReachSqr(le) >= golem.getPerceivedTargetDistanceSquareForMeleeAttack(le);
 	}
 
 	@Override
@@ -74,7 +74,8 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	}
 
 	@Override
-	protected void checkAndPerformAttack(LivingEntity target, double distSqr) {
+	protected void checkAndPerformAttack(LivingEntity target) {
+		double distSqr = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
 		if (isTimeToAttack()) {
 			double dist = Math.sqrt(distSqr);
 			if (dist < lastDist - getTargetDistanceDelta()) {
@@ -101,11 +102,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 				if (earthQuake) {
 					earthQuake = false;
 					resetAttackCooldown();
-					NetheriteMonstrosityEarthquakeModifier.performEarthQuake(golem);
+					//TODO NetheriteMonstrosityEarthquakeModifier.performEarthQuake(golem);
 					return;
 				} else {
 					double d0 = this.getAttackReachSqr(target);
-					if (d0 < distSqr && distSqr <= d0 + NetheriteMonstrosityEarthquakeModifier.RANGE) {
+					if (d0 < distSqr && distSqr <= d0  /*TODO + NetheriteMonstrosityEarthquakeModifier.RANGE*/) {
 						golem.addDeltaMovement(new Vec3(0, 1, 0));
 						golem.hasImpulse = true;
 						earthQuake = true;
@@ -115,7 +116,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 			}
 		}
 		if (earthQuake && !golem.onGround()) return;
-		super.checkAndPerformAttack(target, distSqr);
+		super.checkAndPerformAttack(target);
 	}
 
 }

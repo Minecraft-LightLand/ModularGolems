@@ -87,26 +87,23 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity> implements I
 		}
 	}
 
-	public void renderToBufferInternal(DogGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
+	public void renderToBufferInternal(DogGolemPartType type, PoseStack stack, VertexConsumer consumer, int light, int overlay) {
 		if (type == DogGolemPartType.BODY) {
-			this.body.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.head.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.upperBody.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.tail.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.body.render(stack, consumer, light, overlay);
+			this.head.render(stack, consumer, light, overlay);
+			this.upperBody.render(stack, consumer, light, overlay);
+			this.tail.render(stack, consumer, light, overlay);
 		} else if (type == DogGolemPartType.LEGS) {
-			this.leftHindLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.rightHindLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.leftFrontLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.rightFrontLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.leftHindLeg.render(stack, consumer, light, overlay);
+			this.rightHindLeg.render(stack, consumer, light, overlay);
+			this.leftFrontLeg.render(stack, consumer, light, overlay);
+			this.rightFrontLeg.render(stack, consumer, light, overlay);
 		}
 	}
 
 	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
-		String id = rl.getNamespace();
-		String mat = rl.getPath();
-		return new ResourceLocation(id, "textures/entity/dog_golem/" + mat + ".png");
+		return rl.withPath(e -> "textures/entity/dog_golem/" + e + ".png");
 	}
-
 
 	protected Iterable<ModelPart> headParts() {
 		return ImmutableList.of(this.head);

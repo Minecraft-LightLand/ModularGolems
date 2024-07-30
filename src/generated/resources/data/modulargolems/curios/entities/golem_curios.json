@@ -1,16 +1,15 @@
 {
-  "conditions": [],
   "entities": [
-    "modulargolems:metal_golem",
+    "modulargolems:dog_golem",
     "modulargolems:humanoid_golem",
-    "modulargolems:dog_golem"
+    "modulargolems:metal_golem"
   ],
   "slots": [
     "head",
-    "back",
-    "ring",
-    "charm",
     "hands",
+    "charm",
+    "ring",
+    "back",
     "golem_route"
   ]
 }

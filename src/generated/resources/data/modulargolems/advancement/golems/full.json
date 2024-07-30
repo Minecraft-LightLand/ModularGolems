@@ -1,0 +1,30 @@
+{
+  "parent": "modulargolems:golems/upgrade",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "remain": 0,
+        "total": -1
+      },
+      "trigger": "modulargolems:upgrade_apply"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.full.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "modulargolems:empty_upgrade"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.full.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

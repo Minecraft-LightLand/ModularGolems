@@ -1,0 +1,26 @@
+{
+  "parent": "modulargolems:golems/anvil_fix",
+  "criteria": {
+    "0": {
+      "trigger": "modulargolems:hot_fix"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.hot_fix.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:iron_ingot"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.hot_fix.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_humanoid_golem_body": {
+      "conditions": {
+        "items": [
+          {
+            "items": "modulargolems:humanoid_golem_body"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:dog_golem_holder"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_humanoid_golem_body"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:dog_golem_holder"
+    ]
+  }
+}

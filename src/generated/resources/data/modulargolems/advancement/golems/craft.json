@@ -1,0 +1,55 @@
+{
+  "parent": "modulargolems:golems/apply",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#modulargolems:holders"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.craft.description"
+    },
+    "icon": {
+      "components": {
+        "modulargolems:golem_materials": {
+          "parts": [
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:metal_golem_arm"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:metal_golem_body"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:metal_golem_arm"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:metal_golem_legs"
+            }
+          ]
+        }
+      },
+      "count": 1,
+      "id": "modulargolems:metal_golem_holder"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.craft.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

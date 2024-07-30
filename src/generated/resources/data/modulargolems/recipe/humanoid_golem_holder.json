@@ -1,0 +1,24 @@
+{
+  "type": "l2complements:golem_assemble",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "modulargolems:humanoid_golem_body"
+    },
+    "B": {
+      "item": "modulargolems:humanoid_golem_arms"
+    },
+    "C": {
+      "item": "modulargolems:humanoid_golem_legs"
+    }
+  },
+  "pattern": [
+    "A",
+    "B",
+    "C"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:humanoid_golem_holder"
+  }
+}

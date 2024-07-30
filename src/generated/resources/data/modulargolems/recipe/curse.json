@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "1": {
+      "type": "l2core:enchantment",
+      "enchantment": "l2complements:cursed_blade",
+      "minLevel": 1
+    },
+    "2": {
+      "item": "minecraft:nether_star"
+    },
+    "A": {
+      "item": "l2complements:cursed_droplet"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "item": "minecraft:dragon_breath"
+    }
+  },
+  "pattern": [
+    "A1A",
+    "CBC",
+    "A2A"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:curse"
+  }
+}

@@ -24,27 +24,27 @@ public class GolemTabRegistry {
 
 	public static final Val<TabToken<ConfigGroup, ConfigToggleTab>> CONFIG_TOGGLE =
 			TAB_REG.reg("toggles", () -> CONFIG.registerTab(
-					() -> ConfigToggleTab::new, MGLangData.TAB_TOGGLE.get())); //TODO 0, GolemItems.CARD[0]::get,
+					() -> ConfigToggleTab::new, MGLangData.TAB_TOGGLE.get()));
 
 	public static final Val<TabToken<ConfigGroup, ConfigItemTab>> CONFIG_ITEM =
 			TAB_REG.reg("item_filter", () -> CONFIG.registerTab(
-					() -> ConfigItemTab::new, MGLangData.TAB_PICKUP.get()));//TODO 1, () -> Items.HOPPER
+					() -> ConfigItemTab::new, MGLangData.TAB_PICKUP.get()));
 
 	public static final Val<TabToken<ConfigGroup, ConfigTargetTab>> CONFIG_TARGET =
 			TAB_REG.reg("target_filter", () -> CONFIG.registerTab(
-					() -> ConfigTargetTab::new, MGLangData.TAB_TARGET.get())); //TODO 2, () -> Items.BELL,
+					() -> ConfigTargetTab::new, MGLangData.TAB_TARGET.get()));
 
 	public static final Val<TabToken<ConfigGroup, ConfigPathTab>> CONFIG_PATH =
 			TAB_REG.reg("path", () -> CONFIG.registerTab(
-					() -> ConfigPathTab::new, MGLangData.TAB_PATH.get()));//TODO 3, () -> Items.DIRT_PATH,
+					() -> ConfigPathTab::new, MGLangData.TAB_PATH.get()));
 
 	public static final Val<TabToken<EquipmentGroup, EquipmentTab>> EQUIPMENT =
 			TAB_REG.reg("equipment", () -> EQUIPMENTS.registerTab(
-					() -> EquipmentTab::new, MGLangData.TAB_EQUIPMENT.get()));//TODO 0, () -> Items.DIAMOND_CHESTPLATE,
+					() -> EquipmentTab::new, MGLangData.TAB_EQUIPMENT.get()));
 
 	public static final Val<TabToken<EquipmentGroup, AttributeTab>> ATTRIBUTE =
-			TAB_REG.reg("curios", () -> EQUIPMENTS.registerTab(
-					() -> AttributeTab::new, MGLangData.TAB_ATTRIBUTE.get()));//TODO 1, () -> Items.IRON_SWORD,
+			TAB_REG.reg("attribute", () -> EQUIPMENTS.registerTab(
+					() -> AttributeTab::new, MGLangData.TAB_ATTRIBUTE.get()));
 
 	public static void register() {
 	}

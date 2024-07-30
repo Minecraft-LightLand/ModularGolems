@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "1": {
+      "item": "modulargolems:command_wand"
+    },
+    "2": {
+      "item": "modulargolems:summon_wand"
+    },
+    "3": {
+      "item": "modulargolems:retrieval_wand"
+    },
+    "4": {
+      "item": "modulargolems:rider_wand"
+    },
+    "S": {
+      "item": "minecraft:gold_ingot"
+    },
+    "T": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    " 1T",
+    "2S3",
+    "S4 "
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:omnipotent_wand_command"
+  }
+}

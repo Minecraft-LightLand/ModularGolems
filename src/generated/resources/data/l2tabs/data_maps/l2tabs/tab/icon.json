@@ -1,0 +1,10 @@
+{
+  "values": {
+    "modulargolems:attribute": "minecraft:iron_sword",
+    "modulargolems:equipment": "minecraft:diamond_chestplate",
+    "modulargolems:item_filter": "minecraft:hopper",
+    "modulargolems:path": "minecraft:dirt_path",
+    "modulargolems:target_filter": "minecraft:bell",
+    "modulargolems:toggles": "modulargolems:white_config_card"
+  }
+}

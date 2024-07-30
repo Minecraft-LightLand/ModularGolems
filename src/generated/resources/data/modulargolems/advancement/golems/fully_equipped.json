@@ -1,0 +1,76 @@
+{
+  "parent": "modulargolems:golems/humanoid",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "minimum": 6
+      },
+      "trigger": "modulargolems:equip"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.fully_equipped.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "components": {
+        "modulargolems:golem_as_icon": {
+          "list": [
+            {
+              "count": 1,
+              "id": "minecraft:diamond_helmet"
+            },
+            {
+              "count": 1,
+              "id": "minecraft:diamond_chestplate"
+            },
+            {
+              "count": 1,
+              "id": "minecraft:diamond_leggings"
+            },
+            {
+              "count": 1,
+              "id": "minecraft:diamond_boots"
+            },
+            {
+              "count": 1,
+              "id": "minecraft:diamond_sword"
+            },
+            {
+              "count": 1,
+              "id": "minecraft:shield"
+            }
+          ]
+        },
+        "modulargolems:golem_materials": {
+          "parts": [
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:humanoid_golem_body"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:humanoid_golem_arms"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:humanoid_golem_legs"
+            }
+          ]
+        }
+      },
+      "count": 1,
+      "id": "modulargolems:humanoid_golem_holder"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.fully_equipped.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -4,11 +4,13 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -81,7 +83,7 @@ public class CraftEventListeners {
 		if (event.getTopItem().getItem() instanceof GolemHolder) {
 			ItemStack copy = event.getTopItem().copy();
 			if (!GolemHolder.getUpgrades(copy).isEmpty()) {
-				copy.getOrCreateTag().remove(GolemHolder.KEY_UPGRADES);
+				GolemUpgrade.removeAll(copy);
 				event.setOutput(copy);
 				event.setXp(0);
 			}
@@ -90,7 +92,8 @@ public class CraftEventListeners {
 
 	private static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void fixGolem(AnvilUpdateEvent event, GolemHolder<T, P> holder, ItemStack stack) {
-		if (stack.getTag() == null || !stack.getTag().contains(GolemHolder.KEY_ENTITY)) return;
+		var data = GolemItems.ENTITY.get(stack);
+		if (data == null) return;
 		float max = GolemHolder.getMaxHealth(stack);
 		float health = GolemHolder.getHealth(stack);
 		if (health >= max) return;

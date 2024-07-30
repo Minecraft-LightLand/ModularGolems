@@ -34,6 +34,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.NeoForge;
@@ -136,11 +137,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public void setChargingCrossbow(boolean pIsCharging) {
 		this.entityData.set(IS_CHARGING_CROSSBOW, pIsCharging);
-	}
-
-	@Override
-	public void shootCrossbowProjectile(LivingEntity pTarget, ItemStack pCrossbowStack, Projectile pProjectile, float pProjectileAngle) {
-		shootCrossbowProjectile(this, pTarget, pProjectile, pProjectileAngle, 1.6F);
 	}
 
 	public void shootCrossbowProjectile(LivingEntity pUser, LivingEntity pTarget, Projectile pProjectile, float pProjectileAngle, float pVelocity) {
@@ -316,8 +312,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	@Override
-	public double getMyRidingOffset() {
-		return -0.35;
+	protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
+		return super.getPassengerAttachmentPoint(entity, dimensions, partialTick);//TODO
 	}
 
 	// ------ player equipment hurt
@@ -332,7 +328,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
 			ItemStack itemstack = this.getItemBySlot(slot);
-			if ((!source.is(DamageTypeTags.IS_FIRE) || !itemstack.getItem().isFireResistant()) && itemstack.getItem() instanceof ArmorItem) {
+			if ((!source.is(DamageTypeTags.IS_FIRE) || !itemstack.getItem().canBeHurtBy(itemstack, source)) && itemstack.getItem() instanceof ArmorItem) {
 				itemstack.hurtAndBreak((int) damage, this, slot);
 			}
 		}

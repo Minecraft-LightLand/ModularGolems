@@ -1,8 +1,5 @@
 package dev.xkmc.modulargolems.content.client.outline;
 
-import com.simibubi.create.CreateClient;
-import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
-import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +19,7 @@ public class BlockOutliner {
 		float time = (level.getGameTime() + Minecraft.getInstance().getTimer().getRealtimeDeltaTicks()) / 40f % 2 - 1;
 		for (var pos : selection) {
 			VoxelShape shape = Shapes.block();
-			CreateClient.OUTLINER.showAABB(point, shape.bounds().move(pos)).colored(pre == null ? 0x7fff7f : 8375776).lineWidth(0.0625F);
+			//TODO CreateClient.OUTLINER.showAABB(point, shape.bounds().move(pos)).colored(pre == null ? 0x7fff7f : 8375776).lineWidth(0.0625F);
 			if (pre != null) {
 				line(pre, pos, time);
 			} else first = pos;
@@ -32,8 +29,7 @@ public class BlockOutliner {
 	}
 
 	private static void line(BlockPos a, BlockPos b, float time) {
-		CreateClient.OUTLINER.endChasingLine(Pair.of(a, b), (time > 0 ? a : b).getCenter(), (time > 0 ? b : a).getCenter(), Math.abs(time), false)
-				.colored(8375776).lineWidth(0.0625F);
+		//TODO CreateClient.OUTLINER.endChasingLine(Pair.of(a, b), (time > 0 ? a : b).getCenter(), (time > 0 ? b : a).getCenter(), Math.abs(time), false).colored(8375776).lineWidth(0.0625F);
 	}
 
 }

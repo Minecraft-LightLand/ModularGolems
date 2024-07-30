@@ -1,0 +1,20 @@
+{
+  "type": "l2complements:golem_assemble",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "modulargolems:dog_golem_body"
+    },
+    "B": {
+      "item": "modulargolems:dog_golem_legs"
+    }
+  },
+  "pattern": [
+    "A",
+    "B"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:dog_golem_holder"
+  }
+}

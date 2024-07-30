@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "cataclysm:item/upgrades/netherite_monstrosity_earthquake",
-    "layer1": "modulargolems:item/blue_arrow"
-  }
-}

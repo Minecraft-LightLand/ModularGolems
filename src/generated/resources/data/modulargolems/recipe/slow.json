@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:dragon_breath"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "item": "minecraft:fermented_spider_eye"
+    },
+    "D": {
+      "item": "minecraft:redstone"
+    },
+    "E": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "CDC",
+    "ABA",
+    "EDE"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:slow"
+  }
+}

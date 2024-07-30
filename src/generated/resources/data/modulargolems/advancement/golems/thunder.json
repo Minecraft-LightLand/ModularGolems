@@ -1,0 +1,27 @@
+{
+  "parent": "modulargolems:golems/craft",
+  "criteria": {
+    "0": {
+      "trigger": "modulargolems:thunder"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.thunder.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:lightning_rod"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.thunder.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

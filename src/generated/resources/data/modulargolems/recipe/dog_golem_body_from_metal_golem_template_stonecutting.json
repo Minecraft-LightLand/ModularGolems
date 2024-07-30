@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "modulargolems:metal_golem_template"
+  },
+  "result": {
+    "count": 1,
+    "id": "modulargolems:dog_golem_body"
+  }
+}

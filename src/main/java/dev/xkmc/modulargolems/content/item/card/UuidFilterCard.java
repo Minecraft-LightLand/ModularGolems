@@ -1,20 +1,14 @@
 package dev.xkmc.modulargolems.content.item.card;
 
-import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class UuidFilterCard extends ClickEntityFilterCard<UUID> {
 
@@ -35,28 +29,18 @@ public class UuidFilterCard extends ClickEntityFilterCard<UUID> {
 	}
 
 	public List<UUID> getList(ItemStack stack) {
-		var tag = stack.getTag();
-		List<UUID> ans = new ArrayList<>();
-		if (tag == null || !tag.contains(KEY)) return ans;
-		for (var e : tag.getList(KEY, Tag.TAG_INT_ARRAY)) {
-			ans.add(NbtUtils.loadUUID(e));
-		}
-		return ans;
+		return new ArrayList<>(GolemItems.DC_FILTER_UUID.getOrDefault(stack, Set.of()));
 	}
 
 	public void setList(ItemStack stack, List<UUID> list) {
-		var tag = ItemCompoundTag.of(stack).getSubList(KEY, Tag.TAG_INT_ARRAY)
-				.getOrCreate();
-		tag.clear();
-		for (var uuid : list) {
-			tag.add(NbtUtils.createUUID(uuid));
-		}
+		if (list.isEmpty()) stack.remove(GolemItems.DC_FILTER_UUID);
+		else GolemItems.DC_FILTER_UUID.set(stack, new LinkedHashSet<>(list));
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		var ids = getList(stack);
-		if (ids.size() > 0 && !Screen.hasShiftDown()) {
+		if (!ids.isEmpty() && !Screen.hasShiftDown()) {
 			for (var e : ids) {
 				list.add(getName(e));
 			}

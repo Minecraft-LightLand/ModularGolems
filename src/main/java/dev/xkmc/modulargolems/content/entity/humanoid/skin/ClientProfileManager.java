@@ -1,10 +1,9 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.skin;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 
@@ -20,13 +19,12 @@ public class ClientProfileManager {
 	public static SpecialRenderProfile get(String name) {
 		var profile = getProfile(name);
 		if (profile == null) return null;
-		var skins = Minecraft.getInstance().getSkinManager();
-		var skin = skins.getInsecureSkinInformation(profile).get(MinecraftProfileTexture.Type.SKIN);
-		if (skin == null) return null;
-		var skinModel = skin.getMetadata("model");
-		boolean slim = skinModel != null && skinModel.equals("slim");
-		ResourceLocation texture = skins.getInsecureSkinLocation(profile);
-		if (texture.equals(new ResourceLocation("missingno")))
+		SkinManager skins = Minecraft.getInstance().getSkinManager();
+		PlayerSkin skin = skins.getInsecureSkin(profile);
+		PlayerSkin.Model skinModel = skin.model();
+		boolean slim = skinModel == PlayerSkin.Model.SLIM;
+		ResourceLocation texture = skins.getInsecureSkin(profile).texture();
+		if (texture.equals(ResourceLocation.withDefaultNamespace("missingno")))
 			return null;
 		return new SpecialRenderProfile(slim, texture);
 	}
@@ -35,7 +33,7 @@ public class ClientProfileManager {
 	private static GameProfile getProfile(String name) {
 		if (!CACHE.containsKey(name)) {
 			CACHE.put(name, null);
-			SkullBlockEntity.updateGameprofile(new GameProfile(null, name), e -> CACHE.put(name, e));
+			SkullBlockEntity.fetchGameProfile(name).thenAccept(x -> x.ifPresent(e -> CACHE.put(name, e)));
 		}
 		return CACHE.get(name);
 	}

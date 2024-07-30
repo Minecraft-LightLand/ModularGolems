@@ -1,0 +1,33 @@
+{
+  "parent": "modulargolems:golems/apply",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "rl": "modulargolems:sculk"
+      },
+      "trigger": "modulargolems:part_craft"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.apply_sculk.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "components": {
+        "modulargolems:part_material": "modulargolems:sculk"
+      },
+      "count": 1,
+      "id": "modulargolems:metal_golem_body"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.apply_sculk.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

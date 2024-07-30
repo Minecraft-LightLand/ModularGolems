@@ -1,0 +1,30 @@
+{
+  "parent": "modulargolems:golems/sponge",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "type": "minecraft:creeper"
+      },
+      "trigger": "modulargolems:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.kill_creeper.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:tnt"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.kill_creeper.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

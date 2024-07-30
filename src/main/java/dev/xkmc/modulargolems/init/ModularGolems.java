@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init;
 
 import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2complements.init.L2Complements;
+import dev.xkmc.l2complements.init.registrate.LCEnchantments;
 import dev.xkmc.l2core.init.L2TagGen;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.simple.Reg;
@@ -28,7 +29,9 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -73,12 +76,6 @@ public class ModularGolems {
 		GolemTriggers.register();
 		GolemModes.register();
 		CurioCompatRegistry.register();
-		REGISTRATE.addDataGenerator(ProviderType.LANG, MGLangData::genLang);
-		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
-		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, MGTagGen::onBlockTagGen);
-		REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, MGTagGen::onItemTagGen);
-		REGISTRATE.addDataGenerator(ProviderType.ENTITY_TAGS, MGTagGen::onEntityTagGen);
-		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, MGAdvGen::genAdvancements);
 		AttackEventHandler.register(3500, new GolemAttackListener());
 	}
 
@@ -97,8 +94,18 @@ public class ModularGolems {
 		});
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void gatherData(GatherDataEvent event) {
+
+		REGISTRATE.addDataGenerator(ProviderType.LANG, MGLangData::genLang);
+		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
+		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, MGTagGen::onBlockTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, MGTagGen::onItemTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ENTITY_TAGS, MGTagGen::onEntityTagGen);
+		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, MGAdvGen::genAdvancements);
+		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP,MGDataMapGen::genDataMap);
+
+
 		var gen = event.getGenerator();
 		var pvd = event.getLookupProvider();
 		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(gen, pvd));
@@ -107,6 +114,10 @@ public class ModularGolems {
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			REGISTRATE.addDataGenerator(L2TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
 		}
+		var init = REGISTRATE.getDataGenInitializer();
+		init.add(Registries.ENCHANTMENT, LCEnchantments.REG::build);// fill registry
+		init.addDependency(L2TagGen.ENCH_TAGS, ProviderType.DYNAMIC);
+		init.addDependency(ProviderType.RECIPE, L2TagGen.ENCH_TAGS);
 	}
 
 }

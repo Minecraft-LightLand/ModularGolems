@@ -106,7 +106,7 @@ repositories {
         dirs 'libs'
     }
     maven { // Registrate
-        url "https://maven.tterrag.com/"
+        url "https://maven.ithundxr.dev/snapshots"
     }
     maven {
         url = "https://maven.theillusivec4.top/"

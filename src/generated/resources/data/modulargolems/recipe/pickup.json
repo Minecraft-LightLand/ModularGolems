@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:hopper"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "item": "minecraft:lava_bucket"
+    },
+    "D": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "DBD",
+    " C "
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:pickup"
+  }
+}

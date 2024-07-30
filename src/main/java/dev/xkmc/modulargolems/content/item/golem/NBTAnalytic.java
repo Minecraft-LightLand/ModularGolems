@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.golem;
 
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -10,18 +11,14 @@ import java.util.List;
 public class NBTAnalytic {
 
 	public static void analyze(ItemStack stack, List<Component> list) {
-		var root = stack.getTag();
+		var root = GolemItems.ENTITY.get(stack);
 		if (root == null) return;
-
-		list.add(log(root, "NBT"));
-		if (root.contains(GolemHolder.KEY_ENTITY)) {
-			var entity = root.getCompound(GolemHolder.KEY_ENTITY);
-			list.add(log(entity, "entity NBT"));
-			list.add(log(entity, "equipment", "ArmorItems", "HandItems"));
-			list.add(log(entity, "golem data", "auto-serial"));
-			list.add(log(entity, "Capability", "ForgeCaps"));
-			list.add(log(entity, "Attribute", "Attributes"));
-		}
+		var entity = root.getUnsafe();
+		list.add(log(entity, "entity NBT"));
+		list.add(log(entity, "equipment", "ArmorItems", "HandItems"));
+		list.add(log(entity, "golem data", "auto-serial"));
+		list.add(log(entity, "Capability", "ForgeCaps"));
+		list.add(log(entity, "Attribute", "Attributes"));
 	}
 
 	private static Component log(CompoundTag root, String name, String... key) {

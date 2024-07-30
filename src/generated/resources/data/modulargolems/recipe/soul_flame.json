@@ -1,0 +1,40 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "1": {
+      "type": "l2core:enchantment",
+      "enchantment": "l2complements:hellfire_thorn",
+      "minLevel": 1
+    },
+    "2": {
+      "type": "l2core:enchantment",
+      "enchantment": "l2complements:hellfire_blade",
+      "minLevel": 1
+    },
+    "A": {
+      "item": "l2complements:soul_flame"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "1B2",
+    "CAC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:soul_flame"
+  }
+}

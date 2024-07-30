@@ -1,0 +1,30 @@
+{
+  "parent": "modulargolems:golems/swim",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "type": "minecraft:guardian"
+      },
+      "trigger": "modulargolems:kill"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.kill_guardian.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:prismarine_shard"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.kill_guardian.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

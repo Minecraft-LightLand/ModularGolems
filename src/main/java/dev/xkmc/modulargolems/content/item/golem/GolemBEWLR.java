@@ -94,7 +94,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		M model = Wrappers.cast(map.get(type.getRegistryName()));
 		RenderType render = model.renderType(model.getTextureLocationInternal(id));
 		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), render, false, handle.stack().hasFoil());
-		model.renderToBufferInternal(part, handle.poseStack(), vc, handle.light(), handle.overlay(), 1.0F, 1.0F, 1.0F, 1.0F);
+		model.renderToBufferInternal(part, handle.poseStack(), vc, handle.light(), handle.overlay());
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> boolean renderEntity(BEWLRHandle handle, GolemHolder<T, P> item) {

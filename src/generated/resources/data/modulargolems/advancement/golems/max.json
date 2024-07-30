@@ -1,0 +1,31 @@
+{
+  "parent": "modulargolems:golems/full",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "remain": -1,
+        "total": 12
+      },
+      "trigger": "modulargolems:upgrade_apply"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.max.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "modulargolems:talented"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.max.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

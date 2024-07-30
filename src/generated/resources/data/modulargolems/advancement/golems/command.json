@@ -1,0 +1,33 @@
+{
+  "parent": "modulargolems:golems/craft",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "items": [
+          {
+            "items": "modulargolems:command_wand"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.command.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "modulargolems:command_wand"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.command.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

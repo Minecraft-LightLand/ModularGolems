@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -21,7 +22,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -41,17 +41,19 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
+		if (!(level() instanceof ServerLevel sl)) return false;
+		var source = level().damageSources().mobAttack(this);
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
-			damage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), le.getMobType());
-			kb += (float) EnchantmentHelper.getKnockbackBonus(this);
+			damage = EnchantmentHelper.modifyDamage(sl, this.getWeaponItem(), target, source, damage);
+			kb += getKnockback(target, source);
 		}
-		boolean succeed = target.hurt(level().damageSources().mobAttack(this), damage);
+		boolean succeed = target.hurt(source, damage);
 		if (succeed) {
 			double d1 = Math.max(0.0D, 1.0D - kb);
 			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;
-			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, dokb * d1, 0.0D));
-			this.doEnchantDamageEffects(this, target);
+			target.setDeltaMovement(target.getDeltaMovement().add(0, dokb * d1, 0));
+			EnchantmentHelper.doPostAttackEffects(sl, target, source);
 		}
 		return succeed;
 	}

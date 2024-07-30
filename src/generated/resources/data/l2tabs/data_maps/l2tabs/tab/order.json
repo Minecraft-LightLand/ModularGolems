@@ -1,0 +1,11 @@
+{
+  "values": {
+    "modulargolems:attribute": 10,
+    "modulargolems:curios": 20,
+    "modulargolems:equipment": 0,
+    "modulargolems:item_filter": 10,
+    "modulargolems:path": 30,
+    "modulargolems:target_filter": 20,
+    "modulargolems:toggles": 0
+  }
+}

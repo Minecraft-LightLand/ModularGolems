@@ -1,0 +1,51 @@
+{
+  "parent": "modulargolems:golems/apply",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "items": [
+          {
+            "items": "modulargolems:humanoid_golem_holder"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.humanoid.description"
+    },
+    "icon": {
+      "components": {
+        "modulargolems:golem_materials": {
+          "parts": [
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:humanoid_golem_body"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:humanoid_golem_arms"
+            },
+            {
+              "material": "modulargolems:iron",
+              "part": "modulargolems:humanoid_golem_legs"
+            }
+          ]
+        }
+      },
+      "count": 1,
+      "id": "modulargolems:humanoid_golem_holder"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.humanoid.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

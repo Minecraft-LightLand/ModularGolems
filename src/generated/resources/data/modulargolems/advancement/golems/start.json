@@ -1,0 +1,33 @@
+{
+  "parent": "modulargolems:golems/root",
+  "criteria": {
+    "0": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#modulargolems:parts"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.modulargolems.golems.start.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "modulargolems:metal_golem_body"
+    },
+    "title": {
+      "translate": "advancements.modulargolems.golems.start.title"
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

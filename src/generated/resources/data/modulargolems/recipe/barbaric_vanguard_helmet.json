@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "B": {
+      "item": "minecraft:quartz"
+    },
+    "I": {
+      "item": "minecraft:netherite_helmet"
+    }
+  },
+  "pattern": [
+    " B ",
+    "III",
+    "IAI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:barbaric_vanguard_helmet"
+  }
+}

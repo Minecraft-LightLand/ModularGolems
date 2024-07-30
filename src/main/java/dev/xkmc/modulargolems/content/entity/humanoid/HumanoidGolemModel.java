@@ -17,7 +17,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
 
 public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> implements
 		IGolemModel<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel>, IHeadedModel {
@@ -31,17 +31,17 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 	}
 
 	@Override
-	public void renderToBufferInternal(HumaniodGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
+	public void renderToBufferInternal(HumaniodGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j) {
 		if (type == HumaniodGolemPartType.BODY) {
-			this.body.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.head.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.hat.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.body.render(stack, consumer, i, j);
+			this.head.render(stack, consumer, i, j);
+			this.hat.render(stack, consumer, i, j);
 		} else if (type == HumaniodGolemPartType.ARMS) {
-			this.leftArm.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.rightArm.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.leftArm.render(stack, consumer, i, j);
+			this.rightArm.render(stack, consumer, i, j);
 		} else if (type == HumaniodGolemPartType.LEGS) {
-			this.leftLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
-			this.rightLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
+			this.leftLeg.render(stack, consumer, i, j);
+			this.rightLeg.render(stack, consumer, i, j);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 			pos = ArmPose.EMPTY;
 		}
 		if (entity.isBlocking()) {
-			if (entity.getMainHandItem().canPerformAction(ToolActions.SHIELD_BLOCK)) {
+			if (entity.getMainHandItem().canPerformAction(ItemAbilities.SHIELD_BLOCK)) {
 				pos = ArmPose.BLOCK;
 			} else {
 				anti_pos = ArmPose.BLOCK;

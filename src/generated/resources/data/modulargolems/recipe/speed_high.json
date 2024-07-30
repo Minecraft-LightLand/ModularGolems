@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "modulargolems:speed"
+    },
+    {
+      "item": "l2complements:captured_wind"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:speed_high"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "values": [
+    "modulargolems:fire_immune",
+    "modulargolems:thunder_immune",
+    "modulargolems:recycle",
+    "modulargolems:diamond",
+    "modulargolems:netherite",
+    "modulargolems:quartz",
+    "modulargolems:gold",
+    "modulargolems:enchanted_gold",
+    "modulargolems:float",
+    "modulargolems:sponge",
+    "modulargolems:swim",
+    "modulargolems:player",
+    "modulargolems:ender_sight",
+    "modulargolems:bell",
+    "modulargolems:speed",
+    "modulargolems:slow",
+    "modulargolems:weak",
+    "modulargolems:wither",
+    "modulargolems:emerald",
+    "modulargolems:pickup",
+    "modulargolems:pickup_mending",
+    "modulargolems:pickup_no_destroy",
+    "modulargolems:talented",
+    "modulargolems:cauldron",
+    "modulargolems:mount_upgrade",
+    "modulargolems:size_upgrade",
+    {
+      "id": "modulargolems:force_field",
+      "required": false
+    },
+    {
+      "id": "modulargolems:freezing",
+      "required": false
+    },
+    {
+      "id": "modulargolems:soul_flame",
+      "required": false
+    },
+    {
+      "id": "modulargolems:teleport",
+      "required": false
+    },
+    {
+      "id": "modulargolems:attack_high",
+      "required": false
+    },
+    {
+      "id": "modulargolems:speed_high",
+      "required": false
+    },
+    {
+      "id": "modulargolems:curse",
+      "required": false
+    },
+    {
+      "id": "modulargolems:incarcerate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:cleanse",
+      "required": false
+    }
+  ]
+}

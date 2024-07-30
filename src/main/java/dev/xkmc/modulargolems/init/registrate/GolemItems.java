@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.init.registrate;
 
+import com.mojang.serialization.Codec;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
@@ -8,6 +9,7 @@ import dev.xkmc.l2core.init.reg.simple.DCReg;
 import dev.xkmc.l2core.init.reg.simple.DCVal;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
+import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
@@ -34,8 +36,10 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
@@ -43,6 +47,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.CustomData;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -99,6 +105,9 @@ public class GolemItems {
 	public static final DCVal<GolemIcon> DC_ICON = DC.reg("golem_as_icon", GolemIcon.class, true);
 	public static final DCVal<Double> DC_DISP_HP = DC.doubleVal("display_health");
 	public static final DCVal<UUID> DC_OWNER = DC.uuid("owner");
+	public static final DCVal<Set<UUID>> DC_FILTER_UUID = DC.uuidSet("filter_uuid");
+	public static final DCVal<List<String>> DC_FILTER_NAME = DC.list("filter_name", Codec.STRING, ByteBufCodecs.STRING_UTF8, true);
+	public static final DCVal<List<EntityType<?>>> DC_FILTER_ENTITY = DC.list("filter_entity", Wrappers.cast(EntityType.class), true);
 	public static final DCVal<PathRecordCard.Pos> DC_PATH = DC.reg("path", PathRecordCard.Pos.class, true);
 
 	static {
