@@ -40,12 +40,6 @@ public abstract class AbstractGolemRenderer<
 		LIST.forEach(e -> this.addLayer(Wrappers.cast(e.apply(this))));
 	}
 
-	@Override
-	protected void scale(T entity, PoseStack pose, float f) {
-		float r = entity.getScale();
-		pose.scale(r, r, r);
-	}
-
 	public ResourceLocation getTextureLocation(T entity) {
 		return GOLEM_LOCATION;
 	}

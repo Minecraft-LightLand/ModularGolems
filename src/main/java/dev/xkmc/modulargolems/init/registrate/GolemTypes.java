@@ -113,7 +113,7 @@ public class GolemTypes {
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
-				.properties(e -> e.sized(0.85F, 0.6F)
+				.properties(e -> e.sized(0.6F, 0.85F)
 						.eyeHeight(0.68F)
 						.passengerAttachments(0.81875F)
 						.clientTrackingRange(10))

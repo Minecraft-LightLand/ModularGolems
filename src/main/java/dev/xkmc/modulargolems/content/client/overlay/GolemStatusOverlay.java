@@ -55,7 +55,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		int screenWidth = g.guiWidth();
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
-		float health =golem.getHealth();
+		float health = golem.getHealth();
 		float max = golem.getMaxHealth();
 		float f = Mth.clamp(health / max, 0f, 1f);
 		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
@@ -86,7 +86,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 
 	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {
 
-		public static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.withDefaultNamespace("textures/gui/container/bundle.png");
+		public static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.withDefaultNamespace("container/bundle/slot");
 
 		@Override
 		public int getHeight() {
@@ -114,7 +114,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 				if (atlasID != null) {
 					TextureAtlasSprite atlas = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
 							.apply(atlasID);
-					g.blit(x + 1, y + 1, 100, 16, 16, atlas);
+					g.blit(x + 1, y + 1, 0, 16, 16, atlas);
 				}
 				return;
 			}
@@ -123,7 +123,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		}
 
 		private void blit(GuiGraphics g, int x, int y) {
-			g.blit(TEXTURE_LOCATION, x, y, 0, 0, 0, 18, 18, 128, 128);
+			g.blitSprite(TEXTURE_LOCATION, x, y, 18, 20);
 		}
 
 	}
