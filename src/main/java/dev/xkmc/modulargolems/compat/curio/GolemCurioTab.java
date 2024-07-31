@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.curio;
 
+import dev.xkmc.l2menustacker.init.MouseCache;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.tabs.core.TabBase;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
@@ -21,12 +22,13 @@ public class GolemCurioTab extends TabBase<EquipmentGroup, GolemCurioTab> {
 
 	@Override
 	public void onTabClicked() {
+		MouseCache.cacheMousePos();
 		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(manager.token.golem.getUUID(), OpenEquipmentMenuToServer.Type.CURIOS));
 	}
 
 	@Override
 	protected void renderIcon(GuiGraphics g) {
-		g.blit(ICON, getX() + 7, getY() + 7, 50, 14, 14, 14);
+		g.blitSprite(ICON, getX() + 7, getY() + 7, 14, 14);
 	}
 
 }

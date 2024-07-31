@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenu;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
@@ -23,7 +24,7 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemMiscs {
 
-	private static final SR<RecipeSerializer<?>> RS = SR.of(L2Complements.REG, BuiltInRegistries.RECIPE_SERIALIZER);
+	private static final SR<RecipeSerializer<?>> RS = SR.of(ModularGolems.REG, BuiltInRegistries.RECIPE_SERIALIZER);
 
 	public static final Val<AbstractShapedRecipe.Serializer<GolemAssembleRecipe>> ASSEMBLE =
 			RS.reg("golem_assemble", () -> new AbstractShapedRecipe.Serializer<>(GolemAssembleRecipe::new));

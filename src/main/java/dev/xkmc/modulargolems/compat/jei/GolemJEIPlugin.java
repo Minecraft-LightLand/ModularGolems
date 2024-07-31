@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.jei;
 
-import dev.xkmc.l2serial.util.Wrappers;
-import dev.xkmc.l2tabs.tabs.core.ITabScreen;
+import dev.xkmc.l2tabs.compat.jei.SideTabProperties;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -9,13 +8,13 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
-import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
+import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -24,7 +23,6 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
-import mezz.jei.api.gui.handlers.IGuiProperties;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
@@ -38,7 +36,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.NeoForge;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,33 +75,13 @@ public class GolemJEIPlugin implements IModPlugin {
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registration) {
 		registration.addGhostIngredientHandler(ItemConfigScreen.class, new ItemFilterHandler());
-
-		registration.addGuiScreenHandler(EquipmentsScreen.class, GolemJEIPlugin::create);
-		registration.addGuiScreenHandler(ToggleGolemConfigScreen.class, GolemJEIPlugin::create);
-		registration.addGuiScreenHandler(ItemConfigScreen.class, GolemJEIPlugin::create);
-		registration.addGuiScreenHandler(TargetConfigScreen.class, GolemJEIPlugin::create);
-		registration.addGuiScreenHandler(PathConfigScreen.class, GolemJEIPlugin::create);
-		CurioCompatRegistry.onJEIRegistry(e -> registration.addGuiScreenHandler(Wrappers.cast(e), GolemJEIPlugin::create));
+		var eq = new SideTabProperties(GolemTabRegistry.EQUIPMENTS);
+		eq.register(registration, EquipmentsScreen.class);
+		new SideTabProperties(GolemTabRegistry.CONFIG).register(registration,
+				ToggleGolemConfigScreen.class, ItemConfigScreen.class,
+				TargetConfigScreen.class, PathConfigScreen.class);
+		CurioCompatRegistry.onJEIRegistry(e -> eq.register(registration, e));
 	}
-
-	@Nullable
-	public static IGuiProperties create(ITabScreen screen) {
-		if (screen.screenWidth() <= 0 || screen.screenHeight() <= 0) {
-			return null;
-		}
-		int x = screen.getGuiLeft();
-		int y = screen.getGuiTop();
-		int width = screen.getXSize() + 32;
-		int height = screen.getYSize();
-		if (width <= 0 || height <= 0) {
-			return null;
-		}
-		return new GuiProperties(screen.asScreen().getClass(),
-				x, y, width, height,
-				screen.screenWidth(), screen.screenHeight()
-		);
-	}
-
 
 	private static String partSubtype(ItemStack stack, UidContext ctx) {
 		return GolemPart.getMaterial(stack).orElse(GolemMaterial.EMPTY).toString();

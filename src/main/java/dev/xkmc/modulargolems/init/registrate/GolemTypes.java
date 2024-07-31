@@ -91,7 +91,11 @@ public class GolemTypes {
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_HUMANOID = REGISTRATE.entity("humanoid_golem", HumanoidGolemEntity::new, MobCategory.MISC)
-				.properties(e -> e.sized(0.6F, 1.95F).clientTrackingRange(10))
+				.properties(e -> e.sized(0.6F, 1.95F)
+						.eyeHeight(1.62F)
+						.passengerAttachments(2.0125F)
+						.ridingOffset(-0.6F)
+						.clientTrackingRange(10))
 				.renderer(() -> HumanoidGolemRenderer::new)
 				.attributes(() -> Mob.createMobAttributes()
 						.add(Attributes.MAX_HEALTH, 20.0D)
@@ -109,7 +113,10 @@ public class GolemTypes {
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
-				.properties(e -> e.sized(0.85F, 0.6F).clientTrackingRange(10))
+				.properties(e -> e.sized(0.85F, 0.6F)
+						.eyeHeight(0.68F)
+						.passengerAttachments(0.81875F)
+						.clientTrackingRange(10))
 				.renderer(() -> DogGolemRenderer::new)
 				.attributes(() -> Mob.createMobAttributes()
 						.add(Attributes.MAX_HEALTH, 8.0D)

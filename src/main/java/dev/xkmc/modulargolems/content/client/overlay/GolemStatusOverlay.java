@@ -19,7 +19,10 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -52,6 +55,12 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		int screenWidth = g.guiWidth();
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
+		float health =golem.getHealth();
+		float max = golem.getMaxHealth();
+		float f = Mth.clamp(health / max, 0f, 1f);
+		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+		MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
+		text.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
 		if (golem.hasFlag(GolemFlags.BOTANIA)) {
 			//TODO bot text.add(BotUtils.getDesc(golem));
 		}

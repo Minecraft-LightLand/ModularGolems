@@ -36,7 +36,7 @@ public class GolemAnvilFixTrigger extends BaseCriterion<GolemAnvilFixTrigger.Ins
 		@SerialField
 		private ResourceLocation rl = null;
 
-		protected Ins() {
+		public Ins() {
 			super(GolemTriggers.ANVIL_FIX.get());
 		}
 	}

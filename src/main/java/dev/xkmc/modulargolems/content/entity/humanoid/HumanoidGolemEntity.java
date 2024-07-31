@@ -311,11 +311,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return InteractionResult.FAIL;
 	}
 
-	@Override
-	protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
-		return super.getPassengerAttachmentPoint(entity, dimensions, partialTick);//TODO
-	}
-
 	// ------ player equipment hurt
 
 	@Override

@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.filter;
 
+import dev.xkmc.l2menustacker.init.MouseCache;
 import dev.xkmc.l2tabs.tabs.core.TabBase;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.l2tabs.tabs.core.TabToken;
@@ -16,6 +17,7 @@ public class ConfigItemTab extends TabBase<ConfigGroup, ConfigItemTab> {
 
 	@Override
 	public void onTabClicked() {
+		MouseCache.cacheMousePos();
 		var entry = manager.token.editor.entry();
 		ModularGolems.HANDLER.toServer(new OpenConfigMenuToServer(entry.getID(), entry.getColor(), OpenConfigMenuToServer.Type.ITEM));
 	}

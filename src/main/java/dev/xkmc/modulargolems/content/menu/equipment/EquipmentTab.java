@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
+import dev.xkmc.l2menustacker.init.MouseCache;
 import dev.xkmc.l2tabs.tabs.core.TabBase;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.l2tabs.tabs.core.TabToken;
@@ -16,6 +17,7 @@ public class EquipmentTab extends TabBase<EquipmentGroup, EquipmentTab> {
 
 	@Override
 	public void onTabClicked() {
+		MouseCache.cacheMousePos();
 		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(manager.token.golem.getUUID(), OpenEquipmentMenuToServer.Type.EQUIPMENT));
 	}
 

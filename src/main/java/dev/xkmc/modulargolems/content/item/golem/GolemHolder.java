@@ -96,10 +96,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public static float getMaxHealth(ItemStack stack) {
 		return Optional.ofNullable(stack.get(GolemItems.ENTITY))
-				.map(e -> e.getUnsafe()).flatMap(e -> e.getList("Attributes", Tag.TAG_COMPOUND).stream()
+				.map(e -> e.getUnsafe()).flatMap(e -> e.getList("attributes", Tag.TAG_COMPOUND).stream()
 						.map(t -> ((CompoundTag) t))
-						.filter(t -> t.getString("Name").equals("minecraft:generic.max_health"))
-						.findAny()).map(e -> e.getFloat("Base")).orElse(-1f);
+						.filter(t -> t.getString("id").equals("minecraft:generic.max_health"))
+						.findAny()).map(e -> e.getFloat("base")).orElse(-1f);
 	}
 
 	public static void setHealth(ItemStack result, float health) {

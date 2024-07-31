@@ -1,5 +1,5 @@
 {
-  "type": "l2complements:golem_assemble",
+  "type": "modulargolems:golem_assemble",
   "category": "misc",
   "key": {
     "A": {
