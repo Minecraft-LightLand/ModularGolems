@@ -63,7 +63,7 @@ public class CraftEventListeners {
 				var mats = GolemHolder.getMaterial(result);
 				var upgrades = GolemHolder.getUpgrades(result);
 				int remaining = holder.getRemaining(mats, upgrades);
-				int total = upgrades.size();
+				int total = upgrades.upgrades().size();
 				GolemTriggers.UPGRADE_APPLY.get().trigger((ServerPlayer) event.getEntity(), block, remaining, total);
 			} else {
 				var mats = GolemHolder.getMaterial(stack);
@@ -82,7 +82,7 @@ public class CraftEventListeners {
 	public static void onGrindStone(GrindstoneEvent.OnPlaceItem event) {
 		if (event.getTopItem().getItem() instanceof GolemHolder) {
 			ItemStack copy = event.getTopItem().copy();
-			if (!GolemHolder.getUpgrades(copy).isEmpty()) {
+			if (!GolemHolder.getUpgrades(copy).upgrades().isEmpty()) {
 				GolemUpgrade.removeAll(copy);
 				event.setOutput(copy);
 				event.setXp(0);
@@ -120,7 +120,7 @@ public class CraftEventListeners {
 		ItemStack result = appendUpgrade(stack, holder, upgrade);
 		if (result.isEmpty()) return;
 		event.setOutput(result);
-		event.setCost(Math.min(39, 4 * (1 + upgrades.size())));
+		event.setCost(Math.min(39, 4 * (1 + upgrades.upgrades().size())));
 		event.setMaterialCost(1);
 	}
 
@@ -129,16 +129,16 @@ public class CraftEventListeners {
 		if (!upgrade.fitsOn(holder.getEntityType())) return ItemStack.EMPTY;
 		var mats = GolemHolder.getMaterial(stack);
 		var upgrades = GolemHolder.getUpgrades(stack);
-		var copy = new ArrayList<>(upgrades);
+		var copy = new ArrayList<>(upgrades.upgradeItems());
 		copy.add(upgrade);
-		int remaining = holder.getRemaining(mats, copy);
+		int remaining = holder.getRemaining(mats, upgrades);
 		if (remaining < 0) return ItemStack.EMPTY; // check if it overflows when adding the new upgrade
 		var map = GolemMaterial.collectModifiers(GolemHolder.getMaterial(stack), upgrades);
 		for (var e : upgrade.get()) {
 			if (map.getOrDefault(e.mod(), 0) >= e.mod().maxLevel) return ItemStack.EMPTY;
 		}
 		ItemStack result = stack.copy();
-		GolemHolder.addUpgrade(result, upgrade);
+		GolemUpgrade.add(result, upgrade);
 		return result;
 	}
 

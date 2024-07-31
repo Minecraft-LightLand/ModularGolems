@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
+import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
@@ -163,7 +164,7 @@ public class GolemJEIPlugin implements IModPlugin {
 			}
 			material.add(new ItemStack(item));
 			for (var types : GolemType.GOLEM_TYPE_TO_ITEM.values()) {
-				result.add(GolemHolder.addUpgrade(new ItemStack(types), item));
+				result.add(GolemUpgrade.add(new ItemStack(types), item));
 			}
 			recipes.add(factory.createAnvilRecipe(input, material, result));
 		}

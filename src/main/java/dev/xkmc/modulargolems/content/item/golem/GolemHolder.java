@@ -13,7 +13,6 @@ import dev.xkmc.modulargolems.content.item.data.GolemConfigKey;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.data.GolemIcon;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
-import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -59,27 +58,13 @@ import java.util.function.Consumer;
 
 public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
-	public static final String KEY_MATERIAL = "golem_materials",
-			KEY_UPGRADES = "golem_upgrades",
-			KEY_ENTITY = "golem_entity",
-			KEY_ICON = "golem_icon";
-	public static final String KEY_PART = "part", KEY_MAT = "material";
-
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
 		var ans = GolemItems.HOLDER_MAT.get(stack);
 		return ans == null ? new ArrayList<>() : ans.toList();
 	}
 
-	public static ArrayList<UpgradeItem> getUpgrades(ItemStack stack) {
-		var ans = GolemItems.UPGRADE.get(stack);
-		if (ans == null) return new ArrayList<>();
-		ArrayList<UpgradeItem> list = new ArrayList<>();
-		for (var e : ans.upgrades()) {
-			if (e instanceof UpgradeItem item) {
-				list.add(item);
-			}
-		}
-		return list;
+	public static GolemUpgrade getUpgrades(ItemStack stack) {
+		return GolemItems.UPGRADE.getOrDefault(stack, GolemUpgrade.EMPTY);
 	}
 
 	public static Optional<GolemConfigKey> getGolemConfig(ItemStack stack) {
@@ -88,10 +73,6 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public static void setGolemConfig(ItemStack stack, UUID id, int color) {
 		GolemItems.CONFIG_KEY.set(stack, new GolemConfigKey(id, color));
-	}
-
-	public static ItemStack addUpgrade(ItemStack stack, UpgradeItem item) {
-		return GolemUpgrade.add(stack, item);
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> ItemStack setEntity(T entity) {
@@ -199,7 +180,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			list.add(MGLangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
 			var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 			if (modifiers.size() > 8) {
-				list.add(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.size()));
+				list.add(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.upgrades().size()));
 			} else {
 				modifiers.forEach((k, v) -> list.add(k.getTooltip(v)));
 			}
@@ -392,7 +373,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(list));
 	}
 
-	public int getRemaining(ArrayList<GolemMaterial> mats, ArrayList<UpgradeItem> upgrades) {
+	public int getRemaining(ArrayList<GolemMaterial> mats, GolemUpgrade upgrades) {
 		int base = getEntityType().values().length;
 		if (type.get() == GolemTypes.TYPE_GOLEM.get()) {
 			base = MGConfig.COMMON.largeGolemSlot.get();
@@ -401,10 +382,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		} else if (type.get() == GolemTypes.TYPE_DOG.get()) {
 			base = MGConfig.COMMON.dogGolemSlot.get();
 		}
-		base -= upgrades.size();
+		base -= upgrades.upgrades().size();
 		var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
+		var list = upgrades.upgradeItems();
 		for (var ent : modifiers.entrySet()) {
-			base += ent.getKey().addSlot(upgrades, ent.getValue());
+			base += ent.getKey().addSlot(list, ent.getValue());
 		}
 		return base;
 	}
@@ -412,7 +394,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	@Override
 	public void onDestroyed(ItemEntity entity, DamageSource source) {
 		if (source.is(DamageTypeTags.IS_EXPLOSION)) {
-			for (var e : getUpgrades(entity.getItem())) {
+			for (var e : getUpgrades(entity.getItem()).upgrades()) {
 				entity.level().addFreshEntity(new ItemEntity(entity.level(), entity.getX(), entity.getY(), entity.getZ(), e.getDefaultInstance()));
 			}
 		}

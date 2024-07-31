@@ -5,6 +5,7 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
@@ -29,7 +30,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 
 	public static final ResourceLocation EMPTY = ModularGolems.loc("empty");
 
-	public static Map<Holder<Attribute>, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades) {
+	public static Map<Holder<Attribute>, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, GolemUpgrade upgrades) {
 		HashMap<Holder<Attribute>, Map<GolemStatType, Double>> values = new LinkedHashMap<>();
 		for (var type : GolemTypes.STAT_TYPES.get().entrySet()) {
 			appendStat(values, type.getValue(), 0);
@@ -79,16 +80,21 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 				.compute(k, (e, old) -> (old == null ? 0 : old) + v);
 	}
 
-	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<UpgradeItem> upgrades) {
+	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, GolemUpgrade upgrades) {
 		HashMap<GolemModifier, Integer> values = new LinkedHashMap<>();
 		for (GolemMaterial stats : list) {
 			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
 		}
-		upgrades.stream().flatMap(e -> e.get().stream()).forEach(e -> values.compute(e.mod(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + e.level())));
+		for (var e : upgrades.upgrades()) {
+			if (!(e instanceof UpgradeItem up)) continue;
+			for (var m : up.get()) {
+				values.compute(m.mod(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + m.level()));
+			}
+		}
 		return values;
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void addAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades, T entity) {
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void addAttributes(List<GolemMaterial> list, GolemUpgrade upgrades, T entity) {
 		var map = DefaultAttributes.getSupplier(Wrappers.cast(entity.getType()));
 		var attrs = collectAttributes(list, upgrades);
 		attrs.keySet().forEach(e -> {

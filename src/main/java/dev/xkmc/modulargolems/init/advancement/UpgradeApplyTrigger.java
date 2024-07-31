@@ -52,7 +52,7 @@ public class UpgradeApplyTrigger extends BaseCriterion<UpgradeApplyTrigger.Ins, 
 		@SerialField
 		private int remain = -1, total = -1;
 
-		protected Ins() {
+		public Ins() {
 			super(GolemTriggers.UPGRADE_APPLY.get());
 		}
 

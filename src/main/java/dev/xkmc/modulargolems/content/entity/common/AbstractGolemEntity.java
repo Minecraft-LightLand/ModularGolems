@@ -114,14 +114,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected final PathNavigation waterNavigation;
 	protected final GroundPathNavigation groundNavigation;
 
-	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
+	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
 		this.setHealth(this.getMaxHealth());
 	}
 
-	public void updateAttributes(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
+	public void updateAttributes(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		this.materials = materials;
-		this.upgrades = Wrappers.cast(upgrades);
+		this.upgrades = upgrades;
 		this.owner = owner;
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
