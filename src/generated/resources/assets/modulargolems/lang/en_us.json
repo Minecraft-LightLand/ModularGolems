@@ -310,6 +310,7 @@
   "modulargolems.configuration.explosionResistance.tooltip": "Range: 0.0 ~ 1.0",
   "modulargolems.configuration.fiery": "Percentage damage addition per level of fiery",
   "modulargolems.configuration.fiery.tooltip": "Range: 0.0 ~ 100.0",
+  "modulargolems.configuration.general": "General Configurations",
   "modulargolems.configuration.humanoidGolemSlot": "Default slots for humanoid golem",
   "modulargolems.configuration.humanoidGolemSlot.tooltip": "Range: 0 ~ 100",
   "modulargolems.configuration.l2complements": "L2Complements Compat Properties",

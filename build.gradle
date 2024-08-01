@@ -162,6 +162,7 @@ dependencies {
 
     implementation "dev.xkmc:l2backpack:${l2backpack_ver}"
     implementation "dev.xkmc:l2complements:${l2complements_ver}"
+    implementation "vazkii.patchouli:Patchouli:${patchouli_ver}"
 
     implementation "dev.xkmc:better_creative_tabs:0.1.0"
 

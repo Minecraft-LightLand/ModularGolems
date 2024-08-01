@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:empty",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "components": {
+                "patchouli:book": "modulargolems:golem_guide"
+              },
+              "function": "minecraft:set_components"
+            }
+          ],
+          "name": "patchouli:guide_book"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "modulargolems:golem_guide"
+}
