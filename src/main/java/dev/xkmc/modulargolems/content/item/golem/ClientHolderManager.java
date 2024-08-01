@@ -72,7 +72,7 @@ public class ClientHolderManager {
 		var data = GolemItems.ENTITY.get(stack);
 		var icon = GolemItems.DC_ICON.get(stack);
 		if (data != null) {
-			ans = holder.getEntityType().createForDisplay(data.getUnsafe());
+			ans = holder.getEntityType().createForDisplay(level, data.getUnsafe());
 		} else if (icon != null) {
 			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(level);
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);

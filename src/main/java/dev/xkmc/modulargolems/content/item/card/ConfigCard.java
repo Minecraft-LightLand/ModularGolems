@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.item.card;
 
 import dev.xkmc.l2core.util.Proxy;
+import dev.xkmc.l2core.util.TooltipHelper;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
@@ -9,7 +10,6 @@ import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -24,6 +24,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -115,17 +116,17 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		return InteractionResultHolder.pass(stack);
 	}
 
-	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag pIsAdvanced) {
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag flag) {
 		var id = getUUID(stack);
 		if (id == null) {
 			list.add(MGLangData.CONFIG_INIT.get());
 		} else {
-			var level = Minecraft.getInstance().level;
-			if (level != null) {
-				var entry = GolemConfigStorage.get(level).getOrCreateStorage(id, color.getId(), MGLangData.LOADING.get());
-				entry.clientTick(level, false);
+			TooltipHelper.addClient(ctx, flag, helper -> {
+				var entry = GolemConfigStorage.get(helper.level())
+						.getOrCreateStorage(id, color.getId(), MGLangData.LOADING.get());
+				entry.clientTick(helper.level(), false);
 				list.add(entry.getDisplayName());
-			}
+			});
 			if (!mayClientEdit(id)) {
 				list.add(MGLangData.CONFIG_OTHER.get());
 			}
