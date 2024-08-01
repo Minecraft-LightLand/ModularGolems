@@ -1,7 +1,15 @@
 {
   "values": {
     "modulargolems:attribute": 10,
-    "modulargolems:curios": 20,
+    "modulargolems:curios": {
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "curios"
+        }
+      ],
+      "neoforge:value": 20
+    },
     "modulargolems:equipment": 0,
     "modulargolems:item_filter": 10,
     "modulargolems:path": 30,

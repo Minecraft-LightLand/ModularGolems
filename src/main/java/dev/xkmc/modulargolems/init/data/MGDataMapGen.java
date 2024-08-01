@@ -8,6 +8,8 @@ import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
+import top.theillusivec4.curios.api.CuriosApi;
 
 public class MGDataMapGen {
 
@@ -27,7 +29,8 @@ public class MGDataMapGen {
 				.add(GolemTabRegistry.CONFIG_PATH.id(), 30, false)
 				.add(GolemTabRegistry.EQUIPMENT.id(), 0, false)
 				.add(GolemTabRegistry.ATTRIBUTE.id(), 10, false)
-				.add(CurioCompatRegistry.get().tab.id(), 20, false);
+				.add(CurioCompatRegistry.get().tab.id(), 20, false,
+						new ModLoadedCondition(CuriosApi.MODID));
 
 		pvd.builder(L2Tabs.ATTRIBUTE_ENTRY.reg())
 				.add(GolemTypes.GOLEM_REGEN.key(), new AttrDispEntry(false, 7100, 0), false)
