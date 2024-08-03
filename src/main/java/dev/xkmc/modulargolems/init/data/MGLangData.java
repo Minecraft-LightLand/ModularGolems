@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.init.data;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.compat.misc.PatchouliLang;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
@@ -109,10 +108,8 @@ public enum MGLangData {
 	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
-	BOT_MANA("msg.botania_mana","Mana: %s/%s",2,null),
-	BOT_NO_RING("msg.botania_no_ring","No Band of Mana Equipped",0,null)
-
-	;
+	BOT_MANA("msg.botania_mana", "Mana: %s/%s", 2, null),
+	BOT_NO_RING("msg.botania_no_ring", "No Band of Mana Equipped", 0, null);
 
 	private final String key, def;
 	private final int arg;
@@ -176,8 +173,6 @@ public enum MGLangData {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.dog_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
 		}
-
-		PatchouliLang.genLang(pvd);
 
 	}
 

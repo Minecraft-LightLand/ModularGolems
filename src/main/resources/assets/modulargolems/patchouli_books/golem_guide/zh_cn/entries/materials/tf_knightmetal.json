@@ -12,17 +12,17 @@
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:knightmetal\"}]}",
+	  "item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_arm\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:metal_golem_legs\",material:\"twilightforest:knightmetal\"}]}]",
 	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:knightmetal\"}]}",
+	  "item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"twilightforest:knightmetal\"}]}]",
 	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	},
 	{
 	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:dog_golem_legs\",material:\"twilightforest:knightmetal\"}]}",
+	  "item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"twilightforest:knightmetal\"},{part:\"modulargolems:dog_golem_legs\",material:\"twilightforest:knightmetal\"}]}]",
 	  "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
 	}
   ]

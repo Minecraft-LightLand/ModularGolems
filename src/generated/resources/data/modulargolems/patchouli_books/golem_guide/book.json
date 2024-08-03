@@ -1,0 +1,8 @@
+{
+  "creative_tab": "l2core:golems",
+  "landing_text": "patchouli.modulargolems.landing",
+  "model": "modulargolems:book",
+  "name": "patchouli.modulargolems.title",
+  "use_resource_pack": true,
+  "version": 1
+}

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init;
 import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.registrate.LCEnchantments;
+import dev.xkmc.l2core.compat.patchouli.PatchouliHelper;
 import dev.xkmc.l2core.init.L2TagGen;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.simple.Reg;
@@ -19,6 +20,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
+import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
@@ -31,6 +33,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
@@ -41,6 +44,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import vazkii.patchouli.api.PatchouliAPI;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ModularGolems.MODID)
@@ -72,11 +76,21 @@ public class ModularGolems {
 		GolemTypes.register();
 		GolemMiscs.register();
 		GolemModifiers.register();
+		GolemTabRegistry.register();
 		MGConfig.init();
 		GolemTriggers.register();
 		GolemModes.register();
 		CurioCompatRegistry.register();
 		AttackEventHandler.register(3500, new GolemAttackListener());
+		if (ModList.get().isLoaded(PatchouliAPI.MOD_ID)) {
+			new PatchouliHelper(REGISTRATE, "golem_guide")
+					.buildModel().buildShapelessRecipe(e -> e
+									.requires(Items.BOOK).requires(GolemItems.GOLEM_TEMPLATE),
+							() -> Items.BOOK)
+					.buildBook("Modular Golem Guide",
+							"Welcome to Tinker-like golem assembly and upgrade mod",
+							1, GolemItems.TAB.key());
+		}
 	}
 
 	public static ResourceLocation loc(String id) {
@@ -103,7 +117,7 @@ public class ModularGolems {
 		REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, MGTagGen::onItemTagGen);
 		REGISTRATE.addDataGenerator(ProviderType.ENTITY_TAGS, MGTagGen::onEntityTagGen);
 		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, MGAdvGen::genAdvancements);
-		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP,MGDataMapGen::genDataMap);
+		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP, MGDataMapGen::genDataMap);
 
 
 		var gen = event.getGenerator();

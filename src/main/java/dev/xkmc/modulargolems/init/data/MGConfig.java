@@ -73,46 +73,50 @@ public class MGConfig {
 
 		Common(Builder builder) {
 			markL2();
-			barehandRetrieve = builder.text("Allow players to retrieve the golems by bare hand")
-					.define("barehandRetrieve", true);
-			doEnemyAggro = builder.text("Copy Iron Golem Aggro")
-					.comment("Make mobs aggro to iron golem automatically aggro to modular golems")
-					.define("doEnemyAggro", true);
-			summonDistance = builder.text("Max distance to summon single golem")
-					.defineInRange("summonDistance", 64, 1, 1000);
-			retrieveDistance = builder.text("Max distance to retrieve single golem")
-					.defineInRange("retrieveDistance", 64, 1, 1000);
-			retrieveRange = builder.text("Max distance to retrieve all golems")
-					.defineInRange("retrieveRange", 20, 1, 1000);
-			ownerPickupOnly = builder.text("Only owner can pickup")
-					.define("ownerPickupOnly", true);
-			strictInteract = builder.text("Restrict Interaction")
-					.comment("When enabled, the following features will be disabled when player holds item in hand:")
-					.comment("- give item to golem or take items from golem by right click").comment("- order dog golem to seat")
-					.define("strictInteract", false);
-			allowEditCuriosForOthers = builder.text("Allow command wand to edit curios of other mobs you own")
-					.define("allowEditCuriosForOthers", true);
-			startFollowRadius = builder.text("Start following radius")
-					.comment("Max golem activity radius before following player in follow mode")
-					.defineInRange("startFollowRadius", 10d, 1, 100);
-			stopWanderRadius = builder.text("Wandering radius")
-					.comment("Max golem activity radius before willing to go back to origin in wander mode")
-					.defineInRange("stopWanderRadius", 20d, 1, 100);
-			maxWanderRadius = builder.text("Max golem activity radius before being teleported back")
-					.defineInRange("maxWanderRadius", 30d, 1, 100);
-			riddenSpeedFactor = builder.text("Speed factor for dog golem when ridden by entities")
-					.defineInRange("riddenSpeedFactor", 0.8, 0, 2);
-			targetResetTime = builder.text("Target reset time after no movement, in ticks")
-					.defineInRange("targetResetTime", 600, 1, 10000);
-			targetResetNoMovementRange = builder.text("Distance considered as no movement")
-					.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
+			builder.push("general", "General Configurations");
+			{
+				barehandRetrieve = builder.text("Allow players to retrieve the golems by bare hand")
+						.define("barehandRetrieve", true);
+				doEnemyAggro = builder.text("Copy Iron Golem Aggro")
+						.comment("Make mobs aggro to iron golem automatically aggro to modular golems")
+						.define("doEnemyAggro", true);
+				summonDistance = builder.text("Max distance to summon single golem")
+						.defineInRange("summonDistance", 64, 1, 1000);
+				retrieveDistance = builder.text("Max distance to retrieve single golem")
+						.defineInRange("retrieveDistance", 64, 1, 1000);
+				retrieveRange = builder.text("Max distance to retrieve all golems")
+						.defineInRange("retrieveRange", 20, 1, 1000);
+				ownerPickupOnly = builder.text("Only owner can pickup")
+						.define("ownerPickupOnly", true);
+				strictInteract = builder.text("Restrict Interaction")
+						.comment("When enabled, the following features will be disabled when player holds item in hand:")
+						.comment("- give item to golem or take items from golem by right click").comment("- order dog golem to seat")
+						.define("strictInteract", false);
+				allowEditCuriosForOthers = builder.text("Allow command wand to edit curios of other mobs you own")
+						.define("allowEditCuriosForOthers", true);
+				startFollowRadius = builder.text("Start following radius")
+						.comment("Max golem activity radius before following player in follow mode")
+						.defineInRange("startFollowRadius", 10d, 1, 100);
+				stopWanderRadius = builder.text("Wandering radius")
+						.comment("Max golem activity radius before willing to go back to origin in wander mode")
+						.defineInRange("stopWanderRadius", 20d, 1, 100);
+				maxWanderRadius = builder.text("Max golem activity radius before being teleported back")
+						.defineInRange("maxWanderRadius", 30d, 1, 100);
+				riddenSpeedFactor = builder.text("Speed factor for dog golem when ridden by entities")
+						.defineInRange("riddenSpeedFactor", 0.8, 0, 2);
+				targetResetTime = builder.text("Target reset time after no movement, in ticks")
+						.defineInRange("targetResetTime", 600, 1, 10000);
+				targetResetNoMovementRange = builder.text("Distance considered as no movement")
+						.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
 
-			largeGolemSlot = builder.text("Default slots for large golem")
-					.defineInRange("largeGolemSlot", 4, 0, 100);
-			humanoidGolemSlot = builder.text("Default slots for humanoid golem")
-					.defineInRange("humanoidGolemSlot", 3, 0, 100);
-			dogGolemSlot = builder.text("Default slots for dog golem")
-					.defineInRange("dogGolemSlot", 2, 0, 100);
+				largeGolemSlot = builder.text("Default slots for large golem")
+						.defineInRange("largeGolemSlot", 4, 0, 100);
+				humanoidGolemSlot = builder.text("Default slots for humanoid golem")
+						.defineInRange("humanoidGolemSlot", 3, 0, 100);
+				dogGolemSlot = builder.text("Default slots for dog golem")
+						.defineInRange("dogGolemSlot", 2, 0, 100);
+			}
+			builder.pop();
 
 			// modifiers
 			{
@@ -128,6 +132,10 @@ public class MGConfig {
 							.defineInRange("damageCap", 0.1d, 0, 1);
 					thunderHeal = builder.text("Healing when thunder immune golems are striked")
 							.defineInRange("thunderHeal", 10, 1, 10000);
+					basePickupRange = builder.text("Pickup range per level for pickup upgrade")
+							.defineInRange("basePickupRange", 6, 1, 16);
+					mendingXpCost = builder.text("Mending Xp Cost per health point")
+							.defineInRange("mendingXpCost", 2, 1, 10000);
 				}
 				builder.pop();
 
@@ -168,14 +176,16 @@ public class MGConfig {
 				builder.pop();
 
 				builder.push("create", "Create Compat Properties");
-				coating = builder.text("Damage absorbed per level of coating")
-						.defineInRange("coating", 1d, 0, 10000);
-				mechSpeed = builder.text("Speed boost per level of Mechanical Mobility")
-						.defineInRange("mechSpeed", 0.2, 0, 1);
-				mechAttack = builder.text("Attack boost per level of Mechanical Force")
-						.defineInRange("mechAttack", 0.2, 0, 1);
-				mechMaxFuel = builder.text("Maximum number of fuel item that can be added at the same time")
-						.defineInRange("mechMaxFuel", 3, 1, 364);
+				{
+					coating = builder.text("Damage absorbed per level of coating")
+							.defineInRange("coating", 1d, 0, 10000);
+					mechSpeed = builder.text("Speed boost per level of Mechanical Mobility")
+							.defineInRange("mechSpeed", 0.2, 0, 1);
+					mechAttack = builder.text("Attack boost per level of Mechanical Force")
+							.defineInRange("mechAttack", 0.2, 0, 1);
+					mechMaxFuel = builder.text("Maximum number of fuel item that can be added at the same time")
+							.defineInRange("mechMaxFuel", 3, 1, 364);
+				}
 				builder.pop();
 
 				builder.push("l2complements", "L2Complements Compat Properties");
@@ -200,10 +210,6 @@ public class MGConfig {
 							.defineInRange("teleportCooldown", 40, 1, 10000);
 					targetDamageBonus = builder.text("Damage bonus for attacking specific type of enemy")
 							.defineInRange("targetDamageBonus", 0.5, 0, 100);
-					basePickupRange = builder.text("Pickup range per level for pickup upgrade")
-							.defineInRange("basePickupRange", 6, 1, 16);
-					mendingXpCost = builder.text("Mending Xp Cost per health point")
-							.defineInRange("mendingXpCost", 2, 1, 10000);
 				}
 				builder.pop();
 			}
