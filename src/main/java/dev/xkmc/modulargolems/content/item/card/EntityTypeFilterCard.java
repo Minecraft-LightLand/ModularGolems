@@ -39,7 +39,7 @@ public class EntityTypeFilterCard extends ClickEntityFilterCard<EntityType<?>> {
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		var types = getList(stack);
-		if (!types.isEmpty() && !Screen.hasShiftDown()) {
+		if (!types.isEmpty() && !flag.hasShiftDown()) {
 			for (var e : types) {
 				list.add(getName(e));
 			}

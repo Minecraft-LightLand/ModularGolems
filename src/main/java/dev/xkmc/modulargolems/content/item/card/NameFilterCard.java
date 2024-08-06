@@ -114,7 +114,7 @@ public class NameFilterCard extends TargetFilterCard {
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		var strs = getStrings(stack);
-		if (!strs.isEmpty() && !Screen.hasShiftDown()) {
+		if (!strs.isEmpty() && !flag.hasShiftDown()) {
 			for (var e : strs) {
 				list.add(Component.literal(e));
 			}
