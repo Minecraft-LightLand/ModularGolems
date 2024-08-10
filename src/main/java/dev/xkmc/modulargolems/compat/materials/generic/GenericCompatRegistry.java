@@ -13,13 +13,19 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 public class GenericCompatRegistry {
     public static final RegistryEntry<TargetBonusModifier> DIVINE;
     public static final RegistryEntry<PotionAttackModifier> POISONOUS;
+    public static final RegistryEntry<TinPlagueModifier> TIN_PLAGUE;
+    public static final RegistryEntry<WeidingModifier> WEIDING;
 
     static {
         DIVINE = reg("divine", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.UNDEAD),
                 "Deal %s%% more damage to undead mobs");
         POISONOUS = reg("poisonous",
-                () -> new PotionAttackModifier(StatFilterType.ATTACK, 5, i -> new MobEffectInstance(MobEffects.POISON, 100, i - 1)),
-                "The attacked target gains Poison %s for 5 seconds");
+                () -> new PotionAttackModifier(StatFilterType.MASS, 5, i -> new MobEffectInstance(MobEffects.POISON, 100, i - 1)),
+                "Inflict %s to enemies attacking or attacked");
+        TIN_PLAGUE = reg("tin_plague", TinPlagueModifier::new,
+                "Takes +%s%% damage in cold areas");
+        WEIDING = reg("weiding", WeidingModifier::new,
+                "Inflict %s to enemies attacking or attacked when the golem is on fired");
     }
 
     public static void register() {

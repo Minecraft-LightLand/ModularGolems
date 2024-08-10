@@ -1,0 +1,16 @@
+{
+  "golem_material.modulargolems": {
+    "silver": "银",
+    "lead": "铅",
+    "tin": "锡"
+  },
+  "modifier.modulargolems": {
+    "divine": "神圣",
+    "divine.desc": "对亡灵生物造成+%s%%伤害",
+    "poisonous": "有毒",
+    "tin_plague": "锡疫",
+    "tin_plague.desc": "在寒冷区域受到的伤害+%s%%",
+    "weiding": "焊接",
+    "weiding.desc": "着火时，对攻击傀儡和被傀儡攻击的敌人施加：%s"
+  }
+}

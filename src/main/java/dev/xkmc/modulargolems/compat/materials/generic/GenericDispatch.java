@@ -8,7 +8,7 @@ import net.minecraft.data.DataGenerator;
 
 public class GenericDispatch extends ModDispatch {
 
-    public static final String MODID = "generic";
+    public static final String MODID = "modulargolems";
 
     public GenericDispatch() {
         GenericCompatRegistry.register();
@@ -18,7 +18,7 @@ public class GenericDispatch extends ModDispatch {
     @Override
     protected void genLang(RegistrateLangProvider pvd) {
         pvd.add("golem_material." + MODID + ".lead", "Lead");
-//        pvd.add("golem_material." + MODID + ".tin", "Tin");
+        pvd.add("golem_material." + MODID + ".tin", "Tin");
         pvd.add("golem_material." + MODID + ".silver", "Silver");
     }
 

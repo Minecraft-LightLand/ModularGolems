@@ -21,6 +21,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue fiery;
 		public final ForgeConfigSpec.DoubleValue magicResistance;
 		public final ForgeConfigSpec.DoubleValue explosionResistance;
+		public final ForgeConfigSpec.DoubleValue tinPlague;
 		public final ForgeConfigSpec.DoubleValue compatTFHealing;
 		public final ForgeConfigSpec.DoubleValue compatTFDamage;
 		public final ForgeConfigSpec.IntValue manaMendingCost;
@@ -124,6 +125,13 @@ public class MGConfig {
 							.defineInRange("damageCap", 0.1d, 0, 1);
 					thunderHeal = builder.comment("Healing when thunder immune golems are striked")
 							.defineInRange("thunderHeal", 10, 1, 10000);
+				}
+				builder.pop();
+
+				builder.push("generic compat");
+				{
+					tinPlague = builder.comment("Percentage increase in damage taken in cold area")
+							.defineInRange("tinPlague", 0.5, 0, 10);
 				}
 				builder.pop();
 
