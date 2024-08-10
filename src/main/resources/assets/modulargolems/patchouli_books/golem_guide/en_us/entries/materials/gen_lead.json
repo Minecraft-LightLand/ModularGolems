@@ -1,0 +1,28 @@
+{
+  "name": "Lead",
+  "icon": "tag:forge:ingots/lead",
+  "category": "modulargolems:materials",
+  "sortnum": 106,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:forge:ingots/lead",
+      "text": "Main material to craft Lead golem parts. Reduce magic damage taken by golem, slow down enemies, but has extremely low stats."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:lead\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:lead\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:lead\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:lead\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:lead\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:lead\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:lead\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:lead\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:lead\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "铅",
+  "icon": "tag:forge:ingots/lead",
+  "category": "modulargolems:materials",
+  "sortnum": 106,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:forge:ingots/lead",
+      "text": "制作铅傀儡部件的主要材料。减少受到的魔法伤害，减速并中毒敌人，但属性极低。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:lead\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:lead\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:lead\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:lead\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:lead\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:lead\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:lead\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:lead\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:lead\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    }
+  ]
+}

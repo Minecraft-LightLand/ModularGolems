@@ -45,8 +45,7 @@ public class MGConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_HEALTH.get(), 20)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 5)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
-				.addStat(GolemTypes.STAT_REGEN.get(), 4)
-				.addModifier(GolemModifiers.MAGIC_RES.get(), 1).end()
+				.addStat(GolemTypes.STAT_REGEN.get(), 4).end()
 
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "netherite"), Ingredient.of(Items.NETHERITE_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
