@@ -20,7 +20,9 @@
     "modulargolems:copper": {
       "modulargolems:thunder_immune": 1
     },
-    "modulargolems:gold": {},
+    "modulargolems:gold": {
+      "modulargolems:magic_resistant": 1
+    },
     "modulargolems:iron": {},
     "modulargolems:netherite": {
       "modulargolems:fire_immune": 1

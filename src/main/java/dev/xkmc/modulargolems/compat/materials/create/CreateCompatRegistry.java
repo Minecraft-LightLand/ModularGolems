@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.compat.materials.create.automation.DummyFurnace;
 import dev.xkmc.modulargolems.compat.materials.create.modifier.*;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
+import dev.xkmc.modulargolems.content.modifier.immunes.MagicResistanceModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
@@ -26,6 +27,7 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 public class CreateCompatRegistry {
 
 	public static final RegistryEntry<CoatingModifier> COATING;
+	public static final RegistryEntry<MagicResistanceModifier> MACHINERY;
 	public static final RegistryEntry<AttributeGolemModifier> PUSH;
 	public static final RegistryEntry<MechBodyModifier> BODY;
 	public static final RegistryEntry<MechMobileModifier> MOBILE;
@@ -39,6 +41,8 @@ public class CreateCompatRegistry {
 
 	static {
 		COATING = reg("coating", CoatingModifier::new, "Reduce damage taken by %s");
+		MACHINERY = reg("machinery", MagicResistanceModifier::new,
+				"Magic doesn't work on mechanical structures, damage taken is reduced to %s%% of original");
 		PUSH = reg("push", () -> new AttributeGolemModifier(1,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, () -> 1)
 		)).register();
