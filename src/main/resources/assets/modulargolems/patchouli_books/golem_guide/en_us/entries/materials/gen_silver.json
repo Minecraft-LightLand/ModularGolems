@@ -1,0 +1,28 @@
+{
+  "name": "Silver",
+  "icon": "tag:forge:ingots/silver",
+  "category": "modulargolems:materials",
+  "sortnum": 107,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:forge:ingots/silver",
+      "text": "Main material to craft Silver golem parts. Reduce magic damage taken by golem, deal more damage to undead enemies, and is immune to thunder."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:silver\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:silver\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:silver\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:silver\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:silver\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:silver\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:silver\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:silver\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:silver\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    }
+  ]
+}

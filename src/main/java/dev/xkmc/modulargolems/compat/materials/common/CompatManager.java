@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.botania.BotDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
+import dev.xkmc.modulargolems.compat.materials.generic.GenericDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
@@ -24,6 +25,8 @@ public abstract class CompatManager {
 	public static final List<ModDispatch> LIST = new ArrayList<>();
 
 	public static void register() {
+		LIST.add(new GenericDispatch());
+
 		if (ModList.get().isLoaded(BotDispatch.MODID)) LIST.add(new BotDispatch());
 		if (ModList.get().isLoaded(TFDispatch.MODID)) LIST.add(new TFDispatch());
 		if (ModList.get().isLoaded(CreateDispatch.MODID)) LIST.add(new CreateDispatch());

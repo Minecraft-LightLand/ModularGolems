@@ -52,8 +52,10 @@
       "modulargolems:weight": -0.4
     },
     "twilightforest:steeleaf": {
-      "modulargolems:attack": 24.0,
-      "modulargolems:max_health": 20.0
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 40.0,
+      "modulargolems:regen": 4.0,
+      "modulargolems:weight": 0.2
     }
   }
 }

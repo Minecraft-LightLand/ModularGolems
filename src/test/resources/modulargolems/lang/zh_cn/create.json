@@ -6,8 +6,10 @@
 	"railway": "火车"
   },
   "modifier.modulargolems": {
-	"coating": "镀层升级",
+	"coating": "镀层",
 	"coating.desc": "受到的伤害减少%s",
+	"machinery": "机械身躯",
+	"machinery.desc": "魔法对机械结构难以起效，受到的魔法伤害x%s%%",
 	"push": "击退提升",
 	"mechanical_engine": "蒸汽动力",
 	"mechanical_engine.desc": "消耗燃料强化傀儡",

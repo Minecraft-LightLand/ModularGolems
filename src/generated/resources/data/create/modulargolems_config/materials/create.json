@@ -15,20 +15,20 @@
   },
   "modifiers": {
     "create:andesite_alloy": {
-      "modulargolems:magic_resistant": 1,
+      "modulargolems:machinery": 1,
       "modulargolems:mechanical_engine": 1,
       "modulargolems:mechanical_force": 1,
       "modulargolems:mechanical_mobility": 1
     },
     "create:brass": {
-      "modulargolems:magic_resistant": 2,
+      "modulargolems:machinery": 2,
       "modulargolems:mechanical_engine": 1,
       "modulargolems:mechanical_force": 1,
       "modulargolems:mechanical_mobility": 1
     },
     "create:railway": {
       "modulargolems:fire_immune": 1,
-      "modulargolems:magic_resistant": 2,
+      "modulargolems:machinery": 2,
       "modulargolems:mechanical_engine": 1,
       "modulargolems:mechanical_force": 2,
       "modulargolems:mechanical_mobility": 2
@@ -52,7 +52,8 @@
       "modulargolems:attack_knockback": 1.0,
       "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 300.0,
-      "modulargolems:sweep": 1.0
+      "modulargolems:sweep": 1.0,
+      "modulargolems:weight": -0.2
     },
     "create:zinc": {
       "modulargolems:attack": 10.0,

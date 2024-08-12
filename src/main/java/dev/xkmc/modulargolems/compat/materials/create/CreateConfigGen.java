@@ -40,7 +40,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addModifier(CreateCompatRegistry.BODY.get(), 1)
 				.addModifier(CreateCompatRegistry.MOBILE.get(), 1)
 				.addModifier(CreateCompatRegistry.FORCE.get(), 1)
-				.addModifier(GolemModifiers.MAGIC_RES.get(), 1).end()
+				.addModifier(CreateCompatRegistry.MACHINERY.get(), 1).end()
 
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "brass"),
 						Ingredient.of(AllTags.forgeItemTag("ingots/brass")))
@@ -50,19 +50,20 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addModifier(CreateCompatRegistry.BODY.get(), 1)
 				.addModifier(CreateCompatRegistry.MOBILE.get(), 1)
 				.addModifier(CreateCompatRegistry.FORCE.get(), 1)
-				.addModifier(GolemModifiers.MAGIC_RES.get(), 2).end()
+				.addModifier(CreateCompatRegistry.MACHINERY.get(), 2).end()
 
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "railway"),
 						Ingredient.of(AllBlocks.RAILWAY_CASING.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
+				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.2)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 1)
 				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
 				.addModifier(CreateCompatRegistry.BODY.get(), 1)
 				.addModifier(CreateCompatRegistry.MOBILE.get(), 2)
 				.addModifier(CreateCompatRegistry.FORCE.get(), 2)
-				.addModifier(GolemModifiers.MAGIC_RES.get(), 2)
+				.addModifier(CreateCompatRegistry.MACHINERY.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
 
 		);

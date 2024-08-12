@@ -1,0 +1,28 @@
+{
+  "name": "锡",
+  "icon": "tag:forge:ingots/tin",
+  "category": "modulargolems:materials",
+  "sortnum": 108,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:forge:ingots/tin",
+      "text": "制作锡傀儡部件的主要材料。减少受到的魔法伤害，减速敌人，但在寒冷地区受到成吨伤害。尽量在热的地方使用它们！"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:tin\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:tin\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:tin\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:tin\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:tin\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:tin\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:tin\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:tin\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:tin\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    }
+  ]
+}

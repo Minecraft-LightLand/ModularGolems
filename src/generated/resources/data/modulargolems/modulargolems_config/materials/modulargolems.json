@@ -1,0 +1,48 @@
+{
+  "ingredients": {
+    "modulargolems:lead": {
+      "tag": "forge:ingots/lead"
+    },
+    "modulargolems:silver": {
+      "tag": "forge:ingots/silver"
+    },
+    "modulargolems:tin": {
+      "tag": "forge:ingots/tin"
+    }
+  },
+  "modifiers": {
+    "modulargolems:lead": {
+      "modulargolems:magic_resistant": 1,
+      "modulargolems:poisonous": 1,
+      "modulargolems:weiding": 1
+    },
+    "modulargolems:silver": {
+      "modulargolems:divine": 2,
+      "modulargolems:magic_resistant": 1,
+      "modulargolems:thunder_immune": 1
+    },
+    "modulargolems:tin": {
+      "modulargolems:coating": 1,
+      "modulargolems:tin_plague": 1,
+      "modulargolems:weiding": 1
+    }
+  },
+  "stats": {
+    "modulargolems:lead": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:attack_knockback": 1.0,
+      "modulargolems:knockback_resistance": 1.0,
+      "modulargolems:max_health": 10.0,
+      "modulargolems:weight": -0.2
+    },
+    "modulargolems:silver": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 20.0,
+      "modulargolems:weight": -0.2
+    },
+    "modulargolems:tin": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 100.0
+    }
+  }
+}
