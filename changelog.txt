@@ -1,3 +1,6 @@
+2.4.39
+- Fix crash when editing maid curios
+
 2.4.38
 - Fix golem patrol when riding something
 - Increase golem shooting range
