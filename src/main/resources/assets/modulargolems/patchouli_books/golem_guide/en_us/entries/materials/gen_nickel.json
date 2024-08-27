@@ -1,0 +1,28 @@
+{
+  "name": "Nickel",
+  "icon": "tag:forge:ingots/nickel",
+  "category": "modulargolems:materials",
+  "sortnum": 110,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:forge:ingots/nickel",
+      "text": "Main material to craft Nickel golem parts. Similar to iron, but can slightly reduce the damage taken."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:nickel\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:nickel\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:nickelnickel\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:nickel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:nickel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:nickel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:nickel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:nickel\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:nickel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    }
+  ]
+}

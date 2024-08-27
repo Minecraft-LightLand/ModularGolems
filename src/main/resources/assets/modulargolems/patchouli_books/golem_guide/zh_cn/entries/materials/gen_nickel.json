@@ -1,0 +1,28 @@
+{
+  "name": "镍",
+  "icon": "tag:forge:ingots/nickel",
+  "category": "modulargolems:materials",
+  "sortnum": 110,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:forge:ingots/nickel",
+      "text": "制作镍傀儡部件的主要材料。与铁类似，但能轻微减轻受到的伤害。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:nickel\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:nickel\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:nickel\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:nickel\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:nickel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:nickel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:nickel\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:nickel\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:nickel\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    }
+  ]
+}

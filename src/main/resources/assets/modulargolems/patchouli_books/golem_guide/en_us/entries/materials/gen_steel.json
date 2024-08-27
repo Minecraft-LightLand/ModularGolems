@@ -1,0 +1,28 @@
+{
+  "name": "Steel",
+  "icon": "tag:forge:ingots/steel",
+  "category": "modulargolems:materials",
+  "sortnum": 109,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:forge:ingots/steel",
+      "text": "Main material to craft Steel golem parts. It doesn't have any special effects, but its value is higher than iron."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:steel\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:steel\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:steelsteel\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:steel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:steel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:steel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:steel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:steel\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:steel\"}]}",
+      "text": "Use JEI (press R) to check part stats of each part made of this material."
+    }
+  ]
+}

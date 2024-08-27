@@ -45,6 +45,17 @@ public class GenericConfigGen extends ConfigDataProvider {
                 .addModifier(GenericCompatRegistry.WEIDING.get(), 1)
                 .addModifier(GenericCompatRegistry.POISONOUS.get(), 1)
                 .addModifier(GolemModifiers.MAGIC_RES.get(), 1).end()
+
+                .addMaterial(new ResourceLocation(GenericDispatch.MODID, "steel"),
+                        Ingredient.of(AllTags.forgeItemTag("ingots/steel")))
+                .addStat(GolemTypes.STAT_HEALTH.get(), 150)
+                .addStat(GolemTypes.STAT_ATTACK.get(), 20).end()
+
+                .addMaterial(new ResourceLocation(GenericDispatch.MODID, "nickel"),
+                        Ingredient.of(AllTags.forgeItemTag("ingots/nickel")))
+                .addStat(GolemTypes.STAT_HEALTH.get(), 100)
+                .addStat(GolemTypes.STAT_ATTACK.get(), 15)
+                .addModifier(CreateCompatRegistry.COATING.get(), 1).end()
         );
     }
 }

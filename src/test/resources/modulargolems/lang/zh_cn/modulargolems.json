@@ -2,7 +2,9 @@
   "golem_material.modulargolems": {
     "silver": "银",
     "lead": "铅",
-    "tin": "锡"
+    "tin": "锡",
+    "steel": "钢",
+    "nickel": "镍"
   },
   "modifier.modulargolems": {
     "divine": "神圣",

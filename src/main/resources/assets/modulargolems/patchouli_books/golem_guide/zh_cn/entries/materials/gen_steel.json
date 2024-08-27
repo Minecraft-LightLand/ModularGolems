@@ -1,0 +1,28 @@
+{
+  "name": "钢",
+  "icon": "tag:forge:ingots/steel",
+  "category": "modulargolems:materials",
+  "sortnum": 109,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "tag:forge:ingots/steel",
+      "text": "制作钢傀儡部件的主要材料。没有特效，但比铁傀儡数值更高。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:steel\"},{part:\"modulargolems:metal_golem_body\",material:\"modulargolems:steel\"},{part:\"modulargolems:metal_golem_arm\",material:\"modulargolems:steel\"},{part:\"modulargolems:metal_golem_legs\",material:\"modulargolems:steel\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"modulargolems:steel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"modulargolems:steel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"modulargolems:steel\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"modulargolems:steel\"},{part:\"modulargolems:dog_golem_legs\",material:\"modulargolems:steel\"}]}",
+      "text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+    }
+  ]
+}
