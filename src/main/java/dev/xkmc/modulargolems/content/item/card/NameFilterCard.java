@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Either;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -83,7 +82,7 @@ public class NameFilterCard extends TargetFilterCard {
 
 	@Override
 	protected InteractionResultHolder<ItemStack> removeLast(Player player, ItemStack stack) {
-		var list = getStrings(stack);
+		var list = new ArrayList<>(getStrings(stack));
 		if (list.isEmpty()) {
 			return InteractionResultHolder.fail(stack);
 		}
@@ -97,7 +96,7 @@ public class NameFilterCard extends TargetFilterCard {
 
 	@Override
 	protected InteractionResultHolder<ItemStack> onUse(Player player, ItemStack stack) {
-		var strs = getStrings(stack);
+		var strs = new ArrayList<>(getStrings(stack));
 		String name = stack.getHoverName().getString();
 		if (strs.contains(name)) {
 			return InteractionResultHolder.success(stack);

@@ -1,2 +1,6 @@
+3.0.0+7
+- add TLM compat
+- Fix target filter cards
+
 3.0.0+6
-- Use NEoForge 163 for tooltip
+- Use NeoForge 163 for tooltip

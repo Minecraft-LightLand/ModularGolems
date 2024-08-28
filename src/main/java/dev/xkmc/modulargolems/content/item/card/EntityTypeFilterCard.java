@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.item.card;
 
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
