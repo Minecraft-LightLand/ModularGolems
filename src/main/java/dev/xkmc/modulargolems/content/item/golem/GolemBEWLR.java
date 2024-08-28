@@ -107,8 +107,8 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		stack.translate(0, 1.501, 0);
 		stack.scale(1, -1, -1);
 		var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(golem);
-		golem.tickCount = player.tickCount;//TODO partial
-		renderer.render(golem, 0, Minecraft.getInstance().getTimer().getGameTimeDeltaTicks(), handle.poseStack(), handle.bufferSource(), handle.light());
+		golem.tickCount = player.tickCount;
+		renderer.render(golem, 0, Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true), handle.poseStack(), handle.bufferSource(), handle.light());
 		return true;
 	}
 }
