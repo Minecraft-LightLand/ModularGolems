@@ -174,7 +174,10 @@ dependencies {
 
     implementation "mezz.jei:jei-${jei_minecraft_version}:${jei_version}"
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    implementation "curse.maven:the-twilight-forest-227639:5699076"
     implementation "com.tlm:touhoulittlemaid:1.21-release-1.1.12-snapshot4"
+    implementation "dev.xkmc:l2archery:${l2archery_ver}"
+
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
