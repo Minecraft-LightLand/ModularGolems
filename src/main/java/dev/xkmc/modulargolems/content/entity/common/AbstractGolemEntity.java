@@ -69,6 +69,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
+import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -814,6 +815,15 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public ItemWrapper getWrapperOfHand(EquipmentSlot slot) {
 		return ItemWrapper.simple(() -> this.getItemBySlot(slot), e -> super.setItemSlot(slot, e));
+	}
+
+	@Nullable
+	@Override
+	public Entity changeDimension(ServerLevel level, ITeleporter teleporter) {
+		if (!MGConfig.COMMON.allowDimensionChange.get()) {
+			return null;
+		}
+		return super.changeDimension(level, teleporter);
 	}
 
 }

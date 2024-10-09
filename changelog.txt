@@ -1,3 +1,8 @@
+2.4.40
+- Add config to allow golems to enter portal
+- Address crash with sons of sins
+- Uuid filters now have higher priority
+
 2.4.39
 - Fix crash when editing maid curios
 

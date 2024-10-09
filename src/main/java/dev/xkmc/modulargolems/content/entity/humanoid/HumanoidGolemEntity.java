@@ -112,7 +112,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
 		super.setItemSlot(pSlot, pStack);
 		if (!this.level().isClientSide) {
-			this.reassessWeaponGoal();
+			doReassessGoal = true;
 		}
 	}
 
@@ -391,8 +391,14 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
 	}
 
+	private boolean doReassessGoal = false;
+
 	@Override
 	public void aiStep() {
+		if (doReassessGoal) {
+			reassessWeaponGoal();
+			doReassessGoal = false;
+		}
 		super.aiStep();
 		attackStep();
 	}
@@ -448,7 +454,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		mainhand.setItem(off);
 		offhand.setItem(main);
-		reassessWeaponGoal();
+		doReassessGoal = true;
 		inventoryTick = 10;
 	}
 
