@@ -10,6 +10,8 @@ import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
+import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
+import ewewukek.musketmod.MusketMod;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -32,6 +34,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(LHDispatch.MODID)) LIST.add(new LHDispatch());
 		if (ModList.get().isLoaded(CataDispatch.MODID)) LIST.add(new CataDispatch());
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
+		if (ModList.get().isLoaded(MusketMod.MODID)) GolemMusketCompat.init();
 	}
 
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {

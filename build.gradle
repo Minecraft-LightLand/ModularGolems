@@ -242,6 +242,8 @@ dependencies {
     implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:4693050")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4751471")
 
+    implementation fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
+
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
