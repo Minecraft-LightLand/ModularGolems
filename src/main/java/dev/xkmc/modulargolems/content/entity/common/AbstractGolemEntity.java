@@ -66,6 +66,7 @@ import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
@@ -813,6 +814,15 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public ItemWrapper getWrapperOfHand(EquipmentSlot slot) {
 		return ItemWrapper.simple(() -> this.getItemBySlot(slot), e -> super.setItemSlot(slot, e));
+	}
+
+	@Nullable
+	@Override
+	public Entity changeDimension(DimensionTransition dim) {
+		if (!MGConfig.COMMON.allowDimensionChange.get()) {
+			return null;
+		}
+		return super.changeDimension(dim);
 	}
 
 }

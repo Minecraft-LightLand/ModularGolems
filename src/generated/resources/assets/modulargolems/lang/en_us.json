@@ -289,6 +289,8 @@
   "modulargolems.config.reset": "Reset",
   "modulargolems.config.set": "Insert to set config",
   "modulargolems.config.whitelist": "Using whitelist. Click to switch to blacklist.",
+  "modulargolems.configuration.allowDimensionChange": "Allow golems to enter portal",
+  "modulargolems.configuration.allowDimensionChange.tooltip": "",
   "modulargolems.configuration.allowEditCuriosForOthers": "Allow command wand to edit curios of other mobs you own",
   "modulargolems.configuration.allowEditCuriosForOthers.tooltip": "",
   "modulargolems.configuration.barehandRetrieve": "Allow players to retrieve the golems by bare hand",
