@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Death_Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -18,7 +19,7 @@ public class HarbingerDeathBeamModifier extends GolemModifier {
 				user.level(), user, user.getX(), user.getEyeY(), user.getZ(),
 				(user.yHeadRot + 90.0F) * Mth.DEG_TO_RAD,
 				-user.getXRot() * Mth.DEG_TO_RAD,
-				60);
+				60, (float) CMConfig.DeathLaserdamage, (float) CMConfig.DeathLaserHpdamage);
 		user.level().addFreshEntity(beam);
 		return beam;
 	}

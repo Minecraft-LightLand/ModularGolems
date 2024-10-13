@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -52,7 +53,8 @@ public class EnderGuardianVoidRuneModifier extends GolemModifier {
 			pos = pos.below();
 		} while (pos.getY() >= Mth.floor(minY) - 1);
 		if (flag) {
-			user.level().addFreshEntity(new Void_Rune_Entity(user.level(), x, pos.getY() + dy, z, rotation, delay, user));
+			user.level().addFreshEntity(new Void_Rune_Entity(user.level(), x, pos.getY() + dy, z, rotation, delay,
+					(float) CMConfig.Voidrunedamage, user));
 		}
 
 	}
