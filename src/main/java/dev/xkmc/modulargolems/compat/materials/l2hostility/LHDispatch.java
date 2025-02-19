@@ -87,8 +87,4 @@ public class LHDispatch extends ModDispatch {
 		return new LHConfigGen(gen);
 	}
 
-	@Override
-	public void dispatchClientSetup() {
-	}
-
 }

@@ -86,8 +86,4 @@ public class ACDispatch extends ModDispatch {
 		return new ACConfigGen(gen);
 	}
 
-	@Override
-	public void dispatchClientSetup() {
-	}
-
 }

@@ -34,6 +34,5 @@ public class BGDispatch extends ModDispatch {
 	@Override
 	public void dispatchClientSetup() {
 		DuplicateBlazeArmsLayer.registerLayer();
-		ModularGolems.MOD_BUS.addListener(BGClientEvents::registerLayer);
 	}
 }

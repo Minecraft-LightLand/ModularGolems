@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.compat.materials.blazegear;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
+import dev.xkmc.modulargolems.init.GolemClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -21,7 +22,7 @@ public class DuplicateBlazeArmsLayer<T extends AbstractGolemEntity<?, ?>, M exte
 
 	public DuplicateBlazeArmsLayer(LivingEntityRenderer<T, M> owner) {
 		super(owner);
-		this.model = new DuplicatedBlazeArmsModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(BGClientEvents.BLAZE_ARMS_LAYER));
+		this.model = new DuplicatedBlazeArmsModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(GolemClient.BLAZE_ARMS_LAYER));
 	}
 
 	public void render(PoseStack matrixStack, MultiBufferSource buffer, int lightness, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {

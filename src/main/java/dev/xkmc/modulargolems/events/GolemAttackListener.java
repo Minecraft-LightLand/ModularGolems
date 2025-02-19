@@ -26,5 +26,14 @@ public class GolemAttackListener implements AttackListener {
 		}
 	}
 
+	@Override
+	public void onDamageFinalized(AttackCache cache, ItemStack weapon) {
+		if (cache.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
+			var owner = golem.getOwner();
+			if (owner != null) {
+				cache.getAttackTarget().setLastHurtByPlayer(owner);
+			}
+		}
+	}
 
 }

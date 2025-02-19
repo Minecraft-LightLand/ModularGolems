@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.blazegear.DuplicatedBlazeArmsModel;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.misc.MaidCompat;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
@@ -12,6 +13,7 @@ import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +35,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class GolemClient {
 
 	private static final boolean ENABLE_TLM = true;
+
+	public static ModelLayerLocation BLAZE_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golems"), "blazegear_blaze_arms");
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
@@ -70,6 +74,7 @@ public class GolemClient {
 	@SubscribeEvent
 	public static void registerArmorLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		GolemEquipmentModels.registerArmorLayer(event);
+		event.registerLayerDefinition(BLAZE_ARMS_LAYER, DuplicatedBlazeArmsModel::createBodyLayer);
 	}
 
 	@SubscribeEvent

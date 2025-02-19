@@ -1,5 +1,8 @@
-2.4.44
-- Fix refmap again
+2.4.48
+- Fix startup client crash with some other mods
+
+2.4.47
+- Attribute golem kills to player
 
 2.4.43
 - Fix TLM GeckoLib integration
