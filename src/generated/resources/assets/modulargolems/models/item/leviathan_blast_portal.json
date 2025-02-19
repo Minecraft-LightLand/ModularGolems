@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "modulargolems:item/leviathan_blast_portal_purple",
+      "predicate": {
+        "modulargolems:blue_arrow": 0.5
+      }
+    },
+    {
+      "model": "modulargolems:item/leviathan_blast_portal_blue",
+      "predicate": {
+        "modulargolems:blue_arrow": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "cataclysm:item/upgrades/leviathan_blast_portal"
+  }
+}

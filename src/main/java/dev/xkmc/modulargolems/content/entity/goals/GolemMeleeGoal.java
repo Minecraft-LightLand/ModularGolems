@@ -1,8 +1,10 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.NetheriteMonstrosityEarthquakeModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -61,8 +63,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	}
 
 	public boolean canReachTarget(LivingEntity le) {
-		golem.isWithinMeleeAttackRange(le);
 		return getAttackReachSqr(le) >= golem.getPerceivedTargetDistanceSquareForMeleeAttack(le);
+	}
+
+	public boolean canReachTarget(LivingEntity le, double distSqr) {
+		return getAttackReachSqr(le) >= distSqr;
 	}
 
 	@Override
@@ -76,18 +81,16 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	@Override
 	protected void checkAndPerformAttack(LivingEntity target) {
 		double distSqr = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
-		if (isTimeToAttack()) {
+		if (!isTimeToAttack()) {
+			lastDist = 1000;
+			timeNoMovement = 0;
+		} else {
 			double dist = Math.sqrt(distSqr);
 			if (dist < lastDist - getTargetDistanceDelta()) {
 				lastDist = dist;
 				timeNoMovement = 0;
 			}
-		}
-		doRealAttack(target, distSqr);
-		if (!isTimeToAttack()) {
-			lastDist = 1000;
-			timeNoMovement = 0;
-		} else {
+			doRealAttack(target, distSqr);
 			if (timeNoMovement > getTargetResetTime()) {
 				golem.resetTarget(null);
 				lastDist = 1000;
@@ -97,26 +100,28 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	}
 
 	protected void doRealAttack(LivingEntity target, double distSqr) {
-		if (isTimeToAttack()) {
-			if (golem.hasFlag(GolemFlags.EARTH_QUAKE) && !golem.isInWater() && golem.onGround()) {
-				if (earthQuake) {
-					earthQuake = false;
-					resetAttackCooldown();
-					//TODO NetheriteMonstrosityEarthquakeModifier.performEarthQuake(golem);
+		if (golem.hasFlag(GolemFlags.EARTH_QUAKE) && !golem.isInWater() && golem.onGround()) {
+			if (earthQuake) {
+				earthQuake = false;
+				resetAttackCooldown();
+				NetheriteMonstrosityEarthquakeModifier.performEarthQuake(golem);
+				return;
+			} else {
+				double d0 = this.getAttackReachSqr(target);
+				if (d0 < distSqr && distSqr <= d0 + NetheriteMonstrosityEarthquakeModifier.RANGE) {
+					golem.addDeltaMovement(new Vec3(0, 1, 0));
+					golem.hasImpulse = true;
+					earthQuake = true;
 					return;
-				} else {
-					double d0 = this.getAttackReachSqr(target);
-					if (d0 < distSqr && distSqr <= d0  /*TODO + NetheriteMonstrosityEarthquakeModifier.RANGE*/) {
-						golem.addDeltaMovement(new Vec3(0, 1, 0));
-						golem.hasImpulse = true;
-						earthQuake = true;
-						return;
-					}
 				}
 			}
 		}
 		if (earthQuake && !golem.onGround()) return;
-		super.checkAndPerformAttack(target);
+		if (canReachTarget(target, distSqr) && this.mob.hasLineOfSight(target)) {
+			this.resetAttackCooldown();
+			this.mob.swing(InteractionHand.MAIN_HAND);
+			this.mob.doHurtTarget(target);
+		}
 	}
 
 }

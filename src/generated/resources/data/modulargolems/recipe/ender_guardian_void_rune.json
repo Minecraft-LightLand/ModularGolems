@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "modulargolems:empty_upgrade"
+    },
+    {
+      "item": "cataclysm:gauntlet_of_guard"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:ender_guardian_void_rune"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "modulargolems:empty_upgrade"
+    },
+    {
+      "item": "cataclysm:infernal_forge"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:netherite_monstrosity_earthquake"
+  }
+}

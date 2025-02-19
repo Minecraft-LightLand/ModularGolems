@@ -50,9 +50,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 		boolean succeed = target.hurt(source, damage);
 		if (succeed) {
-			double d1 = Math.max(0.0D, 1.0D - kb);
-			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;
-			target.setDeltaMovement(target.getDeltaMovement().add(0, dokb * d1, 0));
+			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4 * kb;
+			target.setDeltaMovement(target.getDeltaMovement().add(0, dokb, 0));
 			EnchantmentHelper.doPostAttackEffects(sl, target, source);
 		}
 		return succeed;
@@ -89,12 +88,12 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		this.level().broadcastEntityEvent(this, (byte) 4);
 		float damage = this.getAttackDamage();
 		double kb;
-		if (target instanceof LivingEntity livingentity) {
-			kb = livingentity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
+		if (target instanceof LivingEntity le) {
+			kb = le.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
 		} else {
 			kb = 0;
 		}
-		boolean flag = performRangedDamage(target, damage, kb);
+		boolean flag = performRangedDamage(target, damage, Math.max(0, 1 - kb));
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		return flag;
 	}

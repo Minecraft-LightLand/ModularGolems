@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "cataclysm:item/upgrades/leviathan_blast_portal",
+    "layer1": "modulargolems:item/blue_arrow"
+  }
+}
