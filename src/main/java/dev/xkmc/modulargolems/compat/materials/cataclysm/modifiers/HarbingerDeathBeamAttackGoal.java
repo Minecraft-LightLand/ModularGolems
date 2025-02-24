@@ -34,7 +34,7 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 
 	@Override
 	protected void performAttack(LivingEntity target) {
-		beam = CataclysmProxy.addLaserBeam(golem,60);
+		beam = CataclysmProxy.addLaserBeam(golem, 60);
 		golem.getNavigation().stop();
 	}
 
