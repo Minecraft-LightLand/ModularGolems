@@ -222,7 +222,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:create-enchantment-industry-688768:4764843")
     implementation fg.deobf("curse.maven:create-328085:5838779")
-    implementation fg.deobf("curse.maven:the-twilight-forest-227639:4635921")
+    implementation fg.deobf("curse.maven:the-twilight-forest-227639:5468648")
     implementation fg.deobf("curse.maven:touhou-little-maid-355044:5896969")
 
     runtimeOnly fg.deobf("curse.maven:caelus-308989:4581481")

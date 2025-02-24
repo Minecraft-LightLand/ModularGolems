@@ -29,7 +29,7 @@ public class CreateGolemRecipeGen {
 	private static final Set<String> SPECIAL = Set.of("andesite_alloy", "brass", "railway");
 
 	public static void genAllUpgradeRecipes(RegistrateRecipeProvider pvd) {
-		var ing = gatherConfig();
+		var ing = CompatManager.gatherConfig();
 		for (var part : GolemPart.LIST) {
 			for (var ent : ing.entrySet()) {
 				if (SPECIAL.contains(ent.getKey().getPath())) continue;
@@ -79,23 +79,6 @@ public class CreateGolemRecipeGen {
 		}
 		recipe.addOutput(GolemPart.setMaterial(part.getDefaultInstance(), id), 1);
 		recipe.build(pvd);
-	}
-
-	@SuppressWarnings("ConstantConditions")
-	private static Map<ResourceLocation, Ingredient> gatherConfig() {
-		ConfigDataProvider.Collector map = new ConfigDataProvider.Collector(new HashMap<>());
-		for (ModDispatch dispatch : CompatManager.LIST) {
-			var gen = dispatch.getDataGen(null);
-			gen.add(map);
-		}
-		new MGConfigGen(null).add(map);
-		Map<ResourceLocation, Ingredient> ing = new HashMap<>();
-		for (ConfigDataProvider.ConfigEntry<?> config : map.map().values()) {
-			if (config.config() instanceof GolemMaterialConfig mat) {
-				ing.putAll(mat.ingredients);
-			}
-		}
-		return ing;
 	}
 
 }

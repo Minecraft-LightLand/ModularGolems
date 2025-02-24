@@ -1,0 +1,28 @@
+{
+  "type": "tconstruct:casting_basin",
+  "cast": {
+    "item": "modulargolems:humanoid_golem_legs"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "modulargolems"
+    }
+  ],
+  "cooling_time": 1000,
+  "fluid": {
+    "amount": 540,
+    "tag": "forge:molten_gold"
+  },
+  "result": {
+    "item": "modulargolems:humanoid_golem_legs",
+    "nbt": {
+      "golem_material": "modulargolems:gold"
+    }
+  }
+}
