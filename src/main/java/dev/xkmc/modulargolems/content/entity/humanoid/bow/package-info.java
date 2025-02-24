@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.content.entity.sync;
+package dev.xkmc.modulargolems.content.entity.humanoid.bow;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

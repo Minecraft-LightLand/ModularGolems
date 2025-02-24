@@ -15,6 +15,7 @@ import dev.xkmc.modulargolems.content.capability.ConfigUpdateToServer;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
@@ -92,6 +93,8 @@ public class ModularGolems {
 	public static void setup(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			GolemDispenserBehaviors.registerDispenseBehaviors();
+			WeaponGoalsRegistry.init();
+			CompatManager.commonSetup();
 		});
 	}
 
@@ -115,6 +118,10 @@ public class ModularGolems {
 	@SubscribeEvent
 	public static void sendMessage(final InterModEnqueueEvent event) {
 
+	}
+
+	public static ResourceLocation loc(String id) {
+		return new ResourceLocation(MODID, id);
 	}
 
 }

@@ -1,17 +1,18 @@
-package dev.xkmc.modulargolems.content.entity.ranged;
+package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.crossbow.CrossbowBehaviorRegistry;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IRangedWeaponGoal;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.EnumSet;
 
-public class GolemCrossbowAttackGoal extends Goal {
+public class GolemCrossbowAttackGoal extends Goal implements IRangedWeaponGoal {
 	public static final UniformInt PATHFINDING_DELAY_RANGE = TimeUtil.rangeOfSeconds(1, 2);
 	private final HumanoidGolemEntity mob;
 	private GolemCrossbowAttackGoal.CrossbowState crossbowState = GolemCrossbowAttackGoal.CrossbowState.UNCHARGED;
@@ -28,21 +29,14 @@ public class GolemCrossbowAttackGoal extends Goal {
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
-	/**
-	 * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-	 * method as well.
-	 */
 	public boolean canUse() {
 		return this.isValidTarget() && this.isHoldingCrossbow();
 	}
 
 	private boolean isHoldingCrossbow() {
-		return this.mob.isHolding(is -> is.getItem() instanceof CrossbowItem);
+		return this.mob.isHolding(CrossbowBehaviorRegistry::isValidCrossbowItem);
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	public boolean canContinueToUse() {
 		return this.isValidTarget() && (this.canUse() || !this.mob.getNavigation().isDone()) && this.isHoldingCrossbow();
 	}
@@ -58,9 +52,6 @@ public class GolemCrossbowAttackGoal extends Goal {
 		mob.setInRangeAttack(true);
 	}
 
-	/**
-	 * Reset the task's internal state. Called when this task is interrupted by another one
-	 */
 	public void stop() {
 		super.stop();
 		mob.setAggressive(false);
@@ -70,7 +61,7 @@ public class GolemCrossbowAttackGoal extends Goal {
 		if (this.mob.isUsingItem()) {
 			this.mob.stopUsingItem();
 			this.mob.setChargingCrossbow(false);
-			CrossbowItem.setCharged(this.mob.getUseItem(), false);
+			CrossbowBehaviorRegistry.get(mob, mob.getUseItem()).ifPresent(e -> e.behavior().setCharged(this.mob.getUseItem(), false));
 		}
 
 	}
@@ -79,9 +70,6 @@ public class GolemCrossbowAttackGoal extends Goal {
 		return true;
 	}
 
-	/**
-	 * Keep ticking a continuous task that has already been started
-	 */
 	public void tick() {
 		LivingEntity livingentity = this.mob.getTarget();
 		if (livingentity != null) {
@@ -113,7 +101,7 @@ public class GolemCrossbowAttackGoal extends Goal {
 			this.mob.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
 			if (this.crossbowState == GolemCrossbowAttackGoal.CrossbowState.UNCHARGED) {
 				if (!flag2 && !this.mob.getProjectile(this.mob.getItemInHand(mob.getWeaponHand())).isEmpty()) {
-					this.mob.startUsingItem(ProjectileUtil.getWeaponHoldingHand(this.mob, item -> item instanceof CrossbowItem));
+					this.mob.startUsingItem(mob.getWeaponHand());
 					this.crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGING;
 					this.mob.setChargingCrossbow(true);
 				}
@@ -123,12 +111,16 @@ public class GolemCrossbowAttackGoal extends Goal {
 				}
 
 				int i = this.mob.getTicksUsingItem();
-				ItemStack itemstack = this.mob.getUseItem();
-				if (i >= CrossbowItem.getChargeDuration(itemstack)) {
-					this.mob.releaseUsingItem();
-					this.crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGED;
-					this.attackDelay = 20 + this.mob.getRandom().nextInt(20);
-					this.mob.setChargingCrossbow(false);
+				ItemStack stack = this.mob.getUseItem();
+				var weapon = CrossbowBehaviorRegistry.get(mob, stack);
+				if (weapon.isPresent()) {
+					if (i >= weapon.get().chargeDuration()) {
+						this.mob.releaseUsingItem();
+						this.crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGED;
+						this.attackDelay = 20 + this.mob.getRandom().nextInt(20);
+						this.mob.setChargingCrossbow(false);
+						weapon.get().behavior().setCharged(stack, true);
+					}
 				}
 			} else if (this.crossbowState == GolemCrossbowAttackGoal.CrossbowState.CHARGED) {
 				--this.attackDelay;
@@ -137,12 +129,16 @@ public class GolemCrossbowAttackGoal extends Goal {
 				}
 			} else if (this.crossbowState == GolemCrossbowAttackGoal.CrossbowState.READY_TO_ATTACK && flag) {
 				this.mob.performRangedAttack(livingentity, 1.0F);
-				ItemStack itemstack1 = this.mob.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this.mob, item -> item instanceof CrossbowItem));
-				CrossbowItem.setCharged(itemstack1, false);
+				ItemStack stack = this.mob.getItemInHand(mob.getWeaponHand());
+				CrossbowBehaviorRegistry.get(mob, stack).ifPresent(e -> e.behavior().setCharged(stack, false));
 				this.crossbowState = GolemCrossbowAttackGoal.CrossbowState.UNCHARGED;
 			}
-
 		}
+	}
+
+	@Override
+	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand) {
+		CrossbowBehaviorRegistry.get(mob, stack).ifPresent(e -> e.behavior().performRangedAttack(golem, target, dist, stack, hand));
 	}
 
 	private boolean canRun() {
@@ -155,4 +151,5 @@ public class GolemCrossbowAttackGoal extends Goal {
 		CHARGED,
 		READY_TO_ATTACK
 	}
+
 }

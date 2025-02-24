@@ -13,10 +13,8 @@ import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
-import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.data.MGConfigGen;
-import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
@@ -46,7 +44,6 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(ACDispatch.MODID)) LIST.add(new ACDispatch());
 		if (ModList.get().isLoaded(TConstruct.MOD_ID)) LIST.add(new TCDispatch());
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
-		if (ModList.get().isLoaded(MusketMod.MODID)) GolemMusketCompat.init();
 	}
 
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {
@@ -80,6 +77,12 @@ public abstract class CompatManager {
 	public static void lateRegister() {
 		for (ModDispatch dispatch : LIST) {
 			dispatch.lateRegister();
+		}
+	}
+
+	public static void commonSetup() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.commonSetup();
 		}
 	}
 

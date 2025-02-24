@@ -1,11 +1,12 @@
 package dev.xkmc.modulargolems.compat.musket;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IWeaponGoal;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 
-public class GolemMusketGoal extends RangedGunAttackGoal<HumanoidGolemEntity> {
+public class GolemMusketGoal extends RangedGunAttackGoal<HumanoidGolemEntity> implements IWeaponGoal {
 	private static final double speedModifier = 1.0;
 	private static final float attackRadius = 15.0F;
 	private int seeTime;

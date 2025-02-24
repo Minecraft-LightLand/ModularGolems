@@ -270,7 +270,9 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
             "patchouli",
             "the-twilight-forest",
             "alexs-caves",
-            "touhou-little-maid")
+            "touhou-little-maid",
+            "ewewukeks-musket-mod"
+    )
     mainFile.releaseType = "release"
     disableVersionDetection()
 }

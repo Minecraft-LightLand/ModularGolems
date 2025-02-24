@@ -3,13 +3,13 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.entity.ranged.GolemBowAttackGoal;
-import dev.xkmc.modulargolems.content.entity.ranged.GolemCrossbowAttackGoal;
-import dev.xkmc.modulargolems.content.entity.ranged.GolemShooterHelper;
-import dev.xkmc.modulargolems.content.entity.ranged.GolemTridentAttackGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.events.event.*;
+import dev.xkmc.modulargolems.events.event.GolemDamageShieldEvent;
+import dev.xkmc.modulargolems.events.event.GolemDisableShieldEvent;
+import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
+import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.nbt.CompoundTag;
@@ -30,7 +30,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ForgeHooks;
@@ -46,10 +49,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
-	private final GolemBowAttackGoal bowGoal = new GolemBowAttackGoal(this, 1.0D, 20);
-	private final GolemCrossbowAttackGoal crossbowGoal = new GolemCrossbowAttackGoal(this, 1.0D, 15.0F);
-	private final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this);
-	private final GolemTridentAttackGoal tridentGoal = new GolemTridentAttackGoal(this, 1, 40, 15, meleeGoal);
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
 	@SerialClass.SerialField
@@ -57,37 +56,15 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@SerialClass.SerialField
 	private ItemStack arrowSlot = ItemStack.EMPTY;
 
+	private final WeaponGoalsManager weaponManager = new WeaponGoalsManager(this);
+
+	private boolean doReassessGoal = false;
+
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(type, level);
 		if (!this.level().isClientSide) {
-			reassessWeaponGoal();
+			weaponManager.reassessWeaponGoal();
 			this.groundNavigation.setCanOpenDoors(true);
-		}
-	}
-
-	public void reassessWeaponGoal() {
-		if (!this.level().isClientSide) {
-			this.goalSelector.removeGoal(this.meleeGoal);
-			this.goalSelector.removeGoal(this.bowGoal);
-			this.goalSelector.removeGoal(this.crossbowGoal);
-			this.goalSelector.removeGoal(this.tridentGoal);
-			InteractionHand hand = getWeaponHand();
-			ItemStack weapon = getItemInHand(hand);
-			if (!weapon.isEmpty() && GolemShooterHelper.isValidThrowableWeapon(this, weapon, hand).isThrowable()) {
-				this.goalSelector.addGoal(2, this.tridentGoal);
-				this.goalSelector.addGoal(3, this.meleeGoal);
-				return;
-			}
-			if (!weapon.isEmpty() && weapon.getItem() instanceof BowItem) {
-				this.bowGoal.setMinAttackInterval(20);
-				this.goalSelector.addGoal(2, this.bowGoal);
-				return;
-			}
-			if (!weapon.isEmpty() && weapon.getItem() instanceof CrossbowItem) {
-				this.goalSelector.addGoal(2, this.crossbowGoal);
-				return;
-			}
-			this.goalSelector.addGoal(2, this.meleeGoal);
 		}
 	}
 
@@ -106,7 +83,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public void readAdditionalSaveData(CompoundTag pCompound) {
 		super.readAdditionalSaveData(pCompound);
-		this.reassessWeaponGoal();
+		weaponManager.reassessWeaponGoal();
 	}
 
 	public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
@@ -121,46 +98,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		this.entityData.define(IS_CHARGING_CROSSBOW, false);
 	}
 
-	protected AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity) {
-		return ProjectileUtil.getMobArrow(this, pArrowStack, pVelocity);
-	}
-
-	public boolean canFireProjectileWeapon(ProjectileWeaponItem pProjectileWeapon) {
-		return true;
-	}
-
-	public boolean isChargingCrossbow() {
-		return this.entityData.get(IS_CHARGING_CROSSBOW);
-	}
-
-	public void setChargingCrossbow(boolean pIsCharging) {
-		this.entityData.set(IS_CHARGING_CROSSBOW, pIsCharging);
-	}
-
-	@Override
-	public void shootCrossbowProjectile(LivingEntity pTarget, ItemStack pCrossbowStack, Projectile pProjectile, float pProjectileAngle) {
-		shootCrossbowProjectile(this, pTarget, pProjectile, pProjectileAngle, 1.6F);
-	}
-
-	public void shootCrossbowProjectile(LivingEntity pUser, LivingEntity pTarget, Projectile pProjectile, float pProjectileAngle, float pVelocity) {
-		GolemShooterHelper.shootAimHelper(pTarget, pProjectile);
-		pUser.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (pUser.getRandom().nextFloat() * 0.4F + 0.8F));
-	}
-
-	@Override
-	public void onCrossbowAttackPerformed() {
-		noActionTime = 0;
-	}
-
-	public void performCrossbowAttack(LivingEntity pUser, float pVelocity) {
-		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
-		ItemStack itemstack = pUser.getItemInHand(interactionhand);
-		if (pUser.isHolding(is -> is.getItem() instanceof CrossbowItem)) {
-			CrossbowItem.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0);
-		}
-		this.onCrossbowAttackPerformed();
-	}
-
 	public InteractionHand getWeaponHand() {
 		ItemStack stack = this.getMainHandItem();
 		InteractionHand hand = InteractionHand.MAIN_HAND;
@@ -168,44 +105,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			hand = InteractionHand.OFF_HAND;
 		}
 		return hand;
-	}
-
-	@Override
-	public void performRangedAttack(LivingEntity pTarget, float dist) {
-		InteractionHand hand = getWeaponHand();
-		ItemStack stack = getItemInHand(hand);
-		var throwable = GolemShooterHelper.isValidThrowableWeapon(this, stack, hand);
-		if (throwable.isThrowable()) {
-			Projectile projectile = throwable.createProjectile(level());
-			GolemShooterHelper.shootAimHelper(pTarget, projectile);
-			this.playSound(SoundEvents.TRIDENT_THROW, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-			projectile.getPersistentData().putInt("DespawnFactor", 20);
-			this.level().addFreshEntity(projectile);
-			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
-		} else if (stack.getItem() instanceof CrossbowItem) {
-			performCrossbowAttack(this, 3);
-		} else if (stack.getItem() instanceof BowItem bow) {
-			ItemStack arrowStack = this.getProjectile(stack);
-			if (arrowStack.isEmpty()) return;
-			AbstractArrow arrowEntity = bow.customArrow(getArrow(arrowStack, dist));
-			boolean infinite = GolemShooterHelper.arrowIsInfinite(arrowStack, stack);
-			GolemBowAttackEvent event = new GolemBowAttackEvent(this, stack, hand, arrowEntity, infinite);
-			MinecraftForge.EVENT_BUS.post(event);
-			arrowEntity = event.getArrow();
-			if (event.isNoPickup()) {
-				arrowEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-			} else {
-				arrowEntity.pickup = AbstractArrow.Pickup.ALLOWED;
-			}
-			if (!event.isNoConsume()) {
-				arrowStack.shrink(1);
-			}
-			GolemShooterHelper.shootAimHelper(pTarget, arrowEntity, event.speed(), event.gravity());
-			this.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-			arrowEntity.getPersistentData().putInt("DespawnFactor", 20);
-			this.level().addFreshEntity(arrowEntity);
-			stack.hurtAndBreak(1, this, e -> e.broadcastBreakEvent(InteractionHand.MAIN_HAND));
-		}
 	}
 
 	protected boolean rendering, render_trigger = false;
@@ -319,6 +218,18 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return -0.35;
 	}
 
+	@Override
+	public void checkRide(LivingEntity target) {
+		if (target instanceof DogGolemEntity || target instanceof AbstractHorse) {
+			startRiding(target);
+		}
+	}
+
+	@Override
+	public boolean canSweep() {
+		return getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP);
+	}
+
 	// ------ player equipment hurt
 
 	@Override
@@ -391,12 +302,12 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
 	}
 
-	private boolean doReassessGoal = false;
+	// weapon switch
 
 	@Override
 	public void aiStep() {
 		if (doReassessGoal) {
-			reassessWeaponGoal();
+			weaponManager.reassessWeaponGoal();
 			doReassessGoal = false;
 		}
 		super.aiStep();
@@ -409,8 +320,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		inventoryTick = 4;
 		switchWeapon(
 				getWrapperOfHand(EquipmentSlot.MAINHAND),
-				!backupHand.isEmpty() ?
-						getBackupHand() :
+				!backupHand.isEmpty() ? getBackupHand() :
 						getWrapperOfHand(EquipmentSlot.OFFHAND)
 		);
 	}
@@ -427,47 +337,61 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		LivingEntity target = getTarget();
 		ItemStack main = mainhand.getItem();
 		ItemStack off = offhand.getItem();
-		if (main.getItem() instanceof ProjectileWeaponItem) {
-			if (!getProjectile(main).isEmpty()) {
-				if (off.canPerformAction(ToolActions.SHIELD_BLOCK)) {
-					return;
-				}
-			}
-			if (off.isEmpty() ||
-					off.getItem() instanceof ProjectileWeaponItem ||
-					off.getItem() instanceof ArrowItem) {
-				return;
-			}
-			if (target == null || !meleeGoal.canReachTarget(target)) {
-				return;
-			}
-		} else if (off.getItem() instanceof ProjectileWeaponItem) {
-			boolean noArrow = getProjectile(off).isEmpty();
-			if (noArrow) {
-				return;
-			}
-			if (target != null && meleeGoal.canReachTarget(target)) {
-				return;
-			}
-		} else if (!main.isEmpty() || off.isEmpty()) {
-			return;
-		}
-		mainhand.setItem(off);
-		offhand.setItem(main);
-		doReassessGoal = true;
-		inventoryTick = 10;
-	}
-
-	@Override
-	public void checkRide(LivingEntity target) {
-		if (target instanceof DogGolemEntity || target instanceof AbstractHorse) {
-			startRiding(target);
+		if (weaponManager.checkSwitch(target, mainhand, offhand)) {
+			mainhand.setItem(off);
+			offhand.setItem(main);
+			doReassessGoal = true;
+			inventoryTick = 10;
 		}
 	}
 
+
+	// bow and crossbow
+
 	@Override
-	public boolean canSweep() {
-		return getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP);
+	public void performRangedAttack(LivingEntity target, float dist) {
+		weaponManager.performRangedAttack(target, dist);
 	}
+
+	public AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity) {
+		return ProjectileUtil.getMobArrow(this, pArrowStack, pVelocity);
+	}
+
+	public boolean canFireProjectileWeapon(ProjectileWeaponItem pProjectileWeapon) {
+		return true;
+	}
+
+	public boolean isChargingCrossbow() {
+		return this.entityData.get(IS_CHARGING_CROSSBOW);
+	}
+
+	public void setChargingCrossbow(boolean pIsCharging) {
+		this.entityData.set(IS_CHARGING_CROSSBOW, pIsCharging);
+	}
+
+	@Override
+	public void onCrossbowAttackPerformed() {
+		noActionTime = 0;
+	}
+
+	@Override
+	public void shootCrossbowProjectile(LivingEntity target, ItemStack stack, Projectile e, float a) {
+		shootCrossbowProjectile(this, target, e, a, 1.6F);
+	}
+
+	public void shootCrossbowProjectile(LivingEntity user, LivingEntity target, Projectile e, float a, float v) {
+		GolemShooterHelper.shootAimHelper(target, e);
+		user.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (user.getRandom().nextFloat() * 0.4F + 0.8F));
+	}
+
+	public void performCrossbowAttack(LivingEntity pUser, float pVelocity) {
+		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
+		ItemStack itemstack = pUser.getItemInHand(interactionhand);
+		if (pUser.isHolding(is -> is.getItem() instanceof CrossbowItem)) {
+			CrossbowItem.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0);
+		}
+		onCrossbowAttackPerformed();
+	}
+
 
 }
