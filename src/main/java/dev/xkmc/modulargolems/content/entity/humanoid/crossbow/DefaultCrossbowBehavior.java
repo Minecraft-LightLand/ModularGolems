@@ -8,12 +8,28 @@ import net.minecraft.world.item.ItemStack;
 
 public class DefaultCrossbowBehavior implements ICrossbowBehavior {
 
-	public void setCharged(ItemStack stack, boolean charged) {
-		CrossbowItem.setCharged(stack, charged);
+	@Override
+	public boolean hasProjectile(HumanoidGolemEntity mob, ItemStack stack) {
+		return !mob.getProjectile(stack).isEmpty();
 	}
 
-	public int getChargeDuration(ItemStack stack) {
-		return CrossbowItem.getChargeDuration(stack);
+	@Override
+	public boolean hasLoadedProjectile(ItemStack stack) {
+		return !CrossbowItem.getChargedProjectiles(stack).isEmpty();
+	}
+
+	@Override
+	public void release(ItemStack stack) {
+		CrossbowItem.setCharged(stack, false);
+	}
+
+	@Override
+	public boolean tryCharge(HumanoidGolemEntity golem, ItemStack stack) {
+		if (CrossbowItem.tryLoadProjectiles(golem, stack)) {
+			CrossbowItem.setCharged(stack, true);
+			return true;
+		}
+		return false;
 	}
 
 	@Override

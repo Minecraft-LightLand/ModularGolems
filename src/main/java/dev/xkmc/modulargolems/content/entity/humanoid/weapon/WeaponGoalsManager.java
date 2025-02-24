@@ -22,33 +22,51 @@ public class WeaponGoalsManager {
 
 	@Nullable
 	private WeaponGoalHolder<?> currentGoal = null;
+	private boolean meleeActive = false;
 
 	public WeaponGoalsManager(HumanoidGolemEntity golem) {
 		this.golem = golem;
 		meleeGoal = new GolemMeleeGoal(golem);
 	}
 
+	private @Nullable WeaponGoalHolder<?> getGoalForWeapon(ItemStack stack, @Nullable InteractionHand hand) {
+		var ent = WeaponGoalsRegistry.find(golem, stack, hand);
+		if (ent == null) return null;
+		if (goals.containsKey(ent.getFirst())) {
+			return goals.get(ent.getFirst());
+		} else {
+			var ans = new WeaponGoalHolder<>(ent.getFirst(), ent.getSecond().goal().create(golem, meleeGoal), ent.getSecond().supportMelee());
+			goals.put(ent.getFirst(), ans);
+			return ans;
+		}
+	}
+
 	public void reassessWeaponGoal() {
 		if (golem.level().isClientSide) return;
-		golem.goalSelector.removeGoal(this.meleeGoal);
-		if (currentGoal != null) {
-			golem.goalSelector.removeGoal(currentGoal.goal());
-			currentGoal = null;
-		}
 		InteractionHand hand = golem.getWeaponHand();
 		ItemStack weapon = golem.getItemInHand(hand);
 		if (!weapon.isEmpty()) {
-			var ent = WeaponGoalsRegistry.find(golem, weapon, hand);
-			if (ent != null) {
-				currentGoal = new WeaponGoalHolder<>(ent.getFirst(), ent.getSecond().goal().create(golem, meleeGoal));
-				golem.goalSelector.addGoal(2, currentGoal.goal());
-				if (ent.getSecond().supportMelee()) {
-					golem.goalSelector.addGoal(3, this.meleeGoal);
+			var ans = getGoalForWeapon(weapon, hand);
+			if (ans != null) {
+				if (currentGoal != null) {
+					golem.goalSelector.removeGoal(currentGoal.goal());
 				}
-				return;
+				currentGoal = ans;
+				golem.goalSelector.addGoal(2, currentGoal.goal());
+
+				if (!ans.supportMelee()) {
+					if (meleeActive) {
+						golem.goalSelector.removeGoal(this.meleeGoal);
+						meleeActive = false;
+					}
+					return;
+				}
 			}
 		}
-		golem.goalSelector.addGoal(3, this.meleeGoal);
+		if (!meleeActive) {
+			golem.goalSelector.addGoal(3, this.meleeGoal);
+			meleeActive = true;
+		}
 	}
 
 	public void performRangedAttack(LivingEntity target, float dist) {
@@ -69,13 +87,12 @@ public class WeaponGoalsManager {
 							!off.canPerformAction(ToolActions.SHIELD_BLOCK)) {
 				return false;
 			}
-			return golem.getProjectile(main).isEmpty() || meleeGoal.canReachTarget(target);
+			var holder = getGoalForWeapon(main, null);
+			return holder == null || !holder.goal().mayActivate(golem, main) || meleeGoal.canReachTarget(target);
 		}
 		if (off.getItem() instanceof ProjectileWeaponItem) {
-			boolean noArrow = golem.getProjectile(off).isEmpty();
-			if (noArrow) {
-				return false;
-			}
+			var holder = getGoalForWeapon(off, null);
+			if (holder == null || !holder.goal().mayActivate(golem, off)) return false;
 			return target == null || !meleeGoal.canReachTarget(target);
 		}
 		return main.isEmpty() && !off.isEmpty();

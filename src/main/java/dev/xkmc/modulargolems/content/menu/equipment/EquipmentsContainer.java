@@ -40,4 +40,10 @@ public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<Equipme
 		return getWrapper(index).getItem().split(count);
 	}
 
+	@Override
+	public void setChanged() {
+		if (parent.golem instanceof HumanoidGolemEntity humanoid) {
+			humanoid.triggerReassess();
+		}
+	}
 }

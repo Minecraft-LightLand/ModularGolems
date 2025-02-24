@@ -28,7 +28,7 @@ public class WeaponGoalsRegistry {
 	}
 
 	@Nullable
-	public static Pair<ResourceLocation, WeaponGoalEntry> find(HumanoidGolemEntity golem, ItemStack weapon, InteractionHand hand) {
+	public static Pair<ResourceLocation, WeaponGoalEntry> find(HumanoidGolemEntity golem, ItemStack weapon, @Nullable InteractionHand hand) {
 		for (var ent : KNOWLEDGE.entrySet())
 			if (ent.getValue().item().isValid(golem, weapon, hand))
 				return Pair.of(ent.getKey(), ent.getValue());
@@ -44,11 +44,11 @@ public class WeaponGoalsRegistry {
 		);
 		register(ModularGolems.loc("bow"), false,
 				(golem, stack, hand) -> BowBehaviorRegistry.isValidBowItem(stack),
-				(golem, melee) -> new GolemBowAttackGoal(golem, 1.0D, 20)
+				(golem, melee) -> new GolemBowAttackGoal(golem, 1.0D, 25, 20)
 		);
 		register(ModularGolems.loc("crossbow"), false,
 				(golem, stack, hand) -> CrossbowBehaviorRegistry.isValidCrossbowItem(stack),
-				(golem, melee) -> new GolemCrossbowAttackGoal(golem, 1.0D, 15)
+				(golem, melee) -> new GolemCrossbowAttackGoal(golem, 1.0D, 25)
 		);
 		if (ModList.get().isLoaded(MusketMod.MODID))
 			GolemMusketCompat.init();

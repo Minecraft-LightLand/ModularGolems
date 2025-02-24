@@ -13,6 +13,11 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class DefaultBowBehavior implements IBowBehavior {
 
+	@Override
+	public boolean hasProjectile(HumanoidGolemEntity golem, ItemStack stack) {
+		return !golem.getProjectile(stack).isEmpty();
+	}
+
 	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand) {
 		if (!(stack.getItem() instanceof BowItem bow)) return;
 		ItemStack arrowStack = golem.getProjectile(stack);

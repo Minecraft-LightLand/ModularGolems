@@ -29,21 +29,22 @@ import slimeknights.tconstruct.library.tools.stat.ToolStats;
 
 public class TinkerBowBehavior implements IBowBehavior {
 
+	@Override
+	public boolean hasProjectile(HumanoidGolemEntity golem, ItemStack stack) {
+		if (!(stack.getItem() instanceof ModifiableBowItem bow)) return false;
+		ToolStack tool = ToolStack.from(stack);
+		if (tool.isBroken()) return false;
+		return GolemTinkerAmmoHook.hasAmmo(tool, stack, golem, bow.getSupportedHeldProjectiles());
+	}
+
 	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand) {
 		if (!(stack.getItem() instanceof ModifiableBowItem bow)) return;
 		shoot(bow, stack, golem.level(), golem, target);
 	}
 
-	public void shoot(ModifiableBowItem bowItem, ItemStack bowStack, Level level, LivingEntity user, LivingEntity target) {
+	public void shoot(ModifiableBowItem bowItem, ItemStack bowStack, Level level, HumanoidGolemEntity user, LivingEntity target) {
 		ToolStack tool = ToolStack.from(bowStack);
-		if (tool.isBroken()) {
-			return;
-		}
-		boolean hasAmmo = GolemTinkerAmmoHook.hasAmmo(tool, bowStack, user, bowItem.getSupportedHeldProjectiles());
-		if (!hasAmmo) {
-			tool.getPersistentData().remove(GeneralInteractionModifierHook.KEY_DRAWTIME);
-			return;
-		}
+		if (!hasProjectile(user, bowStack)) return;
 		float charge = GeneralInteractionModifierHook.getToolCharge(tool, 1);
 		float velocity = ConditionalStatModifierHook.getModifiedStat(tool, user, ToolStats.VELOCITY);
 		float power = charge * velocity;

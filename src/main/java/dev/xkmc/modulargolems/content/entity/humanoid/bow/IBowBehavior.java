@@ -7,6 +7,8 @@ import net.minecraft.world.item.ItemStack;
 
 public interface IBowBehavior {
 
+	boolean hasProjectile(HumanoidGolemEntity golem, ItemStack stack);
+
 	void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand);
 
 }

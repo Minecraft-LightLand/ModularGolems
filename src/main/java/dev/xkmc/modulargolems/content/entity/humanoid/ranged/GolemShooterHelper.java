@@ -15,6 +15,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
@@ -22,7 +23,8 @@ public class GolemShooterHelper {
 
 	private static final HashSet<Class<?>> BLACKLIST = new HashSet<>();
 
-	public static boolean isValidThrowableWeapon(HumanoidGolemEntity golem, ItemStack stack, InteractionHand hand) {
+	public static boolean isValidThrowableWeapon(HumanoidGolemEntity golem, ItemStack stack, @Nullable InteractionHand hand) {
+		if (hand == null) return false;
 		return throwWeapon(golem, stack, hand).isThrowable();
 	}
 

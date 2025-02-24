@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.entity.humanoid.crossbow;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 
@@ -31,8 +30,8 @@ public class CrossbowBehaviorRegistry {
 			if (e.item().test(stack))
 				return Optional.of(e.factory().create(golem, stack));
 		}
-		if (stack.getItem() instanceof BowItem)
-			return Optional.of(new CrossbowBehaviorData(20, new DefaultCrossbowBehavior()));
+		if (stack.getItem() instanceof CrossbowItem)
+			return Optional.of(new CrossbowBehaviorData(CrossbowItem.getChargeDuration(stack), new DefaultCrossbowBehavior()));
 		return Optional.empty();
 	}
 

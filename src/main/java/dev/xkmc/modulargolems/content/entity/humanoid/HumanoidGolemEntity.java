@@ -93,6 +93,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 	}
 
+
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(IS_CHARGING_CROSSBOW, false);
@@ -306,12 +307,16 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public void aiStep() {
-		if (doReassessGoal) {
+		if (doReassessGoal || tickCount % 100 == 0) {
 			weaponManager.reassessWeaponGoal();
 			doReassessGoal = false;
 		}
 		super.aiStep();
 		attackStep();
+	}
+
+	public void triggerReassess() {
+		doReassessGoal = true;
 	}
 
 	public void attackStep() {
@@ -376,11 +381,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public void shootCrossbowProjectile(LivingEntity target, ItemStack stack, Projectile e, float a) {
-		shootCrossbowProjectile(this, target, e, a, 1.6F);
+		shootCrossbowProjectile(this, target, e, a, 3);
 	}
 
 	public void shootCrossbowProjectile(LivingEntity user, LivingEntity target, Projectile e, float a, float v) {
-		GolemShooterHelper.shootAimHelper(target, e);
+		GolemShooterHelper.getShootVector(target, e.position(), v, 0.05).rotate(a).apply(e, 0);
 		user.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (user.getRandom().nextFloat() * 0.4F + 0.8F));
 	}
 
@@ -392,6 +397,5 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		onCrossbowAttackPerformed();
 	}
-
 
 }

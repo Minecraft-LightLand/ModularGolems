@@ -7,8 +7,14 @@ import net.minecraft.world.item.ItemStack;
 
 public interface ICrossbowBehavior {
 
-	void setCharged(ItemStack stack, boolean charged);
+	void release(ItemStack stack);
+
+	boolean tryCharge(HumanoidGolemEntity golem, ItemStack stack);
 
 	void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand);
+
+	boolean hasProjectile(HumanoidGolemEntity mob, ItemStack stack);
+
+	boolean hasLoadedProjectile(ItemStack stack);
 
 }
