@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 

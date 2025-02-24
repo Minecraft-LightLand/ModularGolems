@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.cataclysm;
+package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

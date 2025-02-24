@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.NetheriteMonstrosityEarthquakeModifier;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.NetheriteMonstrosityEarthquakeModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.init.data.MGConfig;

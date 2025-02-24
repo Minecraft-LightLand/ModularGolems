@@ -1,6 +1,6 @@
-package dev.xkmc.modulargolems.compat.materials.cataclysm;
+package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
@@ -51,7 +51,7 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 		for (LivingEntity entity : le.level().getEntitiesOfClass(LivingEntity.class, le.getBoundingBox().inflate(7.0))) {
 			if (!le.isAlliedTo(entity) && entity != le) {
 				float damage = (float) (le.getAttributeValue(Attributes.ATTACK_DAMAGE) +
-						entity.getMaxHealth() * CMConfig.MonstrositysHpdamage);
+						entity.getMaxHealth() * CataclysmProxy.earthquakeDamage());
 				boolean flag = entity.hurt(le.damageSources().mobAttack(le), damage);
 				if (flag) {
 					launch(le, entity);
