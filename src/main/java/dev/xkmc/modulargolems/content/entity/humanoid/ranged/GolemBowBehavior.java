@@ -2,8 +2,8 @@ package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.events.event.GolemBowAttackEvent;
+import dev.xkmc.projectile_api.api.BowUseContext;
 import dev.xkmc.projectile_api.api.IBowBehavior;
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
 import dev.xkmc.projectile_api.api.ProjectileWeaponUser;
 import dev.xkmc.projectile_api.util.ShootUtils;
 import net.minecraft.sounds.SoundEvents;
@@ -16,12 +16,12 @@ import net.minecraftforge.common.MinecraftForge;
 public class GolemBowBehavior implements IBowBehavior {
 
 	@Override
-	public float getPowerForTime(ProjectileWeaponContext user, ItemStack stack, int pullTime) {
+	public float getPowerForTime(BowUseContext user, ItemStack stack, int pullTime) {
 		return 1;
 	}
 
 	@Override
-	public int getStandardPullTime(ProjectileWeaponContext user, ItemStack stack) {
+	public int getStandardPullTime(BowUseContext user, ItemStack stack) {
 		return 20;
 	}
 
@@ -30,7 +30,7 @@ public class GolemBowBehavior implements IBowBehavior {
 		return !user.getPreferredProjectile(stack).isEmpty();
 	}
 
-	public void shootArrow(ProjectileWeaponContext user, float power, ItemStack stack, InteractionHand hand) {
+	public void shootArrow(BowUseContext user, float power, ItemStack stack, InteractionHand hand) {
 		if (!(stack.getItem() instanceof BowItem bow) || !(user.user() instanceof HumanoidGolemEntity g)) return;
 		ItemStack arrowStack = user.getPreferredProjectile(stack, bow.getSupportedHeldProjectiles(), bow.getAllSupportedProjectiles());
 		if (arrowStack.isEmpty()) return;

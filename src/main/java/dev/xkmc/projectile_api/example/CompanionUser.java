@@ -1,6 +1,6 @@
 package dev.xkmc.projectile_api.example;
 
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
+import dev.xkmc.projectile_api.api.BowUseContext;
 import dev.xkmc.projectile_api.util.ShootUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Predicate;
 
-public record CompanionUser(Mob user, LivingEntity target) implements ProjectileWeaponContext {
+public record CompanionUser(Mob user, LivingEntity target) implements BowUseContext {
 
 	@Override
 	public ItemStack getPreferredProjectile(ItemStack weapon, Predicate<ItemStack> special, Predicate<ItemStack> general) {

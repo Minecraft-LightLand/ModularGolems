@@ -28,4 +28,13 @@ public interface ProjectileWeaponUser {
 				item.getSupportedHeldProjectiles(), item.getAllSupportedProjectiles()) : ItemStack.EMPTY;
 	}
 
+	/**
+	 * Bypass arrow consumption and durability consumption of the bow.
+	 *
+	 * @return true for hostile mobs and creative player
+	 */
+	boolean bypassAllConsumption();
+
+	boolean hasInfiniteArrow(ItemStack weapon, ItemStack ammo);
+
 }

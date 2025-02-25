@@ -1,17 +1,31 @@
 package dev.xkmc.projectile_api.example;
 
+import dev.xkmc.projectile_api.api.CrossbowUseContext;
 import dev.xkmc.projectile_api.api.ICrossbowBehavior;
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
+import dev.xkmc.projectile_api.api.ProjectileWeaponUser;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public class SimpleCrossbowBehavior implements ICrossbowBehavior {
 
 	@Override
-	public int chargeTime(LivingEntity golem, ItemStack stack) {
+	public int chargeTime(LivingEntity user, ItemStack stack) {
 		return CrossbowItem.getChargeDuration(stack);
+	}
+
+	@Override
+	public boolean hasProjectile(ProjectileWeaponUser mob, ItemStack stack) {
+		return !mob.getPreferredProjectile(stack).isEmpty();
+	}
+
+	@Override
+	public List<ItemStack> getLoadedProjectile(ItemStack stack) {
+		return CrossbowItem.getChargedProjectiles(stack);
 	}
 
 	@Override
@@ -20,22 +34,18 @@ public class SimpleCrossbowBehavior implements ICrossbowBehavior {
 	}
 
 	@Override
-	public boolean tryCharge(LivingEntity golem, ItemStack stack) {
+	public boolean tryCharge(LivingEntity user, ItemStack stack) {
+		if (CrossbowItem.tryLoadProjectiles(user, stack)) {
+			CrossbowItem.setCharged(stack, true);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public void performRangedAttack(LivingEntity golem, ProjectileWeaponContext strategy, float dist, ItemStack stack, InteractionHand hand) {
-
+	public void performRangedAttack(CrossbowUseContext user, ItemStack stack, InteractionHand hand) {
+		if (user.user() instanceof CrossbowAttackMob mob)
+			mob.performCrossbowAttack(user.user(), user.getCrossbowVelocity(getLoadedProjectile(stack)));
 	}
 
-	@Override
-	public boolean hasProjectile(LivingEntity mob, ItemStack stack) {
-		return !mob.getProjectile(stack).isEmpty();
-	}
-
-	@Override
-	public boolean hasLoadedProjectile(ItemStack stack) {
-		return false;
-	}
 }

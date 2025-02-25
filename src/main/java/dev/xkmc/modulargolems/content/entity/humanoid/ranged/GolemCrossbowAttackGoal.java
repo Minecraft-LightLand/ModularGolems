@@ -19,7 +19,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 	public boolean mayActivate(HumanoidGolemEntity golem, ItemStack stack) {
 		var weapon = WeaponGoalsRegistry.CROSSBOW.get(mob, stack);
 		if (weapon.isEmpty()) return false;
-		return weapon.get().hasProjectile(mob, stack) ||
+		return weapon.get().hasProjectile(new GolemUser(mob, null), stack) ||
 				weapon.get().hasLoadedProjectile(stack);
 	}
 
@@ -36,12 +36,13 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
 		var weapon = WeaponGoalsRegistry.CROSSBOW.get(mob, stack);
 		if (weapon.isEmpty()) return;
+		var user = new GolemUser(mob, target);
 		var behavior = weapon.get();
 		if (crossbowState == GolemCrossbowAttackGoal.CrossbowState.UNCHARGED) {
 			if (behavior.hasLoadedProjectile(stack)) {
 				crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGED;
 				mob.setChargingCrossbow(false);
-			} else if (behavior.hasProjectile(mob, stack)) {
+			} else if (behavior.hasProjectile(user, stack)) {
 				mob.startUsingItem(mob.getWeaponHand());
 				crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGING;
 				mob.setChargingCrossbow(true);
@@ -78,7 +79,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 
 	@Override
 	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float power, ItemStack stack, InteractionHand hand) {
-		WeaponGoalsRegistry.CROSSBOW.get(mob, stack).ifPresent(e -> e.performRangedAttack(golem, new GolemUser(golem, target), power, stack, hand));
+		WeaponGoalsRegistry.CROSSBOW.get(mob, stack).ifPresent(e -> e.performRangedAttack(new GolemUser(golem, target), stack, hand));
 	}
 
 	enum CrossbowState {

@@ -1,6 +1,6 @@
 package dev.xkmc.projectile_api.util;
 
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
+import dev.xkmc.projectile_api.api.BowUseContext;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Slime;
@@ -82,7 +82,7 @@ public class ShootUtils {
 		return new ArrowConsumer(new Vec3(dx, dy, dz), v, ina);
 	}
 
-	public record ArrowConsumer(Vec3 vec3, float v, float inaccuracy) implements ProjectileWeaponContext.AimResult {
+	public record ArrowConsumer(Vec3 vec3, float v, float inaccuracy) implements BowUseContext.AimResult {
 
 		public ArrowConsumer rotate(float angle) {
 			return new ArrowConsumer(vec3.yRot(angle * Mth.DEG_TO_RAD), v, inaccuracy);

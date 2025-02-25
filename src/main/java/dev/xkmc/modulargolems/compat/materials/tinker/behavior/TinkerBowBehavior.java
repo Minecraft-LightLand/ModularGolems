@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.tinker.behavior;
 
+import dev.xkmc.projectile_api.api.BowUseContext;
 import dev.xkmc.projectile_api.api.IBowBehavior;
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
 import dev.xkmc.projectile_api.api.ProjectileWeaponUser;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -27,12 +27,12 @@ import slimeknights.tconstruct.library.tools.stat.ToolStats;
 public class TinkerBowBehavior implements IBowBehavior {
 
 	@Override
-	public float getPowerForTime(ProjectileWeaponContext user, ItemStack stack, int pullTime) {
+	public float getPowerForTime(BowUseContext user, ItemStack stack, int pullTime) {
 		return 1;
 	}
 
 	@Override
-	public int getStandardPullTime(ProjectileWeaponContext user, ItemStack stack) {
+	public int getStandardPullTime(BowUseContext user, ItemStack stack) {
 		return (int) Math.ceil(20 / ConditionalStatModifierHook.getModifiedStat(ToolStack.from(stack), user.user(), ToolStats.DRAW_SPEED));
 	}
 
@@ -44,13 +44,13 @@ public class TinkerBowBehavior implements IBowBehavior {
 		return GolemTinkerAmmoHook.hasAmmo(tool, stack, user.user(), bow.getSupportedHeldProjectiles());
 	}
 
-	public void shootArrow(ProjectileWeaponContext user, float dist, ItemStack stack, InteractionHand hand) {
+	public void shootArrow(BowUseContext user, float dist, ItemStack stack, InteractionHand hand) {
 		if (!(stack.getItem() instanceof ModifiableBowItem bow)) return;
 		shoot(bow, stack, user);
 	}
 
 	// from ModifiableBowItem.releaseUsing
-	public void shoot(ModifiableBowItem bowItem, ItemStack bowStack, ProjectileWeaponContext strategy) {
+	public void shoot(ModifiableBowItem bowItem, ItemStack bowStack, BowUseContext strategy) {
 		var user = strategy.user();
 		var level = user.level();
 		ToolStack tool = ToolStack.from(bowStack);

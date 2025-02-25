@@ -1,8 +1,8 @@
 package dev.xkmc.projectile_api.example;
 
+import dev.xkmc.projectile_api.api.BowUseContext;
 import dev.xkmc.projectile_api.api.IBowBehavior;
 import dev.xkmc.projectile_api.api.ProjectileProperties;
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
 import dev.xkmc.projectile_api.api.ProjectileWeaponUser;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -13,12 +13,12 @@ import net.minecraft.world.item.ItemStack;
 public class SimpleBowBehavior implements IBowBehavior {
 
 	@Override
-	public float getPowerForTime(ProjectileWeaponContext user, ItemStack stack, int pullTime) {
+	public float getPowerForTime(BowUseContext user, ItemStack stack, int pullTime) {
 		return BowItem.getPowerForTime(pullTime);
 	}
 
 	@Override
-	public int getStandardPullTime(ProjectileWeaponContext user, ItemStack stack) {
+	public int getStandardPullTime(BowUseContext user, ItemStack stack) {
 		return 20;
 	}
 
@@ -27,7 +27,7 @@ public class SimpleBowBehavior implements IBowBehavior {
 		return !user.getPreferredProjectile(stack).isEmpty();
 	}
 
-	public void shootArrow(ProjectileWeaponContext user, float power, ItemStack stack, InteractionHand hand) {
+	public void shootArrow(BowUseContext user, float power, ItemStack stack, InteractionHand hand) {
 		if (!(stack.getItem() instanceof BowItem bow)) return;
 		ItemStack arrowStack = user.getPreferredProjectile(stack, bow.getSupportedHeldProjectiles(), bow.getAllSupportedProjectiles());
 		if (arrowStack.isEmpty()) return;

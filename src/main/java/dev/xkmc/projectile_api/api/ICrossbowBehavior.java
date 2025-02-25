@@ -4,18 +4,24 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 public interface ICrossbowBehavior {
 
-	int chargeTime(LivingEntity golem, ItemStack stack);
+	int chargeTime(LivingEntity user, ItemStack stack);
 
 	void release(ItemStack stack);
 
-	boolean tryCharge(LivingEntity golem, ItemStack stack);
+	boolean tryCharge(LivingEntity user, ItemStack stack);
 
-	void performRangedAttack(LivingEntity golem, ProjectileWeaponContext strategy, float dist, ItemStack stack, InteractionHand hand);
+	void performRangedAttack(CrossbowUseContext user, ItemStack stack, InteractionHand hand);
 
-	boolean hasProjectile(LivingEntity mob, ItemStack stack);
+	boolean hasProjectile(ProjectileWeaponUser user, ItemStack stack);
 
-	boolean hasLoadedProjectile(ItemStack stack);
+	default boolean hasLoadedProjectile(ItemStack stack) {
+		return !getLoadedProjectile(stack).isEmpty();
+	}
+
+	List<ItemStack> getLoadedProjectile(ItemStack stack);
 
 }

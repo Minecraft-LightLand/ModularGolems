@@ -1,6 +1,6 @@
 package dev.xkmc.projectile_api.example;
 
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
+import dev.xkmc.projectile_api.api.BowUseContext;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.item.ItemStack;
@@ -8,7 +8,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Predicate;
 
-public record SkeletonUser(AbstractSkeleton mob, LivingEntity target) implements ProjectileWeaponContext {
+public record SkeletonUser(AbstractSkeleton mob, LivingEntity target) implements BowUseContext {
 
 	@Override
 	public LivingEntity user() {

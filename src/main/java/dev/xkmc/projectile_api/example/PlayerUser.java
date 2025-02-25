@@ -1,6 +1,6 @@
 package dev.xkmc.projectile_api.example;
 
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
+import dev.xkmc.projectile_api.api.BowUseContext;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArrowItem;
@@ -9,7 +9,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Predicate;
 
-public record PlayerUser(Player player) implements ProjectileWeaponContext {
+public record PlayerUser(Player player) implements BowUseContext {
 
 	@Override
 	public LivingEntity user() {

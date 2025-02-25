@@ -1,7 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
+import dev.xkmc.projectile_api.api.BowUseContext;
+import dev.xkmc.projectile_api.api.CrossbowUseContext;
 import dev.xkmc.projectile_api.util.ShootUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -10,7 +11,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
-public record GolemUser(HumanoidGolemEntity user, @Nullable LivingEntity target) implements ProjectileWeaponContext {
+public record GolemUser(HumanoidGolemEntity user,
+						@Nullable LivingEntity target) implements BowUseContext, CrossbowUseContext {
 
 	@Override
 	public ItemStack getPreferredProjectile(ItemStack weapon, Predicate<ItemStack> special, Predicate<ItemStack> general) {
