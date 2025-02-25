@@ -1,7 +1,6 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
+package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

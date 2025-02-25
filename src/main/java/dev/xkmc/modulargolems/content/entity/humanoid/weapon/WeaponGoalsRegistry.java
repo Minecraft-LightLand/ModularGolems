@@ -55,4 +55,13 @@ public class WeaponGoalsRegistry {
 		);
 	}
 
+	public record WeaponSearchResult(ResourceLocation id, WeaponStatus status, WeaponGoalEntry entry) {
+	}
+
+	public record WeaponGoalEntry(
+			IWeaponStatusPredicate item,
+			IWeaponGoalFactory<?> goal
+
+	) {
+	}
 }

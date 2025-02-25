@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.tinker.behavior;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.IBowBehavior;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IBowBehavior;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;

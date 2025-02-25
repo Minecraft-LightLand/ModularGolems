@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IRangedWeaponGoal;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;

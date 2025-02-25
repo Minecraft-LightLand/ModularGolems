@@ -3,10 +3,10 @@ package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.IRangedWeaponGoal;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -99,4 +99,6 @@ public class WeaponGoalsManager {
 		return main.isEmpty() && !off.isEmpty();
 	}
 
+	private record WeaponGoalHolder<T extends Goal & IWeaponGoal>(ResourceLocation id, T goal, boolean supportMelee) {
+	}
 }

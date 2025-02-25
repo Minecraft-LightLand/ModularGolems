@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IBowBehavior;
 import dev.xkmc.modulargolems.events.event.GolemBowAttackEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;

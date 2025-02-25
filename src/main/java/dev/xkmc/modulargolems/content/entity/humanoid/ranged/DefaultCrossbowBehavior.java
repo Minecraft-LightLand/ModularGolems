@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.ICrossbowBehavior;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CrossbowItem;
