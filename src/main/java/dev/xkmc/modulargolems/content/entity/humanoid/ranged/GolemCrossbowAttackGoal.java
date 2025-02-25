@@ -68,7 +68,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 				--attackDelay;
 				if (attackDelay == 0) {
 					crossbowState = GolemCrossbowAttackGoal.CrossbowState.READY_TO_ATTACK;
-			}
+				}
 			} else if (crossbowState == GolemCrossbowAttackGoal.CrossbowState.READY_TO_ATTACK && seeTime > 0) {
 				mob.performRangedAttack(target, 1.0F);
 				behavior.release(stack);

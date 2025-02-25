@@ -73,7 +73,7 @@ public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeapo
 		}
 	}
 
-	public double attackRadiusSqr(){
+	public double attackRadiusSqr() {
 		return attackRadiusSqr;
 	}
 
