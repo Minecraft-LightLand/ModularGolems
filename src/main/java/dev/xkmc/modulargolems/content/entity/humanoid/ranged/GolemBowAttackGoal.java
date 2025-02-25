@@ -19,7 +19,7 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 	public boolean mayActivate(HumanoidGolemEntity golem, ItemStack stack) {
 		var weapon = WeaponGoalsRegistry.BOW.get(mob, stack);
 		if (weapon.isEmpty()) return false;
-		return weapon.get().hasProjectile(mob, stack);
+		return weapon.get().hasProjectile(new GolemUser(mob, null), stack);
 	}
 
 	@Override
@@ -32,14 +32,17 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 		strafing();
 		LivingEntity target = mob.getTarget();
 		if (mob.isUsingItem() && target != null) {
+			var user = new GolemUser(mob, target);
+			double dist = mob.distanceTo(target);
 			if (seeTime < -60) {
 				mob.stopUsingItem();
 			} else if (seeTime > 0) {
-				var weapon = WeaponGoalsRegistry.BOW.get(mob, mob.getUseItem());
+				ItemStack stack = mob.getUseItem();
+				var weapon = WeaponGoalsRegistry.BOW.get(mob, stack);
 				int i = mob.getTicksUsingItem();
-				if (weapon.isPresent() && i >= weapon.get().pullTime(mob, mob.getUseItem())) {
+				if (weapon.isPresent() && i >= weapon.get().getPreferredPullTime(user, stack, dist)) {
 					mob.stopUsingItem();
-					mob.performRangedAttack(target, weapon.get().powerForTime(i));
+					mob.performRangedAttack(target, weapon.get().getPowerForTime(user, stack, i));
 					attackTime = mob.getRandom().nextInt(5) + 5;
 				}
 			}
@@ -51,7 +54,7 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 
 	@Override
 	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float power, ItemStack stack, InteractionHand hand) {
-		WeaponGoalsRegistry.BOW.get(golem, stack).ifPresent(e -> e.performRangedAttack(golem, target, power, stack, hand));
+		WeaponGoalsRegistry.BOW.get(golem, stack).ifPresent(e -> e.shootArrow(new GolemUser(golem, target), power, stack, hand));
 	}
 
 }

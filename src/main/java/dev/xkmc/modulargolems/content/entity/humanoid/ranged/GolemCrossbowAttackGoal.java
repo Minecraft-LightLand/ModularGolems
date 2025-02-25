@@ -78,7 +78,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 
 	@Override
 	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float power, ItemStack stack, InteractionHand hand) {
-		WeaponGoalsRegistry.CROSSBOW.get(mob, stack).ifPresent(e -> e.performRangedAttack(golem, target, power, stack, hand));
+		WeaponGoalsRegistry.CROSSBOW.get(mob, stack).ifPresent(e -> e.performRangedAttack(golem, new GolemUser(golem, target), power, stack, hand));
 	}
 
 	enum CrossbowState {

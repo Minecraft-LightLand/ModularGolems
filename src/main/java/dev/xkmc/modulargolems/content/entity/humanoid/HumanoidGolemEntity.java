@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemDamageShieldEvent;
@@ -12,6 +11,7 @@ import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.projectile_api.util.ShootUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -385,7 +385,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	public void shootCrossbowProjectile(LivingEntity user, LivingEntity target, Projectile e, float a, float v) {
-		GolemShooterHelper.getShootVector(target, e.position(), v, 0.05).rotate(a).apply(e, 0);
+		ShootUtils.getShootVector(target, e.position(), v, 0.05f, 0).shoot(e, a);
 		user.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (user.getRandom().nextFloat() * 0.4F + 0.8F));
 	}
 

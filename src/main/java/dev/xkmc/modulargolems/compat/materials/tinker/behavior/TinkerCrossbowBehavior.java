@@ -1,8 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.tinker.behavior;
 
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.ICrossbowBehavior;
+import dev.xkmc.projectile_api.api.ICrossbowBehavior;
+import dev.xkmc.projectile_api.api.ProjectileWeaponContext;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -32,7 +31,7 @@ import slimeknights.tconstruct.library.tools.stat.ToolStats;
 public class TinkerCrossbowBehavior implements ICrossbowBehavior {
 
 	@Override
-	public int chargeTime(HumanoidGolemEntity golem, ItemStack stack) {
+	public int chargeTime(LivingEntity golem, ItemStack stack) {
 		return (int) Math.ceil(20 / ConditionalStatModifierHook.getModifiedStat(ToolStack.from(stack), golem, ToolStats.DRAW_SPEED));
 	}
 
@@ -43,7 +42,7 @@ public class TinkerCrossbowBehavior implements ICrossbowBehavior {
 
 	// from ModifiableCrossbowItem.releaseUsing
 	@Override
-	public boolean tryCharge(HumanoidGolemEntity golem, ItemStack stack) {
+	public boolean tryCharge(LivingEntity golem, ItemStack stack) {
 		if (!(stack.getItem() instanceof ModifiableCrossbowItem bow)) return false;
 		ToolStack tool = ToolStack.from(stack);
 		if (tool.isBroken()) return false;
@@ -61,7 +60,7 @@ public class TinkerCrossbowBehavior implements ICrossbowBehavior {
 
 	// from ModifiableCrossbowItem.fireCrossbow
 	@Override
-	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand) {
+	public void performRangedAttack(LivingEntity golem, ProjectileWeaponContext strategy, float dist, ItemStack stack, InteractionHand hand) {
 		if (!(stack.getItem() instanceof ModifiableCrossbowItem)) return;
 		ToolStack tool = ToolStack.from(stack);
 		if (tool.isBroken()) return;
@@ -77,7 +76,7 @@ public class TinkerCrossbowBehavior implements ICrossbowBehavior {
 		int primaryIndex = ammo.getCount() / 2;
 
 		var pos = golem.getEyePosition().add(0, ammo.is(Items.FIREWORK_ROCKET) ? -0.15 : -0.1, 0);
-		var cons = GolemShooterHelper.getShootVector(target, pos, velocity * 3, 0.05);
+		var cons = strategy.aim(pos, velocity * 3, 0.05f, inaccuracy);
 
 		for (int i = 0; i < ammo.getCount(); ++i) {
 			AbstractArrow arrow = null;
@@ -102,7 +101,7 @@ public class TinkerCrossbowBehavior implements ICrossbowBehavior {
 			}
 
 			angle = startAngle + (float) (10 * i);
-			cons.rotate(angle).apply(projectile, inaccuracy);
+			cons.shoot(projectile, angle);
 
 			ModifierNBT modifiers = tool.getModifiers();
 			projectile.getCapability(EntityModifierCapability.CAPABILITY).ifPresent((cap) -> cap.setModifiers(modifiers));
@@ -120,7 +119,7 @@ public class TinkerCrossbowBehavior implements ICrossbowBehavior {
 	}
 
 	@Override
-	public boolean hasProjectile(HumanoidGolemEntity mob, ItemStack stack) {
+	public boolean hasProjectile(LivingEntity mob, ItemStack stack) {
 		if (!(stack.getItem() instanceof ModifiableCrossbowItem bow)) return false;
 		ToolStack tool = ToolStack.from(stack);
 		if (tool.isBroken()) return false;
