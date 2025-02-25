@@ -52,7 +52,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	}
 
 	@Override
-	protected int adjustedTickDelay(int tick) {
+	public int adjustedTickDelay(int tick) {
 		double speed = mob.getAttributeValue(Attributes.ATTACK_SPEED);
 		return (int) Math.ceil(super.adjustedTickDelay(tick) / Math.min(1, speed));
 	}

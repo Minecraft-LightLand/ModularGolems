@@ -354,8 +354,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	// bow and crossbow
 
 	@Override
-	public void performRangedAttack(LivingEntity target, float dist) {
-		weaponManager.performRangedAttack(target, dist);
+	public void performRangedAttack(LivingEntity target, float power) {
+		weaponManager.performRangedAttack(target, power);
 	}
 
 	public AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity) {

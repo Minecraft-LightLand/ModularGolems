@@ -1,7 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
+import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IRangedWeaponGoal;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.ItemStack;
 
@@ -10,6 +11,7 @@ import java.util.EnumSet;
 public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeaponGoal {
 
 	protected final HumanoidGolemEntity mob;
+	protected final GolemMeleeGoal melee;
 	protected final double speedModifier;
 	protected final double attackRadiusSqr;
 	protected int seeTime;
@@ -17,8 +19,11 @@ public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeapo
 	private boolean strafingBackwards;
 	private int strafingTime = -1;
 
-	protected GolemRangedAttackGoal(HumanoidGolemEntity mob, double speedModifier, double attackRadiusSqr) {
+	private int meleeTime = 0;
+
+	protected GolemRangedAttackGoal(HumanoidGolemEntity mob, GolemMeleeGoal melee, double speedModifier, double attackRadiusSqr) {
 		this.mob = mob;
+		this.melee = melee;
 		this.speedModifier = speedModifier;
 		this.attackRadiusSqr = attackRadiusSqr;
 		setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
@@ -45,11 +50,26 @@ public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeapo
 		mob.setAggressive(false);
 		mob.setInRangeAttack(false);
 		seeTime = 0;
+		meleeTime = 0;
 		mob.stopUsingItem();
 	}
 
 	public boolean requiresUpdateEveryTick() {
 		return true;
+	}
+
+	protected void doMelee() {
+		if (meleeTime > 0) {
+			meleeTime--;
+			return;
+		}
+		var target = mob.getTarget();
+		if (target == null) return;
+		if (melee.canReachTarget(target)) {
+			this.mob.swing(InteractionHand.MAIN_HAND);
+			this.mob.doHurtTarget(target);
+			meleeTime = melee.adjustedTickDelay(20);
+		}
 	}
 
 	protected void strafing() {

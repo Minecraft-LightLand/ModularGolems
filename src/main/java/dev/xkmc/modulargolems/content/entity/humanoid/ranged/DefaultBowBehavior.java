@@ -1,7 +1,6 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.bow;
+package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.events.event.GolemBowAttackEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -12,6 +11,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
 public class DefaultBowBehavior implements IBowBehavior {
+
+	@Override
+	public float powerForTime(int i) {
+		return 1;
+	}
+
+	@Override
+	public int pullTime(HumanoidGolemEntity golem, ItemStack stack) {
+		return 20;
+	}
 
 	@Override
 	public boolean hasProjectile(HumanoidGolemEntity golem, ItemStack stack) {

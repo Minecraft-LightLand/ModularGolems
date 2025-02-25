@@ -1,7 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
+import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.crossbow.CrossbowBehaviorRegistry;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -10,16 +11,16 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 	private GolemCrossbowAttackGoal.CrossbowState crossbowState = GolemCrossbowAttackGoal.CrossbowState.UNCHARGED;
 	private int attackDelay;
 
-	public GolemCrossbowAttackGoal(HumanoidGolemEntity mob, double speed, float radiusSqr) {
-		super(mob, speed, radiusSqr * radiusSqr);
+	public GolemCrossbowAttackGoal(HumanoidGolemEntity mob, GolemMeleeGoal melee, double speed, float radiusSqr) {
+		super(mob, melee, speed, radiusSqr * radiusSqr);
 	}
 
 	@Override
 	public boolean mayActivate(HumanoidGolemEntity golem, ItemStack stack) {
-		var weapon = CrossbowBehaviorRegistry.get(mob, stack);
+		var weapon = WeaponGoalsRegistry.CROSSBOW.get(mob, stack);
 		if (weapon.isEmpty()) return false;
-		return weapon.get().behavior().hasProjectile(mob, stack) ||
-				weapon.get().behavior().hasLoadedProjectile(stack);
+		return weapon.get().hasProjectile(mob, stack) ||
+				weapon.get().hasLoadedProjectile(stack);
 	}
 
 	public void stop() {
@@ -29,12 +30,13 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 	}
 
 	public void tick() {
+		doMelee();
 		strafing();
 		LivingEntity target = mob.getTarget();
 		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
-		var weapon = CrossbowBehaviorRegistry.get(mob, stack);
+		var weapon = WeaponGoalsRegistry.CROSSBOW.get(mob, stack);
 		if (weapon.isEmpty()) return;
-		var behavior = weapon.get().behavior();
+		var behavior = weapon.get();
 		if (crossbowState == GolemCrossbowAttackGoal.CrossbowState.UNCHARGED) {
 			if (behavior.hasLoadedProjectile(stack)) {
 				crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGED;
@@ -48,9 +50,9 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 			if (!mob.isUsingItem()) {
 				crossbowState = GolemCrossbowAttackGoal.CrossbowState.UNCHARGED;
 			}
-			if (mob.getTicksUsingItem() >= weapon.get().chargeDuration()) {
+			if (mob.getTicksUsingItem() >= weapon.get().chargeTime(mob, stack)) {
 				mob.releaseUsingItem();
-				if (weapon.get().behavior().tryCharge(mob, stack)) {
+				if (weapon.get().tryCharge(mob, stack)) {
 					crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGED;
 					mob.setChargingCrossbow(false);
 				}
@@ -75,8 +77,8 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 	}
 
 	@Override
-	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand) {
-		CrossbowBehaviorRegistry.get(mob, stack).ifPresent(e -> e.behavior().performRangedAttack(golem, target, dist, stack, hand));
+	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float power, ItemStack stack, InteractionHand hand) {
+		WeaponGoalsRegistry.CROSSBOW.get(mob, stack).ifPresent(e -> e.performRangedAttack(golem, target, power, stack, hand));
 	}
 
 	enum CrossbowState {

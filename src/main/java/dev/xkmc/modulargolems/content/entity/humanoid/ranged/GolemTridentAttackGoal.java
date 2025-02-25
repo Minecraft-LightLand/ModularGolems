@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IRangedWeaponGoal;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,7 +42,7 @@ public class GolemTridentAttackGoal extends RangedAttackGoal implements IRangedW
 	}
 
 	@Override
-	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand) {
+	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float power, ItemStack stack, InteractionHand hand) {
 		var throwable = GolemShooterHelper.throwWeapon(golem, stack, hand);
 		if (throwable.isThrowable()) {
 			Projectile projectile = throwable.createProjectile(golem.level());

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
+import dev.xkmc.modulargolems.content.entity.humanoid.ranged.IRangedWeaponGoal;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,11 +33,11 @@ public class WeaponGoalsManager {
 	private @Nullable WeaponGoalHolder<?> getGoalForWeapon(ItemStack stack, @Nullable InteractionHand hand) {
 		var ent = WeaponGoalsRegistry.find(golem, stack, hand);
 		if (ent == null) return null;
-		if (goals.containsKey(ent.getFirst())) {
-			return goals.get(ent.getFirst());
+		if (goals.containsKey(ent.id())) {
+			return goals.get(ent.id());
 		} else {
-			var ans = new WeaponGoalHolder<>(ent.getFirst(), ent.getSecond().goal().create(golem, meleeGoal), ent.getSecond().supportMelee());
-			goals.put(ent.getFirst(), ans);
+			var ans = new WeaponGoalHolder<>(ent.id(), ent.entry().goal().create(golem, meleeGoal), ent.status().isMelee());
+			goals.put(ent.id(), ans);
 			return ans;
 		}
 	}
@@ -69,11 +70,11 @@ public class WeaponGoalsManager {
 		}
 	}
 
-	public void performRangedAttack(LivingEntity target, float dist) {
+	public void performRangedAttack(LivingEntity target, float power) {
 		if (currentGoal != null && currentGoal.goal() instanceof IRangedWeaponGoal goal) {
 			InteractionHand hand = golem.getWeaponHand();
 			ItemStack stack = golem.getItemInHand(hand);
-			goal.performRangedAttack(golem, target, dist, stack, hand);
+			goal.performRangedAttack(golem, target, power, stack, hand);
 		}
 	}
 

@@ -5,8 +5,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public interface IWeaponGoalPredicate {
+import java.util.Optional;
 
-	boolean isValid(HumanoidGolemEntity golem, ItemStack weapon, @Nullable InteractionHand hand);
+public interface IWeaponStatusPredicate {
+
+	Optional<WeaponStatus> getProperties(HumanoidGolemEntity golem, ItemStack weapon, @Nullable InteractionHand hand);
 
 }

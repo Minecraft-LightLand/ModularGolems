@@ -243,6 +243,8 @@ dependencies {
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4751471")
     implementation fg.deobf("curse.maven:mantle-74924:6105891")
     implementation fg.deobf("curse.maven:tinkers-construct-74072:6111032")
+    implementation fg.deobf("curse.maven:mutil-351914:4824501")
+    implementation fg.deobf("curse.maven:tetra-289712:6096160")
 
     implementation fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
 

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.crossbow;
+package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.world.InteractionHand;
@@ -7,6 +7,11 @@ import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 
 public class DefaultCrossbowBehavior implements ICrossbowBehavior {
+
+	@Override
+	public int chargeTime(HumanoidGolemEntity golem, ItemStack stack) {
+		return CrossbowItem.getChargeDuration(stack);
+	}
 
 	@Override
 	public boolean hasProjectile(HumanoidGolemEntity mob, ItemStack stack) {

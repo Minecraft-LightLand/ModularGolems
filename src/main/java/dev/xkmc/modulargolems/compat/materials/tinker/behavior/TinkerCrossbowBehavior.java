@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.tinker.behavior;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.crossbow.ICrossbowBehavior;
 import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
+import dev.xkmc.modulargolems.content.entity.humanoid.ranged.ICrossbowBehavior;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -30,6 +30,11 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 
 public class TinkerCrossbowBehavior implements ICrossbowBehavior {
+
+	@Override
+	public int chargeTime(HumanoidGolemEntity golem, ItemStack stack) {
+		return (int) Math.ceil(20 / ConditionalStatModifierHook.getModifiedStat(ToolStack.from(stack), golem, ToolStats.DRAW_SPEED));
+	}
 
 	@Override
 	public void release(ItemStack stack) {

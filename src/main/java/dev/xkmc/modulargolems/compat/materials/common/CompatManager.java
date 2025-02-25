@@ -10,11 +10,13 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
+import dev.xkmc.modulargolems.compat.materials.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.data.MGConfigGen;
+import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
@@ -46,6 +48,27 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
 	}
 
+	public static void commonSetup() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.commonSetup();
+		}
+		if (ModList.get().isLoaded(MusketMod.MODID)) GolemMusketCompat.init();
+	}
+
+	public static void lateRegister() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.lateRegister();
+		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void dispatchClientSetup() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.dispatchClientSetup();
+		}
+	}
+
+
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {
 		for (ModDispatch dispatch : LIST) {
 			dispatch.genLang(pvd);
@@ -64,25 +87,6 @@ public abstract class CompatManager {
 	public static void dispatchGenRecipe(RegistrateRecipeProvider pvd) {
 		for (ModDispatch dispatch : LIST) {
 			dispatch.genRecipe(pvd);
-		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void dispatchClientSetup() {
-		for (ModDispatch dispatch : LIST) {
-			dispatch.dispatchClientSetup();
-		}
-	}
-
-	public static void lateRegister() {
-		for (ModDispatch dispatch : LIST) {
-			dispatch.lateRegister();
-		}
-	}
-
-	public static void commonSetup() {
-		for (ModDispatch dispatch : LIST) {
-			dispatch.commonSetup();
 		}
 	}
 

@@ -1,6 +1,7 @@
-package dev.xkmc.modulargolems.compat.musket;
+package dev.xkmc.modulargolems.compat.materials.musket;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;
 import ewewukek.musketmod.GunItem;
 import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;
@@ -9,8 +10,8 @@ public class GolemMusketCompat {
 
 	public static void init() {
 		WeaponGoalsRegistry.register(
-				new ResourceLocation(MusketMod.MODID, "musket"), false,
-				(golem, stack, hand) -> stack.getItem() instanceof GunItem item && item.canUseFrom(golem, hand),
+				new ResourceLocation(MusketMod.MODID, "musket"),
+				(golem, stack, hand) -> WeaponStatus.RANGED.of(stack.getItem() instanceof GunItem item && item.canUseFrom(golem, hand)),
 				(golem, melee) -> new GolemMusketGoal(golem)
 		);
 	}
