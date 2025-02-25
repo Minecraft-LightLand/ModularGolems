@@ -13,9 +13,9 @@ import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;
 import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import dev.xkmc.projectile_api.integration.l2complements.HellfireWandBehavior;
-import dev.xkmc.projectile_api.integration.l2complements.SonicShooterBehavior;
-import dev.xkmc.projectile_api.integration.l2complements.WinterstormWandBehavior;
+import dev.xkmc.mob_weapon_api.integration.l2complements.HellfireWandBehavior;
+import dev.xkmc.mob_weapon_api.integration.l2complements.SonicShooterBehavior;
+import dev.xkmc.mob_weapon_api.integration.l2complements.WinterstormWandBehavior;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;

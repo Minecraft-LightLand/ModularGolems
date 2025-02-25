@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import dev.xkmc.projectile_api.integration.twilightforest.TripleBowBehavior;
+import dev.xkmc.mob_weapon_api.integration.twilightforest.TripleBowBehavior;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;

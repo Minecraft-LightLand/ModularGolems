@@ -1,18 +1,17 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
+package dev.xkmc.mob_weapon_api.example;
 
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.mob_weapon_api.api.projectile.BowUseContext;
-import dev.xkmc.mob_weapon_api.api.projectile.CrossbowUseContext;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
-public record GolemUser(HumanoidGolemEntity user,
-						@Nullable LivingEntity target) implements BowUseContext, CrossbowUseContext {
+public record CompanionUser(Mob user, LivingEntity target) implements BowUseContext {
 
 	@Override
 	public ItemStack getPreferredProjectile(ItemStack weapon, Predicate<ItemStack> special, Predicate<ItemStack> general) {
@@ -28,7 +27,9 @@ public record GolemUser(HumanoidGolemEntity user,
 
 	@Override
 	public boolean hasInfiniteArrow(ItemStack weapon, ItemStack ammo) {
-		return ShootUtils.arrowIsInfinite(ammo, weapon);
+		if (ShootUtils.arrowIsInfinite(ammo, weapon)) return true;
+		if (ammo.getItem().getClass() != ArrowItem.class) return false;
+		return weapon.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0;
 	}
 
 	@Override
@@ -43,7 +44,6 @@ public record GolemUser(HumanoidGolemEntity user,
 
 	@Override
 	public AimResult aim(Vec3 arrowOrigin, float velocity, float gravity, float inaccuracy) {
-		assert target != null;
 		return ShootUtils.getShootVector(target, arrowOrigin, velocity, gravity, inaccuracy);
 	}
 
