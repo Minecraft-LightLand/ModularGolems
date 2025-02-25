@@ -1,3 +1,11 @@
+2.5.0
+- Add tinker casting recipes for golems
+- Support bows / crossbows from tinker
+- Support bows from Cataclysm, Twilight Forest
+- Support special weapons from L2Complements
+- Support full bow feature from L2Archery
+
+
 2.4.48
 - Fix startup client crash with some other mods
 
