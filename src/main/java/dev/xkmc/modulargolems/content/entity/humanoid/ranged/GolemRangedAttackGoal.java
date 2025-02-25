@@ -91,13 +91,17 @@ public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeapo
 		} else {
 			--seeTime;
 		}
-
-		if (dist <= attackRadiusSqr() && seeTime >= 20) {
+		double sqr = attackRadiusSqr();
+		if (dist <= sqr && seeTime >= 20) {
 			mob.getNavigation().stop();
 			++strafingTime;
 		} else {
 			mob.getNavigation().moveTo(target, speedModifier);
 			strafingTime = -1;
+		}
+		if (sqr < 15) {
+			strafingTime = 0;
+			return;
 		}
 		if (strafingTime >= 20) {
 			if ((double) mob.getRandom().nextFloat() < 0.3D) {
@@ -109,9 +113,9 @@ public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeapo
 			strafingTime = 0;
 		}
 		if (strafingTime > -1) {
-			if (dist > attackRadiusSqr() * 0.75) {
+			if (dist > sqr * 0.75) {
 				strafingBackwards = false;
-			} else if (dist < attackRadiusSqr() * 0.25) {
+			} else if (dist < sqr * 0.25) {
 				strafingBackwards = true;
 			}
 			mob.getMoveControl().strafe(strafingBackwards ? -0.5F : 0.5F, strafingClockwise ? 0.5F : -0.5F);

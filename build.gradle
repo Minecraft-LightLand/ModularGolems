@@ -201,6 +201,11 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.0.1")) {
+        transitive = false
+        jarJar.ranged(it, "[0.3.1,)")
+    }
+
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
     implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.2-slim')
     implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.20-slim")

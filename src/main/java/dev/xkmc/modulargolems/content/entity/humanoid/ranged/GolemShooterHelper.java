@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
+import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.events.event.GolemThrowableEvent;
-import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -15,8 +15,8 @@ import org.jetbrains.annotations.Nullable;
 public class GolemShooterHelper {
 
 
-	public static boolean isValidThrowableWeapon(HumanoidGolemEntity golem, ItemStack stack, @Nullable InteractionHand hand) {
-		if (hand == null) return false;
+	public static boolean isValidThrowableWeapon(LivingEntity user, ItemStack stack, @Nullable InteractionHand hand) {
+		if (hand == null || !(user instanceof HumanoidGolemEntity golem)) return false;
 		return throwWeapon(golem, stack, hand).isThrowable();
 	}
 

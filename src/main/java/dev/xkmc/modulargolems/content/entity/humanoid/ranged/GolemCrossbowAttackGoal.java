@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
+import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +17,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 
 	@Override
 	public boolean mayActivate(HumanoidGolemEntity golem, ItemStack stack) {
-		var weapon = WeaponGoalsRegistry.CROSSBOW.get(mob, stack);
+		var weapon = WeaponRegistry.CROSSBOW.get(mob, stack);
 		if (weapon.isEmpty()) return false;
 		return weapon.get().hasProjectile(new GolemUser(mob, null), stack) ||
 				weapon.get().hasLoadedProjectile(stack);
@@ -34,7 +34,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 		strafing();
 		LivingEntity target = mob.getTarget();
 		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
-		var weapon = WeaponGoalsRegistry.CROSSBOW.get(mob, stack);
+		var weapon = WeaponRegistry.CROSSBOW.get(mob, stack);
 		if (weapon.isEmpty()) return;
 		var user = new GolemUser(mob, target);
 		var behavior = weapon.get();
@@ -79,7 +79,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 
 	@Override
 	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float power, ItemStack stack, InteractionHand hand) {
-		WeaponGoalsRegistry.CROSSBOW.get(mob, stack).ifPresent(e -> e.performRangedAttack(new GolemUser(golem, target), stack, hand));
+		WeaponRegistry.CROSSBOW.get(mob, stack).ifPresent(e -> e.performRangedAttack(new GolemUser(golem, target), stack, hand));
 	}
 
 	enum CrossbowState {

@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.mob_weapon_api.integration.twilightforest;
+package dev.xkmc.modulargolems.compat.musket;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

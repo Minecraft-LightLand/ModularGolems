@@ -5,17 +5,8 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.automation.TinkerRecipeGen;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;
-import dev.xkmc.mob_weapon_api.integration.tinker.TinkerBowBehavior;
-import dev.xkmc.mob_weapon_api.integration.tinker.TinkerCrossbowBehavior;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.tools.item.ranged.ModifiableBowItem;
-import slimeknights.tconstruct.library.tools.item.ranged.ModifiableCrossbowItem;
-import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 public class TCDispatch extends ModDispatch {
 
@@ -33,18 +24,6 @@ public class TCDispatch extends ModDispatch {
 	@Override
 	public ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new TinkerConfigGen(gen);
-	}
-
-	@Override
-	public void commonSetup() {
-		WeaponGoalsRegistry.BOW.register(new ResourceLocation(TConstruct.MOD_ID, "bow"),
-				stack -> WeaponStatus.OFFENSIVE.of(stack.getItem() instanceof ModifiableBowItem && !ToolStack.from(stack).isBroken()),
-				(golem, stack) -> new TinkerBowBehavior()
-		);
-		WeaponGoalsRegistry.CROSSBOW.register(new ResourceLocation(TConstruct.MOD_ID, "crossbow"),
-				stack -> WeaponStatus.OFFENSIVE.of(stack.getItem() instanceof ModifiableCrossbowItem && !ToolStack.from(stack).isBroken()),
-				(golem, stack) -> new TinkerCrossbowBehavior()
-		);
 	}
 
 }

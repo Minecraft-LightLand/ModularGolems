@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.weapons.musket;
+package dev.xkmc.modulargolems.compat.musket;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IWeaponGoal;

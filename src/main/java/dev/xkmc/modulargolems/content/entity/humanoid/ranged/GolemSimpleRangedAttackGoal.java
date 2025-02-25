@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
+import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +23,7 @@ public class GolemSimpleRangedAttackGoal extends GolemRangedAttackGoal {
 	@Override
 	public double attackRadiusSqr() {
 		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
-		var weapon = WeaponGoalsRegistry.INSTANT.get(mob, stack);
+		var weapon = WeaponRegistry.INSTANT.get(mob, stack);
 		if (weapon.isPresent()) {
 			double rad = weapon.get().range(mob, stack);
 			return rad * rad;
@@ -39,7 +39,7 @@ public class GolemSimpleRangedAttackGoal extends GolemRangedAttackGoal {
 			return;
 		}
 		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
-		var weapon = WeaponGoalsRegistry.INSTANT.get(mob, stack);
+		var weapon = WeaponRegistry.INSTANT.get(mob, stack);
 		if (weapon.isEmpty()) return;
 		LivingEntity target = mob.getTarget();
 		if (seeTime > 0 && target != null &&

@@ -693,6 +693,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.doHurtTarget(target);
 	}
 
+	public int aiHurtTarget(Entity target) {
+		boolean ans = doHurtTarget(target);
+		return ans ? -1 : 0;
+	}
+
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));

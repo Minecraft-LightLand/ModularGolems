@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
+import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +17,7 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 
 	@Override
 	public boolean mayActivate(HumanoidGolemEntity golem, ItemStack stack) {
-		var weapon = WeaponGoalsRegistry.BOW.get(mob, stack);
+		var weapon = WeaponRegistry.BOW.get(mob, stack);
 		if (weapon.isEmpty()) return false;
 		return weapon.get().hasProjectile(new GolemUser(mob, null), stack);
 	}
@@ -38,7 +38,7 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 				mob.stopUsingItem();
 			} else if (seeTime > 0) {
 				ItemStack stack = mob.getUseItem();
-				var weapon = WeaponGoalsRegistry.BOW.get(mob, stack);
+				var weapon = WeaponRegistry.BOW.get(mob, stack);
 				int i = mob.getTicksUsingItem();
 				if (weapon.isPresent()) {
 					if (i >= weapon.get().getPreferredPullTime(user, stack, dist)) {
@@ -53,7 +53,7 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 		} else if (--attackTime <= 0 && seeTime >= -60) {
 			mob.startUsingItem(mob.getWeaponHand());
 			ItemStack stack = mob.getUseItem();
-			var weapon = WeaponGoalsRegistry.BOW.get(mob, stack);
+			var weapon = WeaponRegistry.BOW.get(mob, stack);
 			var user = new GolemUser(mob, target);
 			weapon.ifPresent(e -> e.startUsingBow(user, stack));
 
@@ -63,7 +63,7 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 
 	@Override
 	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float power, ItemStack stack, InteractionHand hand) {
-		WeaponGoalsRegistry.BOW.get(golem, stack).ifPresent(e -> e.shootArrow(new GolemUser(golem, target), power, stack, hand));
+		WeaponRegistry.BOW.get(golem, stack).ifPresent(e -> e.shootArrow(new GolemUser(golem, target), power, stack, hand));
 	}
 
 }
