@@ -41,6 +41,7 @@ public class TinkerCrossbowBehavior implements ICrossbowBehavior {
 
 	}
 
+	// from ModifiableCrossbowItem.releaseUsing
 	@Override
 	public boolean tryCharge(HumanoidGolemEntity golem, ItemStack stack) {
 		if (!(stack.getItem() instanceof ModifiableCrossbowItem bow)) return false;
@@ -58,6 +59,7 @@ public class TinkerCrossbowBehavior implements ICrossbowBehavior {
 		return false;
 	}
 
+	// from ModifiableCrossbowItem.fireCrossbow
 	@Override
 	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float dist, ItemStack stack, InteractionHand hand) {
 		if (!(stack.getItem() instanceof ModifiableCrossbowItem)) return;

@@ -51,6 +51,7 @@ public class TinkerBowBehavior implements IBowBehavior {
 		shoot(bow, stack, golem.level(), golem, target);
 	}
 
+	// from ModifiableBowItem.releaseUsing
 	public void shoot(ModifiableBowItem bowItem, ItemStack bowStack, Level level, HumanoidGolemEntity user, LivingEntity target) {
 		ToolStack tool = ToolStack.from(bowStack);
 		if (!hasProjectile(user, bowStack)) return;
@@ -65,6 +66,7 @@ public class TinkerBowBehavior implements IBowBehavior {
 		int primaryIndex = ammo.getCount() / 2;
 		float inaccuracy = ModifierUtil.getInaccuracy(tool, user);
 
+		// custom shoot direction
 		var origin = user.getEyePosition().add(0, -0.1, 0);
 		var consumer = GolemShooterHelper.getShootVector(target, origin, 3 * velocity, 0.05);
 
