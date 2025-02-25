@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.common;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.l2archery.init.L2Archery;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.ACDispatch;
 import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
@@ -10,10 +11,11 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
-import dev.xkmc.modulargolems.compat.materials.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
+import dev.xkmc.modulargolems.compat.weapons.L2ArcheryCompat;
+import dev.xkmc.modulargolems.compat.weapons.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.data.MGConfigGen;
 import ewewukek.musketmod.MusketMod;
@@ -53,6 +55,7 @@ public abstract class CompatManager {
 			dispatch.commonSetup();
 		}
 		if (ModList.get().isLoaded(MusketMod.MODID)) GolemMusketCompat.init();
+		if (ModList.get().isLoaded(L2Archery.MODID)) L2ArcheryCompat.init();
 	}
 
 	public static void lateRegister() {

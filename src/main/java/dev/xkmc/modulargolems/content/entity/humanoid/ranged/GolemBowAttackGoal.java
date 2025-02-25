@@ -40,14 +40,23 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 				ItemStack stack = mob.getUseItem();
 				var weapon = WeaponGoalsRegistry.BOW.get(mob, stack);
 				int i = mob.getTicksUsingItem();
-				if (weapon.isPresent() && i >= weapon.get().getPreferredPullTime(user, stack, dist)) {
-					mob.stopUsingItem();
-					mob.performRangedAttack(target, weapon.get().getPowerForTime(user, stack, i));
-					attackTime = mob.getRandom().nextInt(5) + 5;
+				if (weapon.isPresent()) {
+					if (i >= weapon.get().getPreferredPullTime(user, stack, dist)) {
+						mob.stopUsingItem();
+						mob.performRangedAttack(target, weapon.get().getPowerForTime(user, stack, i));
+						attackTime = mob.getRandom().nextInt(5) + 5;
+					} else {
+						weapon.get().tickUsingBow(user, stack);
+					}
 				}
 			}
 		} else if (--attackTime <= 0 && seeTime >= -60) {
 			mob.startUsingItem(mob.getWeaponHand());
+			ItemStack stack = mob.getUseItem();
+			var weapon = WeaponGoalsRegistry.BOW.get(mob, stack);
+			var user = new GolemUser(mob, target);
+			weapon.ifPresent(e -> e.startUsingBow(user, stack));
+
 		}
 	}
 

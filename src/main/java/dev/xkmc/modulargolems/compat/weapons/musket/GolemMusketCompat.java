@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.musket;
+package dev.xkmc.modulargolems.compat.weapons.musket;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;

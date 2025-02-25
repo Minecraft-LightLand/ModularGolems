@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.items.Cursed_bow;
+import com.github.L_Ender.cataclysm.items.Wrath_of_the_desert;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
@@ -8,7 +10,11 @@ import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.projectile_api.integration.cataclysm.CursedBowBehavior;
+import dev.xkmc.projectile_api.integration.cataclysm.WrathBowBehavior;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -24,6 +30,18 @@ public class CataDispatch extends ModDispatch {
 
 	public CataDispatch() {
 		CataCompatRegistry.register();
+	}
+
+	@Override
+	public void commonSetup() {
+		WeaponGoalsRegistry.BOW.register(new ResourceLocation(MODID, "cursed_bow"),
+				e -> WeaponStatus.RANGED.of(e.getItem() instanceof Cursed_bow),
+				(golem, stack) -> new CursedBowBehavior()
+		);
+		WeaponGoalsRegistry.BOW.register(new ResourceLocation(MODID, "wrath_bow"),
+				e -> WeaponStatus.RANGED.of(e.getItem() instanceof Wrath_of_the_desert),
+				(golem, stack) -> new WrathBowBehavior()
+		);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

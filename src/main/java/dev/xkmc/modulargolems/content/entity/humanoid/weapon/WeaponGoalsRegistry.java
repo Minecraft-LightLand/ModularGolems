@@ -1,10 +1,15 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.*;
+import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemBowAttackGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemCrossbowAttackGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
+import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackGoal;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.projectile_api.api.IBowBehavior;
 import dev.xkmc.projectile_api.api.ICrossbowBehavior;
+import dev.xkmc.projectile_api.example.SimpleBowBehavior;
+import dev.xkmc.projectile_api.example.SimpleCrossbowBehavior;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.BowItem;
@@ -18,12 +23,12 @@ public class WeaponGoalsRegistry {
 
 	public static final RangedBehaviorRegistry<IBowBehavior> BOW = new RangedBehaviorRegistry<>(
 			ModularGolems.loc("bow"), e -> WeaponStatus.RANGED.of(e.getItem() instanceof BowItem),
-			(golem, stack) -> new GolemBowBehavior()
+			(golem, stack) -> new SimpleBowBehavior()
 	);
 
 	public static final RangedBehaviorRegistry<ICrossbowBehavior> CROSSBOW = new RangedBehaviorRegistry<>(
 			ModularGolems.loc("crossbow"), e -> WeaponStatus.RANGED.of(e.getItem() instanceof CrossbowItem),
-			(golem, stack) -> new GolemCrossbowBehavior()
+			(golem, stack) -> new SimpleCrossbowBehavior()
 	);
 
 	private static final LinkedHashMap<ResourceLocation, WeaponGoalEntry> KNOWLEDGE = new LinkedHashMap<>();

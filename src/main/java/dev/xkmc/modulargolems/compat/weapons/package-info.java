@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.compat.materials.musket;
+package dev.xkmc.modulargolems.compat.weapons;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

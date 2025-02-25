@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.musket;
+package dev.xkmc.modulargolems.compat.weapons.musket;
 
 import ewewukek.musketmod.GunItem;
 import net.minecraft.world.InteractionHand;

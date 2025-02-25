@@ -5,6 +5,14 @@ import net.minecraft.world.item.ItemStack;
 
 public interface IBowBehavior {
 
+	default void startUsingBow(ProjectileWeaponUser user, ItemStack stack) {
+
+	}
+
+	default void tickUsingBow(ProjectileWeaponUser user, ItemStack stack) {
+
+	}
+
 	boolean hasProjectile(ProjectileWeaponUser user, ItemStack stack);
 
 	void shootArrow(BowUseContext user, float power, ItemStack stack, InteractionHand hand);

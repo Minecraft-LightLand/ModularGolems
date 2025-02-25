@@ -29,7 +29,7 @@ public class SimpleBowBehavior implements IBowBehavior {
 
 	public void shootArrow(BowUseContext user, float power, ItemStack stack, InteractionHand hand) {
 		if (!(stack.getItem() instanceof BowItem bow)) return;
-		ItemStack arrowStack = user.getPreferredProjectile(stack, bow.getSupportedHeldProjectiles(), bow.getAllSupportedProjectiles());
+		ItemStack arrowStack = user.getPreferredProjectile(stack);
 		if (arrowStack.isEmpty()) return;
 		AbstractArrow arrowEntity = bow.customArrow(user.createArrow(arrowStack, power));
 		boolean infinite = user.bypassAllConsumption() || user.hasInfiniteArrow(stack, arrowStack);

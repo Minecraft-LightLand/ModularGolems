@@ -209,7 +209,7 @@ dependencies {
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
     runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.4.21-slim")
-    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.13")
+    implementation fg.deobf("dev.xkmc.l2archery:l2archery:2.4.13")
     runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.28")
 
     implementation fg.deobf('zip.local.blazegear:blazegear:1.4.2')

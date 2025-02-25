@@ -5,13 +5,18 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.projectile_api.integration.twilightforest.TripleBowBehavior;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
+import twilightforest.item.TripleBowItem;
 
 public class TFDispatch extends ModDispatch {
 
@@ -19,6 +24,14 @@ public class TFDispatch extends ModDispatch {
 
 	public TFDispatch() {
 		TFCompatRegistry.register();
+	}
+
+	@Override
+	public void commonSetup() {
+		WeaponGoalsRegistry.BOW.register(new ResourceLocation(MODID, "triple_bow"),
+				e -> WeaponStatus.RANGED.of(e.getItem() instanceof TripleBowItem),
+				(golem, stack) -> new TripleBowBehavior()
+		);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
