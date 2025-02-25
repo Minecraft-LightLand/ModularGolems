@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.compat.materials.tinker.behavior;
+package dev.xkmc.projectile_api.integration.tinker;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.tinker.behavior;
+package dev.xkmc.projectile_api.integration.tinker;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;

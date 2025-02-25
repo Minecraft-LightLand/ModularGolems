@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.tinker.behavior;
+package dev.xkmc.projectile_api.integration.tinker;
 
 import dev.xkmc.projectile_api.api.CrossbowUseContext;
 import dev.xkmc.projectile_api.api.ICrossbowBehavior;
