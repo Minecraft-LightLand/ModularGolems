@@ -2,9 +2,9 @@ package dev.xkmc.modulargolems.compat.materials.alexscaves.modifier;
 
 import com.github.alexmodguy.alexscaves.server.entity.item.GumballEntity;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.ranged.GolemShooterHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import net.minecraft.world.entity.LivingEntity;
 
 public class GumShootAttackGoal extends BaseRangedAttackGoal {
@@ -18,7 +18,7 @@ public class GumShootAttackGoal extends BaseRangedAttackGoal {
 		var proj = new GumballEntity(target.level(), golem);
 		proj.setPos(golem.getEyePosition());
 		proj.setDamage((float) (MGConfig.COMMON.candyDamage.get() * lv));
-		GolemShooterHelper.shootAimHelper(target, proj, 1.5, 0.08);
+		ShootUtils.shootAimHelper(target, proj, 1.5f, 0.08f);
 		golem.level().addFreshEntity(proj);
 	}
 }

@@ -201,15 +201,20 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.0.1")) {
+        transitive = false
+        jarJar.ranged(it, "[0.3.1,)")
+    }
+
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.35-slim')
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.2-slim')
     implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.20-slim")
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
     runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.4.21-slim")
-    runtimeOnly fg.deobf("dev.xkmc.l2archery:l2archery:2.4.13")
+    implementation fg.deobf("dev.xkmc.l2archery:l2archery:2.5.0")
     runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.28")
 
     implementation fg.deobf('zip.local.blazegear:blazegear:1.4.2')
@@ -222,7 +227,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:create-enchantment-industry-688768:4764843")
     implementation fg.deobf("curse.maven:create-328085:5838779")
-    implementation fg.deobf("curse.maven:the-twilight-forest-227639:4635921")
+    implementation fg.deobf("curse.maven:the-twilight-forest-227639:5468648")
     implementation fg.deobf("curse.maven:touhou-little-maid-355044:5896969")
 
     runtimeOnly fg.deobf("curse.maven:caelus-308989:4581481")
@@ -231,7 +236,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:jade-324717:4654448")
     implementation fg.deobf("curse.maven:lionfish-api-1001614:5922047")
-    implementation fg.deobf("curse.maven:lendercataclysm-551586:5924796")
+    implementation fg.deobf("curse.maven:lendercataclysm-551586:6208724")
     implementation fg.deobf("curse.maven:citadel-331936:5633260")
     implementation fg.deobf("curse.maven:alexs-caves-924854:5848216")
 
@@ -241,6 +246,10 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4587214")
     implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:4693050")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4751471")
+    implementation fg.deobf("curse.maven:mantle-74924:6105891")
+    implementation fg.deobf("curse.maven:tinkers-construct-74072:6111032")
+    //implementation fg.deobf("curse.maven:mutil-351914:4824501")
+    //implementation fg.deobf("curse.maven:tetra-289712:6096160")
 
     implementation fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
 
@@ -249,7 +258,7 @@ dependencies {
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     apiToken = secrets.get("curseforge_token")
     def mainFile = upload(project.curseforge_project, new File("./build/libs/${modid}-${ll_version}.jar"))
-    mainFile.changelog = new File('./changelog.txt')
+    mainFile.changelog = new File('./changelog.txt').text.split("\n\n")[0]
     mainFile.addEnvironment("Client", "Server")
     mainFile.addGameVersion("1.20.1")
     mainFile.addModLoader("Forge","NeoForge")
@@ -268,7 +277,9 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
             "patchouli",
             "the-twilight-forest",
             "alexs-caves",
-            "touhou-little-maid")
+            "touhou-little-maid",
+            "ewewukeks-musket-mod"
+    )
     mainFile.releaseType = "release"
     disableVersionDetection()
 }

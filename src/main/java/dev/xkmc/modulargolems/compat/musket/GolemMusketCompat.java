@@ -1,21 +1,19 @@
 package dev.xkmc.modulargolems.compat.musket;
 
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
+import dev.xkmc.mob_weapon_api.registry.WeaponStatus;
+import ewewukek.musketmod.GunItem;
+import ewewukek.musketmod.MusketMod;
+import net.minecraft.resources.ResourceLocation;
 
 public class GolemMusketCompat {
 
 	public static void init() {
-		MinecraftForge.EVENT_BUS.register(GolemMusketCompat.class);
-	}
-
-	@SubscribeEvent
-	public static void onAddEntity(EntityJoinLevelEvent event) {
-		if (event.getEntity() instanceof HumanoidGolemEntity e) {
-			e.goalSelector.addGoal(2, new GolemMusketGoal(e));
-		}
+		WeaponGoalsRegistry.register(
+				new ResourceLocation(MusketMod.MODID, "musket"),
+				(golem, stack, hand) -> WeaponStatus.RANGED.of(stack.getItem() instanceof GunItem item && item.canUseFrom(golem, hand)),
+				(golem, melee) -> new GolemMusketGoal(golem)
+		);
 	}
 
 }

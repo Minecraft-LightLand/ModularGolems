@@ -52,7 +52,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	}
 
 	private boolean isValid(EquipmentSlot slot, ItemStack stack) {
-		return getSlotForItem(stack) == slot;
+		return slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND || getSlotForItem(stack) == slot;
 	}
 
 	@Override

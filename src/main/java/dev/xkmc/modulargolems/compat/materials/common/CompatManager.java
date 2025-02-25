@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.common;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.ACDispatch;
 import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.botania.BotDispatch;
@@ -9,18 +10,26 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
+import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.init.data.MGConfigGen;
 import ewewukek.musketmod.MusketMod;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.ModList;
 import plus.dragons.createenchantmentindustry.EnchantmentIndustry;
+import slimeknights.tconstruct.TConstruct;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class CompatManager {
 
@@ -35,9 +44,30 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(LHDispatch.MODID)) LIST.add(new LHDispatch());
 		if (ModList.get().isLoaded(CataDispatch.MODID)) LIST.add(new CataDispatch());
 		if (ModList.get().isLoaded(ACDispatch.MODID)) LIST.add(new ACDispatch());
+		if (ModList.get().isLoaded(TConstruct.MOD_ID)) LIST.add(new TCDispatch());
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
+	}
+
+	public static void commonSetup() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.commonSetup();
+		}
 		if (ModList.get().isLoaded(MusketMod.MODID)) GolemMusketCompat.init();
 	}
+
+	public static void lateRegister() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.lateRegister();
+		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void dispatchClientSetup() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.dispatchClientSetup();
+		}
+	}
+
 
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {
 		for (ModDispatch dispatch : LIST) {
@@ -60,17 +90,25 @@ public abstract class CompatManager {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static void dispatchClientSetup() {
-		for (ModDispatch dispatch : LIST) {
-			dispatch.dispatchClientSetup();
-		}
-	}
+	private static Map<ResourceLocation, Ingredient> ALL_CONFIGS;
 
-	public static void lateRegister() {
-		for (ModDispatch dispatch : LIST) {
-			dispatch.lateRegister();
+	@SuppressWarnings("ConstantConditions")
+	public static Map<ResourceLocation, Ingredient> gatherConfig() {
+		if (ALL_CONFIGS != null) return ALL_CONFIGS;
+		ConfigDataProvider.Collector map = new ConfigDataProvider.Collector(new HashMap<>());
+		for (ModDispatch dispatch : CompatManager.LIST) {
+			var gen = dispatch.getDataGen(null);
+			gen.add(map);
 		}
+		new MGConfigGen(null).add(map);
+		Map<ResourceLocation, Ingredient> ing = new HashMap<>();
+		for (ConfigDataProvider.ConfigEntry<?> config : map.map().values()) {
+			if (config.config() instanceof GolemMaterialConfig mat) {
+				ing.putAll(mat.ingredients);
+			}
+		}
+		ALL_CONFIGS = ing;
+		return ing;
 	}
 
 }

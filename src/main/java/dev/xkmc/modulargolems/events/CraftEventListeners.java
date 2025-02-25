@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -26,15 +27,15 @@ public class CraftEventListeners {
 	public static void onAnvilCraft(AnvilUpdateEvent event) {
 		ItemStack stack = event.getLeft();
 		ItemStack block = event.getRight();
-		if (stack.getItem() instanceof GolemPart<?, ?> part && part.count <= block.getCount()) {
+		if (stack.getItem() instanceof GolemPart<?, ?> part) {
+			if (part.count > block.getCount() || block.is(MGTagGen.SPECIAL_CRAFT)) return;
 			var mat = GolemMaterial.getMaterial(block);
-			if (mat.isPresent()) {
-				ItemStack new_stack = stack.copy();
-				GolemPart.setMaterial(new_stack, mat.get());
-				event.setOutput(new_stack);
-				event.setMaterialCost(part.count);
-				event.setCost(1);
-			}
+			if (mat.isEmpty()) return;
+			ItemStack new_stack = stack.copy();
+			GolemPart.setMaterial(new_stack, mat.get());
+			event.setOutput(new_stack);
+			event.setMaterialCost(part.count);
+			event.setCost(1);
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
 			if (block.getItem() instanceof UpgradeItem upgrade) {

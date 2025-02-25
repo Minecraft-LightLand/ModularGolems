@@ -6,22 +6,16 @@ import com.simibubi.create.AllTags;
 import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
-import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.modulargolems.init.data.MGConfigGen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class CreateGolemRecipeGen {
@@ -29,7 +23,7 @@ public class CreateGolemRecipeGen {
 	private static final Set<String> SPECIAL = Set.of("andesite_alloy", "brass", "railway");
 
 	public static void genAllUpgradeRecipes(RegistrateRecipeProvider pvd) {
-		var ing = gatherConfig();
+		var ing = CompatManager.gatherConfig();
 		for (var part : GolemPart.LIST) {
 			for (var ent : ing.entrySet()) {
 				if (SPECIAL.contains(ent.getKey().getPath())) continue;
@@ -79,23 +73,6 @@ public class CreateGolemRecipeGen {
 		}
 		recipe.addOutput(GolemPart.setMaterial(part.getDefaultInstance(), id), 1);
 		recipe.build(pvd);
-	}
-
-	@SuppressWarnings("ConstantConditions")
-	private static Map<ResourceLocation, Ingredient> gatherConfig() {
-		ConfigDataProvider.Collector map = new ConfigDataProvider.Collector(new HashMap<>());
-		for (ModDispatch dispatch : CompatManager.LIST) {
-			var gen = dispatch.getDataGen(null);
-			gen.add(map);
-		}
-		new MGConfigGen(null).add(map);
-		Map<ResourceLocation, Ingredient> ing = new HashMap<>();
-		for (ConfigDataProvider.ConfigEntry<?> config : map.map().values()) {
-			if (config.config() instanceof GolemMaterialConfig mat) {
-				ing.putAll(mat.ingredients);
-			}
-		}
-		return ing;
 	}
 
 }
