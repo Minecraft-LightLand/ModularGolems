@@ -9,8 +9,13 @@ import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.ingredients.EnchantmentIngredient;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponStatus;
 import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.projectile_api.integration.l2complements.HellfireWandBehavior;
+import dev.xkmc.projectile_api.integration.l2complements.SonicShooterBehavior;
+import dev.xkmc.projectile_api.integration.l2complements.WinterstormWandBehavior;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -28,6 +33,25 @@ public class LCDispatch extends ModDispatch {
 	public LCDispatch() {
 		LCCompatRegistry.register();
 		MinecraftForge.EVENT_BUS.register(LCDispatch.class);
+	}
+
+	@Override
+	public void commonSetup() {
+		WeaponGoalsRegistry.HOLD.register(LCItems.SONIC_SHOOTER.getId(),
+				e -> WeaponStatus.RANGED.of(e.is(LCItems.SONIC_SHOOTER.get())),
+				(golem, stack) -> new SonicShooterBehavior()
+		);
+
+		WeaponGoalsRegistry.HOLD.register(LCItems.HELLFIRE_WAND.getId(),
+				e -> WeaponStatus.RANGED.of(e.is(LCItems.HELLFIRE_WAND.get())),
+				(golem, stack) -> new HellfireWandBehavior()
+		);
+
+		WeaponGoalsRegistry.HOLD.register(LCItems.WINTERSTORM_WAND.getId(),
+				e -> WeaponStatus.RANGED.of(e.is(LCItems.WINTERSTORM_WAND.get())),
+				(golem, stack) -> new WinterstormWandBehavior()
+		);
+
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

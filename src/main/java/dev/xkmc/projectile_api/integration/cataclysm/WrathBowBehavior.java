@@ -2,9 +2,9 @@ package dev.xkmc.projectile_api.integration.cataclysm;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Cursed_Sandstorm_Entity;
-import dev.xkmc.projectile_api.api.BowUseContext;
-import dev.xkmc.projectile_api.api.IBowBehavior;
-import dev.xkmc.projectile_api.api.ProjectileWeaponUser;
+import dev.xkmc.projectile_api.api.projectile.BowUseContext;
+import dev.xkmc.projectile_api.api.projectile.IBowBehavior;
+import dev.xkmc.projectile_api.api.projectile.ProjectileWeaponUser;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;

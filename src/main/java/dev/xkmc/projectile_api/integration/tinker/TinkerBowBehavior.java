@@ -1,8 +1,8 @@
 package dev.xkmc.projectile_api.integration.tinker;
 
-import dev.xkmc.projectile_api.api.BowUseContext;
-import dev.xkmc.projectile_api.api.IBowBehavior;
-import dev.xkmc.projectile_api.api.ProjectileWeaponUser;
+import dev.xkmc.projectile_api.api.projectile.BowUseContext;
+import dev.xkmc.projectile_api.api.projectile.IBowBehavior;
+import dev.xkmc.projectile_api.api.projectile.ProjectileWeaponUser;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;

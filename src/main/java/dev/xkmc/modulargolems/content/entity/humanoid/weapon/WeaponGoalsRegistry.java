@@ -1,13 +1,12 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemBowAttackGoal;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemCrossbowAttackGoal;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemTridentAttackGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.ranged.*;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.projectile_api.api.IBowBehavior;
-import dev.xkmc.projectile_api.api.ICrossbowBehavior;
+import dev.xkmc.projectile_api.api.IHoldWeaponBehavior;
+import dev.xkmc.projectile_api.api.IInstantWeaponBehavior;
+import dev.xkmc.projectile_api.api.projectile.IBowBehavior;
+import dev.xkmc.projectile_api.api.projectile.ICrossbowBehavior;
 import dev.xkmc.projectile_api.example.SimpleBowBehavior;
 import dev.xkmc.projectile_api.example.SimpleCrossbowBehavior;
 import net.minecraft.resources.ResourceLocation;
@@ -30,6 +29,9 @@ public class WeaponGoalsRegistry {
 			ModularGolems.loc("crossbow"), e -> WeaponStatus.RANGED.of(e.getItem() instanceof CrossbowItem),
 			(golem, stack) -> new SimpleCrossbowBehavior()
 	);
+
+	public static final RangedBehaviorRegistry<IInstantWeaponBehavior> INSTANT = new RangedBehaviorRegistry<>(ModularGolems.loc("instant"));
+	public static final RangedBehaviorRegistry<IHoldWeaponBehavior> HOLD = new RangedBehaviorRegistry<>(ModularGolems.loc("hold"));
 
 	private static final LinkedHashMap<ResourceLocation, WeaponGoalEntry> KNOWLEDGE = new LinkedHashMap<>();
 
@@ -59,6 +61,14 @@ public class WeaponGoalsRegistry {
 		register(ModularGolems.loc("crossbow"),
 				(golem, stack, hand) -> CROSSBOW.getProperties(stack),
 				(golem, melee) -> new GolemCrossbowAttackGoal(golem, melee, 1.0D, 25)
+		);
+		register(ModularGolems.loc("instant"),
+				(golem, stack, hand) -> INSTANT.getProperties(stack),
+				(golem, melee) -> new GolemSimpleRangedAttackGoal(golem, melee, 1.0D)
+		);
+		register(ModularGolems.loc("hold"),
+				(golem, stack, hand) -> INSTANT.getProperties(stack),
+				(golem, melee) -> new GolemHoldRangedAttackGoal(golem, melee, 1.0D)
 		);
 	}
 

@@ -1,6 +1,6 @@
 package dev.xkmc.projectile_api.util;
 
-import dev.xkmc.projectile_api.api.BowUseContext;
+import dev.xkmc.projectile_api.api.projectile.BowUseContext;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Slime;

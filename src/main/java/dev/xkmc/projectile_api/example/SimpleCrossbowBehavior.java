@@ -1,8 +1,8 @@
 package dev.xkmc.projectile_api.example;
 
-import dev.xkmc.projectile_api.api.CrossbowUseContext;
-import dev.xkmc.projectile_api.api.ICrossbowBehavior;
-import dev.xkmc.projectile_api.api.ProjectileWeaponUser;
+import dev.xkmc.projectile_api.api.projectile.CrossbowUseContext;
+import dev.xkmc.projectile_api.api.projectile.ICrossbowBehavior;
+import dev.xkmc.projectile_api.api.projectile.ProjectileWeaponUser;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;

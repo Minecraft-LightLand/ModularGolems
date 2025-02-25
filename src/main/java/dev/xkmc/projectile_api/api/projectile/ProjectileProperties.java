@@ -1,4 +1,4 @@
-package dev.xkmc.projectile_api.api;
+package dev.xkmc.projectile_api.api.projectile;
 
 public record ProjectileProperties(
 		float velocity,

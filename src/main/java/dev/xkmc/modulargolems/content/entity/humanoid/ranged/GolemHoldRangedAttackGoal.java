@@ -1,0 +1,64 @@
+package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
+
+import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+
+public class GolemHoldRangedAttackGoal extends GolemRangedAttackGoal {
+
+	private int attackTime = -1;
+
+	public GolemHoldRangedAttackGoal(HumanoidGolemEntity mob, GolemMeleeGoal melee, double speed) {
+		super(mob, melee, speed, 0);
+	}
+
+	@Override
+	public void stop() {
+		attackTime = -1;
+	}
+
+
+	@Override
+	public double attackRadiusSqr() {
+		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
+		var weapon = WeaponGoalsRegistry.HOLD.get(mob, stack);
+		if (weapon.isPresent()) {
+			double rad = weapon.get().range(mob, stack);
+			return rad * rad;
+		}
+		return 0;
+	}
+
+	public void tick() {
+		doMelee();
+		strafing();
+		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
+		var weapon = WeaponGoalsRegistry.HOLD.get(mob, stack);
+		if (weapon.isEmpty()) return;
+		LivingEntity target = mob.getTarget();
+		if (mob.isUsingItem() && target != null) {
+			if (seeTime < -60) {
+				mob.stopUsingItem();
+			} else if (seeTime > 0) {
+				int i = mob.getTicksUsingItem();
+				if (i >= weapon.get().holdTime(mob, stack)) {
+					attackTime = weapon.get().trigger(mob, stack, target, i);
+					mob.stopUsingItem();
+				} else {
+					weapon.get().tickUsing(mob, stack, i);
+				}
+			}
+		} else if (--attackTime <= 0 && seeTime >= -60) {
+			mob.startUsingItem(mob.getWeaponHand());
+		}
+	}
+
+
+	@Override
+	public void performRangedAttack(HumanoidGolemEntity golem, LivingEntity target, float power, ItemStack stack, InteractionHand hand) {
+	}
+
+}

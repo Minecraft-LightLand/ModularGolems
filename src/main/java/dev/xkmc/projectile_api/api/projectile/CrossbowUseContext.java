@@ -1,4 +1,4 @@
-package dev.xkmc.projectile_api.api;
+package dev.xkmc.projectile_api.api.projectile;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;

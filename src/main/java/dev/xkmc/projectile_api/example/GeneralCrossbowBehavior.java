@@ -1,7 +1,7 @@
 package dev.xkmc.projectile_api.example;
 
-import dev.xkmc.projectile_api.api.CrossbowUseContext;
-import dev.xkmc.projectile_api.api.ProjectileWeaponUseContext;
+import dev.xkmc.projectile_api.api.projectile.CrossbowUseContext;
+import dev.xkmc.projectile_api.api.projectile.ProjectileWeaponUseContext;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.sounds.SoundEvents;

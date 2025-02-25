@@ -1,6 +1,6 @@
 package dev.xkmc.projectile_api.integration.twilightforest;
 
-import dev.xkmc.projectile_api.api.BowUseContext;
+import dev.xkmc.projectile_api.api.projectile.BowUseContext;
 import dev.xkmc.projectile_api.example.SimpleBowBehavior;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

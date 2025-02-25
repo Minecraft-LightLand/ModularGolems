@@ -202,7 +202,7 @@ dependencies {
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.4.35-slim')
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.1-slim')
     implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.20-slim")
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
@@ -243,8 +243,8 @@ dependencies {
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4751471")
     implementation fg.deobf("curse.maven:mantle-74924:6105891")
     implementation fg.deobf("curse.maven:tinkers-construct-74072:6111032")
-    implementation fg.deobf("curse.maven:mutil-351914:4824501")
-    implementation fg.deobf("curse.maven:tetra-289712:6096160")
+    //implementation fg.deobf("curse.maven:mutil-351914:4824501")
+    //implementation fg.deobf("curse.maven:tetra-289712:6096160")
 
     implementation fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
 

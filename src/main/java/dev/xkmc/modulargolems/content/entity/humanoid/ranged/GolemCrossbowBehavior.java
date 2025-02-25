@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
-import dev.xkmc.projectile_api.api.CrossbowUseContext;
+import dev.xkmc.projectile_api.api.projectile.CrossbowUseContext;
 import dev.xkmc.projectile_api.example.GeneralCrossbowBehavior;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
