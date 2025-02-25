@@ -67,7 +67,7 @@ public class WeaponGoalsRegistry {
 				(golem, melee) -> new GolemSimpleRangedAttackGoal(golem, melee, 1.0D)
 		);
 		register(ModularGolems.loc("hold"),
-				(golem, stack, hand) -> INSTANT.getProperties(stack),
+				(golem, stack, hand) -> HOLD.getProperties(stack),
 				(golem, melee) -> new GolemHoldRangedAttackGoal(golem, melee, 1.0D)
 		);
 	}

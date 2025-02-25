@@ -42,7 +42,8 @@ public class GolemSimpleRangedAttackGoal extends GolemRangedAttackGoal {
 		var weapon = WeaponGoalsRegistry.INSTANT.get(mob, stack);
 		if (weapon.isEmpty()) return;
 		LivingEntity target = mob.getTarget();
-		if (seeTime > 0 && target != null) {
+		if (seeTime > 0 && target != null &&
+				mob.distanceTo(target) < weapon.get().range(mob, stack)) {
 			attackTime = weapon.get().trigger(mob, stack, target);
 		}
 	}

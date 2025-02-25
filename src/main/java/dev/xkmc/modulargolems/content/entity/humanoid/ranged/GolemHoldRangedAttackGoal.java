@@ -51,7 +51,8 @@ public class GolemHoldRangedAttackGoal extends GolemRangedAttackGoal {
 					weapon.get().tickUsing(mob, stack, i);
 				}
 			}
-		} else if (--attackTime <= 0 && seeTime >= -60) {
+		} else if (--attackTime <= 0 && seeTime >= -60 && target != null &&
+				mob.distanceTo(target) < weapon.get().range(mob, stack)) {
 			mob.startUsingItem(mob.getWeaponHand());
 		}
 	}

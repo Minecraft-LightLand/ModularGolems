@@ -12,12 +12,12 @@ public class SonicShooterBehavior implements IHoldWeaponBehavior {
 
 	@Override
 	public double range(LivingEntity user, ItemStack stack) {
-		return LCItems.SONIC_SHOOTER.get().getDistance(stack);
+		return LCItems.SONIC_SHOOTER.get().getDistance(stack) - 2;
 	}
 
 	@Override
 	public int holdTime(LivingEntity user, ItemStack stack) {
-		return LCItems.SONIC_SHOOTER.get().getUseDuration(stack);
+		return LCItems.SONIC_SHOOTER.get().getUseDuration(stack) - 1;
 	}
 
 	@Override

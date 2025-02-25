@@ -202,14 +202,14 @@ dependencies {
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.1-slim')
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.2-slim')
     implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.20-slim")
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
     runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.4.21-slim")
-    implementation fg.deobf("dev.xkmc.l2archery:l2archery:2.4.13")
+    implementation fg.deobf("dev.xkmc.l2archery:l2archery:2.5.0")
     runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.28")
 
     implementation fg.deobf('zip.local.blazegear:blazegear:1.4.2')

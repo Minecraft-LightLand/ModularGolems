@@ -2,6 +2,7 @@ package dev.xkmc.projectile_api.integration.l2archery;
 
 import dev.xkmc.l2archery.content.controller.BowFeatureController;
 import dev.xkmc.l2archery.content.entity.GenericArrowEntity;
+import dev.xkmc.l2archery.content.feature.bow.DoubleChargeFeature;
 import dev.xkmc.l2archery.content.item.GenericBowItem;
 import dev.xkmc.l2library.util.code.GenericItemStack;
 import dev.xkmc.projectile_api.api.projectile.BowUseContext;
@@ -24,6 +25,19 @@ public class L2BowBehavior extends SimpleBowBehavior {
 	}
 
 	@Override
+	public int getPreferredPullTime(BowUseContext user, ItemStack stack, double distToTarget) {
+		int ans = super.getPreferredPullTime(user, stack, distToTarget);
+		if (distToTarget > 10 && stack.getItem() instanceof GenericBowItem bow) {
+			var charge = bow.getFeatures(stack).all().stream()
+					.filter(e -> e instanceof DoubleChargeFeature).findFirst();
+			if (charge.isPresent()) {
+				return ans * 2;
+			}
+		}
+		return ans;
+	}
+
+	@Override
 	public void startUsingBow(ProjectileWeaponUser user, ItemStack stack) {
 		if (!(stack.getItem() instanceof GenericBowItem bow)) return;
 		BowFeatureController.startUsing(user.user(), new GenericItemStack<>(bow, stack));
@@ -37,7 +51,7 @@ public class L2BowBehavior extends SimpleBowBehavior {
 		boolean infinite = ShootUtils.arrowIsInfinite(arrowStack, stack);
 		float speed = ctx.getInitialVelocityFactor();
 		float gravity = 0.05f;
-		Optional<AbstractArrow> opt = bow.releaseUsingAndShootArrow(stack, ctx.user().level(), ctx.user(), 0);
+		Optional<AbstractArrow> opt = bow.releaseUsingAndShootArrow(stack, ctx.user().level(), ctx.user(), ctx.user().getUseItemRemainingTicks());
 		if (opt.isPresent()) {
 			proj = opt.get();
 			if (proj instanceof GenericArrowEntity entity) {

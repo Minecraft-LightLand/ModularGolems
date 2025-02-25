@@ -39,10 +39,10 @@ public class WrathBowBehavior implements IBowBehavior {
 		if (target == null) return;
 		Vec3 diff = target.getEyePosition().subtract(user.getEyePosition()).normalize();
 		for (int j = -1; j <= 1; ++j) {
-			Vec3 rot = diff.yRot(15 * Mth.DEG_TO_RAD);
+			Vec3 rot = diff.yRot(j * 15 * Mth.DEG_TO_RAD);
 			Vec3 pos = user.position().add(rot);
 			Cursed_Sandstorm_Entity largefireball;
-			largefireball = new Cursed_Sandstorm_Entity(user, diff.x, diff.y, diff.z, user.level(),
+			largefireball = new Cursed_Sandstorm_Entity(user, rot.x, rot.y, rot.z, user.level(),
 					(float) CMConfig.CursedSandstormDamage, target);
 			largefireball.setPos(pos.x, user.getEyeY() - 0.5, pos.z);
 			largefireball.setUp(15);
