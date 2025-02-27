@@ -1,6 +1,7 @@
 2.5.1
 - Support wither assault weapon, void assault weapon, meat shredder, laser gatling from Cataclysm
-
+- Smarter weapon switch between ranged and melee weapons
+- Add ru_ru and pt_br localization
 
 2.5.0
 - Add tinker casting recipes for golems

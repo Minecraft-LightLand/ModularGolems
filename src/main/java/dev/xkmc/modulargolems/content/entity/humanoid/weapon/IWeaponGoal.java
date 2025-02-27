@@ -9,4 +9,6 @@ public interface IWeaponGoal {
 		return true;
 	}
 
+	double range(HumanoidGolemEntity golem, ItemStack stack);
+
 }

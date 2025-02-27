@@ -11,8 +11,8 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 	private GolemCrossbowAttackGoal.CrossbowState crossbowState = GolemCrossbowAttackGoal.CrossbowState.UNCHARGED;
 	private int attackDelay;
 
-	public GolemCrossbowAttackGoal(HumanoidGolemEntity mob, GolemMeleeGoal melee, double speed, float radiusSqr) {
-		super(mob, melee, speed, radiusSqr * radiusSqr);
+	public GolemCrossbowAttackGoal(HumanoidGolemEntity mob, GolemMeleeGoal melee, double speed, float radius) {
+		super(mob, melee, speed, radius);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeapo
 	protected final HumanoidGolemEntity mob;
 	protected final GolemMeleeGoal melee;
 	protected final double speedModifier;
-	protected final double attackRadiusSqr;
+	protected final double radius;
 	protected int seeTime;
 	private boolean strafingClockwise;
 	private boolean strafingBackwards;
@@ -22,11 +22,11 @@ public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeapo
 
 	private int meleeTime = 0;
 
-	protected GolemRangedAttackGoal(HumanoidGolemEntity mob, GolemMeleeGoal melee, double speedModifier, double attackRadiusSqr) {
+	protected GolemRangedAttackGoal(HumanoidGolemEntity mob, GolemMeleeGoal melee, double speedModifier, double r) {
 		this.mob = mob;
 		this.melee = melee;
 		this.speedModifier = speedModifier;
-		this.attackRadiusSqr = attackRadiusSqr;
+		this.radius = r;
 		setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
@@ -73,8 +73,18 @@ public abstract class GolemRangedAttackGoal extends Goal implements IRangedWeapo
 		}
 	}
 
-	public double attackRadiusSqr() {
-		return attackRadiusSqr;
+	@Override
+	public double range(HumanoidGolemEntity golem, ItemStack stack) {
+		return radius(stack);
+	}
+
+	protected double radius(ItemStack stack) {
+		return radius;
+	}
+
+	public final double attackRadiusSqr() {
+		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
+		return radius(stack) * radius(stack);
 	}
 
 	protected void strafing() {

@@ -13,11 +13,18 @@ import net.minecraft.world.item.ItemStack;
 public class GolemTridentAttackGoal extends RangedAttackGoal implements IRangedWeaponGoal {
 	private final HumanoidGolemEntity golem;
 	private final GolemMeleeGoal melee;
+	private final float radius;
 
 	public GolemTridentAttackGoal(HumanoidGolemEntity pRangedAttackMob, double pSpeedModifier, int pAttackInterval, float pAttackRadius, GolemMeleeGoal melee) {
 		super(pRangedAttackMob, pSpeedModifier, pAttackInterval, pAttackRadius);
 		this.golem = pRangedAttackMob;
 		this.melee = melee;
+		this.radius = pAttackRadius;
+	}
+
+	@Override
+	public double range(HumanoidGolemEntity golem, ItemStack stack) {
+		return radius;
 	}
 
 	public boolean canUse() {

@@ -28,14 +28,9 @@ public class GolemHoldRangedAttackGoal extends GolemRangedAttackGoal {
 
 
 	@Override
-	public double attackRadiusSqr() {
-		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
+	public double radius(ItemStack stack) {
 		var weapon = WeaponRegistry.HOLD.get(mob, stack);
-		if (weapon.isPresent()) {
-			double rad = weapon.get().range(mob, stack);
-			return rad * rad;
-		}
-		return 0;
+		return weapon.map(b -> b.range(mob, stack)).orElse(0.0);
 	}
 
 	public void tick() {

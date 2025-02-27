@@ -29,15 +29,15 @@ public class WeaponGoalsManager {
 		meleeGoal = new GolemMeleeGoal(golem);
 	}
 
-	private @Nullable WeaponGoalHolder<?> getGoalForWeapon(ItemStack stack, @Nullable InteractionHand hand) {
+	private @Nullable WeaponHolder<?> getGoalForWeapon(ItemStack stack, @Nullable InteractionHand hand) {
 		var ent = WeaponGoalsRegistry.find(golem, stack, hand);
 		if (ent == null) return null;
 		if (goals.containsKey(ent.id())) {
-			return goals.get(ent.id());
+			return new WeaponHolder<>(golem, stack, goals.get(ent.id()), ent.status());
 		} else {
-			var ans = new WeaponGoalHolder<>(ent.id(), ent.entry().goal().create(golem, meleeGoal), ent.status());
+			var ans = new WeaponGoalHolder<>(ent.id(), ent.entry().goal().create(golem, meleeGoal));
 			goals.put(ent.id(), ans);
-			return ans;
+			return new WeaponHolder<>(golem, stack, ans, ent.status());
 		}
 	}
 
@@ -51,10 +51,10 @@ public class WeaponGoalsManager {
 				if (currentGoal != null) {
 					golem.goalSelector.removeGoal(currentGoal.goal());
 				}
-				currentGoal = ans;
+				currentGoal = ans.holder();
 				golem.goalSelector.addGoal(2, currentGoal.goal());
 
-				if (!ans.status.isMelee()) {
+				if (!ans.isMelee()) {
 					if (meleeActive) {
 						golem.goalSelector.removeGoal(this.meleeGoal);
 						meleeActive = false;
@@ -82,28 +82,32 @@ public class WeaponGoalsManager {
 		ItemStack off = offhand.getItem();
 		var mainGoal = getGoalForWeapon(main, null);
 		var offGoal = getGoalForWeapon(off, null);
-		if (mainGoal != null && mainGoal.status.isRanged()) {
+		if (mainGoal != null && mainGoal.isRanged()) {
 			if (target == null || off.isEmpty() || off.getItem() instanceof ArrowItem) {
 				return false;
 			}
-			if (!mainGoal.goal().mayActivate(golem, main)) {
+			if (!mainGoal.mayActivate()) {
 				return true;
 			}
 			if (offGoal != null) {
-				if (offGoal.status.priority() > mainGoal.status.priority() && offGoal.goal().mayActivate(golem, off)) {
-					return true;
+				if (offGoal.priority() > mainGoal.priority() && offGoal.mayActivate()) {
+					if (offGoal.isWithinRange(target, 0))
+						return true;
 				}
-				if (!offGoal.status.isMelee() && offGoal.status.isRanged()) {
+				if (!offGoal.isMelee() && offGoal.isRanged()) {
 					return false;
 				}
 			}
 			return meleeGoal.canReachTarget(target);
 		}
-		if (offGoal != null && offGoal.status.isRanged()) {
-			if (!offGoal.goal().mayActivate(golem, off)) return false;
+		if (offGoal != null && offGoal.isRanged()) {
+			if (!offGoal.mayActivate()) return false;
 			if (target == null) return true;
 			if (mainGoal != null) {
-				if (offGoal.status.priority() < mainGoal.status.priority() && mainGoal.goal().mayActivate(golem, main)) {
+				if (!mainGoal.isWithinRange(target, 4)) {
+					return true;
+				}
+				if (offGoal.priority() < mainGoal.priority() && mainGoal.mayActivate()) {
 					return false;
 				}
 			}
@@ -112,6 +116,37 @@ public class WeaponGoalsManager {
 		return main.isEmpty() && !off.isEmpty();
 	}
 
-	private record WeaponGoalHolder<T extends Goal & IWeaponGoal>(ResourceLocation id, T goal, WeaponStatus status) {
+	private record WeaponGoalHolder<T extends Goal & IWeaponGoal>(ResourceLocation id, T goal) {
 	}
+
+	private record WeaponHolder<T extends Goal & IWeaponGoal>(
+			HumanoidGolemEntity golem, ItemStack stack, WeaponGoalHolder<T> holder, WeaponStatus status
+	) {
+
+		public T goal() {
+			return holder().goal();
+		}
+
+		public int priority() {
+			return status().priority();
+		}
+
+		public boolean isMelee() {
+			return status().isMelee();
+		}
+
+		public boolean isRanged() {
+			return status().isRanged();
+		}
+
+		public boolean mayActivate() {
+			return goal().mayActivate(golem, stack);
+		}
+
+		public boolean isWithinRange(LivingEntity target, double buffer) {
+			return golem.distanceTo(target) < goal().range(golem, stack) + buffer;
+		}
+
+	}
+
 }

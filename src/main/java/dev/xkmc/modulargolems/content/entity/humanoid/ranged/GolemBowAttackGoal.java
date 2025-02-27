@@ -12,7 +12,7 @@ public class GolemBowAttackGoal extends GolemRangedAttackGoal {
 	private int attackTime = -1;
 
 	public GolemBowAttackGoal(HumanoidGolemEntity mob, GolemMeleeGoal melee, double speed, double radius) {
-		super(mob, melee, speed, radius * radius);
+		super(mob, melee, speed, radius);
 	}
 
 	@Override

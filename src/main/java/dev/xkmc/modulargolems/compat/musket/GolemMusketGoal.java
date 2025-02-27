@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IWeaponGoal;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
 
 public class GolemMusketGoal extends RangedGunAttackGoal<HumanoidGolemEntity> implements IWeaponGoal {
 	private static final double speedModifier = 1.0;
@@ -21,6 +22,11 @@ public class GolemMusketGoal extends RangedGunAttackGoal<HumanoidGolemEntity> im
 
 	public boolean canContinueToUse() {
 		return (this.isTargetValid() || !this.mob.getNavigation().isDone()) && this.canUseGun();
+	}
+
+	@Override
+	public double range(HumanoidGolemEntity golem, ItemStack stack) {
+		return attackRadius;
 	}
 
 	public void start() {
