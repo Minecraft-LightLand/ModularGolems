@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.goals;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.NetheriteMonstrosityEarthquakeModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -11,7 +12,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
-public class GolemMeleeGoal extends MeleeAttackGoal {
+public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 
 	private static double getDistance(double a0, double a1, double b0, double b1) {
 		if (a1 < b0) {

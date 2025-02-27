@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
-import dev.xkmc.modulargolems.content.entity.humanoid.ranged.GolemShooterHelper;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemShooterHelper;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;

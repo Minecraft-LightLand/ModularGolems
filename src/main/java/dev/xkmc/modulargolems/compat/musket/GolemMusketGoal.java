@@ -1,13 +1,14 @@
 package dev.xkmc.modulargolems.compat.musket;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.IWeaponGoal;
+import dev.xkmc.mob_weapon_api.api.goals.IWeaponGoal;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 
-public class GolemMusketGoal extends RangedGunAttackGoal<HumanoidGolemEntity> implements IWeaponGoal {
+public class GolemMusketGoal extends RangedGunAttackGoal<HumanoidGolemEntity>
+		implements IWeaponGoal<HumanoidGolemEntity> {
 	private static final double speedModifier = 1.0;
 	private static final float attackRadius = 15.0F;
 	private int seeTime;
@@ -25,7 +26,7 @@ public class GolemMusketGoal extends RangedGunAttackGoal<HumanoidGolemEntity> im
 	}
 
 	@Override
-	public double range(HumanoidGolemEntity golem, ItemStack stack) {
+	public double range(ItemStack stack) {
 		return attackRadius;
 	}
 

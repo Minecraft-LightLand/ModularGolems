@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import net.minecraft.world.item.ItemStack;
 
 public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<EquipmentsMenu> {

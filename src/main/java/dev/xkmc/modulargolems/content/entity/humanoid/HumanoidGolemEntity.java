@@ -4,7 +4,11 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsManager;
+import dev.xkmc.mob_weapon_api.api.ai.IWeaponHolder;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
+import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemUser;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemDamageShieldEvent;
 import dev.xkmc.modulargolems.events.event.GolemDisableShieldEvent;
@@ -45,7 +49,8 @@ import java.util.Arrays;
 import java.util.function.Predicate;
 
 @SerialClass
-public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> implements CrossbowAttackMob {
+public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType>
+		implements CrossbowAttackMob, IWeaponHolder {
 
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
@@ -56,7 +61,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@SerialClass.SerialField
 	private ItemStack arrowSlot = ItemStack.EMPTY;
 
-	private final WeaponGoalsManager weaponManager = new WeaponGoalsManager(this);
+	private final GolemWeaponManager weaponManager = new GolemWeaponManager(this);
 
 	private boolean doReassessGoal = false;
 
@@ -350,8 +355,13 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 	}
 
-
 	// bow and crossbow
+
+
+	@Override
+	public ISmartUser toUser() {
+		return new GolemUser(this, getTarget());
+	}
 
 	@Override
 	public void performRangedAttack(LivingEntity target, float power) {
