@@ -20,7 +20,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 		var weapon = WeaponRegistry.CROSSBOW.get(mob, stack);
 		if (weapon.isEmpty()) return false;
 		return weapon.get().hasProjectile(new GolemUser(mob, null), stack) ||
-				weapon.get().hasLoadedProjectile(stack);
+				weapon.get().hasLoadedProjectile(mob, stack);
 	}
 
 	public void stop() {
@@ -39,13 +39,19 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 		var user = new GolemUser(mob, target);
 		var behavior = weapon.get();
 		if (crossbowState == GolemCrossbowAttackGoal.CrossbowState.UNCHARGED) {
-			if (behavior.hasLoadedProjectile(stack)) {
+			if (behavior.hasLoadedProjectile(mob, stack)) {
 				crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGED;
 				mob.setChargingCrossbow(false);
 			} else if (behavior.hasProjectile(user, stack)) {
-				mob.startUsingItem(mob.getWeaponHand());
-				crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGING;
-				mob.setChargingCrossbow(true);
+				if (behavior.chargeTime(mob, stack) <= 0) {
+					if (weapon.get().tryCharge(user, stack)) {
+						crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGED;
+					}
+				} else {
+					mob.startUsingItem(mob.getWeaponHand());
+					crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGING;
+					mob.setChargingCrossbow(true);
+				}
 			}
 		} else if (crossbowState == GolemCrossbowAttackGoal.CrossbowState.CHARGING) {
 			if (!mob.isUsingItem()) {
@@ -53,7 +59,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 			}
 			if (mob.getTicksUsingItem() >= weapon.get().chargeTime(mob, stack)) {
 				mob.releaseUsingItem();
-				if (weapon.get().tryCharge(mob, stack)) {
+				if (weapon.get().tryCharge(user, stack)) {
 					crossbowState = GolemCrossbowAttackGoal.CrossbowState.CHARGED;
 					mob.setChargingCrossbow(false);
 				}
@@ -63,7 +69,7 @@ public class GolemCrossbowAttackGoal extends GolemRangedAttackGoal {
 		if (target != null) {
 			if (crossbowState == GolemCrossbowAttackGoal.CrossbowState.CHARGED) {
 				if (attackDelay == 0) {
-					attackDelay = 5 + mob.getRandom().nextInt(5);
+					attackDelay = 10;
 				}
 				--attackDelay;
 				if (attackDelay == 0) {

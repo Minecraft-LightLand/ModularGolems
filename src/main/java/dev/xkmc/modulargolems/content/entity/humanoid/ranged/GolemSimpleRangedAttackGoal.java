@@ -16,6 +16,12 @@ public class GolemSimpleRangedAttackGoal extends GolemRangedAttackGoal {
 	}
 
 	@Override
+	public boolean mayActivate(HumanoidGolemEntity golem, ItemStack stack) {
+		var weapon = WeaponRegistry.INSTANT.get(mob, stack);
+		return weapon.isPresent() && weapon.get().isValid(new GolemUser(golem, null), stack);
+	}
+
+	@Override
 	public void stop() {
 		attackTime = -1;
 	}
@@ -25,7 +31,7 @@ public class GolemSimpleRangedAttackGoal extends GolemRangedAttackGoal {
 		ItemStack stack = mob.getItemInHand(mob.getWeaponHand());
 		var weapon = WeaponRegistry.INSTANT.get(mob, stack);
 		if (weapon.isPresent()) {
-			double rad = weapon.get().range(mob, stack);
+			double rad = weapon.get().range(new GolemUser(mob, null), stack);
 			return rad * rad;
 		}
 		return 0;
@@ -42,9 +48,10 @@ public class GolemSimpleRangedAttackGoal extends GolemRangedAttackGoal {
 		var weapon = WeaponRegistry.INSTANT.get(mob, stack);
 		if (weapon.isEmpty()) return;
 		LivingEntity target = mob.getTarget();
+		var user = new GolemUser(mob, target);
 		if (seeTime > 0 && target != null &&
-				mob.distanceTo(target) < weapon.get().range(mob, stack)) {
-			attackTime = weapon.get().trigger(mob, stack, target);
+				mob.distanceTo(target) < weapon.get().range(user, stack)) {
+			attackTime = weapon.get().trigger(user, stack, target);
 		}
 	}
 

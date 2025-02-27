@@ -201,9 +201,9 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.0.1")) {
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.1.0")) {
         transitive = false
-        jarJar.ranged(it, "[0.3.1,)")
+        jarJar.ranged(it, "[0.1.0,)")
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
@@ -278,6 +278,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
             "the-twilight-forest",
             "alexs-caves",
             "touhou-little-maid",
+            "tinkers-construct",
             "ewewukeks-musket-mod"
     )
     mainFile.releaseType = "release"

@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.musket;
 
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import dev.xkmc.mob_weapon_api.registry.WeaponStatus;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.WeaponGoalsRegistry;
 import ewewukek.musketmod.GunItem;
 import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;

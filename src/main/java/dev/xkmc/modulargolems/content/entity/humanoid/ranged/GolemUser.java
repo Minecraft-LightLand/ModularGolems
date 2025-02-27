@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
 
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.mob_weapon_api.api.projectile.BowUseContext;
 import dev.xkmc.mob_weapon_api.api.projectile.CrossbowUseContext;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -11,8 +11,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
-public record GolemUser(HumanoidGolemEntity user,
-						@Nullable LivingEntity target) implements BowUseContext, CrossbowUseContext {
+public record GolemUser(
+		HumanoidGolemEntity user, @Nullable LivingEntity target
+) implements BowUseContext, CrossbowUseContext {
 
 	@Override
 	public ItemStack getPreferredProjectile(ItemStack weapon, Predicate<ItemStack> special, Predicate<ItemStack> general) {
@@ -39,6 +40,12 @@ public record GolemUser(HumanoidGolemEntity user,
 	@Override
 	public float getInitialInaccuracy() {
 		return 0;
+	}
+
+	@Override
+	public Vec3 viewVector() {
+		assert target != null;
+		return ShootUtils.getShootVector(target, user.getEyePosition(), 1, 0, 0).vec3();
 	}
 
 	@Override

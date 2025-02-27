@@ -1,3 +1,7 @@
+2.5.1
+- Support wither assault weapon, void assault weapon, meat shredder, laser gatling from Cataclysm
+
+
 2.5.0
 - Add tinker casting recipes for golems
 - Support bows / crossbows from tinker

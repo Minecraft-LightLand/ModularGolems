@@ -60,7 +60,6 @@ public class WeaponGoalsRegistry {
 	public record WeaponGoalEntry(
 			IWeaponStatusPredicate item,
 			IWeaponGoalFactory<?> goal
-
 	) {
 	}
 }
