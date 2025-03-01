@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemShooterHelper;
@@ -16,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
 import net.minecraftforge.common.ToolActions;
 
 public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> implements
@@ -83,9 +83,9 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 		ArmPose pos = ArmPose.EMPTY;
 		if (entity.isAggressive() && GolemShooterHelper.isValidThrowableWeapon(entity, itemstack, hand) && entity.isUsingItem()) {
 			pos = ArmPose.THROW_SPEAR;
-		} else if (entity.isAggressive() && WeaponRegistry.BOW.isValidItem(itemstack)) {
+		} else if (entity.isAggressive() && itemstack.getUseAnimation() == UseAnim.BOW) {
 			pos = ArmPose.BOW_AND_ARROW;
-		} else if (WeaponRegistry.CROSSBOW.isValidItem(itemstack)) {
+		} else if (itemstack.getUseAnimation() == UseAnim.CROSSBOW) {
 			if (entity.isChargingCrossbow()) {
 				pos = ArmPose.CROSSBOW_CHARGE;
 			} else if (entity.isAggressive()) {

@@ -201,9 +201,9 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.1.4")) {
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.1.9")) {
         transitive = false
-        jarJar.ranged(it, "[0.1.4,)")
+        jarJar.ranged(it, "[0.1.9,)")
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
@@ -258,7 +258,7 @@ dependencies {
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     apiToken = secrets.get("curseforge_token")
     def mainFile = upload(project.curseforge_project, new File("./build/libs/${modid}-${ll_version}.jar"))
-    mainFile.changelog = new File('./changelog.txt').text.split("\n\n")[0]
+    mainFile.changelog = new File('./changelog.txt').text.split("\n\n\n")[0]
     mainFile.addEnvironment("Client", "Server")
     mainFile.addGameVersion("1.20.1")
     mainFile.addModLoader("Forge","NeoForge")

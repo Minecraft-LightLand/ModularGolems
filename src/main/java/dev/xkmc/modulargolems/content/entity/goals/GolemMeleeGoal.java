@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
+import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.NetheriteMonstrosityEarthquakeModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
-import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -56,6 +56,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	public int adjustedTickDelay(int tick) {
 		double speed = mob.getAttributeValue(Attributes.ATTACK_SPEED);
 		return (int) Math.ceil(super.adjustedTickDelay(tick) / Math.min(1, speed));
+	}
+
+	@Override
+	public int getMeleeInterval() {
+		return adjustedTickDelay(20);
 	}
 
 	public double getAttackReachSqr(LivingEntity pAttackTarget) {

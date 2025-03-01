@@ -1,3 +1,8 @@
+2.5.2
+- Support Twilight Scepter and Lifedrain Scepter from Twilight Forest
+- Support Infernal Forge, Void Forge, Gauntlet of Maelstrom, Ancient Spear, Soul Render from Cataclysm
+- Support Potato Cannon from Create (for Create 0.5.x only)
+
 2.5.1
 - Support wither assault weapon, void assault weapon, meat shredder, laser gatling from Cataclysm
 - Smarter weapon switch between ranged and melee weapons
