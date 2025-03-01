@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:coating"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_zinc_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "modulargolems:empty_upgrade"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_zinc_ingot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:coating"
+    ]
+  }
+}
