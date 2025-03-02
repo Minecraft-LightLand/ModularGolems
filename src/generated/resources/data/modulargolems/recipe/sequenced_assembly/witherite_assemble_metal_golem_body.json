@@ -16,7 +16,12 @@
   "loops": 9,
   "results": [
     {
-      "item": "modulargolems:metal_golem_body"
+      "item": {
+        "components": {
+          "modulargolems:part_material": "cataclysm:witherite"
+        },
+        "id": "modulargolems:metal_golem_body"
+      }
     }
   ],
   "sequence": [
@@ -32,7 +37,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_body"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_body"
+          }
         }
       ]
     },
@@ -45,7 +52,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_body"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_body"
+          }
         }
       ]
     },
@@ -58,7 +67,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_body"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_body"
+          }
         }
       ]
     },
@@ -71,12 +82,16 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_body"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_body"
+          }
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": "modulargolems:incomplete_metal_golem_body"
+    "item": {
+      "id": "modulargolems:incomplete_metal_golem_body"
+    }
   }
 }

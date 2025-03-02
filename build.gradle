@@ -187,9 +187,9 @@ dependencies {
 
     implementation "curse.maven:lionfish-api-1001614:6168249"
     implementation "curse.maven:lendercataclysm-551586:6208715"
-    runtimeOnly "curse.maven:create-328085:6247669"
+    runtimeOnly "curse.maven:create-328085:6255497"
 
-    compileOnly("com.simibubi.create:create-1.21.1:6.0.0-4") { transitive = false }
+    compileOnly("com.simibubi.create:create-1.21.1:6.0.1-13") { transitive = false }
     compileOnly("net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.39") { transitive = false }
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.0-10")
 

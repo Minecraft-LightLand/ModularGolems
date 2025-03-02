@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +31,7 @@ public class CraftEventListeners {
 		ItemStack stack = event.getLeft();
 		ItemStack block = event.getRight();
 		if (stack.getItem() instanceof GolemPart<?, ?> part && part.count <= block.getCount()) {
+			if (stack.is(MGTagGen.SPECIAL_CRAFT)) return;
 			var mat = GolemMaterial.getMaterial(block);
 			if (mat.isPresent()) {
 				ItemStack new_stack = stack.copy();

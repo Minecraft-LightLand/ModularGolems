@@ -16,7 +16,12 @@
   "loops": 6,
   "results": [
     {
-      "item": "modulargolems:humanoid_golem_arms"
+      "item": {
+        "components": {
+          "modulargolems:part_material": "twilightforest:ironwood"
+        },
+        "id": "modulargolems:humanoid_golem_arms"
+      }
     }
   ],
   "sequence": [
@@ -32,7 +37,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_arms"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_arms"
+          }
         }
       ]
     },
@@ -45,7 +52,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_arms"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_arms"
+          }
         }
       ]
     },
@@ -58,7 +67,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_arms"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_arms"
+          }
         }
       ]
     },
@@ -71,12 +82,16 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_arms"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_arms"
+          }
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": "modulargolems:incomplete_humanoid_golem_arms"
+    "item": {
+      "id": "modulargolems:incomplete_humanoid_golem_arms"
+    }
   }
 }

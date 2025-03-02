@@ -12,7 +12,12 @@
   "loops": 9,
   "results": [
     {
-      "item": "modulargolems:metal_golem_legs"
+      "item": {
+        "components": {
+          "modulargolems:part_material": "create:brass"
+        },
+        "id": "modulargolems:metal_golem_legs"
+      }
     }
   ],
   "sequence": [
@@ -28,7 +33,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_legs"
+          }
         }
       ]
     },
@@ -41,7 +48,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_legs"
+          }
         }
       ]
     },
@@ -57,7 +66,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_legs"
+          }
         }
       ]
     },
@@ -74,12 +85,16 @@
       "keep_held_item": true,
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_legs"
+          }
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": "modulargolems:incomplete_metal_golem_legs"
+    "item": {
+      "id": "modulargolems:incomplete_metal_golem_legs"
+    }
   }
 }

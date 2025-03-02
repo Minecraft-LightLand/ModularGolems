@@ -12,7 +12,12 @@
   "loops": 6,
   "results": [
     {
-      "item": "modulargolems:humanoid_golem_legs"
+      "item": {
+        "components": {
+          "modulargolems:part_material": "create:railway"
+        },
+        "id": "modulargolems:humanoid_golem_legs"
+      }
     }
   ],
   "sequence": [
@@ -28,7 +33,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_legs"
+          }
         }
       ]
     },
@@ -41,7 +48,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_legs"
+          }
         }
       ]
     },
@@ -57,7 +66,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_legs"
+          }
         }
       ]
     },
@@ -73,7 +84,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_legs"
+          }
         }
       ]
     },
@@ -89,7 +102,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_legs"
+          }
         }
       ]
     },
@@ -106,12 +121,16 @@
       "keep_held_item": true,
       "results": [
         {
-          "item": "modulargolems:incomplete_humanoid_golem_legs"
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_legs"
+          }
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": "modulargolems:incomplete_humanoid_golem_legs"
+    "item": {
+      "id": "modulargolems:incomplete_humanoid_golem_legs"
+    }
   }
 }

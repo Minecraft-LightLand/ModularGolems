@@ -12,7 +12,12 @@
   "loops": 9,
   "results": [
     {
-      "item": "modulargolems:metal_golem_arm"
+      "item": {
+        "components": {
+          "modulargolems:part_material": "modulargolems:copper"
+        },
+        "id": "modulargolems:metal_golem_arm"
+      }
     }
   ],
   "sequence": [
@@ -28,7 +33,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_arm"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_arm"
+          }
         }
       ]
     },
@@ -41,7 +48,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_arm"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_arm"
+          }
         }
       ]
     },
@@ -54,7 +63,9 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_arm"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_arm"
+          }
         }
       ]
     },
@@ -67,12 +78,16 @@
       ],
       "results": [
         {
-          "item": "modulargolems:incomplete_metal_golem_arm"
+          "item": {
+            "id": "modulargolems:incomplete_metal_golem_arm"
+          }
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": "modulargolems:incomplete_metal_golem_arm"
+    "item": {
+      "id": "modulargolems:incomplete_metal_golem_arm"
+    }
   }
 }
