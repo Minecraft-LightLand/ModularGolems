@@ -56,7 +56,7 @@ public class CreateRecipeEvents {
 
 	private static boolean isGolemCurio(GolemHolder<?, ?> holder, ItemStack stack) {
 		if (!ModList.get().isLoaded(Curios.MODID)) return false;
-		var set = CuriosApi.getEntitySlots(holder.getEntityType().type()).keySet();
+		var set = CuriosApi.getEntitySlots(holder.getEntityType().type(), false).keySet();
 		return ForgeRegistries.ITEMS.tags().getReverseTag(stack.getItem())
 				.map(e -> e.getTagKeys().anyMatch(t ->
 						t.location().getNamespace().equals(Curios.MODID) &&

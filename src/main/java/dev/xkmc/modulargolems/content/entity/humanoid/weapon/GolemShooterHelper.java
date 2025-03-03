@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.ranged;
+package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
@@ -14,13 +14,14 @@ import org.jetbrains.annotations.Nullable;
 
 public class GolemShooterHelper {
 
-
 	public static boolean isValidThrowableWeapon(LivingEntity user, ItemStack stack, @Nullable InteractionHand hand) {
-		if (hand == null || !(user instanceof HumanoidGolemEntity golem)) return false;
-		return throwWeapon(golem, stack, hand).isThrowable();
+		if (hand == null) return false;
+		var ans = throwWeapon(user, stack, hand);
+		return ans != null && ans.isThrowable();
 	}
 
-	public static GolemThrowableEvent throwWeapon(HumanoidGolemEntity golem, ItemStack stack, InteractionHand hand) {
+	public static @Nullable GolemThrowableEvent throwWeapon(LivingEntity user, ItemStack stack, InteractionHand hand) {
+		if (!(user instanceof HumanoidGolemEntity golem)) return null;
 		if (stack.getEnchantmentLevel(Enchantments.LOYALTY) > 0) {
 			stack = stack.copy();
 			var map = stack.getAllEnchantments();

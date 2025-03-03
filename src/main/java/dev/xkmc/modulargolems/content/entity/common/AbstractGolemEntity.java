@@ -12,7 +12,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
-import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
