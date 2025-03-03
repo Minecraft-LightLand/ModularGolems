@@ -62,7 +62,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		this.color = color;
 	}
 
-	public DyeColor getColor(){
+	public DyeColor getColor() {
 		return color;
 	}
 

@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.create.modifier;
 
 import dev.xkmc.l2core.base.effects.api.InherentEffect;
-import dev.xkmc.l2core.util.ServerProxy;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.effect.MobEffectCategory;

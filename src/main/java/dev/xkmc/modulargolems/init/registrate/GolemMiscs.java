@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.init.registrate;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
-import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2core.init.reg.simple.SR;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2core.serial.recipe.AbstractShapedRecipe;

@@ -7,6 +7,7 @@ import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.capability.PathConfig;
@@ -14,7 +15,6 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
-import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
@@ -685,6 +685,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			le.setLastHurtByPlayer(getOwner());
 		}
 		return super.doHurtTarget(target);
+	}
+
+	public int aiHurtTarget(Entity target) {
+		boolean ans = doHurtTarget(target);
+		return ans ? -1 : 0;
 	}
 
 	protected void registerGoals() {
