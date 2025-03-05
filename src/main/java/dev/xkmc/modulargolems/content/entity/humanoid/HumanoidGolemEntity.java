@@ -20,6 +20,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -383,4 +384,14 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void setInRangeAttack(boolean b) {
 		//TODO
 	}
+
+	@Override
+	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
+		super.dropCustomDeathLoot(level, source, player);
+		if (!arrowSlot.isEmpty())
+			spawnAtLocation(arrowSlot);
+		if (!backupHand.isEmpty())
+			spawnAtLocation(backupHand);
+	}
+
 }

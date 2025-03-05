@@ -1,3 +1,6 @@
+3.0.10
+- Add weapon integration for Cataclysm, Twilight Forest, L2Complements, Create, L2Archery
+
 3.0.9
 - Restore Create integration
 
