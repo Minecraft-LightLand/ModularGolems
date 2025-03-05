@@ -1,3 +1,7 @@
+2.5.3
+- Fix golem would not stop sing Meat Shredder and Winterstorm wand
+- Fix humanoid golem not dropping arrow and backup hand slot on death
+
 2.5.2
 - Support Twilight Scepter and Lifedrain Scepter from Twilight Forest
 - Support Infernal Forge, Void Forge, Gauntlet of Maelstrom, Ancient Spear, Soul Render from Cataclysm
