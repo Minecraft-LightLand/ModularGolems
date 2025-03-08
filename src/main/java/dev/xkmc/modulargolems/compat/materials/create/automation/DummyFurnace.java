@@ -16,7 +16,8 @@ public class DummyFurnace extends ProjectileWeaponItem {
 	}
 
 	private static boolean isValid(ItemStack stack) {
-		return stack.getBurnTime(RecipeType.SMELTING) > 0;
+		return !stack.isEmpty() && (stack.isStackable() || stack.hasCraftingRemainingItem()) &&
+				stack.getBurnTime(RecipeType.SMELTING) > 0;
 	}
 
 	@Override

@@ -1,3 +1,7 @@
+3.0.11
+- Fix crash with mods that bypass neoforge damage pipeline
+- Now unstackable burnable items without container will not be consumed by Create ability
+
 3.0.10
 - Add weapon integration for Cataclysm, Twilight Forest, L2Complements, Create, L2Archery
 
