@@ -41,6 +41,11 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 				stack.translate(0, -0.5, 0);
 				return;
 			}
+			default:
+				stack.translate(0.1, 0, 0.5);
+				float size = 0.75F;
+				stack.scale(size, size, size);
+				break;
 		}
 		stack.mulPose(Axis.ZP.rotationDegrees(135));
 		stack.mulPose(Axis.YP.rotationDegrees(-155));

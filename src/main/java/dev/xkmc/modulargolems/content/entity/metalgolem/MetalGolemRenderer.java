@@ -42,6 +42,9 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 				stack.translate(0, -0.15, 0);
 				return;
 			}
+			default:
+				stack.translate(0, 0, 0.5);
+				break;
 		}
 		stack.mulPose(Axis.ZP.rotationDegrees(135));
 		stack.mulPose(Axis.YP.rotationDegrees(-155));
