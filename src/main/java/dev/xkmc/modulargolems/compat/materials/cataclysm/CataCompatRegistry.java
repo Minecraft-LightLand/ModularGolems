@@ -2,12 +2,16 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import dev.xkmc.l2complements.init.L2Complements;
+import dev.xkmc.l2complements.init.data.TagGen;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraftforge.fml.ModList;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
@@ -70,7 +74,10 @@ public class CataCompatRegistry {
 	}
 
 	public static void register() {
-
+		if (ModList.get().isLoaded(L2Complements.MODID)) {
+			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(TagGen.SKILL_EFFECT)
+					.addOptional(EFF_FORCE.getId()).addOptional(EFF_FORCE.getId()));
+		}
 	}
 
 }

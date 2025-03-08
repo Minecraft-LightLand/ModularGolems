@@ -1,0 +1,28 @@
+{
+  "type": "tconstruct:casting_basin",
+  "cast": {
+    "item": "modulargolems:dog_golem_legs"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 1000,
+  "fluid": {
+    "amount": 270,
+    "tag": "forge:molten_cobalt"
+  },
+  "result": {
+    "item": "modulargolems:dog_golem_legs",
+    "nbt": {
+      "golem_material": "tconstruct:cobalt"
+    }
+  }
+}

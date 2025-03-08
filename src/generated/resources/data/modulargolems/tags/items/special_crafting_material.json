@@ -11,6 +11,22 @@
     {
       "id": "create:railway_casing",
       "required": false
+    },
+    {
+      "id": "#forge:amethyst_bronze",
+      "required": false
+    },
+    {
+      "id": "#forge:cobalt",
+      "required": false
+    },
+    {
+      "id": "#forge:manyullyn",
+      "required": false
+    },
+    {
+      "id": "#forge:hepatizon",
+      "required": false
     }
   ]
 }

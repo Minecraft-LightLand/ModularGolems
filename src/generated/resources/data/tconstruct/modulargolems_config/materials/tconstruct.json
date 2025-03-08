@@ -1,0 +1,54 @@
+{
+  "ingredients": {
+    "tconstruct:amethyst_bronze": {
+      "tag": "forge:amethyst_bronze"
+    },
+    "tconstruct:cobalt": {
+      "tag": "forge:cobalt"
+    },
+    "tconstruct:hepatizon": {
+      "tag": "forge:hepatizon"
+    },
+    "tconstruct:manyullyn": {
+      "tag": "forge:manyullyn"
+    }
+  },
+  "modifiers": {
+    "tconstruct:amethyst_bronze": {},
+    "tconstruct:cobalt": {},
+    "tconstruct:hepatizon": {},
+    "tconstruct:manyullyn": {}
+  },
+  "repairIngredients": {
+    "tconstruct:amethyst_bronze": {
+      "tag": "forge:amethyst_bronze"
+    },
+    "tconstruct:cobalt": {
+      "tag": "forge:cobalt"
+    },
+    "tconstruct:hepatizon": {
+      "tag": "forge:hepatizon"
+    },
+    "tconstruct:manyullyn": {
+      "tag": "forge:manyullyn"
+    }
+  },
+  "stats": {
+    "tconstruct:amethyst_bronze": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 160.0
+    },
+    "tconstruct:cobalt": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 200.0
+    },
+    "tconstruct:hepatizon": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 200.0
+    },
+    "tconstruct:manyullyn": {
+      "modulargolems:attack": 30.0,
+      "modulargolems:max_health": 200.0
+    }
+  }
+}

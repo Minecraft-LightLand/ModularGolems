@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.compat.materials.tinker.automation;
 
-import com.simibubi.create.AllItems;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
@@ -9,8 +8,6 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.mantle.recipe.helper.ItemOutput;
@@ -22,18 +19,22 @@ import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
 public class TinkerRecipeGen {
 
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
-		findAndTry(pvd, Items.IRON_INGOT, TinkerFluids.moltenIron, 90);
-		findAndTry(pvd, Items.COPPER_INGOT, TinkerFluids.moltenCopper, 90);
-		findAndTry(pvd, Items.GOLD_INGOT, TinkerFluids.moltenGold, 90);
-		findAndTry(pvd, Items.NETHERITE_INGOT, TinkerFluids.moltenNetherite, 90);
-		findAndTry(pvd, AllItems.ZINC_INGOT, TinkerFluids.moltenZinc, 90);
+		findAndTry(pvd, "iron", TinkerFluids.moltenIron, 90);
+		findAndTry(pvd, "copper", TinkerFluids.moltenCopper, 90);
+		findAndTry(pvd, "gold", TinkerFluids.moltenGold, 90);
+		findAndTry(pvd, "netherite", TinkerFluids.moltenNetherite, 90);
+		findAndTry(pvd, "zine", TinkerFluids.moltenZinc, 90);
+		findAndTry(pvd, "cobalt", TinkerFluids.moltenCobalt, 90);
+		findAndTry(pvd, "amethystBronze", TinkerFluids.moltenAmethystBronze, 90);
+		findAndTry(pvd, "manyullyn", TinkerFluids.moltenManyullyn, 90);
+		findAndTry(pvd, "hepatizon", TinkerFluids.moltenHepatizon, 90);
 	}
 
-	private static void findAndTry(RegistrateRecipeProvider pvd, ItemLike material, FlowingFluidObject<ForgeFlowingFluid> fluid, int amount) {
+	private static void findAndTry(RegistrateRecipeProvider pvd, String id, FlowingFluidObject<ForgeFlowingFluid> fluid, int amount) {
 		var tag = fluid.getCommonTag();
 		if (tag == null) return;
 		for (var e : CompatManager.gatherConfig().entrySet()) {
-			if (e.getValue().test(material.asItem().getDefaultInstance())) {
+			if (e.getKey().getPath().equals(id)) {
 				genCasting(pvd, e.getKey(), fluid, amount);
 			}
 		}

@@ -1,0 +1,45 @@
+{
+  "parent": "minecraft:recipes/root",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "criteria": {
+    "has_metal_golem_arm": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "modulargolems:metal_golem_arm"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:manyullyn_casting_metal_golem_arm"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_metal_golem_arm",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:manyullyn_casting_metal_golem_arm"
+    ]
+  },
+  "sends_telemetry_event": true
+}
