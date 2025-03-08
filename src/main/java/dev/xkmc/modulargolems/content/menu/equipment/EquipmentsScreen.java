@@ -27,6 +27,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		var sr = getRenderer();
 		sr.start(g);
 		if (menu.golem instanceof DogGolemEntity) {
+			sr.draw(g, "head", "slot", -1, -1);
 			sr.draw(g, "chest", "slot", -1, -1);
 		} else {
 			sr.draw(g, "main", "slot", -1, -1);

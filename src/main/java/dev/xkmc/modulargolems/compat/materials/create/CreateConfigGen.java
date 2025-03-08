@@ -56,6 +56,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SWEEP.get(), 1)
 				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
+				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.2)
 				.addModifier(CreateCompatRegistry.BODY.get(), 1)
 				.addModifier(CreateCompatRegistry.MOBILE.get(), 2)
 				.addModifier(CreateCompatRegistry.FORCE.get(), 2)

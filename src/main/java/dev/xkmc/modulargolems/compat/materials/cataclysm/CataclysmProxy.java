@@ -120,7 +120,7 @@ public class CataclysmProxy {
 		}
 	}
 
-	public static float earthquakeDamage() {
+	public static float monstrosityEarthquakeDamage() {
 		try {
 			return (float) CMConfig.MonstrositysHpdamage;
 		} catch (Throwable e) {
@@ -128,4 +128,14 @@ public class CataclysmProxy {
 		}
 		return 0;
 	}
+
+	public static float maledictusEarthquakeDamage() {
+		try {
+			return (float) CMConfig.MaledictusAOEHpDamage;
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.error(e);
+		}
+		return 0;
+	}
+
 }

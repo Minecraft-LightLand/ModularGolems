@@ -34,7 +34,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	}
 
 	public static EquipmentSlot[] LARGE_SLOTS = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
-	public static EquipmentSlot[] DOG_SLOTS = {EquipmentSlot.BODY};
+	public static EquipmentSlot[] DOG_SLOTS = {EquipmentSlot.HEAD, EquipmentSlot.BODY};
 
 	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "equipments");
 
@@ -46,6 +46,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		this.golem = golem;
 		equipmentSlots = golem instanceof DogGolemEntity ? DOG_SLOTS : LARGE_SLOTS;
 		if (golem instanceof DogGolemEntity) {
+			addSlot("head", e -> isValid(EquipmentSlot.HEAD, e));
 			addSlot("chest", e -> isValid(EquipmentSlot.BODY, e));
 		} else {
 			addSlot("main", e -> isValid(EquipmentSlot.MAINHAND, e));
@@ -127,6 +128,9 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 			}
 		}
 		if (golem instanceof DogGolemEntity) {
+			if (stack.getItem() instanceof BannerItem) {
+				return EquipmentSlot.HEAD;
+			}
 			if (stack.is(MGTagGen.C_WOLF_ARMORS)) {
 				return EquipmentSlot.BODY;
 			}

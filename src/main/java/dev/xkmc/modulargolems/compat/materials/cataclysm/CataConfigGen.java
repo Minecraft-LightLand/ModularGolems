@@ -44,6 +44,17 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.HARBINGER_BEAM.get(), 1)
 				.addModifier(CataCompatRegistry.HARBINGER_MISSILE.get(), 1)
 				.end()
+
+				.addMaterial(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "cursium"), Ingredient.of(ModItems.CURSIUM_INGOT.get()))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 390)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
+				.addStat(GolemTypes.STAT_REGEN.get(), 2)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
+				.addModifier(CataCompatRegistry.EARTHQUAKE_SPEAR.get(), 1)
+				.addModifier(CataCompatRegistry.MALEDICTUS_ATTACK.get(), 1)
+				.end()
 		);
 	}
 }

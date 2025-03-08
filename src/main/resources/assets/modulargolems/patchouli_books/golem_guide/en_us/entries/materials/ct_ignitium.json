@@ -3,7 +3,7 @@
   "name": "Ignitium",
   "icon": "cataclysm:ignitium_ingot",
   "category": "modulargolems:materials",
-  "sortnum": 501,
+  "sortnum": 701,
   "pages": [
 	{
 	  "type": "patchouli:spotlight",

@@ -3,7 +3,9 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -11,7 +13,8 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class DogGolemModel extends AgeableListModel<DogGolemEntity> implements IGolemModel<DogGolemEntity, DogGolemPartType, DogGolemModel> {
+public class DogGolemModel extends AgeableListModel<DogGolemEntity>
+		implements IGolemModel<DogGolemEntity, DogGolemPartType, DogGolemModel>, IHeadedModel {
 
 	private final ModelPart root;
 	private final ModelPart head;
@@ -111,6 +114,18 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity> implements I
 
 	protected Iterable<ModelPart> bodyParts() {
 		return ImmutableList.of(this.body, this.rightHindLeg, this.leftHindLeg, this.rightFrontLeg, this.leftFrontLeg, this.tail, this.upperBody);
+	}
+
+	@Override
+	public void translateToHead(PoseStack pose) {
+		//head.translateAndRotate(pose);
+		pose.mulPose(Axis.YP.rotationDegrees(180.0F));
+		pose.scale(0.625F, -0.625F, -0.625F);
+	}
+
+	@Override
+	public ModelPart getHead() {
+		return head;
 	}
 
 }
