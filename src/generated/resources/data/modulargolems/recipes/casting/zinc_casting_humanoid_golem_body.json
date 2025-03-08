@@ -14,7 +14,7 @@
       "modid": "create"
     }
   ],
-  "cooling_time": 1000,
+  "cooling_time": 115,
   "fluid": {
     "amount": 540,
     "tag": "forge:molten_zinc"

@@ -5,7 +5,6 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.automation.TinkerRecipeGen;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -22,18 +21,14 @@ public class TCDispatch extends ModDispatch {
 	public static final TagKey<Item> COBALT = tag("cobalt");
 	public static final TagKey<Item> MANYULLYN = tag("manyullyn");
 	public static final TagKey<Item> HEPATIZON = tag("hepatizon");
+	public static final TagKey<Item> ROSE_GOLD = tag("rose_gold");
 
 	public static TagKey<Item> tag(String id) {
-		return ItemTags.create(new ResourceLocation("forge", id));
+		return ItemTags.create(new ResourceLocation("forge", "ingots/" + id));
 	}
 
 	public TCDispatch() {
-		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.SPECIAL_CRAFT)
-				.addOptionalTag(AMETHYST_BRONZE.location())
-				.addOptionalTag(COBALT.location())
-				.addOptionalTag(MANYULLYN.location())
-				.addOptionalTag(HEPATIZON.location())
-		);
+		TCCompatRegistry.register();
 	}
 
 	@Override
@@ -42,6 +37,7 @@ public class TCDispatch extends ModDispatch {
 		pvd.add("golem_material." + MODID + ".manyullyn", "Manyullyn");
 		pvd.add("golem_material." + MODID + ".hepatizon", "Hepatizon");
 		pvd.add("golem_material." + MODID + ".cobalt", "Cobalt");
+		pvd.add("golem_material." + MODID + ".rose_gold", "Rose Gold");
 	}
 
 	@Override

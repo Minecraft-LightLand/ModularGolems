@@ -14,7 +14,7 @@
       "modid": "tconstruct"
     }
   ],
-  "cooling_time": 1000,
+  "cooling_time": 177,
   "fluid": {
     "amount": 540,
     "tag": "forge:molten_manyullyn"

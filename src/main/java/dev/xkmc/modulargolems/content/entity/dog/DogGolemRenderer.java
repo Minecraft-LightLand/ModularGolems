@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
+import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -66,6 +67,7 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 
 	public DogGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new DogGolemModel(ctx.bakeLayer(ModelLayers.WOLF)), 1F, DogGolemPartType::values);
+		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
 	}
 
 	protected float getBob(DogGolemEntity dog, float pPartialTicks) {

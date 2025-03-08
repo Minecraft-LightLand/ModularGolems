@@ -1,0 +1,19 @@
+{
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "item": "modulargolems:empty_upgrade"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 150,
+  "fluid": {
+    "amount": 810,
+    "tag": "forge:molten_copper"
+  },
+  "result": "modulargolems:thunder_immune"
+}

@@ -5,6 +5,7 @@ import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
@@ -113,6 +114,11 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 				if (golem.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
 					return EquipmentSlot.HEAD;
 				else return EquipmentSlot.FEET;
+			}
+		}
+		if (golem instanceof DogGolemEntity) {
+			if (stack.getItem() instanceof BannerItem) {
+				return EquipmentSlot.HEAD;
 			}
 		}
 		return null;

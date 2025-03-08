@@ -13,11 +13,15 @@
       "required": false
     },
     {
-      "id": "modulargolems:maledictus_rage",
+      "id": "modulargolems:atomic_boost",
       "required": false
     },
     {
-      "id": "modulargolems:atomic_boost",
+      "id": "modulargolems:manyullyn_effect",
+      "required": false
+    },
+    {
+      "id": "modulargolems:hepatizon_effect",
       "required": false
     }
   ]

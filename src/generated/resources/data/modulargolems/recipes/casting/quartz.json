@@ -1,0 +1,19 @@
+{
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "item": "modulargolems:empty_upgrade"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 200,
+  "fluid": {
+    "amount": 1200,
+    "tag": "tconstruct:molten_quartz"
+  },
+  "result": "modulargolems:quartz"
+}

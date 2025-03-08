@@ -6,7 +6,6 @@ import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.world.InteractionHand;
@@ -66,20 +65,17 @@ public class SquadWandItem extends BaseWandItem implements GolemInteractItem, IG
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
 		if (!golem.canModify(user)) return false;
 		if (level.isClientSide()) return true;
-		if (!(golem instanceof DogGolemEntity)) {
-			GolemConfigEntry entry = golem.getConfigEntry(null);
-			if (entry != null) {
-				var editor = new GolemConfigEditor.Writable(level, entry).getSquad();
-				UUID capId = editor.getCaptainId();
-				UUID golemId = golem.getUUID();
-				if (capId != null && capId.equals(golemId)) {
-					editor.setCaptainId(null);
-				} else {
-					editor.setCaptainId(golemId);
-				}
-			} else return false;
-
-		}
+		GolemConfigEntry entry = golem.getConfigEntry(null);
+		if (entry != null) {
+			var editor = new GolemConfigEditor.Writable(level, entry).getSquad();
+			UUID capId = editor.getCaptainId();
+			UUID golemId = golem.getUUID();
+			if (capId != null && capId.equals(golemId)) {
+				editor.setCaptainId(null);
+			} else {
+				editor.setCaptainId(golemId);
+			}
+		} else return false;
 		return false;
 	}
 }

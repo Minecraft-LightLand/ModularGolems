@@ -76,7 +76,7 @@ public class CataCompatRegistry {
 	public static void register() {
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(TagGen.SKILL_EFFECT)
-					.addOptional(EFF_FORCE.getId()).addOptional(EFF_FORCE.getId()));
+					.addOptional(EFF_FORCE.getId()));
 		}
 	}
 

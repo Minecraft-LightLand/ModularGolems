@@ -14,7 +14,7 @@
       "modid": "modulargolems"
     }
   ],
-  "cooling_time": 1000,
+  "cooling_time": 139,
   "fluid": {
     "amount": 540,
     "tag": "forge:molten_gold"

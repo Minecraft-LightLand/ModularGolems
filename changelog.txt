@@ -1,5 +1,14 @@
+2.5.5
+- Add Cursium golems for Cataclysm integration
+- Add Amethyst Bronze, Cobalt, Manyullyn, Hepatizon golems for TConstruct integration
+- Fix golem template position in TConstruct casting basin
+- Allow dog golem to be captain as well
+- Fix compatibility with retro damage indicator
+- Add Casting recipe for upgrades and golem armor, being cheaper than crafting recipe
+
 2.5.4
 - Now unstackable burnable items without container would not be consumed by Create abilities
+
 
 2.5.3
 - Fix golem would not stop sing Meat Shredder and Winterstorm wand

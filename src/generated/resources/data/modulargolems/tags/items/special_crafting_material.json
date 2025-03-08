@@ -13,19 +13,23 @@
       "required": false
     },
     {
-      "id": "#forge:amethyst_bronze",
+      "id": "#forge:ingots/amethyst_bronze",
       "required": false
     },
     {
-      "id": "#forge:cobalt",
+      "id": "#forge:ingots/cobalt",
       "required": false
     },
     {
-      "id": "#forge:manyullyn",
+      "id": "#forge:ingots/manyullyn",
       "required": false
     },
     {
-      "id": "#forge:hepatizon",
+      "id": "#forge:ingots/hepatizon",
+      "required": false
+    },
+    {
+      "id": "#forge:ingots/rose_gold",
       "required": false
     }
   ]

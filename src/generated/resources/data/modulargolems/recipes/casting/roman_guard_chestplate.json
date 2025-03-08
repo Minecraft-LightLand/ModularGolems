@@ -1,0 +1,19 @@
+{
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "item": "minecraft:iron_chestplate"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 340,
+  "fluid": {
+    "amount": 2880,
+    "tag": "forge:molten_iron"
+  },
+  "result": "modulargolems:roman_guard_chestplate"
+}

@@ -2,5 +2,18 @@
 	"golem_material.tconstruct.amethyst_bronze": "紫水晶青铜",
 	"golem_material.tconstruct.cobalt": "钴",
 	"golem_material.tconstruct.hepatizon": "黑色科林斯青铜",
-	"golem_material.tconstruct.manyullyn": "玛玉灵"
+	"golem_material.tconstruct.manyullyn": "玛玉灵",
+	"golem_material.tconstruct.rose_gold": "玫瑰金",
+	"effect.modulargolems.hepatizon_effect": "重复保护",
+	"effect.modulargolems.hepatizon_effect.description": "提升傀儡护甲",
+	"effect.modulargolems.manyullyn_effect": "贪婪",
+	"effect.modulargolems.manyullyn_effect.description": "提升傀儡伤害",
+	"modifier.modulargolems.add_slot": "额外升级",
+	"modifier.modulargolems.add_slot.desc": "提供%s个额外傀儡升级槽",
+	"modifier.modulargolems.hepatizon_defense": "重复保护",
+	"modifier.modulargolems.hepatizon_defense.desc": "受到伤害后暂时提升护甲",
+	"modifier.modulargolems.manyullyn_attack": "贪婪",
+	"modifier.modulargolems.manyullyn_attack.desc": "造成伤害后暂时提升伤害",
+	"modifier.modulargolems.manyullyn_defense": "动力",
+	"modifier.modulargolems.manyullyn_defense.desc": "受到伤害后暂时提升伤害"
 }

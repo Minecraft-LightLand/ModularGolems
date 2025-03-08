@@ -14,7 +14,7 @@
       "modid": "modulargolems"
     }
   ],
-  "cooling_time": 1000,
+  "cooling_time": 86,
   "fluid": {
     "amount": 270,
     "tag": "forge:molten_copper"

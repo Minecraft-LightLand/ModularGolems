@@ -14,7 +14,7 @@
       "modid": "tconstruct"
     }
   ],
-  "cooling_time": 1000,
+  "cooling_time": 134,
   "fluid": {
     "amount": 270,
     "tag": "forge:molten_hepatizon"

@@ -14,7 +14,7 @@
       "modid": "tconstruct"
     }
   ],
-  "cooling_time": 1000,
+  "cooling_time": 194,
   "fluid": {
     "amount": 810,
     "tag": "forge:molten_cobalt"

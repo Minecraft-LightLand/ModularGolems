@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -38,6 +39,9 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 	}
 
 	public void render(PoseStack pose, MultiBufferSource buffer, int light, T entity, float f1, float f2, float f3, float f4, float f5, float f6) {
+		var mc = Minecraft.getInstance();
+		var cam = mc.getCameraEntity();
+		if (cam != null && entity.isPassengerOfSameVehicle(cam)) return;
 		ItemStack stack = getBanner(entity);
 		if (!renders(stack)) return;
 		pose.pushPose();
