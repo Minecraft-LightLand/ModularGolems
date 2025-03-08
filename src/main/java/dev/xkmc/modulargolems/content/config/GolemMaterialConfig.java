@@ -14,9 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.apache.http.util.Asserts;
 
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @SerialClass
 public class GolemMaterialConfig extends BaseConfig {
@@ -41,12 +39,16 @@ public class GolemMaterialConfig extends BaseConfig {
 	@SerialClass.SerialField
 	public HashMap<ResourceLocation, Ingredient> repairIngredients = new HashMap<>();
 
-	public Set<ResourceLocation> getAllMaterials() {
+	public List<ResourceLocation> getAllMaterials() {
 		TreeSet<ResourceLocation> set = new TreeSet<>(stats.keySet());
 		set.retainAll(modifiers.keySet());
 		set.retainAll(ingredients.keySet());
 		set.removeIf(e -> isEmpty(ingredients.get(e)));
-		return set;
+		List<ResourceLocation> ans = new ArrayList<>(set);
+		ans.sort(Comparator.<ResourceLocation, Integer>comparing(rl -> rl.getNamespace().equals(ModularGolems.MODID) ? 0 : 1)
+				.thenComparing(ResourceLocation::getNamespace)
+				.thenComparing(ResourceLocation::getPath));
+		return ans;
 	}
 
 	public Ingredient getCraftIngredient(ResourceLocation id) {

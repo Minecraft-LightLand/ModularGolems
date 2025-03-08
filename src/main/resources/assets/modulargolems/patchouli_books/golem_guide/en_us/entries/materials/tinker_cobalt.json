@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "Cobalt",
+	"icon": "tconstruct:cobalt_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 804,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:cobalt_ingot",
+			"text": "Main material to craft Cobalt golem parts. Cobalt golem parts feature high stats and movement speed."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:cobalt\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:cobalt\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:cobalt\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

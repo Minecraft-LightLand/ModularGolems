@@ -8,6 +8,7 @@ import com.simibubi.create.content.kinetics.press.PressingRecipe;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
+import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,7 @@ public class CreateGolemRecipeGen {
 		for (var part : GolemPart.LIST) {
 			for (var ent : ing.entrySet()) {
 				if (SPECIAL.contains(ent.getKey().getPath())) continue;
+				if (ent.getKey().getNamespace().equals(TCDispatch.MODID)) continue;
 				genAssembly(pvd, part, ent.getKey(), ent.getValue());
 			}
 		}

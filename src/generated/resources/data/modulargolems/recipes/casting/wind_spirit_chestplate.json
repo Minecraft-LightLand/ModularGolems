@@ -1,0 +1,19 @@
+{
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "item": "minecraft:diamond_chestplate"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 471,
+  "fluid": {
+    "amount": 3200,
+    "tag": "tconstruct:molten_diamond"
+  },
+  "result": "modulargolems:wind_spirit_chestplate"
+}

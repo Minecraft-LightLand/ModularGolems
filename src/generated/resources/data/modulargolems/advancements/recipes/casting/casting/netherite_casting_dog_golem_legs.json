@@ -1,0 +1,45 @@
+{
+  "parent": "minecraft:recipes/root",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "modulargolems"
+    }
+  ],
+  "criteria": {
+    "has_dog_golem_legs": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "modulargolems:dog_golem_legs"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:casting/netherite_casting_dog_golem_legs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_dog_golem_legs",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:casting/netherite_casting_dog_golem_legs"
+    ]
+  },
+  "sends_telemetry_event": true
+}

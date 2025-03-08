@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "黑色科斯林青铜",
+	"icon": "tconstruct:hepatizon_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 803,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:hepatizon_ingot",
+			"text": "制作黑色科斯林青铜傀儡部件的主要材料，黑色科斯林青铜傀儡部件拥有较好的防御性，且受伤时能提供额外护甲。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:hepatizon\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:hepatizon\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:hepatizon\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.NetheriteMonstrosityEarthquakeModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -108,11 +108,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 				if (earthQuake) {
 					earthQuake = false;
 					resetAttackCooldown();
-					NetheriteMonstrosityEarthquakeModifier.performEarthQuake(golem);
+					EarthquakeHelper.performEarthQuake(golem);
 					return;
 				} else {
 					double d0 = this.getAttackReachSqr(target);
-					if (d0 < distSqr && distSqr <= d0 + NetheriteMonstrosityEarthquakeModifier.RANGE) {
+					if (d0 < distSqr && distSqr <= d0 + EarthquakeHelper.RANGE) {
 						golem.addDeltaMovement(new Vec3(0, 1, 0));
 						golem.hasImpulse = true;
 						earthQuake = true;

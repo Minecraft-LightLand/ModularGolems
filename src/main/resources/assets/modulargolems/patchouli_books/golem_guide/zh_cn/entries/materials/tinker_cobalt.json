@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "钴",
+	"icon": "tconstruct:cobalt_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 804,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:cobalt_ingot",
+			"text": "制作钴傀儡部件的主要材料，钴傀儡部件提供极高的数值并提升移动速度。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:cobalt\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:cobalt\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:cobalt\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:cobalt\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

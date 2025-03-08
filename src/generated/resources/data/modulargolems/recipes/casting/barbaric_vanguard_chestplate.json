@@ -1,0 +1,19 @@
+{
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "item": "modulargolems:wind_spirit_chestplate"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 180,
+  "fluid": {
+    "amount": 540,
+    "tag": "forge:molten_netherite"
+  },
+  "result": "modulargolems:barbaric_vanguard_chestplate"
+}

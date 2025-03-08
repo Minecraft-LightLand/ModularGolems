@@ -3,7 +3,7 @@
   "name": "凋零合金",
   "icon": "cataclysm:witherite_ingot",
   "category": "modulargolems:materials",
-  "sortnum": 501,
+  "sortnum": 701,
   "pages": [
 	{
 	  "type": "patchouli:spotlight",

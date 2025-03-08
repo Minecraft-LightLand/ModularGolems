@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "Manyullyn",
+	"icon": "tconstruct:manyullyn_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 802,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:manyullyn_ingot",
+			"text": "Main material to craft Manyullyn golem parts. Manyullyn golem parts feature high stats, and allows golem to increase attack during combat."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:manyullyn\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:manyullyn\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:manyullyn\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

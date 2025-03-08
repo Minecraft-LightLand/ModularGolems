@@ -201,9 +201,9 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.1.9")) {
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.3")) {
         transitive = false
-        jarJar.ranged(it, "[0.1.9,)")
+        jarJar.ranged(it, "[0.1.10,)")
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
@@ -252,6 +252,7 @@ dependencies {
     //implementation fg.deobf("curse.maven:tetra-289712:6096160")
 
     implementation fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
+    implementation fg.deobf("curse.maven:retro-damage-indicators-1003431:5268035")
 
 }
 

@@ -1,12 +1,12 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
+import dev.xkmc.mob_weapon_api.api.ai.IWeaponHolder;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.mob_weapon_api.api.ai.IWeaponHolder;
-import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemUser;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -406,6 +406,15 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			CrossbowItem.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0);
 		}
 		onCrossbowAttackPerformed();
+	}
+
+	@Override
+	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
+		super.dropCustomDeathLoot(source, i, b);
+		if (!arrowSlot.isEmpty())
+			spawnAtLocation(arrowSlot);
+		if (!backupHand.isEmpty())
+			spawnAtLocation(backupHand);
 	}
 
 }

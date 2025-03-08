@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.musket;
 
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.mob_weapon_api.api.goals.IWeaponGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;

@@ -1,0 +1,28 @@
+{
+  "type": "tconstruct:casting_basin",
+  "cast": {
+    "item": "modulargolems:humanoid_golem_arms"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 177,
+  "fluid": {
+    "amount": 540,
+    "tag": "forge:molten_manyullyn"
+  },
+  "result": {
+    "item": "modulargolems:humanoid_golem_arms",
+    "nbt": {
+      "golem_material": "tconstruct:manyullyn"
+    }
+  }
+}

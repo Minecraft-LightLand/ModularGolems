@@ -9,7 +9,19 @@
       "required": false
     },
     {
+      "id": "modulargolems:maledictus_rage",
+      "required": false
+    },
+    {
       "id": "modulargolems:atomic_boost",
+      "required": false
+    },
+    {
+      "id": "modulargolems:manyullyn_effect",
+      "required": false
+    },
+    {
+      "id": "modulargolems:hepatizon_effect",
       "required": false
     }
   ]

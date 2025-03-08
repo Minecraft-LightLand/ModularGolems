@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 
-import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
+import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;

@@ -1,0 +1,19 @@
+{
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "item": "modulargolems:wind_spirit_helmet"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 164,
+  "fluid": {
+    "amount": 450,
+    "tag": "forge:molten_netherite"
+  },
+  "result": "modulargolems:barbaric_vanguard_helmet"
+}

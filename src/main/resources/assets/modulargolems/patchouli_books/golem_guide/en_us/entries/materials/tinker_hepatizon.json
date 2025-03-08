@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "Hepatizon",
+	"icon": "tconstruct:hepatizon_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 803,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:hepatizon_ingot",
+			"text": "Main material to craft Hepatizon golem parts. Hepatizon golem parts feature high stats, and allows golem to increase armor after taking damage."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:hepatizon\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:hepatizon\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:hepatizon\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:hepatizon\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

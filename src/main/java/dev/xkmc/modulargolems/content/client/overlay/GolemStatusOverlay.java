@@ -8,6 +8,7 @@ import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.compat.materials.botania.BotUtils;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -50,7 +51,6 @@ public class GolemStatusOverlay implements IGuiOverlay {
 			target = entityHit.getEntity();
 		}
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return;
-		gui.setupOverlayRenderState(true, false);
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
 		if (golem.hasFlag(GolemFlags.BOTANIA)) {
@@ -69,35 +69,48 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
 		new OverlayUtil(g, textPos, -1, -1)
 				.renderLongText(gui.getFont(), text);
-		if (!(golem instanceof HumanoidGolemEntity humanoid)) return;
 		OverlayUtil util = new OverlayUtil(g, (int) (screenWidth * 0.6), -1, -1);
 		util.bg = 0xffc6c6c6;
-		List<ClientTooltipComponent> list = List.of(new GolemEquipmentTooltip(humanoid));
+		List<ClientTooltipComponent> list = List.of(new GolemEquipmentTooltip(golem));
 		util.renderTooltipInternal(gui.getFont(), list);
 	}
 
-	private record GolemEquipmentTooltip(HumanoidGolemEntity golem) implements ClientTooltipComponent {
+	private record GolemEquipmentTooltip(AbstractGolemEntity<?, ?> golem) implements ClientTooltipComponent {
 
 		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
 
 		@Override
 		public int getHeight() {
+			if (golem instanceof DogGolemEntity) return 18;
 			return 72;
 		}
 
 		@Override
 		public int getWidth(Font pFont) {
+			if (golem instanceof DogGolemEntity) return 18;
 			return 36;
 		}
 
 		@Override
 		public void renderImage(Font font, int mx, int my, GuiGraphics g) {
-			renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.MAINHAND), null);
-			renderSlot(font, mx, my + 36, g, golem.getItemBySlot(EquipmentSlot.OFFHAND), InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+			if (golem instanceof DogGolemEntity) {
+				renderSlot(font, mx, my, g, golem.getItemBySlot(EquipmentSlot.HEAD), InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
+				return;
+			}
 			renderSlot(font, mx + 18, my, g, golem.getItemBySlot(EquipmentSlot.HEAD), InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
 			renderSlot(font, mx + 18, my + 18, g, golem.getItemBySlot(EquipmentSlot.CHEST), InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE);
 			renderSlot(font, mx + 18, my + 36, g, golem.getItemBySlot(EquipmentSlot.LEGS), InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS);
 			renderSlot(font, mx + 18, my + 54, g, golem.getItemBySlot(EquipmentSlot.FEET), InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS);
+
+			if (golem instanceof HumanoidGolemEntity h) {
+				renderSlot(font, mx, my, g, golem.getItemBySlot(EquipmentSlot.MAINHAND), null);
+				renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.OFFHAND), InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+				renderSlot(font, mx, my + 36, g, h.getBackupHand().getItem(), null);
+				renderSlot(font, mx, my + 54, g, h.getArrowSlot().getItem(), null);
+			} else {
+				renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.MAINHAND), null);
+				renderSlot(font, mx, my + 36, g, golem.getItemBySlot(EquipmentSlot.OFFHAND), InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+			}
 		}
 
 		private void renderSlot(Font font, int x, int y, GuiGraphics g, ItemStack stack, @Nullable ResourceLocation atlasID) {
