@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "Amethyst Bronze",
+	"icon": "tconstruct:amethyst_bronze_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 802,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:amethyst_bronze_ingot",
+			"text": "Main material to craft amethyst bronze golem parts. Amethyst bronze golem parts feature cheap material yet very high stats for price."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:amethyst_bronze\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:amethyst_bronze\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:amethyst_bronze\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

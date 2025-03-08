@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "紫水晶青铜",
+	"icon": "tconstruct:amethyst_bronze_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 801,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:amethyst_bronze_ingot",
+			"text": "制作紫水晶青铜傀儡部件的主要材料，紫水晶青铜傀儡部件成本低且性价比高。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:amethyst_bronze\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:amethyst_bronze\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:amethyst_bronze\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:amethyst_bronze\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

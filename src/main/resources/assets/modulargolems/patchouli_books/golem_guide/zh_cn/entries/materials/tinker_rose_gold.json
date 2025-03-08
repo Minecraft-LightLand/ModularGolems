@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "玫瑰金",
+	"icon": "tconstruct:rose_gold_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 805,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:rose_gold_ingot",
+			"text": "制作玫瑰金傀儡部件的主要材料，玫瑰金傀儡部件数值极低，但是会提供额外的升级槽。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:rose_gold\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:rose_gold\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:rose_gold\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:rose_gold\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:rose_gold\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:rose_gold\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:rose_gold\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:rose_gold\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:rose_gold\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

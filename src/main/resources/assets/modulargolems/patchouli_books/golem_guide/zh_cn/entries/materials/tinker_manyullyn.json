@@ -1,0 +1,29 @@
+{
+	"flag": "mod:tconstruct",
+	"name": "马玉灵",
+	"icon": "tconstruct:manyullyn_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 802,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "tconstruct:manyullyn_ingot",
+			"text": "制作马玉灵傀儡部件的主要材料，马玉灵傀儡部件拥有非常高的数值，且在战斗中能不断提高伤害。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:metal_golem_body\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:metal_golem_arm\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:metal_golem_legs\",material:\"tconstruct:manyullyn\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"tconstruct:manyullyn\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"tconstruct:manyullyn\"},{part:\"modulargolems:dog_golem_legs\",material:\"tconstruct:manyullyn\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}
