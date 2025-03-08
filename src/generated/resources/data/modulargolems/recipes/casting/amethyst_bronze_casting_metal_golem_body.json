@@ -1,0 +1,28 @@
+{
+  "type": "tconstruct:casting_basin",
+  "cast": {
+    "item": "modulargolems:metal_golem_body"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cooling_time": 1000,
+  "fluid": {
+    "amount": 810,
+    "tag": "forge:molten_amethyst_bronze"
+  },
+  "result": {
+    "item": "modulargolems:metal_golem_body",
+    "nbt": {
+      "golem_material": "tconstruct:amethyst_bronze"
+    }
+  }
+}

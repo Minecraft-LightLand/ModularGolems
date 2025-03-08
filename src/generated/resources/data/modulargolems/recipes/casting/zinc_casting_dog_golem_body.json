@@ -1,0 +1,28 @@
+{
+  "type": "tconstruct:casting_basin",
+  "cast": {
+    "item": "modulargolems:dog_golem_body"
+  },
+  "cast_consumed": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "cooling_time": 1000,
+  "fluid": {
+    "amount": 540,
+    "tag": "forge:molten_zinc"
+  },
+  "result": {
+    "item": "modulargolems:dog_golem_body",
+    "nbt": {
+      "golem_material": "create:zinc"
+    }
+  }
+}

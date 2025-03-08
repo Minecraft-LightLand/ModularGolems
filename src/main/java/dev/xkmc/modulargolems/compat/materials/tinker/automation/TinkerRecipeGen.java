@@ -23,9 +23,9 @@ public class TinkerRecipeGen {
 		findAndTry(pvd, "copper", TinkerFluids.moltenCopper, 90);
 		findAndTry(pvd, "gold", TinkerFluids.moltenGold, 90);
 		findAndTry(pvd, "netherite", TinkerFluids.moltenNetherite, 90);
-		findAndTry(pvd, "zine", TinkerFluids.moltenZinc, 90);
+		findAndTry(pvd, "zinc", TinkerFluids.moltenZinc, 90);
 		findAndTry(pvd, "cobalt", TinkerFluids.moltenCobalt, 90);
-		findAndTry(pvd, "amethystBronze", TinkerFluids.moltenAmethystBronze, 90);
+		findAndTry(pvd, "amethyst_bronze", TinkerFluids.moltenAmethystBronze, 90);
 		findAndTry(pvd, "manyullyn", TinkerFluids.moltenManyullyn, 90);
 		findAndTry(pvd, "hepatizon", TinkerFluids.moltenHepatizon, 90);
 	}
@@ -45,7 +45,7 @@ public class TinkerRecipeGen {
 			var part_rl = ForgeRegistries.ITEMS.getKey(part);
 			assert part_rl != null;
 			String item_name = part_rl.getPath();
-			var rl = new ResourceLocation(ModularGolems.MODID, id.getPath() + "_casting_" + item_name);
+			var rl = new ResourceLocation(ModularGolems.MODID, "casting/" + id.getPath() + "_casting_" + item_name);
 
 			ItemStack result = GolemPart.setMaterial(part.getDefaultInstance(), id);
 			RecipeGen.unlock(pvd, ItemCastingRecipeBuilder.basinRecipe(ItemOutput.fromStack(result))::unlockedBy, part)
