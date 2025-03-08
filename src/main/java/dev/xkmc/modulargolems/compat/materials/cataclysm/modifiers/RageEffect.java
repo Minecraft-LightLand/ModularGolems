@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 import dev.xkmc.l2complements.content.effect.skill.StackingEffect;
 import dev.xkmc.l2library.base.effects.api.InherentEffect;
 import dev.xkmc.l2library.util.math.MathHelper;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
