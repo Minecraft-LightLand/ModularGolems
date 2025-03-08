@@ -29,6 +29,7 @@ public class CataDispatch extends ModDispatch {
 	public void genLang(RegistrateLangProvider pvd) {
 		pvd.add("golem_material." + MODID + ".ignitium", "Ignitium");
 		pvd.add("golem_material." + MODID + ".witherite", "Witherite");
+		pvd.add("golem_material." + MODID + ".cursium", "Cursium");
 	}
 
 	@Override

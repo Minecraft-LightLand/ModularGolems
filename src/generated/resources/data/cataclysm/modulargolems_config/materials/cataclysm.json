@@ -1,5 +1,8 @@
 {
   "ingredients": {
+    "cataclysm:cursium": {
+      "item": "cataclysm:cursium_ingot"
+    },
     "cataclysm:ignitium": {
       "item": "cataclysm:ignitium_ingot"
     },
@@ -8,6 +11,12 @@
     }
   },
   "modifiers": {
+    "cataclysm:cursium": {
+      "modulargolems:damage_cap": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:maledictus_attack": 1,
+      "modulargolems:maledictus_earthquake": 1
+    },
     "cataclysm:ignitium": {
       "modulargolems:damage_cap": 3,
       "modulargolems:fire_immune": 1,
@@ -23,6 +32,9 @@
     }
   },
   "repairIngredients": {
+    "cataclysm:cursium": {
+      "item": "cataclysm:cursium_ingot"
+    },
     "cataclysm:ignitium": {
       "item": "cataclysm:ignitium_ingot"
     },
@@ -31,6 +43,12 @@
     }
   },
   "stats": {
+    "cataclysm:cursium": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:max_health": 390.0,
+      "modulargolems:regen": 2.0,
+      "modulargolems:sweep": 2.0
+    },
     "cataclysm:ignitium": {
       "modulargolems:attack": 20.0,
       "modulargolems:max_health": 450.0,

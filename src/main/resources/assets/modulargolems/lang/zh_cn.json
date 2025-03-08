@@ -444,6 +444,9 @@
   "modulargolems.msg.botania_no_ring": "未装备魔力之戒",
   "golem_material.cataclysm.ignitium": "腾炎",
   "golem_material.cataclysm.witherite": "凋零合金",
+  "golem_material.cataclysm.cursium": "咒魂",
+  "effect.modulargolems.maledictus_rage": "恶咒",
+  "effect.modulargolems.maledictus_rage.description": "提升傀儡伤害",
   "item.modulargolems.ender_guardian_void_rune": "末影守卫升级",
   "item.modulargolems.leviathan_blast_portal": "利维坦升级",
   "item.modulargolems.ancient_remnant_sandstorm": "远古遗魂升级",
@@ -463,5 +466,9 @@
   "modifier.modulargolems.ancient_remnant_sandstorm": "遗魂沙暴",
   "modifier.modulargolems.ancient_remnant_sandstorm.desc": "攻击目标较远时，在目标位置召唤沙暴",
   "modifier.modulargolems.netherite_monstrosity_earthquake": "巨兽撼地",
-  "modifier.modulargolems.netherite_monstrosity_earthquake.desc": "傀儡会起跳砸地造成范围伤害"
+  "modifier.modulargolems.netherite_monstrosity_earthquake.desc": "傀儡会起跳砸地造成范围伤害",
+  "modifier.modulargolems.maledictus_attack": "咒灵之刃",
+  "modifier.modulargolems.maledictus_attack.desc": "近战伤害穿透护甲。造成伤害后提升伤害，最多叠%s层",
+  "modifier.modulargolems.maledictus_earthquake": "咒灵震戟",
+  "modifier.modulargolems.maledictus_earthquake.desc": "傀儡会起跳砸地造成范围伤害并召唤战戟"
 }
