@@ -1,3 +1,16 @@
 {
-  "values": []
+  "values": [
+    {
+      "id": "create:andesite_alloy",
+      "required": false
+    },
+    {
+      "id": "#c:ingots/brass",
+      "required": false
+    },
+    {
+      "id": "create:railway_casing",
+      "required": false
+    }
+  ]
 }

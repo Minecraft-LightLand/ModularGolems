@@ -1,8 +1,9 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.NetheriteMonstrosityEarthquakeModifier;
+import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +12,7 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class GolemMeleeGoal extends MeleeAttackGoal {
+public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 
 	private static double getDistance(double a0, double a1, double b0, double b1) {
 		if (a1 < b0) {
@@ -55,6 +56,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 	protected int adjustedTickDelay(int tick) {
 		double speed = mob.getAttributeValue(Attributes.ATTACK_SPEED);
 		return (int) Math.ceil(super.adjustedTickDelay(tick) / Math.min(1, speed));
+	}
+
+	@Override
+	public int getMeleeInterval() {
+		return adjustedTickDelay(20);
 	}
 
 	public double getAttackReachSqr(LivingEntity pAttackTarget) {
@@ -104,11 +110,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal {
 			if (earthQuake) {
 				earthQuake = false;
 				resetAttackCooldown();
-				NetheriteMonstrosityEarthquakeModifier.performEarthQuake(golem);
+				EarthquakeHelper.performEarthQuake(golem);
 				return;
 			} else {
 				double d0 = this.getAttackReachSqr(target);
-				if (d0 < distSqr && distSqr <= d0 + NetheriteMonstrosityEarthquakeModifier.RANGE) {
+				if (d0 < distSqr && distSqr <= d0 + EarthquakeHelper.RANGE) {
 					golem.addDeltaMovement(new Vec3(0, 1, 0));
 					golem.hasImpulse = true;
 					earthQuake = true;

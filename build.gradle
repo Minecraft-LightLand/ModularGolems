@@ -115,6 +115,9 @@ repositories {
     }
     maven {
         url = "https://maven.theillusivec4.top/"
+        content {
+            includeGroup "top.theillusivec4.curios"
+        }
     }
     maven {
         // Location of the maven for vazkii's mods
@@ -137,6 +140,7 @@ repositories {
         name = "OctoStudios"
         url = uri("https://maven.octo-studios.com/releases")
     }
+    maven { url = "https://maven.createmod.net" }
     mavenLocal();
 }
 
@@ -153,7 +157,7 @@ if (lljij.toBoolean()) {
 }
 
 dependencies {
-    implementation "com.tterrag.registrate:Registrate:${registrate_version}"
+    compileOnly "com.tterrag.registrate:Registrate:${registrate_version}"
 
     implementation "dev.xkmc:l2serial:${l2serial_ver}"
     implementation "dev.xkmc:l2modularblocks:${l2modularblocks_ver}"
@@ -161,15 +165,16 @@ dependencies {
     implementation "dev.xkmc:l2tabs:${l2tabs_ver}"
     implementation "dev.xkmc:l2menustacker:${l2menustacker_ver}"
     implementation "dev.xkmc:l2itemselector:${l2itemselector_ver}"
-    implementation "dev.xkmc:l2library:${l2library_ver}"
+    implementation "dev.xkmc:l2library:${l2library_ver}-slim"
 
     implementation jarJar(group: 'dev.xkmc', name: 'l2damagetracker', version: "[${l2damagetracker_ver},)")
+    implementation jarJar(group: 'dev.xkmc', name: 'mob_weapon_api', version: "[${mob_weapon_api_ver},)")
 
     implementation "dev.xkmc:l2backpack:${l2backpack_ver}"
-    implementation "dev.xkmc:l2complements:${l2complements_ver}"
+    implementation "dev.xkmc:l2complements:${l2complements_ver}-slim"
     implementation "dev.xkmc:l2magic:${l2magic_ver}"
     implementation "dev.xkmc:fast_projectile_api:${fast_projectile_api_ver}"
-    implementation "dev.xkmc:l2hostility:${l2hostility_ver}"
+    implementation "dev.xkmc:l2hostility:${l2hostility_ver}-slim"
     implementation "vazkii.patchouli:Patchouli:${patchouli_ver}"
 
     implementation "dev.xkmc:better_creative_tabs:0.1.0"
@@ -182,7 +187,13 @@ dependencies {
     implementation "dev.xkmc:l2archery:${l2archery_ver}"
 
     implementation "curse.maven:lionfish-api-1001614:6168249"
-    implementation "curse.maven:lendercataclysm-551586:6196331"
+    implementation "curse.maven:lendercataclysm-551586:6208715"
+    runtimeOnly "curse.maven:create-328085:6255497"
+
+    compileOnly("com.simibubi.create:create-1.21.1:6.0.1-13") { transitive = false }
+    compileOnly("net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.39") { transitive = false }
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.0-10")
+
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {

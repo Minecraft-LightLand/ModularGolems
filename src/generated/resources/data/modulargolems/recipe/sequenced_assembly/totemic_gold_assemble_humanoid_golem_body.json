@@ -1,0 +1,97 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "modulargolems:humanoid_golem_body"
+  },
+  "loops": 6,
+  "results": [
+    {
+      "item": {
+        "components": {
+          "modulargolems:part_material": "l2complements:totemic_gold"
+        },
+        "id": "modulargolems:humanoid_golem_body"
+      }
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_body"
+        },
+        {
+          "item": "l2complements:totemic_gold_ingot"
+        }
+      ],
+      "results": [
+        {
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_body"
+          }
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_body"
+          }
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_body"
+          }
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_humanoid_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "item": {
+            "id": "modulargolems:incomplete_humanoid_golem_body"
+          }
+        }
+      ]
+    }
+  ],
+  "transitional_item": {
+    "item": {
+      "id": "modulargolems:incomplete_humanoid_golem_body"
+    }
+  }
+}

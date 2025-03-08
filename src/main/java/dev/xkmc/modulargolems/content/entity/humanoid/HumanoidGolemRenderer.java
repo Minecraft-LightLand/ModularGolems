@@ -48,6 +48,9 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 				stack.translate(0, -0.5, 0);
 				return;
 			}
+			default:
+				stack.translate(0, 0, 0.5);
+				break;
 		}
 		stack.mulPose(Axis.ZP.rotationDegrees(135));
 		stack.mulPose(Axis.YP.rotationDegrees(-155));

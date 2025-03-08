@@ -18,6 +18,7 @@ import dev.xkmc.modulargolems.content.capability.ConfigSyncToClient;
 import dev.xkmc.modulargolems.content.capability.ConfigUpdateToServer;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
@@ -104,6 +105,7 @@ public class ModularGolems {
 	@SubscribeEvent
 	public static void setup(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
+			GolemWeaponRegistry.init();
 			GolemDispenserBehaviors.registerDispenseBehaviors();
 		});
 	}

@@ -1,18 +1,19 @@
 {
-  "required": true,
-  "priority": 1000,
-  "package": "dev.xkmc.modulargolems.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-	"ExperienceOrbAccessor",
-	"LivingEntityMixin",
-	"PlayerMixin",
-	"ServerLevelMixin"
-  ],
-  "client": [
-  ],
-  "injectors": {
-	"defaultRequire": 1
-  },
-  "minVersion": "0.8"
+	"required": true,
+	"priority": 1000,
+	"package": "dev.xkmc.modulargolems.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"BeltDeployerCallbacksMixin",
+		"ExperienceOrbAccessor",
+		"LivingEntityMixin",
+		"PlayerMixin",
+		"ServerLevelMixin"
+	],
+	"client": [
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"minVersion": "0.8"
 }

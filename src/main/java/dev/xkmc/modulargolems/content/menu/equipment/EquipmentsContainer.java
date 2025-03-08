@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2core.base.menu.base.BaseContainerMenu;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.ItemWrapper;
 import net.minecraft.world.item.ItemStack;
 
 public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<EquipmentsMenu> {
@@ -38,6 +38,13 @@ public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<Equipme
 	@Override
 	public ItemStack removeItem(int index, int count) {
 		return getWrapper(index).getItem().split(count);
+	}
+
+	@Override
+	public void setChanged() {
+		if (parent.golem instanceof HumanoidGolemEntity humanoid) {
+			humanoid.triggerReassess();
+		}
 	}
 
 }

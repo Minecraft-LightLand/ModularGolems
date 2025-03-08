@@ -1,0 +1,97 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "modulargolems:dog_golem_legs"
+  },
+  "loops": 3,
+  "results": [
+    {
+      "item": {
+        "components": {
+          "modulargolems:part_material": "l2complements:totemic_gold"
+        },
+        "id": "modulargolems:dog_golem_legs"
+      }
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_legs"
+        },
+        {
+          "item": "l2complements:totemic_gold_ingot"
+        }
+      ],
+      "results": [
+        {
+          "item": {
+            "id": "modulargolems:incomplete_dog_golem_legs"
+          }
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_legs"
+        }
+      ],
+      "results": [
+        {
+          "item": {
+            "id": "modulargolems:incomplete_dog_golem_legs"
+          }
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_legs"
+        }
+      ],
+      "results": [
+        {
+          "item": {
+            "id": "modulargolems:incomplete_dog_golem_legs"
+          }
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_legs"
+        }
+      ],
+      "results": [
+        {
+          "item": {
+            "id": "modulargolems:incomplete_dog_golem_legs"
+          }
+        }
+      ]
+    }
+  ],
+  "transitional_item": {
+    "item": {
+      "id": "modulargolems:incomplete_dog_golem_legs"
+    }
+  }
+}

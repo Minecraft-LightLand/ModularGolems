@@ -1,5 +1,21 @@
+3.0.12
+- Add Cursium golems for Cataclysm integration
+- Allow dog golem to be captain as well
+- Fix compatibility with retro damage indicator
+
+3.0.11
+- Fix crash with mods that bypass neoforge damage pipeline
+- Now unstackable burnable items without container will not be consumed by Create ability
+
+3.0.10
+- Add weapon integration for Cataclysm, Twilight Forest, L2Complements, Create, L2Archery
+
+3.0.9
+- Restore Create integration
+
 3.0.8
 - Restore Cataclysm integration
+
 
 3.0.7
 - Fix Large golem attack knockback and attack range
@@ -10,7 +26,6 @@
 - Add support for More Wolf Armors
 - Ban lead and name tag on golems for non-owner
 - Attribute golem kills to player when calculating entity loot
-
 
 3.0.5
 - Fix upgrades can be over-applied

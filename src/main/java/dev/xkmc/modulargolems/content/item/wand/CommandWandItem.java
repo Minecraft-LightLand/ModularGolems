@@ -40,9 +40,9 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 		if (level.isClientSide() && selected && entity instanceof Player player) {
 			RayTraceUtil.clientUpdateTarget(player, RANGE);
 			if (RayTraceUtil.serverGetTarget(player) instanceof AbstractGolemEntity<?, ?> golem) {
-					if (golem.getMode() == GolemModes.ROUTE) {
-						BlockOutliner.drawOutlines(player, golem.getPatrolList());
-					}
+				if (golem.getMode() == GolemModes.ROUTE) {
+					BlockOutliner.drawOutlines(player, golem.getPatrolList());
+				}
 			}
 		}
 	}
