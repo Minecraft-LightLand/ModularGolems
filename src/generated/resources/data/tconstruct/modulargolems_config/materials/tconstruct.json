@@ -49,16 +49,16 @@
   },
   "stats": {
     "tconstruct:amethyst_bronze": {
-      "modulargolems:attack": 13.0,
+      "modulargolems:attack": 15.0,
       "modulargolems:max_health": 200.0
     },
     "tconstruct:cobalt": {
-      "modulargolems:attack": 18.0,
+      "modulargolems:attack": 20.0,
       "modulargolems:max_health": 220.0,
       "modulargolems:speed": 0.3
     },
     "tconstruct:hepatizon": {
-      "modulargolems:attack": 16.0,
+      "modulargolems:attack": 15.0,
       "modulargolems:max_health": 250.0
     },
     "tconstruct:manyullyn": {

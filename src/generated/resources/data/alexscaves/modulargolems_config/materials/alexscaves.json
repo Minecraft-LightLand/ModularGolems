@@ -38,7 +38,7 @@
   },
   "stats": {
     "alexscaves:candy": {
-      "modulargolems:attack": 6.0,
+      "modulargolems:attack": 5.0,
       "modulargolems:max_health": 80.0,
       "modulargolems:speed": 0.3
     },

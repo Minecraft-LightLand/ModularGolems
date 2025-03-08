@@ -20,7 +20,7 @@ public class TinkerConfigGen extends ConfigDataProvider {
 		collector.add(ModularGolems.MATERIALS, new ResourceLocation(TCDispatch.MODID, TCDispatch.MODID), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(TCDispatch.MODID, "amethyst_bronze"), Ingredient.of(TCDispatch.AMETHYST_BRONZE))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 13)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
 				.end()
 
 				.addMaterial(new ResourceLocation(TCDispatch.MODID, "manyullyn"), Ingredient.of(TCDispatch.MANYULLYN))
@@ -32,13 +32,13 @@ public class TinkerConfigGen extends ConfigDataProvider {
 
 				.addMaterial(new ResourceLocation(TCDispatch.MODID, "hepatizon"), Ingredient.of(TCDispatch.HEPATIZON))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 250)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 16)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
 				.addModifier(TCCompatRegistry.HEPATIZON_DEFENSE.get(), 1)
 				.end()
 
 				.addMaterial(new ResourceLocation(TCDispatch.MODID, "cobalt"), Ingredient.of(TCDispatch.COBALT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 220)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 18)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.3)
 				.end()
 

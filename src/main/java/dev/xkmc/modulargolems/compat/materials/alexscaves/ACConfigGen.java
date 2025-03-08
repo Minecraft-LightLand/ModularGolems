@@ -20,7 +20,7 @@ public class ACConfigGen extends ConfigDataProvider {
 						Ingredient.of(ACCompatRegistry.CRAFT_CANDY.get()),
 						Ingredient.of(ACCompatRegistry.REPAIR_CANDY.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 80)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 6)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 5)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.3)
 				.addModifier(ACCompatRegistry.STICKY.get(), 1)
 				.addModifier(ACCompatRegistry.SHOOT.get(), 1)
