@@ -50,3 +50,8 @@ This mod adds golems that can be crafted with different materials in a Tinker-li
     mandatory=false
     versionRange="[1.1.9,)"
     side="BOTH"
+[[dependencies.modulargolems]]
+    modId="cataclysm"
+    mandatory=false
+    versionRange="[2.56,)"
+    side="BOTH"
