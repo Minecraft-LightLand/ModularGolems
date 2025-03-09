@@ -1,3 +1,6 @@
+3.0.13
+- Fix crash when Cataclysm is installed but not L2Complements
+
 3.0.12
 - Add Cursium golems for Cataclysm integration
 - Allow dog golem to be captain as well
