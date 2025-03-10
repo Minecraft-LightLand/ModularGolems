@@ -90,7 +90,7 @@ public class ModularGolems {
 							() -> Items.BOOK)
 					.buildBook("Modular Golem Guide",
 							"Welcome to Tinker-like golem assembly and upgrade mod",
-							1, GolemItems.TAB.key());
+							1, GolemItems.ITEMS.key());
 		}
 	}
 

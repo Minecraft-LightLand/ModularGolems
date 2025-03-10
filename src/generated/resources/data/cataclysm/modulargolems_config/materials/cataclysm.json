@@ -31,6 +31,17 @@
       "modulargolems:projectile_reject": 1
     }
   },
+  "repairIngredients": {
+    "cataclysm:cursium": {
+      "item": "cataclysm:cursium_ingot"
+    },
+    "cataclysm:ignitium": {
+      "item": "cataclysm:ignitium_ingot"
+    },
+    "cataclysm:witherite": {
+      "item": "cataclysm:witherite_ingot"
+    }
+  },
   "stats": {
     "cataclysm:cursium": {
       "modulargolems:attack": 40.0,

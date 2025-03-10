@@ -36,7 +36,7 @@ public record GolemAddSlotExtension(
 					mats.add(new GolemHolderMaterial.Entry(partItem, rl));
 				}
 				var holder = GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(mats));
-				var mat = GolemMaterialConfig.get().ingredients.get(rl);
+				var mat = GolemMaterialConfig.get().getRepairIngredient(rl);
 				for (var ing : mat.getItems()) {
 					list.add(holder);
 				}
@@ -50,7 +50,7 @@ public record GolemAddSlotExtension(
 		if (r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?>) {
 			List<ItemStack> list = new ArrayList<>();
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
-				var mat = GolemMaterialConfig.get().ingredients.get(rl);
+				var mat = GolemMaterialConfig.get().getRepairIngredient(rl);
 				list.addAll(List.of(mat.getItems()));
 			}
 			t.addItemStacks(list);
@@ -70,7 +70,7 @@ public record GolemAddSlotExtension(
 					mats.add(new GolemHolderMaterial.Entry(partItem, rl));
 				}
 				var holder = GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(mats));
-				var mat = GolemMaterialConfig.get().ingredients.get(rl);
+				var mat = GolemMaterialConfig.get().getRepairIngredient(rl);
 				GolemUpgrade.add(holder, item);
 				for (var ing : mat.getItems()) {
 					list.add(holder);

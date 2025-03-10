@@ -23,8 +23,7 @@ public class SlotGen extends CuriosDataProvider {
 		createSlot("golem_skin").icon(ModularGolems.loc("slot/empty_skin_slot")).order(1000);
 		createSlot("golem_route").icon(ModularGolems.loc("slot/empty_route_slot")).order(1100);
 
-		createEntities("golem_skin").addSlots("golem_skin").addEntities(GolemTypes.TYPE_HUMANOID.get().type());
-		createEntities("golem_curios").addSlots("head", "back", "ring", "charm", "hands", "golem_route")
+		createEntities("golem_curios").addSlots("head", "back", "ring", "charm", "hands", "golem_route", "golem_skin")
 				.addEntities(GolemTypes.TYPE_GOLEM.get().type(),
 						GolemTypes.TYPE_HUMANOID.get().type(),
 						GolemTypes.TYPE_DOG.get().type());

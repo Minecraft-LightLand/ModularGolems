@@ -50,6 +50,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		implements CrossbowAttackMob, IWeaponHolder {
 
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	@SerialField
 	public int shieldCooldown = 0;
@@ -381,8 +382,12 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	@Override
-	public void setInRangeAttack(boolean b) {
-		//TODO
+	public boolean isInRangedMode() {
+		return super.isInRangedMode() || getEntityData().get(IS_IN_RANGE_ATTACK);
+	}
+
+	public void setInRangeAttack(boolean flag) {
+		getEntityData().set(IS_IN_RANGE_ATTACK, flag);
 	}
 
 	@Override

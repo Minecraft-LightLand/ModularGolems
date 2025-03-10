@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.item.golem;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
@@ -10,6 +11,8 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -69,6 +72,9 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 			if (!renderEntity(handle, holder))
 				render(handle, holder);
 		}
+		if (stack.getItem() instanceof GolemFacade) {
+			renderFacade(handle, GolemFacade.getMaterial(stack));
+		}
 		poseStack.popPose();
 	}
 
@@ -97,6 +103,16 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		RenderType render = model.renderType(model.getTextureLocationInternal(id));
 		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), render, false, handle.stack().hasFoil());
 		model.renderToBufferInternal(part, handle.poseStack(), vc, handle.light(), handle.overlay(), -1);
+	}
+
+	private void renderFacade(BEWLRHandle handle, ResourceLocation id) {
+		MetalGolemModel model = Wrappers.cast(map.get(GolemTypes.TYPE_GOLEM.id()));
+		handle.poseStack().translate(0.5f, -0.375f, 0.5f);
+		handle.poseStack().mulPose(Axis.YP.rotationDegrees(180));
+		handle.poseStack().scale(1, -1, 1);
+		RenderType render = model.renderType(model.getTextureLocationInternal(id));
+		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), render, false, handle.stack().hasFoil());
+		model.getHead().render(handle.poseStack(), vc, handle.light(), handle.overlay(), -1);
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> boolean renderEntity(BEWLRHandle handle, GolemHolder<T, P> item) {

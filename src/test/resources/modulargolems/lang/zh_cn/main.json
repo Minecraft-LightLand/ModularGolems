@@ -6,7 +6,8 @@
 		"golem_jump": "傀儡跳跃"
 	},
 	"modulargolems.title": "模块化傀儡",
-	"itemGroup.l2core.golems": "模块化傀儡",
+	"itemGroup.l2core.golems": "模块化傀儡 - 傀儡",
+	"itemGroup.l2core.golem_items": "模块化傀儡 - 物品",
 	"modulargolems": {
 		"tooltip": {
 			"health": "血量: %s/%s",
@@ -29,6 +30,8 @@
 			"wander": "自由行动",
 			"wandering": "傀儡会自由随机移动",
 			"modifier": "总计%s个技能，%s个升级",
+			"craft_material": "傀儡制作材料",
+			"repair_material": "傀儡修补材料",
 			"target": {
 				"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
 				"remove": "蹲下右键移除最后一行",

@@ -37,6 +37,20 @@
       "modulargolems:coating": 1
     }
   },
+  "repairIngredients": {
+    "create:andesite_alloy": {
+      "item": "create:andesite_alloy"
+    },
+    "create:brass": {
+      "tag": "c:ingots/brass"
+    },
+    "create:railway": {
+      "item": "create:railway_casing"
+    },
+    "create:zinc": {
+      "tag": "c:ingots/zinc"
+    }
+  },
   "stats": {
     "create:andesite_alloy": {
       "modulargolems:attack": 5.0,

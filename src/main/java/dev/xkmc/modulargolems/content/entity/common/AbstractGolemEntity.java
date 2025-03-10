@@ -44,6 +44,8 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
@@ -65,6 +67,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
@@ -113,6 +116,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	protected final PathNavigation waterNavigation;
 	protected final GroundPathNavigation groundNavigation;
+
+	public final Set<MobEffect> effectImmunity = new HashSet<>();
 
 	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -163,7 +168,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected final InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (player.getItemInHand(hand).is(MGTagGen.GOLEM_INTERACT)) return InteractionResult.PASS;
 		for (var ent : modifiers.entrySet()) {
-			var result = ent.getKey().interact(player, this, hand);
+			var result = ent.getKey().interact(player, this, hand, ent.getValue());
 			if (result != InteractionResult.PASS) {
 				return result;
 			}
@@ -235,7 +240,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.dropCustomDeathLoot(level, source, player);
 		Map<Item, Integer> drop = new HashMap<>();
 		for (GolemMaterial mat : getMaterials()) {
-			Item item = GolemMaterialConfig.get().ingredients.get(mat.id()).getItems()[0].getItem();
+			Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
 			drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
 		}
 		drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
@@ -830,6 +835,23 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return null;
 		}
 		return super.changeDimension(dim);
+	}
+
+	public boolean isInRangedMode() {
+		return getMode() == GolemModes.STAND;
+	}
+
+	@Override
+	public boolean canBeAffected(MobEffectInstance ins) {
+		if (effectImmunity.contains(ins.getEffect()))
+			return false;
+		return super.canBeAffected(ins);
+	}
+
+	@Override
+	public void makeStuckInBlock(BlockState state, Vec3 vec) {
+		if (hasFlag(GolemFlags.FREE_MOVE)) return;
+		super.makeStuckInBlock(state, vec);
 	}
 
 }
