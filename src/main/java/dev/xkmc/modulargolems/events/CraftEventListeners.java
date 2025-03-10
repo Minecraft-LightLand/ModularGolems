@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -45,12 +46,10 @@ public class CraftEventListeners {
 				fixGolem(event, holder, stack);
 			}
 		}
-		if (stack.getItem() instanceof GolemFacade) {
+		if (stack.is(GolemItems.EMPTY_UPGRADE.get())) {
 			var mat = GolemMaterial.getRepairMaterial(block);
 			if (mat.isEmpty()) return;
-			ItemStack new_stack = stack.copy();
-			GolemFacade.setMaterial(new_stack, mat.get());
-			event.setOutput(new_stack);
+			event.setOutput(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat.get()));
 			event.setMaterialCost(1);
 			event.setCost(1);
 		}

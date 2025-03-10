@@ -1,14 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
-import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
-import dev.xkmc.mob_weapon_api.api.ai.IWeaponHolder;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemUser;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponManager;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemDamageShieldEvent;
 import dev.xkmc.modulargolems.events.event.GolemDisableShieldEvent;
@@ -16,7 +13,6 @@ import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -31,7 +27,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ArmorItem;
@@ -49,8 +44,7 @@ import java.util.Arrays;
 import java.util.function.Predicate;
 
 @SerialClass
-public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType>
-		implements CrossbowAttackMob, IWeaponHolder {
+public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> implements CrossbowAttackMob {
 
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
@@ -61,14 +55,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@SerialClass.SerialField
 	private ItemStack arrowSlot = ItemStack.EMPTY;
 
-	private final GolemWeaponManager weaponManager = new GolemWeaponManager(this);
-
-	private boolean doReassessGoal = false;
-
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
-		super(type, level);
+		super(GolemWeaponRegistry.HUMANOID, type, level);
 		if (!this.level().isClientSide) {
-			weaponManager.reassessWeaponGoal();
 			this.groundNavigation.setCanOpenDoors(true);
 		}
 	}
@@ -85,19 +74,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			return ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
 		}
 	}
-
-	public void readAdditionalSaveData(CompoundTag pCompound) {
-		super.readAdditionalSaveData(pCompound);
-		weaponManager.reassessWeaponGoal();
-	}
-
-	public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
-		super.setItemSlot(pSlot, pStack);
-		if (!this.level().isClientSide) {
-			doReassessGoal = true;
-		}
-	}
-
 
 	protected void defineSynchedData() {
 		super.defineSynchedData();
@@ -219,6 +195,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return InteractionResult.FAIL;
 	}
 
+	// ride
+
 	@Override
 	public double getMyRidingOffset() {
 		return -0.35;
@@ -253,6 +231,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			}
 		}
 	}
+
+	// shields
 
 	@Nullable
 	public InteractionHand shieldSlot() {
@@ -311,28 +291,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	// weapon switch
 
 	@Override
-	public void aiStep() {
-		if (doReassessGoal || tickCount % 100 == 0) {
-			weaponManager.reassessWeaponGoal();
-			doReassessGoal = false;
-		}
-		super.aiStep();
-		attackStep();
-	}
-
-	public void triggerReassess() {
-		doReassessGoal = true;
-	}
-
-	public void attackStep() {
-		if (level().isClientSide()) return;
-		if (inventoryTick > 0) return;
-		inventoryTick = 4;
-		switchWeapon(
-				getWrapperOfHand(EquipmentSlot.MAINHAND),
-				!backupHand.isEmpty() ? getBackupHand() :
-						getWrapperOfHand(EquipmentSlot.OFFHAND)
-		);
+	protected ItemWrapper getAltWeaponHand() {
+		return !backupHand.isEmpty() ? getBackupHand() :
+				getWrapperOfHand(EquipmentSlot.OFFHAND);
 	}
 
 	public ItemWrapper getBackupHand() {
@@ -343,38 +304,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
 	}
 
-	private void switchWeapon(ItemWrapper mainhand, ItemWrapper offhand) {
-		LivingEntity target = getTarget();
-		ItemStack main = mainhand.getItem();
-		ItemStack off = offhand.getItem();
-		if (weaponManager.checkSwitch(target, mainhand, offhand)) {
-			mainhand.setItem(off);
-			offhand.setItem(main);
-			doReassessGoal = true;
-			inventoryTick = 10;
-		}
-	}
-
 	// bow and crossbow
-
-
-	@Override
-	public ISmartUser toUser() {
-		return new GolemUser(this, getTarget());
-	}
-
-	@Override
-	public void performRangedAttack(LivingEntity target, float power) {
-		weaponManager.performRangedAttack(target, power);
-	}
-
-	public AbstractArrow getArrow(ItemStack pArrowStack, float pVelocity) {
-		return ProjectileUtil.getMobArrow(this, pArrowStack, pVelocity);
-	}
-
-	public boolean canFireProjectileWeapon(ProjectileWeaponItem pProjectileWeapon) {
-		return true;
-	}
 
 	public boolean isChargingCrossbow() {
 		return this.entityData.get(IS_CHARGING_CROSSBOW);
@@ -407,6 +337,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 		onCrossbowAttackPerformed();
 	}
+
+	// extra drops
 
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {

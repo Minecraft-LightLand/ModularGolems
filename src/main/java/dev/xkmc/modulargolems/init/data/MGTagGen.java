@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.init.data;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
@@ -38,6 +40,7 @@ public class MGTagGen {
 	public static final TagKey<Item> CURIO_SKIN = ItemTags.create(new ResourceLocation("curios", "golem_skin"));
 	public static final TagKey<Item> CURIO_PATH = ItemTags.create(new ResourceLocation("curios", "golem_route"));
 	public static final TagKey<Item> PLAYER_SKIN = createItemTag("player_skin");
+	public static final TagKey<Item> LARGE_GOLEM_WEAPONS = createItemTag("large_golem_weapons");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
 
@@ -87,6 +90,24 @@ public class MGTagGen {
 		skin.addTag(PLAYER_SKIN).add(Items.PLAYER_HEAD, Items.PIGLIN_HEAD);
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			skin.addOptional(new ResourceLocation(TouhouLittleMaid.MOD_ID, "garage_kit"));
+		}
+		if (ModList.get().isLoaded(Cataclysm.MODID)) {
+			pvd.addTag(LARGE_GOLEM_WEAPONS)
+					.addOptional(ModItems.THE_INCINERATOR.getId())
+					.addOptional(ModItems.FINAL_FRACTAL.getId())
+					.addOptional(ModItems.THE_ANNIHILATOR.getId())
+					.addOptional(ModItems.THE_IMMOLATOR.getId())
+					.addOptional(ModItems.THE_INCINERATOR.getId())
+					.addOptional(ModItems.GAUNTLET_OF_GUARD.getId())
+					.addOptional(ModItems.GAUNTLET_OF_BULWARK.getId())
+
+					.addOptional(ModItems.GAUNTLET_OF_MAELSTROM.getId())
+					.addOptional(ModItems.SOUL_RENDER.getId())
+					.addOptional(ModItems.MEAT_SHREDDER.getId())
+					.addOptional(ModItems.INFERNAL_FORGE.getId())
+					.addOptional(ModItems.VOID_FORGE.getId())
+					.addOptional(ModItems.WITHER_ASSULT_SHOULDER_WEAPON.getId())
+					.addOptional(ModItems.VOID_ASSULT_SHOULDER_WEAPON.getId());
 		}
 	}
 
