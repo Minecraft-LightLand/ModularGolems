@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
@@ -43,6 +44,15 @@ public class CraftEventListeners {
 			} else {
 				fixGolem(event, holder, stack);
 			}
+		}
+		if (stack.getItem() instanceof GolemFacade) {
+			var mat = GolemMaterial.getRepairMaterial(block);
+			if (mat.isEmpty()) return;
+			ItemStack new_stack = stack.copy();
+			GolemFacade.setMaterial(new_stack, mat.get());
+			event.setOutput(new_stack);
+			event.setMaterialCost(1);
+			event.setCost(1);
 		}
 	}
 

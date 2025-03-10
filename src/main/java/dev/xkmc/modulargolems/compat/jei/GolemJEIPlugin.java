@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
@@ -18,6 +19,7 @@ import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -54,6 +56,7 @@ public class GolemJEIPlugin implements IModPlugin {
 		for (Item item : GolemPart.LIST) {
 			registration.registerSubtypeInterpreter(item, GolemJEIPlugin::partSubtype);
 		}
+		registration.registerSubtypeInterpreter(GolemItems.FACADE.get(), GolemJEIPlugin::facadeSubtype);
 	}
 
 	@Override
@@ -102,13 +105,21 @@ public class GolemJEIPlugin implements IModPlugin {
 		);
 	}
 
-
 	private static String partSubtype(ItemStack stack, UidContext ctx) {
 		return GolemPart.getMaterial(stack).orElse(GolemMaterial.EMPTY).toString();
 	}
 
+	private static String facadeSubtype(ItemStack stack, UidContext ctx) {
+		return GolemFacade.getMaterial(stack).toString();
+	}
+
 	private static void addPartCraftRecipes(List<IJeiAnvilRecipe> recipes, GolemMaterialConfig config, IVanillaRecipeFactory factory) {
 		for (var mat : config.getAllMaterials()) {
+			{
+				recipes.add(factory.createAnvilRecipe(new ItemStack(GolemItems.EMPTY_UPGRADE),
+						List.of(config.getRepairIngredient(mat).getItems()),
+						List.of(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat))));
+			}
 			var arr = config.getCraftIngredient(mat).getItems();
 			boolean special = false;
 			for (ItemStack stack : arr) {

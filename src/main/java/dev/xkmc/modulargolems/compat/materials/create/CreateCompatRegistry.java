@@ -55,7 +55,7 @@ public class CreateCompatRegistry {
 
 		DUMMY = ModularGolems.REGISTRATE.item("dummy_furnace", p -> new DummyFurnace())
 				.model((ctx, pvd) -> pvd.withExistingParent("item/" + ctx.getName(), "block/air"))
-				.removeTab(GolemItems.TAB.getKey())
+				.removeTab(GolemItems.ITEMS.getKey())
 				.register();
 	}
 

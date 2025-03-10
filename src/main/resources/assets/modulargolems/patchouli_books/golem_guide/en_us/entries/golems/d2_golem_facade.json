@@ -1,0 +1,9 @@
+{
+	"name": "Golem Facade",
+	"icon": "modulargolems:golem_facade",
+	"category": "modulargolems:golems",
+	"sortnum": 32,
+	"pages": [
+		"You can use a Golem Facade to make a golem look like if it's made with another material.$(br2)Craft with empty upgrade template and an ingot of desired material in anvil, then put it on golem skin curios slot."
+	]
+}

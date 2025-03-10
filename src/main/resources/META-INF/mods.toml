@@ -55,3 +55,8 @@ This mod adds golems that can be crafted with different materials in a Tinker-li
     mandatory=false
     versionRange="[2.56,)"
     side="BOTH"
+[[dependencies.modulargolems]]
+    modId="alexscaves"
+    mandatory=false
+    versionRange="[2.0.2,)"
+    side="BOTH"

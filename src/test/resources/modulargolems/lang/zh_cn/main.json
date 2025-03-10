@@ -5,7 +5,8 @@
 		"golem_size": "傀儡体型",
 		"golem_jump": "傀儡跳跃"
 	},
-	"itemGroup.l2library.golems": "模块化傀儡",
+	"itemGroup.l2library.golems": "模块化傀儡 - 傀儡",
+	"itemGroup.l2library.golem_items": "模块化傀儡 - 物品",
 	"modulargolems": {
 		"tooltip": {
 			"health": "血量: %s/%s",

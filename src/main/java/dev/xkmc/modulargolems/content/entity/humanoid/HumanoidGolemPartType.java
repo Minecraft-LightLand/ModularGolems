@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
-public enum HumaniodGolemPartType implements IGolemPart<HumaniodGolemPartType> {
+public enum HumanoidGolemPartType implements IGolemPart<HumanoidGolemPartType> {
 	BODY, ARMS, LEGS;
 
 	@Override
@@ -21,7 +21,7 @@ public enum HumaniodGolemPartType implements IGolemPart<HumaniodGolemPartType> {
 	}
 
 	@Override
-	public GolemPart<?, HumaniodGolemPartType> toItem() {
+	public GolemPart<?, HumanoidGolemPartType> toItem() {
 		return switch (this) {
 			case BODY -> GolemItems.HUMANOID_BODY.get();
 			case ARMS -> GolemItems.HUMANOID_ARMS.get();
@@ -30,7 +30,7 @@ public enum HumaniodGolemPartType implements IGolemPart<HumaniodGolemPartType> {
 	}
 
 	@Override
-	public void setupItemRender(PoseStack stack, ItemDisplayContext transform, @Nullable HumaniodGolemPartType part) {
+	public void setupItemRender(PoseStack stack, ItemDisplayContext transform, @Nullable HumanoidGolemPartType part) {
 		HumanoidGolemRenderer.transform(stack, transform, part);
 	}
 

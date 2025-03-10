@@ -65,13 +65,13 @@ public class ACCompatRegistry {
 
 		DUMMY_IRON = ModularGolems.REGISTRATE.item("dummy_iron_consumer", p -> new DummyConsumer(Tags.Items.INGOTS_IRON))
 				.model((ctx, pvd) -> pvd.withExistingParent("item/" + ctx.getName(), "block/air"))
-				.removeTab(GolemItems.TAB.getKey())
+				.removeTab(GolemItems.ITEMS.getKey())
 				.register();
 
 		DUMMY_URANIUM = ModularGolems.REGISTRATE.item("dummy_uranium_consumer",
 						p -> new DummyConsumer(ItemTags.create(new ResourceLocation("forge", "nuggets/uranium"))))
 				.model((ctx, pvd) -> pvd.withExistingParent("item/" + ctx.getName(), "block/air"))
-				.removeTab(GolemItems.TAB.getKey())
+				.removeTab(GolemItems.ITEMS.getKey())
 				.register();
 	}
 

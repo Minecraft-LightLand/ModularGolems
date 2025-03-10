@@ -10,7 +10,7 @@ import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemModel;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemRenderer;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemModel;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
@@ -67,7 +67,7 @@ public class GolemTypes {
 	public static final EntityEntry<DogGolemEntity> ENTITY_DOG;
 
 	public static final RegistryEntry<GolemType<MetalGolemEntity, MetalGolemPartType>> TYPE_GOLEM;
-	public static final RegistryEntry<GolemType<HumanoidGolemEntity, HumaniodGolemPartType>> TYPE_HUMANOID;
+	public static final RegistryEntry<GolemType<HumanoidGolemEntity, HumanoidGolemPartType>> TYPE_HUMANOID;
 	public static final RegistryEntry<GolemType<DogGolemEntity, DogGolemPartType>> TYPE_DOG;
 
 	static {
@@ -127,7 +127,7 @@ public class GolemTypes {
 				.defaultLang().register();
 
 		TYPE_HUMANOID = REGISTRATE.generic(TYPES, "humanoid_golem",
-						() -> new GolemType<>(ENTITY_HUMANOID, HumaniodGolemPartType::values, HumaniodGolemPartType.BODY, () -> HumanoidGolemModel::new))
+						() -> new GolemType<>(ENTITY_HUMANOID, HumanoidGolemPartType::values, HumanoidGolemPartType.BODY, () -> HumanoidGolemModel::new))
 				.defaultLang().register();
 
 		TYPE_DOG = REGISTRATE.generic(TYPES, "dog_golem",

@@ -1,3 +1,6 @@
+2.5.7
+- Add golem facade
+
 2.5.6
 - Fix crash when Cataclysm or Tinkers Construct is installed but not L2Complements
 
