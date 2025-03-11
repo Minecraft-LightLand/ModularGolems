@@ -1,0 +1,20 @@
+{
+  "type": "modulargolems:golem_replace_part",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "modulargolems:metal_golem_holder"
+    },
+    "P": {
+      "item": "modulargolems:metal_golem_legs"
+    }
+  },
+  "pattern": [
+    "H",
+    "P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:metal_golem_holder"
+  }
+}

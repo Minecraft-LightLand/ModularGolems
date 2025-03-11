@@ -111,8 +111,24 @@ public enum MGLangData {
 	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
+	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
+	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),
+
 	BOT_MANA("msg.botania_mana", "Mana: %s/%s", 2, null),
-	BOT_NO_RING("msg.botania_no_ring", "No Band of Mana Equipped", 0, null);
+	BOT_NO_RING("msg.botania_no_ring", "No Band of Mana Equipped", 0, null),
+
+	TRACKER_PRESENT("tracker.present", "Loaded", 0, null),
+	TRACKER_TIME("tracker.time", "Unloaded", 0, null),
+	TRACKER_DIM("tracker.dim", "Dimension: %s", 1, null),
+	TRACKER_POS("tracker.pos", "Position: (%s,%s,%s)", 3, null),
+	TRACKER_ALIVE("tracker.alive", "Alive", 0, null),
+	TRACKER_RETRIEVED("tracker.retrieved", "Retrieved", 0, null),
+	TRACKER_RETRIEVED_OTHER("tracker.retrieved_other", "Retrieved by %s", 1, null),
+	TRACKER_KILLED("tracker.killed", "Killed by %s", 1, null),
+	TRACKER_RECYCLE_KILLED("tracker.recycle_killed", "Killed by %s (with recycle upgrade)", 1, null),
+	TRACKER_DIED("tracker.dead", "Dead", 0, null),
+	TRACKER_RECYCLE_DIED("tracker.recycle_dead", "Dead (with recycle upgrade)", 0, null),
+	;
 
 	private final String key, def;
 	private final int arg;

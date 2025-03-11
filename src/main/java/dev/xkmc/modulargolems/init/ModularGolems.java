@@ -13,9 +13,7 @@ import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
 import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.content.capability.ConfigHeartBeatToServer;
-import dev.xkmc.modulargolems.content.capability.ConfigSyncToClient;
-import dev.xkmc.modulargolems.content.capability.ConfigUpdateToServer;
+import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
@@ -64,7 +62,11 @@ public class ModularGolems {
 			e -> e.create(ConfigHeartBeatToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(SetItemFilterToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(OpenConfigMenuToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
-			e -> e.create(OpenEquipmentMenuToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
+			e -> e.create(OpenEquipmentMenuToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(TrackerSyncToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
+			e -> e.create(TrackerHeartBeatToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(TrackerDeleteToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
+
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =

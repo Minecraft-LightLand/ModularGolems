@@ -1,0 +1,20 @@
+{
+  "type": "modulargolems:golem_replace_part",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "modulargolems:dog_golem_holder"
+    },
+    "P": {
+      "item": "modulargolems:dog_golem_body"
+    }
+  },
+  "pattern": [
+    "P",
+    "H"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:dog_golem_holder"
+  }
+}

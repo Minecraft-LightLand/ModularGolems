@@ -18,6 +18,7 @@ import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
+import dev.xkmc.modulargolems.content.recipe.GolemReplaceRecipe;
 import dev.xkmc.modulargolems.content.recipe.GolemSmithAddSlotRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -73,6 +74,7 @@ public class GolemJEIPlugin implements IModPlugin {
 	@Override
 	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
 		registration.getCraftingCategory().addExtension(GolemAssembleRecipe.class, new GolemAssemblyExtension());
+		registration.getCraftingCategory().addExtension(GolemReplaceRecipe.class, new GolemReplaceExtension());
 		registration.getSmithingCategory().addExtension(GolemSmithAddSlotRecipe.class, new GolemAddSlotExtension());
 	}
 
