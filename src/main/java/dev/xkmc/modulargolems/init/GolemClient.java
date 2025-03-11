@@ -1,18 +1,22 @@
 package dev.xkmc.modulargolems.init;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
+import dev.xkmc.l2tabs.tabs.core.TabRegistry;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.blazegear.DuplicatedBlazeArmsModel;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.misc.MaidCompat;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
+import dev.xkmc.modulargolems.content.client.tracker.GolemInvTab;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -63,6 +67,8 @@ public class GolemClient {
 
 			GolemTabRegistry.register();
 			CurioCompatRegistry.clientRegister();
+
+			TabRegistry.registerTab(3400, GolemInvTab::new, GolemItems.HOLDER_GOLEM::get, MGLangData.TAB_ALIVE.get());
 		});
 	}
 

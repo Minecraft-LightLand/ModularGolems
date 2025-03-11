@@ -10,9 +10,9 @@ import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemModel;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemRenderer;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemModel;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
@@ -101,7 +101,7 @@ public class GolemTypes {
 						.add(ForgeMod.ENTITY_REACH.get(), 1)
 						.add(Attributes.FOLLOW_RANGE, 35.0D)
 						.add(GOLEM_REGEN.get())
-						.add(GOLEM_SWEEP.get(), 1)
+						.add(GOLEM_SWEEP.get(), 2)
 						.add(GOLEM_SIZE.get(), 2.5)
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
