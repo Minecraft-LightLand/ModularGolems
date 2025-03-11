@@ -720,7 +720,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
-		this.goalSelector.addGoal(3, new FollowOwnerGoal(this));
+		this.goalSelector.addGoal(4, new FollowOwnerGoal(this));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new GolemRandomStrollGoal(this));
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));

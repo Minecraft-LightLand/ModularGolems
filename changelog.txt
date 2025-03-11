@@ -1,5 +1,9 @@
 2.5.7
 - Add golem facade
+- Add golem tracker screen
+- Add golem substitution recipes
+- Allow large golems to use some weapons from Cataclysm
+- Fix patrolling golems not attacking
 
 2.5.6
 - Fix crash when Cataclysm or Tinkers Construct is installed but not L2Complements

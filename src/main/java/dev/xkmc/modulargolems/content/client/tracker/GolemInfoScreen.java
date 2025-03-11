@@ -97,15 +97,16 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 		int delLine = -1;
 		delId = null;
 		for (int i = 0; i < max - start; i++) {
-			Component comp = TrackerInfo.getDesc(data.get(i).getSecond());
+			var ent = data.get(i + start);
+			Component comp = TrackerInfo.getDesc(ent.getSecond());
 			g.drawString(this.font, comp, x, y, 0, false);
 			int w = Math.min(font.width(comp), imageWidth - 30);
 			if (my > y && my < y + 10) {
 				if (mx > x && mx < x + w) {
-					focus = data.get(i).getSecond();
+					focus = ent.getSecond();
 				} else if (mx > x + imageWidth - 20 && mx < x + imageWidth - 8) {
 					delLine = start + i;
-					delId = data.get(i).getFirst();
+					delId = ent.getFirst();
 				}
 			}
 			var del = Component.literal("X").withStyle(delLine == start + i ? ChatFormatting.RED : ChatFormatting.BLACK);
