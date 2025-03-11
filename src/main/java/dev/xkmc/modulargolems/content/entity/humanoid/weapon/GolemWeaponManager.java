@@ -1,13 +1,13 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 
 import dev.xkmc.mob_weapon_api.api.goals.AbstractWeaponManager;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 
-public class GolemWeaponManager extends AbstractWeaponManager<HumanoidGolemEntity> {
+public class GolemWeaponManager<T extends SweepGolemEntity<?, ?>> extends AbstractWeaponManager<T> {
 
-	public GolemWeaponManager(HumanoidGolemEntity golem) {
-		super(GolemWeaponRegistry.GOLEM, golem, new GolemMeleeGoal(golem));
+	public GolemWeaponManager(GolemWeaponRegistry<T> reg, T golem) {
+		super(reg, golem, new GolemMeleeGoal(golem));
 	}
 
 }

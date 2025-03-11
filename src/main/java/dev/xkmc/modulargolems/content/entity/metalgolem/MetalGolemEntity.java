@@ -4,6 +4,7 @@ import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
@@ -37,7 +38,7 @@ import net.minecraft.world.phys.Vec3;
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
-		super(type, level);
+		super(GolemWeaponRegistry.LARGE, type, level);
 	}
 
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
@@ -60,11 +61,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	// ------ vanilla golem behavior
 
 	private int attackAnimationTick;
-
-	protected void registerGoals() {
-		this.goalSelector.addGoal(2, new GolemMeleeGoal(this));
-		super.registerGoals();
-	}
 
 	public void aiStep() {
 		super.aiStep();
