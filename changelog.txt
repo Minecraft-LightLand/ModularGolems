@@ -1,3 +1,10 @@
+3.0.14
+- Add golem facade
+- Add golem tracker screen
+- Add golem substitution recipes
+- Allow large golems to use some weapons from Cataclysm
+- Fix patrolling golems not attacking
+
 3.0.13
 - Fix crash when Cataclysm is installed but not L2Complements
 

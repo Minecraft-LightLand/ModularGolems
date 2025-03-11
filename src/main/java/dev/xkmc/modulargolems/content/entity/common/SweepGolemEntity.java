@@ -10,9 +10,6 @@ import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -29,8 +26,6 @@ import net.minecraft.world.phys.AABB;
 @SerialClass
 public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolemEntity<T, P>
 		implements RangedAttackMob, IWeaponHolder {
-
-	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(SweepGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private final GolemWeaponManager<T> weaponManager;
 
@@ -142,15 +137,6 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 			doReassessGoal = true;
 			inventoryTick = 10;
 		}
-	}
-
-	@Override
-	public boolean isInRangedMode() {
-		return super.isInRangedMode() || getEntityData().get(IS_IN_RANGE_ATTACK);
-	}
-
-	public void setInRangeAttack(boolean flag) {
-		getEntityData().set(IS_IN_RANGE_ATTACK, flag);
 	}
 
 }

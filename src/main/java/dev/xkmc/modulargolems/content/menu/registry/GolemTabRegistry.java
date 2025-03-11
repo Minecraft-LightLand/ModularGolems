@@ -63,7 +63,7 @@ public class GolemTabRegistry {
 
 	public static final Val<TabToken<TrackerGroup, TrackerTab>> TRACKER_DEAD =
 			TAB_REG.reg("golem_dead", () -> TRACKERS.registerTab(
-					() -> TrackerTab.Type.ALIVE::create, MGLangData.TAB_DEAD.get()));
+					() -> TrackerTab.Type.DEAD::create, MGLangData.TAB_DEAD.get()));
 
 	public static void register() {
 	}
