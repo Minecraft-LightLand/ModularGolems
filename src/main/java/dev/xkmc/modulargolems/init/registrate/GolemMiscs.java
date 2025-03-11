@@ -15,6 +15,7 @@ import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenu;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
+import dev.xkmc.modulargolems.content.recipe.GolemReplaceRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -24,6 +25,8 @@ public class GolemMiscs {
 
 	public static final RegistryEntry<AbstractShapedRecipe.Serializer<GolemAssembleRecipe>> ASSEMBLE =
 			reg("golem_assemble", () -> new AbstractShapedRecipe.Serializer<>(GolemAssembleRecipe::new));
+	public static final RegistryEntry<AbstractShapedRecipe.Serializer<GolemReplaceRecipe>> REPLACE =
+			reg("golem_replace_part", () -> new AbstractShapedRecipe.Serializer<>(GolemReplaceRecipe::new));
 
 	public static final MenuEntry<EquipmentsMenu> EQUIPMENTS =
 			REGISTRATE.menu("equipments", EquipmentsMenu::fromNetwork, () -> EquipmentsScreen::new)

@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.l2tabs.tabs.core.TabRegistry;
+import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.blazegear.DuplicatedBlazeArmsModel;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
@@ -41,6 +42,7 @@ public class GolemClient {
 	private static final boolean ENABLE_TLM = true;
 
 	public static ModelLayerLocation BLAZE_ARMS_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "golems"), "blazegear_blaze_arms");
+	public static TabToken<GolemInvTab> TAB;
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
@@ -68,7 +70,7 @@ public class GolemClient {
 			GolemTabRegistry.register();
 			CurioCompatRegistry.clientRegister();
 
-			TabRegistry.registerTab(3400, GolemInvTab::new, GolemItems.HOLDER_GOLEM::get, MGLangData.TAB_ALIVE.get());
+			TAB = TabRegistry.registerTab(3400, GolemInvTab::new, GolemItems.HOLDER_GOLEM::get, MGLangData.TAB_ALIVE.get());
 		});
 	}
 

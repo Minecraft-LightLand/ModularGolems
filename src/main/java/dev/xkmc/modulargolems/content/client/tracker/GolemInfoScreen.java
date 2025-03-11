@@ -2,11 +2,13 @@ package dev.xkmc.modulargolems.content.client.tracker;
 
 import com.mojang.datafixers.util.Pair;
 import dev.xkmc.l2tabs.tabs.contents.BaseTextScreen;
+import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.capability.TrackerDeleteToServer;
 import dev.xkmc.modulargolems.content.capability.TrackerHeartBeatToServer;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
+import dev.xkmc.modulargolems.init.GolemClient;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -64,6 +66,8 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 				(e) -> this.click(-1)).pos(x - w - 1, y).size(w, h).build();
 		right = Button.builder(Component.literal(">"),
 				(e) -> this.click(1)).pos(x, y).size(w, h).build();
+
+		new TabManager(this).init(this::addRenderableWidget, GolemClient.TAB);
 	}
 
 	private void click(int offset) {
@@ -87,10 +91,12 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 		int max = Math.min((page + 1) * linePerPage(), size);
 		int x = this.leftPos + 8;
 		int y = this.topPos + 6;
+		g.drawString(this.font, title, x, y, 0, false);
+		y += 15;
 		GolemTracker.TrackedData focus = null;
 		int delLine = -1;
 		delId = null;
-		for (int i = start; i < max - start; i++) {
+		for (int i = 0; i < max - start; i++) {
 			Component comp = TrackerInfo.getDesc(data.get(i).getSecond());
 			g.drawString(this.font, comp, x, y, 0, false);
 			int w = Math.min(font.width(comp), imageWidth - 30);

@@ -448,7 +448,7 @@
   "modulargolems.tab.pickup": "Pickup Filter Config",
   "modulargolems.tab.target": "Target Filter Config",
   "modulargolems.tab.toggle": "General Config",
-  "modulargolems.tab.tracker_alive": "Alive Golems",
+  "modulargolems.tab.tracker_alive": "Golems in World",
   "modulargolems.tab.tracker_dead": "Golem Death Record",
   "modulargolems.tooltip.craft_material": "Golem crafting material",
   "modulargolems.tooltip.follow": "Follow",

@@ -111,7 +111,7 @@ public enum MGLangData {
 	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
-	TAB_ALIVE("tab.tracker_alive", "Alive Golems", 0, null),
+	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
 	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),
 
 	BOT_MANA("msg.botania_mana", "Mana: %s/%s", 2, null),

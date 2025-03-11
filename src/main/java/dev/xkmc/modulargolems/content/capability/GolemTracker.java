@@ -18,8 +18,11 @@ import java.util.UUID;
 public class GolemTracker {
 
 	public enum Status {
-		ALIVE, RETRIEVED, OTHER_RETRIEVED, DEATH, DEATH_RECYCLE
+		ALIVE, RETRIEVED, OTHER_RETRIEVED, DEATH, DEATH_RECYCLE;
 
+		public boolean isDeath() {
+			return this == DEATH || this == DEATH_RECYCLE;
+		}
 	}
 
 	@SerialClass.SerialField
@@ -74,7 +77,8 @@ public class GolemTracker {
 		}
 
 		public void untrack(AbstractGolemEntity<?, ?> e, Status type, @Nullable Entity cause) {
-			status = type;
+			if (!type.isDeath() || !status.isDeath())
+				status = type;
 			hp = e.getHealth();
 			if (cause != null)
 				this.cause = Component.Serializer.toJson(cause.getName());

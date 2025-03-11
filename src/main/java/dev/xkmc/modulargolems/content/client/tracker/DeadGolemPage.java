@@ -18,7 +18,7 @@ public class DeadGolemPage extends GolemInfoScreen {
 
 	@Override
 	public List<Pair<UUID, GolemTracker.TrackedData>> getData() {
-		return getData(e -> e.status == GolemTracker.Status.DEATH || e.status == GolemTracker.Status.DEATH_RECYCLE);
+		return getData(e -> e.status.isDeath());
 	}
 
 	@Override
