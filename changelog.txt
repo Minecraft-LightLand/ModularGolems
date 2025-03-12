@@ -1,3 +1,6 @@
+3.0.15
+- Fix crash when Cataclysm is installed but not L2Complements
+
 3.0.14
 - Add golem facade
 - Add golem tracker screen
@@ -5,8 +8,6 @@
 - Allow large golems to use some weapons from Cataclysm
 - Fix patrolling golems not attacking
 
-3.0.13
-- Fix crash when Cataclysm is installed but not L2Complements
 
 3.0.12
 - Add Cursium golems for Cataclysm integration
