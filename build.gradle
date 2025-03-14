@@ -191,7 +191,7 @@ dependencies {
 
     implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:0.3.3")
 
-    implementation fg.deobf(jarJar("dev.xkmc.l2itemselector:l2itemselector:0.1.8")) {
+    implementation fg.deobf(jarJar("dev.xkmc.l2itemselector:l2itemselector:0.1.9")) {
         transitive = false
         jarJar.ranged(it, "[0.1.8,)")
     }
@@ -206,16 +206,16 @@ dependencies {
         jarJar.ranged(it, "[0.1.10,)")
     }
 
-    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.4.19-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.2-slim')
-    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.4.20-slim")
+    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.5.0-slim")
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.3-slim')
+    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.5.3-slim")
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
 
     runtimeOnly fg.deobf("dev.xkmc.l2artifacts:l2artifacts:2.4.21-slim")
     implementation fg.deobf("dev.xkmc.l2archery:l2archery:2.5.0")
-    runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.4.28")
+    runtimeOnly fg.deobf("dev.xkmc.l2weaponry:l2weaponry:2.5.0")
 
     implementation fg.deobf('zip.local.blazegear:blazegear:1.4.2')
 
@@ -239,6 +239,7 @@ dependencies {
     implementation fg.deobf("curse.maven:lendercataclysm-551586:6208724")
     implementation fg.deobf("curse.maven:citadel-331936:5633260")
     implementation fg.deobf("curse.maven:alexs-caves-924854:5848216")
+    implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5122408")
 
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:4966125")
     implementation fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE")
@@ -253,6 +254,11 @@ dependencies {
 
     implementation fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
     implementation fg.deobf("curse.maven:retro-damage-indicators-1003431:5268035")
+
+    compileOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
+    compileOnly fg.deobf("curse.maven:uranus-1010827:6095271")
+    compileOnly fg.deobf("curse.maven:jupiter-1072905:5881564")
+    compileOnly fg.deobf("com.iafenvoy:iceandfire:1.0-1.20.1-forge")
 
 }
 
