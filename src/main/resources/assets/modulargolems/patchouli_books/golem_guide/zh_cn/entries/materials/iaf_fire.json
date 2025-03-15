@@ -1,0 +1,29 @@
+{
+	"flag": "mod:iceandfire",
+	"name": "龙炎钢",
+	"icon": "iceandfire:dragonsteel_fire_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 901,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "iceandfire:dragonsteel_fire_ingot",
+			"text": "制作龙炎钢傀儡部件的主要材料。龙炎钢傀儡拥有非常高的攻防，免疫火焰，并且会点燃攻击目标。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:metal_golem_body\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:metal_golem_arm\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:metal_golem_legs\",material:\"iceandfire:fire_dragonsteel\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"iceandfire:fire_dragonsteel\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:dog_golem_legs\",material:\"iceandfire:fire_dragonsteel\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

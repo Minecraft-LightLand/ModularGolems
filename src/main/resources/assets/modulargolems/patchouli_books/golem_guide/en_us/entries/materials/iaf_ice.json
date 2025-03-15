@@ -1,0 +1,29 @@
+{
+	"flag": "mod:iceandfire",
+	"name": "Ice Dragonsteel",
+	"icon": "iceandfire:dragonsteel_ice_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 902,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "iceandfire:dragonsteel_ice_ingot",
+			"text": "Main material to craft Ice Dragonsteel golem parts. Ice Dragonsteel golem has high health and attack, also freeze targets and attackers."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"iceandfire:ice_dragonsteel\"},{part:\"modulargolems:metal_golem_body\",material:\"iceandfire:ice_dragonsteel\"},{part:\"modulargolems:metal_golem_arm\",material:\"iceandfire:ice_dragonsteel\"},{part:\"modulargolems:metal_golem_legs\",material:\"iceandfire:ice_dragonsteel\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"iceandfire:ice_dragonsteel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"iceandfire:ice_dragonsteel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"iceandfire:ice_dragonsteel\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"iceandfire:ice_dragonsteel\"},{part:\"modulargolems:dog_golem_legs\",material:\"iceandfire:ice_dragonsteel\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}
