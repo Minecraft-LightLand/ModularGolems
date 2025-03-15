@@ -1,0 +1,13 @@
+{
+	"golem_material.iceandfire.fire_dragonsteel": "龙炎钢",
+	"golem_material.iceandfire.ice_dragonsteel": "龙霜钢",
+	"golem_material.iceandfire.lightning_dragonsteel": "龙霆钢",
+	"modifier.modulargolems.fire_dragonsteel_attack": "龙炎斩",
+	"modifier.modulargolems.fire_dragonsteel_attack.desc": "点燃并击退目标",
+	"modifier.modulargolems.ice_dragonsteel_armor": "龙霜棘",
+	"modifier.modulargolems.ice_dragonsteel_armor.desc": "冻结并击退攻击者",
+	"modifier.modulargolems.ice_dragonsteel_attack": "龙霜斩",
+	"modifier.modulargolems.ice_dragonsteel_attack.desc": "冻结并击退目标",
+	"modifier.modulargolems.lightning_dragonsteel_attack": "龙霆斩",
+	"modifier.modulargolems.lightning_dragonsteel_attack.desc": "攻击时同时召唤闪电攻击目标"
+}

@@ -1,3 +1,6 @@
+2.5.8
+- Add Ice and Fire Dragonsteel Golems
+
 2.5.7
 - Add golem facade
 - Add golem tracker screen

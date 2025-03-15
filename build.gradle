@@ -180,6 +180,13 @@ repositories {
     maven {
         url = "https://maven.theillusivec4.top/"
     }
+
+    maven {
+        url 'https://maven.iafenvoy.com/releases/'
+        content {
+            includeGroup "com.iafenvoy"
+        }
+    }
 }
 
 dependencies {
@@ -239,7 +246,7 @@ dependencies {
     implementation fg.deobf("curse.maven:lendercataclysm-551586:6208724")
     implementation fg.deobf("curse.maven:citadel-331936:5633260")
     implementation fg.deobf("curse.maven:alexs-caves-924854:5848216")
-    implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5122408")
+    implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5633453")
 
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:4966125")
     implementation fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE")
