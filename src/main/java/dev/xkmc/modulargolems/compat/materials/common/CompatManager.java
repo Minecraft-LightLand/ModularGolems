@@ -5,6 +5,7 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
+import dev.xkmc.modulargolems.compat.materials.iceandfire.IAFDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
@@ -33,6 +34,7 @@ public abstract class CompatManager {
 		//if (ModList.get().isLoaded(BGDispatch.MODID)) LIST.add(new BGDispatch());
 		if (ModList.get().isLoaded(LHDispatch.MODID)) LIST.add(new LHDispatch());
 		if (ModList.get().isLoaded(CataDispatch.MODID)) LIST.add(new CataDispatch());
+		if (ModList.get().isLoaded(IAFDispatch.MODID)) LIST.add(new IAFDispatch());
 		//if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
 	}
 
