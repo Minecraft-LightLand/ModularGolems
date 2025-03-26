@@ -12,12 +12,10 @@
   "loops": 9,
   "results": [
     {
-      "item": {
-        "components": {
-          "modulargolems:part_material": "create:railway"
-        },
-        "id": "modulargolems:metal_golem_body"
-      }
+      "components": {
+        "modulargolems:part_material": "create:railway"
+      },
+      "id": "modulargolems:metal_golem_body"
     }
   ],
   "sequence": [
@@ -33,9 +31,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_body"
-          }
+          "id": "modulargolems:incomplete_metal_golem_body"
         }
       ]
     },
@@ -48,9 +44,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_body"
-          }
+          "id": "modulargolems:incomplete_metal_golem_body"
         }
       ]
     },
@@ -66,9 +60,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_body"
-          }
+          "id": "modulargolems:incomplete_metal_golem_body"
         }
       ]
     },
@@ -84,9 +76,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_body"
-          }
+          "id": "modulargolems:incomplete_metal_golem_body"
         }
       ]
     },
@@ -102,9 +92,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_body"
-          }
+          "id": "modulargolems:incomplete_metal_golem_body"
         }
       ]
     },
@@ -121,16 +109,12 @@
       "keep_held_item": true,
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_body"
-          }
+          "id": "modulargolems:incomplete_metal_golem_body"
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": {
-      "id": "modulargolems:incomplete_metal_golem_body"
-    }
+    "id": "modulargolems:incomplete_metal_golem_body"
   }
 }

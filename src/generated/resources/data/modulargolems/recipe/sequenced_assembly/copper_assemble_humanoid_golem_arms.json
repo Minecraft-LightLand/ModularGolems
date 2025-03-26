@@ -12,12 +12,10 @@
   "loops": 6,
   "results": [
     {
-      "item": {
-        "components": {
-          "modulargolems:part_material": "modulargolems:copper"
-        },
-        "id": "modulargolems:humanoid_golem_arms"
-      }
+      "components": {
+        "modulargolems:part_material": "modulargolems:copper"
+      },
+      "id": "modulargolems:humanoid_golem_arms"
     }
   ],
   "sequence": [
@@ -33,9 +31,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_humanoid_golem_arms"
-          }
+          "id": "modulargolems:incomplete_humanoid_golem_arms"
         }
       ]
     },
@@ -48,9 +44,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_humanoid_golem_arms"
-          }
+          "id": "modulargolems:incomplete_humanoid_golem_arms"
         }
       ]
     },
@@ -63,9 +57,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_humanoid_golem_arms"
-          }
+          "id": "modulargolems:incomplete_humanoid_golem_arms"
         }
       ]
     },
@@ -78,16 +70,12 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_humanoid_golem_arms"
-          }
+          "id": "modulargolems:incomplete_humanoid_golem_arms"
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": {
-      "id": "modulargolems:incomplete_humanoid_golem_arms"
-    }
+    "id": "modulargolems:incomplete_humanoid_golem_arms"
   }
 }
