@@ -75,6 +75,14 @@ public class ModifierEventListeners {
 	}
 
 	@SubscribeEvent
+	public static void onKillTarget(LivingDeathEvent event) {
+		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> golem) {
+			golem.getModifiers().forEach((k, v) -> k.onKillTarget(golem, event.getEntity(), event, v));
+		}
+	}
+
+
+	@SubscribeEvent
 	public static void onExplosion(ExplosionEvent.Detonate event) {
 		for (var e : event.getAffectedEntities()) {
 			if (e instanceof AbstractGolemEntity<?, ?> golem) {

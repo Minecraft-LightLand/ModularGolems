@@ -1,0 +1,10 @@
+{
+	"golem_material.goety.cursed_metal": "诅咒金属",
+	"golem_material.goety.dark_metal": "黑暗金属",
+	"modifier.modulargolems.fallen_attack": "堕落之刃",
+	"modifier.modulargolems.haunted": "缠魂",
+	"modifier.modulargolems.haunted.desc": "击败敌人时有概率召唤缠魂盔甲仆从。地热能盔甲越多概率越高",
+	"modifier.modulargolems.soul_repair": "灵魂修补",
+	"modifier.modulargolems.soul_repair.desc": "使用召唤者的灵魂能量修复装备。血量低时也会使用灵魂能量回血"
+
+}

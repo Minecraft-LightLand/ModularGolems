@@ -1,0 +1,43 @@
+{
+  "ingredients": {
+    "goety:cursed_metal": {
+      "item": "goety:cursed_ingot"
+    },
+    "goety:dark_metal": {
+      "item": "goety:dark_ingot"
+    }
+  },
+  "modifiers": {
+    "goety:cursed_metal": {
+      "modulargolems:fallen_attack": 1,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:magic_resistant": 1
+    },
+    "goety:dark_metal": {
+      "modulargolems:explosion_resistant": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:haunted": 2,
+      "modulargolems:magic_resistant": 2,
+      "modulargolems:soul_repair": 1
+    }
+  },
+  "repairIngredients": {
+    "goety:cursed_metal": {
+      "item": "goety:cursed_ingot"
+    },
+    "goety:dark_metal": {
+      "item": "goety:dark_ingot"
+    }
+  },
+  "stats": {
+    "goety:cursed_metal": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 100.0
+    },
+    "goety:dark_metal": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 160.0,
+      "modulargolems:regen": 4.0
+    }
+  }
+}

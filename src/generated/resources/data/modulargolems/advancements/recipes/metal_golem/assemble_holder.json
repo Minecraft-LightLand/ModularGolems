@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:metal_golem_holder_replace_right_arm"
+        "recipe": "modulargolems:metal_golem/assemble_holder"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:metal_golem_holder_replace_right_arm"
+      "modulargolems:metal_golem/assemble_holder"
     ]
   },
   "sends_telemetry_event": false

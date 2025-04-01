@@ -1,0 +1,29 @@
+{
+	"flag": "mod:goety",
+	"name": "黑暗金属",
+	"icon": "goety:dark_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1002,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "goety:dark_ingot",
+			"text": "制作黑暗金属傀儡部件的主要材料。黑暗金属傀儡对火焰/爆炸/魔法伤害有抗性，有极快的再生速度，能消耗召唤者的灵魂能量修复自身和装备，且能将击败的敌人转化为缠魂盔甲仆从"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"goety:dark_metal\"},{part:\"modulargolems:metal_golem_body\",material:\"goety:dark_metal\"},{part:\"modulargolems:metal_golem_arm\",material:\"goety:dark_metal\"},{part:\"modulargolems:metal_golem_legs\",material:\"goety:dark_metal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"goety:dark_metal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"goety:dark_metal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"goety:dark_metal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"goety:dark_metal\"},{part:\"modulargolems:dog_golem_legs\",material:\"goety:dark_metal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

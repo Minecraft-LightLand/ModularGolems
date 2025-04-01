@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_humanoid_golem_body": {
+    "has_metal_golem_body": {
       "conditions": {
         "items": [
           {
             "items": [
-              "modulargolems:humanoid_golem_body"
+              "modulargolems:metal_golem_body"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:dog_golem_holder"
+        "recipe": "modulargolems:metal_golem/replace_left_arm"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_humanoid_golem_body",
+      "has_metal_golem_body",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:dog_golem_holder"
+      "modulargolems:metal_golem/replace_left_arm"
     ]
   },
   "sends_telemetry_event": false
