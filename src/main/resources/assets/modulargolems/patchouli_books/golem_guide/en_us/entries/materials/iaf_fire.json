@@ -1,0 +1,29 @@
+{
+  "flag": "mod:iceandfire",
+  "name": "Fire Dragonsteel",
+  "icon": "iceandfire:dragonsteel_fire_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 901,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "iceandfire:dragonsteel_fire_ingot",
+	  "text": "Main material to craft Fire Dragonsteel golem parts. Fire Dragonsteel golem has high health and attack, can ignite and knock back targets, and is immune to fire."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:metal_golem_body\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:metal_golem_arm\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:metal_golem_legs\",material:\"iceandfire:fire_dragonsteel\"}]}]",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"iceandfire:fire_dragonsteel\"}]}]",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"iceandfire:fire_dragonsteel\"},{part:\"modulargolems:dog_golem_legs\",material:\"iceandfire:fire_dragonsteel\"}]}]",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

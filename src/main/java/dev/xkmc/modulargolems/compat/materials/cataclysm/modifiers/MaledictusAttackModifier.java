@@ -1,10 +1,10 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import dev.xkmc.l2complements.content.effect.StackingEffect;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.common.StackableEffect;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -22,7 +22,7 @@ public class MaledictusAttackModifier extends GolemModifier {
 
 	@Override
 	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, DamageData.Offence cache, int level) {
-		StackingEffect.addTo(CataCompatRegistry.EFF_FORCE, entity, 100, level == 1 ? 0 : 4, entity);
+		StackableEffect.addTo(CataCompatRegistry.EFF_FORCE, entity, 100, level == 1 ? 0 : 4, entity);
 	}
 
 	@Override

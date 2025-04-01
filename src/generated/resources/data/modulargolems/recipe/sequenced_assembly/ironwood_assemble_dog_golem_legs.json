@@ -16,12 +16,10 @@
   "loops": 3,
   "results": [
     {
-      "item": {
-        "components": {
-          "modulargolems:part_material": "twilightforest:ironwood"
-        },
-        "id": "modulargolems:dog_golem_legs"
-      }
+      "components": {
+        "modulargolems:part_material": "twilightforest:ironwood"
+      },
+      "id": "modulargolems:dog_golem_legs"
     }
   ],
   "sequence": [
@@ -37,9 +35,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_dog_golem_legs"
-          }
+          "id": "modulargolems:incomplete_dog_golem_legs"
         }
       ]
     },
@@ -52,9 +48,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_dog_golem_legs"
-          }
+          "id": "modulargolems:incomplete_dog_golem_legs"
         }
       ]
     },
@@ -67,9 +61,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_dog_golem_legs"
-          }
+          "id": "modulargolems:incomplete_dog_golem_legs"
         }
       ]
     },
@@ -82,16 +74,12 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_dog_golem_legs"
-          }
+          "id": "modulargolems:incomplete_dog_golem_legs"
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": {
-      "id": "modulargolems:incomplete_dog_golem_legs"
-    }
+    "id": "modulargolems:incomplete_dog_golem_legs"
   }
 }

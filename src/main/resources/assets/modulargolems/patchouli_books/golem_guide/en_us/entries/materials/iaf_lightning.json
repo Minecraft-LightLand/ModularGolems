@@ -1,0 +1,29 @@
+{
+  "flag": "mod:iceandfire",
+  "name": "Lightning Dragonsteel",
+  "icon": "iceandfire:dragonsteel_lightning_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 903,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "iceandfire:dragonsteel_lightning_ingot",
+	  "text": "Main material to craft Lightning Dragonsteel golem parts. Lightning Dragonsteel golem has high health and attack, can summon lightning while attacking, and is immune to lightning."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"iceandfire:lightning_dragonsteel\"},{part:\"modulargolems:metal_golem_body\",material:\"iceandfire:lightning_dragonsteel\"},{part:\"modulargolems:metal_golem_arm\",material:\"iceandfire:lightning_dragonsteel\"},{part:\"modulargolems:metal_golem_legs\",material:\"iceandfire:lightning_dragonsteel\"}]}]",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"iceandfire:lightning_dragonsteel\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"iceandfire:lightning_dragonsteel\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"iceandfire:lightning_dragonsteel\"}]}]",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"iceandfire:lightning_dragonsteel\"},{part:\"modulargolems:dog_golem_legs\",material:\"iceandfire:lightning_dragonsteel\"}]}]",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

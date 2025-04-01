@@ -16,12 +16,10 @@
   "loops": 9,
   "results": [
     {
-      "item": {
-        "components": {
-          "modulargolems:part_material": "cataclysm:ignitium"
-        },
-        "id": "modulargolems:metal_golem_arm"
-      }
+      "components": {
+        "modulargolems:part_material": "cataclysm:ignitium"
+      },
+      "id": "modulargolems:metal_golem_arm"
     }
   ],
   "sequence": [
@@ -37,9 +35,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_arm"
-          }
+          "id": "modulargolems:incomplete_metal_golem_arm"
         }
       ]
     },
@@ -52,9 +48,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_arm"
-          }
+          "id": "modulargolems:incomplete_metal_golem_arm"
         }
       ]
     },
@@ -67,9 +61,7 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_arm"
-          }
+          "id": "modulargolems:incomplete_metal_golem_arm"
         }
       ]
     },
@@ -82,16 +74,12 @@
       ],
       "results": [
         {
-          "item": {
-            "id": "modulargolems:incomplete_metal_golem_arm"
-          }
+          "id": "modulargolems:incomplete_metal_golem_arm"
         }
       ]
     }
   ],
   "transitional_item": {
-    "item": {
-      "id": "modulargolems:incomplete_metal_golem_arm"
-    }
+    "id": "modulargolems:incomplete_metal_golem_arm"
   }
 }

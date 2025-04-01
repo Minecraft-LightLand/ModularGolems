@@ -27,6 +27,14 @@ public record GolemHolderMaterial(ArrayList<Entry> parts) {
 		return list;
 	}
 
+	public int size() {
+		return parts.size();
+	}
+
+	public ArrayList<Entry> copyParts() {
+		return new ArrayList<>(parts);
+	}
+
 	public record Entry(Item part, ResourceLocation material) {
 
 	}

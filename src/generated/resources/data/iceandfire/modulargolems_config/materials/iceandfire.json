@@ -1,0 +1,52 @@
+{
+  "ingredients": {
+    "iceandfire:fire_dragonsteel": {
+      "item": "iceandfire:dragonsteel_fire_ingot"
+    },
+    "iceandfire:ice_dragonsteel": {
+      "item": "iceandfire:dragonsteel_ice_ingot"
+    },
+    "iceandfire:lightning_dragonsteel": {
+      "item": "iceandfire:dragonsteel_lightning_ingot"
+    }
+  },
+  "modifiers": {
+    "iceandfire:fire_dragonsteel": {
+      "modulargolems:fire_dragonsteel_attack": 1,
+      "modulargolems:fire_immune": 1
+    },
+    "iceandfire:ice_dragonsteel": {
+      "modulargolems:ice_dragonsteel_armor": 1,
+      "modulargolems:ice_dragonsteel_attack": 1
+    },
+    "iceandfire:lightning_dragonsteel": {
+      "modulargolems:lightning_dragonsteel_attack": 1,
+      "modulargolems:thunder_immune": 1
+    }
+  },
+  "repairIngredients": {
+    "iceandfire:fire_dragonsteel": {
+      "item": "iceandfire:dragonsteel_fire_ingot"
+    },
+    "iceandfire:ice_dragonsteel": {
+      "item": "iceandfire:dragonsteel_ice_ingot"
+    },
+    "iceandfire:lightning_dragonsteel": {
+      "item": "iceandfire:dragonsteel_lightning_ingot"
+    }
+  },
+  "stats": {
+    "iceandfire:fire_dragonsteel": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:max_health": 400.0
+    },
+    "iceandfire:ice_dragonsteel": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:max_health": 400.0
+    },
+    "iceandfire:lightning_dragonsteel": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:max_health": 400.0
+    }
+  }
+}

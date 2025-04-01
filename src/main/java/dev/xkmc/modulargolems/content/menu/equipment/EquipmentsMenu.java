@@ -63,8 +63,16 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	}
 
 	private boolean isValid(EquipmentSlot slot, ItemStack stack) {
-		if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) return true;
-		return getSlotForItem(stack) == slot;
+		if (golem instanceof HumanoidGolemEntity)
+			if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND)
+				return true;
+		var valid = getSlotForItem(stack);
+		if (golem instanceof MetalGolemEntity) {
+			if (valid == EquipmentSlot.MAINHAND) {
+				return slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND;
+			}
+		}
+		return valid == slot;
 	}
 
 	@Override

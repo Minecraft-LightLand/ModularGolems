@@ -22,6 +22,8 @@ public enum MGLangData {
 	GOLEM_EQUIPMENT("tooltip.golem_equipment", "Only effective on %s", 1, ChatFormatting.LIGHT_PURPLE),
 	UPGRADE_COUNT("tooltip.modifier", "Total %s modifiers from %s upgrades", 2, ChatFormatting.LIGHT_PURPLE),
 	ADD_SLOT("tooltip.add_slot", "Add %s upgrade slot. Applied on anvil.", 1, ChatFormatting.GRAY),
+	CRAFT_MAT("tooltip.craft_material", "Golem crafting material", 0, ChatFormatting.GRAY),
+	REPAIR_MAT("tooltip.repair_material", "Golem repair material", 0, ChatFormatting.GRAY),
 
 	TARGET_UUID_ADD("tooltip.target.uuid_add", "Right click entity to add entity UUID to the list", 0, ChatFormatting.GRAY),
 	TARGET_UUID_REMOVE("tooltip.target.uuid_remove", "Sneak right click entity to remove entity UUID from the list", 0, ChatFormatting.GRAY),
@@ -109,8 +111,24 @@ public enum MGLangData {
 	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
+	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
+	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),
+
 	BOT_MANA("msg.botania_mana", "Mana: %s/%s", 2, null),
-	BOT_NO_RING("msg.botania_no_ring", "No Band of Mana Equipped", 0, null);
+	BOT_NO_RING("msg.botania_no_ring", "No Band of Mana Equipped", 0, null),
+
+	TRACKER_PRESENT("tracker.present", "Loaded", 0, null),
+	TRACKER_TIME("tracker.time", "Unloaded", 0, null),
+	TRACKER_DIM("tracker.dim", "Dimension: %s", 1, null),
+	TRACKER_POS("tracker.pos", "Position: (%s,%s,%s)", 3, null),
+	TRACKER_ALIVE("tracker.alive", "Alive", 0, null),
+	TRACKER_RETRIEVED("tracker.retrieved", "Retrieved", 0, null),
+	TRACKER_RETRIEVED_OTHER("tracker.retrieved_other", "Retrieved by %s", 1, null),
+	TRACKER_KILLED("tracker.killed", "Killed by %s", 1, null),
+	TRACKER_RECYCLE_KILLED("tracker.recycle_killed", "Killed by %s (with recycle upgrade)", 1, null),
+	TRACKER_DIED("tracker.dead", "Dead", 0, null),
+	TRACKER_RECYCLE_DIED("tracker.recycle_dead", "Dead (with recycle upgrade)", 0, null),
+	;
 
 	private final String key, def;
 	private final int arg;

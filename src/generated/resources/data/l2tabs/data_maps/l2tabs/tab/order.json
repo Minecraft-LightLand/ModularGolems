@@ -11,6 +11,9 @@
       "neoforge:value": 20
     },
     "modulargolems:equipment": 0,
+    "modulargolems:golem": 3400,
+    "modulargolems:golem_alive": 100,
+    "modulargolems:golem_dead": 200,
     "modulargolems:item_filter": 10,
     "modulargolems:path": 30,
     "modulargolems:target_filter": 20,

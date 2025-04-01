@@ -1,8 +1,8 @@
 {
   "entities": [
-    "modulargolems:humanoid_golem",
     "modulargolems:metal_golem",
-    "modulargolems:dog_golem"
+    "modulargolems:dog_golem",
+    "modulargolems:humanoid_golem"
   ],
   "slots": [
     "head",
@@ -10,6 +10,7 @@
     "charm",
     "ring",
     "back",
-    "golem_route"
+    "golem_route",
+    "golem_skin"
   ]
 }

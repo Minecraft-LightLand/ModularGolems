@@ -41,7 +41,7 @@ public class CreateDispatch extends ModDispatch {
 		for (var part : str) {
 			ModularGolems.REGISTRATE.item("incomplete_" + part.getId().getPath(),
 							p -> new GolemIncompleteItem(p, part))
-					.removeTab(GolemItems.TAB.key())
+					.removeTab(GolemItems.GOLEMS.key())
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.defaultLang().register();

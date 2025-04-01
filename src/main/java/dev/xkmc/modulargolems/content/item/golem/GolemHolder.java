@@ -70,7 +70,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		var part = type.getBodyPart();
 		if (mats.size() <= part.ordinal()) return null;
 		var mat = mats.get(part.ordinal());
-		return GolemMaterialConfig.get().ingredients.get(mat.id());
+		return GolemMaterialConfig.get().getRepairIngredient(mat.id());
 	}
 
 	public static GolemUpgrade getUpgrades(ItemStack stack) {

@@ -12,7 +12,7 @@ plugins {
 }
 
 version = mod_version
-group = 'dev.kxmc'
+group = 'dev.xkmc'
 
 repositories {
     mavenLocal()
@@ -188,18 +188,23 @@ dependencies {
 
     implementation "curse.maven:lionfish-api-1001614:6168249"
     implementation "curse.maven:lendercataclysm-551586:6208715"
-    runtimeOnly "curse.maven:create-328085:6255497"
+    runtimeOnly "curse.maven:create-328085:6323264"
 
     compileOnly("com.simibubi.create:create-1.21.1:6.0.1-13") { transitive = false }
     compileOnly("net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.39") { transitive = false }
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.0-10")
+
+    implementation "curse.maven:jupiter-1072905:5891108"
+    implementation "curse.maven:uranus-1010827:6206291"
+    implementation "curse.maven:iceandfire-ce-1040076:6206459"
+    implementation "curse.maven:architectury-api-419699:5786327"
 
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
     apiToken = secrets.get("curseforge_token")
     def mainFile = upload(project.curseforge_project, new File("./build/libs/${mod_id}-${mod_version}.jar"))
-    mainFile.changelog = new File('./changelog.txt')
+    mainFile.changelog = new File('./changelog.txt').text.split("\n\n\n")[0]
     mainFile.addEnvironment("Client", "Server")
     mainFile.addGameVersion("1.21.1")
     mainFile.addModLoader("NeoForge")

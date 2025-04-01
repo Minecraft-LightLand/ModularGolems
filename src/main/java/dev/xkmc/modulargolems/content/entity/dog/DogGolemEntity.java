@@ -330,5 +330,10 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return getBodyArmorItem().is(MGTagGen.C_WOLF_ARMORS);
 	}
 
+	@Override
+	public boolean isInRangedMode() {
+		return super.isInRangedMode() || isInSittingPose();
+	}
+
 }
 

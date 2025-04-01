@@ -61,7 +61,7 @@ public class MechBodyModifier extends GolemModifier {
 	}
 
 	@Override
-	public InteractionResult interact(Player player, AbstractGolemEntity<?, ?> golem, InteractionHand hand) {
+	public InteractionResult interact(Player player, AbstractGolemEntity<?, ?> golem, InteractionHand hand, int value) {
 		ItemStack stack = player.getItemInHand(hand);
 		int time = stack.getBurnTime(RecipeType.SMELTING);
 		if (time <= 0) return InteractionResult.PASS;

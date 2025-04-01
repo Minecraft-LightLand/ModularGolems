@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
+import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
@@ -50,6 +51,13 @@ public class CraftEventListeners {
 				fixGolem(event, holder, stack);
 			}
 		}
+		if (stack.is(GolemItems.EMPTY_UPGRADE)) {
+			var mat = GolemMaterial.getRepairMaterial(block);
+			if (mat.isEmpty()) return;
+			event.setOutput(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat.get()));
+			event.setMaterialCost(1);
+			event.setCost(1);
+		}
 	}
 
 	@SubscribeEvent
@@ -76,8 +84,8 @@ public class CraftEventListeners {
 				IGolemPart<?> part = type.getBodyPart();
 				if (mats.size() <= part.ordinal()) return;
 				var mat = mats.get(part.ordinal());
-				var ing = GolemMaterialConfig.get().ingredients.get(mat.id());
-				if (ing == null || !ing.test(block)) return;
+				var ing = GolemMaterialConfig.get().getRepairIngredient(mat.id());
+				if (!ing.test(block)) return;
 				GolemTriggers.ANVIL_FIX.get().trigger((ServerPlayer) event.getEntity(), mat.id());
 			}
 		}

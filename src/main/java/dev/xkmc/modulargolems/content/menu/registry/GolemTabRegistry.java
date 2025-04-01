@@ -6,6 +6,9 @@ import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.tabs.core.TabGroup;
 import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.l2tabs.tabs.core.TabType;
+import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
+import dev.xkmc.modulargolems.content.client.tracker.GolemInvTab;
+import dev.xkmc.modulargolems.content.client.tracker.TrackerTab;
 import dev.xkmc.modulargolems.content.menu.attribute.AttributeTab;
 import dev.xkmc.modulargolems.content.menu.config.ConfigToggleTab;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentTab;
@@ -22,6 +25,7 @@ public class GolemTabRegistry {
 
 	public static final TabGroup<ConfigGroup> CONFIG = new TabGroup<>(TabType.RIGHT, 8, false);
 	public static final TabGroup<EquipmentGroup> EQUIPMENTS = new TabGroup<>(TabType.RIGHT, 8, false);
+	public static final TabGroup<TrackerGroup> TRACKERS = new TabGroup<>(TabType.RIGHT, 8, false);
 
 	public static final SR<TabToken<?, ?>> TAB_REG = SR.of(ModularGolems.REG, L2Tabs.TABS.reg());
 
@@ -48,6 +52,18 @@ public class GolemTabRegistry {
 	public static final Val<TabToken<EquipmentGroup, AttributeTab>> ATTRIBUTE =
 			TAB_REG.reg("attribute", () -> EQUIPMENTS.registerTab(
 					() -> AttributeTab::new, MGLangData.TAB_ATTRIBUTE.get()));
+
+	public static final Val<TabToken<InvTabData, GolemInvTab>> TRACKER =
+			TAB_REG.reg("golem", () -> L2Tabs.GROUP.registerTab(
+					() -> GolemInvTab::new, MGLangData.TAB_ALIVE.get()));
+
+	public static final Val<TabToken<TrackerGroup, TrackerTab>> TRACKER_ALIVE =
+			TAB_REG.reg("golem_alive", () -> TRACKERS.registerTab(
+					() -> TrackerTab.Type.ALIVE::create, MGLangData.TAB_ALIVE.get()));
+
+	public static final Val<TabToken<TrackerGroup, TrackerTab>> TRACKER_DEAD =
+			TAB_REG.reg("golem_dead", () -> TRACKERS.registerTab(
+					() -> TrackerTab.Type.DEAD::create, MGLangData.TAB_DEAD.get()));
 
 	public static void register() {
 	}

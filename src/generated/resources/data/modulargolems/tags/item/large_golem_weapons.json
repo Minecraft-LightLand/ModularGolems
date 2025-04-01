@@ -1,0 +1,56 @@
+{
+  "values": [
+    {
+      "id": "cataclysm:the_incinerator",
+      "required": false
+    },
+    {
+      "id": "cataclysm:the_annihilator",
+      "required": false
+    },
+    {
+      "id": "cataclysm:the_immolator",
+      "required": false
+    },
+    {
+      "id": "cataclysm:the_incinerator",
+      "required": false
+    },
+    {
+      "id": "cataclysm:gauntlet_of_guard",
+      "required": false
+    },
+    {
+      "id": "cataclysm:gauntlet_of_bulwark",
+      "required": false
+    },
+    {
+      "id": "cataclysm:gauntlet_of_maelstrom",
+      "required": false
+    },
+    {
+      "id": "cataclysm:soul_render",
+      "required": false
+    },
+    {
+      "id": "cataclysm:meat_shredder",
+      "required": false
+    },
+    {
+      "id": "cataclysm:infernal_forge",
+      "required": false
+    },
+    {
+      "id": "cataclysm:void_forge",
+      "required": false
+    },
+    {
+      "id": "cataclysm:wither_assault_shoulder_weapon",
+      "required": false
+    },
+    {
+      "id": "cataclysm:void_assault_shoulder_weapon",
+      "required": false
+    }
+  ]
+}

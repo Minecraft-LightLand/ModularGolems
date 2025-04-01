@@ -1,5 +1,6 @@
 {
   "values": [
+    "modulargolems:golem_facade",
     "#modulargolems:player_skin",
     "minecraft:player_head",
     "minecraft:piglin_head",

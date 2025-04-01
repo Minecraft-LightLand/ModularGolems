@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init.registrate;
 import com.mojang.serialization.Codec;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.DCReg;
@@ -27,6 +28,7 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
+import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
@@ -38,6 +40,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -58,11 +61,12 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
 
-	public static final SimpleEntry<CreativeModeTab> TAB;
+	public static final SimpleEntry<CreativeModeTab> ITEMS;
+	public static final SimpleEntry<CreativeModeTab> GOLEMS;
 
 	static {
-		TAB = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems", b -> b
-				.icon(GolemItems.HOLDER_GOLEM::asStack));
+		ITEMS = REGISTRATE.buildL2CreativeTab("golem_items", "Modular Golems - Items", b -> b
+				.icon(GolemItems.GOLEM_TEMPLATE::asStack));
 	}
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
@@ -99,6 +103,7 @@ public class GolemItems {
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
 	public static final ItemEntry<AddSlotItem> ADD_SLOT, INF_SLOT;
 	public static final ItemEntry<AddSlotTemplate> ADD_DIAMOND, ADD_NETHERITE;
+	public static final ItemEntry<GolemFacade> FACADE;
 
 
 	private static final DCReg DC = DCReg.of(ModularGolems.REG);
@@ -139,19 +144,19 @@ public class GolemItems {
 			OMNI_RETRIVAL = REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Retrieval").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
-					.removeTab(TAB.key()).register();
+					.removeTab(ITEMS.key()).register();
 			OMNI_DISPENSE = REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Summon").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
-					.removeTab(TAB.key()).register();
+					.removeTab(ITEMS.key()).register();
 			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
-					.removeTab(TAB.key()).register();
+					.removeTab(ITEMS.key()).register();
 			OMNI_SQUAD = REGISTRATE.item("omnipotent_wand_squad", p -> new SquadWandItem(p.stacksTo(1), SQUAD_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Squad").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
-					.removeTab(TAB.key()).register();
+					.removeTab(ITEMS.key()).register();
 
 		}
 
@@ -219,7 +224,7 @@ public class GolemItems {
 				METALGOLEM_BEACONS[i] = REGISTRATE.item("golem_beacon_level_" + lv,
 								p -> new MetalGolemBeaconItem(p.stacksTo(1), lv))
 						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-						.removeTab(TAB.key()).register();
+						.removeTab(ITEMS.key()).register();
 			}
 		}
 
@@ -289,7 +294,15 @@ public class GolemItems {
 			SIZE_UPGRADE = regUpgrade("size_upgrade", () -> GolemModifiers.SIZE_UPGRADE).lang("Size Upgrade").register();
 
 		}
+
 		CompatManager.register();
+
+		ADD_SLOT = REGISTRATE.item("add_1_slot", p -> new AddSlotItem(p, 1)).defaultModel().lang("Add 1 Upgrade Slot").register();
+		INF_SLOT = REGISTRATE.item("add_100_slot", p -> new AddSlotItem(p, 100)).defaultModel().lang("Add 100 Upgrade Slots").register();
+
+		GOLEMS = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems - Golems & Parts", b -> b
+				.icon(GolemItems.HOLDER_GOLEM::asStack));
+
 
 		// holders
 		{
@@ -297,7 +310,7 @@ public class GolemItems {
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_GOLEM))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 
@@ -305,7 +318,7 @@ public class GolemItems {
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 
@@ -313,7 +326,7 @@ public class GolemItems {
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_DOG))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 		}
@@ -324,21 +337,24 @@ public class GolemItems {
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.BODY, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.key())
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.key())
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.key())
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
@@ -349,21 +365,24 @@ public class GolemItems {
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.key())
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.key())
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.key())
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
@@ -374,7 +393,8 @@ public class GolemItems {
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.key())
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 
@@ -382,17 +402,21 @@ public class GolemItems {
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.key(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.key())
+					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
+		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
+				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
+						.texture("particle", "minecraft:block/clay").guiLight(BlockModel.GuiLight.FRONT))
+				.removeTab(GOLEMS.key())
+				.transform(e -> e.tab(ITEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+				.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
+				.tag(MGTagGen.CURIO_SKIN).register();
+
 		CompatManager.lateRegister();
-
-		ADD_SLOT = REGISTRATE.item("add_1_slot", p -> new AddSlotItem(p, 1)).defaultModel().lang("Add 1 Upgrade Slot").register();
-		INF_SLOT = REGISTRATE.item("add_100_slot", p -> new AddSlotItem(p, 100)).defaultModel().lang("Add 100 Upgrade Slots").register();
-
-
 	}
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<Val<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {
@@ -425,6 +449,12 @@ public class GolemItems {
 								.texture("layer0", ResourceLocation.fromNamespaceAndPath(modid, "item/upgrades/" + id))
 								.texture("layer1", ResourceLocation.fromNamespaceAndPath(ModularGolems.MODID, "item/blue_arrow")))
 						.end());
+	}
+
+	public static <T extends Item> ItemEntry<T> item(String modid, String id, NonNullFunction<Item.Properties, T> func) {
+		return REGISTRATE.item(id, func)
+				.model((ctx, pvd) -> pvd.generated(ctx, ResourceLocation.fromNamespaceAndPath(modid, "item/" + id)))
+				.register();
 	}
 
 	public static void register() {
