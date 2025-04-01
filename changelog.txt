@@ -1,6 +1,7 @@
 2.5.9
 - Fix Twilight Forest Trophies hide humanoid golem head
 - Allow curios to be rendered on humanoid golems
+- Add Goety Golems
 
 2.5.8
 - Add Ice and Fire Dragonsteel Golems
