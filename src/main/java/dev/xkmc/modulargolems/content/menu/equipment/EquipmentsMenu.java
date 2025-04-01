@@ -14,6 +14,7 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -53,11 +54,17 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	}
 
 	private boolean isValid(EquipmentSlot slot, ItemStack stack) {
-		if (golem instanceof HumanoidGolemEntity){
+		if (golem instanceof HumanoidGolemEntity) {
 			if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND)
 				return true;
 		}
-		return getSlotForItem(stack) == slot;
+		var valid = getSlotForItem(stack);
+		if (golem instanceof MetalGolemEntity) {
+			if (valid == EquipmentSlot.MAINHAND) {
+				return slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND;
+			}
+		}
+		return valid == slot;
 	}
 
 	@Override
@@ -112,7 +119,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 				return mgai.getSlot();
 			} else if (stack.getItem() instanceof MetalGolemBeaconItem) {
 				return EquipmentSlot.FEET;
-			} else if (stack.getItem() instanceof MetalGolemWeaponItem) {
+			} else if (stack.getItem() instanceof MetalGolemWeaponItem || stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
 				return EquipmentSlot.MAINHAND;
 			} else if (stack.getItem() instanceof BannerItem) {
 				if (golem.getItemBySlot(EquipmentSlot.HEAD).isEmpty())

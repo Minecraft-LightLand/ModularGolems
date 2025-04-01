@@ -8,6 +8,8 @@ import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.botania.BotDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
+import dev.xkmc.modulargolems.compat.materials.geoty.GoetyDispatch;
+import dev.xkmc.modulargolems.compat.materials.iceandfire.IAFDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
@@ -24,7 +26,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.ModList;
 import plus.dragons.createenchantmentindustry.EnchantmentIndustry;
-import slimeknights.tconstruct.TConstruct;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +45,9 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(LHDispatch.MODID)) LIST.add(new LHDispatch());
 		if (ModList.get().isLoaded(CataDispatch.MODID)) LIST.add(new CataDispatch());
 		if (ModList.get().isLoaded(ACDispatch.MODID)) LIST.add(new ACDispatch());
-		if (ModList.get().isLoaded(TConstruct.MOD_ID)) LIST.add(new TCDispatch());
+		if (ModList.get().isLoaded(IAFDispatch.MODID)) LIST.add(new IAFDispatch());
+		if (ModList.get().isLoaded(TCDispatch.MODID)) LIST.add(new TCDispatch());
+		if (ModList.get().isLoaded(GoetyDispatch.MODID)) LIST.add(new GoetyDispatch());
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
 	}
 

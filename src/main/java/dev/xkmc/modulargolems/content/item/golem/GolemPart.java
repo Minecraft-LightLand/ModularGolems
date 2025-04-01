@@ -71,13 +71,15 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		var magnifier = GolemPartConfig.get().getMagnifier(getEntityType());
 		var filter = GolemPartConfig.get().getFilter(this);
 		HashMap<GolemStatType, Double> stats = new HashMap<>();
-		GolemMaterialConfig.get().stats.get(mat).forEach((k, v) -> {
+		var matStat = GolemMaterialConfig.get().stats.get(mat);
+		if (matStat != null) matStat.forEach((k, v) -> {
 			double val = v * filter.getOrDefault(k.type, 1d) * magnifier.getOrDefault(k, 1d);
 			if (val != 0)
 				stats.compute(k, (e, o) -> (o == null ? 0 : o) + val);
 		});
 		HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
-		GolemMaterialConfig.get().modifiers.get(mat).forEach((k, v) -> {
+		var matMod = GolemMaterialConfig.get().modifiers.get(mat);
+		if (matMod != null) matMod.forEach((k, v) -> {
 			if (k.canExistOn(this)) {
 				modifiers.compute(k, (e, o) -> (o == null ? 0 : o) + v);
 			}

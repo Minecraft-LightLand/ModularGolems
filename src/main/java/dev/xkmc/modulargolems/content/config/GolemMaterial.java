@@ -108,6 +108,15 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 		return Optional.empty();
 	}
 
+	public static Optional<ResourceLocation> getRepairMaterial(ItemStack stack) {
+		for (Map.Entry<ResourceLocation, Ingredient> ent : GolemMaterialConfig.get().repairIngredients.entrySet()) {
+			if (ent.getValue().test(stack)) {
+				return Optional.of(ent.getKey());
+			}
+		}
+		return Optional.empty();
+	}
+
 	public MutableComponent getDesc() {
 		return Component.translatable("golem_material." + id.getNamespace() + "." + id.getPath()).withStyle(ChatFormatting.GOLD);
 	}

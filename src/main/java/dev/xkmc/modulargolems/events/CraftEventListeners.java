@@ -4,12 +4,14 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -43,6 +45,13 @@ public class CraftEventListeners {
 			} else {
 				fixGolem(event, holder, stack);
 			}
+		}
+		if (stack.is(GolemItems.EMPTY_UPGRADE.get())) {
+			var mat = GolemMaterial.getRepairMaterial(block);
+			if (mat.isEmpty()) return;
+			event.setOutput(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat.get()));
+			event.setMaterialCost(1);
+			event.setCost(1);
 		}
 	}
 

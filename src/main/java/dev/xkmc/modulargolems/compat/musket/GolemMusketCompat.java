@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 public class GolemMusketCompat {
 
 	public static void init() {
-		GolemWeaponRegistry.GOLEM.register(
+		GolemWeaponRegistry.HUMANOID.register(
 				new ResourceLocation(MusketMod.MODID, "musket"),
 				(golem, stack, hand) -> WeaponStatus.RANGED.of(stack.getItem() instanceof GunItem item && item.canUseFrom(golem, hand)),
 				(golem, melee) -> new GolemMusketGoal(golem)

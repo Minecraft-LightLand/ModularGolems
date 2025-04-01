@@ -11,14 +11,15 @@ import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.card.*;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -28,6 +29,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -41,11 +43,11 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
 
-	public static final RegistryEntry<CreativeModeTab> TAB;
+	public static final RegistryEntry<CreativeModeTab> ITEMS, GOLEMS;
 
 	static {
-		TAB = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems", b -> b
-				.icon(GolemItems.HOLDER_GOLEM::asStack));
+		ITEMS = REGISTRATE.buildL2CreativeTab("golem_items", "Modular Golems - Items", b -> b
+				.icon(GolemItems.GOLEM_TEMPLATE::asStack));
 	}
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
@@ -53,8 +55,8 @@ public class GolemItems {
 	public static final ItemEntry<GolemPart<MetalGolemEntity, MetalGolemPartType>> GOLEM_BODY, GOLEM_ARM, GOLEM_LEGS;
 	public static final ItemEntry<GolemHolder<MetalGolemEntity, MetalGolemPartType>> HOLDER_GOLEM;
 
-	public static final ItemEntry<GolemPart<HumanoidGolemEntity, HumaniodGolemPartType>> HUMANOID_BODY, HUMANOID_ARMS, HUMANOID_LEGS;
-	public static final ItemEntry<GolemHolder<HumanoidGolemEntity, HumaniodGolemPartType>> HOLDER_HUMANOID;
+	public static final ItemEntry<GolemPart<HumanoidGolemEntity, HumanoidGolemPartType>> HUMANOID_BODY, HUMANOID_ARMS, HUMANOID_LEGS;
+	public static final ItemEntry<GolemHolder<HumanoidGolemEntity, HumanoidGolemPartType>> HOLDER_HUMANOID;
 
 	public static final ItemEntry<GolemPart<DogGolemEntity, DogGolemPartType>> DOG_BODY, DOG_LEGS;
 	public static final ItemEntry<GolemHolder<DogGolemEntity, DogGolemPartType>> HOLDER_DOG;
@@ -80,6 +82,7 @@ public class GolemItems {
 	public static final ItemEntry<EntityTypeFilterCard> CARD_TYPE;
 	public static final ItemEntry<UuidFilterCard> CARD_UUID;
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
+	public static final ItemEntry<GolemFacade> FACADE;
 
 	static {
 
@@ -105,19 +108,19 @@ public class GolemItems {
 			OMNI_RETRIVAL = REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Retrieval").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
-					.removeTab(TAB.getKey()).register();
+					.removeTab(ITEMS.getKey()).register();
 			OMNI_DISPENSE = REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Summon").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
-					.removeTab(TAB.getKey()).register();
+					.removeTab(ITEMS.getKey()).register();
 			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
-					.removeTab(TAB.getKey()).register();
+					.removeTab(ITEMS.getKey()).register();
 			OMNI_SQUAD = REGISTRATE.item("omnipotent_wand_squad", p -> new SquadWandItem(p.stacksTo(1), SQUAD_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
 					.lang("Omnipotent Wand: Squad").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
-					.removeTab(TAB.getKey()).register();
+					.removeTab(ITEMS.getKey()).register();
 
 		}
 
@@ -176,7 +179,7 @@ public class GolemItems {
 				METALGOLEM_BEACONS[i] = REGISTRATE.item("golem_beacon_level_" + lv,
 								p -> new MetalGolemBeaconItem(p.stacksTo(1), lv))
 						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-						.removeTab(TAB.getKey()).register();
+						.removeTab(ITEMS.getKey()).register();
 			}
 		}
 
@@ -246,27 +249,30 @@ public class GolemItems {
 		}
 		CompatManager.register();
 
+		GOLEMS = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems - Golems & Parts", b -> b
+				.icon(GolemItems.HOLDER_GOLEM::asStack));
+
 		// holders
 		{
 			HOLDER_GOLEM = REGISTRATE.item("metal_golem_holder", p ->
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_GOLEM))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 
 			HOLDER_HUMANOID = REGISTRATE.item("humanoid_golem_holder", p ->
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 
 			HOLDER_DOG = REGISTRATE.item("dog_golem_holder", p ->
 							new GolemHolder<>(p.fireResistant(), GolemTypes.TYPE_DOG))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 		}
 
@@ -276,41 +282,47 @@ public class GolemItems {
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.BODY, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.getKey())
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.getKey())
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.getKey())
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
 		// humanoid golem
 		{
 			HUMANOID_BODY = REGISTRATE.item("humanoid_golem_body", p ->
-							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.BODY, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.getKey())
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
-							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.ARMS, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.getKey())
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
-							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.getKey())
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
 
@@ -320,16 +332,25 @@ public class GolemItems {
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.getKey())
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
-					.transform(e -> e.tab(TAB.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.tab(ITEMS.getKey())
+					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
 		}
+
+		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
+				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
+						.texture("particle", "minecraft:block/clay").guiLight(BlockModel.GuiLight.FRONT))
+				.removeTab(GOLEMS.getKey())
+				.transform(e -> e.tab(ITEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+				.tag(MGTagGen.CURIO_SKIN).register();
 
 		CompatManager.lateRegister();
 

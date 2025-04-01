@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.registry;
 
+import dev.xkmc.modulargolems.content.client.tracker.TrackerTab;
 import dev.xkmc.modulargolems.content.menu.attribute.AttributeTab;
 import dev.xkmc.modulargolems.content.menu.config.ConfigToggleTab;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentTab;
@@ -18,6 +19,7 @@ public class GolemTabRegistry {
 
 	public static final List<GolemTabToken<ConfigGroup, ?>> LIST_CONFIG = new ArrayList<>();
 	public static final List<GolemTabToken<EquipmentGroup, ?>> LIST_EQUIPMENT = new ArrayList<>();
+	public static final List<GolemTabToken<TrackerGroup, ?>> LIST_TRACKER = new ArrayList<>();
 
 	public static final GolemTabToken<ConfigGroup, ConfigToggleTab> CONFIG_TOGGLE =
 			new GolemTabToken<>(ConfigToggleTab::new, GolemItems.CARD[0]::get, MGLangData.TAB_TOGGLE.get());
@@ -37,6 +39,11 @@ public class GolemTabRegistry {
 	public static final GolemTabToken<EquipmentGroup, AttributeTab> ATTRIBUTE =
 			new GolemTabToken<>(AttributeTab::new, () -> Items.IRON_SWORD, MGLangData.TAB_ATTRIBUTE.get());
 
+	public static final GolemTabToken<TrackerGroup, TrackerTab> TRACKER_ALIVE =
+			new GolemTabToken<>(TrackerTab.Type.ALIVE::create, () -> Items.POPPY, MGLangData.TAB_ALIVE.get());
+	public static final GolemTabToken<TrackerGroup, TrackerTab> TRACKER_DEAD =
+			new GolemTabToken<>(TrackerTab.Type.DEAD::create, () -> Items.WITHER_ROSE, MGLangData.TAB_DEAD.get());
+
 	public static void register() {
 		LIST_CONFIG.add(CONFIG_TOGGLE);
 		LIST_CONFIG.add(CONFIG_ITEM);
@@ -44,6 +51,8 @@ public class GolemTabRegistry {
 		LIST_CONFIG.add(CONFIG_PATH);
 		LIST_EQUIPMENT.add(EQUIPMENT);
 		LIST_EQUIPMENT.add(ATTRIBUTE);
+		LIST_TRACKER.add(TRACKER_ALIVE);
+		LIST_TRACKER.add(TRACKER_DEAD);
 	}
 
 }

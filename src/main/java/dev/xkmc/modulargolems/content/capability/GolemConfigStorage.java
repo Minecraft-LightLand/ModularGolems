@@ -37,6 +37,8 @@ public class GolemConfigStorage {
 
 	@SerialClass.SerialField
 	private final HashMap<UUID, GolemConfigEntry[]> storage = new HashMap<>();
+	@SerialClass.SerialField
+	private final HashMap<UUID, GolemTracker> tracker = new HashMap<>();
 
 	public GolemConfigStorage(Level level) {
 		this.level = level;
@@ -49,6 +51,10 @@ public class GolemConfigStorage {
 			entries[color] = GolemConfigEntry.getDefault(id, color, comp);
 		}
 		return entries[color].init(id, color);
+	}
+
+	public GolemTracker getTracker(UUID id) {
+		return tracker.computeIfAbsent(id, k -> new GolemTracker());
 	}
 
 	@Nullable
@@ -64,6 +70,10 @@ public class GolemConfigStorage {
 	public void replaceStorage(GolemConfigEntry entry) {
 		GolemConfigEntry[] entries = storage.computeIfAbsent(entry.getID(), k -> new GolemConfigEntry[16]);
 		entries[entry.getColor()] = entry.copyFrom(entries[entry.getColor()]);
+	}
+
+	public void replaceTracker(UUID id, GolemTracker data) {
+		tracker.put(id, data);
 	}
 
 	public void init() {

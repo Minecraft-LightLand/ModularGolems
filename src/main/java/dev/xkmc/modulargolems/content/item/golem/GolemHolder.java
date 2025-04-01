@@ -119,6 +119,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		elem.put(KEY_MAT, StringTag.valueOf(material.toString()));
 	}
 
+	public static void setMaterial(ItemStack stack, int index, ResourceLocation material) {
+		ItemCompoundTag tag = ItemCompoundTag.of(stack);
+		CompoundTag elem = tag.getSubList(KEY_MATERIAL, Tag.TAG_COMPOUND).getOrCreate().getCompound(index);
+		elem.put(KEY_MAT, StringTag.valueOf(material.toString()));
+	}
+
 	public static ItemStack addUpgrade(ItemStack stack, UpgradeItem item) {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(item);
 		assert rl != null;

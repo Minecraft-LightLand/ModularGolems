@@ -30,11 +30,6 @@ public class SlotGen extends RecordDataProvider {
 		map.accept(ModularGolems.MODID + "/curios/slots/golem_route", new CurioSlotBuilder(1100,
 				new ResourceLocation(ModularGolems.MODID, "slot/empty_route_slot").toString()));
 
-		map.accept(ModularGolems.MODID + "/curios/entities/golem_skin", new CurioEntityBuilder(
-				new ArrayList<>(List.of(GolemTypes.TYPE_HUMANOID.getId())),
-				new ArrayList<>(List.of("golem_skin")), SlotCondition.of()
-		));
-
 		ArrayList<ResourceLocation> entities = new ArrayList<>(List.of(
 				GolemTypes.TYPE_GOLEM.getId(),
 				GolemTypes.TYPE_HUMANOID.getId(),
@@ -42,7 +37,7 @@ public class SlotGen extends RecordDataProvider {
 		));
 
 		map.accept(ModularGolems.MODID + "/curios/entities/golem_curios", new CurioEntityBuilder(entities,
-				new ArrayList<>(List.of("head", "back", "ring", "charm", "hands", "golem_route")), SlotCondition.of()
+				new ArrayList<>(List.of("head", "back", "ring", "charm", "hands", "golem_route", "golem_skin")), SlotCondition.of()
 		));
 
 		map.accept(ModularGolems.MODID + "/curios/entities/golem_artifacts", new CurioEntityBuilder(entities,

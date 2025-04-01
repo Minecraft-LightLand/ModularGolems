@@ -1,3 +1,21 @@
+2.5.9
+- Fix Twilight Forest Trophies hide humanoid golem head
+- Allow curios to be rendered on humanoid golems
+- Add Goety Golems
+
+2.5.8
+- Add Ice and Fire Dragonsteel Golems
+
+2.5.7
+- Add golem facade
+- Add golem tracker screen
+- Add golem substitution recipes
+- Allow large golems to use some weapons from Cataclysm
+- Fix patrolling golems not attacking
+
+2.5.6
+- Fix crash when Cataclysm or Tinkers Construct is installed but not L2Complements
+
 2.5.5
 - Add Cursium golems for Cataclysm integration
 - Add Amethyst Bronze, Cobalt, Manyullyn, Hepatizon golems for TConstruct integration

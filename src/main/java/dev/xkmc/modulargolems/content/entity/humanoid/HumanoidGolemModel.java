@@ -19,7 +19,7 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraftforge.common.ToolActions;
 
 public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> implements
-		IGolemModel<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel>, IHeadedModel {
+		IGolemModel<HumanoidGolemEntity, HumanoidGolemPartType, HumanoidGolemModel>, IHeadedModel {
 
 	public HumanoidGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(ModelLayers.PLAYER), false);
@@ -30,15 +30,15 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 	}
 
 	@Override
-	public void renderToBufferInternal(HumaniodGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
-		if (type == HumaniodGolemPartType.BODY) {
+	public void renderToBufferInternal(HumanoidGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4) {
+		if (type == HumanoidGolemPartType.BODY) {
 			this.body.render(stack, consumer, i, j, f1, f2, f3, f4);
 			this.head.render(stack, consumer, i, j, f1, f2, f3, f4);
 			this.hat.render(stack, consumer, i, j, f1, f2, f3, f4);
-		} else if (type == HumaniodGolemPartType.ARMS) {
+		} else if (type == HumanoidGolemPartType.ARMS) {
 			this.leftArm.render(stack, consumer, i, j, f1, f2, f3, f4);
 			this.rightArm.render(stack, consumer, i, j, f1, f2, f3, f4);
-		} else if (type == HumaniodGolemPartType.LEGS) {
+		} else if (type == HumanoidGolemPartType.LEGS) {
 			this.leftLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
 			this.rightLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
 		}
@@ -76,6 +76,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 	}
 
 	public void prepareMobModel(HumanoidGolemEntity entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick) {
+		head.skipDraw = false;
 		this.rightArmPose = ArmPose.EMPTY;
 		this.leftArmPose = ArmPose.EMPTY;
 		InteractionHand hand = entity.getWeaponHand();

@@ -1,0 +1,29 @@
+{
+	"flag": "mod:goety",
+	"name": "Cursed Metal",
+	"icon": "goety:cursed_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1001,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "goety:cursed_ingot",
+			"text": "Main material to craft Cursed Metal golem parts. Curse Metal golem parts feature fire immunity and armor penetration."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"goety:cursed_metal\"},{part:\"modulargolems:metal_golem_body\",material:\"goety:cursed_metal\"},{part:\"modulargolems:metal_golem_arm\",material:\"goety:cursed_metal\"},{part:\"modulargolems:metal_golem_legs\",material:\"goety:cursed_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"goety:cursed_metal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"goety:cursed_metal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"goety:cursed_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"goety:cursed_metal\"},{part:\"modulargolems:dog_golem_legs\",material:\"goety:cursed_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

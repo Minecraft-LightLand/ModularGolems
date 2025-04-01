@@ -7,6 +7,7 @@ import dev.xkmc.l2library.serial.recipe.NBTRecipe;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.item.card.NameFilterCard;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleBuilder;
+import dev.xkmc.modulargolems.content.recipe.GolemReplaceBuilder;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
@@ -101,28 +102,100 @@ public class RecipeGen {
 			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), RecipeCategory.MISC, GolemItems.DOG_BODY);
 			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), RecipeCategory.MISC, GolemItems.DOG_LEGS);
 
-			unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_GOLEM.get(), 1)::unlockedBy,
-					GolemItems.GOLEM_BODY.get())
-					.pattern("ABA").pattern(" L ")
-					.define('A', GolemItems.GOLEM_ARM.get())
-					.define('B', GolemItems.GOLEM_BODY.get())
-					.define('L', GolemItems.GOLEM_LEGS.get())
-					.save(pvd);
 
-			unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_HUMANOID.get(), 1)::unlockedBy,
-					GolemItems.HUMANOID_BODY.get())
-					.pattern("A").pattern("B").pattern("C")
-					.define('A', GolemItems.HUMANOID_BODY.get())
-					.define('B', GolemItems.HUMANOID_ARMS.get())
-					.define('C', GolemItems.HUMANOID_LEGS.get())
-					.save(pvd);
+			{
+				unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_GOLEM.get(), 1)::unlockedBy,
+						GolemItems.GOLEM_BODY.get())
+						.pattern("ABA").pattern(" L ")
+						.define('A', GolemItems.GOLEM_ARM.get())
+						.define('B', GolemItems.GOLEM_BODY.get())
+						.define('L', GolemItems.GOLEM_LEGS.get())
+						.save(pvd, ModularGolems.loc("metal_golem/assemble_holder"));
 
-			unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_DOG.get(), 1)::unlockedBy,
-					GolemItems.HUMANOID_BODY.get())
-					.pattern("A").pattern("B")
-					.define('A', GolemItems.DOG_BODY.get())
-					.define('B', GolemItems.DOG_LEGS.get())
-					.save(pvd);
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_GOLEM.get(), 1)::unlockedBy,
+						GolemItems.GOLEM_BODY.get())
+						.pattern("PH")
+						.define('P', GolemItems.GOLEM_ARM.get())
+						.define('H', GolemItems.HOLDER_GOLEM.get())
+						.save(pvd, ModularGolems.loc("metal_golem/replace_right_arm"));
+
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_GOLEM.get(), 1)::unlockedBy,
+						GolemItems.GOLEM_BODY.get())
+						.pattern("HP")
+						.define('P', GolemItems.GOLEM_ARM.get())
+						.define('H', GolemItems.HOLDER_GOLEM.get())
+						.save(pvd, ModularGolems.loc("metal_golem/replace_left_arm"));
+
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_GOLEM.get(), 1)::unlockedBy,
+						GolemItems.GOLEM_BODY.get())
+						.pattern("P").pattern("H")
+						.define('P', GolemItems.GOLEM_BODY.get())
+						.define('H', GolemItems.HOLDER_GOLEM.get())
+						.save(pvd, ModularGolems.loc("metal_golem/replace_body"));
+
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_GOLEM.get(), 1)::unlockedBy,
+						GolemItems.GOLEM_BODY.get())
+						.pattern("H").pattern("P")
+						.define('P', GolemItems.GOLEM_LEGS.get())
+						.define('H', GolemItems.HOLDER_GOLEM.get())
+						.save(pvd, ModularGolems.loc("metal_golem/replace_legs"));
+			}
+
+			{
+
+				unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_HUMANOID.get(), 1)::unlockedBy,
+						GolemItems.HUMANOID_BODY.get())
+						.pattern("A").pattern("B").pattern("C")
+						.define('A', GolemItems.HUMANOID_BODY.get())
+						.define('B', GolemItems.HUMANOID_ARMS.get())
+						.define('C', GolemItems.HUMANOID_LEGS.get())
+						.save(pvd, ModularGolems.loc("humanoid_golem/assemble_holder"));
+
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_HUMANOID.get(), 1)::unlockedBy,
+						GolemItems.HUMANOID_BODY.get())
+						.pattern("P").pattern("H")
+						.define('P', GolemItems.HUMANOID_BODY.get())
+						.define('H', GolemItems.HOLDER_HUMANOID.get())
+						.save(pvd, ModularGolems.loc("humanoid_golem/replace_body"));
+
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_HUMANOID.get(), 1)::unlockedBy,
+						GolemItems.HUMANOID_BODY.get())
+						.pattern("H").pattern("P")
+						.define('P', GolemItems.HUMANOID_ARMS.get())
+						.define('H', GolemItems.HOLDER_HUMANOID.get())
+						.save(pvd, ModularGolems.loc("humanoid_golem/replace_arms"));
+
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_HUMANOID.get(), 1)::unlockedBy,
+						GolemItems.HUMANOID_BODY.get())
+						.pattern("H").pattern("P")
+						.define('P', GolemItems.HUMANOID_LEGS.get())
+						.define('H', GolemItems.HOLDER_HUMANOID.get())
+						.save(pvd, ModularGolems.loc("humanoid_golem/replace_legs"));
+			}
+
+			{
+
+				unlock(pvd, new GolemAssembleBuilder(GolemItems.HOLDER_DOG.get(), 1)::unlockedBy,
+						GolemItems.HUMANOID_BODY.get())
+						.pattern("A").pattern("B")
+						.define('A', GolemItems.DOG_BODY.get())
+						.define('B', GolemItems.DOG_LEGS.get())
+						.save(pvd, ModularGolems.loc("dog_golem/assemble_holder"));
+
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_DOG.get(), 1)::unlockedBy,
+						GolemItems.DOG_BODY.get())
+						.pattern("P").pattern("H")
+						.define('P', GolemItems.DOG_BODY.get())
+						.define('H', GolemItems.HOLDER_DOG.get())
+						.save(pvd, ModularGolems.loc("dog_golem/replace_body"));
+
+				unlock(pvd, new GolemReplaceBuilder(GolemItems.HOLDER_DOG.get(), 1)::unlockedBy,
+						GolemItems.DOG_BODY.get())
+						.pattern("H").pattern("P")
+						.define('P', GolemItems.DOG_LEGS.get())
+						.define('H', GolemItems.HOLDER_DOG.get())
+						.save(pvd, ModularGolems.loc("dog_golem/replace_legs"));
+			}
 		}
 
 		// card

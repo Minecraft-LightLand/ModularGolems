@@ -16,11 +16,13 @@ import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.Nullable;
+import top.theillusivec4.curios.client.render.CuriosLayer;
 
-public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel> {
+public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEntity, HumanoidGolemPartType, HumanoidGolemModel> {
 
-	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable HumaniodGolemPartType part) {
+	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable HumanoidGolemPartType part) {
 		switch (transform) {
 			case GUI:
 			case FIRST_PERSON_LEFT_HAND:
@@ -58,15 +60,15 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 			float size = 0.45f;
 			stack.scale(size, size, size);
 			stack.translate(0, -2, 0);
-		} else if (part == HumaniodGolemPartType.BODY) {
+		} else if (part == HumanoidGolemPartType.BODY) {
 			float size = 0.65f;
 			stack.scale(size, size, size);
 			stack.translate(0, -1.2, 0);
-		} else if (part == HumaniodGolemPartType.LEGS) {
+		} else if (part == HumanoidGolemPartType.LEGS) {
 			float size = 0.8f;
 			stack.scale(size, size, size);
 			stack.translate(0, -2, 0);
-		} else if (part == HumaniodGolemPartType.ARMS) {
+		} else if (part == HumanoidGolemPartType.ARMS) {
 			float size = 0.6f;
 			stack.scale(size, size, size);
 			stack.translate(0, -1.5, 0);
@@ -78,7 +80,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 	}
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx, boolean slim) {
-		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER), slim), 0.5f, HumaniodGolemPartType::values);
+		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER), slim), 0.5f, HumanoidGolemPartType::values);
 		this.addLayer(new HumanoidArmorLayer<>(this,
 				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)),
 				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR)),
@@ -89,6 +91,8 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 		this.addLayer(new LayerWrapper<>(this,
 				new ItemInHandLayer<>(this, ctx.getItemInHandRenderer())));
 		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
+		if (ModList.get().isLoaded("curios"))
+			this.addLayer(new CuriosLayer<>(this));
 	}
 
 	@Override

@@ -1,0 +1,29 @@
+{
+	"flag": "mod:goety",
+	"name": "诅咒金属",
+	"icon": "goety:cursed_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1001,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "goety:cursed_ingot",
+			"text": "制作诅咒金属傀儡部件的主要材料。诅咒金属傀儡防火且能削弱敌方护甲"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"goety:cursed_metal\"},{part:\"modulargolems:metal_golem_body\",material:\"goety:cursed_metal\"},{part:\"modulargolems:metal_golem_arm\",material:\"goety:cursed_metal\"},{part:\"modulargolems:metal_golem_legs\",material:\"goety:cursed_metal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"goety:cursed_metal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"goety:cursed_metal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"goety:cursed_metal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"goety:cursed_metal\"},{part:\"modulargolems:dog_golem_legs\",material:\"goety:cursed_metal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

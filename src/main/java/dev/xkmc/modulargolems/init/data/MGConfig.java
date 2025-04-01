@@ -92,6 +92,11 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue atomicHeal;
 		public final ForgeConfigSpec.IntValue atomicDuration;
 
+		public final ForgeConfigSpec.DoubleValue hauntedBaseChance;
+		public final ForgeConfigSpec.IntValue soulHealingRate;
+		public final ForgeConfigSpec.IntValue soulHealingCost;
+		public final ForgeConfigSpec.DoubleValue soulHealingThreshold;
+
 		Common(ForgeConfigSpec.Builder builder) {
 			{
 				barehandRetrieve = builder.comment("Allow players to retrieve the golems by bare hand")
@@ -256,6 +261,19 @@ public class MGConfig {
 					atomicDuration = builder.comment("Atomic Fueling modifier: boost duration per uranium nugget used")
 							.defineInRange("atomicDuration", 200, 20, 20000);
 
+				}
+				builder.pop();
+
+				builder.push("goety compat");
+				{
+					hauntedBaseChance = builder.comment("Chance per armor per modifier level to summon haunted armor servant")
+							.defineInRange("hauntedBaseChance", 0, 0.05, 1);
+					soulHealingCost = builder.comment("Soul Repair modifier healing soul cost as multiple of item repair soul cost")
+							.defineInRange("soulHealingCost", 2, 1, 100);
+					soulHealingRate = builder.comment("Soul Repair modifier healing rate per second")
+							.defineInRange("soulHealingRate", 2, 1, 100);
+					soulHealingThreshold = builder.comment("Soul Repair modifier healing only when golem health is below this percentage")
+							.defineInRange("soulHealingThreshold", 0.75, 0, 1);
 				}
 				builder.pop();
 			}

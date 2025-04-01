@@ -8,6 +8,7 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
+import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.capability.PathConfig;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -28,6 +29,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -72,6 +74,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
@@ -184,7 +187,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
 				this.unRide();
-				player.setItemSlot(EquipmentSlot.MAINHAND, toItem());
+
+				player.setItemSlot(EquipmentSlot.MAINHAND, toItem(player));
 			}
 			return InteractionResult.SUCCESS;
 		} else {
@@ -201,10 +205,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return InteractionResult.PASS;
 	}
 
+	public void untrack(GolemTracker.Status type, @Nullable Entity cause) {
+		var id = getOwnerUUID();
+		if (id == null || id.equals(Util.NIL_UUID)) return;
+		if (getOwner() instanceof FakePlayer) return;
+		var tracker = GolemConfigStorage.get(level()).getTracker(id);
+		tracker.untrack(this, type, cause);
+	}
+
 	@ServerOnly
-	public ItemStack toItem() {
+	public ItemStack toItem(Player player) {
 		recordedPosition = position();
 		recordedGuardPos = getGuardPos();
+		untrack(player == getOwner() ? GolemTracker.Status.RETRIEVED : GolemTracker.Status.OTHER_RETRIEVED, player);
 		var ans = GolemHolder.setEntity(getThis());
 		level().broadcastEntityEvent(this, EntityEvent.POOF);
 		this.discard();
@@ -223,6 +236,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			Player player = getOwner();
 			unRide();
+			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
 			ItemStack stack = GolemHolder.setEntity(getThis());
 			if (player != null && player.isAlive()) {
 				player.getInventory().placeItemBackInInventory(stack);
@@ -454,6 +468,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				tickItem.tick(stack, this.level(), this);
 			}
 		}
+		var id = getOwnerUUID();
+		if (getOwner() instanceof FakePlayer) return;
+		if (id == null || id.equals(Util.NIL_UUID)) return;
+		var tracker = GolemConfigStorage.get(level()).getTracker(id);
+		tracker.track(this);
 	}
 
 	@Override
@@ -701,7 +720,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
-		this.goalSelector.addGoal(3, new FollowOwnerGoal(this));
+		this.goalSelector.addGoal(4, new FollowOwnerGoal(this));
 		this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
 		this.goalSelector.addGoal(8, new GolemRandomStrollGoal(this));
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
@@ -800,6 +819,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public void die(DamageSource source) {
+		untrack(GolemTracker.Status.DEATH, source.getEntity());
 		ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
 		Player owner = getOwner();
 		if (owner != null && !level().isClientSide) {

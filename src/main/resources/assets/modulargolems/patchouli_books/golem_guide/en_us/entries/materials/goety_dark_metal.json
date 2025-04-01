@@ -1,0 +1,29 @@
+{
+	"flag": "mod:goety",
+	"name": "Dark Metal",
+	"icon": "goety:dark_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1002,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "goety:dark_ingot",
+			"text": "Main material to craft Dark Metal golem parts. Dark Metal golem is resistant to fire, explosion, magic damage, has high regeneration, can heal and repair itself and its equipments with owner's soul energy, and can convert defeated enemies into haunted armor servants."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"goety:dark_metal\"},{part:\"modulargolems:metal_golem_body\",material:\"goety:dark_metal\"},{part:\"modulargolems:metal_golem_arm\",material:\"goety:dark_metal\"},{part:\"modulargolems:metal_golem_legs\",material:\"goety:dark_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"goety:dark_metal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"goety:dark_metal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"goety:dark_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"goety:dark_metal\"},{part:\"modulargolems:dog_golem_legs\",material:\"goety:dark_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

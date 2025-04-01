@@ -28,7 +28,11 @@ public class ThunderImmuneModifier extends GolemModifier {
 
 	@Override
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (level > 0 && event.getSource().is(DamageTypeTags.IS_LIGHTNING)) {
+		if (level <= 0) return;
+		if (entity.isOnFire()) {
+			entity.clearFire();
+		}
+		if (event.getSource().is(DamageTypeTags.IS_LIGHTNING)) {
 			event.setCanceled(true);
 			EffectUtil.addEffect(entity, new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200), EffectUtil.AddReason.SELF, entity);
 			entity.heal(MGConfig.COMMON.thunderHeal.get() * level);
