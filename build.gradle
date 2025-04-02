@@ -294,7 +294,8 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
             "alexs-caves",
             "touhou-little-maid",
             "tinkers-construct",
-            "ewewukeks-musket-mod"
+            "ewewukeks-musket-mod",
+            "goety"
     )
     mainFile.releaseType = "release"
     disableVersionDetection()

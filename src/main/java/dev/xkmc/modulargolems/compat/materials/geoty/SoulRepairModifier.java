@@ -27,7 +27,7 @@ public class SoulRepairModifier extends GolemModifier {
 		if (!SEHelper.getSoulsContainer(player)) return heal;
 		int rate = ItemConfig.ItemsRepairAmount.get() * MGConfig.COMMON.soulHealingCost.get();
 		if (rate <= 0) return heal;
-		int max = Math.min(level * MGConfig.COMMON.soulHealingRate.get(), SEHelper.getSESouls(player) / rate);
+		int max = Math.min(level * MGConfig.COMMON.soulHealingRate.get(), SEHelper.getSoulAmountInt(player) / rate);
 		if (max <= 0) return heal;
 		SEHelper.decreaseSouls(player, max * rate);
 		return heal + max;
@@ -41,7 +41,7 @@ public class SoulRepairModifier extends GolemModifier {
 			for (var e : EquipmentSlot.values()) {
 				ItemStack stack = entity.getItemBySlot(e);
 				if (!stack.isEmpty() && stack.isDamaged()) {
-					int max = Math.min(Math.min(stack.getDamageValue(), level), SEHelper.getSESouls(player) / rate);
+					int max = Math.min(Math.min(stack.getDamageValue(), level), SEHelper.getSoulAmountInt(player) / rate);
 					if (max > 0) {
 						SEHelper.decreaseSouls(player, rate * max);
 						stack.setDamageValue(stack.getDamageValue() - max);
@@ -51,4 +51,5 @@ public class SoulRepairModifier extends GolemModifier {
 		}
 		return super.onHealTick(heal, entity, level);
 	}
+
 }
