@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.geoty;
+package dev.xkmc.modulargolems.compat.materials.geoty.modifier;
 
 import com.Polarice3.Goety.config.ItemConfig;
 import com.Polarice3.Goety.utils.SEHelper;

@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "使徒升级: 狱火爆破",
+  "icon": "modulargolems:fire_blast",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:fire_blast",
+	  "text": "每10秒在目标位置召唤狱火爆破。高等级提高范围。最高3级"
+	}
+  ]
+}

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.geoty;
+package dev.xkmc.modulargolems.compat.materials.geoty.modifier;
 
 import com.Polarice3.Goety.common.entities.ModEntityType;
 import com.Polarice3.Goety.common.entities.ally.undead.HauntedArmorServant;

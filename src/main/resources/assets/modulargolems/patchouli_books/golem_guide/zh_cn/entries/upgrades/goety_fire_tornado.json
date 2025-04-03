@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "使徒升级: 燃烧龙卷风",
+  "icon": "modulargolems:fire_tornado",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:fire_tornado",
+	  "text": "在目标位置召唤燃烧龙卷风陷阱。最1高级"
+	}
+  ]
+}

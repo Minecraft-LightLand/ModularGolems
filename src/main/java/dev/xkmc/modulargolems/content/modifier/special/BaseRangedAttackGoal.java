@@ -58,9 +58,10 @@ public abstract class BaseRangedAttackGoal extends Goal {
 	public void tick() {
 		--this.attackTime;
 		LivingEntity le = golem.getTarget();
-		if (attackTime <= 0 && le != null && le.isAlive()) {
+		if (attackTime <= 0 && le != null && le.isAlive() && golem.specialAttackCoolDown <= 0) {
 			performAttack(le);
 			this.attackTime = waitTime;
+			golem.specialAttackCoolDown = 20;
 		}
 		super.tick();
 	}

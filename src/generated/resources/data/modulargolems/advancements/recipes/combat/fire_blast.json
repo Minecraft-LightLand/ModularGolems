@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:recipes/root",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety"
+    }
+  ],
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:fire_blast"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_unholy_blood": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "goety:unholy_blood"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_unholy_blood",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:fire_blast"
+    ]
+  },
+  "sends_telemetry_event": false
+}

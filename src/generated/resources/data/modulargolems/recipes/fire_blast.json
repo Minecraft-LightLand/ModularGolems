@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:empty_upgrade"
+    },
+    {
+      "item": "goety:unholy_blood"
+    },
+    {
+      "item": "goety:lavaball_focus"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:fire_blast"
+  }
+}

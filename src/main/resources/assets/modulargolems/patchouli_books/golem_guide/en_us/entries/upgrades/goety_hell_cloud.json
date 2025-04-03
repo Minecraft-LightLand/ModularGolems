@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "Apostle Upgrade: Hell Cloud",
+  "icon": "modulargolems:hell_cloud",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hell_cloud",
+	  "text": "Summon Hell Cloud on target position every 10 seconds. Higher level increase radius and duration. Max: 3"
+	}
+  ]
+}

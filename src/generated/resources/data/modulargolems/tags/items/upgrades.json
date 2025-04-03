@@ -137,6 +137,18 @@
     {
       "id": "modulargolems:ancient_remnant_sandstorm",
       "required": false
+    },
+    {
+      "id": "modulargolems:fire_blast",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fire_tornado",
+      "required": false
+    },
+    {
+      "id": "modulargolems:hell_cloud",
+      "required": false
     }
   ]
 }

@@ -118,6 +118,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// marks opened inventory
 	public int inventoryTick = 0;
+	public int specialAttackCoolDown = 0;
 
 	protected final PathNavigation waterNavigation;
 	protected final GroundPathNavigation groundNavigation;
@@ -456,6 +457,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.tick();
 		if (this.inventoryTick > 0) {
 			this.inventoryTick--;
+		}
+		if (this.specialAttackCoolDown > 0) {
+			this.specialAttackCoolDown--;
 		}
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {

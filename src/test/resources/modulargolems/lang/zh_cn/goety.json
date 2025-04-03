@@ -1,9 +1,18 @@
 {
 	"golem_material.goety.cursed_metal": "诅咒金属",
 	"golem_material.goety.dark_metal": "黑暗金属",
+	"item.modulargolems.fire_blast": "使徒升级: 狱火爆破",
+	"item.modulargolems.fire_tornado": "使徒升级: 燃烧龙卷风",
+	"item.modulargolems.hell_cloud": "使徒升级: 狱云",
 	"modifier.modulargolems.fallen_attack": "堕落之刃",
 	"modifier.modulargolems.haunted": "缠魂",
 	"modifier.modulargolems.haunted.desc": "击败敌人时有概率召唤缠魂盔甲仆从。敌人的盔甲越多概率越高",
 	"modifier.modulargolems.soul_repair": "灵魂修补",
-	"modifier.modulargolems.soul_repair.desc": "使用召唤者的灵魂能量修复装备。血量低时也会使用灵魂能量回血"
+	"modifier.modulargolems.soul_repair.desc": "使用召唤者的灵魂能量修复装备。血量低时也会使用灵魂能量回血",
+	"modifier.modulargolems.fire_blast": "狱火爆破",
+	"modifier.modulargolems.fire_blast.desc": "在目标位置召唤狱火爆破",
+	"modifier.modulargolems.fire_tornado": "燃烧龙卷风",
+	"modifier.modulargolems.fire_tornado.desc": "在目标位置召唤燃烧龙卷风",
+	"modifier.modulargolems.hell_cloud": "狱云",
+	"modifier.modulargolems.hell_cloud.desc": "在目标位置召唤狱云"
 }
