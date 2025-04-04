@@ -42,12 +42,12 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -62,7 +62,6 @@ import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -83,7 +82,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 @SerialClass
-public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
+public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
 		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
@@ -168,6 +167,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public boolean hasFlag(GolemFlags flag) {
+		if (golemFlags == null) return false;
 		return golemFlags.contains(flag);
 	}
 
@@ -231,9 +231,27 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	protected void actuallyHurt(DamageSource source, float damage) {
-		if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) damage *= 1000;
-		super.actuallyHurt(source, damage);
+	public boolean hurt(DamageSource source, float amount) {
+		if (level().isClientSide()) return false;
+		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
+			unRide();
+			if (hasFlag(GolemFlags.RECYCLE)) {
+				untrack(GolemTracker.Status.DEATH_RECYCLE, null);
+				Player player = getOwner();
+				if (player != null && player.isAlive()) {
+					ItemStack stack = GolemHolder.setEntity(getThis());
+					player.getInventory().placeItemBackInInventory(stack);
+				}
+			} else {
+				untrack(GolemTracker.Status.DEATH, null);
+			}
+			this.discard();
+			return true;
+		}
+		return super.hurt(source, amount);
+	}
+
+	protected void postHurt(DamageSource source) {
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			Player player = getOwner();
 			unRide();
@@ -823,13 +841,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public void die(DamageSource source) {
+		super.die(source);
+		if (!dead) return;
 		untrack(GolemTracker.Status.DEATH, source.getEntity());
 		ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
 		Player owner = getOwner();
 		if (owner != null && !level().isClientSide) {
 			owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
 		}
-		super.die(source);
 	}
 
 	public double getPerceivedTargetDistanceSquareForMeleeAttack(LivingEntity target) {
@@ -885,10 +904,56 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
+	protected boolean isEffectImmune() {
+		return hasFlag(GolemFlags.EFFECT_IMMUNE);
+	}
+
+	@Override
 	public void makeStuckInBlock(BlockState state, Vec3 vec) {
 		if (hasFlag(GolemFlags.FREE_MOVE)) return;
 		super.makeStuckInBlock(state, vec);
 	}
 
+	@Override
+	public void onRemove(RemovalReason reason) {
+		if (reason.shouldDestroy())
+			untrackRemoved();
+	}
+
+	@Override
+	protected void tickDeath() {
+		untrackRemoved();
+		super.tickDeath();
+	}
+
+	private void untrackRemoved() {
+		if (level().isClientSide()) return;
+		var id = getOwnerUUID();
+		if (id == null || id.equals(Util.NIL_UUID)) return;
+		if (getOwner() instanceof FakePlayer) return;
+		var tracker = GolemConfigStorage.get(level()).getTracker(id);
+		if (tracker.isUntracked(this)) return;
+		ModularGolems.LOGGER.info("Golem {} is forcefully removed ", this);
+		Player owner = getOwner();
+		if (owner != null) {
+			owner.sendSystemMessage(Component.literal("Golem " + this + " is forcefully removed"));
+		}
+		Entity cause = null;
+		if (getLastHurtByMobTimestamp() == tickCount) {
+			cause = getLastHurtByMob();
+		}
+		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
+			untrack(GolemTracker.Status.DEATH_RECYCLE, cause);
+			ItemStack stack = GolemHolder.setEntity(getThis());
+			if (owner != null && owner.isAlive()) {
+				owner.getInventory().placeItemBackInInventory(stack);
+			} else {
+				spawnAtLocation(stack);
+			}
+			level().broadcastEntityEvent(this, EntityEvent.POOF);
+		} else {
+			tracker.untrack(this, GolemTracker.Status.DEATH, cause);
+		}
+	}
 
 }

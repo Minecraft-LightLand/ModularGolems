@@ -23,7 +23,7 @@ public class LCCompatRegistry {
 	public static final RegistryEntry<SoulFlameModifier> FLAME;
 	public static final RegistryEntry<EnderTeleportModifier> TELEPORT;
 	public static final RegistryEntry<PotionAttackModifier> CURSE, INCARCERATE;
-	public static final RegistryEntry<PotionDefenseModifier> CLEANSE;
+	public static final RegistryEntry<CleanseModifier> CLEANSE;
 	public static final RegistryEntry<TargetBonusModifier> POSEIDITE, TOTEMIC_GOLD;
 
 	public static final ItemEntry<SimpleUpgradeItem> FORCE_FIELD, FREEZE_UP, FLAME_UP, TELEPORT_UP, ATK_UP, SPEED_UP,
@@ -44,7 +44,7 @@ public class LCCompatRegistry {
 				"Deal %s%% more damage to mobs sensitive to water or water based mobs");
 		TOTEMIC_GOLD = reg("totemic_gold", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.UNDEAD),
 				"Deal %s%% more damage to undead mobs");
-		CLEANSE = reg("cleanse", () -> new PotionDefenseModifier(1, LCEffects.CLEANSE::get), "Potion Upgrade: Cleanse", null);
+		CLEANSE = reg("cleanse", CleanseModifier::new, "Potion Upgrade: Cleanse", null);
 
 		FORCE_FIELD = regModUpgrade("force_field", () -> GolemModifiers.PROJECTILE_REJECT, LCDispatch.MODID).lang("Wither Armor Upgrade").register();
 		FREEZE_UP = regModUpgrade("freezing", () -> FREEZE, LCDispatch.MODID).lang("Potion Upgrade: Freezing").register();

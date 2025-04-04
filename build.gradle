@@ -172,6 +172,13 @@ repositories {
         url 'https://maven.tterrag.com/'
     }
     maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+    maven {
         url 'https://www.cursemaven.com'
         content {
             includeGroup "curse.maven"

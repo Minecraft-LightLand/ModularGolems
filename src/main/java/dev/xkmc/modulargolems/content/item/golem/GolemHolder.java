@@ -155,7 +155,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			assert rl != null;
 			uplist.add(StringTag.valueOf(rl.toString()));
 		}
-		entity.save(tag.getSubTag(KEY_ENTITY).getOrCreate());
+		var entityTag = tag.getSubTag(KEY_ENTITY).getOrCreate();
+		entity.save(entityTag);
+
 		var name = entity.getCustomName();
 		if (name != null) stack.setHoverName(name);
 		return stack;

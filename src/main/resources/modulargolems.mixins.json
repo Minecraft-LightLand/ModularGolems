@@ -6,6 +6,7 @@
 	"refmap": "modulargolems.refmap.json",
 	"mixins": [
 		"BeltDeployerCallbacksMixin",
+		"EntityMixin",
 		"ExperienceOrbAccessor",
 		"LivingEntityMixin",
 		"PlayerMixin",

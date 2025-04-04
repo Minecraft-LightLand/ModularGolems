@@ -71,6 +71,12 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		return null;
 	}
 
+	@Override
+	protected void setupRotations(T e, PoseStack p_115318_, float p_115319_, float p_115320_, float p_115321_) {
+		e.validateData();
+		super.setupRotations(e, p_115318_, p_115319_, p_115320_, p_115321_);
+	}
+
 	protected void renderAllParts(PoseStack pose, MultiBufferSource buffer, int light, T entity, float pTick) {
 		if (delegated(entity)) return;
 		var player = Proxy.getClientPlayer();
