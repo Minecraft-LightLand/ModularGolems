@@ -123,11 +123,12 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 			}
 		}
 		if (golem instanceof MetalGolemEntity) {//TODO use events
+
 			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
 				return mgai.getSlot();
 			} else if (stack.getItem() instanceof MetalGolemBeaconItem) {
 				return EquipmentSlot.FEET;
-			} else if (stack.getItem() instanceof MetalGolemWeaponItem) {
+			} else if (stack.getItem() instanceof MetalGolemWeaponItem || stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
 				return EquipmentSlot.MAINHAND;
 			} else if (stack.getItem() instanceof BannerItem) {
 				if (golem.getItemBySlot(EquipmentSlot.HEAD).isEmpty())

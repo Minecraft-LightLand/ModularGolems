@@ -61,7 +61,7 @@ public class GolemModifiers {
 		MAGIC_RES = reg("magic_resistant", MagicResistanceModifier::new,
 				"Magic damage taken reduced to %s%% of original");
 		RECYCLE = reg("recycle", () -> new SimpleFlagModifier(StatFilterType.HEALTH, GolemFlags.RECYCLE),
-				"Drop golem holder of 0 health when killed. Holder will return to inventory is player is present.");
+				"Drop golem holder of 0 health when killed. Holder will return to inventory if player is present.");
 		ARMOR = reg("armor_up", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, () -> 10)
 		));

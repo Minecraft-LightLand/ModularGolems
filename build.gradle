@@ -190,7 +190,7 @@ dependencies {
     implementation "curse.maven:lendercataclysm-551586:6208715"
     runtimeOnly "curse.maven:create-328085:6323264"
 
-    compileOnly("com.simibubi.create:create-1.21.1:6.0.1-13") { transitive = false }
+    compileOnly("com.simibubi.create:create-1.21.1:6.0.4-53") { transitive = false }
     compileOnly("net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.39") { transitive = false }
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.0-10")
 
