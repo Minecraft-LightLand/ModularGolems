@@ -1,3 +1,6 @@
+3.0.19
+- Fix Cursium golem log spam with Apotheosis weapons
+
 3.0.18
 - Fix Crash when golem hold multishot crossbow
 - Fix Large golem not able to hold some Cataclysm weapon
