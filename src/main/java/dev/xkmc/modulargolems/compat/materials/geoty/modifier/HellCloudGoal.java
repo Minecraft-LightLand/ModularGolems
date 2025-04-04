@@ -17,8 +17,9 @@ public class HellCloudGoal extends BaseRangedAttackGoal {
 	@Override
 	protected void performAttack(LivingEntity target) {
 		HellCloud hellCloud = new HellCloud(golem.level(), golem, target);
-		hellCloud.setRadius(3 + lv);
-		hellCloud.setLifeSpan(100 + 40 * lv);
+		hellCloud.setRadius(3.5f + lv * 0.5f);
+		hellCloud.setLifeSpan(100 + 20 * lv);
+		hellCloud.setExtraDamage(1 + (lv - 1) * 0.5f);
 		golem.level().addFreshEntity(hellCloud);
 	}
 }

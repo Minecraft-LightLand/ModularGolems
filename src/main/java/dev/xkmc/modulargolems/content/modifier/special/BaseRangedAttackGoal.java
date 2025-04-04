@@ -11,13 +11,13 @@ public abstract class BaseRangedAttackGoal extends Goal {
 	protected final AbstractGolemEntity<?, ?> golem;
 	protected final int lv;
 
-	private int attackTime;
+	private long attackTime;
 
 	public BaseRangedAttackGoal(int waitTime, int near, int far, AbstractGolemEntity<?, ?> golem, int lv) {
 		this.golem = golem;
 		this.lv = lv;
 		this.waitTime = waitTime;
-		this.attackTime = waitTime;
+		this.attackTime = 0;
 		this.near = near * near;
 		this.far = far * far;
 	}
@@ -39,7 +39,9 @@ public abstract class BaseRangedAttackGoal extends Goal {
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	public void start() {
-		this.attackTime = waitTime;
+		if (attackTime == 0) {
+			this.attackTime = golem.level().getGameTime() + waitTime;
+		}
 	}
 
 	/**
@@ -56,11 +58,11 @@ public abstract class BaseRangedAttackGoal extends Goal {
 	 * Keep ticking a continuous task that has already been started
 	 */
 	public void tick() {
-		--this.attackTime;
 		LivingEntity le = golem.getTarget();
-		if (attackTime <= 0 && le != null && le.isAlive() && golem.specialAttackCoolDown <= 0) {
+		long time = golem.level().getGameTime();
+		if (attackTime <= time && le != null && le.isAlive() && golem.specialAttackCoolDown <= 0) {
 			performAttack(le);
-			this.attackTime = waitTime;
+			this.attackTime = time + waitTime;
 			golem.specialAttackCoolDown = 20;
 		}
 		super.tick();

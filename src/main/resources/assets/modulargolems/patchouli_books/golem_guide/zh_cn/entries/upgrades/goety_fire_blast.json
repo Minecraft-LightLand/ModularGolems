@@ -1,13 +1,13 @@
 {
   "flag": "mod:goety",
-  "name": "使徒升级: 狱火爆破",
+  "name": "使徒升级: 炎爆",
   "icon": "modulargolems:fire_blast",
   "category": "modulargolems:upgrades",
   "pages": [
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:fire_blast",
-	  "text": "每10秒在目标位置召唤狱火爆破。高等级提高范围。最高3级"
+	  "text": "每10秒在前方召唤炎爆陷阱。高等级提高范围。最高3级 $(li)范围: 3 - 6格 $(li)伤害: 等同傀儡近战伤害"
 	}
   ]
 }

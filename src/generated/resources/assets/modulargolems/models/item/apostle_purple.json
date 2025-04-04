@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "goety:item/upgrades/apostle",
+    "layer1": "modulargolems:item/purple_arrow"
+  }
+}

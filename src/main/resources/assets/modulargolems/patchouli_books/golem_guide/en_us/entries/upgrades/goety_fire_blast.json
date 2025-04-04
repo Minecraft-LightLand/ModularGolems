@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:fire_blast",
-	  "text": "Summon Fire Blast Trap on target position every 10 seconds. Higher level increase radius of the trap. Max: 3"
+	  "text": "Summon Fire Blast Trap in the front every 10 seconds. Higher level increase radius and reach of the trap. Max: 3$(li)Range: 3 - 6 blocks $(li)Damage: same as golem attack damage"
 	}
   ]
 }

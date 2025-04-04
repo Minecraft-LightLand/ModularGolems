@@ -35,7 +35,7 @@ public class GoetyDispatch extends ModDispatch {
 						GoetyCompatRegistry.UPGRADE_BLAST.get())::unlockedBy, ModItems.UNHOLY_BLOOD.get())
 				.requires(GolemItems.EMPTY_UPGRADE)
 				.requires(ModItems.UNHOLY_BLOOD.get())
-				.requires(ModItems.LAVABALL_FOCUS.get())
+				.requires(ModItems.FIRE_BLAST_FOCUS.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 		RecipeGen.unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT,
@@ -52,6 +52,12 @@ public class GoetyDispatch extends ModDispatch {
 				.requires(ModItems.UNHOLY_BLOOD.get())
 				.requires(ModItems.HAIL_FOCUS.get())
 				.requires(Items.LAVA_BUCKET)
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		RecipeGen.unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT,
+						GoetyCompatRegistry.UPGRADE_APOSTLE.get())::unlockedBy, ModItems.UNHOLY_HAT.get())
+				.requires(GolemItems.EMPTY_UPGRADE)
+				.requires(ModItems.UNHOLY_HAT.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 	}
 

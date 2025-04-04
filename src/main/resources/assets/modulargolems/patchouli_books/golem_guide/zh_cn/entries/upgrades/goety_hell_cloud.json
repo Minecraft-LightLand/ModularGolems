@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:hell_cloud",
-	  "text": "每10秒在目标位置召唤狱云。高等级提高范围和持续时间。最高3级"
+	  "text": "每10秒在目标位置召唤狱云。高等级提高范围和持续时间。最高5级$(li)半径: 4 - 6格 $(li)持续时间: 6 - 10秒 $(li)伤害: 2 - 4"
 	}
   ]
 }

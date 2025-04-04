@@ -149,6 +149,10 @@
     {
       "id": "modulargolems:hell_cloud",
       "required": false
+    },
+    {
+      "id": "modulargolems:apostle",
+      "required": false
     }
   ]
 }

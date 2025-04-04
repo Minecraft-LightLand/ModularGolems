@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:hell_cloud",
-	  "text": "Summon Hell Cloud on target position every 10 seconds. Higher level increase radius and duration. Max: 3"
+	  "text": "Summon Hell Cloud on target position every 10 seconds. Higher level increase radius, duration, and damage. Max: 5$(li)Radius: 4 - 6 blocks $(li)Duration: 6 - 10 seconds $(li)Damage: 2 - 4"
 	}
   ]
 }

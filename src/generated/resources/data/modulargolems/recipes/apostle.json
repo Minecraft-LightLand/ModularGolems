@@ -12,13 +12,10 @@
       "item": "modulargolems:empty_upgrade"
     },
     {
-      "item": "goety:unholy_blood"
-    },
-    {
-      "item": "goety:fire_blast_focus"
+      "item": "goety:unholy_hat"
     }
   ],
   "result": {
-    "item": "modulargolems:fire_blast"
+    "item": "modulargolems:apostle"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "Apostle Ascension Upgrade",
+  "icon": "modulargolems:apostle",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:apostle",
+	  "text": "Apostle Upgrades now no longer consume upgrade slot"
+	}
+  ]
+}

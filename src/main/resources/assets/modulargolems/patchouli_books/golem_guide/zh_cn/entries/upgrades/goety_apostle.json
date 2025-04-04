@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "使徒晋升升级",
+  "icon": "modulargolems:apostle",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:apostle",
+	  "text": "使徒升级不再消耗升级槽"
+	}
+  ]
+}

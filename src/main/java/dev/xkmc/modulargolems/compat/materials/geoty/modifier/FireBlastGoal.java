@@ -10,7 +10,7 @@ public class FireBlastGoal extends BaseRangedAttackGoal {
 	private int lv;
 
 	public FireBlastGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(200, 2, 35, golem, lv);
+		super(200, 0, 2 + lv, golem, lv);
 		this.lv = lv;
 	}
 

@@ -7,10 +7,10 @@ import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.function.BiConsumer;
 
-public class HellCloudModifier extends GolemModifier {
+public class HellCloudModifier extends GolemModifier implements IApostleModifier {
 
 	public HellCloudModifier() {
-		super(StatFilterType.MASS, 3);
+		super(StatFilterType.MASS, 5);
 	}
 
 	@Override
