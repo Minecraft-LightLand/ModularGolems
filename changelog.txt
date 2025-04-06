@@ -1,3 +1,9 @@
+2.5.12
+- Add Wroughtnaut golem for Mowzie's Mobs
+- Fix Cursium attack modifier log spam
+- Fix melee special weapons triggering magnetic golem's range attack mode
+- Golem recycle upgrade and death tracker will react properly when golem is forcefully removed
+
 2.5.11
 - Fix Crash when golem hold multishot crossbow
 - Add 4 Goety upgrades
@@ -12,6 +18,7 @@
 - Allow curios to be rendered on humanoid golems
 - Add Goety Golems
 
+
 2.5.8
 - Add Ice and Fire Dragonsteel Golems
 
@@ -21,7 +28,6 @@
 - Add golem substitution recipes
 - Allow large golems to use some weapons from Cataclysm
 - Fix patrolling golems not attacking
-
 
 2.5.6
 - Fix crash when Cataclysm or Tinkers Construct is installed but not L2Complements

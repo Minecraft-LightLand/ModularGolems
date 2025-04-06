@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
+import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
 import net.minecraft.data.DataGenerator;
@@ -37,7 +38,7 @@ public class ACDispatch extends ModDispatch {
 				.define('B', ACBlockRegistry.CANDY_CANE_BLOCK.get())
 				.define('C', ACItemRegistry.CARAMEL.get())
 				.define('D', ACBlockRegistry.LICOROOT.get())
-				.save(pvd);
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC,
 								ACCompatRegistry.CRAFT_CANDY.get(), 3)::unlockedBy,
@@ -48,7 +49,7 @@ public class ACDispatch extends ModDispatch {
 				.define('G', ACBlockRegistry.SUGAR_GLASS.get())
 				.define('Z', ACItemRegistry.HOT_CHOCOLATE_BOTTLE.get())
 				.define('C', ACItemRegistry.RADIANT_ESSENCE.get())
-				.save(pvd);
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC,
 								ACCompatRegistry.REPAIR_MAGNETIC.get())::unlockedBy,
@@ -58,7 +59,7 @@ public class ACDispatch extends ModDispatch {
 				.define('S', ACItemRegistry.SCARLET_NEODYMIUM_INGOT.get())
 				.define('B', ACItemRegistry.FERROUSLIME_BALL.get())
 				.define('C', ACBlockRegistry.PACKED_GALENA.get())
-				.save(pvd);
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC,
 								ACCompatRegistry.CRAFT_MAGNETIC.get(), 3)::unlockedBy,
@@ -68,7 +69,7 @@ public class ACDispatch extends ModDispatch {
 				.define('T', ACItemRegistry.TELECORE.get())
 				.define('N', ACItemRegistry.NOTOR_COMPONENT.get())
 				.define('C', ACBlockRegistry.HEART_OF_IRON.get())
-				.save(pvd);
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC,
 								ACCompatRegistry.CRAFT_NUCLEAR.get(), 3)::unlockedBy,
@@ -78,7 +79,7 @@ public class ACDispatch extends ModDispatch {
 				.define('B', ACItemRegistry.CHARRED_REMNANT.get())
 				.define('C', ACBlockRegistry.URANIUM_ROD.get())
 				.define('D', ACItemRegistry.FISSILE_CORE.get())
-				.save(pvd);
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 	}
 
 	@Override

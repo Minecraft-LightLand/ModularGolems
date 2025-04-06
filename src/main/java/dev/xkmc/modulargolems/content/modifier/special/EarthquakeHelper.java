@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class EarthquakeHelper {
 
 	public static final byte FLAG = 83;
-	public static final double RANGE = 5;
 
 	public static void performEarthQuake(AbstractGolemEntity<?, ?> golem) {
 		for (var e : golem.getModifiers().entrySet()) {
@@ -58,9 +57,22 @@ public class EarthquakeHelper {
 		e.push(d0 / d2 * f, 0.375 * f, d1 / d2 * f);
 	}
 
+	public static double getExtraRange(AbstractGolemEntity<?,?> golem, LivingEntity target) {
+		for (var e : golem.getModifiers().entrySet()) {
+			if (e.getKey() instanceof Modifier m) {
+				return m.getEarthquakeRange(golem, target, e.getValue());
+			}
+		}
+		return 25;
+	}
+
 	public interface Modifier {
 
 		void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level);
+
+		default double getEarthquakeRange(AbstractGolemEntity<?,?> golem, LivingEntity target, int lv){
+			return 25;
+		}
 
 	}
 

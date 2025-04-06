@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.compat.materials.geoty.GoetyDispatch;
 import dev.xkmc.modulargolems.compat.materials.iceandfire.IAFDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
+import dev.xkmc.modulargolems.compat.materials.mowziesmobs.MowzieDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
@@ -48,6 +49,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(IAFDispatch.MODID)) LIST.add(new IAFDispatch());
 		if (ModList.get().isLoaded(TCDispatch.MODID)) LIST.add(new TCDispatch());
 		if (ModList.get().isLoaded(GoetyDispatch.MODID)) LIST.add(new GoetyDispatch());
+		if (ModList.get().isLoaded(MowzieDispatch.MODID)) LIST.add(new MowzieDispatch());
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
 	}
 

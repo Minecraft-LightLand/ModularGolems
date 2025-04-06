@@ -153,6 +153,10 @@
     {
       "id": "modulargolems:apostle",
       "required": false
+    },
+    {
+      "id": "modulargolems:wroughtnaut",
+      "required": false
     }
   ]
 }

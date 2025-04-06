@@ -8,6 +8,7 @@ import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.*;
+import dev.xkmc.modulargolems.content.modifier.common.AttackBypassArmorModifier;
 import dev.xkmc.modulargolems.content.modifier.common.BellModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
@@ -48,6 +49,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED, SIZE_UPGRADE;
 	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
 	public static final RegistryEntry<RideUpgrade> MOUNT_UPGRADE;
+	public static final RegistryEntry<AttackBypassArmorModifier> ARMOR_BYPASS;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
@@ -133,6 +135,9 @@ public class GolemModifiers {
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE, () -> 0.5),
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, () -> 0.5)
 		)).register();
+
+		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
+				"Armor Penetration","Attack has %s%% chance to bypass armor and shields");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {

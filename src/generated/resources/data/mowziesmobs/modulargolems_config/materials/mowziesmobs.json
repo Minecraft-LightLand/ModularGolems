@@ -1,0 +1,26 @@
+{
+  "ingredients": {
+    "mowziesmobs:wroughtnaut": {
+      "item": "modulargolems:wroughtnaut_ingot"
+    }
+  },
+  "modifiers": {
+    "mowziesmobs:wroughtnaut": {
+      "modulargolems:armor_penetration": 1,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:magic_resistant": 2,
+      "modulargolems:wroughtnaut": 1
+    }
+  },
+  "repairIngredients": {
+    "mowziesmobs:wroughtnaut": {
+      "item": "modulargolems:wroughtnaut_ingot"
+    }
+  },
+  "stats": {
+    "mowziesmobs:wroughtnaut": {
+      "modulargolems:attack": 25.0,
+      "modulargolems:max_health": 360.0
+    }
+  }
+}

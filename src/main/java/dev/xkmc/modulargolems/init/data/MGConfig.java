@@ -59,6 +59,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue targetDamageBonus;
 		public final ForgeConfigSpec.IntValue basePickupRange;
 		public final ForgeConfigSpec.IntValue mendingXpCost;
+		public final ForgeConfigSpec.DoubleValue armorBypassChance;
 
 		public final ForgeConfigSpec.IntValue summonDistance;
 		public final ForgeConfigSpec.IntValue retrieveDistance;
@@ -153,6 +154,8 @@ public class MGConfig {
 							.defineInRange("damageCap", 0.1d, 0, 1);
 					thunderHeal = builder.comment("Healing when thunder immune golems are striked")
 							.defineInRange("thunderHeal", 10, 1, 10000);
+					armorBypassChance = builder.comment("Armor Penetration modifier: chance for damage to bypass armor per level")
+							.defineInRange("armorBypassChance", 0.2, 0, 1);
 				}
 				builder.pop();
 
