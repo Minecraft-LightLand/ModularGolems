@@ -198,12 +198,9 @@ public class RecipeGen {
 						.save(pvd, GolemItems.HOLDER_DOG.getId().withSuffix("_replace_legs"));
 			}
 
-			expand(pvd, GolemItems.HOLDER_GOLEM, GolemItems.ADD_DIAMOND);
-			expand(pvd, GolemItems.HOLDER_GOLEM, GolemItems.ADD_NETHERITE);
-			expand(pvd, GolemItems.HOLDER_HUMANOID, GolemItems.ADD_DIAMOND);
-			expand(pvd, GolemItems.HOLDER_HUMANOID, GolemItems.ADD_NETHERITE);
-			expand(pvd, GolemItems.HOLDER_DOG, GolemItems.ADD_DIAMOND);
-			expand(pvd, GolemItems.HOLDER_DOG, GolemItems.ADD_NETHERITE);
+			expand(pvd, GolemItems.HOLDER_GOLEM);
+			expand(pvd, GolemItems.HOLDER_HUMANOID);
+			expand(pvd, GolemItems.HOLDER_DOG);
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.ADD_DIAMOND, 1)::unlockedBy, Items.DIAMOND)
 					.pattern("AAA").pattern("CBC").pattern("ACA")
@@ -540,9 +537,9 @@ public class RecipeGen {
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void
-	expand(RegistrateRecipeProvider pvd, ItemEntry<GolemHolder<T, P>> holder, ItemEntry<?> template) {
-		unlock(pvd, new GolemSmithBuilder(holder.get(), template)::unlocks, template.get())
-				.save(pvd, template.getId().withSuffix("_" + holder.getId().getPath()));
+	expand(RegistrateRecipeProvider pvd, ItemEntry<GolemHolder<T, P>> holder) {
+		unlock(pvd, new GolemSmithBuilder(holder.get(), MGTagGen.EXPANSION)::unlocks, holder.get())
+				.save(pvd, ModularGolems.loc("expansion_" + holder.getId().getPath()));
 	}
 
 	@SuppressWarnings("ConstantConditions")

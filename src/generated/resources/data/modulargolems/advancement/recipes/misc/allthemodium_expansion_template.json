@@ -1,11 +1,17 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    }
+  ],
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_diamond_expansion_template": {
+    "has_allthemodium_ingot": {
       "conditions": {
         "items": [
           {
-            "items": "modulargolems:diamond_expansion_template"
+            "items": "allthemodium:allthemodium_ingot"
           }
         ]
       },
@@ -13,7 +19,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:diamond_expansion_template_humanoid_golem_holder"
+        "recipe": "modulargolems:allthemodium_expansion_template"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +27,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_diamond_expansion_template"
+      "has_allthemodium_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:diamond_expansion_template_humanoid_golem_holder"
+      "modulargolems:allthemodium_expansion_template"
     ]
   }
 }

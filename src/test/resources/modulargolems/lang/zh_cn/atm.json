@@ -1,0 +1,14 @@
+{
+	"golem_material.allthemodium.allthemodium": "ATM",
+	"golem_material.allthemodium.unobtainium": "难得素",
+	"golem_material.allthemodium.vibranium": "振金",
+	"item.modulargolems.allthemodium_expansion_template": "扩充模版 - ATM",
+	"item.modulargolems.unobtainium_expansion_template": "扩充模版 - 难得素",
+	"item.modulargolems.vibranium_expansion_template": "扩充模版 - 振金",
+	"modifier.modulargolems.add_slot_allthemodium": "升级扩充: ATM",
+	"modifier.modulargolems.add_slot_unobtainium": "升级扩充: 难得素",
+	"modifier.modulargolems.add_slot_vibranium": "升级扩充: 振金",
+	"modifier.modulargolems.add_slot_allthemodium.desc": "+1升级槽。傀儡只能用一个",
+	"modifier.modulargolems.add_slot_unobtainium.desc": "+1升级槽。傀儡只能用一个",
+	"modifier.modulargolems.add_slot_vibranium.desc": "+1升级槽。傀儡只能用一个"
+}

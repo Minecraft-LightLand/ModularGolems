@@ -4,13 +4,13 @@
     "item": "minecraft:iron_ingot"
   },
   "base": {
-    "item": "modulargolems:metal_golem_holder"
+    "item": "modulargolems:humanoid_golem_holder"
   },
   "result": {
     "count": 1,
-    "id": "modulargolems:metal_golem_holder"
+    "id": "modulargolems:humanoid_golem_holder"
   },
   "template": {
-    "item": "modulargolems:netherite_expansion_template"
+    "tag": "modulargolems:expansion_template"
   }
 }

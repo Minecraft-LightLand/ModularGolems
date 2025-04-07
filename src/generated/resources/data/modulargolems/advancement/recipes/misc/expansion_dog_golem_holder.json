@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_diamond_expansion_template": {
+    "has_dog_golem_holder": {
       "conditions": {
         "items": [
           {
-            "items": "modulargolems:diamond_expansion_template"
+            "items": "modulargolems:dog_golem_holder"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:diamond_expansion_template_dog_golem_holder"
+        "recipe": "modulargolems:expansion_dog_golem_holder"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_diamond_expansion_template"
+      "has_dog_golem_holder"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:diamond_expansion_template_dog_golem_holder"
+      "modulargolems:expansion_dog_golem_holder"
     ]
   }
 }

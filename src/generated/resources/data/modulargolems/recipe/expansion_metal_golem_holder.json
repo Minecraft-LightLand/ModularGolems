@@ -11,6 +11,6 @@
     "id": "modulargolems:metal_golem_holder"
   },
   "template": {
-    "item": "modulargolems:diamond_expansion_template"
+    "tag": "modulargolems:expansion_template"
   }
 }

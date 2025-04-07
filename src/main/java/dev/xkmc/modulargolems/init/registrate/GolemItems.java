@@ -264,8 +264,11 @@ public class GolemItems {
 		// upgrades
 		{
 			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
-			ADD_DIAMOND = REGISTRATE.item("diamond_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.DIAMOND_ADD)).defaultModel().defaultLang().register();
-			ADD_NETHERITE = REGISTRATE.item("netherite_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.NETHERITE_ADD)).defaultModel().defaultLang().register();
+			ADD_DIAMOND = REGISTRATE.item("diamond_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.DIAMOND_ADD))
+					.tag(MGTagGen.EXPANSION).defaultModel().defaultLang().register();
+			ADD_NETHERITE = REGISTRATE.item("netherite_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.NETHERITE_ADD))
+					.tag(MGTagGen.EXPANSION).defaultModel().defaultLang().register();
+
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifiers.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
 			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifiers.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
 			RECYCLE = regUpgrade("recycle", () -> GolemModifiers.RECYCLE).lang("Recycle Ugpgrade").register();

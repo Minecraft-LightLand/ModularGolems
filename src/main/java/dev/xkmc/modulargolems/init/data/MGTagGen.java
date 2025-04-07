@@ -45,6 +45,7 @@ public class MGTagGen {
 	public static final TagKey<Item> C_WOLF_ARMORS = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "wolf_armor"));
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
+	public static final TagKey<Item> EXPANSION = createItemTag("expansion_template");
 
 	public static final List<Consumer<RegistrateItemTagsProvider>> OPTIONAL_ITEM = new ArrayList<>();
 	public static final List<Consumer<RegistrateTagsProvider<Block>>> OPTIONAL_BLOCK = new ArrayList<>();

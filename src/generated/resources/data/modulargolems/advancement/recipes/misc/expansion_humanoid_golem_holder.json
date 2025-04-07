@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_netherite_expansion_template": {
+    "has_humanoid_golem_holder": {
       "conditions": {
         "items": [
           {
-            "items": "modulargolems:netherite_expansion_template"
+            "items": "modulargolems:humanoid_golem_holder"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:netherite_expansion_template_humanoid_golem_holder"
+        "recipe": "modulargolems:expansion_humanoid_golem_holder"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_netherite_expansion_template"
+      "has_humanoid_golem_holder"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:netherite_expansion_template_humanoid_golem_holder"
+      "modulargolems:expansion_humanoid_golem_holder"
     ]
   }
 }
