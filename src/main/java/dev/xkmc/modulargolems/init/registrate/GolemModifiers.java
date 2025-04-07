@@ -4,10 +4,11 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
-import dev.xkmc.modulargolems.compat.materials.common.AddSlotModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.*;
+import dev.xkmc.modulargolems.content.modifier.common.AddSlotModifier;
+import dev.xkmc.modulargolems.content.modifier.common.AttackBypassArmorModifier;
 import dev.xkmc.modulargolems.content.modifier.common.BellModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
@@ -49,6 +50,8 @@ public class GolemModifiers {
 	public static final Val<AttributeGolemModifier> ARMOR, TOUGH, DAMAGE, REGEN, SPEED, SIZE_UPGRADE;
 	public static final Val<PotionAttackModifier> SLOW, WEAK, WITHER;
 	public static final Val<RideUpgrade> MOUNT_UPGRADE;
+	public static final Val<AttackBypassArmorModifier> ARMOR_BYPASS;
+	public static final Val<AddSlotModifier> ADD_SLOT;
 	public static final Val<AddSlotModifier> DIAMOND_ADD, NETHERITE_ADD;
 
 	static {
@@ -138,6 +141,10 @@ public class GolemModifiers {
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE, () -> 0.5),
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, () -> 0.5)
 		));
+		ADD_SLOT = reg("add_slot", () -> new AddSlotModifier(20), "Add %s golem upgrade slot");
+		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
+				"Armor Penetration", "Attack has %s%% chance to bypass armor and shields");
+
 	}
 
 	public static <T extends GolemModifier> Val<T> reg(String id, NonNullSupplier<T> sup, @Nullable String name, @Nullable String def) {

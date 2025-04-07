@@ -52,6 +52,8 @@ public class MGConfig {
 		public final ModConfigSpec.DoubleValue targetDamageBonus;
 		public final ModConfigSpec.IntValue basePickupRange;
 		public final ModConfigSpec.IntValue mendingXpCost;
+		public final ModConfigSpec.DoubleValue armorBypassChance;
+
 
 		public final ModConfigSpec.IntValue summonDistance;
 		public final ModConfigSpec.IntValue retrieveDistance;
@@ -139,6 +141,9 @@ public class MGConfig {
 							.defineInRange("basePickupRange", 6, 1, 16);
 					mendingXpCost = builder.text("Mending Xp Cost per health point")
 							.defineInRange("mendingXpCost", 2, 1, 10000);
+					armorBypassChance = builder.text("Armor Penetration modifier: chance for damage to bypass armor per level")
+							.defineInRange("armorBypassChance", 0.2, 0, 1);
+
 				}
 				builder.pop();
 

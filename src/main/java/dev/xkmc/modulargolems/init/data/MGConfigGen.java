@@ -142,9 +142,9 @@ public class MGConfigGen extends ConfigDataProvider {
 				.end()
 
 				.addEntity(GolemTypes.TYPE_DOG.get())
-				.addFilter(GolemTypes.STAT_HEALTH.get(), 0.2)
+				.addFilter(GolemTypes.STAT_HEALTH.get(), 0.4)
 				.addFilter(GolemTypes.STAT_ATTACK.get(), 0.6)
-				.addFilter(GolemTypes.STAT_REGEN.get(), 0.2)
+				.addFilter(GolemTypes.STAT_REGEN.get(), 1)
 				.addFilter(GolemTypes.STAT_SWEEP.get(), 0)
 				.end()
 		);

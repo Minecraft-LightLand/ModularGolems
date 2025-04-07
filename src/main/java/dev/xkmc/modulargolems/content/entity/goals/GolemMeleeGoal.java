@@ -114,7 +114,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 				return;
 			} else {
 				double d0 = this.getAttackReachSqr(target);
-				if (d0 < distSqr && distSqr <= d0 + EarthquakeHelper.RANGE) {
+				if (d0 < distSqr && distSqr <= d0 + EarthquakeHelper.getExtraRange(golem, target)) {
 					golem.addDeltaMovement(new Vec3(0, 1, 0));
 					golem.hasImpulse = true;
 					earthQuake = true;

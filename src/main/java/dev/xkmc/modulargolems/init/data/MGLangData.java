@@ -178,6 +178,14 @@ public enum MGLangData {
 		pvd.add("curios.identifier.golem_skin", "Humanoid Golem Skin");
 		pvd.add("curios.identifier.golem_route", "Golem Patrol Path");
 
+		pvd.add("potion.potency.5", "VI");
+		pvd.add("potion.potency.6", "VII");
+		pvd.add("potion.potency.7", "VIII");
+		pvd.add("potion.potency.8", "IX");
+		pvd.add("potion.potency.9", "X");
+		pvd.add("potion.potency.10", "XI");
+		pvd.add("potion.potency.11", "XII");
+
 		CompatManager.dispatchGenLang(pvd);
 
 		for (var type : MetalGolemPartType.values()) {

@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -51,9 +52,11 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		getMaterial(stack).ifPresent(e -> {
 			GolemMaterial mat = parseMaterial(e);
 			list.add(mat.getDesc());
+			int n = mat.modifiers().size();
 			mat.modifiers().forEach((m, v) -> {
 				list.add(m.getTooltip(v));
-				list.addAll(m.getDetail(v));
+				if (n == 1 || Screen.hasShiftDown())
+					list.addAll(m.getDetail(v));
 			});
 			mat.stats().forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 		});

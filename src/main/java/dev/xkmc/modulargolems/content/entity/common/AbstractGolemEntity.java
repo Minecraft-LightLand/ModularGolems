@@ -165,6 +165,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public boolean hasFlag(GolemFlags flag) {
+		if (golemFlags == null) return false;
 		return golemFlags.contains(flag);
 	}
 
