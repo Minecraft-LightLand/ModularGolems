@@ -1,0 +1,29 @@
+{
+  "flag": "mod:allthemodium",
+  "name": "Vibranium",
+  "icon": "allthemodium:vibranium_ingot",
+  "category": "modulargolems:materials",
+  "sortnum": 1202,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "allthemodium:vibranium_ingot",
+	  "text": "Main material to craft Vibranium golem parts. Insane stats, more slots, and builtin utility"
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"allthemodium:vibranium\"},{part:\"modulargolems:metal_golem_body\",material:\"allthemodium:vibranium\"},{part:\"modulargolems:metal_golem_arm\",material:\"allthemodium:vibranium\"},{part:\"modulargolems:metal_golem_legs\",material:\"allthemodium:vibranium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"allthemodium:vibranium\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"allthemodium:vibranium\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"allthemodium:vibranium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"allthemodium:vibranium\"},{part:\"modulargolems:dog_golem_legs\",material:\"allthemodium:vibranium\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

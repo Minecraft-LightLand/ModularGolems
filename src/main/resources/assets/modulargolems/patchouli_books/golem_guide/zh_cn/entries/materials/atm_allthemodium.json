@@ -1,0 +1,29 @@
+{
+	"flag": "mod:allthemodium",
+	"name": "ATM",
+	"icon": "allthemodium:allthemodium_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1201,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "allthemodium:allthemodium_ingot",
+			"text": "制造ATM傀儡部件的主要材料。极高的数值，更多升级槽位，以及更多的内置词条"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"allthemodium:allthemodium\"},{part:\"modulargolems:metal_golem_body\",material:\"allthemodium:allthemodium\"},{part:\"modulargolems:metal_golem_arm\",material:\"allthemodium:allthemodium\"},{part:\"modulargolems:metal_golem_legs\",material:\"allthemodium:allthemodium\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"allthemodium:allthemodium\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"allthemodium:allthemodium\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"allthemodium:allthemodium\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"allthemodium:allthemodium\"},{part:\"modulargolems:dog_golem_legs\",material:\"allthemodium:allthemodium\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}
