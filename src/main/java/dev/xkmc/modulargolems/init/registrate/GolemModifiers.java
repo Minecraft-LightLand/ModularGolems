@@ -5,6 +5,7 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.base.NamedEntry;
+import dev.xkmc.modulargolems.content.modifier.common.AddSlotModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.*;
@@ -50,6 +51,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<PotionAttackModifier> SLOW, WEAK, WITHER;
 	public static final RegistryEntry<RideUpgrade> MOUNT_UPGRADE;
 	public static final RegistryEntry<AttackBypassArmorModifier> ARMOR_BYPASS;
+	public static final RegistryEntry<AddSlotModifier> ADD_SLOT;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
@@ -135,6 +137,8 @@ public class GolemModifiers {
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SIZE, () -> 0.5),
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, () -> 0.5)
 		)).register();
+
+		ADD_SLOT = reg("add_slot", AddSlotModifier::new, "Add %s golem upgrade slot");
 
 		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
 				"Armor Penetration","Attack has %s%% chance to bypass armor and shields");

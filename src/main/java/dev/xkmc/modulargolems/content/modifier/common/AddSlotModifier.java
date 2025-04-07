@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.common;
+package dev.xkmc.modulargolems.content.modifier.common;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
@@ -12,7 +12,7 @@ import java.util.List;
 public class AddSlotModifier extends GolemModifier {
 
 	public AddSlotModifier() {
-		super(StatFilterType.MASS, MAX_LEVEL);
+		super(StatFilterType.MASS, 20);
 	}
 
 	@Override

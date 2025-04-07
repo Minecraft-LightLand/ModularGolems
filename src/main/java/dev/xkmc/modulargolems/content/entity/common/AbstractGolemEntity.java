@@ -839,18 +839,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return hasFlag(GolemFlags.IMMUNITY);
 	}
 
-	@Override
-	public void die(DamageSource source) {
-		super.die(source);
-		if (!dead) return;
-		untrack(GolemTracker.Status.DEATH, source.getEntity());
-		ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
-		Player owner = getOwner();
-		if (owner != null && !level().isClientSide) {
-			owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
-		}
-	}
-
 	public double getPerceivedTargetDistanceSquareForMeleeAttack(LivingEntity target) {
 		return GolemMeleeGoal.calculateDistSqr(this, target);
 	}
@@ -917,33 +905,53 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public void onRemove(RemovalReason reason) {
 		if (reason.shouldDestroy())
-			untrackRemoved();
+			untrackRemoved(null);
+	}
+
+	@Override
+	public boolean specialDeath(DamageSource source) {
+		if (untrackRemoved(source)) {
+			dead = true;
+			discard();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	protected void tickDeath() {
-		untrackRemoved();
+		if (untrackRemoved(null)) {
+			discard();
+		}
 		super.tickDeath();
 	}
 
-	private void untrackRemoved() {
-		if (level().isClientSide()) return;
+	private boolean untrackRemoved(@Nullable DamageSource source) {
+		if (level().isClientSide()) return false;
 		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID)) return;
-		if (getOwner() instanceof FakePlayer) return;
+		if (id == null || id.equals(Util.NIL_UUID)) return false;
+		if (getOwner() instanceof FakePlayer) return false;
 		var tracker = GolemConfigStorage.get(level()).getTracker(id);
-		if (tracker.isUntracked(this)) return;
-		ModularGolems.LOGGER.info("Golem {} is forcefully removed ", this);
+		if (tracker.isUntracked(this)) return false;
 		Player owner = getOwner();
-		if (owner != null) {
-			owner.sendSystemMessage(Component.literal("Golem " + this + " is forcefully removed"));
-		}
 		Entity cause = null;
-		if (getLastHurtByMobTimestamp() == tickCount) {
-			cause = getLastHurtByMob();
+		if (source != null) {
+			ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
+			if (owner != null) {
+				owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
+			}
+			cause = source.getEntity();
+		} else {
+			ModularGolems.LOGGER.info("Golem {} is forcefully removed ", this);
+			if (owner != null) {
+				owner.sendSystemMessage(Component.literal("Golem " + this + " is forcefully removed"));
+			}
+			if (getLastHurtByMobTimestamp() == tickCount) {
+				cause = getLastHurtByMob();
+			}
 		}
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
-			untrack(GolemTracker.Status.DEATH_RECYCLE, cause);
+			tracker.untrack(this, GolemTracker.Status.DEATH_RECYCLE, cause);
 			ItemStack stack = GolemHolder.setEntity(getThis());
 			if (owner != null && owner.isAlive()) {
 				owner.getInventory().placeItemBackInInventory(stack);
@@ -951,8 +959,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				spawnAtLocation(stack);
 			}
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
+			return true;
 		} else {
 			tracker.untrack(this, GolemTracker.Status.DEATH, cause);
+			return false;
 		}
 	}
 

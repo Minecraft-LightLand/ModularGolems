@@ -86,6 +86,8 @@
 		"ridding_speed_up.desc": "傀儡不会攻击也不会成为攻击对象",
 		"size_up": "体型升级",
 		"armor_penetration": "护甲穿透",
-		"armor_penetration.desc": "攻击有%s%%概率穿透护甲和盾牌"
+		"armor_penetration.desc": "攻击有%s%%概率穿透护甲和盾牌",
+		"add_slot": "额外升级",
+		"add_slot.desc": "提供%s个额外傀儡升级槽"
 	}
 }

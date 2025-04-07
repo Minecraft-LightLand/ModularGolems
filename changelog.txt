@@ -1,5 +1,7 @@
 2.5.12
+- Buff Dog Golem
 - Add Wroughtnaut golem for Mowzie's Mobs
+- Add 3 ATM golems
 - Fix Cursium attack modifier log spam
 - Fix melee special weapons triggering magnetic golem's range attack mode
 - Golem recycle upgrade and death tracker will react properly when golem is forcefully removed

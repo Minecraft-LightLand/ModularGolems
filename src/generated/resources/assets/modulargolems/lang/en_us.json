@@ -73,6 +73,9 @@
   "golem_material.alexscaves.candy": "Candy",
   "golem_material.alexscaves.magnetic": "Magnetic",
   "golem_material.alexscaves.nuclear": "Nuclear",
+  "golem_material.allthemodium.allthemodium": "Allthemodium",
+  "golem_material.allthemodium.unobtainium": "Unobtainium",
+  "golem_material.allthemodium.vibranium": "Vibranium",
   "golem_material.blazegear.brimsteel": "Brimsteel",
   "golem_material.botania.elementium": "Elementium",
   "golem_material.botania.manasteel": "Manasteel",
@@ -547,5 +550,12 @@
   "modulargolems.wand.summon_shift": "Summon all golems from your inventory.",
   "modulargolems.wand.switch": "Scroll or use up/down arrow key to switch between modes",
   "patchouli.modulargolems.landing": "Welcome to Tinker-like golem assembly and upgrade mod",
-  "patchouli.modulargolems.title": "Modular Golem Guide"
+  "patchouli.modulargolems.title": "Modular Golem Guide",
+  "potion.potency.10": "XI",
+  "potion.potency.11": "XII",
+  "potion.potency.5": "VI",
+  "potion.potency.6": "VII",
+  "potion.potency.7": "VIII",
+  "potion.potency.8": "IX",
+  "potion.potency.9": "X"
 }

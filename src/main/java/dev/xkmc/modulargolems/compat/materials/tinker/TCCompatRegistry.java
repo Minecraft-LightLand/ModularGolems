@@ -4,7 +4,6 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
-import dev.xkmc.modulargolems.compat.materials.common.AddSlotModifier;
 import dev.xkmc.modulargolems.compat.materials.tinker.effect.HepatizonDefenseEffect;
 import dev.xkmc.modulargolems.compat.materials.tinker.effect.ManyullynEffect;
 import dev.xkmc.modulargolems.compat.materials.tinker.modifier.HepatizonDefenseModifier;
@@ -23,7 +22,6 @@ public class TCCompatRegistry {
 	public static final RegistryEntry<ManyullynAttackModifier> MANYULLYN_ATTACK;
 	public static final RegistryEntry<ManyullynDefenseModifier> MANYULLYN_DEFENSE;
 	public static final RegistryEntry<HepatizonDefenseModifier> HEPATIZON_DEFENSE;
-	public static final RegistryEntry<AddSlotModifier> ADD_SLOT;
 
 	public static final RegistryEntry<ManyullynEffect> EFF_MANYULLYN;
 	public static final RegistryEntry<HepatizonDefenseEffect> EFF_HEPATIZON;
@@ -32,7 +30,6 @@ public class TCCompatRegistry {
 		MANYULLYN_ATTACK = reg("manyullyn_attack", ManyullynAttackModifier::new, "Increase golem attack temporarily after inflicting damage");
 		MANYULLYN_DEFENSE = reg("manyullyn_defense", ManyullynDefenseModifier::new, "Increase golem attack temporarily after taking damage");
 		HEPATIZON_DEFENSE = reg("hepatizon_defense", HepatizonDefenseModifier::new, "Increase golem armor temporarily after taking damage");
-		ADD_SLOT = reg("add_slot", AddSlotModifier::new, "Add %s golem upgrade slot");
 
 		EFF_MANYULLYN = genEffect("manyullyn_effect", () -> new ManyullynEffect(MobEffectCategory.BENEFICIAL, 0xffffffff),
 				"Increase golem attack damage");

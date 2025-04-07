@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.compat.materials.mowziesmobs;
 
-import com.Polarice3.Goety.common.items.ModItems;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -24,7 +23,8 @@ public class MowziesConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_HEALTH.get(), 360)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 25)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
-				.addModifier(GolemModifiers.MAGIC_RES.get(), 2)
+				.addModifier(GolemModifiers.MAGIC_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 1)
 				.addModifier(MowzieCompatRegistry.AXE_SLAM.get(), 1)
 				.end()

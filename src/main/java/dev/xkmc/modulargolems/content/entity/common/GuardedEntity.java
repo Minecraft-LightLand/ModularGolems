@@ -1,12 +1,15 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -82,7 +85,7 @@ public class GuardedEntity extends AbstractGolem {
 			if (isInvulnerable())
 				amount = Math.max(amount, Math.max(1, getMaxHealth() * 0.01f));
 		}
-		setHealth(getHealth() - amount);
+		super.setHealth(getHealth() - amount);
 		postHurt(source);
 	}
 
@@ -101,7 +104,7 @@ public class GuardedEntity extends AbstractGolem {
 		}
 		float health = getHealth();
 		if (tickCount > 5 && amount <= health) return;
-		setHealth(amount);
+		super.setHealth(amount);
 	}
 
 	public final void heal(float original) {
@@ -119,7 +122,36 @@ public class GuardedEntity extends AbstractGolem {
 	@Override
 	public void die(DamageSource source) {
 		if (getHealth() > 0) return;
-		super.die(source);
+		if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, source)) return;
+		if (specialDeath(source)) return;
+		if (isRemoved() || dead) return;
+		Entity entity = source.getEntity();
+		LivingEntity livingentity = this.getKillCredit();
+		if (this.deathScore >= 0 && livingentity != null) {
+			livingentity.awardKillScore(this, this.deathScore, source);
+		}
+		if (this.isSleeping()) {
+			this.stopSleeping();
+		}
+
+		this.dead = true;
+		this.getCombatTracker().recheckStatus();
+		Level level = this.level();
+		if (level instanceof ServerLevel) {
+			ServerLevel serverlevel = (ServerLevel) level;
+			if (entity == null || entity.killedEntity(serverlevel, this)) {
+				this.gameEvent(GameEvent.ENTITY_DIE);
+				this.dropAllDeathLoot(source);
+				this.createWitherRose(livingentity);
+			}
+
+			this.level().broadcastEntityEvent(this, (byte) 3);
+		}
+		this.setPose(Pose.DYING);
+	}
+
+	public boolean specialDeath(DamageSource source) {
+		return false;
 	}
 
 	@MustBeInvokedByOverriders

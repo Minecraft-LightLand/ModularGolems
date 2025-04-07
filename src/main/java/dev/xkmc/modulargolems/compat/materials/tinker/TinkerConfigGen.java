@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.compat.materials.tinker;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -45,7 +46,7 @@ public class TinkerConfigGen extends ConfigDataProvider {
 				.addMaterial(new ResourceLocation(TCDispatch.MODID, "rose_gold"), Ingredient.of(TCDispatch.ROSE_GOLD))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 40)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
-				.addModifier(TCCompatRegistry.ADD_SLOT.get(), 1)
+				.addModifier(GolemModifiers.ADD_SLOT.get(), 1)
 				.end()
 		);
 	}

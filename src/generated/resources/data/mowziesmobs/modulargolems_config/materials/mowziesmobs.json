@@ -8,7 +8,8 @@
     "mowziesmobs:wroughtnaut": {
       "modulargolems:armor_penetration": 1,
       "modulargolems:fire_immune": 1,
-      "modulargolems:magic_resistant": 2,
+      "modulargolems:magic_immune": 1,
+      "modulargolems:projectile_reject": 1,
       "modulargolems:wroughtnaut": 1
     }
   },

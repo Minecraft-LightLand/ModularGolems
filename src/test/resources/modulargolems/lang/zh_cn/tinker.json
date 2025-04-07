@@ -8,8 +8,6 @@
 	"effect.modulargolems.hepatizon_effect.description": "提升傀儡护甲",
 	"effect.modulargolems.manyullyn_effect": "贪婪",
 	"effect.modulargolems.manyullyn_effect.description": "提升傀儡伤害",
-	"modifier.modulargolems.add_slot": "额外升级",
-	"modifier.modulargolems.add_slot.desc": "提供%s个额外傀儡升级槽",
 	"modifier.modulargolems.hepatizon_defense": "重复保护",
 	"modifier.modulargolems.hepatizon_defense.desc": "受到伤害后暂时提升护甲",
 	"modifier.modulargolems.manyullyn_attack": "贪婪",

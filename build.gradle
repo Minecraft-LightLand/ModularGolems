@@ -276,6 +276,8 @@ dependencies {
     compileOnly fg.deobf("com.iafenvoy:iceandfire:1.0-1.20.1-forge")
 
     implementation fg.deobf("curse.maven:mowzies-mobs-250498:6224182")
+    implementation fg.deobf("curse.maven:ato-405593:5348605")
+    implementation fg.deobf("curse.maven:allthemodium-364466:6389531")
 
 }
 
