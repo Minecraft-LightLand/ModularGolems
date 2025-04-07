@@ -180,6 +180,8 @@
   "modulargolems.configuration.thunderHeal.tooltip": "范围: 1 ~ 10000",
   "modulargolems.configuration.mendingXpCost": "每点生命值的修复经验成本",
   "modulargolems.configuration.mendingXpCost.tooltip": "范围: 1 ~ 10000",
+  "modulargolems.configuration.armorBypassChance": "护甲穿透每级概率",
+  "modulargolems.configuration.armorBypassChance.tooltip": " 默认: 0.2\n 范围: 0.0 ~ 1.0",
   "modulargolems.configuration.carminiteTime": "每级砷铅铁升级的傀儡无敌时间（以刻为单位）",
   "modulargolems.configuration.carminiteTime.tooltip": "范围: 1 ~ 100000",
   "modulargolems.configuration.compatTFDamage": "每级暮色伤害升级的伤害加成百分比",
