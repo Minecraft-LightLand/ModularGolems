@@ -1,0 +1,22 @@
+package dev.xkmc.modulargolems.compat.materials.geoty.revelation;
+
+import dev.xkmc.modulargolems.compat.materials.geoty.modifier.IApostleModifier;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import net.minecraft.world.entity.ai.goal.Goal;
+
+import java.util.function.BiConsumer;
+
+public class HellBoltModifier extends GolemModifier implements IApostleModifier {
+
+	public HellBoltModifier() {
+		super(StatFilterType.MASS, 3);
+	}
+
+	@Override
+	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
+		addGoal.accept(3, new HellBoltGoal(entity, lv));
+	}
+
+}

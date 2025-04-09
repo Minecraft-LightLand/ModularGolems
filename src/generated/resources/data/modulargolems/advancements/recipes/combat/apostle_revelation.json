@@ -4,12 +4,16 @@
     {
       "type": "forge:mod_loaded",
       "modid": "goety"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety_revelation"
     }
   ],
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:apostle"
+        "recipe": "modulargolems:apostle_revelation"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -34,7 +38,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:apostle"
+      "modulargolems:apostle_revelation"
     ]
   },
   "sends_telemetry_event": false

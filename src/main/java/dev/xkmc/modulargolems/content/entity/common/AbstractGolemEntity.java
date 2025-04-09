@@ -754,7 +754,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	protected boolean predicatePriorityTarget(LivingEntity e) {
+	public boolean predicatePriorityTarget(LivingEntity e) {
 		if (e instanceof Mob mob) {
 			for (var target : List.of(
 					Optional.ofNullable(mob.getLastHurtMob()),
@@ -771,7 +771,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return false;
 	}
 
-	protected boolean predicateSecondaryTarget(LivingEntity e) {
+	public boolean predicateSecondaryTarget(LivingEntity e) {
 		var config = getConfigEntry(null);
 		if (config == null) {
 			return DefaultFilterCard.defaultPredicate(e);

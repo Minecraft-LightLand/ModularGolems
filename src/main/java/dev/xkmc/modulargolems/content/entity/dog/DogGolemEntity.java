@@ -212,12 +212,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	@Override
-	protected boolean predicatePriorityTarget(LivingEntity e) {
+	public boolean predicatePriorityTarget(LivingEntity e) {
 		return !isInSittingPose() && super.predicatePriorityTarget(e);
 	}
 
 	@Override
-	protected boolean predicateSecondaryTarget(LivingEntity e) {
+	public boolean predicateSecondaryTarget(LivingEntity e) {
 		return !isInSittingPose() && super.predicateSecondaryTarget(e);
 	}
 

@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "Apostle Upgrade: Hell Blast",
+  "icon": "modulargolems:hell_blast",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hell_blast",
+	  "text": "Shoot Hell Blast toward targets every 10 seconds. Targets multiple enemies at the same time in range of 16 blocks. Can target 1 enemy per level. Max: 3"
+	}
+  ]
+}

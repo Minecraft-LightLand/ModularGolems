@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety_revelation"
+    }
+  ],
+  "key": {
+    "B": {
+      "tag": "modulargolems:revelation_doom"
+    },
+    "F": {
+      "tag": "modulargolems:revelation_ring"
+    },
+    "O": {
+      "item": "goety:unholy_robe"
+    },
+    "U": {
+      "item": "modulargolems:empty_upgrade"
+    }
+  },
+  "pattern": [
+    "BFB",
+    "BOB",
+    "BUB"
+  ],
+  "result": {
+    "item": "modulargolems:apostle"
+  },
+  "show_notification": true
+}

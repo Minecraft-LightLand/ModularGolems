@@ -11,8 +11,9 @@ public class IgnisFireballAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		IgnisFireballModifier.addFireball(golem, lv);
+		return true;
 	}
 
 }

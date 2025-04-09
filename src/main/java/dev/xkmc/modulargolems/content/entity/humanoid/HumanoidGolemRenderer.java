@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.xkmc.modulargolems.compat.curio.CuriosClientRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
@@ -18,7 +19,6 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.Nullable;
-import top.theillusivec4.curios.client.render.CuriosLayer;
 
 public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEntity, HumanoidGolemPartType, HumanoidGolemModel> {
 
@@ -91,8 +91,9 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 		this.addLayer(new LayerWrapper<>(this,
 				new ItemInHandLayer<>(this, ctx.getItemInHandRenderer())));
 		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
-		if (ModList.get().isLoaded("curios"))
-			this.addLayer(new CuriosLayer<>(this));
+		if (ModList.get().isLoaded("curios")) {
+			CuriosClientRegistry.createLayer(this);
+		}
 	}
 
 	@Override

@@ -11,8 +11,9 @@ public class EnderGuardianVoidRuneAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		EnderGuardianVoidRuneModifier.addRune(golem, target, lv);
+		return true;
 	}
 
 }

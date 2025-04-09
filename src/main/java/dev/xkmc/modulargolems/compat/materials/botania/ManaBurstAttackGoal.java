@@ -16,13 +16,14 @@ public class ManaBurstAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		var manaCost = MGConfig.COMMON.manaBurstCost.get() * lv;
 		var bot = new BotUtils(golem);
-		if (bot.getMana() < manaCost) return;
+		if (bot.getMana() < manaCost) return true;
 		bot.consumeMana(manaCost);
 		var burst = getBurst(golem);
 		golem.level().addFreshEntity(burst);
+		return true;
 	}
 
 	public ManaBurstEntity getBurst(LivingEntity golem) {

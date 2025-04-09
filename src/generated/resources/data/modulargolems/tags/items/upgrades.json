@@ -151,6 +151,14 @@
       "required": false
     },
     {
+      "id": "modulargolems:hell_bolt",
+      "required": false
+    },
+    {
+      "id": "modulargolems:hell_blast",
+      "required": false
+    },
+    {
       "id": "modulargolems:apostle",
       "required": false
     },

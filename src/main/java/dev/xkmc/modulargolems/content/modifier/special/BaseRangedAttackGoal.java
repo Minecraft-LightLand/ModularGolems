@@ -12,6 +12,7 @@ public abstract class BaseRangedAttackGoal extends Goal {
 	protected final int lv;
 
 	private long attackTime;
+	private boolean lock;
 
 	public BaseRangedAttackGoal(int waitTime, int near, int far, AbstractGolemEntity<?, ?> golem, int lv) {
 		this.golem = golem;
@@ -60,15 +61,20 @@ public abstract class BaseRangedAttackGoal extends Goal {
 	public void tick() {
 		LivingEntity le = golem.getTarget();
 		long time = golem.level().getGameTime();
-		if (attackTime <= time && le != null && le.isAlive() && golem.specialAttackCoolDown <= 0) {
-			performAttack(le);
-			this.attackTime = time + waitTime;
+		boolean mayAttack = golem.specialAttackCoolDown <= 0 || lock;
+		if (attackTime <= time && le != null && le.isAlive() && mayAttack) {
+			if (performAttack(le)) {
+				this.attackTime = time + waitTime;
+				lock = false;
+			} else {
+				lock = true;
+			}
 			golem.specialAttackCoolDown = 20;
 		}
 		super.tick();
 	}
 
-	protected abstract void performAttack(LivingEntity target);
+	protected abstract boolean performAttack(LivingEntity target);
 
 }
 

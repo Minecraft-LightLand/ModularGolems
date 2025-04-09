@@ -279,6 +279,8 @@ dependencies {
     implementation fg.deobf("curse.maven:ato-405593:5348605")
     implementation fg.deobf("curse.maven:allthemodium-364466:6389531")
 
+    compileOnly fg.deobf("maven.modrinth:goety-revelation:2.1.5")
+
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {
@@ -307,7 +309,8 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
             "tinkers-construct",
             "ewewukeks-musket-mod",
             "goety",
-            "mowzies-mobs"
+            "mowzies-mobs",
+            "allthemodium"
     )
     mainFile.releaseType = "release"
     disableVersionDetection()

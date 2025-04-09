@@ -14,11 +14,12 @@ public class GumShootAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		var proj = new GumballEntity(target.level(), golem);
 		proj.setPos(golem.getEyePosition());
 		proj.setDamage((float) (MGConfig.COMMON.candyDamage.get() * lv));
 		ShootUtils.shootAimHelper(target, proj, 1.5f, 0.08f);
 		golem.level().addFreshEntity(proj);
+		return true;
 	}
 }

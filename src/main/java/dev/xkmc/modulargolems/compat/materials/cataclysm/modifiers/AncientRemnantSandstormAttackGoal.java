@@ -12,8 +12,9 @@ public class AncientRemnantSandstormAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		CataclysmProxy.sandstormAttack(golem, target, 100);
+		return true;
 	}
 
 }

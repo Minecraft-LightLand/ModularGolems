@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "goety_revelation"
+      }
+    }
+  ],
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:apostle_base"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_unholy_hat": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "goety:unholy_hat"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_unholy_hat",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:apostle_base"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety_revelation"
+    }
+  ],
+  "key": {
+    "B": {
+      "item": "goety:unholy_fabric"
+    },
+    "F": {
+      "tag": "modulargolems:revelation_ring"
+    },
+    "O": {
+      "item": "goety:fireball_focus"
+    },
+    "U": {
+      "item": "modulargolems:empty_upgrade"
+    }
+  },
+  "pattern": [
+    "BFB",
+    "BOB",
+    "BUB"
+  ],
+  "result": {
+    "item": "modulargolems:hell_bolt"
+  },
+  "show_notification": true
+}

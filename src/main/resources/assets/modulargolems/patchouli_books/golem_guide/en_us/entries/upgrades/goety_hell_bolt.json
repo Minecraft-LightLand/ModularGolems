@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "Apostle Upgrade: Hell Bolt",
+  "icon": "modulargolems:hell_bolt",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hell_bolt",
+	  "text": "Shoot Hell Bolts toward targets every 10 seconds. Targets multiple enemies at the same time in range of 35 blocks. Can target 4 enemies per level. Max: 3"
+	}
+  ]
+}

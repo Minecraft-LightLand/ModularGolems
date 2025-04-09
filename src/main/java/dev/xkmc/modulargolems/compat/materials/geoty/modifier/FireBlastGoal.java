@@ -7,19 +7,17 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class FireBlastGoal extends BaseRangedAttackGoal {
 
-	private int lv;
-
 	public FireBlastGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(200, 0, 2 + lv, golem, lv);
-		this.lv = lv;
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		var level = golem.level();
 		FireBlastTrap e = new FireBlastTrap(level, target.getX(), target.getY() + (double) 0.25F, target.getZ());
 		e.setOwner(golem);
 		e.setAreaOfEffect(1.5f * (lv + 1));
 		level.addFreshEntity(e);
+		return true;
 	}
 }

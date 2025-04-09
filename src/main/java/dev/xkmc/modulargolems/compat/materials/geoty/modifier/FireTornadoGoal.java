@@ -7,15 +7,12 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class FireTornadoGoal extends BaseRangedAttackGoal {
 
-	private int lv;
-
 	public FireTornadoGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(200, 1, 16 + lv * 2, golem, lv);
-		this.lv = lv;
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		var level = golem.level();
 		double d1 = target.getX() - golem.getX();
 		double d2 = target.getY(0.5F) - golem.getY(0.5F);
@@ -25,5 +22,6 @@ public class FireTornadoGoal extends BaseRangedAttackGoal {
 		e.setTotalLife(140 + 20 * lv);
 		e.setPos(golem.getX(), golem.getY(), golem.getZ());
 		level.addFreshEntity(e);
+		return true;
 	}
 }

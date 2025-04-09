@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "使徒升级: 狱火爆弹",
+  "icon": "modulargolems:hell_blast",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hell_blast",
+	  "text": "每10秒朝多个目标发射狱火爆弹。同时锁定16格范围内的多个敌人。每级可锁定一个敌人。最高等级: 3"
+	}
+  ]
+}

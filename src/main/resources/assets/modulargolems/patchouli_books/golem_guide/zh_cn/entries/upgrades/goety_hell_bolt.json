@@ -1,0 +1,13 @@
+{
+  "flag": "mod:goety",
+  "name": "使徒升级: 狱火束",
+  "icon": "modulargolems:hell_bolt",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:hell_bolt",
+		"text": "每10秒朝多个目标发射狱火束。同时锁定35格范围内的多个敌人。每级可锁定4个敌人。最高等级: 3"
+	}
+  ]
+}

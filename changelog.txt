@@ -1,3 +1,11 @@
+2.5.14
+- Add 2 more Goety upgrades
+- Alter Goety upgrade recipes when Goety Relevation is present
+- Make it not crash when curios is not present
+
+2.5.13
+- Fix crash with mowzie's mobs
+
 2.5.12
 - Buff Dog Golem
 - Add Wroughtnaut golem for Mowzie's Mobs

@@ -5,6 +5,13 @@
     {
       "type": "forge:mod_loaded",
       "modid": "goety"
+    },
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:mod_loaded",
+        "modid": "goety_revelation"
+      }
     }
   ],
   "ingredients": [

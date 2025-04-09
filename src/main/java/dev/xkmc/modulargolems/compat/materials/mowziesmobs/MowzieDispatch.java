@@ -42,7 +42,7 @@ public class MowzieDispatch extends ModDispatch {
 								MowzieCompatRegistry.UPGRADE_SLAM.get())::unlockedBy,
 						MowzieCompatRegistry.WROUGHTNAUT_INGOT.get())
 				.requires(GolemItems.EMPTY_UPGRADE)
-				.requires(MowzieCompatRegistry.WROUGHTNAUT_INGOT)
+				.requires(MowzieCompatRegistry.WROUGHTNAUT_ITEMS)
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 	}
 

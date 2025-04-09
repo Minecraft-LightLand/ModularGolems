@@ -11,8 +11,9 @@ public class LeviathanBlastPortalAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		LeviathanBlastPortalModifier.addBeam(golem, target);
+		return true;
 	}
 
 }
