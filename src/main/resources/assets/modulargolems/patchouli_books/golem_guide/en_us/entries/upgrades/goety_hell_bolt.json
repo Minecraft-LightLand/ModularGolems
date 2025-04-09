@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:hell_bolt",
-	  "text": "Shoot Hell Bolts toward targets every 10 seconds. Targets multiple enemies at the same time in range of 35 blocks. Can target 4 enemies per level. Max: 3"
+	  "text": "Shoot Hell Bolts toward targets every 10 seconds. Targets multiple enemies at the same time in range of 35 blocks. Higher level increase damage and maximum target count. Can target 4 enemies per level. Max: 3$(li)Damage: 5 - 9"
 	}
   ]
 }

@@ -4,16 +4,12 @@
     {
       "type": "forge:mod_loaded",
       "modid": "goety"
-    },
-    {
-      "type": "forge:mod_loaded",
-      "modid": "goety_revelation"
     }
   ],
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:hell_bolt_revelation"
+        "recipe": "modulargolems:hell_bolt"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -38,7 +34,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:hell_bolt_revelation"
+      "modulargolems:hell_bolt"
     ]
   },
   "sends_telemetry_event": false

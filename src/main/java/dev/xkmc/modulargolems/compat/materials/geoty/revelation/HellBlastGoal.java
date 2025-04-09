@@ -12,7 +12,7 @@ public class HellBlastGoal extends MultiTargetRangedGoal {
 	}
 
 	protected int getMaxTarget() {
-		return lv;
+		return lv * 2;
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class HellBlastGoal extends MultiTargetRangedGoal {
 
 	@Override
 	protected int cd() {
-		return Math.max(4 - lv, 0);
+		return Math.max(4 - lv, 0) * 2;
 	}
 
 	protected void performAttackImpl(LivingEntity target) {
@@ -31,12 +31,12 @@ public class HellBlastGoal extends MultiTargetRangedGoal {
 				.add(0, target.getBbHeight() / 2, 0)
 				.subtract(golem.getEyePosition())
 				.normalize();
-		var random = golem.getRandom();
 		HellBlast hellBlast = new HellBlast(
-				golem.getX() + dir.x / (double) 2.0F + random.nextGaussian(),
+				golem.getX() + dir.x / (double) 2.0F,
 				this.golem.getEyeY() - 0.2,
-				this.golem.getZ() + dir.z / (double) 2.0F + random.nextGaussian(),
+				this.golem.getZ() + dir.z / (double) 2.0F,
 				dir.x, dir.y, dir.z, level);
+		hellBlast.setDamage(3 + lv * 2);
 		hellBlast.setOwner(golem);
 		level.addFreshEntity(hellBlast);
 	}

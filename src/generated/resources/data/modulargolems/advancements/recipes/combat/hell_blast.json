@@ -4,19 +4,12 @@
     {
       "type": "forge:mod_loaded",
       "modid": "goety"
-    },
-    {
-      "type": "forge:not",
-      "value": {
-        "type": "forge:mod_loaded",
-        "modid": "goety_revelation"
-      }
     }
   ],
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:hell_blast_base"
+        "recipe": "modulargolems:hell_blast"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -41,7 +34,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:hell_blast_base"
+      "modulargolems:hell_blast"
     ]
   },
   "sends_telemetry_event": false

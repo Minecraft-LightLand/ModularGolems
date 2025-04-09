@@ -53,6 +53,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -124,6 +125,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public final Set<MobEffect> effectImmunity = new HashSet<>();
 
+	private final List<Goal> modifierGoals = new ArrayList<>();
+
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
 		this.setHealth(this.getMaxHealth());
@@ -144,7 +147,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
 		}
 		if (!level().isClientSide()) {
-			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
+			modifierGoals.forEach(goalSelector::removeGoal);
+			modifierGoals.clear();
+			getModifiers().forEach((m, i) ->
+					m.onRegisterGoals(this, i, (priority, goal) -> {
+						modifierGoals.add(goal);
+						goalSelector.addGoal(priority, goal);
+					}));
 		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
 		refreshDimensions();

@@ -40,38 +40,35 @@ public class GoetyRecipeGen {
 				.requires(Items.LAVA_BUCKET)
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		var base = ConditionalRecipeWrapper.of(pvd,
-				new ModLoadedCondition(MODID), new NotCondition(new ModLoadedCondition("goety_revelation")));
+		RecipeGen.unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT,
+						GoetyCompatRegistry.UPGRADE_BOLT.get())::unlockedBy, ModItems.UNHOLY_FABRIC.get())
+				.requires(GolemItems.EMPTY_UPGRADE)
+				.requires(ModItems.FIREBALL_FOCUS.get())
+				.requires(ModItems.UNHOLY_FABRIC.get())
+				.requires(ModItems.UNHOLY_BLOOD.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		var rev = ConditionalRecipeWrapper.of(pvd,
-				new ModLoadedCondition(MODID), new ModLoadedCondition("goety_revelation"));
+		RecipeGen.unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT,
+						GoetyCompatRegistry.UPGRADE_BALL.get())::unlockedBy, ModItems.UNHOLY_FABRIC.get())
+				.requires(GolemItems.EMPTY_UPGRADE)
+				.requires(ModItems.LAVABALL_FOCUS.get())
+				.requires(ModItems.UNHOLY_FABRIC.get())
+				.requires(ModItems.UNHOLY_BLOOD.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 		{
+
+
+			var base = ConditionalRecipeWrapper.of(pvd,
+					new ModLoadedCondition(MODID), new NotCondition(new ModLoadedCondition("goety_revelation")));
+
+			var rev = ConditionalRecipeWrapper.of(pvd,
+					new ModLoadedCondition(MODID), new ModLoadedCondition("goety_revelation"));
+
 			RecipeGen.unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT,
 							GoetyCompatRegistry.UPGRADE_APOSTLE.get())::unlockedBy, ModItems.UNHOLY_HAT.get())
 					.requires(GolemItems.EMPTY_UPGRADE)
 					.requires(ModItems.UNHOLY_HAT.get())
 					.save(base, GoetyCompatRegistry.UPGRADE_APOSTLE.getId().withSuffix("_base"));
-
-			RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,
-							GoetyCompatRegistry.UPGRADE_BOLT.get())::unlockedBy, ModItems.UNHOLY_FABRIC.get())
-					.pattern("FBF").pattern("BOB").pattern("FUF")
-					.define('U', GolemItems.EMPTY_UPGRADE)
-					.define('F', ModItems.UNHOLY_FABRIC.get())
-					.define('B', ModItems.UNHOLY_BLOOD.get())
-					.define('O', ModItems.FIREBALL_FOCUS.get())
-					.save(base, GoetyCompatRegistry.UPGRADE_BOLT.getId().withSuffix("_base"));
-
-			RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,
-							GoetyCompatRegistry.UPGRADE_BALL.get())::unlockedBy, ModItems.UNHOLY_FABRIC.get())
-					.pattern("FBF").pattern("BOB").pattern("FUF")
-					.define('U', GolemItems.EMPTY_UPGRADE)
-					.define('F', ModItems.UNHOLY_FABRIC.get())
-					.define('B', ModItems.UNHOLY_BLOOD.get())
-					.define('O', ModItems.LAVABALL_FOCUS.get())
-					.save(base, GoetyCompatRegistry.UPGRADE_BALL.getId().withSuffix("_base"));
-		}
-		{
-
 
 			RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,
 							GoetyCompatRegistry.UPGRADE_APOSTLE.get())::unlockedBy, ModItems.UNHOLY_HAT.get())
@@ -81,24 +78,6 @@ public class GoetyRecipeGen {
 					.define('B', GoetyCompatRegistry.REV_DOOM)
 					.define('O', ModItems.UNHOLY_ROBE.get())
 					.save(rev, GoetyCompatRegistry.UPGRADE_APOSTLE.getId().withSuffix("_revelation"));
-
-			RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,
-							GoetyCompatRegistry.UPGRADE_BOLT.get())::unlockedBy, ModItems.UNHOLY_FABRIC.get())
-					.pattern("BFB").pattern("BOB").pattern("BUB")
-					.define('U', GolemItems.EMPTY_UPGRADE)
-					.define('F', GoetyCompatRegistry.REV_RING)
-					.define('B', ModItems.UNHOLY_FABRIC.get())
-					.define('O', ModItems.FIREBALL_FOCUS.get())
-					.save(rev, GoetyCompatRegistry.UPGRADE_BOLT.getId().withSuffix("_revelation"));
-
-			RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,
-							GoetyCompatRegistry.UPGRADE_BALL.get())::unlockedBy, ModItems.UNHOLY_FABRIC.get())
-					.pattern("BFB").pattern("BOB").pattern("BUB")
-					.define('U', GolemItems.EMPTY_UPGRADE)
-					.define('F', GoetyCompatRegistry.REV_RING)
-					.define('B', ModItems.UNHOLY_FABRIC.get())
-					.define('O', ModItems.LAVABALL_FOCUS.get())
-					.save(rev, GoetyCompatRegistry.UPGRADE_BALL.getId().withSuffix("_revelation"));
 
 		}
 	}

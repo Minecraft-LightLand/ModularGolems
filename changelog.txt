@@ -1,7 +1,7 @@
 2.5.14
 - Add 2 more Goety upgrades
-- Alter Goety upgrade recipes when Goety Relevation is present
 - Make it not crash when curios is not present
+- Alter Apostle Ascension upgrade recipes when Goety Relevation is present
 
 2.5.13
 - Fix crash with mowzie's mobs
