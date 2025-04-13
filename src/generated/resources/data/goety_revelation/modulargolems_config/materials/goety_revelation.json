@@ -1,0 +1,34 @@
+{
+  "ingredients": {
+    "goety_revelation:apocalyptium": {
+      "tag": "modulargolems:revelation_ingot"
+    }
+  },
+  "modifiers": {
+    "goety_revelation:apocalyptium": {
+      "modulargolems:add_slot": 2,
+      "modulargolems:apostle": 1,
+      "modulargolems:explosion_resistant": 3,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:magic_immune": 1,
+      "modulargolems:projectile_reject": 1,
+      "modulargolems:soul_repair": 2,
+      "modulargolems:the_abhorrent": 1,
+      "modulargolems:the_risen": 1,
+      "modulargolems:the_terrible": 2
+    }
+  },
+  "repairIngredients": {
+    "goety_revelation:apocalyptium": {
+      "tag": "modulargolems:revelation_ingot"
+    }
+  },
+  "stats": {
+    "goety_revelation:apocalyptium": {
+      "modulargolems:attack": 33.0,
+      "modulargolems:max_health": 666.0,
+      "modulargolems:regen": 4.0,
+      "modulargolems:speed": 0.66
+    }
+  }
+}

@@ -11,7 +11,7 @@ public abstract class BaseRangedAttackGoal extends Goal {
 	protected final AbstractGolemEntity<?, ?> golem;
 	protected final int lv;
 
-	private long attackTime;
+	public long attackTime;
 	private boolean lock;
 
 	public BaseRangedAttackGoal(int waitTime, int near, int far, AbstractGolemEntity<?, ?> golem, int lv) {

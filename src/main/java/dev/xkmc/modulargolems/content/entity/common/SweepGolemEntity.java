@@ -27,7 +27,7 @@ import net.minecraft.world.phys.AABB;
 public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolemEntity<T, P>
 		implements RangedAttackMob, IWeaponHolder {
 
-	private final GolemWeaponManager<T> weaponManager;
+	public final GolemWeaponManager<T> weaponManager;
 
 	private boolean doReassessGoal = false;
 

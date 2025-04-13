@@ -280,6 +280,7 @@ dependencies {
     implementation fg.deobf("curse.maven:allthemodium-364466:6389531")
 
     compileOnly fg.deobf("maven.modrinth:goety-revelation:2.1.5")
+    //compileOnly fg.deobf("local.zip:RevelationFix:1.20.1")
 
 }
 

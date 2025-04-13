@@ -163,6 +163,22 @@
       "required": false
     },
     {
+      "id": "modulargolems:the_abhorrent",
+      "required": false
+    },
+    {
+      "id": "modulargolems:the_terrible",
+      "required": false
+    },
+    {
+      "id": "modulargolems:the_profane",
+      "required": false
+    },
+    {
+      "id": "modulargolems:the_atrocious",
+      "required": false
+    },
+    {
       "id": "modulargolems:wroughtnaut",
       "required": false
     }

@@ -9,7 +9,8 @@ import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.botania.BotDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
-import dev.xkmc.modulargolems.compat.materials.geoty.GoetyDispatch;
+import dev.xkmc.modulargolems.compat.materials.goety.GoetyDispatch;
+import dev.xkmc.modulargolems.compat.materials.goety.revelation.GRDispatch;
 import dev.xkmc.modulargolems.compat.materials.iceandfire.IAFDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
@@ -50,6 +51,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(IAFDispatch.MODID)) LIST.add(new IAFDispatch());
 		if (ModList.get().isLoaded(TCDispatch.MODID)) LIST.add(new TCDispatch());
 		if (ModList.get().isLoaded(GoetyDispatch.MODID)) LIST.add(new GoetyDispatch());
+		if (GRDispatch.isLoaded()) LIST.add(new GRDispatch());
 		if (ModList.get().isLoaded(MowzieDispatch.MODID)) LIST.add(new MowzieDispatch());
 		if (ModList.get().isLoaded(ATMDispatch.MODID)) LIST.add(new ATMDispatch());
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();

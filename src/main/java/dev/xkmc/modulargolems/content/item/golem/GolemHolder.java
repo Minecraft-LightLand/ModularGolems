@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -207,19 +208,25 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (root.contains(KEY_ENTITY) && entity.tickCount % 20 == 0) {
 			var health = getHealth(stack);
 			var maxHealth = getMaxHealth(stack);
-			if (health > 0 && health < maxHealth) {
-				var mats = getMaterial(stack);
-				var upgrades = getUpgrades(stack);
-				var attr = GolemMaterial.collectAttributes(mats, upgrades);
-				var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
-				double heal = attr.getOrDefault(GolemTypes.GOLEM_REGEN.get(), Pair.of(GolemTypes.STAT_REGEN.get(), 0d)).getSecond();
-				var ctx = new GolemModifier.HealingContext(health, maxHealth, entity);
+			if (health >= maxHealth) return;
+			var mats = getMaterial(stack);
+			var upgrades = getUpgrades(stack);
+			var attr = GolemMaterial.collectAttributes(mats, upgrades);
+			var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
+			if (health <= 0) {
+				FlagTest test = new FlagTest(GolemFlags.REVIVE);
 				for (var entry : modifiers.entrySet()) {
-					heal = entry.getKey().onInventoryHealTick(heal, ctx, entry.getValue());
+					entry.getKey().onRegisterFlag(test);
 				}
-				if (heal > 0) {
-					setHealth(stack, Math.min(maxHealth, (float) heal + health));
-				}
+				if (!test.matched()) return;
+			}
+			double heal = attr.getOrDefault(GolemTypes.GOLEM_REGEN.get(), Pair.of(GolemTypes.STAT_REGEN.get(), 0d)).getSecond();
+			var ctx = new GolemModifier.HealingContext(health, maxHealth, entity);
+			for (var entry : modifiers.entrySet()) {
+				heal = entry.getKey().onInventoryHealTick(heal, ctx, entry.getValue());
+			}
+			if (heal > 0) {
+				setHealth(stack, Math.min(maxHealth, (float) heal + health));
 			}
 		}
 	}

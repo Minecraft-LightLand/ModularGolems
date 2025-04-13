@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "goety_revelation:item/upgrades/the_abhorrent",
+    "layer1": "modulargolems:item/purple_arrow"
+  }
+}

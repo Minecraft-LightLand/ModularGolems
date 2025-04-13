@@ -975,4 +975,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 	}
 
+	public void speedUpUseItem(int tick) {
+		if (useItemRemaining > 0) {
+			useItemRemaining -= tick;
+		}
+	}
+
 }
