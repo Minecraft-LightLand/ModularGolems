@@ -1,3 +1,6 @@
+2.5.15
+- Apocalyptium golem and 4 upgrades for Goety Revelation
+
 2.5.14
 - Add 2 more Goety upgrades
 - Make it not crash when curios is not present

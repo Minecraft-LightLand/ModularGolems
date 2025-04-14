@@ -27,7 +27,7 @@
     "goety_revelation:apocalyptium": {
       "modulargolems:attack": 33.0,
       "modulargolems:max_health": 666.0,
-      "modulargolems:regen": 4.0,
+      "modulargolems:regen": 6.0,
       "modulargolems:speed": 0.66
     }
   }

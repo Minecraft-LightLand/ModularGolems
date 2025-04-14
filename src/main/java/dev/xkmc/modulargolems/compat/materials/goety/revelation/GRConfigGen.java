@@ -23,7 +23,7 @@ public class GRConfigGen extends ConfigDataProvider {
 						Ingredient.of(GoetyCompatRegistry.REV_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 666)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 33)
-				.addStat(GolemTypes.STAT_REGEN.get(), 4)
+				.addStat(GolemTypes.STAT_REGEN.get(), 6)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.66)
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
