@@ -1,3 +1,6 @@
+3.0.22
+- Be compatible with newest IaF
+
 3.0.21
 - Buff Dog Golem
 - Add 3 ATM golems

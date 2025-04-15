@@ -196,7 +196,7 @@ dependencies {
 
     implementation "curse.maven:jupiter-1072905:5891108"
     implementation "curse.maven:uranus-1010827:6206291"
-    implementation "curse.maven:iceandfire-ce-1040076:6206459"
+    implementation "curse.maven:iceandfire-ce-1040076:6394986"
     implementation "curse.maven:architectury-api-419699:5786327"
     implementation "curse.maven:geckolib-388172:6304958"
     //implementation "curse.maven:ato-405593:6118610"
@@ -225,7 +225,8 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
             "lendercataclysm",
             "patchouli",
             "the-twilight-forest",
-            "touhou-little-maid")
+            "touhou-little-maid",
+            "allthemodium")
     mainFile.releaseType = "release"
     disableVersionDetection()
 }
