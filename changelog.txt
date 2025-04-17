@@ -1,3 +1,8 @@
+2.5.16
+- TODO skin double scaling
+- TODO curios render with skin
+- TODO
+
 2.5.15
 - Apocalyptium golem and 4 upgrades for Goety Revelation
 

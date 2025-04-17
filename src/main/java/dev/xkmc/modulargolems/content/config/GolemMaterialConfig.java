@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.http.util.Asserts;
 
 import java.util.*;
@@ -43,7 +44,8 @@ public class GolemMaterialConfig extends BaseConfig {
 		TreeSet<ResourceLocation> set = new TreeSet<>(stats.keySet());
 		set.retainAll(modifiers.keySet());
 		set.retainAll(ingredients.keySet());
-		set.removeIf(e -> isEmpty(ingredients.get(e)));
+		if (FMLLoader.isProduction())
+			set.removeIf(e -> isEmpty(ingredients.get(e)));
 		List<ResourceLocation> ans = new ArrayList<>(set);
 		ans.sort(Comparator.<ResourceLocation, Integer>comparing(rl -> rl.getNamespace().equals(ModularGolems.MODID) ? 0 : 1)
 				.thenComparing(ResourceLocation::getNamespace)
