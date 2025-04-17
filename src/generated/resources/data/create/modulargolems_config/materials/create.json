@@ -6,6 +6,9 @@
     "create:brass": {
       "tag": "forge:ingots/brass"
     },
+    "create:cardboard": {
+      "tag": "modulargolems:cardboard"
+    },
     "create:railway": {
       "item": "create:railway_casing"
     },
@@ -26,6 +29,7 @@
       "modulargolems:mechanical_force": 1,
       "modulargolems:mechanical_mobility": 1
     },
+    "create:cardboard": {},
     "create:railway": {
       "modulargolems:fire_immune": 1,
       "modulargolems:magic_resistant": 2,
@@ -44,6 +48,9 @@
     "create:brass": {
       "tag": "forge:ingots/brass"
     },
+    "create:cardboard": {
+      "tag": "modulargolems:cardboard"
+    },
     "create:railway": {
       "item": "create:railway_casing"
     },
@@ -60,6 +67,12 @@
       "modulargolems:attack": 15.0,
       "modulargolems:knockback_resistance": 0.5,
       "modulargolems:max_health": 150.0
+    },
+    "create:cardboard": {
+      "modulargolems:attack": 2.0,
+      "modulargolems:attack_knockback": 2.0,
+      "modulargolems:max_health": 2.0,
+      "modulargolems:weight": 0.4
     },
     "create:railway": {
       "modulargolems:attack": 15.0,

@@ -1,7 +1,8 @@
 2.5.16
-- TODO skin double scaling
-- TODO curios render with skin
-- TODO
+- Add Cardboard golems for Create
+- Fix humanoid skin renderer double scaling
+- Fix curios render rotation with skin renderer
+- Buff Apocalyptium golem
 
 2.5.15
 - Apocalyptium golem and 4 upgrades for Goety Revelation

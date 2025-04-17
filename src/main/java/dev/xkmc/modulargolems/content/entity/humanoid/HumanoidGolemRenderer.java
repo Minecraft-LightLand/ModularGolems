@@ -115,4 +115,12 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 		super.render(entity, f1, f2, stack, source, i);
 	}
 
+	public static final ThreadLocal<HumanoidGolemModel> MODEL_DELEGATE = new ThreadLocal<>();
+
+	@Override
+	public HumanoidGolemModel getModel() {
+		var override = MODEL_DELEGATE.get();
+		if (override != null) return override;
+		return super.getModel();
+	}
 }

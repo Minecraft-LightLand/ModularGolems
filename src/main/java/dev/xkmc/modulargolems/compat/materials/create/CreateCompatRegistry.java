@@ -16,8 +16,11 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.ModList;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
@@ -36,6 +39,8 @@ public class CreateCompatRegistry {
 
 	public static final ItemEntry<SimpleUpgradeItem> UP_COATING, UP_PUSH;
 	public static final ItemEntry<DummyFurnace> DUMMY;
+
+	public static final TagKey<Item> CARDBOARD = ItemTags.create(ModularGolems.loc("cardboard"));
 
 	static {
 		COATING = reg("coating", CoatingModifier::new, "Reduce damage taken by %s");
@@ -64,7 +69,10 @@ public class CreateCompatRegistry {
 	}
 
 	public static void register() {
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(CARDBOARD)
+				.addOptional(new ResourceLocation("create", "cardboard")));
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.SPECIAL_CRAFT)
+				.addOptional(new ResourceLocation("create", "cardboard"))
 				.addOptional(AllItems.ANDESITE_ALLOY.getId())
 				.addOptionalTag(new ResourceLocation("forge", "ingots/brass"))
 				.addOptional(AllBlocks.RAILWAY_CASING.getId()));

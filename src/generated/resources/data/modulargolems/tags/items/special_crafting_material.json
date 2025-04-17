@@ -1,6 +1,10 @@
 {
   "values": [
     {
+      "id": "create:cardboard",
+      "required": false
+    },
+    {
       "id": "create:andesite_alloy",
       "required": false
     },

@@ -14,11 +14,12 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 public class GRDispatch extends ModDispatch {
 
 	public static boolean isLoaded() {
-		return ModList.get().isLoaded(GRDispatch.MODID) || DatagenModLoader.isRunningDataGen();
+		return ModList.get().isLoaded(GRDispatch.MODID) || !FMLLoader.isProduction();
 	}
 
 	public static final String MODID = "goety_revelation";

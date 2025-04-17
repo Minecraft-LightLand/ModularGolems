@@ -1,0 +1,8 @@
+{
+  "values": [
+    {
+      "id": "create:cardboard",
+      "required": false
+    }
+  ]
+}

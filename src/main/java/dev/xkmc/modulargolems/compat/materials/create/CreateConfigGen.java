@@ -27,6 +27,14 @@ public class CreateConfigGen extends ConfigDataProvider {
 		ITagManager<Item> manager = Objects.requireNonNull(ForgeRegistries.ITEMS.tags());
 
 		map.add(ModularGolems.MATERIALS, new ResourceLocation(CreateDispatch.MODID, CreateDispatch.MODID), new GolemMaterialConfig()
+				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "cardboard"),
+						Ingredient.of(CreateCompatRegistry.CARDBOARD))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 2)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 2)
+				.addStat(GolemTypes.STAT_ATKKB.get(), 2)
+				.addStat(GolemTypes.STAT_WEIGHT.get(), 0.4)
+				.end()
+
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "zinc"),
 						Ingredient.of(AllTags.forgeItemTag("ingots/zinc")))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 50)
