@@ -15,6 +15,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
@@ -38,6 +39,7 @@ public class GoetyCompatRegistry {
 	public static final TagKey<Item> REV_RING = ItemTags.create(ModularGolems.loc("revelation_ring"));
 	public static final TagKey<Item> REV_DOOM = ItemTags.create(ModularGolems.loc("revelation_doom"));
 	public static final TagKey<Item> REV_INGOT = ItemTags.create(ModularGolems.loc("revelation_ingot"));
+	public static final TagKey<Item> REV_BOW = ItemTags.create(ModularGolems.loc("revelation_bow"));
 
 	static {
 		BUSTED = reg("fallen_attack", () -> new PotionAttackModifier(StatFilterType.ATTACK, 2,
@@ -80,6 +82,7 @@ public class GoetyCompatRegistry {
 			pvd.addTag(REV_RING).addOptional(new ResourceLocation("goety_revelation", "ascension_halo"));
 			pvd.addTag(REV_DOOM).addOptional(new ResourceLocation("goety_revelation", "doom_medal"));
 			pvd.addTag(REV_INGOT).addOptional(new ResourceLocation("goety_revelation", "apocalyptium_ingot"));
+			pvd.addTag(REV_BOW).add(Items.BOW).addOptional(new ResourceLocation("goety_revelation", "bow_of_revelation"));
 		});
 
 	}

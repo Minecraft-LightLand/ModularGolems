@@ -1,3 +1,6 @@
+2.5.17
+- Fix Goety Revelation upgrades
+
 2.5.16
 - Add Cardboard golems for Create
 - Fix humanoid skin renderer double scaling
@@ -6,6 +9,7 @@
 
 2.5.15
 - Apocalyptium golem and 4 upgrades for Goety Revelation
+
 
 2.5.14
 - Add 2 more Goety upgrades

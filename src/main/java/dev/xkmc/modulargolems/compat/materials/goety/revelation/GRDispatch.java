@@ -5,16 +5,22 @@ import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
+import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.GoetyCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.goety.title.ApollyonBowGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraftforge.data.loading.DatagenModLoader;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
+
+import java.util.Optional;
 
 public class GRDispatch extends ModDispatch {
 
@@ -31,6 +37,18 @@ public class GRDispatch extends ModDispatch {
 	@Override
 	protected void genLang(RegistrateLangProvider pvd) {
 		pvd.add("golem_material." + MODID + ".apocalyptium", "Apocalyptium");
+	}
+
+	@Override
+	public void commonSetup() {
+
+		GolemWeaponRegistry.HUMANOID.register(new ResourceLocation(MODID,"bow"),
+				(golem, stack, hand) ->
+						golem instanceof HumanoidGolemEntity h && h.getModifiers().getOrDefault(
+								GRCompatRegistry.BOW.get(), 0) > 0 ?
+								WeaponRegistry.BOW.getProperties(stack) : Optional.empty(),
+				(golem, melee) -> new ApollyonBowGoal<>(golem, melee, 1.0D, 35)
+		);
 	}
 
 	@Override

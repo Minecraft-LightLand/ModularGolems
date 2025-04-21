@@ -6,6 +6,11 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+
+import java.util.List;
 
 public class FastBowModifier extends GolemModifier {
 
@@ -26,4 +31,7 @@ public class FastBowModifier extends GolemModifier {
 		return part == GolemItems.HUMANOID_ARMS.get();
 	}
 
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc", 2 + v, 4 + 4 * v).withStyle(ChatFormatting.GREEN));
+	}
 }

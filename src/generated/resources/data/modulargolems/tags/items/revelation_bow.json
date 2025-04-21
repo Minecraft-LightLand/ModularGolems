@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:bow",
+    {
+      "id": "goety_revelation:bow_of_revelation",
+      "required": false
+    }
+  ]
+}

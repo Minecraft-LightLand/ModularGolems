@@ -93,8 +93,8 @@ public class ModularGolems {
 	public static void setup(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
 			GolemDispenserBehaviors.registerDispenseBehaviors();
-			GolemWeaponRegistry.init();
 			CompatManager.commonSetup();
+			GolemWeaponRegistry.init();
 		});
 	}
 

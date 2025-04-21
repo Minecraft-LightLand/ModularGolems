@@ -13,7 +13,7 @@ public class CooldownBypassModifier extends GolemModifier {
 
 	@Override
 	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		event.getEntity().invulnerableTime -= 5;
+		event.getEntity().invulnerableTime -= 5 * level;
 	}
 
 }

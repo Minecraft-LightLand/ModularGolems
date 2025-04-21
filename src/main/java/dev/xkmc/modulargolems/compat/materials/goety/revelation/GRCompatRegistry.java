@@ -22,7 +22,7 @@ public class GRCompatRegistry {
 		CD_BYPASS = reg("the_abhorrent", CooldownBypassModifier::new, "The Abhorrent",
 				"Reduce target invulnerability frames on hit");
 		BOW = reg("the_terrible", FastBowModifier::new, "The Terrible",
-				"Golem draws bow faster");
+				"Golem draws bow faster. Shoots %s arrows each toward at most %s targets");
 		CURSE = reg("the_profane", CurseModifier::new, "The Profane",
 				"Golem remove %s random positive effects from target on hit");
 		FAST = reg("the_atrocious", FastSkillModifier::new, "The Atrocious",

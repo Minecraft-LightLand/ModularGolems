@@ -457,7 +457,7 @@
   "modifier.modulargolems.the_risen": "The Risen",
   "modifier.modulargolems.the_risen.desc": "Golem drops holder item with 0 health on death. Golem holder item can still heal when it has no health",
   "modifier.modulargolems.the_terrible": "The Terrible",
-  "modifier.modulargolems.the_terrible.desc": "Golem draws bow faster",
+  "modifier.modulargolems.the_terrible.desc": "Golem draws bow faster. Shoots %s arrows each toward at most %s targets",
   "modifier.modulargolems.thorn": "Thorn",
   "modifier.modulargolems.thorn.desc": "Reflect %s%% damage",
   "modifier.modulargolems.thunder_immune": "Thunder Immune",

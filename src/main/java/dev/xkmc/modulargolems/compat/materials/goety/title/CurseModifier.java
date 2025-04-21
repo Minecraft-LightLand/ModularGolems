@@ -3,6 +3,9 @@ package dev.xkmc.modulargolems.compat.materials.goety.title;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
@@ -29,6 +32,10 @@ public class CurseModifier extends GolemModifier {
 			var sel = list.remove(rand.nextInt(list.size()));
 			e.removeEffect(sel);
 		}
+	}
+
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc", v).withStyle(ChatFormatting.GREEN));
 	}
 
 }

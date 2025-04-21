@@ -463,7 +463,7 @@
   "modifier.modulargolems.the_risen": "不灭重生",
   "modifier.modulargolems.the_risen.desc": "傀儡死亡时掉落0血量傀儡物品，并且0血量傀儡在物品栏中也能回血",
   "modifier.modulargolems.the_terrible": "可怖之物",
-  "modifier.modulargolems.the_terrible.desc": "傀儡拉弓更快",
+  "modifier.modulargolems.the_terrible.desc": "傀儡拉弓更快。朝至多%2$s个目标各射%1$s支箭",
   "golem_material.mowziesmobs.wroughtnaut": "千锻钢",
   "item.modulargolems.wroughtnaut": "千锻震升级",
   "item.modulargolems.wroughtnaut_ingot": "千锻钢锭",
