@@ -1,0 +1,14 @@
+{
+	"flag": "mod:goety_revelation",
+	"advancement": "goety_revelation:kill_apollyon",
+	"name": "Title: The Abhorrent",
+	"icon": "modulargolems:the_abhorrent",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:the_abhorrent",
+			"text": "Golem will reduce target invulnerability frames on hit. Each level reduces 5 ticks of invul frames.$(br2)Max level: 4"
+		}
+	]
+}

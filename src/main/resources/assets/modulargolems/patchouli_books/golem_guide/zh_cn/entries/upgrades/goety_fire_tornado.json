@@ -1,13 +1,14 @@
 {
-  "flag": "mod:goety",
-  "name": "使徒升级: 燃烧龙卷风",
-  "icon": "modulargolems:fire_tornado",
-  "category": "modulargolems:upgrades",
-  "pages": [
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:fire_tornado",
-	  "text": "每10秒向目标位置召唤燃烧龙卷风陷阱。高等级提升伤害和持续时间。最高5级 $(li)持续时间: 8 - 12秒 $(li)伤害: 4 - 12"
-	}
-  ]
+	"flag": "mod:goety",
+	"advancement": "goety:goety/kill_a_apostle",
+	"name": "使徒升级: 燃烧龙卷风",
+	"icon": "modulargolems:fire_tornado",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:fire_tornado",
+			"text": "每10秒向目标位置召唤燃烧龙卷风陷阱。高等级提升伤害和持续时间。最高5级 $(li)持续时间: 8 - 12秒 $(li)伤害: 4 - 12"
+		}
+	]
 }

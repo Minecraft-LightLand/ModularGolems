@@ -1,0 +1,30 @@
+{
+	"flag": "&mod:goety_revelation,modulargolems:goety_revelation:apocalyptium",
+	"advancement": "goety_revelation:kill_apollyon",
+	"name": "Apocalyptium",
+	"icon": "goety_revelation:apocalyptium_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1003,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "goety_revelation:apocalyptium_ingot",
+			"text": "Main material to craft Apocalyptium golem parts. Apocalyptium golem is the resemblance of godhood and a container for higher spirits. It will revive itself on death once it enters your inventory."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:metal_golem_body\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:metal_golem_arm\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:metal_golem_legs\",material:\"goety_revelation:apocalyptium\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"goety_revelation:apocalyptium\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:dog_golem_legs\",material:\"goety_revelation:apocalyptium\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

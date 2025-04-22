@@ -1,0 +1,14 @@
+{
+	"flag": "mod:goety_revelation",
+	"advancement": "goety_revelation:kill_apollyon",
+	"name": "Title: The Terrible",
+	"icon": "modulargolems:the_terrible",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:the_terrible",
+			"text": "Increase Golem bow draw speed by 100% per level. Does not affect half seconds shooting cooldown.$(br2)Golem can target at most 4 x level + 4 enemies when shooting with bows.$(br2)If golem is using vanilla bow, golem can shoot 2 + level arrows at each targets.$(br2)Max level: 4"
+		}
+	]
+}

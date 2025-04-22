@@ -1,0 +1,29 @@
+{
+	"flag": "mod:legendary_monsters",
+	"name": "Wroughtnaut",
+	"icon": "legendary_monsters:molten_metal_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1201,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "legendary_monsters:molten_metal_ingot",
+			"text": "Main material to craft Molten Metal golem parts. Molten Metal golem is immune to fire and projectiles, and can create shockwaves that stun enemies"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:molten_metal\"},{part:\"modulargolems:metal_golem_body\",material:\"legendary_monsters:molten_metal\"},{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:molten_metal\"},{part:\"modulargolems:metal_golem_legs\",material:\"legendary_monsters:molten_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"legendary_monsters:molten_metal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"legendary_monsters:molten_metal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"legendary_monsters:molten_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"legendary_monsters:molten_metal\"},{part:\"modulargolems:dog_golem_legs\",material:\"legendary_monsters:molten_metal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

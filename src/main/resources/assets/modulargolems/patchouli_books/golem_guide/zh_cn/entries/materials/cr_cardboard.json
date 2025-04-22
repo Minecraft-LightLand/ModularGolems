@@ -1,5 +1,5 @@
 {
-  "flag": "mod:create",
+  "flag": "&mod:create,modulargolems:create:cardboard",
   "name": "纸板",
   "icon": "create:cardboard",
   "category": "modulargolems:materials",

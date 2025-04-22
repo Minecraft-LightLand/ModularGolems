@@ -1,0 +1,14 @@
+{
+	"flag": "mod:goety_revelation",
+	"advancement": "goety_revelation:kill_apollyon",
+	"name": "使徒头衔: 可怖之物",
+	"icon": "modulargolems:the_terrible",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:the_terrible",
+			"text": "提升傀儡拉弓速度。每级提升100%，但不影响半秒的射击冷却。$(br2)傀儡可以同时瞄准[4x等级+4]个敌人。$(br2)如果傀儡使用的是原版弓，傀儡一次能朝每个目标射[2+等级]支箭。$(br2)最高等级: 4"
+		}
+	]
+}

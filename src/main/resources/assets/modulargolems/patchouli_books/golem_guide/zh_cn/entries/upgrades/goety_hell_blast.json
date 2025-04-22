@@ -1,13 +1,14 @@
 {
-  "flag": "mod:goety",
-  "name": "使徒升级: 狱火爆弹",
-  "icon": "modulargolems:hell_blast",
-  "category": "modulargolems:upgrades",
-  "pages": [
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:hell_blast",
-	  "text": "每10秒朝多个目标发射狱火爆弹。同时锁定16格范围内的多个敌人。提升等级能提升伤害和最大锁定数量。每级可锁定2个敌人。最高等级: 3$(li)伤害：5 - 9"
-	}
-  ]
+	"flag": "mod:goety",
+	"advancement": "goety:goety/kill_a_apostle",
+	"name": "使徒升级: 狱火爆弹",
+	"icon": "modulargolems:hell_blast",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:hell_blast",
+			"text": "每10秒朝多个目标发射狱火爆弹。同时锁定16格范围内的多个敌人。提升等级能提升伤害和最大锁定数量。每级可锁定2个敌人。最高等级: 3$(li)伤害：5 - 9"
+		}
+	]
 }

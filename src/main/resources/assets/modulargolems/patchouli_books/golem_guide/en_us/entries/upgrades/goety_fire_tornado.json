@@ -1,13 +1,14 @@
 {
-  "flag": "mod:goety",
-  "name": "Apostle Upgrade: Fire Tornado",
-  "icon": "modulargolems:fire_tornado",
-  "category": "modulargolems:upgrades",
-  "pages": [
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:fire_tornado",
-	  "text": "Summon Fire Tornado Trap toward target position every 10 seconds. Higher level increase damage and duration. Max: 5$(li)Duration: 8 - 12 seconds $(li)Damage: 4 - 12"
-	}
-  ]
+	"flag": "mod:goety",
+	"advancement": "goety:goety/kill_a_apostle",
+	"name": "Apostle Upgrade: Fire Tornado",
+	"icon": "modulargolems:fire_tornado",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:fire_tornado",
+			"text": "Summon Fire Tornado Trap toward target position every 10 seconds. Higher level increase damage and duration. Max: 5$(li)Duration: 8 - 12 seconds $(li)Damage: 4 - 12"
+		}
+	]
 }

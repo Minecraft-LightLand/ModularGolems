@@ -13,12 +13,12 @@ public class LMDispatch extends ModDispatch {
 	public static final String MODID = LegendaryMonsters.MOD_ID;
 
 	public LMDispatch() {
-
+		LMCompatRegistry.register();
 	}
 
 	@Override
 	protected void genLang(RegistrateLangProvider pvd) {
-
+		pvd.add("golem_material." + MODID + ".molten_metal", "Molten Metal");
 	}
 
 	@Override

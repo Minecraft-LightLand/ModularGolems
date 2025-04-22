@@ -9,6 +9,7 @@ import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.GoetyCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.goety.title.ApollyonBowGoal;
+import dev.xkmc.modulargolems.compat.misc.PatchouliFlagHelper;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
@@ -19,6 +20,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
 
@@ -41,7 +43,11 @@ public class GRDispatch extends ModDispatch {
 
 	@Override
 	public void commonSetup() {
-
+		if (ModList.get().isLoaded("patchouli")) {
+			boolean flag = ForgeRegistries.ITEMS.containsKey(
+					new ResourceLocation(MODID, "apocalyptium_ingot"));
+			PatchouliFlagHelper.setFlag("modulargolems:goety_revelation:apocalyptium", flag);
+		}
 		GolemWeaponRegistry.HUMANOID.register(new ResourceLocation(MODID,"bow"),
 				(golem, stack, hand) ->
 						golem instanceof HumanoidGolemEntity h && h.getModifiers().getOrDefault(

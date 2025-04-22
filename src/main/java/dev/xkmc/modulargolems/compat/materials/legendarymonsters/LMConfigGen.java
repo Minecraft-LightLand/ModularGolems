@@ -1,13 +1,11 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 
-import com.Polarice3.Goety.common.items.ModItems;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
-import dev.xkmc.modulargolems.compat.materials.goety.GoetyCompatRegistry;
-import dev.xkmc.modulargolems.compat.materials.goety.GoetyDispatch;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.miauczel.legendary_monsters.item.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,16 +18,18 @@ public class LMConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(GoetyDispatch.MODID, GoetyDispatch.MODID), new GolemMaterialConfig()
-				.addMaterial(new ResourceLocation(GoetyDispatch.MODID, "cursed_metal"),
-						Ingredient.of(ModItems.CURSED_METAL_INGOT.get()))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 100)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, LMDispatch.MODID), new GolemMaterialConfig()
+				.addMaterial(new ResourceLocation(LMDispatch.MODID, "molten_metal"),
+						Ingredient.of(ModItems.MOLTEN_METAL_INGOT.get()))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
+				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
-				.addModifier(GolemModifiers.MAGIC_RES.get(), 1)
-				.addModifier(GoetyCompatRegistry.BUSTED.get(), 1)
+				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
+				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 2)
+				.addModifier(LMCompatRegistry.ANCHOR.get(), 1)
 				.end()
-
 		);
 	}
 

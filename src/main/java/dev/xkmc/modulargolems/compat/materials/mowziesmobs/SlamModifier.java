@@ -33,7 +33,7 @@ public class SlamModifier extends GolemModifier implements EarthquakeHelper.Modi
 	}
 
 	@Override
-	public double getEarthquakeRange(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
+	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
 		return target.onGround() ? 144 : -100;
 	}
 

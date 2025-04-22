@@ -1,0 +1,30 @@
+{
+	"flag": "&mod:goety_revelation,modulargolems:goety_revelation:apocalyptium",
+	"advancement": "goety_revelation:kill_apollyon",
+	"name": "神灵金属",
+	"icon": "goety_revelation:apocalyptium_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1003,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "goety_revelation:apocalyptium_ingot",
+			"text": "制作神金傀儡的主要材料。以傀儡为基底重塑神性，你将获得不死不灭的强大助力。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:metal_golem_body\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:metal_golem_arm\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:metal_golem_legs\",material:\"goety_revelation:apocalyptium\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"goety_revelation:apocalyptium\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"goety_revelation:apocalyptium\"},{part:\"modulargolems:dog_golem_legs\",material:\"goety_revelation:apocalyptium\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

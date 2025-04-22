@@ -1,13 +1,14 @@
 {
-  "flag": "mod:goety",
-  "name": "使徒升级: 狱云",
-  "icon": "modulargolems:hell_cloud",
-  "category": "modulargolems:upgrades",
-  "pages": [
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:hell_cloud",
-	  "text": "每10秒在目标位置召唤狱云。高等级提高范围和持续时间。最高5级$(li)半径: 4 - 6格 $(li)持续时间: 6 - 10秒 $(li)伤害: 2 - 4"
-	}
-  ]
+	"flag": "mod:goety",
+	"advancement": "goety:goety/kill_a_apostle",
+	"name": "使徒升级: 狱云",
+	"icon": "modulargolems:hell_cloud",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:hell_cloud",
+			"text": "每10秒在目标位置召唤狱云。高等级提高范围和持续时间。最高5级$(li)半径: 4 - 6格 $(li)持续时间: 6 - 10秒 $(li)伤害: 2 - 4"
+		}
+	]
 }

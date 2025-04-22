@@ -60,7 +60,7 @@ public class EarthquakeHelper {
 	public static double getExtraRange(AbstractGolemEntity<?,?> golem, LivingEntity target) {
 		for (var e : golem.getModifiers().entrySet()) {
 			if (e.getKey() instanceof Modifier m) {
-				return m.getEarthquakeRange(golem, target, e.getValue());
+				return m.getEarthquakeRangeSqr(golem, target, e.getValue());
 			}
 		}
 		return 25;
@@ -70,7 +70,7 @@ public class EarthquakeHelper {
 
 		void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level);
 
-		default double getEarthquakeRange(AbstractGolemEntity<?,?> golem, LivingEntity target, int lv){
+		default double getEarthquakeRangeSqr(AbstractGolemEntity<?,?> golem, LivingEntity target, int lv){
 			return 25;
 		}
 

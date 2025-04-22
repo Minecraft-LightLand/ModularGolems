@@ -1,13 +1,14 @@
 {
-  "flag": "mod:goety",
-  "name": "Apostle Upgrade: Fire Blast",
-  "icon": "modulargolems:fire_blast",
-  "category": "modulargolems:upgrades",
-  "pages": [
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:fire_blast",
-	  "text": "Summon Fire Blast Trap in the front every 10 seconds. Higher level increase radius and reach of the trap. Max: 3$(li)Range: 3 - 6 blocks $(li)Damage: same as golem attack damage"
-	}
-  ]
+	"flag": "mod:goety",
+	"advancement": "goety:goety/kill_a_apostle",
+	"name": "Apostle Upgrade: Fire Blast",
+	"icon": "modulargolems:fire_blast",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:fire_blast",
+			"text": "Summon Fire Blast Trap in the front every 10 seconds. Higher level increase radius and reach of the trap. Max: 3$(li)Range: 3 - 6 blocks $(li)Damage: same as golem attack damage"
+		}
+	]
 }

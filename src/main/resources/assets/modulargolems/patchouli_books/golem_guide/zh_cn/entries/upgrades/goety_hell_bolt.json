@@ -1,13 +1,14 @@
 {
-  "flag": "mod:goety",
-  "name": "使徒升级: 狱火束",
-  "icon": "modulargolems:hell_bolt",
-  "category": "modulargolems:upgrades",
-  "pages": [
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:hell_bolt",
-		"text": "每10秒朝多个目标发射狱火束。同时锁定35格范围内的多个敌人。提升等级能提升伤害和最大锁定数量。每级可锁定4个敌人。最高等级: 3$(li)伤害：5 - 9"
-	}
-  ]
+	"flag": "mod:goety",
+	"advancement": "goety:goety/kill_a_apostle",
+	"name": "使徒升级: 狱火束",
+	"icon": "modulargolems:hell_bolt",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:hell_bolt",
+			"text": "每10秒朝多个目标发射狱火束。同时锁定35格范围内的多个敌人。提升等级能提升伤害和最大锁定数量。每级可锁定4个敌人。最高等级: 3$(li)伤害：5 - 9"
+		}
+	]
 }

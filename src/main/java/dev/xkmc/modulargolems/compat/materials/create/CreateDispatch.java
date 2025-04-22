@@ -12,14 +12,17 @@ import dev.xkmc.modulargolems.compat.materials.create.automation.CreateGolemReci
 import dev.xkmc.modulargolems.compat.materials.create.automation.CreateJEIEvents;
 import dev.xkmc.modulargolems.compat.materials.create.automation.CreateRecipeEvents;
 import dev.xkmc.modulargolems.compat.materials.create.automation.GolemIncompleteItem;
+import dev.xkmc.modulargolems.compat.misc.PatchouliFlagHelper;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
@@ -33,7 +36,15 @@ public class CreateDispatch extends ModDispatch {
 		if (ModList.get().isLoaded("jei")) {
 			MinecraftForge.EVENT_BUS.register(CreateJEIEvents.class);
 		}
+	}
 
+	@Override
+	public void commonSetup() {
+		if (ModList.get().isLoaded("patchouli")) {
+			boolean flag = ForgeRegistries.ITEMS.containsKey(
+					new ResourceLocation(MODID, "cardboard"));
+			PatchouliFlagHelper.setFlag("modulargolems:create:cardboard", flag);
+		}
 	}
 
 	@Override

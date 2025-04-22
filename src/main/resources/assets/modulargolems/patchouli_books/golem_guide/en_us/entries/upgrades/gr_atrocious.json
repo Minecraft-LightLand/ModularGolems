@@ -1,0 +1,14 @@
+{
+	"flag": "mod:goety_revelation",
+	"advancement": "goety_revelation:kill_apollyon",
+	"name": "Title: The Atrocious",
+	"icon": "modulargolems:the_atrocious",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:the_atrocious",
+			"text": "Reduce skill cooldown from apostle upgrades by half.$(br2)Max level: 1"
+		}
+	]
+}

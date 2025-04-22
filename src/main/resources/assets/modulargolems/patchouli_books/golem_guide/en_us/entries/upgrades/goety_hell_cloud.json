@@ -1,13 +1,14 @@
 {
-  "flag": "mod:goety",
-  "name": "Apostle Upgrade: Hell Cloud",
-  "icon": "modulargolems:hell_cloud",
-  "category": "modulargolems:upgrades",
-  "pages": [
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:hell_cloud",
-	  "text": "Summon Hell Cloud on target position every 10 seconds. Higher level increase radius, duration, and damage. Max: 5$(li)Radius: 4 - 6 blocks $(li)Duration: 6 - 10 seconds $(li)Damage: 2 - 4"
-	}
-  ]
+	"flag": "mod:goety",
+	"advancement": "goety:goety/kill_a_apostle",
+	"name": "Apostle Upgrade: Hell Cloud",
+	"icon": "modulargolems:hell_cloud",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:hell_cloud",
+			"text": "Summon Hell Cloud on target position every 10 seconds. Higher level increase radius, duration, and damage. Max: 5$(li)Radius: 4 - 6 blocks $(li)Duration: 6 - 10 seconds $(li)Damage: 2 - 4"
+		}
+	]
 }
