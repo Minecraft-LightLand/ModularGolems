@@ -49,6 +49,7 @@ public class CreateDispatch extends ModDispatch {
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
+		pvd.add("golem_material." + MODID + ".cardboard", "Cardboard");
 		pvd.add("golem_material." + MODID + ".zinc", "Zinc");
 		pvd.add("golem_material." + MODID + ".andesite_alloy", "Andesite Alloy");
 		pvd.add("golem_material." + MODID + ".brass", "Brass");

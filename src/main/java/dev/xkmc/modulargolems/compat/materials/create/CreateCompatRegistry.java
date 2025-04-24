@@ -66,6 +66,7 @@ public class CreateCompatRegistry {
 
 	public static void register() {
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.SPECIAL_CRAFT)
+				.addOptional(AllItems.CARDBOARD.getId())
 				.addOptional(AllItems.ANDESITE_ALLOY.getId())
 				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "ingots/brass"))
 				.addOptional(AllBlocks.RAILWAY_CASING.getId()));

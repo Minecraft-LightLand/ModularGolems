@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import dev.xkmc.modulargolems.compat.curio.ClientCuriosRenderHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
@@ -18,7 +19,6 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
-import top.theillusivec4.curios.client.render.CuriosLayer;
 
 public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel> {
 
@@ -92,7 +92,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 				new ItemInHandLayer<>(this, ctx.getItemInHandRenderer())));
 		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
 		if (ModList.get().isLoaded("curios"))
-			this.addLayer(new CuriosLayer<>(this));
+			ClientCuriosRenderHelper.addLayer(this);
 	}
 
 	@Override
@@ -112,6 +112,15 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 
 	public void renderImpl(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 		super.render(entity, f1, f2, stack, source, i);
+	}
+
+	public static final ThreadLocal<HumanoidGolemModel> MODEL_DELEGATE = new ThreadLocal<>();
+
+	@Override
+	public HumanoidGolemModel getModel() {
+		var override = MODEL_DELEGATE.get();
+		if (override != null) return override;
+		return super.getModel();
 	}
 
 }

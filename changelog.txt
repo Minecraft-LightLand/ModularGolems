@@ -1,3 +1,9 @@
+3.0.23
+- Add Cardboard golems for Create
+- Restore Create Enchantment Industry compat
+- Fix curios render rotation with skin renderer
+- Fix crash without curios
+
 3.0.22
 - Be compatible with newest IaF
 

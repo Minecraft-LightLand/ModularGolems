@@ -62,7 +62,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public ItemStack getProjectile(ItemStack pShootable) {
 		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
+			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles(pShootable);
 			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
 			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
 				stack = arrowSlot;

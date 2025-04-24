@@ -1,0 +1,81 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "modulargolems:metal_golem_arm"
+  },
+  "loops": 9,
+  "results": [
+    {
+      "components": {
+        "modulargolems:part_material": "create:cardboard"
+      },
+      "id": "modulargolems:metal_golem_arm"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_metal_golem_arm"
+        },
+        {
+          "item": "create:cardboard"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_metal_golem_arm"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_metal_golem_arm"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_metal_golem_arm"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_metal_golem_arm"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_metal_golem_arm"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_metal_golem_arm"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_metal_golem_arm"
+        }
+      ]
+    }
+  ],
+  "transitional_item": {
+    "id": "modulargolems:incomplete_metal_golem_arm"
+  }
+}

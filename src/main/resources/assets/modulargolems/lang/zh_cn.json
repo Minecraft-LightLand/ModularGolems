@@ -454,6 +454,7 @@
   "modifier.modulargolems.add_slot_allthemodium.desc": "+1升级槽。傀儡只能用一个",
   "modifier.modulargolems.add_slot_unobtainium.desc": "+1升级槽。傀儡只能用一个",
   "modifier.modulargolems.add_slot_vibranium.desc": "+1升级槽。傀儡只能用一个",
+  "golem_material.create.cardboard": "纸板",
   "golem_material.create.zinc": "锌",
   "golem_material.create.andesite_alloy": "安山合金",
   "golem_material.create.brass": "黄铜",

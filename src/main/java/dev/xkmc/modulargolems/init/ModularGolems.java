@@ -13,6 +13,7 @@ import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
 import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
@@ -43,6 +44,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import plus.dragons.createenchantmentindustry.common.CEICommon;
 import vazkii.patchouli.api.PatchouliAPI;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -93,6 +95,9 @@ public class ModularGolems {
 					.buildBook("Modular Golem Guide",
 							"Welcome to Tinker-like golem assembly and upgrade mod",
 							1, GolemItems.ITEMS.key());
+		}
+		if (ModList.get().isLoaded(CEICommon.ID)) {
+			CEICompat.register();
 		}
 	}
 
