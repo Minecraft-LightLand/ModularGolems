@@ -1,3 +1,8 @@
+2.5.18
+- Add Molten Metal golem for Legendary Monsters
+- Add patchouli flag to allow books to be loaded with Create 0.5
+- Add advancement gating for patchouli contents
+
 2.5.17
 - Fix Goety Revelation upgrades
 

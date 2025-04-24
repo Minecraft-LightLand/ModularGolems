@@ -313,7 +313,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
             "goety",
             "mowzies-mobs",
             "allthemodium",
-            "legendary_monsters"
+            "legendary-monsters"
     )
     mainFile.releaseType = "release"
     disableVersionDetection()
