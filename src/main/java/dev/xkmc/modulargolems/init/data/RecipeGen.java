@@ -357,6 +357,13 @@ public class RecipeGen {
 				}
 			}
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.HEAVY_SPEAR)::unlockedBy, Items.HEAVY_CORE)
+					.pattern(" HH").pattern("TIH").pattern("IT ")
+					.define('H', Items.HEAVY_CORE)
+					.define('I', Items.BREEZE_ROD)
+					.define('T', GolemItems.GOLEM_TEMPLATE)
+					.save(pvd);
+
 		}
 
 		// upgrades

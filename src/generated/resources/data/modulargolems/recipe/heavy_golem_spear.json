@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "H": {
+      "item": "minecraft:heavy_core"
+    },
+    "I": {
+      "item": "minecraft:breeze_rod"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    " HH",
+    "TIH",
+    "IT "
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:heavy_golem_spear"
+  }
+}

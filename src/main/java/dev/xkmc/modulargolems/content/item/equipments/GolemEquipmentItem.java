@@ -36,7 +36,12 @@ public abstract class GolemEquipmentItem extends Item {
 		this.type = type;
 		ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
 		attr.accept(builder);
+		additionalAttributes(builder);
 		this.defaultModifiers = builder.build();
+
+	}
+
+	protected void additionalAttributes(ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder) {
 
 	}
 
