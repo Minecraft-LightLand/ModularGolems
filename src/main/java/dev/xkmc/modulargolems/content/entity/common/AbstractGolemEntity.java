@@ -340,6 +340,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return getMode().isMovable();
 	}
 
+	@Deprecated
 	public boolean isPushedByFluid() {
 		return !this.isSwimming() && getMode().isMovable();
 	}
@@ -528,7 +529,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			ItemStack stack = getItemBySlot(slot);
 			if (!stack.isEmpty()) {
-				stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
+				try {
+					stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
+				} catch (Exception e) {
+					ModularGolems.LOGGER.warn("Golem cannot use item " + stack, e);
+					spawnAtLocation(stack);
+					setItemSlot(slot, ItemStack.EMPTY);
+				}
 			}
 		}
 	}
@@ -692,6 +699,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ tamable
 
+	@Nullable
 	public Team getTeam() {
 		LivingEntity owner = this.getOwner();
 		if (owner != null) {

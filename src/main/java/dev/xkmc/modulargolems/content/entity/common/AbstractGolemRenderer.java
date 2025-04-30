@@ -60,6 +60,7 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 
 	@Override
 	public void render(T entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+		if (model instanceof IHeadedModel headed) headed.getHead().visible = true;
 		super.render(entity, f1, f2, stack, source, i);
 	}
 
@@ -94,7 +95,7 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		for (P part : list.get()) {
 			ResourceLocation rl = facade;
 			if (rl == null) {
-			int index = part.ordinal();
+				int index = part.ordinal();
 				rl = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;
 			}
 			ModelOverride override = ModelOverrides.getOverride(rl);

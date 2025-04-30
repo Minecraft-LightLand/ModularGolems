@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.goals;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 
@@ -30,6 +31,8 @@ public class FollowOwnerGoal extends Goal {
 	 */
 	public boolean canUse() {
 		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
+			return false;
+		if (this.golem.getControllingPassenger() instanceof Player)
 			return false;
 		Vec3 target = this.golem.getTargetPos();
 		double startDistance = golem.getMode().getStartFollowDistance(golem);
