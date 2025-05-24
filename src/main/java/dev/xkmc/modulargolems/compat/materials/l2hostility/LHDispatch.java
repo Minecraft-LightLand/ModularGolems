@@ -29,6 +29,8 @@ public class LHDispatch extends ModDispatch {
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
+		pvd.add("golem_material." + MODID + ".chaotic", "Chaotic");
+		pvd.add("golem_material." + MODID + ".miraculous", "Miraculous");
 	}
 
 	@Override

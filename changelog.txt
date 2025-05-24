@@ -1,9 +1,12 @@
+3.0.24
+- Add Chaotic Golem and Miraculous Golem for L2Hostility
+
 3.0.23
 - Add Heavy Golem Spear, allow golems to use Mace / Mace like weapons
-- Add Cardboard golems for Create
 - Restore Create Enchantment Industry compat
 - Fix curios render rotation with skin renderer
 - Fix crash without curios
+- Add Cardboard golems for Create (All Create recipes require Craete 6.0.5+)
 
 3.0.22
 - Be compatible with newest IaF

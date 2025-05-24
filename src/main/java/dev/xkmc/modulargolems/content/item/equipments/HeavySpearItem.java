@@ -46,7 +46,7 @@ public class HeavySpearItem extends MetalGolemWeaponItem {
 				if (user.level() instanceof ServerLevel sl) {
 					bonus += EnchantmentHelper.modifyFallBasedDamage(sl, user.getWeaponItem(), target, source, 0) * fall;
 				}
-				return bonus * (1 + amount / damage);
+				return bonus * Math.max(1, amount / damage);
 			}
 		}
 		return 0;
