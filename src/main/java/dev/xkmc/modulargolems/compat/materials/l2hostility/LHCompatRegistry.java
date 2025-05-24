@@ -28,6 +28,8 @@ public class LHCompatRegistry {
 	public static final RegistryEntry<PotionDefenseModifier> LH_PROTECTION;
 	public static final RegistryEntry<RegenModifier> LH_REGEN;
 	public static final RegistryEntry<ReflectiveModifier> LH_REFLECTIVE;
+	public static final RegistryEntry<AdaptiveModifier> LH_ADAPTIVE;
+	public static final RegistryEntry<DispellModifier> LH_DISPELL;
 
 	public static final ItemEntry<SimpleUpgradeItem> CORE, POTION, TANK, SPEED, PROTECTION, REGEN, REFLECTIVE;
 
@@ -44,20 +46,25 @@ public class LHCompatRegistry {
 						new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, LHConfig.COMMON.tankHealth::get),
 						new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, LHConfig.COMMON.tankArmor::get),
 						new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_TOUGH, LHConfig.COMMON.tankTough::get)),
-				"Hostility Upgrade: Tanky", null);
+				"Hostility Modifier: Tanky", null);
 
 		LH_SPEED = GolemModifiers.reg("hostility_speed", () -> new AttributeGolemModifier(5,
 						new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_SPEED, LHConfig.COMMON.speedy::get)),
-				"Hostility Upgrade: Speedy", null);
+				"Hostility Modifier: Speedy", null);
 
 		LH_PROTECTION = GolemModifiers.reg("hostility_protection", () -> new PotionDefenseModifier(4, () -> MobEffects.DAMAGE_RESISTANCE),
-				"Hostility Upgrade: Protection", null);
+				"Hostility Modifier: Protection", null);
 
 		LH_REGEN = GolemModifiers.reg("hostility_regen", () -> new RegenModifier(StatFilterType.HEALTH, 5),
-				"Hostility Upgrade: Regeneration", null);
+				"Hostility Modifier: Regeneration", null);
 
 		LH_REFLECTIVE = GolemModifiers.reg("hostility_reflect", () -> new ReflectiveModifier(StatFilterType.HEALTH, 5),
-				"Hostility Upgrade: Reflective", null);
+				"Hostility Modifier: Reflective", null);
+
+		LH_ADAPTIVE = GolemModifiers.reg("hostility_adaptive", AdaptiveModifier::new,
+				"Hostility Modifier: Adaptive", null);
+		LH_DISPELL = GolemModifiers.reg("hostility_dispell", DispellModifier::new,
+				"Hostility Modifier: Dispell", null);
 
 		CORE = GolemItems.regModUpgrade("hostility_core", () -> LH_CORE, L2Hostility.MODID).lang("Hostility Core").register();
 		POTION = GolemItems.regModUpgrade("hostility_potion", () -> LH_POTION, L2Hostility.MODID).lang("Hostility Upgrade: Potion").register();

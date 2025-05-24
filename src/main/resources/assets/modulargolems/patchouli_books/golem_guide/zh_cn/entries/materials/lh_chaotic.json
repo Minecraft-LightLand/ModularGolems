@@ -1,0 +1,30 @@
+{
+	"flag": "mod:l2hostility",
+	"advancement": "l2hostility:hostility/ingot",
+	"name": "混沌",
+	"icon": "l2hostility:chaos_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1101,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "l2hostility:chaos_ingot",
+			"text": "制造混沌傀儡的主要材料。混沌傀儡有优秀的数值和大量自带的高级升级。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:metal_golem_body\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2hostility:chaotic\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2hostility:chaotic\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2hostility:chaotic\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

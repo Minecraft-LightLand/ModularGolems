@@ -1,0 +1,30 @@
+{
+	"flag": "mod:l2hostility",
+	"advancement": "l2hostility:hostility/ingot",
+	"name": "Chaotic",
+	"icon": "l2hostility:chaos_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1101,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "l2hostility:chaos_ingot",
+			"text": "Main material to craft Chaotic golem parts. Chaotic golem has high stats and a lot of useful builtin modifiers."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:metal_golem_body\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2hostility:chaotic\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2hostility:chaotic\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"l2hostility:chaotic\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2hostility:chaotic\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

@@ -1,3 +1,6 @@
+2.5.20
+- Chaotic Golem and Miraculous Golem for L2Hostility
+
 2.5.19
 - Incompatible items will be thrown out instead of crashing
 - TF Trophies no longer hide the head of all golems
