@@ -1,3 +1,7 @@
+3.0.25
+- Fix Infinity enchantment for Golem
+- When there are too many upgrades, show only a summary in command wand hover overlay to avoid cluttering
+
 3.0.24
 - Add Chaotic Golem and Miraculous Golem for L2Hostility
 
