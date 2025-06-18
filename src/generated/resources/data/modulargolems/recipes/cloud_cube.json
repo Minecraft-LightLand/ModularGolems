@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "key": {
+    "I": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "R": {
+      "item": "legendary_monsters:cloud_rod"
+    },
+    "X": [
+      {
+        "item": "legendary_monsters:air_rune"
+      },
+      {
+        "item": "legendary_monsters:atmospheric_boots"
+      }
+    ]
+  },
+  "pattern": [
+    "RIR",
+    "IXI",
+    "RIR"
+  ],
+  "result": {
+    "count": 9,
+    "item": "modulargolems:cloud_cube"
+  },
+  "show_notification": true
+}

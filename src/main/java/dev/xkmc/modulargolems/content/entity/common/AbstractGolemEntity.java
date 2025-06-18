@@ -952,15 +952,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (tracker.isUntracked(this)) return false;
 		Player owner = getOwner();
 		Entity cause = null;
+		boolean sendMessages = MGConfig.COMMON.sendForceRemovalMessage.get();
 		if (source != null) {
 			ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
-			if (owner != null) {
+			if (owner != null && sendMessages) {
 				owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
 			}
 			cause = source.getEntity();
 		} else {
 			ModularGolems.LOGGER.info("Golem {} is forcefully removed ", this);
-			if (owner != null) {
+			if (owner != null && sendMessages) {
 				owner.sendSystemMessage(Component.literal("Golem " + this + " is forcefully removed"));
 			}
 			if (getLastHurtByMobTimestamp() == tickCount) {

@@ -1,6 +1,12 @@
 {
   "values": [
-    "mowziesmobs:wrought_axe",
-    "mowziesmobs:wrought_helmet"
+    {
+      "id": "mowziesmobs:wrought_axe",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:wrought_helmet",
+      "required": false
+    }
   ]
 }

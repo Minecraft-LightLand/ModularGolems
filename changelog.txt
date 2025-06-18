@@ -1,3 +1,8 @@
+2.5.21
+- Add Cloud Golem for Legendary Monsters
+- Fix tag error
+- Add config for golem removal message
+
 2.5.20
 - Chaotic Golem and Miraculous Golem for L2Hostility
 
@@ -10,6 +15,7 @@
 - Add Molten Metal golem for Legendary Monsters
 - Add patchouli flag to allow books to be loaded with Create 0.5
 - Add advancement gating for patchouli contents
+
 
 2.5.17
 - Fix Goety Revelation upgrades

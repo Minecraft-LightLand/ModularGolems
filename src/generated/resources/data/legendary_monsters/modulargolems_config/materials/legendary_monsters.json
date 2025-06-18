@@ -1,10 +1,20 @@
 {
   "ingredients": {
+    "legendary_monsters:cloud": {
+      "item": "modulargolems:cloud_cube"
+    },
     "legendary_monsters:molten_metal": {
       "item": "legendary_monsters:molten_metal_ingot"
     }
   },
   "modifiers": {
+    "legendary_monsters:cloud": {
+      "modulargolems:add_slot": 1,
+      "modulargolems:cloud_forming": 1,
+      "modulargolems:damage_cap": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:thunderstorm": 1
+    },
     "legendary_monsters:molten_metal": {
       "modulargolems:ancient_anchor": 1,
       "modulargolems:armor_penetration": 2,
@@ -13,11 +23,20 @@
     }
   },
   "repairIngredients": {
+    "legendary_monsters:cloud": {
+      "item": "modulargolems:cloud_cube"
+    },
     "legendary_monsters:molten_metal": {
       "item": "legendary_monsters:molten_metal_ingot"
     }
   },
   "stats": {
+    "legendary_monsters:cloud": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:attack_knockback": 1.0,
+      "modulargolems:max_health": 600.0,
+      "modulargolems:sweep": 2.0
+    },
     "legendary_monsters:molten_metal": {
       "modulargolems:attack": 20.0,
       "modulargolems:attack_knockback": 1.0,

@@ -70,6 +70,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue stopWanderRadius;
 		public final ForgeConfigSpec.DoubleValue maxWanderRadius;
 		public final ForgeConfigSpec.DoubleValue riddenSpeedFactor;
+		public final ForgeConfigSpec.BooleanValue sendForceRemovalMessage;
 
 		public final ForgeConfigSpec.IntValue targetResetTime;
 		public final ForgeConfigSpec.DoubleValue targetResetNoMovementRange;
@@ -97,6 +98,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue soulHealingRate;
 		public final ForgeConfigSpec.IntValue soulHealingCost;
 		public final ForgeConfigSpec.DoubleValue soulHealingThreshold;
+
 
 		Common(ForgeConfigSpec.Builder builder) {
 			{
@@ -131,6 +133,8 @@ public class MGConfig {
 						.defineInRange("targetResetTime", 600, 1, 10000);
 				targetResetNoMovementRange = builder.comment("Distance considered as no movement")
 						.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
+				sendForceRemovalMessage = builder.comment("Send force removal message")
+						.define("sendForceRemovalMessage", true);
 
 				largeGolemSlot = builder.comment("Default slots for large golem")
 						.defineInRange("largeGolemSlot", 4, 0, 100);

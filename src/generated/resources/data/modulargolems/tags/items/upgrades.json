@@ -181,6 +181,10 @@
     {
       "id": "modulargolems:wroughtnaut",
       "required": false
+    },
+    {
+      "id": "modulargolems:thunderstorm",
+      "required": false
     }
   ]
 }

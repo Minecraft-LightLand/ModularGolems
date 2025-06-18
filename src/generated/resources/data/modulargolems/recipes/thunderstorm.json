@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "key": {
+    "O": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "R": {
+      "item": "legendary_monsters:cloud_rod"
+    },
+    "X": {
+      "item": "legendary_monsters:air_rune"
+    }
+  },
+  "pattern": [
+    " X ",
+    "ROR",
+    " R "
+  ],
+  "result": {
+    "item": "modulargolems:thunderstorm"
+  },
+  "show_notification": true
+}

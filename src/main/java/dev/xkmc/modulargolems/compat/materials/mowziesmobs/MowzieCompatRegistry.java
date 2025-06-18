@@ -33,9 +33,9 @@ public class MowzieCompatRegistry {
 
 	public static void register() {
 		MGTagGen.OPTIONAL_ITEM.add(pvd ->
-				pvd.addTag(WROUGHTNAUT_ITEMS).add(
-						ItemHandler.WROUGHT_AXE.get(),
-						ItemHandler.WROUGHT_HELMET.get()
-				));
+				pvd.addTag(WROUGHTNAUT_ITEMS)
+						.addOptional(ItemHandler.WROUGHT_AXE.getId())
+						.addOptional(ItemHandler.WROUGHT_HELMET.getId())
+		);
 	}
 }

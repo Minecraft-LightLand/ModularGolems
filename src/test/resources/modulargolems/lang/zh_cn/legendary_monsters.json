@@ -2,5 +2,12 @@
 
 	"golem_material.legendary_monsters.molten_metal": "熔融金属",
 	"modifier.modulargolems.ancient_anchor": "荒古锚",
-	"modifier.modulargolems.ancient_anchor.desc": "进行下落攻击，产生能眩晕敌人的冲击波"
+	"modifier.modulargolems.ancient_anchor.desc": "进行下落攻击，产生能眩晕敌人的冲击波",
+	"golem_material.legendary_monsters.cloud": "浮云",
+	"item.modulargolems.cloud_cube": "浮云立方",
+	"item.modulargolems.thunderstorm": "雷暴升级",
+	"modifier.modulargolems.thunderstorm": "雷暴",
+	"modifier.modulargolems.thunderstorm.desc": "召唤雷暴攻击多个目标。受伤时向周围释放电磁脉冲",
+	"modifier.modulargolems.cloud_forming": "聚云",
+	"modifier.modulargolems.cloud_forming.desc": "对高血量目标造成更多伤害"
 }
