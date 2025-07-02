@@ -98,6 +98,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue soulHealingRate;
 		public final ForgeConfigSpec.IntValue soulHealingCost;
 		public final ForgeConfigSpec.DoubleValue soulHealingThreshold;
+		public final ForgeConfigSpec.BooleanValue bossBreakShield;
 
 
 		Common(ForgeConfigSpec.Builder builder) {
@@ -135,6 +136,8 @@ public class MGConfig {
 						.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
 				sendForceRemovalMessage = builder.comment("Send force removal message")
 						.define("sendForceRemovalMessage", true);
+				bossBreakShield = builder.comment("All blockable boss attacks will be able to break shields")
+						.define("bossBreakShield", true);
 
 				largeGolemSlot = builder.comment("Default slots for large golem")
 						.defineInRange("largeGolemSlot", 4, 0, 100);

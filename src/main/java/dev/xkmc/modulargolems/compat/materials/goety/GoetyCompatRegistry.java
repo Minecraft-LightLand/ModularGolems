@@ -23,6 +23,7 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 public class GoetyCompatRegistry {
 
 	public static final RegistryEntry<PotionAttackModifier> BUSTED;
+	public static final RegistryEntry<SoulCollectionModifier> SOUL;
 	public static final RegistryEntry<HauntedModifier> HAUNTED;
 	public static final RegistryEntry<SoulRepairModifier> SOUL_REPAIR;
 	public static final RegistryEntry<FireBlastModifier> FIRE_BLAST;
@@ -33,7 +34,8 @@ public class GoetyCompatRegistry {
 	public static final RegistryEntry<ApostleModifier> APOSTLE;
 
 
-	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_BLAST, UPGRADE_TORNADO, UPGRADE_CLOUD,
+	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_SOUL,
+			UPGRADE_BLAST, UPGRADE_TORNADO, UPGRADE_CLOUD,
 			UPGRADE_BOLT, UPGRADE_BALL, UPGRADE_APOSTLE;
 
 	public static final TagKey<Item> REV_RING = ItemTags.create(ModularGolems.loc("revelation_ring"));
@@ -47,6 +49,7 @@ public class GoetyCompatRegistry {
 		HAUNTED = reg("haunted", HauntedModifier::new,
 				"Might summon haunted armor servant when killing enemies. " +
 						"Higher chance to summon when killed target is armored");
+		SOUL = reg("soul_collection", SoulCollectionModifier::new, "Collect soul from entities killed and give it to owner");
 		SOUL_REPAIR = reg("soul_repair", SoulRepairModifier::new,
 				"Repair golem equipments with player's soul energy. " +
 						"Also heal golem with soul energy when health is low");
@@ -62,6 +65,8 @@ public class GoetyCompatRegistry {
 				"Shoot Hell blast toward targets");
 		APOSTLE = reg("apostle", ApostleModifier::new, "Apostle Upgrades will not consume slot");
 
+		UPGRADE_SOUL = regModUpgrade("soul_collection", () -> SOUL, GoetyDispatch.MODID)
+				.lang("Soul Collection Upgrade").register();
 		UPGRADE_BLAST = regModUpgrade("fire_blast", () -> FIRE_BLAST, GoetyDispatch.MODID)
 				.lang("Apostle Upgrade: Fire Blast").register();
 		UPGRADE_TORNADO = regModUpgrade("fire_tornado", () -> FIRE_TORNADO, GoetyDispatch.MODID)
@@ -79,6 +84,7 @@ public class GoetyCompatRegistry {
 
 	public static void register() {
 		MGTagGen.OPTIONAL_ITEM.add(pvd -> {
+			pvd.addTag(MGTagGen.BLUE_UPGRADES).addOptional(UPGRADE_SOUL.getId());
 			pvd.addTag(REV_RING).addOptional(new ResourceLocation("goety_revelation", "ascension_halo"));
 			pvd.addTag(REV_DOOM).addOptional(new ResourceLocation("goety_revelation", "doom_medal"));
 			pvd.addTag(REV_INGOT).addOptional(new ResourceLocation("goety_revelation", "apocalyptium_ingot"));

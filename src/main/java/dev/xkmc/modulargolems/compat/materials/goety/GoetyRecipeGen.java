@@ -17,6 +17,17 @@ import static dev.xkmc.modulargolems.compat.materials.goety.GoetyDispatch.MODID;
 public class GoetyRecipeGen {
 
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT,
+						GoetyCompatRegistry.UPGRADE_SOUL.get())::unlockedBy, ModItems.DARK_METAL_INGOT.get())
+				.pattern("EDE").pattern("FXF").pattern("IFI")
+				.define('X', GolemItems.EMPTY_UPGRADE)
+				.define('I', ModItems.DARK_METAL_INGOT.get())
+				.define('E', ModItems.ECTOPLASM.get())
+				.define('F', ModItems.SPIRIT_FABRIC.get())
+				.define('D', ModItems.SOUL_EMERALD.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
 		RecipeGen.unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT,
 						GoetyCompatRegistry.UPGRADE_BLAST.get())::unlockedBy, ModItems.UNHOLY_BLOOD.get())
 				.requires(GolemItems.EMPTY_UPGRADE)

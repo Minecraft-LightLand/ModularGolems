@@ -4,6 +4,10 @@
       "id": "modulargolems:cleanse",
       "required": false
     },
+    {
+      "id": "modulargolems:soul_collection",
+      "required": false
+    },
     "modulargolems:bell",
     "modulargolems:ender_sight",
     "modulargolems:float",

@@ -268,7 +268,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		ItemStack stack = getItemInHand(hand);
 		boolean canDisable = source.canDisableShield() || source.getMainHandItem().canDisableShield(stack, this, source);
 		int cd = 100;
-		if (source.getType().is(MGTagGen.SHIELD_BREAKER)) {
+		if (MGConfig.COMMON.bossBreakShield.get() && source.getType().is(MGTagGen.SHIELD_BREAKER)) {
 			canDisable = true;
 			cd *= 2;
 		}

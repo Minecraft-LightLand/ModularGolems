@@ -260,7 +260,7 @@ dependencies {
     implementation fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE")
     runtimeOnly fg.deobf("curse.maven:geckolib-388172:6333474")
     runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4587214")
-    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:4693050")
+    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:6488484")
     implementation fg.deobf("curse.maven:ars-nouveau-401955:4751471")
     implementation fg.deobf("curse.maven:mantle-74924:6105891")
     implementation fg.deobf("curse.maven:tinkers-construct-74072:6111032")
@@ -281,6 +281,7 @@ dependencies {
 
     compileOnly fg.deobf("maven.modrinth:goety-revelation:2.1.5")
     implementation fg.deobf("curse.maven:legendary-monsters-944035:6447119")
+    compileOnly fg.deobf("zip.local:touhou_little_maid_spell:1.2.2")
     //compileOnly fg.deobf("local.zip:RevelationFix:1.20.1")
 
 }

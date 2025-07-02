@@ -139,6 +139,10 @@
       "required": false
     },
     {
+      "id": "modulargolems:soul_collection",
+      "required": false
+    },
+    {
       "id": "modulargolems:fire_blast",
       "required": false
     },

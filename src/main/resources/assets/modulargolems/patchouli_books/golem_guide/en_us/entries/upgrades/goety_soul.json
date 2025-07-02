@@ -1,0 +1,13 @@
+{
+	"flag": "mod:goety",
+	"name": "Soul Collection Upgrade",
+	"icon": "modulargolems:soul_collection",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:soul_collection",
+			"text": "Give owner soul energy when golem kills enemies. Amplifies the soul energy gained by modifier level. Max level: 4"
+		}
+	]
+}

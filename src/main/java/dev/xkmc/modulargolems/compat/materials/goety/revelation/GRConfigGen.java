@@ -37,6 +37,7 @@ public class GRConfigGen extends ConfigDataProvider {
 				.addModifier(GRCompatRegistry.REVIVE.get(), 1)
 				.addModifier(GRCompatRegistry.CD_BYPASS.get(), 1)
 				.addModifier(GRCompatRegistry.BOW.get(), 2)
+				.addModifier(GoetyCompatRegistry.SOUL.get(), 2)
 				.end()
 
 		);

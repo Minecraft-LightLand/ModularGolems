@@ -38,6 +38,7 @@ public class GoetyConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 2)
 				.addModifier(GoetyCompatRegistry.HAUNTED.get(), 2)
 				.addModifier(GoetyCompatRegistry.SOUL_REPAIR.get(), 1)
+				.addModifier(GoetyCompatRegistry.SOUL.get(), 1)
 				.end()
 
 		);

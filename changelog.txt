@@ -1,5 +1,7 @@
 2.5.22
 - Bosses now can disable golem shields for 10 seconds on blockable attack
+- Add Soul Collection upgrade
+- Improve some textures
 
 2.5.21
 - Add Cloud Golem for Legendary Monsters

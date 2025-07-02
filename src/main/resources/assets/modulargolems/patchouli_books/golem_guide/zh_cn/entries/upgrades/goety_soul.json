@@ -1,0 +1,13 @@
+{
+	"flag": "mod:goety",
+	"name": "灵魂收割升级",
+	"icon": "modulargolems:soul_collection",
+	"category": "modulargolems:upgrades",
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:soul_collection",
+			"text": "傀儡击杀敌人的时候为主人提供灵魂能量。高等级提升获取的灵魂量。最大等级：4"
+		}
+	]
+}
