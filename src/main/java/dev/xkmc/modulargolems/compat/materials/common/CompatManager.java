@@ -10,12 +10,16 @@ import dev.xkmc.modulargolems.compat.materials.iceandfire.IAFDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
+import dev.xkmc.modulargolems.compat.misc.CEICompat;
+import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.data.MGConfigGen;
+import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import plus.dragons.createenchantmentindustry.common.CEICommon;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +41,14 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(CataDispatch.MODID)) LIST.add(new CataDispatch());
 		if (ModList.get().isLoaded(IAFDispatch.MODID)) LIST.add(new IAFDispatch());
 		if (ModList.get().isLoaded(ATMDispatch.MODID)) LIST.add(new ATMDispatch());
-		//if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
+		if (ModList.get().isLoaded(CEICommon.ID)) CEICompat.register();
+	}
+
+	public static void commonSetup() {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.commonSetup();
+		}
+		if (ModList.get().isLoaded(MusketMod.MODID)) GolemMusketCompat.init();
 	}
 
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {

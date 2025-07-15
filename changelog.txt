@@ -1,3 +1,8 @@
+3.0.26
+- Bosses now can disable golem shields for 10 seconds on blockable attack
+- Restore compat with ewewukek's musket mod
+- Restore compat with Create Enchantment Industry
+
 3.0.25
 - Fix Infinity enchantment for Golem
 - When there are too many upgrades, show only a summary in command wand hover overlay to avoid cluttering

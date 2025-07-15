@@ -114,6 +114,7 @@ public class ModularGolems {
 		event.enqueueWork(() -> {
 			GolemWeaponRegistry.init();
 			GolemDispenserBehaviors.registerDispenseBehaviors();
+			CompatManager.commonSetup();
 		});
 	}
 

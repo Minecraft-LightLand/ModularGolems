@@ -26,7 +26,7 @@ public class CEICompat {
 		int val = event.getOrb().getValue();
 		if (val <= 0) return;
 		BlockPos pos = event.getEntity().blockPosition();
-		List<BlockPos> list = List.of(pos, pos.above());
+		List<BlockPos> list = List.of(pos, pos.above(), pos.below());
 		var level = event.getEntity().level();
 		for (BlockPos i : list) {
 			if (level.getBlockEntity(i) instanceof GrindstoneDrainBlockEntity) {

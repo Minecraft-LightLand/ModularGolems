@@ -34,4 +34,7 @@ public abstract class ModDispatch {
 	public void lateRegister() {
 	}
 
+	public void commonSetup() {
+	}
+
 }

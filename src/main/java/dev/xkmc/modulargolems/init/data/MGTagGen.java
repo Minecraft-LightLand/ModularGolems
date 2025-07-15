@@ -46,6 +46,8 @@ public class MGTagGen {
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
 	public static final TagKey<Item> EXPANSION = createItemTag("expansion_template");
+	public static final TagKey<EntityType<?>> SHIELD_BREAKER = createEntityTag("shield_breaker");
+
 
 	public static final List<Consumer<RegistrateItemTagsProvider>> OPTIONAL_ITEM = new ArrayList<>();
 	public static final List<Consumer<RegistrateTagsProvider<Block>>> OPTIONAL_BLOCK = new ArrayList<>();
@@ -121,6 +123,7 @@ public class MGTagGen {
 		pvd.addTag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
 		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
 				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
+		pvd.addTag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
