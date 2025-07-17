@@ -31,6 +31,8 @@ import java.util.UUID;
 
 class MaidManageGolemBehavior extends Behavior<EntityMaid> {
 
+	private static final int CD = 40, MAX_DIST = 35;
+
 	public static void collectAll(EntityMaid owner, List<UUID> list) {
 		var level = owner.level();
 		if (!(level instanceof ServerLevel sl)) return;
@@ -103,7 +105,7 @@ class MaidManageGolemBehavior extends Behavior<EntityMaid> {
 		return null;
 	}
 
-	private static boolean trySummon(EntityMaid owner, LivingEntity target, ArrayList<UUID> list, ItemStack stack) {
+	public static boolean trySummon(EntityMaid owner, LivingEntity target, List<UUID> list, ItemStack stack) {
 		if (!(stack.getItem() instanceof GolemHolder<?, ?> holder)) return false;
 		var player = owner.getOwner() instanceof Player pl ? pl : null;
 		var pos = getRandomPos(owner.level(), holder.getEntityType().type(), owner, target, 4, 6);
@@ -136,6 +138,27 @@ class MaidManageGolemBehavior extends Behavior<EntityMaid> {
 		var target = opt.get();
 		var inv = owner.getAvailableInv(false);
 		var list = new ArrayList<>(owner.getBrain().getMemory(MaidRegistry.GOLEMS.get()).orElse(List.of()));
+		checkGolemsInLevel(level, owner, inv, list, target);
+		for (int i = 0; i < inv.getSlots(); i++) {
+			ItemStack stack = inv.getStackInSlot(i);
+			if (!stack.is(MGTagGen.GOLEM_HOLDERS)) continue;
+			stack.inventoryTick(level, owner, 0, false);
+		}
+		if (cooldown > 0) cooldown--;
+		else doSummonGolems(level, owner, inv, list, target);
+		owner.getBrain().setMemory(MaidRegistry.GOLEMS.get(), list);
+	}
+
+	protected void stop(ServerLevel worldIn, EntityMaid self, long gameTimeIn) {
+		var opt = self.getBrain().getMemory(MaidRegistry.GOLEMS.get());
+		if (opt.isPresent()) {
+			var list = opt.get();
+			MaidManageGolemBehavior.collectAll(self, list);
+			self.getBrain().setMemory(MaidRegistry.GOLEMS.get(), list);
+		}
+	}
+
+	private void checkGolemsInLevel(ServerLevel level, EntityMaid owner, IItemHandlerModifiable inv, List<UUID> list, LivingEntity target) {
 		var itr = list.iterator();
 		while (itr.hasNext()) {
 			var id = itr.next();
@@ -154,42 +177,26 @@ class MaidManageGolemBehavior extends Behavior<EntityMaid> {
 				itr.remove();
 			}
 		}
+	}
+
+	private void doSummonGolems(ServerLevel level, EntityMaid owner, IItemHandlerModifiable inv, List<UUID> list, LivingEntity target) {
 		for (int i = 0; i < inv.getSlots(); i++) {
 			ItemStack stack = inv.getStackInSlot(i);
 			if (!stack.is(MGTagGen.GOLEM_HOLDERS)) continue;
-			stack.inventoryTick(level, owner, 0, false);
-		}
-		if (cooldown > 0) cooldown--;
-		else {
-			for (int i = 0; i < inv.getSlots(); i++) {
-				ItemStack stack = inv.getStackInSlot(i);
-				if (!stack.is(MGTagGen.GOLEM_HOLDERS)) continue;
-				if (inv.extractItem(i, 1, true).isEmpty()) continue;
-				var hp = GolemHolder.getHealth(stack);
-				if (hp != -1 && hp < summonHealth(owner) * GolemHolder.getMaxHealth(stack)) continue;
-				if (trySummon(owner, target, list, stack)) {
-					inv.extractItem(i, 1, false);
-					cooldown = 40;
-				}
-				break;
+			if (inv.extractItem(i, 1, true).isEmpty()) continue;
+			var hp = GolemHolder.getHealth(stack);
+			if (hp != -1 && hp < summonHealth(owner) * GolemHolder.getMaxHealth(stack)) continue;
+			if (trySummon(owner, target, list, stack)) {
+				inv.extractItem(i, 1, false);
+				cooldown = CD;
 			}
-		}
-		owner.getBrain().setMemory(MaidRegistry.GOLEMS.get(), list);
-
-	}
-
-	protected void stop(ServerLevel worldIn, EntityMaid self, long gameTimeIn) {
-		var opt = self.getBrain().getMemory(MaidRegistry.GOLEMS.get());
-		if (opt.isPresent()) {
-			var list = opt.get();
-			MaidManageGolemBehavior.collectAll(self, list);
-			self.getBrain().setMemory(MaidRegistry.GOLEMS.get(), list);
+			return;
 		}
 	}
 
 	private boolean shouldCollect(EntityMaid owner, AbstractGolemEntity<?, ?> golem) {
 		return golem.isAlive() && (golem.getHealth() < golem.getMaxHealth() * collectHealth(owner) ||
-				golem.distanceTo(owner) > 35);
+				golem.distanceTo(owner) > MAX_DIST);
 	}
 
 	private float collectHealth(EntityMaid maid) {

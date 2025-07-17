@@ -1,19 +1,29 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
+import dev.xkmc.modulargolems.init.data.RecipeGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.miauczel.legendary_monsters.effect.ModEffects;
 import net.miauczel.legendary_monsters.entity.CameraShakeEntity;
+import net.miauczel.legendary_monsters.entity.custom.ElectricityEntity;
 import net.miauczel.legendary_monsters.entity.custom.LightningBoltEntity;
+import net.miauczel.legendary_monsters.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -69,6 +79,27 @@ public class LMProxy {
 		}
 	}
 
+	public static void spawnElectricShock(Entity attacker, LivingEntity entity, float damage, int n) {
+		try {
+			var dir = attacker.position().subtract(entity.position()).normalize();
+			double val = (dir.x * dir.x + dir.z * dir.z);
+			Vec3 ax0 = val < 1e-4 ? new Vec3(1, 0, 0) :
+					new Vec3(-dir.x * dir.y, val, -dir.z * dir.y).normalize();
+			Vec3 ax1 = dir.cross(ax0).normalize();
+			for (int i = 0; i < n; i++) {
+				double rad = Math.PI * 2 / n * i;
+				var vec = ax1.scale(Math.sin(rad)).add(dir.scale(Math.cos(rad)));
+				float angle = (float) (Math.atan2(vec.z, vec.x) * Mth.RAD_TO_DEG);
+				ElectricityEntity e = new ElectricityEntity(entity, vec.x, vec.y, vec.z, entity.level(), damage, angle, 20.0F);
+				Vec3 pos = entity.position().add(vec);
+				e.setPos(pos.x, pos.y, pos.z);
+				entity.level().addFreshEntity(e);
+			}
+		} catch (Exception ignored) {
+
+		}
+	}
+
 	private static void spawnBoltStrip(Mob e, LivingEntity target, int step, int dmg) {
 		double d0 = Math.min(target.getY(), e.getY());
 		double d1 = Math.max(target.getY(), e.getY()) + (double) 2.0F;
@@ -113,4 +144,22 @@ public class LMProxy {
 
 	}
 
+	public static void genRecipe(RegistrateRecipeProvider pvd) {
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.CLOUD_CUBE, 9)::unlockedBy,
+						ModItems.AIR_RUNE.get())
+				.pattern("RIR").pattern("IXI").pattern("RIR")
+				.define('I', GolemItems.GOLEM_TEMPLATE)
+				.define('R', ModItems.CLOUD_ROD.get())
+				.define('X', Ingredient.of(ModItems.AIR_RUNE.get(), ModItems.ATMOSPHERIC_BOOTS.get()))
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.UPGRADE_THUNDER.get())::unlockedBy,
+						ModItems.AIR_RUNE.get())
+				.pattern(" X ").pattern("ROR").pattern(" R ")
+				.define('R', ModItems.CLOUD_ROD.get())
+				.define('X', ModItems.AIR_RUNE.get())
+				.define('O', GolemItems.EMPTY_UPGRADE)
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+	}
 }

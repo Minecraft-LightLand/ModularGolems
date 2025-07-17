@@ -1,3 +1,7 @@
+2.5.23
+- Now Maids from TLM can summon and collect golems in combat
+- Fix crash with newest Legendary Monsters
+
 2.5.22
 - Bosses now can disable golem shields for 10 seconds on blockable attack
 - Add Soul Collection upgrade

@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.maid;
 
 import com.github.tartaricacid.touhoulittlemaid.api.task.IAttackTask;
-import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task.MaidAttackStrafingTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.google.common.collect.Lists;
@@ -32,7 +31,7 @@ public class MaidSummonerTask implements IAttackTask {
 
 	public static final ResourceLocation UID = ModularGolems.loc("summon_golems");
 
-	private static final int STOP_MOVING_DIST = 20;
+	private static final int STOP_MOVING_DIST = 24;
 	private static final int STOP_ATTACK_DIST = 35;
 
 	public ResourceLocation getUid() {
@@ -52,8 +51,8 @@ public class MaidSummonerTask implements IAttackTask {
 		return Lists.newArrayList(
 				Pair.of(5, createStartAttack()),
 				Pair.of(5, createStopAttack(maid)),
-				Pair.of(5, createMoveToTarget(1f)),
-				Pair.of(5, new MaidAttackStrafingTask()),
+				Pair.of(5, createMoveToTarget(0.6f)),
+				Pair.of(5, new MaidSummonerStrafingBehavior(20, 28)),
 				Pair.of(5, new MaidManageGolemBehavior())
 		);
 	}
@@ -76,10 +75,10 @@ public class MaidSummonerTask implements IAttackTask {
 	}
 
 	public List<Pair<String, Predicate<EntityMaid>>> getConditionDescription(EntityMaid maid) {
-		return Collections.singletonList(Pair.of("has_golem_wand", this::hasGolemWand));
+		return Collections.singletonList(Pair.of("has_golem_wand", MaidSummonerTask::hasGolemWand));
 	}
 
-	private boolean hasGolemWand(EntityMaid maid) {
+	public static boolean hasGolemWand(EntityMaid maid) {
 		return maid.getMainHandItem().is(MGTagGen.GOLEM_OMNI_WAND);
 	}
 
@@ -88,12 +87,12 @@ public class MaidSummonerTask implements IAttackTask {
 	}
 
 	private BehaviorControl<EntityMaid> createStartAttack() {
-		return StartAttacking.create(this::hasGolemWand, IAttackTask::findFirstValidAttackTarget);
+		return StartAttacking.create(MaidSummonerTask::hasGolemWand, IAttackTask::findFirstValidAttackTarget);
 	}
 
 	private BehaviorControl<EntityMaid> createStopAttack(EntityMaid maid) {
 		return StopAttackingIfTargetInvalid.create(
-				(target) -> !this.hasGolemWand(maid) || this.farAway(target, maid),
+				(target) -> !hasGolemWand(maid) || this.farAway(target, maid),
 				this::stopAttack, true
 		);
 	}
