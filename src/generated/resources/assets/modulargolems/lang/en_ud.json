@@ -596,5 +596,8 @@
   "potion.potency.6": "IIΛ",
   "potion.potency.7": "IIIΛ",
   "potion.potency.8": "XI",
-  "potion.potency.9": "X"
+  "potion.potency.9": "X",
+  "task.modulargolems.summon_golems": "ɹǝuoɯɯnS ɯǝןo⅁",
+  "task.modulargolems.summon_golems.condition.has_golem_wand": "puɐM ʇuǝʇodıuɯO pןoH",
+  "task.modulargolems.summon_golems.desc": "sqoɯ ǝןıʇsoɥ buıpunoɹɹns ʞɔɐʇʇɐ oʇ sɯǝןob uoɯɯns ןןıʍ pıɐW"
 }

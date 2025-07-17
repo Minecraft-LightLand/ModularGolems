@@ -1,0 +1,5 @@
+{
+	"task.modulargolems.summon_golems.condition.has_golem_wand": "主手持有万能手杖",
+	"task.modulargolems.summon_golems.desc": "女仆会主动召唤傀儡攻击周围的敌对生物",
+	"task.modulargolems.summon_golems": "傀儡师"
+}

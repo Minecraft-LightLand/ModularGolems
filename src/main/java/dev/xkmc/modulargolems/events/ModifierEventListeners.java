@@ -49,6 +49,10 @@ public class ModifierEventListeners {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void onAttackPre(LivingAttackEvent event) {
 		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
+			if (!entity.canAttack(event.getEntity())) {
+				event.setCanceled(true);
+				return;
+			}
 			entity.getModifiers().forEach((k, v) -> k.onAttackTarget(entity, event, v));
 		}
 	}

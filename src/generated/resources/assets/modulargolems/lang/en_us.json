@@ -596,5 +596,8 @@
   "potion.potency.6": "VII",
   "potion.potency.7": "VIII",
   "potion.potency.8": "IX",
-  "potion.potency.9": "X"
+  "potion.potency.9": "X",
+  "task.modulargolems.summon_golems": "Golem Summoner",
+  "task.modulargolems.summon_golems.condition.has_golem_wand": "Hold Omnipotent Wand",
+  "task.modulargolems.summon_golems.desc": "Maid will summon golems to attack surrounding hostile mobs"
 }

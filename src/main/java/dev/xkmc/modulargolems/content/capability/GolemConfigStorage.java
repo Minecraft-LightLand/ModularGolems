@@ -18,10 +18,18 @@ public class GolemConfigStorage {
 	public static Capability<GolemConfigStorage> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
 	});
 
+	private static ServerLevel LAST_LEVEL = null;
+	private static GolemConfigStorage LAST_CACHE = null;
+
 	public static GolemConfigStorage get(Level level) {
-		if (level instanceof ServerLevel sl)
-			return sl.getServer().overworld().getCapability(CAPABILITY).resolve().get();
-		else return getClientCache(level);
+		if (level instanceof ServerLevel sl) {
+			if (LAST_LEVEL == sl.getServer().overworld() && LAST_CACHE != null) {
+				return LAST_CACHE;
+			}
+			LAST_LEVEL = sl.getServer().overworld();
+			LAST_CACHE = LAST_LEVEL.getCapability(CAPABILITY).resolve().get();
+			return LAST_CACHE;
+		} else return getClientCache(level);
 	}
 
 	private static GolemConfigStorage CACHE = null;

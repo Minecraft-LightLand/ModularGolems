@@ -23,6 +23,7 @@ import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -74,6 +75,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
@@ -106,7 +108,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private ArrayList<Item> upgrades = new ArrayList<>();
 	@SerialClass.SerialField(toClient = true)
 	@Nullable
-	private UUID owner;
+	private UUID owner, leader;
 	@SerialClass.SerialField(toClient = true)
 	private HashMap<GolemModifier, Integer> modifiers = new LinkedHashMap<>();
 	@SerialClass.SerialField(toClient = true)
@@ -224,9 +226,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@ServerOnly
-	public ItemStack toItem(Player player) {
+	public ItemStack toItem(LivingEntity player) {
 		recordedPosition = position();
 		recordedGuardPos = getGuardPos();
+		leader = null;
 		untrack(player == getOwner() ? GolemTracker.Status.RETRIEVED : GolemTracker.Status.OTHER_RETRIEVED, player);
 		var ans = GolemHolder.setEntity(getThis());
 		level().broadcastEntityEvent(this, EntityEvent.POOF);
@@ -246,11 +249,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			unRide();
 			if (hasFlag(GolemFlags.RECYCLE)) {
 				untrack(GolemTracker.Status.DEATH_RECYCLE, null);
-				Player player = getOwner();
-				if (player != null && player.isAlive()) {
-					ItemStack stack = GolemHolder.setEntity(getThis());
-					player.getInventory().placeItemBackInInventory(stack);
-				}
+				returnToInventory();
 			} else {
 				untrack(GolemTracker.Status.DEATH, null);
 			}
@@ -262,15 +261,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	protected void postHurt(DamageSource source) {
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
-			Player player = getOwner();
 			unRide();
 			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
-			ItemStack stack = GolemHolder.setEntity(getThis());
-			if (player != null && player.isAlive()) {
-				player.getInventory().placeItemBackInInventory(stack);
-			} else {
-				spawnAtLocation(stack);
-			}
+			returnToInventory();
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
 		}
@@ -357,9 +350,32 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		try {
 			UUID uuid = this.getOwnerUUID();
 			return uuid == null ? null : this.level().getPlayerByUUID(uuid);
-		} catch (IllegalArgumentException illegalargumentexception) {
+		} catch (IllegalArgumentException ignored) {
 			return null;
 		}
+	}
+
+	@Nullable
+	public LivingEntity getLeader() {
+		try {
+			UUID uuid = this.getLeaderUUID();
+			if (uuid == null) return null;
+			if (!(level() instanceof ServerLevel sl)) return null;
+			var e = sl.getEntity(uuid);
+			if (!(e instanceof LivingEntity le)) return null;
+			return le;
+		} catch (IllegalArgumentException ignored) {
+			return null;
+		}
+	}
+
+	@Nullable
+	public UUID getLeaderUUID() {
+		return leader;
+	}
+
+	public void setLeader(LivingEntity le) {
+		leader = le.getUUID();
 	}
 
 	// ------ addition golem behavior
@@ -806,6 +822,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (getMode() == GolemModes.SQUAD) {
 			return getCaptain();
 		}
+		var leader = getLeader();
+		if (leader != null) return leader;
 		return getOwner();
 	}
 
@@ -970,12 +988,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			tracker.untrack(this, GolemTracker.Status.DEATH_RECYCLE, cause);
-			ItemStack stack = GolemHolder.setEntity(getThis());
-			if (owner != null && owner.isAlive()) {
-				owner.getInventory().placeItemBackInInventory(stack);
-			} else {
-				spawnAtLocation(stack);
-			}
+			returnToInventory();
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
 			return true;
 		} else {
@@ -987,6 +1000,40 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void speedUpUseItem(int tick) {
 		if (useItemRemaining > 0) {
 			useItemRemaining -= tick;
+		}
+	}
+
+	@Override
+	public void setPosRaw(double x, double y, double z) {
+		trackPos(x, y, z);
+		super.setPosRaw(x, y, z);
+	}
+
+	public void trackPos(double x, double y, double z) {
+		if (level().isClientSide() || !isAddedToWorld()) return;
+		var id = getOwnerUUID();
+		if (id == null || id.equals(Util.NIL_UUID)) return;
+		if (getOwner() instanceof FakePlayer) return;
+		var tracker = GolemConfigStorage.get(level()).getTracker(id);
+		tracker.trackPos(getUUID(), x, y, z);
+	}
+
+	public void returnToInventory() {
+		var leader = getLeader();
+		ItemStack stack = GolemHolder.setEntity(getThis());
+		if (leader != null && leader.isAlive()) {
+			if (MinecraftForge.EVENT_BUS.post(new GolemToOwnerEvent(leader, stack))) {
+				return;
+			}
+		}
+		Player player = getOwner();
+		if (player != null && player.isAlive()) {
+			if (MinecraftForge.EVENT_BUS.post(new GolemToOwnerEvent(player, stack))) {
+				return;
+			}
+			player.getInventory().placeItemBackInInventory(stack);
+		} else {
+			spawnAtLocation(stack);
 		}
 	}
 

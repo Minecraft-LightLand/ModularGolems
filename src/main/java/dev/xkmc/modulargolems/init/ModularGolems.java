@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.init;
 
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
@@ -8,6 +9,7 @@ import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
 import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
+import dev.xkmc.modulargolems.compat.maid.MaidRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;

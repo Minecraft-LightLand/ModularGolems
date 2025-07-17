@@ -6,7 +6,7 @@ import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.blazegear.DuplicatedBlazeArmsModel;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.compat.misc.MaidCompat;
+import dev.xkmc.modulargolems.compat.maid.MaidSkinCompat;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.client.tracker.GolemInvTab;
@@ -47,7 +47,7 @@ public class GolemClient {
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
 		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
-			MinecraftForge.EVENT_BUS.register(MaidCompat.class);
+			MinecraftForge.EVENT_BUS.register(MaidSkinCompat.class);
 		}
 		event.enqueueWork(() -> {
 			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
@@ -95,7 +95,7 @@ public class GolemClient {
 		PlayerSkinRenderer.SLIM = new PlayerSkinRenderer(event.getContext(), true);
 		PlayerSkinRenderer.REGULAR = new PlayerSkinRenderer(event.getContext(), false);
 		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
-			MaidCompat.addLayers(event);
+			MaidSkinCompat.addLayers(event);
 		}
 	}
 

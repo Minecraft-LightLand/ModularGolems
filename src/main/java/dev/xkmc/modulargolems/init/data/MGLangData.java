@@ -203,6 +203,10 @@ public enum MGLangData {
 
 		PatchouliLang.genLang(pvd);
 
+		pvd.add("task.modulargolems.summon_golems", "Golem Summoner");
+		pvd.add("task.modulargolems.summon_golems.desc", "Maid will summon golems to attack surrounding hostile mobs");
+		pvd.add("task.modulargolems.summon_golems.condition.has_golem_wand", "Hold Omnipotent Wand");
+
 	}
 
 }
