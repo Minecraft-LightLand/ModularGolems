@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.maid;
 
 import com.github.tartaricacid.touhoulittlemaid.api.task.IAttackTask;
+import com.github.tartaricacid.touhoulittlemaid.api.task.IRangedAttackTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.google.common.collect.Lists;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class MaidSummonerTask implements IAttackTask {
+public class MaidSummonerTask implements IRangedAttackTask {
 
 	public static final ResourceLocation UID = ModularGolems.loc("summon_golems");
 
@@ -66,16 +67,20 @@ public class MaidSummonerTask implements IAttackTask {
 	}
 
 	private void stopAttack(EntityMaid self, LivingEntity target) {
-		var opt = self.getBrain().getMemory(MaidRegistry.GOLEMS.get());
-		if (opt.isPresent()) {
-			var list = opt.get();
-			MaidManageGolemBehavior.collectAll(self, list);
-			self.getBrain().setMemory(MaidRegistry.GOLEMS.get(), list);
-		}
+		GolemSummonUtils.collectAll(self);
 	}
 
 	public List<Pair<String, Predicate<EntityMaid>>> getConditionDescription(EntityMaid maid) {
 		return Collections.singletonList(Pair.of("has_golem_wand", MaidSummonerTask::hasGolemWand));
+	}
+
+	@Override
+	public void performRangedAttack(EntityMaid maid, LivingEntity target, float v) {
+	}
+
+	@Override
+	public float searchRadius(EntityMaid maid) {
+		return 35;
 	}
 
 	public static boolean hasGolemWand(EntityMaid maid) {
@@ -101,21 +106,33 @@ public class MaidSummonerTask implements IAttackTask {
 		return BehaviorBuilder.create((ins) -> ins.group(
 						ins.registered(MemoryModuleType.WALK_TARGET),
 						ins.registered(MemoryModuleType.LOOK_TARGET),
+						ins.registered(MemoryModuleType.INTERACTION_TARGET),
 						ins.present(MemoryModuleType.ATTACK_TARGET),
 						ins.registered(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)
 				).apply(ins, (
-						targetPos,
-						tracker,
-						target,
+						toNavigate,
+						toLook,
+						interactTarget,
+						attackTarget,
 						targetList) ->
-						(level, self, i) -> {
-							LivingEntity e = ins.get(target);
-							Optional<NearestVisibleLivingEntities> optList = ins.tryGet(targetList);
-							if (optList.isPresent() && optList.get().contains(e) && self.closerThan(e, STOP_MOVING_DIST)) {
-								targetPos.erase();
+						(level, self, time) -> {
+							var fix = ins.tryGet(interactTarget);
+							if (fix.isPresent()) {
+								toLook.set(new EntityTracker(fix.get(), true));
+								if (self.closerThan(fix.get(), 1.5)) {
+									toNavigate.erase();
+								} else {
+									toNavigate.set(new WalkTarget(new EntityTracker(fix.get(), false), speed, 0));
+								}
 							} else {
-								tracker.set(new EntityTracker(e, true));
-								targetPos.set(new WalkTarget(new EntityTracker(e, false), speed, 0));
+								LivingEntity atk = ins.get(attackTarget);
+								Optional<NearestVisibleLivingEntities> optList = ins.tryGet(targetList);
+								if (optList.isPresent() && optList.get().contains(atk) && self.closerThan(atk, STOP_MOVING_DIST)) {
+									toNavigate.erase();
+								} else {
+									toLook.set(new EntityTracker(atk, true));
+									toNavigate.set(new WalkTarget(new EntityTracker(atk, false), speed, 0));
+								}
 							}
 							return true;
 						})

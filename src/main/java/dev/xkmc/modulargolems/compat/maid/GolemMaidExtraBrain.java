@@ -9,7 +9,7 @@ public class GolemMaidExtraBrain implements IExtraMaidBrain {
 
 	@Override
 	public List<MemoryModuleType<?>> getExtraMemoryTypes() {
-		return List.of(MaidRegistry.GOLEMS.get());
+		return List.of(MaidRegistry.GOLEMS.get(), MemoryModuleType.INTERACTION_TARGET);
 	}
 
 }

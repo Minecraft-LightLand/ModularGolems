@@ -4,10 +4,13 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.List;
@@ -22,8 +25,21 @@ public class MaidRegistry {
 	@SubscribeEvent
 	public static void onGolemReturn(GolemToOwnerEvent event) {
 		if (event.getOwner() instanceof EntityMaid maid) {
-			if (MaidManageGolemBehavior.returnToInv(maid, event.getStack())) {
+			if (GolemSummonUtils.returnToInv(maid, event.getStack())) {
 				event.setCanceled(true);
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void maidTick(LivingEvent.LivingTickEvent event) {
+		if (event.getEntity() instanceof EntityMaid maid) {
+			var inv = maid.getAvailableInv(false);
+			for (int i = 0; i < inv.getSlots(); i++) {
+				ItemStack stack = inv.getStackInSlot(i);
+				if (!stack.is(MGTagGen.GOLEM_HOLDERS)) continue;
+				stack.inventoryTick(maid.level(), maid, i, false);
+				inv.setStackInSlot(i, stack);
 			}
 		}
 	}

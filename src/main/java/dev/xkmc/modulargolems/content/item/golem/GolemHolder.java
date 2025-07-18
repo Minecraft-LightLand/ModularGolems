@@ -201,14 +201,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
 	}
 
-	@Override
-	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+	public float getInvHeal(ItemStack stack, Entity entity) {
 		CompoundTag root = stack.getTag();
-		if (root == null) return;
-		if (root.contains(KEY_ENTITY) && entity.tickCount % 20 == 0) {
+		if (root == null) return 0;
+		if (root.contains(KEY_ENTITY)) {
 			var health = getHealth(stack);
 			var maxHealth = getMaxHealth(stack);
-			if (health >= maxHealth) return;
+			if (health >= maxHealth) return 0;
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
 			var attr = GolemMaterial.collectAttributes(mats, upgrades);
@@ -218,15 +217,25 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				for (var entry : modifiers.entrySet()) {
 					entry.getKey().onRegisterFlag(test);
 				}
-				if (!test.matched()) return;
+				if (!test.matched()) return 0;
 			}
 			double heal = attr.getOrDefault(GolemTypes.GOLEM_REGEN.get(), Pair.of(GolemTypes.STAT_REGEN.get(), 0d)).getSecond();
 			var ctx = new GolemModifier.HealingContext(health, maxHealth, entity);
 			for (var entry : modifiers.entrySet()) {
 				heal = entry.getKey().onInventoryHealTick(heal, ctx, entry.getValue());
 			}
+			return Math.min(maxHealth, (float) heal + health) - health;
+		}
+		return 0;
+	}
+
+	@Override
+	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+		if (entity.tickCount % 20 == 0) {
+			var health = getHealth(stack);
+			var heal = getInvHeal(stack, entity);
 			if (heal > 0) {
-				setHealth(stack, Math.min(maxHealth, (float) heal + health));
+				setHealth(stack, health + heal);
 			}
 		}
 	}

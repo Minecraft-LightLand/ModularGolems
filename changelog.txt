@@ -1,3 +1,7 @@
+2.5.24
+- Maids can repair golems they own
+- Fix Maid enemy search range in golem summoner mode
+
 2.5.23
 - Now Maids from TLM can summon and collect golems in combat
 - Fix crash with newest Legendary Monsters
