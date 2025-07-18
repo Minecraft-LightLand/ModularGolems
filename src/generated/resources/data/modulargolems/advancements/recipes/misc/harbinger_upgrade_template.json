@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:recipes/root",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:harbinger_upgrade_template"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_witherite_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cataclysm:witherite_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_witherite_ingot",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:harbinger_upgrade_template"
+    ]
+  },
+  "sends_telemetry_event": false
+}

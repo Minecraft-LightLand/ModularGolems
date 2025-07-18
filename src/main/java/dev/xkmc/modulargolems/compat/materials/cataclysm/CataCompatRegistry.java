@@ -1,22 +1,31 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
+import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
+import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.ModList;
 
+import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class CataCompatRegistry {
+
+	public static final ItemEntry<Item> HARBINGER_TEMPLATE;
+	public static final ItemEntry<HarbingerArmorItem> HARBINGER_HELMET, HARBINGER_CHESTPLATE, HARBINGER_SHINGUARD;
 
 	public static final RegistryEntry<IgnisFireballModifier> IGNIS_FIREBALL;
 	public static final RegistryEntry<IgnisAttackModifier> IGNIS_ATTACK;
@@ -35,6 +44,24 @@ public class CataCompatRegistry {
 	public static final RegistryEntry<SimpleUpgradeItem> LEVIATHAN, ENDER_GUARDIAN, MONSTROSITY, ANCIENT_REMNANT;
 
 	static {
+
+		HARBINGER_TEMPLATE = REGISTRATE.item("harbinger_upgrade_template", Item::new)
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/" + ctx.getName())))
+				.register();
+
+		HARBINGER_HELMET = REGISTRATE.item("harbinger_helmet", p -> new HarbingerArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.WITHERITE_HELMETS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		HARBINGER_CHESTPLATE = REGISTRATE.item("harbinger_chestplate", p -> new HarbingerArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.WITHERITE_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		HARBINGER_SHINGUARD = REGISTRATE.item("harbinger_shinguard", p -> new HarbingerArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.WITHERITE_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
 				"When target is faraway, shoot Ignis fireballs toward target.");
 
@@ -78,6 +105,10 @@ public class CataCompatRegistry {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(TagGen.SKILL_EFFECT)
 					.addOptional(EFF_FORCE.getId()));
 		}
+	}
+
+	private static ResourceLocation cataLoc(String id) {
+		return new ResourceLocation(CataDispatch.MODID, id);
 	}
 
 }

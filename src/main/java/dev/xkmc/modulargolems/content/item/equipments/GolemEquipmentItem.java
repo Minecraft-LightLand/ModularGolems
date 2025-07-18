@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.item.equipments;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import dev.xkmc.l2damagetracker.contents.curios.AttrTooltip;
 import dev.xkmc.l2library.util.math.MathHelper;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -13,7 +14,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -49,7 +49,11 @@ public abstract class GolemEquipmentItem extends Item {
 		this.type = type;
 		ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 		attr.accept(builder);
+		addExtraModifiers(builder);
 		this.defaultModifiers = builder.build();
+	}
+
+	protected void addExtraModifiers(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
 	}
 
 	public EquipmentSlot getSlot() {
@@ -85,28 +89,7 @@ public abstract class GolemEquipmentItem extends Item {
 			AttributeModifier attr = entry.getValue();
 			double val = attr.getAmount();
 
-			double disp;
-			if (attr.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE &&
-					attr.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
-				if (entry.getKey().equals(Attributes.KNOCKBACK_RESISTANCE)) {
-					disp = val * 10;
-				} else {
-					disp = val;
-				}
-			} else {
-				disp = val * 100;
-			}
-			if (val > 0) {
-				list.add(Component.translatable("attribute.modifier.plus." +
-								attr.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(disp),
-						Component.translatable(entry.getKey().getDescriptionId())).withStyle(ChatFormatting.BLUE));
-			} else if (val < 0) {
-				disp *= -1;
-				list.add(Component.translatable("attribute.modifier.take." +
-								attr.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(disp),
-						Component.translatable(entry.getKey().getDescriptionId())).withStyle(ChatFormatting.RED));
-
-			}
+			list.add(AttrTooltip.getDesc(entry.getKey(), val, attr.getOperation()));
 		}
 	}
 

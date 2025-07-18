@@ -48,7 +48,7 @@ public record GolemModelPath(ModelLayerLocation models, List<List<String>> paths
 				)));
 	}
 
-	public static GolemModelPath register(ResourceLocation id, GolemModelPath path) {
+	public synchronized static GolemModelPath register(ResourceLocation id, GolemModelPath path) {
 		MAP.put(id, path);
 		return path;
 	}

@@ -1,4 +1,8 @@
 {
+  "item.modulargolems.harbinger_chestplate": "先行者护甲",
+  "item.modulargolems.harbinger_helmet": "先行者护甲头盔",
+  "item.modulargolems.harbinger_shinguard": "先行者护腿",
+  "item.modulargolems.harbinger_upgrade_template": "先行者升级模版",
   "golem_material.cataclysm.ignitium": "腾炎",
   "golem_material.cataclysm.witherite": "凋零合金",
   "golem_material.cataclysm.cursium": "咒魂",

@@ -6,12 +6,13 @@ import net.minecraft.resources.ResourceLocation;
 public class GolemModelPaths {
 
 	public static final ResourceLocation
-			HELMETS = modLoc("helmet"),
-			CHESTPLATES = modLoc("chestplate"),
-			LEGGINGS = modLoc("shinguard");
+			HELMETS = ModularGolems.loc("helmet"),
+			CHESTPLATES = ModularGolems.loc("chestplate"),
+			LEGGINGS = ModularGolems.loc("shinguard");
 
-	public static ResourceLocation modLoc(String str) {
-		return new ResourceLocation(ModularGolems.MODID, str);
-	}
+	public static final ResourceLocation
+			WITHERITE_HELMETS = ModularGolems.loc("harbinger/helmet"),
+			WITHERITE_CHESTPLATES = ModularGolems.loc("harbinger/chestplate"),
+			WITHERITE_LEGGINGS = ModularGolems.loc("harbinger/shinguard");
 
 }

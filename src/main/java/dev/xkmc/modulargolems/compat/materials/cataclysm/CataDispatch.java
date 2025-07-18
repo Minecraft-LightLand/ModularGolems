@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
+import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
@@ -11,8 +12,12 @@ import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -49,6 +54,39 @@ public class CataDispatch extends ModDispatch {
 		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.ANCIENT_REMNANT.get())::unlockedBy,
 				ModItems.SANDSTORM_IN_A_BOTTLE.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.SANDSTORM_IN_A_BOTTLE.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.HARBINGER_TEMPLATE.get())::unlockedBy,
+				ModItems.WITHERITE_INGOT.get())
+				.pattern("ASA").pattern("ABA").pattern("ACA")
+				.define('A', Items.REDSTONE_BLOCK)
+				.define('B', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
+				.define('C', ModItems.WITHERITE_INGOT.get())
+				.define('S', Items.NETHER_STAR)
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(CataCompatRegistry.HARBINGER_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_HELMET.get()),
+						Ingredient.of(ModBlocks.WITHERITE_BLOCK.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.HARBINGER_HELMET.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_HELMET.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), CataCompatRegistry.HARBINGER_HELMET.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(CataCompatRegistry.HARBINGER_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get()),
+						Ingredient.of(ModBlocks.WITHERITE_BLOCK.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.HARBINGER_CHESTPLATE.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), CataCompatRegistry.HARBINGER_CHESTPLATE.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(CataCompatRegistry.HARBINGER_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get()),
+						Ingredient.of(ModItems.WITHERITE_INGOT.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.HARBINGER_SHINGUARD.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), CataCompatRegistry.HARBINGER_SHINGUARD.getId());
 	}
 
 	@Override

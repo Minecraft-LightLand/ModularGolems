@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -46,19 +47,11 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		for (var e : EquipmentSlot.values()) {
 			ItemStack stack = entity.getItemBySlot(e);
 			if (stack.getItem() instanceof GolemModelItem mgaitem) {
-				GolemModelPath gmpath = GolemModelPath.get(mgaitem.getModelPath());
-				for (List<String> ls : gmpath.paths()) {
-					MetalGolemModel model = map.get(gmpath.models());
-					model.copyFrom(getParentModel());
-					ModelPart gemr = model.root();
-					pose.pushPose();
-					for (String s : ls) {
-						gemr.translateAndRotate(pose);
-						gemr = gemr.getChild(s);
-					}
-					gemr.render(pose, source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getModelTexture())),
-							i, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
-					pose.popPose();
+				var buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getModelTexture()));
+				renderArmor(mgaitem, pose, buffer, i);
+				if (mgaitem.emissive()) {
+					buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getEmissiveModelTexture()));
+					renderArmor(mgaitem, pose, buffer, LightTexture.FULL_BRIGHT);
 				}
 			} else if (stack.getItem() instanceof MetalGolemBeaconItem beacon) {
 				if (!entity.isAddedToWorld())
@@ -69,6 +62,22 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 			} else {
 				renderArmWithItem(entity, stack, e, pose, source, i);
 			}
+		}
+	}
+
+	protected void renderArmor(GolemModelItem mgaitem, PoseStack pose, VertexConsumer buffer, int light) {
+		GolemModelPath gmpath = GolemModelPath.get(mgaitem.getModelPath());
+		for (List<String> ls : gmpath.paths()) {
+			MetalGolemModel model = map.get(gmpath.models());
+			model.copyFrom(getParentModel());
+			ModelPart gemr = model.root();
+			pose.pushPose();
+			for (String s : ls) {
+				gemr.translateAndRotate(pose);
+				gemr = gemr.getChild(s);
+			}
+			gemr.render(pose, buffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+			pose.popPose();
 		}
 	}
 

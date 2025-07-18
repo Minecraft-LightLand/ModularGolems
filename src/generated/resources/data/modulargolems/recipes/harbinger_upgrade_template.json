@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:redstone_block"
+    },
+    "B": {
+      "item": "minecraft:netherite_upgrade_smithing_template"
+    },
+    "C": {
+      "item": "cataclysm:witherite_ingot"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "ACA"
+  ],
+  "result": {
+    "item": "modulargolems:harbinger_upgrade_template"
+  },
+  "show_notification": true
+}

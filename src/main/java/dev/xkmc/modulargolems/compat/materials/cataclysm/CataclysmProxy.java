@@ -6,8 +6,10 @@ import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,6 +30,22 @@ public class CataclysmProxy {
 			golem.level().addFreshEntity(projectile);
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
+		}
+	}
+
+	public static boolean isLaser(DamageSource source) {
+		try {
+			return source.getDirectEntity() instanceof Death_Laser_Beam_Entity;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static boolean isMissile(DamageSource source) {
+		try {
+			return source.getDirectEntity() instanceof Wither_Homing_Missile_Entity;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 
@@ -136,6 +154,17 @@ public class CataclysmProxy {
 			ModularGolems.LOGGER.error(e);
 		}
 		return 0;
+	}
+
+	public static void updateLaser(AbstractGolemEntity<?, ?> golem, Entity e) {
+		try {
+			if (e instanceof Death_Laser_Beam_Entity beam) {
+				beam.setYaw((float) ((golem.yHeadRot + 90.0F) * Math.PI / 180.0F));
+				beam.setPitch((float) ((-golem.getXRot()) * Math.PI / 180.0F));
+			}
+		} catch (Exception ignored) {
+
+		}
 	}
 
 }

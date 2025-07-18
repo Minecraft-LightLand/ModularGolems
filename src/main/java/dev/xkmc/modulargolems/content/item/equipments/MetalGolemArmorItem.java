@@ -26,10 +26,20 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 		this.model = model;
 	}
 
+	protected String namespace(String def) {
+		return def;
+	}
+
 	public ResourceLocation getModelTexture() {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
 		assert rl != null;
-		return new ResourceLocation(rl.getNamespace(), "textures/equipments/" + rl.getPath() + ".png");
+		return new ResourceLocation(namespace(rl.getNamespace()), "textures/equipments/" + rl.getPath() + ".png");
+	}
+
+	public ResourceLocation getEmissiveModelTexture() {
+		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
+		assert rl != null;
+		return new ResourceLocation(namespace(rl.getNamespace()), "textures/equipments/" + rl.getPath() + "_emissive.png");
 	}
 
 	@Override
