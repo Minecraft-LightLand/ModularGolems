@@ -7,12 +7,12 @@
     }
   ],
   "criteria": {
-    "has_barbaric_vanguard_chestplate": {
+    "has_barbaric_vanguard_helmet": {
       "conditions": {
         "items": [
           {
             "items": [
-              "modulargolems:barbaric_vanguard_chestplate"
+              "modulargolems:barbaric_vanguard_helmet"
             ]
           }
         ]
@@ -21,20 +21,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:harbinger_chestplate"
+        "recipe": "modulargolems:monstrosity_helmet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_barbaric_vanguard_chestplate",
+      "has_barbaric_vanguard_helmet",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:harbinger_chestplate"
+      "modulargolems:monstrosity_helmet"
     ]
   },
   "sends_telemetry_event": false

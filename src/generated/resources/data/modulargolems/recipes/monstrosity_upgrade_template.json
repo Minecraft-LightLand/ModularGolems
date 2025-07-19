@@ -9,13 +9,13 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:redstone_block"
+      "item": "minecraft:gilded_blackstone"
     },
     "B": {
       "item": "minecraft:netherite_upgrade_smithing_template"
     },
     "C": {
-      "item": "cataclysm:witherite_ingot"
+      "item": "cataclysm:monstrous_horn"
     },
     "S": {
       "item": "minecraft:nether_star"
@@ -27,7 +27,7 @@
     "ACA"
   ],
   "result": {
-    "item": "modulargolems:harbinger_upgrade_template"
+    "item": "modulargolems:monstrosity_upgrade_template"
   },
   "show_notification": true
 }

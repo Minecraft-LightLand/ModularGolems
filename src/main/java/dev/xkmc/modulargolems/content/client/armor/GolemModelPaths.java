@@ -15,4 +15,9 @@ public class GolemModelPaths {
 			WITHERITE_CHESTPLATES = ModularGolems.loc("harbinger/chestplate"),
 			WITHERITE_LEGGINGS = ModularGolems.loc("harbinger/shinguard");
 
+	public static final ResourceLocation
+			MONSTROSITY_HELMETS = ModularGolems.loc("monstrosity/helmet"),
+			MONSTROSITY_CHESTPLATES = ModularGolems.loc("monstrosity/chestplate"),
+			MONSTROSITY_LEGGINGS = ModularGolems.loc("monstrosity/shinguard");
+
 }

@@ -7,12 +7,12 @@
     }
   ],
   "criteria": {
-    "has_barbaric_vanguard_shinguard": {
+    "has_monstrous_horn": {
       "conditions": {
         "items": [
           {
             "items": [
-              "modulargolems:barbaric_vanguard_shinguard"
+              "cataclysm:monstrous_horn"
             ]
           }
         ]
@@ -21,20 +21,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:harbinger_shinguard"
+        "recipe": "modulargolems:monstrosity_upgrade_template"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_barbaric_vanguard_shinguard",
+      "has_monstrous_horn",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:harbinger_shinguard"
+      "modulargolems:monstrosity_upgrade_template"
     ]
   },
   "sends_telemetry_event": false
