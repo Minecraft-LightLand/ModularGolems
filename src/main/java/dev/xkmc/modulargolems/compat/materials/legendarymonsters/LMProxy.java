@@ -38,7 +38,7 @@ public class LMProxy {
 	public static void shake(LivingEntity user, Vec3 pos) {
 		try {
 			CameraShakeEntity.cameraShake(user.level(), pos, 15.0F, 0.3F, 0, 15);
-		} catch (Exception ignored) {
+		} catch (Throwable ignored) {
 
 		}
 	}
@@ -65,7 +65,7 @@ public class LMProxy {
 				le.hurt(golem.damageSources().mobAttack(golem), (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE) * lv * 0.4f);
 				affected.add(le);
 			}
-		} catch (Exception ignored) {
+		} catch (Throwable ignored) {
 
 		}
 		return affected;
@@ -74,7 +74,7 @@ public class LMProxy {
 	public static void performThunderAttack(Mob e, LivingEntity target, int lv) {
 		try {
 			spawnBoltStrip(e, target, 8 + 8 * lv, 4 + 3 * lv);
-		} catch (Exception ignored) {
+		} catch (Throwable ignored) {
 
 		}
 	}
@@ -95,7 +95,7 @@ public class LMProxy {
 				e.setPos(pos.x, pos.y, pos.z);
 				entity.level().addFreshEntity(e);
 			}
-		} catch (Exception ignored) {
+		} catch (Throwable ignored) {
 
 		}
 	}

@@ -1,6 +1,9 @@
 2.5.24
+- Add Harbinger Golem Armor (thanks T7H1 for modeling)
 - Maids can repair golems they own
 - Fix Maid enemy search range in golem summoner mode
+- Fix crash with newest Legendary Monsters (again)
+- Fix Teleport Modifier on old golems
 
 2.5.23
 - Now Maids from TLM can summon and collect golems in combat
@@ -10,6 +13,7 @@
 - Bosses now can disable golem shields for 10 seconds on blockable attack
 - Add Soul Collection upgrade
 - Improve some textures
+
 
 2.5.21
 - Add Cloud Golem for Legendary Monsters

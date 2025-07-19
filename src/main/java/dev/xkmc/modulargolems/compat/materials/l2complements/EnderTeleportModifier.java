@@ -66,7 +66,7 @@ public class EnderTeleportModifier extends GolemModifier {
 	public static boolean mayTeleport(AbstractGolemEntity<?, ?> entity) {
 		long time = entity.getPersistentData().getLong(KEY);
 		long current = entity.level().getGameTime();
-		return current >= time + MGConfig.COMMON.teleportCooldown.get();
+		return current < time || current >= time + MGConfig.COMMON.teleportCooldown.get();
 	}
 
 	public static void resetCooldown(AbstractGolemEntity<?, ?> entity) {

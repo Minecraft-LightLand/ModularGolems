@@ -36,7 +36,7 @@ public class CataclysmProxy {
 	public static boolean isLaser(DamageSource source) {
 		try {
 			return source.getDirectEntity() instanceof Death_Laser_Beam_Entity;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			return false;
 		}
 	}
@@ -44,7 +44,7 @@ public class CataclysmProxy {
 	public static boolean isMissile(DamageSource source) {
 		try {
 			return source.getDirectEntity() instanceof Wither_Homing_Missile_Entity;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			return false;
 		}
 	}
@@ -162,7 +162,7 @@ public class CataclysmProxy {
 				beam.setYaw((float) ((golem.yHeadRot + 90.0F) * Math.PI / 180.0F));
 				beam.setPitch((float) ((-golem.getXRot()) * Math.PI / 180.0F));
 			}
-		} catch (Exception ignored) {
+		} catch (Throwable ignored) {
 
 		}
 	}
