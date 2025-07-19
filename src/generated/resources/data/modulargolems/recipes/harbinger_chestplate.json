@@ -1,10 +1,10 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "cataclysm:monstrous_horn"
+    "item": "cataclysm:witherite_block"
   },
   "base": {
-    "item": "modulargolems:barbaric_vanguard_shinguard"
+    "item": "modulargolems:barbaric_vanguard_chestplate"
   },
   "conditions": [
     {
@@ -13,9 +13,9 @@
     }
   ],
   "result": {
-    "item": "modulargolems:monstrosity_shinguard"
+    "item": "modulargolems:harbinger_chestplate"
   },
   "template": {
-    "item": "modulargolems:monstrosity_upgrade_template"
+    "item": "modulargolems:harbinger_upgrade_template"
   }
 }
