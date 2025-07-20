@@ -9,20 +9,20 @@
   ],
   "key": {
     "A": {
-      "item": "minecraft:gilded_blackstone"
+      "item": "minecraft:blackstone"
     },
     "B": {
       "item": "minecraft:netherite_upgrade_smithing_template"
     },
     "C": {
-      "item": "cataclysm:monstrous_horn"
+      "item": "cataclysm:lava_power_cell"
     },
-    "S": {
-      "item": "minecraft:nether_star"
+    "G": {
+      "item": "minecraft:gold_ingot"
     }
   },
   "pattern": [
-    "ASA",
+    "AGA",
     "ABA",
     "ACA"
   ],

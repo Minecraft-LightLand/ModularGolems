@@ -42,14 +42,14 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 		for (LivingEntity entity : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(7.0))) {
 			if (!golem.isAlliedTo(entity) && entity != golem) {
 				float damage = (float) (golem.getAttributeValue(Attributes.ATTACK_DAMAGE) + entity.getMaxHealth() * CataclysmProxy.monstrosityEarthquakeDamage());
-				float factor = 1;
-				if (entity.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MONSTROSITY_HELMET.get()))
+				float factor = 0;
+				if (golem.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MONSTROSITY_HELMET.get()))
 					factor++;
-				if (entity.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.MONSTROSITY_CHESTPLATE.get()))
+				if (golem.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.MONSTROSITY_CHESTPLATE.get()))
 					factor++;
-				if (entity.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MONSTROSITY_SHINGUARD.get()))
+				if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MONSTROSITY_SHINGUARD.get()))
 					factor++;
-				boolean flag = entity.hurt(golem.damageSources().mobAttack(golem), damage * factor);
+				boolean flag = entity.hurt(golem.damageSources().mobAttack(golem), damage * (1 + 0.5f * factor));
 				if (flag) {
 					EarthquakeHelper.launch(golem, entity, 2f);
 				}

@@ -53,7 +53,7 @@ public class MaidSummonerTask implements IRangedAttackTask {
 				Pair.of(5, createStartAttack()),
 				Pair.of(5, createStopAttack(maid)),
 				Pair.of(5, createMoveToTarget(0.6f)),
-				Pair.of(5, new MaidSummonerStrafingBehavior(20, 28)),
+				Pair.of(5, new MaidSummonerStrafingBehavior(20, STOP_MOVING_DIST)),
 				Pair.of(5, new MaidManageGolemBehavior())
 		);
 	}
@@ -80,7 +80,7 @@ public class MaidSummonerTask implements IRangedAttackTask {
 
 	@Override
 	public float searchRadius(EntityMaid maid) {
-		return 35;
+		return STOP_ATTACK_DIST;
 	}
 
 	public static boolean hasGolemWand(EntityMaid maid) {

@@ -47,11 +47,11 @@ public class CataRecipGen {
 
 		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.MONSTROSITY_TEMPLATE.get())::unlockedBy,
 				ModItems.MONSTROUS_HORN.get())
-				.pattern("ASA").pattern("ABA").pattern("ACA")
-				.define('A', Blocks.GILDED_BLACKSTONE)
+				.pattern("AGA").pattern("ABA").pattern("ACA")
+				.define('A', Blocks.BLACKSTONE)
+				.define('G', Items.GOLD_INGOT)
 				.define('B', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
-				.define('C', ModItems.MONSTROUS_HORN.get())
-				.define('S', Items.NETHER_STAR)
+				.define('C', ModItems.LAVA_POWER_CELL.get())
 				.save(output);
 
 		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
