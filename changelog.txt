@@ -1,3 +1,6 @@
+2.5.26
+- Use standalone models for Dog golems
+
 2.5.25
 - Add Monstrosity Golem Armor (thanks T7H1 for modeling)
 - Improve Maid behaviors
@@ -9,6 +12,7 @@
 - Fix Maid enemy search range in golem summoner mode
 - Fix crash with newest Legendary Monsters (again)
 - Fix Teleport Modifier on old golems
+- Use standalone models for Humanoid golems
 
 2.5.23
 - Now Maids from TLM can summon and collect golems in combat
