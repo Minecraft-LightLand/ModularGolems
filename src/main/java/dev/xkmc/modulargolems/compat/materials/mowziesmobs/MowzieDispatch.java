@@ -1,12 +1,14 @@
 package dev.xkmc.modulargolems.compat.materials.mowziesmobs;
 
 import com.bobmowzie.mowziesmobs.MowziesMobs;
+import com.bobmowzie.mowziesmobs.server.entity.EntityHandler;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -44,6 +46,11 @@ public class MowzieDispatch extends ModDispatch {
 				.requires(GolemItems.EMPTY_UPGRADE)
 				.requires(MowzieCompatRegistry.WROUGHTNAUT_ITEMS)
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+	}
+
+	@Override
+	public void genLootModifier(MGGLMGen pvd) {
+		pvd.drop(MODID, EntityHandler.WROUGHTNAUT.get(), "wroughtnaut");
 	}
 
 	@Override

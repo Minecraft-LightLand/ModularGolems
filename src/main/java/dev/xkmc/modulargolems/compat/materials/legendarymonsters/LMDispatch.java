@@ -1,12 +1,15 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 
+import com.bobmowzie.mowziesmobs.server.entity.EntityHandler;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import net.miauczel.legendary_monsters.LegendaryMonsters;
+import net.miauczel.legendary_monsters.entity.ModEntities;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -35,6 +38,11 @@ public class LMDispatch extends ModDispatch {
 	@Override
 	public @Nullable ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new LMConfigGen(gen);
+	}
+
+	@Override
+	public void genLootModifier(MGGLMGen pvd) {
+		LMProxy.genLootModifier(pvd);
 	}
 
 	@OnlyIn(Dist.CLIENT)

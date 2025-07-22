@@ -1,4 +1,7 @@
 {
+  "modulargolems.tooltip.cataclysm.harbinger_armor_laer": "+%s 激光伤害",
+  "modulargolems.tooltip.cataclysm.harbinger_armor_missile": "+%s 导弹伤害",
+  "modulargolems.tooltip.cataclysm.monstrosity_armor": "+%s 巨兽撼地伤害",
   "item.modulargolems.harbinger_chestplate": "先行者护甲",
   "item.modulargolems.harbinger_helmet": "先行者头盔",
   "item.modulargolems.harbinger_shinguard": "先行者护腿",

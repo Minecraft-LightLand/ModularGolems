@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.init;
 
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.ProviderType;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
@@ -9,7 +8,6 @@ import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
 import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
-import dev.xkmc.modulargolems.compat.maid.MaidRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -23,6 +21,7 @@ import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
@@ -109,9 +108,11 @@ public class ModularGolems {
 		REGISTRATE.addDataGenerator(ProviderType.ENTITY_TAGS, MGTagGen::onEntityTagGen);
 		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, MGAdvGen::genAdvancements);
 
-		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(event.getGenerator()));
+		var gen = event.getGenerator();
+		gen.addProvider(event.includeServer(), new MGConfigGen(gen));
 		CompatManager.gatherData(event);
-		event.getGenerator().addProvider(event.includeServer(), new SlotGen(event.getGenerator()));
+		gen.addProvider(event.includeServer(), new SlotGen(gen));
+		gen.addProvider(event.includeServer(), new MGGLMGen(gen.getPackOutput(), MODID));
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			REGISTRATE.addDataGenerator(TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
 		}

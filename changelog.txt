@@ -1,4 +1,5 @@
 2.5.26
+- Add Golem Slicing Axe
 - Use standalone models for Dog golems
 
 2.5.25

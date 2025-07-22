@@ -4,6 +4,7 @@ import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
@@ -35,6 +36,9 @@ public abstract class ModDispatch {
 	}
 
 	public void commonSetup() {
+	}
+
+	public void genLootModifier(MGGLMGen pvd) {
 	}
 
 }

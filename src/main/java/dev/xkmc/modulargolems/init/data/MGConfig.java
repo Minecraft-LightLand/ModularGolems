@@ -60,6 +60,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue basePickupRange;
 		public final ForgeConfigSpec.IntValue mendingXpCost;
 		public final ForgeConfigSpec.DoubleValue armorBypassChance;
+		public final ForgeConfigSpec.DoubleValue slicingDropUpgradeChance;
 
 		public final ForgeConfigSpec.IntValue summonDistance;
 		public final ForgeConfigSpec.IntValue retrieveDistance;
@@ -100,6 +101,10 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue soulHealingThreshold;
 		public final ForgeConfigSpec.BooleanValue bossBreakShield;
 
+		public final ForgeConfigSpec.DoubleValue laserArmorBonus;
+		public final ForgeConfigSpec.DoubleValue missileArmorBonus;
+		public final ForgeConfigSpec.DoubleValue earthquakeArmorBonus;
+
 
 		Common(ForgeConfigSpec.Builder builder) {
 			{
@@ -138,6 +143,8 @@ public class MGConfig {
 						.define("sendForceRemovalMessage", true);
 				bossBreakShield = builder.comment("All blockable boss attacks will be able to break shields")
 						.define("bossBreakShield", true);
+				slicingDropUpgradeChance = builder.comment("Chance for each upgrade to drop when killed by Slicing Axe")
+						.defineInRange("slicingDropUpgradeChance", 0.5, 0, 1);
 
 				largeGolemSlot = builder.comment("Default slots for large golem")
 						.defineInRange("largeGolemSlot", 4, 0, 100);
@@ -284,6 +291,17 @@ public class MGConfig {
 							.defineInRange("soulHealingRate", 2, 1, 100);
 					soulHealingThreshold = builder.comment("Soul Repair modifier healing only when golem health is below this percentage")
 							.defineInRange("soulHealingThreshold", 0.75, 0, 1);
+				}
+				builder.pop();
+
+				builder.push("cataclysm compat");
+				{
+					laserArmorBonus = builder.comment("Harbinger Helmet Bonus: Death Laser damage boost")
+							.defineInRange("laserArmorBonus", 1d, 0, 10);
+					missileArmorBonus = builder.comment("Harbinger Chestplate Bonus: Homing Missile damage boost")
+							.defineInRange("missileArmorBonus", 1d, 0, 10);
+					earthquakeArmorBonus = builder.comment("Monstrosity Armor Bonus: Monstrosity Earthquake Modifier damage boost")
+							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
 				}
 				builder.pop();
 			}

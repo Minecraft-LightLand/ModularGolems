@@ -3,7 +3,9 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.miauczel.legendary_monsters.entity.ModEntities;
 import net.miauczel.legendary_monsters.item.ModItems;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -70,4 +72,8 @@ public class LMProxy {
 				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
 	}
 
+	public static void genLootModifier(MGGLMGen pvd) {
+		pvd.drop(LMDispatch.MODID, ModEntities.Ancient_Guardian.get(), "molten_metal");
+		pvd.drop(LMDispatch.MODID, ModEntities.Cloud_golem.get(), "cloud");
+	}
 }

@@ -14,6 +14,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
@@ -21,6 +22,7 @@ import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
@@ -29,6 +31,7 @@ import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -271,12 +274,25 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
-		Map<Item, Integer> drop = new HashMap<>();
-		for (GolemMaterial mat : getMaterials()) {
-			Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
-			drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
+		if (source.getDirectEntity() instanceof MetalGolemEntity golem &&
+				golem.getMainHandItem().is(GolemItems.SLICING_AXE.get())) {
+			for (GolemMaterial mat : getMaterials()) {
+				spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
+			}
+			var rate = MGConfig.COMMON.slicingDropUpgradeChance.get();
+			for (var e : getUpgrades()) {
+				if (random.nextFloat() < rate) {
+					spawnAtLocation(e.getDefaultInstance());
+				}
+			}
+		} else {
+			Map<Item, Integer> drop = new HashMap<>();
+			for (GolemMaterial mat : getMaterials()) {
+				Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
+				drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
+			}
+			drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
 		}
-		drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			dropSlot(slot, true);
 		}

@@ -16,6 +16,8 @@ import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenu;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.content.recipe.GolemReplaceRecipe;
+import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.loot.DropPartModifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -50,6 +52,13 @@ public class GolemMiscs {
 
 	private static <A extends RecipeSerializer<?>> RegistryEntry<A> reg(String id, NonNullSupplier<A> sup) {
 		return REGISTRATE.simple(id, ForgeRegistries.Keys.RECIPE_SERIALIZERS, sup);
+	}
+
+	static {
+		ModularGolems.REGISTRATE.simple("slicing",
+				ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS,
+				() -> DropPartModifier.CODEC
+		);
 	}
 
 	public static void register() {

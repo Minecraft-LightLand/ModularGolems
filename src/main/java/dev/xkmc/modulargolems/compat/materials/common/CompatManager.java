@@ -24,6 +24,7 @@ import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.data.MGConfigGen;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -101,6 +102,12 @@ public abstract class CompatManager {
 	public static void dispatchGenRecipe(RegistrateRecipeProvider pvd) {
 		for (ModDispatch dispatch : LIST) {
 			dispatch.genRecipe(pvd);
+		}
+	}
+
+	public static void onGLMGen(MGGLMGen pvd) {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.genLootModifier(pvd);
 		}
 	}
 

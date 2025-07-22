@@ -19,6 +19,7 @@ import dev.xkmc.modulargolems.content.item.card.*;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.content.item.equipments.SlicingAxe;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -75,6 +76,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
+	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<MetalGolemBeaconItem>[] METALGOLEM_BEACONS;
 	public static final ItemEntry<ConfigCard>[] CARD;
 	public static final ItemEntry<PathRecordCard> CARD_PATH;
@@ -169,6 +171,7 @@ public class GolemItems {
 		//metalgolem weapon
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
+			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe",VanillaGolemWeaponMaterial.DIAMOND);
 		}
 
 		//metalgolem beacon

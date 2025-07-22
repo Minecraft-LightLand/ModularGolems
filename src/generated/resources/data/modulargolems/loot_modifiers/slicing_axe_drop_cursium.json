@@ -1,0 +1,27 @@
+{
+  "type": "modulargolems:slicing",
+  "conditions": [
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "cataclysm:maledictus"
+      }
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "direct_killer",
+      "predicate": {
+        "type": "modulargolems:metal_golem",
+        "equipment": {
+          "mainhand": {
+            "items": [
+              "modulargolems:golem_slicing_axe"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "material": "cataclysm:cursium"
+}

@@ -1,0 +1,14 @@
+{
+  "entries": [
+    "modulargolems:slicing_axe_drop_witherite",
+    "modulargolems:slicing_axe_drop_ignitium",
+    "modulargolems:slicing_axe_drop_cloud",
+    "modulargolems:slicing_axe_drop_sculk",
+    "modulargolems:slicing_axe_drop_iron",
+    "modulargolems:slicing_axe_drop_molten_metal",
+    "modulargolems:slicing_axe_drop_wroughtnaut",
+    "modulargolems:slicing_axe_drop_cursium",
+    "modulargolems:slicing_axe_drop_netherite"
+  ],
+  "replace": false
+}

@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "patchouli:spotlight",
-			"icon": "modulargolems:cloud_cube",
+			"item": "modulargolems:cloud_cube",
 			"text": "Main material to craft Cloud golem parts. Cloud golem can summon lightning strikes against multiple targets, and can create electric shockwaves when attacked."
 		},
 		{
