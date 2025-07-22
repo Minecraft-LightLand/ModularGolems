@@ -1,3 +1,11 @@
+3.0.27
+- Add Golem Slicing Axe
+- Use standalone models for Dog golems
+- Port Mowzie's Mobs integration
+- Port Cataclysm Armor integration
+- Allow TLM Maids to summon golems to fight
+- Fix Teleport Modifier on old golems
+
 3.0.26
 - Bosses now can disable golem shields for 10 seconds on blockable attack
 - Restore compat with ewewukek's musket mod

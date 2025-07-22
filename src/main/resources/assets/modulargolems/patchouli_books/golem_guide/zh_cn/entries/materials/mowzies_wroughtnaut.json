@@ -1,0 +1,29 @@
+{
+	"flag": "mod:mowziesmobs",
+	"name": "千锻钢",
+	"icon": "modulargolems:wroughtnaut_ingot",
+	"category": "modulargolems:materials",
+	"sortnum": 1101,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:wroughtnaut_ingot",
+			"text": "制造千锻钢傀儡的主要材料。千锻钢傀儡有极高的魔法抗性，攻击有概率穿透护甲，并且能制造冲击波。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"mowziesmobs:wroughtnaut\"},{part:\"modulargolems:metal_golem_body\",material:\"mowziesmobs:wroughtnaut\"},{part:\"modulargolems:metal_golem_arm\",material:\"mowziesmobs:wroughtnaut\"},{part:\"modulargolems:metal_golem_legs\",material:\"mowziesmobs:wroughtnaut\"}]}]",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"mowziesmobs:wroughtnaut\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"mowziesmobs:wroughtnaut\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"mowziesmobs:wroughtnaut\"}]}]",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"mowziesmobs:wroughtnaut\"},{part:\"modulargolems:dog_golem_legs\",material:\"mowziesmobs:wroughtnaut\"}]}]",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

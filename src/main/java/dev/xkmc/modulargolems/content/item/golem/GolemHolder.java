@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.data.GolemConfigKey;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.data.GolemIcon;
@@ -128,26 +129,43 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		GolemType.GOLEM_TYPE_TO_ITEM.put(type.id(), this);
 	}
 
+
+	public float getInvHeal(ItemStack stack, Entity entity) {
+		var data = GolemItems.ENTITY.get(stack);
+		if (data == null) return 0;
+		var health = getHealth(stack);
+		var maxHealth = getMaxHealth(stack);
+		if (health < maxHealth) {
+			var mats = getMaterial(stack);
+			var upgrades = getUpgrades(stack);
+			var attr = GolemMaterial.collectAttributes(mats, upgrades);
+			var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
+			if (health <= 0) {
+				FlagTest test = new FlagTest(GolemFlags.REVIVE);
+				for (var entry : modifiers.entrySet()) {
+					entry.getKey().onRegisterFlag(test);
+				}
+				if (!test.matched()) return 0;
+			}
+			double heal = attr.getOrDefault(GolemTypes.GOLEM_REGEN.holder(), Pair.of(GolemTypes.STAT_REGEN.get(), 0d)).getSecond();
+			var ctx = new GolemModifier.HealingContext(health, maxHealth, entity);
+			for (var entry : modifiers.entrySet()) {
+				heal = entry.getKey().onInventoryHealTick(heal, ctx, entry.getValue());
+			}
+			if (heal > 0) {
+				return Math.min(maxHealth, (float) heal + health) - health;
+			}
+		}
+		return 0;
+	}
+
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-		var data = GolemItems.ENTITY.get(stack);
-		if (data == null) return;
 		if (entity.tickCount % 20 == 0) {
 			var health = getHealth(stack);
-			var maxHealth = getMaxHealth(stack);
-			if (health > 0 && health < maxHealth) {
-				var mats = getMaterial(stack);
-				var upgrades = getUpgrades(stack);
-				var attr = GolemMaterial.collectAttributes(mats, upgrades);
-				var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
-				double heal = attr.getOrDefault(GolemTypes.GOLEM_REGEN.holder(), Pair.of(GolemTypes.STAT_REGEN.get(), 0d)).getSecond();
-				var ctx = new GolemModifier.HealingContext(health, maxHealth, entity);
-				for (var entry : modifiers.entrySet()) {
-					heal = entry.getKey().onInventoryHealTick(heal, ctx, entry.getValue());
-				}
-				if (heal > 0) {
-					setHealth(stack, Math.min(maxHealth, (float) heal + health));
-				}
+			var heal = getInvHeal(stack, entity);
+			if (heal > 0) {
+				setHealth(stack, health + heal);
 			}
 		}
 	}

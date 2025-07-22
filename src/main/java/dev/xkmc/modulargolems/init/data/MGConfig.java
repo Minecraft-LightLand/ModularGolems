@@ -53,6 +53,7 @@ public class MGConfig {
 		public final ModConfigSpec.IntValue basePickupRange;
 		public final ModConfigSpec.IntValue mendingXpCost;
 		public final ModConfigSpec.DoubleValue armorBypassChance;
+		public final ModConfigSpec.DoubleValue slicingDropUpgradeChance;
 
 
 		public final ModConfigSpec.IntValue summonDistance;
@@ -73,6 +74,10 @@ public class MGConfig {
 		public final ModConfigSpec.IntValue largeGolemSlot;
 		public final ModConfigSpec.BooleanValue doEnemyAggro;
 		public final ModConfigSpec.BooleanValue allowDimensionChange;
+
+		public final ModConfigSpec.DoubleValue laserArmorBonus;
+		public final ModConfigSpec.DoubleValue missileArmorBonus;
+		public final ModConfigSpec.DoubleValue earthquakeArmorBonus;
 
 		Common(Builder builder) {
 			markL2();
@@ -113,6 +118,8 @@ public class MGConfig {
 						.defineInRange("targetResetTime", 600, 1, 10000);
 				targetResetNoMovementRange = builder.text("Distance considered as no movement")
 						.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
+				slicingDropUpgradeChance = builder.text("Chance for each upgrade to drop when killed by Slicing Axe")
+						.defineInRange("slicingDropUpgradeChance", 0.5, 0, 1);
 
 				largeGolemSlot = builder.text("Default slots for large golem")
 						.defineInRange("largeGolemSlot", 4, 0, 100);
@@ -218,6 +225,17 @@ public class MGConfig {
 							.defineInRange("teleportCooldown", 40, 1, 10000);
 					targetDamageBonus = builder.text("Damage bonus for attacking specific type of enemy")
 							.defineInRange("targetDamageBonus", 0.5, 0, 100);
+				}
+				builder.pop();
+
+				builder.push("cataclysm","Cataclysm Compat");
+				{
+					laserArmorBonus = builder.text("Harbinger Helmet Bonus: Death Laser damage boost")
+							.defineInRange("laserArmorBonus", 1d, 0, 10);
+					missileArmorBonus = builder.text("Harbinger Chestplate Bonus: Homing Missile damage boost")
+							.defineInRange("missileArmorBonus", 1d, 0, 10);
+					earthquakeArmorBonus = builder.text("Monstrosity Armor Bonus: Monstrosity Earthquake Modifier damage boost")
+							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
 				}
 				builder.pop();
 			}

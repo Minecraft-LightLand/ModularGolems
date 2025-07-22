@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.misc;
+package dev.xkmc.modulargolems.compat.maid;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.event.ConvertMaidEvent;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
-public class MaidCompat {
+public class MaidSkinCompat {
 
 	private static EntityMaidRenderer RENDERER;
 

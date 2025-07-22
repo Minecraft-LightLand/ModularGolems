@@ -28,6 +28,7 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 			if (beam.isRemoved()) {
 				beam = null;
 			} else {
+				CataclysmProxy.updateLaser(golem, beam);
 				beam.setPosRaw(golem.getX(), golem.getEyeY(), golem.getZ());
 			}
 		}

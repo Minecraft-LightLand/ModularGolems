@@ -7,18 +7,27 @@ import dev.xkmc.l2complements.init.data.LCTagGen;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
+import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 import net.neoforged.fml.ModList;
 
+import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class CataCompatRegistry {
+
+	public static final ItemEntry<Item> HARBINGER_TEMPLATE, MONSTROSITY_TEMPLATE;
+	public static final ItemEntry<HarbingerArmorItem> HARBINGER_HELMET, HARBINGER_CHESTPLATE, HARBINGER_SHINGUARD;
+	public static final ItemEntry<MonstrosityArmorItem> MONSTROSITY_HELMET, MONSTROSITY_CHESTPLATE, MONSTROSITY_SHINGUARD;
 
 	public static final Val<IgnisFireballModifier> IGNIS_FIREBALL;
 	public static final Val<IgnisAttackModifier> IGNIS_ATTACK;
@@ -37,6 +46,41 @@ public class CataCompatRegistry {
 	public static final ItemEntry<SimpleUpgradeItem> LEVIATHAN, ENDER_GUARDIAN, MONSTROSITY, ANCIENT_REMNANT;
 
 	static {
+
+		HARBINGER_TEMPLATE = REGISTRATE.item("harbinger_upgrade_template", Item::new)
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/" + ctx.getName())))
+				.register();
+
+		MONSTROSITY_TEMPLATE = REGISTRATE.item("monstrosity_upgrade_template", Item::new)
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/" + ctx.getName())))
+				.register();
+
+		HARBINGER_HELMET = REGISTRATE.item("harbinger_helmet", p -> new HarbingerArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.WITHERITE_HELMETS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		HARBINGER_CHESTPLATE = REGISTRATE.item("harbinger_chestplate", p -> new HarbingerArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.WITHERITE_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		HARBINGER_SHINGUARD = REGISTRATE.item("harbinger_shinguard", p -> new HarbingerArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.WITHERITE_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+
+		MONSTROSITY_HELMET = REGISTRATE.item("monstrosity_helmet", p -> new MonstrosityArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.MONSTROSITY_HELMETS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		MONSTROSITY_CHESTPLATE = REGISTRATE.item("monstrosity_chestplate", p -> new MonstrosityArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.MONSTROSITY_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		MONSTROSITY_SHINGUARD = REGISTRATE.item("monstrosity_shinguard", p -> new MonstrosityArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.MONSTROSITY_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
 				"When target is faraway, shoot Ignis fireballs toward target.");
 
@@ -81,6 +125,10 @@ public class CataCompatRegistry {
 					.addOptional(EFF_FORCE.val().getId()));
 		}
 
+	}
+
+	private static ResourceLocation cataLoc(String id) {
+		return  ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, id);
 	}
 
 }

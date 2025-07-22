@@ -27,6 +27,7 @@ import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
@@ -132,9 +133,10 @@ public class ModularGolems {
 
 		var gen = event.getGenerator();
 		var pvd = event.getLookupProvider();
-		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(gen, pvd));
+		gen.addProvider(event.includeServer(), new MGConfigGen(gen, pvd));
 		CompatManager.gatherData(event);
-		event.getGenerator().addProvider(event.includeServer(), new SlotGen(gen.getPackOutput(), event.getExistingFileHelper(), pvd));
+		gen.addProvider(event.includeServer(), new SlotGen(gen.getPackOutput(), event.getExistingFileHelper(), pvd));
+		gen.addProvider(event.includeServer(), new MGGLMGen(gen.getPackOutput(), pvd, MODID));
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			REGISTRATE.addDataGenerator(L2TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
 		}

@@ -20,7 +20,7 @@ public enum GolemWeaponType {
 
 	private final BiFunction<Item.Properties, Integer, MetalGolemWeaponItem> factory;
 	private final String[] pattern;
-	private final String model;
+	public final String model;
 
 	GolemWeaponType(String model, BiFunction<Item.Properties, Integer, MetalGolemWeaponItem> factory, String... pattern) {
 		this.model = model;

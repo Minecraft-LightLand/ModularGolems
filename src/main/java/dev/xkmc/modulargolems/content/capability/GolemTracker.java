@@ -37,6 +37,11 @@ public class GolemTracker {
 		data.computeIfAbsent(e.getUUID(), k -> new TrackedData()).update(e);
 	}
 
+	public void trackPos(UUID id, double x, double y, double z) {
+		var rec = data.get(id);
+		if (rec != null) rec.updatePos(x, y, z);
+	}
+
 	public boolean isUntracked(AbstractGolemEntity<?, ?> e) {
 		var rec = data.get(e.getUUID());
 		if (rec == null) return true;
@@ -83,6 +88,10 @@ public class GolemTracker {
 					materials.add(m.id());
 				}
 			}
+		}
+
+		public void updatePos(double x, double y, double z) {
+			lastPos = BlockPos.containing(x, y, z);
 		}
 
 		public void untrack(AbstractGolemEntity<?, ?> e, Status type, @Nullable Entity cause) {

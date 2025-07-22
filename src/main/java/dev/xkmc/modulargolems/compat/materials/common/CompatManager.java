@@ -1,19 +1,23 @@
 package dev.xkmc.modulargolems.compat.materials.common;
 
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
+import dev.xkmc.modulargolems.compat.maid.MaidRegistry;
 import dev.xkmc.modulargolems.compat.materials.allthemodium.ATMDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.iceandfire.IAFDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
+import dev.xkmc.modulargolems.compat.materials.mowziesmobs.MowzieDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.data.MGConfigGen;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -41,7 +45,13 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(CataDispatch.MODID)) LIST.add(new CataDispatch());
 		if (ModList.get().isLoaded(IAFDispatch.MODID)) LIST.add(new IAFDispatch());
 		if (ModList.get().isLoaded(ATMDispatch.MODID)) LIST.add(new ATMDispatch());
+		//if (ModList.get().isLoaded(TCDispatch.MODID)) LIST.add(new TCDispatch());
+		//if (ModList.get().isLoaded(GoetyDispatch.MODID)) LIST.add(new GoetyDispatch());
+		//if (GRDispatch.isLoaded()) LIST.add(new GRDispatch());
+		if (ModList.get().isLoaded(MowzieDispatch.MODID)) LIST.add(new MowzieDispatch());
+		//if (ModList.get().isLoaded(LMDispatch.MODID)) LIST.add(new LMDispatch());
 		if (ModList.get().isLoaded(CEICommon.ID)) CEICompat.register();
+		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
 	}
 
 	public static void commonSetup() {
@@ -84,6 +94,11 @@ public abstract class CompatManager {
 		}
 	}
 
+	public static void onGLMGen(MGGLMGen pvd) {
+		for (ModDispatch dispatch : LIST) {
+			dispatch.genLootModifier(pvd);
+		}
+	}
 
 	private static Map<ResourceLocation, Ingredient> ALL_CONFIGS;
 

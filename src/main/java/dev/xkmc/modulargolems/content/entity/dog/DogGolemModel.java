@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import net.minecraft.client.model.AgeableListModel;
@@ -27,7 +28,7 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity>
 	private final ModelPart upperBody;
 
 	public DogGolemModel(EntityModelSet set) {
-		this(set.bakeLayer(ModelLayers.WOLF));
+		this(set.bakeLayer(GolemEquipmentModels.DOGGOLEM));
 	}
 
 	public DogGolemModel(ModelPart part) {

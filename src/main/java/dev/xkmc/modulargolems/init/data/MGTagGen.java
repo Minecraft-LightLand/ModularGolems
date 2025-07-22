@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
+import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -37,6 +38,7 @@ public class MGTagGen {
 	public static final TagKey<Item> CONFIG_CARD = createItemTag("config_card");
 	public static final TagKey<Item> SPECIAL_CRAFT = createItemTag("special_crafting_material");
 	public static final TagKey<Item> GOLEM_INTERACT = createItemTag("golem_interact");
+	public static final TagKey<Item> GOLEM_OMNI_WAND = createItemTag("golem_omni_wand");
 	public static final TagKey<Item> MODIFYING_ITEM = createItemTag("modifying_item");
 	public static final TagKey<Item> CURIO_SKIN = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_skin"));
 	public static final TagKey<Item> CURIO_PATH = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_route"));
@@ -66,6 +68,8 @@ public class MGTagGen {
 	}
 
 	public static void onItemTagGen(RegistrateItemTagsProvider pvd) {
+		pvd.addTag(L2ISTagGen.SELECTABLE).addTag(GOLEM_OMNI_WAND);
+		pvd.addTag(MGTagGen.GOLEM_INTERACT).addTag(GOLEM_OMNI_WAND);
 		pvd.addTag(MODIFYING_ITEM).add(Items.LEAD, Items.NAME_TAG)
 				.addOptional(ResourceLocation.fromNamespaceAndPath("nestle", "nestle_lead"));
 		pvd.addTag(C_WOLF_ARMORS).add(Items.WOLF_ARMOR);

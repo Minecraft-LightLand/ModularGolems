@@ -1,24 +1,20 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
-import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
-import dev.xkmc.l2core.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
-
-import static dev.xkmc.modulargolems.init.data.RecipeGen.unlock;
 
 public class CataDispatch extends ModDispatch {
 
@@ -36,21 +32,7 @@ public class CataDispatch extends ModDispatch {
 
 	@Override
 	public void genRecipe(RegistrateRecipeProvider pvd) {
-		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.ENDER_GUARDIAN.get())::unlockedBy,
-				ModItems.GAUNTLET_OF_GUARD.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.GAUNTLET_OF_GUARD.get())
-				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
-
-		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.LEVIATHAN.get())::unlockedBy,
-				ModItems.TIDAL_CLAWS.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.TIDAL_CLAWS.get())
-				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
-
-		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.MONSTROSITY.get())::unlockedBy,
-				ModItems.INFERNAL_FORGE.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.INFERNAL_FORGE.get())
-				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
-
-		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.ANCIENT_REMNANT.get())::unlockedBy,
-				ModItems.SANDSTORM_IN_A_BOTTLE.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.SANDSTORM_IN_A_BOTTLE.get())
-				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+		CataRecipGen.genRecipe(pvd);
 	}
 
 	@Nullable
@@ -64,4 +46,13 @@ public class CataDispatch extends ModDispatch {
 		ModelOverrides.registerOverride(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "ignitium"),
 				ModelOverride.texturePredicate((e) -> e.getHealth() <= e.getMaxHealth() / 2 ? "_soul" : ""));
 	}
+
+	@Override
+	public void genLootModifier(MGGLMGen pvd) {
+		pvd.drop(MODID, ModEntities.IGNIS.get(), "ignitium");
+		pvd.drop(MODID, ModEntities.THE_HARBINGER.get(), "witherite");
+		pvd.drop(MODID, ModEntities.MALEDICTUS.get(), "cursium");
+		pvd.drop(ModularGolems.MODID, ModEntities.NETHERITE_MONSTROSITY.get(), "netherite");
+	}
+
 }

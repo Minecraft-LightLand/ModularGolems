@@ -24,10 +24,7 @@ import dev.xkmc.modulargolems.content.item.data.GolemConfigKey;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.data.GolemIcon;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
-import dev.xkmc.modulargolems.content.item.equipments.HeavySpearItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.content.item.equipments.*;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -95,6 +92,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
+	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<HeavySpearItem> HEAVY_SPEAR;
 	public static final ItemEntry<MetalGolemBeaconItem>[] METALGOLEM_BEACONS;
 	public static final ItemEntry<ConfigCard>[] CARD;
@@ -141,23 +139,23 @@ public class GolemItems {
 
 			OMNI_COMMAND = REGISTRATE.item("omnipotent_wand_command", p -> new CommandWandItem(p.stacksTo(1), COMMAND_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Command").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Command").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.register();
 			OMNI_RETRIVAL = REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Retrieval").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Retrieval").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_DISPENSE = REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Summon").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Summon").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Rider").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_SQUAD = REGISTRATE.item("omnipotent_wand_squad", p -> new SquadWandItem(p.stacksTo(1), SQUAD_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Squad").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Squad").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 
 		}
@@ -216,7 +214,7 @@ public class GolemItems {
 		//metalgolem weapon
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
-
+			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe",VanillaGolemWeaponMaterial.DIAMOND);
 			HEAVY_SPEAR = REGISTRATE.item("heavy_golem_spear",
 							p -> new HeavySpearItem(p.stacksTo(1), 10, 0, 2, 2))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile(pvd.modLoc("item/long_weapon")))

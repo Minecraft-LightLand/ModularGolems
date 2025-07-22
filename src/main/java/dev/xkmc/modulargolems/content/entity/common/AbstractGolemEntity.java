@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
@@ -23,12 +24,15 @@ import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -75,6 +79,7 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 
@@ -105,7 +110,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private GolemUpgrade upgrades = new GolemUpgrade(0, new ArrayList<>());
 	@SerialField
 	@Nullable
-	private UUID owner;
+	private UUID owner, leader;
 	@SerialField
 	private HashMap<GolemModifier, Integer> modifiers = new LinkedHashMap<>();
 	@SerialField
@@ -212,9 +217,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@ServerOnly
-	public ItemStack toItem(Player player) {
+	public ItemStack toItem(LivingEntity player) {
 		recordedPosition = position();
 		recordedGuardPos = getGuardPos();
+		leader = null;
 		untrack(player == getOwner() ? GolemTracker.Status.RETRIEVED : GolemTracker.Status.OTHER_RETRIEVED, player);
 		var ans = GolemHolder.setEntity(getThis());
 		level().broadcastEntityEvent(this, EntityEvent.POOF);
@@ -236,15 +242,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) damage *= 1000;
 		super.actuallyHurt(source, damage);
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
-			Player player = getOwner();
 			unRide();
 			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
-			ItemStack stack = GolemHolder.setEntity(getThis());
-			if (player != null && player.isAlive()) {
-				player.getInventory().placeItemBackInInventory(stack);
-			} else {
-				spawnAtLocation(stack);
-			}
+			returnToInventory();
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
 		}
@@ -253,12 +253,25 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
 		super.dropCustomDeathLoot(level, source, player);
-		Map<Item, Integer> drop = new HashMap<>();
-		for (GolemMaterial mat : getMaterials()) {
-			Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
-			drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
+		if (source.getDirectEntity() instanceof MetalGolemEntity golem &&
+				golem.getMainHandItem().is(GolemItems.SLICING_AXE.get())) {
+			for (GolemMaterial mat : getMaterials()) {
+				spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
+			}
+			var rate = MGConfig.COMMON.slicingDropUpgradeChance.get();
+			for (var e : getUpgrades().upgrades()) {
+				if (random.nextFloat() < rate) {
+					spawnAtLocation(e.getDefaultInstance());
+				}
+			}
+		} else {
+			Map<Item, Integer> drop = new HashMap<>();
+			for (GolemMaterial mat : getMaterials()) {
+				Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
+				drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
+			}
+			drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
 		}
-		drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			dropSlot(slot, true);
 		}
@@ -336,6 +349,29 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		} catch (IllegalArgumentException illegalargumentexception) {
 			return null;
 		}
+	}
+
+	@Nullable
+	public LivingEntity getLeader() {
+		try {
+			UUID uuid = this.getLeaderUUID();
+			if (uuid == null) return null;
+			if (!(level() instanceof ServerLevel sl)) return null;
+			var e = sl.getEntity(uuid);
+			if (!(e instanceof LivingEntity le)) return null;
+			return le;
+		} catch (IllegalArgumentException ignored) {
+			return null;
+		}
+	}
+
+	@Nullable
+	public UUID getLeaderUUID() {
+		return leader;
+	}
+
+	public void setLeader(LivingEntity le) {
+		leader = le.getUUID();
 	}
 
 	// ------ addition golem behavior
@@ -775,6 +811,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (getMode() == GolemModes.SQUAD) {
 			return getCaptain();
 		}
+		var leader = getLeader();
+		if (leader != null) return leader;
 		return getOwner();
 	}
 
@@ -885,6 +923,40 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void makeStuckInBlock(BlockState state, Vec3 vec) {
 		if (hasFlag(GolemFlags.FREE_MOVE)) return;
 		super.makeStuckInBlock(state, vec);
+	}
+
+	@Override
+	public void setPosRaw(double x, double y, double z) {
+		trackPos(x, y, z);
+		super.setPosRaw(x, y, z);
+	}
+
+	public void trackPos(double x, double y, double z) {
+		if (level().isClientSide() || !isAddedToLevel()) return;
+		var id = getOwnerUUID();
+		if (id == null || id.equals(Util.NIL_UUID)) return;
+		if (getOwner() instanceof FakePlayer) return;
+		var tracker = GolemConfigStorage.get(level()).getTracker(id);
+		tracker.trackPos(getUUID(), x, y, z);
+	}
+
+	public void returnToInventory() {
+		var leader = getLeader();
+		ItemStack stack = GolemHolder.setEntity(getThis());
+		if (leader != null && leader.isAlive()) {
+			if (NeoForge.EVENT_BUS.post(new GolemToOwnerEvent(leader, stack)).isCanceled()) {
+				return;
+			}
+		}
+		Player player = getOwner();
+		if (player != null && player.isAlive()) {
+			if (NeoForge.EVENT_BUS.post(new GolemToOwnerEvent(player, stack)).isCanceled()) {
+				return;
+			}
+			player.getInventory().placeItemBackInInventory(stack);
+		} else {
+			spawnAtLocation(stack);
+		}
 	}
 
 }

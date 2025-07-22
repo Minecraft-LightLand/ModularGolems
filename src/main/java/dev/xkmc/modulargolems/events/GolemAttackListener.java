@@ -24,6 +24,11 @@ public class GolemAttackListener implements AttackListener {
 
 	@Override
 	public boolean onAttack(DamageData.Attack data) {
+		if (data.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
+			if (!golem.canAttack(data.getTarget())) {
+				return true;
+			}
+		}
 		if (data.getTarget() instanceof AbstractGolemEntity<?, ?> golem) {
 			if (data.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) return false;
 			for (var e : golem.getModifiers().entrySet()) {

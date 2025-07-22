@@ -183,7 +183,7 @@ dependencies {
     implementation "mezz.jei:jei-${jei_minecraft_version}:${jei_version}"
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     implementation "curse.maven:the-twilight-forest-227639:5699076"
-    implementation "curse.maven:touhou-little-maid-355044:5896992"
+    implementation "curse.maven:touhou-little-maid-355044:6657437"
     implementation "dev.xkmc:l2archery:${l2archery_ver}"
 
     implementation "curse.maven:lionfish-api-1001614:6168249"
@@ -205,6 +205,7 @@ dependencies {
     implementation "curse.maven:allthemodium-364466:6389532"
     implementation "curse.maven:cloth-config-348521:5729127"
     implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
+    implementation "curse.maven:mowzies-mobs-250498:6700443"
 
 }
 

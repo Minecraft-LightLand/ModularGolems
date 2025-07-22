@@ -1,0 +1,13 @@
+{
+  "flag": "mod:mowziesmobs",
+  "name": "千锻震升级",
+  "icon": "modulargolems:wroughtnaut",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:wroughtnaut",
+	  "text": "进行下落攻击并产生冲击波"
+	}
+  ]
+}

@@ -20,8 +20,10 @@ import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.content.recipe.GolemReplaceRecipe;
 import dev.xkmc.modulargolems.content.recipe.GolemSmithAddSlotRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.loot.DropPartModifier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
@@ -55,6 +57,14 @@ public class GolemMiscs {
 	public static final MenuEntry<PathConfigMenu> CONFIG_PATH =
 			REGISTRATE.menu("config_path", PathConfigMenu::fromNetwork, () -> PathConfigScreen::new)
 					.register();
+
+
+	static {
+		ModularGolems.REGISTRATE.simple("slicing",
+				NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS,
+				() -> DropPartModifier.CODEC
+		);
+	}
 
 	public static void register() {
 	}
