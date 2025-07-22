@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -49,7 +50,7 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 					factor++;
 				if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MONSTROSITY_SHINGUARD.get()))
 					factor++;
-				boolean flag = entity.hurt(golem.damageSources().mobAttack(golem), damage * (1 + 0.5f * factor));
+				boolean flag = entity.hurt(golem.damageSources().mobAttack(golem), damage * (1 + MGConfig.COMMON.earthquakeArmorBonus.get().floatValue() * factor));
 				if (flag) {
 					EarthquakeHelper.launch(golem, entity, 2f);
 				}
