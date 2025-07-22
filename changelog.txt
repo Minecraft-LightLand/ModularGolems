@@ -5,6 +5,7 @@
 - Port Cataclysm Armor integration
 - Allow TLM Maids to summon golems to fight
 - Fix Teleport Modifier on old golems
+- Update PTBR translation
 
 3.0.26
 - Bosses now can disable golem shields for 10 seconds on blockable attack
