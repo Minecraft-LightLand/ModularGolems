@@ -23,6 +23,7 @@ import dev.xkmc.modulargolems.content.item.equipments.SlicingAxe;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.*;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -85,6 +86,7 @@ public class GolemItems {
 	public static final ItemEntry<UuidFilterCard> CARD_UUID;
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
 	public static final ItemEntry<GolemFacade> FACADE;
+	public static final ItemEntry<AddSlotTemplate> ADD_DIAMOND, ADD_NETHERITE;
 
 	static {
 
@@ -222,6 +224,8 @@ public class GolemItems {
 		// upgrades
 		{
 			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
+			ADD_DIAMOND = REGISTRATE.item("diamond_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.DIAMOND_ADD)).defaultModel().defaultLang().register();
+			ADD_NETHERITE = REGISTRATE.item("netherite_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.NETHERITE_ADD)).defaultModel().defaultLang().register();
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifiers.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
 			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifiers.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
 			RECYCLE = regUpgrade("recycle", () -> GolemModifiers.RECYCLE).lang("Recycle Ugpgrade").register();

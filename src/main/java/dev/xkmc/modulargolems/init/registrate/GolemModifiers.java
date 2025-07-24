@@ -5,10 +5,10 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.base.NamedEntry;
-import dev.xkmc.modulargolems.content.modifier.common.AddSlotModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.*;
+import dev.xkmc.modulargolems.content.modifier.common.AddSlotModifier;
 import dev.xkmc.modulargolems.content.modifier.common.AttackBypassArmorModifier;
 import dev.xkmc.modulargolems.content.modifier.common.BellModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
@@ -52,6 +52,8 @@ public class GolemModifiers {
 	public static final RegistryEntry<RideUpgrade> MOUNT_UPGRADE;
 	public static final RegistryEntry<AttackBypassArmorModifier> ARMOR_BYPASS;
 	public static final RegistryEntry<AddSlotModifier> ADD_SLOT;
+	public static final RegistryEntry<AddSlotModifier> DIAMOND_ADD, NETHERITE_ADD;
+
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
@@ -80,6 +82,9 @@ public class GolemModifiers {
 		REGEN = reg("regeneration_up", () -> new AttributeGolemModifier(GolemModifier.MAX_LEVEL,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_REGEN, () -> 1)
 		)).register();
+
+		DIAMOND_ADD = reg("add_slot_diamond", () -> new AddSlotModifier(1), "Diamond Expansion", "Add 1 upgrade slot. Only once per golem.");
+		NETHERITE_ADD = reg("add_slot_netherite", () -> new AddSlotModifier(1), "Netherite Expansion", "Add 1 upgrade slot. Only once per golem.");
 
 		THORN = reg("thorn", ThornModifier::new,
 				"Reflect %s%% damage");
@@ -129,7 +134,7 @@ public class GolemModifiers {
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, () -> 0.3),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_JUMP, () -> 0.25),
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_HEALTH_P, () -> 0.2)
-		), "Mount Upgrade", "Golem will not attack, and will not be targeted for attack.");
+		), "Mount Upgrade", "Golem will not attack, and will not be targeted for attack. Will not be harmed by mobs that is not targeting it");
 
 		SIZE_UPGRADE = reg("size_up", () -> new AttributeGolemModifier(2,
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_SPEED, () -> 0.15),
@@ -138,10 +143,10 @@ public class GolemModifiers {
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, () -> 0.5)
 		)).register();
 
-		ADD_SLOT = reg("add_slot", AddSlotModifier::new, "Add %s golem upgrade slot");
+		ADD_SLOT = reg("add_slot", () -> new AddSlotModifier(20), "Add %s golem upgrade slot");
 
 		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
-				"Armor Penetration","Attack has %s%% chance to bypass armor and shields");
+				"Armor Penetration", "Attack has %s%% chance to bypass armor and shields");
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {

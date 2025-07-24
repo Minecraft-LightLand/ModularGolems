@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -28,7 +29,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 
 	public static final ResourceLocation EMPTY = new ResourceLocation(ModularGolems.MODID, "empty");
 
-	public static Map<Attribute, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades) {
+	public static Map<Attribute, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, List<IUpgradeItem> upgrades) {
 		HashMap<Attribute, Map<GolemStatType, Double>> values = new LinkedHashMap<>();
 		for (GolemStatType type : GolemTypes.STAT_TYPES.get().getValues()) {
 			appendStat(values, type, 0);
@@ -78,7 +79,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 				.compute(k, (e, old) -> (old == null ? 0 : old) + v);
 	}
 
-	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<UpgradeItem> upgrades) {
+	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<IUpgradeItem> upgrades) {
 		HashMap<GolemModifier, Integer> values = new LinkedHashMap<>();
 		for (GolemMaterial stats : list) {
 			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
@@ -87,7 +88,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 		return values;
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void addAttributes(List<GolemMaterial> list, List<UpgradeItem> upgrades, T entity) {
+	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void addAttributes(List<GolemMaterial> list, List<IUpgradeItem> upgrades, T entity) {
 		var map = DefaultAttributes.getSupplier(Wrappers.cast(entity.getType()));
 		var attrs = collectAttributes(list, upgrades);
 		attrs.keySet().forEach(e -> {

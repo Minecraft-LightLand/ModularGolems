@@ -59,7 +59,9 @@
 		"target_filter_default": "生物过滤器: 默认攻击目标",
 		"patrol_path_recorder": "巡逻手册",
 		"golem_facade": "傀儡皮肤",
-		"golem_slicing_axe": "斩铁巨斧"
+		"golem_slicing_axe": "斩铁巨斧",
+		"diamond_expansion_template": "扩充模版 - 钻石",
+		"netherite_expansion_template": "扩充模版 - 下界合金"
 	},
 	"-cartesian": {
 		"golem": {

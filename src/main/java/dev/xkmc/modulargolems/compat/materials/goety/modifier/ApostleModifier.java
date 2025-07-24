@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.goety.modifier;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 
@@ -13,7 +14,7 @@ public class ApostleModifier extends GolemModifier {
 	}
 
 	@Override
-	public int addSlot(List<UpgradeItem> upgrades, int lv) {
+	public int addSlot(List<IUpgradeItem> upgrades, int lv) {
 		int add = 0;
 		for (var e : upgrades) {
 			if (!e.get().isEmpty() && e.get().get(0).mod() instanceof IApostleModifier) {

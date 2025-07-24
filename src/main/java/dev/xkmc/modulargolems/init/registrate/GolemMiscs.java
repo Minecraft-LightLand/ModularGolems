@@ -4,6 +4,7 @@ import com.tterrag.registrate.util.entry.MenuEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2library.serial.recipe.AbstractShapedRecipe;
+import dev.xkmc.l2library.serial.recipe.AbstractSmithingRecipe;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigMenu;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
@@ -16,6 +17,7 @@ import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenu;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.content.recipe.GolemReplaceRecipe;
+import dev.xkmc.modulargolems.content.recipe.GolemSmithAddSlotRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.loot.DropPartModifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -29,6 +31,9 @@ public class GolemMiscs {
 			reg("golem_assemble", () -> new AbstractShapedRecipe.Serializer<>(GolemAssembleRecipe::new));
 	public static final RegistryEntry<AbstractShapedRecipe.Serializer<GolemReplaceRecipe>> REPLACE =
 			reg("golem_replace_part", () -> new AbstractShapedRecipe.Serializer<>(GolemReplaceRecipe::new));
+	public static final RegistryEntry<AbstractSmithingRecipe.Serializer<GolemSmithAddSlotRecipe>> SMITH_ADD_SLOT =
+			reg("golem_add_slot", () -> new AbstractSmithingRecipe.Serializer<>(GolemSmithAddSlotRecipe::new));
+
 
 	public static final MenuEntry<EquipmentsMenu> EQUIPMENTS =
 			REGISTRATE.menu("equipments", EquipmentsMenu::fromNetwork, () -> EquipmentsScreen::new)

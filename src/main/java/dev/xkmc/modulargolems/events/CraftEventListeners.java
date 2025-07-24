@@ -107,12 +107,8 @@ public class CraftEventListeners {
 		float max = GolemHolder.getMaxHealth(stack);
 		float health = GolemHolder.getHealth(stack);
 		if (health >= max) return;
-		var mats = GolemHolder.getMaterial(stack);
-		var type = holder.getEntityType();
-		P part = type.getBodyPart();
-		if (mats.size() <= part.ordinal()) return;
-		var mat = mats.get(part.ordinal());
-		var ing = GolemMaterialConfig.get().getRepairIngredient(mat.id());
+		var ing = GolemHolder.getHealingMaterial(stack);
+		if (ing.isEmpty()) return;
 		ItemStack repairStack = event.getRight();
 		if (!ing.test(repairStack)) return;
 		int maxFix = Math.min(repairStack.getCount(), (int) Math.ceil((max - health) / max * 4));

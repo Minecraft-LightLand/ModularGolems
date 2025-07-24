@@ -23,6 +23,7 @@ import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
@@ -132,12 +133,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private final List<Goal> modifierGoals = new ArrayList<>();
 
-	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
+	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
 		this.setHealth(this.getMaxHealth());
 	}
 
-	public void updateAttributes(ArrayList<GolemMaterial> materials, ArrayList<UpgradeItem> upgrades, @Nullable UUID owner) {
+	public void updateAttributes(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		this.materials = materials;
 		this.upgrades = Wrappers.cast(upgrades);
 		this.owner = owner;
