@@ -203,7 +203,7 @@ public class RecipeGen {
 			expand(pvd, GolemItems.HOLDER_DOG);
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.ADD_DIAMOND, 1)::unlockedBy, Items.DIAMOND)
-					.pattern("AAA").pattern("CBC").pattern("ACA")
+					.pattern("ACA").pattern("CBC").pattern("ACA")
 					.define('A', GolemItems.EMPTY_UPGRADE)
 					.define('B', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
 					.define('C', Items.DIAMOND)
@@ -435,7 +435,7 @@ public class RecipeGen {
 					.save(pvd);
 
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.PLAYER_IMMUNE.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
-					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.NETHER_STAR)
+					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.SHIELD)
 					.save(pvd);
 
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.BELL.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
@@ -505,16 +505,16 @@ public class RecipeGen {
 					.define('E', Items.NETHER_STAR)
 					.define('B', GolemItems.EMPTY_UPGRADE.get())
 					.define('C', ItemTags.SKULLS)
-					.define('A', Items.CHORUS_FLOWER)
+					.define('A', Items.DIAMOND)
 					.save(pvd);
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.CAULDRON.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
 					.pattern("CEC").pattern("ABA").pattern("CDC")
-					.define('A', Items.NETHER_STAR)
+					.define('A', Items.BLAZE_POWDER)
 					.define('B', GolemItems.EMPTY_UPGRADE.get())
 					.define('C', Items.DRAGON_BREATH)
 					.define('D', Items.CAULDRON)
-					.define('E', Items.DRAGON_HEAD)
+					.define('E', Items.NETHER_STAR)
 					.save(pvd);
 
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.MOUNT_UPGRADE.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())

@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:mount_upgrade",
-	  "text": "For dog golem only. Make golem unable to attack or targeted for attack. Increase health, speed, and jump strength."
+	  "text": "For dog golem only. Make golem unable to attack or targeted for attack. Immune to mob attack that is not targeting it. Increase health, speed, and jump strength."
 	}
   ]
 }
