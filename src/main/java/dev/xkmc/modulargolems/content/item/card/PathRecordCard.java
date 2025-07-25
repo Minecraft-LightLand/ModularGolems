@@ -73,13 +73,35 @@ public class PathRecordCard extends Item {
 		ItemStack stack = ctx.getItemInHand();
 		Level level = ctx.getLevel();
 		if (!level.isClientSide()) {
+			Player player = ctx.getPlayer();
+			if (player != null && player.isShiftKeyDown()) {
+				stack.setTag(null);
+				player.sendSystemMessage(MGLangData.PATH_CLEAR.get());
+				return InteractionResult.SUCCESS;
+			}
 			BlockPos pos = ctx.getClickedPos();
 			BlockState state = level.getBlockState(pos);
 			if (!state.getShape(level, pos).isEmpty()) {
 				pos = pos.relative(ctx.getClickedFace());
 			}
-			Player player = ctx.getPlayer();
-			if (togglePos(stack, new Pos(level.dimension().location(), pos))) {
+			var list = getList(stack);
+			var entry = new Pos(level.dimension().location(), pos);
+			if (!list.isEmpty()) {
+				var last = list.get(list.size() - 1);
+				if (!entry.level.equals(last.level)) {
+					if (player != null) {
+						player.sendSystemMessage(MGLangData.PATH_ERR_DIM.get());
+					}
+					return InteractionResult.FAIL;
+				}
+				if (!list.contains(entry) && entry.pos.distSqr(last.pos) > 256) {
+					if (player != null) {
+						player.sendSystemMessage(MGLangData.PATH_ERR_DIST.get());
+					}
+					return InteractionResult.FAIL;
+				}
+			}
+			if (togglePos(stack, entry)) {
 				if (player != null) {
 					player.sendSystemMessage(MGLangData.PATH_ADD.get());
 				}

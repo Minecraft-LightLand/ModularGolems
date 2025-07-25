@@ -1,8 +1,18 @@
+2.5.27
+- Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it
+- Make player immune upgrade, talented upgrade, cauldron upgrade cheaper
+- Port diamond and netherite add slot template back to 1.20.1
+- Limit path record card nodes to be within 16 blocks
+- Shift right click to clear path record cards
+- Now target filter card have higher priority than entity interaction
+- Fix golem config keep showing "Loading" when player did not open the config card before
+
 2.5.26
 - Add Golem Slicing Axe
 - Use standalone models for Dog golems
 - Update PTBR translation
 Note: there will be some error messages in log regarding loot. They are result of design flaws of Forge LootModifier system. Just ignore them.
+
 
 2.5.25
 - Add Monstrosity Golem Armor (thanks T7H1 for modeling)

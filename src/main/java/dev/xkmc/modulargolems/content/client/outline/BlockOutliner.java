@@ -54,6 +54,7 @@ public class BlockOutliner {
 	private static void line(PoseStack pose, VertexConsumer vc, BlockPos a, BlockPos b, Vector3f pos, float time) {
 		Vec3 c0 = a.getCenter();
 		Vec3 c1 = b.getCenter();
+		int color = a.distSqr(b) < 256 ? 0xFF7FCDE0 : 0xFFFF3F3F;
 		{
 			Vec3 v1 = c0.lerp(c1, time);
 			Vec3 v0 = c0;
@@ -62,7 +63,7 @@ public class BlockOutliner {
 			}
 			var p0 = v0.toVector3f();
 			var p1 = v1.toVector3f();
-			renderLine(pose, vc, p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, pos, 0xFF7FCDE0);
+			renderLine(pose, vc, p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, pos, color);
 
 		}
 		if (time < 0.5) {
@@ -70,7 +71,7 @@ public class BlockOutliner {
 			Vec3 v0 = c0.lerp(c1, time + 0.5);
 			var p0 = v0.toVector3f();
 			var p1 = v1.toVector3f();
-			renderLine(pose, vc, p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, pos, 0xFF7FCDE0);
+			renderLine(pose, vc, p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, pos, color);
 		}
 	}
 

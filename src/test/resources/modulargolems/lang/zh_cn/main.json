@@ -62,7 +62,10 @@
 			"path_record": "右键方块添加路径点，再次右键同方块移除。路径点首尾相连成环",
 			"add_node": "已添加路径点",
 			"node_count": "包含%s个路径点",
-			"remove_node": "已移除路径点"
+			"remove_node": "已移除路径点",
+			"clear_node": "已移除所有路径点",
+			"err_dim": "你不能跨维度添加路径点",
+			"err_dist": "路径点之间的距离不能超过16格"
 		},
 		"msg": {
 			"destroy_exp": "%s销毁了%s经验",
