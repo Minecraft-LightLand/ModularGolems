@@ -50,7 +50,9 @@ public class PathRecordCard extends Item {
 		}
 		ans = ans.copy();
 		ans.pos().remove(pos);
-		GolemItems.DC_PATH.set(stack, ans);
+		if (ans.pos.isEmpty())
+			stack.remove(GolemItems.DC_PATH);
+		else GolemItems.DC_PATH.set(stack, ans);
 		return false;
 	}
 
@@ -63,12 +65,33 @@ public class PathRecordCard extends Item {
 		ItemStack stack = ctx.getItemInHand();
 		Level level = ctx.getLevel();
 		if (!level.isClientSide()) {
+			Player player = ctx.getPlayer();
+			if (player != null && player.isShiftKeyDown()) {
+				stack.remove(GolemItems.DC_PATH);
+				player.sendSystemMessage(MGLangData.PATH_CLEAR.get());
+				return InteractionResult.SUCCESS;
+			}
 			BlockPos pos = ctx.getClickedPos();
 			BlockState state = level.getBlockState(pos);
 			if (!state.getShape(level, pos).isEmpty()) {
 				pos = pos.relative(ctx.getClickedFace());
 			}
-			Player player = ctx.getPlayer();
+			var list = getList(stack);
+			if (list != null && !list.pos.isEmpty()) {
+				var last = list.pos.getLast();
+				if (!list.match(level)) {
+					if (player != null) {
+						player.sendSystemMessage(MGLangData.PATH_ERR_DIM.get());
+					}
+					return InteractionResult.FAIL;
+				}
+				if (!list.pos().contains(pos) && pos.distSqr(last) > 256) {
+					if (player != null) {
+						player.sendSystemMessage(MGLangData.PATH_ERR_DIST.get());
+					}
+					return InteractionResult.FAIL;
+				}
+			}
 			if (togglePos(stack, level, pos)) {
 				if (player != null) {
 					player.sendSystemMessage(MGLangData.PATH_ADD.get());

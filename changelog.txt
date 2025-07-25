@@ -1,3 +1,11 @@
+3.0.28
+- Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it
+- Make player immune upgrade, talented upgrade, cauldron upgrade cheaper
+- Limit path record card nodes to be within 16 blocks
+- Shift right click to clear path record cards
+- Now target filter card have higher priority than entity interaction
+- Fix golem config keep showing "Loading" when player did not open the config card before
+
 3.0.27
 - Add Golem Slicing Axe
 - Use standalone models for Dog golems
@@ -6,6 +14,7 @@
 - Allow TLM Maids to summon golems to fight
 - Fix Teleport Modifier on old golems
 - Update PTBR translation
+
 
 3.0.26
 - Bosses now can disable golem shields for 10 seconds on blockable attack

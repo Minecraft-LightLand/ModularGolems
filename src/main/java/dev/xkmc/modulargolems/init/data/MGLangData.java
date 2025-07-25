@@ -69,9 +69,12 @@ public enum MGLangData {
 	CONFIG_CARD("wand.config", "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.", 0, ChatFormatting.GRAY),
 	CONFIG_INIT("wand.config_init", "Right click to initialize config", 0, ChatFormatting.GRAY),
 	CONFIG_OTHER("wand.config_other", "Not your card. You cannot edit it", 0, ChatFormatting.RED),
-	PATH("wand.path_record", "Right click block to add to path, right click again to remove. Path forms a cycle.", 0, ChatFormatting.GRAY),
+	PATH("wand.path_record", "Right click block to add to path, right click again to remove. Shift right click to clear. Path forms a cycle.", 0, ChatFormatting.GRAY),
 	PATH_ADD("wand.add_node", "Added node to path", 0, null),
 	PATH_REMOVE("wand.remove_node", "Removed node from path", 0, null),
+	PATH_CLEAR("wand.clear_node", "Removed all nodes from path", 0, null),
+	PATH_ERR_DIM("wand.err_dim", "You cannot add nodes across dimension", 0, ChatFormatting.RED),
+	PATH_ERR_DIST("wand.err_dist", "You cannot add nodes more than 16 blocks apart", 0, ChatFormatting.RED),
 	PATH_COUNT("wand.node_count", "Path has %s nodes", 1, ChatFormatting.GRAY),
 
 	DESTROY_ITEM("msg.destroy_item", "Golem %s destroyed %s items because it finds no place to store.", 2, ChatFormatting.RED),
