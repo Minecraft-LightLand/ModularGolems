@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 public class GolemItemPriorityHandler {
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
-	public void onItemUseOnBlock(PlayerInteractEvent.RightClickBlock event) {
+	public static void onItemUseOnBlock(PlayerInteractEvent.RightClickBlock event) {
 		if (event.getItemStack().is(GolemItems.CARD_PATH.get())) {
 			event.setUseItem(Event.Result.ALLOW);
 			event.setUseBlock(Event.Result.DENY);
@@ -22,7 +22,7 @@ public class GolemItemPriorityHandler {
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
-	public void onItemUseOnEntity(PlayerInteractEvent.EntityInteractSpecific event) {
+	public static void onItemUseOnEntity(PlayerInteractEvent.EntityInteractSpecific event) {
 		if (event.getItemStack().getItem() instanceof ClickEntityFilterCard<?> card && event.getTarget() instanceof LivingEntity le) {
 			var ans = card.interactLivingEntity(event.getItemStack(), event.getEntity(), le, event.getHand());
 			event.setCancellationResult(ans);
