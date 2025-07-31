@@ -51,6 +51,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 			target = entityHit.getEntity();
 		}
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return;
+		if (golem.isHostile()) return;
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
 		if (golem.hasFlag(GolemFlags.BOTANIA)) {

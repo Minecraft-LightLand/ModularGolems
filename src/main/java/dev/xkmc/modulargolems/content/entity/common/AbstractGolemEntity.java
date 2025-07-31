@@ -14,6 +14,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
+import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
@@ -24,7 +25,6 @@ import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
-import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -97,6 +97,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity::defineId);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), null);
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
@@ -141,7 +142,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void updateAttributes(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		this.materials = materials;
 		this.upgrades = Wrappers.cast(upgrades);
-		this.owner = owner;
+		setOwnerUUID(owner);
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
 		this.setMaxUpStep(1);
@@ -277,13 +278,24 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
 		if (source.getDirectEntity() instanceof MetalGolemEntity golem &&
 				golem.getMainHandItem().is(GolemItems.SLICING_AXE.get())) {
-			for (GolemMaterial mat : getMaterials()) {
-				spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
-			}
 			var rate = MGConfig.COMMON.slicingDropUpgradeChance.get();
-			for (var e : getUpgrades()) {
+			if (isHostile()) {
+				var mats = getMaterials();
+				var mat = mats.get(random.nextInt(mats.size()));
+				spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
+				var upgrades = getUpgrades();
+				var upgrade = upgrades.get(random.nextInt(upgrades.size()));
 				if (random.nextFloat() < rate) {
-					spawnAtLocation(e.getDefaultInstance());
+					spawnAtLocation(upgrade.getDefaultInstance());
+				}
+			} else {
+				for (GolemMaterial mat : getMaterials()) {
+					spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
+				}
+				for (var e : getUpgrades()) {
+					if (random.nextFloat() < rate) {
+						spawnAtLocation(e.getDefaultInstance());
+					}
 				}
 			}
 		} else {
@@ -294,8 +306,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			}
 			drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
 		}
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			dropSlot(slot, true);
+		if (!isHostile()) {
+			for (EquipmentSlot slot : EquipmentSlot.values()) {
+				dropSlot(slot, true);
+			}
 		}
 	}
 
@@ -357,8 +371,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ ownable entity
 
+	public void setOwnerUUID(@Nullable UUID id) {
+		owner = id;
+		entityData.set(OWNER_ID, Optional.ofNullable(owner));
+	}
+
 	@Nullable
-	public UUID getOwnerUUID() {
+	public final UUID getOwnerUUID() {
+		if (level().isClientSide()) {
+			return entityData.get(OWNER_ID).orElse(null);
+		}
 		return owner;
 	}
 
@@ -393,6 +415,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void setLeader(LivingEntity le) {
 		leader = le.getUUID();
+	}
+
+	public final boolean isHostile() {
+		return HostileGolemRegistry.isHostile(getOwnerUUID());
 	}
 
 	// ------ addition golem behavior
@@ -495,6 +521,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			if (getOwner() == own.getOwner()) {
 				return false;
 			}
+		}
+		if (!target.isAlive()) return false;
+		if (target instanceof AbstractGolemEntity<?, ?> other) {
+			if (isHostile() != other.isHostile()) return true;
+			if (isHostile() && other.isHostile() && getOwnerUUID() == other.getOwnerUUID()) {
+				return false;
+			}
+		}
+		if (isHostile() && HostileGolemRegistry.getFaction(getOwnerUUID()).hostileGolemAttacks(target)) {
+			return true;
 		}
 		var config = getConfigEntry(null);
 		if (config == null) {
@@ -644,10 +680,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
 	private static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
 
+	public int getConfigColor() {
+		return entityData.get(CONFIG_COLOR);
+	}
+
 	@Nullable
 	public GolemConfigEntry getConfigEntry(@Nullable Component dummy) {
+		int configColor = getConfigColor();
+		if (isHostile()) {
+			var faction = HostileGolemRegistry.getFaction(getOwnerUUID());
+			return faction.getConfig(this, configColor);
+		}
 		UUID configOwner = entityData.get(CONFIG_ID).orElse(null);
-		int configColor = entityData.get(CONFIG_COLOR);
 		if (configColor < 0 || configOwner == null) return null;
 		var storage = GolemConfigStorage.get(level());
 		if (dummy == null) {
@@ -766,6 +810,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (owner != null) {
 			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
 		}
+		if (isHostile()) {
+			if (other instanceof AbstractGolemEntity<?, ?> golem) {
+				if (golem.isHostile() && getOwnerUUID() == golem.getOwnerUUID())
+					return true;
+			}
+		}
 		return super.isAlliedTo(other);
 	}
 
@@ -824,6 +874,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean predicateSecondaryTarget(LivingEntity e) {
 		var config = getConfigEntry(null);
 		if (config == null) {
+			if (isHostile()) {
+				return HostileGolemRegistry.getFaction(getOwnerUUID()).hostileGolemAttacks(e);
+			}
 			return DefaultFilterCard.defaultPredicate(e);
 		} else {
 			return config.targetFilter.aggressiveToward(e);

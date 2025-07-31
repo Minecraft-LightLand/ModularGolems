@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -57,6 +58,9 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 		ItemStack stack = entity.getItemBySlot(EquipmentSlot.HEAD);
 		if (entity instanceof HumanoidGolemEntity && renders(stack)) {
 			return ItemStack.EMPTY;
+		}
+		if (entity.isHostile()) {
+			return HostileGolemRegistry.getFaction(entity.getOwnerUUID()).getBanner(entity, entity.getConfigColor());
 		}
 		if (entity instanceof MetalGolemEntity && !renders(stack)) {
 			stack = entity.getItemBySlot(EquipmentSlot.FEET);

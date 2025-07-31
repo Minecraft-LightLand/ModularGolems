@@ -172,23 +172,22 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 				return InteractionResult.PASS;
 			return super.mobInteractImpl(player, hand);
-		} else {
-			float f = this.getHealth();
-			this.heal(getMaxHealth() / 4f);
-			if (this.getHealth() == f) {
-				return InteractionResult.PASS;
-			} else {
-				float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-				this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
-				if (!player.getAbilities().instabuild) {
-					itemstack.shrink(1);
-				}
-				if (!this.level().isClientSide()) {
-					GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
-				}
-				return InteractionResult.sidedSuccess(this.level().isClientSide);
-			}
 		}
+		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
+		float f = this.getHealth();
+		this.heal(getMaxHealth() / 4f);
+		if (this.getHealth() == f) {
+			return InteractionResult.PASS;
+		}
+		float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+		this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
+		if (!player.getAbilities().instabuild) {
+			itemstack.shrink(1);
+		}
+		if (!this.level().isClientSide()) {
+			GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
+		}
+		return InteractionResult.sidedSuccess(this.level().isClientSide);
 	}
 
 }

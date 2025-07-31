@@ -5,7 +5,6 @@ import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
-import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
@@ -72,6 +71,7 @@ public class GolemItems {
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND, OMNI_DISPENSE;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND, OMNI_RIDER;
 	public static final ItemEntry<SquadWandItem> SQUAD_WAND, OMNI_SQUAD;
+	public static final ItemEntry<HostileWandItem> HOSTILE_WAND;
 
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
@@ -173,7 +173,7 @@ public class GolemItems {
 		//metalgolem weapon
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
-			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe",VanillaGolemWeaponMaterial.DIAMOND);
+			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
 		}
 
 		//metalgolem beacon
@@ -360,6 +360,10 @@ public class GolemItems {
 				.tag(MGTagGen.CURIO_SKIN).register();
 
 		CompatManager.lateRegister();
+
+		REGISTRATE.defaultCreativeTab(ITEMS.getKey());
+		HOSTILE_WAND = REGISTRATE.item("hostile_wand", p -> new HostileWandItem(p.stacksTo(1)))
+				.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 
 	}
 

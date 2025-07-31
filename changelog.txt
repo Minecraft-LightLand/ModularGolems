@@ -1,3 +1,7 @@
+2.5.28
+- Make golem parts immune to lightning, fire, explosion
+- Add hostile wand, allowing to make golems hostile
+
 2.5.27
 - Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it
 - Make player immune upgrade, talented upgrade, cauldron upgrade cheaper
