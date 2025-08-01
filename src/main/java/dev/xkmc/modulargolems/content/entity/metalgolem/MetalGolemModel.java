@@ -63,12 +63,21 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 	}
 
 	public void setupAnim(MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
+		root.resetPose();
 		this.head.yRot = f4 * ((float) Math.PI / 180F);
 		this.head.xRot = f5 * ((float) Math.PI / 180F);
 		this.rightLeg.xRot = -1.5F * Mth.triangleWave(f1, 13.0F) * f2;
 		this.leftLeg.xRot = 1.5F * Mth.triangleWave(f1, 13.0F) * f2;
 		this.rightLeg.yRot = 0.0F;
 		this.leftLeg.yRot = 0.0F;
+		if (this.riding) {
+			this.rightLeg.xRot = -1.4137167F;
+			this.rightLeg.yRot = ((float)Math.PI / 10F);
+			this.rightLeg.zRot = 0.07853982F;
+			this.leftLeg.xRot = -1.4137167F;
+			this.leftLeg.yRot = (-(float)Math.PI / 10F);
+			this.leftLeg.zRot = -0.07853982F;
+		}
 	}
 
 	public void prepareMobModel(MetalGolemEntity entity, float bob, float speed, float pTick) {

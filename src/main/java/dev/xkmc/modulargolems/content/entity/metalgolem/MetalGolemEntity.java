@@ -4,6 +4,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
@@ -47,6 +48,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			kb += (float) EnchantmentHelper.getKnockbackBonus(this);
 		}
 		boolean succeed = target.hurt(level().damageSources().mobAttack(this), damage);
+		if (getMainHandItem().getItem() instanceof ExtraAttackGolemWeapon item) {
+			succeed |= item.repeatAttack(this, target, damage, succeed);
+		}
 		if (succeed) {
 			double d1 = Math.max(0.0D, 1.0D - kb);
 			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;
@@ -188,6 +192,11 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
 		}
 		return InteractionResult.sidedSuccess(this.level().isClientSide);
+	}
+
+	@Override
+	public double getMyRidingOffset() {
+		return -0.5;
 	}
 
 }
