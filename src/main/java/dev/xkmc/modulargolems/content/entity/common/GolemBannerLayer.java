@@ -60,6 +60,8 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 			return ItemStack.EMPTY;
 		}
 		if (entity.isHostile()) {
+			if (entity.hasPassenger(e -> e instanceof AbstractGolemEntity<?, ?> golem && golem.getOwnerUUID().equals(entity.getOwnerUUID())))
+				return ItemStack.EMPTY;
 			return HostileGolemRegistry.getFaction(entity.getOwnerUUID()).getBanner(entity, entity.getConfigColor());
 		}
 		if (entity instanceof MetalGolemEntity && !renders(stack)) {

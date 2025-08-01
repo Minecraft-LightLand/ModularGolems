@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +40,6 @@ public class HostileFaction {
 		return ItemStack.EMPTY;
 	}
 
-
 	public boolean hostileGolemAttacks(LivingEntity target) {
 		if (target instanceof Player player && !(target instanceof FakePlayer)) {
 			return player.canBeSeenAsEnemy();
@@ -49,4 +49,12 @@ public class HostileFaction {
 		}
 		return false;
 	}
+
+	public boolean isAlliedTo(Entity other) {
+		if (other instanceof AbstractGolemEntity<?, ?> golem) {
+			return golem.isHostile() && uuid.equals(golem.getOwnerUUID());
+		}
+		return false;
+	}
+
 }

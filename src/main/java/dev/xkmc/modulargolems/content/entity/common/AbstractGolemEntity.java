@@ -284,9 +284,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				var mat = mats.get(random.nextInt(mats.size()));
 				spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
 				var upgrades = getUpgrades();
-				var upgrade = upgrades.get(random.nextInt(upgrades.size()));
-				if (random.nextFloat() < rate) {
-					spawnAtLocation(upgrade.getDefaultInstance());
+				if (!upgrades.isEmpty()) {
+					var upgrade = upgrades.get(random.nextInt(upgrades.size()));
+					if (random.nextFloat() < rate) {
+						spawnAtLocation(upgrade.getDefaultInstance());
+					}
 				}
 			} else {
 				for (GolemMaterial mat : getMaterials()) {
@@ -811,9 +813,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
 		}
 		if (isHostile()) {
-			if (other instanceof AbstractGolemEntity<?, ?> golem) {
-				if (golem.isHostile() && getOwnerUUID() == golem.getOwnerUUID())
-					return true;
+			if (HostileGolemRegistry.getFaction(getOwnerUUID()).isAlliedTo(other)) {
+				return true;
 			}
 		}
 		return super.isAlliedTo(other);

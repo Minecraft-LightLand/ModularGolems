@@ -64,16 +64,19 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	public ItemStack getProjectile(ItemStack pShootable) {
+		ItemStack ans;
 		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
 			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
 			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
 			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
 				stack = arrowSlot;
 			}
-			return ForgeHooks.getProjectile(this, pShootable, stack);
+			ans = ForgeHooks.getProjectile(this, pShootable, stack);
 		} else {
-			return ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
+			ans = ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
 		}
+		if (isHostile()) ans = ans.copy();
+		return ans;
 	}
 
 	protected void defineSynchedData() {
