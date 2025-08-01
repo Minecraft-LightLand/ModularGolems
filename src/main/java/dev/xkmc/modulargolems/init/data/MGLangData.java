@@ -24,7 +24,7 @@ public enum MGLangData {
 	UPGRADE_COUNT("tooltip.modifier", "Total %s modifiers from %s upgrades", 2, ChatFormatting.LIGHT_PURPLE),
 	CRAFT_MAT("tooltip.craft_material", "Golem crafting material", 0, ChatFormatting.GRAY),
 	REPAIR_MAT("tooltip.repair_material", "Golem repair material", 0, ChatFormatting.GRAY),
-	SLICING_GOLEM("tooltip.slicing_golem", "When metal golem kill golems with this axe, drop all parts and each upgrade has %s chance to drop", 1, ChatFormatting.GRAY),
+	SLICING_GOLEM("tooltip.slicing_golem", "When metal golem kill golems of other players with this axe, drop all parts and each upgrade has %s chance to drop", 1, ChatFormatting.GRAY),
 	SLICING_ENEMY("tooltip.slicing_enemy", "When metal golem kill certain enemies with this axe, drop one random metal golem part", 0, ChatFormatting.GRAY),
 
 	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage", 1, ChatFormatting.GRAY),

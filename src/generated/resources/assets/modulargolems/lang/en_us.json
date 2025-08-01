@@ -563,7 +563,7 @@
   "modulargolems.tooltip.repair_material": "Golem repair material",
   "modulargolems.tooltip.shift": "Press SHIFT to show modifier details",
   "modulargolems.tooltip.slicing_enemy": "When metal golem kill certain enemies with this axe, drop one random metal golem part",
-  "modulargolems.tooltip.slicing_golem": "When metal golem kill golems with this axe, drop all parts and each upgrade has %s chance to drop",
+  "modulargolems.tooltip.slicing_golem": "When metal golem kill golems of other players with this axe, drop all parts and each upgrade has %s chance to drop",
   "modulargolems.tooltip.slot": "Remaining Upgrade Slot: %s",
   "modulargolems.tooltip.squad": "Squad",
   "modulargolems.tooltip.stand": "Stand",

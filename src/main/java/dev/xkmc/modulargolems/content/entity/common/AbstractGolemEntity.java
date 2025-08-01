@@ -20,6 +20,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
+import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -277,29 +278,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
 		if (source.getDirectEntity() instanceof MetalGolemEntity golem &&
-				golem.getMainHandItem().is(GolemItems.SLICING_AXE.get())) {
-			var rate = MGConfig.COMMON.slicingDropUpgradeChance.get();
-			if (isHostile()) {
-				var mats = getMaterials();
-				var mat = mats.get(random.nextInt(mats.size()));
-				spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
-				var upgrades = getUpgrades();
-				if (!upgrades.isEmpty()) {
-					var upgrade = upgrades.get(random.nextInt(upgrades.size()));
-					if (random.nextFloat() < rate) {
-						spawnAtLocation(upgrade.getDefaultInstance());
-					}
-				}
-			} else {
-				for (GolemMaterial mat : getMaterials()) {
-					spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
-				}
-				for (var e : getUpgrades()) {
-					if (random.nextFloat() < rate) {
-						spawnAtLocation(e.getDefaultInstance());
-					}
-				}
-			}
+				golem.getMainHandItem().getItem() instanceof CustomDropGolemWeapon item) {
+			item.dropCustomDeathLoot(this, golem, golem.getMainHandItem(), source);
 		} else {
 			Map<Item, Integer> drop = new HashMap<>();
 			for (GolemMaterial mat : getMaterials()) {
