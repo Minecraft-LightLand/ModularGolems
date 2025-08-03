@@ -59,9 +59,10 @@ public class HostileWandItem extends Item implements GolemInteractItem, IGlowing
 					golem.setOwnerUUID(sp.getUUID());
 				}
 			}
-			return InteractionResult.SUCCESS;
+		} else {
+			target.addTag("HostileGolemTarget");
 		}
-		return InteractionResult.PASS;
+		return InteractionResult.SUCCESS;
 	}
 
 }

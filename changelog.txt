@@ -1,6 +1,6 @@
-2.5.28
+2.6.1
 - Make golem parts immune to lightning, fire, explosion
-- Add hostile wand, allowing to make golems hostile
+- Add hostile wand, allowing to make golems hostile, and click mob to make hostile golems attacking them
 
 2.5.27
 - Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it

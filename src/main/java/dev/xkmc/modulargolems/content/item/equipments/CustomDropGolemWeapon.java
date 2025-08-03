@@ -7,5 +7,5 @@ import net.minecraft.world.item.ItemStack;
 
 public interface CustomDropGolemWeapon {
 
-	void dropCustomDeathLoot(AbstractGolemEntity<?, ?> self, MetalGolemEntity attacker, ItemStack stack, DamageSource source);
+	boolean dropCustomDeathLoot(AbstractGolemEntity<?, ?> self, MetalGolemEntity attacker, ItemStack stack, DamageSource source);
 }

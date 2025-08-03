@@ -24,7 +24,6 @@ import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
@@ -33,7 +32,6 @@ import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -277,10 +275,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
+		boolean skip = false;
 		if (source.getDirectEntity() instanceof MetalGolemEntity golem &&
 				golem.getMainHandItem().getItem() instanceof CustomDropGolemWeapon item) {
-			item.dropCustomDeathLoot(this, golem, golem.getMainHandItem(), source);
-		} else {
+			skip = item.dropCustomDeathLoot(this, golem, golem.getMainHandItem(), source);
+		}
+		if (!skip) {
 			Map<Item, Integer> drop = new HashMap<>();
 			for (GolemMaterial mat : getMaterials()) {
 				Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
@@ -293,6 +293,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				dropSlot(slot, true);
 			}
 		}
+		super.dropCustomDeathLoot(source, i, b);
 	}
 
 	protected void dropSlot(EquipmentSlot slot, boolean isDeath) {

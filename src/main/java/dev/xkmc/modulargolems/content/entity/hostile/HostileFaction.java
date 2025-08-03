@@ -44,6 +44,8 @@ public class HostileFaction {
 		if (target instanceof Player player && !(target instanceof FakePlayer)) {
 			return player.canBeSeenAsEnemy();
 		}
+		if (target.getTags().contains("HostileGolemTarget"))
+			return true;
 		if (target instanceof OwnableEntity ownable) {
 			return ownable.getOwner() instanceof Player;
 		}
