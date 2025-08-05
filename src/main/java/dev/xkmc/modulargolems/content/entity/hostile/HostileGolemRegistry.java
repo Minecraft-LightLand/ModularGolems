@@ -1,14 +1,12 @@
 package dev.xkmc.modulargolems.content.entity.hostile;
 
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.util.FakePlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,6 +30,12 @@ public class HostileGolemRegistry {
 
 	public static HostileFaction getFaction(UUID id) {
 		return UUID_MAP.get(id);
+	}
+
+	public static Optional<HostileFaction> tryGetFaction(AbstractGolemEntity<?, ?> golem) {
+		var uuid = golem.getOwnerUUID();
+		if (uuid == null) return Optional.empty();
+		return Optional.ofNullable(UUID_MAP.get(uuid));
 	}
 
 	public static boolean isHostile(@Nullable UUID id) {

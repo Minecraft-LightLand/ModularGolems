@@ -9,13 +9,14 @@ import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.compat.materials.goety.GoetyCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.goety.revelation.GRCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.entity.EntityTypeTest;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -34,23 +35,15 @@ public class ApollyonBowGoal<E extends SweepGolemEntity<?, ?>> extends SmartBowA
 				EntityTypeTest.forClass(LivingEntity.class),
 				mob.getBoundingBox().inflate(range),
 				e -> mob.canAttack(e) && mob.hasLineOfSight(e));
-		var first = new ArrayList<LivingEntity>();
-		var second = new ArrayList<LivingEntity>();
-		for (var e : list) {
-			if (mob.predicatePriorityTarget(e)) {
-				first.add(e);
-			} else if (mob.predicateSecondaryTarget(e)) {
-				second.add(e);
-			}
-		}
+		list.sort(Comparator.comparing(ke -> Optional.ofNullable(
+				TargetManager.predicateTarget(mob, ke)
+		).map(Enum::ordinal).orElse(100)));
+
 		targets = new LinkedList<>();
-		for (var e : first) {
-			if (targets.size() >= max) return;
-			targets.add(e);
-		}
-		for (var e : second) {
-			if (targets.size() >= max) return;
-			targets.add(e);
+		for (var e : list) {
+			if (targets.size() < max)
+				targets.add(e);
+			else break;
 		}
 	}
 

@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.card;
 
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResultHolder;
@@ -18,7 +19,7 @@ import java.util.function.Predicate;
 public class DefaultFilterCard extends TargetFilterCard {
 
 	public static boolean defaultPredicate(LivingEntity e) {
-		return e instanceof Enemy && !(e instanceof Creeper);
+		return e instanceof Enemy && !(e instanceof Creeper) || e instanceof AbstractGolemEntity<?,?> golem && golem.isHostile();
 	}
 
 	public DefaultFilterCard(Properties properties) {

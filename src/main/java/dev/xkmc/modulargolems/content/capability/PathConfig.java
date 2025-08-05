@@ -20,10 +20,8 @@ public class PathConfig {
 
 	@Nullable
 	public static List<PathRecordCard.Pos> getPath(AbstractGolemEntity<?, ?> e) {
-		if (e.isHostile()){
-			var faction = HostileGolemRegistry.getFaction(e.getOwnerUUID());
-			return faction.getPath(e, e.getConfigColor());
-		}
+		var faction = HostileGolemRegistry.tryGetFaction(e);
+		if (faction.isPresent()) return faction.get().getPath(e, e.getConfigColor());
 		if (ModList.get().isLoaded("curios")) {
 			var opt = CurioCompatRegistry.getItem(e, "golem_route")
 					.map(PathRecordCard::getList);

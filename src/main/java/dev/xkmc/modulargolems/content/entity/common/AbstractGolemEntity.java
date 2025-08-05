@@ -18,7 +18,8 @@ import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
-import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
+import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
+import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
@@ -61,7 +62,6 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
@@ -479,6 +479,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return;
 		}
 		super.setTarget(target);
+		if (target != null) {
+			TargetManager.get(this).onSetTarget(this, target);
+		}
 		if (target instanceof Mob mob) {
 			if (mob.getTarget() == null && mob.canAttack(this)) {
 				mob.setTarget(this);
@@ -497,14 +500,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canAttack(LivingEntity target) {
-		if (target == getOwner()) {
+		var owner = getOwner();
+		var leader = getLeader();
+		if (target == owner || target == leader)
 			return false;
-		}
 		if (target instanceof OwnableEntity own) {
-			if (getOwner() == own.getOwner()) {
+			var parent = own.getOwner();
+			if (parent != null && (owner == parent || leader == parent)) {
 				return false;
 			}
 		}
+		if (!target.canBeSeenAsEnemy()) return false;
 		if (!target.isAlive()) return false;
 		if (target instanceof AbstractGolemEntity<?, ?> other) {
 			if (isHostile() != other.isHostile()) return true;
@@ -512,7 +518,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				return false;
 			}
 		}
-		if (isHostile() && HostileGolemRegistry.getFaction(getOwnerUUID()).hostileGolemAttacks(target)) {
+		var faction = HostileGolemRegistry.tryGetFaction(this);
+		if (faction.isPresent() && faction.get().hostileGolemAttacks(this, target)) {
 			return true;
 		}
 		var config = getConfigEntry(null);
@@ -577,6 +584,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				entry.getKey().onAiStep(this, entry.getValue());
 			}
 			this.updatePersistentAnger((ServerLevel) this.level(), true);
+			var target = getTarget();
+			if (target != null && target.isAlive()) {
+				TargetManager.get(this).tickTarget(this, target);
+			}
 		}
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			ItemStack stack = getItemBySlot(slot);
@@ -670,9 +681,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Nullable
 	public GolemConfigEntry getConfigEntry(@Nullable Component dummy) {
 		int configColor = getConfigColor();
-		if (isHostile()) {
-			var faction = HostileGolemRegistry.getFaction(getOwnerUUID());
-			return faction.getConfig(this, configColor);
+		var opt = HostileGolemRegistry.tryGetFaction(this);
+		if (opt.isPresent()) {
+			return opt.get().getConfig(this, configColor);
 		}
 		UUID configOwner = entityData.get(CONFIG_ID).orElse(null);
 		if (configColor < 0 || configOwner == null) return null;
@@ -776,7 +787,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (player == owner) {
 			return true;
 		}
-		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player))
+		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateTarget(player))
 			return true;
 		if (MGConfig.COMMON.ownerPickupOnly.get()) {
 			return false;
@@ -793,10 +804,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (owner != null) {
 			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
 		}
-		if (isHostile()) {
-			if (HostileGolemRegistry.getFaction(getOwnerUUID()).isAlliedTo(other)) {
-				return true;
-			}
+		var opt = HostileGolemRegistry.tryGetFaction(this);
+		if (opt.isPresent() && opt.get().isAlliedTo(this, other)) {
+			return true;
 		}
 		return super.isAlliedTo(other);
 	}
@@ -829,40 +839,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.goalSelector.addGoal(8, new GolemRandomStrollGoal(this));
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(3, new Golem3DTargetGoal<>(this, Mob.class, 5, true, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, this::predicateSecondaryTarget));
-		this.targetSelector.addGoal(5, new Golem3DTargetGoal<>(this, LivingEntity.class, 5, true, false, this::predicateSecondaryTarget));
+		this.targetSelector.addGoal(3, new Golem3DTargetGoal(this, 5));
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	public boolean predicatePriorityTarget(LivingEntity e) {
-		if (e instanceof Mob mob) {
-			for (var target : List.of(
-					Optional.ofNullable(mob.getLastHurtMob()),
-					Optional.ofNullable(mob.getTarget()),
-					Optional.ofNullable(mob.getLastHurtByMob())
-			)) {
-				if (target.isPresent()) {
-					Player owner = getOwner();
-					if (target.get() == owner) return true;
-					if (target.get().isAlliedTo(this)) return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public boolean predicateSecondaryTarget(LivingEntity e) {
-		var config = getConfigEntry(null);
-		if (config == null) {
-			if (isHostile()) {
-				return HostileGolemRegistry.getFaction(getOwnerUUID()).hostileGolemAttacks(e);
-			}
-			return DefaultFilterCard.defaultPredicate(e);
-		} else {
-			return config.targetFilter.aggressiveToward(e);
-		}
+	public boolean predicateTarget(LivingEntity e) {
+		return TargetManager.predicateTarget(this, e) != null;
 	}
 
 	public boolean isInSittingPose() {

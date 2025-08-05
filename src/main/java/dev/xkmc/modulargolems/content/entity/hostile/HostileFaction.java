@@ -40,7 +40,11 @@ public class HostileFaction {
 		return ItemStack.EMPTY;
 	}
 
-	public boolean hostileGolemAttacks(LivingEntity target) {
+	public boolean hostileGolemAttacks(AbstractGolemEntity<?, ?> e, LivingEntity target) {
+		return hostileGolemAttacks(target);
+	}
+
+	protected boolean hostileGolemAttacks(LivingEntity target) {
 		if (target instanceof Player player && !(target instanceof FakePlayer)) {
 			return player.canBeSeenAsEnemy();
 		}
@@ -52,7 +56,12 @@ public class HostileFaction {
 		return false;
 	}
 
-	public boolean isAlliedTo(Entity other) {
+
+	public boolean isAlliedTo(AbstractGolemEntity<?, ?> e, Entity other) {
+		return isAlliedTo(other);
+	}
+
+	protected boolean isAlliedTo(Entity other) {
 		if (other instanceof AbstractGolemEntity<?, ?> golem) {
 			return golem.isHostile() && uuid.equals(golem.getOwnerUUID());
 		}

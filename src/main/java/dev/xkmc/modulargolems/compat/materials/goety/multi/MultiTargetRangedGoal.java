@@ -1,13 +1,16 @@
 package dev.xkmc.modulargolems.compat.materials.goety.multi;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.entity.EntityTypeTest;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.Optional;
 
 public abstract class MultiTargetRangedGoal extends BaseRangedAttackGoal {
 
@@ -26,23 +29,15 @@ public abstract class MultiTargetRangedGoal extends BaseRangedAttackGoal {
 				EntityTypeTest.forClass(LivingEntity.class),
 				golem.getBoundingBox().inflate(searchRange()),
 				e -> golem.canAttack(e) && golem.hasLineOfSight(e));
-		var first = new ArrayList<LivingEntity>();
-		var second = new ArrayList<LivingEntity>();
-		for (var e : list) {
-			if (golem.predicatePriorityTarget(e)) {
-				first.add(e);
-			} else if (golem.predicateSecondaryTarget(e)) {
-				second.add(e);
-			}
-		}
+		list.sort(Comparator.comparing(ke -> Optional.ofNullable(
+				TargetManager.predicateTarget(golem, ke)
+		).map(Enum::ordinal).orElse(100)));
+
 		targets = new LinkedList<>();
-		for (var e : first) {
-			if (targets.size() >= getMaxTarget()) return;
-			targets.add(e);
-		}
-		for (var e : second) {
-			if (targets.size() >= getMaxTarget()) return;
-			targets.add(e);
+		for (var e : list) {
+			if (targets.size() < getMaxTarget())
+				targets.add(e);
+			else break;
 		}
 	}
 
