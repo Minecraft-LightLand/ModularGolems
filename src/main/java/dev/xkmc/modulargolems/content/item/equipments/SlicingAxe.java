@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
@@ -43,6 +44,7 @@ public class SlicingAxe extends MetalGolemWeaponItem {
 				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName())
 						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(GolemWeaponType.AXE.model)))
 						.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
+				.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE)
 				.recipe((ctx, pvd) -> RecipeGen.unlock(pvd,
 						SmithingTransformRecipeBuilder.smithing(
 								Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE),

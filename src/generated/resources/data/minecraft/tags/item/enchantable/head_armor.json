@@ -2,6 +2,14 @@
   "values": [
     "modulargolems:roman_guard_helmet",
     "modulargolems:wind_spirit_helmet",
-    "modulargolems:barbaric_vanguard_helmet"
+    "modulargolems:barbaric_vanguard_helmet",
+    {
+      "id": "modulargolems:harbinger_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:monstrosity_helmet",
+      "required": false
+    }
   ]
 }

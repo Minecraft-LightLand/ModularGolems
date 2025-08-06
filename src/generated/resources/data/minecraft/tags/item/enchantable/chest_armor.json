@@ -2,6 +2,14 @@
   "values": [
     "modulargolems:roman_guard_chestplate",
     "modulargolems:wind_spirit_chestplate",
-    "modulargolems:barbaric_vanguard_chestplate"
+    "modulargolems:barbaric_vanguard_chestplate",
+    {
+      "id": "modulargolems:harbinger_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:monstrosity_chestplate",
+      "required": false
+    }
   ]
 }

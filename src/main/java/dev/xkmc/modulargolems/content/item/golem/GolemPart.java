@@ -13,6 +13,8 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -102,6 +104,16 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 			tab.accept(setMaterial(stack, rl));
 		}
 
+	}
+
+	@Override
+	public boolean canBeHurtBy(ItemStack stack, DamageSource source) {
+		if (getMaterial(stack).isPresent() &&
+				(source.is(DamageTypeTags.IS_FIRE) ||
+						source.is(DamageTypeTags.IS_EXPLOSION) ||
+						source.is(DamageTypeTags.IS_LIGHTNING)))
+			return false;
+		return super.canBeHurtBy(stack, source);
 	}
 
 }
