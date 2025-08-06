@@ -67,8 +67,6 @@ import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -809,13 +807,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return true;
 		}
 		return super.isAlliedTo(other);
-	}
-
-	protected void doPush(Entity entity) {
-		if (entity instanceof Enemy && !(entity instanceof Creeper)) {
-			this.setTarget((LivingEntity) entity);
-		}
-		super.doPush(entity);
 	}
 
 	@Override

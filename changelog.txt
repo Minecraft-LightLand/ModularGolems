@@ -1,3 +1,6 @@
+2.6.2
+- Golems will try to target different enemies when fighting together
+
 2.6.1
 - Make golem parts immune to lightning, fire, explosion
 - Add hostile wand, allowing to make golems hostile, and click mob to make hostile golems attacking them

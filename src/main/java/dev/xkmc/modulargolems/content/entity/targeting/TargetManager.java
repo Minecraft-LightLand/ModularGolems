@@ -44,7 +44,7 @@ public class TargetManager {
 		return target == self.getOwner() || target == self.getLeader() || target.isAlliedTo(self) || self.isAlliedTo(target);
 	}
 
-	private static boolean wantsToAttack(AbstractGolemEntity<?, ?> self, LivingEntity e) {
+	public static boolean wantsToAttack(AbstractGolemEntity<?, ?> self, LivingEntity e) {
 		var config = self.getConfigEntry(null);
 		if (config == null) {
 			var opt = HostileGolemRegistry.tryGetFaction(self);

@@ -8,6 +8,7 @@ import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.GoetyCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.goety.GoetyDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.title.ApollyonBowGoal;
 import dev.xkmc.modulargolems.compat.misc.PatchouliFlagHelper;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
@@ -27,7 +28,7 @@ import java.util.Optional;
 public class GRDispatch extends ModDispatch {
 
 	public static boolean isLoaded() {
-		return ModList.get().isLoaded(GRDispatch.MODID) || !FMLLoader.isProduction();
+		return ModList.get().isLoaded(GRDispatch.MODID) || ModList.get().isLoaded(GoetyDispatch.MODID) && !FMLLoader.isProduction();
 	}
 
 	public static final String MODID = "goety_revelation";
@@ -48,7 +49,7 @@ public class GRDispatch extends ModDispatch {
 					new ResourceLocation(MODID, "apocalyptium_ingot"));
 			PatchouliFlagHelper.setFlag("modulargolems:goety_revelation:apocalyptium", flag);
 		}
-		GolemWeaponRegistry.HUMANOID.register(new ResourceLocation(MODID,"bow"),
+		GolemWeaponRegistry.HUMANOID.register(new ResourceLocation(MODID, "bow"),
 				(golem, stack, hand) ->
 						golem instanceof HumanoidGolemEntity h && h.getModifiers().getOrDefault(
 								GRCompatRegistry.BOW.get(), 0) > 0 ?
