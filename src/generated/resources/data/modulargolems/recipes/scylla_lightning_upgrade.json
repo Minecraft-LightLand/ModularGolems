@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "cataclysm:essence_of_the_storm"
+    },
+    "B": {
+      "item": "cataclysm:lacrima"
+    },
+    "C": {
+      "item": "modulargolems:empty_upgrade"
+    }
+  },
+  "pattern": [
+    "BAB",
+    "BCB",
+    "BAB"
+  ],
+  "result": {
+    "item": "modulargolems:scylla_lightning_upgrade"
+  },
+  "show_notification": true
+}

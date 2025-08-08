@@ -1,5 +1,6 @@
 {
 	"flag": "mod:tconstruct",
+	"advancement": "tconstruct:smeltery/melter",
 	"name": "Hepatizon",
 	"icon": "tconstruct:hepatizon_ingot",
 	"category": "modulargolems:materials",

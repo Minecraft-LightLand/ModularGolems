@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "铁木升级",
   "icon": "modulargolems:ironwood",
   "category": "modulargolems:upgrades",

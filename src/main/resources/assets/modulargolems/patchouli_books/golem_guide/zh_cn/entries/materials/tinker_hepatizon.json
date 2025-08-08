@@ -1,5 +1,6 @@
 {
 	"flag": "mod:tconstruct",
+	"advancement": "tconstruct:smeltery/melter",
 	"name": "黑色科斯林青铜",
 	"icon": "tconstruct:hepatizon_ingot",
 	"category": "modulargolems:materials",

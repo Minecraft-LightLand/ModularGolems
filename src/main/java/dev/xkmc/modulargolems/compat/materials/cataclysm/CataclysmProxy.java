@@ -13,7 +13,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +29,7 @@ public class CataclysmProxy {
 			double sx = target.getX();
 			double sy = target.getY();
 			double sz = target.getZ();
-			Sandstorm_Entity projectile = new Sandstorm_Entity(golem.level(), sx, sy, sz, life, angle, golem.getUUID());
+			Sandstorm_Entity projectile = new Sandstorm_Entity(golem.level(), sx, sy, sz, life, angle, golem);
 			golem.level().addFreshEntity(projectile);
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
@@ -66,7 +69,8 @@ public class CataclysmProxy {
 
 	public static void addMissile(LivingEntity user, LivingEntity target, Vec3 pos) {
 		try {
-			Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(user.level(), user, target);
+			var diff = target.getEyePosition().subtract(pos).normalize();
+			Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(user, diff, user.level(), (float) CMConfig.HarbingerWitherMissiledamage, target);
 			laserBeam.setPosRaw(pos.x(), pos.y(), pos.z());
 			user.level().addFreshEntity(laserBeam);
 		} catch (Throwable e) {
@@ -167,4 +171,10 @@ public class CataclysmProxy {
 		}
 	}
 
+	public static Projectile coralSpear(LivingEntity user, Level level, ItemStack stack) {
+		ThrownCoral_Spear_Entity throwntrident = new ThrownCoral_Spear_Entity(level, user, stack);
+		throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+		throwntrident.setPos(user.getEyePosition().add(user.getForward()));
+		return throwntrident;
+	}
 }

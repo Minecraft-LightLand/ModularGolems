@@ -1,5 +1,6 @@
 {
 	"flag": "mod:tconstruct",
+	"advancement": "tconstruct:smeltery/melter",
 	"name": "Cobalt",
 	"icon": "tconstruct:cobalt_ingot",
 	"category": "modulargolems:materials",

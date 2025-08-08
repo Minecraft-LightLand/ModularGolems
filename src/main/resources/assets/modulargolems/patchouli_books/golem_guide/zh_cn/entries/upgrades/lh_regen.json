@@ -1,5 +1,6 @@
 {
   "flag": "mod:l2hostility",
+	"advancement": "l2hostility:hostility/ingot",
   "name": "恶意升级：再生",
   "icon": "modulargolems:hostility_regen",
   "category": "modulargolems:upgrades",

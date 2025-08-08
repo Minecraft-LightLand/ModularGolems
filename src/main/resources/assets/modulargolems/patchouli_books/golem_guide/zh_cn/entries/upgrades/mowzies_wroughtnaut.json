@@ -1,5 +1,6 @@
 {
   "flag": "mod:mowziesmobs",
+	"advancement": "mowziesmobs:kill_ferrous_wroughtnaut",
   "name": "千锻震升级",
   "icon": "modulargolems:wroughtnaut",
   "category": "modulargolems:upgrades",

@@ -5,12 +5,16 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
+import dev.xkmc.modulargolems.compat.materials.alexscaves.ACDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.item.upgrade.CraftMaterialItem;
+import dev.xkmc.modulargolems.content.item.upgrade.RepairMaterialItem;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -39,10 +43,14 @@ public class CataCompatRegistry {
 	public static final RegistryEntry<AncientRemnantSandstormModifier> SANDSTORM;
 	public static final RegistryEntry<MaledictusEarthquakeModifier> EARTHQUAKE_SPEAR;
 	public static final RegistryEntry<MaledictusAttackModifier> MALEDICTUS_ATTACK;
+	public static final RegistryEntry<ScyllaLightningAttackModifier> SCYLLA_LIGHTNING;
+	public static final RegistryEntry<ScyllaWaveAttackModifier> SCYLLA_WAVE;
 
 	public static final RegistryEntry<RageEffect> EFF_FORCE;
 
-	public static final RegistryEntry<SimpleUpgradeItem> LEVIATHAN, ENDER_GUARDIAN, MONSTROSITY, ANCIENT_REMNANT;
+	public static final RegistryEntry<SimpleUpgradeItem> LEVIATHAN, ENDER_GUARDIAN, MONSTROSITY, ANCIENT_REMNANT, SCYLLA;
+	public static final RegistryEntry<RepairMaterialItem> VOID_CUBE, AZURE_CUBE;
+	public static final RegistryEntry<CraftMaterialItem> VOID_CONSTRUCT, STORM_CONSTRUCT;
 
 	static {
 
@@ -80,6 +88,12 @@ public class CataCompatRegistry {
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
+		VOID_CUBE = GolemItems.item(CataDispatch.MODID, "void_cube", RepairMaterialItem::new);
+		VOID_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "void_construct", CraftMaterialItem::new);
+
+		AZURE_CUBE = GolemItems.item(CataDispatch.MODID, "azure_cube", RepairMaterialItem::new);
+		STORM_CONSTRUCT =GolemItems.item(CataDispatch.MODID, "storm_construct", CraftMaterialItem::new);
+
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
 				"When target is faraway, shoot Ignis fireballs toward target.");
 
@@ -92,13 +106,17 @@ public class CataCompatRegistry {
 		HARBINGER_MISSILE = reg("harbinger_missile", () -> new HarbingerHomingMissileModifier(StatFilterType.ATTACK, 2),
 				"When target is faraway, shoot Homing Missile toward target.");
 
-		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "When target is faraway, create blast portal at target position");
-		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon void rune toward target");
+		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "Ccreate blast portal at target position. Attacks multiple targets");
+		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon vortex and void rune toward multiple targets");
 		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on landing");
-		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "When target is faraway, summon sandstorm at target position");
+		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position. Attacks multiple targets");
 		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new, "Jump and cause earthquake on landing, summoning halberds");
 		MALEDICTUS_ATTACK = reg("maledictus_attack", MaledictusAttackModifier::new,
 				"Golem melee damage bypass armor. Stack rage counter after dealing damage, up to %s layers");
+		SCYLLA_LIGHTNING = reg("scylla_lightning", ScyllaLightningAttackModifier::new,
+				"Shoot lightning spear at multiple targets");
+		SCYLLA_WAVE = reg("scylla_wave", ScyllaWaveAttackModifier::new,
+				"When attacked, summon waves to push attackers away");
 
 		EFF_FORCE = genEffect("maledictus_rage", () -> new RageEffect(MobEffectCategory.BENEFICIAL, 0xffffffff),
 				"Increase golem attack damage");
@@ -111,6 +129,8 @@ public class CataCompatRegistry {
 				.lang("Netherite Monstrosity Upgrade").register();
 		ANCIENT_REMNANT = regModUpgrade("ancient_remnant_sandstorm", () -> SANDSTORM, CataDispatch.MODID)
 				.lang("Ancient Remnant Upgrade").register();
+		SCYLLA = regModUpgrade("scylla_lightning_upgrade", () -> SCYLLA_LIGHTNING, CataDispatch.MODID)
+				.lang("Scylla Upgrade").register();
 
 	}
 

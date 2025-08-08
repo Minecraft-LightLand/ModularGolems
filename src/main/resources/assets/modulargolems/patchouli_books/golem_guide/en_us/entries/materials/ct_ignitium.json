@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_ignis",
   "name": "Ignitium",
   "icon": "cataclysm:ignitium_ingot",
   "category": "modulargolems:materials",

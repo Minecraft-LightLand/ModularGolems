@@ -1,5 +1,6 @@
 {
   "flag": "mod:l2hostility",
+	"advancement": "l2hostility:hostility/ingot",
   "name": "Hostility Upgrade: Regeneration",
   "icon": "modulargolems:hostility_regen",
   "category": "modulargolems:upgrades",

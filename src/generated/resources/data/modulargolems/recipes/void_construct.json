@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "modulargolems:void_cube"
+    },
+    "B": {
+      "item": "cataclysm:void_jaw"
+    },
+    "C": {
+      "item": "cataclysm:void_core"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "result": {
+    "count": 3,
+    "item": "modulargolems:void_construct"
+  },
+  "show_notification": true
+}

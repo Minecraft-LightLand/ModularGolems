@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_maledictus",
   "name": "Cursium",
   "icon": "cataclysm:cursium_ingot",
   "category": "modulargolems:materials",

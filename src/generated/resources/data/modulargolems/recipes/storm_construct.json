@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "key": {
+    "B": {
+      "item": "modulargolems:azure_cube"
+    },
+    "C": {
+      "item": "cataclysm:essence_of_the_storm"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BCB",
+    " B "
+  ],
+  "result": {
+    "count": 3,
+    "item": "modulargolems:storm_construct"
+  },
+  "show_notification": true
+}

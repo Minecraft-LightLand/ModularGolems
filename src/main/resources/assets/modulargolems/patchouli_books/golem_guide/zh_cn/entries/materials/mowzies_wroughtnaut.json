@@ -1,5 +1,6 @@
 {
 	"flag": "mod:mowziesmobs",
+	"advancement": "mowziesmobs:kill_ferrous_wroughtnaut",
 	"name": "千锻钢",
 	"icon": "modulargolems:wroughtnaut_ingot",
 	"category": "modulargolems:materials",

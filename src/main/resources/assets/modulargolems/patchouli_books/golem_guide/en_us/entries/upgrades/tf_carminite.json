@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "Carminite Upgrade",
   "icon": "modulargolems:carminite",
   "category": "modulargolems:upgrades",

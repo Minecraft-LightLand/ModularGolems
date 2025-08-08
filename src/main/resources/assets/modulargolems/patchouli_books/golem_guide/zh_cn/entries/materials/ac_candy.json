@@ -1,0 +1,30 @@
+{
+	"flag": "mod:alexscaves",
+	"advancement": "alexscaves:alexscaves/discover_candy_cavity",
+	"name": "糖果",
+	"icon": "modulargolems:candy_construct",
+	"category": "modulargolems:materials",
+	"sortnum": 1301,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:candy_construct",
+			"text": "制造糖果傀儡的主要材料。修复原料便宜，能发射糖果子弹"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"alexscaves:candy\"},{part:\"modulargolems:metal_golem_body\",material:\"alexscaves:candy\"},{part:\"modulargolems:metal_golem_arm\",material:\"alexscaves:candy\"},{part:\"modulargolems:metal_golem_legs\",material:\"alexscaves:candy\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"alexscaves:candy\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"alexscaves:candy\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"alexscaves:candy\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"alexscaves:candy\"},{part:\"modulargolems:dog_golem_legs\",material:\"alexscaves:candy\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

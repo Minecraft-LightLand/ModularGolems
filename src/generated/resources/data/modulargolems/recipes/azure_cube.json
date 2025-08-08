@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "cataclysm:azure_seastone"
+    },
+    "B": {
+      "item": "cataclysm:lacrima"
+    },
+    "C": {
+      "item": "minecraft:sea_lantern"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "result": {
+    "count": 4,
+    "item": "modulargolems:azure_cube"
+  },
+  "show_notification": true
+}

@@ -52,6 +52,36 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.EARTHQUAKE_SPEAR.get(), 1)
 				.addModifier(CataCompatRegistry.MALEDICTUS_ATTACK.get(), 1)
 				.end()
+
+				.addMaterial(new ResourceLocation(CataDispatch.MODID, "ender_guardian"),
+						Ingredient.of(CataCompatRegistry.VOID_CONSTRUCT.get()),
+						Ingredient.of(CataCompatRegistry.VOID_CUBE.get()))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 333)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
+				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 3)
+				.addModifier(CataCompatRegistry.RUNE.get(), 2)
+				.end()
+
+				.addMaterial(new ResourceLocation(CataDispatch.MODID, "storm"),
+						Ingredient.of(CataCompatRegistry.STORM_CONSTRUCT.get()),
+						Ingredient.of(CataCompatRegistry.AZURE_CUBE.get()))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 390)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
+				.addStat(GolemTypes.STAT_REGEN.get(), 2)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
+				.addModifier(GolemModifiers.SWIM.get(), 1)
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.THUNDER_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
+				.addModifier(CataCompatRegistry.SCYLLA_LIGHTNING.get(), 1)
+				.addModifier(CataCompatRegistry.SCYLLA_WAVE.get(), 1)
+				.end()
 		);
+
+
+		//
 	}
 }

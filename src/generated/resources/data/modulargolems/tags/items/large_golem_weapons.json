@@ -55,6 +55,14 @@
     {
       "id": "cataclysm:void_assault_shoulder_weapon",
       "required": false
+    },
+    {
+      "id": "cataclysm:astrape",
+      "required": false
+    },
+    {
+      "id": "cataclysm:ceraunus",
+      "required": false
     }
   ]
 }

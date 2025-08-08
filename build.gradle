@@ -215,9 +215,9 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.5")) {
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.7")) {
         transitive = false
-        jarJar.ranged(it, "[0.2.5,)")
+        jarJar.ranged(it, "[0.2.7,)")
     }
 
     runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.5.0-slim")
@@ -250,7 +250,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:jade-324717:4654448")
     implementation fg.deobf("curse.maven:lionfish-api-1001614:5922047")
-    implementation fg.deobf("curse.maven:lendercataclysm-551586:6331219")
+    implementation fg.deobf("curse.maven:lendercataclysm-551586:6832543")
     implementation fg.deobf("curse.maven:citadel-331936:5633260")
     implementation fg.deobf("curse.maven:alexs-caves-924854:5848216")
     implementation fg.deobf("curse.maven:ice-and-fire-dragons-264231:5633453")

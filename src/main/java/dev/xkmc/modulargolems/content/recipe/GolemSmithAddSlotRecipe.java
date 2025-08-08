@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.recipe;
 
 import dev.xkmc.l2library.serial.recipe.AbstractSmithingRecipe;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
@@ -37,6 +38,15 @@ public class GolemSmithAddSlotRecipe extends AbstractSmithingRecipe<GolemSmithAd
 		ItemStack stack = input.getItem(1).copy();
 		GolemHolder.addUpgrade(stack, (AddSlotTemplate) input.getItem(0).getItem());
 		return stack;
+	}
+
+	@Override
+	public boolean isAdditionIngredient(ItemStack stack) {
+		for (var e : GolemMaterialConfig.get().ingredients.values()) {
+			if (e.test(stack))
+				return true;
+		}
+		return false;
 	}
 
 	@Override

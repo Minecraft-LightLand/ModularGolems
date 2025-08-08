@@ -15,11 +15,18 @@
   "golem_material.cataclysm.cursium": "咒魂",
   "effect.modulargolems.maledictus_rage": "恶咒",
   "effect.modulargolems.maledictus_rage.description": "提升傀儡伤害",
+  "golem_material.cataclysm.ender_guardian": "末地守卫",
+  "golem_material.cataclysm.storm": "风暴",
   "item.modulargolems": {
     "ender_guardian_void_rune": "末影守卫升级",
     "leviathan_blast_portal": "利维坦升级",
     "ancient_remnant_sandstorm": "远古遗魂升级",
-    "netherite_monstrosity_earthquake": "下界合金巨兽升级"
+    "netherite_monstrosity_earthquake": "下界合金巨兽升级",
+    "scylla_lightning_upgrade": "斯库拉升级",
+    "azure_cube": "蔚蓝立方",
+    "void_cube": "虚空机块",
+    "storm_construct": "风暴机核",
+    "void_construct": "虚空机核"
   },
   "modifier.modulargolems": {
     "harbinger_death_beam": "先驱者激光",
@@ -31,18 +38,21 @@
     "ignis_fireball": "焰魔火球",
     "ignis_fireball.desc": "攻击目标较远时，对目标发射焰魔火球",
     "ender_guardian_void_rune": "虚空符文",
-    "ender_guardian_void_rune.desc": "对目标放出虚空符文",
+    "ender_guardian_void_rune.desc": "对多个目标放出漩涡和虚空符文",
     "leviathan_blast_portal": "深渊冲击波",
-    "leviathan_blast_portal.desc": "攻击目标较远时，在目标位置放出深渊冲击波",
+    "leviathan_blast_portal.desc": "在多个目标位置放出深渊冲击波",
     "ancient_remnant_sandstorm": "遗魂沙暴",
-    "ancient_remnant_sandstorm.desc": "攻击目标较远时，在目标位置召唤沙暴",
+    "ancient_remnant_sandstorm.desc": "在多个目标位置召唤沙暴",
     "netherite_monstrosity_earthquake": "巨兽撼地",
     "netherite_monstrosity_earthquake.desc": "傀儡会起跳砸地造成范围伤害",
     "maledictus_attack": "咒灵之刃",
     "maledictus_attack.desc": "近战伤害穿透护甲。造成伤害后提升伤害，最多叠%s层",
     "maledictus_earthquake": "咒灵震戟",
-    "maledictus_earthquake.desc": "傀儡会起跳砸地造成范围伤害并召唤战戟"
-
+    "maledictus_earthquake.desc": "傀儡会起跳砸地造成范围伤害并召唤战戟",
+    "scylla_lightning": "鸣雷槊",
+    "scylla_lightning.desc": "对多个目标发射鸣雷槊",
+    "scylla_wave": "霆浪锚",
+    "scylla_wave.desc": "受到伤害时召唤海浪推开敌人"
   }
 
 }

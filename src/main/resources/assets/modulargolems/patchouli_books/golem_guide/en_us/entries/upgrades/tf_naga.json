@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "Naga Upgrade",
   "icon": "modulargolems:naga",
   "category": "modulargolems:upgrades",

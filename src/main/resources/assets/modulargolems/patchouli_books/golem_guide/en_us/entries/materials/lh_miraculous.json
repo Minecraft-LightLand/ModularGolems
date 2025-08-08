@@ -2,7 +2,7 @@
 	"flag": "mod:l2hostility",
 	"advancement": "l2hostility:miracle",
 	"name": "Miraculous",
-	"icon": "l2hostility:hostility/miracle_ingot",
+	"icon": "l2hostility:hostility/miracle",
 	"category": "modulargolems:materials",
 	"sortnum": 1102,
 	"pages": [

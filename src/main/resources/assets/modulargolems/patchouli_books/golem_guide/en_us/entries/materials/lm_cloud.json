@@ -1,5 +1,6 @@
 {
 	"flag": "mod:legendary_monsters",
+	"advancement": "legendary_monsters:defeat_cloud_golem",
 	"name": "Cloud",
 	"icon": "modulargolems:cloud_cube",
 	"category": "modulargolems:materials",

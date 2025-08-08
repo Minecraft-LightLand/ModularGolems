@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "骑士升级",
   "icon": "modulargolems:knightmetal",
   "category": "modulargolems:upgrades",

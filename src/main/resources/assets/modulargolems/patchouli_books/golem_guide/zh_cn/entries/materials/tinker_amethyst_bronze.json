@@ -1,5 +1,6 @@
 {
 	"flag": "mod:tconstruct",
+	"advancement": "tconstruct:smeltery/melter",
 	"name": "紫水晶青铜",
 	"icon": "tconstruct:amethyst_bronze_ingot",
 	"category": "modulargolems:materials",

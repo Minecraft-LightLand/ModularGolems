@@ -8,7 +8,9 @@
     "modulargolems:slicing_axe_drop_molten_metal",
     "modulargolems:slicing_axe_drop_wroughtnaut",
     "modulargolems:slicing_axe_drop_cursium",
-    "modulargolems:slicing_axe_drop_netherite"
+    "modulargolems:slicing_axe_drop_netherite",
+    "modulargolems:slicing_axe_drop_ender_guardian",
+    "modulargolems:slicing_axe_drop_storm"
   ],
   "replace": false
 }

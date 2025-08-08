@@ -22,7 +22,7 @@ public class ThunderAttackModifier extends GolemModifier {
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
-		var attacker = event.getSource().getDirectEntity();
+		var attacker = event.getSource().getEntity();
 		if (attacker == null) return;
 		float damage = (float) entity.getAttributeValue(Attributes.ATTACK_DAMAGE) * (0.2f + level * 0.2f);
 		int n = 4 + level;

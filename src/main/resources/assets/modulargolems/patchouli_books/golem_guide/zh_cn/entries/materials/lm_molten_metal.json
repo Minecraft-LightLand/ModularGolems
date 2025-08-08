@@ -1,5 +1,6 @@
 {
 	"flag": "mod:legendary_monsters",
+	"advancement": "legendary_monsters:defeat_the_ancient_guardian",
 	"name": "熔融金属",
 	"icon": "legendary_monsters:molten_metal_ingot",
 	"category": "modulargolems:materials",

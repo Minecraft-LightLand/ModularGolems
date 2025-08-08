@@ -1,5 +1,6 @@
 {
   "flag": "mod:l2hostility",
+	"advancement": "l2hostility:hostility/ingot",
   "name": "恶意升级：反射",
   "icon": "modulargolems:hostility_reflect",
   "category": "modulargolems:upgrades",

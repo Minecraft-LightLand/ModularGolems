@@ -74,6 +74,10 @@ public abstract class BaseRangedAttackGoal extends Goal {
 		super.tick();
 	}
 
+	public void setInitialDelay(int delay) {
+		attackTime = delay;
+	}
+
 	protected abstract boolean performAttack(LivingEntity target);
 
 }

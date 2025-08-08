@@ -1,5 +1,6 @@
 {
 	"flag": "mod:tconstruct",
+	"advancement": "tconstruct:smeltery/melter",
 	"name": "Manyullyn",
 	"icon": "tconstruct:manyullyn_ingot",
 	"category": "modulargolems:materials",

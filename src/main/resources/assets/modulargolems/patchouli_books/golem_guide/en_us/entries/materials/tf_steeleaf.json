@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "Steeleaf",
   "icon": "twilightforest:steeleaf_ingot",
   "category": "modulargolems:materials",
