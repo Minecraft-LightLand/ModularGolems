@@ -37,7 +37,7 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 	@Override
 	public boolean dropCustomDeathLoot(AbstractGolemEntity<?, ?> self, MetalGolemEntity attacker, ItemStack stack, DamageSource source) {
 		if (attacker.isHostile()) return false;
-		var rate = MGConfig.COMMON.slicingDropUpgradeChance.get();
+		double rate = MGConfig.COMMON.slicingDropUpgradeChance.get();
 		var random = self.getRandom();
 		if (self.isHostile()) {
 			var mats = self.getMaterials();

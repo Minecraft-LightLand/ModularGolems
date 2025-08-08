@@ -1,8 +1,11 @@
-3.0.29
+3.1.0
+- Add Ender Guardian and Scylla golem
+- Add Scylla weapon and coral spear compat
 - Part item immunity
 - make cataclysm metal golem armor enchantable
 - hostile wand that can make golems hostile to players
 - targeting system allowing golems to target different enemies in group fight
+- Gate some patchouli book contents behind advancements
 
 3.0.28
 - Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it

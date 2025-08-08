@@ -28,7 +28,7 @@ public class HarbingerHomingMissileModifier extends GolemModifier {
 	@Override
 	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, DamageData.Offence cache, int level) {
 		var source = cache.getSource();
-		if (CataclysmProxy.isLaser(source) && entity.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.HARBINGER_CHESTPLATE.get())) {
+		if (CataclysmProxy.isMissile(source) && entity.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.HARBINGER_CHESTPLATE.get())) {
 			cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.laserArmorBonus.get().floatValue(), ModularGolems.loc("harbinger_armor")));
 		}
 	}
