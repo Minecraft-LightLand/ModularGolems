@@ -1,5 +1,6 @@
 {
   "flag": "mod:l2hostility",
+	"advancement": "l2hostility:hostility/ingot",
   "name": "Hostility Upgrade: Potion",
   "icon": "modulargolems:hostility_potion",
   "category": "modulargolems:upgrades",

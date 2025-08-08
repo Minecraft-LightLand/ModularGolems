@@ -64,7 +64,8 @@
 		"netherite_expansion_template": "扩充模版 - 下界合金",
 		"golem_facade": "傀儡皮肤",
 		"heavy_golem_spear": "傀儡重戟",
-		"golem_slicing_axe": "斩铁巨斧"
+		"golem_slicing_axe": "斩铁巨斧",
+		"hostile_wand": "敌对傀儡调试器"
 	},
 	"-cartesian": {
 		"golem": {

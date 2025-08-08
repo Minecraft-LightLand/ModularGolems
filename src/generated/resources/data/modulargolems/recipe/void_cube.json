@@ -1,0 +1,36 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:purpur_block"
+    },
+    "B": {
+      "item": "minecraft:end_stone"
+    },
+    "C": {
+      "item": "minecraft:obsidian"
+    },
+    "D": {
+      "item": "minecraft:shulker_shell"
+    },
+    "E": {
+      "item": "cataclysm:void_jaw"
+    }
+  },
+  "pattern": [
+    "ADA",
+    "BEB",
+    "CDC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:void_cube"
+  }
+}

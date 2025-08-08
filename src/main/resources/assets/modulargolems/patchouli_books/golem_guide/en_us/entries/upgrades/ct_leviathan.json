@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_leviathan",
   "name": "Leviathan Upgrade",
   "icon": "modulargolems:leviathan_blast_portal",
   "category": "modulargolems:upgrades",
@@ -7,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:leviathan_blast_portal",
-	  "text": "Create blast portal at target position. Max: 1"
+	  "text": "Create blast portal at target position. Attacks [level x 3] targets at a time. Max: 3"
 	}
   ]
 }

@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -22,12 +23,15 @@ public class CataDispatch extends ModDispatch {
 
 	public CataDispatch() {
 		CataCompatRegistry.register();
+		NeoForge.EVENT_BUS.register(CataGolemEventHandler.class);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
 		pvd.add("golem_material." + MODID + ".ignitium", "Ignitium");
 		pvd.add("golem_material." + MODID + ".witherite", "Witherite");
 		pvd.add("golem_material." + MODID + ".cursium", "Cursium");
+		pvd.add("golem_material." + MODID + ".storm", "Storm");
+		pvd.add("golem_material." + MODID + ".ender_guardian", "Ender Guardian");
 	}
 
 	@Override
@@ -53,6 +57,8 @@ public class CataDispatch extends ModDispatch {
 		pvd.drop(MODID, ModEntities.THE_HARBINGER.get(), "witherite");
 		pvd.drop(MODID, ModEntities.MALEDICTUS.get(), "cursium");
 		pvd.drop(ModularGolems.MODID, ModEntities.NETHERITE_MONSTROSITY.get(), "netherite");
+		pvd.drop(MODID, ModEntities.ENDER_GUARDIAN.get(), "ender_guardian");
+		pvd.drop(MODID, ModEntities.SCYLLA.get(), "storm");
 	}
 
 }

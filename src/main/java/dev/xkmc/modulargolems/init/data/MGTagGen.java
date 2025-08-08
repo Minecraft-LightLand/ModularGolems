@@ -119,7 +119,9 @@ public class MGTagGen {
 					.addOptional(ModItems.INFERNAL_FORGE.getId())
 					.addOptional(ModItems.VOID_FORGE.getId())
 					.addOptional(ModItems.WITHER_ASSULT_SHOULDER_WEAPON.getId())
-					.addOptional(ModItems.VOID_ASSULT_SHOULDER_WEAPON.getId());
+					.addOptional(ModItems.VOID_ASSULT_SHOULDER_WEAPON.getId())
+					.addOptional(ModItems.ASTRAPE.getId())
+					.addOptional(ModItems.CERAUNUS.getId());
 		}
 	}
 

@@ -73,7 +73,9 @@ public class GolemTypes {
 
 	static {
 		ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
-				.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
+				.properties(e -> e.sized(1.4F, 2.7F)
+						.ridingOffset(-0.75F)
+						.clientTrackingRange(10))
 				.renderer(() -> MetalGolemRenderer::new)
 				.attributes(() -> Mob.createMobAttributes()
 						.add(Attributes.MAX_HEALTH, 100.0D)

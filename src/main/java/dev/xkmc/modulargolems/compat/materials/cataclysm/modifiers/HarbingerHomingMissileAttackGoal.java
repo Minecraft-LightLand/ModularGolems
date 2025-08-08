@@ -16,7 +16,7 @@ public class HarbingerHomingMissileAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	@Override
-	protected void performAttack(LivingEntity target) {
+	protected boolean performAttack(LivingEntity target) {
 		if (golem.getType() == GolemTypes.ENTITY_GOLEM.get()) {
 			if (golem.getMaterials().get(MetalGolemPartType.LEFT.ordinal())
 					.modifiers().containsKey(CataCompatRegistry.HARBINGER_MISSILE.get()))
@@ -27,6 +27,7 @@ public class HarbingerHomingMissileAttackGoal extends BaseRangedAttackGoal {
 		} else {
 			addMissile(target, 1, 0);
 		}
+		return true;
 	}
 
 	private void addMissile(LivingEntity target, float y, float r) {

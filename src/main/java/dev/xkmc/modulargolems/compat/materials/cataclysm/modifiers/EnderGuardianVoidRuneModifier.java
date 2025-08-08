@@ -59,7 +59,7 @@ public class EnderGuardianVoidRuneModifier extends GolemModifier {
 
 
 	public EnderGuardianVoidRuneModifier() {
-		super(StatFilterType.MASS, 1);
+		super(StatFilterType.ATTACK, 5);
 	}
 
 	@Override

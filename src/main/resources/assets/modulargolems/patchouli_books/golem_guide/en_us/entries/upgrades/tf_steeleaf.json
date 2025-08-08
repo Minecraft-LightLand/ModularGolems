@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "Steeleaf Upgrade",
   "icon": "modulargolems:steeleaf",
   "category": "modulargolems:upgrades",

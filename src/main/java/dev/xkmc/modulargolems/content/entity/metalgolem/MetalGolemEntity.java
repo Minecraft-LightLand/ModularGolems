@@ -4,6 +4,7 @@ import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
@@ -49,6 +50,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			kb += getKnockback(target, source);
 		}
 		boolean succeed = target.hurt(source, damage);
+		if (getMainHandItem().getItem() instanceof ExtraAttackGolemWeapon item) {
+			succeed |= item.repeatAttack(this, target, damage, succeed);
+		}
 		if (succeed) {
 			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4 * kb;
 			target.setDeltaMovement(target.getDeltaMovement().add(0, dokb, 0));
@@ -165,22 +169,22 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 				return InteractionResult.PASS;
 			return super.mobInteractImpl(player, hand);
+		}
+		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
+		float f = this.getHealth();
+		this.heal(getMaxHealth() / 4f);
+		if (this.getHealth() == f) {
+			return InteractionResult.PASS;
 		} else {
-			float f = this.getHealth();
-			this.heal(getMaxHealth() / 4f);
-			if (this.getHealth() == f) {
-				return InteractionResult.PASS;
-			} else {
-				float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-				this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
-				if (!player.getAbilities().instabuild) {
-					itemstack.shrink(1);
-				}
-				if (!this.level().isClientSide()) {
-					GolemTriggers.HOT_FIX.get().trigger((ServerPlayer) player);
-				}
-				return InteractionResult.sidedSuccess(this.level().isClientSide);
+			float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+			this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
+			if (!player.getAbilities().instabuild) {
+				itemstack.shrink(1);
 			}
+			if (!this.level().isClientSide()) {
+				GolemTriggers.HOT_FIX.get().trigger((ServerPlayer) player);
+			}
+			return InteractionResult.sidedSuccess(this.level().isClientSide);
 		}
 	}
 

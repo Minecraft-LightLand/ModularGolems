@@ -20,6 +20,42 @@ public class CataRecipGen {
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
 		var output = ConditionalRecipeWrapper.mod(pvd, CataDispatch.MODID);
 
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.VOID_CUBE.get())::unlockedBy,
+				ModItems.VOID_JAW.get()).pattern("ADA").pattern("BEB").pattern("CDC")
+				.define('C', Items.OBSIDIAN)
+				.define('B', Items.END_STONE)
+				.define('A', Items.PURPUR_BLOCK)
+				.define('D', Items.SHULKER_SHELL)
+				.define('E', ModItems.VOID_JAW.get())
+				.save(output);
+
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.VOID_CONSTRUCT.get(), 3)::unlockedBy,
+				ModItems.VOID_JAW.get()).pattern("ABA").pattern("BCB").pattern("ABA")
+				.define('A', CataCompatRegistry.VOID_CUBE.get())
+				.define('B', ModItems.VOID_JAW.get())
+				.define('C', ModItems.VOID_CORE.get())
+				.save(output);
+
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.AZURE_CUBE.get(), 4)::unlockedBy,
+				ModItems.LACRIMA.get()).pattern("ABA").pattern("BCB").pattern("ABA")
+				.define('A', ModBlocks.AZURE_SEASTONE.get())
+				.define('B', ModItems.LACRIMA.get())
+				.define('C', Items.SEA_LANTERN)
+				.save(output);
+
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.STORM_CONSTRUCT.get(), 3)::unlockedBy,
+				ModItems.ESSENCE_OF_THE_STORM.get()).pattern(" B ").pattern("BCB").pattern(" B ")
+				.define('B', CataCompatRegistry.AZURE_CUBE.get())
+				.define('C', ModItems.ESSENCE_OF_THE_STORM.get())
+				.save(output);
+
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.SCYLLA.get(), 1)::unlockedBy,
+				ModItems.ESSENCE_OF_THE_STORM.get()).pattern("BAB").pattern("BCB").pattern("BAB")
+				.define('C', GolemItems.EMPTY_UPGRADE.get())
+				.define('B', ModItems.LACRIMA.get())
+				.define('A', ModItems.ESSENCE_OF_THE_STORM.get())
+				.save(output);
+
 		unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CataCompatRegistry.ENDER_GUARDIAN.get())::unlockedBy,
 				ModItems.GAUNTLET_OF_GUARD.get()).requires(GolemItems.EMPTY_UPGRADE).requires(ModItems.GAUNTLET_OF_GUARD.get())
 				.save(output);

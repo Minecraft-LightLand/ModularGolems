@@ -175,7 +175,7 @@ public class GolemEquipmentModels {
 		regAndAdd(event, MonstrosityArmors.SHINGUARD_LAYER, MonstrosityArmors::createLeggings);
 	}
 
-	private static void regAndAdd(EntityRenderersEvent.RegisterLayerDefinitions event, ModelLayerLocation layer, Supplier<LayerDefinition> factory) {
+	public static synchronized void regAndAdd(EntityRenderersEvent.RegisterLayerDefinitions event, ModelLayerLocation layer, Supplier<LayerDefinition> factory) {
 		event.registerLayerDefinition(layer, factory);
 		LIST.add(layer);
 	}

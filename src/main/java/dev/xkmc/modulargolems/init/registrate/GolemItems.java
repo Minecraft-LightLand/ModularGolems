@@ -87,6 +87,7 @@ public class GolemItems {
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND, OMNI_DISPENSE;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND, OMNI_RIDER;
 	public static final ItemEntry<SquadWandItem> SQUAD_WAND, OMNI_SQUAD;
+	public static final ItemEntry<HostileWandItem> HOSTILE_WAND;
 
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
@@ -428,6 +429,11 @@ public class GolemItems {
 				.tag(MGTagGen.CURIO_SKIN).register();
 
 		CompatManager.lateRegister();
+
+		REGISTRATE.defaultCreativeTab(ITEMS.getKey());
+		HOSTILE_WAND = REGISTRATE.item("hostile_wand", p -> new HostileWandItem(p.stacksTo(1)))
+				.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
+
 	}
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<Val<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {

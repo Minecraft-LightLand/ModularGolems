@@ -187,7 +187,7 @@ dependencies {
     implementation "dev.xkmc:l2archery:${l2archery_ver}"
 
     implementation "curse.maven:lionfish-api-1001614:6168249"
-    implementation "curse.maven:lendercataclysm-551586:6208715"
+    implementation "curse.maven:lendercataclysm-551586:6849033"
     implementation "curse.maven:create-328085:6624071"
     implementation("curse.maven:create-enchantment-industry-688768:6431470")
     implementation "curse.maven:create-dragons-plus-1216624:6440339"

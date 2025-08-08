@@ -60,7 +60,8 @@ public class ModifierEventListeners {
 				if (target.targetType == IronGolem.class) {
 					priority = goal.getPriority();
 					ans = new NearestAttackableTargetGoal<>(mob, AbstractGolemEntity.class,
-							target.randomInterval, target.mustSee, target.mustReach, null);
+							target.randomInterval, target.mustSee, target.mustReach,
+							e -> e instanceof AbstractGolemEntity<?, ?> golem && !golem.isHostile());
 					break;
 				}
 			}

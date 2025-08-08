@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_monstrosity",
   "name": "下界合金巨兽升级",
   "icon": "modulargolems:netherite_monstrosity_earthquake",
   "category": "modulargolems:upgrades",

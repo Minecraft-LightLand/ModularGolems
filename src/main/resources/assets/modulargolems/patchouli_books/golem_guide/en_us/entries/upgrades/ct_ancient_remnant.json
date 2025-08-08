@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_remnant",
   "name": "Ancient Remnant Upgrade",
   "icon": "modulargolems:ancient_remnant_sandstorm",
   "category": "modulargolems:upgrades",
@@ -7,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:ancient_remnant_sandstorm",
-	  "text": "Summon sandstorm at target position. Max: 1"
+	  "text": "Summon sandstorm at target position. Attacks [level x 3] targets at a time. Max: 3"
 	}
   ]
 }

@@ -16,11 +16,15 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
+import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
+import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.item.card.DefaultFilterCard;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
+import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -95,6 +99,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity::defineId);
+	private static final EntityDataAccessor<Optional<UUID>> OWNER_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), null);
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
@@ -122,6 +127,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// marks opened inventory
 	public int inventoryTick = 0;
+	public int specialAttackCoolDown = 0;
 
 	protected final PathNavigation waterNavigation;
 	protected final GroundPathNavigation groundNavigation;
@@ -136,7 +142,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void updateAttributes(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		this.materials = materials;
 		this.upgrades = upgrades;
-		this.owner = owner;
+		setOwnerUUID(owner);
 		this.modifiers = GolemMaterial.collectModifiers(materials, upgrades);
 		this.golemFlags.clear();
 		getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
@@ -252,19 +258,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
-		super.dropCustomDeathLoot(level, source, player);
+		boolean skip = false;
 		if (source.getDirectEntity() instanceof MetalGolemEntity golem &&
-				golem.getMainHandItem().is(GolemItems.SLICING_AXE.get())) {
-			for (GolemMaterial mat : getMaterials()) {
-				spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
-			}
-			var rate = MGConfig.COMMON.slicingDropUpgradeChance.get();
-			for (var e : getUpgrades().upgrades()) {
-				if (random.nextFloat() < rate) {
-					spawnAtLocation(e.getDefaultInstance());
-				}
-			}
-		} else {
+				golem.getMainHandItem().getItem() instanceof CustomDropGolemWeapon item) {
+			skip = item.dropCustomDeathLoot(this, golem, golem.getMainHandItem(), source);
+		}
+		if (!skip) {
 			Map<Item, Integer> drop = new HashMap<>();
 			for (GolemMaterial mat : getMaterials()) {
 				Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
@@ -272,9 +271,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			}
 			drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
 		}
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			dropSlot(slot, true);
+		if (!isHostile()) {
+			for (EquipmentSlot slot : EquipmentSlot.values()) {
+				dropSlot(slot, true);
+			}
 		}
+		super.dropCustomDeathLoot(level, source, player);
 	}
 
 	protected void dropSlot(EquipmentSlot slot, boolean isDeath) {
@@ -336,8 +338,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ ownable entity
 
+	public void setOwnerUUID(@Nullable UUID id) {
+		owner = id;
+		entityData.set(OWNER_ID, Optional.ofNullable(owner));
+	}
+
 	@Nullable
-	public UUID getOwnerUUID() {
+	public final UUID getOwnerUUID() {
+		if (level().isClientSide()) {
+			return entityData.get(OWNER_ID).orElse(null);
+		}
 		return owner;
 	}
 
@@ -372,6 +382,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void setLeader(LivingEntity le) {
 		leader = le.getUUID();
+	}
+
+	public final boolean isHostile() {
+		return HostileGolemRegistry.isHostile(getOwnerUUID());
 	}
 
 	// ------ addition golem behavior
@@ -445,6 +459,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return;
 		}
 		super.setTarget(target);
+		if (target != null) {
+			TargetManager.get(this).onSetTarget(this, target);
+		}
 		if (target instanceof Mob mob) {
 			if (mob.getTarget() == null && mob.canAttack(this)) {
 				mob.setTarget(this);
@@ -463,13 +480,27 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canAttack(LivingEntity target) {
-		if (target == getOwner()) {
+		var owner = getOwner();
+		var leader = getLeader();
+		if (target == owner || target == leader)
 			return false;
-		}
 		if (target instanceof OwnableEntity own) {
-			if (getOwner() == own.getOwner()) {
+			var parent = own.getOwner();
+			if (parent != null && (owner == parent || leader == parent)) {
 				return false;
 			}
+		}
+		if (!target.canBeSeenAsEnemy()) return false;
+		if (!target.isAlive()) return false;
+		if (target instanceof AbstractGolemEntity<?, ?> other) {
+			if (isHostile() != other.isHostile()) return true;
+			if (isHostile() && other.isHostile() && getOwnerUUID() == other.getOwnerUUID()) {
+				return false;
+			}
+		}
+		var faction = HostileGolemRegistry.tryGetFaction(this);
+		if (faction.isPresent() && faction.get().hostileGolemAttacks(this, target)) {
+			return true;
 		}
 		var config = getConfigEntry(null);
 		if (config == null) {
@@ -530,6 +561,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				entry.getKey().onAiStep(this, entry.getValue());
 			}
 			this.updatePersistentAnger((ServerLevel) this.level(), true);
+			var target = getTarget();
+			if (target != null && target.isAlive()) {
+				TargetManager.get(this).tickTarget(this, target);
+			}
 		}
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			ItemStack stack = getItemBySlot(slot);
@@ -616,10 +651,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
 	private static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
 
+	public int getConfigColor() {
+		return entityData.get(CONFIG_COLOR);
+	}
+
 	@Nullable
 	public GolemConfigEntry getConfigEntry(@Nullable Component dummy) {
+		int configColor = getConfigColor();
+		var opt = HostileGolemRegistry.tryGetFaction(this);
+		if (opt.isPresent()) {
+			return opt.get().getConfig(this, configColor);
+		}
 		UUID configOwner = entityData.get(CONFIG_ID).orElse(null);
-		int configColor = entityData.get(CONFIG_COLOR);
 		if (configColor < 0 || configOwner == null) return null;
 		var storage = GolemConfigStorage.get(level());
 		if (dummy == null) {
@@ -721,7 +764,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (player == owner) {
 			return true;
 		}
-		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateSecondaryTarget(player))
+		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateTarget(player))
 			return true;
 		if (MGConfig.COMMON.ownerPickupOnly.get()) {
 			return false;
@@ -738,14 +781,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (owner != null) {
 			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
 		}
-		return super.isAlliedTo(other);
-	}
-
-	protected void doPush(Entity entity) {
-		if (entity instanceof Enemy && !(entity instanceof Creeper)) {
-			this.setTarget((LivingEntity) entity);
+		var opt = HostileGolemRegistry.tryGetFaction(this);
+		if (opt.isPresent() && opt.get().isAlliedTo(this, other)) {
+			return true;
 		}
-		super.doPush(entity);
+		return super.isAlliedTo(other);
 	}
 
 	@Override
@@ -769,37 +809,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.goalSelector.addGoal(8, new GolemRandomStrollGoal(this));
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Mob.class, 5, false, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(3, new Golem3DTargetGoal<>(this, Mob.class, 5, true, false, this::predicatePriorityTarget));
-		this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, this::predicateSecondaryTarget));
-		this.targetSelector.addGoal(5, new Golem3DTargetGoal<>(this, LivingEntity.class, 5, true, false, this::predicateSecondaryTarget));
+		this.targetSelector.addGoal(3, new Golem3DTargetGoal(this, 5));
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	protected boolean predicatePriorityTarget(LivingEntity e) {
-		if (e instanceof Mob mob) {
-			for (var target : List.of(
-					Optional.ofNullable(mob.getLastHurtMob()),
-					Optional.ofNullable(mob.getTarget()),
-					Optional.ofNullable(mob.getLastHurtByMob())
-			)) {
-				if (target.isPresent()) {
-					Player owner = getOwner();
-					if (target.get() == owner) return true;
-					if (target.get().isAlliedTo(this)) return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	protected boolean predicateSecondaryTarget(LivingEntity e) {
-		var config = getConfigEntry(null);
-		if (config == null) {
-			return DefaultFilterCard.defaultPredicate(e);
-		} else {
-			return config.targetFilter.aggressiveToward(e);
-		}
+	public boolean predicateTarget(LivingEntity e) {
+		return TargetManager.predicateTarget(this, e) != null;
 	}
 
 	public boolean isInSittingPose() {

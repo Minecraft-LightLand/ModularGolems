@@ -1,3 +1,9 @@
+3.0.29
+- Part item immunity
+- make cataclysm metal golem armor enchantable
+- hostile wand that can make golems hostile to players
+- targeting system allowing golems to target different enemies in group fight
+
 3.0.28
 - Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it
 - Make player immune upgrade, talented upgrade, cauldron upgrade cheaper

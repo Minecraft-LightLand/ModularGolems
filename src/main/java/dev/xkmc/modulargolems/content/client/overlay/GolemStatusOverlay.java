@@ -52,6 +52,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 			target = entityHit.getEntity();
 		}
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return;
+		if (golem.isHostile()) return;
 		Font font = Minecraft.getInstance().font;
 		int screenWidth = g.guiWidth();
 		List<Component> text = new ArrayList<>();

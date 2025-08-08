@@ -1,0 +1,14 @@
+{
+  "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_scylla",
+  "name": "Scylla Upgrade",
+  "icon": "modulargolems:scylla_lightning_upgrade",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:scylla_lightning_upgrade",
+	  "text": "Launch lightning spear toward Level*3 targets. Max: 3"
+	}
+  ]
+}

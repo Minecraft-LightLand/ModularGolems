@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "Fiery",
   "icon": "twilightforest:fiery_ingot",
   "category": "modulargolems:materials",

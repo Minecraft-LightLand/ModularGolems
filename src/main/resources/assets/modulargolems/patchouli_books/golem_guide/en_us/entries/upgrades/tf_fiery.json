@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "Fiery Upgrade",
   "icon": "modulargolems:fiery",
   "category": "modulargolems:upgrades",

@@ -215,13 +215,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	@Override
-	protected boolean predicatePriorityTarget(LivingEntity e) {
-		return !isInSittingPose() && super.predicatePriorityTarget(e);
-	}
-
-	@Override
-	protected boolean predicateSecondaryTarget(LivingEntity e) {
-		return !isInSittingPose() && super.predicateSecondaryTarget(e);
+	public boolean canAttackType(EntityType<?> type) {
+		return super.canAttackType(type) && !isInSittingPose();
 	}
 
 	public boolean hurt(DamageSource source, float amount) {

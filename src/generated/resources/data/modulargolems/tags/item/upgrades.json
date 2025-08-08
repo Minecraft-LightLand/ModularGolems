@@ -139,6 +139,10 @@
       "required": false
     },
     {
+      "id": "modulargolems:scylla_lightning_upgrade",
+      "required": false
+    },
+    {
       "id": "modulargolems:wroughtnaut",
       "required": false
     }

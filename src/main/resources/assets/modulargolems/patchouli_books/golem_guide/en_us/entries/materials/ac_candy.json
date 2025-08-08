@@ -1,0 +1,30 @@
+{
+	"flag": "mod:alexscaves",
+	"advancement": "alexscaves:alexscaves/discover_candy_cavity",
+	"name": "Candy",
+	"icon": "modulargolems:candy_construct",
+	"category": "modulargolems:materials",
+	"sortnum": 1301,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:candy_construct",
+			"text": "Main material to craft Candy golem parts. Shoots candy and cheap to fix."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"alexscaves:candy\"},{part:\"modulargolems:metal_golem_body\",material:\"alexscaves:candy\"},{part:\"modulargolems:metal_golem_arm\",material:\"alexscaves:candy\"},{part:\"modulargolems:metal_golem_legs\",material:\"alexscaves:candy\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"alexscaves:candy\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"alexscaves:candy\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"alexscaves:candy\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"alexscaves:candy\"},{part:\"modulargolems:dog_golem_legs\",material:\"alexscaves:candy\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}
