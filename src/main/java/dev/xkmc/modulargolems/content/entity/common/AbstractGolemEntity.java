@@ -525,6 +525,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (this.inventoryTick > 0) {
 			this.inventoryTick--;
 		}
+		if (this.specialAttackCoolDown > 0) {
+			this.specialAttackCoolDown--;
+		}
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());

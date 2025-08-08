@@ -11,20 +11,20 @@
 	  "item": "modulargolems:void_construct",
 	  "text": "Main material to craft Ender Guardian golem parts. Summon vortex and void runes to attack."
 	},
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:metal_golem_body\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:metal_golem_legs\",material:\"cataclysm:ender_guardian\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
-	},
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"cataclysm:ender_guardian\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
-	},
-	{
-	  "type": "patchouli:spotlight",
-	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:dog_golem_legs\",material:\"cataclysm:ender_guardian\"}]}",
-	  "text": "Use JEI (press R) to check part stats of each part made of this material."
-	}
+	  {
+		  "type": "patchouli:spotlight",
+		  "item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:metal_golem_body\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:metal_golem_arm\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:metal_golem_legs\",material:\"cataclysm:ender_guardian\"}]}]",
+		  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  },
+	  {
+		  "type": "patchouli:spotlight",
+		  "item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"cataclysm:ender_guardian\"}]}]",
+		  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  },
+	  {
+		  "type": "patchouli:spotlight",
+		  "item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"cataclysm:ender_guardian\"},{part:\"modulargolems:dog_golem_legs\",material:\"cataclysm:ender_guardian\"}]}]",
+		  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	  }
   ]
 }

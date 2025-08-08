@@ -2,9 +2,10 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.mob_weapon_api.integration.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.modifier.special.MultiTargetRangedGoal;
 import net.minecraft.world.entity.LivingEntity;
 
-public class EnderGuardianVoidRuneAttackGoal extends dev.xkmc.modulargolems.content.modifier.special.MultiTargetRangedGoal {
+public class EnderGuardianVoidRuneAttackGoal extends MultiTargetRangedGoal {
 
 	public EnderGuardianVoidRuneAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(100, 0, 15, golem, lv);
