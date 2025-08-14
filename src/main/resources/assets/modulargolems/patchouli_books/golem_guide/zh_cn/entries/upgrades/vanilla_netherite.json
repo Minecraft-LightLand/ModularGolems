@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:netherite",
-	  "text": "为傀儡提供大量护甲值与攻击力。最大等级：2"
+	  "text": "为傀儡提供大量护甲值与护甲韧性。最大等级：2"
 	}
   ]
 }

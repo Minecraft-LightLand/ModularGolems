@@ -4,6 +4,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -31,6 +32,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 @SerialClass
@@ -39,6 +41,14 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.LARGE, type, level);
 		this.setMaxUpStep(1);
+	}
+
+
+	protected AABB getAttackBoundingBox(Entity target, double range) {
+		if (getMainHandItem().getItem() instanceof CustomSweepBoxWeapon weapon) {
+			return weapon.getAttackBoundingBox(this, target, range, getMainHandItem());
+		}
+		return target.getBoundingBox().inflate(range);
 	}
 
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {

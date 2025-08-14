@@ -84,6 +84,16 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return ans;
 	}
 
+	public static Ingredient getCraftMaterial(ItemStack stack) {
+		if (!(stack.getItem() instanceof GolemHolder<?, ?> holder)) return Ingredient.EMPTY;
+		var mats = GolemHolder.getMaterial(stack);
+		var type = holder.getEntityType();
+		var part = type.getBodyPart();
+		if (mats.size() <= part.ordinal()) return Ingredient.EMPTY;
+		var mat = mats.get(part.ordinal());
+		return GolemMaterialConfig.get().getCraftIngredient(mat.id());
+	}
+
 	public static Ingredient getHealingMaterial(ItemStack stack) {
 		if (!(stack.getItem() instanceof GolemHolder<?, ?> holder)) return Ingredient.EMPTY;
 		var mats = GolemHolder.getMaterial(stack);

@@ -3,13 +3,6 @@
   "conditions": [
     {
       "condition": "minecraft:entity_properties",
-      "entity": "this",
-      "predicate": {
-        "type": "legendary_monsters:ancient_guardian"
-      }
-    },
-    {
-      "condition": "minecraft:entity_properties",
       "entity": "direct_killer",
       "predicate": {
         "type": "modulargolems:metal_golem",
@@ -23,5 +16,6 @@
       }
     }
   ],
+  "entity": "legendary_monsters:ancient_guardian",
   "material": "legendary_monsters:molten_metal"
 }

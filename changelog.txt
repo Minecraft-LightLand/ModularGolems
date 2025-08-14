@@ -1,3 +1,11 @@
+2.6.5
+- Fix Golem Sweep on non-enemies
+- Optimize slicing axe loot modifier to remove errors in log message
+
+2.6.4
+- Fix add slot smithing with golems using constructs
+- Update Cataclysm required version
+
 2.6.3
 - Add Ender Guardian and Scylla golem
 - Add Scylla weapon and coral spear compat
@@ -25,8 +33,6 @@
 - Add Golem Slicing Axe
 - Use standalone models for Dog golems
 - Update PTBR translation
-Note: there will be some error messages in log regarding loot. They are result of design flaws of Forge LootModifier system. Just ignore them.
-
 
 2.5.25
 - Add Monstrosity Golem Armor (thanks T7H1 for modeling)

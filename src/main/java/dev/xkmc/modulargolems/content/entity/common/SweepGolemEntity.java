@@ -15,8 +15,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
@@ -44,7 +42,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		double range = getAttributeValue(GolemTypes.GOLEM_SWEEP.get());
 		if (range > 0 && canSweep()) {
 			var list = level().getEntities(target, getAttackBoundingBox(target, range),
-					e -> e instanceof LivingEntity le && e instanceof Enemy && (!(e instanceof Creeper)) && this.canAttack(le));
+					e -> e instanceof LivingEntity le && predicateTarget(le) && this.canAttack(le));
 			for (Entity t : list) {
 				flag |= performDamageTarget(t, damage, kb);
 			}

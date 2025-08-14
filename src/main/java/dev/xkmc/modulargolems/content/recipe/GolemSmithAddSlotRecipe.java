@@ -27,7 +27,7 @@ public class GolemSmithAddSlotRecipe extends AbstractSmithingRecipe<GolemSmithAd
 	public boolean matches(Container input, Level level) {
 		if (!template.test(input.getItem(0))) return false;
 		if (!base.test(input.getItem(1))) return false;
-		var ing = GolemHolder.getHealingMaterial(input.getItem(1));
+		var ing = GolemHolder.getCraftMaterial(input.getItem(1));
 		if (!ing.test(input.getItem(2))) return false;
 		var upgrade = GolemHolder.getUpgrades(input.getItem(1));
 		return !upgrade.contains((AddSlotTemplate) input.getItem(0).getItem());

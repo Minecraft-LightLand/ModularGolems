@@ -3,13 +3,6 @@
   "conditions": [
     {
       "condition": "minecraft:entity_properties",
-      "entity": "this",
-      "predicate": {
-        "type": "cataclysm:the_harbinger"
-      }
-    },
-    {
-      "condition": "minecraft:entity_properties",
       "entity": "direct_killer",
       "predicate": {
         "type": "modulargolems:metal_golem",
@@ -23,5 +16,6 @@
       }
     }
   ],
+  "entity": "cataclysm:the_harbinger",
   "material": "cataclysm:witherite"
 }
