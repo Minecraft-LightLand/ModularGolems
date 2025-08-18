@@ -5,6 +5,8 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import net.minecraft.client.CameraType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -39,6 +41,10 @@ public class ModelOverride {
 			AbstractGolemRenderer<T, P, M> renderer, T entity, P part, PoseStack pose, MultiBufferSource buffer, ResourceLocation mat,
 			int light, float pTick, boolean visible, boolean ghost, boolean glowing
 	) {
+		var camera = Minecraft.getInstance().getCameraEntity();
+		if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON &&
+				camera != null && camera.getVehicle() == entity && entity.getBbWidth() >= 2)
+			ghost = true;
 		var model = renderer.getModel();
 		ResourceLocation tex = getTexture(entity, mat);
 		RenderType rt = getRenderType(model, model.getTextureLocationInternal(tex), visible, ghost, glowing);

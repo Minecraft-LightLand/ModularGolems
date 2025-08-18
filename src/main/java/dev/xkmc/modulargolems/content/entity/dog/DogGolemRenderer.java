@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
