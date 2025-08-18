@@ -45,7 +45,7 @@ public class ReformationModifier extends GolemModifier {
 		if (iron.isEmpty()) return;
 		iron.shrink(1);
 		golem.setAbsorptionAmount(hp + health());
-		golem.heal(heal(level));
+		golem.repair(heal(level));
 		float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
 		golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
 		//TODO visual effects
@@ -61,7 +61,7 @@ public class ReformationModifier extends GolemModifier {
 		if (!player.level().isClientSide()) {
 			if (!player.isCreative()) stack.shrink(1);
 			golem.setAbsorptionAmount(hp + health());
-			golem.heal(heal(level));
+			golem.repair(heal(level));
 			float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
 			golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
 		}

@@ -45,7 +45,7 @@ public class AtomicFuelingModifier extends GolemModifier {
 				golem.removeEffect(LCEffects.CURSE.get());
 			}
 		}
-		golem.heal(max * health() * level);
+		golem.repair(max * health() * level);
 		var ins = golem.getEffect(ACCompatRegistry.EFF_ATOMIC.get());
 		int t = ins == null ? 0 : ins.getDuration();
 		golem.addEffect(new MobEffectInstance(ACCompatRegistry.EFF_ATOMIC.get(), t + time(), level));

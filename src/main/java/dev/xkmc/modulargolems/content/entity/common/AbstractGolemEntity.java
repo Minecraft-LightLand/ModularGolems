@@ -592,6 +592,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		tracker.track(this);
 	}
 
+	public void repair(float amount) {
+		setHealth(Math.min(getMaxHealth(), getHealth() + amount));
+	}
+
 	@Override
 	public void aiStep() {
 		this.updateSwingTime();
