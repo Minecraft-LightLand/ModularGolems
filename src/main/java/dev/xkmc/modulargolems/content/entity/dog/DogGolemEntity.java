@@ -5,7 +5,6 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGConfig;
-import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -38,6 +37,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	public float getJumpStrength() {
 		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
+		ans *= getScale();
 		MobEffectInstance ins = getEffect(MobEffects.JUMP);
 		if (ins != null) {
 			int lv = ins.getAmplifier() + 1;
@@ -124,7 +124,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	public double getPassengersRidingOffset() {
-		return this.getBbHeight() * 1.4 - 0.35;
+		return this.getBbHeight() * 0.9 - 0.25;
 	}
 
 	protected void positionRider(Entity rider, Entity.MoveFunction setPos) {
@@ -132,8 +132,13 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		int total = this.getPassengers().size();
 		if (index < 0) return;
 		float width = getBbWidth();
-		float offset = index == 0 ? index + 0.7f : index + (getControllingPassenger() instanceof Player ? 1.7f : 1.2f);
+		float offset = index == 0 ? 0.7f : index + (getControllingPassenger() instanceof Player ? 1.7f : 1.2f);
 		float pos = width / 2 - width / total * offset;
+		if (rider instanceof Player && index == 0) {
+			var size = getAttributeValue(GolemTypes.GOLEM_SIZE.get());
+			float padding = 0;
+			pos += (float) ((width * 0.8 - pos) * (1 - (padding + 1) / (padding + size)));
+		}
 		double dy = rider.getMyRidingOffset() + getPassengersRidingOffset();
 		Vec3 vec3 = new Vec3(0, 0, pos).yRot(-this.yBodyRot * ((float) Math.PI / 180F));
 		setPos.accept(rider, this.getX() + vec3.x, this.getY() + dy, this.getZ() + vec3.z);
@@ -160,7 +165,16 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected boolean canAddPassenger(Entity entity) {
-		return this.getPassengers().size() <= getModifiers().getOrDefault(GolemModifiers.SIZE_UPGRADE.get(), 0);
+		int total = 0;
+		int count = 0;
+		for (var e : getPassengers()) {
+			count++;
+			if (e instanceof AbstractGolemEntity<?, ?> golem) {
+				total += (int) Math.round(golem.getAttributeValue(GolemTypes.GOLEM_SIZE.get()));
+			} else total += 2;
+		}
+		int self = (int) Math.round(getAttributeValue(GolemTypes.GOLEM_SIZE.get()) * 2 - 1);
+		return count < Math.min(self, 3) && total < self * 2;
 	}
 
 	@Override

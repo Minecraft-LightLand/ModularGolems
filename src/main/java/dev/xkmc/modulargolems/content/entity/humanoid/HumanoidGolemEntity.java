@@ -97,7 +97,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public boolean isBlocking() {
-		boolean ans = shieldCooldown == 0 && shieldSlot() != null;
+		boolean ans = shieldCooldown == 0 && getTarget() != null && shieldSlot() != null;
 		if (ans && rendering) {
 			render_trigger = true;
 		}
@@ -203,7 +203,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public double getMyRidingOffset() {
-		return -0.35;
+		return -getBbHeight() * 0.18;
 	}
 
 	@Override

@@ -7,17 +7,36 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ACDispatch extends ModDispatch {
 
 	public static final String MODID = "alexscaves";
 
+	@SubscribeEvent
+	public static void onGolemEquip(GolemEquipItemEvent event) {
+		if (event.getEntity().getModifiers().containsKey(ACCompatRegistry.ATOMIC.get())) {
+			if (ACCompatRegistry.DUMMY_URANIUM.get().isValid(event.getStack())) {
+				event.setSlot(event.getStack().getCount(), EquipmentSlot.OFFHAND);
+			}
+		}
+		if (event.getEntity().getModifiers().containsKey(ACCompatRegistry.REFORMATION.get())) {
+			if (ACCompatRegistry.DUMMY_IRON.get().isValid(event.getStack())) {
+				event.setSlot(event.getStack().getCount(), EquipmentSlot.OFFHAND);
+			}
+		}
+	}
+
 	public ACDispatch() {
 		ACCompatRegistry.register();
+		MinecraftForge.EVENT_BUS.register(ACDispatch.class);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

@@ -1,3 +1,12 @@
+2.6.6
+- Golem no longer stuck in wall if placed on wall
+- Allow consumables to be put in metal golem off hand for integration modifiers
+- Humanoid no longer held up shields when having no attack targets
+- Adjust height of humanoid and dog golems
+- Disable golem death message on hostile golems
+- Golem size upgrade affect jump height and step height as well
+- Adjust riding offset
+
 2.6.5
 - Fix Golem Sweep on non-enemies
 - Optimize slicing axe loot modifier to remove errors in log message
@@ -19,6 +28,7 @@
 2.6.1
 - Make golem parts immune to lightning, fire, explosion
 - Add hostile wand, allowing to make golems hostile, and click mob to make hostile golems attacking them
+
 
 2.5.27
 - Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it

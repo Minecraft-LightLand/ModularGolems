@@ -29,7 +29,6 @@ public class ClientHolderManager {
 		TimedCache(int life, @Nullable AbstractGolemEntity<?, ?> entity) {
 			this.life = life;
 			this.entity = entity;
-			if (entity != null) entity.addTag("ClientOnly");
 		}
 
 	}
@@ -80,6 +79,7 @@ public class ClientHolderManager {
 				ans.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 		} else if (root.contains(GolemHolder.KEY_ICON)) {
 			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(Proxy.getClientWorld());
+			golem.addTag("ClientOnly");
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 			ItemCompoundTag tag = ItemCompoundTag.of(stack);
 			var list = tag.getSubList(GolemHolder.KEY_ICON, Tag.TAG_COMPOUND).getOrCreate();

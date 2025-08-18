@@ -257,25 +257,25 @@ dependencies {
     implementation fg.deobf("curse.maven:goety-586095:6362347")
 
     implementation fg.deobf("curse.maven:patchouli-306770:4966125")
-    implementation fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE")
+    compileOnly fg.deobf("vazkii.botania:Botania:1.20.1-443-FORGE")
     runtimeOnly fg.deobf("curse.maven:geckolib-388172:6333474")
     runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4587214")
-    implementation fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:6488484")
-    implementation fg.deobf("curse.maven:ars-nouveau-401955:4751471")
+    compileOnly fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:6488484")
+    compileOnly fg.deobf("curse.maven:ars-nouveau-401955:4751471")
     implementation fg.deobf("curse.maven:mantle-74924:6105891")
     implementation fg.deobf("curse.maven:tinkers-construct-74072:6111032")
     //implementation fg.deobf("curse.maven:mutil-351914:4824501")
     //implementation fg.deobf("curse.maven:tetra-289712:6096160")
 
     implementation fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
-    implementation fg.deobf("curse.maven:retro-damage-indicators-1003431:5268035")
+    runtimeOnly fg.deobf("curse.maven:retro-damage-indicators-1003431:5268035")
 
     compileOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
     compileOnly fg.deobf("curse.maven:uranus-1010827:6095271")
     compileOnly fg.deobf("curse.maven:jupiter-1072905:5881564")
     compileOnly fg.deobf("com.iafenvoy:iceandfire:1.0-1.20.1-forge")
 
-    implementation fg.deobf("curse.maven:mowzies-mobs-250498:6224182")
+    compileOnly fg.deobf("curse.maven:mowzies-mobs-250498:6224182")
     implementation fg.deobf("curse.maven:ato-405593:5348605")
     implementation fg.deobf("curse.maven:allthemodium-364466:6389531")
 
@@ -283,6 +283,7 @@ dependencies {
     implementation fg.deobf("curse.maven:legendary-monsters-944035:6776766")
     compileOnly fg.deobf("zip.local:touhou_little_maid_spell:1.2.2")
     //compileOnly fg.deobf("local.zip:RevelationFix:1.20.1")
+    runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
 
 }
 

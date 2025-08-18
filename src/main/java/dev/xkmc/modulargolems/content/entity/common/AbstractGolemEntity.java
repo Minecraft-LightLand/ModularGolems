@@ -47,6 +47,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
@@ -221,7 +222,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void untrack(GolemTracker.Status type, @Nullable Entity cause) {
 		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID)) return;
+		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
 		if (getOwner() instanceof FakePlayer) return;
 		var tracker = GolemConfigStorage.get(level()).getTracker(id);
 		tracker.untrack(this, type, cause);
@@ -303,12 +304,37 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
 
+	private double lastSize = 0;
+
+	public void checkSize() {
+		if (tickCount > 5 && tickCount % 10 != 0) return;
+		double cur = getAttributeValue(GolemTypes.GOLEM_SIZE.get());
+		if (lastSize != cur) {
+			refreshDimensions();
+		}
+	}
+
+	@Override
+	public void refreshDimensions() {
+		lastSize = getAttributeValue(GolemTypes.GOLEM_SIZE.get());
+		super.refreshDimensions();
+	}
+
+	@Override
+	public float maxUpStep() {
+		return super.maxUpStep() * getScale();
+	}
 
 	public float getScale() {
-		if (materials == null || materials.isEmpty() || getTags().contains("ClientOnly")) {
+		if (materials == null || materials.isEmpty() || !isAddedToWorld() || getTags().contains("ClientOnly")) {
 			return 1;
 		}
 		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.get()) / DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get()));
+	}
+
+	public void calculateEntityAnimation(boolean hasY) {
+		float f = (float) Mth.length(this.getX() - this.xo, hasY ? this.getY() - this.yo : 0.0D, this.getZ() - this.zo);
+		this.updateWalkAnimation(f / getScale());
 	}
 
 	// ------ swim
@@ -355,6 +381,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void setOwnerUUID(@Nullable UUID id) {
 		owner = id;
 		entityData.set(OWNER_ID, Optional.ofNullable(owner));
+
 	}
 
 	@Nullable
@@ -546,6 +573,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (this.specialAttackCoolDown > 0) {
 			this.specialAttackCoolDown--;
 		}
+		checkSize();
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
@@ -559,7 +587,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		var id = getOwnerUUID();
 		if (getOwner() instanceof FakePlayer) return;
-		if (id == null || id.equals(Util.NIL_UUID)) return;
+		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
 		var tracker = GolemConfigStorage.get(level()).getTracker(id);
 		tracker.track(this);
 	}
@@ -989,7 +1017,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private boolean untrackRemoved(@Nullable DamageSource source) {
 		if (level().isClientSide()) return false;
 		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID)) return false;
+		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return false;
 		if (getOwner() instanceof FakePlayer) return false;
 		var tracker = GolemConfigStorage.get(level()).getTracker(id);
 		if (tracker.isUntracked(this)) return false;
@@ -1037,7 +1065,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void trackPos(double x, double y, double z) {
 		if (level().isClientSide() || !isAddedToWorld()) return;
 		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID)) return;
+		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
 		if (getOwner() instanceof FakePlayer) return;
 		var tracker = GolemConfigStorage.get(level()).getTracker(id);
 		tracker.trackPos(getUUID(), x, y, z);

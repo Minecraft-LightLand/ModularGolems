@@ -13,14 +13,19 @@ import dev.xkmc.modulargolems.compat.materials.create.automation.CreateJEIEvents
 import dev.xkmc.modulargolems.compat.materials.create.automation.CreateRecipeEvents;
 import dev.xkmc.modulargolems.compat.materials.create.automation.GolemIncompleteItem;
 import dev.xkmc.modulargolems.compat.misc.PatchouliFlagHelper;
+import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -30,9 +35,20 @@ public class CreateDispatch extends ModDispatch {
 
 	public static final String MODID = "create";
 
+	@SubscribeEvent
+	public static void onGolemEquip(GolemEquipItemEvent event) {
+		if (event.getEntity().getModifiers().containsKey(CreateCompatRegistry.BODY.get())) {
+			int time = ForgeHooks.getBurnTime(event.getStack(), RecipeType.SMELTING);
+			if (time > 0) {
+				event.setSlot(event.getStack().getCount(), EquipmentSlot.OFFHAND);
+			}
+		}
+	}
+
 	public CreateDispatch() {
 		CreateCompatRegistry.register();
 		MinecraftForge.EVENT_BUS.register(CreateRecipeEvents.class);
+		MinecraftForge.EVENT_BUS.register(CreateDispatch.class);
 		if (ModList.get().isLoaded("jei")) {
 			MinecraftForge.EVENT_BUS.register(CreateJEIEvents.class);
 		}

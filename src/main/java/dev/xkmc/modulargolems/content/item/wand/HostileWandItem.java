@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.item.wand;
 
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
+import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import net.minecraft.server.level.ServerPlayer;
@@ -53,6 +54,7 @@ public class HostileWandItem extends Item implements GolemInteractItem, IGlowing
 			if (user instanceof ServerPlayer sp) {
 				if (!golem.isHostile()) {
 					if (golem.getOwner() == user || sp.getAbilities().instabuild) {
+						golem.untrack(GolemTracker.Status.OTHER_RETRIEVED, null);
 						golem.setOwnerUUID(HostileGolemRegistry.DEFAULT.uuid);
 					}
 				} else if (sp.getAbilities().instabuild) {
