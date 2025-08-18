@@ -44,11 +44,14 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemItems {
 
-	public static final RegistryEntry<CreativeModeTab> ITEMS, GOLEMS;
+	public static final RegistryEntry<CreativeModeTab> ITEMS, UPGRADES, GOLEMS;
 
 	static {
 		ITEMS = REGISTRATE.buildL2CreativeTab("golem_items", "Modular Golems - Items", b -> b
 				.icon(GolemItems.GOLEM_TEMPLATE::asStack));
+		UPGRADES = REGISTRATE.buildL2CreativeTab("golem_upgrades", "Modular Golems - Upgrades", b -> b
+				.icon(GolemItems.RECYCLE::asStack));
+		REGISTRATE.defaultCreativeTab(ITEMS.getKey());
 	}
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
@@ -223,9 +226,9 @@ public class GolemItems {
 
 		// upgrades
 		{
-			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
-			ADD_DIAMOND = REGISTRATE.item("diamond_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.DIAMOND_ADD)).defaultModel().defaultLang().register();
-			ADD_NETHERITE = REGISTRATE.item("netherite_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.NETHERITE_ADD)).defaultModel().defaultLang().register();
+			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
+			ADD_DIAMOND = REGISTRATE.item("diamond_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.DIAMOND_ADD)).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
+			ADD_NETHERITE = REGISTRATE.item("netherite_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.NETHERITE_ADD)).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifiers.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
 			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifiers.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
 			RECYCLE = regUpgrade("recycle", () -> GolemModifiers.RECYCLE).lang("Recycle Ugpgrade").register();
@@ -398,7 +401,8 @@ public class GolemItems {
 								.parent(new ModelFile.UncheckedModelFile("item/generated"))
 								.texture("layer0", new ResourceLocation(modid, "item/upgrades/" + id))
 								.texture("layer1", new ResourceLocation(ModularGolems.MODID, "item/blue_arrow")))
-						.end());
+						.end())
+				.removeTab(ITEMS.getKey()).tab(UPGRADES.getKey());
 	}
 
 	public static <T extends Item> ItemEntry<T> item(String modid, String id, NonNullFunction<Item.Properties, T> func) {

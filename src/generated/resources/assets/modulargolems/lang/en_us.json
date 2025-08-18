@@ -302,6 +302,7 @@
   "item.modulargolems.wroughtnaut_ingot": "Wroughtnaut Ingot",
   "item.modulargolems.yellow_config_card": "Yellow Config Card",
   "itemGroup.l2library.golem_items": "Modular Golems - Items",
+  "itemGroup.l2library.golem_upgrades": "Modular Golems - Upgrades",
   "itemGroup.l2library.golems": "Modular Golems - Golems & Parts",
   "modifier.modulargolems.add_slot": "Add Slot",
   "modifier.modulargolems.add_slot.desc": "Add %s golem upgrade slot",

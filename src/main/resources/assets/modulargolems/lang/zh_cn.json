@@ -222,6 +222,7 @@
   "attribute.name.golem_jump": "傀儡跳跃",
   "itemGroup.l2library.golems": "模块化傀儡 - 傀儡",
   "itemGroup.l2library.golem_items": "模块化傀儡 - 物品",
+  "itemGroup.l2library.golem_upgrades": "模块化傀儡 - 升级",
   "modulargolems.tooltip.health": "血量: %s/%s",
   "modulargolems.tooltip.slot": "剩余升级槽: %s",
   "modulargolems.tooltip.shift": "按 SHIFT 显示技能细节",

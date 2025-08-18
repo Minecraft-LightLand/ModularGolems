@@ -5,10 +5,12 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
@@ -68,6 +70,10 @@ public class TFDispatch extends ModDispatch {
 				.define('A', TFItems.NAGA_SCALE.get())
 				.define('B', GolemItems.EMPTY_UPGRADE.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		safeUpgrade(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.RECYCLE.get())::unlockedBy, TFItems.CHARM_OF_KEEPING_3.get())
+				.requires(GolemItems.EMPTY_UPGRADE.get()).requires(TFItems.CHARM_OF_KEEPING_3.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), ModularGolems.loc("recycle_upgrade_from_twilight"));
 	}
 
 	@Override
