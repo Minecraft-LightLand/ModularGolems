@@ -67,6 +67,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public static final String KEY_MATERIAL = "golem_materials",
 			KEY_UPGRADES = "golem_upgrades",
 			KEY_ENTITY = "golem_entity",
+			KEY_EQUIPMENTS = "golem_equipments",
 			KEY_DISPLAY = "golem_display",
 			KEY_ICON = "golem_icon",
 			KEY_CONFIG = "golem_config";
@@ -387,7 +388,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 	}
 
-	private static void setPos(Level level,AbstractGolemEntity<?, ?> golem , Vec3 pos){
+	private static void setPos(Level level, AbstractGolemEntity<?, ?> golem, Vec3 pos) {
 		golem.setPos(pos);
 		EntityDimensions dim = golem.getDimensions(Pose.STANDING);
 		Vec3 vec3 = golem.position().add(0.0D, (double) dim.height / 2.0D, 0.0D);
@@ -407,7 +408,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
-				setPos(level,golem, pos);
+				setPos(level, golem, pos);
 				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.getFirst(), e.getSecond()));
 				if (stack.hasCustomHoverName()) {
 					golem.setCustomName(stack.getHoverName());
@@ -427,10 +428,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (root.contains(KEY_MATERIAL)) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create(level);
-				setPos(level,golem, pos);
+				setPos(level, golem, pos);
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
 				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.getFirst(), e.getSecond()));
+				GolemEquipUtil.addItemsToGolem(golem, root, true);
 				if (stack.hasCustomHoverName()) {
 					golem.setCustomName(stack.getHoverName());
 				}
@@ -461,6 +463,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		} else if (root.contains(KEY_MATERIAL)) {
 			golem = type.get().create(level);
 			golem.onCreate(getMaterial(stack), getUpgrades(stack), null);
+			GolemEquipUtil.addItemsToGolem(golem, root, false);
 		} else return null;
 		getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.getFirst(), e.getSecond()));
 		if (stack.hasCustomHoverName()) {
