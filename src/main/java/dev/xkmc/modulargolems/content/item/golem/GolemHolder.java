@@ -36,7 +36,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -47,7 +49,10 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -62,6 +67,19 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		var ans = GolemItems.HOLDER_MAT.get(stack);
 		return ans == null ? new ArrayList<>() : ans.toList();
 	}
+
+
+	@Nullable
+	public static Ingredient getCraftingMaterial(ItemStack stack) {
+		if (!(stack.getItem() instanceof GolemHolder<?, ?> holder)) return null;
+		var mats = GolemHolder.getMaterial(stack);
+		var type = holder.getEntityType();
+		var part = type.getBodyPart();
+		if (mats.size() <= part.ordinal()) return null;
+		var mat = mats.get(part.ordinal());
+		return GolemMaterialConfig.get().getCraftIngredient(mat.id());
+	}
+
 
 	@Nullable
 	public static Ingredient getHealingMaterial(ItemStack stack) {
@@ -211,6 +229,16 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 	}
 
+	private static void setPos(Level level,AbstractGolemEntity<?, ?> golem , Vec3 pos){
+		golem.setPos(pos);
+		EntityDimensions dim = golem.getDimensions(Pose.STANDING);
+		Vec3 vec3 = golem.position().add(0.0D, (double) dim.height() / 2.0D, 0.0D);
+		VoxelShape voxelshape = Shapes.create(AABB.ofSize(vec3, dim.width() - 1 + 1e-6, dim.height() - 1 + 1e-6, dim.width() - 1 + 1e-6));
+		var opt = level.findFreePosition(golem, voxelshape, vec3, dim.width(), dim.height(), dim.width());
+		if (opt.isPresent()) pos = opt.get().add(0.0D, (double) (-dim.height()) / 2.0D, 0.0D);
+		golem.setPos(pos);
+	}
+
 	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player, @Nullable Consumer<AbstractGolemEntity<?, ?>> callback) {
 		var data = GolemItems.ENTITY.get(stack);
 		if (data != null && getMaxHealth(stack) >= 0) {
@@ -220,7 +248,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, data.getUnsafe());
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
-				golem.moveTo(pos);
+				setPos(level,golem, pos);
 				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.id(), e.color()));
 				Optional.ofNullable(stack.get(DataComponents.CUSTOM_NAME)).ifPresent(golem::setCustomName);
 				if (!golem.initMode(player)) {
@@ -239,7 +267,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (mat != null) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create(level);
-				golem.moveTo(pos);
+				setPos(level,golem, pos);
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
 				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.id(), e.color()));

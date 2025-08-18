@@ -1,3 +1,11 @@
+2.6.6
+- Golem no longer stuck in wall if placed on wall
+- Allow consumables to be put in metal golem off hand for integration modifiers
+- Humanoid no longer held up shields when having no attack targets
+- Adjust height of humanoid and dog golems
+- Disable golem death message on hostile golems
+- Golem size upgrade affect jump height and step height as well
+
 3.1.0
 - Add Ender Guardian and Scylla golem
 - Add Scylla weapon and coral spear compat

@@ -28,7 +28,6 @@ public class ClientHolderManager {
 		TimedCache(int life, @Nullable AbstractGolemEntity<?, ?> entity) {
 			this.life = life;
 			this.entity = entity;
-			if (entity != null) entity.addTag("ClientOnly");
 		}
 
 	}
@@ -77,6 +76,7 @@ public class ClientHolderManager {
 				ans.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 		} else if (icon != null) {
 			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(level);
+			golem.addTag("ClientOnly");
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 			for (var e : icon.list()) {
 				golem.equipItemIfPossible(e);

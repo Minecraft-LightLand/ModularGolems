@@ -11,12 +11,16 @@ import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.automation.CreateGolemRecipeGen;
 import dev.xkmc.modulargolems.compat.materials.create.automation.CreateRecipeEvents;
 import dev.xkmc.modulargolems.compat.materials.create.automation.GolemIncompleteItem;
+import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.Nullable;
@@ -28,9 +32,20 @@ public class CreateDispatch extends ModDispatch {
 
 	public static final String MODID = "create";
 
+	@SubscribeEvent
+	public static void onGolemEquip(GolemEquipItemEvent event) {
+		if (event.getEntity().getModifiers().containsKey(CreateCompatRegistry.BODY.get())) {
+			int time = event.getStack().getBurnTime(RecipeType.SMELTING);
+			if (time > 0) {
+				event.setSlot(event.getStack().getCount(), EquipmentSlot.OFFHAND);
+			}
+		}
+	}
+
 	public CreateDispatch() {
 		CreateCompatRegistry.register();
 		NeoForge.EVENT_BUS.register(CreateRecipeEvents.class);
+		NeoForge.EVENT_BUS.register(CreateDispatch.class);
 	}
 
 	@Override

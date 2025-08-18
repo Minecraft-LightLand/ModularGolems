@@ -4,6 +4,7 @@ import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -32,13 +34,24 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.CommonHooks;
+
+import java.util.function.Predicate;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.LARGE, type, level);
+	}
+
+	protected AABB getAttackBoundingBox(Entity target, double range) {
+		if (getMainHandItem().getItem() instanceof CustomSweepBoxWeapon weapon) {
+			return weapon.getAttackBoundingBox(this, target, range, getMainHandItem());
+		}
+		return target.getBoundingBox().inflate(range);
 	}
 
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
@@ -59,6 +72,19 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			EnchantmentHelper.doPostAttackEffects(sl, target, source);
 		}
 		return succeed;
+	}
+
+	public ItemStack getProjectile(ItemStack pShootable) {
+		ItemStack ans;
+		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
+			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
+			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
+			ans = CommonHooks.getProjectile(this, pShootable, stack);
+		} else {
+			ans = CommonHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
+		}
+		if (isHostile()) ans = ans.copy();
+		return ans;
 	}
 
 	// ------ vanilla golem behavior

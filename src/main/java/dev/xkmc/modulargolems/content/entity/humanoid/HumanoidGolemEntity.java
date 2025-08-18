@@ -117,7 +117,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public boolean isBlocking() {
-		boolean ans = shieldCooldown == 0 && shieldSlot() != null;
+		boolean ans = shieldCooldown == 0 && getTarget() != null && shieldSlot() != null;
 		if (ans && rendering) {
 			render_trigger = true;
 		}

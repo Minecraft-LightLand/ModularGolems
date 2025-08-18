@@ -42,7 +42,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		double range = getAttributeValue(GolemTypes.GOLEM_SWEEP.holder());
 		if (range > 0 && canSweep()) {
 			var list = level().getEntities(target, getAttackBoundingBox(target, range),
-					e -> e instanceof LivingEntity le && e instanceof Enemy && (!(e instanceof Creeper)) && this.canAttack(le));
+					e -> e instanceof LivingEntity le && predicateTarget(le) && this.canAttack(le));
 			for (Entity t : list) {
 				flag |= performDamageTarget(t, damage, kb);
 			}
