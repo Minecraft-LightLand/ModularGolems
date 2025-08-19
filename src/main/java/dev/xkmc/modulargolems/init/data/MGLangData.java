@@ -22,6 +22,7 @@ public enum MGLangData {
 	POTION_DEFENSE("tooltip.potion_defense", "Golem gain %s.", 1, ChatFormatting.GREEN),
 	GOLEM_EQUIPMENT("tooltip.golem_equipment", "Only effective on %s", 1, ChatFormatting.LIGHT_PURPLE),
 	UPGRADE_COUNT("tooltip.modifier", "Total %s modifiers from %s upgrades", 2, ChatFormatting.LIGHT_PURPLE),
+	MELTDOWN("tooltip.meltdown", "Meltdown: %s", 1, ChatFormatting.RED),
 	CRAFT_MAT("tooltip.craft_material", "Golem crafting material", 0, ChatFormatting.GRAY),
 	REPAIR_MAT("tooltip.repair_material", "Golem repair material", 0, ChatFormatting.GRAY),
 	SLICING_GOLEM("tooltip.slicing_golem", "When metal golem kill golems of other players with this axe, drop all parts and each upgrade has %s chance to drop", 1, ChatFormatting.GRAY),

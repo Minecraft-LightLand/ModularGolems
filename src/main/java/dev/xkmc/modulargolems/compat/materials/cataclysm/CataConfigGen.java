@@ -79,6 +79,17 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.SCYLLA_LIGHTNING.get(), 1)
 				.addModifier(CataCompatRegistry.SCYLLA_WAVE.get(), 1)
 				.end()
+
+
+				.addMaterial(new ResourceLocation(CataDispatch.MODID, "ancient_metal"), Ingredient.of(ModItems.ANCIENT_METAL_INGOT.get()))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 288)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(CataCompatRegistry.ANCIENT_MELTDOWN.get(), 1)
+				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 1)
+				.addModifier(CataCompatRegistry.SANDSTORM.get(), 1)
+				.end()
 		);
 
 

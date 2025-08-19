@@ -1,5 +1,8 @@
 {
   "ingredients": {
+    "cataclysm:ancient_metal": {
+      "item": "cataclysm:ancient_metal_ingot"
+    },
     "cataclysm:cursium": {
       "item": "cataclysm:cursium_ingot"
     },
@@ -17,6 +20,12 @@
     }
   },
   "modifiers": {
+    "cataclysm:ancient_metal": {
+      "modulargolems:ancient_remnant_reformation": 1,
+      "modulargolems:ancient_remnant_sandstorm": 1,
+      "modulargolems:damage_cap": 1,
+      "modulargolems:fire_immune": 1
+    },
     "cataclysm:cursium": {
       "modulargolems:damage_cap": 2,
       "modulargolems:fire_immune": 1,
@@ -52,6 +61,9 @@
     }
   },
   "repairIngredients": {
+    "cataclysm:ancient_metal": {
+      "item": "cataclysm:ancient_metal_ingot"
+    },
     "cataclysm:cursium": {
       "item": "cataclysm:cursium_ingot"
     },
@@ -69,6 +81,11 @@
     }
   },
   "stats": {
+    "cataclysm:ancient_metal": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 288.0,
+      "modulargolems:sweep": 2.0
+    },
     "cataclysm:cursium": {
       "modulargolems:attack": 40.0,
       "modulargolems:max_health": 390.0,

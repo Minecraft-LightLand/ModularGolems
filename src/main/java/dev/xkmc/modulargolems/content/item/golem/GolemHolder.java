@@ -39,6 +39,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -200,13 +202,45 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public static float getMaxHealth(ItemStack stack) {
+		var entity = Optional.ofNullable(stack.getTag())
+				.filter(e -> e.contains(KEY_ENTITY))
+				.map(e -> e.getCompound(KEY_ENTITY));
+		if (entity.isPresent()) {
+			for (var e : entity.get().getList("Attributes", Tag.TAG_COMPOUND)) {
+				if (!(e instanceof CompoundTag t)) continue;
+				if (t.getString("Name").equals("minecraft:generic.max_health")) {
+					var ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
+					});
+					ins.load(t);
+					return (float) ins.getValue();
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int getReforge(ItemStack stack) {
 		return Optional.ofNullable(stack.getTag())
 				.filter(e -> e.contains(KEY_ENTITY))
 				.map(e -> e.getCompound(KEY_ENTITY))
-				.flatMap(e -> e.getList("Attributes", Tag.TAG_COMPOUND).stream()
-						.map(t -> ((CompoundTag) t))
-						.filter(t -> t.getString("Name").equals("minecraft:generic.max_health"))
-						.findAny()).map(e -> e.getFloat("Base")).orElse(-1f);
+				.map(e -> e.getCompound("ForgeData").getInt("GolemReforge"))
+				.orElse(0);
+	}
+
+	public static void setReforge(ItemStack stack, int reforge) {
+		var entity = Optional.ofNullable(stack.getTag())
+				.filter(e -> e.contains(KEY_ENTITY))
+				.map(e -> e.getCompound(KEY_ENTITY));
+		if (entity.isPresent()) {
+			entity.get().getCompound("ForgeData").putInt("GolemReforge", reforge);
+			for (var e : entity.get().getList("Attributes", Tag.TAG_COMPOUND)) {
+				if (!(e instanceof CompoundTag t)) continue;
+				if (t.getString("Name").equals("minecraft:generic.max_health")) {
+					t.getList("Modifiers", Tag.TAG_COMPOUND).removeIf(x ->
+							x instanceof CompoundTag comp && comp.getUUID("UUID").equals(AbstractGolemEntity.REFORGE_ID));
+				}
+			}
+		}
 	}
 
 	public static void setHealth(ItemStack result, float health) {
@@ -291,6 +325,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 				MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
 				list.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
+			}
+			int reforge = getReforge(stack);
+			if (reforge > 0) {
+				list.add(MGLangData.MELTDOWN.get(reforge));
 			}
 			var config = getGolemConfig(stack);
 			if (level == null || config.isEmpty()) {

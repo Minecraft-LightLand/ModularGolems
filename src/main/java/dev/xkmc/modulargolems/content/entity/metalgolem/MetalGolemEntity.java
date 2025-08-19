@@ -205,11 +205,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			return super.mobInteractImpl(player, hand);
 		}
 		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
-		float f = this.getHealth();
-		this.repair(getMaxHealth() / 4f);
-		if (this.getHealth() == f) {
+		if (getHealth() >= getMaxHealth() && !isReforged()) {
 			return InteractionResult.PASS;
 		}
+		repairWithItem();
 		float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
 		this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
 		if (!player.getAbilities().instabuild) {

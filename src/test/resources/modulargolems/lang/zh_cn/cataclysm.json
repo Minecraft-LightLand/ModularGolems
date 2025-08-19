@@ -17,6 +17,7 @@
   "effect.modulargolems.maledictus_rage.description": "提升傀儡伤害",
   "golem_material.cataclysm.ender_guardian": "末地守卫",
   "golem_material.cataclysm.storm": "风暴",
+  "golem_material.cataclysm.ancient_metal": "远古金属",
   "item.modulargolems": {
     "ender_guardian_void_rune": "末影守卫升级",
     "leviathan_blast_portal": "利维坦升级",
@@ -52,7 +53,9 @@
     "scylla_lightning": "鸣雷槊",
     "scylla_lightning.desc": "对多个目标发射鸣雷槊",
     "scylla_wave": "霆浪锚",
-    "scylla_wave.desc": "受到伤害时召唤海浪推开敌人"
+    "scylla_wave.desc": "受到伤害时召唤海浪推开敌人",
+    "ancient_remnant_reformation": "遗骸重组",
+    "ancient_remnant_reformation.desc": "熔锻：消耗自身材料回复血量，但是减少最大血量。可以通过修复材料复原"
   }
 
 }

@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2library.util.annotation.ServerOnly;
+import dev.xkmc.l2library.util.math.MathHelper;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
@@ -57,6 +58,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -305,10 +307,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	private double lastSize = 0;
+	private boolean sizeDirty = false;
+
+	private double getScaleImpl() {
+		return getAttributeValue(GolemTypes.GOLEM_SIZE.get()) * (36 - getReforgeCount()) / 36d;
+	}
 
 	public void checkSize() {
-		if (tickCount > 5 && tickCount % 10 != 0) return;
-		double cur = getAttributeValue(GolemTypes.GOLEM_SIZE.get());
+		if (!sizeDirty && tickCount > 5 && tickCount % 10 != 0) return;
+		sizeDirty = false;
+		double cur = getScaleImpl();
 		if (lastSize != cur) {
 			refreshDimensions();
 		}
@@ -316,7 +324,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public void refreshDimensions() {
-		lastSize = getAttributeValue(GolemTypes.GOLEM_SIZE.get());
+		lastSize = getScaleImpl();
 		super.refreshDimensions();
 	}
 
@@ -329,7 +337,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (materials == null || materials.isEmpty() || !isAddedToWorld() || getTags().contains("ClientOnly")) {
 			return 1;
 		}
-		return (float) (getAttributeValue(GolemTypes.GOLEM_SIZE.get()) / DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get()));
+		var def = DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get());
+		return (float) (getScaleImpl() / def);
 	}
 
 	public void calculateEntityAnimation(boolean hasY) {
@@ -457,11 +466,15 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void writeSpawnData(FriendlyByteBuf buffer) {
 		PacketCodec.to(buffer, this);
+		buffer.writeInt(getReforgeCount());
 	}
 
 	public void readSpawnData(FriendlyByteBuf data) {
 		PacketCodec.from(data, Wrappers.cast(this.getClass()), getThis());
 		updateAttributes(materials, Wrappers.cast(upgrades), owner);
+		int reforge = data.readInt();
+		if (reforge > 0)
+			updateReforge(reforge);
 	}
 
 	public T getThis() {
@@ -596,6 +609,52 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		setHealth(Math.min(getMaxHealth(), getHealth() + amount));
 	}
 
+	public static final UUID REFORGE_ID = MathHelper.getUUIDFromString("GolemReforge");
+
+	public void updateReforge(int reforge) {
+		getPersistentData().putInt("GolemReforge", reforge);
+		if (!level().isClientSide()) {
+			var ins = getAttribute(Attributes.MAX_HEALTH);
+			assert ins != null;
+			ins.removeModifier(REFORGE_ID);
+			ins.addPermanentModifier(new AttributeModifier(
+					REFORGE_ID, "Golem Reforge " + reforge,
+					-reforge / 36d, AttributeModifier.Operation.MULTIPLY_TOTAL
+			));
+		}
+		sizeDirty = true;
+		checkSize();
+		if (!level().isClientSide()) {
+			ModularGolems.HANDLER.toTrackingPlayers(ReforgeUpdatePacket.of(this, reforge), this);
+		}
+	}
+
+	public void checkReforge() {
+		if (getHealth() <= getMaxHealth() / 2) {
+			int reforge = getPersistentData().getInt("GolemReforge");
+			if (reforge < 8) {
+				reforge++;
+				updateReforge(reforge);
+				repair(getMaxHealth() / 4);
+			}
+		}
+	}
+
+	public boolean isReforged() {
+		return getPersistentData().getInt("GolemReforge") > 0;
+	}
+
+	public int getReforgeCount() {
+		return getPersistentData().getInt("GolemReforge");
+	}
+
+	public void repairWithItem() {
+		int reforge = getPersistentData().getInt("GolemReforge");
+		if (reforge > 0)
+			updateReforge(reforge - 1);
+		else repair(getMaxHealth() / 4);
+	}
+
 	@Override
 	public void aiStep() {
 		this.updateSwingTime();
@@ -608,6 +667,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				}
 				if (heal > 0) {
 					this.heal((float) heal);
+				}
+				if (hasFlag(GolemFlags.REFORGE)) {
+					checkReforge();
 				}
 			}
 			for (var entry : getModifiers().entrySet()) {

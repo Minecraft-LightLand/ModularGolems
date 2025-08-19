@@ -12,6 +12,7 @@
 		"tooltip": {
 			"health": "血量: %s/%s",
 			"slot": "剩余升级槽: %s",
+			"meltdown": "熔锻: %s",
 			"shift": "按 SHIFT 显示技能细节",
 			"following": "傀儡会跟随玩家",
 			"guarding": "傀儡会在(%s, %s, %s)附近行动",

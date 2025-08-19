@@ -1,0 +1,21 @@
+{
+  "type": "modulargolems:slicing",
+  "conditions": [
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "direct_killer",
+      "predicate": {
+        "type": "modulargolems:metal_golem",
+        "equipment": {
+          "mainhand": {
+            "items": [
+              "modulargolems:golem_slicing_axe"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "entity": "cataclysm:ancient_remnant",
+  "material": "cataclysm:ancient_metal"
+}

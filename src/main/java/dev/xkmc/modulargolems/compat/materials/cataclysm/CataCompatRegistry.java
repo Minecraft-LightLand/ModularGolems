@@ -41,6 +41,7 @@ public class CataCompatRegistry {
 	public static final RegistryEntry<EnderGuardianVoidRuneModifier> RUNE;
 	public static final RegistryEntry<NetheriteMonstrosityEarthquakeModifier> EARTHQUAKE;
 	public static final RegistryEntry<AncientRemnantSandstormModifier> SANDSTORM;
+	public static final RegistryEntry<AncientMeltdownModifier> ANCIENT_MELTDOWN;
 	public static final RegistryEntry<MaledictusEarthquakeModifier> EARTHQUAKE_SPEAR;
 	public static final RegistryEntry<MaledictusAttackModifier> MALEDICTUS_ATTACK;
 	public static final RegistryEntry<ScyllaLightningAttackModifier> SCYLLA_LIGHTNING;
@@ -110,6 +111,7 @@ public class CataCompatRegistry {
 		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon vortex and void rune toward multiple targets");
 		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on landing");
 		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position. Attacks multiple targets");
+		ANCIENT_MELTDOWN = reg("ancient_remnant_reformation", AncientMeltdownModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
 		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new, "Jump and cause earthquake on landing, summoning halberds");
 		MALEDICTUS_ATTACK = reg("maledictus_attack", MaledictusAttackModifier::new,
 				"Golem melee damage bypass armor. Stack rage counter after dealing damage, up to %s layers");
