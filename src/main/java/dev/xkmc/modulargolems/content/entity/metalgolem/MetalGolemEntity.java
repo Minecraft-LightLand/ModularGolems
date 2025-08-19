@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
@@ -223,6 +224,13 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	public double getMyRidingOffset() {
 		return -0.5;
+	}
+
+	@Override
+	public void checkRide(LivingEntity target) {
+		if (target instanceof DogGolemEntity dog && dog.getBbWidth() > getBbWidth()) {
+			startRiding(target);
+		}
 	}
 
 }

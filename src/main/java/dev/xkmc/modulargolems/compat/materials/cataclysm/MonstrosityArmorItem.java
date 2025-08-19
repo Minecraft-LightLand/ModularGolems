@@ -56,7 +56,7 @@ public class MonstrosityArmorItem extends MetalGolemArmorItem {
 			case CHEST -> builder.put(GolemTypes.GOLEM_SWEEP.get(), new AttributeModifier(uuid,
 					"Monstrosity Armor", 1, AttributeModifier.Operation.ADDITION));
 			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid,
-					"Monstrosity Armor", 1, AttributeModifier.Operation.MULTIPLY_BASE));
+					"Monstrosity Armor", 0.5, AttributeModifier.Operation.MULTIPLY_BASE));
 		}
 	}
 

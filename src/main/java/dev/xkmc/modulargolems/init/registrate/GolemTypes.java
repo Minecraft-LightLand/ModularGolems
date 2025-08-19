@@ -106,7 +106,7 @@ public class GolemTypes {
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
-				.properties(e -> e.sized(0.85F, 0.9F).clientTrackingRange(10))
+				.properties(e -> e.sized(0.9F, 0.9F).clientTrackingRange(10))
 				.renderer(() -> DogGolemRenderer::new)
 				.attributes(() -> Mob.createMobAttributes()
 						.add(Attributes.MAX_HEALTH, 8.0D)

@@ -334,7 +334,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public float getScale() {
-		if (materials == null || materials.isEmpty() || !isAddedToWorld() || getTags().contains("ClientOnly")) {
+		if (materials == null || materials.isEmpty() || level().isClientSide() && !isAddedToWorld() || getTags().contains("ClientOnly")) {
 			return 1;
 		}
 		var def = DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE.get());

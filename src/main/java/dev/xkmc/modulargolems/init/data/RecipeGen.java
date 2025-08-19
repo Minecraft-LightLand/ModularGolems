@@ -324,6 +324,13 @@ public class RecipeGen {
 					.define('B', Items.LAPIS_LAZULI)
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.WINDSPIRIT_BOOTS.get())::unlockedBy, Items.DIAMOND)
+					.pattern("I I").pattern("BAB")
+					.define('I', Items.DIAMOND_BOOTS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LAPIS_LAZULI)
+					.save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_HELMET.get())::unlockedBy, Items.DIAMOND)
 					.pattern(" B ").pattern("III").pattern("IAI")
 					.define('I', Items.NETHERITE_HELMET)
@@ -343,6 +350,13 @@ public class RecipeGen {
 					.define('I', Items.NETHERITE_LEGGINGS)
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', Items.QUARTZ)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_BOOTS.get())::unlockedBy, Items.DIAMOND)
+					.pattern("I I").pattern("BAB")
+					.define('I', Items.NETHERITE_BOOTS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.ANVIL)
 					.save(pvd);
 		}
 

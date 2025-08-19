@@ -61,7 +61,7 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 			case CHEST -> builder.put(GolemTypes.GOLEM_SWEEP.get(), new AttributeModifier(uuid,
 					"Harbinger Armor", 1, AttributeModifier.Operation.ADDITION));
 			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid,
-					"Harbinger Armor", 1, AttributeModifier.Operation.MULTIPLY_BASE));
+					"Harbinger Armor", 0.5, AttributeModifier.Operation.MULTIPLY_BASE));
 		}
 	}
 

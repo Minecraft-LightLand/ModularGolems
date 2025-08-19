@@ -1,3 +1,9 @@
+2.6.7
+- Add Ancient Metal Golem
+- Add diamond and netherite golem boots
+- Allow large golem to ride max size dog golem
+- Create deployer will not cause golem to get entity data when adding equipments
+
 2.6.6
 - Golem no longer stuck in wall if placed on wall
 - Allow consumables to be put in metal golem off hand for integration modifiers

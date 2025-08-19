@@ -15,10 +15,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.card.*;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
-import dev.xkmc.modulargolems.content.item.equipments.SlicingAxe;
+import dev.xkmc.modulargolems.content.item.equipments.*;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -79,6 +76,8 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
+	public static final ItemEntry<MetalGolemArmorItem> WINDSPIRIT_BOOTS;
+	public static final ItemEntry<NetheriteBootItem> BARBARICFLAMEVANGUARD_BOOTS;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<MetalGolemBeaconItem>[] METALGOLEM_BEACONS;
@@ -158,6 +157,10 @@ public class GolemItems {
 							ArmorItem.Type.LEGGINGS, 8, 6, GolemModelPaths.LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
+			WINDSPIRIT_BOOTS = REGISTRATE.item("wind_spirit_boots", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.BOOTS, 3, 2, GolemModelPaths.BOOTS_DIAMOND))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
 
 			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
@@ -169,6 +172,10 @@ public class GolemItems {
 					.defaultLang().register();
 			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.defaultLang().register();
+			BARBARICFLAMEVANGUARD_BOOTS = REGISTRATE.item("barbaric_vanguard_boots", p -> new NetheriteBootItem(p.stacksTo(1).fireResistant(),
+							ArmorItem.Type.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 		}
