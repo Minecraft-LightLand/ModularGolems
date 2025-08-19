@@ -7,7 +7,7 @@
     }
   ],
   "criteria": {
-    "has_charm_of_keeping_3": {
+    "has_charm_of_keeping_2": {
       "conditions": {
         "items": [
           {
@@ -21,20 +21,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:recycle_upgrade_from_twilight"
+        "recipe": "modulargolems:recycle_upgrade_from_lock_charm_2"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_charm_of_keeping_3",
+      "has_charm_of_keeping_2",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:recycle_upgrade_from_twilight"
+      "modulargolems:recycle_upgrade_from_lock_charm_2"
     ]
   },
   "sends_telemetry_event": false

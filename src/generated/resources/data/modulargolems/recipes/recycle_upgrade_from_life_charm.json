@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "key": {
+    "A": [
+      {
+        "item": "twilightforest:charm_of_life_1"
+      },
+      {
+        "item": "twilightforest:charm_of_life_2"
+      }
+    ],
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "R": {
+      "item": "minecraft:respawn_anchor"
+    }
+  },
+  "pattern": [
+    " A ",
+    "EBE",
+    " R "
+  ],
+  "result": {
+    "item": "modulargolems:recycle"
+  },
+  "show_notification": true
+}

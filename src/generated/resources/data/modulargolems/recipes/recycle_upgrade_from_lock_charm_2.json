@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "key": {
+    "1": {
+      "type": "l2library:enchantment",
+      "enchantment": "minecraft:infinity",
+      "min_level": 1
+    },
+    "2": {
+      "type": "l2library:enchantment",
+      "enchantment": "minecraft:mending",
+      "min_level": 1
+    },
+    "3": {
+      "type": "l2library:enchantment",
+      "enchantment": "minecraft:unbreaking",
+      "min_level": 3
+    },
+    "A": {
+      "item": "twilightforest:charm_of_keeping_2"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    }
+  },
+  "pattern": [
+    " A ",
+    "1B2",
+    " 3 "
+  ],
+  "result": {
+    "item": "modulargolems:recycle"
+  },
+  "show_notification": true
+}
