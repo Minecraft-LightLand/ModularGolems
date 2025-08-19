@@ -9,7 +9,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "cataclysm:ancient_metal_ingot",
-			"text": "Main material to craft Ancient Metal golem parts. Summon sandstorm to attack.$(br2)Reforge: When metal golem health is low, it will consume max health to repair itself up to 8 times. Can be replenished by repair materials."
+			"text": "Main material to craft Ancient Metal golem parts. Summon sandstorm to attack.$(br2)Reforge: When health is low, it will consume max health to repair itself up to 8/5/5 times. Can be replenished by repair materials."
 		},
 		{
 			"type": "patchouli:spotlight",

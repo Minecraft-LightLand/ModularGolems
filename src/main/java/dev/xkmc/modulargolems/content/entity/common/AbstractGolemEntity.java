@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.capability.PathConfig;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
@@ -310,7 +311,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private boolean sizeDirty = false;
 
 	private double getScaleImpl() {
-		return getAttributeValue(GolemTypes.GOLEM_SIZE.get()) * (36 - getReforgeCount()) / 36d;
+		int reforge = getReforgeBase();
+		double rate = Math.pow(1d * (reforge - getReforgeCount()) / reforge, 1d / 3);
+		return getAttributeValue(GolemTypes.GOLEM_SIZE.get()) * rate;
 	}
 
 	public void checkSize() {
@@ -611,6 +614,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public static final UUID REFORGE_ID = MathHelper.getUUIDFromString("GolemReforge");
 
+	protected int getMaxReforge() {
+		return GolemType.getGolemType(getType()).getBodyPart().toItem().count - 1;
+	}
+
+	protected int getReforgeBase() {
+		int total = 0;
+		for (var e : GolemType.getGolemType(getType()).values()) {
+			total += e.toItem().count;
+		}
+		return total;
+	}
+
 	public void updateReforge(int reforge) {
 		getPersistentData().putInt("GolemReforge", reforge);
 		if (!level().isClientSide()) {
@@ -619,7 +634,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			ins.removeModifier(REFORGE_ID);
 			ins.addPermanentModifier(new AttributeModifier(
 					REFORGE_ID, "Golem Reforge " + reforge,
-					-reforge / 36d, AttributeModifier.Operation.MULTIPLY_TOTAL
+					-1d * reforge / getReforgeBase(),
+					AttributeModifier.Operation.MULTIPLY_TOTAL
 			));
 		}
 		sizeDirty = true;
@@ -632,7 +648,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void checkReforge() {
 		if (getHealth() <= getMaxHealth() / 2) {
 			int reforge = getPersistentData().getInt("GolemReforge");
-			if (reforge < 8) {
+			if (reforge < getMaxReforge()) {
 				reforge++;
 				updateReforge(reforge);
 				repair(getMaxHealth() / 4);
@@ -650,7 +666,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void repairWithItem() {
 		int reforge = getPersistentData().getInt("GolemReforge");
-		if (reforge > 0)
+		if (getHealth() > 0.75 * getMaxHealth() && reforge > 0)
 			updateReforge(reforge - 1);
 		else repair(getMaxHealth() / 4);
 	}

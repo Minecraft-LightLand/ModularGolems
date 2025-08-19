@@ -9,7 +9,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "cataclysm:ancient_metal_ingot",
-			"text": "制造远古金属傀儡的主要材料。能召唤沙暴进行攻击。$(br2)熔锻：大傀儡低血量时消耗最大血量上限来回复血量，最多8次。可以用修复材料填补"
+			"text": "制造远古金属傀儡的主要材料。能召唤沙暴进行攻击。$(br2)熔锻：傀儡低血量时消耗最大血量上限来回复血量，最多8/5/5次。可以用修复材料填补"
 		},
 		{
 			"type": "patchouli:spotlight",
