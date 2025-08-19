@@ -3,14 +3,20 @@ package dev.xkmc.modulargolems.compat.materials.twilightforest;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
+import dev.xkmc.l2core.serial.ingredients.EnchantmentIngredient;
 import dev.xkmc.l2core.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
@@ -72,6 +78,27 @@ public class TFDispatch extends ModDispatch {
 				.define('A', TFItems.NAGA_SCALE.get())
 				.define('B', GolemItems.EMPTY_UPGRADE.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.RECYCLE.get())::unlockedBy, TFItems.CHARM_OF_LIFE_2.get())
+				.pattern(" A ").pattern("EBE").pattern(" R ")
+				.define('A', Ingredient.of(TFItems.CHARM_OF_LIFE_1.get(), TFItems.CHARM_OF_LIFE_2.get()))
+				.define('B', GolemItems.EMPTY_UPGRADE.get())
+				.define('E', Items.ENDER_PEARL)
+				.define('R', Blocks.RESPAWN_ANCHOR)
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), ModularGolems.loc("recycle_upgrade_from_life_charm"));
+
+		safeUpgrade(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.RECYCLE.get())::unlockedBy, TFItems.CHARM_OF_KEEPING_3.get())
+				.requires(GolemItems.EMPTY_UPGRADE.get()).requires(TFItems.CHARM_OF_KEEPING_3.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), ModularGolems.loc("recycle_upgrade_from_lock_charm_3"));
+
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.RECYCLE.get())::unlockedBy, TFItems.CHARM_OF_KEEPING_2.get())
+				.pattern(" A ").pattern("1B2").pattern(" 3 ")
+				.define('A', TFItems.CHARM_OF_KEEPING_2.get())
+				.define('B', GolemItems.EMPTY_UPGRADE.get())
+				.define('1', EnchantmentIngredient.of(pvd.getProvider(), Enchantments.INFINITY, 1))
+				.define('2', EnchantmentIngredient.of(pvd.getProvider(), Enchantments.MENDING, 1))
+				.define('3', EnchantmentIngredient.of(pvd.getProvider(), Enchantments.UNBREAKING, 3))
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), ModularGolems.loc("recycle_upgrade_from_lock_charm_2"));
+
 	}
 
 	@Nullable

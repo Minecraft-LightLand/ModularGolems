@@ -198,7 +198,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
 		float f = this.getHealth();
-		this.heal(getMaxHealth() / 4f);
+		this.repair(getMaxHealth() / 4f);
 		if (this.getHealth() == f) {
 			return InteractionResult.PASS;
 		} else {

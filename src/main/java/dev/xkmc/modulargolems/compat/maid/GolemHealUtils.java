@@ -43,7 +43,7 @@ public class GolemHealUtils {
 			var index = getIndexOfMaterial(mat);
 			if (index >= 0) {
 				if (!inv.extractItem(index, 1, false).isEmpty()) {
-					golem.heal(golem.getMaxHealth() * 0.25f);
+					golem.repair(golem.getMaxHealth() * 0.25f);
 					float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
 					golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
 					owner.getBrain().eraseMemory(MemoryModuleType.INTERACTION_TARGET);

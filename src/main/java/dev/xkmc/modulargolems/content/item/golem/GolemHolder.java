@@ -139,6 +139,15 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return GolemItems.DC_ICON.set(golem, new GolemIcon(new ArrayList<>(List.of(equipments))));
 	}
 
+	public ItemStack toEntityWithItem(ItemStack golem, ItemStack... equipments) {
+		var ctx = new GolemEquipUtil(false, null);
+		for (var e : equipments) {
+			var ans = ctx.applyItemOnHolder(this, golem, e);
+			if (!ans.isEmpty()) golem = ans;
+		}
+		return golem;
+	}
+
 	private final Val<GolemType<T, P>> type;
 
 	public GolemHolder(Properties props, Val<GolemType<T, P>> type) {
@@ -271,6 +280,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
 				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.id(), e.color()));
+				GolemEquipUtil.addItemsToGolem(golem, stack, true);
 				Optional.ofNullable(stack.get(DataComponents.CUSTOM_NAME)).ifPresent(golem::setCustomName);
 				if (!golem.initMode(player)) {
 					return false;
@@ -299,6 +309,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		} else if (mat != null) {
 			golem = type.get().create(level);
 			golem.onCreate(getMaterial(stack), getUpgrades(stack), null);
+			GolemEquipUtil.addItemsToGolem(golem, stack, true);
 		} else return null;
 		getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.id(), e.color()));
 		Optional.ofNullable(stack.get(DataComponents.CUSTOM_NAME)).ifPresent(golem::setCustomName);

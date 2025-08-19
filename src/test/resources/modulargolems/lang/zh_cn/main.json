@@ -8,6 +8,7 @@
 	"modulargolems.title": "模块化傀儡",
 	"itemGroup.l2core.golems": "模块化傀儡 - 傀儡",
 	"itemGroup.l2core.golem_items": "模块化傀儡 - 物品",
+	"itemGroup.l2core.golem_upgrades": "模块化傀儡 - 升级",
 	"modulargolems": {
 		"tooltip": {
 			"health": "血量: %s/%s",
