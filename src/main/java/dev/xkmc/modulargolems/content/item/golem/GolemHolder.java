@@ -221,6 +221,15 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return golem;
 	}
 
+	public ItemStack toEntityWithItem(ItemStack golem, ItemStack... equipments) {
+		var ctx = new GolemEquipUtil(false, null);
+		for (var e : equipments) {
+			var ans = ctx.applyItemOnHolder(this, golem, e);
+			if (!ans.isEmpty()) golem = ans;
+		}
+		return golem;
+	}
+
 	private final RegistryEntry<GolemType<T, P>> type;
 
 	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {

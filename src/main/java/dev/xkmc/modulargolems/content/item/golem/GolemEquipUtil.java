@@ -2,19 +2,27 @@ package dev.xkmc.modulargolems.content.item.golem;
 
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.card.ConfigCard;
+import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.events.CraftEventListeners;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.Curios;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.LinkedHashSet;
 
-public class GolemEquipUtil {
+public record GolemEquipUtil(boolean isClient, @Nullable Level level) {
 
 	public static boolean isGolemCurio(GolemHolder<?, ?> holder, ItemStack stack) {
 		if (!ModList.get().isLoaded(Curios.MODID)) return false;
@@ -26,14 +34,40 @@ public class GolemEquipUtil {
 				.orElse(false);
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemStack equipCurio(GolemHolder<T, P> holder, ItemStack golem, ItemStack equip, Level level) {
+	public ItemStack applyItemOnHolder(GolemHolder<?, ?> holder, ItemStack first, ItemStack second) {
+		if (second.getItem() instanceof ConfigCard card) {
+			var id = ConfigCard.getUUID(second);
+			if (id == null) return ItemStack.EMPTY;
+			var result = first.copy();
+			GolemHolder.setGolemConfig(result, id, card.getColor());
+			return result;
+		} else if (second.getItem() instanceof UpgradeItem upgrade) {
+			return CraftEventListeners.appendUpgrade(first, holder, upgrade);
+		} else if (GolemEquipUtil.isGolemCurio(holder, second)) {
+			return equipCurioOnHolder(holder, first, second);
+		} else if (holder.getEntityType() == GolemTypes.TYPE_GOLEM.get()) {
+			EquipmentSlot slot = LivingEntity.getEquipmentSlotForItem(second);
+			if (!second.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
+				if (!(second.getItem() instanceof GolemEquipmentItem equipment)) return ItemStack.EMPTY;
+				if (!equipment.isFor(GolemTypes.ENTITY_GOLEM.get())) return ItemStack.EMPTY;
+				slot = equipment.getSlot();
+			}
+			return equipOnHolder(holder, first, second, slot);
+		} else if (holder.getEntityType() == GolemTypes.TYPE_HUMANOID.get()) {
+			EquipmentSlot slot = LivingEntity.getEquipmentSlotForItem(second);
+			return equipOnHolder(holder, first, second, slot);
+		} else return ItemStack.EMPTY;
+	}
+
+	public <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
+	ItemStack equipCurioOnHolder(GolemHolder<T, P> holder, ItemStack golem, ItemStack equip) {
+		if (level == null) return ItemStack.EMPTY;
 		if (!ModList.get().isLoaded(Curios.MODID)) return ItemStack.EMPTY;
 		var tag = golem.getTag();
 		if (tag != null && !tag.contains(GolemHolder.KEY_ENTITY)) {
 			var eq = tag.getCompound(GolemHolder.KEY_EQUIPMENTS);
-			var golemSlots = CuriosApi.getEntitySlots(holder.getEntityType().type(), level).keySet();
-			var itemSlots = new LinkedHashSet<>(CuriosApi.getItemStackSlots(equip, level).keySet());
+			var golemSlots = CuriosApi.getEntitySlots(holder.getEntityType().type(), isClient).keySet();
+			var itemSlots = new LinkedHashSet<>(CuriosApi.getItemStackSlots(equip, isClient).keySet());
 			itemSlots.retainAll(golemSlots);
 			for (var slot : itemSlots) {
 				if (!eq.contains(slot)) {
@@ -63,8 +97,8 @@ public class GolemEquipUtil {
 		return ItemStack.EMPTY;
 	}
 
-	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemStack equip(GolemHolder<T, P> holder, ItemStack golem, ItemStack equip, EquipmentSlot slot, Level level) {
+	public <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
+	ItemStack equipOnHolder(GolemHolder<T, P> holder, ItemStack golem, ItemStack equip, EquipmentSlot slot) {
 		var tag = golem.getTag();
 		if (tag != null && !tag.contains(GolemHolder.KEY_ENTITY)) {
 			var eq = tag.getCompound(GolemHolder.KEY_EQUIPMENTS);
@@ -74,6 +108,7 @@ public class GolemEquipUtil {
 				return golem;
 			}
 		}
+		if (level == null) return ItemStack.EMPTY;
 		T entity = holder.createDummy(golem, level);
 		if (entity == null) return ItemStack.EMPTY;
 		if (!entity.getItemBySlot(slot).isEmpty()) return ItemStack.EMPTY;
