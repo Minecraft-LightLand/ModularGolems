@@ -4,7 +4,14 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
+import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import twilightforest.init.TFBlocks;
+import twilightforest.init.TFItems;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.THORN;
@@ -19,6 +26,8 @@ public class TFCompatRegistry {
 	public static final Val<AttributeGolemModifier> NAGA;
 
 	public static final ItemEntry<SimpleUpgradeItem> UP_CARMINITE, UP_STEELEAF, UP_FIERY, UP_IRONWOOD, UP_KNIGHTMETAL, UP_NAGA;
+
+	public static final TagKey<Item> GIANT_ITEM = ItemTags.create(ModularGolems.loc("giant_items"));
 
 	static {
 		FIERY = reg("fiery", FieryModifier::new, "Deal %s%% fire damage to mobs not immune to fire");
@@ -42,7 +51,14 @@ public class TFCompatRegistry {
 	}
 
 	public static void register() {
-
+		MGTagGen.OPTIONAL_ITEM.add(pvd -> pvd.addTag(GIANT_ITEM)
+				.addOptional(TFBlocks.GIANT_COBBLESTONE.getId())
+				.addOptional(TFBlocks.GIANT_LOG.getId())
+				.addOptional(TFBlocks.GIANT_LEAVES.getId())
+				.addOptional(TFBlocks.GIANT_OBSIDIAN.getId())
+				.addOptional(TFItems.GIANT_PICKAXE.getId())
+				.addOptional(TFItems.GIANT_SWORD.getId())
+		);
 	}
 
 }

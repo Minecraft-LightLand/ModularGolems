@@ -65,6 +65,8 @@
   "item.modulargolems.heavy_golem_spear": "傀儡重戟",
   "item.modulargolems.golem_slicing_axe": "斩铁巨斧",
   "item.modulargolems.hostile_wand": "敌对傀儡调试器",
+  "item.modulargolems.barbaric_vanguard_boots": "蛮荒镣铐",
+  "item.modulargolems.wind_spirit_boots": "风行靴",
   "item.modulargolems.metal_golem_arm": "大型金属傀儡-手臂",
   "item.modulargolems.metal_golem_body": "大型金属傀儡-身体",
   "item.modulargolems.metal_golem_legs": "大型金属傀儡-双腿",
@@ -333,8 +335,10 @@
   "modulargolems.title": "模块化傀儡",
   "itemGroup.l2core.golems": "模块化傀儡 - 傀儡",
   "itemGroup.l2core.golem_items": "模块化傀儡 - 物品",
+  "itemGroup.l2core.golem_upgrades": "模块化傀儡 - 升级",
   "modulargolems.tooltip.health": "血量: %s/%s",
   "modulargolems.tooltip.slot": "剩余升级槽: %s",
+  "modulargolems.tooltip.meltdown": "熔锻: %s",
   "modulargolems.tooltip.add_slot": "增加%s个升级槽。在铁砧中使用",
   "modulargolems.tooltip.shift": "按 SHIFT 显示技能细节",
   "modulargolems.tooltip.following": "傀儡会跟随玩家",
@@ -628,6 +632,7 @@
   "effect.modulargolems.maledictus_rage.description": "提升傀儡伤害",
   "golem_material.cataclysm.ender_guardian": "末地守卫",
   "golem_material.cataclysm.storm": "风暴",
+  "golem_material.cataclysm.ancient_metal": "远古金属",
   "item.modulargolems.ender_guardian_void_rune": "末影守卫升级",
   "item.modulargolems.leviathan_blast_portal": "利维坦升级",
   "item.modulargolems.ancient_remnant_sandstorm": "远古遗魂升级",
@@ -660,5 +665,7 @@
   "modifier.modulargolems.scylla_lightning": "鸣雷槊",
   "modifier.modulargolems.scylla_lightning.desc": "对多个目标发射鸣雷槊",
   "modifier.modulargolems.scylla_wave": "霆浪锚",
-  "modifier.modulargolems.scylla_wave.desc": "受到伤害时召唤海浪推开敌人"
+  "modifier.modulargolems.scylla_wave.desc": "受到伤害时召唤海浪推开敌人",
+  "modifier.modulargolems.ancient_remnant_reformation": "遗骸重组",
+  "modifier.modulargolems.ancient_remnant_reformation.desc": "熔锻：消耗自身材料回复血量，但是减少最大血量。可以通过修复材料复原"
 }
