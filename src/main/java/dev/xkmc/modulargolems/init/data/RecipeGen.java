@@ -344,6 +344,13 @@ public class RecipeGen {
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', Items.QUARTZ)
 					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BARBARICFLAMEVANGUARD_BOOTS.get())::unlockedBy, Items.DIAMOND)
+					.pattern("I I").pattern("BAB")
+					.define('I', Items.NETHERITE_BOOTS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.ANVIL)
+					.save(pvd);
 		}
 
 		// weapon

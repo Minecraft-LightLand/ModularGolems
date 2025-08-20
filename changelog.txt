@@ -1,3 +1,6 @@
+3.1.2
+- Netherite Boots recipe
+
 3.1.1
 - Add Ancient Metal Golem
 - Add diamond and netherite golem boots
@@ -20,6 +23,7 @@
 - hostile wand that can make golems hostile to players
 - targeting system allowing golems to target different enemies in group fight
 - Gate some patchouli book contents behind advancements
+
 
 3.0.28
 - Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it
