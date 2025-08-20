@@ -13,6 +13,7 @@
 		"tooltip": {
 			"health": "血量: %s/%s",
 			"slot": "剩余升级槽: %s",
+			"meltdown": "熔锻: %s",
 			"add_slot": "增加%s个升级槽。在铁砧中使用",
 			"shift": "按 SHIFT 显示技能细节",
 			"following": "傀儡会跟随玩家",
