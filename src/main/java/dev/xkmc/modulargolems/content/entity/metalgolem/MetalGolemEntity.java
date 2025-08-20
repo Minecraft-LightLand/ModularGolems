@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
@@ -197,20 +198,25 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			return super.mobInteractImpl(player, hand);
 		}
 		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
-		float f = this.getHealth();
-		this.repair(getMaxHealth() / 4f);
-		if (this.getHealth() == f) {
+		if (getHealth() >= getMaxHealth() && !isReforged()) {
 			return InteractionResult.PASS;
-		} else {
-			float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-			this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
-			if (!player.getAbilities().instabuild) {
-				itemstack.shrink(1);
-			}
-			if (!this.level().isClientSide()) {
-				GolemTriggers.HOT_FIX.get().trigger((ServerPlayer) player);
-			}
-			return InteractionResult.sidedSuccess(this.level().isClientSide);
+		}
+		repairWithItem();
+		float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+		this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
+		if (!player.getAbilities().instabuild) {
+			itemstack.shrink(1);
+		}
+		if (!this.level().isClientSide()) {
+			GolemTriggers.HOT_FIX.get().trigger((ServerPlayer) player);
+		}
+		return InteractionResult.sidedSuccess(this.level().isClientSide);
+	}
+
+	@Override
+	public void checkRide(LivingEntity target) {
+		if (target instanceof DogGolemEntity dog && dog.getBbWidth() > getBbWidth()) {
+			startRiding(target);
 		}
 	}
 

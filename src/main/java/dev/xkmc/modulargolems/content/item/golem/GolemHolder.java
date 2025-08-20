@@ -39,6 +39,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -124,11 +126,40 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public static float getMaxHealth(ItemStack stack) {
+		var entity = Optional.ofNullable(stack.get(GolemItems.ENTITY));
+		if (entity.isPresent()) {
+			for (var e : entity.get().getUnsafe().getList("attributes", Tag.TAG_COMPOUND)) {
+				if (!(e instanceof CompoundTag t)) continue;
+				if (t.getString("id").equals("minecraft:generic.max_health")) {
+					var ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
+					});
+					ins.load(t);
+					return (float) ins.getValue();
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int getReforge(ItemStack stack) {
 		return Optional.ofNullable(stack.get(GolemItems.ENTITY))
-				.map(e -> e.getUnsafe()).flatMap(e -> e.getList("attributes", Tag.TAG_COMPOUND).stream()
-						.map(t -> ((CompoundTag) t))
-						.filter(t -> t.getString("id").equals("minecraft:generic.max_health"))
-						.findAny()).map(e -> e.getFloat("base")).orElse(-1f);
+				.map(e -> e.getUnsafe().getCompound("NeoForgeData").getInt("GolemReforge"))
+				.orElse(0);
+	}
+
+	public static void setReforge(ItemStack stack, int reforge) {
+		var entity = Optional.ofNullable(stack.get(GolemItems.ENTITY));
+		if (entity.isPresent()) {
+			var tag = entity.get().getUnsafe();
+			tag.getCompound("NeoForgeData").putInt("GolemReforge", reforge);
+			for (var e : tag.getList("attributes", Tag.TAG_COMPOUND)) {
+				if (!(e instanceof CompoundTag t)) continue;
+				if (t.getString("id").equals("minecraft:generic.max_health")) {
+					t.getList("modifiers", Tag.TAG_COMPOUND).removeIf(x ->
+							x instanceof CompoundTag comp && comp.getUUID("id").equals(AbstractGolemEntity.REFORGE_ID));
+				}
+			}
+		}
 	}
 
 	public static void setHealth(ItemStack result, float health) {
@@ -238,11 +269,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 	}
 
-	private static void setPos(Level level,AbstractGolemEntity<?, ?> golem , Vec3 pos){
+	private static void setPos(Level level, AbstractGolemEntity<?, ?> golem, Vec3 pos) {
 		golem.setPos(pos);
 		EntityDimensions dim = golem.getDimensions(Pose.STANDING);
+		if (dim.width() * dim.width() * dim.height() > 64) return;
 		Vec3 vec3 = golem.position().add(0.0D, (double) dim.height() / 2.0D, 0.0D);
-		VoxelShape voxelshape = Shapes.create(AABB.ofSize(vec3, dim.width() - 1 + 1e-6, dim.height() - 1 + 1e-6, dim.width() - 1 + 1e-6));
+		double xz = dim.width() - 1 + 1e-6;
+		double y = dim.height() - 1 + 1e-6;
+		VoxelShape voxelshape = Shapes.create(AABB.ofSize(vec3, xz, y, xz));
 		var opt = level.findFreePosition(golem, voxelshape, vec3, dim.width(), dim.height(), dim.width());
 		if (opt.isPresent()) pos = opt.get().add(0.0D, (double) (-dim.height()) / 2.0D, 0.0D);
 		golem.setPos(pos);
@@ -257,7 +291,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, data.getUnsafe());
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
-				setPos(level,golem, pos);
+				setPos(level, golem, pos);
 				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.id(), e.color()));
 				Optional.ofNullable(stack.get(DataComponents.CUSTOM_NAME)).ifPresent(golem::setCustomName);
 				if (!golem.initMode(player)) {
@@ -276,7 +310,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (mat != null) {
 			if (!level.isClientSide()) {
 				AbstractGolemEntity<?, ?> golem = type.get().create(level);
-				setPos(level,golem, pos);
+				setPos(level, golem, pos);
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
 				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.id(), e.color()));
@@ -411,6 +445,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 				MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
 				list.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
+			}
+			int reforge = getReforge(stack);
+			if (reforge > 0) {
+				list.add(MGLangData.MELTDOWN.get(reforge));
 			}
 			var config = getGolemConfig(stack);
 

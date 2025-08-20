@@ -43,7 +43,7 @@ public class GolemHealUtils {
 			var index = getIndexOfMaterial(mat);
 			if (index >= 0) {
 				if (!inv.extractItem(index, 1, false).isEmpty()) {
-					golem.repair(golem.getMaxHealth() * 0.25f);
+					golem.repairWithItem();
 					float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
 					golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
 					owner.getBrain().eraseMemory(MemoryModuleType.INTERACTION_TARGET);
@@ -59,17 +59,28 @@ public class GolemHealUtils {
 		for (int slot = 0; slot < inv.getSlots(); slot++) {
 			var stack = inv.getStackInSlot(slot);
 			if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
+				var mats = GolemHolder.getMaterial(stack);
+				var type = holder.getEntityType();
+				var part = type.getBodyPart();
+				if (mats.size() <= part.ordinal()) continue;
+				var mat = mats.get(part.ordinal()).id();
+				int reforge = GolemHolder.getReforge(stack);
+				if (reforge > 0) {
+					var index = getIndexOfMaterial(mat);
+					if (index >= 0) {
+						if (!inv.extractItem(index, 1, false).isEmpty()) {
+							GolemHolder.setReforge(stack, reforge - 1);
+							inv.setStackInSlot(slot, stack);
+						}
+					}
+					continue;
+				}
 				float max = GolemHolder.getMaxHealth(stack);
 				float health = GolemHolder.getHealth(stack);
 				if (health == -1) continue;
 				if (health > max * 0.75) continue;
 				var heal = holder.getInvHeal(stack, owner);
 				if (heal > 0) continue;
-				var mats = GolemHolder.getMaterial(stack);
-				var type = holder.getEntityType();
-				var part = type.getBodyPart();
-				if (mats.size() <= part.ordinal()) return;
-				var mat = mats.get(part.ordinal()).id();
 				var index = getIndexOfMaterial(mat);
 				if (index >= 0) {
 					if (!inv.extractItem(index, 1, false).isEmpty()) {
@@ -84,7 +95,7 @@ public class GolemHealUtils {
 	private boolean shouldHeal(AbstractGolemEntity<?, ?> golem) {
 		if (golem.getType() != GolemTypes.ENTITY_GOLEM.get())
 			return false;
-		if (golem.getHealth() > golem.getMaxHealth() * 0.75)
+		if (golem.getHealth() > golem.getMaxHealth() * 0.75 && !golem.isReforged())
 			return false;
 		var mat = golem.getMaterials().get(MetalGolemPartType.BODY.ordinal()).id();
 		return getIndexOfMaterial(mat) >= 0;

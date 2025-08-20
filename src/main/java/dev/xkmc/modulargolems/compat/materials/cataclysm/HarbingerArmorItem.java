@@ -60,7 +60,7 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 			case CHEST -> builder.put(GolemTypes.GOLEM_SWEEP, new AttributeModifier(
 					id, 1, AttributeModifier.Operation.ADD_VALUE));
 			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(
-					id, 1, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+					id, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 		}
 	}
 

@@ -21,6 +21,7 @@ public enum MGLangData {
 	POTION_DEFENSE("tooltip.potion_defense", "Golem gain %s.", 1, ChatFormatting.GREEN),
 	GOLEM_EQUIPMENT("tooltip.golem_equipment", "Only effective on %s", 1, ChatFormatting.LIGHT_PURPLE),
 	UPGRADE_COUNT("tooltip.modifier", "Total %s modifiers from %s upgrades", 2, ChatFormatting.LIGHT_PURPLE),
+	MELTDOWN("tooltip.meltdown", "Meltdown: %s", 1, ChatFormatting.RED),
 	ADD_SLOT("tooltip.add_slot", "Add %s upgrade slot. Applied on anvil.", 1, ChatFormatting.GRAY),
 	CRAFT_MAT("tooltip.craft_material", "Golem crafting material", 0, ChatFormatting.GRAY),
 	REPAIR_MAT("tooltip.repair_material", "Golem repair material", 0, ChatFormatting.GRAY),

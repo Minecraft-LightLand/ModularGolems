@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
 public class AncientRemnantSandstormModifier extends GolemModifier {
 
 	public AncientRemnantSandstormModifier() {
-		super(StatFilterType.MASS, 3);
+		super(StatFilterType.ATTACK, 3);
 	}
 
 	@Override

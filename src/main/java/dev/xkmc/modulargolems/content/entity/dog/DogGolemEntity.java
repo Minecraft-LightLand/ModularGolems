@@ -40,6 +40,8 @@ import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
 
@@ -164,17 +166,18 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected boolean canAddPassenger(Entity entity) {
-		int total = 0;
+		float total = 0;
 		int count = 0;
-		for (var e : getPassengers()) {
+		var list = new ArrayList<>(getPassengers());
+		list.add(entity);
+		for (var e : list) {
 			count++;
-			if (e instanceof AbstractGolemEntity<?, ?> golem) {
-				total += (int) Math.round(golem.getAttributeValue(GolemTypes.GOLEM_SIZE));
-			} else total += 2;
+			total += e.getBbWidth();
 		}
-		int self = (int) Math.round(getAttributeValue(GolemTypes.GOLEM_SIZE) * 2 - 1);
-		return count < Math.min(self, 3) && total < self * 2;
+		double size = getAttributeValue(GolemTypes.GOLEM_SIZE);
+		return count <= Math.min(size * 2 - 1, 3) && total <= getBbWidth() + 1e-3;
 	}
+
 
 	@Override
 	protected void addPassenger(Entity rider) {

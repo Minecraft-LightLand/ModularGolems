@@ -32,6 +32,7 @@ public class CataDispatch extends ModDispatch {
 		pvd.add("golem_material." + MODID + ".cursium", "Cursium");
 		pvd.add("golem_material." + MODID + ".storm", "Storm");
 		pvd.add("golem_material." + MODID + ".ender_guardian", "Ender Guardian");
+		pvd.add("golem_material." + MODID + ".ancient_metal", "Ancient Metal");
 	}
 
 	@Override
@@ -59,6 +60,7 @@ public class CataDispatch extends ModDispatch {
 		pvd.drop(ModularGolems.MODID, ModEntities.NETHERITE_MONSTROSITY.get(), "netherite");
 		pvd.drop(MODID, ModEntities.ENDER_GUARDIAN.get(), "ender_guardian");
 		pvd.drop(MODID, ModEntities.SCYLLA.get(), "storm");
+		pvd.drop(MODID, ModEntities.ANCIENT_REMNANT.get(), "ancient_metal");
 	}
 
 }

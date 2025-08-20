@@ -11,6 +11,10 @@ public class GolemModelPaths {
 			LEGGINGS = ModularGolems.loc("shinguard");
 
 	public static final ResourceLocation
+			BOOTS_DIAMOND = ModularGolems.loc("wind_spirit_boots"),
+			BOOTS_NETHERITE = ModularGolems.loc("barbaric_vanguard_boots");
+
+	public static final ResourceLocation
 			WITHERITE_HELMETS = ModularGolems.loc("harbinger/helmet"),
 			WITHERITE_CHESTPLATES = ModularGolems.loc("harbinger/chestplate"),
 			WITHERITE_LEGGINGS = ModularGolems.loc("harbinger/shinguard");

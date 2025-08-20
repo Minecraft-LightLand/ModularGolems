@@ -17,6 +17,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.Nullable;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
@@ -29,6 +32,9 @@ public class TFDispatch extends ModDispatch {
 
 	public TFDispatch() {
 		TFCompatRegistry.register();
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			NeoForge.EVENT_BUS.register(TFClientEventHandler.class);
+		}
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

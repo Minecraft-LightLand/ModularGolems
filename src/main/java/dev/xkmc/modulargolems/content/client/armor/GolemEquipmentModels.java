@@ -166,6 +166,9 @@ public class GolemEquipmentModels {
 		regAndAdd(event, CHESTPLATE_LAYER, GolemEquipmentModels::createChestplateLayer);
 		regAndAdd(event, SHINGUARD_LAYER, GolemEquipmentModels::createShinGuard);
 
+		regAndAdd(event, GolemBoots.DIAMOND_BOOTS_LAYER, GolemBoots::createDiamondBoots);
+		regAndAdd(event, GolemBoots.NETHERITE_BOOTS_LAYER, GolemBoots::createNetheriteBoots);
+
 		regAndAdd(event, HarbingerArmors.HELMET_LAYER, HarbingerArmors::createHelmet);
 		regAndAdd(event, HarbingerArmors.CHESTPLATE_LAYER, HarbingerArmors::createChestplate);
 		regAndAdd(event, HarbingerArmors.SHINGUARD_LAYER, HarbingerArmors::createLeggings);
