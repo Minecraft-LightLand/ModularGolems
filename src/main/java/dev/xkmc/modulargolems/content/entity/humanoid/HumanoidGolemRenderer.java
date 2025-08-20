@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.Nullable;
@@ -89,7 +88,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 				1, 1, 1, ctx.getItemInHandRenderer()));
 		this.addLayer(new ElytraLayer<>(this, ctx.getModelSet()));
 		this.addLayer(new LayerWrapper<>(this,
-				new ItemInHandLayer<>(this, ctx.getItemInHandRenderer())));
+				new ItemInGolemHandLayer<>(this, ctx.getItemInHandRenderer())));
 		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
 		if (ModList.get().isLoaded("curios")) {
 			CuriosClientRegistry.createLayer(this);

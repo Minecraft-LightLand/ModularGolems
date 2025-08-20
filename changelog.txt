@@ -3,6 +3,7 @@
 - Add diamond and netherite golem boots
 - Allow large golem to ride max size dog golem
 - Create deployer will not cause golem to get entity data when adding equipments
+- Twilight Forest Giant items will not scale with golem
 
 2.6.6
 - Golem no longer stuck in wall if placed on wall

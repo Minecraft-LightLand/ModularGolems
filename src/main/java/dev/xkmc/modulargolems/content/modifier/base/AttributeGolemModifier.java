@@ -2,10 +2,15 @@ package dev.xkmc.modulargolems.content.modifier.base;
 
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import net.minecraft.network.chat.MutableComponent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -36,4 +41,36 @@ public class AttributeGolemModifier extends GolemModifier {
 		}
 		return ans;
 	}
+
+	@Nullable
+	private Set<GolemStatType> checking = null;
+
+	private Set<GolemStatType> checking() {
+		if (checking == null) {
+			checking = new LinkedHashSet<>();
+			for (var e : entries) {
+				checking.addAll(e.type.get().hasConflict());
+			}
+		}
+		return checking;
+	}
+
+	@Override
+	public int addSlot(List<IUpgradeItem> upgrades, int lv) {
+		if (checking().isEmpty()) return 0;
+		for (var item : upgrades) {
+			if (item instanceof UpgradeItem up) {
+				for (var mod : up.get()) {
+					if (mod.mod() instanceof AttributeGolemModifier attr) {
+						for (var ent : attr.entries) {
+							var stat = ent.type().get();
+							if (checking().contains(stat)) return -1000000;
+						}
+					}
+				}
+			}
+		}
+		return 0;
+	}
+
 }

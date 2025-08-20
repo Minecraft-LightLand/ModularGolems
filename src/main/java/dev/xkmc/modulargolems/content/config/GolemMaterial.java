@@ -7,7 +7,6 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
-import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -58,7 +57,23 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 				continue;
 			}
 			if (!sorted.containsKey(GolemStatType.Kind.BASE)) {
-				throw new IllegalStateException("Only attributes with BASE modification allows multi-operation. Attribute: " + ent.getKey().getDescriptionId());
+				if (sorted.containsKey(GolemStatType.Kind.ADD)) {
+					var pair = sorted.get(GolemStatType.Kind.ADD);
+					double val = pair.getSecond();
+					if (val != 0) {
+						ans.put(ent.getKey(), pair);
+						continue;
+					}
+				}
+				if (sorted.containsKey(GolemStatType.Kind.PERCENT)) {
+					var pair = sorted.get(GolemStatType.Kind.PERCENT);
+					double val = pair.getSecond();
+					if (val != 0) {
+						ans.put(ent.getKey(), pair);
+						continue;
+					}
+				}
+				continue;
 			}
 			Pair<GolemStatType, Double> candidate = sorted.get(GolemStatType.Kind.BASE);
 			GolemStatType type = candidate.getFirst();

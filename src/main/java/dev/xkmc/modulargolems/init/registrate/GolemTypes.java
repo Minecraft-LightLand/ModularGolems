@@ -60,6 +60,7 @@ public class GolemTypes {
 	public static final RegistryEntry<GolemStatType> STAT_JUMP = regStat("jump_strength", GOLEM_JUMP, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
 	public static final RegistryEntry<GolemStatType> STAT_HEALTH_P = regStat("max_health_percent", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
 	public static final RegistryEntry<GolemStatType> STAT_SIZE = regStat("max_size", GOLEM_SIZE, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
+	public static final RegistryEntry<GolemStatType> STAT_SIZE_P = regStat("max_size_percentage", GOLEM_SIZE, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
 	public static final RegistryEntry<GolemStatType> STAT_RANGE = regStat("range", ForgeMod.ENTITY_REACH, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
 
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM;

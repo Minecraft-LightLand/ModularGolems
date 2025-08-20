@@ -438,8 +438,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	private static void setPos(Level level, AbstractGolemEntity<?, ?> golem, Vec3 pos) {
 		golem.setPos(pos);
 		EntityDimensions dim = golem.getDimensions(Pose.STANDING);
+		if (dim.width * dim.width * dim.height > 64) return;
 		Vec3 vec3 = golem.position().add(0.0D, (double) dim.height / 2.0D, 0.0D);
-		VoxelShape voxelshape = Shapes.create(AABB.ofSize(vec3, dim.width - 1 + 1e-6, dim.height - 1 + 1e-6, dim.width - 1 + 1e-6));
+		double xz = dim.width - 1 + 1e-6;
+		double y = dim.height - 1 + 1e-6;
+		VoxelShape voxelshape = Shapes.create(AABB.ofSize(vec3, xz, y, xz));
 		var opt = level.findFreePosition(golem, voxelshape, vec3, dim.width, dim.height, dim.width);
 		if (opt.isPresent()) pos = opt.get().add(0.0D, (double) (-dim.height) / 2.0D, 0.0D);
 		golem.setPos(pos);

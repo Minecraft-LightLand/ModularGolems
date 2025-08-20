@@ -6,10 +6,11 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
+import dev.xkmc.modulargolems.events.event.GolemRenderItemInHandEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,6 +23,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -35,11 +37,14 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 
 	public HashMap<ModelLayerLocation, MetalGolemModel> map = new HashMap<>();
 
+	private final ItemInHandRenderer itemInHandRenderer;
+
 	public GolemEquipmentRenderer(RenderLayerParent<MetalGolemEntity, MetalGolemModel> r, EntityRendererProvider.Context e) {
 		super(r);
 		for (var l : LIST) {
 			map.put(l, new MetalGolemModel(e.bakeLayer(l)));
 		}
+		itemInHandRenderer = e.getItemInHandRenderer();
 	}
 
 	@Override
@@ -91,17 +96,16 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 			ctx = ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
 		}
 		if (ctx == null) return;
-
+		var arm = slot == EquipmentSlot.MAINHAND ? entity.getMainArm() : entity.getMainArm().getOpposite();
 		pose.pushPose();
 		getParentModel().transformToHand(slot, pose);
 		boolean offhand = slot == EquipmentSlot.OFFHAND;
 		pose.translate((offhand ? 1 : -1) * 0.7f, 0.8F, -0.25F);
 		pose.mulPose(Axis.XP.rotationDegrees(-90));
 		pose.mulPose(Axis.YP.rotationDegrees(180));
-		Minecraft.getInstance().getItemRenderer()
-				.renderStatic(entity, stack, ctx, offhand,
-						pose, source, entity.level(), light, OverlayTexture.NO_OVERLAY,
-						entity.getId() + slot.ordinal());
+		var r = itemInHandRenderer;
+		if (!MinecraftForge.EVENT_BUS.post(new GolemRenderItemInHandEvent(entity, stack, ctx, arm, pose, source, light, r)))
+			r.renderItem(entity, stack, ctx, offhand, pose, source, light);
 		pose.popPose();
 
 	}
