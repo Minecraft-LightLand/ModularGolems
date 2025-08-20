@@ -156,7 +156,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				if (!(e instanceof CompoundTag t)) continue;
 				if (t.getString("id").equals("minecraft:generic.max_health")) {
 					t.getList("modifiers", Tag.TAG_COMPOUND).removeIf(x ->
-							x instanceof CompoundTag comp && comp.getUUID("id").equals(AbstractGolemEntity.REFORGE_ID));
+							x instanceof CompoundTag comp && comp.getString("id").equals(AbstractGolemEntity.REFORGE_ID.toString()));
 				}
 			}
 		}

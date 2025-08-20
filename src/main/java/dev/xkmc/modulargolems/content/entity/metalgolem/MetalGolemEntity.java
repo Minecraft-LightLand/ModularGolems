@@ -68,7 +68,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			succeed |= item.repeatAttack(this, target, damage, succeed);
 		}
 		if (succeed) {
-			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4 * kb;
+			double dokb = 0.4 * kb;
 			target.setDeltaMovement(target.getDeltaMovement().add(0, dokb, 0));
 			EnchantmentHelper.doPostAttackEffects(sl, target, source);
 		}

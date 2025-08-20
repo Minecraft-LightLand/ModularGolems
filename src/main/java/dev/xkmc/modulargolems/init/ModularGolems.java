@@ -139,11 +139,11 @@ public class ModularGolems {
 		CompatManager.gatherData(event);
 		gen.addProvider(event.includeServer(), new SlotGen(gen.getPackOutput(), event.getExistingFileHelper(), pvd));
 		gen.addProvider(event.includeServer(), new MGGLMGen(gen.getPackOutput(), pvd, MODID));
+		var init = REGISTRATE.getDataGenInitializer();
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			REGISTRATE.addDataGenerator(L2TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
+			init.add(Registries.ENCHANTMENT, LCEnchantments.REG::build);// fill registry
 		}
-		var init = REGISTRATE.getDataGenInitializer();
-		init.add(Registries.ENCHANTMENT, LCEnchantments.REG::build);// fill registry
 		init.addDependency(L2TagGen.ENCH_TAGS, ProviderType.DYNAMIC);
 		init.addDependency(ProviderType.RECIPE, L2TagGen.ENCH_TAGS);
 	}
