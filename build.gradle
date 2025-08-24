@@ -194,9 +194,9 @@ dependencies {
     compileOnly("net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.39") { transitive = false }
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.0-10")
 
-    implementation "curse.maven:jupiter-1072905:5891108"
-    implementation "curse.maven:uranus-1010827:6206291"
-    implementation "curse.maven:iceandfire-ce-1040076:6206459"
+    implementation "curse.maven:jupiter-1072905:6843052"
+    implementation "curse.maven:uranus-1010827:6919185"
+    implementation "curse.maven:iceandfire-ce-1040076:6921933"
     implementation "curse.maven:architectury-api-419699:5786327"
 
 }
