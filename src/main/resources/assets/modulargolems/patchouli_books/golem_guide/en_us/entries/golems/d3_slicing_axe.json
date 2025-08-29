@@ -1,0 +1,15 @@
+{
+	"name": "Golem Slicing Axe",
+	"icon": "modulargolems:golem_slicing_axe",
+	"category": "modulargolems:golems",
+	"sortnum": 33,
+	"pages": [
+
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:golem_slicing_axe",
+			"text": "When a metal golem kills other players‘ golems without recycle upgrade with this axe, all parts will be dropped and there is a chance for each of the upgrades to drop.$(br2)Edit the target filter in config card to allow golems to attack other golems. Note that golems cannot attack golems you own."
+		},
+		"When a metal golem kills certain mobs with this axe, one random metal golem part with matching material will drop:$(li)Vanilla: Iron Golem, Warden$(li)Cataclysm: Netherite Monstrosity, Ignis, Harbinger, Maledictus, Scylla, Ancient Remnant$(li)Mowzie's Mobs: Ferrous Wroughtnaut$(li)Legendary Monsters: Ancient Guardian, Cloud Golem"
+	]
+}

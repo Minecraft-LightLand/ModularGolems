@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_barbaric_vanguard_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "modulargolems:barbaric_vanguard_chestplate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:harbinger_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_barbaric_vanguard_chestplate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:harbinger_chestplate"
+    ]
+  }
+}

@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
+@Deprecated
 public class GolemEquipEvent extends HumanoidGolemEvent {
 
 	private final ItemStack stack;

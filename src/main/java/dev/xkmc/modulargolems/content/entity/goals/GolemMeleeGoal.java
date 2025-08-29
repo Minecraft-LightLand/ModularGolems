@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -46,6 +47,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	private double timeNoMovement;
 
 	private boolean earthQuake = false;
+	private boolean hammerJump = false;
 
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
 		super(entity, 1, true);
@@ -82,6 +84,20 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 			timeNoMovement++;
 		}
 		super.tick();
+		if (hammerJump) {
+			if (golem.onGround()) {
+				hammerJump = false;
+			} else {
+				var target = golem.getTarget();
+				if (target != null) {
+					var v = golem.getDeltaMovement();
+					var diff = target.position().subtract(golem.position()).multiply(1, 0, 1);
+					if (v.multiply(1, 0, 1).length() < 0.3 && diff.length() > 1) {
+						golem.addDeltaMovement(diff.normalize().scale(0.01));
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -114,7 +130,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 				return;
 			} else {
 				double d0 = this.getAttackReachSqr(target);
-				if (d0 < distSqr && distSqr <= d0 + EarthquakeHelper.RANGE) {
+				if (d0 < distSqr && distSqr <= d0 + EarthquakeHelper.getExtraRange(golem, target)) {
 					golem.addDeltaMovement(new Vec3(0, 1, 0));
 					golem.hasImpulse = true;
 					earthQuake = true;
@@ -123,10 +139,27 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 			}
 		}
 		if (earthQuake && !golem.onGround()) return;
-		if (canReachTarget(target, distSqr) && this.mob.hasLineOfSight(target)) {
-			this.resetAttackCooldown();
-			this.mob.swing(InteractionHand.MAIN_HAND);
-			this.mob.doHurtTarget(target);
+		if (this.mob.hasLineOfSight(target)) {
+			boolean jump;
+			if (canReachTarget(target, distSqr)) {
+				this.resetAttackCooldown();
+				this.mob.swing(InteractionHand.MAIN_HAND);
+				this.mob.doHurtTarget(target);
+				if (golem.getDeltaMovement().length() > 2) {
+					golem.setDeltaMovement(golem.getDeltaMovement().normalize().scale(2));
+				}
+				jump = golem.getMainHandItem().is(ItemTags.MACE_ENCHANTABLE);
+			} else {
+				var diff = target.position().subtract(golem.position());
+				jump = diff.horizontalDistanceSqr() < getAttackReachSqr(target) / 2 &&
+						diff.y > 0 && diff.y < 3 + golem.getBbHeight();
+			}
+			if (!golem.hasFlag(GolemFlags.EARTH_QUAKE) && jump && !golem.isInWater() && golem.onGround()) {
+				hammerJump = true;
+				var v = golem.getDeltaMovement();
+				golem.setDeltaMovement(new Vec3(v.x, Math.max(v.y, 0) + 1, v.z));
+				golem.hasImpulse = true;
+			}
 		}
 	}
 

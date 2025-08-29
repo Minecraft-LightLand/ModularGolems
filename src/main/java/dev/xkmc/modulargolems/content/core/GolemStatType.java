@@ -10,6 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import static net.minecraft.world.item.component.ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT;
@@ -67,6 +69,28 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 			case ADD -> ins.setBaseValue(ins.getValue() + v);
 			case PERCENT -> ins.setBaseValue(ins.getValue() * (1 + v));
 		}
+	}
+
+	private Set<GolemStatType> conflicting;
+
+	public Set<GolemStatType> hasConflict() {
+		if (kind == Kind.BASE) return Set.of();
+		if (conflicting == null) {
+			conflicting = new LinkedHashSet<>();
+			for (var e : GolemTypes.STAT_TYPES.get()) {
+				if (e == this) continue;
+				if (e.attribute.get() == attribute.get()) {
+					if (e.kind == Kind.BASE) {
+						conflicting.clear();
+						return Set.of();
+					}
+					if (e.kind != kind) {
+						conflicting.add(e);
+					}
+				}
+			}
+		}
+		return conflicting;
 	}
 
 }

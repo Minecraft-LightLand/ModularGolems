@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "Ironwood Upgrade",
   "icon": "modulargolems:ironwood",
   "category": "modulargolems:upgrades",

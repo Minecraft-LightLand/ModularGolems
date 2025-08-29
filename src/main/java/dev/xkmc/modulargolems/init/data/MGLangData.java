@@ -21,9 +21,16 @@ public enum MGLangData {
 	POTION_DEFENSE("tooltip.potion_defense", "Golem gain %s.", 1, ChatFormatting.GREEN),
 	GOLEM_EQUIPMENT("tooltip.golem_equipment", "Only effective on %s", 1, ChatFormatting.LIGHT_PURPLE),
 	UPGRADE_COUNT("tooltip.modifier", "Total %s modifiers from %s upgrades", 2, ChatFormatting.LIGHT_PURPLE),
+	MELTDOWN("tooltip.meltdown", "Meltdown: %s", 1, ChatFormatting.RED),
 	ADD_SLOT("tooltip.add_slot", "Add %s upgrade slot. Applied on anvil.", 1, ChatFormatting.GRAY),
 	CRAFT_MAT("tooltip.craft_material", "Golem crafting material", 0, ChatFormatting.GRAY),
 	REPAIR_MAT("tooltip.repair_material", "Golem repair material", 0, ChatFormatting.GRAY),
+	SLICING_GOLEM("tooltip.slicing_golem", "When metal golem kill golems of other players with this axe, drop all parts and each upgrade has %s chance to drop", 1, ChatFormatting.GRAY),
+	SLICING_ENEMY("tooltip.slicing_enemy", "When metal golem kill certain enemies with this axe, drop one random metal golem part", 0, ChatFormatting.GRAY),
+
+	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage", 1, ChatFormatting.GRAY),
+	HARBINGER_BOOST_MISSILE("tooltip.cataclysm.harbinger_armor_missile", "+%s Homing Missile Damage", 1, ChatFormatting.GRAY),
+	MONSTROSITY_BOOST("tooltip.cataclysm.monstrosity_armor", "+%s Monstrosity Earthquake Damage", 1, ChatFormatting.GRAY),
 
 	TARGET_UUID_ADD("tooltip.target.uuid_add", "Right click entity to add entity UUID to the list", 0, ChatFormatting.GRAY),
 	TARGET_UUID_REMOVE("tooltip.target.uuid_remove", "Sneak right click entity to remove entity UUID from the list", 0, ChatFormatting.GRAY),
@@ -63,9 +70,12 @@ public enum MGLangData {
 	CONFIG_CARD("wand.config", "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.", 0, ChatFormatting.GRAY),
 	CONFIG_INIT("wand.config_init", "Right click to initialize config", 0, ChatFormatting.GRAY),
 	CONFIG_OTHER("wand.config_other", "Not your card. You cannot edit it", 0, ChatFormatting.RED),
-	PATH("wand.path_record", "Right click block to add to path, right click again to remove. Path forms a cycle.", 0, ChatFormatting.GRAY),
+	PATH("wand.path_record", "Right click block to add to path, right click again to remove. Shift right click to clear. Path forms a cycle.", 0, ChatFormatting.GRAY),
 	PATH_ADD("wand.add_node", "Added node to path", 0, null),
 	PATH_REMOVE("wand.remove_node", "Removed node from path", 0, null),
+	PATH_CLEAR("wand.clear_node", "Removed all nodes from path", 0, null),
+	PATH_ERR_DIM("wand.err_dim", "You cannot add nodes across dimension", 0, ChatFormatting.RED),
+	PATH_ERR_DIST("wand.err_dist", "You cannot add nodes more than 16 blocks apart", 0, ChatFormatting.RED),
 	PATH_COUNT("wand.node_count", "Path has %s nodes", 1, ChatFormatting.GRAY),
 
 	DESTROY_ITEM("msg.destroy_item", "Golem %s destroyed %s items because it finds no place to store.", 2, ChatFormatting.RED),
@@ -178,6 +188,14 @@ public enum MGLangData {
 		pvd.add("curios.identifier.golem_skin", "Humanoid Golem Skin");
 		pvd.add("curios.identifier.golem_route", "Golem Patrol Path");
 
+		pvd.add("potion.potency.5", "VI");
+		pvd.add("potion.potency.6", "VII");
+		pvd.add("potion.potency.7", "VIII");
+		pvd.add("potion.potency.8", "IX");
+		pvd.add("potion.potency.9", "X");
+		pvd.add("potion.potency.10", "XI");
+		pvd.add("potion.potency.11", "XII");
+
 		CompatManager.dispatchGenLang(pvd);
 
 		for (var type : MetalGolemPartType.values()) {
@@ -192,6 +210,10 @@ public enum MGLangData {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.dog_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
 		}
+
+		pvd.add("task.modulargolems.summon_golems", "Golem Summoner");
+		pvd.add("task.modulargolems.summon_golems.desc", "Maid will summon golems to attack surrounding hostile mobs");
+		pvd.add("task.modulargolems.summon_golems.condition.has_golem_wand", "Hold Omnipotent Wand");
 
 	}
 

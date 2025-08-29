@@ -54,9 +54,12 @@ public class CraftEventListeners {
 		if (stack.is(GolemItems.EMPTY_UPGRADE)) {
 			var mat = GolemMaterial.getRepairMaterial(block);
 			if (mat.isEmpty()) return;
-			event.setOutput(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat.get()));
-			event.setMaterialCost(1);
-			event.setCost(1);
+			var ans = GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat.get());
+			ans.setCount(stack.getCount());
+			int consume = Math.min(stack.getCount(), block.getCount());
+			event.setOutput(ans);
+			event.setMaterialCost(consume);
+			event.setCost(stack.getCount() - consume + 1);
 		}
 	}
 
@@ -107,18 +110,41 @@ public class CraftEventListeners {
 	void fixGolem(AnvilUpdateEvent event, GolemHolder<T, P> holder, ItemStack stack) {
 		var data = GolemItems.ENTITY.get(stack);
 		if (data == null) return;
-		float max = GolemHolder.getMaxHealth(stack);
-		float health = GolemHolder.getHealth(stack);
-		if (health >= max) return;
+
 		var ing = GolemHolder.getHealingMaterial(stack);
+		if (ing == null || ing.isEmpty()) return;
 		ItemStack repairStack = event.getRight();
-		if (ing == null || !ing.test(repairStack)) return;
-		int maxFix = Math.min(repairStack.getCount(), (int) Math.ceil((max - health) / max * 4));
-		event.setMaterialCost(maxFix);
-		event.setCost(maxFix);
-		ItemStack result = stack.copy();
-		GolemHolder.setHealth(result, Math.min(max, health + max / 4 * maxFix));
-		event.setOutput(result);
+		if (!ing.test(repairStack)) return;
+		int reforge = GolemHolder.getReforge(stack);
+		if (reforge > 0) {
+			if (repairStack.getCount() <= reforge) {
+				var result = stack.copy();
+				GolemHolder.setReforge(result, reforge - repairStack.getCount());
+				event.setMaterialCost(repairStack.getCount());
+				event.setCost(1);
+				event.setOutput(result);
+			} else {
+				var result = stack.copy();
+				GolemHolder.setReforge(result, 0);
+				float max = GolemHolder.getMaxHealth(result);
+				float health = GolemHolder.getHealth(stack);
+				int maxFix = Math.min(repairStack.getCount() - reforge, (int) Math.ceil((max - health) / max * 4));
+				event.setMaterialCost(maxFix + reforge);
+				event.setCost(reforge + maxFix);
+				GolemHolder.setHealth(result, Math.min(max, health + max / 4 * maxFix));
+				event.setOutput(result);
+			}
+		} else {
+			float max = GolemHolder.getMaxHealth(stack);
+			float health = GolemHolder.getHealth(stack);
+			if (health >= max) return;
+			int maxFix = Math.min(repairStack.getCount(), (int) Math.ceil((max - health) / max * 4));
+			event.setMaterialCost(maxFix);
+			event.setCost(maxFix);
+			ItemStack result = stack.copy();
+			GolemHolder.setHealth(result, Math.min(max, health + max / 4 * maxFix));
+			event.setOutput(result);
+		}
 	}
 
 

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dog_golem_holder": {
+      "conditions": {
+        "items": [
+          {
+            "items": "modulargolems:dog_golem_holder"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:expansion_dog_golem_holder"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dog_golem_holder"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:expansion_dog_golem_holder"
+    ]
+  }
+}

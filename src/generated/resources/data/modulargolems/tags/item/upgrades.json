@@ -137,6 +137,14 @@
     {
       "id": "modulargolems:ancient_remnant_sandstorm",
       "required": false
+    },
+    {
+      "id": "modulargolems:scylla_lightning_upgrade",
+      "required": false
+    },
+    {
+      "id": "modulargolems:wroughtnaut",
+      "required": false
     }
   ]
 }

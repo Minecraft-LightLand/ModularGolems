@@ -1,0 +1,29 @@
+{
+	"flag": "mod:create",
+	"name": "Cardboard",
+	"icon": "create:cardboard",
+	"category": "modulargolems:materials",
+	"sortnum": 305,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "create:cardboard",
+			"text": "Main material to craft Cardboard golem parts. It's the cheapest golem you can find. Cardboard golems have low health and attack, yet has high movement speed and attack knockback."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"create:cardboard\"},{part:\"modulargolems:metal_golem_body\",material:\"create:cardboard\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:cardboard\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:cardboard\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:cardboard\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:cardboard\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:cardboard\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"create:cardboard\"},{part:\"modulargolems:dog_golem_legs\",material:\"create:cardboard\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

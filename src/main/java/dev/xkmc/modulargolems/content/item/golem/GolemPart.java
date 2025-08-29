@@ -10,8 +10,11 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -51,9 +54,11 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		getMaterial(stack).ifPresent(e -> {
 			GolemMaterial mat = parseMaterial(e);
 			list.add(mat.getDesc());
+			int n = mat.modifiers().size();
 			mat.modifiers().forEach((m, v) -> {
 				list.add(m.getTooltip(v));
-				list.addAll(m.getDetail(v));
+				if (n == 1 || Screen.hasShiftDown())
+					list.addAll(m.getDetail(v));
 			});
 			mat.stats().forEach((k, v) -> list.add(k.getAdderTooltip(v)));
 		});
@@ -99,6 +104,16 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 			tab.accept(setMaterial(stack, rl));
 		}
 
+	}
+
+	@Override
+	public boolean canBeHurtBy(ItemStack stack, DamageSource source) {
+		if (getMaterial(stack).isPresent() &&
+				(source.is(DamageTypeTags.IS_FIRE) ||
+						source.is(DamageTypeTags.IS_EXPLOSION) ||
+						source.is(DamageTypeTags.IS_LIGHTNING)))
+			return false;
+		return super.canBeHurtBy(stack, source);
 	}
 
 }

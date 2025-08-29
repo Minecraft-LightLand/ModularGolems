@@ -1,0 +1,14 @@
+{
+  "flag": "mod:mowziesmobs",
+	"advancement": "mowziesmobs:kill_ferrous_wroughtnaut",
+  "name": "Wroughtnaut Slamming Upgrade",
+  "icon": "modulargolems:wroughtnaut",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:wroughtnaut",
+	  "text": "Perform falling attack and create shockwave"
+	}
+  ]
+}

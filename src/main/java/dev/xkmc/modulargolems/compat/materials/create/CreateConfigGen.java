@@ -24,6 +24,14 @@ public class CreateConfigGen extends ConfigDataProvider {
 	public void add(Collector map) {
 
 		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, CreateDispatch.MODID), new GolemMaterialConfig()
+				.addMaterial(ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "cardboard"),
+						Ingredient.of(AllItems.CARDBOARD))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 2)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 2)
+				.addStat(GolemTypes.STAT_ATKKB.get(), 2)
+				.addStat(GolemTypes.STAT_WEIGHT.get(), 0.4)
+				.end()
+
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "zinc"),
 						Ingredient.of(AllTags.commonItemTag("ingots/zinc")))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 50)

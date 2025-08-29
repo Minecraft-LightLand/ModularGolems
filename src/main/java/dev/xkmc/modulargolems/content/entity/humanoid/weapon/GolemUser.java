@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 
 import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Predicate;
 
 public record GolemUser(
-		LivingEntity user, @Nullable LivingEntity target
+		AbstractGolemEntity<?, ?> user, @Nullable LivingEntity target
 ) implements ISmartUser {
 
 	@Override
@@ -22,7 +23,7 @@ public record GolemUser(
 
 	@Override
 	public boolean bypassAllConsumption() {
-		return false;
+		return user.isHostile();
 	}
 
 	@Override

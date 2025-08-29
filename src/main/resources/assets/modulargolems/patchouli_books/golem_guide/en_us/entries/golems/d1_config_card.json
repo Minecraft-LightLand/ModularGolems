@@ -25,7 +25,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:patrol_path_recorder",
-	  "text": "You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking with it. When Create is installed, it will render the path and direction of movement a well. The path is fur guidance only. Golem will not always step on the exact block."
+	  "text": "You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking blocks with it.$(br2)Blocks have to be less than 16 blocks apart. Longer paths is marked in red and may result in golems teleporting to destination. $(br2)The path is for guidance only. Golem will not always step on the exact block."
 	}
   ]
 }

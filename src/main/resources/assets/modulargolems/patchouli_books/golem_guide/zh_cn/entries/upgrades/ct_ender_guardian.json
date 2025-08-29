@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_ender_guardian",
   "name": "末影守卫升级",
   "icon": "modulargolems:ender_guardian_void_rune",
   "category": "modulargolems:upgrades",
@@ -7,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:ender_guardian_void_rune",
-	  "text": "对目标放出虚空符文。最高等级: 1"
+	  "text": "对[等级x2]个目标放出漩涡和虚空符文。最高等级: 5"
 	}
   ]
 }

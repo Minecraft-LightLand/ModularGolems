@@ -1,0 +1,7 @@
+{
+	"golem_material.mowziesmobs.wroughtnaut": "千锻钢",
+	"item.modulargolems.wroughtnaut": "千锻震升级",
+	"item.modulargolems.wroughtnaut_ingot": "千锻钢锭",
+	"modifier.modulargolems.wroughtnaut": "千锻震",
+	"modifier.modulargolems.wroughtnaut.desc": "进行下落攻击并产生冲击波"
+}

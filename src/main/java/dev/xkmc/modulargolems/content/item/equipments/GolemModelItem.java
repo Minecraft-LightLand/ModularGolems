@@ -8,4 +8,12 @@ public interface GolemModelItem {
 
 	ResourceLocation getModelPath();
 
+	default ResourceLocation getEmissiveModelTexture() {
+		return getModelPath();
+	}
+
+	default boolean emissive() {
+		return false;
+	}
+
 }

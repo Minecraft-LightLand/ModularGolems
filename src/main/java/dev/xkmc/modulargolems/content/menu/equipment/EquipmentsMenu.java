@@ -7,24 +7,21 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
+import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
+import java.util.Set;
 
 public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
@@ -66,13 +63,12 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		if (golem instanceof HumanoidGolemEntity)
 			if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND)
 				return true;
-		var valid = getSlotForItem(stack);
-		if (golem instanceof MetalGolemEntity) {
-			if (valid == EquipmentSlot.MAINHAND) {
-				return slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND;
-			}
+		var valids = getSlotForItem(stack);
+		if (golem instanceof MetalGolemEntity && valids.contains(EquipmentSlot.MAINHAND)) {
+			if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND)
+				return true;
 		}
-		return valid == slot;
+		return valids.contains(slot);
 	}
 
 	@Override
@@ -94,10 +90,11 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 			if (id >= 36) {
 				this.moveItemStackTo(stack, 0, 36, true);
 			} else {
-				EquipmentSlot es = getSlotForItem(stack);
-				for (int i = 0; i < equipmentSlots.length; i++) {
-					if (equipmentSlots[i] == es) {
+				var es = getSlotForItem(stack);
+				for (int i = 0; i < 6; i++) {
+					if (es.contains(equipmentSlots[i])) {
 						this.moveItemStackTo(stack, 36 + i, 37 + i, false);
+						break;
 					}
 				}
 			}
@@ -106,44 +103,26 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		return ItemStack.EMPTY;
 	}
 
-	@Nullable
-	public EquipmentSlot getSlotForItem(ItemStack stack) {
+
+	public Set<EquipmentSlot> getSlotForItem(ItemStack stack) {
 		if (!stillValid(inventory.player) || golem == null) {
-			return null;
+			return Set.of();
 		}
-		if (!stack.getItem().canFitInsideContainerItems()) return null;
-		if (stack.getItem() instanceof GolemHolder) return null;
+		if (!stack.getItem().canFitInsideContainerItems()) return Set.of();
+		if (stack.getItem() instanceof GolemHolder) return Set.of();
 		if (golem instanceof HumanoidGolemEntity humanoidGolem) {
 			GolemEquipEvent event = new GolemEquipEvent(humanoidGolem, stack);
 			NeoForge.EVENT_BUS.post(event);
 			if (event.canEquip()) {
-				return event.getSlot();
-			} else {
-				return null;
+				return Set.of(event.getSlot());
 			}
 		}
-		if (golem instanceof MetalGolemEntity) {//TODO use events
-			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
-				return mgai.getSlot();
-			} else if (stack.getItem() instanceof MetalGolemBeaconItem) {
-				return EquipmentSlot.FEET;
-			} else if (stack.getItem() instanceof MetalGolemWeaponItem) {
-				return EquipmentSlot.MAINHAND;
-			} else if (stack.getItem() instanceof BannerItem) {
-				if (golem.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
-					return EquipmentSlot.HEAD;
-				else return EquipmentSlot.FEET;
-			}
+		GolemEquipItemEvent event = new GolemEquipItemEvent(golem, stack);
+		NeoForge.EVENT_BUS.post(event);
+		if (event.canEquip()) {
+			return Set.of(event.getSlot());
 		}
-		if (golem instanceof DogGolemEntity) {
-			if (stack.getItem() instanceof BannerItem) {
-				return EquipmentSlot.HEAD;
-			}
-			if (stack.is(MGTagGen.C_WOLF_ARMORS)) {
-				return EquipmentSlot.BODY;
-			}
-		}
-		return null;
+		return Set.of();
 	}
 
 }

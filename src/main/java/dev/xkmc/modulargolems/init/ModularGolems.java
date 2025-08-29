@@ -13,9 +13,11 @@ import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
 import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
+import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
@@ -26,6 +28,7 @@ import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
+import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
@@ -43,6 +46,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import plus.dragons.createenchantmentindustry.common.CEICommon;
 import vazkii.patchouli.api.PatchouliAPI;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -65,7 +69,8 @@ public class ModularGolems {
 			e -> e.create(OpenEquipmentMenuToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(TrackerSyncToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
 			e -> e.create(TrackerHeartBeatToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
-			e -> e.create(TrackerDeleteToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
+			e -> e.create(TrackerDeleteToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(ReforgeUpdatePacket.class, PacketHandler.NetDir.PLAY_TO_CLIENT)
 
 	);
 
@@ -94,6 +99,9 @@ public class ModularGolems {
 							"Welcome to Tinker-like golem assembly and upgrade mod",
 							1, GolemItems.ITEMS.key());
 		}
+		if (ModList.get().isLoaded(CEICommon.ID)) {
+			CEICompat.register();
+		}
 	}
 
 	public static ResourceLocation loc(String id) {
@@ -109,6 +117,7 @@ public class ModularGolems {
 		event.enqueueWork(() -> {
 			GolemWeaponRegistry.init();
 			GolemDispenserBehaviors.registerDispenseBehaviors();
+			CompatManager.commonSetup();
 		});
 	}
 
@@ -126,14 +135,15 @@ public class ModularGolems {
 
 		var gen = event.getGenerator();
 		var pvd = event.getLookupProvider();
-		event.getGenerator().addProvider(event.includeServer(), new MGConfigGen(gen, pvd));
+		gen.addProvider(event.includeServer(), new MGConfigGen(gen, pvd));
 		CompatManager.gatherData(event);
-		event.getGenerator().addProvider(event.includeServer(), new SlotGen(gen.getPackOutput(), event.getExistingFileHelper(), pvd));
+		gen.addProvider(event.includeServer(), new SlotGen(gen.getPackOutput(), event.getExistingFileHelper(), pvd));
+		gen.addProvider(event.includeServer(), new MGGLMGen(gen.getPackOutput(), pvd, MODID));
+		var init = REGISTRATE.getDataGenInitializer();
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			REGISTRATE.addDataGenerator(L2TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
+			init.add(Registries.ENCHANTMENT, LCEnchantments.REG::build);// fill registry
 		}
-		var init = REGISTRATE.getDataGenInitializer();
-		init.add(Registries.ENCHANTMENT, LCEnchantments.REG::build);// fill registry
 		init.addDependency(L2TagGen.ENCH_TAGS, ProviderType.DYNAMIC);
 		init.addDependency(ProviderType.RECIPE, L2TagGen.ENCH_TAGS);
 	}

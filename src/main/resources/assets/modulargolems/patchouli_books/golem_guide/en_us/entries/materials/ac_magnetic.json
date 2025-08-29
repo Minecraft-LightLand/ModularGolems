@@ -1,0 +1,30 @@
+{
+	"flag": "mod:alexscaves",
+	"advancement": "alexscaves:alexscaves/discover_magnetic_caves",
+	"name": "Magnetic",
+	"icon": "modulargolems:magnetic_construct",
+	"category": "modulargolems:materials",
+	"sortnum": 1302,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:magnetic_construct",
+			"text": "Main material to craft Magnetic golem parts. Pull targets in melee mode and push targets in ranged mode. Consume iron to protect itself."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"alexscaves:magnetic\"},{part:\"modulargolems:metal_golem_body\",material:\"alexscaves:magnetic\"},{part:\"modulargolems:metal_golem_arm\",material:\"alexscaves:magnetic\"},{part:\"modulargolems:metal_golem_legs\",material:\"alexscaves:magnetic\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"alexscaves:magnetic\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"alexscaves:magnetic\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"alexscaves:magnetic\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"alexscaves:magnetic\"},{part:\"modulargolems:dog_golem_legs\",material:\"alexscaves:magnetic\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

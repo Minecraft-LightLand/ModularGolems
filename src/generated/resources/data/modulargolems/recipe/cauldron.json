@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "A": {
-      "item": "minecraft:nether_star"
+      "item": "minecraft:blaze_powder"
     },
     "B": {
       "item": "modulargolems:empty_upgrade"
@@ -15,7 +15,7 @@
       "item": "minecraft:cauldron"
     },
     "E": {
-      "item": "minecraft:dragon_head"
+      "item": "minecraft:nether_star"
     }
   },
   "pattern": [

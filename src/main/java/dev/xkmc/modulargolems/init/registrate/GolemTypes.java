@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.init.registrate;
 
 import com.tterrag.registrate.util.entry.EntityEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
@@ -61,6 +62,7 @@ public class GolemTypes {
 	public static final SimpleEntry<GolemStatType> STAT_JUMP = regStat("jump_strength", GOLEM_JUMP::holder, GolemStatType.Kind.PERCENT, StatFilterType.MOVEMENT);
 	public static final SimpleEntry<GolemStatType> STAT_HEALTH_P = regStat("max_health_percent", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
 	public static final SimpleEntry<GolemStatType> STAT_SIZE = regStat("max_size", GOLEM_SIZE::holder, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
+	public static final SimpleEntry<GolemStatType> STAT_SIZE_P = regStat("max_size_percentage", GOLEM_SIZE::holder, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
 	public static final SimpleEntry<GolemStatType> STAT_RANGE = regStat("range", () -> Attributes.ENTITY_INTERACTION_RANGE, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
 
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM;
@@ -73,7 +75,9 @@ public class GolemTypes {
 
 	static {
 		ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
-				.properties(e -> e.sized(1.4F, 2.7F).clientTrackingRange(10))
+				.properties(e -> e.sized(1.4F, 2.7F)
+						.ridingOffset(-0.75F)
+						.clientTrackingRange(10))
 				.renderer(() -> MetalGolemRenderer::new)
 				.attributes(() -> Mob.createMobAttributes()
 						.add(Attributes.MAX_HEALTH, 100.0D)
@@ -91,7 +95,7 @@ public class GolemTypes {
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_HUMANOID = REGISTRATE.entity("humanoid_golem", HumanoidGolemEntity::new, MobCategory.MISC)
-				.properties(e -> e.sized(0.6F, 1.95F)
+				.properties(e -> e.sized(0.6F, 1.8F)
 						.eyeHeight(1.62F)
 						.passengerAttachments(2.0125F)
 						.ridingOffset(-0.6F)
@@ -113,7 +117,7 @@ public class GolemTypes {
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
-				.properties(e -> e.sized(0.6F, 0.85F)
+				.properties(e -> e.sized(0.9F, 0.9F)
 						.eyeHeight(0.68F)
 						.passengerAttachments(0.81875F)
 						.clientTrackingRange(10))

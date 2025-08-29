@@ -52,6 +52,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 			target = entityHit.getEntity();
 		}
 		if (!(target instanceof AbstractGolemEntity<?, ?> golem)) return;
+		if (golem.isHostile()) return;
 		Font font = Minecraft.getInstance().font;
 		int screenWidth = g.guiWidth();
 		List<Component> text = new ArrayList<>();
@@ -74,7 +75,13 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 				text.add(MGLangData.CONFIG_LOCK.get().withStyle(ChatFormatting.RED));
 			}
 		}
-		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
+		var modifiers = golem.getModifiers();
+		if (modifiers.size() > 8) {
+			var upgrades = golem.getUpgrades();
+			text.add(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.size()));
+		} else {
+			modifiers.forEach((k, v) -> text.add(k.getTooltip(v)));
+		}
 		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
 		new OverlayUtil(g, textPos, -1, -1)
 				.renderLongText(font, text);

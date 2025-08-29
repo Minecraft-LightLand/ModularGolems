@@ -1,0 +1,28 @@
+{
+  "values": [
+    {
+      "id": "twilightforest:giant_cobblestone",
+      "required": false
+    },
+    {
+      "id": "twilightforest:giant_log",
+      "required": false
+    },
+    {
+      "id": "twilightforest:giant_leaves",
+      "required": false
+    },
+    {
+      "id": "twilightforest:giant_obsidian",
+      "required": false
+    },
+    {
+      "id": "twilightforest:giant_pickaxe",
+      "required": false
+    },
+    {
+      "id": "twilightforest:giant_sword",
+      "required": false
+    }
+  ]
+}

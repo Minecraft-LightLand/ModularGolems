@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 
 public class IAFProxyCE implements IAFProxy {
 
-    @Override
+  @Override
     public void fireHit(LivingEntity target, LivingEntity user, int level) {
         if (IafCommonConfig.INSTANCE.tools.dragonFireAbility.getValue()) {
             if (target instanceof IceDragonEntity) {

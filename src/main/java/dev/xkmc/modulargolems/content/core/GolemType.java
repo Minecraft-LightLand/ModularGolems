@@ -63,6 +63,7 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		var ans = EntityType.create(tag, level).orElse(null);
 		if (ans == null) return null;
 		T golem = Wrappers.cast(ans);
+		golem.addTag("ClientOnly");
 		if (tag.contains("attributes", 9)) {
 			golem.getAttributes().load(tag.getList("attributes", 10));
 		}

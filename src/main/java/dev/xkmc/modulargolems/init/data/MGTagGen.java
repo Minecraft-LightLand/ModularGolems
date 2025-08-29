@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
+import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -37,6 +38,7 @@ public class MGTagGen {
 	public static final TagKey<Item> CONFIG_CARD = createItemTag("config_card");
 	public static final TagKey<Item> SPECIAL_CRAFT = createItemTag("special_crafting_material");
 	public static final TagKey<Item> GOLEM_INTERACT = createItemTag("golem_interact");
+	public static final TagKey<Item> GOLEM_OMNI_WAND = createItemTag("golem_omni_wand");
 	public static final TagKey<Item> MODIFYING_ITEM = createItemTag("modifying_item");
 	public static final TagKey<Item> CURIO_SKIN = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_skin"));
 	public static final TagKey<Item> CURIO_PATH = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_route"));
@@ -45,6 +47,9 @@ public class MGTagGen {
 	public static final TagKey<Item> C_WOLF_ARMORS = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "wolf_armor"));
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
+	public static final TagKey<Item> EXPANSION = createItemTag("expansion_template");
+	public static final TagKey<EntityType<?>> SHIELD_BREAKER = createEntityTag("shield_breaker");
+
 
 	public static final List<Consumer<RegistrateItemTagsProvider>> OPTIONAL_ITEM = new ArrayList<>();
 	public static final List<Consumer<RegistrateTagsProvider<Block>>> OPTIONAL_BLOCK = new ArrayList<>();
@@ -63,6 +68,8 @@ public class MGTagGen {
 	}
 
 	public static void onItemTagGen(RegistrateItemTagsProvider pvd) {
+		pvd.addTag(L2ISTagGen.SELECTABLE).addTag(GOLEM_OMNI_WAND);
+		pvd.addTag(MGTagGen.GOLEM_INTERACT).addTag(GOLEM_OMNI_WAND);
 		pvd.addTag(MODIFYING_ITEM).add(Items.LEAD, Items.NAME_TAG)
 				.addOptional(ResourceLocation.fromNamespaceAndPath("nestle", "nestle_lead"));
 		pvd.addTag(C_WOLF_ARMORS).add(Items.WOLF_ARMOR);
@@ -112,7 +119,9 @@ public class MGTagGen {
 					.addOptional(ModItems.INFERNAL_FORGE.getId())
 					.addOptional(ModItems.VOID_FORGE.getId())
 					.addOptional(ModItems.WITHER_ASSULT_SHOULDER_WEAPON.getId())
-					.addOptional(ModItems.VOID_ASSULT_SHOULDER_WEAPON.getId());
+					.addOptional(ModItems.VOID_ASSULT_SHOULDER_WEAPON.getId())
+					.addOptional(ModItems.ASTRAPE.getId())
+					.addOptional(ModItems.CERAUNUS.getId());
 		}
 	}
 
@@ -120,6 +129,7 @@ public class MGTagGen {
 		pvd.addTag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
 		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
 				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
+		pvd.addTag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
