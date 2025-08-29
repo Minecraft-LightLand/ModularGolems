@@ -54,8 +54,6 @@ public class GolemEventListeners {
 		if (golem instanceof MetalGolemEntity) {
 			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
 				event.setSlot(1, mgai.getSlot());
-			} else if (stack.getItem() instanceof MetalGolemBeaconItem) {
-				event.setSlot(1, EquipmentSlot.FEET);
 			} else if (stack.getItem() instanceof MetalGolemWeaponItem || stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
 				event.setSlot(1, EquipmentSlot.MAINHAND);
 			} else if (stack.getItem() instanceof BannerItem) {

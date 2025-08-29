@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:anvil"
+    },
+    "B": {
+      "item": "modulargolems:wind_spirit_boots"
+    },
+    "X": {
+      "item": "minecraft:beacon"
+    }
+  },
+  "pattern": [
+    "AXA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "item": "modulargolems:beacon_boots"
+  },
+  "show_notification": true
+}

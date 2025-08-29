@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
@@ -84,4 +85,9 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 		}
 	}
 
+	@Override
+	public void render(MetalGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+		super.render(entity, f1, f2, stack, source, i);
+		BeaconRenderer.renderGolemBeacon(entity, stack, source, f2);
+	}
 }

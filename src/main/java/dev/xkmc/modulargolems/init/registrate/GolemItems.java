@@ -80,7 +80,7 @@ public class GolemItems {
 	public static final ItemEntry<NetheriteBootItem> BARBARICFLAMEVANGUARD_BOOTS;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
-	public static final ItemEntry<MetalGolemBeaconItem>[] METALGOLEM_BEACONS;
+	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
 	public static final ItemEntry<ConfigCard>[] CARD;
 	public static final ItemEntry<PathRecordCard> CARD_PATH;
 	public static final ItemEntry<NameFilterCard> CARD_NAME;
@@ -178,24 +178,17 @@ public class GolemItems {
 							ArmorItem.Type.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
+
+			BEACON_BOOTS = REGISTRATE.item("beacon_boots",
+							p -> new MetalGolemBeaconItem(p.stacksTo(1), 4, 4, GolemModelPaths.BOOTS_BEACON))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/beacon_boots")))
+					.register();
 		}
 
 		//metalgolem weapon
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
 			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
-		}
-
-		//metalgolem beacon
-		{
-			METALGOLEM_BEACONS = new ItemEntry[5];
-			for (int i = 0; i < 5; i++) {
-				int lv = i + 1;
-				METALGOLEM_BEACONS[i] = REGISTRATE.item("golem_beacon_level_" + lv,
-								p -> new MetalGolemBeaconItem(p.stacksTo(1), lv))
-						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-						.removeTab(ITEMS.getKey()).register();
-			}
 		}
 
 		// cards

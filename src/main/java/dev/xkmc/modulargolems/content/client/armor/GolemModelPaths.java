@@ -12,6 +12,7 @@ public class GolemModelPaths {
 
 	public static final ResourceLocation
 			BOOTS_DIAMOND = ModularGolems.loc("wind_spirit_boots"),
+			BOOTS_BEACON = ModularGolems.loc("beacon_boots"),
 			BOOTS_NETHERITE = ModularGolems.loc("barbaric_vanguard_boots");
 
 	public static final ResourceLocation

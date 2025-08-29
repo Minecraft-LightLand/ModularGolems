@@ -358,6 +358,13 @@ public class RecipeGen {
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', Items.ANVIL)
 					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BEACON_BOOTS.get())::unlockedBy, Items.BEACON)
+					.pattern("AXA").pattern("ABA").pattern("AAA")
+					.define('X', Items.BEACON)
+					.define('B', GolemItems.WINDSPIRIT_BOOTS.get())
+					.define('A', Items.ANVIL)
+					.save(pvd);
 		}
 
 		// weapon

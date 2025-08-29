@@ -1,46 +1,73 @@
 package dev.xkmc.modulargolems.content.item.equipments;
 
+import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
-public class MetalGolemBeaconItem extends GolemEquipmentItem implements TickEquipmentItem {
-	private final int beaconLevel;
+import java.util.List;
+import java.util.UUID;
 
-	public MetalGolemBeaconItem(Properties properties, int beaconLevel) {
-		super(properties, EquipmentSlot.FEET, GolemTypes.ENTITY_GOLEM::get, builder -> {
-		});
-		this.beaconLevel = beaconLevel;
+public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEquipmentItem {
+
+	private static Component effDesc(MobEffect eff, int amp) {
+		MutableComponent lang = Component.translatable(eff.getDescriptionId());
+		if (amp > 0) {
+			lang = Component.translatable("potion.withAmplifier", lang,
+					Component.translatable("potion.potency." + amp));
+		}
+		return lang.withStyle(eff.getCategory().getTooltipFormatting());
 	}
 
-	public int getBeaconLevel() {
-		return this.beaconLevel;
+	public MetalGolemBeaconItem(Properties properties, int def, int tough, ResourceLocation model) {
+		super(properties, ArmorItem.Type.BOOTS, def, tough, model);
 	}
 
 	@Override
-	public void tick(ItemStack stack, Level level, Entity entity) {
+	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+		list.add(MGLangData.BEACON_BOOTS.get(
+				effDesc(MobEffects.DAMAGE_BOOST, 1),
+				effDesc(MobEffects.DAMAGE_RESISTANCE, 1)
+		));
+		super.appendHoverText(stack, level, list, flag);
+	}
+
+	@Override
+	public void tick(ItemStack stack, Level level, Entity user) {
 		if (level.getGameTime() % 80D != 0)
 			return;
-		if (stack.getItem() instanceof MetalGolemBeaconItem beacon && entity instanceof AbstractGolemEntity<?, ?> golem) {
-			double range = this.getBeaconLevel() * 10D + 10D;
-			int time = (9 + this.getBeaconLevel() * 2) * 20;
+		if (user instanceof AbstractGolemEntity<?, ?> golem) {
+			double range = 40;
 			AABB aabb = golem.getBoundingBox().inflate(range).expandTowards(0D, level.getHeight(), 0D);
-			for (LivingEntity entity1 : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
-				if (entity1 == golem.getOwner()) {
-					entity1.addEffect(new MobEffectInstance(MobEffects.REGENERATION, time, this.getBeaconLevel() - 1, true, true));
-				} else if (entity1 instanceof OwnableEntity ownable) {
-					if (golem.getOwner() == ownable.getOwner())
-						entity1.addEffect(new MobEffectInstance(MobEffects.REGENERATION, time, this.getBeaconLevel() - 1, true, true));
-				}
+			for (LivingEntity e : level.getEntitiesOfClass(LivingEntity.class, aabb, golem::isAlliedTo)) {
+				e.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 1, true, true));
+				e.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 200, 1, true, true));
+				e.heal(2);
 			}
 		}
 	}
+
+	@Override
+	protected void addExtraModifiers(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
+		super.addExtraModifiers(builder);
+		UUID uuid = UUID.get(getSlot());
+		builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Armor modifier", -0.5f, AttributeModifier.Operation.MULTIPLY_TOTAL));
+	}
+
 }
