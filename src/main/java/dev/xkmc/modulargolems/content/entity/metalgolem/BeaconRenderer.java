@@ -24,28 +24,55 @@ public class BeaconRenderer {
 		if (entity.isAddedToWorld() && entity.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof MetalGolemBeaconItem) {
 			var color = DyeColor.values()[entity.getConfigColor()].getTextureDiffuseColors();
 			pose.pushPose();
-			pose.translate(0, 0.01, 0);
-			renderBeacon(pose, source, entity.tickCount + pTick, entity.getBbHeight());
+			renderBeacon(pose, source, entity.tickCount + pTick);
 			renderBeam(pose, source, entity.tickCount + pTick, 1F, entity.getBbHeight(), color);
 			pose.popPose();
 		}
 	}
 
-	protected static void renderBeacon(PoseStack pose, MultiBufferSource source, float pTick, float height) {
-		float width = 3F;
+	protected static void renderBeacon(PoseStack pose, MultiBufferSource source, float pTick) {
+		float w = 1.5F;
+		float h = 0.5f;
 
 		pose.pushPose();
 		float accurateTick = pTick % 360;
 		pose.mulPose(Axis.YP.rotationDegrees(accurateTick - 45.0F));
+		pose.translate(0, -0.49f, 0);
 
 		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(BEACON_LOCATION));
 		PoseStack.Pose posestack$pose = pose.last();
 		Matrix4f matrix4f = posestack$pose.pose();
 		Matrix3f matrix3f = posestack$pose.normal();
-		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, 0, 0, width, 0, 0);
-		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, 0, width, 0, 0, 1);
-		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, 0, 0, -width, 1, 1);
-		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, 0, -width, 0, 1, 0);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, -w, -w, 0, 0);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, -w, w, 0, 1);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, w, w, 1, 1);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, w, -w, 1, 0);
+
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, -w, -w, 0, 0);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, -w, w, 0, 1);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, w, w, 1, 1);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, w, -w, 1, 0);
+
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, w, -w, 0, 0);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, w, -w, 0, 1/3f);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, w, w, 1, 1/3f);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, w, w, 1, 0);
+
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, -w, -w, 0, 0);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, -w,-w, 0, 1/3f);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, -w, w, 1, 1/3f);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, -w, w, 1, 0);
+
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, -w, w, 0, 0);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, -w, w, 0, 1/3f);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, w, w, 1, 1/3f);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, w, w, 1, 0);
+
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, -w, -w, 0, 0);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, -w, -w, 0, 1/3f);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, h, w, -w, 1, 1/3f);
+		addVertex(matrix4f, matrix3f, buffer, 1.0F, 1.0F, 1.0F, 1.0F, -h, w, -w, 1, 0);
+
 		pose.popPose();
 	}
 
@@ -93,7 +120,7 @@ public class BeaconRenderer {
 		addVertex(pose, normal, buffer, r, g, b, a, y2, x2, z2, u1, v1);
 	}
 
-	private static void addVertex(Matrix4f pose, Matrix3f normal, VertexConsumer buffer, float r, float g, float b, float a, int y, float x, float z, float u, float v) {
+	private static void addVertex(Matrix4f pose, Matrix3f normal, VertexConsumer buffer, float r, float g, float b, float a, float y, float x, float z, float u, float v) {
 		buffer.vertex(pose, x, (float) y, z).color(r, g, b, a).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
 	}
 
