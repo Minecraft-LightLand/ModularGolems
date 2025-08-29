@@ -183,21 +183,29 @@ dependencies {
     implementation "mezz.jei:jei-${jei_minecraft_version}:${jei_version}"
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     implementation "curse.maven:the-twilight-forest-227639:5699076"
-    implementation "curse.maven:touhou-little-maid-355044:5896992"
+    implementation "curse.maven:touhou-little-maid-355044:6657437"
     implementation "dev.xkmc:l2archery:${l2archery_ver}"
 
     implementation "curse.maven:lionfish-api-1001614:6168249"
-    implementation "curse.maven:lendercataclysm-551586:6208715"
-    runtimeOnly "curse.maven:create-328085:6323264"
+    implementation "curse.maven:lendercataclysm-551586:6849033"
+    implementation "curse.maven:create-328085:6624071"
+    implementation("curse.maven:create-enchantment-industry-688768:6431470")
+    implementation "curse.maven:create-dragons-plus-1216624:6440339"
 
-    compileOnly("com.simibubi.create:create-1.21.1:6.0.1-13") { transitive = false }
+    //compileOnly("com.simibubi.create:create-1.21.1:6.0.5-92") { transitive = false }
     compileOnly("net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.39") { transitive = false }
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-1.21.1:1.0.0-10")
 
     implementation "curse.maven:jupiter-1072905:5891108"
     implementation "curse.maven:uranus-1010827:6206291"
-    implementation "curse.maven:iceandfire-ce-1040076:6206459"
+    implementation "curse.maven:iceandfire-ce-1040076:6394986"
     implementation "curse.maven:architectury-api-419699:5786327"
+    implementation "curse.maven:geckolib-388172:6304958"
+    //implementation "curse.maven:ato-405593:6118610"
+    implementation "curse.maven:allthemodium-364466:6389532"
+    implementation "curse.maven:cloth-config-348521:5729127"
+    implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
+    implementation "curse.maven:mowzies-mobs-250498:6700443"
 
 }
 
@@ -222,7 +230,8 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
             "lendercataclysm",
             "patchouli",
             "the-twilight-forest",
-            "touhou-little-maid")
+            "touhou-little-maid",
+            "allthemodium")
     mainFile.releaseType = "release"
     disableVersionDetection()
 }

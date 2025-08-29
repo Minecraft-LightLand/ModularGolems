@@ -3,7 +3,7 @@
   "name": "Railway",
   "icon": "create:railway_casing",
   "category": "modulargolems:materials",
-  "sortnum": 303,
+  "sortnum": 304,
   "pages": [
 	{
 	  "type": "patchouli:spotlight",

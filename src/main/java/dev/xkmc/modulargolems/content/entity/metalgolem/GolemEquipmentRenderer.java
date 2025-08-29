@@ -6,10 +6,12 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
+import dev.xkmc.modulargolems.events.event.GolemRenderItemInHandEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,6 +24,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -32,9 +35,11 @@ import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.L
 public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalGolemModel> {
 
 	public HashMap<ModelLayerLocation, MetalGolemModel> map = new HashMap<>();
+	private final ItemInHandRenderer itemInHandRenderer;
 
 	public GolemEquipmentRenderer(RenderLayerParent<MetalGolemEntity, MetalGolemModel> r, EntityRendererProvider.Context e) {
 		super(r);
+		itemInHandRenderer = e.getItemInHandRenderer();
 		for (var l : LIST) {
 			map.put(l, new MetalGolemModel(e.bakeLayer(l)));
 		}
@@ -45,19 +50,11 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		for (var e : EquipmentSlot.values()) {
 			ItemStack stack = entity.getItemBySlot(e);
 			if (stack.getItem() instanceof GolemModelItem mgaitem) {
-				GolemModelPath gmpath = GolemModelPath.get(mgaitem.getModelPath());
-				for (List<String> ls : gmpath.paths()) {
-					MetalGolemModel model = map.get(gmpath.models());
-					model.copyFrom(getParentModel());
-					ModelPart gemr = model.root();
-					pose.pushPose();
-					for (String s : ls) {
-						gemr.translateAndRotate(pose);
-						gemr = gemr.getChild(s);
-					}
-					gemr.render(pose, source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getModelTexture())),
-							i, OverlayTexture.NO_OVERLAY);
-					pose.popPose();
+				var buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getModelTexture()));
+				renderArmor(mgaitem, pose, buffer, i);
+				if (mgaitem.emissive()) {
+					buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getEmissiveModelTexture()));
+					renderArmor(mgaitem, pose, buffer, LightTexture.FULL_BRIGHT);
 				}
 			} else if (stack.getItem() instanceof MetalGolemBeaconItem beacon) {
 				if (!entity.isAddedToLevel())
@@ -71,6 +68,24 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		}
 	}
 
+
+	protected void renderArmor(GolemModelItem mgaitem, PoseStack pose, VertexConsumer buffer, int light) {
+		GolemModelPath gmpath = GolemModelPath.get(mgaitem.getModelPath());
+		for (List<String> ls : gmpath.paths()) {
+			MetalGolemModel model = map.get(gmpath.models());
+			model.copyFrom(getParentModel());
+			ModelPart gemr = model.root();
+			pose.pushPose();
+			for (String s : ls) {
+				gemr.translateAndRotate(pose);
+				gemr = gemr.getChild(s);
+			}
+			gemr.render(pose, buffer, light, OverlayTexture.NO_OVERLAY, -1);
+			pose.popPose();
+		}
+	}
+
+
 	protected void renderArmWithItem(MetalGolemEntity entity, ItemStack stack, EquipmentSlot slot,
 									 PoseStack pose, MultiBufferSource source, int light) {
 		if (stack.isEmpty()) return;
@@ -81,7 +96,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 			ctx = ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
 		}
 		if (ctx == null) return;
-
+		var arm = slot == EquipmentSlot.MAINHAND ? entity.getMainArm() : entity.getMainArm().getOpposite();
 		pose.pushPose();
 		getParentModel().transformToHand(slot, pose);
 		boolean offhand = slot == EquipmentSlot.OFFHAND;
@@ -92,6 +107,9 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 				.renderStatic(entity, stack, ctx, offhand,
 						pose, source, entity.level(), light, OverlayTexture.NO_OVERLAY,
 						entity.getId() + slot.ordinal());
+		var r = itemInHandRenderer;
+		if (!NeoForge.EVENT_BUS.post(new GolemRenderItemInHandEvent(entity, stack, ctx, arm, pose, source, light, r)).isCanceled())
+			r.renderItem(entity, stack, ctx, offhand, pose, source, light);
 		pose.popPose();
 
 	}

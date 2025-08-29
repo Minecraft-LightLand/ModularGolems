@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.item.upgrade;
 
 import dev.xkmc.l2core.init.reg.simple.Val;
-import dev.xkmc.modulargolems.compat.materials.common.AddSlotModifier;
+import dev.xkmc.modulargolems.content.modifier.common.AddSlotModifier;
 import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

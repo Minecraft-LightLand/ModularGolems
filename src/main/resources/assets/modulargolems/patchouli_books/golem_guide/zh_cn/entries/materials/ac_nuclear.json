@@ -1,0 +1,30 @@
+{
+	"flag": "mod:alexscaves",
+	"advancement": "alexscaves:alexscaves/discover_toxic_caves",
+	"name": "核能",
+	"icon": "modulargolems:nuclear_construct",
+	"category": "modulargolems:materials",
+	"sortnum": 1303,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:nuclear_construct",
+			"text": "制造核能傀儡的主要材料。施加辐射并且消耗铀恢复自身并提高数值"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"alexscaves:nuclear\"},{part:\"modulargolems:metal_golem_body\",material:\"alexscaves:nuclear\"},{part:\"modulargolems:metal_golem_arm\",material:\"alexscaves:nuclear\"},{part:\"modulargolems:metal_golem_legs\",material:\"alexscaves:nuclear\"}]}]",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"alexscaves:nuclear\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"alexscaves:nuclear\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"alexscaves:nuclear\"}]}]",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"alexscaves:nuclear\"},{part:\"modulargolems:dog_golem_legs\",material:\"alexscaves:nuclear\"}]}]",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

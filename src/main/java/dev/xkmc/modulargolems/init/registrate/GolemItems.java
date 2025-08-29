@@ -9,7 +9,6 @@ import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.DCReg;
 import dev.xkmc.l2core.init.reg.simple.DCVal;
 import dev.xkmc.l2core.init.reg.simple.Val;
-import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
@@ -20,13 +19,8 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.card.*;
-import dev.xkmc.modulargolems.content.item.data.GolemConfigKey;
-import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
-import dev.xkmc.modulargolems.content.item.data.GolemIcon;
-import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.content.item.data.*;
+import dev.xkmc.modulargolems.content.item.equipments.*;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -62,11 +56,15 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 public class GolemItems {
 
 	public static final SimpleEntry<CreativeModeTab> ITEMS;
+	public static final SimpleEntry<CreativeModeTab> UPGRADES;
 	public static final SimpleEntry<CreativeModeTab> GOLEMS;
 
 	static {
 		ITEMS = REGISTRATE.buildL2CreativeTab("golem_items", "Modular Golems - Items", b -> b
 				.icon(GolemItems.GOLEM_TEMPLATE::asStack));
+		UPGRADES = REGISTRATE.buildL2CreativeTab("golem_upgrades", "Modular Golems - Upgrades", b -> b
+				.icon(GolemItems.RECYCLE::asStack));
+		REGISTRATE.defaultCreativeTab(ITEMS.getKey());
 	}
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
@@ -89,11 +87,16 @@ public class GolemItems {
 	public static final ItemEntry<DispenseWand> DISPENSE_WAND, OMNI_DISPENSE;
 	public static final ItemEntry<RiderWandItem> RIDER_WAND, OMNI_RIDER;
 	public static final ItemEntry<SquadWandItem> SQUAD_WAND, OMNI_SQUAD;
+	public static final ItemEntry<HostileWandItem> HOSTILE_WAND;
 
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
+	public static final ItemEntry<MetalGolemArmorItem> WINDSPIRIT_BOOTS;
+	public static final ItemEntry<NetheriteBootItem> BARBARICFLAMEVANGUARD_BOOTS;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
+	public static final ItemEntry<SlicingAxe> SLICING_AXE;
+	public static final ItemEntry<HeavySpearItem> HEAVY_SPEAR;
 	public static final ItemEntry<MetalGolemBeaconItem>[] METALGOLEM_BEACONS;
 	public static final ItemEntry<ConfigCard>[] CARD;
 	public static final ItemEntry<PathRecordCard> CARD_PATH;
@@ -112,6 +115,7 @@ public class GolemItems {
 	public static final DCVal<GolemHolderMaterial> HOLDER_MAT = DC.reg("golem_materials", GolemHolderMaterial.class, true);
 	public static final DCVal<GolemUpgrade> UPGRADE = DC.reg("upgrades", GolemUpgrade.class, true);
 	public static final DCVal<GolemConfigKey> CONFIG_KEY = DC.reg("config_key", GolemConfigKey.class, true);
+	public static final DCVal<GolemEquipments> EQUIPMENTS = DC.reg("equipments", GolemEquipments.class, true);
 	public static final DCVal<GolemIcon> DC_ICON = DC.reg("golem_as_icon", GolemIcon.class, true);
 	public static final DCVal<Double> DC_DISP_HP = DC.doubleVal("display_health");
 	public static final DCVal<UUID> DC_OWNER = DC.uuid("owner");
@@ -139,23 +143,23 @@ public class GolemItems {
 
 			OMNI_COMMAND = REGISTRATE.item("omnipotent_wand_command", p -> new CommandWandItem(p.stacksTo(1), COMMAND_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Command").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Command").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.register();
 			OMNI_RETRIVAL = REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Retrieval").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Retrieval").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_DISPENSE = REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Summon").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Summon").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Rider").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Rider").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_SQUAD = REGISTRATE.item("omnipotent_wand_squad", p -> new SquadWandItem(p.stacksTo(1), SQUAD_WAND))
 					.model((ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
-					.lang("Omnipotent Wand: Squad").tag(L2ISTagGen.SELECTABLE, MGTagGen.GOLEM_INTERACT)
+					.lang("Omnipotent Wand: Squad").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 
 		}
@@ -193,6 +197,11 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
+			WINDSPIRIT_BOOTS = REGISTRATE.item("wind_spirit_boots", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.BOOTS, 3, 2, GolemModelPaths.BOOTS_DIAMOND))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
+					.defaultLang().register();
 
 			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
@@ -209,11 +218,24 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
+			BARBARICFLAMEVANGUARD_BOOTS = REGISTRATE.item("barbaric_vanguard_boots", p -> new NetheriteBootItem(p.stacksTo(1).fireResistant(),
+							ArmorItem.Type.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
+					.defaultLang().register();
 		}
 
 		//metalgolem weapon
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
+			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
+			HEAVY_SPEAR = REGISTRATE.item("heavy_golem_spear",
+							p -> new HeavySpearItem(p.stacksTo(1), 10, 0, 2, 2))
+					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile(pvd.modLoc("item/long_weapon")))
+							.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE)
+					.defaultLang()
+					.register();
 		}
 
 		//metalgolem beacon
@@ -263,9 +285,12 @@ public class GolemItems {
 
 		// upgrades
 		{
-			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().register();
-			ADD_DIAMOND = REGISTRATE.item("diamond_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.DIAMOND_ADD)).defaultModel().defaultLang().register();
-			ADD_NETHERITE = REGISTRATE.item("netherite_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.NETHERITE_ADD)).defaultModel().defaultLang().register();
+			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
+			ADD_DIAMOND = REGISTRATE.item("diamond_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.DIAMOND_ADD))
+					.tag(MGTagGen.EXPANSION).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
+			ADD_NETHERITE = REGISTRATE.item("netherite_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.NETHERITE_ADD))
+					.tag(MGTagGen.EXPANSION).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
+
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifiers.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
 			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifiers.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
 			RECYCLE = regUpgrade("recycle", () -> GolemModifiers.RECYCLE).lang("Recycle Ugpgrade").register();
@@ -417,6 +442,11 @@ public class GolemItems {
 				.tag(MGTagGen.CURIO_SKIN).register();
 
 		CompatManager.lateRegister();
+
+		REGISTRATE.defaultCreativeTab(ITEMS.getKey());
+		HOSTILE_WAND = REGISTRATE.item("hostile_wand", p -> new HostileWandItem(p.stacksTo(1)))
+				.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
+
 	}
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<Val<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {
@@ -448,7 +478,8 @@ public class GolemItems {
 								.parent(new ModelFile.UncheckedModelFile("item/generated"))
 								.texture("layer0", ResourceLocation.fromNamespaceAndPath(modid, "item/upgrades/" + id))
 								.texture("layer1", ResourceLocation.fromNamespaceAndPath(ModularGolems.MODID, "item/blue_arrow")))
-						.end());
+						.end())
+				.removeTab(ITEMS.key()).tab(UPGRADES.key());
 	}
 
 	public static <T extends Item> ItemEntry<T> item(String modid, String id, NonNullFunction<Item.Properties, T> func) {

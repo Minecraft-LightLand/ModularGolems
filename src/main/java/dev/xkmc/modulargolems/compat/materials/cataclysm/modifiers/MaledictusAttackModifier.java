@@ -32,6 +32,8 @@ public class MaledictusAttackModifier extends GolemModifier {
 
 	@Override
 	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
+		if (event.getResult() == null) return;
+		if (!event.getResult().validState(DefaultDamageState.BYPASS_ARMOR)) return;
 		event.enable(DefaultDamageState.BYPASS_ARMOR);
 	}
 

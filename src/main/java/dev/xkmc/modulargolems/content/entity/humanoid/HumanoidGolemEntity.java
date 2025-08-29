@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -61,16 +62,19 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	public ItemStack getProjectile(ItemStack pShootable) {
+		ItemStack ans;
 		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
+			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles(pShootable);
 			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
 			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
 				stack = arrowSlot;
 			}
-			return CommonHooks.getProjectile(this, pShootable, stack);
+			ans = CommonHooks.getProjectile(this, pShootable, stack);
 		} else {
-			return CommonHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
+			ans = CommonHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
 		}
+		if (isHostile()) ans = ans.copy();
+		return ans;
 	}
 
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -113,7 +117,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public boolean isBlocking() {
-		boolean ans = shieldCooldown == 0 && shieldSlot() != null;
+		boolean ans = shieldCooldown == 0 && isAggressive() && shieldSlot() != null;
 		if (ans && rendering) {
 			render_trigger = true;
 		}
@@ -265,10 +269,15 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (hand == null) return;
 		ItemStack stack = getItemInHand(hand);
 		boolean canDisable = source.canDisableShield() || source.getMainHandItem().canDisableShield(stack, this, source);
+		int cd = 100;
+		if (source.getType().is(MGTagGen.SHIELD_BREAKER)) {
+			canDisable = true;
+			cd *= 2;
+		}
 		GolemDisableShieldEvent event = new GolemDisableShieldEvent(this, stack, hand, source, canDisable);
 		NeoForge.EVENT_BUS.post(event);
 		if (event.shouldDisable()) {
-			this.shieldCooldown = 100;
+			this.shieldCooldown = cd;
 			this.level().broadcastEntityEvent(this, EntityEvent.SHIELD_DISABLED);
 		}
 	}

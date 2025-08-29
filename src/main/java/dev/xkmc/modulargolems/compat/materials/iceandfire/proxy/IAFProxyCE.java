@@ -21,7 +21,7 @@ public class IAFProxyCE implements IAFProxy {
 
 	@Override
 	public void fireHit(LivingEntity target, LivingEntity user, int level) {
-		if (IafCommonConfig.INSTANCE.armors.dragonFireAbility.getValue()) {
+		if (IafCommonConfig.INSTANCE.tools.dragonFireAbility.getValue()) {
 			if (target instanceof EntityIceDragon) {
 				target.hurt(user.level().damageSources().inFire(), 3.5F + 5 * level);
 			}
@@ -33,7 +33,7 @@ public class IAFProxyCE implements IAFProxy {
 
 	@Override
 	public void iceHit(LivingEntity target, LivingEntity user, int level) {
-		if (IafCommonConfig.INSTANCE.armors.dragonIceAbility.getValue()) {
+		if (IafCommonConfig.INSTANCE.tools.dragonIceAbility.getValue()) {
 			if (target instanceof EntityFireDragon) {
 				target.hurt(user.level().damageSources().drown(), 3.5F + 5 * level);
 			}
@@ -48,7 +48,7 @@ public class IAFProxyCE implements IAFProxy {
 
 	@Override
 	public void lightningHit(LivingEntity target, LivingEntity user, int level) {
-		if (IafCommonConfig.INSTANCE.armors.dragonLightningAbility.getValue()) {
+		if (IafCommonConfig.INSTANCE.tools.dragonLightningAbility.getValue()) {
 			boolean flag = !(user instanceof Player) || !((double) user.attackAnim > 0.2);
 
 			if (!user.level().isClientSide && flag) {

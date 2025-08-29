@@ -1,0 +1,30 @@
+{
+	"flag": "mod:l2hostility",
+	"advancement": "l2hostility:miracle",
+	"name": "Miraculous",
+	"icon": "l2hostility:hostility/miracle",
+	"category": "modulargolems:materials",
+	"sortnum": 1102,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "l2hostility:miracle_ingot",
+			"text": "Main material to craft Miraculous golem parts. Miraculous golem gains the power of Adpative and Dispell trait, making it effective against high level hostility enemies."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:metal_golem_arm\",material:\"l2hostility:miraculous\"},{part:\"modulargolems:metal_golem_body\",material:\"l2hostility:miraculous\"},{part:\"modulargolems:metal_golem_arm\",material:\"l2hostility:miraculous\"},{part:\"modulargolems:metal_golem_legs\",material:\"l2hostility:miraculous\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:humanoid_golem_body\",material:\"l2hostility:miraculous\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"l2hostility:miraculous\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"l2hostility:miraculous\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder[modulargolems:golem_materials={parts:[{part:\"modulargolems:dog_golem_body\",material:\"l2hostility:miraculous\"},{part:\"modulargolems:dog_golem_legs\",material:\"l2hostility:miraculous\"}]}]",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

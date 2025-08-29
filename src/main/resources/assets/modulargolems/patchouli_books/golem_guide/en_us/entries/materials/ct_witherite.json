@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_harbinger",
   "name": "Witherite",
   "icon": "cataclysm:witherite_ingot",
   "category": "modulargolems:materials",

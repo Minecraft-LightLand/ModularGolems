@@ -58,7 +58,23 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 				continue;
 			}
 			if (!sorted.containsKey(GolemStatType.Kind.BASE)) {
-				throw new IllegalStateException("Only attributes with BASE modification allows multi-operation. Attribute: " + ent.getKey().value().getDescriptionId());
+				if (sorted.containsKey(GolemStatType.Kind.ADD)) {
+					var pair = sorted.get(GolemStatType.Kind.ADD);
+					double val = pair.getSecond();
+					if (val != 0) {
+						ans.put(ent.getKey(), pair);
+						continue;
+					}
+				}
+				if (sorted.containsKey(GolemStatType.Kind.PERCENT)) {
+					var pair = sorted.get(GolemStatType.Kind.PERCENT);
+					double val = pair.getSecond();
+					if (val != 0) {
+						ans.put(ent.getKey(), pair);
+						continue;
+					}
+				}
+				continue;
 			}
 			Pair<GolemStatType, Double> candidate = sorted.get(GolemStatType.Kind.BASE);
 			GolemStatType type = candidate.getFirst();

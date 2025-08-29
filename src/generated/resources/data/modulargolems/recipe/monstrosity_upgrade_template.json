@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:blackstone"
+    },
+    "B": {
+      "item": "minecraft:netherite_upgrade_smithing_template"
+    },
+    "C": {
+      "item": "cataclysm:lava_power_cell"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "AGA",
+    "ABA",
+    "ACA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:monstrosity_upgrade_template"
+  }
+}

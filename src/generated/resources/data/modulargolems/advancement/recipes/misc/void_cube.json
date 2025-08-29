@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:void_cube"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_void_jaw": {
+      "conditions": {
+        "items": [
+          {
+            "items": "cataclysm:void_jaw"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_void_jaw"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:void_cube"
+    ]
+  }
+}

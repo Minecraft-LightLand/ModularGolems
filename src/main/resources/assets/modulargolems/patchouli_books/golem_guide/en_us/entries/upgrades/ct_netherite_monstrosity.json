@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_monstrosity",
   "name": "Netherite Monstrosity Upgrade",
   "icon": "modulargolems:netherite_monstrosity_earthquake",
   "category": "modulargolems:upgrades",

@@ -26,7 +26,9 @@ public class PlayerSkinRenderer extends HumanoidGolemRenderer {
 	@Override
 	public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 		stack.pushPose();
+		HumanoidGolemRenderer.MODEL_DELEGATE.set(getModel());
 		renderImpl(entity, f1, f2, stack, source, i);
+		HumanoidGolemRenderer.MODEL_DELEGATE.remove();
 		stack.popPose();
 	}
 

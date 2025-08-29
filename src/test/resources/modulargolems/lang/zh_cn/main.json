@@ -8,10 +8,12 @@
 	"modulargolems.title": "模块化傀儡",
 	"itemGroup.l2core.golems": "模块化傀儡 - 傀儡",
 	"itemGroup.l2core.golem_items": "模块化傀儡 - 物品",
+	"itemGroup.l2core.golem_upgrades": "模块化傀儡 - 升级",
 	"modulargolems": {
 		"tooltip": {
 			"health": "血量: %s/%s",
 			"slot": "剩余升级槽: %s",
+			"meltdown": "熔锻: %s",
 			"add_slot": "增加%s个升级槽。在铁砧中使用",
 			"shift": "按 SHIFT 显示技能细节",
 			"following": "傀儡会跟随玩家",
@@ -32,6 +34,8 @@
 			"modifier": "总计%s个技能，%s个升级",
 			"craft_material": "傀儡制作材料",
 			"repair_material": "傀儡修补材料",
+			"slicing_enemy": "大型傀儡持此斧击杀特定敌人时随机掉落一个对应材料的大型傀儡部件",
+			"slicing_golem": "大型傀儡持此斧击杀其他玩家的傀儡时掉落所有部件，且每个升级有%s概率掉落",
 			"target": {
 				"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
 				"remove": "蹲下右键移除最后一行",
@@ -59,10 +63,13 @@
 			"config_init": "右键初始化配置卡",
 			"config_other": "这不是你的卡片，你不能编辑",
 			"squad": "设置傀儡为当前配置卡的队长。点队长取消其队长状态",
-			"path_record": "右键方块添加路径点，再次右键同方块移除。路径点首尾相连成环",
+			"path_record": "右键方块添加路径点，再次右键同方块移除。潜行右键清空。路径点首尾相连成环",
 			"add_node": "已添加路径点",
 			"node_count": "包含%s个路径点",
-			"remove_node": "已移除路径点"
+			"remove_node": "已移除路径点",
+			"clear_node": "已移除所有路径点",
+			"err_dim": "你不能跨维度添加路径点",
+			"err_dist": "路径点之间的距离不能超过16格"
 		},
 		"msg": {
 			"destroy_exp": "%s销毁了%s经验",

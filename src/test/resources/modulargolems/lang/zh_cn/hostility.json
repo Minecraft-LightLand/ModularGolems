@@ -1,13 +1,17 @@
 {
-  "modifier.modulargolems": {
-	"hostility_core": "恶意核心",
-	"hostility_core.desc": "其他恶意升级不消耗升级槽",
-	"hostility_potion": "恶意升级：药水",
-	"hostility_potion.desc": "每个第一级的药水升级不消耗升级槽",
-	"hostility_protection": "恶意升级：保护",
-	"hostility_reflect": "恶意升级：反射",
-	"hostility_regen": "恶意升级：再生",
-	"hostility_speed": "恶意升级：神速",
-	"hostility_tank": "恶意升级：重装"
-  }
+	"golem_material.l2hostility.chaotic": "混沌",
+	"golem_material.l2hostility.miraculous": "奇迹",
+	"modifier.modulargolems": {
+		"hostility_adaptive": "恶意词条：适应",
+		"hostility_dispell": "恶意词条：破魔",
+		"hostility_core": "恶意核心",
+		"hostility_core.desc": "其他恶意升级不消耗升级槽",
+		"hostility_potion": "恶意升级：药水",
+		"hostility_potion.desc": "每个第一级的药水升级不消耗升级槽",
+		"hostility_protection": "恶意升级：保护",
+		"hostility_reflect": "恶意升级：反射",
+		"hostility_regen": "恶意升级：再生",
+		"hostility_speed": "恶意升级：神速",
+		"hostility_tank": "恶意升级：重装"
+	}
 }

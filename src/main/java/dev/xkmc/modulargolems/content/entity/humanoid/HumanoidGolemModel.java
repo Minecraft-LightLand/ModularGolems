@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemShooterHelper;
@@ -22,7 +23,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 		IGolemModel<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel>, IHeadedModel {
 
 	public HumanoidGolemModel(EntityModelSet set) {
-		this(set.bakeLayer(ModelLayers.PLAYER), false);
+		this(set.bakeLayer(GolemEquipmentModels.HUMANOID), false);
 	}
 
 	public HumanoidGolemModel(ModelPart modelPart, boolean slim) {
@@ -74,7 +75,6 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 	}
 
 	public void prepareMobModel(HumanoidGolemEntity entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick) {
-		head.skipDraw = false;
 		this.rightArmPose = ArmPose.EMPTY;
 		this.leftArmPose = ArmPose.EMPTY;
 		InteractionHand hand = entity.getWeaponHand();

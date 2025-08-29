@@ -3,10 +3,15 @@ package dev.xkmc.modulargolems.events;
 import dev.xkmc.l2damagetracker.contents.attack.AttackListener;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
 
 public class GolemAttackListener implements AttackListener {
+
+	private static final ResourceLocation WEAPON_INHERENT = ModularGolems.loc("weapon_inherent");
 
 	@Override
 	public void onCreateSource(CreateSourceEvent event) {
@@ -19,6 +24,11 @@ public class GolemAttackListener implements AttackListener {
 
 	@Override
 	public boolean onAttack(DamageData.Attack data) {
+		if (data.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
+			if (!golem.canAttack(data.getTarget())) {
+				return true;
+			}
+		}
 		if (data.getTarget() instanceof AbstractGolemEntity<?, ?> golem) {
 			if (data.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) return false;
 			for (var e : golem.getModifiers().entrySet()) {
@@ -33,6 +43,10 @@ public class GolemAttackListener implements AttackListener {
 	@Override
 	public void onHurt(DamageData.Offence data) {
 		if (data.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
+			data.addHurtModifier(DamageModifier.nonlinearPre(-1000,
+					dmg -> dmg + golem.getMainHandItem().getItem().getAttackDamageBonus(data.getTarget(), dmg, data.getSource()),
+					WEAPON_INHERENT
+			));
 			for (var entry : golem.getModifiers().entrySet()) {
 				entry.getKey().onHurtTarget(golem, data, entry.getValue());
 			}
@@ -63,6 +77,11 @@ public class GolemAttackListener implements AttackListener {
 			var owner = golem.getOwner();
 			if (owner != null) {
 				data.getTarget().setLastHurtByPlayer(owner);
+			}
+		}
+		if (data.getTarget() instanceof AbstractGolemEntity<?, ?> golem) {
+			for (var entry : golem.getModifiers().entrySet()) {
+				entry.getKey().postDamaged(golem, data, entry.getValue());
 			}
 		}
 	}

@@ -1,12 +1,16 @@
 package dev.xkmc.modulargolems.content.modifier.ride;
 
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.Mob;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -15,6 +19,21 @@ public class RideUpgrade extends AttributeGolemModifier {
 
 	public RideUpgrade(int max, AttrEntry... entries) {
 		super(max, entries);
+	}
+
+	@Override
+	public boolean onAttacked(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
+		if (event.getSource().getEntity() instanceof Mob mob && mob.getTarget() != entity) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
+		if (event.getSource().getEntity() instanceof Mob mob && mob.getTarget() != entity) {
+			event.addDealtModifier(DamageModifier.multTotal(0, getRegistryName()));
+		}
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 {
   "flag": "mod:twilightforest",
+	"advancement": "twilightforest:root",
   "name": "娜迦升级",
   "icon": "modulargolems:naga",
   "category": "modulargolems:upgrades",

@@ -1,3 +1,84 @@
+3.1.2
+- Netherite Boots recipe
+
+3.1.1
+- Add Ancient Metal Golem
+- Add diamond and netherite golem boots
+- Allow large golem to ride max size dog golem
+- Fix Metal golem knock up being too large
+- Golem no longer stuck in wall if placed on wall
+- Humanoid no longer held up shields when having no attack targets
+- Allow consumables to be put in metal golem off hand for integration modifiers
+- Create deployer will not cause golem to get entity data when adding equipments
+- Twilight Forest Giant items will not scale with golem
+- Adjust height of humanoid and dog golems
+- Disable golem death message on hostile golems
+- Golem size upgrade affect jump height and step height as well
+
+3.1.0
+- Add Ender Guardian and Scylla golem
+- Add Scylla weapon and coral spear compat
+- Part item immunity
+- make cataclysm metal golem armor enchantable
+- hostile wand that can make golems hostile to players
+- targeting system allowing golems to target different enemies in group fight
+- Gate some patchouli book contents behind advancements
+
+
+3.0.28
+- Dog Golem with Ride upgrade no longer take damage from hostile mobs not targeting it
+- Make player immune upgrade, talented upgrade, cauldron upgrade cheaper
+- Limit path record card nodes to be within 16 blocks
+- Shift right click to clear path record cards
+- Now target filter card have higher priority than entity interaction
+- Fix golem config keep showing "Loading" when player did not open the config card before
+
+3.0.27
+- Add Golem Slicing Axe
+- Use standalone models for Dog golems
+- Port Mowzie's Mobs integration
+- Port Cataclysm Armor integration
+- Allow TLM Maids to summon golems to fight
+- Fix Teleport Modifier on old golems
+- Update PTBR translation
+
+
+3.0.26
+- Bosses now can disable golem shields for 10 seconds on blockable attack
+- Restore compat with ewewukek's musket mod
+- Restore compat with Create Enchantment Industry
+
+3.0.25
+- Fix Infinity enchantment for Golem
+- When there are too many upgrades, show only a summary in command wand hover overlay to avoid cluttering
+
+3.0.24
+- Add Chaotic Golem and Miraculous Golem for L2Hostility
+
+3.0.23
+- Add Heavy Golem Spear, allow golems to use Mace / Mace like weapons
+- Restore Create Enchantment Industry compat
+- Fix curios render rotation with skin renderer
+- Fix crash without curios
+- Add Cardboard golems for Create (All Create recipes require Craete 6.0.5+)
+
+3.0.22
+- Be compatible with newest IaF
+
+3.0.21
+- Buff Dog Golem
+- Add 3 ATM golems
+- Add ATM expansion template
+
+3.0.19
+- Fix Cursium golem log spam with Apotheosis weapons
+
+3.0.18
+- Fix Crash when golem hold multishot crossbow
+- Fix Large golem not able to hold some Cataclysm weapon
+- Typo fix
+
+
 3.0.17
 - Make assembly recipe compatible with newest Create
 - Fix Twilight Forest Trophies hide humanoid golem head

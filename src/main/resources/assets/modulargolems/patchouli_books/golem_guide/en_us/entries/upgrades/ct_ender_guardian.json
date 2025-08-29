@@ -1,5 +1,6 @@
 {
   "flag": "mod:cataclysm",
+	"advancement": "cataclysm:kill_ender_guardian",
   "name": "Ender Guardian Upgrade",
   "icon": "modulargolems:ender_guardian_void_rune",
   "category": "modulargolems:upgrades",
@@ -7,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:ender_guardian_void_rune",
-	  "text": "Summon void rune toward target. Max: 1"
+	  "text": "Summon vortex and void rune toward Level*2 targets. Max: 5"
 	}
   ]
 }

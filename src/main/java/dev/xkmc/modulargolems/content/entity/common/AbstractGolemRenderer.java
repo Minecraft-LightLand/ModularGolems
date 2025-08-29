@@ -55,6 +55,7 @@ public abstract class AbstractGolemRenderer<
 
 	@Override
 	public void render(T entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+		if (model instanceof IHeadedModel headed) headed.getHead().visible = true;
 		super.render(entity, f1, f2, stack, source, i);
 	}
 
