@@ -36,6 +36,6 @@ side = "BOTH"
 [[dependencies.${ mod_id }]]
 modId = "iceandfire"
 type = "optional"
-versionRange = "[1.0-beta.7,)"
+versionRange = "[2.0-beta.1,)"
 ordering = "NONE"
 side = "BOTH"
