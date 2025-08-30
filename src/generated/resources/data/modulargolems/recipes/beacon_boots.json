@@ -8,12 +8,15 @@
     "B": {
       "item": "modulargolems:wind_spirit_boots"
     },
+    "S": {
+      "item": "minecraft:nether_star"
+    },
     "X": {
       "item": "minecraft:beacon"
     }
   },
   "pattern": [
-    "AXA",
+    "SXS",
     "ABA",
     "AAA"
   ],

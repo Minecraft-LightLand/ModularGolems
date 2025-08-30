@@ -1,3 +1,7 @@
+2.6.9
+- Add Beacon Boots
+- Update PTBR translation
+
 2.6.8
 - fix refmap
 
@@ -20,6 +24,7 @@
 2.6.5
 - Fix Golem Sweep on non-enemies
 - Optimize slicing axe loot modifier to remove errors in log message
+
 
 2.6.4
 - Fix add slot smithing with golems using constructs
