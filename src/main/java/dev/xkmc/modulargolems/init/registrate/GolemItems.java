@@ -97,7 +97,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<HeavySpearItem> HEAVY_SPEAR;
-	public static final ItemEntry<MetalGolemBeaconItem>[] METALGOLEM_BEACONS;
+	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
 	public static final ItemEntry<ConfigCard>[] CARD;
 	public static final ItemEntry<PathRecordCard> CARD_PATH;
 	public static final ItemEntry<NameFilterCard> CARD_NAME;
@@ -223,6 +223,13 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
+
+			BEACON_BOOTS = REGISTRATE.item("beacon_boots",
+							p -> new MetalGolemBeaconItem(p.stacksTo(1), 4, 4, GolemModelPaths.BOOTS_BEACON))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
+					.register();
+
 		}
 
 		//metalgolem weapon
@@ -236,18 +243,6 @@ public class GolemItems {
 					.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE)
 					.defaultLang()
 					.register();
-		}
-
-		//metalgolem beacon
-		{
-			METALGOLEM_BEACONS = new ItemEntry[5];
-			for (int i = 0; i < 5; i++) {
-				int lv = i + 1;
-				METALGOLEM_BEACONS[i] = REGISTRATE.item("golem_beacon_level_" + lv,
-								p -> new MetalGolemBeaconItem(p.stacksTo(1), lv))
-						.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-						.removeTab(ITEMS.key()).register();
-			}
 		}
 
 		// cards

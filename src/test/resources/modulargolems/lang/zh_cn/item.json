@@ -67,7 +67,8 @@
 		"golem_slicing_axe": "斩铁巨斧",
 		"hostile_wand": "敌对傀儡调试器",
 		"barbaric_vanguard_boots": "蛮荒镣铐",
-		"wind_spirit_boots": "风行靴"
+		"wind_spirit_boots": "风行靴",
+		"beacon_boots": "信标靴"
 	},
 	"-cartesian": {
 		"golem": {
