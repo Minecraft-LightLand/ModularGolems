@@ -57,7 +57,7 @@ public class CataDispatch extends ModDispatch {
 		pvd.drop(MODID, ModEntities.IGNIS.get(), "ignitium");
 		pvd.drop(MODID, ModEntities.THE_HARBINGER.get(), "witherite");
 		pvd.drop(MODID, ModEntities.MALEDICTUS.get(), "cursium");
-		pvd.drop(ModularGolems.MODID, ModEntities.NETHERITE_MONSTROSITY.get(), "netherite");
+		pvd.drop(MODID, ModEntities.NETHERITE_MONSTROSITY.get(), ModularGolems.loc("netherite"));
 		pvd.drop(MODID, ModEntities.ENDER_GUARDIAN.get(), "ender_guardian");
 		pvd.drop(MODID, ModEntities.SCYLLA.get(), "storm");
 		pvd.drop(MODID, ModEntities.ANCIENT_REMNANT.get(), "ancient_metal");

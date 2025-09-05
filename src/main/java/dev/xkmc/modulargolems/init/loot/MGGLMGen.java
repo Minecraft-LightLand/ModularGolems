@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 
@@ -26,14 +27,22 @@ public class MGGLMGen extends GlobalLootModifierProvider {
 
 	@Override
 	protected void start() {
-		drop(ModularGolems.MODID, EntityType.IRON_GOLEM, "iron");
-		drop(ModularGolems.MODID, EntityType.WARDEN, "sculk");
+		drop(EntityType.IRON_GOLEM, ModularGolems.loc("iron"));
+		drop(EntityType.WARDEN, ModularGolems.loc("sculk"));
 		CompatManager.onGLMGen(this);
 	}
 
 	public void drop(String modid, EntityType<?> type, String material) {
-		add("slicing_axe_drop_" + material, new DropPartModifier(
-				ResourceLocation.fromNamespaceAndPath(modid, material),
+		drop(modid, type, ResourceLocation.fromNamespaceAndPath(modid, material));
+	}
+
+	public void drop(String modid, EntityType<?> type, ResourceLocation material) {
+		drop(type, material, new ModLoadedCondition(modid));
+	}
+
+
+	public void drop(EntityType<?> type, ResourceLocation material, ICondition... conditions) {
+		add("slicing_axe_drop_" + material.getPath(), new DropPartModifier(material,
 				LootItemEntityPropertyCondition.hasProperties(
 						LootContext.EntityTarget.THIS,
 						EntityPredicate.Builder.entity().of(type)).build(),
@@ -45,7 +54,6 @@ public class MGGLMGen extends GlobalLootModifierProvider {
 								).build()
 						).build()
 				).build()
-		), new ModLoadedCondition(modid));
-
+		), conditions);
 	}
 }

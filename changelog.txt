@@ -1,3 +1,6 @@
+3.1.5
+- Fix incorrect Slicing Axe drops
+
 3.1.4
 - Add Beacon Boots
 
