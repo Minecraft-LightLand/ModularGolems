@@ -45,7 +45,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e));
 		if (golem instanceof HumanoidGolemEntity) {
 			addSlot("backup", e -> isValid(EquipmentSlot.MAINHAND, e) || isValid(EquipmentSlot.OFFHAND, e));
-			addSlot("arrow", ItemStack::isStackable);
+			addSlot("arrow", e -> true);
 		}
 	}
 
@@ -82,7 +82,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 				this.moveItemStackTo(stack, 0, 36, true);
 			} else {
 				var es = getSlotForItem(stack);
-				for (int i = 0; i < 6; i++) {
+				for (int i = 0; i < SLOTS.length; i++) {
 					if (es.contains(SLOTS[i])) {
 						this.moveItemStackTo(stack, 36 + i, 37 + i, false);
 						break;

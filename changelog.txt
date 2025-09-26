@@ -1,3 +1,8 @@
+2.6.10
+- Now part substitution cannot bypass upgrade slot limit
+- Cataclysm death beam ability can reach higher vertical angle now
+- Fix dog equipment menu crash
+
 2.6.9
 - Add Beacon Boots
 - Update PTBR translation

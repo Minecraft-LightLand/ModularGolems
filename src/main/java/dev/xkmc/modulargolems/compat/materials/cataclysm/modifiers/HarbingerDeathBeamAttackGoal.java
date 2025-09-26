@@ -11,7 +11,7 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 	private Entity beam;
 
 	public HarbingerDeathBeamAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 4, 35, golem, lv);
+		super(100, 2, 35, golem, lv);
 	}
 
 	@Override
@@ -26,6 +26,10 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 			if (beam.isRemoved()) {
 				beam = null;
 			} else {
+				var target = golem.getTarget();
+				if (target != null) {
+					golem.getLookControl().setLookAt(target, 30, 90);
+				}
 				CataclysmProxy.updateLaser(golem, beam);
 				beam.setPosRaw(golem.getX(), golem.getEyeY(), golem.getZ());
 			}
