@@ -29,6 +29,7 @@ import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -84,6 +85,11 @@ import net.minecraft.world.scores.PlayerTeam;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
+import net.neoforged.neoforge.items.wrapper.EntityArmorInvWrapper;
+import net.neoforged.neoforge.items.wrapper.EntityHandsInvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -1076,6 +1082,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		} else {
 			spawnAtLocation(stack);
 		}
+	}
+
+	public List<IItemHandlerModifiable> aggregateInventories() {
+		var ans = new ArrayList<IItemHandlerModifiable>();
+		ans.add(new EntityHandsInvWrapper(this));
+		ans.add(new EntityArmorInvWrapper(this));
+		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
+		return ans;
+	}
+
+	public IItemHandler getItemHandler() {
+		return new CombinedInvWrapper(aggregateInventories().toArray(new IItemHandlerModifiable[0]));
 	}
 
 }

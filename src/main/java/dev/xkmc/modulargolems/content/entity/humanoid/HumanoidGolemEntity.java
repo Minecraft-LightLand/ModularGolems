@@ -7,10 +7,7 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.events.event.GolemDamageShieldEvent;
-import dev.xkmc.modulargolems.events.event.GolemDisableShieldEvent;
-import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
-import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
+import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -36,9 +33,14 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.wrapper.EntityArmorInvWrapper;
+import net.neoforged.neoforge.items.wrapper.EntityHandsInvWrapper;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 @SerialClass
@@ -323,6 +325,18 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			spawnAtLocation(arrowSlot);
 		if (!backupHand.isEmpty())
 			spawnAtLocation(backupHand);
+	}
+
+
+	@Override
+	public List<IItemHandlerModifiable> aggregateInventories() {
+		var ans = new ArrayList<IItemHandlerModifiable>();
+		ans.add(new EntityHandsInvWrapper(this));
+		ans.add(new EntityArmorInvWrapper(this));
+		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
+		ans.add(new SlotWrapper(() -> backupHand, e -> backupHand = e));
+		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
+		return ans;
 	}
 
 }

@@ -42,6 +42,8 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
@@ -119,6 +121,13 @@ public class ModularGolems {
 			GolemDispenserBehaviors.registerDispenseBehaviors();
 			CompatManager.commonSetup();
 		});
+	}
+
+	@SubscribeEvent
+	public static void attachCap(RegisterCapabilitiesEvent event) {
+		event.registerEntity(Capabilities.ItemHandler.ENTITY, GolemTypes.ENTITY_GOLEM.get(), (e, c) -> e.getItemHandler());
+		event.registerEntity(Capabilities.ItemHandler.ENTITY, GolemTypes.ENTITY_HUMANOID.get(), (e, c) -> e.getItemHandler());
+		event.registerEntity(Capabilities.ItemHandler.ENTITY, GolemTypes.ENTITY_DOG.get(), (e, c) -> e.getItemHandler());
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
