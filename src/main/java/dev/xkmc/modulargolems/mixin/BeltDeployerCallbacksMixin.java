@@ -14,10 +14,18 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(targets = "com.simibubi.create.content.kinetics.deployer.BeltDeployerCallbacks")
 public class BeltDeployerCallbacksMixin {
 
-	@WrapOperation(method = "activate", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isDamageableItem()Z"))
-	private static boolean modulargolems$applyItem(ItemStack instance, Operation<Boolean> original, @Local(argsOnly = true) Recipe<?> recipe) {
+	@WrapOperation(method = "activate", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isDamageableItem()Z"))
+	private static boolean modulargolems$applyItem$1(ItemStack instance, Operation<Boolean> original, @Local(argsOnly = true) Recipe<?> recipe) {
 		if (recipe instanceof DeployerUpgradeRecipe) {
 			return false;
+		}
+		return original.call(instance);
+	}
+
+	@WrapOperation(method = "activate", require = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getMaxDamage()I"))
+	private static int modulargolems$applyItem$2(ItemStack instance, Operation<Integer> original, @Local(argsOnly = true) Recipe<?> recipe) {
+		if (recipe instanceof DeployerUpgradeRecipe) {
+			return 0;
 		}
 		return original.call(instance);
 	}
