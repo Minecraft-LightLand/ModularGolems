@@ -1,3 +1,6 @@
+3.1.7
+- Fix compatibility with Create 6.0.7
+
 3.1.6
 - Now part substitution cannot bypass upgrade slot limit
 - Cataclysm death beam ability can reach higher vertical angle now
