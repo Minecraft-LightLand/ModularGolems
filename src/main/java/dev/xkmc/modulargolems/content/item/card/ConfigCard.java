@@ -37,6 +37,19 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		return GolemItems.DC_OWNER.get(stack);
 	}
 
+	public static boolean filterMatch(Player player, AbstractGolemEntity<?, ?> golem) {
+		ItemStack stack = player.getOffhandItem();
+		if (stack.getItem() instanceof ConfigCard card) {
+			UUID uuid = getUUID(stack);
+			if (uuid != null) {
+				return Optional.ofNullable(golem.getConfigEntry(null))
+						.map(x -> x.getID().equals(uuid) && x.getColor() == card.color.getId())
+						.orElse(false);
+			}
+		}
+		return false;
+	}
+
 	public static Predicate<AbstractGolemEntity<?, ?>> getFilter(Player player) {
 		ItemStack stack = player.getOffhandItem();
 		if (stack.getItem() instanceof ConfigCard card) {

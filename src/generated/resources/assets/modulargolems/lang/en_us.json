@@ -562,6 +562,8 @@
   "modulargolems.configuration.thunderHeal.tooltip": " Default: 10\n Range: 1 ~ 10000",
   "modulargolems.configuration.title": "Modular Golems Configuration",
   "modulargolems.configuration.twilightforest": "Twilight Forest Compat Properties",
+  "modulargolems.configuration.wandBypassConfig": "Wand interaction bypass config lock",
+  "modulargolems.configuration.wandBypassConfig.tooltip": "",
   "modulargolems.msg.add_target": "Add %s to filter",
   "modulargolems.msg.botania_mana": "Mana: %s/%s",
   "modulargolems.msg.botania_no_ring": "No Band of Mana Equipped",

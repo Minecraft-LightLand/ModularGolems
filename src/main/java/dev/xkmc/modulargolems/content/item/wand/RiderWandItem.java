@@ -44,7 +44,7 @@ public class RiderWandItem extends BaseWandItem implements GolemInteractItem {
 
 	private static boolean ride(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
-		if (!golem.canModify(user) && !(golem.getControllingPassenger() instanceof Player)) return false;
+		if (!golem.canWandModify(user) && !(golem.getControllingPassenger() instanceof Player)) return false;
 		if (level.isClientSide()) return true;
 		if (golem instanceof DogGolemEntity e) {
 			user.startRiding(e, false);

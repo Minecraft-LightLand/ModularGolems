@@ -63,7 +63,7 @@ public class SquadWandItem extends BaseWandItem implements GolemInteractItem, IG
 
 	private static boolean choose(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
-		if (!golem.canModify(user)) return false;
+		if (!golem.canWandModify(user)) return false;
 		if (level.isClientSide()) return true;
 		GolemConfigEntry entry = golem.getConfigEntry(null);
 		if (entry != null) {

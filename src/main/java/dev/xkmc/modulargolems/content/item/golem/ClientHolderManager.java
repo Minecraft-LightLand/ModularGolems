@@ -50,7 +50,8 @@ public class ClientHolderManager {
 	T getEntityForDisplay(GolemHolder<T, P> holder, ItemStack stack) {
 		var data = GolemItems.ENTITY.get(stack);
 		var icon = GolemItems.DC_ICON.get(stack);
-		if (data == null && icon == null) return null;
+		var item = GolemItems.EQUIPMENTS.get(stack);
+		if (data == null && icon == null && item == null) return null;
 		int hash = stack.hashCode();
 		if (CACHE.containsKey(hash)) {
 			AbstractGolemEntity<?, ?> ans = CACHE.get(stack.hashCode()).entity;
@@ -67,20 +68,22 @@ public class ClientHolderManager {
 	T getEntityForDisplayInternal(GolemHolder<T, P> holder, ItemStack stack) {
 		Level level = Minecraft.getInstance().level;
 		if (level == null) return null;
-		T ans = null;
+		T ans;
 		var data = GolemItems.ENTITY.get(stack);
 		var icon = GolemItems.DC_ICON.get(stack);
 		if (data != null) {
 			ans = holder.getEntityType().createForDisplay(level, data.getUnsafe());
 			if (ans != null)
 				ans.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
-		} else if (icon != null) {
+		} else {
 			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(level);
 			golem.addTag("ClientOnly");
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 			GolemEquipUtil.addItemsToGolem(golem, stack, false);
-			for (var e : icon.list()) {
-				golem.equipItemIfPossible(e);
+			if (icon != null) {
+				for (var e : icon.list()) {
+					golem.equipItemIfPossible(e);
+				}
 			}
 			ans = Wrappers.cast(golem);
 		}

@@ -47,9 +47,8 @@ public record GolemEquipUtil(boolean isClient, @Nullable Level level) {
 		if (second.getItem() instanceof ConfigCard card) {
 			var id = ConfigCard.getUUID(second);
 			if (id == null) return ItemStack.EMPTY;
-			var result = first.copy();
-			GolemHolder.setGolemConfig(result, id, card.getColor().ordinal());
-			return result;
+			GolemHolder.setGolemConfig(first, id, card.getColor().ordinal());
+			return first;
 		} else if (second.getItem() instanceof UpgradeItem upgrade) {
 			return CraftEventListeners.appendUpgrade(first, holder, upgrade);
 		} else if (GolemEquipUtil.isGolemCurio(holder, second)) {
