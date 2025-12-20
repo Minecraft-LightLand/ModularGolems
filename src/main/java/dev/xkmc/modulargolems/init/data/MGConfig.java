@@ -104,6 +104,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue laserArmorBonus;
 		public final ForgeConfigSpec.DoubleValue missileArmorBonus;
 		public final ForgeConfigSpec.DoubleValue earthquakeArmorBonus;
+		public final ForgeConfigSpec.BooleanValue wandBypassConfig;
 
 
 		Common(ForgeConfigSpec.Builder builder) {
@@ -125,6 +126,8 @@ public class MGConfig {
 				strictInteract = builder.comment("When enabled, the following features will be disabled when player holds item in hand:")
 						.comment("- give item to golem or take items from golem by right click").comment("- order dog golem to seat")
 						.define("strictInteract", false);
+				wandBypassConfig = builder.comment("Wand interaction bypass config lock")
+						.define("wandBypassConfig", false);
 				allowEditCuriosForOthers = builder.comment("Allow command wand to edit curios of other mobs you own")
 						.define("allowEditCuriosForOthers", true);
 				startFollowRadius = builder.comment("Max golem activity radius before following player in follow mode")

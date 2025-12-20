@@ -22,6 +22,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
+import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
@@ -897,8 +898,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public boolean canModify(Player player) {
+		return canModify(player, true);
+	}
+
+	public boolean canWandModify(Player player) {
+		boolean bypass = MGConfig.COMMON.wandBypassConfig.get() || ConfigCard.filterMatch(player, this);
+		return canModify(player, !bypass);
+	}
+
+	public boolean canModify(Player player, boolean checkLock) {
 		var entry = getConfigEntry(null);
-		if (entry != null && entry.locked)
+		if (checkLock && entry != null && entry.locked)
 			return false;
 		LivingEntity owner = this.getOwner();
 		if (player == owner) {

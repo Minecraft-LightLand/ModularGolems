@@ -82,7 +82,7 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 
 	private static boolean command(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
-		if (!golem.canModify(user)) return false;
+		if (!golem.canWandModify(user)) return false;
 		if (level.isClientSide()) return true;
 		if (user.isShiftKeyDown()) {
 			new EquipmentsMenuPvd(golem).open((ServerPlayer) user);
@@ -100,7 +100,7 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 		int size = 0;
 		for (var e : list) {
 			if (!ConfigCard.getFilter(player).test(e)) return false;
-			if (!e.canModify(player)) return false;
+			if (!e.canWandModify(player)) return false;
 			if (e.getOwner() == attacker) {
 				size++;
 				e.resetTarget(target);
