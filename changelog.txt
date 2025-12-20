@@ -1,5 +1,7 @@
-2.6.12
+2.6.13
 - add config for wand to bypass config card lock
+- Fix Create deployer not consuming equipments when deploying on golem
+- Buff Hepatizon Golem, Sandstorm Modifier, Deployer Upgrade
 
 2.6.11
 - Fix compatibility with Create 6.0.7
