@@ -194,6 +194,7 @@ repositories {
             includeGroup "com.iafenvoy"
         }
     }
+    maven { url = "https://maven.createmod.net" }
 }
 
 dependencies {
@@ -240,8 +241,11 @@ dependencies {
 
     //runtimeOnly fg.deobf('curse.maven:appleskin-248787:4440123')
 
-    implementation fg.deobf("curse.maven:create-enchantment-industry-688768:4764843")
-    implementation fg.deobf("curse.maven:create-328085:5838779")
+    implementation fg.deobf("curse.maven:create-enchantment-industry-688768:6652836")
+    implementation fg.deobf("curse.maven:create-328085:7178761")
+    compileOnly(fg.deobf("net.createmod.ponder:Ponder-Forge-1.20.1:1.0.91"))
+    compileOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-1.20.1:1.0.5"))
+
     implementation fg.deobf("curse.maven:the-twilight-forest-227639:5468648")
     implementation fg.deobf('curse.maven:touhou-little-maid-355044:6657436-sources-6657441')
 

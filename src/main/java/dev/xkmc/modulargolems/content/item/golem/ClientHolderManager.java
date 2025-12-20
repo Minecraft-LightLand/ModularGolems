@@ -54,7 +54,10 @@ public class ClientHolderManager {
 	T getEntityForDisplay(GolemHolder<T, P> holder, ItemStack stack) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return null;
-		if (!root.contains(GolemHolder.KEY_ENTITY) && !root.contains(GolemHolder.KEY_ICON)) return null;
+		if (!root.contains(GolemHolder.KEY_ENTITY) &&
+				!root.contains(GolemHolder.KEY_ICON) &&
+				!root.contains(GolemHolder.KEY_EQUIPMENTS))
+			return null;
 		int hash = stack.hashCode();
 		if (CACHE.containsKey(hash)) {
 			AbstractGolemEntity<?, ?> ans = CACHE.get(stack.hashCode()).entity;
@@ -76,16 +79,18 @@ public class ClientHolderManager {
 			CompoundTag entity = root.getCompound(GolemHolder.KEY_ENTITY);
 			ans = holder.getEntityType().createForDisplay(entity);
 			if (ans != null) ans.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
-		} else if (root.contains(GolemHolder.KEY_ICON)) {
+		} else if (root.contains(GolemHolder.KEY_ICON) || root.contains(GolemHolder.KEY_EQUIPMENTS)) {
 			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(Proxy.getClientWorld());
 			golem.addTag("ClientOnly");
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 			ItemCompoundTag tag = ItemCompoundTag.of(stack);
 			GolemEquipUtil.addItemsToGolem(golem, root, false);
-			var list = tag.getSubList(GolemHolder.KEY_ICON, Tag.TAG_COMPOUND).getOrCreate();
-			for (int i = 0; i < list.size(); i++) {
-				ItemStack e = ItemStack.of(list.getCompound(i));
-				golem.equipItemIfPossible(e);
+			if (root.contains(GolemHolder.KEY_ICON)) {
+				var list = tag.getSubList(GolemHolder.KEY_ICON, Tag.TAG_COMPOUND).getOrCreate();
+				for (int i = 0; i < list.size(); i++) {
+					ItemStack e = ItemStack.of(list.getCompound(i));
+					golem.equipItemIfPossible(e);
+				}
 			}
 			ans = Wrappers.cast(golem);
 		}

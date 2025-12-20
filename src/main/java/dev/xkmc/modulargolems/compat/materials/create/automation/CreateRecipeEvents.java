@@ -21,7 +21,7 @@ public class CreateRecipeEvents {
 		Level level = event.getBlockEntity().getLevel();
 		if (!(level instanceof ServerLevel)) return;
 		var ctx = new GolemEquipUtil(false, level);
-		result = ctx.applyItemOnHolder(holder, first, second);
+		result = ctx.applyItemOnHolder(holder, first.copy(), second.copy());
 		if (result.isEmpty()) return;
 		event.addRecipe(() -> Optional.of(new DeployerUpgradeRecipe(result)), 1000);
 	}
