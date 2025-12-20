@@ -9,7 +9,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "tconstruct:hepatizon_ingot",
-			"text": "Main material to craft Hepatizon golem parts. Hepatizon golem parts feature high stats, and allows golem to increase armor after taking damage."
+			"text": "Main material to craft Hepatizon golem parts. Hepatizon golem parts feature high stats, and allows golem to gain temporary damage resistance after taking damage."
 		},
 		{
 			"type": "patchouli:spotlight",

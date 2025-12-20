@@ -29,12 +29,12 @@ public class TCCompatRegistry {
 	static {
 		MANYULLYN_ATTACK = reg("manyullyn_attack", ManyullynAttackModifier::new, "Increase golem attack temporarily after inflicting damage");
 		MANYULLYN_DEFENSE = reg("manyullyn_defense", ManyullynDefenseModifier::new, "Increase golem attack temporarily after taking damage");
-		HEPATIZON_DEFENSE = reg("hepatizon_defense", HepatizonDefenseModifier::new, "Increase golem armor temporarily after taking damage");
+		HEPATIZON_DEFENSE = reg("hepatizon_defense", HepatizonDefenseModifier::new, "Golem takes less damage temporarily after taking damage");
 
 		EFF_MANYULLYN = genEffect("manyullyn_effect", () -> new ManyullynEffect(MobEffectCategory.BENEFICIAL, 0xffffffff),
 				"Increase golem attack damage");
 		EFF_HEPATIZON = genEffect("hepatizon_effect", () -> new HepatizonDefenseEffect(MobEffectCategory.BENEFICIAL, 0xffffffff),
-				"Increase golem armor");
+				"Golem takes less damage");
 
 	}
 

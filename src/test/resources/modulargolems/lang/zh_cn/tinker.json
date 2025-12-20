@@ -9,7 +9,7 @@
 	"effect.modulargolems.manyullyn_effect": "贪婪",
 	"effect.modulargolems.manyullyn_effect.description": "提升傀儡伤害",
 	"modifier.modulargolems.hepatizon_defense": "重复保护",
-	"modifier.modulargolems.hepatizon_defense.desc": "受到伤害后暂时提升护甲",
+	"modifier.modulargolems.hepatizon_defense.desc": "受到伤害后暂时获得伤害减免",
 	"modifier.modulargolems.manyullyn_attack": "贪婪",
 	"modifier.modulargolems.manyullyn_attack.desc": "造成伤害后暂时提升伤害",
 	"modifier.modulargolems.manyullyn_defense": "动力",

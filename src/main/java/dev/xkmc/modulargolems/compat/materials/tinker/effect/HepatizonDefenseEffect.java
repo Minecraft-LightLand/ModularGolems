@@ -11,8 +11,6 @@ public class HepatizonDefenseEffect extends InherentEffect implements StackableE
 
 	public HepatizonDefenseEffect(MobEffectCategory category, int color) {
 		super(category, color);
-		var uuid = MathHelper.getUUIDFromString("modulargolems:hepatizon");
-		addAttributeModifier(Attributes.ARMOR, uuid.toString(), 4, AttributeModifier.Operation.ADDITION);
 	}
 
 }
