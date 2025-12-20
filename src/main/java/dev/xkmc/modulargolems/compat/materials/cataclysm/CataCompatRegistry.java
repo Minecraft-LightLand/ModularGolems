@@ -110,7 +110,7 @@ public class CataCompatRegistry {
 		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "Ccreate blast portal at target position. Attacks multiple targets");
 		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon vortex and void rune toward multiple targets");
 		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on landing");
-		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position. Attacks multiple targets");
+		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position. Attacks multiple targets. Increase damage to target inflicted with Curse of Desert");
 		ANCIENT_MELTDOWN = reg("ancient_remnant_reformation", AncientMeltdownModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
 		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new, "Jump and cause earthquake on landing, summoning halberds");
 		MALEDICTUS_ATTACK = reg("maledictus_attack", MaledictusAttackModifier::new,
