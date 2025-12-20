@@ -657,7 +657,7 @@
   "modifier.modulargolems.leviathan_blast_portal": "深渊冲击波",
   "modifier.modulargolems.leviathan_blast_portal.desc": "在多个目标位置放出深渊冲击波",
   "modifier.modulargolems.ancient_remnant_sandstorm": "遗魂沙暴",
-  "modifier.modulargolems.ancient_remnant_sandstorm.desc": "在多个目标位置召唤沙暴",
+  "modifier.modulargolems.ancient_remnant_sandstorm.desc": "在多个目标位置召唤沙暴。提升对收到沙漠诅咒的生物的伤害",
   "modifier.modulargolems.netherite_monstrosity_earthquake": "巨兽撼地",
   "modifier.modulargolems.netherite_monstrosity_earthquake.desc": "傀儡会起跳砸地造成范围伤害",
   "modifier.modulargolems.maledictus_attack": "咒灵之刃",

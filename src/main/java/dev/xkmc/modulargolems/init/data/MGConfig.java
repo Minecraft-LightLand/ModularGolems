@@ -78,6 +78,7 @@ public class MGConfig {
 		public final ModConfigSpec.DoubleValue laserArmorBonus;
 		public final ModConfigSpec.DoubleValue missileArmorBonus;
 		public final ModConfigSpec.DoubleValue earthquakeArmorBonus;
+		public final ModConfigSpec.DoubleValue sandCurseBonus;
 		public final ModConfigSpec.BooleanValue wandBypassConfig;
 
 		Common(Builder builder) {
@@ -239,6 +240,8 @@ public class MGConfig {
 							.defineInRange("missileArmorBonus", 1d, 0, 10);
 					earthquakeArmorBonus = builder.text("Monstrosity Armor Bonus: Monstrosity Earthquake Modifier damage boost")
 							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
+					sandCurseBonus = builder.text("Sandstorm Upgrade damage bonus per level")
+							.defineInRange("sandCurseBonus", 0.1d, 0, 10);
 				}
 				builder.pop();
 			}

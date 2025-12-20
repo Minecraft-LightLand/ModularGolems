@@ -52,6 +52,24 @@ public class CataclysmProxy {
 		}
 	}
 
+	public static boolean isSandstorm(DamageSource source) {
+		try {
+			return source.getDirectEntity() instanceof Sandstorm_Entity;
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
+	public static int getSandCurseLevel(LivingEntity e) {
+		try {
+			var ins = e.getEffect(ModEffect.EFFECTCURSE_OF_DESERT);
+			if (ins == null) return 0;
+			return ins.getAmplifier() + 1;
+		} catch (Throwable ignored) {
+			return 0;
+		}
+	}
+
 	@Nullable
 	public static Entity addLaserBeam(LivingEntity user, int dur) {
 		try {

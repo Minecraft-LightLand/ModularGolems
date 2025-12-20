@@ -8,7 +8,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:ancient_remnant_sandstorm",
-	  "text": "Summon sandstorm at target position. Attacks [level x 3] targets at a time. Max: 3"
+	  "text": "Summon sandstorm at target position. Attacks [level x 3] targets at a time. Increase damage to targets with Curse of Desert effect. Max: 3"
 	}
   ]
 }
