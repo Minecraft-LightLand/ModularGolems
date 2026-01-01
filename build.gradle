@@ -221,7 +221,7 @@ dependencies {
         jarJar.ranged(it, "[0.2.7,)")
     }
 
-    runtimeOnly fg.deobf("dev.xkmc.l2backpack:l2backpack:2.5.0-slim")
+    implementation fg.deobf("dev.xkmc.l2backpack:l2backpack:2.5.0-slim")
     implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.3-slim')
     implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.5.3-slim")
     implementation fg.deobf("dev.xkmc.golemdungeons:golemdungeons:1.0.2-slim")

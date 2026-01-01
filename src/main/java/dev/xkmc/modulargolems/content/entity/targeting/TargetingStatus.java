@@ -8,6 +8,8 @@ public record TargetingStatus(LivingEntity target, TargetingReason reason, int o
 
 	public int eval(AbstractGolemEntity<?, ?> self) {
 		int score = switch (reason()) {
+			case FORCED -> 1000;
+			case LAST_HURT -> 220;
 			case HURT -> 190;
 			case MALICE -> 180;
 			case PREY -> 150;

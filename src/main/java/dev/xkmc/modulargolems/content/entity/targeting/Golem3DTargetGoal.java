@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,11 @@ public class Golem3DTargetGoal extends NearestAttackableTargetGoal<LivingEntity>
 		this.self = self;
 	}
 
-	protected void findTarget() {
+	public @Nullable LivingEntity getTarget() {
+		return target;
+	}
+
+	public void findTarget() {
 		var entities = self.level().getEntitiesOfClass(this.targetType, this.getTargetSearchArea(this.getFollowDistance()));
 		var list = new ArrayList<TargetingStatus>();
 		var cen = self.getEyePosition();

@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.ModList;
@@ -22,8 +23,11 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class CurioCompatRegistry {
 
@@ -43,6 +47,24 @@ public class CurioCompatRegistry {
 	public static Optional<ItemStack> getItem(LivingEntity e, String slot) {
 		return CuriosApi.getCuriosInventory(e).resolve()
 				.flatMap(x -> x.findCurio(slot, 0).map(SlotResult::stack));
+	}
+
+	public static boolean hasItem(LivingEntity e, Item pred) {
+		var opt = CuriosApi.getCuriosInventory(e).resolve();
+		if (opt.isEmpty()) return false;
+		List<ItemStack> ans = new ArrayList<>();
+		return opt.get().findFirstCurio(pred).isPresent();
+	}
+
+
+	public static List<ItemStack> getItems(LivingEntity e, Predicate<ItemStack> pred) {
+		var opt = CuriosApi.getCuriosInventory(e).resolve();
+		if (opt.isEmpty()) return List.of();
+		List<ItemStack> ans = new ArrayList<>();
+		for (var sr : opt.get().findCurios(pred)) {
+			ans.add(sr.stack());
+		}
+		return ans;
 	}
 
 	public static void register() {

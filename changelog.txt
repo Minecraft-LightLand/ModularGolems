@@ -1,3 +1,10 @@
+2.6.14
+- Golem switch attack target immediately when attacked by entities within melee range
+- Command wand overrides golem targeting system
+- Summon and Retrieval wand can summon from / retrieve into ender backpack and dimensional backpack
+- Fix summon wand not consuming golem with no bars when player is in creative
+- Fix meltdown modifier incorrectly revives golem when golem is killed
+
 2.6.13
 - add config for wand to bypass config card lock
 - Fix Create deployer not consuming equipments when deploying on golem

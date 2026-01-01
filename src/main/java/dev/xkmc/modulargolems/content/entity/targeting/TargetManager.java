@@ -30,6 +30,8 @@ public class TargetManager {
 
 	@Nullable
 	public static TargetingReason predicateTarget(AbstractGolemEntity<?, ?> self, LivingEntity e) {
+		if (self.forcedTarget == e) return FORCED;
+		if (self.getLastHurtByMob() == e) return LAST_HURT;
 		if (isFriend(self, e.getLastHurtMob())) return HURT;
 		if (e instanceof Mob mob) {
 			if (isFriend(self, mob.getTarget())) return MALICE;

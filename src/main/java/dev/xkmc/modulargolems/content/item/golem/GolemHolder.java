@@ -490,9 +490,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 					return false;
 				}
 				level.addFreshEntity(golem);
-				if (player == null || !player.getAbilities().instabuild) {
-					stack.shrink(1);
-				}
+				stack.shrink(1);
 				if (callback != null) {
 					callback.accept(golem);
 				}

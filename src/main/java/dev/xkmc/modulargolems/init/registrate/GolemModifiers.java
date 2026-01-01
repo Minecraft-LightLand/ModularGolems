@@ -18,9 +18,9 @@ import dev.xkmc.modulargolems.content.modifier.special.PickupModifier;
 import dev.xkmc.modulargolems.content.modifier.special.PotionMetaModifier;
 import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
 import dev.xkmc.modulargolems.content.modifier.special.TalentMetaModifier;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.MobType;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 
@@ -117,7 +117,7 @@ public class GolemModifiers {
 		WITHER = reg("wither", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
 						i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)),
 				"Potion Upgrade: Wither", null);
-		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.ILLAGER),
+		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getType().is(EntityTypeTags.RAIDERS)),
 				"Deal %s%% more damage to illagers");
 		PICKUP = reg("pickup", PickupModifier::new, "Pickup",
 				"Golems will pickup items and experiences within %s blocks and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them");

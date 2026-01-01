@@ -29,6 +29,7 @@ import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
+import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
@@ -83,6 +84,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -144,6 +146,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public final Set<MobEffect> effectImmunity = new HashSet<>();
 
 	private final List<Goal> modifierGoals = new ArrayList<>();
+
+	private Golem3DTargetGoal targeter;
+	public LivingEntity forcedTarget;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -283,6 +288,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
 		}
+		if (isAlive() && source.getEntity() instanceof LivingEntity le && predicateTarget(le)) {
+			if (isWithinMeleeAttackRange(le)) {
+				targeter.findTarget();
+				setTarget(targeter.getTarget());
+			}
+		}
+	}
+
+	public double getMeleeAttackRangeSqr(LivingEntity e) {
+		double val = getAttributeValue(ForgeMod.ENTITY_REACH.get());
+		return val * val + e.getBbWidth();
 	}
 
 	@Override
@@ -656,7 +672,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void checkReforge() {
-		if (getHealth() <= getMaxHealth() / 2) {
+		if (isAlive() && getHealth() <= getMaxHealth() / 2) {
 			int reforge = getPersistentData().getInt("GolemReforge");
 			if (reforge < getMaxReforge()) {
 				reforge++;
@@ -685,7 +701,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void aiStep() {
 		this.updateSwingTime();
 		super.aiStep();
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide && isAlive()) {
 			if (this.tickCount % 20 == 0) {
 				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
 				for (var entry : getModifiers().entrySet()) {
@@ -959,7 +975,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.goalSelector.addGoal(8, new GolemRandomStrollGoal(this));
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(3, new Golem3DTargetGoal(this, 5));
+		this.targetSelector.addGoal(3, targeter = new Golem3DTargetGoal(this, 5));
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
@@ -1043,6 +1059,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		if (le != null) {
 			setLastHurtByMob(le);
+			forcedTarget = le;
 		}
 	}
 
@@ -1185,7 +1202,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			if (MinecraftForge.EVENT_BUS.post(new GolemToOwnerEvent(player, stack))) {
 				return;
 			}
-			player.getInventory().placeItemBackInInventory(stack);
+			if (player instanceof ServerPlayer sp)
+				GolemTransportHandler.addGolemToPlayer(sp, stack);
 		} else {
 			spawnAtLocation(stack);
 		}
