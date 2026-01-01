@@ -1,7 +1,7 @@
 {
 	"flag": "mod:tconstruct",
 	"advancement": "tconstruct:smeltery/melter",
-	"name": "马玉灵",
+	"name": "玛玉灵",
 	"icon": "tconstruct:manyullyn_ingot",
 	"category": "modulargolems:materials",
 	"sortnum": 802,
@@ -9,7 +9,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "tconstruct:manyullyn_ingot",
-			"text": "制作马玉灵傀儡部件的主要材料，马玉灵傀儡部件拥有非常高的数值，且在战斗中能不断提高伤害。"
+			"text": "制作玛玉灵傀儡部件的主要材料，其拥有高额数值，且在战斗中能多段提高伤害。"
 		},
 		{
 			"type": "patchouli:spotlight",

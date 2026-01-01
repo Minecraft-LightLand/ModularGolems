@@ -6,7 +6,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:thunder_immune",
-	  "text": "令傀儡免疫雷电伤害。被雷击中时获得火焰免疫，并回复部分血量。"
+	  "text": "令傀儡免疫雷电伤害并吸引雷电。被雷电击中时获得火焰免疫，并回复部分血量。"
 	}
   ]
 }

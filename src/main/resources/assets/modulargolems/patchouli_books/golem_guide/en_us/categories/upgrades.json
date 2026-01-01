@@ -1,5 +1,6 @@
 {
   "name": "Upgrades",
   "description": "Types of upgrades player can use to craft golem parts",
-  "icon": "modulargolems:recycle"
+  "icon": "modulargolems:recycle",
+  "sortnum": 2
 }

@@ -1,5 +1,6 @@
 {
-  "name": "升级模块",
+  "name": "升级模板",
   "description": "强化你的傀儡",
-  "icon": "modulargolems:recycle"
+  "icon": "modulargolems:recycle",
+  "sortnum": 2
 }

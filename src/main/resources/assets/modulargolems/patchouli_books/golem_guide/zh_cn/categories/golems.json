@@ -1,5 +1,6 @@
 {
   "name": "傀儡种类和工具",
   "description": "可制作的傀儡种类，以及各种手杖",
-  "icon": "modulargolems:metal_golem_holder"
+  "icon": "modulargolems:metal_golem_holder",
+  "sortnum": 0
 }

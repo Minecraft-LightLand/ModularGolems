@@ -9,7 +9,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "tconstruct:cobalt_ingot",
-			"text": "制作钴傀儡部件的主要材料，钴傀儡部件提供极高的数值并提升移动速度。"
+			"text": "制作钴傀儡部件的主要材料，钴傀儡部件提供较高的数值，腿部拥有移速加成。"
 		},
 		{
 			"type": "patchouli:spotlight",

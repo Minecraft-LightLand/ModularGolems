@@ -1,0 +1,13 @@
+{
+  "flag": "mod:legendary_monsters",
+  "name": "雷暴升级",
+  "icon": "modulargolems:thunderstorm",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:thunderstorm",
+	  "text": "傀儡可以召唤湫渃云魔的乌云闪电同时攻击多个目标，且受击会向周围释放电磁冲击波。最大等级: 4 $(li)乌云闪电伤害：7/10/13/16 $(li)每列乌云闪电数量：16/24/32/40个 $(li)电磁冲击波伤害：40%/60%/80%/100%近战伤害"
+	}
+  ]
+}

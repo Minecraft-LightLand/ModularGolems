@@ -9,7 +9,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "modulargolems:magnetic_construct",
-			"text": "制造磁力傀儡的主要材料。近战模式吸引敌人，远程模式排斥敌人。消耗铁锭保护自己"
+			"text": "制造磁力傀儡的主要材料。近战模式吸引敌人，远程模式排斥敌人。可消耗铁锭修复自身并创造护盾。"
 		},
 		{
 			"type": "patchouli:spotlight",

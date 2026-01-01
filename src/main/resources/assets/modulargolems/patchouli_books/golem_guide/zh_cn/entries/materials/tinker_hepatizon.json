@@ -1,7 +1,7 @@
 {
 	"flag": "mod:tconstruct",
 	"advancement": "tconstruct:smeltery/melter",
-	"name": "黑色科斯林青铜",
+	"name": "黑色科林斯青铜",
 	"icon": "tconstruct:hepatizon_ingot",
 	"category": "modulargolems:materials",
 	"sortnum": 803,
@@ -9,7 +9,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "tconstruct:hepatizon_ingot",
-			"text": "制作黑色科斯林青铜傀儡部件的主要材料，黑色科斯林青铜傀儡部件拥有较好的防御性，且受伤时能提供额暂时的伤害减免。"
+			"text": "制作黑色科林斯青铜傀儡部件的主要材料，其拥有尚可的防御力，且受伤时能提供一定伤害减免。"
 		},
 		{
 			"type": "patchouli:spotlight",

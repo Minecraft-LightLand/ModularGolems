@@ -1,0 +1,13 @@
+{
+  "flag": "mod:legendary_monsters",
+  "name": "Thunderstorm Upgrade",
+  "icon": "modulargolems:thunderstorm",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:thunderstorm",
+	  "text": "Summon thunderstorm to attack multiple targets. When being attacked, summon electric bursts around the golem.Max:4 $(li)thunderstorm damage：7/10/13/16 $(li)thunderstorm count：16/24/32/40 $(li)electric bursts damage：40%/60%/80%/100%melee damage"
+	}
+  ]
+}

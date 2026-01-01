@@ -1,5 +1,6 @@
 {
   "name": "Materials",
   "description": "Types of materials player can use to craft golem parts",
-  "icon": "minecraft:iron_ingot"
+  "icon": "minecraft:iron_ingot",
+  "sortnum": 1
 }
