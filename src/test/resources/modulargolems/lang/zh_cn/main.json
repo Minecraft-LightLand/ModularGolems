@@ -107,7 +107,8 @@
 			"target": "攻击目标过滤器",
 			"path": "巡逻配置",
 			"tracker_alive": "世界中的傀儡",
-			"tracker_dead": "傀儡死亡记录"
+			"tracker_dead": "傀儡死亡记录",
+			"tracker_retrieve": "返回玩家记录"
 		},
 		"slot": {
 			"main": "主手槽",
@@ -130,7 +131,10 @@
 			"recycle_killed": "被%s杀死（有回收升级）",
 			"retrieved": "被回收",
 			"retrieved_other": "被%s回收",
-			"time": "在被卸载的区块"
+			"time": "在被卸载的区块",
+			"dimensional": "回到空间背包",
+			"ender": "回到末影背包",
+			"inventory": "回到物品栏"
 		}
 	},
 	"patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",

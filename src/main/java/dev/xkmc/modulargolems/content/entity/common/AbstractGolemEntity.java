@@ -222,6 +222,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				this.unRide();
 
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem(player));
+				setRetrivedTo(GolemTracker.RetrieveTarget.INVENTORY);
 			}
 			return InteractionResult.SUCCESS;
 		} else {
@@ -238,12 +239,25 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return InteractionResult.PASS;
 	}
 
-	public void untrack(GolemTracker.Status type, @Nullable Entity cause) {
+	@Nullable
+	public GolemTracker getTracker() {
 		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
-		if (getOwner() instanceof FakePlayer) return;
-		var tracker = GolemConfigStorage.get(level()).getTracker(id);
-		tracker.untrack(this, type, cause);
+		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return null;
+		if (getOwner() instanceof FakePlayer) return null;
+		return GolemConfigStorage.get(level()).getTracker(id);
+	}
+
+	public void setRetrivedTo(GolemTracker.RetrieveTarget target) {
+		var tracker = getTracker();
+		if (tracker == null) return;
+		var data = tracker.data.get(getUUID());
+		if (data == null) return;
+		data.target = target;
+	}
+
+	public void untrack(GolemTracker.Status type, @Nullable Entity cause) {
+		var tracker = getTracker();
+		if (tracker != null) tracker.untrack(this, type, cause);
 	}
 
 	@ServerOnly
@@ -627,11 +641,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				tickItem.tick(stack, this.level(), this);
 			}
 		}
-		var id = getOwnerUUID();
-		if (getOwner() instanceof FakePlayer) return;
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
-		var tracker = GolemConfigStorage.get(level()).getTracker(id);
-		tracker.track(this);
+		var tracker = getTracker();
+		if (tracker != null)
+			tracker.track(this);
 	}
 
 	public void repair(float amount) {
@@ -1134,11 +1146,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private boolean untrackRemoved(@Nullable DamageSource source) {
 		if (level().isClientSide()) return false;
-		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return false;
-		if (getOwner() instanceof FakePlayer) return false;
-		var tracker = GolemConfigStorage.get(level()).getTracker(id);
-		if (tracker.isUntracked(this)) return false;
+		var tracker = getTracker();
+		if (tracker == null || tracker.isUntracked(this)) return false;
 		Player owner = getOwner();
 		Entity cause = null;
 		boolean sendMessages = MGConfig.COMMON.sendForceRemovalMessage.get();
@@ -1182,11 +1191,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void trackPos(double x, double y, double z) {
 		if (level().isClientSide() || !isAddedToWorld()) return;
-		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
-		if (getOwner() instanceof FakePlayer) return;
-		var tracker = GolemConfigStorage.get(level()).getTracker(id);
-		tracker.trackPos(getUUID(), x, y, z);
+		var tracker = getTracker();
+		if (tracker != null)
+			tracker.trackPos(getUUID(), x, y, z);
 	}
 
 	public void returnToInventory() {
@@ -1203,7 +1210,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				return;
 			}
 			if (player instanceof ServerPlayer sp)
-				GolemTransportHandler.addGolemToPlayer(sp, stack);
+				GolemTransportHandler.addGolemToPlayer(sp, stack, this);
 		} else {
 			spawnAtLocation(stack);
 		}

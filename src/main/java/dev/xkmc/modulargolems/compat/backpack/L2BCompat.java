@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.compat.backpack;
 import dev.xkmc.l2backpack.content.remote.worldchest.WorldChestItem;
 import dev.xkmc.l2backpack.init.registrate.BackpackItems;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
+import dev.xkmc.modulargolems.content.capability.GolemTracker;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -52,7 +54,7 @@ public class L2BCompat {
 		return list;
 	}
 
-	public static boolean addGolemToPlayer(ServerPlayer player, ItemStack golem) {
+	public static boolean addGolemToPlayer(ServerPlayer player, ItemStack golem, AbstractGolemEntity<?, ?> entity) {
 		//TODO has upgrade
 		var hasEnder = hasEnder(player);
 		var config = GolemHolder.getGolemConfig(golem);
@@ -66,13 +68,17 @@ public class L2BCompat {
 				var opt = chest.getContainer(stack, player.serverLevel());
 				if (opt.isEmpty()) continue;
 				var cont = opt.get().container;
-				if (cont.addItem(golem).isEmpty())
+				if (cont.addItem(golem).isEmpty()) {
+					entity.setRetrivedTo(GolemTracker.RetrieveTarget.DIMENSIONAL);
 					return true;
+				}
 			}
 		}
 		if (hasEnder) {
-			if (player.getEnderChestInventory().addItem(golem).isEmpty())
+			if (player.getEnderChestInventory().addItem(golem).isEmpty()) {
+				entity.setRetrivedTo(GolemTracker.RetrieveTarget.ENDER);
 				return true;
+			}
 		}
 		return false;
 	}

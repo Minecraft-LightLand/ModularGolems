@@ -1,16 +1,10 @@
 {
-  "name": "Summon Wand",
-  "icon": "modulargolems:summon_wand",
-  "category": "modulargolems:golems",
-  "sortnum": 22,
-  "pages": [
-	{
-	  "type": "patchouli:text",
-	  "text": "Right click to summon a golem on target block, from your off hand or inventory.$(br2)Shift right click to summon all golems from your inventory around you."
-	},{
-	  "type": "patchouli:crafting",
-	  "recipe": "modulargolems:summon_wand",
-	  "text": "Wand for massive golem summon."
-	}
-  ]
+	"name": "Summon Wand",
+	"icon": "modulargolems:summon_wand",
+	"category": "modulargolems:golems",
+	"sortnum": 22,
+	"pages": [
+		"Right click to summon a golem on target block, from your off hand or inventory.$(br2)Shift right click to summon all golems from your inventory around you.",
+		"When L2Backpack is present:$(br2)This wand can also summon golems from Ender Backpack equipped.$(br2) If player has their own dimensional backpacks in inventory or ender backpack, this wand can also summon golems with same config color as the dimensional backpack those golems are in."
+	]
 }

@@ -25,6 +25,10 @@ public class GolemTracker {
 		}
 	}
 
+	public enum RetrieveTarget {
+		INVENTORY, ENDER, DIMENSIONAL
+	}
+
 	@SerialClass.SerialField
 	public final LinkedHashMap<UUID, TrackedData> data = new LinkedHashMap<>();
 
@@ -68,9 +72,12 @@ public class GolemTracker {
 		public GolemType<?, ?> golemType;
 		@SerialClass.SerialField
 		public List<ResourceLocation> materials = new ArrayList<>();
+		@SerialClass.SerialField
+		public RetrieveTarget target = null;
 
 		public void update(AbstractGolemEntity<?, ?> e) {
 			status = Status.ALIVE;
+			target = null;
 			lastDim = e.level().dimension().location();
 			lastPos = e.blockPosition();
 			timestamp = e.level().getGameTime();

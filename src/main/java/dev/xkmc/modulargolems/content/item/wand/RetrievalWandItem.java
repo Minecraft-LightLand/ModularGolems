@@ -56,7 +56,7 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 		if (!golem.canWandModify(user)) return false;
 		if (!(user instanceof ServerPlayer sp)) return true;
 		golem.unRide();
-		GolemTransportHandler.addGolemToPlayer(sp, golem.toItem(user));
+		GolemTransportHandler.addGolemToPlayer(sp, golem.toItem(user), golem);
 		return true;
 	}
 

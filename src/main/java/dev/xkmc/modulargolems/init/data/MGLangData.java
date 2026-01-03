@@ -124,6 +124,7 @@ public enum MGLangData {
 
 	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
 	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),
+	TAB_RETRIEVE("tab.tracker_retrieve", "Returned to Inventory", 0, null),
 
 	BOT_MANA("msg.botania_mana", "Mana: %s/%s", 2, null),
 	BOT_NO_RING("msg.botania_no_ring", "No Band of Mana Equipped", 0, null),
@@ -139,6 +140,9 @@ public enum MGLangData {
 	TRACKER_RECYCLE_KILLED("tracker.recycle_killed", "Killed by %s (with recycle upgrade)", 1, null),
 	TRACKER_DIED("tracker.dead", "Dead", 0, null),
 	TRACKER_RECYCLE_DIED("tracker.recycle_dead", "Dead (with recycle upgrade)", 0, null),
+	TRACKER_INVENTORY("tracker.inventory", "To Inventory", 0, null),
+	TRACKER_ENDER("tracker.ender", "To Ender Backpack", 0, null),
+	TRACKER_DIMENSIONAL("tracker.dimensional", "To Dimensional Backpack", 0, null),
 	;
 
 	private final String key, def;

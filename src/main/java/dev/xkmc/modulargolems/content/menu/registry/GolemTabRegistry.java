@@ -43,6 +43,8 @@ public class GolemTabRegistry {
 			new GolemTabToken<>(TrackerTab.Type.ALIVE::create, () -> Items.POPPY, MGLangData.TAB_ALIVE.get());
 	public static final GolemTabToken<TrackerGroup, TrackerTab> TRACKER_DEAD =
 			new GolemTabToken<>(TrackerTab.Type.DEAD::create, () -> Items.WITHER_ROSE, MGLangData.TAB_DEAD.get());
+	public static final GolemTabToken<TrackerGroup, TrackerTab> TRACKER_RETRIEVE =
+			new GolemTabToken<>(TrackerTab.Type.RETRIEVE::create, GolemItems.RETRIEVAL_WAND::get, MGLangData.TAB_RETRIEVE.get());
 
 	public static void register() {
 		LIST_CONFIG.add(CONFIG_TOGGLE);
@@ -53,6 +55,7 @@ public class GolemTabRegistry {
 		LIST_EQUIPMENT.add(ATTRIBUTE);
 		LIST_TRACKER.add(TRACKER_ALIVE);
 		LIST_TRACKER.add(TRACKER_DEAD);
+		LIST_TRACKER.add(TRACKER_RETRIEVE);
 	}
 
 }

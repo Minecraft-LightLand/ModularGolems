@@ -16,7 +16,8 @@ public class TrackerTab extends GolemTabBase<TrackerGroup, TrackerTab> {
 
 	public enum Type {
 		ALIVE(() -> new AliveGolemPage(MGLangData.TAB_ALIVE.get())),
-		DEAD(() -> new DeadGolemPage(MGLangData.TAB_DEAD.get()));
+		DEAD(() -> new DeadGolemPage(MGLangData.TAB_DEAD.get())),
+		RETRIEVE(() -> new RetrivedGolemPage(MGLangData.TAB_RETRIEVE.get()));
 
 		private final Supplier<GolemInfoScreen> factory;
 
