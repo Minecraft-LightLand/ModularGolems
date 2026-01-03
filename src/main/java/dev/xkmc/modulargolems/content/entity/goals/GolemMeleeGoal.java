@@ -180,10 +180,11 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		double end = Math.sqrt(getAttackReachSqr(target));
 		double far = end - 0.5;
 		this.repathDelay = Math.max(this.repathDelay - 1, 0);
-		if (dist < far && end > 2.4) {
+		boolean hasRange = golem.hasRangeAttack();
+		if (dist < far && end > 2.4 || hasRange) {
 			if (!golem.getNavigation().isDone())
 				golem.getNavigation().stop();
-			golem.getMoveControl().strafe(dist < far - 1 ? -1f : -0.5F, 0);
+			golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
 		} else if (dist > far) {
 			if (repathDelay == 0) repath(target, distSqr);
 		}

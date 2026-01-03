@@ -1232,4 +1232,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.getCapability(capability, facing);
 	}
 
+	public boolean hasRangeAttack() {
+		return false;
+	}
+
 }
