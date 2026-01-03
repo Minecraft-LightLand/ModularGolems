@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.Function;
 
+@Deprecated
 public class GolemThrowableEvent extends GolemItemUseEvent {
 
 	private boolean isThrowable;

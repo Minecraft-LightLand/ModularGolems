@@ -67,14 +67,4 @@ public class GolemEventListeners {
 		}
 	}
 
-	@SubscribeEvent
-	public static void isThrowable(GolemThrowableEvent event) {
-		if (event.getStack().getItem() instanceof TridentItem) {
-			event.setThrowable(level -> {
-				var ans = new ThrownTrident(level, event.getEntity(), event.getStack());
-				ans.pickup = AbstractArrow.Pickup.DISALLOWED;
-				return ans;
-			});
-		}
-	}
 }
