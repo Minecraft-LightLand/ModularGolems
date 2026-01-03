@@ -286,7 +286,6 @@ dependencies {
 
     compileOnly fg.deobf("maven.modrinth:goety-revelation:2.1.5")
     implementation fg.deobf("curse.maven:legendary-monsters-944035:6776766")
-    compileOnly fg.deobf("zip.local:touhou_little_maid_spell:1.2.2")
     //compileOnly fg.deobf("local.zip:RevelationFix:1.20.1")
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
 
