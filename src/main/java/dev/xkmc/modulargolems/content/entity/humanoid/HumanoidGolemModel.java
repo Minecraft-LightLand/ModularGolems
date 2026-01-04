@@ -3,14 +3,14 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import dev.xkmc.mob_weapon_api.example.behavior.ThrowableBehavior;
+import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemShooterHelper;
 import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -80,7 +80,8 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 		InteractionHand hand = entity.getWeaponHand();
 		ItemStack itemstack = entity.getItemInHand(hand);
 		ArmPose pos = ArmPose.EMPTY;
-		if (entity.isAggressive() && GolemShooterHelper.isValidThrowableWeapon(entity, itemstack, hand) && entity.isUsingItem()) {
+		if (entity.isAggressive() && entity.isUsingItem() && WeaponRegistry.HOLD.get(entity, itemstack)
+				.orElse(null) instanceof ThrowableBehavior) {
 			pos = ArmPose.THROW_SPEAR;
 		} else if (entity.isAggressive() && itemstack.getUseAnimation() == UseAnim.BOW) {
 			pos = ArmPose.BOW_AND_ARROW;

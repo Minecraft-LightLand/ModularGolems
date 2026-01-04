@@ -13,10 +13,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -189,10 +186,4 @@ public class CataclysmProxy {
 		}
 	}
 
-	public static Projectile coralSpear(LivingEntity user, Level level, ItemStack stack) {
-		ThrownCoral_Spear_Entity throwntrident = new ThrownCoral_Spear_Entity(level, user, stack);
-		throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-		throwntrident.setPos(user.getEyePosition().add(user.getForward()));
-		return throwntrident;
-	}
 }

@@ -12,7 +12,6 @@ import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -23,7 +22,6 @@ public class CataDispatch extends ModDispatch {
 
 	public CataDispatch() {
 		CataCompatRegistry.register();
-		NeoForge.EVENT_BUS.register(CataGolemEventHandler.class);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

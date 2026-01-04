@@ -29,6 +29,7 @@ import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
@@ -81,6 +82,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import net.neoforged.neoforge.common.NeoForge;
@@ -138,6 +140,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected final GroundPathNavigation groundNavigation;
 
 	public final Set<MobEffect> effectImmunity = new HashSet<>();
+
+	private Golem3DTargetGoal targeter;
+	public LivingEntity forcedTarget;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -203,6 +208,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			if (!level().isClientSide()) {
 				this.unRide();
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem(player));
+				setRetrivedTo(GolemTracker.RetrieveTarget.INVENTORY);
 			}
 			return InteractionResult.SUCCESS;
 		} else {
@@ -219,12 +225,25 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return InteractionResult.PASS;
 	}
 
-	public void untrack(GolemTracker.Status type, @Nullable Entity cause) {
+	@Nullable
+	public GolemTracker getTracker() {
 		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
-		if (getOwner() instanceof FakePlayer) return;
-		var tracker = GolemConfigStorage.get(level()).getTracker(id);
-		tracker.untrack(this, type, cause);
+		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return null;
+		if (getOwner() instanceof FakePlayer) return null;
+		return GolemConfigStorage.get(level()).getTracker(id);
+	}
+
+	public void setRetrivedTo(GolemTracker.RetrieveTarget target) {
+		var tracker = getTracker();
+		if (tracker == null) return;
+		var data = tracker.data.get(getUUID());
+		if (data == null) return;
+		data.target = target;
+	}
+
+	public void untrack(GolemTracker.Status type, @Nullable Entity cause) {
+		var tracker = getTracker();
+		if (tracker != null) tracker.untrack(this, type, cause);
 	}
 
 	@ServerOnly
@@ -259,6 +278,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
 		}
+		if (isAlive() && source.getEntity() instanceof LivingEntity le && predicateTarget(le)) {
+			if (isWithinMeleeAttackRange(le)) {
+				targeter.findTarget();
+				setTarget(targeter.getTarget());
+			}
+		}
+	}
+
+	@Override
+	protected AABB getAttackBoundingBox() {
+		var r = getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
+		return getBoundingBox().inflate(r);
 	}
 
 	@Override
@@ -583,11 +614,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				tickItem.tick(stack, this.level(), this);
 			}
 		}
-		var id = getOwnerUUID();
-		if (getOwner() instanceof FakePlayer) return;
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
-		var tracker = GolemConfigStorage.get(level()).getTracker(id);
-		tracker.track(this);
+		var tracker = getTracker();
+		if (tracker != null)
+			tracker.track(this);
 	}
 
 	public void repair(float amount) {
@@ -627,7 +656,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void checkReforge() {
-		if (getHealth() <= getMaxHealth() / 2) {
+		if (isAlive() && getHealth() <= getMaxHealth() / 2) {
 			int reforge = getPersistentData().getInt("GolemReforge");
 			if (reforge < getMaxReforge()) {
 				reforge++;
@@ -656,7 +685,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void aiStep() {
 		this.updateSwingTime();
 		super.aiStep();
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide && isAlive()) {
 			if (this.tickCount % 20 == 0) {
 				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.holder());
 				for (var entry : getModifiers().entrySet()) {
@@ -927,7 +956,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.goalSelector.addGoal(8, new GolemRandomStrollGoal(this));
 		this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-		this.targetSelector.addGoal(3, new Golem3DTargetGoal(this, 5));
+		this.targetSelector.addGoal(3, targeter = new Golem3DTargetGoal(this, 5));
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
@@ -1023,6 +1052,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		if (le != null) {
 			setLastHurtByMob(le);
+			forcedTarget = le;
 		}
 	}
 
@@ -1068,11 +1098,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void trackPos(double x, double y, double z) {
 		if (level().isClientSide() || !isAddedToLevel()) return;
-		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return;
-		if (getOwner() instanceof FakePlayer) return;
-		var tracker = GolemConfigStorage.get(level()).getTracker(id);
-		tracker.trackPos(getUUID(), x, y, z);
+		var tracker = getTracker();
+		if (tracker != null)
+			tracker.trackPos(getUUID(), x, y, z);
 	}
 
 	public void returnToInventory() {
@@ -1088,7 +1116,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			if (NeoForge.EVENT_BUS.post(new GolemToOwnerEvent(player, stack)).isCanceled()) {
 				return;
 			}
-			player.getInventory().placeItemBackInInventory(stack);
+			if (player instanceof ServerPlayer sp)
+				GolemTransportHandler.addGolemToPlayer(sp, stack, this);
 		} else {
 			spawnAtLocation(stack);
 		}
@@ -1104,6 +1133,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public IItemHandler getItemHandler() {
 		return new CombinedInvWrapper(aggregateInventories().toArray(new IItemHandlerModifiable[0]));
+	}
+
+	public boolean hasRangeAttack() {
+		return false;
 	}
 
 }

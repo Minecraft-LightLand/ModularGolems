@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -53,9 +54,9 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 	private static boolean attemptRetrieve(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
 		if (!golem.canModify(user)) return false;
-		if (level.isClientSide()) return true;
+		if (!(user instanceof ServerPlayer sp)) return true;
 		golem.unRide();
-		user.getInventory().placeItemBackInInventory(golem.toItem(user));
+		GolemTransportHandler.addGolemToPlayer(sp, golem.toItem(user), golem);
 		return true;
 	}
 

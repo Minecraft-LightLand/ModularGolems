@@ -5,6 +5,7 @@
     "modulargolems:golem": "modulargolems:metal_golem_holder",
     "modulargolems:golem_alive": "minecraft:poppy",
     "modulargolems:golem_dead": "minecraft:wither_rose",
+    "modulargolems:golem_retrieve": "modulargolems:retrieval_wand",
     "modulargolems:item_filter": "minecraft:hopper",
     "modulargolems:path": "minecraft:dirt_path",
     "modulargolems:target_filter": "minecraft:bell",

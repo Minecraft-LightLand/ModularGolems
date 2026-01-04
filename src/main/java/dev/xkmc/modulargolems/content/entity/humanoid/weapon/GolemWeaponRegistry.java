@@ -37,10 +37,6 @@ public class GolemWeaponRegistry<T extends SweepGolemEntity<?,?>> extends Weapon
 	}
 
 	public static void init() {
-		HUMANOID.register(ModularGolems.loc("throwable"),
-				(golem, stack, hand) -> WeaponStatus.OFFENSIVE.of(GolemShooterHelper.isValidThrowableWeapon(golem, stack, hand)),
-				(golem, melee) -> new GolemTridentAttackGoal(golem, 1, 20, 25, melee)
-		);
 		HUMANOID.initBasic();
 		LARGE.initBasic();
 	}

@@ -116,7 +116,7 @@ public class GolemModifiers {
 		WITHER = reg("wither", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
 						i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)),
 				"Potion Upgrade: Wither", null);
-		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getType().is(EntityTypeTags.ILLAGER)),
+		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getType().is(EntityTypeTags.RAIDERS)),
 				"Deal %s%% more damage to illagers");
 		PICKUP = reg("pickup", PickupModifier::new, "Pickup",
 				"Golems will pickup items and experiences within %s blocks and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them");

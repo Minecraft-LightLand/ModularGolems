@@ -16,17 +16,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Predicate;
-
 public class DispenseWand extends BaseWandItem implements GolemInteractItem {
-
-	private static void iter(Player player, Predicate<ItemStack> use) {
-		if (use.test(player.getOffhandItem())) return;
-		for (int i = 0; i < 36; i++) {
-			if (use.test(player.getInventory().getItem(i)))
-				return;
-		}
-	}
 
 	public DispenseWand(Properties properties, @Nullable ItemEntry<? extends BaseWandItem> base) {
 		super(properties, MGLangData.WAND_SUMMON_RIGHT, MGLangData.WAND_SUMMON_SHIFT, base);
@@ -35,7 +25,7 @@ public class DispenseWand extends BaseWandItem implements GolemInteractItem {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
-		if (!level.isClientSide()) {
+		if (user instanceof ServerPlayer sp) {
 			boolean all = user.isShiftKeyDown();
 			Vec3 pos = user.position();
 			if (!all) {
@@ -46,7 +36,7 @@ public class DispenseWand extends BaseWandItem implements GolemInteractItem {
 			}
 			Vec3 finalPos = pos;
 			int[] counter = new int[]{0};
-			iter(user, golem -> {
+			GolemTransportHandler.summonGolemFromPlayer(sp, golem -> {
 				if (golem.getItem() instanceof GolemHolder<?, ?> holder) {
 					if (holder.summon(golem, level, finalPos, user, null)) {
 						counter[0]++;
@@ -55,7 +45,7 @@ public class DispenseWand extends BaseWandItem implements GolemInteractItem {
 				}
 				return false;
 			});
-			if (counter[0] > 1 && user instanceof ServerPlayer sp) {
+			if (counter[0] > 1) {
 				GolemTriggers.MAS_SUMMON.get().trigger(sp, counter[0]);
 			}
 		}

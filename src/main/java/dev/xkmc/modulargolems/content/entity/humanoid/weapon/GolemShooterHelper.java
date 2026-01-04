@@ -15,14 +15,17 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 public class GolemShooterHelper {
 
+	@Deprecated
 	public static boolean isValidThrowableWeapon(LivingEntity user, ItemStack stack, @Nullable InteractionHand hand) {
 		if (hand == null) return false;
 		var ans = throwWeapon(user, stack, hand);
 		return ans != null && ans.isThrowable();
 	}
 
+	@Deprecated
 	public static @Nullable GolemThrowableEvent throwWeapon(LivingEntity user, ItemStack stack, InteractionHand hand) {
 		if (!(user instanceof HumanoidGolemEntity golem)) return null;
 		var reg = CommonHooks.resolveLookup(Registries.ENCHANTMENT);
@@ -44,6 +47,7 @@ public class GolemShooterHelper {
 		return event;
 	}
 
+	@Deprecated
 	public static void shootAimHelper(LivingEntity target, Projectile arrow) {
 		ShootUtils.shootAimHelper(target, arrow, 3, 0.05f);
 	}

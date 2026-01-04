@@ -26,22 +26,31 @@ public class TrackerInfo {
 	public static List<Component> getDetail(GolemTracker.TrackedData data, Player player, long time) {
 		List<Component> ans = new ArrayList<>();
 		if (data.name != null) ans.add(data.name);
-		float f = Mth.clamp(data.hp / data.mhp, 0f, 1f);
-		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 0.5f);
-		MutableComponent hc = Component.literal("" + Math.round(data.hp)).setStyle(Style.EMPTY.withColor(color));
-		ans.add(MGLangData.HEALTH.get(hc, Math.round(data.mhp)).withStyle(data.hp <= 0 ? ChatFormatting.DARK_RED : ChatFormatting.DARK_AQUA));
-		if (data.hp > 0) {
-			long diff = (time - data.timestamp) / 20;
-			ans.add(diff < 2 ?
-					MGLangData.TRACKER_PRESENT.get().withStyle(ChatFormatting.DARK_GREEN) :
-					MGLangData.TRACKER_TIME.get().withStyle(ChatFormatting.RED));
+		if (data.status == GolemTracker.Status.RETRIEVED) {
+			var ret = switch (data.target) {
+				case DIMENSIONAL -> MGLangData.TRACKER_DIMENSIONAL.get();
+				case ENDER -> MGLangData.TRACKER_ENDER.get();
+				default -> MGLangData.TRACKER_INVENTORY.get();
+			};
+			ans.add(ret.withStyle(ChatFormatting.GRAY));
+		} else {
+			float f = Mth.clamp(data.hp / data.mhp, 0f, 1f);
+			int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 0.5f);
+			MutableComponent hc = Component.literal("" + Math.round(data.hp)).setStyle(Style.EMPTY.withColor(color));
+			ans.add(MGLangData.HEALTH.get(hc, Math.round(data.mhp)).withStyle(data.hp <= 0 ? ChatFormatting.DARK_RED : ChatFormatting.DARK_AQUA));
+			if (data.hp > 0) {
+				long diff = (time - data.timestamp) / 20;
+				ans.add(diff < 2 ?
+						MGLangData.TRACKER_PRESENT.get().withStyle(ChatFormatting.DARK_GREEN) :
+						MGLangData.TRACKER_TIME.get().withStyle(ChatFormatting.RED));
+			}
+			boolean diffDim = !data.lastDim.equals(player.level().dimension().location());
+			var p = data.lastPos;
+			boolean tooFar = diffDim || p.distSqr(player.blockPosition()) > 128 * 128;
+			ans.add(MGLangData.TRACKER_DIM.get(data.lastDim.toString()).withStyle(diffDim ? ChatFormatting.RED : ChatFormatting.GRAY));
+			ans.add(MGLangData.TRACKER_POS.get(p.getX(), p.getY(), p.getZ()).withStyle(tooFar ? ChatFormatting.RED : ChatFormatting.GRAY));
+			ans.add(getStatusDesc(data));
 		}
-		boolean diffDim = !data.lastDim.equals(player.level().dimension().location());
-		var p = data.lastPos;
-		boolean tooFar = diffDim || p.distSqr(player.blockPosition()) > 128 * 128;
-		ans.add(MGLangData.TRACKER_DIM.get(data.lastDim.toString()).withStyle(diffDim ? ChatFormatting.RED : ChatFormatting.GRAY));
-		ans.add(MGLangData.TRACKER_POS.get(p.getX(), p.getY(), p.getZ()).withStyle(tooFar ? ChatFormatting.RED : ChatFormatting.GRAY));
-		ans.add(getStatusDesc(data));
 		if (data.golemType != null) {
 			var parts = data.golemType.values();
 			if (data.materials.size() == parts.length) {

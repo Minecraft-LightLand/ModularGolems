@@ -2,10 +2,10 @@ package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
-import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.more_wolf_armors.content.WolfArmorItem;
 import dev.xkmc.more_wolf_armors.init.MoreWolfArmors;
@@ -323,6 +323,26 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 	}
 
+	@Override
+	public boolean isInRangedMode() {
+		for (var e : getPassengers()) {
+			if (e instanceof SweepGolemEntity<?, ?> h) {
+				return h.isInRangedMode();
+			}
+		}
+		return super.isInRangedMode() || isInSittingPose();
+	}
+
+	@Override
+	public boolean hasRangeAttack() {
+		for (var e : getPassengers()) {
+			if (e instanceof SweepGolemEntity<?, ?> h) {
+				return h.hasRangeAttack();
+			}
+		}
+		return super.hasRangeAttack();
+	}
+
 	private boolean canArmorAbsorb(DamageSource source) {
 		if (source.is(DamageTypeTags.BYPASSES_WOLF_ARMOR) || source.is(DamageTypeTags.BYPASSES_ARMOR)) {
 			return false;
@@ -338,10 +358,6 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return getBodyArmorItem().is(MGTagGen.C_WOLF_ARMORS);
 	}
 
-	@Override
-	public boolean isInRangedMode() {
-		return super.isInRangedMode() || isInSittingPose();
-	}
 
 }
 
