@@ -11,17 +11,17 @@
 	"golem_material.alexscaves.nuclear": "核能",
 	"modifier.modulargolems": {
 		"atomic_fueling": "反应充能",
-		"atomic_fueling.desc": "消耗[%s]恢复%s血量，并提高%s攻击和速度持续%s秒。傀儡免疫辐射",
+		"atomic_fueling.desc": "消耗[%s]回复%s生命值，并提升%s攻击伤害和移动速度，持续%s秒。傀儡免疫辐射",
 		"free_movement": "穿行",
 		"free_movement.desc": "傀儡不会被方块和焦糖减速",
 		"gum_shooter": "糖果机",
 		"gum_shooter.desc": "发射糖果子弹造成%s点伤害",
 		"polarize": "磁力极化",
-		"polarize.desc": "近战模式牵引范围内的敌人，远程模式排斥范围内的敌人。同时持续造成%s点伤害",
+		"polarize.desc": "近战模式牵引范围内的目标，远程模式排斥范围内的目标。同时持续造成%s点伤害",
 		"radiation": "辐射",
-		"radiation.desc": "攻击施加%s。对被辐射的敌人每级辐射等级上升%s攻击伤害",
+		"radiation.desc": "对攻击的目标施加%s效果。攻击受到辐射的目标时，每级辐射提升%s伤害",
 		"reformation": "磁力重组",
-		"reformation.desc": "消耗铁锭获得%s点伤害吸收，并回复%s点血量。最多叠加%s点伤害吸收",
+		"reformation.desc": "消耗铁锭获得%s点伤害吸收，并回复%s点生命值。最多叠加%s点伤害吸收",
 		"sticky_caramel": "粘性焦糖",
 		"sticky_caramel.desc": "在攻击目标脚下生成焦糖"
 	}
