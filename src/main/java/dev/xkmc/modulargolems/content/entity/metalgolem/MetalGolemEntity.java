@@ -60,7 +60,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
 			damage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), le.getMobType());
-			dokb += (float) EnchantmentHelper.getKnockbackBonus(this);
+			float kbench = (float) EnchantmentHelper.getKnockbackBonus(this);
+			if (kbench > 0) dokb += Math.sqrt(kbench);
 		}
 		boolean succeed = target.hurt(level().damageSources().mobAttack(this), damage);
 		if (getMainHandItem().getItem() instanceof ExtraAttackGolemWeapon item) {
