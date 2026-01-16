@@ -757,6 +757,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean killedEntity(ServerLevel level, LivingEntity target) {
 		Player player = getOwner();
 		if (player != null) GolemTriggers.KILL.trigger((ServerPlayer) player, target);
+		if (target == getTarget()) {
+			targeter.findTarget();
+			setTarget(targeter.getTarget());
+		}
 		return super.killedEntity(level, target);
 	}
 

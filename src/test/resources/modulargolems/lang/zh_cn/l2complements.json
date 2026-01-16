@@ -24,8 +24,8 @@
 	"curse": "药水升级：诅咒",
 	"incarcerate": "药水升级：禁锢",
 	"poseidite": "海神",
-	"poseidite.desc": "对怕水生物和水生生物额外造成+%s%%伤害",
+	"poseidite.desc": "对怕水生物和水生生物额外造成%s%%的伤害",
 	"totemic_gold": "生命",
-	"totemic_gold.desc": "对亡灵生物造成+%s%%伤害"
+	"totemic_gold.desc": "对亡灵生物额外造成%s%%的伤害"
   }
 }

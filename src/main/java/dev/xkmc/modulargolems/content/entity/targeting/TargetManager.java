@@ -30,6 +30,7 @@ public class TargetManager {
 
 	@Nullable
 	public static TargetingReason predicateTarget(AbstractGolemEntity<?, ?> self, LivingEntity e) {
+		if (!e.isAlive()) return null;
 		if (self.forcedTarget == e) return FORCED;
 		if (self.getLastHurtByMob() == e) return LAST_HURT;
 		if (isFriend(self, e.getLastHurtMob())) return HURT;
@@ -62,7 +63,7 @@ public class TargetManager {
 		double best = -100000;
 		LivingEntity ans = null;
 		for (var e : list) {
-			double score = e.eval(self) + self.getRandom().nextDouble();
+			double score = e.eval(self);
 			if (score > best) {
 				best = score;
 				ans = e.target();

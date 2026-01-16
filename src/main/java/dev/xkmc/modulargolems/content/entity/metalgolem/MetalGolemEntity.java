@@ -56,19 +56,20 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
+		double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
 			damage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), le.getMobType());
-			kb += (float) EnchantmentHelper.getKnockbackBonus(this);
+			dokb += (float) EnchantmentHelper.getKnockbackBonus(this);
 		}
 		boolean succeed = target.hurt(level().damageSources().mobAttack(this), damage);
 		if (getMainHandItem().getItem() instanceof ExtraAttackGolemWeapon item) {
 			succeed |= item.repeatAttack(this, target, damage, succeed);
 		}
 		if (succeed) {
-			double d1 = Math.max(0.0D, 1.0D - kb);
-			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;
-			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, dokb * d1, 0.0D));
+			double d1 = Math.max(0.5D, 1.0D - kb / 2);
+			Vec3 kbVec = target.position().subtract(position()).normalize().multiply(1,0,1).scale(Math.max(0, dokb-1)*d1*0.4).add(0,Math.sqrt(dokb*d1)*0.4,0);
+			target.setDeltaMovement(target.getDeltaMovement().add(kbVec));
 			this.doEnchantDamageEffects(this, target);
 			int i = EnchantmentHelper.getFireAspect(this);
 			if (i > 0) {
