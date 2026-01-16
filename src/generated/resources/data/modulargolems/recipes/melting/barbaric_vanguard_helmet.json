@@ -1,0 +1,26 @@
+{
+  "type": "tconstruct:melting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "byproducts": [
+    {
+      "amount": 2000,
+      "fluid": "tconstruct:molten_diamond",
+      "unit_size": 25
+    }
+  ],
+  "ingredient": {
+    "item": "modulargolems:barbaric_vanguard_helmet"
+  },
+  "result": {
+    "amount": 450,
+    "tag": "forge:molten_netherite",
+    "unit_size": 10
+  },
+  "temperature": 1250,
+  "time": 40
+}

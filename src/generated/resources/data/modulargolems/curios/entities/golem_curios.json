@@ -7,10 +7,13 @@
   ],
   "slots": [
     "head",
+    "necklace",
     "back",
+    "body",
     "ring",
     "charm",
     "hands",
+    "belt",
     "golem_route",
     "golem_skin"
   ]

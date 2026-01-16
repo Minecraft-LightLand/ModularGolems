@@ -1,0 +1,26 @@
+{
+  "type": "tconstruct:melting",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "byproducts": [
+    {
+      "amount": 400,
+      "fluid": "tconstruct:molten_diamond",
+      "unit_size": 25
+    }
+  ],
+  "ingredient": {
+    "item": "modulargolems:netherite_golem_axe"
+  },
+  "result": {
+    "amount": 360,
+    "tag": "tconstruct:molten_debris",
+    "unit_size": 10
+  },
+  "temperature": 1175,
+  "time": 40
+}

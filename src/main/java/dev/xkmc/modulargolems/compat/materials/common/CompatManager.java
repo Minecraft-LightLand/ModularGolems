@@ -20,6 +20,7 @@ import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMDispatch;
 import dev.xkmc.modulargolems.compat.materials.mowziesmobs.MowzieDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
+import dev.xkmc.modulargolems.compat.materials.compositematerial.CMDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -61,6 +62,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(ATMDispatch.MODID)) LIST.add(new ATMDispatch());
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
+        if (ModList.get().isLoaded(CMDispatch.MODID)) LIST.add(new CMDispatch());
 	}
 
 	public static void commonSetup() {

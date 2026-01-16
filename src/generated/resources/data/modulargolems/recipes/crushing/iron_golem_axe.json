@@ -1,0 +1,26 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:iron_golem_axe"
+    }
+  ],
+  "processingTime": 200,
+  "results": [
+    {
+      "count": 4,
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "chance": 0.25,
+      "count": 2,
+      "item": "modulargolems:metal_golem_template"
+    }
+  ]
+}

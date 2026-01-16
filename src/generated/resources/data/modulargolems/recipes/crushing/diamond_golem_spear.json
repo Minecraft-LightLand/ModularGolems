@@ -1,0 +1,26 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:diamond_golem_spear"
+    }
+  ],
+  "processingTime": 200,
+  "results": [
+    {
+      "count": 3,
+      "item": "minecraft:diamond"
+    },
+    {
+      "chance": 0.25,
+      "count": 2,
+      "item": "modulargolems:metal_golem_template"
+    }
+  ]
+}
