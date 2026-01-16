@@ -1,0 +1,16 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "l2hostility"
+    }
+  ],
+  "entities": [
+    "modulargolems:metal_golem",
+    "modulargolems:humanoid_golem",
+    "modulargolems:dog_golem"
+  ],
+  "slots": [
+    "hostility_curse"
+  ]
+}
