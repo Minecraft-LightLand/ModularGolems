@@ -7,9 +7,9 @@
   },
   "modifier.modulargolems": {
 	"fiery": "炽热",
-	"fiery.desc": "对不免疫火焰伤害的生物造成%s%%火焰伤害",
+	"fiery.desc": "对不免疫火焰伤害的目标造成的伤害改为%s%%的火焰伤害",
 	"thorn": "荆棘",
-	"thorn.desc": "反射%s%%直接物理伤害",
+	"thorn.desc": "将直接物理伤害以%s%%荆棘伤害的形式反射",
 	"tf_damage": "暮色伤害加成",
 	"tf_damage.desc": "在暮色森林中，额外造成%s%%的伤害",
 	"tf_healing": "暮色再生加成",
