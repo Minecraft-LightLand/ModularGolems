@@ -18,7 +18,7 @@ public class DungeonAttackModifier extends GolemModifier {
 		if (event == null) return;
 		var source = event.getSource();
 		if (!source.is(L2DamageTypes.DIRECT)) return;
-		golem.heal(cache.getDamageDealt() * 0.5f * value);//TODO config
+		golem.heal(cache.getDamageDealt() * 0.25f * value);//TODO config
 	}
 
 }

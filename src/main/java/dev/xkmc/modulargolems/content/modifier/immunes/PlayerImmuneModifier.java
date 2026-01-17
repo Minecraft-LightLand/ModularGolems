@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
+// 玩家伤害免疫
 public class PlayerImmuneModifier extends GolemModifier {
 
 	public PlayerImmuneModifier() {

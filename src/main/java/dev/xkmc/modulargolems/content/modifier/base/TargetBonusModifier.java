@@ -14,8 +14,10 @@ import java.util.function.Predicate;
 
 public class TargetBonusModifier extends GolemModifier {
 
+	// Predicate是一个函数式接口，代表一个返回布尔值的函数,用于判断目标实体是否符合某些条件
 	private final Predicate<LivingEntity> pred;
 
+	// 构造
 	public TargetBonusModifier(Predicate<LivingEntity> pred) {
 		super(StatFilterType.ATTACK, 2);
 		this.pred = pred;

@@ -56,6 +56,7 @@ public class GolemModifiers {
 
 
 	static {
+		// 各类升级,是Registrate对象的集合
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
 				"Immune to fire damage. Floats in Lava.");
 		THUNDER_IMMUNE = reg("thunder_immune", ThunderImmuneModifier::new,
@@ -157,6 +158,7 @@ public class GolemModifiers {
 			ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
 		}
 		var result = ans.register();
+		// 将注册结果设置到可变对象 holder 中。这一步的意义在于持有注册结果的引用，以便在需要时可以访问
 		holder.setValue(result);
 		return result;
 	}

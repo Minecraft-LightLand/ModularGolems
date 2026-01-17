@@ -9,6 +9,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import java.util.function.Consumer;
 
+// 火焰免疫
 public class FireImmuneModifier extends GolemModifier {
 
 	public FireImmuneModifier() {

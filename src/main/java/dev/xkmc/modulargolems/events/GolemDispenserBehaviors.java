@@ -14,6 +14,7 @@ public class GolemDispenserBehaviors {
 	public static void registerDispenseBehaviors() {
 		DispenseItemBehavior behavior = new DefaultDispenseItemBehavior() {
 			@Override
+			// 定义了如何在投掷器中处理一些特殊的物品
 			protected ItemStack execute(BlockSource source, ItemStack stack) {
 				if (((GolemHolder<?, ?>) stack.getItem()).summon(
 						stack, source.getLevel(),
