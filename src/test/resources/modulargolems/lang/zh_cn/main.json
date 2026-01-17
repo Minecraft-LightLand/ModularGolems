@@ -11,7 +11,7 @@
 	"modulargolems": {
 		"tooltip": {
 			"health": "生命值: %s/%s",
-			"slot": "剩余升级槽: %s/%s",
+			"slot": "剩余升级槽: %s",
 			"meltdown": "熔锻: %s",
 			"shift": "按 SHIFT 显示技能细节",
 			"following": "傀儡会跟随玩家",
