@@ -1240,4 +1240,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return false;
 	}
 
+	@Override
+	public void onHeal(float heal) {
+		for (var entry : getModifiers().entrySet()) {
+			 entry.getKey().onHealPost(heal, this, entry.getValue());
+		}
+	}
+
+	@Override
+	public void heal(float heal) {
+		for (var entry : getModifiers().entrySet()) {
+			heal = entry.getKey().onHealPre(heal, this, entry.getValue());
+		}
+		super.heal(heal);
+	}
+
 }
