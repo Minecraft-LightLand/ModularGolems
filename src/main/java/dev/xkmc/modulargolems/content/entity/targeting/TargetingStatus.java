@@ -6,19 +6,18 @@ import net.minecraft.world.entity.LivingEntity;
 
 public record TargetingStatus(LivingEntity target, TargetingReason reason, int oldCount, double distSqr, double yDiff) {
 
-	public int eval(AbstractGolemEntity<?, ?> self) {
-		int score = switch (reason()) {
+	public double eval(AbstractGolemEntity<?, ?> self) {
+		double score = switch (reason()) {
 			case FORCED -> 1000;
-			case LAST_HURT -> 220;
-			case HURT -> 190;
+			case LAST_HURT -> 180.5;
+			case HURT -> 180.2;
 			case MALICE -> 180;
 			case PREY -> 150;
 			case PREVIOUS -> 120;
 		};
-		score -= Mth.clamp((int) (Math.sqrt(distSqr()) / 5), 0, 5);
+		score -= Mth.clamp(Math.sqrt(distSqr()) / 2, 0, 10);
 		score -= oldCount() * 10;
-		score -= Mth.clamp((int) yDiff() / 3, 0, 5);
+		score -= Mth.clamp(yDiff() / 3, 0, 5);
 		return score;
 	}
-
 }

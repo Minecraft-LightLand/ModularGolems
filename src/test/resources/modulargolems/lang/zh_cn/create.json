@@ -11,11 +11,11 @@
 		"coating.desc": "受到的伤害减少%s",
 		"push": "击退提升",
 		"mechanical_engine": "蒸汽动力",
-		"mechanical_engine.desc": "消耗燃料强化傀儡",
+		"mechanical_engine.desc": "可消耗燃料强化自身",
 		"mechanical_force": "工业长路",
-		"mechanical_force.desc": "消耗燃料时+%s%%攻击伤害",
+		"mechanical_force.desc": "消耗燃料时提升%s%%攻击伤害",
 		"mechanical_mobility": "汽鸣铁道",
-		"mechanical_mobility.desc": "消耗燃料时+%s%%速度"
+		"mechanical_mobility.desc": "消耗燃料时提升%s%%移动速度"
 	},
 	"item.modulargolems": {
 		"coating": "镀层升级",

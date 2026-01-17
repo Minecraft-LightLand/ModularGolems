@@ -55,20 +55,30 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return target.getBoundingBox().inflate(range);
 	}
 
-	protected boolean performDamageTarget(Entity target, float damage, double kb) {
+	protected boolean performDamageTarget(Entity target, float damage, double kbres) {
+		double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
 		if (target instanceof LivingEntity le) {
 			le.setLastHurtByPlayer(getOwner());
 			damage += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), le.getMobType());
-			kb += (float) EnchantmentHelper.getKnockbackBonus(this);
+			float kbench = (float) EnchantmentHelper.getKnockbackBonus(this);
+			if (kbench > 0) dokb += Math.sqrt(kbench);
 		}
 		boolean succeed = target.hurt(level().damageSources().mobAttack(this), damage);
 		if (getMainHandItem().getItem() instanceof ExtraAttackGolemWeapon item) {
 			succeed |= item.repeatAttack(this, target, damage, succeed);
 		}
 		if (succeed) {
-			double d1 = Math.max(0.0D, 1.0D - kb);
-			double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK) * 0.4;
-			target.setDeltaMovement(target.getDeltaMovement().add(0.0D, dokb * d1, 0.0D));
+			dokb = Math.max(0, dokb - kbres);
+			if (dokb > 0) {
+				Vec3 kbVec = target.position().subtract(position()).normalize()
+						.multiply(1, 0, 1)
+						.scale(Math.max(0, dokb - 1) * 0.4)
+						.add(0, Math.sqrt(dokb) * 0.8, 0);
+				Vec3 vec = target.getDeltaMovement();
+				vec = new Vec3(vec.x / 2 + kbVec.x, Math.max(kbVec.y, vec.y), vec.z / 2 + kbVec.z);
+				target.hasImpulse = true;
+				target.setDeltaMovement(vec);
+			}
 			this.doEnchantDamageEffects(this, target);
 			int i = EnchantmentHelper.getFireAspect(this);
 			if (i > 0) {

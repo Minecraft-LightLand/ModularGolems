@@ -131,4 +131,10 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		doReassessGoal = true;
 	}
 
+	@Override
+	public boolean hasRangeAttack() {
+		return weaponManager.isRangedModeAvailable(getMainHandItem()) ||
+				weaponManager.isRangedModeAvailable(getAltWeaponHand().getItem());
+	}
+
 }

@@ -38,7 +38,7 @@ public class PolarizeModifier extends GolemModifier {
 		if (golem.tickCount % 5 != 0) return;
 		if (!golem.isAggressive()) return;
 		double r = range(level);
-		boolean ranged = golem.isInRangedMode();
+		boolean ranged = golem.isInRangedMode() || golem.hasRangeAttack();
 		Vec3 src = golem.position().add(0.0, 0.2, 0.0);
 		float particleMax = (float) (5 + golem.getRandom().nextInt(5));
 		for (int particles = 0; (float) particles < particleMax; ++particles) {
@@ -64,7 +64,7 @@ public class PolarizeModifier extends GolemModifier {
 		boolean dmg = golem.tickCount % 10 == 0;
 		float damage = (float) damage(level);
 		double r = range(level);
-		boolean ranged = golem.isInRangedMode();
+		boolean ranged = golem.isInRangedMode() || golem.hasRangeAttack();
 		var aabb = golem.getBoundingBox().inflate(r);
 		List<LivingEntity> list = golem.level().getEntities(EntityTypeTest.forClass(LivingEntity.class), aabb,
 				e -> e != golem && golem.canAttack(e));

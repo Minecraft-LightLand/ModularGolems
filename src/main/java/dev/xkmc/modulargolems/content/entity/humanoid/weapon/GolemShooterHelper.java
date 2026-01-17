@@ -12,14 +12,17 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
 public class GolemShooterHelper {
 
+	@Deprecated
 	public static boolean isValidThrowableWeapon(LivingEntity user, ItemStack stack, @Nullable InteractionHand hand) {
 		if (hand == null) return false;
 		var ans = throwWeapon(user, stack, hand);
 		return ans != null && ans.isThrowable();
 	}
 
+	@Deprecated
 	public static @Nullable GolemThrowableEvent throwWeapon(LivingEntity user, ItemStack stack, InteractionHand hand) {
 		if (!(user instanceof HumanoidGolemEntity golem)) return null;
 		if (stack.getEnchantmentLevel(Enchantments.LOYALTY) > 0) {

@@ -13,7 +13,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 
 public class CataDispatch extends ModDispatch {
 
@@ -21,7 +20,6 @@ public class CataDispatch extends ModDispatch {
 
 	public CataDispatch() {
 		CataCompatRegistry.register();
-		MinecraftForge.EVENT_BUS.register(CataGolemEventHandler.class);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

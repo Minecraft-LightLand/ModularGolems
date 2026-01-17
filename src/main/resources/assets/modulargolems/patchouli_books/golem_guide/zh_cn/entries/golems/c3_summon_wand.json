@@ -1,16 +1,10 @@
 {
-  "name": "召唤手杖",
-  "icon": "modulargolems:summon_wand",
-  "category": "modulargolems:golems",
-  "sortnum": 22,
-  "pages": [
-	{
-	  "type": "patchouli:text",
-	  "text": "右键从副手或者背包召唤一个傀儡到目标方块。$(br2)蹲下右键从背包尽可能地召唤傀儡到身旁。"
-	},{
-	  "type": "patchouli:crafting",
-	  "recipe": "modulargolems:summon_wand",
-	  "text": "批量召唤傀儡的道具。"
-	}
-  ]
+	"name": "召唤手杖",
+	"icon": "modulargolems:summon_wand",
+	"category": "modulargolems:golems",
+	"sortnum": 22,
+	"pages": [
+		"右键从副手或者背包召唤一个傀儡到目标方块。$(br2)蹲下右键从背包尽可能地召唤傀儡到身旁。",
+		"安装了莱特兰背包时:$(br2)也可以从玩家装备了的末影背包中召唤傀儡$(br2)如果玩家物品栏或者末影背包内有属于玩家的空间背包，也可以从空间背包中召唤持有对应颜色配置卡的傀儡。"
+	]
 }

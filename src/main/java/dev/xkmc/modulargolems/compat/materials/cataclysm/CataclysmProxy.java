@@ -189,10 +189,4 @@ public class CataclysmProxy {
 		}
 	}
 
-	public static Projectile coralSpear(LivingEntity user, Level level, ItemStack stack) {
-		ThrownCoral_Spear_Entity throwntrident = new ThrownCoral_Spear_Entity(level, user, stack);
-		throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-		throwntrident.setPos(user.getEyePosition().add(user.getForward()));
-		return throwntrident;
-	}
 }
