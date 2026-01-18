@@ -11,6 +11,7 @@ public class CMDispatch extends ModDispatch {
     public static final String MODID = "composite-material";
 
     public CMDispatch() {
+        CMCompatRegistry.register();
     }
 
     @Override

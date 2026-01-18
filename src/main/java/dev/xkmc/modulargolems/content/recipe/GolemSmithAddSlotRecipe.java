@@ -50,6 +50,7 @@ public class GolemSmithAddSlotRecipe extends AbstractSmithingRecipe<GolemSmithAd
 	}
 
 	@Override
+	// 序列化
 	public Serializer<GolemSmithAddSlotRecipe> getSerializer() {
 		return GolemMiscs.SMITH_ADD_SLOT.get();
 	}

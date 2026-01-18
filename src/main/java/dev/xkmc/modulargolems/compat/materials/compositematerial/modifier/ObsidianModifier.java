@@ -13,7 +13,7 @@ public class ObsidianModifier extends GolemModifier {
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
-		event.setAmount((float) Math.max(0, event.getAmount() - level * 1));//TODO config
+		event.setAmount((float) Math.max(0, event.getAmount() - level * 2));//TODO config
 	}
 
 }

@@ -17,7 +17,9 @@ import java.util.List;
 
 public class ThornModifier extends GolemModifier {
 
+	// 方法用于获取荆棘效果的百分比值
 	private static float getPercent() {
+		// 从配置文件MGConfig.COMMON.thorn中读取该值，并将其转换为float类型以供后续使用
 		return (float) (double) MGConfig.COMMON.thorn.get();
 	}
 

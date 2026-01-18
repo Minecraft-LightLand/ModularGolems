@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 import java.util.List;
 
+// 限制伤害
 public class DamageCapModifier extends GolemModifier {
 
 	public DamageCapModifier() {
@@ -24,6 +25,7 @@ public class DamageCapModifier extends GolemModifier {
 		if (event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 			return;
 		}
+		// 计算一个因子 factor，这个因子会随着修饰符等级的提高而减小，且不会小于0
 		float factor = (float) Math.max(0, (2 - level * 0.2) * MGConfig.COMMON.damageCap.get());
 		if (event.getAmount() > factor * entity.getMaxHealth()) {
 			event.setAmount(factor * entity.getMaxHealth());

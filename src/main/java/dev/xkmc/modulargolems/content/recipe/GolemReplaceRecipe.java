@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.ParametersAreNullableByDefault;
 
+// 替换配方
 public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe> {
 
 	public GolemReplaceRecipe(ResourceLocation rl, String group, int w, int h, NonNullList<Ingredient> ingredients, ItemStack result) {

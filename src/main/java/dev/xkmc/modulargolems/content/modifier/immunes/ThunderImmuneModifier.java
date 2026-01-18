@@ -20,6 +20,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import java.util.List;
 import java.util.function.Consumer;
 
+// 雷免
 public class ThunderImmuneModifier extends GolemModifier {
 
 	public ThunderImmuneModifier() {
@@ -30,6 +31,7 @@ public class ThunderImmuneModifier extends GolemModifier {
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
 		if (level <= 0) return;
 		if (entity.isOnFire()) {
+			// 灭火
 			entity.clearFire();
 		}
 		if (event.getSource().is(DamageTypeTags.IS_LIGHTNING)) {

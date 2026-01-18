@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
+// 魔免
 public class MagicImmuneModifier extends GolemModifier {
 
 	public MagicImmuneModifier() {

@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
+// 弹射物免疫
 public class ProjectileRejectModifier extends GolemModifier {
 
 	public ProjectileRejectModifier() {

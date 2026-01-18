@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.events;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.Minecraft;
 
+// 客户端数据包的处理
 public class ClientPacketHandler {
 
 	public static void handleReforge(int id, int reforge) {

@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
 
+// 魔抗
 public class MagicResistanceModifier extends GolemModifier {
 
 	public MagicResistanceModifier() {
