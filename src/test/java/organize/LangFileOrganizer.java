@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,7 +30,9 @@ public class LangFileOrganizer extends ResourceOrganizer {
 			File target = new File(getTargetFolder() + name + ".json");
 			check(target);
 			JsonObject dst_json = new JsonObject();
-			for (File fj : fi.listFiles()) {
+			var list = new ArrayList<>(List.of(fi.listFiles()));
+			list.sort(Comparator.comparing(e -> e.getName()));
+			for (File fj : list) {
 				if (!fj.getName().endsWith(".json")) continue;
 				JsonObject json = new JsonParser().parse(new FileReader(fj.getPath())).getAsJsonObject();
 				inject("", json, dst_json);

@@ -2,6 +2,8 @@
 - improve metal golem knockback formula
 - fix golem pause after killing one target
 - golem will prioritize near enemies more
+- fix meat shredder not being used properly
+- fix other mods healing golem in client incorrectly
 - improve some translations
 
 2.6.14
