@@ -37,14 +37,5 @@ public class CMCompatRegistry {
     }
 
     public static void register() {
-        MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.GOLEM_UPGRADES)
-                .addOptional(DUNGEON_ABSORPTION.getId())
-                .addOptional(DUNGEON_LINK.getId())
-                .addOptional(OBSIDIAN.getId())
-                .addOptional(PRIMITIVE_BLAST.getId())
-                .addOptional(PRIMITIVE_CURSE.getId())
-                .addOptional(PRIMITIVE_SUSTAIN.getId())
-                .addOptional(RESONANT_ATTACK.getId())
-                .addOptional(RESONANT_HEAL.getId()));
     }
 }
