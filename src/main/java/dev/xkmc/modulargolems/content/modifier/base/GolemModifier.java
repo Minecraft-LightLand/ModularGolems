@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
-import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -97,6 +96,13 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	/**
+	 * fires when this golem is attacked. Damage taking phase
+	 */
+	public void onDamaged(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+
+	}
+
+	/**
 	 * modify healing
 	 */
 	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
@@ -158,7 +164,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return InteractionResult.PASS;
 	}
 
-	public void onKillTarget(AbstractGolemEntity<?,?> golem, LivingEntity entity, LivingDeathEvent event, int level) {
+	public void onKillTarget(AbstractGolemEntity<?, ?> golem, LivingEntity entity, LivingDeathEvent event, int level) {
 	}
 
 	public record HealingContext(float health, float maxHealth, Entity owner) {

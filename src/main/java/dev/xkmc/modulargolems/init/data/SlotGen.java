@@ -37,13 +37,14 @@ public class SlotGen extends RecordDataProvider {
 		));
 
 		map.accept(ModularGolems.MODID + "/curios/entities/golem_curios", new CurioEntityBuilder(entities,
-				new ArrayList<>(List.of("head", "back", "ring", "charm", "hands", "golem_route", "golem_skin")), SlotCondition.of()
+				new ArrayList<>(List.of("golem_route", "golem_skin",
+						"curio", "back", "belt", "body", "boot", "bracelet", "charm", "head",
+						"hands", "necklace", "ring", "feet",
+						"scroll", "spellbook", "heart_amulet", "spellstone", "hostility_curse", "accessory",
+						"artifact_head", "artifact_necklace", "artifact_bracelet", "artifact_body", "artifact_belt"
+				)), SlotCondition.of()
 		));
 
-		map.accept(ModularGolems.MODID + "/curios/entities/golem_artifacts", new CurioEntityBuilder(entities,
-				new ArrayList<>(List.of("artifact_head", "artifact_necklace", "artifact_bracelet", "artifact_body", "artifact_belt")),
-				SlotCondition.of("l2artifacts")
-		));
 
 		map.accept(ModularGolems.MODID + "/curios/entities/maid_artifacts", new CurioEntityBuilder(
 				new ArrayList<>(List.of(InitEntities.MAID.getId())),
@@ -56,5 +57,6 @@ public class SlotGen extends RecordDataProvider {
 				new ArrayList<>(List.of("head", "back", "ring", "charm", "hands")),
 				SlotCondition.of(TouhouLittleMaid.MOD_ID)
 		));
+
 	}
 }
