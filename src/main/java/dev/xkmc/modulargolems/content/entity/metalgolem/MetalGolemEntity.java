@@ -70,10 +70,13 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (succeed) {
 			dokb = Math.max(0, dokb - kbres);
 			if (dokb > 0) {
+				var hor = Math.max(0, dokb - 1) * 0.4;
+				var ver = Math.sqrt(dokb);
+				ver = Math.min(ver * 2, ver + 1) * 0.4;
 				Vec3 kbVec = target.position().subtract(position()).normalize()
 						.multiply(1, 0, 1)
-						.scale(Math.max(0, dokb - 1) * 0.4)
-						.add(0, Math.sqrt(dokb) * 0.8, 0);
+						.scale(hor)
+						.add(0, ver, 0);
 				Vec3 vec = target.getDeltaMovement();
 				vec = new Vec3(vec.x / 2 + kbVec.x, Math.max(kbVec.y, vec.y), vec.z / 2 + kbVec.z);
 				target.hasImpulse = true;

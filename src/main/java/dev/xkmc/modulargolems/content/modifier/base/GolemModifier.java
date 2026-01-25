@@ -99,6 +99,13 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	/**
+	 * fires when this golem is attacked. Damage taking phase
+	 */
+	public void onDamaged(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+
+	}
+
+	/**
 	 * modify healing
 	 */
 	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {

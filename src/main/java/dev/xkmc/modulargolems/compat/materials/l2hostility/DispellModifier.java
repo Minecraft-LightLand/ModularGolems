@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.l2hostility;
 
+import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
-import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import dev.xkmc.l2hostility.content.item.traits.EnchantmentDisabler;
 import dev.xkmc.l2hostility.init.data.LHConfig;
 import dev.xkmc.l2hostility.init.registrate.LHTraits;
@@ -12,9 +12,7 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -60,13 +58,13 @@ public class DispellModifier extends GolemModifier {
 	}
 
 	@Override
+	public void onDamaged(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+		LHTraits.DISPELL.get().onDamaged(level, entity, cache);
+	}
+
+	@Override
 	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (level > 0 &&
-				!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) &&
-				!event.getSource().is(DamageTypeTags.BYPASSES_EFFECTS) &&
-				event.getSource().is(L2DamageTypes.MAGIC)) {
-			event.setCanceled(true);
-		}
+		LHTraits.DISPELL.get().onAttackedByOthers(level, entity, event);
 	}
 
 	@Override
