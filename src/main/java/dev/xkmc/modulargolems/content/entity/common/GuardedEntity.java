@@ -116,7 +116,7 @@ public class GuardedEntity extends AbstractGolem {
 		}
 		float f = getHealth();
 		float m = getMaxHealth();
-		heal = Math.max(m - f, heal);
+		heal = Math.min(m - f, heal);
 		if (f > 0 && heal > 0) {
 			onHeal(heal);
 			setHealth(f + heal);
