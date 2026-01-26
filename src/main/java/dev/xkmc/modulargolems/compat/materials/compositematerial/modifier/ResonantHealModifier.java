@@ -16,7 +16,7 @@ public class ResonantHealModifier extends GolemModifier {
 	public void onHealPost(float heal, AbstractGolemEntity<?, ?> golem, int value) {
 		if (recursive) return;
 		recursive = true;
-		var val = heal * 0.05f * value;//TODO config
+		var val = heal * 0.25f * value;//TODO config
 		var level = golem.level();
 		var aabb = golem.getBoundingBox().inflate(32);//TODO config
 		var list = level.getEntitiesOfClass(AbstractGolemEntity.class, aabb);

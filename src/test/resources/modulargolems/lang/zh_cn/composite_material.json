@@ -1,6 +1,23 @@
 {
-  "golem_material.composite_material.allay": "悦灵",
-  "golem_material.composite_material.dungeon": "地牢",
+  "golem_material.composite_material.allay_steel": "悦灵钢",
+  "golem_material.composite_material.dungeon_steel": "地牢钢",
   "golem_material.composite_material.etherite": "以太合金",
-  "golem_material.composite_material.primitive": "荒古坚材"
+  "golem_material.composite_material.primitive": "荒古坚材",
+  "golem_material.composite_material.obsidian_steel": "黑曜石钢",
+  "modifier.modulargolems": {
+    "dungeon_absorption": "损害吸收",
+    "dungeon_absorption.desc": "按造成伤害的一半为自己治疗",
+    "dungeon_link": "生命链接",
+    "dungeon_link.desc": "1",
+    "obsidian": "坚韧外壳",
+    "obsidian.desc": "受到的伤害结算时每级降低2点",
+    "primitive_blast": "荒古之力",
+    "primitive_blast.desc": "按自身最大生命值增加攻击伤害，每级取5%",
+    "primitive_curse": "荒古诅咒",
+    "primitive_curse.desc": "每级减少20%受到的伤害，但-1升级槽",
+    "resonant_attack": "共鸣震慑",
+    "resonant_attack.desc": "1",
+    "resonant_heal": "生声不息",
+    "resonant_heal.desc": "1"
+  }
 }

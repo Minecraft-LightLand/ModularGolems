@@ -10,12 +10,9 @@
   ],
   "slots": [
     "head",
-    "necklace",
     "back",
-    "body",
     "ring",
     "charm",
-    "hands",
-    "belt"
+    "hands"
   ]
 }

@@ -19,7 +19,7 @@ public class CMConfigGen extends ConfigDataProvider {
 	@Override
 	public void add(ConfigDataProvider.Collector map) {
 		map.add(ModularGolems.MATERIALS, new ResourceLocation(CMDispatch.MODID, CMDispatch.MODID), new GolemMaterialConfig()
-				.addMaterial(new ResourceLocation(CMDispatch.MODID, "allay"),
+				.addMaterial(new ResourceLocation(CMDispatch.MODID, "allay_steel"),
 						Ingredient.of(ItemRegistry.ALLAY_STEEL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 233)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 23)
@@ -28,9 +28,11 @@ public class CMConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SWEEP.get(), 3)
 				.addModifier(GolemModifiers.PLAYER_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.MAGIC_IMMUNE.get(), 1)
+                .addModifier(CMCompatRegistry.RESONANT_ATTACK.get(), 1)
+                .addModifier(CMCompatRegistry.RESONANT_HEAL.get(), 1)
 				.end()
 
-				.addMaterial(new ResourceLocation(CMDispatch.MODID, "dungeon"),
+				.addMaterial(new ResourceLocation(CMDispatch.MODID, "dungeon_steel"),
 						Ingredient.of(ItemRegistry.DUNGEON_STEEL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
@@ -40,6 +42,8 @@ public class CMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.EXPLOSION_RES.get(), 1)
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 1)
+                .addModifier(CMCompatRegistry.DUNGEON_ABSORPTION.get(), 1)
+                .addModifier(CMCompatRegistry.DUNGEON_LINK.get(), 1)
 				.end()
 
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "etherite"),
@@ -52,8 +56,8 @@ public class CMConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_RANGE.get(), 3)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.PLAYER_IMMUNE.get(), 1)
+                .addModifier(GolemModifiers.MAGIC_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
-				.addModifier(GolemModifiers.MAGIC_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.EXPLOSION_RES.get(), 2)
 				.addModifier(GolemModifiers.RECYCLE.get(), 1)
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 3)
@@ -63,16 +67,31 @@ public class CMConfigGen extends ConfigDataProvider {
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "primitive"),
 						Ingredient.of(ItemRegistry.PRIMITIVE_TENACITY.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 50)
-				.addStat(GolemTypes.STAT_WEIGHT.get(), 0.0)
-				.addStat(GolemTypes.STAT_REGEN.get(), 4)
-				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
-				.addStat(GolemTypes.STAT_RANGE.get(), 1)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 5)
+				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.2)
+				.addStat(GolemTypes.STAT_REGEN.get(), 0)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 0)
+				.addStat(GolemTypes.STAT_RANGE.get(), 0)
+                .addModifier(GolemModifiers.DAMAGE_CAP.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
-				.addModifier(GolemModifiers.SWIM.get(), 2)
-				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 3)
+                .addModifier(GolemModifiers.EXPLOSION_RES.get(), 2)
+				.addModifier(GolemModifiers.SWIM.get(), 1)
+				.addModifier(CMCompatRegistry.PRIMITIVE_BLAST.get(), 1)
+                .addModifier(CMCompatRegistry.PRIMITIVE_CURSE.get(), 1)
 				.end()
+
+                .addMaterial(new ResourceLocation(CMDispatch.MODID, "obsidian_steel"),
+                        Ingredient.of(ItemRegistry.OBSIDIAN_STEEL_INGOT.get()))
+                .addStat(GolemTypes.STAT_HEALTH.get(), 120)
+                .addStat(GolemTypes.STAT_ATTACK.get(), 18)
+                .addStat(GolemTypes.STAT_WEIGHT.get(), 0.0)
+                .addStat(GolemTypes.STAT_REGEN.get(), 0)
+                .addStat(GolemTypes.STAT_SWEEP.get(), 0)
+                .addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+                .addModifier(GolemModifiers.EXPLOSION_RES.get(), 2)
+                .addModifier(CMCompatRegistry.OBSIDIAN.get(), 1)
+                .end()
 
 		);
 	}

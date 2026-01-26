@@ -22,7 +22,7 @@ public class PrimitiveCurseModifier extends GolemModifier {
 
 	@Override
 	public int addSlot(List<IUpgradeItem> upgrades, int lv) {
-		return -1;
+		return -lv;
 	}
 
 }
