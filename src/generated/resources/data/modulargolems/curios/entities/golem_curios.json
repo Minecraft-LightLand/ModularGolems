@@ -23,13 +23,13 @@
     "scroll",
     "spellbook",
     "heart_amulet",
-    "spellstone",
     "hostility_curse",
     "accessory",
     "artifact_head",
     "artifact_necklace",
     "artifact_bracelet",
     "artifact_body",
-    "artifact_belt"
+    "artifact_belt",
+    "halo"
   ]
 }
