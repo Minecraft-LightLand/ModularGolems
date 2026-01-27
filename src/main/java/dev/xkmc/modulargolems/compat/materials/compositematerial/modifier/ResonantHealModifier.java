@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -37,7 +38,8 @@ public class ResonantHealModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		float factor = (float)(MGConfig.COMMON.resonanceHealFactor.get() * v);
+		int perc = Math.round(factor * 100);
 		int range = MGConfig.COMMON.resonanceHealRange.get();
-		return List.of(Component.translatable(getDescriptionId() + ".desc", factor, range));
+		return List.of(Component.translatable(getDescriptionId() + ".desc", perc, range).withStyle(ChatFormatting.GREEN));
 	}
 }

@@ -55,8 +55,10 @@ public class ResonantAttackModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		int delay = MGConfig.COMMON.resonanceAttackDelay.get();
+		int time = Math.round((float) delay / 20);
 		float factor = (float)(MGConfig.COMMON.resonanceAttackDamageFactor.get() * v);
+		int perc = Math.round(100 * factor);
 		int range = MGConfig.COMMON.resonanceAttackRange.get();
-		return List.of(Component.translatable(getDescriptionId() + ".desc", delay, factor, range));
+		return List.of(Component.translatable(getDescriptionId() + ".desc", range, perc, time).withStyle(ChatFormatting.GREEN));
 	}
 }

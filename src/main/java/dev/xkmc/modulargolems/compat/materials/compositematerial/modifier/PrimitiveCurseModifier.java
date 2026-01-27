@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -31,7 +32,7 @@ public class PrimitiveCurseModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		float multiplier = (float) Math.pow(MGConfig.COMMON.primitiveDamageMultiplier.get(), v);
-		int perc = Math.round(100 * multiplier);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", perc));
+		int perc = Math.round(100 * (1 - multiplier));
+		return List.of(Component.translatable(getDescriptionId() + ".desc", -perc, -v).withStyle(ChatFormatting.GREEN));
 	}
 }

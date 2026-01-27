@@ -323,25 +323,25 @@ public class MGConfig {
 
 				builder.push("composite material compat");
 				{
-					dungeonMeleeHealFactor = builder.comment("Dungeon Absorption:Change lifesteal ratio for melee damage.")
+					dungeonMeleeHealFactor = builder.comment("Dungeon Absorption: lifesteal ratio for melee damage.")
 							.defineInRange("dungeonMeleeHealFactor", 0.25, 0, 2);
-					dungeonLinkHealFactor = builder.comment("Dungeon Link:Change lifesteal ratio for melee damage.")
+					dungeonLinkHealFactor = builder.comment("Dungeon Link: lifesteal ratio for melee damage.")
 							.defineInRange("dungeonLinkHealFactor", 0.2, 0, 1);
-					obsidianDRFactor = builder.comment("Obsidian:Change damage reduced.")
+					obsidianDRFactor = builder.comment("Obsidian: damage reduced.")
 							.defineInRange("obsidianDRFactor", 2, 0, 100);
-					primitiveHealthRatio = builder.comment("Primitive Blast:Change health ratio")
+					primitiveHealthRatio = builder.comment("Primitive Blast: health ratio")
 							.defineInRange("primitiveHealthRatio", 0.05, 0, 1);
-					primitiveDamageMultiplier = builder.comment("Primitive Curse:Change damage multiplier")
+					primitiveDamageMultiplier = builder.comment("Primitive Curse: damage multiplier")
 							.defineInRange("primitiveDamageMultiplier", 0.8, 0, 1);
-					resonanceAttackDelay = builder.comment("Resonant Attack:Change delay")
+					resonanceAttackDelay = builder.comment("Resonant Attack: delay")
 							.defineInRange("resonanceAttackDelay", 20, 1, 1000);
-					resonanceAttackDamageFactor = builder.comment("Resonant Attack:Change damage factor")
+					resonanceAttackDamageFactor = builder.comment("Resonant Attack: damage factor")
 							.defineInRange("resonanceAttackDamageFactor", 0.1, 0, 1);
-					resonanceAttackRange = builder.comment("Resonant Attack:Change chain range")
+					resonanceAttackRange = builder.comment("Resonant Attack: chain range")
 							.defineInRange("resonanceAttackRange", 8, 0, 64);
-					resonanceHealFactor = builder.comment("Resonant Heal:Change healing ratio")
+					resonanceHealFactor = builder.comment("Resonant Heal: healing ratio")
 							.defineInRange("resonanceHealFactor", 0.25, 0, 5);
-					resonanceHealRange = builder.comment("Resonant Heal:Change chain range")
+					resonanceHealRange = builder.comment("Resonant Heal: chain range")
 							.defineInRange("resonanceHealRange", 32, 0, 64);
 				}
 				builder.pop();
