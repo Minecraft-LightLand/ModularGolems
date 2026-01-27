@@ -6,7 +6,13 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
+
+import java.util.List;
 
 public class ResonantAttackModifier extends GolemModifier {
 
@@ -21,10 +27,11 @@ public class ResonantAttackModifier extends GolemModifier {
 		var level = golem.level();
 		long last = golem.getPersistentData().getLong(KEY);
 		long time = level.getGameTime();
-		if (last <= time && last > time - 20) return;//TODO config
+		if (last <= time && last > time - MGConfig.COMMON.resonanceAttackDelay.get()) return;//TODO config 延迟
 		golem.getPersistentData().putLong(KEY, time);
 		var target = cache.getAttackTarget();
-		var damage = cache.getDamageDealt() * 0.1f * value;// TODO config
+		double factor = MGConfig.COMMON.resonanceAttackDamageFactor.get();
+		var damage = cache.getDamageDealt() * (float)factor * value;// TODO config 伤害系数
 		double x = target.getX();
 		double y = target.getY() + target.getBbHeight() / 2;
 		double z = target.getZ();
@@ -32,7 +39,7 @@ public class ResonantAttackModifier extends GolemModifier {
 		GeneralEventHandler.schedulePersistent(() -> {
 			if (level.getGameTime() > time + 10) {//TODO delay should be adjusted
 				var source = golem.damageSources().magic();
-				var aabb = target.getBoundingBox().inflate(8);//TODO config
+				var aabb = target.getBoundingBox().inflate(MGConfig.COMMON.resonanceAttackRange.get());//TODO config 范围
 				var list = level.getEntitiesOfClass(LivingEntity.class, aabb);
 				for (var e : list) {
 					if (e.getType() != target.getType()) continue;
@@ -46,4 +53,10 @@ public class ResonantAttackModifier extends GolemModifier {
 		});
 	}
 
+	public List<MutableComponent> getDetail(int v) {
+		int delay = MGConfig.COMMON.resonanceAttackDelay.get();
+		float factor = (float)(MGConfig.COMMON.resonanceAttackDamageFactor.get() * v);
+		int range = MGConfig.COMMON.resonanceAttackRange.get();
+		return List.of(Component.translatable(getDescriptionId() + ".desc", delay, factor, range));
+	}
 }

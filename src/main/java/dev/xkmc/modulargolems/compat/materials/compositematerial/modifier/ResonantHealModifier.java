@@ -3,6 +3,11 @@ package dev.xkmc.modulargolems.compat.materials.compositematerial.modifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+
+import java.util.List;
 
 public class ResonantHealModifier extends GolemModifier {
 
@@ -16,17 +21,23 @@ public class ResonantHealModifier extends GolemModifier {
 	public void onHealPost(float heal, AbstractGolemEntity<?, ?> golem, int value) {
 		if (recursive) return;
 		recursive = true;
-		var val = heal * 0.25f * value;//TODO config
+		double factor = MGConfig.COMMON.resonanceHealFactor.get();
+		var val = heal * factor * value;//TODO config
 		var level = golem.level();
-		var aabb = golem.getBoundingBox().inflate(32);//TODO config
+		var aabb = golem.getBoundingBox().inflate(MGConfig.COMMON.resonanceHealRange.get());//TODO config
 		var list = level.getEntitiesOfClass(AbstractGolemEntity.class, aabb);
 		for (var e : list) {
 			if (e == golem || !e.isAlliedTo(golem)) continue;
 			if (!e.getModifiers().containsKey(this)) continue;
 			int lvl = (Integer) e.getModifiers().get(this);
-			e.heal(val * lvl);
+			e.heal((float) val * lvl);
 		}
 		recursive = false;
 	}
 
+	public List<MutableComponent> getDetail(int v) {
+		float factor = (float)(MGConfig.COMMON.resonanceHealFactor.get() * v);
+		int range = MGConfig.COMMON.resonanceHealRange.get();
+		return List.of(Component.translatable(getDescriptionId() + ".desc", factor, range));
+	}
 }
