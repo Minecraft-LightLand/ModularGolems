@@ -117,6 +117,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue resonanceAttackRange;
 		public final ForgeConfigSpec.DoubleValue resonanceHealFactor;
 		public final ForgeConfigSpec.IntValue resonanceHealRange;
+		public final ForgeConfigSpec.IntValue ethertiteRepairDelay;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			{
@@ -343,6 +344,8 @@ public class MGConfig {
 							.defineInRange("resonanceHealFactor", 0.25, 0, 5);
 					resonanceHealRange = builder.comment("Resonant Heal: chain range")
 							.defineInRange("resonanceHealRange", 32, 0, 64);
+					ethertiteRepairDelay = builder.comment("Etherite Plating: repair delay")
+							.defineInRange("ethertiteRepairDelay", 600, 20, 1000);
 				}
 				builder.pop();
 			}

@@ -33,6 +33,7 @@
     "composite_material:etherite": {
       "modulargolems:add_slot": 3,
       "modulargolems:armor_penetration": 3,
+      "modulargolems:etherite_plating": 1,
       "modulargolems:explosion_resistant": 2,
       "modulargolems:fire_immune": 1,
       "modulargolems:magic_immune": 1,

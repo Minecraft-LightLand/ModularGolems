@@ -29,6 +29,7 @@ public class CMDispatch extends ModDispatch {
 
     @Override
     public ConfigDataProvider getDataGen(DataGenerator gen) {
+        // Returns a new instance of CMConfigGen for data generation
         return new CMConfigGen(gen);
     }
 

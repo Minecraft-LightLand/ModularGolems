@@ -151,14 +151,39 @@ public class GolemModifiers {
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {
+		// 创建一个可变对象来持有注册结果
 		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
+		// 使用REGISTRATE创建并配置一个泛型注册项
 		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
+		// 设置名称的语言本地化
 		ans.lang(NamedEntry::getDescriptionId, name);
+		// 如果提供了描述文本，则添加描述的语言本地化
 		if (def != null) {
 			ans.addMiscData(ProviderType.LANG, pvd -> pvd.add(holder.getValue().get().getDescriptionId() + ".desc", def));
 		}
+		// 完成注册并获取结果
 		var result = ans.register();
-		// 将注册结果设置到可变对象 holder 中。这一步的意义在于持有注册结果的引用，以便在需要时可以访问
+		// 将注册结果设置到可变对象 holder 中
+		holder.setValue(result);
+		return result;
+	}
+
+	public static <T extends GolemModifier> RegistryEntry<T> multilinereg(String id, NonNullSupplier<T> sup,
+																		  String name, String... def) {
+		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
+		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
+		ans.lang(NamedEntry::getDescriptionId, name);
+
+		if (def.length > 0) {
+			ans.addMiscData(ProviderType.LANG, pvd -> {
+				// 为每行单独注册翻译键
+				for (int i = 0; i < def.length; i++) {
+					pvd.add(holder.getValue().get().getDescriptionId() + ".desc" + (i + 1), def[i]);
+				}
+			});
+		}
+
+		var result = ans.register();
 		holder.setValue(result);
 		return result;
 	}

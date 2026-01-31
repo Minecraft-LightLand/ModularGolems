@@ -4,6 +4,7 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.compositematerial.modifier.*;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 
+import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.multilinereg;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class CMCompatRegistry {
@@ -14,6 +15,7 @@ public class CMCompatRegistry {
     public static final RegistryEntry<PrimitiveCurseModifier> PRIMITIVE_CURSE;
     public static final RegistryEntry<ResonantAttackModifier> RESONANT_ATTACK;
     public static final RegistryEntry<ResonantHealModifier> RESONANT_HEAL;
+    public static final RegistryEntry<EtheriteModifier> ETHERTITE_PLATING;
 
     static {
         DUNGEON_ABSORPTION = reg("dungeon_absorption", ()-> new DungeonAttackModifier(StatFilterType.ATTACK, 4),
@@ -30,6 +32,12 @@ public class CMCompatRegistry {
                 "Resonant Attack", "Deals chain magic damage to all same-type creatures within %1$s blocks, increasing the damage by %2$s%%. Cooldown: %3$s seconds.");
         RESONANT_HEAL = reg("resonant_heal", ()-> new ResonantHealModifier(StatFilterType.HEALTH, 5),
                 "Resonant Heal", "Non-repair Therapy heals allies with the same trait within %2$s tiles for %1$s%% HP per target's trait level.");
+        ETHERTITE_PLATING = multilinereg("etherite_plating", EtheriteModifier::new,
+                "Etherite Plating","According to the level, the following effects are provided:",
+                "- Immune to projectile damage",
+                "- Immune to conventional debuffs",
+                "- Immune to environmental damage",
+                "- Periodic self-repair");
     }
 
     public static void register() {

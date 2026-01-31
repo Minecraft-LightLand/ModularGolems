@@ -54,14 +54,8 @@ public class CMConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_REGEN.get(), 15)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 4)
 				.addStat(GolemTypes.STAT_RANGE.get(), 3)
-				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
-				.addModifier(GolemModifiers.PLAYER_IMMUNE.get(), 1)
-                .addModifier(GolemModifiers.MAGIC_IMMUNE.get(), 1)
-				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
-				.addModifier(GolemModifiers.EXPLOSION_RES.get(), 2)
 				.addModifier(GolemModifiers.RECYCLE.get(), 1)
-				.addModifier(GolemModifiers.ADD_SLOT.get(), 3)
-				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 3)
+				.addModifier(CMCompatRegistry.ETHERTITE_PLATING.get(),1)
 				.end()
 
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "primitive"),
