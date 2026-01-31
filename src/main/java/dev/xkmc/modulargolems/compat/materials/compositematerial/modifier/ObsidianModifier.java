@@ -20,7 +20,7 @@ public class ObsidianModifier extends GolemModifier {
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
 		int factor = MGConfig.COMMON.obsidianDRFactor.get();
-		event.setAmount((float) Math.max(0, event.getAmount() - level * factor));//TODO config
+		event.setAmount(Math.max(0, event.getAmount() - level * factor));
 	}
 
 	public List<MutableComponent> getDetail(int v) {

@@ -21,7 +21,7 @@ public class PrimitiveCurseModifier extends GolemModifier {
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
 		double multiplier = MGConfig.COMMON.primitiveDamageMultiplier.get();
-		float fac = (float) Math.pow(multiplier, level);//TODO config
+		float fac = (float) Math.pow(multiplier, level);
 		event.setAmount(event.getAmount() * fac);
 	}
 

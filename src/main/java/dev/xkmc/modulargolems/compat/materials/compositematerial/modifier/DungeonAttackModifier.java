@@ -25,7 +25,7 @@ public class DungeonAttackModifier extends GolemModifier {
 		var source = event.getSource();
 		if (!source.is(L2DamageTypes.DIRECT)) return;
 		double cost = MGConfig.COMMON.dungeonMeleeHealFactor.get();
-		golem.heal((float) (cache.getDamageDealt() * cost * value));//TODO config
+		golem.heal((float) (cache.getDamageDealt() * cost * value));
 	}
 
 	public List<MutableComponent> getDetail(int v) {
