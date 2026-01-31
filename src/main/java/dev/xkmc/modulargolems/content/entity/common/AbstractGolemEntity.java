@@ -1110,6 +1110,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean canBeAffected(MobEffectInstance ins) {
 		if (effectImmunity.contains(ins.getEffect()))
 			return false;
+		for (var ent : modifiers.entrySet()) {
+			if (ent.getKey().isImmuneTo(this, ins, ent.getValue())) {
+				return false;
+			}
+		}
 		return super.canBeAffected(ins);
 	}
 
@@ -1243,7 +1248,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public void onHeal(float heal) {
 		for (var entry : getModifiers().entrySet()) {
-			 entry.getKey().onHealPost(heal, this, entry.getValue());
+			entry.getKey().onHealPost(heal, this, entry.getValue());
 		}
 	}
 

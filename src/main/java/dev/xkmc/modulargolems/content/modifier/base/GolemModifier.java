@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -180,6 +181,10 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	public void onHealPost(float heal, AbstractGolemEntity<?, ?> golem, int value) {
+	}
+
+	public boolean isImmuneTo(AbstractGolemEntity<?, ?> golem, MobEffectInstance ins, int level) {
+		return false;
 	}
 
 	public record HealingContext(float health, float maxHealth, Entity owner) {

@@ -161,11 +161,4 @@ public class ModifierEventListeners {
 		}
 	}
 
-	@SubscribeEvent
-	public static void onEffectApply(MobEffectEvent.Applicable event) {
-		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> golem) {
-
-		}
-	}
-
 }
