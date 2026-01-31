@@ -26,7 +26,7 @@ public class PrimitiveBlastModifier extends GolemModifier {
 		var source = event.getSource();
 		if (!source.is(L2DamageTypes.DIRECT)) return;
 		double ratio = MGConfig.COMMON.primitiveHealthRatio.get();
-		float val = entity.getMaxHealth() * level * (float) ratio;//TODO config
+		float val = entity.getMaxHealth() * level * (float) ratio;
 		cache.addHurtModifier(DamageModifier.addExtra(val));
 	}
 

@@ -29,7 +29,7 @@ public class CMCompatRegistry {
         PRIMITIVE_CURSE = reg("primitive_curse", ()-> new PrimitiveCurseModifier(StatFilterType.MASS, 5),
                 "Primitive Curse", "Reduces upgrade slots by %2$s and damage taken by %1$s%%");
         RESONANT_ATTACK = reg("resonant_attack", ()-> new ResonantAttackModifier(StatFilterType.ATTACK, 5),
-                "Resonant Attack", "Deals chain magic damage to all same-type creatures within %1$s blocks, increasing the damage by %2$s%%. Cooldown: %3$s seconds.");
+                "Resonant Attack", "Golem damage deals additional %2$s%% magic damage to all other targets of same type within %1$s blocks.");
         RESONANT_HEAL = reg("resonant_heal", ()-> new ResonantHealModifier(StatFilterType.HEALTH, 5),
                 "Resonant Heal", "Non-repair Therapy heals allies with the same trait within %2$s tiles for %1$s%% HP per target's trait level.");
         ETHERTITE_PLATING = multilinereg("etherite_plating", EtheriteModifier::new,

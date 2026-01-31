@@ -112,7 +112,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue obsidianDRFactor;
 		public final ForgeConfigSpec.DoubleValue primitiveHealthRatio;
 		public final ForgeConfigSpec.DoubleValue primitiveDamageMultiplier;
-		public final ForgeConfigSpec.IntValue resonanceAttackDelay;
+		public final ForgeConfigSpec.IntValue resonanceAttackCooldown;
 		public final ForgeConfigSpec.DoubleValue resonanceAttackDamageFactor;
 		public final ForgeConfigSpec.IntValue resonanceAttackRange;
 		public final ForgeConfigSpec.DoubleValue resonanceHealFactor;
@@ -334,8 +334,8 @@ public class MGConfig {
 							.defineInRange("primitiveHealthRatio", 0.05, 0, 1);
 					primitiveDamageMultiplier = builder.comment("Primitive Curse: damage multiplier")
 							.defineInRange("primitiveDamageMultiplier", 0.8, 0, 1);
-					resonanceAttackDelay = builder.comment("Resonant Attack: delay")
-							.defineInRange("resonanceAttackDelay", 20, 1, 1000);
+					resonanceAttackCooldown = builder.comment("Resonant Attack: Cooldown")
+							.defineInRange("resonanceAttackCooldown", 20, 1, 1000);
 					resonanceAttackDamageFactor = builder.comment("Resonant Attack: damage factor")
 							.defineInRange("resonanceAttackDamageFactor", 0.1, 0, 1);
 					resonanceAttackRange = builder.comment("Resonant Attack: chain range")

@@ -23,7 +23,7 @@ public class DungeonHealModifier extends GolemModifier {
 		if (recursive) return;
 		recursive = true;
 		double factor = MGConfig.COMMON.dungeonLinkHealFactor.get();
-		var val = heal * factor * value;//TODO config
+		var val = heal * factor * value;
 		var player = golem.getOwner();
 		if (player == null) return;
 		player.heal((float) val);

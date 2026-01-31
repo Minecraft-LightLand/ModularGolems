@@ -23,9 +23,9 @@ public class ResonantHealModifier extends GolemModifier {
 		if (recursive) return;
 		recursive = true;
 		double factor = MGConfig.COMMON.resonanceHealFactor.get();
-		var val = heal * factor * value;//TODO config
+		var val = heal * factor * value;
 		var level = golem.level();
-		var aabb = golem.getBoundingBox().inflate(MGConfig.COMMON.resonanceHealRange.get());//TODO config
+		var aabb = golem.getBoundingBox().inflate(MGConfig.COMMON.resonanceHealRange.get());
 		var list = level.getEntitiesOfClass(AbstractGolemEntity.class, aabb);
 		for (var e : list) {
 			if (e == golem || !e.isAlliedTo(golem)) continue;

@@ -27,11 +27,11 @@ public class ResonantAttackModifier extends GolemModifier {
 		var level = golem.level();
 		long last = golem.getPersistentData().getLong(KEY);
 		long time = level.getGameTime();
-		if (last <= time && last > time - MGConfig.COMMON.resonanceAttackDelay.get()) return;//TODO config 延迟
+		if (last <= time && last > time - MGConfig.COMMON.resonanceAttackCooldown.get()) return;
 		golem.getPersistentData().putLong(KEY, time);
 		var target = cache.getAttackTarget();
 		double factor = MGConfig.COMMON.resonanceAttackDamageFactor.get();
-		var damage = cache.getDamageDealt() * (float)factor * value;// TODO config 伤害系数
+		var damage = cache.getDamageDealt() * (float)factor * value;
 		double x = target.getX();
 		double y = target.getY() + target.getBbHeight() / 2;
 		double z = target.getZ();
@@ -39,7 +39,7 @@ public class ResonantAttackModifier extends GolemModifier {
 		GeneralEventHandler.schedulePersistent(() -> {
 			if (level.getGameTime() > time + 10) {//TODO delay should be adjusted
 				var source = golem.damageSources().magic();
-				var aabb = target.getBoundingBox().inflate(MGConfig.COMMON.resonanceAttackRange.get());//TODO config 范围
+				var aabb = target.getBoundingBox().inflate(MGConfig.COMMON.resonanceAttackRange.get());
 				var list = level.getEntitiesOfClass(LivingEntity.class, aabb);
 				for (var e : list) {
 					if (e.getType() != target.getType()) continue;
@@ -54,11 +54,9 @@ public class ResonantAttackModifier extends GolemModifier {
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		int delay = MGConfig.COMMON.resonanceAttackDelay.get();
-		int time = Math.round((float) delay / 20);
 		float factor = (float)(MGConfig.COMMON.resonanceAttackDamageFactor.get() * v);
 		int perc = Math.round(100 * factor);
 		int range = MGConfig.COMMON.resonanceAttackRange.get();
-		return List.of(Component.translatable(getDescriptionId() + ".desc", range, perc, time).withStyle(ChatFormatting.GREEN));
+		return List.of(Component.translatable(getDescriptionId() + ".desc", range, perc).withStyle(ChatFormatting.GREEN));
 	}
 }
