@@ -266,6 +266,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		recordedGuardPos = getGuardPos();
 		leader = null;
 		untrack(player == getOwner() ? GolemTracker.Status.RETRIEVED : GolemTracker.Status.OTHER_RETRIEVED, player);
+		unRide();
 		var ans = GolemHolder.setEntity(getThis());
 		level().broadcastEntityEvent(this, EntityEvent.POOF);
 		this.discard();
@@ -1207,6 +1208,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void returnToInventory() {
 		var leader = getLeader();
+		unRide();
 		ItemStack stack = GolemHolder.setEntity(getThis());
 		if (leader != null && leader.isAlive()) {
 			if (MinecraftForge.EVENT_BUS.post(new GolemToOwnerEvent(leader, stack))) {
