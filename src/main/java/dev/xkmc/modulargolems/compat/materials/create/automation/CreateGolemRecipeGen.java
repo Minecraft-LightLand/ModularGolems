@@ -14,6 +14,8 @@ import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
+import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
@@ -46,6 +48,79 @@ public class CreateGolemRecipeGen {
 				.output(Items.DIAMOND, 40)
 				.output(Items.NETHERITE_INGOT, 6)
 				.build(pvd);
+
+        genCrushingRecipe(GolemItems.BARBARICFLAMEVANGUARD_HELMET)
+                .output(Items.DIAMOND, 20)
+                .output(Items.NETHERITE_INGOT, 5)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD)
+                .output(Items.DIAMOND, 18)
+                .output(Items.NETHERITE_INGOT, 3)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.WINDSPIRIT_CHESTPLATE)
+                .output(Items.DIAMOND, 40)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.WINDSPIRIT_HELMET)
+                .output(Items.DIAMOND, 20)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.WINDSPIRIT_SHINGUARD)
+                .output(Items.DIAMOND, 18)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.GOLEMGUARD_CHESTPLATE)
+                .output(Items.IRON_INGOT, 40)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.GOLEMGUARD_HELMET)
+                .output(Items.IRON_INGOT, 20)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.GOLEMGUARD_SHINGUARD)
+                .output(Items.IRON_INGOT, 18)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()])
+                .output(Items.DIAMOND, 4)
+                .output(Items.NETHERITE_SCRAP, 4)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()])
+                .output(Items.DIAMOND, 5)
+                .output(Items.NETHERITE_SCRAP, 4)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()])
+                .output(Items.DIAMOND, 3)
+                .output(Items.NETHERITE_SCRAP, 4)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()])
+                .output(Items.DIAMOND, 4)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()])
+                .output(Items.DIAMOND, 5)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()])
+                .output(Items.DIAMOND, 3)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()])
+                .output(Items.IRON_INGOT, 4)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()])
+                .output(Items.IRON_INGOT, 5)
+                .build(pvd);
+
+        genCrushingRecipe(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()])
+                .output(Items.IRON_INGOT, 3)
+                .build(pvd);
 
 	}
 
