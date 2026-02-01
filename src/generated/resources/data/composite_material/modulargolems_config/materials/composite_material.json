@@ -18,27 +18,15 @@
   },
   "modifiers": {
     "composite_material:allay_steel": {
-      "modulargolems:magic_immune": 1,
-      "modulargolems:player_immune": 1,
       "modulargolems:resonant_attack": 1,
       "modulargolems:resonant_heal": 1
     },
     "composite_material:dungeon_steel": {
-      "modulargolems:armor_penetration": 1,
       "modulargolems:dungeon_absorption": 1,
-      "modulargolems:dungeon_link": 1,
-      "modulargolems:explosion_resistant": 1,
-      "modulargolems:fire_immune": 1
+      "modulargolems:dungeon_link": 1
     },
     "composite_material:etherite": {
-      "modulargolems:add_slot": 3,
-      "modulargolems:armor_penetration": 3,
       "modulargolems:etherite_plating": 1,
-      "modulargolems:explosion_resistant": 2,
-      "modulargolems:fire_immune": 1,
-      "modulargolems:magic_immune": 1,
-      "modulargolems:player_immune": 1,
-      "modulargolems:projectile_reject": 1,
       "modulargolems:recycle": 1
     },
     "composite_material:obsidian_steel": {
@@ -48,12 +36,8 @@
     },
     "composite_material:primitive": {
       "modulargolems:damage_cap": 1,
-      "modulargolems:explosion_resistant": 2,
-      "modulargolems:fire_immune": 1,
       "modulargolems:primitive_blast": 1,
-      "modulargolems:primitive_curse": 1,
-      "modulargolems:projectile_reject": 1,
-      "modulargolems:swim": 1
+      "modulargolems:primitive_curse": 1
     }
   },
   "repairIngredients": {
@@ -75,40 +59,28 @@
   },
   "stats": {
     "composite_material:allay_steel": {
-      "modulargolems:attack": 23.0,
-      "modulargolems:max_health": 233.0,
-      "modulargolems:regen": 3.0,
-      "modulargolems:sweep": 3.0,
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 240.0,
+      "modulargolems:regen": 2.0,
       "modulargolems:weight": 0.4
     },
     "composite_material:dungeon_steel": {
       "modulargolems:attack": 20.0,
-      "modulargolems:max_health": 200.0,
-      "modulargolems:regen": 0.0,
-      "modulargolems:sweep": 1.0,
-      "modulargolems:weight": 0.0
+      "modulargolems:max_health": 200.0
     },
     "composite_material:etherite": {
-      "modulargolems:attack": 100.0,
-      "modulargolems:max_health": 1000.0,
-      "modulargolems:range": 3.0,
-      "modulargolems:regen": 15.0,
-      "modulargolems:sweep": 4.0,
+      "modulargolems:attack": 25.0,
+      "modulargolems:max_health": 300.0,
+      "modulargolems:regen": 2.0,
       "modulargolems:weight": 0.2
     },
     "composite_material:obsidian_steel": {
-      "modulargolems:attack": 18.0,
-      "modulargolems:max_health": 120.0,
-      "modulargolems:regen": 0.0,
-      "modulargolems:sweep": 0.0,
-      "modulargolems:weight": 0.0
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 150.0
     },
     "composite_material:primitive": {
       "modulargolems:attack": 5.0,
-      "modulargolems:max_health": 1000.0,
-      "modulargolems:range": 0.0,
-      "modulargolems:regen": 0.0,
-      "modulargolems:sweep": 0.0,
+      "modulargolems:max_health": 400.0,
       "modulargolems:weight": -0.2
     }
   }
