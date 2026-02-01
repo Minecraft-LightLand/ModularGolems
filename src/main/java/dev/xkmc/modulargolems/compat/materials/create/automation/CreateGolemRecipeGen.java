@@ -3,15 +3,20 @@ package dev.xkmc.modulargolems.compat.materials.create.automation;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
 import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
@@ -33,6 +38,22 @@ public class CreateGolemRecipeGen {
 			}
 		}
 		genSpecialRecipes(pvd);
+		genRecycleRecipes(pvd);
+	}
+
+	public static void genRecycleRecipes(RegistrateRecipeProvider pvd) {
+		genCrushingRecipe(GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE)
+				.output(Items.DIAMOND, 40)
+				.output(Items.NETHERITE_INGOT, 6)
+				.build(pvd);
+
+	}
+
+	private static ProcessingRecipeBuilder<?> genCrushingRecipe(ItemEntry<?> item) {
+		var recipe = new ProcessingRecipeBuilder<>(CrushingRecipe::new, item.getId());
+		recipe.withCondition(new ModLoadedCondition(CreateDispatch.MODID));
+		recipe.require(item);
+		return recipe;
 	}
 
 	public static void genSpecialRecipes(RegistrateRecipeProvider pvd) {

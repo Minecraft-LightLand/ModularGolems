@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,6 +20,9 @@ import slimeknights.mantle.registration.object.FlowingFluidObject;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
+import slimeknights.tconstruct.library.recipe.melting.MeltingRecipeBuilder;
+
+import java.util.function.Consumer;
 
 public class TinkerRecipeGen {
 
@@ -51,6 +55,9 @@ public class TinkerRecipeGen {
 		cast(pvd, GolemItems.WINDSPIRIT_CHESTPLATE, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE, TinkerFluids.moltenNetherite, 6 * 90);
 		cast(pvd, GolemItems.WINDSPIRIT_SHINGUARD, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD, TinkerFluids.moltenNetherite, 3 * 90);
 
+		melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE, TinkerFluids.moltenNetherite, 6 * 90,
+				e -> e.addByproduct(TinkerFluids.moltenDiamond.result(40 * 100)));
+
 	}
 
 	private static void findAndTry(RegistrateRecipeProvider pvd, String id, FlowingFluidObject<ForgeFlowingFluid> fluid, int amount) {
@@ -82,6 +89,13 @@ public class TinkerRecipeGen {
 		RecipeGen.unlock(pvd, ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromItem(upgrade))::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
 				.setCast(src, true).setFluidAndTime(fluid, amount)
 				.save(ConditionalRecipeWrapper.mod(pvd, TConstruct.MOD_ID), rl);
+	}
+
+	private static void melt(RegistrateRecipeProvider pvd, ItemEntry<?> src, FlowingFluidObject<ForgeFlowingFluid> fluid, int amount, Consumer<MeltingRecipeBuilder> cons) {
+		var rl = src.getId().withPrefix("melting/");
+		var recipe = RecipeGen.unlock(pvd, MeltingRecipeBuilder.melting(Ingredient.of(src), fluid, amount, 1)::unlockedBy, GolemItems.EMPTY_UPGRADE.get());
+		cons.accept(recipe);
+		recipe.save(ConditionalRecipeWrapper.mod(pvd, TConstruct.MOD_ID), rl);
 	}
 
 
