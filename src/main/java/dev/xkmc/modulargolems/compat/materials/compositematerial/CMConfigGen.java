@@ -39,19 +39,24 @@ public class CMConfigGen extends ConfigDataProvider {
 
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "etherite"),
 						Ingredient.of(ItemRegistry.ETHERITE_INGOT.get()))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 25)
+				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 35)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), 0.2)
-				.addStat(GolemTypes.STAT_REGEN.get(), 2)
+				.addStat(GolemTypes.STAT_REGEN.get(), 4)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 1)
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 1)
 				.addModifier(GolemModifiers.RECYCLE.get(), 1)
 				.addModifier(CMCompatRegistry.ETHERTITE_PLATING.get(),1)
 				.end()
 
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "primitive"),
 						Ingredient.of(ItemRegistry.PRIMITIVE_TENACITY.get()))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 400)
+				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 5)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.2)
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.SWIM.get(), 1)
                 .addModifier(GolemModifiers.DAMAGE_CAP.get(), 1)
 				.addModifier(CMCompatRegistry.PRIMITIVE_BLAST.get(), 1)
                 .addModifier(CMCompatRegistry.PRIMITIVE_CURSE.get(), 1)

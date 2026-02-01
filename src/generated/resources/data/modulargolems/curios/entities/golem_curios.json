@@ -20,7 +20,7 @@
     "necklace",
     "ring",
     "feet",
-    "scroll",
+    "halo",
     "spellbook",
     "heart_amulet",
     "hostility_curse",
@@ -29,7 +29,6 @@
     "artifact_necklace",
     "artifact_bracelet",
     "artifact_body",
-    "artifact_belt",
-    "halo"
+    "artifact_belt"
   ]
 }
