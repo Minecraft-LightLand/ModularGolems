@@ -109,7 +109,7 @@ public class MGConfig {
 
 		public final ForgeConfigSpec.DoubleValue dungeonMeleeHealFactor;
 		public final ForgeConfigSpec.DoubleValue dungeonLinkHealFactor;
-		public final ForgeConfigSpec.IntValue obsidianDRFactor;
+		public final ForgeConfigSpec.IntValue obsidianDamageReduction;
 		public final ForgeConfigSpec.DoubleValue primitiveHealthRatio;
 		public final ForgeConfigSpec.DoubleValue primitiveDamageMultiplier;
 		public final ForgeConfigSpec.IntValue resonanceAttackCooldown;
@@ -328,8 +328,8 @@ public class MGConfig {
 							.defineInRange("dungeonMeleeHealFactor", 0.25, 0, 2);
 					dungeonLinkHealFactor = builder.comment("Dungeon Link: lifesteal ratio for melee damage.")
 							.defineInRange("dungeonLinkHealFactor", 0.2, 0, 1);
-					obsidianDRFactor = builder.comment("Obsidian: damage reduced.")
-							.defineInRange("obsidianDRFactor", 2, 0, 100);
+					obsidianDamageReduction = builder.comment("Obsidian: damage reduced.")
+							.defineInRange("obsidianDamageReduction", 1, 0, 100);
 					primitiveHealthRatio = builder.comment("Primitive Blast: health ratio")
 							.defineInRange("primitiveHealthRatio", 0.05, 0, 1);
 					primitiveDamageMultiplier = builder.comment("Primitive Curse: damage multiplier")

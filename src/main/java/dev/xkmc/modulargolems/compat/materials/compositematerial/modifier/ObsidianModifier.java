@@ -19,12 +19,12 @@ public class ObsidianModifier extends GolemModifier {
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
-		int factor = MGConfig.COMMON.obsidianDRFactor.get();
+		int factor = MGConfig.COMMON.obsidianDamageReduction.get();
 		event.setAmount(Math.max(0, event.getAmount() - level * factor));
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		int factor = v * MGConfig.COMMON.obsidianDRFactor.get();
+		int factor = v * MGConfig.COMMON.obsidianDamageReduction.get();
 		return List.of(Component.translatable(getDescriptionId() + ".desc", factor).withStyle(ChatFormatting.GREEN));
 	}
 }
