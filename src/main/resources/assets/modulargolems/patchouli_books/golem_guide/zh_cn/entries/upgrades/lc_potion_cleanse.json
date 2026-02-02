@@ -7,7 +7,7 @@
 	{
 	  "type": "patchouli:spotlight",
 	  "item": "modulargolems:cleanse",
-	  "text": "傀儡获得永久的净化效果。获得净化效果后傀儡将对所有其他药水效果免疫。最高等级：1"
+	  "text": "傀儡获得永久的净化效果。获得净化效果后傀儡将对其他状态效果免疫。最高等级：1"
 	}
   ]
 }
