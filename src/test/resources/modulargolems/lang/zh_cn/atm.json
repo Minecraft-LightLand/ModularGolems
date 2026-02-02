@@ -8,7 +8,7 @@
 	"modifier.modulargolems.add_slot_allthemodium": "升级扩充: ATM",
 	"modifier.modulargolems.add_slot_unobtainium": "升级扩充: 难得素",
 	"modifier.modulargolems.add_slot_vibranium": "升级扩充: 振金",
-	"modifier.modulargolems.add_slot_allthemodium.desc": "+1升级槽。傀儡只能用一个",
-	"modifier.modulargolems.add_slot_unobtainium.desc": "+1升级槽。傀儡只能用一个",
-	"modifier.modulargolems.add_slot_vibranium.desc": "+1升级槽。傀儡只能用一个"
+	"modifier.modulargolems.add_slot_allthemodium.desc": "+1升级槽。仅允许升级一次",
+	"modifier.modulargolems.add_slot_unobtainium.desc": "+1升级槽。仅允许升级一次",
+	"modifier.modulargolems.add_slot_vibranium.desc": "+1升级槽。仅允许升级一次"
 }

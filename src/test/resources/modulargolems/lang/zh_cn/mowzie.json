@@ -3,5 +3,5 @@
 	"item.modulargolems.wroughtnaut": "千锻震升级",
 	"item.modulargolems.wroughtnaut_ingot": "千锻钢锭",
 	"modifier.modulargolems.wroughtnaut": "千锻震",
-	"modifier.modulargolems.wroughtnaut.desc": "进行下落攻击并产生冲击波"
+	"modifier.modulargolems.wroughtnaut.desc": "可起跳进行下落攻击，在前方扇形区域产生冲击波并造成范围伤害"
 }
