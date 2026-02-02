@@ -1,12 +1,12 @@
 {
 	"modulargolems.configuration": {
 		"section.l2configs.modulargolems": {
-			"client.toml": "模块化傀儡 - 客户端配置",
-			"client.toml.title": "模块化傀儡 - 客户端配置",
-			"server.toml": "模块化傀儡 - 服务端配置",
-			"server.toml.title": "模块化傀儡 - 服务端配置"
+			"client.toml": "傀儡装配 - 客户端配置",
+			"client.toml.title": "傀儡装配 - 客户端配置",
+			"server.toml": "傀儡装配 - 服务端配置",
+			"server.toml.title": "傀儡装配 - 服务端配置"
 		},
-		"title": "模块化傀儡 - 配置",
+		"title": "傀儡装配 - 配置",
 		"general": "傀儡/物品通用配置",
 		"modifiers": "傀儡升级组件属性",
 		"l2complements": "莱特兰扩充 - 兼容配置",
@@ -19,7 +19,7 @@
 		"barehandRetrieve": "允许玩家徒手回收傀儡",
 		"barehandRetrieve.tooltip": "",
 		"doEnemyAggro": "复制怪物对铁傀儡的仇恨模式",
-		"doEnemyAggro.tooltip": "使仇恨铁傀儡的生物自动仇恨模块化傀儡",
+		"doEnemyAggro.tooltip": "使仇恨铁傀儡的生物自动仇恨傀儡装配",
 		"maxWanderRadius": "傀儡在被传送回来前的最大闲逛半径",
 		"maxWanderRadius.tooltip": "范围: 1.0 ~ 100.0",
 		"ownerPickupOnly": "仅所有者可拾取傀儡",
