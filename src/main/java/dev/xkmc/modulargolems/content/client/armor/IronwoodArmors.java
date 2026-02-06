@@ -17,6 +17,7 @@ public class IronwoodArmors {
     public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "ironwood_helmet"), "main");
     public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "ironwood_chestplate"), "main");
     public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "ironwood_shinguard"), "main");
+    public static final ModelLayerLocation BOOTS_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "ironwood_boots"), "main");
 
     // 静态块注册模型路径（假设存在相应的GolemModelPaths常量，如IRONWOOD_HELMETS等）
     static {
@@ -36,6 +37,11 @@ public class IronwoodArmors {
         GolemModelPath.register(IRONWOOD_LEGGINGS,
                 new GolemModelPath(SHINGUARD_LAYER, List.of(
                         List.of("body", "legs1"),
+                        List.of("right_leg", "legs2"),
+                        List.of("left_leg", "legs3")
+                )));
+        GolemModelPath.register(IRONWOOD_BOOTS,
+                new GolemModelPath(BOOTS_LAYER, List.of(
                         List.of("right_leg", "legs2"),
                         List.of("left_leg", "legs3")
                 )));
@@ -107,28 +113,46 @@ public class IronwoodArmors {
         // 从iron_golem_iron_wood_armor_set复制legs2定义
         PartDefinition legs2 = right_leg.addOrReplaceChild("legs2",
                 CubeListBuilder.create()
-                        .texOffs(22, 55)
-                        .addBox(-8.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F))
                         .texOffs(73, 54)
-                        .addBox(-8.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F))
-                        .texOffs(3, 78)
-                        .addBox(-7.5F, -1.0F, -4.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(4.0F, 13.0F, 0.0F)
+                        .addBox(-8.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F)),
+                        PartPose.offset(4.0F, 13.0F, 0.0F)
         );
 
         // 从iron_golem_iron_wood_armor_set复制legs3定义
         PartDefinition legs3 = left_leg.addOrReplaceChild("legs3",
                 CubeListBuilder.create()
                         .texOffs(73, 80)
-                        .addBox(1.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F))
-                        .texOffs(22, 82)
-                        .addBox(1.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F))
-                        .texOffs(3, 78)
-                        .addBox(1.5F, -1.0F, -4.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)),
+                        .addBox(1.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F)),
                 PartPose.offset(-5.0F, 13.0F, 0.0F)
         );
         return LayerDefinition.create(mesh, 128, 128);
     }
-}
-public class IronwoodArmors {
+
+    public static LayerDefinition createBoots() {
+        MeshDefinition mesh = buildGolemBaseLayers();
+        PartDefinition body = mesh.getRoot().getChild("body");
+        PartDefinition right_leg = mesh.getRoot().getChild("right_leg");
+        PartDefinition left_leg = mesh.getRoot().getChild("left_leg");
+
+
+        // 从iron_golem_iron_wood_armor_set复制legs2定义
+        PartDefinition legs2 = right_leg.addOrReplaceChild("legs2",
+                CubeListBuilder.create()
+                        .texOffs(3, 78)
+                        .addBox(-7.5F, -1.0F, -4.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+                        .texOffs(22, 55)
+                        .addBox(-8.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F)),
+                PartPose.offset(4.0F, 13.0F, 0.0F));
+
+        // 从iron_golem_iron_wood_armor_set复制legs3定义
+        PartDefinition legs3 = left_leg.addOrReplaceChild("legs3",
+                CubeListBuilder.create()
+                        .texOffs(22, 82)
+                        .addBox(1.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F))
+                        .texOffs(3, 78)
+                        .addBox(1.5F, -1.0F, -4.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)),
+                PartPose.offset(-5.0F, 13.0F, 0.0F));
+        return LayerDefinition.create(mesh, 128, 128);
+    }
+
 }

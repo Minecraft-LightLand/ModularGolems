@@ -24,5 +24,9 @@ public class GolemModelPaths {
 			MONSTROSITY_HELMETS = ModularGolems.loc("monstrosity/helmet"),
 			MONSTROSITY_CHESTPLATES = ModularGolems.loc("monstrosity/chestplate"),
 			MONSTROSITY_LEGGINGS = ModularGolems.loc("monstrosity/shinguard");
-
+    public static final ResourceLocation
+            IRONWOOD_HELMETS = ModularGolems.loc("ironwood/helmet"),
+            IRONWOOD_CHESTPLATES = ModularGolems.loc("ironwood/chestplate"),
+            IRONWOOD_LEGGINGS = ModularGolems.loc("ironwood/shinguard");
+    public static final ResourceLocation IRONWOOD_BOOTS = ModularGolems.loc("ironwood/boots");
 }
