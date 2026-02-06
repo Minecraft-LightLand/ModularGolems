@@ -7,11 +7,18 @@ import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.pathfinder.Node;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.EnumSet;
 
 public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 
@@ -41,6 +48,18 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		return MGConfig.COMMON.targetResetNoMovementRange.get();
 	}
 
+	private final double speedModifier;
+	private final boolean pathingTarget;
+	private Path path;
+	private double pathedX;
+	private double pathedY;
+	private double pathedZ;
+	private int repathDelay;
+	private int ticksUntilNextAttack;
+	private long lastCanUseCheck;
+	private int failureDelay = 0;
+	private boolean canPenalize = false;
+
 	private final AbstractGolemEntity<?, ?> golem;
 
 	private double lastDist;
@@ -49,25 +68,99 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	private boolean earthQuake = false;
 	private boolean hammerJump = false;
 
+
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
 		super(entity, 1, true);
 		golem = entity;
+		speedModifier = 1;
+		pathingTarget = true;
+		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
-	@Override
-	protected int adjustedTickDelay(int tick) {
-		double speed = mob.getAttributeValue(Attributes.ATTACK_SPEED);
-		return (int) Math.ceil(super.adjustedTickDelay(tick) / Math.min(1, speed));
+	public boolean canUse() {
+		long i = golem.level().getGameTime();
+		if (i - this.lastCanUseCheck < 20L) {
+			return false;
+		} else {
+			this.lastCanUseCheck = i;
+			LivingEntity livingentity = golem.getTarget();
+			if (livingentity == null) {
+				return false;
+			} else if (!livingentity.isAlive()) {
+				return false;
+			} else {
+				if (canPenalize) {
+					if (--this.repathDelay <= 0) {
+						this.path = golem.getNavigation().createPath(livingentity, 0);
+						this.repathDelay = 4 + golem.getRandom().nextInt(7);
+						return this.path != null;
+					} else {
+						return true;
+					}
+				}
+				this.path = golem.getNavigation().createPath(livingentity, 0);
+				if (this.path != null) {
+					return true;
+				} else {
+					return this.getAttackReachSqr(livingentity) >= golem.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
+				}
+			}
+		}
 	}
+
+	public boolean canContinueToUse() {
+		LivingEntity livingentity = golem.getTarget();
+		if (livingentity == null) {
+			return false;
+		} else if (!livingentity.isAlive()) {
+			return false;
+		} else if (!this.pathingTarget) {
+			return !golem.getNavigation().isDone();
+		} else if (!golem.isWithinRestriction(livingentity.blockPosition())) {
+			return false;
+		} else {
+			return !(livingentity instanceof Player) || !livingentity.isSpectator() && !((Player) livingentity).isCreative();
+		}
+	}
+
+	public void start() {
+		golem.getNavigation().moveTo(this.path, this.speedModifier);
+		golem.setAggressive(true);
+		this.repathDelay = 0;
+		this.ticksUntilNextAttack = 0;
+	}
+
+	public void stop() {
+		LivingEntity livingentity = golem.getTarget();
+		if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingentity)) {
+			golem.setTarget(null);
+		}
+		golem.setAggressive(false);
+		golem.getNavigation().stop();
+	}
+
+	public boolean requiresUpdateEveryTick() {
+		return true;
+	}
+
+	protected void resetAttackCooldown() {
+		this.ticksUntilNextAttack = getMeleeInterval();
+	}
+
+	protected boolean isTimeToAttack() {
+		return this.ticksUntilNextAttack <= 0;
+	}
+
 
 	@Override
 	public int getMeleeInterval() {
-		return adjustedTickDelay(20);
+		double speed = golem.getAttributeValue(Attributes.ATTACK_SPEED);
+		return (int) Math.ceil(20 / Math.min(1, speed));
 	}
 
-	public double getAttackReachSqr(LivingEntity pAttackTarget) {
-		double val = mob.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
-		return val * val;
+	public double getAttackReachSqr(LivingEntity target) {
+		double val = golem.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
+		return val * val + target.getBbWidth();
 	}
 
 	public boolean canReachTarget(LivingEntity le) {
@@ -80,33 +173,69 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 
 	@Override
 	public void tick() {
-		if (isTimeToAttack() && golem.getTarget() != null) {
+		LivingEntity target = golem.getTarget();
+		if (target == null) return;
+		if (isTimeToAttack()) {
 			timeNoMovement++;
 		}
-		super.tick();
-		if (hammerJump) {
-			if (golem.onGround()) {
-				hammerJump = false;
-			} else {
-				var target = golem.getTarget();
-				if (target != null) {
-					var v = golem.getDeltaMovement();
-					var diff = target.position().subtract(golem.position()).multiply(1, 0, 1);
-					if (v.multiply(1, 0, 1).length() < 0.3 && diff.length() > 1) {
-						golem.addDeltaMovement(diff.normalize().scale(0.01));
-					}
-				}
-			}
+		golem.getLookControl().setLookAt(target, 30.0F, 30.0F);
+		double dist = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
+		tickMove(target, dist);
+		checkAndPerformAttack(target, dist);
+	}
+
+	protected void tickMove(LivingEntity target, double distSqr) {
+		double dist = Math.sqrt(distSqr);
+		double end = Math.sqrt(getAttackReachSqr(target));
+		double far = end - 0.5;
+		this.repathDelay = Math.max(this.repathDelay - 1, 0);
+		boolean hasRange = golem.hasRangeAttack();
+		if (dist < far && end > 2.4 || hasRange) {
+			if (!golem.getNavigation().isDone())
+				golem.getNavigation().stop();
+			golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
+		} else if (dist > far) {
+			if (repathDelay == 0) repath(target, distSqr);
 		}
 	}
 
-	@Override
-	protected void checkAndPerformAttack(LivingEntity target) {
-		double distSqr = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
-		if (!isTimeToAttack()) {
-			lastDist = 1000;
-			timeNoMovement = 0;
-		} else {
+	protected void repath(LivingEntity target, double dist) {
+		if (this.pathedX == 0.0D && this.pathedY == 0.0D && this.pathedZ == 0.0D ||
+				target.distanceToSqr(this.pathedX, this.pathedY, this.pathedZ) >= 1.0D ||
+				golem.getRandom().nextFloat() < 0.05F) {
+			this.pathedX = target.getX();
+			this.pathedY = target.getY();
+			this.pathedZ = target.getZ();
+			this.repathDelay = 4 + golem.getRandom().nextInt(7);
+			if (this.canPenalize) {
+				this.repathDelay += failureDelay;
+				if (golem.getNavigation().getPath() != null) {
+					Node end = golem.getNavigation().getPath().getEndNode();
+					if (end != null && target.distanceToSqr(end.x, end.y, end.z) < 1)
+						failureDelay = 0;
+					else
+						failureDelay += 10;
+				} else {
+					failureDelay += 10;
+				}
+			}
+			if (dist > 1024.0D) {
+				this.repathDelay += 10;
+			} else if (dist > 256.0D) {
+				this.repathDelay += 5;
+			}
+
+			if (!golem.getNavigation().moveTo(target, this.speedModifier)) {
+				this.repathDelay += 15;
+			}
+
+			this.repathDelay = this.adjustedTickDelay(this.repathDelay);
+		}
+	}
+
+	protected void checkAndPerformAttack(LivingEntity target, double distSqr) {
+		this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
+		if (isTimeToAttack()) {
 			double dist = Math.sqrt(distSqr);
 			if (dist < lastDist - getTargetDistanceDelta()) {
 				lastDist = dist;
@@ -118,6 +247,9 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 				lastDist = 1000;
 				timeNoMovement = 0;
 			}
+		} else {
+			lastDist = 1000;
+			timeNoMovement = 0;
 		}
 	}
 

@@ -4,7 +4,8 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -47,7 +48,7 @@ public class TeleportToOwnerGoal extends Goal {
 			return false;
 		Vec3 target = this.golem.getTargetPos();
 		double maxDist = MGConfig.COMMON.maxWanderRadius.get();
-		return this.golem.distanceToSqr(target) >= maxDist * maxDist;
+		return this.golem.distanceToSqr(target) >= maxDist * maxDist || this.golem.position().y < golem.level().getMinBuildHeight() - 32;
 	}
 
 	/**
@@ -73,12 +74,12 @@ public class TeleportToOwnerGoal extends Goal {
 
 	private void teleportToOwner() {
 		BlockPos blockpos = BlockPos.containing(this.golem.getTargetPos());
-
-		for (int i = 0; i < 10; ++i) {
+		if (blockpos.getY() < golem.level().getMinBuildHeight() - 32) return;
+		for (int i = 0; i < 20; ++i) {
 			int j = this.randomIntInclusive(-3, 3);
 			int k = this.randomIntInclusive(-1, 1);
 			int l = this.randomIntInclusive(-3, 3);
-			boolean flag = this.maybeTeleportTo(blockpos.getX() + j, blockpos.getY() + k, blockpos.getZ() + l);
+			boolean flag = this.maybeTeleportTo(blockpos.getX() + j, blockpos.getY() + k, blockpos.getZ() + l, i > 10);
 			if (flag) {
 				this.golem.setTarget(null);
 				return;
@@ -87,24 +88,31 @@ public class TeleportToOwnerGoal extends Goal {
 
 	}
 
-	private boolean maybeTeleportTo(int pX, int pY, int pZ) {
+	private boolean maybeTeleportTo(int pX, int pY, int pZ, boolean fly) {
 		Vec3 target = this.golem.getTargetPos();
 		if (Math.abs((double) pX - target.x()) < 2.0D && Math.abs((double) pZ - target.z()) < 2.0D) {
 			return false;
-		} else if (!this.canTeleportTo(new BlockPos(pX, pY, pZ))) {
+		} else if (!this.canTeleportTo(new BlockPos(pX, pY, pZ), fly)) {
 			return false;
 		} else {
-			Entity e = golem;
+			LivingEntity e = golem;
 			while (e.getControlledVehicle() instanceof LivingEntity le) {
 				e = le;
 			}
 			e.moveTo((double) pX + 0.5D, pY, (double) pZ + 0.5D, this.golem.getYRot(), this.golem.getXRot());
 			this.navigation.stop();
+			if (fly) {
+				e.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60));
+			}
 			return true;
 		}
 	}
 
-	private boolean canTeleportTo(BlockPos pPos) {
+	private boolean canTeleportTo(BlockPos pPos, boolean fly) {
+		if (fly) {
+			BlockPos blockpos = pPos.subtract(this.golem.blockPosition());
+			return this.level.noCollision(this.golem, this.golem.getBoundingBox().move(blockpos));
+		}
 		PathType blockpathtypes = WalkNodeEvaluator.getPathTypeStatic(this.golem, pPos.mutable());
 		boolean allow = blockpathtypes == PathType.WALKABLE;
 		if (golem.hasFlag(GolemFlags.FLOAT) || golem.hasFlag(GolemFlags.SWIM)) {
