@@ -66,7 +66,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	private double timeNoMovement;
 
 	private boolean earthQuake = false;
-	private boolean hammerJump = false;
+	private boolean maceJump = false;
 
 
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
@@ -174,7 +174,12 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	@Override
 	public void tick() {
 		LivingEntity target = golem.getTarget();
-		if (target == null) return;
+		if (target == null) {
+			if (maceJump && golem.onGround()) {
+				maceJump = false;
+			}
+			return;
+		}
 		if (isTimeToAttack()) {
 			timeNoMovement++;
 		}
@@ -185,17 +190,25 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	}
 
 	protected void tickMove(LivingEntity target, double distSqr) {
-		double dist = Math.sqrt(distSqr);
-		double end = Math.sqrt(getAttackReachSqr(target));
-		double far = end - 0.5;
-		this.repathDelay = Math.max(this.repathDelay - 1, 0);
-		boolean hasRange = golem.hasRangeAttack();
-		if (dist < far && end > 2.4 || hasRange) {
-			if (!golem.getNavigation().isDone())
-				golem.getNavigation().stop();
-			golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
-		} else if (dist > far) {
-			if (repathDelay == 0) repath(target, distSqr);
+		if (maceJump) {
+			var v = golem.getDeltaMovement();
+			var diff = target.position().subtract(golem.position()).multiply(1, 0, 1);
+			if (v.multiply(1, 0, 1).length() < 0.3 && diff.length() > 1) {
+				golem.addDeltaMovement(diff.normalize().scale(0.01));
+			}
+		} else {
+			double dist = Math.sqrt(distSqr);
+			double end = Math.sqrt(getAttackReachSqr(target));
+			double far = end - 0.5;
+			this.repathDelay = Math.max(this.repathDelay - 1, 0);
+			boolean hasRange = golem.hasRangeAttack();
+			if (dist < far && end > 2.4 || hasRange) {
+				if (!golem.getNavigation().isDone())
+					golem.getNavigation().stop();
+				golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
+			} else if (dist > far) {
+				if (repathDelay == 0) repath(target, distSqr);
+			}
 		}
 	}
 
@@ -287,7 +300,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 						diff.y > 0 && diff.y < 3 + golem.getBbHeight();
 			}
 			if (!golem.hasFlag(GolemFlags.EARTH_QUAKE) && jump && !golem.isInWater() && golem.onGround()) {
-				hammerJump = true;
+				maceJump = true;
 				var v = golem.getDeltaMovement();
 				golem.setDeltaMovement(new Vec3(v.x, Math.max(v.y, 0) + 1, v.z));
 				golem.hasImpulse = true;
