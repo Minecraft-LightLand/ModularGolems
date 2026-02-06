@@ -18,6 +18,7 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 public class TFCompatRegistry {
 
     public static final ItemEntry<IronwoodArmorItem> IRONWOOD_HELMET, IRONWOOD_CHESTPLATE, IRONWOOD_SHINGUARD, IRONWOOD_BOOTS;
+    public static final ItemEntry<NagaArmorItem> NAGA_CHESTPLATE, NAGA_SHINGUARD;
 	public static final RegistryEntry<FieryModifier> FIERY;
 	public static final RegistryEntry<TFDamageModifier> TF_DAMAGE;
 	public static final RegistryEntry<TFHealingModifier> TF_HEALING;
@@ -43,7 +44,14 @@ public class TFCompatRegistry {
                         ArmorItem.Type.BOOTS, 2, 1, GolemModelPaths.IRONWOOD_BOOTS))
                 .model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
                 .defaultLang().register();
-
+        NAGA_CHESTPLATE = REGISTRATE.item("naga_chestplate", p -> new NagaArmorItem(p.stacksTo(1),
+                        ArmorItem.Type.CHESTPLATE, 13, 5, GolemModelPaths.IRONWOOD_CHESTPLATES))
+                .model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+                .defaultLang().register();
+        NAGA_SHINGUARD = REGISTRATE.item("naga_shinguard", p -> new NagaArmorItem(p.stacksTo(1),
+                        ArmorItem.Type.LEGGINGS, 7, 5, GolemModelPaths.IRONWOOD_LEGGINGS))
+                .model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+                .defaultLang().register();
 
 
         FIERY = reg("fiery", FieryModifier::new, "Deal %s%% fire damage to mobs not immune to fire");
