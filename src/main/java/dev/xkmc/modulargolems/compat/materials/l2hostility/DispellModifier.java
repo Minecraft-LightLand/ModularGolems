@@ -13,10 +13,8 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,14 +57,13 @@ public class DispellModifier extends GolemModifier {
 	}
 
 	@Override
+	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
+		LHTraits.DISPELL.get().onDamaged(level, entity, event);
+	}
+
+	@Override
 	public boolean onAttacked(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
-		if (level > 0 &&
-				!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) &&
-				!event.getSource().is(DamageTypeTags.BYPASSES_EFFECTS) &&
-				event.getSource().is(Tags.DamageTypes.IS_MAGIC)) {
-			return true;
-		}
-		return false;
+		return LHTraits.DISPELL.get().onAttackedByOthers(level, entity, event);
 	}
 
 	@Override

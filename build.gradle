@@ -204,7 +204,7 @@ dependencies {
     //implementation "curse.maven:ato-405593:6118610"
     implementation "curse.maven:allthemodium-364466:6389532"
     implementation "curse.maven:cloth-config-348521:5729127"
-    implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
+    //implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
     implementation "curse.maven:mowzies-mobs-250498:6700443"
 
 }
