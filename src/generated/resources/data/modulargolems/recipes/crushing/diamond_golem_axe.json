@@ -1,0 +1,20 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:diamond_golem_axe"
+    }
+  ],
+  "results": [
+    {
+      "count": 4,
+      "item": "minecraft:diamond"
+    }
+  ]
+}
