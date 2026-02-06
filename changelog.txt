@@ -1,6 +1,7 @@
 2.6.17
 - Add CompositeMaterial compat golem
 - Make large golem able to use eternium weapons from L2Weaponry
+- Fix abnormal tinker crossbow damage
 
 2.6.16
 - Dispell modifier follows dispell trait in L2H

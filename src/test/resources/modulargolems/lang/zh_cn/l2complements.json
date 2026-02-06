@@ -7,8 +7,8 @@
   },
   "item.modulargolems": {
 	"force_field": "凋灵护甲升级",
-	"freezing": "寒流升级",
-	"soul_flame": "魂火升级",
+	"freezing": "药水升级：寒流",
+	"soul_flame": "药水升级：魂火",
 	"teleport": "瞬移升级"
   },
   "modifier.modulargolems": {
