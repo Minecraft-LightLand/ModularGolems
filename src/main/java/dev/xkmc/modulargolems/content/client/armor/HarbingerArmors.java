@@ -113,8 +113,7 @@ public class HarbingerArmors {
 
 		PartDefinition legs3 = left_leg.addOrReplaceChild("legs3", CubeListBuilder.create().texOffs(64, 36).addBox(-4.0F, -20.0F, -3.5F, 7.0F, 6.0F, 6.0F, new CubeDeformation(0.0F))
 				.texOffs(54, 54).addBox(-4.0F, -10.5F, -3.5F, 7.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 18.0F, 0.0F));
-
-        return LayerDefinition.create(mesh, 128, 128);
+		return LayerDefinition.create(mesh, 128, 128);
 	}
 
 }
