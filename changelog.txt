@@ -1,3 +1,12 @@
+3.1.9
+- improve metal golem knockback formula
+- fix other mods healing golem in client incorrectly
+- improve some translations
+- Make large golem able to use eternium weapons from L2Weaponry
+- Dispell modifier follows dispell trait in L2H
+- Add more curios slots
+- Fix Cataclysm compat with newest Cataclysm
+
 3.1.8
 - When player flies away from golem, golem will be teleported to player and gain slow falling effects for 3 seconds.
 - Golem switch attack target immediately when attacked by entities within melee range
@@ -6,13 +15,7 @@
 - Command wand overrides golem targeting system
 - Summon and Retrieval wand can summon from / retrieve into ender backpack and dimensional backpack
 - Fix summon wand not consuming golem with no bars when player is in creative
-?- Fix meltdown modifier incorrectly revives golem when golem is killed
-- improve metal golem knockback formula
-- fix other mods healing golem in client incorrectly
-- improve some translations
-- Make large golem able to use eternium weapons from L2Weaponry
-- Dispell modifier follows dispell trait in L2H
-- Add more curios slots
+- Fix meltdown modifier incorrectly revives golem when golem is killed
 
 
 3.1.7
