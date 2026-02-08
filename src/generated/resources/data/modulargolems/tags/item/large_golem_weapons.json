@@ -59,6 +59,50 @@
     {
       "id": "cataclysm:ceraunus",
       "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_claw",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_dagger",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_machete",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_throwing_axe",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_hammer",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_battle_axe",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_scythe",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_spear",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:eternium_javelin",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:claw_of_determination",
+      "required": false
+    },
+    {
+      "id": "l2weaponry:blade_of_illusion",
+      "required": false
     }
   ]
 }

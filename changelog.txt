@@ -1,3 +1,20 @@
+3.1.8
+- When player flies away from golem, golem will be teleported to player and gain slow falling effects for 3 seconds.
+- Golem switch attack target immediately when attacked by entities within melee range
+- Golem will try to keep distance from attack target in melee mode at maximum melee range
+- Golem will try to convert to ranged attack mode and stay away from target if it's in melee mode and has ranged weapon available
+- Command wand overrides golem targeting system
+- Summon and Retrieval wand can summon from / retrieve into ender backpack and dimensional backpack
+- Fix summon wand not consuming golem with no bars when player is in creative
+?- Fix meltdown modifier incorrectly revives golem when golem is killed
+- improve metal golem knockback formula
+- fix other mods healing golem in client incorrectly
+- improve some translations
+- Make large golem able to use eternium weapons from L2Weaponry
+- Dispell modifier follows dispell trait in L2H
+- Add more curios slots
+
+
 3.1.7
 - add config for wand to bypass config card lock
 - Fix Create deployer not consuming equipments when deploying on golem

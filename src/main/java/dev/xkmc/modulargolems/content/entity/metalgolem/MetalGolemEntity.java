@@ -63,7 +63,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			le.setLastHurtByPlayer(getOwner());
 			damage = EnchantmentHelper.modifyDamage(sl, this.getWeaponItem(), target, source, damage);
 			float kbench = getKnockback(target, source);
-			if (kbench > 0) dokb += Math.sqrt(kbench);
+			if (kbench > dokb) dokb += Math.sqrt(kbench - dokb);
 		}
 		boolean succeed = target.hurt(source, damage);
 		if (getMainHandItem().getItem() instanceof ExtraAttackGolemWeapon item) {
@@ -133,7 +133,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		} else {
 			kb = 0;
 		}
-		boolean flag = performRangedDamage(target, damage, Math.max(0, 1 - kb));
+		boolean flag = performRangedDamage(target, damage, kb);
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		return flag;
 	}

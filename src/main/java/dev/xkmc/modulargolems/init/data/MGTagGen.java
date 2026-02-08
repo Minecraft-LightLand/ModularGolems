@@ -6,6 +6,10 @@ import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
+import dev.xkmc.l2weaponry.init.L2Weaponry;
+import dev.xkmc.l2weaponry.init.materials.LWToolMats;
+import dev.xkmc.l2weaponry.init.materials.LWToolTypes;
+import dev.xkmc.l2weaponry.init.registrate.LWItems;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -122,6 +126,15 @@ public class MGTagGen {
 					.addOptional(ModItems.VOID_ASSULT_SHOULDER_WEAPON.getId())
 					.addOptional(ModItems.ASTRAPE.getId())
 					.addOptional(ModItems.CERAUNUS.getId());
+		}
+		if (ModList.get().isLoaded(L2Weaponry.MODID)) {
+			var tag = pvd.addTag(LARGE_GOLEM_WEAPONS);
+			for (var e : LWToolTypes.values()) {
+				if (e == LWToolTypes.PLATE_SHIELD || e == LWToolTypes.ROUND_SHIELD || e == LWToolTypes.NUNCHAKU)
+					continue;
+				tag.addOptional(LWToolMats.ETERNIUM.getTool(e).builtInRegistryHolder().key().location());
+			}
+			tag.addOptional(LWItems.CHEATER_CLAW.getId()).addOptional(LWItems.CHEATER_MACHETE.getId());
 		}
 	}
 

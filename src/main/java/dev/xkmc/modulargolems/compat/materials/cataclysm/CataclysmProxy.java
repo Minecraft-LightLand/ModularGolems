@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Portal_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
@@ -73,7 +73,9 @@ public class CataclysmProxy {
 			Death_Laser_Beam_Entity beam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(),
 					user.level(), user, user.getX(), user.getEyeY(), user.getZ(),
 					(user.yHeadRot + 90.0F) * Mth.DEG_TO_RAD,
-					-user.getXRot() * Mth.DEG_TO_RAD, dur, (float) CMConfig.DeathLaserdamage, (float) CMConfig.DeathLaserHpdamage);
+					-user.getXRot() * Mth.DEG_TO_RAD, dur,
+					(float) CMCommonConfig.Harbinger.DeathLaserdamage,
+					(float) CMCommonConfig.Harbinger.DeathLaserHpdamage);
 			user.level().addFreshEntity(beam);
 			return beam;
 		} catch (Throwable e) {
@@ -85,7 +87,8 @@ public class CataclysmProxy {
 	public static void addMissile(LivingEntity user, LivingEntity target, Vec3 pos) {
 		try {
 			var diff = target.getEyePosition().subtract(pos).normalize();
-			Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(user, diff, user.level(), (float) CMConfig.HarbingerWitherMissiledamage, target);
+			Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(user, diff, user.level(),
+					(float) CMCommonConfig.Harbinger.WitherMissiledamage, target);
 			laserBeam.setPosRaw(pos.x(), pos.y(), pos.z());
 			user.level().addFreshEntity(laserBeam);
 		} catch (Throwable e) {
@@ -96,7 +99,7 @@ public class CataclysmProxy {
 	public static void spawnFangs(LivingEntity user, double x, double y, double z, float rotation, int delay) {
 		try {
 			user.level().addFreshEntity(new Void_Rune_Entity(user.level(), x, y, z, rotation, delay,
-					(float) CMConfig.Voidrunedamage, user));
+					(float) CMCommonConfig.EnderGuardian.VoidRuneDamage, user));
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
@@ -105,7 +108,8 @@ public class CataclysmProxy {
 	public static void spawnBlastPortal(LivingEntity user, double x, double y, double z, float rotation, int delay) {
 		try {
 			user.level().addFreshEntity(new Abyss_Blast_Portal_Entity(user.level(), x, y, z, rotation, delay,
-					(float) CMConfig.AbyssBlastdamage, (float) CMConfig.AbyssBlastHpdamage, user));
+					(float) CMCommonConfig.Leviathan.AbyssBlastDamage,
+					(float) CMCommonConfig.Leviathan.AbyssBlastHpDamage, user));
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
@@ -118,7 +122,7 @@ public class CataclysmProxy {
 			int i = old == null ? 0 : Math.min(4, old.getAmplifier() + 1);
 			MobEffectInstance ins = new MobEffectInstance(eff, 240, i, false, true, true);
 			target.addEffect(ins);
-			golem.heal(factor * (float) CMConfig.IgnisHealingMultiplier * (float) (i + 1));
+			golem.heal(factor * (float) CMCommonConfig.Ignis.HealingMultiplier * (float) (i + 1));
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
@@ -159,7 +163,7 @@ public class CataclysmProxy {
 
 	public static float monstrosityEarthquakeDamage() {
 		try {
-			return (float) CMConfig.MonstrositysHpdamage;
+			return (float) CMCommonConfig.NetheriteMonstrosity.SmashHpdamage;
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
@@ -168,7 +172,7 @@ public class CataclysmProxy {
 
 	public static float maledictusEarthquakeDamage() {
 		try {
-			return (float) CMConfig.MaledictusAOEHpDamage;
+			return (float) CMCommonConfig.Maledictus.AOEHpDamage;
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}

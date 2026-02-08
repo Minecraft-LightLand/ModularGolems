@@ -172,6 +172,7 @@ dependencies {
 
     implementation "dev.xkmc:l2backpack:${l2backpack_ver}"
     implementation "dev.xkmc:l2complements:${l2complements_ver}-slim"
+    implementation "dev.xkmc:l2weaponry:${l2weaponry_ver}"
     implementation "dev.xkmc:l2magic:${l2magic_ver}"
     implementation "dev.xkmc:fast_projectile_api:${fast_projectile_api_ver}"
     implementation "dev.xkmc:l2hostility:${l2hostility_ver}-slim"
@@ -187,7 +188,7 @@ dependencies {
     implementation "dev.xkmc:l2archery:${l2archery_ver}"
 
     implementation "curse.maven:lionfish-api-1001614:6168249"
-    implementation "curse.maven:lendercataclysm-551586:6849033"
+    implementation "curse.maven:lendercataclysm-551586:7578941"
     implementation "curse.maven:create-328085:6624071"
     implementation("curse.maven:create-enchantment-industry-688768:6431470")
     implementation "curse.maven:create-dragons-plus-1216624:6440339"
@@ -204,7 +205,7 @@ dependencies {
     //implementation "curse.maven:ato-405593:6118610"
     implementation "curse.maven:allthemodium-364466:6389532"
     implementation "curse.maven:cloth-config-348521:5729127"
-    //implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
+    implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
     implementation "curse.maven:mowzies-mobs-250498:6700443"
 
 }
