@@ -4,6 +4,7 @@
   "golem_material.composite_material.etherite": "以太合金",
   "golem_material.composite_material.primitive": "荒古坚材",
   "golem_material.composite_material.obsidian_steel": "黑曜石钢",
+  "item.modulargolems.etherite": "以太镀层升级",
   "modifier.modulargolems": {
     "dungeon_absorption": "损害吸收",
     "dungeon_absorption.desc": "按造成伤害的%s%%为自己治疗",
