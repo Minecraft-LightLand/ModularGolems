@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "composite_material"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "composite_material:etherite_ingot"
+    },
+    "B": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "C": {
+      "item": "composite_material:perkin"
+    }
+  },
+  "pattern": [
+    "CAC",
+    "ABA",
+    "CAC"
+  ],
+  "result": {
+    "item": "modulargolems:etherite"
+  },
+  "show_notification": true
+}

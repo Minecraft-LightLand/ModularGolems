@@ -2,10 +2,13 @@ package dev.xkmc.modulargolems.compat.materials.compositematerial;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.compositematerial.modifier.*;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import io.github.rcneg.compositematerial.common.init.ItemRegistry;
 
+import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.multilinereg;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
@@ -18,6 +21,7 @@ public class CMCompatRegistry {
 	public static final RegistryEntry<ResonantAttackModifier> RESONANT_ATTACK;
 	public static final RegistryEntry<ResonantHealModifier> RESONANT_HEAL;
 	public static final RegistryEntry<EtheriteModifier> ETHERTITE_PLATING;
+	public static final RegistryEntry<SimpleUpgradeItem> UP_ETHERITE;
 
 	static {
 		DUNGEON_ABSORPTION = reg("dungeon_absorption", () -> new DungeonAttackModifier(StatFilterType.ATTACK, 4),
@@ -40,6 +44,7 @@ public class CMCompatRegistry {
 				"- Immune to conventional debuffs",
 				"- Immune to environmental damage",
 				"- Periodic self-repair");
+		UP_ETHERITE = regModUpgrade("etherite", () -> ETHERTITE_PLATING, TFDispatch.MODID).lang("Etherite Plating Upgrade").register();
 	}
 
 	public static void register() {
