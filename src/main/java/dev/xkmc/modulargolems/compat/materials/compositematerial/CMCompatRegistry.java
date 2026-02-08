@@ -44,7 +44,7 @@ public class CMCompatRegistry {
 				"- Immune to conventional debuffs",
 				"- Immune to environmental damage",
 				"- Periodic self-repair");
-		UP_ETHERITE = regModUpgrade("etherite", () -> ETHERTITE_PLATING, TFDispatch.MODID).lang("Etherite Plating Upgrade").register();
+		UP_ETHERITE = regModUpgrade("etherite", () -> ETHERTITE_PLATING, CMDispatch.MODID).lang("Etherite Plating Upgrade").register();
 	}
 
 	public static void register() {
