@@ -1,0 +1,92 @@
+{
+  "ingredients": {
+    "composite_material:allay_steel": {
+      "item": "composite_material:allay_steel_ingot"
+    },
+    "composite_material:dungeon_steel": {
+      "item": "composite_material:dungeon_steel_ingot"
+    },
+    "composite_material:etherite": {
+      "item": "composite_material:etherite_ingot"
+    },
+    "composite_material:obsidian_steel": {
+      "item": "composite_material:obsidian_steel_ingot"
+    },
+    "composite_material:primitive": {
+      "item": "composite_material:primitive_tenacity"
+    }
+  },
+  "modifiers": {
+    "composite_material:allay_steel": {
+      "modulargolems:resonant_attack": 1,
+      "modulargolems:resonant_heal": 1
+    },
+    "composite_material:dungeon_steel": {
+      "modulargolems:dungeon_absorption": 1,
+      "modulargolems:dungeon_link": 1
+    },
+    "composite_material:etherite": {
+      "modulargolems:armor_penetration": 1,
+      "modulargolems:etherite_plating": 1,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:recycle": 1
+    },
+    "composite_material:obsidian_steel": {
+      "modulargolems:explosion_resistant": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:obsidian": 1
+    },
+    "composite_material:primitive": {
+      "modulargolems:damage_cap": 1,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:primitive_blast": 1,
+      "modulargolems:primitive_curse": 1,
+      "modulargolems:swim": 1
+    }
+  },
+  "repairIngredients": {
+    "composite_material:allay_steel": {
+      "item": "composite_material:allay_steel_ingot"
+    },
+    "composite_material:dungeon_steel": {
+      "item": "composite_material:dungeon_steel_ingot"
+    },
+    "composite_material:etherite": {
+      "item": "composite_material:etherite_ingot"
+    },
+    "composite_material:obsidian_steel": {
+      "item": "composite_material:obsidian_steel_ingot"
+    },
+    "composite_material:primitive": {
+      "item": "composite_material:primitive_tenacity"
+    }
+  },
+  "stats": {
+    "composite_material:allay_steel": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 240.0,
+      "modulargolems:regen": 2.0,
+      "modulargolems:weight": 0.4
+    },
+    "composite_material:dungeon_steel": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 200.0
+    },
+    "composite_material:etherite": {
+      "modulargolems:attack": 35.0,
+      "modulargolems:max_health": 500.0,
+      "modulargolems:regen": 4.0,
+      "modulargolems:sweep": 1.0,
+      "modulargolems:weight": 0.2
+    },
+    "composite_material:obsidian_steel": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 150.0
+    },
+    "composite_material:primitive": {
+      "modulargolems:attack": 5.0,
+      "modulargolems:max_health": 500.0,
+      "modulargolems:weight": -0.2
+    }
+  }
+}

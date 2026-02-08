@@ -7,10 +7,13 @@ import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
+import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,6 +22,9 @@ import slimeknights.mantle.registration.object.FlowingFluidObject;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipeBuilder;
+import slimeknights.tconstruct.library.recipe.melting.MeltingRecipeBuilder;
+
+import java.util.function.Consumer;
 
 public class TinkerRecipeGen {
 
@@ -51,6 +57,60 @@ public class TinkerRecipeGen {
 		cast(pvd, GolemItems.WINDSPIRIT_CHESTPLATE, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE, TinkerFluids.moltenNetherite, 6 * 90);
 		cast(pvd, GolemItems.WINDSPIRIT_SHINGUARD, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD, TinkerFluids.moltenNetherite, 3 * 90);
 
+		melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE, TinkerFluids.moltenNetherite, 6 * 90,
+				e -> e.addByproduct(TinkerFluids.moltenDiamond.result(40 * 100)));
+
+        melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_HELMET, TinkerFluids.moltenNetherite, 5 * 90,
+                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(20 * 100)));
+
+        melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD, TinkerFluids.moltenNetherite, 3 * 90,
+                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(18 * 100)));
+
+        melt(pvd, GolemItems.WINDSPIRIT_CHESTPLATE, TinkerFluids.moltenDiamond, 40 * 100,
+                e->{});
+
+        melt(pvd, GolemItems.WINDSPIRIT_HELMET, TinkerFluids.moltenDiamond, 20 * 100,
+                e->{});
+
+        melt(pvd, GolemItems.WINDSPIRIT_SHINGUARD, TinkerFluids.moltenDiamond, 18 * 100,
+                e->{});
+
+        melt(pvd, GolemItems.GOLEMGUARD_CHESTPLATE, TinkerFluids.moltenIron, 40 * 90,
+                e->{});
+
+        melt(pvd, GolemItems.GOLEMGUARD_HELMET, TinkerFluids.moltenIron, 20 * 90,
+                e->{});
+
+        melt(pvd, GolemItems.GOLEMGUARD_SHINGUARD, TinkerFluids.moltenIron, 18 * 90,
+                e->{});
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
+                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(4 * 100)));
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
+                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(5 * 100)));
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
+                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(3 * 100)));
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 4 * 100,
+                e->{});
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 5 * 100,
+                e->{});
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 3 * 100,
+                e->{});
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 4 * 90,
+                e->{});
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 5 * 90,
+                e->{});
+
+        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 3 * 90,
+                e->{});
+
 	}
 
 	private static void findAndTry(RegistrateRecipeProvider pvd, String id, FlowingFluidObject<ForgeFlowingFluid> fluid, int amount) {
@@ -82,6 +142,13 @@ public class TinkerRecipeGen {
 		RecipeGen.unlock(pvd, ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromItem(upgrade))::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
 				.setCast(src, true).setFluidAndTime(fluid, amount)
 				.save(ConditionalRecipeWrapper.mod(pvd, TConstruct.MOD_ID), rl);
+	}
+
+	private static void melt(RegistrateRecipeProvider pvd, ItemEntry<?> src, FlowingFluidObject<ForgeFlowingFluid> fluid, int amount, Consumer<MeltingRecipeBuilder> cons) {
+		var rl = src.getId().withPrefix("melting/");
+		var recipe = RecipeGen.unlock(pvd, MeltingRecipeBuilder.melting(Ingredient.of(src), fluid, amount, 1)::unlockedBy, GolemItems.EMPTY_UPGRADE.get());
+		cons.accept(recipe);
+		recipe.save(ConditionalRecipeWrapper.mod(pvd, TConstruct.MOD_ID), rl);
 	}
 
 

@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -39,12 +40,14 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public final StatFilterType type;
 	public final int maxLevel;
 
+	// 构造函数
 	public GolemModifier(StatFilterType type, int maxLevel) {
 		super(GolemTypes.MODIFIERS);
 		this.type = type;
 		this.maxLevel = maxLevel;
 	}
 
+	// 获取工具提示信息
 	public Component getTooltip(int v) {
 		MutableComponent ans = getDesc();
 		if (maxLevel > 1)
@@ -52,6 +55,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return ans.withStyle(ChatFormatting.LIGHT_PURPLE);
 	}
 
+	// 似乎是shift获取细节的提示内容
 	public List<MutableComponent> getDetail(int v) {
 		return List.of(Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.GREEN));
 	}
@@ -144,6 +148,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	public boolean canExistOn(GolemPart<?, ?> part) {
+		// 通过 GolemPartConfig 获取配置，并判断该零件是否允许当前修饰符类型
 		return GolemPartConfig.get().getFilter(part).getOrDefault(type, 0d) > 0;
 	}
 
@@ -161,10 +166,25 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	public InteractionResult interact(Player player, AbstractGolemEntity<?, ?> golem, InteractionHand hand, int value) {
+		// 返回交互结果PASS
 		return InteractionResult.PASS;
 	}
 
 	public void onKillTarget(AbstractGolemEntity<?, ?> golem, LivingEntity entity, LivingDeathEvent event, int level) {
+	}
+
+	public void finalizeHurtTarget(AttackCache cache, AbstractGolemEntity<?, ?> golem, int value) {
+	}
+
+	public float onHealPre(float heal, AbstractGolemEntity<?, ?> golem, int value) {
+		return heal;
+	}
+
+	public void onHealPost(float heal, AbstractGolemEntity<?, ?> golem, int value) {
+	}
+
+	public boolean isImmuneTo(AbstractGolemEntity<?, ?> golem, MobEffectInstance ins, int level) {
+		return false;
 	}
 
 	public record HealingContext(float health, float maxHealth, Entity owner) {

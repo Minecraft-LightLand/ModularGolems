@@ -1,0 +1,20 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:diamond_golem_sword"
+    }
+  ],
+  "results": [
+    {
+      "count": 5,
+      "item": "minecraft:diamond"
+    }
+  ]
+}

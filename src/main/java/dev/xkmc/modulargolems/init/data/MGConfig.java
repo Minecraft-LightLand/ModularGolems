@@ -107,6 +107,17 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue sandCurseBonus;
 		public final ForgeConfigSpec.BooleanValue wandBypassConfig;
 
+		public final ForgeConfigSpec.DoubleValue dungeonMeleeHealFactor;
+		public final ForgeConfigSpec.DoubleValue dungeonLinkHealFactor;
+		public final ForgeConfigSpec.IntValue obsidianDamageReduction;
+		public final ForgeConfigSpec.DoubleValue primitiveHealthRatio;
+		public final ForgeConfigSpec.DoubleValue primitiveDamageMultiplier;
+		public final ForgeConfigSpec.IntValue resonanceAttackCooldown;
+		public final ForgeConfigSpec.DoubleValue resonanceAttackDamageFactor;
+		public final ForgeConfigSpec.IntValue resonanceAttackRange;
+		public final ForgeConfigSpec.DoubleValue resonanceHealFactor;
+		public final ForgeConfigSpec.IntValue resonanceHealRange;
+		public final ForgeConfigSpec.IntValue ethertiteRepairDelay;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			{
@@ -308,6 +319,33 @@ public class MGConfig {
 							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
 					sandCurseBonus = builder.comment("Sandstorm Upgrade damage bonus per level")
 							.defineInRange("sandCurseBonus", 0.1d, 0, 10);
+				}
+				builder.pop();
+
+				builder.push("composite material compat");
+				{
+					dungeonMeleeHealFactor = builder.comment("Dungeon Absorption: lifesteal ratio for melee damage.")
+							.defineInRange("dungeonMeleeHealFactor", 0.25, 0, 2);
+					dungeonLinkHealFactor = builder.comment("Dungeon Link: lifesteal ratio for melee damage.")
+							.defineInRange("dungeonLinkHealFactor", 0.2, 0, 1);
+					obsidianDamageReduction = builder.comment("Obsidian: damage reduced.")
+							.defineInRange("obsidianDamageReduction", 1, 0, 100);
+					primitiveHealthRatio = builder.comment("Primitive Blast: health ratio")
+							.defineInRange("primitiveHealthRatio", 0.05, 0, 1);
+					primitiveDamageMultiplier = builder.comment("Primitive Curse: damage multiplier")
+							.defineInRange("primitiveDamageMultiplier", 0.8, 0, 1);
+					resonanceAttackCooldown = builder.comment("Resonant Attack: Cooldown")
+							.defineInRange("resonanceAttackCooldown", 20, 1, 1000);
+					resonanceAttackDamageFactor = builder.comment("Resonant Attack: damage factor")
+							.defineInRange("resonanceAttackDamageFactor", 0.1, 0, 1);
+					resonanceAttackRange = builder.comment("Resonant Attack: chain range")
+							.defineInRange("resonanceAttackRange", 8, 0, 64);
+					resonanceHealFactor = builder.comment("Resonant Heal: healing ratio")
+							.defineInRange("resonanceHealFactor", 0.25, 0, 5);
+					resonanceHealRange = builder.comment("Resonant Heal: chain range")
+							.defineInRange("resonanceHealRange", 32, 0, 64);
+					ethertiteRepairDelay = builder.comment("Etherite Plating: repair delay")
+							.defineInRange("ethertiteRepairDelay", 600, 20, 1000);
 				}
 				builder.pop();
 			}

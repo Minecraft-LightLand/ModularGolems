@@ -31,13 +31,17 @@ public class GolemEventListeners {
 	public static void onEquip(GolemEquipItemEvent event) {
 		var golem = event.getEntity();
 		var stack = event.getStack();
+		// 人形
 		if (golem instanceof HumanoidGolemEntity) {
+			// 对箭,装到副手
 			if (stack.getItem() instanceof ArrowItem) {
 				event.setSlot(stack.getCount(), EquipmentSlot.OFFHAND);
 			}
+			// 对弓,装到主手,副手
 			if (stack.getItem() instanceof BowItem) {
 				event.setSlot(1, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND);
 			}
+			// 旗帜,头部
 			if (stack.getItem() instanceof BannerItem) {
 				event.setSlot(1, EquipmentSlot.HEAD);
 			}
@@ -50,7 +54,7 @@ public class GolemEventListeners {
 			}
 		}
 
-
+		// 大傀儡
 		if (golem instanceof MetalGolemEntity) {
 			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
 				event.setSlot(1, mgai.getSlot());
@@ -60,6 +64,8 @@ public class GolemEventListeners {
 				event.setSlot(1, EquipmentSlot.HEAD, EquipmentSlot.FEET);
 			}
 		}
+
+		// 狗傀儡
 		if (golem instanceof DogGolemEntity) {
 			if (stack.getItem() instanceof BannerItem) {
 				event.setSlot(1, EquipmentSlot.HEAD);
@@ -67,4 +73,17 @@ public class GolemEventListeners {
 		}
 	}
 
+	@SubscribeEvent
+	public static void isThrowable(GolemThrowableEvent event) {
+		// 判断当前装备的物品是否属于投掷物品(仅含三叉戟)如果是，则将该物品设置为可投掷，并创建一个ThrownTrident对象
+		if (event.getStack().getItem() instanceof TridentItem) {
+			event.setThrowable(level -> {
+				// 创建投掷物模拟投掷行为
+				var ans = new ThrownTrident(level, event.getEntity(), event.getStack());
+				// 该投掷物不可拾取
+				ans.pickup = AbstractArrow.Pickup.DISALLOWED;
+				return ans;
+			});
+		}
+	}
 }

@@ -4,13 +4,18 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
+// 基于 Minecraft 的 Goal 类，并且用于实现一个通用的远程攻击机制
 public abstract class BaseRangedAttackGoal extends Goal {
 
+	// 冷却\内限\外限
 	private final int waitTime, near, far;
 
+	// 傀儡示例
 	protected final AbstractGolemEntity<?, ?> golem;
+	// 傀儡等级
 	protected final int lv;
 
+	// 初始攻击延迟
 	public long attackTime;
 	private boolean lock;
 

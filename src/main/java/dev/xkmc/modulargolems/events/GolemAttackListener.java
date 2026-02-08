@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 public class GolemAttackListener implements AttackListener {
 
 	@Override
+	// 当攻击源创建时触发。如果攻击者是 AbstractGolemEntity 的实例，则遍历该傀儡的修饰符，并调用每个修饰符的 modifySource 方法来修改攻击源。
 	public void onCreateSource(CreateSourceEvent event) {
 		if (event.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
 			for (var e : golem.getModifiers().entrySet()) {
@@ -39,8 +40,12 @@ public class GolemAttackListener implements AttackListener {
 	public void onDamageFinalized(AttackCache cache, ItemStack weapon) {
 		if (cache.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
 			var owner = golem.getOwner();
+			// 如果傀儡有主人，则将伤害者设为主人
 			if (owner != null) {
 				cache.getAttackTarget().setLastHurtByPlayer(owner);
+			}
+			for (var entry : golem.getModifiers().entrySet()) {
+				entry.getKey().finalizeHurtTarget(cache, golem, entry.getValue());
 			}
 		}
 	}

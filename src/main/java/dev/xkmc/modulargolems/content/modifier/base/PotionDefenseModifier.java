@@ -23,10 +23,12 @@ public class PotionDefenseModifier extends GolemModifier {
 	}
 
 	private MobEffectInstance getIns(int lv) {
+		// 根据给定的等级 lv 创建并返回一个 MobEffectInstance 实例
 		return new MobEffectInstance(effect.get(), 40, lv - 1, false, false);
 	}
 
-	@Override
+	@Override// 重写了从父类继承的 onAiStep 方法
+	// 每个 AI 步骤（即每个游戏刻）被调用一次
 	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
 		EffectUtil.refreshEffect(golem, getIns(level), EffectUtil.AddReason.SELF, golem);
 	}

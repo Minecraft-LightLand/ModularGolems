@@ -193,6 +193,10 @@
     {
       "id": "modulargolems:thunderstorm",
       "required": false
+    },
+    {
+      "id": "modulargolems:etherite",
+      "required": false
     }
   ]
 }

@@ -1,0 +1,30 @@
+{
+  "golem_material.composite_material.allay_steel": "悦灵钢",
+  "golem_material.composite_material.dungeon_steel": "地牢钢",
+  "golem_material.composite_material.etherite": "以太合金",
+  "golem_material.composite_material.primitive": "荒古坚材",
+  "golem_material.composite_material.obsidian_steel": "黑曜石钢",
+  "item.modulargolems.etherite": "以太镀层升级",
+  "modifier.modulargolems": {
+    "dungeon_absorption": "损害吸收",
+    "dungeon_absorption.desc": "按造成伤害的%s%%为自己治疗",
+    "dungeon_link": "生命链接",
+    "dungeon_link.desc": "非修复恢复时，反哺伤害值的%s%%治疗玩家",
+    "obsidian": "坚韧外壳",
+    "obsidian.desc": "受到的伤害结算时降低%s点",
+    "primitive_blast": "荒古之力",
+    "primitive_blast.desc": "按自身最大生命值的%s%%增加攻击伤害",
+    "primitive_curse": "荒古诅咒",
+    "primitive_curse.desc": "减少%1$s%%受到的伤害，但%2$s升级槽",
+    "resonant_attack": "共鸣震慑",
+    "resonant_attack.desc": "造成伤害时，为%1$s格内的同种目标附加%2$s%%的魔法伤害",
+    "resonant_heal": "生声不息",
+    "resonant_heal.desc": "非修复恢复时,为%2$s内的同词条友军提供%1$s%%的治疗量,受友军词条等级影响",
+    "etherite_plating": "以太镀层",
+    "etherite_plating.desc1": "根据等级获得如下效果:",
+    "etherite_plating.desc2": "- 免疫弹射物伤害",
+    "etherite_plating.desc3": "- 免疫常规减益",
+    "etherite_plating.desc4": "- 免疫环境伤害",
+    "etherite_plating.desc5": "- 周期性自我修复"
+  }
+}

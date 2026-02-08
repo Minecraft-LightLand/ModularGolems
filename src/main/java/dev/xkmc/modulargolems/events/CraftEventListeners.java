@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class CraftEventListeners {
 
 	@SubscribeEvent
+	// 监听铁砧合成
 	public static void onAnvilCraft(AnvilUpdateEvent event) {
 		ItemStack stack = event.getLeft();
 		ItemStack block = event.getRight();
@@ -39,6 +40,7 @@ public class CraftEventListeners {
 			event.setMaterialCost(part.count);
 			event.setCost(1);
 		}
+		// 若左侧为GolemHolder
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
 			if (block.getItem() instanceof UpgradeItem upgrade) {
 				appendUpgrade(event, holder, upgrade);

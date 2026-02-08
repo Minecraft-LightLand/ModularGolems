@@ -266,6 +266,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		recordedGuardPos = getGuardPos();
 		leader = null;
 		untrack(player == getOwner() ? GolemTracker.Status.RETRIEVED : GolemTracker.Status.OTHER_RETRIEVED, player);
+		unRide();
 		var ans = GolemHolder.setEntity(getThis());
 		level().broadcastEntityEvent(this, EntityEvent.POOF);
 		this.discard();
@@ -1110,6 +1111,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean canBeAffected(MobEffectInstance ins) {
 		if (effectImmunity.contains(ins.getEffect()))
 			return false;
+		for (var ent : modifiers.entrySet()) {
+			if (ent.getKey().isImmuneTo(this, ins, ent.getValue())) {
+				return false;
+			}
+		}
 		return super.canBeAffected(ins);
 	}
 
@@ -1202,6 +1208,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void returnToInventory() {
 		var leader = getLeader();
+		unRide();
 		ItemStack stack = GolemHolder.setEntity(getThis());
 		if (leader != null && leader.isAlive()) {
 			if (MinecraftForge.EVENT_BUS.post(new GolemToOwnerEvent(leader, stack))) {
@@ -1238,6 +1245,21 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public boolean hasRangeAttack() {
 		return false;
+	}
+
+	@Override
+	public void onHeal(float heal) {
+		for (var entry : getModifiers().entrySet()) {
+			entry.getKey().onHealPost(heal, this, entry.getValue());
+		}
+	}
+
+	@Override
+	public void heal(float heal) {
+		for (var entry : getModifiers().entrySet()) {
+			heal = entry.getKey().onHealPre(heal, this, entry.getValue());
+		}
+		super.heal(heal);
 	}
 
 }

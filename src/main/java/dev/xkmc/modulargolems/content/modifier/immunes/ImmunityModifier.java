@@ -9,6 +9,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import java.util.function.Consumer;
 
+// 不灭
 public class ImmunityModifier extends GolemModifier {
 
 	public ImmunityModifier() {

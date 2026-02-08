@@ -37,11 +37,13 @@ public class RideUpgrade extends AttributeGolemModifier {
 
 	@Override
 	public void onRegisterFlag(Consumer<GolemFlags> addFlag) {
+		// 该Golem应该是被动的，不会主动攻击其他实体
 		addFlag.accept(GolemFlags.PASSIVE);
 	}
 
 	@Override
 	public boolean fitsOn(GolemType<?, ?> type) {
+		// 只有狗型Golem才能装备这个坐骑升级
 		return type == GolemTypes.TYPE_DOG.get();
 	}
 

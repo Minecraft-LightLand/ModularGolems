@@ -32,8 +32,11 @@ public class ModifierEventListeners {
 
 	@SubscribeEvent
 	public static void onGolemSpawn(EntityJoinLevelEvent event) {
+		// 首先检查事件是否发生在客户端，如果是，则直接返回，不执行任何逻辑
 		if (event.getLevel().isClientSide()) return;
+		// 检查事件中的实体是否为AbstractGolemEntity的实例
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
+			// 遍历该傀儡的所有修饰符（modifiers），并调用每个修饰符的onGolemSpawn方法，传入傀儡实例和修饰符的值，以便对傀儡的属性进行初始化或修改
 			entity.getModifiers().forEach((k, v) -> k.onGolemSpawn(entity, v));
 		}
 	}
@@ -89,7 +92,9 @@ public class ModifierEventListeners {
 	@SubscribeEvent
 	public static void onExplosion(ExplosionEvent.Detonate event) {
 		for (var e : event.getAffectedEntities()) {
+			// 如果有傀儡实体
 			if (e instanceof AbstractGolemEntity<?, ?> golem) {
+				// 且实体有爆炸抗性修饰符,并且其值大于0，则取消爆炸对所有方块的影响
 				if (golem.getModifiers().getOrDefault(GolemModifiers.EXPLOSION_RES.get(), 0) > 0) {
 					event.getAffectedBlocks().clear();
 					return;
@@ -125,8 +130,11 @@ public class ModifierEventListeners {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void onLivingDrop(LivingDropsEvent event) {
+		// 检查掉落物品的来源是否为AbstractGolemEntity实例
 		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> e) {
+			// 进一步检查该傀儡是否具有拾取掉落物的标志（GolemFlags.PICKUP）
 			if (e.hasFlag(GolemFlags.PICKUP)) {
+				// 如果具有，则将所有掉落物移动到该傀儡所在的位置
 				event.getDrops().forEach(x -> x.moveTo(e.position()));
 			}
 		}
@@ -150,13 +158,6 @@ public class ModifierEventListeners {
 						le, event.getHand()));
 				event.setCanceled(true);
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public static void onEffectApply(MobEffectEvent.Applicable event) {
-		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> golem) {
-
 		}
 	}
 

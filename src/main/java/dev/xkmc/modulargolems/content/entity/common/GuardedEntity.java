@@ -107,7 +107,7 @@ public class GuardedEntity extends AbstractGolem {
 		super.setHealth(amount);
 	}
 
-	public final void heal(float original) {
+	public void heal(float original) {
 		if (level().isClientSide()) return;
 		var heal = ForgeEventFactory.onLivingHeal(this, original);
 		if (isEffectImmune() && level().getGameTime() > antiHealDisableTimestamp) {
@@ -115,9 +115,15 @@ public class GuardedEntity extends AbstractGolem {
 			if (heal <= 0) return;
 		}
 		float f = getHealth();
-		if (f > 0) {
+		float m = getMaxHealth();
+		heal = Math.min(m - f, heal);
+		if (f > 0 && heal > 0) {
+			onHeal(heal);
 			setHealth(f + heal);
 		}
+	}
+
+	public void onHeal(float heal) {
 	}
 
 	@Override

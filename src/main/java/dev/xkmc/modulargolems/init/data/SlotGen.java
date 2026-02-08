@@ -40,7 +40,7 @@ public class SlotGen extends RecordDataProvider {
 				new ArrayList<>(List.of("golem_route", "golem_skin",
 						"curio", "back", "belt", "body", "boot", "bracelet", "charm", "head",
 						"hands", "necklace", "ring", "feet",
-						"scroll", "spellbook", "heart_amulet", "spellstone", "hostility_curse", "accessory",
+						"halo", "spellbook", "heart_amulet", "hostility_curse", "accessory",
 						"artifact_head", "artifact_necklace", "artifact_bracelet", "artifact_body", "artifact_belt"
 				)), SlotCondition.of()
 		));

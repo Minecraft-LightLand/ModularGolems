@@ -1,0 +1,24 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:netherite_golem_axe"
+    }
+  ],
+  "results": [
+    {
+      "count": 4,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:netherite_scrap"
+    }
+  ]
+}

@@ -23,7 +23,9 @@ public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecip
 		if (!super.matches(cont, level)) return false;
 		for (int i = 0; i < cont.getContainerSize(); i++) {
 			ItemStack input = cont.getItem(i);
+			// 如果物品堆非空且物品是GolemPart的实例
 			if (!input.isEmpty() && input.getItem() instanceof GolemPart part) {
+				// 检查该傀儡部件对应材料是否为空
 				if (GolemPart.getMaterial(input).isEmpty()) {
 					return false;
 				}
@@ -45,6 +47,7 @@ public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecip
 	}
 
 	@Override
+	// getSerializer方法重写了父类的方法，用于返回该配方类型的序列化器（Serializer），以便将配方数据写入或从数据包中读取
 	public Serializer<GolemAssembleRecipe> getSerializer() {
 		return GolemMiscs.ASSEMBLE.get();
 	}

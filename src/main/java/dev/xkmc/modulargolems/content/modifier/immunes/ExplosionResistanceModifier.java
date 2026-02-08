@@ -12,6 +12,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
 
+// 爆炸伤害抗性
 public class ExplosionResistanceModifier extends GolemModifier {
 
 	public ExplosionResistanceModifier() {
@@ -21,6 +22,7 @@ public class ExplosionResistanceModifier extends GolemModifier {
 	@Override
 	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
 		float factor = (float) Math.max(0, 1 - level * MGConfig.COMMON.explosionResistance.get());
+		// 检查伤害的来源是否是爆炸，并且伤害是否可以被普通防御机制抵挡住
 		if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) && event.getSource().is(DamageTypeTags.IS_EXPLOSION)) {
 			event.setAmount(event.getAmount() * factor);
 		}

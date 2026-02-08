@@ -21,6 +21,7 @@ public class AddSlotModifier extends GolemModifier {
 	}
 
 	@Override
+	// 添加槽位
 	public int addSlot(List<IUpgradeItem> list, int lv) {
 		return lv;
 	}
