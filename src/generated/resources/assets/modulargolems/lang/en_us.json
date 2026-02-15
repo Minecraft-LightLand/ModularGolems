@@ -585,6 +585,7 @@
   "modulargolems.tab.tracker_alive": "Golems in World",
   "modulargolems.tab.tracker_dead": "Golem Death Record",
   "modulargolems.tab.tracker_retrieve": "Returned to Inventory",
+  "modulargolems.tab.upgrades": "Golem Upgrades",
   "modulargolems.tooltip.beacon_boots": "Heal and apply %s, %s to all nearby allies.",
   "modulargolems.tooltip.cataclysm.harbinger_armor_laer": "+%s Death Laser Damage",
   "modulargolems.tooltip.cataclysm.harbinger_armor_missile": "+%s Homing Missile Damage",
