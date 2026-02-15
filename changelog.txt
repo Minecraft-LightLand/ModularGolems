@@ -1,6 +1,9 @@
 2.6.18
 - Fix ethernium upgrade icon
 - Update L2C weapon compat
+- Fix crossbow double charging
+- Balance Maledictus / Netherite Monstrosity jump attack and Could golem attack damage
+- New formula: dmg = atk + min(atk, factor * maxHP) + max(0, sqrt(factor * maxHP / atk) - 1) * atk * 2
 
 2.6.17
 - Add CompositeMaterial compat golem
