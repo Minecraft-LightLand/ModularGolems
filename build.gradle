@@ -216,13 +216,13 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.12")) {
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.13")) {
         transitive = false
-        jarJar.ranged(it, "[0.2.12,)")
+        jarJar.ranged(it, "[0.2.13,)")
     }
 
     implementation fg.deobf("dev.xkmc.l2backpack:l2backpack:2.5.0-slim")
-    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.5.3-slim')
+    implementation fg.deobf('dev.xkmc.l2complements:l2complements:2.6.1-slim')
     implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.5.3-slim")
     implementation fg.deobf("dev.xkmc.golemdungeons:golemdungeons:1.0.2-slim")
 

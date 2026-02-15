@@ -1,3 +1,7 @@
+2.6.18
+- Fix ethernium upgrade icon
+- Update L2C weapon compat
+
 2.6.17
 - Add CompositeMaterial compat golem
 - Make large golem able to use eternium weapons from L2Weaponry
