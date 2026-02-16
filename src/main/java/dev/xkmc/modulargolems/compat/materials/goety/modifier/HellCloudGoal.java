@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class HellCloudGoal extends BaseRangedAttackGoal implements IApostleGoal {
 
 	public HellCloudGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(200, 2, 35, golem, lv);
+		super(200, 0, 35, golem, lv);
 	}
 
 	@Override
