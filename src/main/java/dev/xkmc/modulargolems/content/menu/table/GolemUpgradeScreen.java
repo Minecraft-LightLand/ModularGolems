@@ -51,12 +51,17 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> {
 	protected void renderTooltip(GuiGraphics g, int x, int y) {
 		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.hasItem()) {
 			ItemStack stack = hoveredSlot.getItem();
-			if (stack.getItem() instanceof IUpgradeItem && !(stack.getItem() instanceof UpgradeItem))
-				g.renderTooltip(font, List.of(MGLangData.UI_REMOVE_TEMPLATE.get()), Optional.empty(), stack, x, y);
-			else if (!hoveredSlot.mayPickup(menu.inventory.player))
-				g.renderTooltip(font, List.of(MGLangData.UI_NO_SLOT.get()), Optional.empty(), stack, x, y);
-			else
-				g.renderTooltip(font, getTooltipFromContainerItem(stack), stack.getTooltipImage(), stack, x, y);
+			if (hoveredSlot instanceof UpgradeSlot) {
+				if (stack.getItem() instanceof IUpgradeItem && !(stack.getItem() instanceof UpgradeItem)) {
+					g.renderTooltip(font, List.of(MGLangData.UI_REMOVE_TEMPLATE.get()), Optional.empty(), stack, x, y);
+					return;
+				}
+				if (!hoveredSlot.mayPickup(menu.inventory.player)) {
+					g.renderTooltip(font, List.of(MGLangData.UI_NO_SLOT.get()), Optional.empty(), stack, x, y);
+					return;
+				}
+			}
+			g.renderTooltip(font, getTooltipFromContainerItem(stack), stack.getTooltipImage(), stack, x, y);
 		}
 
 	}
