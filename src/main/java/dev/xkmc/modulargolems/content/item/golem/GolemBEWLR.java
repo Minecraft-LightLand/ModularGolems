@@ -17,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -100,9 +101,16 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends EntityModel<T> & IGolemModel<T, P, M>>
 	void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
 		M model = Wrappers.cast(map.get(type.getRegistryName()));
-		RenderType render = model.renderType(model.getTextureLocationInternal(id));
-		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), render, false, handle.stack().hasFoil());
+		RenderType rt = model.renderType(model.getTextureLocationInternal(id));
+		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), rt, false, handle.stack().hasFoil());
 		model.renderToBufferInternal(part, handle.poseStack(), vc, handle.light(), handle.overlay(), -1);
+
+		var etex = model.getTextureLocationInternal(id.withSuffix("_emissive"));
+		if (ModelOverrides.isValid(etex)) {
+			rt = model.renderType(etex);
+			vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), rt, false, handle.stack().hasFoil());
+			model.renderToBufferInternal(part, handle.poseStack(), vc, LightTexture.FULL_BRIGHT, handle.overlay(), -1);
+		}
 	}
 
 	private void renderFacade(BEWLRHandle handle, ResourceLocation id) {

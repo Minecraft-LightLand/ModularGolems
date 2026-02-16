@@ -1,3 +1,13 @@
+3.1.10
+- arrow double consumption fix
+- new L2C weapon compat
+- Fix abnormal crossbow damage
+- Fix cataclysm golem rendering bug
+- TODO Make many ranged attack skill also usable in melee
+- TODO Balance Maledictus / Netherite Monstrosity jump attack and Could golem attack damage
+- TODO New formula: dmg = atk + min(atk, factor * maxHP) + max(0, sqrt(factor * maxHP / atk) - 1) * atk * 2
+
+
 3.1.9
 - improve metal golem knockback formula
 - fix other mods healing golem in client incorrectly
