@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 
 public class IgnisFireballModifier extends GolemModifier {
 
-	private static final int[] TIME = {45, 61, 77, 93, 109}, ANGLE = {-5, -2, 0, 2, 5};
+	private static final int[] ANGLE = {-5, -2, 0, 2, 5};
 
 	public IgnisFireballModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -31,7 +31,7 @@ public class IgnisFireballModifier extends GolemModifier {
 		int index = user.getRandom().nextInt(5);
 		lv = Mth.clamp(lv, 0, 2);
 		for (int i = 2 - lv; i < 3 + lv; i++) {
-			CataclysmProxy.shootFireball(user, new Vec3(ANGLE[i], 3.0D, 0.0D), TIME[i], index == i);
+			CataclysmProxy.shootFireball(user, new Vec3(ANGLE[i], 3.0D, 0.0D), 15 + i * 10, index == i);
 		}
 	}
 
