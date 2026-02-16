@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class FireTornadoGoal extends BaseRangedAttackGoal implements IApostleGoal {
 
 	public FireTornadoGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(200, 1, 16 + lv * 2, golem, lv);
+		super(200, 0, 16 + lv * 2, golem, lv);
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class IgnisFireballAttackGoal extends BaseRangedAttackGoal {
 
 	public IgnisFireballAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(200, 4, 25, golem, lv);
+		super(200, 0, 25, golem, lv);
 	}
 
 	@Override
