@@ -13,7 +13,7 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 	private Entity beam;
 
 	public HarbingerDeathBeamAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 2, 35, golem, lv);
+		super(100, 0, 35, golem, lv);
 	}
 
 	@Override
