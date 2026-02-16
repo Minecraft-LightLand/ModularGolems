@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +28,18 @@ public class UpgradeSlot extends SlotItemHandler {
 
 	public void setChanged() {
 		handler.setStackInSlot(index, lastReturnedItem);
+	}
+
+	private int lastModification = -1;
+	private boolean lastMayPickup;
+
+	@Override
+	public boolean mayPickup(Player playerIn) {
+		if (lastModification == handler.modification) {
+			return lastMayPickup;
+		}
+		lastModification = handler.modification;
+		return lastMayPickup = super.mayPickup(playerIn);
 	}
 
 }

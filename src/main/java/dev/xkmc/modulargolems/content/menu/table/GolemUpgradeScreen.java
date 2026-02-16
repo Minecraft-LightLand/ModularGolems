@@ -1,10 +1,17 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+import java.util.Optional;
 
 public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> {
 
@@ -38,6 +45,20 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> {
 	private void updatePage() {
 		left.active = menu.page.get() > 0;
 		right.active = menu.page.get() < menu.maxPage.get() - 1;
+	}
+
+
+	protected void renderTooltip(GuiGraphics g, int x, int y) {
+		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.hasItem()) {
+			ItemStack stack = hoveredSlot.getItem();
+			if (stack.getItem() instanceof IUpgradeItem && !(stack.getItem() instanceof UpgradeItem))
+				g.renderTooltip(font, List.of(MGLangData.UI_REMOVE_TEMPLATE.get()), Optional.empty(), stack, x, y);
+			else if (!hoveredSlot.mayPickup(menu.inventory.player))
+				g.renderTooltip(font, List.of(MGLangData.UI_NO_SLOT.get()), Optional.empty(), stack, x, y);
+			else
+				g.renderTooltip(font, getTooltipFromContainerItem(stack), stack.getTooltipImage(), stack, x, y);
+		}
+
 	}
 
 }

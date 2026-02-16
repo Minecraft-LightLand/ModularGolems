@@ -123,6 +123,8 @@ public enum MGLangData {
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
 	TAB_UPGRADES("tab.upgrades", "Golem Upgrades", 0, null),
+	UI_NO_SLOT("tooltip.no_slot", "Removing this upgrade will result in insufficient slot", 0, ChatFormatting.RED),
+	UI_REMOVE_TEMPLATE("tooltip.remove_template", "Upgrade Template cannot be removed here", 0, ChatFormatting.RED),
 
 	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
 	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),

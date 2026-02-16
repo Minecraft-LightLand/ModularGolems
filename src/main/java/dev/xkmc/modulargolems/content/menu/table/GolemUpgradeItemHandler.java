@@ -24,6 +24,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
 	public ItemStack golem = ItemStack.EMPTY;
 	public int[] data = new int[]{0, 1};
+	public int modification = 0;
 	private GolemHolder<?, ?> holderItem = null;
 	private ArrayList<GolemMaterial> materials = null;
 	private ArrayList<IUpgradeItem> upgrades = null;
@@ -37,6 +38,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	}
 
 	public void setHolder(ItemStack stack) {
+		modification++;
 		golem = stack;
 		lastForbidTest = Items.AIR;
 		if (!(golem.getItem() instanceof GolemHolder<?, ?> holder)) {
