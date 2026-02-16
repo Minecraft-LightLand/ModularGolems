@@ -27,6 +27,7 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 3)
 				.addModifier(CataCompatRegistry.IGNIS_FIREBALL.get(), 2)
+				.addModifier(CataCompatRegistry.IGNIS_JUMP.get(), 1)
 				.addModifier(CataCompatRegistry.IGNIS_ATTACK.get(), 1)
 				.end()
 

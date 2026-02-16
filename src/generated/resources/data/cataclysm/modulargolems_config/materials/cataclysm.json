@@ -42,7 +42,8 @@
       "modulargolems:damage_cap": 3,
       "modulargolems:fire_immune": 1,
       "modulargolems:ignis_attack": 1,
-      "modulargolems:ignis_fireball": 2
+      "modulargolems:ignis_fireball": 2,
+      "modulargolems:ignis_jump": 2
     },
     "cataclysm:storm": {
       "modulargolems:damage_cap": 2,

@@ -5,7 +5,6 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
-import dev.xkmc.modulargolems.compat.materials.alexscaves.ACDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -33,6 +32,7 @@ public class CataCompatRegistry {
 	public static final ItemEntry<MonstrosityArmorItem> MONSTROSITY_HELMET, MONSTROSITY_CHESTPLATE, MONSTROSITY_SHINGUARD;
 
 	public static final RegistryEntry<IgnisFireballModifier> IGNIS_FIREBALL;
+	public static final RegistryEntry<IgnisJumpModifier> IGNIS_JUMP;
 	public static final RegistryEntry<IgnisAttackModifier> IGNIS_ATTACK;
 	public static final RegistryEntry<HarbingerDeathBeamModifier> HARBINGER_BEAM;
 	public static final RegistryEntry<HarbingerHomingMissileModifier> HARBINGER_MISSILE;
@@ -93,10 +93,13 @@ public class CataCompatRegistry {
 		VOID_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "void_construct", CraftMaterialItem::new);
 
 		AZURE_CUBE = GolemItems.item(CataDispatch.MODID, "azure_cube", RepairMaterialItem::new);
-		STORM_CONSTRUCT =GolemItems.item(CataDispatch.MODID, "storm_construct", CraftMaterialItem::new);
+		STORM_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "storm_construct", CraftMaterialItem::new);
 
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
 				"When target is faraway, shoot Ignis fireballs toward target.");
+
+		IGNIS_JUMP = reg("ignis_jump", () -> new IgnisJumpModifier(StatFilterType.MOVEMENT, 1),
+				"When target is faraway, Jump toward target.");
 
 		IGNIS_ATTACK = reg("ignis_attack", () -> new IgnisAttackModifier(StatFilterType.ATTACK, 2),
 				"Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");

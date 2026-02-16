@@ -417,6 +417,8 @@
   "modifier.modulargolems.ignis_attack.desc": "Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.",
   "modifier.modulargolems.ignis_fireball": "Ignis Fireball",
   "modifier.modulargolems.ignis_fireball.desc": "When target is faraway, shoot Ignis fireballs toward target.",
+  "modifier.modulargolems.ignis_jump": "Ignis Jump",
+  "modifier.modulargolems.ignis_jump.desc": "When target is faraway, Jump toward target.",
   "modifier.modulargolems.immunity": "Immunity",
   "modifier.modulargolems.immunity.desc": "Immune to all damage, except void damage. Mobs won't attack invulnerable golem.",
   "modifier.modulargolems.incarcerate": "Potion Upgrade: Incarceration",
