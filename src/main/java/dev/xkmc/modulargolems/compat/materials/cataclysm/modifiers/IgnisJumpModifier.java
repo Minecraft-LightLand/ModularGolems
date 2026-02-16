@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -8,6 +9,7 @@ import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -82,6 +85,30 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 	@Override
 	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
 		return 200;
+	}
+
+	@Override
+	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
+		var source = event.getSource();
+		var direct = source.getDirectEntity();
+		if (direct != null && CataclysmProxy.isIgnisStrike(direct)) {
+			if (CataclysmProxy.isSoul(entity)) {
+				event.getEntity().invulnerableTime = 0;
+				CataclysmProxy.stun(event.getEntity(), 40);
+			} else CataclysmProxy.stun(event.getEntity(), 20);
+		}
+	}
+
+	@Override
+	public void finalizeHurtTarget(AttackCache cache, AbstractGolemEntity<?, ?> golem, int level) {
+		var event = cache.getLivingDamageEvent();
+		assert event != null;
+		var source = event.getSource();
+		var direct = source.getDirectEntity();
+		if (direct == null || !CataclysmProxy.isIgnisStrike(direct)) return;
+		LivingEntity target = cache.getAttackTarget();
+		float rate = MGConfig.COMMON.ignitiumHealRate.get().floatValue();
+		CataclysmProxy.stackBlazingBrand(golem, target, rate * cache.getDamageDealt(), CataclysmProxy.isSoul(direct) ? 3 : 1);
 	}
 
 	@Nullable

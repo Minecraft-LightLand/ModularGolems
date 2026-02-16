@@ -101,6 +101,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue soulHealingThreshold;
 		public final ForgeConfigSpec.BooleanValue bossBreakShield;
 
+		public final ForgeConfigSpec.DoubleValue ignitiumHealRate;
 		public final ForgeConfigSpec.DoubleValue laserArmorBonus;
 		public final ForgeConfigSpec.DoubleValue missileArmorBonus;
 		public final ForgeConfigSpec.DoubleValue earthquakeArmorBonus;
@@ -311,6 +312,8 @@ public class MGConfig {
 
 				builder.push("cataclysm compat");
 				{
+					ignitiumHealRate = builder.comment("Heal rate as percentage of damage dealt per level of blazing brand")
+							.defineInRange("ignitiumHealRate", 0.1d, 0, 10);
 					laserArmorBonus = builder.comment("Harbinger Helmet Bonus: Death Laser damage boost")
 							.defineInRange("laserArmorBonus", 1d, 0, 10);
 					missileArmorBonus = builder.comment("Harbinger Chestplate Bonus: Homing Missile damage boost")
