@@ -3,10 +3,9 @@
 - new L2C weapon compat
 - Fix abnormal crossbow damage
 - Fix cataclysm golem rendering bug
-- TODO Make many ranged attack skill also usable in melee
-- TODO Balance Maledictus / Netherite Monstrosity jump attack and Could golem attack damage
-- TODO New formula: dmg = atk + min(atk, factor * maxHP) + max(0, sqrt(factor * maxHP / atk) - 1) * atk * 2
-
+- Make many ranged attack skill also usable in melee
+- Balance Maledictus / Netherite Monstrosity jump attack and Could golem attack damage
+- New formula: dmg = atk + min(atk, factor * maxHP) + max(0, sqrt(factor * maxHP / atk) - 1) * atk * 2
 
 3.1.9
 - improve metal golem knockback formula
@@ -27,6 +26,7 @@
 
 3.1.8
 - Fix Create Compat
+
 
 3.1.7
 - add config for wand to bypass config card lock

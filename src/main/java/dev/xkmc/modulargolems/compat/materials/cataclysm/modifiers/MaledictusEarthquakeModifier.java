@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.util.GolemUtils;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -35,7 +36,9 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 		golem.playSound(SoundEvents.GENERIC_EXPLODE.value(), 1.5F, 1.0F + golem.getRandom().nextFloat() * 0.1F);
 		for (LivingEntity entity : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(7.0))) {
 			if (!golem.isAlliedTo(entity) && entity != golem) {
-				float damage = (float) (golem.getAttributeValue(Attributes.ATTACK_DAMAGE) + entity.getMaxHealth() * CataclysmProxy.maledictusEarthquakeDamage());
+				float damage = GolemUtils.adjustedDamage(
+						(float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE),
+						entity.getMaxHealth() * CataclysmProxy.maledictusEarthquakeDamage());
 				boolean flag = entity.hurt(golem.damageSources().mobAttack(golem), damage);
 				if (flag) {
 					EarthquakeHelper.launch(golem, entity, 0.5f);
