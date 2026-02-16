@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.goals;
 import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.InteractionHand;
@@ -14,7 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
 import java.util.EnumSet;
@@ -64,7 +64,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	private double lastDist;
 	private double timeNoMovement;
 
-	private boolean earthQuake = false;
+	private EarthquakeHelper.Instance earthQuake = null;
 
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
 		golem = entity;
@@ -169,7 +169,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		if (isTimeToAttack()) {
 			timeNoMovement++;
 		}
-		golem.getLookControl().setLookAt(target, 30.0F, 30.0F);
+		golem.lookAt(target, 30.0F, 30.0F);
 		double dist = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
 		tickMove(target, dist);
 		checkAndPerformAttack(target, dist);
@@ -177,10 +177,12 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 
 	protected void tickMove(LivingEntity target, double distSqr) {
 		double dist = Math.sqrt(distSqr);
-		double end = Math.sqrt(getAttackReachSqr(target));
+		double reach = getAttackReachSqr(target);
+		double end = Math.sqrt(reach);
 		double far = end - 0.5;
 		this.repathDelay = Math.max(this.repathDelay - 1, 0);
-		boolean hasRange = golem.hasRangeAttack();
+		boolean hasRange = golem.hasRangeAttack() ||
+				EarthquakeHelper.shouldBakup(golem, target, dist, end);
 		if (dist < far && end > 2.4 || hasRange) {
 			if (!golem.getNavigation().isDone())
 				golem.getNavigation().stop();
@@ -249,23 +251,27 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	protected void doRealAttack(LivingEntity target, double distSqr) {
 		if (isTimeToAttack()) {
 			if (golem.hasFlag(GolemFlags.EARTH_QUAKE) && !golem.isInWater() && golem.onGround()) {
-				if (earthQuake) {
-					earthQuake = false;
+				if (earthQuake != null) {
 					resetAttackCooldown();
-					EarthquakeHelper.performEarthQuake(golem);
+					earthQuake.modifier().performEarthQuake(golem, earthQuake.lv());
+					golem.level().broadcastEntityEvent(golem, (byte) 83);
+					earthQuake = null;
 					return;
 				} else {
 					double d0 = this.getAttackReachSqr(target);
-					if (d0 < distSqr && distSqr <= d0 + EarthquakeHelper.getExtraRange(golem, target)) {
-						golem.addDeltaMovement(new Vec3(0, 1, 0));
+
+					earthQuake = EarthquakeHelper.findInstance(golem, target, distSqr - d0);
+					if (earthQuake != null) {
+						golem.getPersistentData().putLong(((GolemModifier) earthQuake.modifier()).getID() + ":timestamp", golem.level().getGameTime());
+						earthQuake.modifier().performJump(golem, earthQuake.lv());
 						golem.hasImpulse = true;
-						earthQuake = true;
 						return;
 					}
+
 				}
 			}
 		}
-		if (earthQuake && !golem.onGround()) return;
+		if (earthQuake != null && !golem.onGround()) return;
 		double d0 = this.getAttackReachSqr(target);
 		if (distSqr <= d0 && this.ticksUntilNextAttack <= 0) {
 			this.resetAttackCooldown();
