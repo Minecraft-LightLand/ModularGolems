@@ -67,6 +67,24 @@ public class CataclysmProxy {
 		}
 	}
 
+	public static boolean isSoul(Entity entity) {
+		try {
+			return entity instanceof Ignis_Fireball_Entity e && e.isSoul() ||
+					entity instanceof Ignis_Abyss_Fireball_Entity ||
+					entity instanceof Flame_Strike_Entity x && x.isSoul();
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
+	public static boolean isAbyssFireball(Entity entity) {
+		try {
+			return entity instanceof Ignis_Abyss_Fireball_Entity;
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
 	public static boolean isIgnisStrike(Entity entity) {
 		try {
 			return entity instanceof Flame_Strike_Entity;
@@ -129,14 +147,19 @@ public class CataclysmProxy {
 		}
 	}
 
-	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, int factor, int min) {
+	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, float dmg, int min) {
 		try {
 			var eff = ModEffect.EFFECTBLAZING_BRAND.get();
 			var old = target.getEffect(eff);
 			int i = old == null ? 0 : Math.min(4, old.getAmplifier() + 1);
-			MobEffectInstance ins = new MobEffectInstance(eff, 240, i, false, true, true);
-			target.addEffect(ins);
-			golem.heal(factor * (float) CMConfig.IgnisHealingMultiplier * Math.max(min + 1, i + 1));
+			long time = target.getPersistentData().getLong("BlazingBrandApplyTime");
+			long current = golem.level().getGameTime();
+			if (time != current) {
+				target.getPersistentData().putLong("BlazingBrandApplyTime", current);
+				MobEffectInstance ins = new MobEffectInstance(eff, 240, i, false, true, true);
+				target.addEffect(ins);
+			}
+			golem.heal(dmg * Math.max(min, i + 1));
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
@@ -216,4 +239,11 @@ public class CataclysmProxy {
 		}
 	}
 
+	public static void stun(LivingEntity le, int time) {
+		try {
+			le.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN.get(), time));
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.error(e);
+		}
+	}
 }

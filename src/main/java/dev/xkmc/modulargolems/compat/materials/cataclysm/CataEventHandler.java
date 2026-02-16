@@ -20,6 +20,13 @@ public class CataEventHandler {
 			event.getAffectedEntities().removeIf(e -> {
 				if (e instanceof LivingEntity le) {
 					if (!golem.canAttack(le)) return true;
+					if (CataclysmProxy.isAbyssFireball(direct)) {
+						CataclysmProxy.stun(le, 60);
+						le.invulnerableTime = 0;
+					} else if (CataclysmProxy.isSoul(direct)) {
+						CataclysmProxy.stun(le, 40);
+						le.invulnerableTime = 0;
+					}
 				}
 				if (e instanceof TraceableEntity proj) {
 					if (proj.getOwner() == golem) {
