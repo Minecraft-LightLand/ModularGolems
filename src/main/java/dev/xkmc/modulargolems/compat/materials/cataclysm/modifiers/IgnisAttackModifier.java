@@ -19,7 +19,7 @@ public class IgnisAttackModifier extends GolemModifier {
 	@Override
 	public void onHurtTarget(AbstractGolemEntity<?, ?> golem, LivingHurtEvent event, int level) {
 		LivingEntity target = event.getEntity();
-		CataclysmProxy.stackBlazingBrand(golem, target, level);
+		CataclysmProxy.stackBlazingBrand(golem, target, level, 0);
 	}
 
 	@Override

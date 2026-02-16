@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -45,7 +46,7 @@ public class CataDispatch extends ModDispatch {
 	@Override
 	public void dispatchClientSetup() {
 		ModelOverrides.registerOverride(new ResourceLocation(CataDispatch.MODID, "ignitium"),
-				ModelOverride.texturePredicate((e) -> e.getHealth() <= e.getMaxHealth() / 2 ? "_soul" : ""));
+				ModelOverride.texturePredicate((e) -> ignisBlue(e) ? "_soul" : ""));
 	}
 
 	@Override
@@ -57,6 +58,10 @@ public class CataDispatch extends ModDispatch {
 		pvd.drop(MODID, ModEntities.ENDER_GUARDIAN.get(), "ender_guardian");
 		pvd.drop(MODID, ModEntities.SCYLLA.get(), "storm");
 		pvd.drop(MODID, ModEntities.ANCIENT_REMNANT.get(), "ancient_metal");
+	}
+
+	public static boolean ignisBlue(LivingEntity e) {
+		return e.getHealth() <= e.getMaxHealth() / 2;
 	}
 
 }

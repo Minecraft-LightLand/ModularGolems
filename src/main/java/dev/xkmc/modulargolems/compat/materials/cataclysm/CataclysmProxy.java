@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Portal_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
@@ -13,10 +14,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -114,14 +112,14 @@ public class CataclysmProxy {
 		}
 	}
 
-	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, int factor) {
+	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, int factor, int min) {
 		try {
 			var eff = ModEffect.EFFECTBLAZING_BRAND.get();
 			var old = target.getEffect(eff);
 			int i = old == null ? 0 : Math.min(4, old.getAmplifier() + 1);
 			MobEffectInstance ins = new MobEffectInstance(eff, 240, i, false, true, true);
 			target.addEffect(ins);
-			golem.heal(factor * (float) CMConfig.IgnisHealingMultiplier * (float) (i + 1));
+			golem.heal(factor * (float) CMConfig.IgnisHealingMultiplier * Math.max(min + 1, i + 1));
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
@@ -139,7 +137,7 @@ public class CataclysmProxy {
 			} else {
 				var bullet = new Ignis_Fireball_Entity(user.level(), user);
 				bullet.setUp(timer);
-				if (user.getHealth() < user.getMaxHealth() / 2) {
+				if (CataDispatch.ignisBlue(user)) {
 					bullet.setSoul(true);
 				}
 				shot = bullet;
@@ -155,6 +153,18 @@ public class CataclysmProxy {
 			float f = Mth.sqrt((float) (d0 * d0 + d2 * d2)) * 0.35F;
 			shot.shoot(d0, d1 + f, d2, 0.25F, 3.0F);
 			user.level().addFreshEntity(shot);
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.error(e);
+		}
+	}
+
+	public static void createBlast(LivingEntity user, Vec3 pos, int dur, int delay, float radius, float dmg, boolean soul) {
+		try {
+			user.level().addFreshEntity(
+					new Flame_Strike_Entity(user.level(), pos.x, pos.y, pos.z,
+							user.getYRot(), dur, delay, delay, radius,
+							dmg, 0.06f, soul, user));
+
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
