@@ -61,8 +61,14 @@ public class GolemUpgradeMenu extends BaseContainerMenu<GolemUpgradeMenu> {
 	public ItemStack quickMoveStack(Player pl, int id) {
 		ItemStack stack = slots.get(id).getItem();
 		if (id >= 36) {
-			moveItemStackTo(stack, 0, 36, true);
-			slots.get(id).setChanged();
+			if (slots.get(id) instanceof UpgradeSlot upSlot) {
+				if (moveItemStackTo(stack.copyWithCount(1), 0, 36, true)) {
+					slots.get(id).remove(1);
+				}
+			} else {
+				moveItemStackTo(stack, 0, 36, true);
+				slots.get(id).setChanged();
+			}
 		} else {
 			moveItemStackTo(stack, 36, slots.size(), false);
 		}

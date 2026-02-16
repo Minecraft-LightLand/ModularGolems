@@ -5,16 +5,19 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.function.Supplier;
 
 public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
-	private static final int SIZE = 18;
+	private static final int SIZE = 36;
 
 	private final boolean client;
 	private final Supplier<Slot> parent;
@@ -24,6 +27,9 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	private GolemHolder<?, ?> holderItem = null;
 	private ArrayList<GolemMaterial> materials = null;
 	private ArrayList<IUpgradeItem> upgrades = null;
+	private final LinkedHashMap<IUpgradeItem, ItemStack> upgradeMap = new LinkedHashMap<>();
+	private ArrayList<ItemStack> upgradeList = new ArrayList<>();
+	private Item lastForbidTest = Items.AIR;
 
 	public GolemUpgradeItemHandler(Supplier<Slot> slot, boolean client) {
 		this.client = client;
@@ -32,11 +38,14 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
 	public void setHolder(ItemStack stack) {
 		golem = stack;
+		lastForbidTest = Items.AIR;
 		if (!(golem.getItem() instanceof GolemHolder<?, ?> holder)) {
 			holderItem = null;
 			materials = null;
 			upgrades = null;
 			golem = ItemStack.EMPTY;
+			upgradeMap.clear();
+			upgradeList = new ArrayList<>();
 			if (!client) {
 				data[0] = 0;
 				data[1] = 1;
@@ -46,8 +55,15 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 		holderItem = holder;
 		materials = GolemHolder.getMaterial(stack);
 		upgrades = GolemHolder.getUpgrades(stack);
+		upgradeMap.clear();
+		for (var e : upgrades) {
+			if (!upgradeMap.containsKey(e))
+				upgradeMap.put(e, e.asItem().getDefaultInstance());
+			else upgradeMap.get(e).grow(1);
+		}
+		upgradeList = new ArrayList<>(upgradeMap.values());
 		if (!client) {
-			data[1] = upgrades.size() / SIZE + 1;
+			data[1] = upgradeList.size() / SIZE + 1;
 		}
 	}
 
@@ -94,8 +110,8 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	@Override
 	public @NotNull ItemStack getStackInSlot(int slot) {
 		int index = slot + SIZE * data[0];
-		if (golem.isEmpty() || index < 0 || index >= upgrades.size()) return ItemStack.EMPTY;
-		return upgrades.get(index).asItem().getDefaultInstance();
+		if (golem.isEmpty() || index < 0 || index >= upgradeList.size()) return ItemStack.EMPTY;
+		return upgradeList.get(index);
 	}
 
 	@Override
@@ -119,7 +135,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 		if (!simulate) {
 			parent.get().set(ans);
 		}
-		return stack.copy();
+		return stack.copyWithCount(1);
 	}
 
 	@Override
@@ -131,11 +147,17 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	public boolean isItemValid(int slot, @NotNull ItemStack stack) {
 		if (golem.isEmpty()) return false;
 		var old = getStackInSlot(slot);
-		if (!old.isEmpty())
+		if (!old.isEmpty() && !ItemStack.matches(stack, old))
 			return false;
 		if (!(stack.getItem() instanceof UpgradeItem))
 			return false;
-		return insertItem(slot, stack.copyWithCount(1), true).isEmpty();
+		if (stack.getItem() == lastForbidTest)
+			return false;
+		if (insertItem(slot, stack.copyWithCount(1), true).isEmpty()) {
+			return true;
+		}
+		lastForbidTest = stack.getItem();
+		return false;
 	}
 
 }
