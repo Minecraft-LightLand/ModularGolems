@@ -254,7 +254,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		if (isTimeToAttack()) {
 			if (golem.hasFlag(GolemFlags.EARTH_QUAKE)) {
 				boolean valid = !golem.isInFluidType() && golem.onGround();
-				boolean hit = wasFalling < -0.1f && (golem.isInFluidType() || golem.getDeltaMovement().y > 0.1f);
+				boolean hit = wasFalling < -0.05f && (golem.isInFluidType() || golem.getDeltaMovement().y > 0.05f);
 				boolean stop = !hit && wasFalling < -0.01f && (golem.isInFluidType() || golem.getDeltaMovement().y > 0.01f);
 				if (earthQuake != null && stop)
 					earthQuake = null;
