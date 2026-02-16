@@ -35,6 +35,11 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 	}
 
 	@Override
+	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
+		return 25 * 25;
+	}
+
+	@Override
 	public void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
 		var target = golem.getTarget();
 		if (target == null)
@@ -102,6 +107,5 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		} while (pos.getY() >= minY);
 		return null;
 	}
-
 
 }

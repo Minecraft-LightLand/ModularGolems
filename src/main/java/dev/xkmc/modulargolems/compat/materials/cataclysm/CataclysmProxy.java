@@ -58,6 +58,23 @@ public class CataclysmProxy {
 		}
 	}
 
+	public static boolean isIgnisExplosive(Entity entity) {
+		try {
+			return entity instanceof Ignis_Fireball_Entity ||
+					entity instanceof Ignis_Abyss_Fireball_Entity;
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
+	public static boolean isIgnisStrike(Entity entity) {
+		try {
+			return entity instanceof Flame_Strike_Entity;
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
 	public static int getSandCurseLevel(LivingEntity e) {
 		try {
 			var ins = e.getEffect(ModEffect.EFFECTCURSE_OF_DESERT.get());
