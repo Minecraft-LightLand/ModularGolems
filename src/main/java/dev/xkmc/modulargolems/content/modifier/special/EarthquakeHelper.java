@@ -73,7 +73,7 @@ public class EarthquakeHelper {
 		return null;
 	}
 
-	public static boolean shouldBakup(AbstractGolemEntity<?, ?> golem, LivingEntity target, double dist, double reach) {
+	public static boolean shouldRetreat(AbstractGolemEntity<?, ?> golem, LivingEntity target, double dist, double reach) {
 		return golem.hasFlag(GolemFlags.EARTH_QUAKE) && dist < reach + 4 &&
 				EarthquakeHelper.findInstance(golem, target, dist - reach + 4) != null;
 	}

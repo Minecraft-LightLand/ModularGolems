@@ -74,11 +74,13 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 				list.add(ans);
 			}
 		}
+		boolean soul = CataDispatch.ignisBlue(golem);
 		float atk = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		if (soul) atk *= 4f / 3;
 		var self = golem.position();
 		list.sort(Comparator.comparingDouble(self::distanceToSqr));
 		for (int i = 0; i < list.size(); i++) {
-			CataclysmProxy.createBlast(golem, list.get(i), 40, i * 2, 3, atk, CataDispatch.ignisBlue(golem));
+			CataclysmProxy.createBlast(golem, list.get(i), 40, i * 2, 3, atk, soul);
 		}
 	}
 

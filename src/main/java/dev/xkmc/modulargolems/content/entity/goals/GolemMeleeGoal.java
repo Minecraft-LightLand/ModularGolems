@@ -65,6 +65,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	private double timeNoMovement;
 
 	private EarthquakeHelper.Instance earthQuake = null;
+	private double wasFalling;
 
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
 		golem = entity;
@@ -173,6 +174,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		double dist = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
 		tickMove(target, dist);
 		checkAndPerformAttack(target, dist);
+		wasFalling = earthQuake != null && !golem.isInFluidType() && !golem.onGround() ? golem.getDeltaMovement().y : 0;
 	}
 
 	protected void tickMove(LivingEntity target, double distSqr) {
@@ -182,7 +184,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		double far = end - 0.5;
 		this.repathDelay = Math.max(this.repathDelay - 1, 0);
 		boolean hasRange = golem.hasRangeAttack() ||
-				EarthquakeHelper.shouldBakup(golem, target, dist, end);
+				EarthquakeHelper.shouldRetreat(golem, target, dist, end);
 		if (dist < far && end > 2.4 || hasRange) {
 			if (!golem.getNavigation().isDone())
 				golem.getNavigation().stop();
@@ -250,16 +252,21 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 
 	protected void doRealAttack(LivingEntity target, double distSqr) {
 		if (isTimeToAttack()) {
-			if (golem.hasFlag(GolemFlags.EARTH_QUAKE) && !golem.isInWater() && golem.onGround()) {
-				if (earthQuake != null) {
+			if (golem.hasFlag(GolemFlags.EARTH_QUAKE)) {
+				boolean valid = !golem.isInFluidType() && golem.onGround();
+				boolean hit = wasFalling < -0.1f && (golem.isInFluidType() || golem.getDeltaMovement().y > 0.1f);
+				boolean stop = !hit && wasFalling < -0.01f && (golem.isInFluidType() || golem.getDeltaMovement().y > 0.01f);
+				if (earthQuake != null && stop)
+					earthQuake = null;
+				if (earthQuake != null && (valid || hit)) {
 					resetAttackCooldown();
 					earthQuake.modifier().performEarthQuake(golem, earthQuake.lv());
 					golem.level().broadcastEntityEvent(golem, (byte) 83);
 					earthQuake = null;
 					return;
-				} else {
+				}
+				if (earthQuake == null && valid) {
 					double d0 = this.getAttackReachSqr(target);
-
 					earthQuake = EarthquakeHelper.findInstance(golem, target, distSqr - d0);
 					if (earthQuake != null) {
 						golem.getPersistentData().putLong(((GolemModifier) earthQuake.modifier()).getID() + ":timestamp", golem.level().getGameTime());
@@ -267,7 +274,6 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 						golem.hasImpulse = true;
 						return;
 					}
-
 				}
 			}
 		}
