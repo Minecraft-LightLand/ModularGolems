@@ -1,0 +1,20 @@
+{
+    "side": [
+        "slot"
+    ],
+    "comp": {
+        "golem": {
+            "sprite": "slot",
+            "x": 16,
+            "y": 18
+        },
+        "upgrades": {
+            "sprite": "slot",
+            "x": 70,
+            "y": 0,
+            "rx": 6,
+            "ry": 6
+        }
+    },
+    "isContainer": true
+}

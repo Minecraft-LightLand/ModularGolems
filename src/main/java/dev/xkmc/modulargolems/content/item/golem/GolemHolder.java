@@ -163,6 +163,17 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		tag.getSubList(KEY_UPGRADES, Tag.TAG_STRING).getOrCreate().add(StringTag.valueOf(rl.toString()));
 		return stack;
 	}
+	public static ItemStack setUpgrades(ItemStack stack, ArrayList<IUpgradeItem> list) {
+		ItemCompoundTag tag = ItemCompoundTag.of(stack);
+		var listTag = tag.getSubList(KEY_UPGRADES, Tag.TAG_STRING).getOrCreate();
+		listTag.clear();
+		for (var e : list){
+			ResourceLocation rl = ForgeRegistries.ITEMS.getKey(e.asItem());
+			assert rl != null;
+			listTag.add(StringTag.valueOf(rl.toString()));
+		}
+		return stack;
+	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> ItemStack setEntity(T entity) {
 		GolemHolder<T, P> holder = GolemType.getGolemHolder(entity.getType());

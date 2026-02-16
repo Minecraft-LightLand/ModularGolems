@@ -1,0 +1,38 @@
+{
+    "side": [
+        "slot"
+    ],
+    "comp": {
+        "golem": {
+            "sprite": "slot",
+            "x": 16,
+            "y": 18
+        },
+        "golem_up": {
+            "sprite": "slot",
+            "x": 106,
+            "y": 0
+        },
+        "golem_left": {
+            "sprite": "slot",
+            "x": 88,
+            "y": 18
+        },
+        "golem_middle": {
+            "sprite": "slot",
+            "x": 106,
+            "y": 18
+        },
+        "golem_right": {
+            "sprite": "slot",
+            "x": 124,
+            "y": 18
+        },
+        "golem_down": {
+            "sprite": "slot",
+            "x": 106,
+            "y": 36
+        }
+    },
+    "isContainer": true
+}

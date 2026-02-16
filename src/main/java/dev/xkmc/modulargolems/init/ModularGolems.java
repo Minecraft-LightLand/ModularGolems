@@ -19,6 +19,7 @@ import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
+import dev.xkmc.modulargolems.events.GolemClickHandler;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
@@ -81,6 +82,7 @@ public class ModularGolems {
 		GolemModes.register();
 		GolemConfigStorage.register();
 		CurioCompatRegistry.register();
+		new GolemClickHandler(loc("click"));
 		AttackEventHandler.register(3500, new GolemAttackListener());
 	}
 
