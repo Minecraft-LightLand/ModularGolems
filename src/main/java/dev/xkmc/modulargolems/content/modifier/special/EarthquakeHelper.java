@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier.special;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -8,21 +9,16 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EarthquakeHelper {
 
 	public static final byte FLAG = 83;
 	public static final double RANGE = 5;
-
-	public static void performEarthQuake(AbstractGolemEntity<?, ?> golem) {
-		for (var e : golem.getModifiers().entrySet()) {
-			if (e.getKey() instanceof Modifier m) {
-				m.performEarthQuake(golem, e.getValue());
-				break;
-			}
-		}
-		golem.level().broadcastEntityEvent(golem, FLAG);
-	}
 
 	public static void makeParticles(LivingEntity le, float vec, float math) {
 		if (le.level().isClientSide) {
@@ -58,23 +54,50 @@ public class EarthquakeHelper {
 		e.push(d0 / d2 * f, 0.375 * f, d1 / d2 * f);
 	}
 
-	public static double getExtraRange(AbstractGolemEntity<?,?> golem, LivingEntity target) {
+	@Nullable
+	public static Instance findInstance(AbstractGolemEntity<?, ?> golem, LivingEntity target, double distSqr) {
+		List<Instance> list = new ArrayList<>();
+		long time = golem.level().getGameTime();
 		for (var e : golem.getModifiers().entrySet()) {
 			if (e.getKey() instanceof Modifier m) {
-				return m.getEarthquakeRange(golem, target, e.getValue());
+				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
+				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {
+					if (m.getEarthquakeRangeSqr(golem, target, e.getValue()) > distSqr) {
+						list.add(new Instance(m, e.getValue()));
+					}
+				}
 			}
 		}
-		return 25;
+		if (!list.isEmpty()) {
+			return list.get(golem.getRandom().nextInt(list.size()));
+		}
+		return null;
+	}
+
+	public static boolean shouldRetreat(AbstractGolemEntity<?, ?> golem, LivingEntity target, double dist, double reach) {
+		return golem.hasFlag(GolemFlags.EARTH_QUAKE) && dist < reach + 4 &&
+				EarthquakeHelper.findInstance(golem, target, dist - reach + 4) != null;
+	}
+
+	public record Instance(Modifier modifier, int lv) {
+
 	}
 
 	public interface Modifier {
 
 		void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level);
 
-		default double getEarthquakeRange(AbstractGolemEntity<?,?> golem, LivingEntity target, int lv){
+		default double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
 			return 25;
 		}
 
+		default void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
+			golem.addDeltaMovement(new Vec3(0, 1, 0));
+		}
+
+		default int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
+			return 100;
+		}
 	}
 
 }

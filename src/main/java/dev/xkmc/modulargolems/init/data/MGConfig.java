@@ -75,6 +75,9 @@ public class MGConfig {
 		public final ModConfigSpec.BooleanValue doEnemyAggro;
 		public final ModConfigSpec.BooleanValue allowDimensionChange;
 
+		public final ModConfigSpec.DoubleValue ignitiumHealRate;
+		public final ModConfigSpec.DoubleValue fireballArmorBonus;
+		public final ModConfigSpec.DoubleValue flameStrikeArmorBonus;
 		public final ModConfigSpec.DoubleValue laserArmorBonus;
 		public final ModConfigSpec.DoubleValue missileArmorBonus;
 		public final ModConfigSpec.DoubleValue earthquakeArmorBonus;
@@ -232,8 +235,14 @@ public class MGConfig {
 				}
 				builder.pop();
 
-				builder.push("cataclysm","Cataclysm Compat");
+				builder.push("cataclysm", "Cataclysm Compat");
 				{
+					ignitiumHealRate = builder.text("Heal rate as percentage of damage dealt per level of blazing brand")
+							.defineInRange("ignitiumHealRate", 0.1d, 0, 10);
+					fireballArmorBonus = builder.text("Ignis Helmet Bonus: Fireball damage boost")
+							.defineInRange("fireballArmorBonus", 1d, 0, 10);
+					flameStrikeArmorBonus = builder.text("Ignis Shinguard Bonus: Flame Strike damage boost")
+							.defineInRange("flameStrikeArmorBonus", 1d, 0, 10);
 					laserArmorBonus = builder.text("Harbinger Helmet Bonus: Death Laser damage boost")
 							.defineInRange("laserArmorBonus", 1d, 0, 10);
 					missileArmorBonus = builder.text("Harbinger Chestplate Bonus: Homing Missile damage boost")

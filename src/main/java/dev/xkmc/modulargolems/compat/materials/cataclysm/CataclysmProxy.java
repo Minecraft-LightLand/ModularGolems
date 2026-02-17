@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Portal_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
@@ -12,6 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.Vec3;
@@ -52,6 +54,41 @@ public class CataclysmProxy {
 	public static boolean isSandstorm(DamageSource source) {
 		try {
 			return source.getDirectEntity() instanceof Sandstorm_Entity;
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
+	public static boolean isIgnisExplosive(Entity entity) {
+		try {
+			return entity instanceof Ignis_Fireball_Entity ||
+					entity instanceof Ignis_Abyss_Fireball_Entity;
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
+	public static boolean isSoul(Entity entity) {
+		try {
+			return entity instanceof Ignis_Fireball_Entity e && e.isSoul() ||
+					entity instanceof Ignis_Abyss_Fireball_Entity ||
+					entity instanceof Flame_Strike_Entity x && x.isSoul();
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
+	public static boolean isAbyssFireball(Entity entity) {
+		try {
+			return entity instanceof Ignis_Abyss_Fireball_Entity;
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
+	public static boolean isIgnisStrike(Entity entity) {
+		try {
+			return entity instanceof Flame_Strike_Entity;
 		} catch (Throwable e) {
 			return false;
 		}
@@ -115,19 +152,26 @@ public class CataclysmProxy {
 		}
 	}
 
-	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, int factor) {
+	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, float dmg, int min) {
+		if (golem.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof IgnisArmorItem) min++;
+		if (golem.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof IgnisArmorItem) min++;
+		if (golem.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof IgnisArmorItem) min++;
 		try {
 			var eff = ModEffect.EFFECTBLAZING_BRAND;
 			var old = target.getEffect(eff);
 			int i = old == null ? 0 : Math.min(4, old.getAmplifier() + 1);
-			MobEffectInstance ins = new MobEffectInstance(eff, 240, i, false, true, true);
-			target.addEffect(ins);
-			golem.heal(factor * (float) CMCommonConfig.Ignis.HealingMultiplier * (float) (i + 1));
+			long time = target.getPersistentData().getLong("BlazingBrandApplyTime");
+			long current = golem.level().getGameTime();
+			if (time != current) {
+				target.getPersistentData().putLong("BlazingBrandApplyTime", current);
+				MobEffectInstance ins = new MobEffectInstance(eff, 240, i, false, true, true);
+				target.addEffect(ins);
+			}
+			golem.heal(dmg * Math.max(min, i + 1));
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
 	}
-
 
 	public static void shootFireball(LivingEntity user, Vec3 shotAt, int timer, boolean abyss) {
 		try {
@@ -140,7 +184,7 @@ public class CataclysmProxy {
 			} else {
 				var bullet = new Ignis_Fireball_Entity(user.level(), user);
 				bullet.setUp(timer);
-				if (user.getHealth() < user.getMaxHealth() / 2) {
+				if (CataDispatch.ignisBlue(user)) {
 					bullet.setSoul(true);
 				}
 				shot = bullet;
@@ -156,6 +200,18 @@ public class CataclysmProxy {
 			float f = Mth.sqrt((float) (d0 * d0 + d2 * d2)) * 0.35F;
 			shot.shoot(d0, d1 + f, d2, 0.25F, 3.0F);
 			user.level().addFreshEntity(shot);
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.error(e);
+		}
+	}
+
+	public static void createBlast(LivingEntity user, Vec3 pos, int dur, int delay, float radius, float dmg, boolean soul) {
+		try {
+			user.level().addFreshEntity(
+					new Flame_Strike_Entity(user.level(), pos.x, pos.y, pos.z,
+							user.getYRot(), dur, delay, delay, radius,
+							dmg, 0.06f, soul, user));
+
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
@@ -187,6 +243,14 @@ public class CataclysmProxy {
 			}
 		} catch (Throwable ignored) {
 
+		}
+	}
+
+	public static void stun(LivingEntity le, int time) {
+		try {
+			le.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, time));
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.error(e);
 		}
 	}
 

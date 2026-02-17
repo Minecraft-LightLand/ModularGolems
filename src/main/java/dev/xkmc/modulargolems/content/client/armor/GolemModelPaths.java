@@ -25,4 +25,9 @@ public class GolemModelPaths {
 			MONSTROSITY_CHESTPLATES = ModularGolems.loc("monstrosity/chestplate"),
 			MONSTROSITY_LEGGINGS = ModularGolems.loc("monstrosity/shinguard");
 
+	public static final ResourceLocation
+			IGNIS_HELMETS = ModularGolems.loc("ignis/helmet"),
+			IGNIS_CHESTPLATES = ModularGolems.loc("ignis/chestplate"),
+			IGNIS_LEGGINGS = ModularGolems.loc("ignis/shinguard");
+
 }

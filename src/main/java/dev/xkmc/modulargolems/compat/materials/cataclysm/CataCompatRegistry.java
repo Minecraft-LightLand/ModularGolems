@@ -33,8 +33,10 @@ public class CataCompatRegistry {
 	public static final ItemEntry<Item> HARBINGER_TEMPLATE, MONSTROSITY_TEMPLATE;
 	public static final ItemEntry<HarbingerArmorItem> HARBINGER_HELMET, HARBINGER_CHESTPLATE, HARBINGER_SHINGUARD;
 	public static final ItemEntry<MonstrosityArmorItem> MONSTROSITY_HELMET, MONSTROSITY_CHESTPLATE, MONSTROSITY_SHINGUARD;
+	public static final ItemEntry<IgnisArmorItem> IGNIS_HELMET, IGNIS_CHESTPLATE, IGNIS_SHINGUARD;
 
 	public static final Val<IgnisFireballModifier> IGNIS_FIREBALL;
+	public static final Val<IgnisJumpModifier> IGNIS_JUMP;
 	public static final Val<IgnisAttackModifier> IGNIS_ATTACK;
 	public static final Val<HarbingerDeathBeamModifier> HARBINGER_BEAM;
 	public static final Val<HarbingerHomingMissileModifier> HARBINGER_MISSILE;
@@ -97,6 +99,19 @@ public class CataCompatRegistry {
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
+		IGNIS_HELMET = REGISTRATE.item("ignis_helmet", p -> new IgnisArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.IGNIS_HELMETS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		IGNIS_CHESTPLATE = REGISTRATE.item("ignis_chestplate", p -> new IgnisArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.IGNIS_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		IGNIS_SHINGUARD = REGISTRATE.item("ignis_shinguard", p -> new IgnisArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.IGNIS_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+
 		VOID_CUBE = GolemItems.item(CataDispatch.MODID, "void_cube", RepairMaterialItem::new);
 		VOID_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "void_construct", CraftMaterialItem::new);
 
@@ -105,6 +120,9 @@ public class CataCompatRegistry {
 
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
 				"When target is faraway, shoot Ignis fireballs toward target.");
+
+		IGNIS_JUMP = reg("ignis_jump", () -> new IgnisJumpModifier(StatFilterType.MOVEMENT, 1),
+				"When target is faraway, Jump toward target.");
 
 		IGNIS_ATTACK = reg("ignis_attack", () -> new IgnisAttackModifier(StatFilterType.ATTACK, 2),
 				"Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");

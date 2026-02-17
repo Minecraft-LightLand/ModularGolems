@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.goals;
 import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.tags.ItemTags;
@@ -65,7 +66,10 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	private double lastDist;
 	private double timeNoMovement;
 
-	private boolean earthQuake = false;
+	private EarthquakeHelper.Instance earthQuake = null;
+	private double wasFalling;
+	private int startJumpingTime = 0;
+
 	private boolean maceJump = false;
 
 
@@ -183,10 +187,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		if (isTimeToAttack()) {
 			timeNoMovement++;
 		}
-		golem.getLookControl().setLookAt(target, 30.0F, 30.0F);
+		golem.lookAt(target, 30.0F, 30.0F);
 		double dist = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
 		tickMove(target, dist);
 		checkAndPerformAttack(target, dist);
+		wasFalling = earthQuake != null && !golem.isInFluidType() && !golem.onGround() ? Math.min(wasFalling, golem.getDeltaMovement().y) : 0;
 	}
 
 	protected void tickMove(LivingEntity target, double distSqr) {
@@ -201,7 +206,8 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 			double end = Math.sqrt(getAttackReachSqr(target));
 			double far = end - 0.5;
 			this.repathDelay = Math.max(this.repathDelay - 1, 0);
-			boolean hasRange = golem.hasRangeAttack();
+			boolean hasRange = golem.hasRangeAttack() ||
+					EarthquakeHelper.shouldRetreat(golem, target, dist, end);
 			if (dist < far && end > 2.4 || hasRange) {
 				if (!golem.getNavigation().isDone())
 					golem.getNavigation().stop();
@@ -267,23 +273,38 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	}
 
 	protected void doRealAttack(LivingEntity target, double distSqr) {
-		if (golem.hasFlag(GolemFlags.EARTH_QUAKE) && !golem.isInWater() && golem.onGround()) {
-			if (earthQuake) {
-				earthQuake = false;
+		float impactSpeed = 0.05f;
+		float significantSpeed = 0.01f;
+		int jumpMaxTime = 60;
+
+		if (golem.hasFlag(GolemFlags.EARTH_QUAKE)) {
+			boolean wet = golem.isInFluidType();
+			boolean valid = !wet && golem.onGround();
+			boolean hit = wasFalling < -impactSpeed && (wet || golem.getDeltaMovement().y > impactSpeed);
+			boolean stop = !valid && !hit && (golem.tickCount - startJumpingTime > jumpMaxTime ||
+					wasFalling < -significantSpeed && (wet || golem.getDeltaMovement().y > wasFalling + 1e-3));
+			if (earthQuake != null && stop)
+				earthQuake = null;
+			if (earthQuake != null && (valid || hit)) {
 				resetAttackCooldown();
-				EarthquakeHelper.performEarthQuake(golem);
+				earthQuake.modifier().performEarthQuake(golem, earthQuake.lv());
+				golem.level().broadcastEntityEvent(golem, (byte) 83);
+				earthQuake = null;
 				return;
-			} else {
+			}
+			if (earthQuake == null && valid) {
 				double d0 = this.getAttackReachSqr(target);
-				if (d0 < distSqr && distSqr <= d0 + EarthquakeHelper.getExtraRange(golem, target)) {
-					golem.addDeltaMovement(new Vec3(0, 1, 0));
+				earthQuake = EarthquakeHelper.findInstance(golem, target, distSqr - d0);
+				if (earthQuake != null) {
+					golem.getPersistentData().putLong(((GolemModifier) earthQuake.modifier()).getID() + ":timestamp", golem.level().getGameTime());
+					earthQuake.modifier().performJump(golem, earthQuake.lv());
 					golem.hasImpulse = true;
-					earthQuake = true;
+					startJumpingTime = golem.tickCount;
 					return;
 				}
 			}
 		}
-		if (earthQuake && !golem.onGround()) return;
+		if (earthQuake != null && !golem.onGround() && golem.tickCount - startJumpingTime < jumpMaxTime) return;
 		if (this.mob.hasLineOfSight(target)) {
 			boolean jump;
 			if (canReachTarget(target, distSqr)) {
@@ -299,7 +320,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 				jump = diff.horizontalDistanceSqr() < getAttackReachSqr(target) / 2 &&
 						diff.y > 0 && diff.y < 3 + golem.getBbHeight();
 			}
-			if (!golem.hasFlag(GolemFlags.EARTH_QUAKE) && jump && !golem.isInWater() && golem.onGround()) {
+			if (jump && !golem.isInFluidType() && golem.onGround()) {
 				maceJump = true;
 				var v = golem.getDeltaMovement();
 				golem.setDeltaMovement(new Vec3(v.x, Math.max(v.y, 0) + 1, v.z));
