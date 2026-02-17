@@ -199,6 +199,12 @@ public class GolemEquipmentModels {
 		regAndAdd(event, IgnisArmors.HELMET_LAYER, IgnisArmors::createHelmet);
 		regAndAdd(event, IgnisArmors.CHESTPLATE_LAYER, IgnisArmors::createChestplate);
 		regAndAdd(event, IgnisArmors.SHINGUARD_LAYER, IgnisArmors::createLeggings);
+
+		regAndAdd(event, IronwoodArmors.HELMET_LAYER, IronwoodArmors::createHelmet);
+        regAndAdd(event, IronwoodArmors.CHESTPLATE_LAYER, IronwoodArmors::createChestplate);
+        regAndAdd(event, IronwoodArmors.SHINGUARD_LAYER, IronwoodArmors::createLeggings);
+        regAndAdd(event, IronwoodArmors.BOOTS_LAYER, IronwoodArmors::createBoots);
+
 	}
 
 	public static synchronized void regAndAdd(EntityRenderersEvent.RegisterLayerDefinitions event, ModelLayerLocation layer, Supplier<LayerDefinition> factory) {

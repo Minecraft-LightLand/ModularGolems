@@ -30,4 +30,9 @@ public class GolemModelPaths {
 			IGNIS_CHESTPLATES = ModularGolems.loc("ignis/chestplate"),
 			IGNIS_LEGGINGS = ModularGolems.loc("ignis/shinguard");
 
+    public static final ResourceLocation
+            IRONWOOD_HELMETS = ModularGolems.loc("ironwood/helmet"),
+            IRONWOOD_CHESTPLATES = ModularGolems.loc("ironwood/chestplate"),
+            IRONWOOD_LEGGINGS = ModularGolems.loc("ironwood/shinguard"),
+			IRONWOOD_BOOTS = ModularGolems.loc("ironwood/boots");
 }
