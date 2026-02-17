@@ -57,7 +57,7 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		return Objects.requireNonNull(type.get().create(level));
 	}
 
-	public T create(ServerLevel level, CompoundTag tag) {
+	public T create(Level level, CompoundTag tag) {
 		return Wrappers.cast(EntityType.create(tag, level).get());
 	}
 

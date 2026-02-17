@@ -1,3 +1,9 @@
+2.6.19
+- Ignis Armor
+- Flame Strike ability
+- Buff Ignitium and Witherite golem attack stats
+- Improve Ignitium golem abilities
+
 2.6.18
 - Fix ethernium upgrade icon
 - Update L2C weapon compat

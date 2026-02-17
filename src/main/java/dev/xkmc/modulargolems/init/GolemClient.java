@@ -14,6 +14,8 @@ import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.content.menu.table.ItemListClientTooltip;
+import dev.xkmc.modulargolems.content.menu.table.ItemListTooltip;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -27,6 +29,7 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
@@ -98,5 +101,11 @@ public class GolemClient {
 			MaidSkinCompat.addLayers(event);
 		}
 	}
+
+	@SubscribeEvent
+	public static void registerClientTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
+		event.register(ItemListTooltip.class, ItemListClientTooltip::new);
+	}
+
 
 }

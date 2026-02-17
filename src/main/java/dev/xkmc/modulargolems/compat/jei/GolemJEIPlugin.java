@@ -14,6 +14,9 @@ import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
+import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
+import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
+import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeScreen;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
@@ -88,6 +91,8 @@ public class GolemJEIPlugin implements IModPlugin {
 		registration.addGuiScreenHandler(ItemConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(TargetConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(PathConfigScreen.class, GolemJEIPlugin::create);
+		registration.addGuiScreenHandler(GolemUpgradeScreen.class, GolemJEIPlugin::create);
+		registration.addGuiScreenHandler(GolemDisinegrateScreen.class, GolemJEIPlugin::create);
 		CurioCompatRegistry.onJEIRegistry(e -> registration.addGuiScreenHandler(Wrappers.cast(e), GolemJEIPlugin::create));
 	}
 
@@ -96,9 +101,9 @@ public class GolemJEIPlugin implements IModPlugin {
 		if (screen.screenWidth() <= 0 || screen.screenHeight() <= 0) {
 			return null;
 		}
-		int x = screen.getGuiLeft();
+		int x = screen.getGuiLeft() - screen.getLeftExpansion();
 		int y = screen.getGuiTop();
-		int width = screen.getXSize() + 32;
+		int width = screen.getXSize() + screen.getLeftExpansion() + screen.getRightExpansion();
 		int height = screen.getYSize();
 		if (width <= 0 || height <= 0) {
 			return null;

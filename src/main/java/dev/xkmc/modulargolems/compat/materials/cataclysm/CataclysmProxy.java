@@ -254,8 +254,6 @@ public class CataclysmProxy {
 
 	@Nullable
 	public static LivingEntity getOwner(Entity entity) {
-		if (entity instanceof LivingEntity le)
-			return le;
 		try {
 			if (entity instanceof Portal_Abyss_Blast_Entity e) {
 				return e.caster;

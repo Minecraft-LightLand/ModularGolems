@@ -37,6 +37,9 @@
 			"beacon_boots": "对周围的友方施加%s, %s并治疗",
 			"no_slot": "移除这个升级会导致傀儡升级槽为负",
 			"remove_template": "扩充模版不可移除",
+			"disintegrate": "分解傀儡",
+			"return_items": "分解傀儡并返还下列物品:",
+			"return_many": "分解傀儡并返还%s个物品",
 			"target": {
 				"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
 				"remove": "蹲下右键移除最后一行",
@@ -111,7 +114,8 @@
 			"tracker_alive": "世界中的傀儡",
 			"tracker_dead": "傀儡死亡记录",
 			"tracker_retrieve": "返回玩家记录",
-			"upgrades": "傀儡升级"
+			"upgrades": "傀儡升级",
+			"disintegrate": "置换/分解"
 		},
 		"slot": {
 			"main": "主手槽",

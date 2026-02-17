@@ -3,6 +3,11 @@ package dev.xkmc.modulargolems.content.menu.table;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabType;
+import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -13,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.Optional;
 
-public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> {
+public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> implements ITabScreen {
 
 	private Button left, right;
 
@@ -31,6 +36,10 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> {
 	@Override
 	protected void init() {
 		super.init();
+
+		new GolemTabManager<>(this, new TableGroup(), GolemTabType.ABOVE)
+				.init(this::addRenderableWidget, GolemTabRegistry.TABLE_UPGRADE);
+
 		int w = 10;
 		int h = 11;
 		int x = (this.width + this.imageWidth) / 2 - 16;
@@ -64,6 +73,20 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> {
 			g.renderTooltip(font, getTooltipFromContainerItem(stack), stack.getTooltipImage(), stack, x, y);
 		}
 
+	}
+
+	public int getRightExpansion() {
+		return 0;
+	}
+
+	@Override
+	public int screenWidth() {
+		return width;
+	}
+
+	@Override
+	public int screenHeight() {
+		return height;
 	}
 
 }

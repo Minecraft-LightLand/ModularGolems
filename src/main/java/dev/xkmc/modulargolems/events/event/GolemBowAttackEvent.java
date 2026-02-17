@@ -5,6 +5,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 
+@Deprecated
 public class GolemBowAttackEvent extends GolemItemUseEvent {
 
 	private AbstractArrow entity;

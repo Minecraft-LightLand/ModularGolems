@@ -7,6 +7,9 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.ArrayList;
 
+/**
+ * Inventories that golem have access to, provided as an item handler capability from golem
+ * */
 public class GolemCollectInventoryEvent extends GolemEvent {
 
 	private final ArrayList<IItemHandlerModifiable> list;

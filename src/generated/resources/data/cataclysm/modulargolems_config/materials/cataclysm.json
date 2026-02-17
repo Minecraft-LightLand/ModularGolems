@@ -99,7 +99,7 @@
       "modulargolems:sweep": 2.0
     },
     "cataclysm:ignitium": {
-      "modulargolems:attack": 20.0,
+      "modulargolems:attack": 30.0,
       "modulargolems:max_health": 450.0,
       "modulargolems:range": 1.0,
       "modulargolems:sweep": 2.0
@@ -111,7 +111,7 @@
       "modulargolems:sweep": 2.0
     },
     "cataclysm:witherite": {
-      "modulargolems:attack": 20.0,
+      "modulargolems:attack": 30.0,
       "modulargolems:max_health": 390.0,
       "modulargolems:regen": 2.0,
       "modulargolems:sweep": 2.0

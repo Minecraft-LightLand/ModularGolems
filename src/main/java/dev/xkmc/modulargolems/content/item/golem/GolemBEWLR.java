@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -128,6 +129,13 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> boolean renderEntity(BEWLRHandle handle, GolemHolder<T, P> item) {
+		CompoundTag root = handle.stack().getTag();
+		if (root == null) return false;
+		if (!root.contains(GolemHolder.KEY_ENTITY) &&
+				!root.contains(GolemHolder.KEY_ICON) &&
+				!root.contains(GolemHolder.KEY_EQUIPMENTS))
+			return false;
+
 		T golem = ClientHolderManager.getEntityForDisplay(item, handle.stack());
 		if (golem == null) return false;
 		P[] parts = item.getEntityType().values();

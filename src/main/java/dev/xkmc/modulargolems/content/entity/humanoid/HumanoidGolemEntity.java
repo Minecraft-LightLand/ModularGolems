@@ -39,6 +39,8 @@ import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.EntityArmorInvWrapper;
 import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<ItemStack> BACKUP_SLOT = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final Logger log = LoggerFactory.getLogger(HumanoidGolemEntity.class);
 
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
@@ -385,6 +388,13 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		ans.add(new SlotWrapper(() -> backupHand, e -> backupHand = e));
 		MinecraftForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
 		return ans;
+	}
+
+	@Override
+	public void addItemsToList(List<ItemStack> list) {
+		super.addItemsToList(list);
+		if (!backupHand.isEmpty()) list.add(backupHand);
+		if (!arrowSlot.isEmpty()) list.add(arrowSlot);
 	}
 
 }

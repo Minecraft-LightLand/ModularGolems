@@ -163,11 +163,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		tag.getSubList(KEY_UPGRADES, Tag.TAG_STRING).getOrCreate().add(StringTag.valueOf(rl.toString()));
 		return stack;
 	}
+
 	public static ItemStack setUpgrades(ItemStack stack, ArrayList<IUpgradeItem> list) {
 		ItemCompoundTag tag = ItemCompoundTag.of(stack);
 		var listTag = tag.getSubList(KEY_UPGRADES, Tag.TAG_STRING).getOrCreate();
 		listTag.clear();
-		for (var e : list){
+		for (var e : list) {
 			ResourceLocation rl = ForgeRegistries.ITEMS.getKey(e.asItem());
 			assert rl != null;
 			listTag.add(StringTag.valueOf(rl.toString()));
@@ -466,7 +467,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			if (getHealth(stack) <= 0)
 				return false;
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
+				AbstractGolemEntity<?, ?> golem = type.get().create(level, root.getCompound(KEY_ENTITY));
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				setPos(level, golem, pos);
@@ -517,7 +518,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (root == null) return null;
 		T golem;
 		if (root.contains(KEY_ENTITY)) {
-			golem = type.get().create((ServerLevel) level, root.getCompound(KEY_ENTITY));
+			golem = type.get().create(level, root.getCompound(KEY_ENTITY));
 			golem.updateAttributes(getMaterial(stack), getUpgrades(stack), null);
 		} else if (root.contains(KEY_MATERIAL)) {
 			golem = type.get().create(level);

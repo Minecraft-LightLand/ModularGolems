@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-enum GolemTabType {
+public enum GolemTabType {
 	ABOVE(0, 0, 28, 32, 8),
 	BELOW(84, 0, 28, 32, 8),
 	LEFT(0, 64, 32, 28, 5),
@@ -70,25 +70,25 @@ enum GolemTabType {
 		g.renderItemDecorations(Minecraft.getInstance().font, stack, i, j);
 	}
 
-	public int getX(int pIndex) {
+	public int getX(int w, int h, int pIndex) {
 		return switch (this) {
 			case ABOVE, BELOW -> (this.width + 4) * pIndex;
 			case LEFT -> -this.width + 4;
-			case RIGHT -> -4;
+			case RIGHT -> w - 4;
 		};
 	}
 
-	public int getY(int pIndex) {
+	public int getY(int w, int h, int pIndex) {
 		return switch (this) {
 			case ABOVE -> -this.height + 4;
-			case BELOW -> -4;
+			case BELOW -> h - 4;
 			case LEFT, RIGHT -> this.height * pIndex;
 		};
 	}
 
-	public boolean isMouseOver(int p_97214_, int p_97215_, int p_97216_, double p_97217_, double p_97218_) {
-		int i = p_97214_ + this.getX(p_97216_);
-		int j = p_97215_ + this.getY(p_97216_);
-		return p_97217_ > (double) i && p_97217_ < (double) (i + this.width) && p_97218_ > (double) j && p_97218_ < (double) (j + this.height);
+	public boolean isMouseOver(int w, int h, int left, int top, int index, double mx, double my) {
+		int i = left + this.getX(w, h, index);
+		int j = top + this.getY(w, h, index);
+		return mx > (double) i && mx < (double) (i + this.width) && my > (double) j && my < (double) (j + this.height);
 	}
 }

@@ -32,7 +32,7 @@ public abstract class GolemTabBase<G extends GolemTabGroup<G>, T extends GolemTa
 
 	public void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partialTicks) {
 		if (this.visible) {
-			token.type.draw(g, getX(), getY(), manager.selected == token, index);
+			manager.type.draw(g, getX(), getY(), manager.selected == token, index);
 			renderIcon(g);
 		}
 		if (this == manager.list.get(manager.list.size() - 1)) { // draw on last
@@ -41,7 +41,7 @@ public abstract class GolemTabBase<G extends GolemTabGroup<G>, T extends GolemTa
 	}
 
 	protected void renderIcon(GuiGraphics g) {
-		token.type.drawIcon(g, getX(), getY(), index, this.stack);
+		manager.type.drawIcon(g, getX(), getY(), index, this.stack);
 	}
 
 }

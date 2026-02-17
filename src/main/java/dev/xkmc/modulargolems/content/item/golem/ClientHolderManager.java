@@ -54,10 +54,6 @@ public class ClientHolderManager {
 	T getEntityForDisplay(GolemHolder<T, P> holder, ItemStack stack) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return null;
-		if (!root.contains(GolemHolder.KEY_ENTITY) &&
-				!root.contains(GolemHolder.KEY_ICON) &&
-				!root.contains(GolemHolder.KEY_EQUIPMENTS))
-			return null;
 		int hash = stack.hashCode();
 		if (CACHE.containsKey(hash)) {
 			AbstractGolemEntity<?, ?> ans = CACHE.get(stack.hashCode()).entity;
@@ -74,12 +70,12 @@ public class ClientHolderManager {
 	T getEntityForDisplayInternal(GolemHolder<T, P> holder, ItemStack stack) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return null;
-		T ans = null;
+		T ans;
 		if (root.contains(GolemHolder.KEY_ENTITY)) {
 			CompoundTag entity = root.getCompound(GolemHolder.KEY_ENTITY);
 			ans = holder.getEntityType().createForDisplay(entity);
 			if (ans != null) ans.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
-		} else if (root.contains(GolemHolder.KEY_ICON) || root.contains(GolemHolder.KEY_EQUIPMENTS)) {
+		} else {
 			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(Proxy.getClientWorld());
 			golem.addTag("ClientOnly");
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
