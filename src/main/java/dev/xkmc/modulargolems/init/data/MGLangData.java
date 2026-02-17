@@ -32,6 +32,9 @@ public enum MGLangData {
 	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage", 1, ChatFormatting.GRAY),
 	HARBINGER_BOOST_MISSILE("tooltip.cataclysm.harbinger_armor_missile", "+%s Homing Missile Damage", 1, ChatFormatting.GRAY),
 	MONSTROSITY_BOOST("tooltip.cataclysm.monstrosity_armor", "+%s Monstrosity Earthquake Damage", 1, ChatFormatting.GRAY),
+	IGNIS_BOOST_FIREBALL("tooltip.cataclysm.ignis_armor_fireball", "+%s Fireball Damage", 1, ChatFormatting.GRAY),
+	IGNIS_BOOST_STRIKE("tooltip.cataclysm.ignis_armor_strike", "+%s Flame Strike Damage", 1, ChatFormatting.GRAY),
+	IGNIS_BOOST_SOUL("tooltip.cataclysm.ignis_armor_soul", "Permanent Soul Form", 0, ChatFormatting.GRAY),
 
 	TARGET_UUID_ADD("tooltip.target.uuid_add", "Right click entity to add entity UUID to the list", 0, ChatFormatting.GRAY),
 	TARGET_UUID_REMOVE("tooltip.target.uuid_remove", "Sneak right click entity to remove entity UUID from the list", 0, ChatFormatting.GRAY),

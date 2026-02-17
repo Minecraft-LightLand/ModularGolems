@@ -13,6 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.Vec3;
@@ -148,6 +149,9 @@ public class CataclysmProxy {
 	}
 
 	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, float dmg, int min) {
+		if (golem.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof IgnisArmorItem) min++;
+		if (golem.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof IgnisArmorItem) min++;
+		if (golem.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof IgnisArmorItem) min++;
 		try {
 			var eff = ModEffect.EFFECTBLAZING_BRAND.get();
 			var old = target.getEffect(eff);

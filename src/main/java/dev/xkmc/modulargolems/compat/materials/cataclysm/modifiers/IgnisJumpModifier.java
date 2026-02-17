@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -12,6 +14,7 @@ import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
@@ -87,6 +90,18 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 	@Override
 	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
 		return 200;
+	}
+
+	@Override
+	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+		var event = cache.getLivingHurtEvent();
+		assert event != null;
+		var source = event.getSource();
+		var direct = source.getDirectEntity();
+		if (direct == null || !CataclysmProxy.isIgnisStrike(direct)) return;
+		if (entity.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.IGNIS_HELMET.get())) {
+			cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.flameStrikeArmorBonus.get().floatValue()));
+		}
 	}
 
 	@Override

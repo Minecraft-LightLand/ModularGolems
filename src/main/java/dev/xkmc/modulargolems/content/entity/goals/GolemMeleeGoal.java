@@ -66,6 +66,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 
 	private EarthquakeHelper.Instance earthQuake = null;
 	private double wasFalling;
+	private int startJumpingTime = 0;
 
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
 		golem = entity;
@@ -174,7 +175,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		double dist = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
 		tickMove(target, dist);
 		checkAndPerformAttack(target, dist);
-		wasFalling = earthQuake != null && !golem.isInFluidType() && !golem.onGround() ? golem.getDeltaMovement().y : 0;
+		wasFalling = earthQuake != null && !golem.isInFluidType() && !golem.onGround() ? Math.min(wasFalling, golem.getDeltaMovement().y) : 0;
 	}
 
 	protected void tickMove(LivingEntity target, double distSqr) {
@@ -251,11 +252,16 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	}
 
 	protected void doRealAttack(LivingEntity target, double distSqr) {
+		float impactSpeed = 0.05f;
+		float significantSpeed = 0.01f;
+		int jumpMaxTime = 60;
 		if (isTimeToAttack()) {
 			if (golem.hasFlag(GolemFlags.EARTH_QUAKE)) {
-				boolean valid = !golem.isInFluidType() && golem.onGround();
-				boolean hit = wasFalling < -0.05f && (golem.isInFluidType() || golem.getDeltaMovement().y > 0.05f);
-				boolean stop = !hit && wasFalling < -0.01f && (golem.isInFluidType() || golem.getDeltaMovement().y > 0.01f);
+				boolean wet = golem.isInFluidType();
+				boolean valid = !wet && golem.onGround();
+				boolean hit = wasFalling < -impactSpeed && (wet || golem.getDeltaMovement().y > impactSpeed);
+				boolean stop = !valid && !hit && (golem.tickCount - startJumpingTime > jumpMaxTime ||
+						wasFalling < -significantSpeed && (wet || golem.getDeltaMovement().y > wasFalling + 1e-3));
 				if (earthQuake != null && stop)
 					earthQuake = null;
 				if (earthQuake != null && (valid || hit)) {
@@ -272,12 +278,13 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 						golem.getPersistentData().putLong(((GolemModifier) earthQuake.modifier()).getID() + ":timestamp", golem.level().getGameTime());
 						earthQuake.modifier().performJump(golem, earthQuake.lv());
 						golem.hasImpulse = true;
+						startJumpingTime = golem.tickCount;
 						return;
 					}
 				}
 			}
 		}
-		if (earthQuake != null && !golem.onGround()) return;
+		if (earthQuake != null && !golem.onGround() && golem.tickCount - startJumpingTime < jumpMaxTime) return;
 		double d0 = this.getAttackReachSqr(target);
 		if (distSqr <= d0 && this.ticksUntilNextAttack <= 0) {
 			this.resetAttackCooldown();
