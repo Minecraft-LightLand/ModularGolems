@@ -7,6 +7,7 @@ import dev.xkmc.l2library.util.nbt.ItemCompoundTag;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -218,15 +219,23 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				.filter(e -> e.contains(KEY_ENTITY))
 				.map(e -> e.getCompound(KEY_ENTITY));
 		if (entity.isPresent()) {
+			AttributeInstance ins = null;
 			for (var e : entity.get().getList("Attributes", Tag.TAG_COMPOUND)) {
 				if (!(e instanceof CompoundTag t)) continue;
 				if (t.getString("Name").equals("minecraft:generic.max_health")) {
-					var ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
+					ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
 					});
 					ins.load(t);
-					return (float) ins.getValue();
+					break;
+
 				}
 			}
+			if (ins == null) return -1;
+			var attrs = GolemMaterial.collectAttributes(getMaterial(stack), getUpgrades(stack));
+			var mhp = attrs.get(Attributes.MAX_HEALTH);
+			if (mhp != null && mhp.getFirst().kind == GolemStatType.Kind.BASE)
+				ins.setBaseValue(mhp.getSecond());
+			return (float) ins.getValue();
 		}
 		return -1;
 	}
