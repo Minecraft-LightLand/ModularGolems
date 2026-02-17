@@ -93,15 +93,15 @@ public class CataCompatRegistry {
 		IGNIS_HELMET = REGISTRATE.item("ignis_helmet", p -> new IgnisArmorItem(p.stacksTo(1),
 						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.IGNIS_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
-				.defaultLang().register();
+				.lang("Ignitium Golem Helmet").register();
 		IGNIS_CHESTPLATE = REGISTRATE.item("ignis_chestplate", p -> new IgnisArmorItem(p.stacksTo(1),
 						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.IGNIS_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
-				.defaultLang().register();
+				.lang("Ignitium Golem Chestplate").register();
 		IGNIS_SHINGUARD = REGISTRATE.item("ignis_shinguard", p -> new IgnisArmorItem(p.stacksTo(1),
 						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.IGNIS_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
-				.defaultLang().register();
+				.lang("Ignitium Golem Shinguard").register();
 
 		VOID_CUBE = GolemItems.item(CataDispatch.MODID, "void_cube", RepairMaterialItem::new);
 		VOID_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "void_construct", CraftMaterialItem::new);
@@ -113,10 +113,10 @@ public class CataCompatRegistry {
 				"When target is faraway, shoot Ignis fireballs toward target.");
 
 		IGNIS_JUMP = reg("ignis_jump", () -> new IgnisJumpModifier(StatFilterType.MOVEMENT, 1),
-				"When target is faraway, Jump toward target.");
+				"Flame Strike", "Jump toward target. On landing, perform flame strike on all nearby targets.");
 
 		IGNIS_ATTACK = reg("ignis_attack", () -> new IgnisAttackModifier(StatFilterType.ATTACK, 2),
-				"Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");
+				"Blazing Brand", "Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");
 
 		HARBINGER_BEAM = reg("harbinger_death_beam", () -> new HarbingerDeathBeamModifier(StatFilterType.HEAD, 1),
 				"When target is faraway, shoot Death Beam toward target.");
