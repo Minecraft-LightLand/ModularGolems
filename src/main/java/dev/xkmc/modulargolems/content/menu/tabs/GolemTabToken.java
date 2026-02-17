@@ -15,14 +15,12 @@ public class GolemTabToken<G extends GolemTabGroup<G>, T extends GolemTabBase<G,
 	}
 
 	public final TabFactory<G, T> factory;
-	public final GolemTabType type;
 
 	private final Supplier<Item> item;
 	private final Component title;
 
 	public GolemTabToken(TabFactory<G, T> factory, Supplier<Item> item, Component component) {
 		this.factory = factory;
-		this.type = GolemTabType.RIGHT;
 
 		this.item = item;
 		this.title = component;

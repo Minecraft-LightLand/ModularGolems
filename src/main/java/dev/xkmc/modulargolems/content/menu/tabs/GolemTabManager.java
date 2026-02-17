@@ -14,13 +14,19 @@ public class GolemTabManager<G extends GolemTabGroup<G>> {
 
 	public final ITabScreen screen;
 	public final G token;
+	public final GolemTabType type;
 
 	public int tabPage;
 	public GolemTabToken<G, ?> selected;
 
-	public GolemTabManager(ITabScreen screen, G token) {
+	public GolemTabManager(ITabScreen screen, G token, GolemTabType type) {
 		this.screen = screen;
 		this.token = token;
+		this.type = type;
+	}
+
+	public GolemTabManager(ITabScreen screen, G token) {
+		this(screen, token, GolemTabType.RIGHT);
 	}
 
 	public void init(Consumer<AbstractWidget> adder, GolemTabToken<G, ?> selected) {
@@ -29,12 +35,13 @@ public class GolemTabManager<G extends GolemTabGroup<G>> {
 		this.selected = selected;
 		int guiLeft = screen.getGuiLeft();
 		int guiTop = screen.getGuiTop();
-		int imgWidth = screen.getXSize();
+		int w = screen.getXSize();
+		int h = screen.getYSize();
 		for (int i = 0; i < token_list.size(); i++) {
 			GolemTabToken<G, ?> token = token_list.get(i);
 			GolemTabBase<G, ?> tab = token.create(i, this);
-			tab.setX(guiLeft + imgWidth + GolemTabType.RIGHT.getX(tab.index));
-			tab.setY(guiTop + GolemTabType.RIGHT.getY(tab.index));
+			tab.setX(guiLeft + type.getX(w, h, tab.index));
+			tab.setY(guiTop + type.getY(w, h, tab.index));
 			adder.accept(tab);
 			list.add(tab);
 		}

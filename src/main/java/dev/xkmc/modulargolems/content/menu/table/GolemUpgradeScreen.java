@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabType;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
@@ -36,7 +37,7 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 	protected void init() {
 		super.init();
 
-		new GolemTabManager<>(this, new TableGroup())
+		new GolemTabManager<>(this, new TableGroup(), GolemTabType.ABOVE)
 				.init(this::addRenderableWidget, GolemTabRegistry.TABLE_UPGRADE);
 
 		int w = 10;
@@ -72,6 +73,10 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 			g.renderTooltip(font, getTooltipFromContainerItem(stack), stack.getTooltipImage(), stack, x, y);
 		}
 
+	}
+
+	public int getRightExpansion() {
+		return 0;
 	}
 
 	@Override

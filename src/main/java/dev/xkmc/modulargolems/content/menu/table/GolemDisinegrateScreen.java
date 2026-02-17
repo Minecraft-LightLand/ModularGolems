@@ -1,25 +1,31 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
+import com.mojang.datafixers.util.Pair;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.modulargolems.content.config.GolemMaterial;
+import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabType;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrateMenu> implements ITabScreen {
 
@@ -32,7 +38,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 	@Override
 	protected void init() {
 		super.init();
-		new GolemTabManager<>(this, new TableGroup())
+		new GolemTabManager<>(this, new TableGroup(), GolemTabType.ABOVE)
 				.init(this::addRenderableWidget, GolemTabRegistry.TABLE_DISINTEGRATE);
 
 		var ref = menu.sprite.get().getComp("button");
@@ -61,10 +67,15 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		for (var e : menu.partSlots)
 			mayBreak &= e.getItem().isEmpty();
 		disintegrate.active = mayBreak;
-		ItemStack preview = menu.result.getItem().isEmpty() ? menu.main.getItem() : menu.result.getItem();
+		var input = menu.main.getItem();
+		var result = menu.result.getItem();
+		renderPreview(g, mx, my, result.isEmpty() ? input : result);
+		if (!result.isEmpty()) renderDiff(g, input, result);
+	}
+
+	private void renderPreview(GuiGraphics g, int mx, int my, ItemStack preview) {
 		if (preview.getItem() instanceof GolemHolder<?, ?> holder) {
 			int max = getLeftExpansion();
-			g.pose().pushPose();
 			AbstractGolemEntity<?, ?> golem = ClientHolderManager.getEntityForDisplay(holder, preview);
 			if (golem != null) {
 				int x = leftPos - 5 - max;
@@ -78,7 +89,82 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 				InventoryScreen.renderEntityInInventoryFollowsAngle(g,
 						x + max / 2, y, scale, ax, ay, golem);
 			}
-			g.pose().popPose();
+		}
+	}
+
+	private void renderDiff(GuiGraphics g, ItemStack input, ItemStack result) {
+		var matI = GolemHolder.getMaterial(input);
+		var matR = GolemHolder.getMaterial(result);
+		var upI = GolemHolder.getUpgrades(input);
+		var upR = GolemHolder.getUpgrades(result);
+
+		List<Component> comp = new ArrayList<>();
+		{
+			var statI = GolemMaterial.collectAttributes(matI, upI);
+			var statR = GolemMaterial.collectAttributes(matR, upR);
+			Map<Attribute, Pair<GolemStatType, Double>> ans = new LinkedHashMap<>();
+			var add = new LinkedHashSet<>(statR.keySet());
+			add.removeAll(statI.keySet());
+			for (var e : add)
+				ans.put(e, statR.get(e));
+			var common = new LinkedHashSet<>(statI.keySet());
+			common.retainAll(statR.keySet());
+			for (var e : common) {
+				var er = statR.get(e);
+				var ei = statI.get(e);
+				if (er.getFirst() != ei.getFirst()) continue;
+				ans.put(e, Pair.of(er.getFirst(), er.getSecond() - ei.getSecond()));
+			}
+			var old = new LinkedHashSet<>(statI.keySet());
+			old.removeAll(statR.keySet());
+			for (var e : old)
+				ans.put(e, statI.get(e).mapSecond(x -> -x));
+			for (var ent : ans.entrySet()) {
+				var v = ent.getValue();
+				if (Math.abs(v.getSecond()) > 1e-3) {
+					comp.add(v.getFirst().getDiffTooltip(v.getSecond()));
+				}
+			}
+		}
+
+		{
+			var modI = GolemMaterial.collectModifiers(matI, upI);
+			var modR = GolemMaterial.collectModifiers(matR, upR);
+			Map<GolemModifier, Integer> ans = new LinkedHashMap<>();
+			var add = new LinkedHashSet<>(modR.keySet());
+			add.removeAll(modI.keySet());
+			for (var e : add)
+				ans.put(e, modR.get(e));
+			var common = new LinkedHashSet<>(modI.keySet());
+			common.retainAll(modR.keySet());
+			for (var e : common) {
+				ans.put(e, modR.get(e) - modI.get(e));
+			}
+			var old = new LinkedHashSet<>(modI.keySet());
+			old.removeAll(modR.keySet());
+			for (var e : old)
+				ans.put(e, -modI.get(e));
+			for (var ent : ans.entrySet()) {
+				int lv = ent.getValue();
+				if (lv == 0) continue;
+				var col = lv > 0 ? ChatFormatting.LIGHT_PURPLE : ChatFormatting.RED;
+				comp.add(Component.literal(lv > 0 ? "+ " : "- ")
+						.append(ent.getKey().getTooltip(Math.abs(lv)).copy()
+								.withStyle(col)).withStyle(col));
+			}
+		}
+
+
+		int x = leftPos + imageWidth + 5;
+		int y = topPos + 10;
+		int maxW = screenWidth() - leftPos - imageWidth - 15;
+		for (var e : comp) {
+			int dx = x;
+			for (var line : font.split(e, maxW)) {
+				g.drawString(font, line, dx, y, -1);
+				y += font.lineHeight + 2;
+				dx += 10;
+			}
 		}
 	}
 
@@ -122,6 +208,11 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			return Math.min(size * 60, Math.min(imageHeight - 20, leftPos - 10)) & -2;
 		}
 		return 0;
+	}
+
+	@Override
+	public int getRightExpansion() {
+		return menu.result.getItem().isEmpty() ? 0 : width - imageWidth - leftPos;
 	}
 
 	@Override

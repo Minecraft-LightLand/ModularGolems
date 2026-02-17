@@ -57,6 +57,16 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 				Component.translatable(attribute.get().getDescriptionId())).withStyle(ChatFormatting.BLUE);
 	}
 
+	public MutableComponent getDiffTooltip(double val) {
+		if (kind == Kind.PERCENT) {
+			val = val * 100;
+		}
+		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
+		return Component.translatable(key,
+				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
+				Component.translatable(attribute.get().getDescriptionId())).withStyle(val > 0 ? ChatFormatting.BLUE : ChatFormatting.RED);
+	}
+
 	/**
 	 * collected value, will only call once per stat
 	 */
