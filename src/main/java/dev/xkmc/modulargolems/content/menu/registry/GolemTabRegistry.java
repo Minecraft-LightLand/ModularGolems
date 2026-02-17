@@ -6,6 +6,8 @@ import dev.xkmc.modulargolems.content.menu.config.ConfigToggleTab;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentTab;
 import dev.xkmc.modulargolems.content.menu.filter.ConfigItemTab;
 import dev.xkmc.modulargolems.content.menu.path.ConfigPathTab;
+import dev.xkmc.modulargolems.content.menu.table.TableTab;
+import dev.xkmc.modulargolems.content.menu.table.TableTabType;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabToken;
 import dev.xkmc.modulargolems.content.menu.target.ConfigTargetTab;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -20,6 +22,7 @@ public class GolemTabRegistry {
 	public static final List<GolemTabToken<ConfigGroup, ?>> LIST_CONFIG = new ArrayList<>();
 	public static final List<GolemTabToken<EquipmentGroup, ?>> LIST_EQUIPMENT = new ArrayList<>();
 	public static final List<GolemTabToken<TrackerGroup, ?>> LIST_TRACKER = new ArrayList<>();
+	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE = new ArrayList<>();
 
 	public static final GolemTabToken<ConfigGroup, ConfigToggleTab> CONFIG_TOGGLE =
 			new GolemTabToken<>(ConfigToggleTab::new, GolemItems.CARD[0]::get, MGLangData.TAB_TOGGLE.get());
@@ -46,6 +49,11 @@ public class GolemTabRegistry {
 	public static final GolemTabToken<TrackerGroup, TrackerTab> TRACKER_RETRIEVE =
 			new GolemTabToken<>(TrackerTab.Type.RETRIEVE::create, GolemItems.RETRIEVAL_WAND::get, MGLangData.TAB_RETRIEVE.get());
 
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_UPGRADE =
+			new GolemTabToken<>(TableTab.from(TableTabType.UPGRADE), GolemItems.EMPTY_UPGRADE, TableTabType.UPGRADE.getDisplayName());
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_DISINTEGRATE =
+			new GolemTabToken<>(TableTab.from(TableTabType.DISINTEGRATE), GolemItems.SLICING_AXE::get, TableTabType.DISINTEGRATE.getDisplayName());
+
 	public static void register() {
 		LIST_CONFIG.add(CONFIG_TOGGLE);
 		LIST_CONFIG.add(CONFIG_ITEM);
@@ -56,6 +64,8 @@ public class GolemTabRegistry {
 		LIST_TRACKER.add(TRACKER_ALIVE);
 		LIST_TRACKER.add(TRACKER_DEAD);
 		LIST_TRACKER.add(TRACKER_RETRIEVE);
+		LIST_TABLE.add(TABLE_UPGRADE);
+		LIST_TABLE.add(TABLE_DISINTEGRATE);
 	}
 
 }

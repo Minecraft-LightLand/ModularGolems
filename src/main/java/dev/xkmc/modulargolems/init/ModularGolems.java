@@ -18,6 +18,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
+import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemClickHandler;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
@@ -54,13 +55,14 @@ public class ModularGolems {
 	public static final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(ModularGolems.MODID, "main"), 2,
+			new ResourceLocation(ModularGolems.MODID, "main"), 3,
 			e -> e.create(ConfigSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(ConfigUpdateToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ConfigHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(SetItemFilterToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OpenConfigMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OpenEquipmentMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(OpenTableMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(TrackerSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(TrackerHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(TrackerDeleteToServer.class, NetworkDirection.PLAY_TO_SERVER),

@@ -1,6 +1,7 @@
 {
     "side": [
-        "slot"
+        "slot",
+        "result_slot"
     ],
     "comp": {
         "golem": {
@@ -8,30 +9,40 @@
             "x": 16,
             "y": 18
         },
+        "button": {
+            "sprite": "empty_slot",
+            "x": 43,
+            "y": 18
+        },
         "golem_up": {
-            "sprite": "slot",
-            "x": 106,
+            "sprite": "empty_slot",
+            "x": 88,
             "y": 0
         },
         "golem_left": {
-            "sprite": "slot",
-            "x": 88,
+            "sprite": "empty_slot",
+            "x": 70,
             "y": 18
         },
         "golem_middle": {
-            "sprite": "slot",
-            "x": 106,
+            "sprite": "empty_slot",
+            "x": 88,
             "y": 18
         },
         "golem_right": {
-            "sprite": "slot",
-            "x": 124,
+            "sprite": "empty_slot",
+            "x": 106,
             "y": 18
         },
         "golem_down": {
-            "sprite": "slot",
-            "x": 106,
+            "sprite": "empty_slot",
+            "x": 88,
             "y": 36
+        },
+        "result": {
+            "sprite": "empty_slot",
+            "x": 151,
+            "y": 18
         }
     },
     "isContainer": true
