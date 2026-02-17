@@ -42,7 +42,8 @@
       "modulargolems:damage_cap": 3,
       "modulargolems:fire_immune": 1,
       "modulargolems:ignis_attack": 1,
-      "modulargolems:ignis_fireball": 2
+      "modulargolems:ignis_fireball": 2,
+      "modulargolems:ignis_jump": 1
     },
     "cataclysm:storm": {
       "modulargolems:damage_cap": 2,
@@ -98,7 +99,7 @@
       "modulargolems:sweep": 2.0
     },
     "cataclysm:ignitium": {
-      "modulargolems:attack": 20.0,
+      "modulargolems:attack": 30.0,
       "modulargolems:max_health": 450.0,
       "modulargolems:range": 1.0,
       "modulargolems:sweep": 2.0
@@ -110,7 +111,7 @@
       "modulargolems:sweep": 2.0
     },
     "cataclysm:witherite": {
-      "modulargolems:attack": 20.0,
+      "modulargolems:attack": 30.0,
       "modulargolems:max_health": 390.0,
       "modulargolems:regen": 2.0,
       "modulargolems:sweep": 2.0

@@ -2,6 +2,9 @@
   "modulargolems.tooltip.cataclysm.harbinger_armor_laer": "+%s 激光伤害",
   "modulargolems.tooltip.cataclysm.harbinger_armor_missile": "+%s 导弹伤害",
   "modulargolems.tooltip.cataclysm.monstrosity_armor": "+%s 巨兽撼地伤害",
+  "modulargolems.tooltip.cataclysm.ignis_armor_fireball": "+%s 焰魔火球伤害",
+  "modulargolems.tooltip.cataclysm.ignis_armor_soul": "永续灵魂形态",
+  "modulargolems.tooltip.cataclysm.ignis_armor_strike": "+%s 烈焰轰击伤害",
   "item.modulargolems.harbinger_chestplate": "先行者护甲",
   "item.modulargolems.harbinger_helmet": "先行者头盔",
   "item.modulargolems.harbinger_shinguard": "先行者护腿",
@@ -10,6 +13,9 @@
   "item.modulargolems.monstrosity_helmet": "恶兽傀儡头盔",
   "item.modulargolems.monstrosity_shinguard": "恶兽傀儡护腿",
   "item.modulargolems.monstrosity_upgrade_template": "恶兽傀儡护甲升级模版",
+  "item.modulargolems.ignis_chestplate": "腾炎傀儡护甲",
+  "item.modulargolems.ignis_helmet": "腾炎傀儡头盔",
+  "item.modulargolems.ignis_shinguard": "腾炎傀儡护腿",
   "golem_material.cataclysm.ignitium": "腾炎",
   "golem_material.cataclysm.witherite": "凋零合金",
   "golem_material.cataclysm.cursium": "咒魂",
@@ -55,7 +61,9 @@
     "scylla_wave": "霆浪锚",
     "scylla_wave.desc": "受到伤害时召唤海浪推开目标",
     "ancient_remnant_reformation": "遗骸重组",
-    "ancient_remnant_reformation.desc": "熔锻：可消耗自身材料回复生命值，但会减少最大生命值并缩小体型。可通过修复材料复原"
+    "ancient_remnant_reformation.desc": "熔锻：可消耗自身材料回复生命值，但会减少最大生命值并缩小体型。可通过修复材料复原",
+    "ignis_jump": "烈焰轰击",
+    "ignis_jump.desc": "起跳进行下落攻击，然后对周围所有敌对生物释放烈焰轰击"
   }
 
 }

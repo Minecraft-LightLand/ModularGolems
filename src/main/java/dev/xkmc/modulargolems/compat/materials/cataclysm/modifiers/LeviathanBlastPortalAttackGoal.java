@@ -7,7 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class LeviathanBlastPortalAttackGoal extends MultiTargetRangedGoal {
 
 	public LeviathanBlastPortalAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 2, 35, golem, lv);
+		super(100, 0, 35, golem, lv);
 	}
 
 	@Override

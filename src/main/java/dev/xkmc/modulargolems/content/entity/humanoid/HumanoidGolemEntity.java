@@ -50,6 +50,8 @@ import java.util.function.Predicate;
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> implements CrossbowAttackMob {
 
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<ItemStack> BACKUP_SLOT = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
@@ -57,6 +59,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	private ItemStack backupHand = ItemStack.EMPTY;
 	@SerialClass.SerialField
 	private ItemStack arrowSlot = ItemStack.EMPTY;
+
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
@@ -84,6 +87,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(IS_CHARGING_CROSSBOW, false);
+		this.entityData.define(BACKUP_SLOT, ItemStack.EMPTY);
+		this.entityData.define(ARROW_SLOT, ItemStack.EMPTY);
 	}
 
 	public InteractionHand getWeaponHand() {
@@ -297,6 +302,17 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void tick() {
 		super.tick();
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
+	}
+
+	@Override
+	protected void customServerAiStep() {
+		super.customServerAiStep();
+		if (!ItemStack.matches(entityData.get(BACKUP_SLOT), backupHand)) {
+			entityData.set(BACKUP_SLOT, backupHand.copy());
+		}
+		if (!ItemStack.matches(entityData.get(ARROW_SLOT), arrowSlot)) {
+			entityData.set(ARROW_SLOT, arrowSlot.copy());
+		}
 	}
 
 	// weapon switch

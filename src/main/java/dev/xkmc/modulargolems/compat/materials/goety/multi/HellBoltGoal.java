@@ -10,7 +10,7 @@ import net.minecraft.world.phys.Vec3;
 public class HellBoltGoal extends MultiTargetRangedGoal implements IApostleGoal {
 
 	public HellBoltGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 1, 35, golem, lv);
+		super(100, 0, 35, golem, lv);
 	}
 
 	protected int getMaxTarget() {

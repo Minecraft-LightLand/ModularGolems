@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import dev.xkmc.modulargolems.util.GolemUtils;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,7 +43,10 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 		golem.playSound(SoundEvents.GENERIC_EXPLODE, 1.5F, 1.0F + golem.getRandom().nextFloat() * 0.1F);
 		for (LivingEntity entity : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(7.0))) {
 			if (!golem.isAlliedTo(entity) && entity != golem) {
-				float damage = (float) (golem.getAttributeValue(Attributes.ATTACK_DAMAGE) + entity.getMaxHealth() * CataclysmProxy.monstrosityEarthquakeDamage());
+				float damage = GolemUtils.adjustedDamage(
+						(float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE),
+						CataclysmProxy.monstrosityEarthquakeDamage() * entity.getMaxHealth()
+				);
 				float factor = 0;
 				if (golem.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MONSTROSITY_HELMET.get()))
 					factor++;
