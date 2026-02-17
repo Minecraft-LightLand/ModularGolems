@@ -132,6 +132,7 @@ public enum MGLangData {
 	UI_DISINTEGRATE("tooltip.disintegrate", "Disassemble the Golem", 0, null),
 	UI_RETURN_ITEMS("tooltip.return_items", "Returns the following items on disassembly:", 0, null),
 	UI_RETURN_MANY("tooltip.return_many", "Returns %s items on disassembly", 1, null),
+	UI_FIX_FIRST("tooltip.fix_first", "Fix the golem before disassembly!", 0, ChatFormatting.RED),
 
 	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
 	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),

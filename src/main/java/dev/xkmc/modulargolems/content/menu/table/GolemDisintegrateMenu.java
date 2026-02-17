@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import static java.awt.SystemColor.menu;
+
 public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMenu> {
 
 	private record GolemSlots<P extends IGolemPart<P>>(String name, IGolemPart<P> part) {
@@ -104,7 +106,19 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	@Override
 	public boolean clickMenuButton(Player player, int id) {
 		if (id == 1) {
-			if (main.getItem().getItem() instanceof GolemHolder<?, ?>) {
+			var input = main.getItem();
+			if (input.getItem() instanceof GolemHolder<?, ?>) {
+				boolean mayBreak = !input.isEmpty();
+				for (var e : partSlots)
+					mayBreak &= e.getItem().isEmpty();
+				if (mayBreak) {
+					float max = GolemHolder.getMaxHealth(input);
+					float health = GolemHolder.getHealth(input);
+					int reforge = GolemHolder.getReforge(input);
+					if (health < max || reforge > 0)
+						mayBreak = false;
+				}
+				if (!mayBreak) return false;
 				if (!(inventory.player instanceof ServerPlayer sp))
 					return true;
 				changing = true;

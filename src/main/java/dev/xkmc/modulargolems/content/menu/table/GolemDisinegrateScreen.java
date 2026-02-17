@@ -30,6 +30,7 @@ import java.util.*;
 public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrateMenu> implements ITabScreen {
 
 	private Button disintegrate;
+	private Component buttonError;
 
 	public GolemDisinegrateScreen(GolemDisintegrateMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
@@ -63,11 +64,21 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		}
 		if (menu.result.isActive())
 			sr.draw(g, "result", "result_slot", -5, -5);
-		boolean mayBreak = !menu.main.getItem().isEmpty();
+		var input = menu.main.getItem();
+		buttonError = null;
+		boolean mayBreak = !input.isEmpty();
 		for (var e : menu.partSlots)
 			mayBreak &= e.getItem().isEmpty();
+		if (mayBreak) {
+			float max = GolemHolder.getMaxHealth(input);
+			float health = GolemHolder.getHealth(input);
+			int reforge = GolemHolder.getReforge(input);
+			if (health < max || reforge > 0) {
+				mayBreak = false;
+				buttonError = MGLangData.UI_FIX_FIRST.get();
+			}
+		}
 		disintegrate.active = mayBreak;
-		var input = menu.main.getItem();
 		var result = menu.result.getItem();
 		renderPreview(g, mx, my, result.isEmpty() ? input : result);
 		if (!result.isEmpty()) renderDiff(g, input, result);
@@ -169,26 +180,34 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 	}
 
 	protected void renderTooltip(GuiGraphics g, int x, int y) {
-		if (disintegrate.isHovered() && !menu.main.dropList.isEmpty()) {
-			var list = menu.main.dropList;
-			var item = menu.main.getItem();
-			if (list.isEmpty()) {
+		if (disintegrate.isHovered()) {
+			if (buttonError != null) {
 				g.renderTooltip(font,
-						List.of(MGLangData.UI_DISINTEGRATE.get()),
+						List.of(buttonError),
 						Optional.empty(),
-						item, x, y);
-			} else if (list.size() > 54) {
-				g.renderTooltip(font,
-						List.of(MGLangData.UI_RETURN_MANY.get(list.size())),
-						Optional.empty(),
-						item, x, y);
-			} else {
-				g.renderTooltip(font,
-						List.of(MGLangData.UI_RETURN_ITEMS.get()),
-						Optional.of(new ItemListTooltip(list)),
-						item, x, y);
+						ItemStack.EMPTY, x, y);
+				return;
 			}
-			return;
+			if (disintegrate.isActive()) {
+				var list = menu.main.dropList;
+				if (list.isEmpty()) {
+					g.renderTooltip(font,
+							List.of(MGLangData.UI_DISINTEGRATE.get()),
+							Optional.empty(),
+							ItemStack.EMPTY, x, y);
+				} else if (list.size() > 54) {
+					g.renderTooltip(font,
+							List.of(MGLangData.UI_RETURN_MANY.get(list.size())),
+							Optional.empty(),
+							ItemStack.EMPTY, x, y);
+				} else {
+					g.renderTooltip(font,
+							List.of(MGLangData.UI_RETURN_ITEMS.get()),
+							Optional.of(new ItemListTooltip(list)),
+							ItemStack.EMPTY, x, y);
+				}
+				return;
+			}
 		}
 		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.getItem().isEmpty()) {
 			if (hoveredSlot instanceof GolemDisintegrateMenu.PartSlot slot && !slot.partShadow.isEmpty()) {
