@@ -67,6 +67,20 @@ public class CurioCompatRegistry {
 		return ans;
 	}
 
+	public static void getAllItems(LivingEntity e, List<ItemStack> list) {
+		var opt = CuriosApi.getCuriosInventory(e).resolve();
+		if (opt.isEmpty()) return;
+		for (var ent : opt.get().getCurios().entrySet()) {
+			var handler = ent.getValue();
+			for (int i = 0; i < handler.getSlots(); i++) {
+				var curio = handler.getStacks().getStackInSlot(i);
+				if (!curio.isEmpty()) list.add(curio);
+				var cosmetic = handler.getCosmeticStacks().getStackInSlot(i);
+				if (!cosmetic.isEmpty()) list.add(curio);
+			}
+		}
+	}
+
 	public static void register() {
 		var ins = get();
 		if (ins == null) return;

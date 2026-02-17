@@ -13,7 +13,9 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.recipe.GolemReplaceRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.modulargolems.util.GolemUtils;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -87,6 +89,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	@Override
 	public void slotsChanged(Container cont) {
 		if (!changing) {
+			main.update();
 			boolean allEmpty = main.getItem().isEmpty();
 			for (var e : partSlots)
 				allEmpty &= e.getItem().isEmpty();
@@ -102,12 +105,19 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	public boolean clickMenuButton(Player player, int id) {
 		if (id == 1) {
 			if (main.getItem().getItem() instanceof GolemHolder<?, ?>) {
-				if (inventory.player.level().isClientSide())
+				if (!(inventory.player instanceof ServerPlayer sp))
 					return true;
 				changing = true;
 				for (var e : partSlots)
 					e.set(e.partShadow);
 				changing = false;
+				for (var e : main.dropList) {
+					if (player.isAlive() && !sp.hasDisconnected()) {
+						inventory.placeItemBackInInventory(e);
+					} else {
+						player.drop(e, false);
+					}
+				}
 				main.set(ItemStack.EMPTY);
 				return true;
 			}
@@ -133,6 +143,9 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			return super.mayPlace(stack);
 		}
 
+		public void update() {
+			dropList = GolemUtils.collectFromGolem(inventory.player.level(), getItem());
+		}
 	}
 
 	public class ResultSlot extends PredSlot {

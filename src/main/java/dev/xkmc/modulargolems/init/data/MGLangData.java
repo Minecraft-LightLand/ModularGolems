@@ -129,6 +129,9 @@ public enum MGLangData {
 	TAB_DISINTEGRATE("tab.disintegrate", "Substitution & Disintegration", 0, null),
 	UI_NO_SLOT("tooltip.no_slot", "Removing this upgrade will result in insufficient slot", 0, ChatFormatting.RED),
 	UI_REMOVE_TEMPLATE("tooltip.remove_template", "Upgrade Template cannot be removed here", 0, ChatFormatting.RED),
+	UI_DISINTEGRATE("tooltip.disintegrate", "Disassemble the Golem", 0, null),
+	UI_RETURN_ITEMS("tooltip.return_items", "Returns the following items:", 0, null),
+	UI_RETURN_MANY("tooltip.return_many", "Returns %s items", 1, null),
 
 	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
 	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),

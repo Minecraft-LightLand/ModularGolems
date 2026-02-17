@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.RenderType;
@@ -59,10 +60,26 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 	protected void renderTooltip(GuiGraphics g, int x, int y) {
 		if (disintegrate.isHovered() && !menu.main.dropList.isEmpty()) {
-			g.renderTooltip(font,
-					List.of(Component.literal("You will get:")),
-					Optional.of(new ItemListTooltip(menu.main.dropList)),
-					menu.main.getItem(), x, y);
+			var list = menu.main.dropList;
+			var item = menu.main.getItem();
+			if (list.isEmpty()) {
+				g.renderTooltip(font,
+						List.of(MGLangData.UI_DISINTEGRATE.get()),
+						Optional.empty(),
+						item, x, y);
+			} else if (list.size() > 54) {
+				g.renderTooltip(font,
+						List.of(MGLangData.UI_DISINTEGRATE.get(),
+								MGLangData.UI_RETURN_MANY.get(list.size())),
+						Optional.empty(),
+						item, x, y);
+			} else {
+				g.renderTooltip(font,
+						List.of(MGLangData.UI_DISINTEGRATE.get(),
+								MGLangData.UI_RETURN_ITEMS.get()),
+						Optional.of(new ItemListTooltip(list)),
+						item, x, y);
+			}
 			return;
 		}
 		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.getItem().isEmpty()) {
