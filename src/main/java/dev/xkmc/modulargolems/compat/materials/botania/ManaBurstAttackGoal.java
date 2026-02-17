@@ -12,7 +12,7 @@ import vazkii.botania.common.entity.ManaBurstEntity;
 public class ManaBurstAttackGoal extends BaseRangedAttackGoal {
 
 	public ManaBurstAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(40, 4, 48, golem, lv);
+		super(40, 0, 48, golem, lv);
 	}
 
 	@Override

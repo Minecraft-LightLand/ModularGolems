@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.item.equipments;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
@@ -30,13 +31,13 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 		return def;
 	}
 
-	public ResourceLocation getModelTexture() {
+	public ResourceLocation getModelTexture(LivingEntity user) {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
 		assert rl != null;
 		return new ResourceLocation(namespace(rl.getNamespace()), "textures/equipments/" + rl.getPath() + ".png");
 	}
 
-	public ResourceLocation getEmissiveModelTexture() {
+	public ResourceLocation getEmissiveModelTexture(LivingEntity user) {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
 		assert rl != null;
 		return new ResourceLocation(namespace(rl.getNamespace()), "textures/equipments/" + rl.getPath() + "_emissive.png");

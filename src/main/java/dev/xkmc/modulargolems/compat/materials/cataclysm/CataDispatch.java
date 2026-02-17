@@ -11,8 +11,11 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 
 public class CataDispatch extends ModDispatch {
 
@@ -20,6 +23,7 @@ public class CataDispatch extends ModDispatch {
 
 	public CataDispatch() {
 		CataCompatRegistry.register();
+		MinecraftForge.EVENT_BUS.register(CataEventHandler.class);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
@@ -45,7 +49,7 @@ public class CataDispatch extends ModDispatch {
 	@Override
 	public void dispatchClientSetup() {
 		ModelOverrides.registerOverride(new ResourceLocation(CataDispatch.MODID, "ignitium"),
-				ModelOverride.texturePredicate((e) -> e.getHealth() <= e.getMaxHealth() / 2 ? "_soul" : ""));
+				ModelOverride.texturePredicate((e) -> ignisBlue(e) ? "_soul" : ""));
 	}
 
 	@Override
@@ -57,6 +61,10 @@ public class CataDispatch extends ModDispatch {
 		pvd.drop(MODID, ModEntities.ENDER_GUARDIAN.get(), "ender_guardian");
 		pvd.drop(MODID, ModEntities.SCYLLA.get(), "storm");
 		pvd.drop(MODID, ModEntities.ANCIENT_REMNANT.get(), "ancient_metal");
+	}
+
+	public static boolean ignisBlue(LivingEntity e) {
+		return e.getHealth() <= e.getMaxHealth() / 2 || e.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.IGNIS_CHESTPLATE.get());
 	}
 
 }

@@ -137,5 +137,29 @@ public class CataRecipGen {
 						RecipeCategory.COMBAT, CataCompatRegistry.MONSTROSITY_SHINGUARD.get())::unlocks,
 				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())
 				.save(output, CataCompatRegistry.MONSTROSITY_SHINGUARD.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ModItems.IGNITIUM_UPGARDE_SMITHING_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_HELMET.get()),
+						Ingredient.of(ModItems.IGNITIUM_BLOCK.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.IGNIS_HELMET.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_HELMET.get())
+				.save(output, CataCompatRegistry.IGNIS_HELMET.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ModItems.IGNITIUM_UPGARDE_SMITHING_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get()),
+						Ingredient.of(ModItems.IGNITIUM_BLOCK.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.IGNIS_CHESTPLATE.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get())
+				.save(output, CataCompatRegistry.IGNIS_CHESTPLATE.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ModItems.IGNITIUM_UPGARDE_SMITHING_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get()),
+						Ingredient.of(ModItems.IGNITIUM_BLOCK.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.IGNIS_SHINGUARD.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())
+				.save(output, CataCompatRegistry.IGNIS_SHINGUARD.getId());
 	}
 }

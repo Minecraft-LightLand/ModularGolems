@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class AncientRemnantSandstormAttackGoal extends MultiTargetRangedGoal {
 
 	public AncientRemnantSandstormAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 4, 35, golem, lv);
+		super(100, 0, 35, golem, lv);
 	}
 
 	@Override
