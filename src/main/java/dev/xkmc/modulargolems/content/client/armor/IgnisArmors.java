@@ -39,15 +39,15 @@ public class IgnisArmors {
 						List.of("body", "body1", "cube_r1"),
 						List.of("body", "body1", "cube_r2"),
 
-						List.of("body", "body2"),
-						List.of("body", "body2", "cube_r3"),
-						List.of("body", "body2", "cube_r4"),
-						List.of("body", "body2", "cube_r5"),
+						List.of("right_arm", "body2"),
+						List.of("right_arm", "body2", "cube_r3"),
+						List.of("right_arm", "body2", "cube_r4"),
+						List.of("right_arm", "body2", "cube_r5"),
 
-						List.of("body", "body3"),
-						List.of("body", "body3", "cube_r6"),
-						List.of("body", "body3", "cube_r7"),
-						List.of("body", "body3", "cube_r8")
+						List.of("left_arm", "body3"),
+						List.of("left_arm", "body3", "cube_r6"),
+						List.of("left_arm", "body3", "cube_r7"),
+						List.of("left_arm", "body3", "cube_r8")
 				)));
 
 		GolemModelPath.register(IGNIS_LEGGINGS,

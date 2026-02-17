@@ -21,7 +21,7 @@ public class CataConfigGen extends ConfigDataProvider {
 		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, CataDispatch.MODID), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "ignitium"), Ingredient.of(ModItems.IGNITIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 450)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addStat(GolemTypes.STAT_RANGE.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
@@ -33,7 +33,7 @@ public class CataConfigGen extends ConfigDataProvider {
 
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "witherite"), Ingredient.of(ModItems.WITHERITE_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 390)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_REGEN.get(), 2)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)

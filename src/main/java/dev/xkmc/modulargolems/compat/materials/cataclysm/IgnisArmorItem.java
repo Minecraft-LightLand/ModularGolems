@@ -32,12 +32,12 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 		super.appendHoverText(stack, level, list, flag);
 		switch (getSlot()) {
 			case HEAD -> list.add(MGLangData.IGNIS_BOOST_FIREBALL
-					.get(Math.round(MGConfig.COMMON.laserArmorBonus.get() * 100) + "%")
+					.get(Math.round(MGConfig.COMMON.fireballArmorBonus.get() * 100) + "%")
 					.withStyle(ChatFormatting.GOLD));
 			case CHEST -> list.add(MGLangData.IGNIS_BOOST_SOUL.get()
 					.withStyle(ChatFormatting.GOLD));
 			case LEGS -> list.add(MGLangData.IGNIS_BOOST_STRIKE
-					.get(Math.round(MGConfig.COMMON.missileArmorBonus.get() * 100) + "%")
+					.get(Math.round(MGConfig.COMMON.flameStrikeArmorBonus.get() * 100) + "%")
 					.withStyle(ChatFormatting.GOLD));
 		}
 	}
