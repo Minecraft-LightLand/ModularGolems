@@ -20,4 +20,12 @@ public interface ITabScreen {
 		return (Screen) this;
 	}
 
+	default int getLeftExpansion() {
+		return 0;
+	}
+
+	default int getRightExpansion() {
+		return 32;
+	}
+
 }

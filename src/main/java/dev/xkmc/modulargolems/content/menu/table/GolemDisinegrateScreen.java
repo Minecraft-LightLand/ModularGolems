@@ -1,17 +1,22 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
-import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +41,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics g, float p_97788_, int p_97789_, int p_97790_) {
+	protected void renderBg(GuiGraphics g, float pt, int mx, int my) {
 		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(g);
 		for (var e : menu.partSlots) {
@@ -56,6 +61,25 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		for (var e : menu.partSlots)
 			mayBreak &= e.getItem().isEmpty();
 		disintegrate.active = mayBreak;
+		ItemStack preview = menu.result.getItem().isEmpty() ? menu.main.getItem() : menu.result.getItem();
+		if (preview.getItem() instanceof GolemHolder<?, ?> holder) {
+			int max = getLeftExpansion();
+			g.pose().pushPose();
+			AbstractGolemEntity<?, ?> golem = ClientHolderManager.getEntityForDisplay(holder, preview);
+			if (golem != null) {
+				int x = leftPos - 5 - max;
+				int y = topPos + (imageHeight + max) / 2;
+				double lx = leftPos - 5 - max / 2d - mx;
+				double ly = topPos + imageHeight / 2d - my;
+				int size = holder.getEntityType().values().length - 1;
+				int scale = (int) (1d * max / size);
+				float ax = (float) Math.atan(lx / max * 2);
+				float ay = (float) Math.atan(ly / max * 2);
+				InventoryScreen.renderEntityInInventoryFollowsAngle(g,
+						x + max / 2, y, scale, ax, ay, golem);
+			}
+			g.pose().popPose();
+		}
 	}
 
 	protected void renderTooltip(GuiGraphics g, int x, int y) {
@@ -88,6 +112,16 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			}
 		}
 		super.renderTooltip(g, x, y);
+	}
+
+	@Override
+	public int getLeftExpansion() {
+		ItemStack golem = menu.main.getItem();
+		if (golem.getItem() instanceof GolemHolder<?, ?> holder) {
+			int size = holder.getEntityType().values().length - 1;
+			return Math.min(size * 60, Math.min(imageHeight - 20, leftPos - 10)) & -2;
+		}
+		return 0;
 	}
 
 	@Override

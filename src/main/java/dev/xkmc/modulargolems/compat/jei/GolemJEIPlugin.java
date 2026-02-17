@@ -92,9 +92,7 @@ public class GolemJEIPlugin implements IModPlugin {
 		registration.addGuiScreenHandler(TargetConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(PathConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(GolemUpgradeScreen.class, GolemJEIPlugin::create);
-		registration.addGuiScreenHandler(GolemDisinegrateScreen.class,
-				e -> e.screenWidth() <= 0 || e.screenHeight() <= 0 ? null :
-						new GuiProperties(e.getClass(), 0, 0, e.screenWidth(), e.screenHeight(), e.screenWidth(), e.screenHeight()));
+		registration.addGuiScreenHandler(GolemDisinegrateScreen.class, GolemJEIPlugin::create);
 		CurioCompatRegistry.onJEIRegistry(e -> registration.addGuiScreenHandler(Wrappers.cast(e), GolemJEIPlugin::create));
 	}
 
@@ -103,9 +101,9 @@ public class GolemJEIPlugin implements IModPlugin {
 		if (screen.screenWidth() <= 0 || screen.screenHeight() <= 0) {
 			return null;
 		}
-		int x = screen.getGuiLeft();
+		int x = screen.getGuiLeft() - screen.getLeftExpansion();
 		int y = screen.getGuiTop();
-		int width = screen.getXSize() + 32;
+		int width = screen.getXSize() + screen.getLeftExpansion() + screen.getRightExpansion();
 		int height = screen.getYSize();
 		if (width <= 0 || height <= 0) {
 			return null;
