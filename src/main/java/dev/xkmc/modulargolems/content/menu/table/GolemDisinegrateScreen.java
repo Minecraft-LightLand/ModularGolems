@@ -73,7 +73,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			float max = GolemHolder.getMaxHealth(input);
 			float health = GolemHolder.getHealth(input);
 			int reforge = GolemHolder.getReforge(input);
-			if (health < max || reforge > 0) {
+			if (max > 0 && health < max || reforge > 0) {
 				mayBreak = false;
 				buttonError = MGLangData.UI_FIX_FIRST.get();
 			}

@@ -341,7 +341,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (!Screen.hasShiftDown()) {
 			float max = getMaxHealth(stack);
 			if (max >= 0) {
-				float health = getHealth(stack);
+				float health = Math.min(max, getHealth(stack));
 				float f = Mth.clamp(health / max, 0f, 1f);
 				int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 				MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));

@@ -115,7 +115,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 					float max = GolemHolder.getMaxHealth(input);
 					float health = GolemHolder.getHealth(input);
 					int reforge = GolemHolder.getReforge(input);
-					if (health < max || reforge > 0)
+					if (max > 0 && health < max || reforge > 0)
 						mayBreak = false;
 				}
 				if (!mayBreak) return false;
@@ -205,6 +205,9 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 					}
 				}
 				if (success) {
+					if (GolemHolder.getHealth(input) >= GolemHolder.getMaxHealth(input)) {
+						GolemHolder.setHealth(ans, GolemHolder.getMaxHealth(ans));
+					}
 					set(ans);
 					return;
 				}
