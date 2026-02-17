@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Portal_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Portal_Abyss_Blast_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
@@ -249,5 +250,22 @@ public class CataclysmProxy {
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
+	}
+
+	@Nullable
+	public static LivingEntity getOwner(Entity entity) {
+		if (entity instanceof LivingEntity le)
+			return le;
+		try {
+			if (entity instanceof Portal_Abyss_Blast_Entity e) {
+				return e.caster;
+			}
+			if (entity instanceof Death_Laser_Beam_Entity e) {
+				return e.caster;
+			}
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.error(e);
+		}
+		return null;
 	}
 }

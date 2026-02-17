@@ -9,6 +9,7 @@
 		"EntityAxeAttackMixin",
 		"EntityMixin",
 		"ExperienceOrbAccessor",
+		"IgnisExplosionMixin",
 		"LivingEntityMixin",
 		"PlayerMixin",
 		"ServerLevelMixin"
