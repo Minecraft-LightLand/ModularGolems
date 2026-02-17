@@ -3,7 +3,6 @@
 - Flame Strike ability
 - Buff Ignitium and Witherite golem attack stats
 - Improve Ignitium golem abilities
-- TODO datagen
 
 2.6.18
 - Fix ethernium upgrade icon
