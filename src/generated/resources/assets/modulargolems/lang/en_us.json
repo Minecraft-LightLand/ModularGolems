@@ -607,6 +607,7 @@
   "modulargolems.tooltip.cataclysm.monstrosity_armor": "+%s Monstrosity Earthquake Damage",
   "modulargolems.tooltip.craft_material": "Golem crafting material",
   "modulargolems.tooltip.disintegrate": "Disassemble the Golem",
+  "modulargolems.tooltip.fix_first": "Fix the golem before disassembly!",
   "modulargolems.tooltip.follow": "Follow",
   "modulargolems.tooltip.following": "Golem will follow you",
   "modulargolems.tooltip.golem_equipment": "Only effective on %s",
