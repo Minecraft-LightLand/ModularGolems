@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -50,6 +52,24 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 	@Override
 	protected String namespace(String def) {
 		return CataDispatch.MODID;
+	}
+
+	public ResourceLocation getModelTexture(LivingEntity user) {
+		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
+		assert rl != null;
+		var str = "textures/equipments/" + rl.getPath();
+		if (user.getHealth() < 0.5 * user.getMaxHealth())
+			str += "_soul";
+		return new ResourceLocation(namespace(rl.getNamespace()), str + ".png");
+	}
+
+	public ResourceLocation getEmissiveModelTexture(LivingEntity user) {
+		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
+		assert rl != null;
+		var str = "textures/equipments/" + rl.getPath();
+		if (user.getHealth() < 0.5 * user.getMaxHealth())
+			str += "_soul";
+		return new ResourceLocation(namespace(rl.getNamespace()), str + "_emissive.png");
 	}
 
 	@Override
