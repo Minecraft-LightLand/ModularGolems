@@ -19,7 +19,7 @@ public record ItemListClientTooltip(List<ItemStack> inv) implements ClientToolti
 	}
 
 	public int getHeight() {
-		return inv.size() / 9 * 18 + 2;
+		return (inv.size() + 8) / 9 * 18 + 2;
 	}
 
 	public int getWidth(Font font) {

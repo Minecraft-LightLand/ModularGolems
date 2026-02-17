@@ -93,7 +93,8 @@ public class GolemJEIPlugin implements IModPlugin {
 		registration.addGuiScreenHandler(PathConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(GolemUpgradeScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(GolemDisinegrateScreen.class,
-				e -> new GuiProperties(e.getClass(), 0, 0, e.width, e.height, e.width, e.height));
+				e -> e.screenWidth() <= 0 || e.screenHeight() <= 0 ? null :
+						new GuiProperties(e.getClass(), 0, 0, e.screenWidth(), e.screenHeight(), e.screenWidth(), e.screenHeight()));
 		CurioCompatRegistry.onJEIRegistry(e -> registration.addGuiScreenHandler(Wrappers.cast(e), GolemJEIPlugin::create));
 	}
 

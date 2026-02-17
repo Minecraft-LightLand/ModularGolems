@@ -69,14 +69,12 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 						item, x, y);
 			} else if (list.size() > 54) {
 				g.renderTooltip(font,
-						List.of(MGLangData.UI_DISINTEGRATE.get(),
-								MGLangData.UI_RETURN_MANY.get(list.size())),
+						List.of(MGLangData.UI_RETURN_MANY.get(list.size())),
 						Optional.empty(),
 						item, x, y);
 			} else {
 				g.renderTooltip(font,
-						List.of(MGLangData.UI_DISINTEGRATE.get(),
-								MGLangData.UI_RETURN_ITEMS.get()),
+						List.of(MGLangData.UI_RETURN_ITEMS.get()),
 						Optional.of(new ItemListTooltip(list)),
 						item, x, y);
 			}
