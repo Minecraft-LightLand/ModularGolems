@@ -108,10 +108,10 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
 		if (direct != null && CataclysmProxy.isIgnisStrike(direct)) {
-			if (CataclysmProxy.isSoul(entity)) {
+			if (CataclysmProxy.isSoul(direct)) {
 				event.getEntity().invulnerableTime = 0;
-				CataclysmProxy.stun(event.getEntity(), 40);
-			} else CataclysmProxy.stun(event.getEntity(), 20);
+				CataclysmProxy.stun(event.getEntity(), 20);
+			}
 		}
 	}
 
