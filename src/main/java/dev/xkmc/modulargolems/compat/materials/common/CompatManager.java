@@ -78,13 +78,6 @@ public abstract class CompatManager {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static void dispatchClientSetup() {
-		for (ModDispatch dispatch : LIST) {
-			dispatch.dispatchClientSetup();
-		}
-	}
-
 
 	public static void dispatchGenLang(RegistrateLangProvider pvd) {
 		for (ModDispatch dispatch : LIST) {

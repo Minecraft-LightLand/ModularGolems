@@ -8,7 +8,6 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
-import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -63,7 +62,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		var aabb = golem.getBoundingBox().inflate(16, 6, 16);
 		List<Vec3> list = new ArrayList<>();
 		for (var e : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
-			if (!TargetManager.wantsToAttack(golem, e)) continue;
+			if (!golem.predicateTarget(e)) continue;
 			var ans = findFloor(level, e.position(), 4);
 			if (ans == null) continue;
 			boolean tooClose = false;
@@ -99,7 +98,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
 		if (direct == null || !CataclysmProxy.isIgnisStrike(direct)) return;
-		if (entity.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.IGNIS_HELMET.get())) {
+		if (entity.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.IGNIS_SHINGUARD.get())) {
 			cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.flameStrikeArmorBonus.get().floatValue()));
 		}
 	}

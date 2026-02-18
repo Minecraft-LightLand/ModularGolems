@@ -188,23 +188,6 @@ public class GolemEquipmentModels {
 		regAndAdd(event, GolemBoots.BEACON_BOOTS_LAYER, GolemBoots::createBeaconBoots);
 		regAndAdd(event, GolemBoots.NETHERITE_BOOTS_LAYER, GolemBoots::createNetheriteBoots);
 
-		regAndAdd(event, HarbingerArmors.HELMET_LAYER, HarbingerArmors::createHelmet);
-		regAndAdd(event, HarbingerArmors.CHESTPLATE_LAYER, HarbingerArmors::createChestplate);
-		regAndAdd(event, HarbingerArmors.SHINGUARD_LAYER, HarbingerArmors::createLeggings);
-
-		regAndAdd(event, MonstrosityArmors.HELMET_LAYER, MonstrosityArmors::createHelmet);
-		regAndAdd(event, MonstrosityArmors.CHESTPLATE_LAYER, MonstrosityArmors::createChestplate);
-		regAndAdd(event, MonstrosityArmors.SHINGUARD_LAYER, MonstrosityArmors::createLeggings);
-
-		regAndAdd(event, IgnisArmors.HELMET_LAYER, IgnisArmors::createHelmet);
-		regAndAdd(event, IgnisArmors.CHESTPLATE_LAYER, IgnisArmors::createChestplate);
-		regAndAdd(event, IgnisArmors.SHINGUARD_LAYER, IgnisArmors::createLeggings);
-
-		regAndAdd(event, IronwoodArmors.HELMET_LAYER, IronwoodArmors::createHelmet);
-        regAndAdd(event, IronwoodArmors.CHESTPLATE_LAYER, IronwoodArmors::createChestplate);
-        regAndAdd(event, IronwoodArmors.SHINGUARD_LAYER, IronwoodArmors::createLeggings);
-        regAndAdd(event, IronwoodArmors.BOOTS_LAYER, IronwoodArmors::createBoots);
-
 	}
 
 	public static synchronized void regAndAdd(EntityRenderersEvent.RegisterLayerDefinitions event, ModelLayerLocation layer, Supplier<LayerDefinition> factory) {
