@@ -261,7 +261,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 				boolean valid = !wet && golem.onGround();
 				boolean hit = wasFalling < -impactSpeed && (wet || golem.getDeltaMovement().y > impactSpeed);
 				boolean stop = !valid && !hit && (golem.tickCount - startJumpingTime > jumpMaxTime ||
-						wasFalling < -significantSpeed && (wet || golem.getDeltaMovement().y > wasFalling + 1e-3));
+						wasFalling < -significantSpeed && (wet || golem.getDeltaMovement().y > -significantSpeed));
 				if (earthQuake != null && stop)
 					earthQuake = null;
 				if (earthQuake != null && (valid || hit)) {
