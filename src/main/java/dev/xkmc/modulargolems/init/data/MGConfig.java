@@ -319,7 +319,7 @@ public class MGConfig {
 					fireballArmorBonus = builder.comment("Ignis Helmet Bonus: Fireball damage boost")
 							.defineInRange("fireballArmorBonus", 0.5, 0, 10);
 					flameStrikeArmorBonus = builder.comment("Ignis Shinguard Bonus: Flame Strike damage boost")
-							.defineInRange("flameStrikeArmorBonus", 1d, 0, 10);
+							.defineInRange("flameStrikeArmorBonus", 0.5, 0, 10);
 					laserArmorBonus = builder.comment("Harbinger Helmet Bonus: Death Laser damage boost")
 							.defineInRange("laserArmorBonus", 1d, 0, 10);
 					missileArmorBonus = builder.comment("Harbinger Chestplate Bonus: Homing Missile damage boost")

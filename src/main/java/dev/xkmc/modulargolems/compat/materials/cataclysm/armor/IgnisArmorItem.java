@@ -79,7 +79,7 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 		UUID uuid = UUID.get(getSlot());
 		builder.put(L2DamageTracker.REDUCTION.get(), new AttributeModifier(uuid, "Ignis Armor", -0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
 		switch (getSlot()) {
-			case HEAD -> builder.put(L2DamageTracker.EXPLOSION_FACTOR.get(), new AttributeModifier(uuid,
+			case HEAD -> builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid,
 					"Ignis Armor", 1, AttributeModifier.Operation.ADDITION));
 			case CHEST -> builder.put(GolemTypes.GOLEM_SWEEP.get(), new AttributeModifier(uuid,
 					"Ignis Armor", 1, AttributeModifier.Operation.ADDITION));
