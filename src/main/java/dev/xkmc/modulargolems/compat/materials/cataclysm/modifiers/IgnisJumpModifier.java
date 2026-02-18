@@ -63,7 +63,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		var aabb = golem.getBoundingBox().inflate(16, 6, 16);
 		List<Vec3> list = new ArrayList<>();
 		for (var e : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
-			if (!TargetManager.wantsToAttack(golem, e)) continue;
+			if (!golem.predicateTarget(e)) continue;
 			var ans = findFloor(level, e.position(), 4);
 			if (ans == null) continue;
 			boolean tooClose = false;
