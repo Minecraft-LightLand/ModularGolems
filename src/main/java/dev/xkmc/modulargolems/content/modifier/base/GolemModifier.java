@@ -143,7 +143,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public void onClientTick(AbstractGolemEntity<?, ?> entity, int level) {
 	}
 

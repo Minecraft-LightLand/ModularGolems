@@ -1,7 +1,8 @@
-package dev.xkmc.modulargolems.compat.materials.cataclysm;
+package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -21,23 +22,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class HarbingerArmorItem extends MetalGolemArmorItem {
+public class MonstrosityArmorItem extends MetalGolemArmorItem {
 
-	public HarbingerArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public MonstrosityArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type, defense, toughness, model);
 	}
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
-		switch (getSlot()) {
-			case HEAD -> list.add(MGLangData.HARBINGER_BOOST_LASER
-					.get(Math.round(MGConfig.COMMON.laserArmorBonus.get() * 100) + "%")
-					.withStyle(ChatFormatting.GOLD));
-			case CHEST -> list.add(MGLangData.HARBINGER_BOOST_MISSILE
-					.get(Math.round(MGConfig.COMMON.missileArmorBonus.get() * 100) + "%")
-					.withStyle(ChatFormatting.GOLD));
-		}
+		list.add(MGLangData.MONSTROSITY_BOOST
+				.get(Math.round(MGConfig.COMMON.earthquakeArmorBonus.get() * 100) + "%")
+				.withStyle(ChatFormatting.GOLD));
 	}
 
 	@Override
@@ -54,14 +50,14 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 	protected void addExtraModifiers(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
 		super.addExtraModifiers(builder);
 		UUID uuid = UUID.get(getSlot());
-		builder.put(L2DamageTracker.ABSORB.get(), new AttributeModifier(uuid, "Harbinger Armor", 1, AttributeModifier.Operation.ADDITION));
+		builder.put(L2DamageTracker.REDUCTION.get(), new AttributeModifier(uuid, "Monstrosity Armor", -0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
 		switch (getSlot()) {
 			case HEAD -> builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid,
-					"Harbinger Armor", 1, AttributeModifier.Operation.ADDITION));
+					"Monstrosity Armor", 1, AttributeModifier.Operation.ADDITION));
 			case CHEST -> builder.put(GolemTypes.GOLEM_SWEEP.get(), new AttributeModifier(uuid,
-					"Harbinger Armor", 1, AttributeModifier.Operation.ADDITION));
+					"Monstrosity Armor", 1, AttributeModifier.Operation.ADDITION));
 			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid,
-					"Harbinger Armor", 0.5, AttributeModifier.Operation.MULTIPLY_BASE));
+					"Monstrosity Armor", 0.5, AttributeModifier.Operation.MULTIPLY_BASE));
 		}
 	}
 

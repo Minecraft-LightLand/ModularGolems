@@ -317,7 +317,7 @@ public class MGConfig {
 					ignitiumHealRate = builder.comment("Heal rate as percentage of damage dealt per level of blazing brand")
 							.defineInRange("ignitiumHealRate", 0.1d, 0, 10);
 					fireballArmorBonus = builder.comment("Ignis Helmet Bonus: Fireball damage boost")
-							.defineInRange("fireballArmorBonus", 1d, 0, 10);
+							.defineInRange("fireballArmorBonus", 0.5, 0, 10);
 					flameStrikeArmorBonus = builder.comment("Ignis Shinguard Bonus: Flame Strike damage boost")
 							.defineInRange("flameStrikeArmorBonus", 1d, 0, 10);
 					laserArmorBonus = builder.comment("Harbinger Helmet Bonus: Death Laser damage boost")

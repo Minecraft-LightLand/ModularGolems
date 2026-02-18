@@ -1,7 +1,8 @@
-package dev.xkmc.modulargolems.compat.materials.cataclysm;
+package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;

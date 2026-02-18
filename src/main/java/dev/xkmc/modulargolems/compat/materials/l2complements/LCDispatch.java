@@ -26,6 +26,7 @@ public class LCDispatch extends ModDispatch {
 	public static final String MODID = "l2complements";
 
 	public LCDispatch() {
+		super(() -> LCClient::new);
 		LCCompatRegistry.register();
 		MinecraftForge.EVENT_BUS.register(LCDispatch.class);
 	}
@@ -109,11 +110,6 @@ public class LCDispatch extends ModDispatch {
 	@Override
 	public ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new LCConfigGen(gen);
-	}
-
-	@Override
-	public void dispatchClientSetup() {
-		ForceFieldLayer.registerLayer();
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)
