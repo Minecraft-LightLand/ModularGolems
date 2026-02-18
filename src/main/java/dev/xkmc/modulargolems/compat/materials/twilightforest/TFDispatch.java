@@ -16,9 +16,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
 
@@ -27,10 +24,8 @@ public class TFDispatch extends ModDispatch {
 	public static final String MODID = "twilightforest";
 
 	public TFDispatch() {
+		super(() -> TFClient::new);
 		TFCompatRegistry.register();
-		if (FMLEnvironment.dist == Dist.CLIENT) {
-			MinecraftForge.EVENT_BUS.register(TFClientEventHandler.class);
-		}
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

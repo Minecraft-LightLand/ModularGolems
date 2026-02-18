@@ -9,13 +9,23 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public abstract class ModDispatch {
+
+	final LazyOptional<ClientModDispatch> client;
+
+	protected ModDispatch() {
+		this.client = LazyOptional.empty();
+	}
+
+	protected ModDispatch(Supplier<Supplier<ClientModDispatch>> client) {
+		this.client = LazyOptional.of(() -> client.get().get());
+	}
 
 	protected abstract void genLang(RegistrateLangProvider pvd);
 
@@ -26,10 +36,6 @@ public abstract class ModDispatch {
 
 	public static <T> T safeUpgrade(RegistrateRecipeProvider pvd, BiFunction<String, InventoryChangeTrigger.TriggerInstance, T> func, Item item) {
 		return func.apply("has_" + pvd.safeName(item), DataIngredient.items(GolemItems.EMPTY_UPGRADE.get()).getCritereon(pvd));
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public void dispatchClientSetup() {
 	}
 
 	public void lateRegister() {

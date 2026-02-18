@@ -5,6 +5,10 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorPaths;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.HarbingerArmorItem;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.IgnisArmorItem;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.MonstrosityArmorItem;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -65,41 +69,41 @@ public class CataCompatRegistry {
 				.register();
 
 		HARBINGER_HELMET = REGISTRATE.item("harbinger_helmet", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.WITHERITE_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.WITHERITE_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		HARBINGER_CHESTPLATE = REGISTRATE.item("harbinger_chestplate", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.WITHERITE_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.WITHERITE_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		HARBINGER_SHINGUARD = REGISTRATE.item("harbinger_shinguard", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.WITHERITE_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.WITHERITE_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
 		MONSTROSITY_HELMET = REGISTRATE.item("monstrosity_helmet", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.MONSTROSITY_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.MONSTROSITY_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		MONSTROSITY_CHESTPLATE = REGISTRATE.item("monstrosity_chestplate", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.MONSTROSITY_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.MONSTROSITY_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		MONSTROSITY_SHINGUARD = REGISTRATE.item("monstrosity_shinguard", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.MONSTROSITY_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.MONSTROSITY_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
 		IGNIS_HELMET = REGISTRATE.item("ignis_helmet", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.IGNIS_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.IGNIS_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Ignitium Golem Helmet").register();
 		IGNIS_CHESTPLATE = REGISTRATE.item("ignis_chestplate", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.IGNIS_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.IGNIS_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Ignitium Golem Chestplate").register();
 		IGNIS_SHINGUARD = REGISTRATE.item("ignis_shinguard", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.IGNIS_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.IGNIS_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Ignitium Golem Shinguard").register();
 
