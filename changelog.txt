@@ -1,4 +1,5 @@
 - TODO add slots for template consumption
+- TODO stop golem craft for deficit slot
 
 2.6.19
 - Ignis Armor
