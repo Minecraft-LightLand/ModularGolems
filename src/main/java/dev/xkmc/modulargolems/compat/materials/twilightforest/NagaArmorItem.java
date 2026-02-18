@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -52,7 +53,7 @@ public class NagaArmorItem extends MetalGolemArmorItem {
 
     }
     @Override
-    public ResourceLocation getModelTexture() {
+    public ResourceLocation getModelTexture(LivingEntity user) {
         ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
         assert rl != null;
         return new ResourceLocation(namespace(rl.getNamespace()), "textures/equipments/naga.png");
