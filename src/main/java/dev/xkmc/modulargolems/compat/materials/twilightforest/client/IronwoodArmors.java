@@ -1,5 +1,6 @@
-package dev.xkmc.modulargolems.content.client.armor;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.client;
 
+import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.PartPose;
@@ -9,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.buildGolemBaseLayers;
-import static dev.xkmc.modulargolems.content.client.armor.GolemModelPaths.*;
+import static dev.xkmc.modulargolems.compat.materials.twilightforest.armor.TFArmorPaths.*;
 
 public class IronwoodArmors {
 

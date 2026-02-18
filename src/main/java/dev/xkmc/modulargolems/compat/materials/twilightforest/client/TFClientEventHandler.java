@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.twilightforest;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.client;
 
 import dev.xkmc.modulargolems.events.event.GolemRenderItemInHandEvent;
 import net.minecraft.world.item.BlockItem;

@@ -15,10 +15,4 @@ public class GolemModelPaths {
 			BOOTS_BEACON = ModularGolems.loc("beacon_boots"),
 			BOOTS_NETHERITE = ModularGolems.loc("barbaric_vanguard_boots");
 
-
-    public static final ResourceLocation
-            IRONWOOD_HELMETS = ModularGolems.loc("ironwood/helmet"),
-            IRONWOOD_CHESTPLATES = ModularGolems.loc("ironwood/chestplate"),
-            IRONWOOD_LEGGINGS = ModularGolems.loc("ironwood/shinguard"),
-			IRONWOOD_BOOTS = ModularGolems.loc("ironwood/boots");
 }
