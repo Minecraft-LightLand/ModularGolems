@@ -5,14 +5,13 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BGDispatch extends ModDispatch {
 
 	public static final String MODID = "blazegear";
 
 	public BGDispatch() {
+		super(() -> BGClient::new);
 		BGCompatRegistry.register();
 	}
 
@@ -29,9 +28,4 @@ public class BGDispatch extends ModDispatch {
 		return new BGConfigGen(gen);
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	@Override
-	public void dispatchClientSetup() {
-		DuplicateBlazeArmsLayer.registerLayer();
-	}
 }

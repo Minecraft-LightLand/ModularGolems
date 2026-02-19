@@ -5,16 +5,11 @@ import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
-import dev.xkmc.modulargolems.content.client.override.ModelOverride;
-import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 
 public class CataDispatch extends ModDispatch {
@@ -22,6 +17,7 @@ public class CataDispatch extends ModDispatch {
 	public static final String MODID = "cataclysm";
 
 	public CataDispatch() {
+		super(() -> CataClient::new);
 		CataCompatRegistry.register();
 		MinecraftForge.EVENT_BUS.register(CataEventHandler.class);
 	}
@@ -43,13 +39,6 @@ public class CataDispatch extends ModDispatch {
 	@Override
 	public ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new CataConfigGen(gen);
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	@Override
-	public void dispatchClientSetup() {
-		ModelOverrides.registerOverride(new ResourceLocation(CataDispatch.MODID, "ignitium"),
-				ModelOverride.texturePredicate((e) -> ignisBlue(e) ? "_soul" : ""));
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.IgnisArmorItem;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.util.Mth;
@@ -208,7 +209,7 @@ public class CataclysmProxy {
 			user.level().addFreshEntity(
 					new Flame_Strike_Entity(user.level(), pos.x, pos.y, pos.z,
 							user.getYRot(), dur, delay, delay, radius,
-							dmg, 0.06f, soul, user));
+							dmg, 6f, soul, user));
 
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);

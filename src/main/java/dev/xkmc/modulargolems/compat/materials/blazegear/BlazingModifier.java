@@ -21,7 +21,6 @@ public class BlazingModifier extends GolemModifier {
 		addGoal.accept(5, new BlazeAttackGoal(entity, lv));
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void onClientTick(AbstractGolemEntity<?, ?> entity, int value) {
 		entity.level().addParticle(ParticleTypes.LARGE_SMOKE, entity.getRandomX(0.5D), entity.getRandomY(), entity.getRandomZ(0.5D), 0.0D, 0.0D, 0.0D);
