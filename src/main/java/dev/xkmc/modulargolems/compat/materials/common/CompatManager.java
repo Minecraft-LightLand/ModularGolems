@@ -82,12 +82,6 @@ public abstract class CompatManager {
 		}
 	}
 
-	public static void dispatchClientSetup() {
-		for (ModDispatch dispatch : LIST) {
-			dispatch.dispatchClientSetup();
-		}
-	}
-
 	public static void lateRegister() {
 		for (ModDispatch dispatch : LIST) {
 			dispatch.lateRegister();

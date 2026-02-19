@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TraceableEntity;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 
 public class CataEventHandler {
@@ -16,7 +17,7 @@ public class CataEventHandler {
 		boolean fireball = CataclysmProxy.isIgnisExplosive(direct);
 		boolean strike = CataclysmProxy.isIgnisStrike(direct);
 		if (fireball || strike) {
-			event.getAffectedBlocks().clear();
+			if (!golem.isHostile()) event.getAffectedBlocks().clear();
 			event.getAffectedEntities().removeIf(e -> {
 				if (e instanceof LivingEntity le) {
 					if (!golem.canAttack(le)) return true;
@@ -35,6 +36,16 @@ public class CataEventHandler {
 				}
 				return false;
 			});
+		}
+	}
+
+	@SubscribeEvent
+	public static void onMobGrief(EntityMobGriefingEvent event) {
+		var owner = CataclysmProxy.getOwner(event.getEntity());
+		if (owner instanceof AbstractGolemEntity<?, ?> golem) {
+			if (!golem.isHostile()) {
+				event.setCanGrief(false);
+			}
 		}
 	}
 

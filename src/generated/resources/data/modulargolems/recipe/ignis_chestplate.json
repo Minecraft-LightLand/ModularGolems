@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "cataclysm:ignitium_block"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_chestplate"
+  },
+  "result": {
+    "count": 1,
+    "id": "modulargolems:ignis_chestplate"
+  },
+  "template": {
+    "item": "cataclysm:ignitium_upgrade_smithing_template"
+  }
+}

@@ -1,14 +1,15 @@
 package dev.xkmc.modulargolems.content.item.equipments;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 
 public interface GolemModelItem {
 
-	ResourceLocation getModelTexture();
+	ResourceLocation getModelTexture(LivingEntity user);
 
 	ResourceLocation getModelPath();
 
-	default ResourceLocation getEmissiveModelTexture() {
+	default ResourceLocation getEmissiveModelTexture(LivingEntity user) {
 		return getModelPath();
 	}
 

@@ -1,5 +1,8 @@
 package dev.xkmc.modulargolems.content.client.armor;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.client.HarbingerArmors;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.client.IgnisArmors;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmors;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -169,18 +172,6 @@ public class GolemEquipmentModels {
 		regAndAdd(event, GolemBoots.DIAMOND_BOOTS_LAYER, GolemBoots::createDiamondBoots);
 		regAndAdd(event, GolemBoots.BEACON_BOOTS_LAYER, GolemBoots::createBeaconBoots);
 		regAndAdd(event, GolemBoots.NETHERITE_BOOTS_LAYER, GolemBoots::createNetheriteBoots);
-
-		regAndAdd(event, HarbingerArmors.HELMET_LAYER, HarbingerArmors::createHelmet);
-		regAndAdd(event, HarbingerArmors.CHESTPLATE_LAYER, HarbingerArmors::createChestplate);
-		regAndAdd(event, HarbingerArmors.SHINGUARD_LAYER, HarbingerArmors::createLeggings);
-
-		regAndAdd(event, MonstrosityArmors.HELMET_LAYER, MonstrosityArmors::createHelmet);
-		regAndAdd(event, MonstrosityArmors.CHESTPLATE_LAYER, MonstrosityArmors::createChestplate);
-		regAndAdd(event, MonstrosityArmors.SHINGUARD_LAYER, MonstrosityArmors::createLeggings);
-
-		regAndAdd(event, IgnisArmors.HELMET_LAYER, IgnisArmors::createHelmet);
-		regAndAdd(event, IgnisArmors.CHESTPLATE_LAYER, IgnisArmors::createChestplate);
-		regAndAdd(event, IgnisArmors.SHINGUARD_LAYER, IgnisArmors::createLeggings);
 	}
 
 	public static synchronized void regAndAdd(EntityRenderersEvent.RegisterLayerDefinitions event, ModelLayerLocation layer, Supplier<LayerDefinition> factory) {

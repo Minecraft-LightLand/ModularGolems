@@ -280,9 +280,10 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		if (golem.hasFlag(GolemFlags.EARTH_QUAKE)) {
 			boolean wet = golem.isInFluidType();
 			boolean valid = !wet && golem.onGround();
-			boolean hit = wasFalling < -impactSpeed && (wet || golem.getDeltaMovement().y > impactSpeed);
+			boolean hit = wasFalling < -impactSpeed && (wet || golem.getDeltaMovement().y > impactSpeed) ||
+					golem.getBoundingBox().intersects(target.getBoundingBox());
 			boolean stop = !valid && !hit && (golem.tickCount - startJumpingTime > jumpMaxTime ||
-					wasFalling < -significantSpeed && (wet || golem.getDeltaMovement().y > wasFalling + 1e-3));
+					wasFalling < -significantSpeed && (wet || golem.getDeltaMovement().y > -significantSpeed));
 			if (earthQuake != null && stop)
 				earthQuake = null;
 			if (earthQuake != null && (valid || hit)) {

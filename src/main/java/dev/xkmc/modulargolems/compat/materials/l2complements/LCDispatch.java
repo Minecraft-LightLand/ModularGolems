@@ -29,6 +29,7 @@ public class LCDispatch extends ModDispatch {
 	public static final String MODID = "l2complements";
 
 	public LCDispatch() {
+		super(() -> LCClient::new);
 		LCCompatRegistry.register();
 		NeoForge.EVENT_BUS.register(LCDispatch.class);
 	}
@@ -112,11 +113,6 @@ public class LCDispatch extends ModDispatch {
 	@Override
 	public ConfigDataProvider getDataGen(DataGenerator gen, CompletableFuture<HolderLookup.Provider> pvd) {
 		return new LCConfigGen(gen, pvd);
-	}
-
-	@Override
-	public void dispatchClientSetup() {
-		ForceFieldLayer.registerLayer();
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)

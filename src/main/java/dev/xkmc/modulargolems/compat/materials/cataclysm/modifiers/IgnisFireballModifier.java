@@ -55,7 +55,7 @@ public class IgnisFireballModifier extends GolemModifier {
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
 		if (direct != null && CataclysmProxy.isIgnisExplosive(direct)) {
-			if (CataclysmProxy.isSoul(entity)) {
+			if (CataclysmProxy.isSoul(direct)) {
 				event.getTarget().invulnerableTime = 0;
 			}
 			CataclysmProxy.stun(event.getTarget(), 20);

@@ -1,7 +1,8 @@
-package dev.xkmc.modulargolems.compat.materials.cataclysm;
+package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -20,23 +21,18 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public class HarbingerArmorItem extends MetalGolemArmorItem {
+public class MonstrosityArmorItem extends MetalGolemArmorItem {
 
-	public HarbingerArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public MonstrosityArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type, defense, toughness, model);
 	}
 
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
-		switch (getSlot()) {
-			case HEAD -> list.add(MGLangData.HARBINGER_BOOST_LASER
-					.get(Math.round(MGConfig.COMMON.laserArmorBonus.get() * 100) + "%")
-					.withStyle(ChatFormatting.GOLD));
-			case CHEST -> list.add(MGLangData.HARBINGER_BOOST_MISSILE
-					.get(Math.round(MGConfig.COMMON.missileArmorBonus.get() * 100) + "%")
-					.withStyle(ChatFormatting.GOLD));
-		}
+		list.add(MGLangData.MONSTROSITY_BOOST
+				.get(Math.round(MGConfig.COMMON.earthquakeArmorBonus.get() * 100) + "%")
+				.withStyle(ChatFormatting.GOLD));
 	}
 
 	@Override
@@ -52,8 +48,8 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 	@Override
 	protected void additionalAttributes(ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder) {
 		super.additionalAttributes(builder);
-		var id = ModularGolems.loc("harbinger_armor");
-		builder.put(L2DamageTracker.ABSORB, new AttributeModifier(id, 1, AttributeModifier.Operation.ADD_VALUE));
+		var id = ModularGolems.loc("monstrosity_armor");
+		builder.put(L2DamageTracker.REDUCTION, new AttributeModifier(id, -0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 		switch (getSlot()) {
 			case HEAD -> builder.put(GolemTypes.GOLEM_REGEN, new AttributeModifier(
 					id, 1, AttributeModifier.Operation.ADD_VALUE));

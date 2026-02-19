@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.common.ClientCompatManager;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.maid.MaidSkinCompat;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
@@ -46,7 +47,7 @@ public class GolemClient {
 					stack.is(MGTagGen.BLUE_UPGRADES) ? 1 : stack.is(MGTagGen.POTION_UPGRADES) ? 0.5f : 0;
 			for (var item : UpgradeItem.LIST)
 				ItemProperties.register(item, ModularGolems.loc("blue_arrow"), arrow);
-			CompatManager.dispatchClientSetup();
+			ClientCompatManager.dispatchClientSetup();
 
 			GolemTabRegistry.register();
 			CurioCompatRegistry.clientRegister();
@@ -61,6 +62,7 @@ public class GolemClient {
 	@SubscribeEvent
 	public static void registerArmorLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		GolemEquipmentModels.registerArmorLayer(event);
+		ClientCompatManager.dispatchEntityLayer(event);
 	}
 
 	@SubscribeEvent

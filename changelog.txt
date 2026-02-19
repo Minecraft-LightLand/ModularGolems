@@ -1,3 +1,10 @@
+3.1.11
+- Bronte support
+- Ignis Armor
+- Flame Strike ability
+- Buff Ignitium and Witherite golem attack stats
+- Improve Ignitium golem abilities
+
 3.1.10
 - arrow double consumption fix
 - new L2C weapon compat

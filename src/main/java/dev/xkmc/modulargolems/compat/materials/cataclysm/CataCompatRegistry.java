@@ -1,14 +1,16 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.LCTagGen;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorPaths;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.HarbingerArmorItem;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.IgnisArmorItem;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.MonstrosityArmorItem;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
-import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.CraftMaterialItem;
 import dev.xkmc.modulargolems.content.item.upgrade.RepairMaterialItem;
@@ -68,49 +70,49 @@ public class CataCompatRegistry {
 				.register();
 
 		HARBINGER_HELMET = REGISTRATE.item("harbinger_helmet", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.WITHERITE_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.WITHERITE_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		HARBINGER_CHESTPLATE = REGISTRATE.item("harbinger_chestplate", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.WITHERITE_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.WITHERITE_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		HARBINGER_SHINGUARD = REGISTRATE.item("harbinger_shinguard", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.WITHERITE_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.WITHERITE_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
 		MONSTROSITY_HELMET = REGISTRATE.item("monstrosity_helmet", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.MONSTROSITY_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.MONSTROSITY_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		MONSTROSITY_CHESTPLATE = REGISTRATE.item("monstrosity_chestplate", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.MONSTROSITY_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.MONSTROSITY_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		MONSTROSITY_SHINGUARD = REGISTRATE.item("monstrosity_shinguard", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.MONSTROSITY_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.MONSTROSITY_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
 		IGNIS_HELMET = REGISTRATE.item("ignis_helmet", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.IGNIS_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.IGNIS_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
-				.defaultLang().register();
+				.lang("Ignitium Golem Helmet").register();
 		IGNIS_CHESTPLATE = REGISTRATE.item("ignis_chestplate", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.IGNIS_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.IGNIS_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
-				.defaultLang().register();
+				.lang("Ignitium Golem Chestplate").register();
 		IGNIS_SHINGUARD = REGISTRATE.item("ignis_shinguard", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.IGNIS_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.IGNIS_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
-				.defaultLang().register();
+				.lang("Ignitium Golem Shinguard").register();
 
 		VOID_CUBE = GolemItems.item(CataDispatch.MODID, "void_cube", RepairMaterialItem::new);
 		VOID_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "void_construct", CraftMaterialItem::new);
@@ -122,10 +124,10 @@ public class CataCompatRegistry {
 				"When target is faraway, shoot Ignis fireballs toward target.");
 
 		IGNIS_JUMP = reg("ignis_jump", () -> new IgnisJumpModifier(StatFilterType.MOVEMENT, 1),
-				"When target is faraway, Jump toward target.");
+				"Flame Strike", "Jump toward target. On landing, perform flame strike on all nearby targets.");
 
 		IGNIS_ATTACK = reg("ignis_attack", () -> new IgnisAttackModifier(StatFilterType.ATTACK, 2),
-				"Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");
+				"Blazing Brand", "Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");
 
 		HARBINGER_BEAM = reg("harbinger_death_beam", () -> new HarbingerDeathBeamModifier(StatFilterType.HEAD, 1),
 				"When target is faraway, shoot Death Beam toward target.");

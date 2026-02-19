@@ -24,6 +24,7 @@ public class CataDispatch extends ModDispatch {
 	public static final String MODID = "cataclysm";
 
 	public CataDispatch() {
+		super(() -> CataClient::new);
 		CataCompatRegistry.register();
 		NeoForge.EVENT_BUS.register(CataEventHandler.class);
 	}
@@ -46,12 +47,6 @@ public class CataDispatch extends ModDispatch {
 	@Override
 	public ConfigDataProvider getDataGen(DataGenerator gen, CompletableFuture<HolderLookup.Provider> pvd) {
 		return new CataConfigGen(gen, pvd);
-	}
-
-	@Override
-	public void dispatchClientSetup() {
-		ModelOverrides.registerOverride(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "ignitium"),
-				ModelOverride.texturePredicate((e) -> ignisBlue(e) ? "_soul" : ""));
 	}
 
 	@Override

@@ -1,18 +1,18 @@
-package dev.xkmc.modulargolems.content.client.armor;// Made with Blockbench 4.12.5
+package dev.xkmc.modulargolems.compat.materials.cataclysm.client;// Made with Blockbench 4.12.5
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
+import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
 import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.buildGolemBaseLayers;
-import static dev.xkmc.modulargolems.content.client.armor.GolemModelPaths.*;
+import static dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorPaths.*;
 
 public class HarbingerArmors {
 

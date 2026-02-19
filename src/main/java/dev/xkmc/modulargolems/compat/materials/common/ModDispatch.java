@@ -11,12 +11,25 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.common.util.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public abstract class ModDispatch {
+
+	@Nullable
+	final Lazy<ClientModDispatch> client;
+
+	protected ModDispatch() {
+		this.client = null;
+	}
+
+	protected ModDispatch(Supplier<Supplier<ClientModDispatch>> client) {
+		this.client = Lazy.of(() -> client.get().get());
+	}
 
 	protected abstract void genLang(RegistrateLangProvider pvd);
 
@@ -27,9 +40,6 @@ public abstract class ModDispatch {
 
 	public static <T> T safeUpgrade(RegistrateRecipeProvider pvd, BiFunction<String, Criterion<InventoryChangeTrigger.TriggerInstance>, T> func, Item item) {
 		return func.apply("has_" + pvd.safeName(item), DataIngredient.items(GolemItems.EMPTY_UPGRADE.get()).getCriterion(pvd));
-	}
-
-	public void dispatchClientSetup() {
 	}
 
 	public void lateRegister() {

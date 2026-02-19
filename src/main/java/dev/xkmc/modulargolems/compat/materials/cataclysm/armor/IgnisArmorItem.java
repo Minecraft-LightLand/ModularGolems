@@ -1,7 +1,8 @@
-package dev.xkmc.modulargolems.compat.materials.cataclysm;
+package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -58,12 +59,12 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 		var id = ModularGolems.loc("ignis_armor");
 		builder.put(L2DamageTracker.REDUCTION, new AttributeModifier(id, -0.2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 		switch (getSlot()) {
-			case HEAD -> builder.put(L2DamageTracker.EXPLOSION_FACTOR, new AttributeModifier(id,
-					1, AttributeModifier.Operation.ADD_VALUE));
-			case CHEST -> builder.put(GolemTypes.GOLEM_SWEEP, new AttributeModifier(id,
-					1, AttributeModifier.Operation.ADD_VALUE));
-			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(id,
-					0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+			case HEAD -> builder.put(GolemTypes.GOLEM_REGEN, new AttributeModifier(
+					id, 1, AttributeModifier.Operation.ADD_VALUE));
+			case CHEST -> builder.put(GolemTypes.GOLEM_SWEEP, new AttributeModifier(
+					id, 1, AttributeModifier.Operation.ADD_VALUE));
+			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(
+					id, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 		}
 	}
 

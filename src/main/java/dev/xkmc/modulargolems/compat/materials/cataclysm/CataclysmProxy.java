@@ -2,11 +2,13 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Portal_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Portal_Abyss_Blast_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.IgnisArmorItem;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.util.Mth;
@@ -252,6 +254,21 @@ public class CataclysmProxy {
 		} catch (Throwable e) {
 			ModularGolems.LOGGER.error(e);
 		}
+	}
+
+	@Nullable
+	public static LivingEntity getOwner(Entity entity) {
+		try {
+			if (entity instanceof Portal_Abyss_Blast_Entity e) {
+				return e.caster;
+			}
+			if (entity instanceof Death_Laser_Beam_Entity e) {
+				return e.caster;
+			}
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.error(e);
+		}
+		return null;
 	}
 
 }
