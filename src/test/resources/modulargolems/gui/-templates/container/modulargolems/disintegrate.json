@@ -43,6 +43,11 @@
             "sprite": "empty_slot",
             "x": 151,
             "y": 18
+        },
+        "extra_mat": {
+            "sprite": "empty_slot",
+            "x": 115,
+            "y": 45
         }
     },
     "isContainer": true
