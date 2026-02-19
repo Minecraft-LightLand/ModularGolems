@@ -61,6 +61,10 @@
       "required": false
     },
     {
+      "id": "cataclysm:brontes",
+      "required": false
+    },
+    {
       "id": "l2weaponry:eternium_claw",
       "required": false
     },
