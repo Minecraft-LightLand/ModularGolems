@@ -177,5 +177,26 @@
 	],
 	"w": 18,
 	"h": 18
-  }
+  },
+	"dissembly": {
+		"ids": [
+			"_on",
+			"_down",
+			"_ban",
+			"_empty"
+		],
+		"w": 14,
+		"h": 14
+	},
+	"page": {
+		"ids": [
+			"_next_on",
+			"_next_down",
+			"_prev_on",
+			"_prev_down",
+			"_empty"
+		],
+		"w": 11,
+		"h": 11
+	}
 }

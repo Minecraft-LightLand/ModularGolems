@@ -44,16 +44,18 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 		int h = 11;
 		int x = (this.width + this.imageWidth) / 2 - 16;
 		int y = (this.height - this.imageHeight) / 2 + 4;
-		this.addRenderableWidget(left = Button.builder(Component.literal("<"), (e) -> this.click(-1))
-				.pos(x - w - 1, y).size(w, h).build());
-		this.addRenderableWidget(right = Button.builder(Component.literal(">"), (e) -> this.click(1))
-				.pos(x, y).size(w, h).build());
+		this.addRenderableWidget(left = Button.builder(Component.empty(), (e) -> this.click(-1))
+				.pos(x - w - 1, y).size(w, h).build(b -> new SpriteButton(b, menu.sprite.get(),
+						"page_prev_on", "page_prev_down", "page_prev_on")));
+		this.addRenderableWidget(right = Button.builder(Component.empty(), (e) -> this.click(1))
+				.pos(x, y).size(w, h).build(b -> new SpriteButton(b, menu.sprite.get(),
+						"page_next_on", "page_next_down", "page_next_on")));
 		updatePage();
 	}
 
 	private void updatePage() {
-		left.active = menu.page.get() > 0;
-		right.active = menu.page.get() < menu.maxPage.get() - 1;
+		left.active = left.visible = menu.page.get() > 0;
+		right.active = right.visible = menu.page.get() < menu.maxPage.get() - 1;
 	}
 
 

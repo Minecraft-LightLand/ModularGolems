@@ -1,6 +1,10 @@
 {
     "side": [
-        "slot"
+        "slot",
+        "page_prev_on",
+        "page_prev_down",
+        "page_next_on",
+        "page_next_down"
     ],
     "comp": {
         "golem": {

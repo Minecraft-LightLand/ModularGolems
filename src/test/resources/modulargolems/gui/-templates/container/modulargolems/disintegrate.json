@@ -1,7 +1,9 @@
 {
     "side": [
         "slot",
-        "result_slot"
+        "result_slot",
+        "dissembly_on",
+        "dissembly_down"
     ],
     "comp": {
         "golem": {
@@ -10,7 +12,7 @@
             "y": 18
         },
         "button": {
-            "sprite": "empty_slot",
+            "sprite": "dissembly_empty",
             "x": 43,
             "y": 18
         },
