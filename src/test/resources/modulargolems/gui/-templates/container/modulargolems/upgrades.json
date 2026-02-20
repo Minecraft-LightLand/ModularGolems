@@ -7,17 +7,27 @@
         "page_next_down"
     ],
     "comp": {
+        "test3": {
+            "sprite": "test/傀儡放置框背景",
+            "x": 88,
+            "y": 59
+        },
         "golem": {
             "sprite": "slot",
-            "x": 16,
+            "x": 88,
+            "y": 59
+        },
+        "test1": {
+            "sprite": "test/升级槽背景",
+            "x": 88,
             "y": 18
         },
         "upgrades": {
             "sprite": "slot",
-            "x": 70,
+            "x": 16,
             "y": 0,
-            "rx": 6,
-            "ry": 6
+            "rx": 9,
+            "ry": 3
         }
     },
     "isContainer": true

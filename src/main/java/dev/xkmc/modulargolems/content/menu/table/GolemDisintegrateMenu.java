@@ -47,7 +47,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	@SuppressWarnings("unchecked")
 	private static final GolemSlots<MetalGolemPartType>[] LARGE = new GolemSlots[]{
 			new GolemSlots<>(LEFT, MetalGolemPartType.RIGHT),
-			new GolemSlots<>(MIDDLE, MetalGolemPartType.BODY),
+			new GolemSlots<>(UP, MetalGolemPartType.BODY),
 			new GolemSlots<>(RIGHT, MetalGolemPartType.LEFT),
 			new GolemSlots<>(DOWN, MetalGolemPartType.LEG)
 	};
@@ -55,13 +55,13 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	@SuppressWarnings("unchecked")
 	private static final GolemSlots<HumanoidGolemPartType>[] HUMANOID = new GolemSlots[]{
 			new GolemSlots<>(UP, HumanoidGolemPartType.BODY),
-			new GolemSlots<>(MIDDLE, HumanoidGolemPartType.ARMS),
+			new GolemSlots<>(LEFT, HumanoidGolemPartType.ARMS),
 			new GolemSlots<>(DOWN, HumanoidGolemPartType.LEGS)
 	};
 
 	@SuppressWarnings("unchecked")
 	private static final GolemSlots<DogGolemPartType>[] DOG = new GolemSlots[]{
-			new GolemSlots<>(MIDDLE, DogGolemPartType.BODY),
+			new GolemSlots<>(UP, DogGolemPartType.BODY),
 			new GolemSlots<>(DOWN, DogGolemPartType.LEGS)
 	};
 
