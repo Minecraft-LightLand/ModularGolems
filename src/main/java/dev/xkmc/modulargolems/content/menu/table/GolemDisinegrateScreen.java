@@ -69,6 +69,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		}
 		if (menu.result.isActive()) {
 			sr.draw(g, "result", "result_slot", -5, -5);
+			sr.draw(g, "arrow", "arrow_0", -3, 0);
 			if (menu.result.getItem().isEmpty() && !menu.result.output.isEmpty())
 				drawShadow(g, menu.result, menu.result.output);
 		}
@@ -110,19 +111,17 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 	private void renderPreview(GuiGraphics g, int mx, int my, ItemStack preview) {
 		if (preview.getItem() instanceof GolemHolder<?, ?> holder) {
-			int max = getLeftExpansion();
 			AbstractGolemEntity<?, ?> golem = ClientHolderManager.getEntityForDisplay(holder, preview);
 			if (golem != null) {
-				int x = leftPos - 5 - max;
-				int y = topPos + (imageHeight + max) / 2;
-				double lx = leftPos - 5 - max / 2d - mx;
-				double ly = topPos + imageHeight / 2d - my;
-				int size = holder.getEntityType().values().length - 1;
-				int scale = (int) (1d * max / size);
-				float ax = (float) Math.atan(lx / max * 2);
-				float ay = (float) Math.atan(ly / max * 2);
+				int x = leftPos + 30;
+				int y = topPos + 68;
+				double lx = x - mx;
+				double ly = y - 40 - my;
+				int scale = 18;
+				float ax = (float) Math.atan(lx / 50.0);
+				float ay = (float) Math.atan(ly / 50.0);
 				InventoryScreen.renderEntityInInventoryFollowsAngle(g,
-						x + max / 2, y, scale, ax, ay, golem);
+						x, y, scale, ax, ay, golem);
 			}
 		}
 	}
@@ -190,7 +189,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		}
 
 
-		int x = leftPos + imageWidth + 5;
+		int x = leftPos - 70;
 		int y = topPos + 10;
 		int maxW = screenWidth() - leftPos - imageWidth - 15;
 		for (var e : comp) {

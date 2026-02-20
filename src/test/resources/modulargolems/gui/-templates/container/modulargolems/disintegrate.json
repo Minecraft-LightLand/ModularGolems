@@ -3,17 +3,28 @@
         "slot",
         "result_slot",
         "dissembly_on",
-        "dissembly_down"
+        "dissembly_down",
+        "arrow_0"
     ],
     "comp": {
-        "golem": {
-            "sprite": "slot",
-            "x": 16,
+        "extra_mat": {
+            "sprite": "empty_slot",
+            "x": 132,
+            "y": 36
+        },
+        "test1": {
+            "sprite": "test/傀儡部件背景",
+            "x": 88,
             "y": 18
         },
         "button": {
             "sprite": "dissembly_empty",
-            "x": 43,
+            "x": 106,
+            "y": 36
+        },
+        "arrow": {
+            "sprite": "empty_slot",
+            "x": 132,
             "y": 18
         },
         "golem_up": {
@@ -41,15 +52,15 @@
             "x": 88,
             "y": 36
         },
-        "result": {
-            "sprite": "empty_slot",
-            "x": 151,
+        "golem": {
+            "sprite": "slot",
+            "x": 88,
             "y": 18
         },
-        "extra_mat": {
+        "result": {
             "sprite": "empty_slot",
-            "x": 115,
-            "y": 45
+            "x": 159,
+            "y": 18
         }
     },
     "isContainer": true
