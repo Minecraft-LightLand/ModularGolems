@@ -2,11 +2,14 @@ package dev.xkmc.modulargolems.init.registrate;
 
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import dev.xkmc.l2library.base.L2Registrate;
+import dev.xkmc.l2screentracker.init.L2STTagGen;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.block.TableBlock;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
@@ -29,10 +32,12 @@ import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
@@ -50,6 +55,8 @@ public class GolemItems {
 				.icon(GolemItems.RECYCLE::asStack));
 		REGISTRATE.defaultCreativeTab(ITEMS.getKey());
 	}
+
+	public static final BlockEntry<TableBlock> TABLE;
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
 
@@ -91,6 +98,19 @@ public class GolemItems {
 	public static final ItemEntry<AddSlotTemplate> ADD_DIAMOND, ADD_NETHERITE;
 
 	static {
+
+		TABLE = REGISTRATE.block("golem_workbench", TableBlock::new)
+				.initialProperties(() -> Blocks.ANVIL)
+				.blockstate((ctx, pvd) -> pvd.simpleBlock(ctx.get(), pvd.models()
+						.getBuilder("block/" + ctx.getName())
+						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc("custom/table")))
+						.texture("top", pvd.modLoc("block/table_top"))
+						.texture("middle", pvd.modLoc("block/table_middle"))
+						.texture("bottom", pvd.modLoc("block/table_bottom"))
+						.texture("particle", pvd.modLoc("block/table_particle"))
+				)).tag(BlockTags.MINEABLE_WITH_PICKAXE)
+				.item().tag(L2STTagGen.QUICK_ACCESS_VANILLA).build()
+				.register();
 
 		GOLEM_TEMPLATE = REGISTRATE.item("metal_golem_template", Item::new).defaultModel().defaultLang().register();
 

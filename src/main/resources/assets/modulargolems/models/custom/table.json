@@ -1,11 +1,10 @@
 {
-	"format_version": "1.9.0",
-	"credit": "Made with Blockbench",
+	"parent": "block/block",
 	"texture_size": [64, 64],
 	"textures": {
-		"1": "block/texture",
-		"2": "block/texture",
-		"3": "block/texture"
+		"1": "#top",
+		"2": "#middle",
+		"3": "#bottom"
 	},
 	"elements": [
 		{
@@ -50,23 +49,5 @@
 				"down": {"uv": [12, 0, 8, 4], "texture": "#1"}
 			}
 		}
-	],
-	"display": {
-		"thirdperson_righthand": {
-			"scale": [0.41406, 0.42383, 0.4043]
-		},
-		"thirdperson_lefthand": {
-			"scale": [0.42969, 0.41406, 0.43164]
-		},
-		"firstperson_righthand": {
-			"scale": [0.85547, 1, 0.5957]
-		},
-		"firstperson_lefthand": {
-			"scale": [1, 0.82, 0.56]
-		},
-		"ground": {
-			"translation": [0, 3, 0],
-			"scale": [0.25, 0.25, 0.25]
-		}
-	}
+	]
 }

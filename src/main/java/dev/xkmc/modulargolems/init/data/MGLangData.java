@@ -171,6 +171,10 @@ public enum MGLangData {
 		this.format = format;
 	}
 
+	public String key() {
+		return key;
+	}
+
 	public static String asId(String name) {
 		return name.toLowerCase(Locale.ROOT);
 	}

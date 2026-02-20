@@ -352,6 +352,7 @@
   "modifier.modulargolems.ice_dragonsteel_attack.desc": "冻结并击退目标",
   "modifier.modulargolems.lightning_dragonsteel_attack": "龙霆斩",
   "modifier.modulargolems.lightning_dragonsteel_attack.desc": "攻击时同时召唤闪电攻击目标",
+  "block.modulargolems.golem_workbench": "傀儡装配台",
   "item.modulargolems.metal_golem_template": "傀儡胚料",
   "item.modulargolems.metal_golem_holder": "大型金属傀儡",
   "item.modulargolems.humanoid_golem_holder": "人形金属傀儡",
