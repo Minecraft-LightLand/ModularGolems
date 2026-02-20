@@ -7,18 +7,18 @@
         "page_next_down"
     ],
     "comp": {
-        "test3": {
-            "sprite": "test/傀儡放置框背景",
+        "golem_background": {
+            "sprite": "background/golem_background",
             "x": 88,
-            "y": 59
+            "y": -23
         },
         "golem": {
             "sprite": "slot",
             "x": 88,
-            "y": 59
+            "y": -23
         },
-        "test1": {
-            "sprite": "test/升级槽背景",
+        "upgrades_background": {
+            "sprite": "background/upgrades_background",
             "x": 88,
             "y": 18
         },

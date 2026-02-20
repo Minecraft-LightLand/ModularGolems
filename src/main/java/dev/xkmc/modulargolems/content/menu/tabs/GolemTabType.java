@@ -10,10 +10,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public enum GolemTabType {
-	ABOVE(0, 0, 28, 32, 8),
-	BELOW(84, 0, 28, 32, 8),
-	LEFT(0, 64, 32, 28, 5),
-	RIGHT(96, 64, 32, 28, 5);
+	ABOVE(0, 120, 24, 28, 7),
+	BELOW(72, 120, 24, 28, 7),
+	LEFT(0, 176, 28, 24, 5),
+	RIGHT(84, 176, 28, 24, 5);
 
 	private final static ResourceLocation TEXTURE = new ResourceLocation(ModularGolems.MODID, "textures/gui/tabs.png");
 
@@ -50,8 +50,8 @@ public enum GolemTabType {
 		int j = y;
 		switch (this) {
 			case ABOVE -> {
-				i += 6;
-				j += 9;
+				i += 4;
+				j += 6;
 			}
 			case BELOW -> {
 				i += 6;
@@ -63,7 +63,7 @@ public enum GolemTabType {
 			}
 			case RIGHT -> {
 				i += 6;
-				j += 5;
+				j += 4;
 			}
 		}
 		g.renderFakeItem(stack, i, j);
@@ -72,7 +72,7 @@ public enum GolemTabType {
 
 	public int getX(int w, int h, int pIndex) {
 		return switch (this) {
-			case ABOVE, BELOW -> (this.width + 4) * pIndex;
+			case ABOVE, BELOW -> (this.width + 1) * pIndex;
 			case LEFT -> -this.width + 4;
 			case RIGHT -> w - 4;
 		};
@@ -82,7 +82,7 @@ public enum GolemTabType {
 		return switch (this) {
 			case ABOVE -> -this.height + 4;
 			case BELOW -> h - 4;
-			case LEFT, RIGHT -> this.height * pIndex;
+			case LEFT, RIGHT -> (this.height + 1) * pIndex;
 		};
 	}
 

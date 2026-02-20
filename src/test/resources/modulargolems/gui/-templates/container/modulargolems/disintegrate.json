@@ -12,10 +12,20 @@
             "x": 132,
             "y": 36
         },
-        "test1": {
-            "sprite": "test/傀儡部件背景",
+        "golem_part_background": {
+            "sprite": "background/golem_part_background",
             "x": 88,
             "y": 18
+        },
+        "golem_background": {
+            "sprite": "background/golem_background",
+            "x": 88,
+            "y": -23
+        },
+        "golem": {
+            "sprite": "slot",
+            "x": 88,
+            "y": -23
         },
         "button": {
             "sprite": "dissembly_empty",
@@ -51,11 +61,6 @@
             "sprite": "empty_slot",
             "x": 88,
             "y": 36
-        },
-        "golem": {
-            "sprite": "slot",
-            "x": 88,
-            "y": 18
         },
         "result": {
             "sprite": "empty_slot",
