@@ -10,9 +10,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class GolemUpgradeMenu extends BaseContainerMenu<GolemUpgradeMenu> {
+public class GolemUpgradeMenu extends BaseContainerMenu<GolemUpgradeMenu> implements ITableMenu {
 
 	public static GolemUpgradeMenu fromNetwork(MenuType<GolemUpgradeMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		return new GolemUpgradeMenu(type, wid, plInv);
@@ -30,6 +31,11 @@ public class GolemUpgradeMenu extends BaseContainerMenu<GolemUpgradeMenu> {
 		sprite.get().getSlot("upgrades", (x, y) -> new UpgradeSlot(handler, -1 + added++, x, y), this::addSlot);
 		page = addDataSlot(DataSlot.shared(handler.data, 0));
 		maxPage = addDataSlot(DataSlot.shared(handler.data, 1));
+	}
+
+	@Override
+	public Slot getMainSlot() {
+		return getAsPredSlot("golem");
 	}
 
 	@Override

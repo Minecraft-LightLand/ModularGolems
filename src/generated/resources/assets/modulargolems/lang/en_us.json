@@ -53,6 +53,7 @@
   "attribute.name.golem_regen": "Golem Regen",
   "attribute.name.golem_size": "Golem Size",
   "attribute.name.golem_sweep": "Sweep Range",
+  "block.modulargolems.golem_workbench": "Golem Workbench",
   "curios.identifier.golem_route": "Golem Patrol Path",
   "curios.identifier.golem_skin": "Humanoid Golem Skin",
   "effect.modulargolems.atomic_boost": "Atomic Boost",

@@ -149,7 +149,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	public boolean isItemValid(int slot, @NotNull ItemStack stack) {
 		if (golem.isEmpty()) return false;
 		var old = getStackInSlot(slot);
-		if (!old.isEmpty() && !ItemStack.matches(stack, old))
+		if (!old.isEmpty() && !ItemStack.isSameItemSameTags(stack, old))
 			return false;
 		if (!(stack.getItem() instanceof UpgradeItem))
 			return false;

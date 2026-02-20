@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.util.GolemUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMenu> {
+public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMenu> implements ITableMenu {
 
 	private record GolemSlots<P extends IGolemPart<P>>(String name, IGolemPart<P> part) {
 
@@ -38,6 +40,10 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 
 	public static GolemDisintegrateMenu fromNetwork(MenuType<GolemDisintegrateMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		return new GolemDisintegrateMenu(type, wid, plInv);
+	}
+
+	public static GolemDisintegrateMenu createFloating(int wid, Inventory plInv, ContainerLevelAccess access) {
+		return new GolemDisintegrateMenu(GolemMiscs.DISINTEGRATE.get(), wid, plInv);
 	}
 
 	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "disintegrate");
@@ -88,6 +94,11 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 
 	private void addPartSlot(String slot) {
 		sprite.get().getSlot(slot, (x, y) -> new PartSlot(slot, container, added++, x, y), this::addSlot);
+	}
+
+	@Override
+	public Slot getMainSlot() {
+		return main;
 	}
 
 	@Override
@@ -156,7 +167,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 		}
 
 		public void update() {
-			dropList = GolemUtils.collectFromGolem(inventory.player.level(), getItem());
+			dropList = GolemUtils.collectFromGolem(inventory.player.level(), getItem(), true);
 		}
 	}
 
