@@ -98,6 +98,15 @@ public class RecipeGen {
 					.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
 					.define('C', Items.CLAY_BALL).save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.TABLE.get(), 1)::unlockedBy,
+					Items.ECHO_SHARD).pattern("AGA").pattern("RTR").pattern("EIE")
+					.define('A', Items.AMETHYST_SHARD)
+					.define('G', GolemItems.SLICING_AXE)
+					.define('R', Items.REDSTONE)
+					.define('T', Items.SMITHING_TABLE)
+					.define('E', Items.ECHO_SHARD)
+					.define('I', Items.ANVIL).save(pvd);
+
 			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), RecipeCategory.MISC, GolemItems.GOLEM_BODY);
 			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), RecipeCategory.MISC, GolemItems.GOLEM_ARM);
 			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), RecipeCategory.MISC, GolemItems.GOLEM_LEGS);
@@ -362,7 +371,7 @@ public class RecipeGen {
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BEACON_BOOTS.get())::unlockedBy, Items.BEACON)
 					.pattern("SXS").pattern("ABA").pattern("AAA")
 					.define('X', Items.BEACON)
-					.define('S',Items.NETHER_STAR)
+					.define('S', Items.NETHER_STAR)
 					.define('B', GolemItems.WINDSPIRIT_BOOTS.get())
 					.define('A', Items.ANVIL)
 					.save(pvd);
