@@ -97,7 +97,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	public void setStackInSlot(int slot, @NotNull ItemStack stack) {
 		if (golem.isEmpty()) return;
 		var old = getStackInSlot(slot);
-		if (client || ItemStack.matches(old, stack)) return;
+		if (client || ItemStack.isSameItemSameTags(old, stack)) return;
 		if (!old.isEmpty()) {
 			extractItem(slot, 1, false);
 		}
