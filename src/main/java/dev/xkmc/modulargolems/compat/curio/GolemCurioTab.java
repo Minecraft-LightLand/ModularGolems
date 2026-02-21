@@ -26,7 +26,7 @@ public class GolemCurioTab extends GolemTabBase<EquipmentGroup, GolemCurioTab> {
 	@Override
 	protected void renderIcon(GuiGraphics g) {
 		g.blit(new ResourceLocation(Curios.MODID, "textures/gui/inventory.png"),
-				getX() + 7, getY() + 7, 50, 14, 14, 14);
+				getX() + 7, getY() + 5, 50, 14, 14, 14);
 	}
 
 }

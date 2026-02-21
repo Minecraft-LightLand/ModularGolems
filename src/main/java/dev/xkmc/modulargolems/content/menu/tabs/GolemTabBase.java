@@ -17,7 +17,7 @@ public abstract class GolemTabBase<G extends GolemTabGroup<G>, T extends GolemTa
 
 	@SuppressWarnings("unchecked")
 	public GolemTabBase(int index, GolemTabToken<G, T> token, GolemTabManager<G> manager, ItemStack stack, Component title) {
-		super(0, 0, 32, 28, title, b -> ((T) b).onTabClicked(), Supplier::get);
+		super(0, 0, 28 - 4, 24, title, b -> ((T) b).onTabClicked(), Supplier::get);
 		this.index = index;
 		this.stack = stack;
 		this.token = token;
