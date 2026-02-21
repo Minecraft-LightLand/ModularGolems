@@ -259,6 +259,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 					if (rem < 0) {
 						error = MGLangData.UI_SUB_SLOT.get();
 						output = ans;
+						set(ItemStack.EMPTY);
 						return;
 					}
 					if (body != null && !body.getItem().isEmpty()) {
@@ -276,6 +277,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 							if (!mat.test(ex) || ex.getCount() < count) {
 								error = MGLangData.UI_SUB_INGOT.get();
 								output = ans;
+								set(ItemStack.EMPTY);
 								return;
 							}
 						}
