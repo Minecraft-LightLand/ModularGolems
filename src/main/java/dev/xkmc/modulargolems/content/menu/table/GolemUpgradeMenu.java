@@ -28,9 +28,6 @@ public class GolemUpgradeMenu extends BaseContainerMenu<GolemUpgradeMenu> implem
 		super(type, wid, plInv, MANAGER, e -> new BaseContainer<>(1, e), true);
 		handler = new GolemUpgradeItemHandler(() -> getAsPredSlot("golem"), plInv.player.level().isClientSide());
 		addSlot("golem", e -> e.getItem() instanceof GolemHolder<?, ?>);
-		var c = sprite.get().getComp("upgrades");
-		c.rx = 3;
-		c.ry = 1;
 		sprite.get().getSlot("upgrades", (x, y) -> new UpgradeSlot(handler, -1 + added++, x, y), this::addSlot);
 		page = addDataSlot(DataSlot.shared(handler.data, 0));
 		maxPage = addDataSlot(DataSlot.shared(handler.data, 1));
