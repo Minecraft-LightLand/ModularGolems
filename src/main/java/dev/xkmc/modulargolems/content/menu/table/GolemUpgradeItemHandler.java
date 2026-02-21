@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
-	private static final int SIZE = 3;
+	private static final int SIZE = 27;
 
 	private final boolean client;
 	private final Supplier<Slot> parent;

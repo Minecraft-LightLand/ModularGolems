@@ -40,12 +40,12 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 		new GolemTabManager<>(this, new TableGroup(), GolemTabType.ABOVE)
 				.init(this::addRenderableWidget, GolemTabRegistry.TABLE_UPGRADE);
 
-		int w = 10;
+		int w = 11;
 		int h = 11;
-		int x = (this.width + this.imageWidth) / 2 - 16;
-		int y = (this.height - this.imageHeight) / 2 + 4;
+		int x = (this.width + this.imageWidth) / 2 - 70;
+		int y = (this.height - this.imageHeight) / 2 + 27;
 		this.addRenderableWidget(left = Button.builder(Component.empty(), (e) -> this.click(-1))
-				.pos(x - w - 1, y).size(w, h).build(b -> new SpriteButton(b, menu.sprite.get(),
+				.pos(x - w - 36, y).size(w, h).build(b -> new SpriteButton(b, menu.sprite.get(),
 						"page_prev_on", "page_prev_down", "page_prev_on")));
 		this.addRenderableWidget(right = Button.builder(Component.empty(), (e) -> this.click(1))
 				.pos(x, y).size(w, h).build(b -> new SpriteButton(b, menu.sprite.get(),

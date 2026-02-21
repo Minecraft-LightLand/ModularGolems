@@ -114,7 +114,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			AbstractGolemEntity<?, ?> golem = ClientHolderManager.getEntityForDisplay(holder, preview);
 			if (golem != null) {
 				int x = leftPos + 30;
-				int y = topPos + 68;
+				int y = topPos + 80;
 				double lx = x - mx;
 				double ly = y - 40 - my;
 				int scale = 18;
