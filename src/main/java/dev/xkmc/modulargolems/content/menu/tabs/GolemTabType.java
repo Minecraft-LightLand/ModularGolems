@@ -20,8 +20,8 @@ public enum GolemTabType {
 	public static final int MAX_TABS = 8;
 	private final int textureX;
 	private final int textureY;
-	private final int width;
-	private final int height;
+	final int width;
+	final int height;
 
 	GolemTabType(int tx, int ty, int w, int h, int max) {
 		this.textureX = tx;
