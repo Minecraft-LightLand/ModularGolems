@@ -191,7 +191,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			}
 		}
 
-		var box = new TextBox(g, 2, 0, leftPos - 10, topPos, leftPos - 10);
+		var box = new TextBox(g, 2, 0, leftPos - 6, topPos + 6, leftPos - 10);
 		box.renderLongText(font, comp);
 	}
 
