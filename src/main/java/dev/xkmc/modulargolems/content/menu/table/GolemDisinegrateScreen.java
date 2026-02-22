@@ -243,17 +243,12 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 	@Override
 	public int getLeftExpansion() {
-		ItemStack golem = menu.main.getItem();
-		if (golem.getItem() instanceof GolemHolder<?, ?> holder) {
-			int size = holder.getEntityType().values().length - 1;
-			return Math.min(size * 60, Math.min(imageHeight - 20, leftPos - 10)) & -2;
-		}
-		return 0;
+		return menu.result.getItem().isEmpty() ? 0 : leftPos;
 	}
 
 	@Override
 	public int getRightExpansion() {
-		return menu.result.getItem().isEmpty() ? 0 : width - imageWidth - leftPos;
+		return 0;
 	}
 
 	@Override
