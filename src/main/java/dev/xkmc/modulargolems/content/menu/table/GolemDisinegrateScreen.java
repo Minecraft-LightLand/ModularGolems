@@ -91,6 +91,8 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		}
 		disintegrate.active = mayBreak;
 		var result = menu.result.getItem();
+		if (result.isEmpty())
+			result = menu.result.output;
 		renderPreview(g, mx, my, result.isEmpty() ? input : result);
 		if (!result.isEmpty()) renderDiff(g, input, result);
 	}
@@ -243,7 +245,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 	@Override
 	public int getLeftExpansion() {
-		return menu.result.getItem().isEmpty() ? 0 : leftPos;
+		return menu.result.getItem().isEmpty() && menu.result.output.isEmpty() ? 0 : leftPos;
 	}
 
 	@Override
