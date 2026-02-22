@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.menu.table;
 
 import com.mojang.datafixers.util.Pair;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2library.base.overlay.TextBox;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -188,18 +189,8 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			}
 		}
 
-
-		int x = leftPos - 70;
-		int y = topPos + 10;
-		int maxW = screenWidth() - leftPos - imageWidth - 15;
-		for (var e : comp) {
-			int dx = x;
-			for (var line : font.split(e, maxW)) {
-				g.drawString(font, line, dx, y, -1);
-				y += font.lineHeight + 2;
-				dx += 10;
-			}
-		}
+		var box = new TextBox(g, 2, 0, leftPos - 10, topPos, leftPos - 10);
+		box.renderLongText(font, comp);
 	}
 
 	protected void renderTooltip(GuiGraphics g, int x, int y) {
