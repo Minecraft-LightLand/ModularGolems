@@ -46,7 +46,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 		var ref = menu.sprite.get().getComp("button");
 		this.addRenderableWidget(disintegrate = Button.builder(Component.empty(), (e) -> this.click(1))
-				.pos(leftPos + ref.x, topPos + ref.y).size(14, 14)
+				.pos(leftPos + ref.x, topPos + ref.y).size(12, 12)
 				.build(b -> new SpriteButton(b, menu.sprite.get(),
 						"dissembly_on", "dissembly_down", "dissembly_ban")));
 	}
@@ -57,7 +57,11 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		sr.start(g);
 		for (var e : menu.partSlots) {
 			if (e.isActive()) {
-				sr.draw(g, e.name, "slot", -1, -1);
+				if (e == menu.body) {
+					sr.draw(g, e.name, "core_slot", -2, -2);
+				} else {
+					sr.draw(g, e.name, "slot", -1, -1);
+				}
 				if (e.getItem().isEmpty() && !e.partShadow.isEmpty())
 					drawShadow(g, e, e.partShadow);
 			}
@@ -191,7 +195,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			}
 		}
 
-		var box = new TextBox(g, 2, 0, leftPos - 10, topPos, leftPos - 10);
+		var box = new TextBox(g, 2, 0, leftPos - 6, topPos + 6, leftPos - 10);
 		box.renderLongText(font, comp);
 	}
 

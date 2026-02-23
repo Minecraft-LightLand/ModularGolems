@@ -121,6 +121,12 @@
 		"dx": 1,
 		"dy": 1
 	},
+	"core_slot": {
+		"w": 20,
+		"h": 20,
+		"dx": 1,
+		"dy": 1
+	},
 	"result_slot": {
 		"w": 26,
 		"h": 26,
@@ -135,7 +141,7 @@
 			"_3"
 		],
 		"w": 22,
-		"h": 16
+		"h": 15
 	},
 	"fire": {
 		"ids": [
@@ -192,22 +198,33 @@
 	"dissembly": {
 		"ids": [
 			"_on",
+			"_on_hover",
 			"_down",
+			"_down_hover",
 			"_ban",
+			"_ban_hover",
 			"_empty"
 		],
-		"w": 14,
-		"h": 14
+		"w": 12,
+		"h": 12
 	},
 	"page": {
 		"ids": [
 			"_next_on",
+			"_next_on_hover",
 			"_next_down",
+			"_next_down_hover",
+			"_next_ban",
+			"_next_ban_hover",
 			"_prev_on",
+			"_prev_on_hover",
 			"_prev_down",
+			"_prev_down_hover",
+			"_prev_ban",
+			"_prev_ban_hover",
 			"_empty"
 		],
-		"w": 11,
-		"h": 11
+		"w": 12,
+		"h": 12
 	}
 }
