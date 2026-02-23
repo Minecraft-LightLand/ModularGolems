@@ -42,6 +42,7 @@ public class GolemTabManager<G extends GolemTabGroup<G>> {
 			GolemTabBase<G, ?> tab = token.create(i, this);
 			tab.setX(guiLeft + type.getX(w, h, tab.index));
 			tab.setY(guiTop + type.getY(w, h, tab.index));
+			tab.init(guiLeft, guiTop);
 			adder.accept(tab);
 			list.add(tab);
 		}

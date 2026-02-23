@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientProfileManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderProfile;
 import dev.xkmc.modulargolems.content.menu.table.TableTab;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
 import dev.xkmc.modulargolems.events.event.HumanoidSkinEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -57,6 +59,17 @@ public class GolemClientEventListeners {
 				TableTab.lastOpened.initScreen(acs, event::addListener);
 			}
 			TableTab.lastOpened = null;
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOW)
+	public static void onBGRender(ScreenEvent.Render.Post event) {
+		if (event.getScreen() instanceof AbstractContainerScreen<?> cont) {
+			for (var e : cont.renderables) {
+				if (e instanceof GolemTabBase<?, ?> base) {
+					base.reposition(cont.getGuiLeft(), cont.getGuiTop());
+				}
+			}
 		}
 	}
 
