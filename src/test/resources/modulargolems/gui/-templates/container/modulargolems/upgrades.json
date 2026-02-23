@@ -2,9 +2,17 @@
     "side": [
         "slot",
         "page_prev_on",
+        "page_prev_on_hover",
         "page_prev_down",
+        "page_prev_down_hover",
+        "page_prev_ban",
+        "page_prev_ban_hover",
         "page_next_on",
-        "page_next_down"
+        "page_next_on_hover",
+        "page_next_down",
+        "page_next_down_hover",
+        "page_next_ban",
+        "page_next_ban_hover"
     ],
     "comp": {
         "golem_background": {
