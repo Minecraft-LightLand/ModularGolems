@@ -53,6 +53,16 @@ public class GolemTabRegistry {
 			new GolemTabToken<>(TableTab.from(TableTabType.UPGRADE), GolemItems.EMPTY_UPGRADE, TableTabType.UPGRADE.getDisplayName());
 	public static final GolemTabToken<TableGroup, TableTab> TABLE_DISINTEGRATE =
 			new GolemTabToken<>(TableTab.from(TableTabType.DISINTEGRATE), GolemItems.SLICING_AXE::get, TableTabType.DISINTEGRATE.getDisplayName());
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_CRAFT =
+			new GolemTabToken<>(TableTab.from(TableTabType.CRAFT), () -> Items.CRAFTING_TABLE, TableTabType.CRAFT.getDisplayName());
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_STONECUTTER =
+			new GolemTabToken<>(TableTab.from(TableTabType.STONECUTTER), () -> Items.STONECUTTER, TableTabType.STONECUTTER.getDisplayName());
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_ANVIL =
+			new GolemTabToken<>(TableTab.from(TableTabType.ANVIL), () -> Items.ANVIL, TableTabType.ANVIL.getDisplayName());
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_SMITHING =
+			new GolemTabToken<>(TableTab.from(TableTabType.SMITHING), () -> Items.SMITHING_TABLE, TableTabType.SMITHING.getDisplayName());
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_GRINDSTONE =
+			new GolemTabToken<>(TableTab.from(TableTabType.GRINDSTONE), () -> Items.GRINDSTONE, TableTabType.GRINDSTONE.getDisplayName());
 
 	public static void register() {
 		LIST_CONFIG.add(CONFIG_TOGGLE);
@@ -66,6 +76,11 @@ public class GolemTabRegistry {
 		LIST_TRACKER.add(TRACKER_RETRIEVE);
 		LIST_TABLE.add(TABLE_DISINTEGRATE);
 		LIST_TABLE.add(TABLE_UPGRADE);
+		LIST_TABLE.add(TABLE_CRAFT);
+		LIST_TABLE.add(TABLE_STONECUTTER);
+		LIST_TABLE.add(TABLE_ANVIL);
+		LIST_TABLE.add(TABLE_SMITHING);
+		LIST_TABLE.add(TABLE_GRINDSTONE);
 	}
 
 }
