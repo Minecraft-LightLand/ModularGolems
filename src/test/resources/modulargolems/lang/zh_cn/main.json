@@ -37,6 +37,14 @@
 			"slicing_enemy": "大型傀儡持此斧击杀特定目标时随机掉落一个对应材料的大型傀儡部件",
 			"slicing_golem": "大型傀儡持此斧击杀其他玩家或无主的傀儡时掉落所有部件，且每个升级有%s概率掉落",
 			"beacon_boots": "对周围的友方施加%s, %s并治疗",
+			"no_slot": "移除这个升级会导致傀儡升级槽为负",
+			"remove_template": "扩充模版不可移除",
+			"disintegrate": "分解傀儡",
+			"return_items": "分解傀儡并返还下列物品:",
+			"return_many": "分解傀儡并返还%s个物品",
+			"fix_first": "分解前请先修复傀儡!",
+			"sub_ingot": "替换身体时，傀儡的每个扩充模版都需要额外消耗一个身体材料。当前需要:",
+			"sub_slot": "替换后升级槽为负",
 			"target": {
 				"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
 				"remove": "蹲下右键移除最后一行",
@@ -109,7 +117,10 @@
 			"target": "攻击目标过滤器",
 			"path": "巡逻配置",
 			"tracker_alive": "世界中的傀儡",
-			"tracker_dead": "傀儡死亡记录"
+			"tracker_dead": "傀儡死亡记录",
+			"tracker_retrieve": "返回玩家记录",
+			"upgrades": "傀儡升级",
+			"disintegrate": "置换/分解"
 		},
 		"slot": {
 			"main": "主手槽",
@@ -132,7 +143,10 @@
 			"recycle_killed": "被%s杀死（有回收升级）",
 			"retrieved": "被回收",
 			"retrieved_other": "被%s回收",
-			"time": "在被卸载的区块"
+			"time": "在被卸载的区块",
+			"dimensional": "回到空间背包",
+			"ender": "回到末影背包",
+			"inventory": "回到物品栏"
 		}
 	},
 	"patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",
