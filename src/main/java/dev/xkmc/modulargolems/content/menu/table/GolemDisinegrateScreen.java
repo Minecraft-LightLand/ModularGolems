@@ -8,10 +8,6 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
-import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabType;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -41,8 +37,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 	@Override
 	protected void init() {
 		super.init();
-		new GolemTabManager<>(this, new TableGroup(), GolemTabType.ABOVE)
-				.init(this::addRenderableWidget, GolemTabRegistry.TABLE_DISINTEGRATE);
+		TableTab.initScreen(TableTabType.DISINTEGRATE, this, this::addRenderableWidget);
 
 		var ref = menu.sprite.get().getComp("button");
 		this.addRenderableWidget(disintegrate = Button.builder(Component.empty(), (e) -> this.click(1))

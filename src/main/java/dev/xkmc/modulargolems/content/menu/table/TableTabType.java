@@ -7,16 +7,8 @@ import dev.xkmc.l2screentracker.compat.arclight.AnvilMenuArclight;
 import dev.xkmc.l2screentracker.compat.arclight.GrindstoneMenuArclight;
 import dev.xkmc.l2screentracker.compat.arclight.SmithingMenuArclight;
 import dev.xkmc.l2screentracker.compat.arclight.StonecutterMenuArclight;
-import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
-import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
-import dev.xkmc.modulargolems.content.menu.tabs.DelegateTabScreen;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabType;
-import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,8 +18,6 @@ import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-
-import java.util.function.Consumer;
 
 public enum TableTabType implements MenuProvider {
 	DISINTEGRATE(MGLangData.TAB_DISINTEGRATE, GolemMiscs.DISINTEGRATE),
@@ -63,13 +53,6 @@ public enum TableTabType implements MenuProvider {
 	@Override
 	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
 		return factory.create(id, inv);
-	}
-
-	public void initScreen(AbstractContainerScreen<?> screen, Consumer<AbstractWidget> cons) {
-		ITabScreen tab = screen instanceof ITabScreen e ? e :
-				new DelegateTabScreen(screen);
-		new GolemTabManager<>(tab, new TableGroup(), GolemTabType.ABOVE)
-				.init(cons, GolemTabRegistry.LIST_TABLE.get(ordinal()));
 	}
 
 	public interface MenuFactory {

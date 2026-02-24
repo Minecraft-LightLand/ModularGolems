@@ -3,10 +3,6 @@ package dev.xkmc.modulargolems.content.menu.table;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
-import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
-import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabType;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
@@ -36,9 +32,7 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 	@Override
 	protected void init() {
 		super.init();
-
-		new GolemTabManager<>(this, new TableGroup(), GolemTabType.ABOVE)
-				.init(this::addRenderableWidget, GolemTabRegistry.TABLE_UPGRADE);
+		TableTab.initScreen(TableTabType.UPGRADE, this, this::addRenderableWidget);
 
 		int w = 11;
 		int h = 11;
