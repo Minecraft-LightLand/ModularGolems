@@ -8,6 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 public class MetalGolemWeaponItem extends GolemEquipmentItem {
 
@@ -37,6 +39,11 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 	@Override
 	public int getEnchantmentValue() {
 		return 15;
+	}
+
+	@Override
+	public boolean canPerformAction(ItemStack stack, ToolAction action) {
+		return action == ToolActions.SWORD_DIG || super.canPerformAction(stack, action);
 	}
 
 	@Override
