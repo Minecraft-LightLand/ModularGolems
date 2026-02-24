@@ -17,7 +17,7 @@ public enum GolemTabType {
 
 	private final static ResourceLocation TEXTURE = new ResourceLocation(ModularGolems.MODID, "textures/gui/tabs.png");
 
-	public static final int MAX_TABS = 8;
+	public final int max;
 	private final int textureX;
 	private final int textureY;
 	final int width;
@@ -28,16 +28,17 @@ public enum GolemTabType {
 		this.textureY = ty;
 		this.width = w;
 		this.height = h;
+		this.max = max;
 	}
 
 	public void draw(GuiGraphics g, int x, int y, boolean selected, int index) {
-		index = index % MAX_TABS;
+		index = index % max;
 		int tx = this.textureX;
 		if (index > 0) {
 			tx += this.width;
 		}
 
-		if (index == MAX_TABS - 1) {
+		if (index == max - 1) {
 			tx += this.width;
 		}
 
@@ -70,25 +71,22 @@ public enum GolemTabType {
 		g.renderItemDecorations(Minecraft.getInstance().font, stack, i, j);
 	}
 
-	public int getX(int w, int h, int pIndex) {
+	public int getX(int w, int h, int index, int split) {
+		int space = w - (width + 1) * max + 1;
 		return switch (this) {
-			case ABOVE, BELOW -> (this.width + 1) * pIndex;
-			case LEFT -> -this.width + 4;
+			case ABOVE, BELOW -> (width + 1) * index + (index >= split ? space : 0);
+			case LEFT -> -width + 4;
 			case RIGHT -> w - 4;
 		};
 	}
 
-	public int getY(int w, int h, int pIndex) {
+	public int getY(int w, int h, int index, int split) {
+		int space = h - (height + 1) * max + 1;
 		return switch (this) {
-			case ABOVE -> -this.height + 4;
+			case ABOVE -> -height + 4;
 			case BELOW -> h - 4;
-			case LEFT, RIGHT -> (this.height + 1) * pIndex;
+			case LEFT, RIGHT -> (height + 1) * index + (index >= split ? space : 0);
 		};
 	}
 
-	public boolean isMouseOver(int w, int h, int left, int top, int index, double mx, double my) {
-		int i = left + this.getX(w, h, index);
-		int j = top + this.getY(w, h, index);
-		return mx > (double) i && mx < (double) (i + this.width) && my > (double) j && my < (double) (j + this.height);
-	}
 }

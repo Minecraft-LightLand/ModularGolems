@@ -56,7 +56,7 @@ public class GolemClientEventListeners {
 					TableTab.time <= time &&
 					event.getScreen() instanceof AbstractContainerScreen<?> acs &&
 					acs.getMenu().getType() == TableTab.lastOpened.menu) {
-				TableTab.lastOpened.initScreen(acs, event::addListener);
+				TableTab.initScreen(TableTab.lastOpened, acs, event::addListener);
 			}
 			TableTab.lastOpened = null;
 		}
