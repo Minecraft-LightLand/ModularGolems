@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
-	private static final int SIZE = 36;
+	private static final int SIZE = 27;
 
 	private final boolean client;
 	private final Supplier<Slot> parent;
@@ -98,10 +98,19 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 		if (golem.isEmpty()) return;
 		var old = getStackInSlot(slot);
 		if (client || ItemStack.matches(old, stack)) return;
-		if (!old.isEmpty()) {
-			extractItem(slot, 1, false);
+		boolean match = ItemStack.isSameItemSameTags(old, stack);
+		int remove = match ? old.getCount() - stack.getCount() : old.getCount();
+		int add = match ? stack.getCount() - old.getCount() : stack.getCount();
+		if (remove > 0) {
+			for (int i = 0; i < remove; i++) {
+				extractItem(slot, 1, false);
+			}
 		}
-		insertItem(slot, stack, false);
+		if (add > 0) {
+			for (int i = 0; i < add; i++) {
+				insertItem(slot, stack.copyWithCount(1), false);
+			}
+		}
 	}
 
 	@Override
@@ -149,7 +158,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	public boolean isItemValid(int slot, @NotNull ItemStack stack) {
 		if (golem.isEmpty()) return false;
 		var old = getStackInSlot(slot);
-		if (!old.isEmpty() && !ItemStack.matches(stack, old))
+		if (!old.isEmpty())
 			return false;
 		if (!(stack.getItem() instanceof UpgradeItem))
 			return false;

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "modulargolems:block/golem_workbench"
+    }
+  }
+}

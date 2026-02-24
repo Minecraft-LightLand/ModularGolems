@@ -1,17 +1,45 @@
 {
     "side": [
         "slot",
-        "result_slot"
+        "result_slot",
+        "core_slot",
+        "dissembly_on",
+        "dissembly_on_hover",
+        "dissembly_down",
+        "dissembly_down_hover",
+        "dissembly_ban",
+        "dissembly_ban_hover",
+        "arrow_0"
     ],
     "comp": {
-        "golem": {
-            "sprite": "slot",
-            "x": 16,
+        "extra_mat": {
+            "sprite": "empty_slot",
+            "x": 132,
+            "y": 36
+        },
+        "golem_part_background": {
+            "sprite": "background/golem_part_background",
+            "x": 88,
             "y": 18
         },
+        "golem_background": {
+            "sprite": "background/golem_background",
+            "x": 88,
+            "y": -23
+        },
+        "golem": {
+            "sprite": "slot",
+            "x": 88,
+            "y": -23
+        },
         "button": {
+            "sprite": "dissembly_empty",
+            "x": 106,
+            "y": 36
+        },
+        "arrow": {
             "sprite": "empty_slot",
-            "x": 43,
+            "x": 132,
             "y": 18
         },
         "golem_up": {
@@ -41,7 +69,7 @@
         },
         "result": {
             "sprite": "empty_slot",
-            "x": 151,
+            "x": 159,
             "y": 18
         }
     },

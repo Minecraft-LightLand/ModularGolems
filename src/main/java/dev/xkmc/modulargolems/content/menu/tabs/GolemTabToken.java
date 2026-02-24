@@ -15,9 +15,8 @@ public class GolemTabToken<G extends GolemTabGroup<G>, T extends GolemTabBase<G,
 	}
 
 	public final TabFactory<G, T> factory;
-
-	private final Supplier<Item> item;
-	private final Component title;
+	public final Supplier<Item> item;
+	public final Component title;
 
 	public GolemTabToken(TabFactory<G, T> factory, Supplier<Item> item, Component component) {
 		this.factory = factory;

@@ -1,4 +1,6 @@
 {
+
+	"block.modulargolems.golem_workbench": "傀儡装配台",
 	"item.modulargolems": {
 		"metal_golem_template": "傀儡胚料",
 		"metal_golem_holder": "大型金属傀儡",

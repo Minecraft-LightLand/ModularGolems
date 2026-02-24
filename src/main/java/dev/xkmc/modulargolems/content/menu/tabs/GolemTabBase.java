@@ -15,9 +15,11 @@ public abstract class GolemTabBase<G extends GolemTabGroup<G>, T extends GolemTa
 	public final GolemTabToken<G, T> token;
 	public final GolemTabManager<G> manager;
 
+	private int relX, relY;
+
 	@SuppressWarnings("unchecked")
 	public GolemTabBase(int index, GolemTabToken<G, T> token, GolemTabManager<G> manager, ItemStack stack, Component title) {
-		super(0, 0, 32, 28, title, b -> ((T) b).onTabClicked(), Supplier::get);
+		super(0, 0, manager.type.width, manager.type.height, title, b -> ((T) b).onTabClicked(), Supplier::get);
 		this.index = index;
 		this.stack = stack;
 		this.token = token;
@@ -42,6 +44,15 @@ public abstract class GolemTabBase<G extends GolemTabGroup<G>, T extends GolemTa
 
 	protected void renderIcon(GuiGraphics g) {
 		manager.type.drawIcon(g, getX(), getY(), index, this.stack);
+	}
+
+	public void init(int guiLeft, int guiTop) {
+		relX = getX() - guiLeft;
+		relY = getY() - guiTop;
+	}
+
+	public void reposition(int guiLeft, int guiTop) {
+		setPosition(guiLeft + relX, guiTop + relY);
 	}
 
 }
