@@ -54,7 +54,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<ItemStack> BACKUP_SLOT = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.ITEM_STACK);
-	private static final Logger log = LoggerFactory.getLogger(HumanoidGolemEntity.class);
 
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
