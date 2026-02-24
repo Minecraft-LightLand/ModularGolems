@@ -8,6 +8,13 @@
     "modulargolems:golem_retrieve": "modulargolems:retrieval_wand",
     "modulargolems:item_filter": "minecraft:hopper",
     "modulargolems:path": "minecraft:dirt_path",
+    "modulargolems:table_anvil": "minecraft:anvil",
+    "modulargolems:table_craft": "minecraft:crafting_table",
+    "modulargolems:table_disassembly": "modulargolems:golem_slicing_axe",
+    "modulargolems:table_grindstone": "minecraft:grindstone",
+    "modulargolems:table_smithing": "minecraft:smithing_table",
+    "modulargolems:table_stonecutter": "minecraft:stonecutter",
+    "modulargolems:table_upgrade": "modulargolems:empty_upgrade",
     "modulargolems:target_filter": "minecraft:bell",
     "modulargolems:toggles": "modulargolems:white_config_card"
   }

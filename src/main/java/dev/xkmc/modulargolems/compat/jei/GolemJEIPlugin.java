@@ -16,6 +16,8 @@ import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
+import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
 import dev.xkmc.modulargolems.content.recipe.GolemReplaceRecipe;
@@ -85,7 +87,8 @@ public class GolemJEIPlugin implements IModPlugin {
 		eq.register(registration, EquipmentsScreen.class);
 		new SideTabProperties(GolemTabRegistry.CONFIG).register(registration,
 				ToggleGolemConfigScreen.class, ItemConfigScreen.class,
-				TargetConfigScreen.class, PathConfigScreen.class);
+				TargetConfigScreen.class, PathConfigScreen.class,
+				GolemUpgradeScreen.class, GolemDisinegrateScreen.class);
 		CurioCompatRegistry.onJEIRegistry(e -> eq.register(registration, e));
 	}
 

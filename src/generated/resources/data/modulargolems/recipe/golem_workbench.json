@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "E": {
+      "item": "minecraft:echo_shard"
+    },
+    "G": {
+      "item": "modulargolems:golem_slicing_axe"
+    },
+    "I": {
+      "item": "minecraft:anvil"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "T": {
+      "item": "minecraft:smithing_table"
+    }
+  },
+  "pattern": [
+    "AGA",
+    "RTR",
+    "EIE"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:golem_workbench"
+  }
+}

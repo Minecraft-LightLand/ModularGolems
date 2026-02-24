@@ -17,6 +17,13 @@
     "modulargolems:golem_retrieve": 300,
     "modulargolems:item_filter": 10,
     "modulargolems:path": 30,
+    "modulargolems:table_anvil": 500,
+    "modulargolems:table_craft": 300,
+    "modulargolems:table_disassembly": 100,
+    "modulargolems:table_grindstone": 700,
+    "modulargolems:table_smithing": 600,
+    "modulargolems:table_stonecutter": 400,
+    "modulargolems:table_upgrade": 200,
     "modulargolems:target_filter": 20,
     "modulargolems:toggles": 0
   }
