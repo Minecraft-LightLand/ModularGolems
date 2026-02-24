@@ -188,6 +188,7 @@ repositories {
         url = "https://maven.theillusivec4.top/"
     }
 
+    maven { url "https://maven.shadowsoffire.dev/releases" }
     maven {
         url 'https://maven.iafenvoy.com/releases/'
         content {
@@ -289,6 +290,10 @@ dependencies {
     implementation fg.deobf("curse.maven:composite-material-982540:6310307")
     //compileOnly fg.deobf("local.zip:RevelationFix:1.20.1")
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
+
+    implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
+    implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}")
+    implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis_version}")
 
 }
 
