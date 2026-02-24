@@ -339,4 +339,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return ans;
 	}
 
+	@Override
+	public void addItemsToList(List<ItemStack> list) {
+		super.addItemsToList(list);
+		if (!backupHand.isEmpty()) list.add(backupHand);
+		if (!arrowSlot.isEmpty()) list.add(arrowSlot);
+	}
+
 }

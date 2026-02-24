@@ -28,7 +28,7 @@ public class GolemCurioTab extends TabBase<EquipmentGroup, GolemCurioTab> {
 
 	@Override
 	protected void renderIcon(GuiGraphics g) {
-		g.blitSprite(ICON, getX() + 7, getY() + 7, 14, 14);
+		g.blitSprite(ICON, getX() + 7, getY() + 5, 14, 14);
 	}
 
 }

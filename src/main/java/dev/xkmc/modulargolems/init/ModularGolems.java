@@ -10,6 +10,7 @@ import dev.xkmc.l2core.init.reg.simple.Reg;
 import dev.xkmc.l2core.serial.config.ConfigTypeEntry;
 import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
+import dev.xkmc.l2menustacker.click.quickaccess.DefaultQuickAccessActions;
 import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
@@ -24,6 +25,8 @@ import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
+import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
+import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -69,6 +72,7 @@ public class ModularGolems {
 			e -> e.create(SetItemFilterToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(OpenConfigMenuToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(OpenEquipmentMenuToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(OpenTableMenuToServer.class,  PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(TrackerSyncToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
 			e -> e.create(TrackerHeartBeatToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(TrackerDeleteToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
@@ -120,6 +124,9 @@ public class ModularGolems {
 			GolemWeaponRegistry.init();
 			GolemDispenserBehaviors.registerDispenseBehaviors();
 			CompatManager.commonSetup();
+			DefaultQuickAccessActions.quickAccess(GolemMiscs.DISINTEGRATE.get(),
+					GolemItems.TABLE.asItem(),
+					GolemDisintegrateMenu::createFloating, MGLangData.TAB_DISINTEGRATE.key());
 		});
 	}
 

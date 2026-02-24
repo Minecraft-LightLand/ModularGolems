@@ -10,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -54,7 +53,7 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		return Objects.requireNonNull(type.get().create(level));
 	}
 
-	public T create(ServerLevel level, CompoundTag tag) {
+	public T create(Level level, CompoundTag tag) {
 		return Wrappers.cast(EntityType.create(tag, level).get());
 	}
 

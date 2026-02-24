@@ -6,6 +6,7 @@ import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -29,7 +30,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -128,15 +128,22 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public static float getMaxHealth(ItemStack stack) {
 		var entity = Optional.ofNullable(stack.get(GolemItems.ENTITY));
 		if (entity.isPresent()) {
+			AttributeInstance ins = null;
 			for (var e : entity.get().getUnsafe().getList("attributes", Tag.TAG_COMPOUND)) {
 				if (!(e instanceof CompoundTag t)) continue;
 				if (t.getString("id").equals("minecraft:generic.max_health")) {
-					var ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
+					ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
 					});
 					ins.load(t);
-					return (float) ins.getValue();
+					break;
 				}
 			}
+			if (ins == null) return -1;
+			var attrs = GolemMaterial.collectAttributes(getMaterial(stack), getUpgrades(stack));
+			var mhp = attrs.get(Attributes.MAX_HEALTH);
+			if (mhp != null && mhp.getFirst().kind == GolemStatType.Kind.BASE)
+				ins.setBaseValue(mhp.getSecond());
+			return (float) ins.getValue();
 		}
 		return -1;
 	}
@@ -288,7 +295,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			if (getHealth(stack) <= 0)
 				return false;
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?, ?> golem = type.get().create((ServerLevel) level, data.getUnsafe());
+				AbstractGolemEntity<?, ?> golem = type.get().create(level, data.getUnsafe());
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				setPos(level, golem, pos);
@@ -336,7 +343,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		var data = GolemItems.ENTITY.get(stack);
 		var mat = GolemItems.HOLDER_MAT.get(stack);
 		if (data != null) {
-			golem = type.get().create((ServerLevel) level, data.getUnsafe());
+			golem = type.get().create(level, data.getUnsafe());
 			golem.updateAttributes(getMaterial(stack), getUpgrades(stack), null);
 		} else if (mat != null) {
 			golem = type.get().create(level);
@@ -438,7 +445,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (!flag.hasShiftDown()) {
 			float max = getMaxHealth(stack);
 			if (max >= 0) {
-				float health = getHealth(stack);
+				float health = Math.min(max, getHealth(stack));
 				float f = Mth.clamp(health / max, 0f, 1f);
 				int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 				MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));

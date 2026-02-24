@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.core;
 
 import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -39,23 +38,25 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 	}
 
 	public MutableComponent getAdderTooltip(double val) {
+		var attr = attribute.get().value();
 		if (kind == Kind.PERCENT) {
 			val = val * 100;
 		}
 		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,
 				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
-				Component.translatable(attribute.get().value().getDescriptionId())).withStyle(ChatFormatting.BLUE);
+				Component.translatable(attr.getDescriptionId())).withStyle(attr.getStyle(val > 0));
 	}
 
 	public MutableComponent getTotalTooltip(double val) {
+		var attr = attribute.get().value();
 		if (kind == Kind.PERCENT) {
 			val = val * 100;
 		}
 		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
 		return Component.translatable(key,
 				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
-				Component.translatable(attribute.get().value().getDescriptionId())).withStyle(ChatFormatting.BLUE);
+				Component.translatable(attr.getDescriptionId())).withStyle(attr.getStyle(val > 0));
 	}
 
 	/**

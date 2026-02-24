@@ -1144,4 +1144,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return false;
 	}
 
+	public void addItemsToList(List<ItemStack> list) {
+		for (var e : EquipmentSlot.values()) {
+			var item = getItemBySlot(e);
+			if (!item.isEmpty())
+				list.add(item);
+		}
+	}
+
 }

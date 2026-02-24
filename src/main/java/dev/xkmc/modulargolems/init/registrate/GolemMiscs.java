@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.init.registrate;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2core.init.reg.simple.SR;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2core.serial.recipe.AbstractShapedRecipe;
@@ -14,6 +13,10 @@ import dev.xkmc.modulargolems.content.menu.filter.ItemConfigMenu;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigMenu;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
+import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
+import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
+import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
+import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenu;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
@@ -58,6 +61,13 @@ public class GolemMiscs {
 			REGISTRATE.menu("config_path", PathConfigMenu::fromNetwork, () -> PathConfigScreen::new)
 					.register();
 
+	public static final MenuEntry<GolemUpgradeMenu> UPGRADES =
+			REGISTRATE.menu("upgrades", GolemUpgradeMenu::fromNetwork, () -> GolemUpgradeScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemDisintegrateMenu> DISINTEGRATE =
+			REGISTRATE.menu("disintegrate", GolemDisintegrateMenu::fromNetwork, () -> GolemDisinegrateScreen::new)
+					.register();
 
 	static {
 		ModularGolems.REGISTRATE.simple("slicing",

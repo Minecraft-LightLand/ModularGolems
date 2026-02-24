@@ -48,10 +48,6 @@ public class ClientHolderManager {
 	@Nullable
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	T getEntityForDisplay(GolemHolder<T, P> holder, ItemStack stack) {
-		var data = GolemItems.ENTITY.get(stack);
-		var icon = GolemItems.DC_ICON.get(stack);
-		var item = GolemItems.EQUIPMENTS.get(stack);
-		if (data == null && icon == null && item == null) return null;
 		int hash = stack.hashCode();
 		if (CACHE.containsKey(hash)) {
 			AbstractGolemEntity<?, ?> ans = CACHE.get(stack.hashCode()).entity;

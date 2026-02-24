@@ -2,15 +2,16 @@ package dev.xkmc.modulargolems.init;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
-import dev.xkmc.modulargolems.compat.materials.common.ClientCompatManager;
-import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.maid.MaidSkinCompat;
+import dev.xkmc.modulargolems.compat.materials.common.ClientCompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.content.menu.table.ItemListClientTooltip;
+import dev.xkmc.modulargolems.content.menu.table.ItemListTooltip;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -23,6 +24,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
@@ -77,6 +79,11 @@ public class GolemClient {
 		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			MaidSkinCompat.addLayers(event);
 		}
+	}
+
+	@SubscribeEvent
+	public static void registerClientTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
+		event.register(ItemListTooltip.class, ItemListClientTooltip::new);
 	}
 
 }

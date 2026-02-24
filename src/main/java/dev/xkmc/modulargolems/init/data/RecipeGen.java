@@ -96,6 +96,16 @@ public class RecipeGen {
 					.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
 					.define('C', Items.CLAY_BALL).save(pvd);
 
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.TABLE.get(), 1)::unlockedBy,
+					Items.ECHO_SHARD).pattern("AGA").pattern("RTR").pattern("EIE")
+					.define('A', Items.AMETHYST_SHARD)
+					.define('G', GolemItems.SLICING_AXE)
+					.define('R', Items.REDSTONE)
+					.define('T', Items.SMITHING_TABLE)
+					.define('E', Items.ECHO_SHARD)
+					.define('I', Items.ANVIL).save(pvd);
+
 			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), RecipeCategory.MISC, GolemItems.GOLEM_BODY);
 			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), RecipeCategory.MISC, GolemItems.GOLEM_ARM);
 			pvd.stonecutting(DataIngredient.items(GolemItems.GOLEM_TEMPLATE.get()), RecipeCategory.MISC, GolemItems.GOLEM_LEGS);

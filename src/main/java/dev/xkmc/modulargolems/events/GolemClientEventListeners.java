@@ -5,10 +5,13 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientProfileManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderProfile;
+import dev.xkmc.modulargolems.content.menu.table.TableTab;
 import dev.xkmc.modulargolems.events.event.HumanoidSkinEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +21,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
 
@@ -47,6 +51,21 @@ public class GolemClientEventListeners {
 		}
 		if (event.getStack().is(MGTagGen.PLAYER_SKIN)) {
 			event.setSkin(ClientProfileManager.get(event.getStack().getHoverName().getString()));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onInitScreen(ScreenEvent.Init.Post event) {
+		if (TableTab.lastOpened != null && TableTab.level != null) {
+			long time = TableTab.level.getGameTime();
+			if (TableTab.level == Minecraft.getInstance().level &&
+					TableTab.time + 60 >= time &&
+					TableTab.time <= time &&
+					event.getScreen() instanceof AbstractContainerScreen<?> acs &&
+					acs.getMenu().getType() == TableTab.lastOpened.menu) {
+				TableTab.initScreen(TableTab.lastOpened, acs, event::addListener);
+			}
+			TableTab.lastOpened = null;
 		}
 	}
 

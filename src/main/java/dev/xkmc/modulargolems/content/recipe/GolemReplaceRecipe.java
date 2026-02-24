@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
@@ -116,7 +117,13 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 		}
 		if (index < 0)
 			return ItemStack.EMPTY;
-		ItemStack result = holder.copy();
+		if (holder.getItem() instanceof GolemHolder<?, ?> h && h.getEntityType().getBodyPart() == sel) {
+			for (var e : GolemHolder.getUpgrades(holder).upgrades()) {
+				if (e instanceof AddSlotTemplate) {
+					return ItemStack.EMPTY;
+				}
+			}
+		}ItemStack result = holder.copy();
 		var matData = GolemItems.HOLDER_MAT.get(result);
 		ArrayList<GolemHolderMaterial.Entry> list;
 		if (matData == null || matData.size() < parts.length) {

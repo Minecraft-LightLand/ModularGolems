@@ -161,11 +161,11 @@ dependencies {
     implementation "dev.xkmc:l2serial:${l2serial_ver}"
     implementation "dev.xkmc:l2modularblocks:${l2modularblocks_ver}"
     implementation "dev.xkmc:l2core:${l2core_ver}"
-    implementation "dev.xkmc:l2tabs:${l2tabs_ver}"
     implementation "dev.xkmc:l2menustacker:${l2menustacker_ver}"
     implementation "dev.xkmc:l2itemselector:${l2itemselector_ver}"
     implementation "dev.xkmc:l2library:${l2library_ver}-slim"
 
+    implementation jarJar(group: 'dev.xkmc', name: 'l2tabs', version: "[${l2tabs_ver},)")
     implementation jarJar(group: 'dev.xkmc', name: 'l2damagetracker', version: "[${l2damagetracker_ver},)")
     implementation jarJar(group: 'dev.xkmc', name: 'mob_weapon_api', version: "[${mob_weapon_api_ver},)")
 

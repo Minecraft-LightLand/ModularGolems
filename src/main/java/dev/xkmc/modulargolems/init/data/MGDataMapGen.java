@@ -24,7 +24,14 @@ public class MGDataMapGen {
 				.add(GolemTabRegistry.TRACKER.id(), GolemItems.HOLDER_GOLEM.get(), false)
 				.add(GolemTabRegistry.TRACKER_ALIVE.id(), Items.POPPY, false)
 				.add(GolemTabRegistry.TRACKER_DEAD.id(), Items.WITHER_ROSE, false)
-				.add(GolemTabRegistry.TRACKER_RETRIEVE.id(), GolemItems.RETRIEVAL_WAND.get(), false);
+				.add(GolemTabRegistry.TRACKER_RETRIEVE.id(), GolemItems.RETRIEVAL_WAND.get(), false)
+				.add(GolemTabRegistry.TABLE_DISINTEGRATE.id(), GolemItems.SLICING_AXE.get(), false)
+				.add(GolemTabRegistry.TABLE_UPGRADE.id(), GolemItems.EMPTY_UPGRADE.get(), false)
+				.add(GolemTabRegistry.TABLE_CRAFT.id(), Items.CRAFTING_TABLE, false)
+				.add(GolemTabRegistry.TABLE_STONECUTTER.id(), Items.STONECUTTER, false)
+				.add(GolemTabRegistry.TABLE_ANVIL.id(), Items.ANVIL, false)
+				.add(GolemTabRegistry.TABLE_SMITHING.id(), Items.SMITHING_TABLE, false)
+				.add(GolemTabRegistry.TABLE_GRINDSTONE.id(), Items.GRINDSTONE, false);
 
 		pvd.builder(L2Tabs.ORDER.reg())
 				.add(GolemTabRegistry.CONFIG_TOGGLE.id(), 0, false)
@@ -38,7 +45,14 @@ public class MGDataMapGen {
 				.add(GolemTabRegistry.TRACKER.id(), 3400, false)
 				.add(GolemTabRegistry.TRACKER_ALIVE.id(), 100, false)
 				.add(GolemTabRegistry.TRACKER_DEAD.id(), 200, false)
-				.add(GolemTabRegistry.TRACKER_RETRIEVE.id(), 300, false);
+				.add(GolemTabRegistry.TRACKER_RETRIEVE.id(), 300, false)
+				.add(GolemTabRegistry.TABLE_DISINTEGRATE.id(), 100, false)
+				.add(GolemTabRegistry.TABLE_UPGRADE.id(), 200, false)
+				.add(GolemTabRegistry.TABLE_CRAFT.id(), 300, false)
+				.add(GolemTabRegistry.TABLE_STONECUTTER.id(), 400, false)
+				.add(GolemTabRegistry.TABLE_ANVIL.id(), 500, false)
+				.add(GolemTabRegistry.TABLE_SMITHING.id(), 600, false)
+				.add(GolemTabRegistry.TABLE_GRINDSTONE.id(), 700, false);
 
 		pvd.builder(L2Tabs.ATTRIBUTE_ENTRY.reg())
 				.add(GolemTypes.GOLEM_REGEN.key(), new AttrDispEntry(false, 7100, 0), false)

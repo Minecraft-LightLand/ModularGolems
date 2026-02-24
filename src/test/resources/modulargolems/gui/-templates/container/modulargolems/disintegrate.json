@@ -3,12 +3,6 @@
         "slot",
         "result_slot",
         "core_slot",
-        "dissembly_on",
-        "dissembly_on_hover",
-        "dissembly_down",
-        "dissembly_down_hover",
-        "dissembly_ban",
-        "dissembly_ban_hover",
         "arrow_0"
     ],
     "comp": {

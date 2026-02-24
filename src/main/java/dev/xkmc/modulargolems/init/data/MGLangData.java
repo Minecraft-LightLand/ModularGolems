@@ -125,6 +125,17 @@ public enum MGLangData {
 	TAB_EQUIPMENT("tab.equipment", "Golem Equipments", 0, null),
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
+	TAB_UPGRADES("tab.upgrades", "Golem Upgrades", 0, null),
+	TAB_DISINTEGRATE("tab.disintegrate", "Substitute & Disassemble", 0, null),
+	UI_NO_SLOT("tooltip.no_slot", "Removing this upgrade will result in insufficient slot", 0, ChatFormatting.RED),
+	UI_REMOVE_TEMPLATE("tooltip.remove_template", "Upgrade Template cannot be removed here", 0, ChatFormatting.RED),
+	UI_DISINTEGRATE("tooltip.disintegrate", "Disassemble the Golem", 0, null),
+	UI_RETURN_ITEMS("tooltip.return_items", "Returns the following items on disassembly:", 0, null),
+	UI_RETURN_MANY("tooltip.return_many", "Returns %s items on disassembly", 1, null),
+	UI_FIX_FIRST("tooltip.fix_first", "Fix the golem before disassembly!", 0, ChatFormatting.RED),
+	UI_SUB_SLOT("tooltip.sub_slot", "Insufficient slot on part replacement", 0, ChatFormatting.RED),
+	UI_SUB_INGOT("tooltip.sub_ingot", "On body replacement, each expansion template costs 1 body material. Requires:", 0, null),
+
 	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
 	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),
 	TAB_RETRIEVE("tab.tracker_retrieve", "Returned to Inventory", 0, null),
@@ -158,6 +169,10 @@ public enum MGLangData {
 		this.def = def;
 		this.arg = arg;
 		this.format = format;
+	}
+
+	public String key() {
+		return key;
 	}
 
 	public static String asId(String name) {
