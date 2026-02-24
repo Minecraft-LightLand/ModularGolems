@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
+import dev.xkmc.l2menustacker.init.MouseCache;
 import dev.xkmc.l2tabs.tabs.core.*;
 import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -41,6 +42,7 @@ public class TableTab extends TabBase<TableGroup, TableTab> {
 			lastOpened = tab;
 			time = level.getGameTime();
 		}
+		MouseCache.cacheMousePos();
 		ModularGolems.HANDLER.toServer(new OpenTableMenuToServer(tab));
 	}
 
