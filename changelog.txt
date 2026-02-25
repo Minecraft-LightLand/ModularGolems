@@ -1,5 +1,7 @@
 2.6.20
 - Add Golem Workbench
+- Nerf Ignitium golem skills
+- Add Apotheosis reforge support for Large Golem Equipments
 
 2.6.19
 - Ignis Armor

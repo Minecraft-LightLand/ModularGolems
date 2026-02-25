@@ -15,6 +15,7 @@
 		"ServerLevelMixin"
 	],
 	"client": [
+		"ScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

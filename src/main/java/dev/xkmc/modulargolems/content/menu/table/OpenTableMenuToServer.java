@@ -7,17 +7,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
 
-import java.util.UUID;
-
 @SerialClass
 public class OpenTableMenuToServer extends SerialPacketBase {
 
 	@SerialClass.SerialField
 	public TableTabType type;
-
-	@SerialClass.SerialField
-	public UUID uuid;
-
 
 	@Deprecated
 	public OpenTableMenuToServer() {

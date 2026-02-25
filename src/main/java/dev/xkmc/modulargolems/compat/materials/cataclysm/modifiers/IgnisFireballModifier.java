@@ -48,6 +48,7 @@ public class IgnisFireballModifier extends GolemModifier {
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
 		if (direct == null || !CataclysmProxy.isIgnisExplosive(direct)) return;
+		cache.addHurtModifier(DamageModifier.multTotal(MGConfig.COMMON.ignisSkillDamageFactor.get().floatValue()));
 		if (entity.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.IGNIS_HELMET.get())) {
 			cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.fireballArmorBonus.get().floatValue()));
 		}
