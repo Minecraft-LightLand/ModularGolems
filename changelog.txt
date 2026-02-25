@@ -1,8 +1,3 @@
-TODO Golem Table
-TODO Ignis flame strike fix
-TODO Diff Desc Title
-TODO Ignis scale down
-
 3.1.12
 - Add Golem Workbench
 - Nerf Ignitium golem skills
@@ -24,6 +19,7 @@ TODO Ignis scale down
 - Make many ranged attack skill also usable in melee
 - Balance Maledictus / Netherite Monstrosity jump attack and Could golem attack damage
 - New formula: dmg = atk + min(atk, factor * maxHP) + max(0, sqrt(factor * maxHP / atk) - 1) * atk * 2
+
 
 3.1.9
 - improve metal golem knockback formula
