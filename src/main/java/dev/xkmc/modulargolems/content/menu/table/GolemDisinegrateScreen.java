@@ -2,19 +2,15 @@ package dev.xkmc.modulargolems.content.menu.table;
 
 import com.mojang.datafixers.util.Pair;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2library.base.overlay.TextBox;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
-import dev.xkmc.modulargolems.content.menu.registry.TableGroup;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
-import dev.xkmc.modulargolems.content.menu.tabs.GolemTabType;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -23,6 +19,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
@@ -39,12 +37,13 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 	@Override
 	protected void init() {
 		super.init();
-		new GolemTabManager<>(this, new TableGroup(), GolemTabType.ABOVE)
-				.init(this::addRenderableWidget, GolemTabRegistry.TABLE_DISINTEGRATE);
+		TableTab.initScreen(TableTabType.DISINTEGRATE, this, this::addRenderableWidget);
 
 		var ref = menu.sprite.get().getComp("button");
-		this.addRenderableWidget(disintegrate = Button.builder(Component.literal("X"), (e) -> this.click(1))
-				.pos(leftPos + ref.x - 1, topPos + ref.y - 1).size(18, 18).build());
+		this.addRenderableWidget(disintegrate = Button.builder(Component.empty(), (e) -> this.click(1))
+				.pos(leftPos + ref.x, topPos + ref.y).size(14, 14)
+				.build(b -> new SpriteButton(b, menu.sprite.get(),
+						"dissembly_on", "dissembly_down", "dissembly_ban")));
 	}
 
 	@Override
@@ -53,22 +52,33 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		sr.start(g);
 		for (var e : menu.partSlots) {
 			if (e.isActive()) {
-				sr.draw(g, e.name, "slot", -1, -1);
-				if (e.getItem().isEmpty() && !e.partShadow.isEmpty()) {
-					int x = leftPos + e.x;
-					int y = topPos + e.y;
-					g.renderItem(e.partShadow, x, y, e.x + e.y * this.imageWidth);
-					g.fillGradient(RenderType.guiOverlay(), x, y, x + 16, y + 16, 0x7f8B8B8B, 0x7f8B8B8B, 0);
+				if (e == menu.body) {
+					sr.draw(g, e.name, "core_slot", -2, -2);
+				} else {
+					sr.draw(g, e.name, "slot", -1, -1);
 				}
+				if (e.getItem().isEmpty() && !e.partShadow.isEmpty())
+					drawShadow(g, e, e.partShadow);
 			}
 		}
-		if (menu.result.isActive())
+		if (menu.extra.isActive()) {
+			sr.draw(g, "extra_mat", "slot", -1, -1);
+			if (menu.extra.getItem().isEmpty() && !menu.extra.ingot.isEmpty()) {
+				drawShadow(g, menu.extra, getExtraMat());
+			}
+		}
+		if (menu.result.isActive()) {
 			sr.draw(g, "result", "result_slot", -5, -5);
+			sr.draw(g, "arrow", "arrow_0", -3, 0);
+			if (menu.result.getItem().isEmpty() && !menu.result.output.isEmpty())
+				drawShadow(g, menu.result, menu.result.output);
+		}
 		var input = menu.main.getItem();
 		buttonError = null;
 		boolean mayBreak = !input.isEmpty();
 		for (var e : menu.partSlots)
 			mayBreak &= e.getItem().isEmpty();
+		disintegrate.visible = mayBreak;
 		if (mayBreak) {
 			float max = GolemHolder.getMaxHealth(input);
 			float health = GolemHolder.getHealth(input);
@@ -80,25 +90,40 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		}
 		disintegrate.active = mayBreak;
 		var result = menu.result.getItem();
+		if (result.isEmpty())
+			result = menu.result.output;
 		renderPreview(g, mx, my, result.isEmpty() ? input : result);
 		if (!result.isEmpty()) renderDiff(g, input, result);
 	}
 
+	private ItemStack getExtraMat() {
+		var list = menu.extra.ingot.getItems();
+		if (list.length == 0) return ItemStack.EMPTY;
+		var time = menu.inventory.player.level().getGameTime() / 30;
+		return list[(int) (time % list.length)];
+	}
+
+	private void drawShadow(GuiGraphics g, Slot e, ItemStack stack) {
+		int x = leftPos + e.x;
+		int y = topPos + e.y;
+		g.renderItem(stack, x, y, e.x + e.y * this.imageWidth);
+		g.fillGradient(RenderType.guiOverlay(), x, y, x + 16, y + 16, 0x7f8B8B8B, 0x7f8B8B8B, 0);
+
+	}
+
 	private void renderPreview(GuiGraphics g, int mx, int my, ItemStack preview) {
 		if (preview.getItem() instanceof GolemHolder<?, ?> holder) {
-			int max = getLeftExpansion();
 			AbstractGolemEntity<?, ?> golem = ClientHolderManager.getEntityForDisplay(holder, preview);
 			if (golem != null) {
-				int x = leftPos - 5 - max;
-				int y = topPos + (imageHeight + max) / 2;
-				double lx = leftPos - 5 - max / 2d - mx;
-				double ly = topPos + imageHeight / 2d - my;
-				int size = holder.getEntityType().values().length - 1;
-				int scale = (int) (1d * max / size);
-				float ax = (float) Math.atan(lx / max * 2);
-				float ay = (float) Math.atan(ly / max * 2);
+				int x = leftPos + 30;
+				int y = topPos + 80;
+				double lx = x - mx;
+				double ly = y - 40 - my;
+				int scale = 18;
+				float ax = (float) Math.atan(lx / 50.0);
+				float ay = (float) Math.atan(ly / 50.0);
 				InventoryScreen.renderEntityInInventoryFollowsAngle(g,
-						x + max / 2, y, scale, ax, ay, golem);
+						x, y, scale, ax, ay, golem);
 			}
 		}
 	}
@@ -165,18 +190,10 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			}
 		}
 
-
-		int x = leftPos + imageWidth + 5;
-		int y = topPos + 10;
-		int maxW = screenWidth() - leftPos - imageWidth - 15;
-		for (var e : comp) {
-			int dx = x;
-			for (var line : font.split(e, maxW)) {
-				g.drawString(font, line, dx, y, -1);
-				y += font.lineHeight + 2;
-				dx += 10;
-			}
-		}
+		if (comp.isEmpty()) return;
+		comp.add(0, MGLangData.UI_DIFF_STAT.get());
+		var box = new TextBox(g, 2, 0, leftPos - 6, topPos + 6, leftPos - 10);
+		box.renderLongText(font, comp);
 	}
 
 	protected void renderTooltip(GuiGraphics g, int x, int y) {
@@ -210,6 +227,14 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			}
 		}
 		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.getItem().isEmpty()) {
+			if (hoveredSlot instanceof GolemDisintegrateMenu.ResultSlot slot && slot.error != null) {
+				Optional<TooltipComponent> item = Optional.empty();
+				if (!menu.extra.ingot.isEmpty()) {
+					item = Optional.of(new ItemListTooltip(List.of(getExtraMat().copyWithCount(menu.extra.count))));
+				}
+				g.renderTooltip(font, List.of(slot.error), item, ItemStack.EMPTY, x, y);
+				return;
+			}
 			if (hoveredSlot instanceof GolemDisintegrateMenu.PartSlot slot && !slot.partShadow.isEmpty()) {
 				var stack = slot.partShadow;
 				g.renderTooltip(font, getTooltipFromContainerItem(stack), stack.getTooltipImage(), stack, x, y);
@@ -221,17 +246,12 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 	@Override
 	public int getLeftExpansion() {
-		ItemStack golem = menu.main.getItem();
-		if (golem.getItem() instanceof GolemHolder<?, ?> holder) {
-			int size = holder.getEntityType().values().length - 1;
-			return Math.min(size * 60, Math.min(imageHeight - 20, leftPos - 10)) & -2;
-		}
-		return 0;
+		return menu.result.getItem().isEmpty() && menu.result.output.isEmpty() ? 0 : leftPos;
 	}
 
 	@Override
 	public int getRightExpansion() {
-		return menu.result.getItem().isEmpty() ? 0 : width - imageWidth - leftPos;
+		return 0;
 	}
 
 	@Override

@@ -2,25 +2,16 @@ package dev.xkmc.modulargolems.content.menu.table;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
-import dev.xkmc.l2tabs.compat.CuriosEventHandler;
-import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
-
-import java.util.UUID;
 
 @SerialClass
 public class OpenTableMenuToServer extends SerialPacketBase {
 
 	@SerialClass.SerialField
 	public TableTabType type;
-
-	@SerialClass.SerialField
-	public UUID uuid;
-
 
 	@Deprecated
 	public OpenTableMenuToServer() {
@@ -38,9 +29,21 @@ public class OpenTableMenuToServer extends SerialPacketBase {
 		AbstractContainerMenu menu = player.containerMenu;
 		ItemStack stack = menu.getCarried();
 		menu.setCarried(ItemStack.EMPTY);
+		ItemStack golem = ItemStack.EMPTY;
+		if (menu instanceof ITableMenu table) {
+			golem = table.getMainSlot().getItem();
+			table.getMainSlot().set(ItemStack.EMPTY);
+		}
 		NetworkHooks.openScreen(player, type);
 		menu = player.containerMenu;
 		menu.setCarried(stack);
+		if (!golem.isEmpty()) {
+			if (menu instanceof ITableMenu table) {
+				table.getMainSlot().set(golem);
+			} else {
+				player.getInventory().placeItemBackInInventory(golem);
+			}
+		}
 	}
 
 }

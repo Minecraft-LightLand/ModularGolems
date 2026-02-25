@@ -10,34 +10,35 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public enum GolemTabType {
-	ABOVE(0, 0, 28, 32, 8),
-	BELOW(84, 0, 28, 32, 8),
-	LEFT(0, 64, 32, 28, 5),
-	RIGHT(96, 64, 32, 28, 5);
+	ABOVE(0, 120, 24, 28, 7),
+	BELOW(72, 120, 24, 28, 7),
+	LEFT(0, 176, 28, 24, 5),
+	RIGHT(84, 176, 28, 24, 5);
 
 	private final static ResourceLocation TEXTURE = new ResourceLocation(ModularGolems.MODID, "textures/gui/tabs.png");
 
-	public static final int MAX_TABS = 8;
+	public final int max;
 	private final int textureX;
 	private final int textureY;
-	private final int width;
-	private final int height;
+	final int width;
+	final int height;
 
 	GolemTabType(int tx, int ty, int w, int h, int max) {
 		this.textureX = tx;
 		this.textureY = ty;
 		this.width = w;
 		this.height = h;
+		this.max = max;
 	}
 
 	public void draw(GuiGraphics g, int x, int y, boolean selected, int index) {
-		index = index % MAX_TABS;
+		index = index % max;
 		int tx = this.textureX;
 		if (index > 0) {
 			tx += this.width;
 		}
 
-		if (index == MAX_TABS - 1) {
+		if (index == max - 1) {
 			tx += this.width;
 		}
 
@@ -50,8 +51,8 @@ public enum GolemTabType {
 		int j = y;
 		switch (this) {
 			case ABOVE -> {
-				i += 6;
-				j += 9;
+				i += 4;
+				j += 6;
 			}
 			case BELOW -> {
 				i += 6;
@@ -63,32 +64,29 @@ public enum GolemTabType {
 			}
 			case RIGHT -> {
 				i += 6;
-				j += 5;
+				j += 4;
 			}
 		}
 		g.renderFakeItem(stack, i, j);
 		g.renderItemDecorations(Minecraft.getInstance().font, stack, i, j);
 	}
 
-	public int getX(int w, int h, int pIndex) {
+	public int getX(int w, int h, int index, int split) {
+		int space = split < 0 ? 0 : w - (width + 1) * max + 1;
 		return switch (this) {
-			case ABOVE, BELOW -> (this.width + 4) * pIndex;
-			case LEFT -> -this.width + 4;
+			case ABOVE, BELOW -> (width + 1) * index + (index >= split ? space : 0);
+			case LEFT -> -width + 4;
 			case RIGHT -> w - 4;
 		};
 	}
 
-	public int getY(int w, int h, int pIndex) {
+	public int getY(int w, int h, int index, int split) {
+		int space = split < 0 ? 0 : h - (height + 1) * max + 1;
 		return switch (this) {
-			case ABOVE -> -this.height + 4;
+			case ABOVE -> -height + 4;
 			case BELOW -> h - 4;
-			case LEFT, RIGHT -> this.height * pIndex;
+			case LEFT, RIGHT -> (height + 1) * index + (index >= split ? space : 0);
 		};
 	}
 
-	public boolean isMouseOver(int w, int h, int left, int top, int index, double mx, double my) {
-		int i = left + this.getX(w, h, index);
-		int j = top + this.getY(w, h, index);
-		return mx > (double) i && mx < (double) (i + this.width) && my > (double) j && my < (double) (j + this.height);
-	}
 }

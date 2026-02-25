@@ -2,11 +2,10 @@ package dev.xkmc.modulargolems.util;
 
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.item.golem.GolemEquipUtil;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.GolemCollectItemEvent;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,7 +13,9 @@ import net.minecraftforge.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GolemUtils {
 
@@ -24,7 +25,7 @@ public class GolemUtils {
 		} else return base + bonus;
 	}
 
-	public static List<ItemStack> collectFromGolem(Level level, ItemStack golem) {
+	public static List<ItemStack> collectFromGolem(Level level, ItemStack golem, boolean getUpgrades) {
 		List<ItemStack> ans = new ArrayList<>();
 		if (!(golem.getItem() instanceof GolemHolder<?, ?> holder))
 			return ans;
@@ -49,6 +50,17 @@ public class GolemUtils {
 				}
 				MinecraftForge.EVENT_BUS.post(new GolemCollectItemEvent(entity, ans));
 			}
+		}
+		if (getUpgrades) {
+			Map<Item, ItemStack> upgrades = new LinkedHashMap<>();
+			for (var e : GolemHolder.getUpgrades(golem)) {
+				if (!upgrades.containsKey(e.asItem())) {
+					upgrades.put(e.asItem(), e.asItem().getDefaultInstance());
+				} else {
+					upgrades.get(e.asItem()).grow(1);
+				}
+			}
+			ans.addAll(upgrades.values());
 		}
 		return ans;
 	}

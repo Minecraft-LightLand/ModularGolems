@@ -7,6 +7,7 @@ import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
 import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
+import dev.xkmc.l2screentracker.click.quickaccess.DefaultQuickAccessActions;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.*;
@@ -18,9 +19,9 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
+import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
-import dev.xkmc.modulargolems.events.GolemClickHandler;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
@@ -84,8 +85,8 @@ public class ModularGolems {
 		GolemModes.register();
 		GolemConfigStorage.register();
 		CurioCompatRegistry.register();
-		new GolemClickHandler(loc("click"));
 		AttackEventHandler.register(3500, new GolemAttackListener());
+
 	}
 
 	public ModularGolems() {
@@ -102,6 +103,9 @@ public class ModularGolems {
 			GolemDispenserBehaviors.registerDispenseBehaviors();
 			CompatManager.commonSetup();
 			GolemWeaponRegistry.init();
+			DefaultQuickAccessActions.quickAccess(GolemMiscs.DISINTEGRATE.get(),
+					GolemItems.TABLE.asItem(),
+					GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
 		});
 	}
 

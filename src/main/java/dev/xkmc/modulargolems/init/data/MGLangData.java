@@ -133,6 +133,9 @@ public enum MGLangData {
 	UI_RETURN_ITEMS("tooltip.return_items", "Returns the following items on disassembly:", 0, null),
 	UI_RETURN_MANY("tooltip.return_many", "Returns %s items on disassembly", 1, null),
 	UI_FIX_FIRST("tooltip.fix_first", "Fix the golem before disassembly!", 0, ChatFormatting.RED),
+	UI_SUB_SLOT("tooltip.sub_slot", "Insufficient slot on part replacement", 0, ChatFormatting.RED),
+	UI_SUB_INGOT("tooltip.sub_ingot", "On body replacement, each expansion template costs 1 body material. Requires:", 0, null),
+	UI_DIFF_STAT("tooltip.diff_stat", "Stat/Modifier Diff:", 0, null),
 
 	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
 	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),
@@ -167,6 +170,10 @@ public enum MGLangData {
 		this.def = def;
 		this.arg = arg;
 		this.format = format;
+	}
+
+	public String key() {
+		return key;
 	}
 
 	public static String asId(String name) {

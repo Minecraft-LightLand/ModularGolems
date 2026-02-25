@@ -15,18 +15,20 @@ public class GolemTabManager<G extends GolemTabGroup<G>> {
 	public final ITabScreen screen;
 	public final G token;
 	public final GolemTabType type;
+	private final int split;
 
 	public int tabPage;
 	public GolemTabToken<G, ?> selected;
 
-	public GolemTabManager(ITabScreen screen, G token, GolemTabType type) {
+	public GolemTabManager(ITabScreen screen, G token, GolemTabType type, int split) {
 		this.screen = screen;
 		this.token = token;
 		this.type = type;
+		this.split = split;
 	}
 
 	public GolemTabManager(ITabScreen screen, G token) {
-		this(screen, token, GolemTabType.RIGHT);
+		this(screen, token, GolemTabType.RIGHT, -1);
 	}
 
 	public void init(Consumer<AbstractWidget> adder, GolemTabToken<G, ?> selected) {
@@ -40,8 +42,9 @@ public class GolemTabManager<G extends GolemTabGroup<G>> {
 		for (int i = 0; i < token_list.size(); i++) {
 			GolemTabToken<G, ?> token = token_list.get(i);
 			GolemTabBase<G, ?> tab = token.create(i, this);
-			tab.setX(guiLeft + type.getX(w, h, tab.index));
-			tab.setY(guiTop + type.getY(w, h, tab.index));
+			tab.setX(guiLeft + type.getX(w, h, tab.index, split));
+			tab.setY(guiTop + type.getY(w, h, tab.index, split));
+			tab.init(guiLeft, guiTop);
 			adder.accept(tab);
 			list.add(tab);
 		}
@@ -50,7 +53,7 @@ public class GolemTabManager<G extends GolemTabGroup<G>> {
 
 	private void updateVisibility() {
 		for (GolemTabBase<G, ?> tab : list) {
-			tab.visible = tab.index >= tabPage * GolemTabType.MAX_TABS && tab.index < (tabPage + 1) * GolemTabType.MAX_TABS;
+			tab.visible = tab.index >= tabPage * type.max && tab.index < (tabPage + 1) * type.max;
 			tab.active = tab.visible;
 		}
 	}

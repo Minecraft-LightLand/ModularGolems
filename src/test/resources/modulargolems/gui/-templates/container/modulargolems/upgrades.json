@@ -1,19 +1,41 @@
 {
     "side": [
-        "slot"
+        "slot",
+        "page_prev_on",
+        "page_prev_on_hover",
+        "page_prev_down",
+        "page_prev_down_hover",
+        "page_prev_ban",
+        "page_prev_ban_hover",
+        "page_next_on",
+        "page_next_on_hover",
+        "page_next_down",
+        "page_next_down_hover",
+        "page_next_ban",
+        "page_next_ban_hover"
     ],
     "comp": {
+        "golem_background": {
+            "sprite": "background/golem_background",
+            "x": 88,
+            "y": -23
+        },
         "golem": {
             "sprite": "slot",
-            "x": 16,
+            "x": 88,
+            "y": -23
+        },
+        "upgrades_background": {
+            "sprite": "background/upgrades_background",
+            "x": 88,
             "y": 18
         },
         "upgrades": {
             "sprite": "slot",
-            "x": 70,
+            "x": 16,
             "y": 0,
-            "rx": 6,
-            "ry": 6
+            "rx": 9,
+            "ry": 3
         }
     },
     "isContainer": true
