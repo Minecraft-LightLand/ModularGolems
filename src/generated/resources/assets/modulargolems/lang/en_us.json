@@ -601,6 +601,7 @@
   "modulargolems.tooltip.cataclysm.ignis_armor_strike": "+%s Flame Strike Damage",
   "modulargolems.tooltip.cataclysm.monstrosity_armor": "+%s Monstrosity Earthquake Damage",
   "modulargolems.tooltip.craft_material": "Golem crafting material",
+  "modulargolems.tooltip.diff_stat": "Stat/Modifier Diff:",
   "modulargolems.tooltip.disintegrate": "Disassemble the Golem",
   "modulargolems.tooltip.fix_first": "Fix the golem before disassembly!",
   "modulargolems.tooltip.follow": "Follow",

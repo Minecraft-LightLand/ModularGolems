@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.menu.tabs.*;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -45,6 +46,17 @@ public class TableTab extends GolemTabBase<TableGroup, TableTab> {
 			time = level.getGameTime();
 		}
 		ModularGolems.HANDLER.toServer(new OpenTableMenuToServer(tab));
+	}
+
+	public void reinitIfMatched(Screen screen) {
+		level = Minecraft.getInstance().level;
+		if (level == null) return;
+		if (screen instanceof AbstractContainerScreen<?> acs) {
+			if (acs.getMenu().getType() == tab.menu) {
+				lastOpened = tab;
+				time = level.getGameTime();
+			}
+		}
 	}
 
 }

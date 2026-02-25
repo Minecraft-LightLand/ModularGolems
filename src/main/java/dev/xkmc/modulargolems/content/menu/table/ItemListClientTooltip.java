@@ -1,14 +1,12 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
-import dev.xkmc.l2backpack.content.render.DrawerCountDeco;
-
-import java.util.List;
-
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public record ItemListClientTooltip(List<ItemStack> inv) implements ClientTooltipComponent {
 
@@ -37,10 +35,8 @@ public record ItemListClientTooltip(List<ItemStack> inv) implements ClientToolti
 	private void renderSlot(Font font, int x, int y, GuiGraphics g, ItemStack stack) {
 		this.blit(g, x, y);
 		if (!stack.isEmpty()) {
-			DrawerCountDeco.startTooltipRendering();
 			g.renderItem(stack, x + 1, y + 1, 0);
 			g.renderItemDecorations(font, stack, x + 1, y + 1);
-			DrawerCountDeco.stopTooltipRendering();
 		}
 	}
 

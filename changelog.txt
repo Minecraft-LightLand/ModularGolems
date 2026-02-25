@@ -1,5 +1,9 @@
-- TODO add slots for template consumption
-- TODO stop golem craft for deficit slot
+2.6.20
+- Add Golem Workbench
+- Add Apotheosis reforge support for Large Golem Equipments
+- Nerf Ignitium golem skills
+- Ignis explosions no longer destroy items
+
 
 2.6.19
 - Ignis Armor
