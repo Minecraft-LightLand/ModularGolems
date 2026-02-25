@@ -253,7 +253,8 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 				if (success) {
 					var ans = input.copy();
 					ans.set(GolemItems.HOLDER_MAT, GolemHolderMaterial.parse(list));
-					if (GolemHolder.getHealth(input) >= GolemHolder.getMaxHealth(input)) {
+					var mhp = GolemHolder.getMaxHealth(input);
+					if (mhp > 0 && GolemHolder.getHealth(input) >= mhp) {
 						GolemHolder.setHealth(ans, GolemHolder.getMaxHealth(ans));
 					}
 					var upgrades = GolemHolder.getUpgrades(ans);

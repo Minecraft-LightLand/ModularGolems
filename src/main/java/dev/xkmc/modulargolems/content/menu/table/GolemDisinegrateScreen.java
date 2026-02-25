@@ -124,7 +124,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 				float ay = (float) Math.atan(ly / 50.0);
 				InventoryScreen.renderEntityInInventoryFollowsAngle(g,//TODO
 						leftPos + 10, topPos + 20, leftPos + 50, topPos + 80, 30,
-						scale, ax, ay, golem);
+						1f/scale, ax, ay, golem);
 			}
 		}
 	}
@@ -190,7 +190,8 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 								.withStyle(col)).withStyle(col));
 			}
 		}
-
+		if (comp.isEmpty()) return;
+		comp.addFirst(MGLangData.UI_DIFF_STAT.get());
 		var box = new TextBox(g, 2, 0, leftPos - 6, topPos + 6, leftPos - 10);
 		box.renderLongText(font, comp);
 	}
