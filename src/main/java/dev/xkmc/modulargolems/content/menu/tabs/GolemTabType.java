@@ -72,7 +72,7 @@ public enum GolemTabType {
 	}
 
 	public int getX(int w, int h, int index, int split) {
-		int space = w - (width + 1) * max + 1;
+		int space = split < 0 ? 0 : w - (width + 1) * max + 1;
 		return switch (this) {
 			case ABOVE, BELOW -> (width + 1) * index + (index >= split ? space : 0);
 			case LEFT -> -width + 4;
@@ -81,7 +81,7 @@ public enum GolemTabType {
 	}
 
 	public int getY(int w, int h, int index, int split) {
-		int space = h - (height + 1) * max + 1;
+		int space = split < 0 ? 0 : h - (height + 1) * max + 1;
 		return switch (this) {
 			case ABOVE -> -height + 4;
 			case BELOW -> h - 4;

@@ -98,6 +98,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
 		if (direct == null || !CataclysmProxy.isIgnisStrike(direct)) return;
+		cache.addHurtModifier(DamageModifier.multTotal(MGConfig.COMMON.ignisSkillDamageFactor.get().floatValue()));
 		if (entity.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.IGNIS_SHINGUARD.get())) {
 			cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.flameStrikeArmorBonus.get().floatValue()));
 		}
