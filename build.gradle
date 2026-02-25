@@ -146,7 +146,7 @@ repositories {
         name 'Progwml6 maven'
         url 'https://dvs1.progwml6.com/files/maven'
     }
-
+    maven { url "https://maven.shadowsoffire.dev/releases" }
     maven {
         name = "OctoStudios"
         url = uri("https://maven.octo-studios.com/releases")
@@ -206,6 +206,10 @@ dependencies {
     implementation "curse.maven:cloth-config-348521:5729127"
     implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
     implementation "curse.maven:mowzies-mobs-250498:6700443"
+
+    implementation "dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}"
+    implementation "dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}"
+    implementation "dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis_version}"
 
     testImplementation "com.mojang:datafixerupper:8.0.16"
     testImplementation "com.google.guava:guava:32.1.2-jre"
