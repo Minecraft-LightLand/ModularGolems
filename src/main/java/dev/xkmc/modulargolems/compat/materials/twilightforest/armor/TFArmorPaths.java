@@ -11,4 +11,16 @@ public class TFArmorPaths {
 			IRONWOOD_LEGGINGS = ModularGolems.loc("ironwood/shinguard"),
 			IRONWOOD_BOOTS = ModularGolems.loc("ironwood/boots");
 
+	public static final ResourceLocation
+			KNIGHTMETAL_HELMETS = ModularGolems.loc("knightmetal/helmet"),
+			KNIGHTMETAL_CHESTPLATES = ModularGolems.loc("knightmetal/chestplate"),
+			KNIGHTMETAL_LEGGINGS = ModularGolems.loc("knightmetal/shinguard"),
+			KNIGHTMETAL_BOOTS = ModularGolems.loc("knightmetal/boots");
+
+	public static final ResourceLocation
+			FIERY_HELMETS = ModularGolems.loc("fiery/helmet"),
+			FIERY_CHESTPLATES = ModularGolems.loc("fiery/chestplate"),
+			FIERY_LEGGINGS = ModularGolems.loc("fiery/shinguard"),
+			FIERY_BOOTS = ModularGolems.loc("fiery/boots");
+
 }

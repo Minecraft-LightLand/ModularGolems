@@ -7,7 +7,6 @@ import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
@@ -27,13 +26,13 @@ import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
-import dev.xkmc.modulargolems.events.event.GolemCollectItemEvent;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -94,15 +93,11 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.EntityArmorInvWrapper;
 import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
 import net.minecraftforge.network.NetworkHooks;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -202,6 +197,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public HashMap<GolemModifier, Integer> getModifiers() {
 		return modifiers;
+	}
+
+	public HashMap<GolemModifier, Integer> getModifiersExtended() {
+		HashMap<GolemModifier, Integer> ans = new HashMap<>(modifiers);
+		for (var e : EquipmentSlot.values()) {
+			ItemStack stack = getItemBySlot(e);
+			if (stack.getItem() instanceof IGolemModifierItem item) {
+				for (var ins : item.getModifier(stack, this)) {
+					ans.compute(ins.mod(), (k, v) -> (v == null ? 0 : v) + ins.level());
+				}
+			}
+		}
+		return ans;
 	}
 
 	public boolean hasFlag(GolemFlags flag) {

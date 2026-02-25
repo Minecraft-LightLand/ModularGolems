@@ -10,43 +10,38 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraftforge.registries.ForgeRegistries;
-//import twilightforest.item.NagaArmorItem;
 
 import java.util.UUID;
 
 public class NagaArmorItem extends MetalGolemArmorItem {
 
-    public NagaArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
-        super(properties, type, defense, toughness, model);
-    }
+	public NagaArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+		super(properties, type, defense, toughness, model);
+	}
 
-    @Override
-    protected String namespace(String def) {
-        return TFDispatch.MODID;
-    }
+	@Override
+	protected String namespace(String def) {
+		return TFDispatch.MODID;
+	}
 
+	@Override
+	protected void addExtraModifiers(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
+		super.addExtraModifiers(builder);
+		UUID uuid = UUID.get(getSlot());
+		builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid,
+				"Naga Armor", 0.5, AttributeModifier.Operation.ADDITION));
+		switch (getSlot()) {
+			case CHEST -> builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(uuid,
+					"Naga Armor", 1, AttributeModifier.Operation.ADDITION));
+			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid,
+					"Naga Armor", 0.2, AttributeModifier.Operation.MULTIPLY_BASE));
+		}
 
+	}
 
-    @Override
-    protected void addExtraModifiers(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
-        super.addExtraModifiers(builder);
-        UUID uuid = UUID.get(getSlot());
-        builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid,
-                "Naga Armor", 0.5, AttributeModifier.Operation.ADDITION));
-        switch (getSlot()) {
-            case CHEST -> builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(uuid,
-                    "Naga Armor", 1, AttributeModifier.Operation.ADDITION));
-            case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid,
-                    "Naga Armor", 0.2, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
-
-    }
-    @Override
-    public ResourceLocation getModelTexture(LivingEntity user) {
-        ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
-        assert rl != null;
-        return new ResourceLocation(namespace(rl.getNamespace()), "textures/equipments/naga.png");
-    }
+	@Override
+	public ResourceLocation getModelTexture(LivingEntity user) {
+		return new ResourceLocation(TFDispatch.MODID, "textures/equipments/naga.png");
+	}
 
 }
