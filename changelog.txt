@@ -1,5 +1,8 @@
 TODO Golem Table
 TODO Ignis flame strike fix
+TODO Diff Desc Title
+TODO Ignis scale down
+
 
 3.1.11
 - Bronte support
