@@ -123,7 +123,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 				float ax = (float) Math.atan(lx / 50.0);
 				float ay = (float) Math.atan(ly / 50.0);
 				InventoryScreen.renderEntityInInventoryFollowsAngle(g,//TODO
-						leftPos + 10, topPos + 20, leftPos + 50, topPos + 80, 30,
+						leftPos + 3, topPos + 16, leftPos + 58, topPos + 99, 20,
 						1f/scale, ax, ay, golem);
 			}
 		}
