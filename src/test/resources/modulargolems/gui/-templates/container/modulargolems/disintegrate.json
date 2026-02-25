@@ -1,6 +1,5 @@
 {
     "side": [
-        "background/golem_part_background",
         "slot",
         "result_slot",
         "core_slot",
@@ -21,7 +20,7 @@
         "golem_part_background": {
             "sprite": "background/golem_part_background",
             "x": 88,
-            "y": 6
+            "y": 18
         },
         "golem_background": {
             "sprite": "background/golem_background",

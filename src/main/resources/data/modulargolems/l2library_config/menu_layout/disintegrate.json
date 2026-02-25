@@ -11,9 +11,9 @@
 		},
 		"golem_part_background": {
 			"x": 58,
-			"y": 16,
+			"y": 39,
 			"w": 60,
-			"h": 83,
+			"h": 60,
 			"rx": 1,
 			"ry": 1
 		},
@@ -99,69 +99,63 @@
 		}
 	},
 	"side": {
-		"background/golem_part_background": {
-			"x": 176,
-			"y": 0,
-			"w": 60,
-			"h": 83
-		},
 		"slot": {
 			"x": 176,
-			"y": 83,
+			"y": 0,
 			"w": 18,
 			"h": 18
 		},
 		"result_slot": {
 			"x": 176,
-			"y": 101,
+			"y": 18,
 			"w": 26,
 			"h": 26
 		},
 		"core_slot": {
 			"x": 176,
-			"y": 127,
+			"y": 44,
 			"w": 20,
 			"h": 20
 		},
 		"dissembly_on": {
 			"x": 176,
-			"y": 147,
+			"y": 64,
 			"w": 14,
 			"h": 14
 		},
 		"dissembly_on_hover": {
 			"x": 190,
-			"y": 147,
+			"y": 64,
 			"w": 14,
 			"h": 14
 		},
 		"dissembly_down": {
 			"x": 204,
-			"y": 147,
+			"y": 64,
 			"w": 14,
 			"h": 14
 		},
 		"dissembly_down_hover": {
 			"x": 218,
-			"y": 147,
+			"y": 64,
 			"w": 14,
 			"h": 14
 		},
 		"dissembly_ban": {
 			"x": 232,
-			"y": 147,
+			"y": 64,
 			"w": 14,
 			"h": 14
 		},
 		"dissembly_ban_hover": {
 			"x": 176,
-			"y": 161,
+			"y": 78,
 			"w": 14,
 			"h": 14
 		},
 		"arrow_0": {
 			"x": 176,
-			"y": 175,
+			"y": 92,
 			"w": 22,
 			"h": 15
 		}
