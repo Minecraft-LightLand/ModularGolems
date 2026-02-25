@@ -3,6 +3,11 @@ TODO Ignis flame strike fix
 TODO Diff Desc Title
 TODO Ignis scale down
 
+3.1.12
+- Add Golem Workbench
+- Nerf Ignitium golem skills
+- Ignis explosions no longer destroy items
+- Add Apotheosis reforge support for Large Golem Equipments
 
 3.1.11
 - Bronte support

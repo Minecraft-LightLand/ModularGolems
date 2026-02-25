@@ -1,10 +1,8 @@
 package dev.xkmc.modulargolems.content.item.equipments;
 
-import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -12,8 +10,9 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
@@ -36,7 +35,11 @@ public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEqu
 	}
 
 	public MetalGolemBeaconItem(Properties properties, int def, int tough, ResourceLocation model) {
-		super(properties, ArmorItem.Type.BOOTS, def, tough, model);
+		super(properties, ArmorItem.Type.BOOTS, def, tough, model, e ->
+				e.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(
+						ModularGolems.loc(EquipmentSlot.FEET.getName() + "_armor"), -0.5f,
+						AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.FEET)
+		);
 	}
 
 	@Override
@@ -61,13 +64,6 @@ public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEqu
 				e.heal(2);
 			}
 		}
-	}
-
-	@Override
-	protected void additionalAttributes(ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder) {
-		super.additionalAttributes(builder);
-		var id = ModularGolems.loc(getSlot().getName() + "_armor");
-		builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(id, -0.5f, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 	}
 
 }

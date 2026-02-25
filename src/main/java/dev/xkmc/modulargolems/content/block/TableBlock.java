@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.block;
 
 import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
+import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.core.BlockPos;
@@ -41,7 +42,7 @@ public class TableBlock extends Block {
 
 	public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
 		return new SimpleMenuProvider((wid, inv, player) ->
-				new GolemDisintegrateMenu(GolemMiscs.DISINTEGRATE.get(), wid, inv), MGLangData.TAB_DISINTEGRATE.get());
+				new GolemUpgradeMenu(GolemMiscs.UPGRADES.get(), wid, inv), MGLangData.TAB_UPGRADES.get());
 	}
 
 	@Override

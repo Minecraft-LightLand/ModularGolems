@@ -135,6 +135,7 @@ public enum MGLangData {
 	UI_FIX_FIRST("tooltip.fix_first", "Fix the golem before disassembly!", 0, ChatFormatting.RED),
 	UI_SUB_SLOT("tooltip.sub_slot", "Insufficient slot on part replacement", 0, ChatFormatting.RED),
 	UI_SUB_INGOT("tooltip.sub_ingot", "On body replacement, each expansion template costs 1 body material. Requires:", 0, null),
+	UI_DIFF_STAT("tooltip.diff_stat", "Stat/Modifier Diff:", 0, null),
 
 	TAB_ALIVE("tab.tracker_alive", "Golems in World", 0, null),
 	TAB_DEAD("tab.tracker_dead", "Golem Death Record", 0, null),

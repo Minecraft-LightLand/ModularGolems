@@ -26,6 +26,7 @@ import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
+import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
@@ -126,7 +127,7 @@ public class ModularGolems {
 			CompatManager.commonSetup();
 			DefaultQuickAccessActions.quickAccess(GolemMiscs.DISINTEGRATE.get(),
 					GolemItems.TABLE.asItem(),
-					GolemDisintegrateMenu::createFloating, MGLangData.TAB_DISINTEGRATE.key());
+					GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
 		});
 	}
 

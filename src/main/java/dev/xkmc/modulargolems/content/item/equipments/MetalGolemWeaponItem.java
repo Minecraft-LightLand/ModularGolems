@@ -4,9 +4,15 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
+
+import java.util.function.Consumer;
 
 public class MetalGolemWeaponItem extends GolemEquipmentItem {
 
@@ -16,19 +22,29 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 	public static final ResourceLocation SWEEP = ModularGolems.loc("weapon_sweep_range");
 
 	public MetalGolemWeaponItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep) {
+		this(properties, attackDamage, percentAttack, range, sweep, e -> {
+		});
+	}
+
+	public MetalGolemWeaponItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep, Consumer<ItemAttributeModifiers.Builder> attr) {
 		super(properties, EquipmentSlot.MAINHAND, GolemTypes.ENTITY_GOLEM::get, builder -> {
 			if (attackDamage > 0) {
-				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATK, attackDamage, AttributeModifier.Operation.ADD_VALUE));
+				builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATK, attackDamage,
+						AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
 			}
 			if (percentAttack > 0) {
-				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATKP, percentAttack, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+				builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATKP, percentAttack,
+						AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND);
 			}
 			if (range > 0) {
-				builder.put(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(RANGE, range, AttributeModifier.Operation.ADD_VALUE));
+				builder.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(RANGE, range,
+						AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
 			}
 			if (sweep > 0) {
-				builder.put(GolemTypes.GOLEM_SWEEP.holder(), new AttributeModifier(SWEEP, sweep, AttributeModifier.Operation.ADD_VALUE));
+				builder.add(GolemTypes.GOLEM_SWEEP.holder(), new AttributeModifier(SWEEP, sweep,
+						AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
 			}
+			attr.accept(builder);
 		});
 	}
 
@@ -40,6 +56,11 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 	@Override
 	public int getEnchantmentValue() {
 		return 15;
+	}
+
+	@Override
+	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
+		return ability == ItemAbilities.SWORD_DIG || super.canPerformAction(stack, ability);
 	}
 
 }

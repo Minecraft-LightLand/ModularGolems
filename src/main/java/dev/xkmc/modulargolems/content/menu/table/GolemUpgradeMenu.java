@@ -4,10 +4,12 @@ import dev.xkmc.l2core.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
@@ -17,6 +19,10 @@ public class GolemUpgradeMenu extends BaseContainerMenu<GolemUpgradeMenu> implem
 
 	public static GolemUpgradeMenu fromNetwork(MenuType<GolemUpgradeMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		return new GolemUpgradeMenu(type, wid, plInv);
+	}
+
+	public static GolemUpgradeMenu createFloating(int wid, Inventory plInv, ContainerLevelAccess access) {
+		return new GolemUpgradeMenu(GolemMiscs.UPGRADES.get(), wid, plInv);
 	}
 
 	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "upgrades");

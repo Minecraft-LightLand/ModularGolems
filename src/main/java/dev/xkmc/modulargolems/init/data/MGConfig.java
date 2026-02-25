@@ -76,6 +76,7 @@ public class MGConfig {
 		public final ModConfigSpec.BooleanValue allowDimensionChange;
 
 		public final ModConfigSpec.DoubleValue ignitiumHealRate;
+		public final ModConfigSpec.DoubleValue ignisSkillDamageFactor;
 		public final ModConfigSpec.DoubleValue fireballArmorBonus;
 		public final ModConfigSpec.DoubleValue flameStrikeArmorBonus;
 		public final ModConfigSpec.DoubleValue laserArmorBonus;
@@ -239,6 +240,8 @@ public class MGConfig {
 				{
 					ignitiumHealRate = builder.text("Heal rate as percentage of damage dealt per level of blazing brand")
 							.defineInRange("ignitiumHealRate", 0.1d, 0, 10);
+					ignisSkillDamageFactor = builder.text("Ignitium golem skill damage factor")
+							.defineInRange("ignisSkillDamageFactor", 0.5d, 0, 1);
 					fireballArmorBonus = builder.text("Ignis Helmet Bonus: Fireball damage boost")
 							.defineInRange("fireballArmorBonus", 0.5, 0, 10);
 					flameStrikeArmorBonus = builder.text("Ignis Shinguard Bonus: Flame Strike damage boost")

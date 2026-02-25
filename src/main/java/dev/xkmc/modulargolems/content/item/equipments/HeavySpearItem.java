@@ -19,11 +19,6 @@ public class HeavySpearItem extends MetalGolemWeaponItem {
 		this.damage = attackDamage;
 	}
 
-	@Override
-	protected void additionalAttributes(ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder) {
-
-	}
-
 	public static boolean canSmashAttack(LivingEntity user) {
 		return user.fallDistance > 1.5F && !user.isFallFlying();
 	}
