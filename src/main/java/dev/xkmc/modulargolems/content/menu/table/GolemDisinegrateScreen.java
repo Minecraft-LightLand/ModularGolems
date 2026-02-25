@@ -116,10 +116,10 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 			AbstractGolemEntity<?, ?> golem = ClientHolderManager.getEntityForDisplay(holder, preview);
 			if (golem != null) {
 				int x = leftPos + 30;
-				int y = topPos + 80;
+				int y = topPos + 85;
 				double lx = x - mx;
 				double ly = y - 40 - my;
-				int scale = 18;
+				int scale = 20;
 				float ax = (float) Math.atan(lx / 50.0);
 				float ay = (float) Math.atan(ly / 50.0);
 				InventoryScreen.renderEntityInInventoryFollowsAngle(g,
