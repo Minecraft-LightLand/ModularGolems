@@ -1,3 +1,7 @@
+2.6.21
+- Add Twilight Forest Golem Armor and Weapons
+- Buff diamond golem boot
+
 2.6.20
 - Add Golem Workbench
 - Add Apotheosis reforge support for Large Golem Equipments

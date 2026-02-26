@@ -1,0 +1,24 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:knightmetal_helmet"
+    }
+  ],
+  "results": [
+    {
+      "count": 20,
+      "item": "twilightforest:knightmetal_ingot"
+    }
+  ]
+}
