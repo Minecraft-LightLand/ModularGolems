@@ -28,10 +28,13 @@ public class GolemAttackListener implements AttackListener {
 			if (!golem.canAttack(data.getTarget())) {
 				return true;
 			}
+			for (var e : golem.getModifiersExtended().entrySet()) {
+				e.getKey().onAttackTarget(golem, data, e.getValue());
+			}
 		}
 		if (data.getTarget() instanceof AbstractGolemEntity<?, ?> golem) {
 			if (data.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) return false;
-			for (var e : golem.getModifiers().entrySet()) {
+			for (var e : golem.getModifiersExtended().entrySet()) {
 				if (e.getKey().onAttacked(golem, data, e.getValue())) {
 					return true;
 				}
@@ -47,7 +50,7 @@ public class GolemAttackListener implements AttackListener {
 					dmg -> dmg + golem.getMainHandItem().getItem().getAttackDamageBonus(data.getTarget(), dmg, data.getSource()),
 					WEAPON_INHERENT
 			));
-			for (var entry : golem.getModifiers().entrySet()) {
+			for (var entry : golem.getModifiersExtended().entrySet()) {
 				entry.getKey().onHurtTarget(golem, data, entry.getValue());
 			}
 		}
@@ -62,7 +65,7 @@ public class GolemAttackListener implements AttackListener {
 	public void onDamage(DamageData.Defence data) {
 		if (data.getTarget() instanceof AbstractGolemEntity<?, ?> golem) {
 			if (data.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) return;
-			for (var e : golem.getModifiers().entrySet()) {
+			for (var e : golem.getModifiersExtended().entrySet()) {
 				e.getKey().onDamaged(golem, data, e.getValue());
 			}
 		}
@@ -71,7 +74,7 @@ public class GolemAttackListener implements AttackListener {
 	@Override
 	public void onDamageFinalized(DamageData.DefenceMax data) {
 		if (data.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
-			for (var entry : golem.getModifiers().entrySet()) {
+			for (var entry : golem.getModifiersExtended().entrySet()) {
 				entry.getKey().postHurtTarget(golem, data, entry.getValue());
 			}
 			var owner = golem.getOwner();
@@ -80,7 +83,7 @@ public class GolemAttackListener implements AttackListener {
 			}
 		}
 		if (data.getTarget() instanceof AbstractGolemEntity<?, ?> golem) {
-			for (var entry : golem.getModifiers().entrySet()) {
+			for (var entry : golem.getModifiersExtended().entrySet()) {
 				entry.getKey().postDamaged(golem, data, entry.getValue());
 			}
 		}

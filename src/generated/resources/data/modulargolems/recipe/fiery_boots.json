@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "B": {
+      "tag": "twilightforest:fiery_vial"
+    },
+    "I": {
+      "item": "twilightforest:fiery_boots"
+    }
+  },
+  "pattern": [
+    "I I",
+    "BAB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:fiery_boots"
+  }
+}

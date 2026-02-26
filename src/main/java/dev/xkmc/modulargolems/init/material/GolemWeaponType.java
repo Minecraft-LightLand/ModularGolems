@@ -8,21 +8,20 @@ import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 
 import java.util.Locale;
-import java.util.function.BiFunction;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public enum GolemWeaponType {
-	SPEAR("item/long_weapon", (p, i) -> new MetalGolemWeaponItem(p, i, 0, 2, 0), "TII", " SI", "S T"),
-	AXE("item/battle_axe", (p, i) -> new MetalGolemWeaponItem(p, 0, i * 0.05, 0, 2), "III", "IS ", "TST"),
-	SWORD("item/sword", (p, i) -> new MetalGolemWeaponItem(p, i, 0, 1, 2), "TII", "ISI", "SIT"),
+	SPEAR("item/long_weapon", (p, i, f) -> f.create(p, i, 0, 2, 0), "TII", " SI", "S T"),
+	AXE("item/battle_axe", (p, i, f) -> f.create(p, 0, i * 0.05, 0, 2), "III", "IS ", "TST"),
+	SWORD("item/sword", (p, i, f) -> f.create(p, i, 0, 1, 2), "TII", "ISI", "SIT"),
 	;
 
-	private final BiFunction<Item.Properties, Integer, MetalGolemWeaponItem> factory;
+	private final IWeaponConstructor factory;
 	private final String[] pattern;
 	public final String model;
 
-	GolemWeaponType(String model, BiFunction<Item.Properties, Integer, MetalGolemWeaponItem> factory, String... pattern) {
+	GolemWeaponType(String model, IWeaponConstructor factory, String... pattern) {
 		this.model = model;
 		this.factory = factory;
 		this.pattern = pattern;
@@ -33,9 +32,11 @@ public enum GolemWeaponType {
 	}
 
 	public ItemEntry<MetalGolemWeaponItem> buildItem(IGolemWeaponMaterial material) {
-		return REGISTRATE.item(material.getName() + "_" + getName(), p -> factory.apply(material.modify(p.stacksTo(1)), material.getDamage()))
-				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
-						.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
+		return REGISTRATE.item(material.getName() + "_" + getName(), p ->
+						factory.create(material.modify(p.stacksTo(1)), material.getDamage(), material.factory()))
+				.model((ctx, pvd) -> material.model(pvd.getBuilder(ctx.getName()))
+						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
+						.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())))
 				.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE)
 				.defaultLang().register();
 	}
@@ -57,6 +58,12 @@ public enum GolemWeaponType {
 			unlock.pattern(str);
 		}
 		return unlock;
+	}
+
+	interface IWeaponConstructor {
+
+		MetalGolemWeaponItem create(Item.Properties prop, int val, IGolemWeaponFactory factory);
+
 	}
 
 }

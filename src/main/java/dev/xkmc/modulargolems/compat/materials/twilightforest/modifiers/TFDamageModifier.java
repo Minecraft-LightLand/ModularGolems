@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.twilightforest;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers;
 
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;

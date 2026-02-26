@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": {
+      "item": "twilightforest:knightmetal_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "TII",
+    " SI",
+    "S T"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:knightmetal_golem_spear"
+  }
+}

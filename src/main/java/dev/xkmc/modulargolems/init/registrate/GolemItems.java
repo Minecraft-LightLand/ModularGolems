@@ -218,7 +218,7 @@ public class GolemItems {
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 			WINDSPIRIT_BOOTS = REGISTRATE.item("wind_spirit_boots", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.BOOTS, 3, 2, GolemModelPaths.BOOTS_DIAMOND))
+							ArmorItem.Type.BOOTS, 6, 6, GolemModelPaths.BOOTS_DIAMOND))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 					.defaultLang().register();

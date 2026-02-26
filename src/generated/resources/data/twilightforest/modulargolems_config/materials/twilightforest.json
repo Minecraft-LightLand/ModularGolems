@@ -15,7 +15,7 @@
   },
   "modifiers": {
     "twilightforest:fiery": {
-      "modulargolems:fiery": 1,
+      "modulargolems:fiery": 2,
       "modulargolems:fire_immune": 1,
       "modulargolems:tf_damage": 1,
       "modulargolems:tf_healing": 1,

@@ -17,7 +17,7 @@ public class MGConfig {
 	public static class Common extends ConfigInit {
 
 		public final ModConfigSpec.DoubleValue thorn;
-		public final ModConfigSpec.DoubleValue fiery;
+		public final ModConfigSpec.DoubleValue fieryDamageFactor;
 		public final ModConfigSpec.DoubleValue magicResistance;
 		public final ModConfigSpec.DoubleValue explosionResistance;
 		public final ModConfigSpec.DoubleValue compatTFHealing;
@@ -164,8 +164,8 @@ public class MGConfig {
 
 				builder.push("twilightforest", "Twilight Forest Compat Properties");
 				{
-					fiery = builder.text("Percentage damage addition per level of fiery")
-							.defineInRange("fiery", 0.5, 0, 100);
+					fieryDamageFactor = builder.text("Percentage damage addition per level of fiery")
+							.defineInRange("fieryDamageFactor", 0.25, 0, 100);
 					compatTFHealing = builder.text("Percentage healing bonus per level of twilight healing")
 							.defineInRange("compatTFHealing", 0.5, 0, 100);
 					compatTFDamage = builder.text("Percentage damage bonus per level of twilight damage")

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.twilightforest;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers;
 
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
@@ -15,7 +15,7 @@ import java.util.List;
 public class FieryModifier extends GolemModifier {
 
 	private static float getPercent() {
-		return (float) (double) MGConfig.COMMON.fiery.get();
+		return (float) (double) MGConfig.COMMON.fieryDamageFactor.get();
 	}
 
 	public FieryModifier() {
@@ -23,7 +23,7 @@ public class FieryModifier extends GolemModifier {
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		int reflect = Math.round((1 + getPercent() * v) * 100);
+		int reflect = Math.round(getPercent() * v * 100);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", reflect).withStyle(ChatFormatting.GREEN));
 	}
 

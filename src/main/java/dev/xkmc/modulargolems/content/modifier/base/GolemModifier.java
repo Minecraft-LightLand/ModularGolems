@@ -53,6 +53,8 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 
 	}
 
+	// dynamic methods
+
 	/**
 	 * fires when this golem is attacked. Damage cancellation phase
 	 */
@@ -100,6 +102,8 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
 		return onInventoryHealTick(heal, new HealingContext(entity.getHealth(), entity.getMaxHealth(), entity), level);
 	}
+
+	// static methods
 
 	/**
 	 * modify healing

@@ -10,6 +10,18 @@
     "modulargolems:diamond_golem_sword",
     "modulargolems:netherite_golem_sword",
     "modulargolems:golem_slicing_axe",
-    "modulargolems:heavy_golem_spear"
+    "modulargolems:heavy_golem_spear",
+    "modulargolems:ironwood_golem_spear",
+    "modulargolems:steeleaf_golem_spear",
+    "modulargolems:knightmetal_golem_spear",
+    "modulargolems:fiery_golem_spear",
+    "modulargolems:ironwood_golem_axe",
+    "modulargolems:steeleaf_golem_axe",
+    "modulargolems:knightmetal_golem_axe",
+    "modulargolems:fiery_golem_axe",
+    "modulargolems:ironwood_golem_sword",
+    "modulargolems:steeleaf_golem_sword",
+    "modulargolems:knightmetal_golem_sword",
+    "modulargolems:fiery_golem_sword"
   ]
 }

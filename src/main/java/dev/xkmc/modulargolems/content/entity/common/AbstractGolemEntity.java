@@ -27,6 +27,7 @@ import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
@@ -183,6 +184,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public HashMap<GolemModifier, Integer> getModifiers() {
 		return modifiers;
+	}
+
+	public HashMap<GolemModifier, Integer> getModifiersExtended() {
+		HashMap<GolemModifier, Integer> ans = new HashMap<>(modifiers);
+		for (var e : EquipmentSlot.values()) {
+			ItemStack stack = getItemBySlot(e);
+			if (stack.getItem() instanceof IGolemModifierItem item) {
+				for (var ins : item.getModifier(stack, this)) {
+					ans.compute(ins.mod(), (k, v) -> (v == null ? 0 : v) + ins.level());
+				}
+			}
+		}
+		return ans;
 	}
 
 	public boolean hasFlag(GolemFlags flag) {
@@ -689,7 +703,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!this.level().isClientSide && isAlive()) {
 			if (this.tickCount % 20 == 0) {
 				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.holder());
-				for (var entry : getModifiers().entrySet()) {
+				for (var entry : getModifiersExtended().entrySet()) {
 					heal = entry.getKey().onHealTick(heal, this, entry.getValue());
 				}
 				if (heal > 0) {

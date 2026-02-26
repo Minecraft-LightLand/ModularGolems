@@ -2,22 +2,39 @@ package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.client.FieryModelTransformer;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.equipments.*;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.CarminiteModifier;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.FieryModifier;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.TFDamageModifier;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.TFHealingModifier;
+import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
 
+import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.THORN;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class TFCompatRegistry {
+
+	public static final ItemEntry<IronwoodArmorItem> IRONWOOD_HELMET, IRONWOOD_CHESTPLATE, IRONWOOD_SHINGUARD, IRONWOOD_BOOTS;
+	public static final ItemEntry<KnightmetalArmorItem> KNIGHTMETAL_HELMET, KNIGHTMETAL_CHESTPLATE, KNIGHTMETAL_SHINGUARD, KNIGHTMETAL_BOOTS;
+	public static final ItemEntry<FieryArmorItem> FIERY_HELMET, FIERY_CHESTPLATE, FIERY_SHINGUARD, FIERY_BOOTS;
+	public static final ItemEntry<NagaArmorItem> NAGA_CHESTPLATE, NAGA_SHINGUARD;
+	public static final ItemEntry<MetalGolemWeaponItem>[][] TF_GOLEM_WEAPON;
 
 	public static final Val<FieryModifier> FIERY;
 	public static final Val<TFDamageModifier> TF_DAMAGE;
@@ -30,7 +47,69 @@ public class TFCompatRegistry {
 	public static final TagKey<Item> GIANT_ITEM = ItemTags.create(ModularGolems.loc("giant_items"));
 
 	static {
-		FIERY = reg("fiery", FieryModifier::new, "Deal %s%% fire damage to mobs not immune to fire");
+		IRONWOOD_HELMET = REGISTRATE.item("ironwood_helmet", p -> new IronwoodArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 8, 4, TFArmorPaths.IRONWOOD_HELMETS)) // 护甲值和韧性请根据设计调整
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))) // 注意：cataLoc 应替换为您第二个文件中的资源定位方法，例如 modLoc
+				.defaultLang().register();
+		IRONWOOD_CHESTPLATE = REGISTRATE.item("ironwood_chestplate", p -> new IronwoodArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 10, 4, TFArmorPaths.IRONWOOD_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		IRONWOOD_SHINGUARD = REGISTRATE.item("ironwood_shinguard", p -> new IronwoodArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 6, 4, TFArmorPaths.IRONWOOD_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		IRONWOOD_BOOTS = REGISTRATE.item("ironwood_boots", p -> new IronwoodArmorItem(p.stacksTo(1),
+						ArmorItem.Type.BOOTS, 4, 4, TFArmorPaths.IRONWOOD_BOOTS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+
+		NAGA_CHESTPLATE = REGISTRATE.item("naga_chestplate", p -> new NagaArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 13, 5, TFArmorPaths.IRONWOOD_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		NAGA_SHINGUARD = REGISTRATE.item("naga_shinguard", p -> new NagaArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 7, 5, TFArmorPaths.IRONWOOD_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+
+		KNIGHTMETAL_HELMET = REGISTRATE.item("knightmetal_helmet", p -> new KnightmetalArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 11, 6, TFArmorPaths.KNIGHTMETAL_HELMETS)) // 护甲值和韧性请根据设计调整
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))) // 注意：cataLoc 应替换为您第二个文件中的资源定位方法，例如 modLoc
+				.defaultLang().register();
+		KNIGHTMETAL_CHESTPLATE = REGISTRATE.item("knightmetal_chestplate", p -> new KnightmetalArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 14, 6, TFArmorPaths.KNIGHTMETAL_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		KNIGHTMETAL_SHINGUARD = REGISTRATE.item("knightmetal_shinguard", p -> new KnightmetalArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 8, 6, TFArmorPaths.KNIGHTMETAL_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		KNIGHTMETAL_BOOTS = REGISTRATE.item("knightmetal_boots", p -> new KnightmetalArmorItem(p.stacksTo(1),
+						ArmorItem.Type.BOOTS, 6, 6, TFArmorPaths.KNIGHTMETAL_BOOTS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+
+		FIERY_HELMET = REGISTRATE.item("fiery_helmet", p -> new FieryArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 11, 6, TFArmorPaths.FIERY_HELMETS)) // 护甲值和韧性请根据设计调整
+				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
+				.defaultLang().register();
+		FIERY_CHESTPLATE = REGISTRATE.item("fiery_chestplate", p -> new FieryArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 14, 6, TFArmorPaths.FIERY_CHESTPLATES))
+				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
+				.defaultLang().register();
+		FIERY_SHINGUARD = REGISTRATE.item("fiery_shinguard", p -> new FieryArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 8, 6, TFArmorPaths.FIERY_LEGGINGS))
+				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
+				.defaultLang().register();
+		FIERY_BOOTS = REGISTRATE.item("fiery_boots", p -> new FieryArmorItem(p.stacksTo(1),
+						ArmorItem.Type.BOOTS, 6, 6, TFArmorPaths.FIERY_BOOTS))
+				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
+				.defaultLang().register();
+
+		TF_GOLEM_WEAPON = GolemWeaponType.build(TFGolemWeaponMaterial.values());
+
+		FIERY = reg("fiery", FieryModifier::new, "Deal +%s%% damage to mobs not immune to fire");
 		TF_DAMAGE = reg("tf_damage", TFDamageModifier::new, "TF Damage Bonus", "Deal %s%% extra damage in twilight forest");
 		TF_HEALING = reg("tf_healing", TFHealingModifier::new, "TF Healing Bonus", "Healing becomes %s%% more in twilight forest");
 		CARMINITE = reg("carminite", CarminiteModifier::new, "After being hurt, turn invisible and invinsible for %s seconds");
@@ -59,6 +138,14 @@ public class TFCompatRegistry {
 				.addOptional(TFItems.GIANT_PICKAXE.getId())
 				.addOptional(TFItems.GIANT_SWORD.getId())
 		);
+	}
+
+	private static void fiery(Object obj) {
+		FieryModelTransformer.transform(obj);
+	}
+
+	public static ResourceLocation tfLoc(String id) {
+		return  ResourceLocation.fromNamespaceAndPath(TFDispatch.MODID, id);
 	}
 
 }

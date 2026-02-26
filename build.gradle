@@ -207,10 +207,6 @@ dependencies {
     implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
     implementation "curse.maven:mowzies-mobs-250498:6700443"
 
-    implementation "dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}"
-    implementation "dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}"
-    implementation "dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis_version}"
-
     testImplementation "com.mojang:datafixerupper:8.0.16"
     testImplementation "com.google.guava:guava:32.1.2-jre"
 
