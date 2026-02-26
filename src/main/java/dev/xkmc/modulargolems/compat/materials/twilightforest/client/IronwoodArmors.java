@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.buildGolemBaseLayers;
-import static dev.xkmc.modulargolems.compat.materials.twilightforest.armor.TFArmorPaths.*;
+import static dev.xkmc.modulargolems.compat.materials.twilightforest.equipments.TFArmorPaths.*;
 
 public class IronwoodArmors {
 

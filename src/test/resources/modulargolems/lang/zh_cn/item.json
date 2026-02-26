@@ -138,7 +138,11 @@
 				{
 					"iron": "铁",
 					"diamond": "钻石",
-					"netherite": "下界合金"
+					"netherite": "下界合金",
+					"ironwood": "铁木",
+					"knightmetal": "骑士",
+					"fiery": "炽铁",
+					"steeleaf": "钢叶"
 				},
 				{
 					"golem": "傀儡"

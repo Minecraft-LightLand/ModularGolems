@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.twilightforest.armor;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.equipments;
 
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;

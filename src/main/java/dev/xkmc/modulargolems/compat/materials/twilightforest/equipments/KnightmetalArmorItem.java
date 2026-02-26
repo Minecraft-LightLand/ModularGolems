@@ -1,6 +1,5 @@
-package dev.xkmc.modulargolems.compat.materials.twilightforest.armor;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.equipments;
 
-import dev.xkmc.modulargolems.compat.materials.twilightforest.TFCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
@@ -18,18 +17,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class FieryArmorItem extends MetalGolemArmorItem implements IGolemModifierItem {
+public class KnightmetalArmorItem extends MetalGolemArmorItem implements IGolemModifierItem {
 
-	public FieryArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public KnightmetalArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type, defense, toughness, model);
 	}
 
 	@Override
 	public List<ModifierInstance> getModifier(ItemStack stack, @Nullable AbstractGolemEntity<?, ?> golem) {
-		return List.of(
-				new ModifierInstance(GolemModifiers.THORN.get(), 1),
-				new ModifierInstance(TFCompatRegistry.FIERY.get(), 1)
-		);
+		return List.of(new ModifierInstance(GolemModifiers.THORN.get(), 1));
 	}
 
 	@Override
@@ -39,23 +35,12 @@ public class FieryArmorItem extends MetalGolemArmorItem implements IGolemModifie
 	}
 
 	@Override
-	public boolean emissive() {
-		return true;
-	}
-
-	@Override
 	protected String namespace(String def) {
 		return TFDispatch.MODID;
 	}
 
 	@Override
 	public ResourceLocation getModelTexture(LivingEntity user) {
-		return new ResourceLocation(TFDispatch.MODID, "textures/equipments/fiery.png");
+		return new ResourceLocation(TFDispatch.MODID, "textures/equipments/knightmetal.png");
 	}
-
-	@Override
-	public ResourceLocation getEmissiveModelTexture(LivingEntity user) {
-		return new ResourceLocation(TFDispatch.MODID, "textures/equipments/fiery_emissive.png");
-	}
-
 }

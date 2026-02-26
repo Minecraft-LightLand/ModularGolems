@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.twilightforest.armor;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.equipments;
 
 import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;

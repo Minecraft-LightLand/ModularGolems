@@ -2,13 +2,15 @@ package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.armor.*;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.equipments.*;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.CarminiteModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.FieryModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.TFDamageModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.TFHealingModifier;
+import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
@@ -24,6 +26,7 @@ public class TFCompatRegistry {
 	public static final ItemEntry<KnightmetalArmorItem> KNIGHTMETAL_HELMET, KNIGHTMETAL_CHESTPLATE, KNIGHTMETAL_SHINGUARD, KNIGHTMETAL_BOOTS;
 	public static final ItemEntry<FieryArmorItem> FIERY_HELMET, FIERY_CHESTPLATE, FIERY_SHINGUARD, FIERY_BOOTS;
 	public static final ItemEntry<NagaArmorItem> NAGA_CHESTPLATE, NAGA_SHINGUARD;
+	public static final ItemEntry<MetalGolemWeaponItem>[][] TF_GOLEM_WEAPON;
 	public static final RegistryEntry<FieryModifier> FIERY;
 	public static final RegistryEntry<TFDamageModifier> TF_DAMAGE;
 	public static final RegistryEntry<TFHealingModifier> TF_HEALING;
@@ -93,6 +96,7 @@ public class TFCompatRegistry {
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
+		TF_GOLEM_WEAPON = GolemWeaponType.build(TFGolemWeaponMaterial.values());
 
 		FIERY = reg("fiery", FieryModifier::new, "Deal %s%% fire damage to mobs not immune to fire");
 		TF_DAMAGE = reg("tf_damage", TFDamageModifier::new, "TF Damage Bonus", "Deal %s%% extra damage in twilight forest");
@@ -118,7 +122,7 @@ public class TFCompatRegistry {
 
 	}
 
-	private static ResourceLocation tfLoc(String id) {
+	public static ResourceLocation tfLoc(String id) {
 		return new ResourceLocation(TFDispatch.MODID, id);
 	}
 }

@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 
-package dev.xkmc.modulargolems.compat.materials.twilightforest.armor;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.equipments;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
