@@ -115,7 +115,13 @@
 		"dx": 1,
 		"dy": 1
 	},
-	"empty_slot": {
+	"empty": {
+		"w": 18,
+		"h": 18,
+		"dx": 1,
+		"dy": 1
+	},
+	"lock_slot": {
 		"w": 18,
 		"h": 18,
 		"dx": 1,
@@ -159,18 +165,6 @@
 		"w": 176,
 		"h": 96
 	},
-	"background/golem_part_background": {
-		"w": 60,
-		"h": 60
-	},
-	"background/golem_background": {
-		"w": 34,
-		"h": 24
-	},
-	"background/upgrades_background": {
-		"w": 168,
-		"h": 60
-	},
 	"bottom_screen": {
 		"w": 176,
 		"h": 7
@@ -202,8 +196,7 @@
 			"_down",
 			"_down_hover",
 			"_ban",
-			"_ban_hover",
-			"_empty"
+			"_ban_hover"
 		],
 		"w": 14,
 		"h": 14
@@ -221,10 +214,19 @@
 			"_prev_down",
 			"_prev_down_hover",
 			"_prev_ban",
-			"_prev_ban_hover",
-			"_empty"
+			"_prev_ban_hover"
 		],
 		"w": 11,
 		"h": 11
+	},
+	"background": {
+		"ids": [
+			"_bottom_left",
+			"_bottom_right",
+			"_top_left",
+			"_top_right"
+		],
+		"w": 16,
+		"h": 16
 	}
 }

@@ -50,6 +50,23 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 	protected void renderBg(GuiGraphics g, float pt, int mx, int my) {
 		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(g);
+		sr.draw(g, "background_up", "background_top_left", 79, -1);
+		for (int ubg = 0; ubg < 2; ubg++){
+			sr.draw(g, "background_up", "background_top_right", 83 + (ubg % 2) * 14, -1);
+			sr.draw(g, "background_up", "background_bottom_left", 79, 7);
+			sr.draw(g, "background_up", "background_bottom_right", 83 + (ubg % 2) * 14, 7);
+		}
+		sr.draw(g, "golem", "slot", -1, -1);
+		sr.draw(g, "background_down", "background_top_left", 66, -43);
+		for (int dbg = 0; dbg < 16; dbg++){
+			sr.draw(g, "background_down", "background_top_right", 68 + (dbg % 4) * 14, -43);
+			sr.draw(g, "background_down", "background_bottom_left", 66, -41 + (dbg / 4) * 14);
+			sr.draw(g, "background_down", "background_bottom_right", 68 + (dbg % 4) * 14, -41 + (dbg / 4) * 14);
+		}
+		for (int slot = 0; slot < 9; slot++){
+			sr.draw(g, "background_down", "lock_slot", 69 + (slot % 3) * 18, -22);
+			sr.draw(g, "background_down", "lock_slot", 87, -40 + (slot % 3) * 18);
+		}
 		for (var e : menu.partSlots) {
 			if (e.isActive()) {
 				if (e == menu.body) {

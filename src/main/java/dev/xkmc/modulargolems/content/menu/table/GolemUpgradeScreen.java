@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
@@ -26,6 +27,29 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 	protected void renderBg(GuiGraphics g, float p_97788_, int p_97789_, int p_97790_) {
 		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(g);
+		sr.draw(g, "background_up", "background_top_left", 79, -1);
+		for (int ubg = 0; ubg < 2; ubg++){
+			sr.draw(g, "background_up", "background_top_right", 83 + (ubg % 2) * 14, -1);
+			sr.draw(g, "background_up", "background_bottom_left", 79, 7);
+			sr.draw(g, "background_up", "background_bottom_right", 83 + (ubg % 2) * 14, 7);
+		}
+		sr.draw(g, "golem", "slot", -1, -1);
+		sr.draw(g, "background_down", "background_top_left", 12, -43);
+		for (int dbg = 0; dbg < 44; dbg++){
+			sr.draw(g, "background_down", "background_top_right", 24 + (dbg % 11) * 14, -43);
+			sr.draw(g, "background_down", "background_bottom_left", 12, -41 + (dbg / 11) * 14);
+			sr.draw(g, "background_down", "background_bottom_right", 24 + (dbg % 11) * 14, -41 + (dbg / 11) * 14);
+		}
+		for (int i = 0; i < 27; i++) {
+			sr.draw(g, "upgrades", "lock_slot", -1 + (i % 9) * 18, -1 + (i / 9) * 18);
+		}
+		ItemStack golemStack = menu.getAsPredSlot("golem").getItem();
+		boolean hasGolem = !golemStack.isEmpty() && golemStack.getItem() instanceof GolemHolder;
+		if (hasGolem) {
+			for (int i = 0; i < 27; i++) {
+				sr.draw(g, "upgrades", "slot", -1 + (i % 9) * 18, -1 + (i / 9) * 18);
+			}
+		}
 		updatePage();
 	}
 

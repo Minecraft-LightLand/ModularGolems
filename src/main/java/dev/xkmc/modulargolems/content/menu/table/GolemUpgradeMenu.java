@@ -25,7 +25,7 @@ public class GolemUpgradeMenu extends BaseContainerMenu<GolemUpgradeMenu> implem
 		return new GolemUpgradeMenu(GolemMiscs.UPGRADES.get(), wid, plInv);
 	}
 
-	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "upgrades");
+	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "golem_workbench");
 
 	protected final GolemUpgradeItemHandler handler;
 	protected final DataSlot page, maxPage;

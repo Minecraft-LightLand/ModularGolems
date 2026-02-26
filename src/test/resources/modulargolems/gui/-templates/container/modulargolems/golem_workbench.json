@@ -1,0 +1,101 @@
+{
+    "side": [
+        "background_bottom_left",
+        "background_bottom_right",
+        "background_top_left",
+        "background_top_right",
+        "slot",
+        "lock_slot",
+        "core_slot",
+        "result_slot",
+        "arrow_0",
+        "dissembly_on",
+        "dissembly_on_hover",
+        "dissembly_down",
+        "dissembly_down_hover",
+        "dissembly_ban",
+        "dissembly_ban_hover",
+        "page_prev_on",
+        "page_prev_on_hover",
+        "page_prev_down",
+        "page_prev_down_hover",
+        "page_prev_ban",
+        "page_prev_ban_hover",
+        "page_next_on",
+        "page_next_on_hover",
+        "page_next_down",
+        "page_next_down_hover",
+        "page_next_ban",
+        "page_next_ban_hover"
+    ],
+    "comp": {
+        "extra_mat": {
+            "sprite": "empty",
+            "x": 132,
+            "y": 62
+        },
+        "background_up": {
+            "sprite": "empty",
+            "x": 0,
+            "y": 0
+        },
+        "background_down": {
+            "sprite": "empty",
+            "x": 0,
+            "y": 65
+        },
+        "golem": {
+            "sprite": "empty",
+            "x": 88,
+            "y": 3
+        },
+        "button": {
+            "sprite": "empty",
+            "x": 107,
+            "y": 63
+        },
+        "arrow": {
+            "sprite": "empty",
+            "x": 132,
+            "y": 44
+        },
+        "golem_up": {
+            "sprite": "empty",
+            "x": 88,
+            "y": 26
+        },
+        "golem_left": {
+            "sprite": "empty",
+            "x": 70,
+            "y": 44
+        },
+        "golem_middle": {
+            "sprite": "empty",
+            "x": 88,
+            "y": 44
+        },
+        "golem_right": {
+            "sprite": "empty",
+            "x": 106,
+            "y": 44
+        },
+        "golem_down": {
+            "sprite": "empty",
+            "x": 88,
+            "y": 62
+        },
+        "result": {
+            "sprite": "empty",
+            "x": 159,
+            "y": 44
+        },
+        "upgrades": {
+            "sprite": "empty",
+            "x": 16,
+            "y": 26,
+            "rx": 9,
+            "ry": 3
+        }
+    },
+    "isContainer": true
+}

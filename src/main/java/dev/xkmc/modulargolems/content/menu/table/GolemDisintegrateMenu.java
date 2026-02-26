@@ -46,7 +46,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 		return new GolemDisintegrateMenu(GolemMiscs.DISINTEGRATE.get(), wid, plInv);
 	}
 
-	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "disintegrate");
+	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "golem_workbench");
 
 	private static final String UP = "golem_up", LEFT = "golem_left", MIDDLE = "golem_middle", RIGHT = "golem_right", DOWN = "golem_down";
 
