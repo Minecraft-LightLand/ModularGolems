@@ -2,10 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.armor.IronwoodArmorItem;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.armor.KnightmetalArmorItem;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.armor.NagaArmorItem;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.armor.TFArmorPaths;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.armor.*;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.CarminiteModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.FieryModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.TFDamageModifier;
@@ -25,6 +22,7 @@ public class TFCompatRegistry {
 
 	public static final ItemEntry<IronwoodArmorItem> IRONWOOD_HELMET, IRONWOOD_CHESTPLATE, IRONWOOD_SHINGUARD, IRONWOOD_BOOTS;
 	public static final ItemEntry<KnightmetalArmorItem> KNIGHTMETAL_HELMET, KNIGHTMETAL_CHESTPLATE, KNIGHTMETAL_SHINGUARD, KNIGHTMETAL_BOOTS;
+	public static final ItemEntry<FieryArmorItem> FIERY_HELMET, FIERY_CHESTPLATE, FIERY_SHINGUARD, FIERY_BOOTS;
 	public static final ItemEntry<NagaArmorItem> NAGA_CHESTPLATE, NAGA_SHINGUARD;
 	public static final RegistryEntry<FieryModifier> FIERY;
 	public static final RegistryEntry<TFDamageModifier> TF_DAMAGE;
@@ -51,6 +49,7 @@ public class TFCompatRegistry {
 						ArmorItem.Type.BOOTS, 4, 4, TFArmorPaths.IRONWOOD_BOOTS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
+
 		NAGA_CHESTPLATE = REGISTRATE.item("naga_chestplate", p -> new NagaArmorItem(p.stacksTo(1),
 						ArmorItem.Type.CHESTPLATE, 13, 5, TFArmorPaths.IRONWOOD_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
@@ -74,6 +73,23 @@ public class TFCompatRegistry {
 				.defaultLang().register();
 		KNIGHTMETAL_BOOTS = REGISTRATE.item("knightmetal_boots", p -> new KnightmetalArmorItem(p.stacksTo(1),
 						ArmorItem.Type.BOOTS, 6, 6, TFArmorPaths.KNIGHTMETAL_BOOTS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+
+		FIERY_HELMET = REGISTRATE.item("fiery_helmet", p -> new FieryArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 11, 6, TFArmorPaths.FIERY_HELMETS)) // 护甲值和韧性请根据设计调整
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))) // 注意：cataLoc 应替换为您第二个文件中的资源定位方法，例如 modLoc
+				.defaultLang().register();
+		FIERY_CHESTPLATE = REGISTRATE.item("fiery_chestplate", p -> new FieryArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 14, 6, TFArmorPaths.FIERY_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		FIERY_SHINGUARD = REGISTRATE.item("fiery_shinguard", p -> new FieryArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 8, 6, TFArmorPaths.FIERY_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		FIERY_BOOTS = REGISTRATE.item("fiery_boots", p -> new FieryArmorItem(p.stacksTo(1),
+						ArmorItem.Type.BOOTS, 6, 6, TFArmorPaths.FIERY_BOOTS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 

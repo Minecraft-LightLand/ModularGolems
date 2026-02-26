@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers;
 
+import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -7,7 +9,6 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.List;
 
@@ -27,10 +28,11 @@ public class FieryModifier extends GolemModifier {
 	}
 
 	@Override
-	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
-		if (!event.getEntity().fireImmune()) {
-			event.getEntity().setSecondsOnFire(10);
-			event.setAmount(event.getAmount() * (1 + getPercent() * level));
+	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+		super.modifyDamage(cache, entity, level);
+		if (!cache.getAttackTarget().fireImmune()) {
+			cache.getAttackTarget().setSecondsOnFire(10);
+			cache.addHurtModifier(DamageModifier.multTotal(1 + getPercent() * level));
 		}
 	}
 

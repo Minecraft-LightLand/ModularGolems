@@ -36,8 +36,8 @@ public class KnightmetalArmors {
 						List.of("right_arm", "body2", "body21"),
 						List.of("right_arm", "body2", "body22"),
 						List.of("left_arm", "body3"),
-						List.of("right_arm", "body3", "body31"),
-						List.of("right_arm", "body3", "body32")
+						List.of("left_arm", "body3", "body31"),
+						List.of("left_arm", "body3", "body32")
 				)));
 
 		GolemModelPath.register(KNIGHTMETAL_LEGGINGS,

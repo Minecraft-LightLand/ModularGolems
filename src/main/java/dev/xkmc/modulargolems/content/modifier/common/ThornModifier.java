@@ -36,7 +36,7 @@ public class ThornModifier extends GolemModifier {
 			return;
 		}
 		if (source.getDirectEntity() instanceof LivingEntity living && living.isAlive()) {
-			living.hurt(golem.level().damageSources().thorns(golem), event.getAmount() * getPercent() * level);
+			living.hurt(golem.level().damageSources().thorns(golem), cache.getPreDamage() * getPercent() * level);
 		}
 	}
 

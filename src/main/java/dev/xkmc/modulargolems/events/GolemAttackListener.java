@@ -21,7 +21,7 @@ public class GolemAttackListener implements AttackListener {
 	@Override
 	public void onHurt(AttackCache cache, ItemStack weapon) {
 		if (cache.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
-			for (var entry : golem.getModifiers().entrySet()) {
+			for (var entry : golem.getModifiersExtended().entrySet()) {
 				entry.getKey().modifyDamage(cache, golem, entry.getValue());
 			}
 		}

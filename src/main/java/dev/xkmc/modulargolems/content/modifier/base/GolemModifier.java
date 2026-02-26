@@ -79,6 +79,12 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public void onDamageMax(AttackCache cache, AbstractGolemEntity<?, ?> golem, int value) {
 	}
 
+	/**
+	 * modify damage
+	 */
+	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+	}
+
 	// static damage methods
 
 	/**
@@ -114,12 +120,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	 */
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
 
-	}
-
-	/**
-	 * modify damage
-	 */
-	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
 	}
 
 	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {

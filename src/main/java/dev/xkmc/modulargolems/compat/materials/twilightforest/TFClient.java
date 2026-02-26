@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import dev.xkmc.modulargolems.compat.materials.common.ClientModDispatch;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.client.FieryArmors;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.client.IronwoodArmors;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.client.KnightmetalArmors;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.client.TFClientEventHandler;
@@ -27,5 +28,10 @@ public class TFClient extends ClientModDispatch {
 		regAndAdd(event, KnightmetalArmors.CHESTPLATE_LAYER, KnightmetalArmors::createChestplate);
 		regAndAdd(event, KnightmetalArmors.SHINGUARD_LAYER, KnightmetalArmors::createLeggings);
 		regAndAdd(event, KnightmetalArmors.BOOTS_LAYER, KnightmetalArmors::createBoots);
+
+		regAndAdd(event, FieryArmors.HELMET_LAYER, FieryArmors::createHelmet);
+		regAndAdd(event, FieryArmors.CHESTPLATE_LAYER, FieryArmors::createChestplate);
+		regAndAdd(event, FieryArmors.SHINGUARD_LAYER, FieryArmors::createLeggings);
+		regAndAdd(event, FieryArmors.BOOTS_LAYER, FieryArmors::createBoots);
 	}
 }
