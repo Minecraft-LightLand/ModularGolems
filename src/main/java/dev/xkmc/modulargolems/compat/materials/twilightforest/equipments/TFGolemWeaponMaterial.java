@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.init.material.IGolemWeaponFactory;
 import dev.xkmc.modulargolems.init.material.IGolemWeaponMaterial;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import twilightforest.init.TFItems;
 
@@ -58,5 +59,12 @@ public enum TFGolemWeaponMaterial implements IGolemWeaponMaterial {
 		};
 	}
 
+	public Item getHandle() {
+		return switch (this) {
+			case STEELEAF -> TFItems.LIVEROOT.get();
+			case FIERY -> Items.BLAZE_ROD;
+			default -> Items.STICK;
+		};
+	}
 
 }

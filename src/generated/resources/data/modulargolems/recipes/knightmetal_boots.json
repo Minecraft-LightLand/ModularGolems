@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "B": {
+      "item": "twilightforest:armor_shard_cluster"
+    },
+    "I": {
+      "item": "twilightforest:knightmetal_boots"
+    }
+  },
+  "pattern": [
+    "I I",
+    "BAB"
+  ],
+  "result": {
+    "item": "modulargolems:knightmetal_boots"
+  },
+  "show_notification": true
+}

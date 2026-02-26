@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "B": {
+      "tag": "twilightforest:fiery_vial"
+    },
+    "I": {
+      "item": "twilightforest:fiery_boots"
+    }
+  },
+  "pattern": [
+    "I I",
+    "BAB"
+  ],
+  "result": {
+    "item": "modulargolems:fiery_boots"
+  },
+  "show_notification": true
+}

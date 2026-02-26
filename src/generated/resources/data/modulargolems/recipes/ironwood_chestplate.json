@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "B": {
+      "item": "twilightforest:liveroot"
+    },
+    "I": {
+      "item": "twilightforest:ironwood_chestplate"
+    }
+  },
+  "pattern": [
+    "IAI",
+    "III",
+    "BIB"
+  ],
+  "result": {
+    "item": "modulargolems:ironwood_chestplate"
+  },
+  "show_notification": true
+}
