@@ -39,9 +39,9 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 		int x = (this.width + this.imageWidth) / 2 - 70;
 		int y = (this.height - this.imageHeight) / 2 + 27;
 		this.addRenderableWidget(left = Button.builder(Component.empty(), (e) -> this.click(-1))
-				.pos(x - w - 36, y).size(w, h).build(b -> new SpriteButton(b, "page_prev/")));
+				.pos(x - w - 36, y).size(w, h).build(b -> new SpriteButton(b, "page/_prev")));
 		this.addRenderableWidget(right = Button.builder(Component.empty(), (e) -> this.click(1))
-				.pos(x, y).size(w, h).build(b -> new SpriteButton(b, "page_next/")));
+				.pos(x, y).size(w, h).build(b -> new SpriteButton(b, "page/_next")));
 		updatePage();
 	}
 
