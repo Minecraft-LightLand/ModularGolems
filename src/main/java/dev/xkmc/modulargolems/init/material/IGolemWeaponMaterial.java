@@ -30,4 +30,8 @@ public interface IGolemWeaponMaterial {
 		return MetalGolemWeaponItem::new;
 	}
 
+	default <T> T model(T model) {
+		return model;
+	}
+
 }

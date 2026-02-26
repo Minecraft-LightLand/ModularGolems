@@ -85,6 +85,13 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
 	}
 
+	/**
+	 * modify healing
+	 */
+	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
+		return onInventoryHealTick(heal, new HealingContext(entity.getHealth(), entity.getMaxHealth(), entity), level);
+	}
+
 	// static damage methods
 
 	/**
@@ -132,13 +139,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 
 	public void onGolemSpawn(AbstractGolemEntity<?, ?> entity, int level) {
 
-	}
-
-	/**
-	 * modify healing
-	 */
-	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
-		return onInventoryHealTick(heal, new HealingContext(entity.getHealth(), entity.getMaxHealth(), entity), level);
 	}
 
 	/**

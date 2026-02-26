@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.client.FieryModelTransformer;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.equipments.*;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.CarminiteModifier;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.FieryModifier;
@@ -81,24 +82,24 @@ public class TFCompatRegistry {
 
 		FIERY_HELMET = REGISTRATE.item("fiery_helmet", p -> new FieryArmorItem(p.stacksTo(1),
 						ArmorItem.Type.HELMET, 11, 6, TFArmorPaths.FIERY_HELMETS)) // 护甲值和韧性请根据设计调整
-				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))) // 注意：cataLoc 应替换为您第二个文件中的资源定位方法，例如 modLoc
+				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
 				.defaultLang().register();
 		FIERY_CHESTPLATE = REGISTRATE.item("fiery_chestplate", p -> new FieryArmorItem(p.stacksTo(1),
 						ArmorItem.Type.CHESTPLATE, 14, 6, TFArmorPaths.FIERY_CHESTPLATES))
-				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
 				.defaultLang().register();
 		FIERY_SHINGUARD = REGISTRATE.item("fiery_shinguard", p -> new FieryArmorItem(p.stacksTo(1),
 						ArmorItem.Type.LEGGINGS, 8, 6, TFArmorPaths.FIERY_LEGGINGS))
-				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
 				.defaultLang().register();
 		FIERY_BOOTS = REGISTRATE.item("fiery_boots", p -> new FieryArmorItem(p.stacksTo(1),
 						ArmorItem.Type.BOOTS, 6, 6, TFArmorPaths.FIERY_BOOTS))
-				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
 				.defaultLang().register();
 
 		TF_GOLEM_WEAPON = GolemWeaponType.build(TFGolemWeaponMaterial.values());
 
-		FIERY = reg("fiery", FieryModifier::new, "Deal %s%% fire damage to mobs not immune to fire");
+		FIERY = reg("fiery", FieryModifier::new, "Deal +%s%% damage to mobs not immune to fire");
 		TF_DAMAGE = reg("tf_damage", TFDamageModifier::new, "TF Damage Bonus", "Deal %s%% extra damage in twilight forest");
 		TF_HEALING = reg("tf_healing", TFHealingModifier::new, "TF Healing Bonus", "Healing becomes %s%% more in twilight forest");
 		CARMINITE = reg("carminite", CarminiteModifier::new, "After being hurt, turn invisible and invinsible for %s seconds");
@@ -120,6 +121,10 @@ public class TFCompatRegistry {
 
 	public static void register() {
 
+	}
+
+	private static void fiery(Object obj) {
+		FieryModelTransformer.transform(obj);
 	}
 
 	public static ResourceLocation tfLoc(String id) {

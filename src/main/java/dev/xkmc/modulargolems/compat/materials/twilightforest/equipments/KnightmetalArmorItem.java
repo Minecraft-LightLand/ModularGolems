@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest.equipments;
 
+import dev.xkmc.modulargolems.compat.materials.twilightforest.TFCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
@@ -25,7 +26,10 @@ public class KnightmetalArmorItem extends MetalGolemArmorItem implements IGolemM
 
 	@Override
 	public List<ModifierInstance> getModifier(ItemStack stack, @Nullable AbstractGolemEntity<?, ?> golem) {
-		return List.of(new ModifierInstance(GolemModifiers.THORN.get(), 1));
+		return List.of(
+				new ModifierInstance(TFCompatRegistry.TF_DAMAGE.get(), 1),
+				new ModifierInstance(GolemModifiers.THORN.get(), 1)
+		);
 	}
 
 	@Override

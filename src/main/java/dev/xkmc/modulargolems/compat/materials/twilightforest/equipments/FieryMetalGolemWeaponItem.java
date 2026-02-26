@@ -21,7 +21,7 @@ public class FieryMetalGolemWeaponItem extends MetalGolemWeaponItem implements I
 
 	@Override
 	public List<ModifierInstance> getModifier(ItemStack stack, @Nullable AbstractGolemEntity<?, ?> golem) {
-		return List.of(new ModifierInstance(TFCompatRegistry.FIERY.get(), 1));
+		return List.of(new ModifierInstance(TFCompatRegistry.FIERY.get(), 2));
 	}
 
 	@Override

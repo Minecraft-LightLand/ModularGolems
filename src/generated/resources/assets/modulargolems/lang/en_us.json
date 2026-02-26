@@ -397,7 +397,7 @@
   "modifier.modulargolems.explosion_resistant.desc": "Explosion damage taken reduced to %s%% of original, and will not break blocks.",
   "modifier.modulargolems.fallen_attack": "Fallen Attack",
   "modifier.modulargolems.fiery": "Fiery",
-  "modifier.modulargolems.fiery.desc": "Deal %s%% fire damage to mobs not immune to fire",
+  "modifier.modulargolems.fiery.desc": "Deal +%s%% damage to mobs not immune to fire",
   "modifier.modulargolems.fire_blast": "Fire Blast",
   "modifier.modulargolems.fire_blast.desc": "Summon Fire Blast Trap in the front",
   "modifier.modulargolems.fire_dragonsteel_attack": "Fire Dragonsteel Attack",

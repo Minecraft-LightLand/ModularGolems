@@ -7,7 +7,7 @@
 	},
 	"modifier.modulargolems": {
 		"fiery": "炽热",
-		"fiery.desc": "对不免疫火焰伤害的目标造成的伤害改为%s%%的火焰伤害",
+		"fiery.desc": "对不免疫火焰伤害的目标的伤害提升%s%%",
 		"thorn": "荆棘",
 		"thorn.desc": "将直接物理伤害以%s%%荆棘伤害的形式反射",
 		"tf_damage": "暮色伤害加成",

@@ -675,7 +675,7 @@
   "golem_material.twilightforest.knightmetal": "骑士",
   "golem_material.twilightforest.steeleaf": "钢叶",
   "modifier.modulargolems.fiery": "炽热",
-  "modifier.modulargolems.fiery.desc": "对不免疫火焰伤害的目标造成的伤害改为%s%%的火焰伤害",
+  "modifier.modulargolems.fiery.desc": "对不免疫火焰伤害的目标的伤害提升%s%%",
   "modifier.modulargolems.thorn": "荆棘",
   "modifier.modulargolems.thorn.desc": "将直接物理伤害以%s%%荆棘伤害的形式反射",
   "modifier.modulargolems.tf_damage": "暮色伤害加成",

@@ -731,7 +731,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!this.level().isClientSide && isAlive()) {
 			if (this.tickCount % 20 == 0) {
 				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
-				for (var entry : getModifiers().entrySet()) {
+				for (var entry : getModifiersExtended().entrySet()) {
 					heal = entry.getKey().onHealTick(heal, this, entry.getValue());
 				}
 				if (heal > 0) {

@@ -1,12 +1,16 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest.equipments;
 
+import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.client.FieryModelTransformer;
 import dev.xkmc.modulargolems.init.material.IGolemWeaponFactory;
 import dev.xkmc.modulargolems.init.material.IGolemWeaponMaterial;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
+import net.minecraftforge.client.model.generators.loaders.ItemLayerModelBuilder;
 import twilightforest.init.TFItems;
 
 import java.util.Locale;
@@ -59,6 +63,12 @@ public enum TFGolemWeaponMaterial implements IGolemWeaponMaterial {
 		};
 	}
 
+	@Override
+	public <T> T model(T model) {
+		if (this != FIERY) return model;
+		return FieryModelTransformer.transform(model);
+	}
+
 	public Item getHandle() {
 		return switch (this) {
 			case STEELEAF -> TFItems.LIVEROOT.get();
@@ -66,5 +76,6 @@ public enum TFGolemWeaponMaterial implements IGolemWeaponMaterial {
 			default -> Items.STICK;
 		};
 	}
+
 
 }

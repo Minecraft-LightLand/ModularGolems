@@ -33,7 +33,7 @@ public enum GolemWeaponType {
 	public ItemEntry<MetalGolemWeaponItem> buildItem(IGolemWeaponMaterial material) {
 		return REGISTRATE.item(material.getName() + "_" + getName(),
 						p -> factory.create(material.modify(p.stacksTo(1)), material.getDamage(), material.factory()))
-				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName())
+				.model((ctx, pvd) -> material.model(pvd.getBuilder(ctx.getName()))
 						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
 						.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
