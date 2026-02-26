@@ -2,7 +2,7 @@
 
 	"golem_material.legendary_monsters.molten_metal": "熔融金属",
 	"modifier.modulargolems.ancient_anchor": "荒古锚",
-	"modifier.modulargolems.ancient_anchor.desc": "可起跳进行下落攻击，产生冲击波眩晕目标并造成范围伤害",
+	"modifier.modulargolems.ancient_anchor.desc": "可起跳进行下落攻击，落地时释放冲击波眩晕目标并造成范围伤害",
 	"golem_material.legendary_monsters.cloud": "浮云",
 	"item.modulargolems.cloud_cube": "浮云立方",
 	"item.modulargolems.thunderstorm": "雷暴升级",
