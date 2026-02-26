@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "modulargolems:steeleaf_golem_spear"
+    }
+  ],
+  "results": [
+    {
+      "count": 3,
+      "id": "twilightforest:steeleaf_ingot"
+    }
+  ]
+}

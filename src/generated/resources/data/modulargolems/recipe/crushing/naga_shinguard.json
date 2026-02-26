@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "modulargolems:naga_shinguard"
+    }
+  ],
+  "results": [
+    {
+      "count": 10,
+      "id": "twilightforest:naga_scale"
+    }
+  ]
+}

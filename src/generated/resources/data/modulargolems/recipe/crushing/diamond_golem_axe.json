@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "modulargolems:diamond_golem_axe"
+    }
+  ],
+  "results": [
+    {
+      "count": 4,
+      "id": "minecraft:diamond"
+    }
+  ]
+}
