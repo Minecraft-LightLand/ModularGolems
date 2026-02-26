@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest.equipments;
 
-import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.client.FieryModelTransformer;
 import dev.xkmc.modulargolems.init.material.IGolemWeaponFactory;
@@ -9,8 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.loaders.ItemLayerModelBuilder;
 import twilightforest.init.TFItems;
 
 import java.util.Locale;
@@ -59,7 +56,7 @@ public enum TFGolemWeaponMaterial implements IGolemWeaponMaterial {
 		return switch (this) {
 			case FIERY -> FieryMetalGolemWeaponItem::new;
 			case KNIGHTMETAL -> KnightmetalMetalGolemWeaponItem::new;
-			default -> IGolemWeaponMaterial.super.factory();
+			default -> TFMetalGolemWeaponItem::new;
 		};
 	}
 
