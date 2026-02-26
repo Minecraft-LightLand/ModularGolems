@@ -21,7 +21,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:knightmetal_boots"
+        "recipe": "modulargolems:knightmetal_golem_sword"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -34,7 +34,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:knightmetal_boots"
+      "modulargolems:knightmetal_golem_sword"
     ]
   },
   "sends_telemetry_event": false

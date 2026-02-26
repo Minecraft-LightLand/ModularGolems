@@ -121,7 +121,21 @@ public class TFRecipeGen {
 					.define('I', TFItems.IRONWOOD_BOOTS.get())
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', TFItems.LIVEROOT.get())
-					.save(pvd);
+					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_CHESTPLATE.get())::unlockedBy, TFItems.NAGA_SCALE.get())
+					.pattern("BAB").pattern("BIB").pattern("BBB")
+					.define('I', TFItems.NAGA_CHESTPLATE.get())
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', TFItems.NAGA_SCALE.get())
+					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_SHINGUARD.get())::unlockedBy, TFItems.NAGA_SCALE.get())
+					.pattern("BIB").pattern("BAB").pattern("B B")
+					.define('I', TFItems.NAGA_LEGGINGS.get())
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', TFItems.NAGA_SCALE.get())
+					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.KNIGHTMETAL_HELMET.get())::unlockedBy, TFItems.KNIGHTMETAL_INGOT.get())
 					.pattern(" B ").pattern("III").pattern("IAI")
@@ -149,7 +163,7 @@ public class TFRecipeGen {
 					.define('I', TFItems.KNIGHTMETAL_BOOTS.get())
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', TFItems.ARMOR_SHARD_CLUSTER.get())
-					.save(pvd);
+					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.FIERY_HELMET.get())::unlockedBy, TFItems.FIERY_INGOT.get())
@@ -178,12 +192,12 @@ public class TFRecipeGen {
 					.define('I', TFItems.FIERY_BOOTS.get())
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', ItemTagGenerator.FIERY_VIAL)
-					.save(pvd);
+					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 
 			for (var type : GolemWeaponType.values()) {
 				for (var mat : TFGolemWeaponMaterial.values()) {
-					Item item = GolemItems.METALGOLEM_WEAPON[type.ordinal()][mat.ordinal()].get();
+					Item item = TFCompatRegistry.TF_GOLEM_WEAPON[type.ordinal()][mat.ordinal()].get();
 					type.pattern(unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, item)::unlockedBy, mat.getIngot()))
 							.define('I', mat.getIngot())
 							.define('S', mat.getHandle())

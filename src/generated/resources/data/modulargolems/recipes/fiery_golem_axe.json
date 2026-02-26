@@ -8,22 +8,23 @@
     }
   ],
   "key": {
-    "A": {
-      "item": "modulargolems:metal_golem_template"
-    },
-    "B": {
-      "tag": "twilightforest:fiery_vial"
-    },
     "I": {
-      "item": "twilightforest:fiery_boots"
+      "item": "twilightforest:fiery_ingot"
+    },
+    "S": {
+      "item": "minecraft:blaze_rod"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
     }
   },
   "pattern": [
-    "I I",
-    "BAB"
+    "III",
+    "IS ",
+    "TST"
   ],
   "result": {
-    "item": "modulargolems:fiery_boots"
+    "item": "modulargolems:fiery_golem_axe"
   },
   "show_notification": true
 }

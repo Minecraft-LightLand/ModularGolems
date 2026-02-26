@@ -7,12 +7,12 @@
     }
   ],
   "criteria": {
-    "has_knightmetal_ingot": {
+    "has_fiery_ingot": {
       "conditions": {
         "items": [
           {
             "items": [
-              "twilightforest:knightmetal_ingot"
+              "twilightforest:fiery_ingot"
             ]
           }
         ]
@@ -21,20 +21,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:knightmetal_boots"
+        "recipe": "modulargolems:fiery_golem_axe"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_knightmetal_ingot",
+      "has_fiery_ingot",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:knightmetal_boots"
+      "modulargolems:fiery_golem_axe"
     ]
   },
   "sends_telemetry_event": false

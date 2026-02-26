@@ -7,12 +7,12 @@
     }
   ],
   "criteria": {
-    "has_knightmetal_ingot": {
+    "has_naga_scale": {
       "conditions": {
         "items": [
           {
             "items": [
-              "twilightforest:knightmetal_ingot"
+              "twilightforest:naga_scale"
             ]
           }
         ]
@@ -21,20 +21,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:knightmetal_boots"
+        "recipe": "modulargolems:naga_chestplate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_knightmetal_ingot",
+      "has_naga_scale",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:knightmetal_boots"
+      "modulargolems:naga_chestplate"
     ]
   },
   "sends_telemetry_event": false

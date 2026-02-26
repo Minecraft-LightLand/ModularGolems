@@ -7,12 +7,12 @@
     }
   ],
   "criteria": {
-    "has_knightmetal_ingot": {
+    "has_ironwood_ingot": {
       "conditions": {
         "items": [
           {
             "items": [
-              "twilightforest:knightmetal_ingot"
+              "twilightforest:ironwood_ingot"
             ]
           }
         ]
@@ -21,20 +21,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:knightmetal_boots"
+        "recipe": "modulargolems:ironwood_golem_spear"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_knightmetal_ingot",
+      "has_ironwood_ingot",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:knightmetal_boots"
+      "modulargolems:ironwood_golem_spear"
     ]
   },
   "sends_telemetry_event": false
