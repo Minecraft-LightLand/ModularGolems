@@ -1,0 +1,6 @@
+{
+  "parent": "modulargolems:item/battle_axe",
+  "textures": {
+    "layer0": "twilightforest:item/equipments/steeleaf_golem_axe"
+  }
+}

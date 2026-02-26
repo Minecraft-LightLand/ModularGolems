@@ -1,8 +1,5 @@
 package dev.xkmc.modulargolems.content.client.armor;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.client.HarbingerArmors;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.client.IgnisArmors;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmors;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;

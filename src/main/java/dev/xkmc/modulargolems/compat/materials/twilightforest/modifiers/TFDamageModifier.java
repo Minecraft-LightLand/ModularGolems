@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.twilightforest;
+package dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers;
 
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
@@ -25,7 +25,6 @@ public class TFDamageModifier extends GolemModifier {
 			double dmg = MGConfig.COMMON.compatTFDamage.get() * level;
 			cache.addHurtModifier(DamageModifier.multTotal(1 + (float) dmg));
 		}
-
 	}
 
 	public List<MutableComponent> getDetail(int v) {
