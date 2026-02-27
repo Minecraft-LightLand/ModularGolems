@@ -1,3 +1,7 @@
+3.1.13
+- Add Twilight Forest Golem Armor and Weapons
+- Buff diamond golem boots
+
 3.1.12
 - Add Golem Workbench
 - Nerf Ignitium golem skills

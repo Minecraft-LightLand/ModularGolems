@@ -1,99 +1,65 @@
 package dev.xkmc.modulargolems.compat.materials.iceandfire.proxy;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.config.IafCommonConfig;
-import com.iafenvoy.iceandfire.data.component.FrozenData;
-import com.iafenvoy.iceandfire.entity.FireDragonEntity;
-import com.iafenvoy.iceandfire.entity.IceDragonEntity;
+import com.iafenvoy.iceandfire.item.ability.BuiltinAbilities;
 import com.iafenvoy.iceandfire.registry.IafItems;
-import dev.xkmc.l2library.init.FlagMarker;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
 public class IAFProxyCE implements IAFProxy {
 
-  @Override
-    public void fireHit(LivingEntity target, LivingEntity user, int level) {
-        if (IafCommonConfig.INSTANCE.tools.dragonFireAbility.getValue()) {
-            if (target instanceof IceDragonEntity) {
-                target.hurt(user.level().damageSources().inFire(), 3.5F + 5 * level);
-            }
-            target.setRemainingFireTicks(100 * level);
-            target.knockback(1.0, user.getX() - target.getX(), user.getZ() - target.getZ());
-        }
+	@Override
+	public void fireHit(LivingEntity target, LivingEntity user, int level) {
+		try {
+			BuiltinAbilities.DRAGONSTEEL_FIRE_TOOL.active(ItemStack.EMPTY, target, user);
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.throwing(e);
+		}
 
-    }
+	}
 
-    @Override
-    public void iceHit(LivingEntity target, LivingEntity user, int level) {
-        if (IafCommonConfig.INSTANCE.tools.dragonIceAbility.getValue()) {
-            if (target instanceof FireDragonEntity) {
-                target.hurt(user.level().damageSources().drown(), 3.5F + 5 * level);
-            }
+	@Override
+	public void iceHit(LivingEntity target, LivingEntity user, int level) {
+		try {
+			BuiltinAbilities.DRAGONSTEEL_ICE_TOOL.active(ItemStack.EMPTY, target, user);
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.throwing(e);
+		}
+	}
 
-            FrozenData data = FrozenData.get(target);
-            data.setFrozen(target, 100 * level);
-            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, level));
-            target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, level));
-            target.knockback(1.0, user.getX() - target.getX(), user.getZ() - target.getZ());
-        }
-    }
+	@Override
+	public void lightningHit(LivingEntity target, LivingEntity user, int level) {
+		try {
+			BuiltinAbilities.DRAGONSTEEL_LIGHTNING_TOOL.active(ItemStack.EMPTY, target, user);
+		} catch (Throwable e) {
+			ModularGolems.LOGGER.throwing(e);
+		}
 
-    @Override
-    public void lightningHit(LivingEntity target, LivingEntity user, int level) {
-        if (IafCommonConfig.INSTANCE.tools.dragonLightningAbility.getValue()) {
-            boolean flag = !(user instanceof Player) || !((double) user.attackAnim > 0.2);
+	}
 
-            if (!user.level().isClientSide && flag) {
-                LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(target.level());
+	@Override
+	public String modid() {
+		return IceAndFire.MOD_ID;
+	}
 
-                assert lightningboltentity != null;
+	@Override
+	public Supplier<Item> ingotIceSteel() {
+		return IafItems.DRAGONSTEEL_ICE_INGOT;
+	}
 
-                lightningboltentity.getTags().add("iceandfire.bolt_skip_loot");
-                lightningboltentity.getTags().add(user.getStringUUID());
-                lightningboltentity.addTag(FlagMarker.LIGHTNING);
-                lightningboltentity.setDamage(3 + 2 * level);
-                lightningboltentity.moveTo(target.position());
-                if (!target.level().isClientSide) {
-                    target.level().addFreshEntity(lightningboltentity);
-                }
-            }
+	@Override
+	public Supplier<Item> ingotFireSteel() {
+		return IafItems.DRAGONSTEEL_FIRE_INGOT;
+	}
 
-            if (target instanceof FireDragonEntity || target instanceof IceDragonEntity) {
-                target.hurt(user.level().damageSources().lightningBolt(), 1.5F + 4 * level);
-            }
-
-            target.knockback(1.0, user.getX() - target.getX(), user.getZ() - target.getZ());
-        }
-
-    }
-
-    @Override
-    public String modid() {
-        return IceAndFire.MOD_ID;
-    }
-
-    @Override
-    public Supplier<Item> ingotIceSteel() {
-        return IafItems.DRAGONSTEEL_ICE_INGOT;
-    }
-
-    @Override
-    public Supplier<Item> ingotFireSteel() {
-        return IafItems.DRAGONSTEEL_FIRE_INGOT;
-    }
-
-    @Override
-    public Supplier<Item> ingotLightningSteel() {
-        return IafItems.DRAGONSTEEL_LIGHTNING_INGOT;
-    }
+	@Override
+	public Supplier<Item> ingotLightningSteel() {
+		return IafItems.DRAGONSTEEL_LIGHTNING_INGOT;
+	}
 
 
 }
