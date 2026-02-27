@@ -1,6 +1,6 @@
 2.6.21
 - Add Twilight Forest Golem Armor and Weapons
-- Buff diamond golem boot
+- Buff diamond golem boots
 
 2.6.20
 - Add Golem Workbench
