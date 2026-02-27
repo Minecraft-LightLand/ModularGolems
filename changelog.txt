@@ -1,3 +1,6 @@
+3.1.14
+- Fix compat with latest Ice and Fire Community Edition
+
 3.1.13
 - Add Twilight Forest Golem Armor and Weapons
 - Buff diamond golem boots
