@@ -1,3 +1,8 @@
+2.6.22
+- Add dog golem armor
+- buff dog golem
+- fix dog golem moving while sitting down
+
 2.6.21
 - Add Twilight Forest Golem Armor and Weapons
 - Buff diamond golem boots
