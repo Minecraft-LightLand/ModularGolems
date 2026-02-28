@@ -30,7 +30,8 @@ public class ThornModifier extends GolemModifier {
 		DamageSource source = event.getSource();
 		if (!source.is(L2DamageTypes.DIRECT)) return;
 		if (source.getDirectEntity() instanceof LivingEntity living && living.isAlive()) {
-			living.hurt(entity.level().damageSources().thorns(entity), event.getDamageIncoming() * getPercent() * level);
+			float dmg = Math.max(event.getDamageIncoming() / 4, event.getDamageFinal());
+			living.hurt(entity.level().damageSources().thorns(entity), dmg * getPercent() * level);
 		}
 	}
 

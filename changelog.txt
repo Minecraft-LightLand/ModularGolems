@@ -1,3 +1,6 @@
+3.1.17
+- Nerf Thorn modifier
+
 3.1.16
 - Fix golem attribute not reset after taking down upgrade
 
