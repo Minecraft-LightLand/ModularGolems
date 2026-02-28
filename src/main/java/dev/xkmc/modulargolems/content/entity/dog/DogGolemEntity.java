@@ -4,6 +4,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
+import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.BlockPos;
@@ -254,11 +255,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 			return InteractionResult.PASS;
-		if (!player.isShiftKeyDown() && itemstack.isEmpty())
+		if (!player.isShiftKeyDown() && (itemstack.isEmpty() || itemstack.getItem() instanceof GolemEquipmentItem))
 			return super.mobInteractImpl(player, hand);
 		else {
-			if (!this.level().isClientSide() && canModify(player))
+			if (!this.level().isClientSide() && canModify(player)) {
 				this.setInSittingPose(!this.isInSittingPose());
+			}
 			return InteractionResult.SUCCESS;
 		}
 	}

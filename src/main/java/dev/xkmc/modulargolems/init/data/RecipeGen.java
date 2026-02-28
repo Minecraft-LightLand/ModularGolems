@@ -375,6 +375,29 @@ public class RecipeGen {
 					.define('B', GolemItems.WINDSPIRIT_BOOTS.get())
 					.define('A', Items.ANVIL)
 					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.DOG_ARMOR_IRON.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("I  ").pattern("IBI").pattern("IAI")
+					.define('I', Items.IRON_INGOT)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LEATHER)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.DOG_ARMOR_GOLD.get())::unlockedBy, Items.GOLD_INGOT)
+					.pattern("I  ").pattern("IBI").pattern("IAI")
+					.define('I', Items.GOLD_INGOT)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LEATHER)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.DOG_ARMOR_DIAMOND.get())::unlockedBy, Items.DIAMOND)
+					.pattern("I  ").pattern("IBI").pattern("IAI")
+					.define('I', Items.DIAMOND)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.LEATHER)
+					.save(pvd);
+
+			smithing(pvd, GolemItems.DOG_ARMOR_DIAMOND.get(), Items.NETHERITE_INGOT, GolemItems.DOG_ARMOR_NETHERITE.get());
 		}
 
 		// weapon

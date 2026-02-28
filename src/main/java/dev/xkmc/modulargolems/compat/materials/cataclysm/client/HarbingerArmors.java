@@ -32,11 +32,9 @@ public class HarbingerArmors {
 						List.of("body", "body3"),
 						List.of("right_arm", "body4"),
 						List.of("right_arm", "body5"),
-						List.of("right_arm", "body5", "body6"),
 						List.of("right_arm", "body7"),
 						List.of("left_arm", "body8"),
 						List.of("left_arm", "body9"),
-						List.of("left_arm", "body9", "body10"),
 						List.of("left_arm", "body11")
 				)));
 

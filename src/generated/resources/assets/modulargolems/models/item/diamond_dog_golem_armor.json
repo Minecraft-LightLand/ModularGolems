@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "modulargolems:item/dog_armor/diamond_collar",
+    "layer1": "modulargolems:item/dog_armor/diamond_wolf_armor"
+  }
+}

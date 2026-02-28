@@ -22,6 +22,7 @@ public class GolemEquipmentModels {
 	public static final ModelLayerLocation METALGOLEM = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "metalgolem"), "model");
 	public static final ModelLayerLocation HUMANOID = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "humanoid"), "model");
 	public static final ModelLayerLocation DOGGOLEM = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "dog"), "model");
+	public static final ModelLayerLocation DOG_ARMOR = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "dog_armor"), "main");
 
 	public static MeshDefinition buildGolemBaseLayers() {
 		MeshDefinition mesh = new MeshDefinition();
@@ -156,21 +157,20 @@ public class GolemEquipmentModels {
 		return LayerDefinition.create(createPlayerMesh(CubeDeformation.NONE, false), 64, 64);
 	}
 
-	public static LayerDefinition createDogLayer() {
+	public static LayerDefinition createDogLayer(CubeDeformation deform) {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
-		float f = 13.5F;
 		PartDefinition partdefinition1 = partdefinition.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(-1.0F, 13.5F, -7.0F));
-		partdefinition1.addOrReplaceChild("real_head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -2.0F, 6.0F, 6.0F, 4.0F).texOffs(16, 14).addBox(-2.0F, -5.0F, 0.0F, 2.0F, 2.0F, 1.0F).texOffs(16, 14).addBox(2.0F, -5.0F, 0.0F, 2.0F, 2.0F, 1.0F).texOffs(0, 10).addBox(-0.5F, -0.001F, -5.0F, 3.0F, 3.0F, 4.0F), PartPose.ZERO);
-		partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(18, 14).addBox(-3.0F, -2.0F, -3.0F, 6.0F, 9.0F, 6.0F), PartPose.offsetAndRotation(0.0F, 14.0F, 2.0F, ((float) Math.PI / 2F), 0.0F, 0.0F));
-		partdefinition.addOrReplaceChild("upper_body", CubeListBuilder.create().texOffs(21, 0).addBox(-3.0F, -3.0F, -3.0F, 8.0F, 6.0F, 7.0F), PartPose.offsetAndRotation(-1.0F, 14.0F, -3.0F, ((float) Math.PI / 2F), 0.0F, 0.0F));
-		CubeListBuilder cubelistbuilder = CubeListBuilder.create().texOffs(0, 18).addBox(0.0F, 0.0F, -1.0F, 2.0F, 8.0F, 2.0F);
+		partdefinition1.addOrReplaceChild("real_head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -2.0F, 6.0F, 6.0F, 4.0F, deform).texOffs(16, 14).addBox(-2.0F, -5.0F, 0.0F, 2.0F, 2.0F, 1.0F, deform).texOffs(16, 14).addBox(2.0F, -5.0F, 0.0F, 2.0F, 2.0F, 1.0F, deform).texOffs(0, 10).addBox(-0.5F, -0.001F, -5.0F, 3.0F, 3.0F, 4.0F, deform), PartPose.ZERO);
+		partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(18, 14).addBox(-3.0F, -2.0F, -3.0F, 6.0F, 9.0F, 6.0F, deform), PartPose.offsetAndRotation(0.0F, 14.0F, 2.0F, ((float) Math.PI / 2F), 0.0F, 0.0F));
+		partdefinition.addOrReplaceChild("upper_body", CubeListBuilder.create().texOffs(21, 0).addBox(-3.0F, -3.0F, -3.0F, 8.0F, 6.0F, 7.0F, deform), PartPose.offsetAndRotation(-1.0F, 14.0F, -3.0F, ((float) Math.PI / 2F), 0.0F, 0.0F));
+		CubeListBuilder cubelistbuilder = CubeListBuilder.create().texOffs(0, 18).addBox(0.0F, 0.0F, -1.0F, 2.0F, 8.0F, 2.0F, deform);
 		partdefinition.addOrReplaceChild("right_hind_leg", cubelistbuilder, PartPose.offset(-2.5F, 16.0F, 7.0F));
 		partdefinition.addOrReplaceChild("left_hind_leg", cubelistbuilder, PartPose.offset(0.5F, 16.0F, 7.0F));
 		partdefinition.addOrReplaceChild("right_front_leg", cubelistbuilder, PartPose.offset(-2.5F, 16.0F, -4.0F));
 		partdefinition.addOrReplaceChild("left_front_leg", cubelistbuilder, PartPose.offset(0.5F, 16.0F, -4.0F));
 		PartDefinition partdefinition2 = partdefinition.addOrReplaceChild("tail", CubeListBuilder.create(), PartPose.offsetAndRotation(-1.0F, 12.0F, 8.0F, ((float) Math.PI / 5F), 0.0F, 0.0F));
-		partdefinition2.addOrReplaceChild("real_tail", CubeListBuilder.create().texOffs(9, 18).addBox(0.0F, 0.0F, -1.0F, 2.0F, 8.0F, 2.0F), PartPose.ZERO);
+		partdefinition2.addOrReplaceChild("real_tail", CubeListBuilder.create().texOffs(9, 18).addBox(0.0F, 0.0F, -1.0F, 2.0F, 8.0F, 2.0F, deform), PartPose.ZERO);
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
 
@@ -178,7 +178,8 @@ public class GolemEquipmentModels {
 	public static void registerArmorLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(METALGOLEM, GolemEquipmentModels::createGolemLayer);
 		event.registerLayerDefinition(HUMANOID, GolemEquipmentModels::createHumanoidLayer);
-		event.registerLayerDefinition(DOGGOLEM, GolemEquipmentModels::createDogLayer);
+		event.registerLayerDefinition(DOGGOLEM, () -> GolemEquipmentModels.createDogLayer(new CubeDeformation(0)));
+		event.registerLayerDefinition(DOG_ARMOR, () -> GolemEquipmentModels.createDogLayer(new CubeDeformation(0.2f)));
 
 		regAndAdd(event, HELMET_LAYER, GolemEquipmentModels::createHelmetLayer);
 		regAndAdd(event, CHESTPLATE_LAYER, GolemEquipmentModels::createChestplateLayer);

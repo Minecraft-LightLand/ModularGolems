@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.events;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.item.equipments.DogGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
@@ -69,6 +70,9 @@ public class GolemEventListeners {
 		if (golem instanceof DogGolemEntity) {
 			if (stack.getItem() instanceof BannerItem) {
 				event.setSlot(1, EquipmentSlot.HEAD);
+			}
+			if (stack.getItem() instanceof DogGolemArmorItem mgai) {
+				event.setSlot(1, EquipmentSlot.CHEST);
 			}
 		}
 	}

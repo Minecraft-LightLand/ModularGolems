@@ -12,7 +12,7 @@ public class EsterEggUtil {
 
 	public static void registerEsterEggTextures() {
 
-		ModelOverrides.registerOverride(ModularGolems.loc("kobe"), ModelOverride.texturePredicate(
+		ModelOverrides.registerOverride(ModularGolems.loc("netherite"), ModelOverride.texturePredicate(
 				e -> isKobe(e) ? "_kobe" : ""
 		));
 

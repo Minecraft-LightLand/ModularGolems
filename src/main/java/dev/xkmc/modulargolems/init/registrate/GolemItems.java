@@ -33,10 +33,7 @@ import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.model.generators.ModelFile;
 
@@ -96,6 +93,8 @@ public class GolemItems {
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
 	public static final ItemEntry<GolemFacade> FACADE;
 	public static final ItemEntry<AddSlotTemplate> ADD_DIAMOND, ADD_NETHERITE;
+
+	public static final ItemEntry<DogGolemArmorItem> DOG_ARMOR_IRON, DOG_ARMOR_GOLD, DOG_ARMOR_DIAMOND, DOG_ARMOR_NETHERITE;
 
 	static {
 
@@ -203,6 +202,13 @@ public class GolemItems {
 							p -> new MetalGolemBeaconItem(p.stacksTo(1), 4, 4, GolemModelPaths.BOOTS_BEACON))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/beacon_boots")))
 					.register();
+
+			DOG_ARMOR_IRON = regDogArmor("iron", ArmorMaterials.IRON, 16, 0).register();
+			DOG_ARMOR_GOLD = regDogArmor("gold", ArmorMaterials.GOLD, 12, 0).register();
+			DOG_ARMOR_DIAMOND = regDogArmor("diamond", ArmorMaterials.DIAMOND, 20, 8).register();
+			DOG_ARMOR_NETHERITE = regDogArmor("netherite", ArmorMaterials.NETHERITE, 20, 12)
+					.properties(p -> p.fireResistant().rarity(Rarity.EPIC)).register();
+
 		}
 
 		//metalgolem weapon
@@ -388,6 +394,15 @@ public class GolemItems {
 		HOSTILE_WAND = REGISTRATE.item("hostile_wand", p -> new HostileWandItem(p.stacksTo(1)))
 				.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 
+	}
+
+	private static ItemBuilder<DogGolemArmorItem, L2Registrate> regDogArmor(String id, ArmorMaterial mat, int def, int tough) {
+		return ModularGolems.REGISTRATE.item(id + "_dog_golem_armor", p -> new DogGolemArmorItem(
+						p.stacksTo(1), mat, def, tough))
+				.model((ctx, pvd) -> pvd.generated(ctx,
+						pvd.modLoc("item/dog_armor/" + id + "_collar"),
+						pvd.modLoc("item/dog_armor/" + id + "_wolf_armor")))
+				.color(() -> () -> (s, i) -> i == 0 ? ((DogGolemArmorItem) s.getItem()).getColor(s) : -1);
 	}
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {

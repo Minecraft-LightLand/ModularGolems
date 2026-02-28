@@ -22,22 +22,14 @@ public class KnightmetalArmors {
 	static {
 		GolemModelPath.register(KNIGHTMETAL_HELMETS,
 				new GolemModelPath(HELMET_LAYER, List.of(
-						List.of("head", "head1"),
-						List.of("head", "head1", "head11"),
-						List.of("head", "head1", "head12"),
-						List.of("head", "head1", "head13"),
-						List.of("head", "head1", "head14")
+						List.of("head", "head1")
 				)));
 
 		GolemModelPath.register(KNIGHTMETAL_CHESTPLATES,
 				new GolemModelPath(CHESTPLATE_LAYER, List.of(
 						List.of("body", "body1"),
 						List.of("right_arm", "body2"),
-						List.of("right_arm", "body2", "body21"),
-						List.of("right_arm", "body2", "body22"),
-						List.of("left_arm", "body3"),
-						List.of("left_arm", "body3", "body31"),
-						List.of("left_arm", "body3", "body32")
+						List.of("left_arm", "body3")
 				)));
 
 		GolemModelPath.register(KNIGHTMETAL_LEGGINGS,
