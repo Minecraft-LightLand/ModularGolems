@@ -1,13 +1,16 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +44,9 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 			if (menu.getAsPredSlot("arrow", 0, 0).getItem().isEmpty())
 				sr.draw(g, "arrow", "slotbg_arrow", -1, -1);
 		}
+
+		renderPreview(g, mx, my);
+
 	}
 
 	@Override
@@ -78,6 +84,21 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 				g.renderTooltip(this.font, list, Optional.empty(), ItemStack.EMPTY, mx, my);
 			}
 		}
+	}
+
+	private void renderPreview(GuiGraphics g, int mx, int my) {
+		int x = leftPos + 30;
+		int y = topPos + 80;
+		double lx = x - mx;
+		double ly = y - 40 - my;
+		int scale = menu.golem instanceof MetalGolemEntity ? 18 :
+				menu.golem instanceof HumanoidGolemEntity ? 24 :
+						menu.golem instanceof DogGolemEntity ? 32 : 18;
+		float ax = (float) Math.atan(lx / 50.0);
+		float ay = (float) Math.atan(ly / 50.0);
+		InventoryScreen.renderEntityInInventoryFollowsAngle(g,
+				x, y, scale, ax, ay, menu.golem);
+
 	}
 
 	@Override
