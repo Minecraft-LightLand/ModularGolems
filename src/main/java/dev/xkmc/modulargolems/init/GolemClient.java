@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.table.ItemListClientTooltip;
 import dev.xkmc.modulargolems.content.menu.table.ItemListTooltip;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.util.EsterEggUtil;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -53,6 +54,7 @@ public class GolemClient {
 
 			GolemTabRegistry.register();
 			CurioCompatRegistry.clientRegister();
+			EsterEggUtil.registerEsterEggTextures();
 		});
 	}
 

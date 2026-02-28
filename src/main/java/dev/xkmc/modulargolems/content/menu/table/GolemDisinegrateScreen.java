@@ -7,6 +7,9 @@ import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.ClientHolderManager;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -119,7 +122,9 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 				int y = topPos + 80;
 				double lx = x - mx;
 				double ly = y - 40 - my;
-				int scale = 18;
+				int scale = golem instanceof MetalGolemEntity ? 18 :
+						golem instanceof HumanoidGolemEntity ? 24 :
+								golem instanceof DogGolemEntity ? 32 : 18;
 				float ax = (float) Math.atan(lx / 50.0);
 				float ay = (float) Math.atan(ly / 50.0);
 				InventoryScreen.renderEntityInInventoryFollowsAngle(g,//TODO

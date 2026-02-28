@@ -11,14 +11,14 @@ import net.minecraft.client.model.geom.builders.*;
 
 import java.util.List;
 
-import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.buildGolemBaseLayers;
 import static dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorPaths.*;
+import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.buildGolemBaseLayers;
 
 public class HarbingerArmors {
 
-	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(ModularGolems.loc( "harbinger_helmet"), "main");
-	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(ModularGolems.loc( "harbinger_chestplate"), "main");
-	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(ModularGolems.loc( "harbinger_shinguard"), "main");
+	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(ModularGolems.loc("harbinger_helmet"), "main");
+	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(ModularGolems.loc("harbinger_chestplate"), "main");
+	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(ModularGolems.loc("harbinger_shinguard"), "main");
 
 	static {
 		GolemModelPath.register(WITHERITE_HELMETS,
@@ -34,11 +34,9 @@ public class HarbingerArmors {
 						List.of("body", "body3"),
 						List.of("right_arm", "body4"),
 						List.of("right_arm", "body5"),
-						List.of("right_arm", "body5", "body6"),
 						List.of("right_arm", "body7"),
 						List.of("left_arm", "body8"),
 						List.of("left_arm", "body9"),
-						List.of("left_arm", "body9", "body10"),
 						List.of("left_arm", "body11")
 				)));
 
