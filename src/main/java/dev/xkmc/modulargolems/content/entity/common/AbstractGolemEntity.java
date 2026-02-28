@@ -410,8 +410,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return hasFlag(GolemFlags.SWIM);
 	}
 
+	public boolean isMovable() {
+		return getMode().isMovable() && !isInSittingPose();
+	}
+
 	public void travel(Vec3 pTravelVector) {
-		if (!getMode().isMovable()) {
+		if (!isMovable()) {
 			pTravelVector = Vec3.ZERO;
 		}
 		if ((this.isControlledByLocalInstance() || this.isEffectiveAi()) && this.isInWater() && canSwim()) {
@@ -435,12 +439,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean isPushable() {
-		return getMode().isMovable();
+		return isMovable();
 	}
 
 	@Deprecated
 	public boolean isPushedByFluid() {
-		return !this.isSwimming() && getMode().isMovable();
+		return !this.isSwimming() && isMovable();
 	}
 
 	// ------ ownable entity
