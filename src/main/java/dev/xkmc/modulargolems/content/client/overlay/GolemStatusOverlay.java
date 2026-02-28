@@ -82,7 +82,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 
 		@Override
 		public int getHeight() {
-			if (golem instanceof DogGolemEntity) return 18;
+			if (golem instanceof DogGolemEntity) return 36;
 			return 72;
 		}
 
@@ -96,6 +96,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		public void renderImage(Font font, int mx, int my, GuiGraphics g) {
 			if (golem instanceof DogGolemEntity) {
 				renderSlot(font, mx, my, g, golem.getItemBySlot(EquipmentSlot.HEAD), InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
+				renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.HEAD), InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE);
 				return;
 			}
 			renderSlot(font, mx + 18, my, g, golem.getItemBySlot(EquipmentSlot.HEAD), InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
