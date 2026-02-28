@@ -1,5 +1,4 @@
 {
-
 	"block.modulargolems.golem_workbench": "傀儡装配台",
 	"item.modulargolems": {
 		"metal_golem_template": "傀儡胚料",
@@ -67,7 +66,11 @@
 		"hostile_wand": "敌对傀儡调试器",
 		"barbaric_vanguard_boots": "蛮荒镣铐",
 		"wind_spirit_boots": "风行靴",
-		"beacon_boots": "信标靴"
+		"beacon_boots": "信标靴",
+		"diamond_dog_golem_armor": "钻石制傀儡狼铠",
+		"gold_dog_golem_armor": "金制傀儡狼铠",
+		"iron_dog_golem_armor": "铁制傀儡狼铠",
+		"netherite_dog_golem_armor": "下界合金制傀儡狼铠"
 	},
 	"-cartesian": {
 		"golem": {

@@ -98,6 +98,7 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.EntityArmorInvWrapper;
 import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -178,6 +179,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 						modifierGoals.add(goal);
 						goalSelector.addGoal(priority, goal);
 					}));
+		}
+		var sup = DefaultAttributes.getSupplier(getType());
+		for (var e : ForgeRegistries.ATTRIBUTES) {
+			var ins = getAttribute(e);
+			if (ins == null | !sup.hasAttribute(e)) continue;
+			ins.setBaseValue(sup.getBaseValue(e));
 		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
 		refreshDimensions();

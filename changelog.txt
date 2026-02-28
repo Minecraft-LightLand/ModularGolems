@@ -1,3 +1,8 @@
+2.6.23
+- Fix dog golem equipment preview
+- Fix golem attribute not reset after taking down upgrade
+- Fix dog armor translation
+
 2.6.22
 - Add dog golem armor
 - buff dog golem
