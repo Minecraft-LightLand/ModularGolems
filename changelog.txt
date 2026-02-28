@@ -1,3 +1,7 @@
+3.1.15
+- buff dog golem
+- fix dog golem moving while sitting down
+
 3.1.14
 - Fix compat with latest Ice and Fire Community Edition
 
