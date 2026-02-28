@@ -1,3 +1,6 @@
+3.1.16
+- Fix golem attribute not reset after taking down upgrade
+
 3.1.15
 - buff dog golem
 - fix dog golem moving while sitting down

@@ -42,6 +42,7 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -165,6 +166,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		if (!level().isClientSide()) {
 			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
+		}
+		var sup = DefaultAttributes.getSupplier(getType());
+		for (var e : BuiltInRegistries.ATTRIBUTE.holders().toList()) {
+			var ins = getAttribute(e);
+			if (ins == null | !sup.hasAttribute(e)) continue;
+			ins.setBaseValue(sup.getBaseValue(e));
 		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
 		refreshDimensions();
