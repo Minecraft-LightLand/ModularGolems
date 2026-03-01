@@ -72,7 +72,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	}
 
 	public ItemStack appendUpgrade(UpgradeItem upgrade) {
-		if (!upgrade.fitsOn(holderItem.getEntityType())) return ItemStack.EMPTY;
+		if (holderItem == null || !upgrade.fitsOn(holderItem.getEntityType())) return ItemStack.EMPTY;
 		var copy = new ArrayList<>(upgrades.upgrades());
 		copy.add(upgrade);
 		int remaining = holderItem.getRemaining(materials, new GolemUpgrade(upgrades.extraSlot(), copy));
@@ -130,7 +130,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
 	@Override
 	public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-		if (stack.isEmpty()) return stack;
+		if (holderItem == null || stack.isEmpty()) return stack;
 		if (!(stack.getItem() instanceof UpgradeItem item)) return stack;
 		var ans = appendUpgrade(item);
 		if (ans.isEmpty()) return stack;
@@ -142,6 +142,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
 	@Override
 	public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+		if (holderItem == null) return ItemStack.EMPTY;
 		var stack = getStackInSlot(slot);
 		if (stack.isEmpty() || !(stack.getItem() instanceof UpgradeItem item)) return ItemStack.EMPTY;
 		var ans = removeUpgrade(item);
