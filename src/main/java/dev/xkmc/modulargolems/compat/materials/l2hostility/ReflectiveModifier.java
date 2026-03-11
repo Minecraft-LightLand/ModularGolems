@@ -28,7 +28,7 @@ public class ReflectiveModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		List<MutableComponent> ans = new ArrayList<>();
 		ans.add(Component.translatable(LHTraits.REFLECT.get().getDescriptionId() + ".desc",
-						Component.literal((int) Math.round(100 * (1 + v * LHConfig.COMMON.reflectFactor.get())) + "")
+						Component.literal((int) Math.round(100 * v * LHConfig.COMMON.reflectFactor.get()) + "")
 								.withStyle(ChatFormatting.AQUA))
 				.withStyle(ChatFormatting.GREEN));
 		return ans;
