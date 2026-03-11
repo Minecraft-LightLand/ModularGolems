@@ -76,7 +76,7 @@ public class EarthquakeHelper {
 
 	public static boolean shouldRetreat(AbstractGolemEntity<?, ?> golem, LivingEntity target, double dist, double reach) {
 		return golem.hasFlag(GolemFlags.EARTH_QUAKE) && dist < reach + 4 &&
-				EarthquakeHelper.findInstance(golem, target, dist - reach + 4) != null;
+				EarthquakeHelper.findInstance(golem, target, dist * dist - reach * reach + 4) != null;
 	}
 
 	public record Instance(Modifier modifier, int lv) {

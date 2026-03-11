@@ -1,3 +1,7 @@
+3.1.20
+- Fix golems with jump attack not approaching target
+- Fix reflective trait descriptions
+
 3.1.19
 - Fix upgrade screen crash when inserting upgrade without golem
 
