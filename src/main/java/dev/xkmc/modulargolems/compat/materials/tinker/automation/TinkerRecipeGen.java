@@ -53,6 +53,7 @@ public class TinkerRecipeGen {
 		cast(pvd, Items.DIAMOND_HELMET, GolemItems.WINDSPIRIT_HELMET, TinkerFluids.moltenDiamond, 16 * 100);
 		cast(pvd, Items.DIAMOND_CHESTPLATE, GolemItems.WINDSPIRIT_CHESTPLATE, TinkerFluids.moltenDiamond, 32 * 100);
 		cast(pvd, Items.DIAMOND_LEGGINGS, GolemItems.WINDSPIRIT_SHINGUARD, TinkerFluids.moltenDiamond, 11 * 100);
+		cast(pvd, Items.DIAMOND_BOOTS, GolemItems.WINDSPIRIT_BOOTS, TinkerFluids.moltenDiamond, 3 * 100);
 		cast(pvd, GolemItems.WINDSPIRIT_HELMET, GolemItems.BARBARICFLAMEVANGUARD_HELMET, TinkerFluids.moltenNetherite, 5 * 90);
 		cast(pvd, GolemItems.WINDSPIRIT_CHESTPLATE, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE, TinkerFluids.moltenNetherite, 6 * 90);
 		cast(pvd, GolemItems.WINDSPIRIT_SHINGUARD, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD, TinkerFluids.moltenNetherite, 3 * 90);
@@ -74,6 +75,9 @@ public class TinkerRecipeGen {
 
         melt(pvd, GolemItems.WINDSPIRIT_SHINGUARD, TinkerFluids.moltenDiamond, 18 * 100,
                 e->{});
+
+		melt(pvd, GolemItems.WINDSPIRIT_BOOTS, TinkerFluids.moltenDiamond, 7 * 100,
+				e->{});
 
         melt(pvd, GolemItems.GOLEMGUARD_CHESTPLATE, TinkerFluids.moltenIron, 40 * 90,
                 e->{});

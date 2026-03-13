@@ -1,3 +1,8 @@
+2.6.28
+- Golem heals in ender/dimensional backpacks in L2Backpack
+- Casting / Recycle recipes for windspirit boots
+- Deployer apply dog armor for dog golems
+
 2.6.27
 - Fix golems with jump attack not approaching target
 - Fix reflective trait descriptions

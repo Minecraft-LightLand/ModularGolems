@@ -52,6 +52,11 @@ public record GolemEquipUtil(boolean isClient, @Nullable Level level) {
 				slot = equipment.getSlot();
 			}
 			return equipOnHolder(holder, first, second, slot);
+		} else if (holder.getEntityType() == GolemTypes.TYPE_DOG.get()) {
+			if (!(second.getItem() instanceof GolemEquipmentItem equipment)) return ItemStack.EMPTY;
+			if (!equipment.isFor(GolemTypes.ENTITY_DOG.get())) return ItemStack.EMPTY;
+			var slot = equipment.getSlot();
+			return equipOnHolder(holder, first, second, slot);
 		} else if (holder.getEntityType() == GolemTypes.TYPE_HUMANOID.get()) {
 			EquipmentSlot slot = LivingEntity.getEquipmentSlotForItem(second);
 			return equipOnHolder(holder, first, second, slot);

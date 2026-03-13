@@ -14,8 +14,8 @@
   },
   "pattern": [
     "I  ",
-    "BII",
-    "BAB"
+    "IBI",
+    "IAI"
   ],
   "result": {
     "item": "modulargolems:diamond_dog_golem_armor"

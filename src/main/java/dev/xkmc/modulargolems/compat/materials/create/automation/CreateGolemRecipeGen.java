@@ -76,6 +76,10 @@ public class CreateGolemRecipeGen {
 				.output(Items.DIAMOND, 18)
 				.build(pvd);
 
+		genCrushingRecipe(GolemItems.WINDSPIRIT_BOOTS)
+				.output(Items.DIAMOND, 7)
+				.build(pvd);
+
 		genCrushingRecipe(GolemItems.GOLEMGUARD_CHESTPLATE)
 				.output(Items.IRON_INGOT, 40)
 				.build(pvd);
