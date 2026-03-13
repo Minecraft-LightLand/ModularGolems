@@ -83,9 +83,11 @@ public class IronwoodArmors {
 
         PartDefinition legs1 = body.addOrReplaceChild("legs1", CubeListBuilder.create().texOffs(58, 26).addBox(-5.5F, -20.0F, -5.0F, 11.0F, 4.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
 
-        PartDefinition legs2 = right_leg.addOrReplaceChild("legs2", CubeListBuilder.create().texOffs(76, 60).addBox(-8.0F, -15.5F, -3.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 13.0F, 0.0F));
+        PartDefinition legs2 = right_leg.addOrReplaceChild("legs2", CubeListBuilder.create()
+                .texOffs(76, 60).addBox(-8.0F, -15.5F, -3.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 13.0F, 0.0F));
 
-        PartDefinition legs3 = left_leg.addOrReplaceChild("legs3", CubeListBuilder.create().texOffs(76, 74).addBox(1.0F, -14.5F, -3.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 13.0F, 0.0F));
+        PartDefinition legs3 = left_leg.addOrReplaceChild("legs3", CubeListBuilder.create()
+                .texOffs(76, 74).addBox(1.0F, -15.5F, -3.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 13.0F, 0.0F));
 
 
         return LayerDefinition.create(mesh, 128, 128);
@@ -97,12 +99,16 @@ public class IronwoodArmors {
         PartDefinition right_leg = mesh.getRoot().getChild("right_leg");
         PartDefinition left_leg = mesh.getRoot().getChild("left_leg");
 
-        PartDefinition boots1 = right_leg.addOrReplaceChild("boots1", CubeListBuilder.create().texOffs(0, 96).addBox(-4.0F, 6.5F, -3.5F, 7.0F, 6.0F, 7.0F, new CubeDeformation(0.0F))
-                .texOffs(58, 39).addBox(-3.5F, 11.0F, -5.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition boots1 = right_leg.addOrReplaceChild("boots1", CubeListBuilder.create()
+                .texOffs(0, 96).addBox(-4.0F, 6.5F, -3.5F, 7.0F, 6.0F, 7.0F, new CubeDeformation(0.0F))
+                .texOffs(58, 39).addBox(-3.5F, 11.0F, -5.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, 0.0F, 0.0F));
 
 
-        PartDefinition boots2 = left_leg.addOrReplaceChild("boots2", CubeListBuilder.create().texOffs(58, 42).addBox(-3.5F, 12.0F, -5.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(96, 0).addBox(-4.0F, 7.5F, -3.5F, 7.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition boots2 = left_leg.addOrReplaceChild("boots2", CubeListBuilder.create()
+                .texOffs(58, 42).addBox(-3.5F, 11.0F, -5.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(96, 0).addBox(-4.0F, 6.5F, -3.5F, 7.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(mesh, 128, 128);
     }
