@@ -24,7 +24,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class GolemEquipmentItem extends Item {
+public abstract class GolemEquipmentItem extends Item implements IGolemEquipmentItem {
 
 	protected static final EnumMap<EquipmentSlot, UUID> UUID;
 

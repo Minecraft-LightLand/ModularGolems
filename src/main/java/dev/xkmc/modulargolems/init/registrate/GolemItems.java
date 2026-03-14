@@ -22,6 +22,7 @@ import dev.xkmc.modulargolems.content.item.equipments.*;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.*;
@@ -83,6 +84,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> WINDSPIRIT_BOOTS;
 	public static final ItemEntry<NetheriteBootItem> BARBARICFLAMEVANGUARD_BOOTS;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
+	public static final ItemEntry<MetalGolemBowItem> IRON_BOW, NETHERITE_BOW;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
 	public static final ItemEntry<ConfigCard>[] CARD;
@@ -215,6 +217,12 @@ public class GolemItems {
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
 			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
+			IRON_BOW = REGISTRATE.item("iron_mecha_bow", p -> new MetalGolemBowItem(p, 15, 5))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.register();
+			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemBowItem(p, 30, 10))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.register();
 		}
 
 		// cards

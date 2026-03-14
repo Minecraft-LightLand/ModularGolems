@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.events.CraftEventListeners;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -47,13 +48,13 @@ public record GolemEquipUtil(boolean isClient, @Nullable Level level) {
 		} else if (holder.getEntityType() == GolemTypes.TYPE_GOLEM.get()) {
 			EquipmentSlot slot = LivingEntity.getEquipmentSlotForItem(second);
 			if (!second.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
-				if (!(second.getItem() instanceof GolemEquipmentItem equipment)) return ItemStack.EMPTY;
+				if (!(second.getItem() instanceof IGolemEquipmentItem equipment)) return ItemStack.EMPTY;
 				if (!equipment.isFor(GolemTypes.ENTITY_GOLEM.get())) return ItemStack.EMPTY;
 				slot = equipment.getSlot();
 			}
 			return equipOnHolder(holder, first, second, slot);
 		} else if (holder.getEntityType() == GolemTypes.TYPE_DOG.get()) {
-			if (!(second.getItem() instanceof GolemEquipmentItem equipment)) return ItemStack.EMPTY;
+			if (!(second.getItem() instanceof IGolemEquipmentItem equipment)) return ItemStack.EMPTY;
 			if (!equipment.isFor(GolemTypes.ENTITY_DOG.get())) return ItemStack.EMPTY;
 			var slot = equipment.getSlot();
 			return equipOnHolder(holder, first, second, slot);

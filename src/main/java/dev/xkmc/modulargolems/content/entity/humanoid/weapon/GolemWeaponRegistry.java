@@ -10,6 +10,8 @@ import dev.xkmc.mob_weapon_api.registry.WeaponStatus;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.item.ranged.GolemBowBehavior;
+import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 
 public class GolemWeaponRegistry<T extends SweepGolemEntity<?, ?>> extends WeaponGoalRegistry<T> {
@@ -39,6 +41,9 @@ public class GolemWeaponRegistry<T extends SweepGolemEntity<?, ?>> extends Weapo
 	public static void init() {
 		HUMANOID.initBasic();
 		LARGE.initBasic();
+		WeaponRegistry.BOW.register(ModularGolems.loc("golem_bow"),
+				e -> WeaponStatus.OFFENSIVE.of(e.getItem() instanceof MetalGolemBowItem),
+				(golem, stack) -> new GolemBowBehavior(), 10);
 	}
 
 }
