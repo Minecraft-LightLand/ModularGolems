@@ -5,8 +5,8 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.DogGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.events.event.GolemThrowableEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -59,10 +59,14 @@ public class GolemEventListeners {
 		if (golem instanceof MetalGolemEntity) {
 			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
 				event.setSlot(1, mgai.getSlot());
-			} else if (stack.getItem() instanceof MetalGolemWeaponItem || stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
+			} else if (stack.getItem() instanceof MetalGolemWeaponItem ||
+					stack.getItem() instanceof MetalGolemBowItem ||
+					stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
 				event.setSlot(1, EquipmentSlot.MAINHAND);
 			} else if (stack.getItem() instanceof BannerItem) {
 				event.setSlot(1, EquipmentSlot.HEAD, EquipmentSlot.FEET);
+			} else if (stack.getItem() instanceof ArrowItem) {
+				event.setSlot(stack.getCount(), EquipmentSlot.OFFHAND);
 			}
 		}
 

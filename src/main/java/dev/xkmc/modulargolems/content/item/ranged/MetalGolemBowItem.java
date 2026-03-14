@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -45,7 +46,8 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem {
 
 	public MetalGolemBowItem(Properties properties, int baseline, int atk, Consumer<ImmutableMultimap.Builder<Attribute, AttributeModifier>> attr) {
 		this(properties, baseline, b -> {
-			b.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(MathHelper.getUUIDFromString("bow_melee"),
+			if (atk > 0)
+				b.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(MathHelper.getUUIDFromString("bow_melee"),
 					"bow_melee", atk, AttributeModifier.Operation.ADDITION));
 			attr.accept(b);
 		});
@@ -57,13 +59,20 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem {
 	}
 
 	public float getPower(LivingEntity user, int time) {
-		return baseline / 10f * Math.min(1, 1f * time / getPullTime(user));
+		return Math.min(1, 1f * time / getPullTime(user));
 	}
 
 	public int getPullTime(LivingEntity user) {
 		var val = user.getAttributeValue(Attributes.ATTACK_DAMAGE);
-		val = Mth.clamp(0.5, val / baseline, 2);
-		return (int) (20 / val);
+		val = Mth.clamp(0.5, val / baseline, 4);
+		return (int) (40 / val);
+	}
+
+	@Override
+	public AbstractArrow customArrow(AbstractArrow arrow) {
+		var ans = super.customArrow(arrow);
+		ans.setBaseDamage(ans.getBaseDamage() * baseline / 10f);
+		return ans;
 	}
 
 	@Override
