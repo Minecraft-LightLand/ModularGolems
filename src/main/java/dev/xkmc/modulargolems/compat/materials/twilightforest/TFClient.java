@@ -1,10 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest;
 
 import dev.xkmc.modulargolems.compat.materials.common.ClientModDispatch;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.client.FieryArmors;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.client.IronwoodArmors;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.client.KnightmetalArmors;
-import dev.xkmc.modulargolems.compat.materials.twilightforest.client.TFClientEventHandler;
+import dev.xkmc.modulargolems.compat.materials.twilightforest.client.*;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -23,6 +20,11 @@ public class TFClient extends ClientModDispatch {
 		regAndAdd(event, IronwoodArmors.CHESTPLATE_LAYER, IronwoodArmors::createChestplate);
 		regAndAdd(event, IronwoodArmors.SHINGUARD_LAYER, IronwoodArmors::createLeggings);
 		regAndAdd(event, IronwoodArmors.BOOTS_LAYER, IronwoodArmors::createBoots);
+
+		regAndAdd(event, NagaArmors.HELMET_LAYER, NagaArmors::createHelmet);
+		regAndAdd(event, NagaArmors.CHESTPLATE_LAYER, NagaArmors::createChestplate);
+		regAndAdd(event, NagaArmors.SHINGUARD_LAYER, NagaArmors::createLeggings);
+		regAndAdd(event, NagaArmors.BOOTS_LAYER, NagaArmors::createBoots);
 
 		regAndAdd(event, KnightmetalArmors.HELMET_LAYER, KnightmetalArmors::createHelmet);
 		regAndAdd(event, KnightmetalArmors.CHESTPLATE_LAYER, KnightmetalArmors::createChestplate);

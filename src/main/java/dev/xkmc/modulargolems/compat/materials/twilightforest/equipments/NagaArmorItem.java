@@ -24,7 +24,7 @@ public class NagaArmorItem extends MetalGolemArmorItem implements IGolemModifier
 
 	public NagaArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type, defense, toughness, model, e -> {
-			var uuid = TFCompatRegistry.tfLoc("naga_armor");
+			var uuid = TFCompatRegistry.tfLoc("naga_armor_" + type.getName());
 			e.add(GolemTypes.GOLEM_REGEN, new AttributeModifier(uuid, 0.5,
 					AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(type.getSlot()));
 			switch (type.getSlot()) {

@@ -12,6 +12,12 @@ public class TFArmorPaths {
 			IRONWOOD_BOOTS = ModularGolems.loc("ironwood/boots");
 
 	public static final ResourceLocation
+			NAGA_HELMETS = ModularGolems.loc("naga/helmet"),
+			NAGA_CHESTPLATES = ModularGolems.loc("naga/chestplate"),
+			NAGA_LEGGINGS = ModularGolems.loc("naga/shinguard"),
+			NAGA_BOOTS = ModularGolems.loc("naga/boots");
+
+	public static final ResourceLocation
 			KNIGHTMETAL_HELMETS = ModularGolems.loc("knightmetal/helmet"),
 			KNIGHTMETAL_CHESTPLATES = ModularGolems.loc("knightmetal/chestplate"),
 			KNIGHTMETAL_LEGGINGS = ModularGolems.loc("knightmetal/shinguard"),

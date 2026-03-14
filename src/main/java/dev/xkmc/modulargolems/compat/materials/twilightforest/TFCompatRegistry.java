@@ -65,11 +65,11 @@ public class TFCompatRegistry {
 				.defaultLang().register();
 
 		NAGA_CHESTPLATE = REGISTRATE.item("naga_chestplate", p -> new NagaArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 13, 5, TFArmorPaths.IRONWOOD_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 13, 5, TFArmorPaths.NAGA_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		NAGA_SHINGUARD = REGISTRATE.item("naga_shinguard", p -> new NagaArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 7, 5, TFArmorPaths.IRONWOOD_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 7, 5, TFArmorPaths.NAGA_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 

@@ -23,7 +23,7 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 
 	public HarbingerArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type, defense, toughness, model, e -> {
-			var id = ModularGolems.loc("harbinger_armor");
+			var id = ModularGolems.loc("harbinger_armor_" + type.getName());
 			e.add(L2DamageTracker.ABSORB, new AttributeModifier(id, 1,
 					AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(type.getSlot()));
 			switch (type.getSlot()) {

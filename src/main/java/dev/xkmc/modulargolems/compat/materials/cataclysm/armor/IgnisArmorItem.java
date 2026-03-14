@@ -23,7 +23,7 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 
 	public IgnisArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type, defense, toughness, model, e -> {
-			var id = ModularGolems.loc("ignis_armor");
+			var id = ModularGolems.loc("ignis_armor_" + type.getName());
 			e.add(L2DamageTracker.REDUCTION, new AttributeModifier(id, -0.2,
 					AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(type.getSlot()));
 			switch (type.getSlot()) {

@@ -1,3 +1,10 @@
+3.1.21
+- Fix armor attributes of the same set don't stack
+- Golem heals in ender/dimensional backpacks in L2Backpack
+- Casting / Recycle recipes for windspirit boots
+- Deployer apply dog armor for dog golems
+- Improve ironwood armor models
+
 3.1.20
 - Fix golems with jump attack not approaching target
 - Fix reflective trait descriptions

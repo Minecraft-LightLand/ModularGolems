@@ -43,8 +43,8 @@ public class IronwoodArmors {
                 )));
         GolemModelPath.register(IRONWOOD_BOOTS,
                 new GolemModelPath(BOOTS_LAYER, List.of(
-                        List.of("right_leg", "legs2"),
-                        List.of("left_leg", "legs3")
+                        List.of("right_leg", "boots1"),
+                        List.of("left_leg", "boots2")
                 )));
     }
 
@@ -53,14 +53,9 @@ public class IronwoodArmors {
         MeshDefinition mesh = buildGolemBaseLayers();
         PartDefinition head = mesh.getRoot().getChild("head");
 
-        // 从iron_golem_iron_wood_armor_set复制head1定义
-        PartDefinition head1 = head.addOrReplaceChild("head1",
-                CubeListBuilder.create()
-                        .texOffs(73, 29)
-                        .addBox(-4.5F, -44.0F, -8.0F, 9.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 31.0F, 2.0F)
-        );
-        return LayerDefinition.create(mesh, 128, 128);
+        PartDefinition head1 = head.addOrReplaceChild("head1", CubeListBuilder.create().texOffs(0, 49).addBox(-4.5F, -44.0F, -8.0F, 9.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 2.0F));
+
+      return LayerDefinition.create(mesh, 128, 128);
     }
 
     // 创建胸甲模型，使用iron_golem_iron_wood_armor_set中的body1、body2、body3定义
@@ -70,29 +65,12 @@ public class IronwoodArmors {
         PartDefinition right_arm = mesh.getRoot().getChild("right_arm");
         PartDefinition left_arm = mesh.getRoot().getChild("left_arm");
 
-        // 从iron_golem_iron_wood_armor_set复制body1定义
-        PartDefinition body1 = body.addOrReplaceChild("body1",
-                CubeListBuilder.create()
-                        .texOffs(4, 1)
-                        .addBox(-9.5F, -33.5F, -7.0F, 19.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 31.0F, 0.0F)
-        );
+        PartDefinition body1 = body.addOrReplaceChild("body1", CubeListBuilder.create().texOffs(0, 0).addBox(-9.5F, -33.5F, -7.0F, 19.0F, 13.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
 
-        // 从iron_golem_iron_wood_armor_set复制body2定义
-        PartDefinition body2 = right_arm.addOrReplaceChild("body2",
-                CubeListBuilder.create()
-                        .texOffs(1, 31)
-                        .addBox(-13.5F, -34.0F, -3.5F, 5.0F, 31.0F, 7.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 31.0F, 0.0F)
-        );
+        PartDefinition body2 = right_arm.addOrReplaceChild("body2", CubeListBuilder.create().texOffs(52, 85).addBox(-13.5F, -34.0F, -3.5F, 5.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
 
-        // 从iron_golem_iron_wood_armor_set复制body3定义
-        PartDefinition body3 = left_arm.addOrReplaceChild("body3",
-                CubeListBuilder.create()
-                        .texOffs(43, 31)
-                        .addBox(8.5F, -34.0F, -3.5F, 5.0F, 31.0F, 7.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 31.0F, 0.0F)
-        );
+        PartDefinition body3 = left_arm.addOrReplaceChild("body3", CubeListBuilder.create().texOffs(76, 88).addBox(8.5F, -34.0F, -3.5F, 5.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
+
         return LayerDefinition.create(mesh, 128, 128);
     }
 
@@ -103,29 +81,15 @@ public class IronwoodArmors {
         PartDefinition right_leg = mesh.getRoot().getChild("right_leg");
         PartDefinition left_leg = mesh.getRoot().getChild("left_leg");
 
-        // 从iron_golem_iron_wood_armor_set复制legs1定义
-        PartDefinition legs1 = body.addOrReplaceChild("legs1",
-                CubeListBuilder.create()
-                        .texOffs(72, 7)
-                        .addBox(-5.5F, -21.0F, -5.0F, 11.0F, 6.0F, 9.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 31.0F, 0.0F)
-        );
+        PartDefinition legs1 = body.addOrReplaceChild("legs1", CubeListBuilder.create().texOffs(58, 26).addBox(-5.5F, -20.0F, -5.0F, 11.0F, 4.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 31.0F, 0.0F));
 
-        // 从iron_golem_iron_wood_armor_set复制legs2定义
-        PartDefinition legs2 = right_leg.addOrReplaceChild("legs2",
-                CubeListBuilder.create()
-                        .texOffs(73, 54)
-                        .addBox(-8.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F)),
-                        PartPose.offset(4.0F, 13.0F, 0.0F)
-        );
+        PartDefinition legs2 = right_leg.addOrReplaceChild("legs2", CubeListBuilder.create()
+                .texOffs(76, 60).addBox(-8.0F, -15.5F, -3.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 13.0F, 0.0F));
 
-        // 从iron_golem_iron_wood_armor_set复制legs3定义
-        PartDefinition legs3 = left_leg.addOrReplaceChild("legs3",
-                CubeListBuilder.create()
-                        .texOffs(73, 80)
-                        .addBox(1.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(-5.0F, 13.0F, 0.0F)
-        );
+        PartDefinition legs3 = left_leg.addOrReplaceChild("legs3", CubeListBuilder.create()
+                .texOffs(76, 74).addBox(1.0F, -15.5F, -3.5F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 13.0F, 0.0F));
+
+
         return LayerDefinition.create(mesh, 128, 128);
     }
 
@@ -135,24 +99,17 @@ public class IronwoodArmors {
         PartDefinition right_leg = mesh.getRoot().getChild("right_leg");
         PartDefinition left_leg = mesh.getRoot().getChild("left_leg");
 
+        PartDefinition boots1 = right_leg.addOrReplaceChild("boots1", CubeListBuilder.create()
+                .texOffs(0, 96).addBox(-4.0F, 6.5F, -3.5F, 7.0F, 6.0F, 7.0F, new CubeDeformation(0.0F))
+                .texOffs(58, 39).addBox(-3.5F, 11.0F, -5.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, 0.0F, 0.0F));
 
-        // 从iron_golem_iron_wood_armor_set复制legs2定义
-        PartDefinition legs2 = right_leg.addOrReplaceChild("legs2",
-                CubeListBuilder.create()
-                        .texOffs(3, 78)
-                        .addBox(-7.5F, -1.0F, -4.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-                        .texOffs(22, 55)
-                        .addBox(-8.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(4.0F, 13.0F, 0.0F));
 
-        // 从iron_golem_iron_wood_armor_set复制legs3定义
-        PartDefinition legs3 = left_leg.addOrReplaceChild("legs3",
-                CubeListBuilder.create()
-                        .texOffs(22, 82)
-                        .addBox(1.0F, -16.5F, -3.5F, 7.0F, 17.0F, 7.0F, new CubeDeformation(0.0F))
-                        .texOffs(3, 78)
-                        .addBox(1.5F, -1.0F, -4.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)),
-                PartPose.offset(-5.0F, 13.0F, 0.0F));
+        PartDefinition boots2 = left_leg.addOrReplaceChild("boots2", CubeListBuilder.create()
+                .texOffs(58, 42).addBox(-3.5F, 11.0F, -5.5F, 6.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(96, 0).addBox(-4.0F, 6.5F, -3.5F, 7.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, 0.0F, 0.0F));
+
         return LayerDefinition.create(mesh, 128, 128);
     }
 

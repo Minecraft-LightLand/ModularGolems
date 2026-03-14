@@ -23,7 +23,7 @@ public class IronwoodArmorItem extends MetalGolemArmorItem implements IGolemModi
 
 	public IronwoodArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		super(properties, type, defense, toughness, model, e ->
-				e.add(GolemTypes.GOLEM_REGEN, new AttributeModifier(TFCompatRegistry.tfLoc("ironwood_armor"), 0.5,
+				e.add(GolemTypes.GOLEM_REGEN, new AttributeModifier(TFCompatRegistry.tfLoc("ironwood_armor_" + type.getName()), 0.5,
 						AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(type.getSlot())));
 	}
 

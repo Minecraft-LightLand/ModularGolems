@@ -3,7 +3,9 @@ package dev.xkmc.modulargolems.compat.materials.common;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.l2backpack.init.L2Backpack;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
+import dev.xkmc.modulargolems.compat.backpack.L2BCompat;
 import dev.xkmc.modulargolems.compat.maid.MaidRegistry;
 import dev.xkmc.modulargolems.compat.materials.allthemodium.ATMDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
@@ -22,6 +24,7 @@ import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import plus.dragons.createenchantmentindustry.common.CEICommon;
 
@@ -52,6 +55,8 @@ public abstract class CompatManager {
 		//if (ModList.get().isLoaded(LMDispatch.MODID)) LIST.add(new LMDispatch());
 		if (ModList.get().isLoaded(CEICommon.ID)) CEICompat.register();
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
+		if (ModList.get().isLoaded(L2Backpack.MODID))
+			NeoForge.EVENT_BUS.register(L2BCompat.class);
 	}
 
 	public static void commonSetup() {
