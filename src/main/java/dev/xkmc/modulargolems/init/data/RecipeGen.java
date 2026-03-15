@@ -418,6 +418,15 @@ public class RecipeGen {
 				}
 			}
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.IRON_BOW.get())::unlockedBy, Items.BOW)
+					.pattern("CII").pattern("BCI").pattern("IBC")
+					.define('I', Items.IRON_INGOT)
+					.define('B', GolemItems.GOLEM_TEMPLATE)
+					.define('C', Items.CHAIN)
+					.save(pvd);
+
+			smithing(pvd, GolemItems.IRON_BOW.get(), Items.NETHERITE_INGOT, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+
 		}
 
 		// upgrades

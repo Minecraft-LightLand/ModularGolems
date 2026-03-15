@@ -30,7 +30,7 @@ public class GolemMechaBowBehavior extends GolemBowBehavior {
 		user.user().playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (user.user().getRandom().nextFloat() * 0.4F + 0.8F));
 		if (!(arrow instanceof IMultiShotBow shot)) return 20;
 		var list = getPreferableTargets(golem, 35, Math.PI / 8);
-		int n = Math.min(list.size(), shot.getMaxShoot(user.user(), stack));
+		int n = Math.min(list.size(), shot.getMaxShoot(user.user(), stack) - 1);
 		for (int i = 0; i < n; i++) {
 			if (!shoot(user, bow, power, stack, hand, list.get(i))) return 10;
 		}
