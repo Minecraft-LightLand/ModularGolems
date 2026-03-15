@@ -8,11 +8,13 @@ import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
 import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
+import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -72,12 +74,17 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftLeg.yRot = 0.0F;
 		if (this.riding) {
 			this.rightLeg.xRot = -1.4137167F;
-			this.rightLeg.yRot = ((float)Math.PI / 10F);
+			this.rightLeg.yRot = ((float) Math.PI / 10F);
 			this.rightLeg.zRot = 0.07853982F;
 			this.leftLeg.xRot = -1.4137167F;
-			this.leftLeg.yRot = (-(float)Math.PI / 10F);
+			this.leftLeg.yRot = (-(float) Math.PI / 10F);
 			this.leftLeg.zRot = -0.07853982F;
 		}
+	}
+
+	@Override
+	public void animate(AnimationState state, AnimationDefinition def, float tick) {
+		super.animate(state, def, tick);
 	}
 
 	public void prepareMobModel(MetalGolemEntity entity, float bob, float speed, float pTick) {

@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
+import dev.xkmc.modulargolems.content.client.weapon.GolemModelAnimations;
+import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
 import dev.xkmc.modulargolems.events.event.GolemRenderItemInHandEvent;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -16,6 +18,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -53,7 +57,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 					renderArmor(mgaitem, pose, buffer, LightTexture.FULL_BRIGHT);
 				}
 			} else {
-				renderArmWithItem(entity, stack, e, pose, source, i);
+				renderArmWithItem(entity, stack, e, pose, source, i, f3);
 			}
 		}
 	}
@@ -74,9 +78,50 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		}
 	}
 
+	protected boolean renderWeaponModel(
+			MetalGolemEntity entity, IEntityModelWeapon weapon, ItemStack stack, InteractionHand hand,
+			PoseStack pose, MultiBufferSource source, int light, float pTick) {
+		var id = weapon.getModelForHand(hand);
+		if (id == null) return false;
+		GolemModelPath gmpath = GolemModelPath.get(id);
+		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getModelTexture(entity, stack, hand)));
+		MetalGolemModel model = map.get(gmpath.models());
+		model.root().getAllParts().forEach(ModelPart::resetPose);
+		model.copyFrom(getParentModel());
+		if (weapon.shouldPlayAnimation(entity, stack, hand)) {
+			var anim = GolemModelAnimations.MAP.get(id);
+			if (anim != null) {
+				float speed = weapon.getAnimationSpeed(entity, stack, hand);
+				float tick = weapon.getAnimationTick(entity, stack, hand);
+				var state = new AnimationState();
+				state.startIfStopped(0);
+				model.animate(state, anim, tick + speed * pTick);
+			}
+		}
+		for (List<String> ls : gmpath.paths()) {
+			ModelPart gemr = model.root();
+			pose.pushPose();
+			for (String s : ls) {
+				gemr.translateAndRotate(pose);
+				gemr = gemr.getChild(s);
+			}
+			gemr.render(pose, buffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+			pose.popPose();
+		}
+		return true;
+	}
+
 	protected void renderArmWithItem(MetalGolemEntity entity, ItemStack stack, EquipmentSlot slot,
-									 PoseStack pose, MultiBufferSource source, int light) {
+									 PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		if (stack.isEmpty()) return;
+		if (stack.getItem() instanceof IEntityModelWeapon weapon) {
+			InteractionHand hand = slot == EquipmentSlot.MAINHAND ? InteractionHand.MAIN_HAND :
+					slot == EquipmentSlot.OFFHAND ? InteractionHand.OFF_HAND : null;
+			if (hand != null) {
+				if (renderWeaponModel(entity, weapon, stack, hand, pose, source, light, pTick))
+					return;
+			}
+		}
 		ItemDisplayContext ctx = null;
 		if (slot == EquipmentSlot.MAINHAND) {
 			ctx = ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;

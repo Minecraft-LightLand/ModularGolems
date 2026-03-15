@@ -3,11 +3,15 @@ package dev.xkmc.modulargolems.content.item.ranged;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.xkmc.l2library.util.math.MathHelper;
+import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
+import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -26,12 +30,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem {
+public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, IEntityModelWeapon {
 
 	private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 	private final int baseline;
@@ -45,7 +50,7 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem {
 	}
 
 	public MetalGolemBowItem(Properties properties, int baseline, int atk, Consumer<ImmutableMultimap.Builder<Attribute, AttributeModifier>> attr) {
-		this(properties, baseline, b -> {
+		this(properties.stacksTo(1), baseline, b -> {
 			if (atk > 0)
 				b.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(MathHelper.getUUIDFromString("bow_melee"),
 					"bow_melee", atk, AttributeModifier.Operation.ADDITION));
@@ -71,8 +76,37 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem {
 	@Override
 	public AbstractArrow customArrow(AbstractArrow arrow) {
 		var ans = super.customArrow(arrow);
-		ans.setBaseDamage(ans.getBaseDamage() * baseline / 10f);
+		ans.setBaseDamage((ans.getBaseDamage() + 3) * baseline / 15f);
+		ans.setPierceLevel((byte) (baseline / 10));
 		return ans;
+	}
+
+	@Override
+	public @Nullable ResourceLocation getModelForHand(InteractionHand hand) {
+		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BOW_MAINHAND : null;
+	}
+
+	@Override
+	public ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+		var id = ForgeRegistries.ITEMS.getKey(this);
+		assert id != null;
+		String suffix = shouldPlayAnimation(entity, stack, hand) ? "_pulling.png" : ".png";
+		return id.withPath(e -> "textures/equipments/" + e + suffix);
+	}
+
+	@Override
+	public boolean shouldPlayAnimation(LivingEntity user, ItemStack stack, InteractionHand hand) {
+		return user.isUsingItem() && user.getUsedItemHand() == hand;
+	}
+
+	@Override
+	public float getAnimationSpeed(LivingEntity user, ItemStack stack, InteractionHand hand) {
+		return 10f / getPullTime(user);
+	}
+
+	@Override
+	public float getAnimationTick(LivingEntity user, ItemStack stack, InteractionHand hand) {
+		return 10f * user.getTicksUsingItem() / getPullTime(user);
 	}
 
 	@Override
