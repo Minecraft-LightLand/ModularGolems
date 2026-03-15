@@ -645,7 +645,7 @@
   "modulargolems.tooltip.health": "Health: %s/%s",
   "modulargolems.tooltip.meltdown": "Meltdown: %s",
   "modulargolems.tooltip.modifier": "Total %s modifiers from %s upgrades",
-  "modulargolems.tooltip.multi_shot": "Shoots %s arrows at once",
+  "modulargolems.tooltip.multi_shot": "Shoots %s targets at once",
   "modulargolems.tooltip.no_slot": "Removing this upgrade will result in insufficient slot",
   "modulargolems.tooltip.patrol": "Patrol",
   "modulargolems.tooltip.patrolling": "Golem will patrol in a designated way",

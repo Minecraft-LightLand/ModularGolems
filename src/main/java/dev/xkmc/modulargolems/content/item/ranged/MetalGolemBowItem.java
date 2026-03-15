@@ -78,6 +78,10 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 		var ans = super.customArrow(arrow);
 		ans.setBaseDamage((ans.getBaseDamage() + 3) * baseline / 15f);
 		ans.setPierceLevel((byte) (baseline / 10));
+		if (ans.getOwner() instanceof MetalGolemEntity e) {
+			var p = BowPoseUtil.getOrigin(e);
+			ans.setPos(p);
+		}
 		return ans;
 	}
 
