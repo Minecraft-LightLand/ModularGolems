@@ -29,6 +29,7 @@ public enum MGLangData {
 	SLICING_ENEMY("tooltip.slicing_enemy", "When metal golem kill certain enemies with this axe, drop one random metal golem part", 0, ChatFormatting.GRAY),
 	BEACON_BOOTS("tooltip.beacon_boots", "Heal and apply %s, %s to all nearby allies.", 2, ChatFormatting.GRAY),
 	BOW_STIFFNESS("tooltip.bow_stiffness", "Bow Stiffness: %s", 1, ChatFormatting.GRAY),
+	MULTI_SHOT("tooltip.multi_shot", "Shoots %s arrows at once", 1, ChatFormatting.GRAY),
 
 	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage", 1, ChatFormatting.GRAY),
 	HARBINGER_BOOST_MISSILE("tooltip.cataclysm.harbinger_armor_missile", "+%s Homing Missile Damage", 1, ChatFormatting.GRAY),

@@ -70,7 +70,9 @@
 		"diamond_dog_golem_armor": "钻石制傀儡狼铠",
 		"gold_dog_golem_armor": "金制傀儡狼铠",
 		"iron_dog_golem_armor": "铁制傀儡狼铠",
-		"netherite_dog_golem_armor": "下界合金制傀儡狼铠"
+		"netherite_dog_golem_armor": "下界合金制傀儡狼铠",
+		"iron_mecha_bow": "铁质机械弓",
+		"netherite_mecha_bow": "下界合金机械弓"
 	},
 	"-cartesian": {
 		"golem": {
