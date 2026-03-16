@@ -191,6 +191,7 @@ public class GolemEquipmentModels {
 		regAndAdd(event, GolemBoots.NETHERITE_BOOTS_LAYER, GolemBoots::createNetheriteBoots);
 
 		regAndAdd(event, GolemBows.BOW_MAINHAND, GolemBows::createMainHand);
+		regAndAdd(event, GolemBows.BOW_OFFHAND, GolemBows::createOffhand);
 
 	}
 

@@ -425,7 +425,7 @@ public class RecipeGen {
 					.define('C', Items.CHAIN)
 					.save(pvd);
 
-			smithing(pvd, GolemItems.IRON_BOW.get(), Items.NETHERITE_INGOT, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+			smithing(pvd, GolemItems.IRON_BOW.get(), Items.NETHERITE_INGOT, GolemItems.NETHERITE_BOW.get());
 
 		}
 

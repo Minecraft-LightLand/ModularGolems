@@ -18,6 +18,7 @@ import java.util.List;
 public class GolemBows {
 
 	public static final ModelLayerLocation BOW_MAINHAND = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "bow"), "mainhand");
+	public static final ModelLayerLocation BOW_OFFHAND = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "bow"), "offhand");
 
 	public static final AnimationDefinition PULL_MAINHAND;
 
@@ -65,6 +66,10 @@ public class GolemBows {
 	static {
 		GolemModelPath.register(GolemModelPaths.BOW_MAINHAND,
 				new GolemModelPath(BOW_MAINHAND, List.of(List.of("right_arm", "crossbow"))));
+
+		GolemModelPath.register(GolemModelPaths.BOW_OFFHAND,
+				new GolemModelPath(BOW_OFFHAND, List.of(List.of("left_arm", "crossbow"))));
+
 		GolemModelAnimations.register(GolemModelPaths.BOW_MAINHAND, PULL_MAINHAND);
 	}
 
@@ -100,9 +105,15 @@ public class GolemBows {
 
 		PartDefinition cube_r10 = bone5.addOrReplaceChild("cube_r10", CubeListBuilder.create().texOffs(0, 0).addBox(1.0F, -10.0F, -12.0F, 0.0F, 22.0F, 22.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-12.0F, -6.0F, 0.0F, 0.7854F, 0.0F, 0.0F));
 
-		PartDefinition left_arm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(60, 58).addBox(9.0F, -2.5F, -3.0F, 4.0F, 30.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -7.0F, 0.0F));
+		return LayerDefinition.create(mesh, 64, 64);
+	}
 
-		PartDefinition crossbow2 = left_arm.addOrReplaceChild("crossbow2", CubeListBuilder.create().texOffs(0, 44).addBox(-12.0F, -2.0F, -5.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(22.0F, 27.0F, 0.0F));
+	public static LayerDefinition createOffhand() {
+		MeshDefinition mesh = GolemEquipmentModels.buildGolemBaseLayers();
+		PartDefinition partdefinition = mesh.getRoot();
+		PartDefinition left_arm = partdefinition.getChild("left_arm");
+
+		PartDefinition crossbow2 = left_arm.addOrReplaceChild("crossbow", CubeListBuilder.create().texOffs(0, 44).addBox(-12.0F, -2.0F, -5.0F, 2.0F, 2.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(22.0F, 27.0F, 0.0F));
 
 		PartDefinition cube_r11 = crossbow2.addOrReplaceChild("cube_r11", CubeListBuilder.create().texOffs(44, 34).mirror().addBox(-1.0F, -8.0F, -1.0F, 2.0F, 8.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-11.0F, 4.0F, 3.0F, -2.7053F, 0.0F, 3.1416F));
 

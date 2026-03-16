@@ -26,14 +26,19 @@ public class GolemMechaBowBehavior extends GolemBowBehavior {
 		if (!(user.user() instanceof MetalGolemEntity golem)) return 20;
 		var target = golem.getTarget();
 		if (target == null) return 20;
-		if (!shoot(user, bow, power, stack, hand, target)) return 20;
-		user.user().playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (user.user().getRandom().nextFloat() * 0.4F + 0.8F));
-		if (!(arrow instanceof IMultiShotBow shot)) return 20;
-		var list = getPreferableTargets(golem, 35, Math.PI / 8);
-		int n = Math.min(list.size(), shot.getMaxShoot(user.user(), stack) - 1);
-		for (int i = 0; i < n; i++) {
-			if (!shoot(user, bow, power, stack, hand, list.get(i))) return 10;
+		ItemStack arrowStack = user.getPreferredProjectile(stack);
+		if (arrowStack.isEmpty()) return 20;
+		boolean infinite = user.bypassAllConsumption() || user.hasInfiniteArrow(stack, arrowStack);
+		shoot(user, bow, power, arrowStack, infinite, target);
+		if (arrow instanceof IMultiShotBow shot) {
+			var list = getPreferableTargets(golem, 35, Math.PI / 8);
+			int n = Math.min(list.size(), shot.getMaxShoot(user.user(), stack) - 1);
+			for (int i = 0; i < n; i++) {
+				shoot(user, bow, power, arrowStack, true, list.get(i));
+			}
 		}
+		user.user().playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (user.user().getRandom().nextFloat() * 0.4F + 0.8F));
+		if (!infinite) arrowStack.shrink(1);
 		return 10;
 	}
 
@@ -54,24 +59,20 @@ public class GolemMechaBowBehavior extends GolemBowBehavior {
 		return list;
 	}
 
-	private boolean shoot(BowUseContext user, BowItem bow, float power, ItemStack stack, InteractionHand hand, LivingEntity target) {
-		ItemStack arrowStack = user.getPreferredProjectile(stack);
-		if (arrowStack.isEmpty()) return false;
+	private void shoot(BowUseContext user, BowItem bow, float power, ItemStack arrowStack, boolean infinite, LivingEntity target) {
 		AbstractArrow proj = bow.customArrow(user.createArrow(arrowStack, power));
-		boolean infinite = user.bypassAllConsumption() || user.hasInfiniteArrow(stack, arrowStack);
 		ProjectileProperties prop = new ProjectileProperties(
 				power * user.getInitialVelocityFactor(),
 				proj.isNoGravity() ? 0.0F : 0.05F,
 				user.getInitialInaccuracy(), infinite);
 		if (prop.infinite()) {
 			proj.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+			proj.getPersistentData().putInt("DespawnFactor", 20);
 		} else {
-			arrowStack.shrink(1);
 			proj.pickup = AbstractArrow.Pickup.ALLOWED;
 		}
 		ShootUtils.getShootVector(target, proj.position(), prop.velocity(), prop.gravity(), prop.inaccuracy()).shoot(proj, 0f);
 		user.user().level().addFreshEntity(proj);
-		return true;
 	}
 
 }

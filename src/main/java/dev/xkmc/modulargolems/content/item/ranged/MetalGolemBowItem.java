@@ -29,6 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
@@ -73,21 +74,29 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 		return (int) (40 / val);
 	}
 
+	protected int getIntrinsicPiercing(MetalGolemEntity e) {
+		return baseline / 10;
+	}
+
 	@Override
 	public AbstractArrow customArrow(AbstractArrow arrow) {
 		var ans = super.customArrow(arrow);
-		ans.setBaseDamage((ans.getBaseDamage() + 3) * baseline / 15f);
-		ans.setPierceLevel((byte) (baseline / 10));
 		if (ans.getOwner() instanceof MetalGolemEntity e) {
 			var p = BowPoseUtil.getOrigin(e);
 			ans.setPos(p);
+			ans.setBaseDamage((ans.getBaseDamage() + 3) * baseline / 15f);
+			int pierce = getIntrinsicPiercing(e);
+			if (e.getMainHandItem().getItem() == this) {
+				pierce += e.getMainHandItem().getEnchantmentLevel(Enchantments.PIERCING);
+			}
+			ans.setPierceLevel((byte) pierce);
 		}
 		return ans;
 	}
 
 	@Override
 	public @Nullable ResourceLocation getModelForHand(InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BOW_MAINHAND : null;
+		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BOW_MAINHAND : GolemModelPaths.BOW_OFFHAND;
 	}
 
 	@Override
@@ -165,6 +174,9 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
 		if (enchantment.category == EnchantmentCategory.BOW) {
+			return true;
+		}
+		if (enchantment == Enchantments.PIERCING) {
 			return true;
 		}
 		return super.canApplyAtEnchantingTable(stack, enchantment);
