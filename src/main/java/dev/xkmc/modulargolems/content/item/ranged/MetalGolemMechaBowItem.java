@@ -33,7 +33,7 @@ public class MetalGolemMechaBowItem extends MetalGolemBowItem implements IMultiS
 
 	@Override
 	public int getMaxShoot(@Nullable LivingEntity user, ItemStack stack) {
-		return 3 + stack.getEnchantmentLevel(Enchantments.MULTISHOT);
+		return 3 + stack.getEnchantmentLevel(Enchantments.MULTISHOT) * 2;
 	}
 
 	@Override
