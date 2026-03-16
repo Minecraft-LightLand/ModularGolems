@@ -98,6 +98,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	}
 
 	private void renderPreview(GuiGraphics g, int mx, int my) {
+		if (menu.golem == null) return;
 		int x = leftPos + 30;
 		int y = topPos + 80;
 		double lx = x - mx;
@@ -107,6 +108,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 						menu.golem instanceof DogGolemEntity ? 32 : 18;
 		float ax = (float) Math.atan(lx / 50.0);
 		float ay = (float) Math.atan(ly / 50.0);
+		scale = (int) (scale / menu.golem.getScale());
 		InventoryScreen.renderEntityInInventoryFollowsAngle(g,
 				leftPos + 3, topPos + 16, leftPos + 58, topPos + 99,
 				20, 1f / scale, ax, ay, menu.golem);

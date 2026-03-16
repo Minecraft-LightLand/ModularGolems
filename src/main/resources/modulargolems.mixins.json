@@ -4,6 +4,7 @@
 	"package": "dev.xkmc.modulargolems.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"AbstractArrowMixin",
 		"BeltDeployerCallbacksMixin",
 		"EntityAxeAttackMixin",
 		"ExperienceOrbAccessor",

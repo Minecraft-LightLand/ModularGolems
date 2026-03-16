@@ -69,7 +69,9 @@
 		"hostile_wand": "敌对傀儡调试器",
 		"barbaric_vanguard_boots": "蛮荒镣铐",
 		"wind_spirit_boots": "风行靴",
-		"beacon_boots": "信标靴"
+		"beacon_boots": "信标靴",
+		"iron_mecha_bow": "铁质机械弓",
+		"netherite_mecha_bow": "下界合金机械弓"
 	},
 	"-cartesian": {
 		"golem": {

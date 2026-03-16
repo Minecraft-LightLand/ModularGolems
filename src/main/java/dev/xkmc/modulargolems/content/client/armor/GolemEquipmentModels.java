@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.client.armor;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.HarbingerArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.IgnisArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmors;
+import dev.xkmc.modulargolems.content.client.weapon.GolemBows;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -172,6 +173,9 @@ public class GolemEquipmentModels {
 		regAndAdd(event, GolemBoots.DIAMOND_BOOTS_LAYER, GolemBoots::createDiamondBoots);
 		regAndAdd(event, GolemBoots.BEACON_BOOTS_LAYER, GolemBoots::createBeaconBoots);
 		regAndAdd(event, GolemBoots.NETHERITE_BOOTS_LAYER, GolemBoots::createNetheriteBoots);
+
+		regAndAdd(event, GolemBows.BOW_MAINHAND, GolemBows::createMainHand);
+		regAndAdd(event, GolemBows.BOW_OFFHAND, GolemBows::createOffhand);
 	}
 
 	public static synchronized void regAndAdd(EntityRenderersEvent.RegisterLayerDefinitions event, ModelLayerLocation layer, Supplier<LayerDefinition> factory) {

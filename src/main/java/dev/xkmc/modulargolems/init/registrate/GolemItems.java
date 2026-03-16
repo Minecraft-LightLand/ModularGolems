@@ -28,6 +28,8 @@ import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
+import dev.xkmc.modulargolems.content.item.ranged.MetalGolemMechaBowItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -102,6 +104,8 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> WINDSPIRIT_BOOTS;
 	public static final ItemEntry<NetheriteBootItem> BARBARICFLAMEVANGUARD_BOOTS;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
+	public static final ItemEntry<MetalGolemBowItem> IRON_BOW;
+	public static final ItemEntry<MetalGolemMechaBowItem> NETHERITE_BOW;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<HeavySpearItem> HEAVY_SPEAR;
 	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
@@ -262,6 +266,14 @@ public class GolemItems {
 							.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE)
 					.defaultLang()
+					.register();
+			IRON_BOW = REGISTRATE.item("iron_mecha_bow", p -> new MetalGolemBowItem(p, 15, 0))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(ItemTags.BOW_ENCHANTABLE)
+					.register();
+			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemMechaBowItem(p, 30, 5))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(ItemTags.BOW_ENCHANTABLE)
 					.register();
 		}
 

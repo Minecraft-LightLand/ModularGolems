@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -40,7 +41,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;forEachModifier(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V"), method = "collectEquipmentChanges")
 	public void modulargolems$collectEquipmentChanges$specialEquipment(ItemStack stack, EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> action, Operation<Void> op) {
-		if (stack.getItem() instanceof GolemEquipmentItem item) {
+		if (stack.getItem() instanceof IGolemEquipmentItem item) {
 			item.forEachModifier(stack, this, slot, action);
 		} else {
 			op.call(stack, slot, action);

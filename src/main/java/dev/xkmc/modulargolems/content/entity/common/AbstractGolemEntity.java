@@ -25,10 +25,7 @@ import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
-import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
-import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
-import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
-import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.*;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -234,7 +231,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return InteractionResult.SUCCESS;
 		} else {
 			ItemStack stack = player.getItemInHand(hand);
-			if (stack.getItem() instanceof GolemEquipmentItem item) {
+			if (stack.getItem() instanceof IGolemEquipmentItem item) {
 				if (item.isFor(getType()) && getItemBySlot(item.getSlot()).isEmpty()) {
 					if (!level().isClientSide()) {
 						setItemSlot(item.getSlot(), stack.split(1));

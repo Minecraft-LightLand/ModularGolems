@@ -12,6 +12,9 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -38,14 +41,22 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
+import org.joml.Vector3f;
 
 import java.util.function.Predicate;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 
+	private static final EntityDataAccessor<Vector3f> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.VECTOR3);
+
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.LARGE, type, level);
+	}
+
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(TARGET, new Vector3f(0, 0, 0));
 	}
 
 	protected AABB getAttackBoundingBox(Entity target, double range) {
@@ -232,6 +243,21 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (target instanceof DogGolemEntity dog && dog.getBbWidth() > getBbWidth()) {
 			startRiding(target);
 		}
+	}
+
+	@Override
+	protected void customServerAiStep() {
+		super.customServerAiStep();
+		var target = getTarget();
+		if (target == null) entityData.set(TARGET, new Vector3f(0, 0, 0));
+		else {
+			var center = target.position().add(0, target.getBbHeight() / 2, 0);
+			entityData.set(TARGET, center.subtract(position()).toVector3f());
+		}
+	}
+
+	public Vec3 getTargetAimPos() {
+		return new Vec3(entityData.get(TARGET));
 	}
 
 }

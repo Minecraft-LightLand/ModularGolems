@@ -24,7 +24,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public abstract class GolemEquipmentItem extends Item {
+public abstract class GolemEquipmentItem extends Item implements IGolemEquipmentItem {
 
 	private final EquipmentSlot slot;
 	private final Supplier<EntityType<?>> type;

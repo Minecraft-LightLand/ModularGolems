@@ -4,16 +4,21 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.client.pose.BowPose;
 import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
 import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
+import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
+import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 
 public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
 
@@ -78,10 +83,20 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	}
 
+	@Override
+	public void animate(AnimationState state, AnimationDefinition def, float tick) {
+		super.animate(state, def, tick);
+	}
+
 	public void prepareMobModel(MetalGolemEntity entity, float bob, float speed, float pTick) {
 		MetalGolemPose pose = MetalGolemPose.DEFAULT;
-		if (!entity.getMainHandItem().isEmpty()) {
-			pose = WeaponPose.WEAPON;
+		ItemStack stack = entity.getMainHandItem();
+		if (!stack.isEmpty()) {
+			if (stack.getItem() instanceof MetalGolemBowItem) {
+				pose = BowPose.BOW;
+			} else {
+				pose = WeaponPose.WEAPON;
+			}
 		}
 		int atkTick = entity.getAttackAnimationTick();
 		if (atkTick > 0) {
