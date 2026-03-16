@@ -96,8 +96,8 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 						menu.golem instanceof DogGolemEntity ? 32 : 18;
 		float ax = (float) Math.atan(lx / 50.0);
 		float ay = (float) Math.atan(ly / 50.0);
-		InventoryScreen.renderEntityInInventoryFollowsAngle(g,
-				x, y, scale, ax, ay, menu.golem);
+		scale = (int) (scale / menu.golem.getScale());
+		InventoryScreen.renderEntityInInventoryFollowsAngle(g, x, y, scale, ax, ay, menu.golem);
 
 	}
 

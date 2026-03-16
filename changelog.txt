@@ -1,3 +1,7 @@
+2.6.29
+- Metal Golem Bows
+- Fix equipment screen golem preview
+
 2.6.28
 - Golem heals in ender/dimensional backpacks in L2Backpack
 - Casting / Recycle recipes for windspirit boots
