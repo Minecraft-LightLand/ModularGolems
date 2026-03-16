@@ -74,8 +74,8 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 		return (int) (40 / val);
 	}
 
-	protected int getIntrinsicPiercing(MetalGolemEntity e) {
-		return baseline / 10;
+	protected int getPiercing(ItemStack stack, @Nullable MetalGolemEntity e) {
+		return baseline / 10 + stack.getEnchantmentLevel(Enchantments.PIERCING);
 	}
 
 	@Override
@@ -85,11 +85,11 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 			var p = BowPoseUtil.getOrigin(e);
 			ans.setPos(p);
 			ans.setBaseDamage((ans.getBaseDamage() + 3) * baseline / 15f);
-			int pierce = getIntrinsicPiercing(e);
+
 			if (e.getMainHandItem().getItem() == this) {
-				pierce += e.getMainHandItem().getEnchantmentLevel(Enchantments.PIERCING);
+				ans.setPierceLevel((byte) getPiercing(e.getMainHandItem(), e));
 			}
-			ans.setPierceLevel((byte) pierce);
+
 		}
 		return ans;
 	}
@@ -127,6 +127,8 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 		list.add(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
 				.withStyle(ChatFormatting.UNDERLINE));
 		list.add(MGLangData.BOW_STIFFNESS.get(baseline + "").withStyle(ChatFormatting.BLUE));
+		int pierce = getPiercing(stack, null);
+		list.add(MGLangData.BOW_PIERCE.get(pierce + "").withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override

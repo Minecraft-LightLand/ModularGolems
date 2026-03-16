@@ -626,6 +626,7 @@
   "modulargolems.tab.tracker_retrieve": "Returned to Inventory",
   "modulargolems.tab.upgrades": "Golem Upgrades",
   "modulargolems.tooltip.beacon_boots": "Heal and apply %s, %s to all nearby allies.",
+  "modulargolems.tooltip.bow_pierce": "Arrow pierces %s targets",
   "modulargolems.tooltip.bow_stiffness": "Bow Stiffness: %s",
   "modulargolems.tooltip.cataclysm.harbinger_armor_laer": "+%s Death Laser Damage",
   "modulargolems.tooltip.cataclysm.harbinger_armor_missile": "+%s Homing Missile Damage",
