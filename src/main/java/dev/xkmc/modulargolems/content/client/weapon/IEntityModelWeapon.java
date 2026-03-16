@@ -19,4 +19,8 @@ public interface IEntityModelWeapon {
 
 	ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand);
 
+	default @Nullable ResourceLocation getPoseId() {
+		return getModelForHand(InteractionHand.MAIN_HAND);
+	}
+
 }

@@ -2,11 +2,20 @@ package dev.xkmc.modulargolems.content.client.pose;
 
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+
+import java.util.LinkedHashMap;
 
 public class MetalGolemPose {
 
 	public static final MetalGolemPose DEFAULT = new MetalGolemPose();
+
+	public static final LinkedHashMap<ResourceLocation, MetalGolemPose> MAP = new LinkedHashMap<>();
+
+	public static synchronized void register(ResourceLocation id, MetalGolemPose pose) {
+		MAP.put(id, pose);
+	}
 
 	public void attackModel(MetalGolemEntity entity, MetalGolemModel model, float atkTick) {
 		model.rightArm.xRot = -2.0F + 1.5F * Mth.triangleWave(atkTick, 10.0F);

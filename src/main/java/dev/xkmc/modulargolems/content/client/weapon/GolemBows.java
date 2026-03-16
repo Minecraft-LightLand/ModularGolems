@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.content.client.weapon;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
+import dev.xkmc.modulargolems.content.client.pose.BowPose;
+import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -71,6 +73,7 @@ public class GolemBows {
 				new GolemModelPath(BOW_OFFHAND, List.of(List.of("left_arm", "crossbow"))));
 
 		GolemModelAnimations.register(GolemModelPaths.BOW_MAINHAND, PULL_MAINHAND);
+		MetalGolemPose.register(GolemModelPaths.BOW_MAINHAND, BowPose.BOW);
 	}
 
 	public static LayerDefinition createMainHand() {
