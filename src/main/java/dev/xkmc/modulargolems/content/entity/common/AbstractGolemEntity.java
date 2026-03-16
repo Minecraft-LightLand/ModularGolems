@@ -24,7 +24,10 @@ import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
-import dev.xkmc.modulargolems.content.item.equipments.*;
+import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
+import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
@@ -1290,6 +1293,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			if (!item.isEmpty())
 				list.add(item);
 		}
+	}
+
+	@Override
+	public void lookAt(Entity e, float x, float y) {
+		if (!getMode().isMovable())
+			getLookControl().setLookAt(e, x, y);
+		else super.lookAt(e, x, y);
 	}
 
 }
