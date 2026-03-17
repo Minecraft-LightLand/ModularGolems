@@ -41,12 +41,12 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	private final int baseline;
 
 	public MetalGolemBowItem(Properties properties, int baseline, Consumer<ItemAttributeModifiers.Builder> attr) {
-		super(properties.attributes(Util.make(ItemAttributeModifiers.builder(), attr).build()));
+		super(properties.stacksTo(1).attributes(Util.make(ItemAttributeModifiers.builder(), attr).build()));
 		this.baseline = baseline;
 	}
 
 	public MetalGolemBowItem(Properties properties, int baseline, int atk, Consumer<ItemAttributeModifiers.Builder> attr) {
-		this(properties.stacksTo(1), baseline, b -> {
+		this(properties, baseline, b -> {
 			if (atk > 0)
 				b.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ModularGolems.loc("bow_melee"),
 						atk, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);

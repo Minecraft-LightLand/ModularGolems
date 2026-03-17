@@ -1,3 +1,8 @@
+3.1.22
+- Metal Golem Bows
+- Fix equipment screen golem preview
+- Golem properly rotates now when standing still
+
 3.1.21
 - Fix armor attributes of the same set don't stack
 - Golem heals in ender/dimensional backpacks in L2Backpack
