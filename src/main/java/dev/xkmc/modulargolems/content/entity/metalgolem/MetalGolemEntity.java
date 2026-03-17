@@ -1,9 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
@@ -12,6 +14,8 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -40,14 +44,18 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import org.joml.Vector3f;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 
 	private static final EntityDataAccessor<Vector3f> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.VECTOR3);
+	private static final EntityDataAccessor<ItemStack> LEFT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<ItemStack> RIGHT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.LARGE, type, level);
@@ -57,6 +65,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		entityData.define(TARGET, new Vector3f(0, 0, 0));
+		entityData.define(LEFT_SHOULDER, ItemStack.EMPTY);
+		entityData.define(RIGHT_SHOULDER, ItemStack.EMPTY);
 	}
 
 	protected AABB getAttackBoundingBox(Entity target, double range) {
@@ -102,27 +112,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return succeed;
 	}
 
-
-	public ItemStack getProjectile(ItemStack pShootable) {
-		ItemStack ans;
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
-			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-			ans = ForgeHooks.getProjectile(this, pShootable, stack);
-		} else {
-			ans = ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
-		}
-		if (isHostile()) ans = ans.copy();
-		return ans;
-	}
-
 	// ------ vanilla golem behavior
 
 	private int attackAnimationTick;
-
-	protected void registerGoals() {
-		super.registerGoals();
-	}
 
 	public void aiStep() {
 		super.aiStep();
@@ -270,6 +262,62 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	public Vec3 getTargetAimPos() {
 		return new Vec3(entityData.get(TARGET));
+	}
+
+	@Override
+	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
+		super.dropCustomDeathLoot(source, i, b);
+		var left = entityData.get(LEFT_SHOULDER);
+		if (!left.isEmpty())
+			spawnAtLocation(left);
+		var right = entityData.get(RIGHT_SHOULDER);
+		if (!right.isEmpty())
+			spawnAtLocation(right);
+	}
+
+	@Override
+	protected List<IItemHandlerModifiable> aggregateInventories() {
+		var ans = super.aggregateInventories();
+		ans.add(new SlotWrapper(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e)));
+		ans.add(new SlotWrapper(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e)));
+		return ans;
+	}
+
+	@Override
+	public void addItemsToList(List<ItemStack> list) {
+		super.addItemsToList(list);
+		var left = entityData.get(LEFT_SHOULDER);
+		if (!left.isEmpty())
+			list.add(left);
+		var right = entityData.get(RIGHT_SHOULDER);
+		if (!right.isEmpty())
+			list.add(right);
+	}
+
+	@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		tag.put("left_shoulder", entityData.get(LEFT_SHOULDER).save(new CompoundTag()));
+		tag.put("right_shoulder", entityData.get(RIGHT_SHOULDER).save(new CompoundTag()));
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		if (tag.contains("left_shoulder", Tag.TAG_COMPOUND)) {
+			entityData.set(LEFT_SHOULDER, ItemStack.of(tag.getCompound("left_shoulder")));
+		}
+		if (tag.contains("right_shoulder", Tag.TAG_COMPOUND)) {
+			entityData.set(RIGHT_SHOULDER, ItemStack.of(tag.getCompound("right_shoulder")));
+		}
+	}
+
+	public ItemWrapper getLeftShoulder() {
+		return ItemWrapper.simple(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e));
+	}
+
+	public ItemWrapper getRightShoulder() {
+		return ItemWrapper.simple(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e));
 	}
 
 }

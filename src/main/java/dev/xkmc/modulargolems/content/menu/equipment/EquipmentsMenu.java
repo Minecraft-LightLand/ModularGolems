@@ -5,9 +5,11 @@ import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -39,13 +41,18 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	public final AbstractGolemEntity<?, ?> golem;
 
 	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable AbstractGolemEntity<?, ?> golem) {
-		super(type, wid, plInv, golem instanceof HumanoidGolemEntity ? EXTRA : MANAGER, EquipmentsContainer::new, false);
+		super(type, wid, plInv, golem instanceof SweepGolemEntity ? EXTRA : MANAGER, EquipmentsContainer::new, false);
 		this.golem = golem;
-		addSlot("hand", (i, e) -> isValid(SLOTS[i], e));
+		addSlot("right_hand", (i, e) -> isValid(SLOTS[i], e));
+		addSlot("left_hand", (i, e) -> isValid(SLOTS[1], e));
 		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e));
-		if (golem instanceof HumanoidGolemEntity) {
+		if (golem instanceof SweepGolemEntity<?, ?>) {
 			addSlot("backup", e -> isValid(EquipmentSlot.MAINHAND, e) || isValid(EquipmentSlot.OFFHAND, e));
 			addSlot("arrow", e -> true);
+		}
+		if (golem instanceof MetalGolemEntity) {
+			addSlot("right_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
+			addSlot("left_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
 		}
 	}
 

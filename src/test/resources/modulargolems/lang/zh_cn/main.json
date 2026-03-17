@@ -132,7 +132,9 @@
 			"arrow_desc": "可以把箭放在这里供远程武器使用",
 			"backup_desc": "可以把副武器放在这里",
 			"backup_info": "如果主手槽和副武器槽分别放置近战和远程武器，傀儡会根据目标的距离灵活切换武器战斗",
-			"main_desc": "可以放置任意物品"
+			"main_desc": "可以放置任意物品",
+			"main_desc_metal": "可以放置傀儡武器",
+			"shoulder": "肩部武器槽"
 		},
 		"tracker": {
 			"alive": "存活",

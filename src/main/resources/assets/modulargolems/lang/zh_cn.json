@@ -713,5 +713,16 @@
   "item.modulargolems.fiery_chestplate": "炽铁傀儡护甲",
   "item.modulargolems.fiery_helmet": "炽铁傀儡头盔",
   "item.modulargolems.fiery_shinguard": "炽铁傀儡护腿",
-  "item.modulargolems.fiery_boots": "炽铁傀儡靴子"
+  "item.modulargolems.fiery_boots": "炽铁傀儡靴子",
+  "item.modulargolems.dummy_furnace": "Dummy Furnace",
+  "item.modulargolems.dummy_iron_consumer": "Dummy Iron Consumer",
+  "item.modulargolems.dummy_uranium_consumer": "Dummy Uranium Consumer",
+  "modulargolems.slot.shoulder": "Shoulder Weapon Slot",
+  "potion.potency.10": "XI",
+  "potion.potency.11": "XII",
+  "potion.potency.5": "VI",
+  "potion.potency.6": "VII",
+  "potion.potency.7": "VIII",
+  "potion.potency.8": "IX",
+  "potion.potency.9": "X"
 }
