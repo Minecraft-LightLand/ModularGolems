@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.client.weapon.GolemModelAnimations;
 import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
+import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.events.event.GolemRenderItemInHandEvent;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -50,23 +51,17 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		for (var e : EquipmentSlot.values()) {
 			ItemStack stack = entity.getItemBySlot(e);
 			if (stack.getItem() instanceof GolemModelItem mgaitem) {
-				var buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getModelTexture(entity)));
-				renderArmor(mgaitem, pose, buffer, i);
-				if (mgaitem.emissive()) {
-					buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getEmissiveModelTexture(entity)));
-					renderArmor(mgaitem, pose, buffer, LightTexture.FULL_BRIGHT);
-				}
+				renderArmor(entity, stack, mgaitem, pose, source, i);
 			} else {
 				renderArmWithItem(entity, stack, e, pose, source, i, f3);
 			}
 		}
+		renderShoulderWeapon(entity, entity.getRightShoulder().getItem(), InteractionHand.MAIN_HAND, pose, source, i, f3);
+		renderShoulderWeapon(entity, entity.getLeftShoulder().getItem(), InteractionHand.OFF_HAND, pose, source, i, f3);
 	}
 
-	protected void renderArmor(GolemModelItem mgaitem, PoseStack pose, VertexConsumer buffer, int light) {
-		GolemModelPath gmpath = GolemModelPath.get(mgaitem.getModelPath());
+	protected void renderModel(MetalGolemModel model, GolemModelPath gmpath, PoseStack pose, VertexConsumer buffer, int light) {
 		for (List<String> ls : gmpath.paths()) {
-			MetalGolemModel model = map.get(gmpath.models());
-			model.copyFrom(getParentModel());
 			ModelPart gemr = model.root();
 			pose.pushPose();
 			for (String s : ls) {
@@ -78,13 +73,61 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		}
 	}
 
+	protected void renderArmor(MetalGolemEntity entity, ItemStack stack, GolemModelItem mgaitem, PoseStack pose, MultiBufferSource source, int light) {
+		GolemModelPath gmpath = GolemModelPath.get(mgaitem.getModelPath());
+		MetalGolemModel model = map.get(gmpath.models());
+		model.copyFrom(getParentModel());
+		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getModelTexture(entity)));
+		renderModel(model, gmpath, pose, buffer, light);
+		if (mgaitem.emissive()) {
+			buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getEmissiveModelTexture(entity)));
+			renderModel(model, gmpath, pose, buffer, LightTexture.FULL_BRIGHT);
+		}
+		if (stack.hasFoil()) {
+			buffer = source.getBuffer(RenderType.armorEntityGlint());
+			renderModel(model, gmpath, pose, buffer, light);
+		}
+	}
+
+	protected void renderShoulderWeapon(
+			MetalGolemEntity entity, ItemStack stack, InteractionHand hand,
+			PoseStack pose, MultiBufferSource source, int light, float pTick) {
+		if (!(stack.getItem() instanceof IShoulderWeapon weapon)) return;
+		var id = weapon.getModelForHand(hand);
+		if (id == null) return;
+		GolemModelPath gmpath = GolemModelPath.get(id);
+		MetalGolemModel model = map.get(gmpath.models());
+		model.root().getAllParts().forEach(ModelPart::resetPose);
+		model.copyFrom(getParentModel());
+		var animId = weapon.getAnimationId(entity, stack, hand);
+		if (animId != null && GolemModelAnimations.MAP.containsKey(animId)) {
+			var anim = GolemModelAnimations.MAP.get(id);
+			if (anim != null) {
+				float speed = weapon.getAnimationSpeed(entity, stack, hand);
+				float tick = weapon.getAnimationTick(entity, stack, hand);
+				var state = new AnimationState();
+				state.startIfStopped(0);
+				model.animate(state, anim, tick + speed * pTick);
+			}
+		}
+		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getModelTexture(entity, stack, hand)));
+		renderModel(model, gmpath, pose, buffer, light);
+		if (weapon.emissive()) {
+			buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getEmissiveTexture(entity, stack, hand)));
+			renderModel(model, gmpath, pose, buffer, LightTexture.FULL_BRIGHT);
+		}
+		if (stack.hasFoil()) {
+			buffer = source.getBuffer(RenderType.armorEntityGlint());
+			renderModel(model, gmpath, pose, buffer, light);
+		}
+	}
+
 	protected boolean renderWeaponModel(
 			MetalGolemEntity entity, IEntityModelWeapon weapon, ItemStack stack, InteractionHand hand,
 			PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		var id = weapon.getModelForHand(hand);
 		if (id == null) return false;
 		GolemModelPath gmpath = GolemModelPath.get(id);
-		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getModelTexture(entity, stack, hand)));
 		MetalGolemModel model = map.get(gmpath.models());
 		model.root().getAllParts().forEach(ModelPart::resetPose);
 		model.copyFrom(getParentModel());
@@ -98,15 +141,15 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 				model.animate(state, anim, tick + speed * pTick);
 			}
 		}
-		for (List<String> ls : gmpath.paths()) {
-			ModelPart gemr = model.root();
-			pose.pushPose();
-			for (String s : ls) {
-				gemr.translateAndRotate(pose);
-				gemr = gemr.getChild(s);
-			}
-			gemr.render(pose, buffer, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
-			pose.popPose();
+		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getModelTexture(entity, stack, hand)));
+		renderModel(model, gmpath, pose, buffer, light);
+		if (weapon.emissive()) {
+			buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getEmissiveTexture(entity, stack, hand)));
+			renderModel(model, gmpath, pose, buffer, LightTexture.FULL_BRIGHT);
+		}
+		if (stack.hasFoil()) {
+			buffer = source.getBuffer(RenderType.armorEntityGlint());
+			renderModel(model, gmpath, pose, buffer, light);
 		}
 		return true;
 	}

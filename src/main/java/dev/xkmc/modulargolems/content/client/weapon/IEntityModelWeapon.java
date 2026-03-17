@@ -19,6 +19,14 @@ public interface IEntityModelWeapon {
 
 	ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand);
 
+	default boolean emissive() {
+		return false;
+	}
+
+	default ResourceLocation getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+		return getModelTexture(entity, stack, hand);
+	}
+
 	default @Nullable ResourceLocation getPoseId() {
 		return getModelForHand(InteractionHand.MAIN_HAND);
 	}
