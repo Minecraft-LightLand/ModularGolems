@@ -1174,4 +1174,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 	}
 
+	@Override
+	public void lookAt(Entity e, float x, float y) {
+		if (!getMode().isMovable())
+			getLookControl().setLookAt(e, x, y);
+		else super.lookAt(e, x, y);
+	}
+
 }
