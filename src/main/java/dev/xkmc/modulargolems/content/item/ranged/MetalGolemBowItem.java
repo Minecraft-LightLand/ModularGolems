@@ -43,7 +43,7 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	private final int baseline;
 
 	public MetalGolemBowItem(Properties properties, int baseline, Consumer<ImmutableMultimap.Builder<Attribute, AttributeModifier>> attr) {
-		super(properties);
+		super(properties.stacksTo(1));
 		ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 		attr.accept(builder);
 		this.defaultModifiers = builder.build();
@@ -51,7 +51,7 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	}
 
 	public MetalGolemBowItem(Properties properties, int baseline, int atk, Consumer<ImmutableMultimap.Builder<Attribute, AttributeModifier>> attr) {
-		this(properties.stacksTo(1), baseline, b -> {
+		this(properties, baseline, b -> {
 			if (atk > 0)
 				b.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(MathHelper.getUUIDFromString("bow_melee"),
 					"bow_melee", atk, AttributeModifier.Operation.ADDITION));
