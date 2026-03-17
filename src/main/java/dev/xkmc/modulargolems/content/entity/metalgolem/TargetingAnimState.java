@@ -6,7 +6,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 public class TargetingAnimState {
 
 	@SerialClass.SerialField(toClient = true)
-	public int lastTargetTime, lastNoTargetTime, lastStartDur, lastEndDur, lastTick;
+	public int lastTargetTime, lastNoTargetTime, lastTick;
 
 	@SerialClass.SerialField(toClient = true)
 	public boolean targeting = false;
@@ -23,11 +23,10 @@ public class TargetingAnimState {
 		boolean prevTargeting = targeting;
 		targeting = pos.length() > 0;
 		if (!targeting && prevTargeting) {
-			lastNoTargetTime = lastTick - 1;
+			lastTargetTime = lastTick - 1;
 		}
 		if (targeting && !prevTargeting) {
-			lastEndDur =
-			lastTargetTime = lastTick - 1;
+			lastNoTargetTime = lastTick - 1;
 		}
 	}
 

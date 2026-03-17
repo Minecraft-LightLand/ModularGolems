@@ -427,6 +427,13 @@ public class RecipeGen {
 
 			smithing(pvd, GolemItems.IRON_BOW.get(), Items.NETHERITE_INGOT, GolemItems.NETHERITE_BOW.get());
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BEACON_CANNON.get())::unlockedBy, Items.BEACON)
+					.pattern("III").pattern("BDD").pattern("TII")
+					.define('I', Items.IRON_INGOT)
+					.define('T', GolemItems.GOLEM_TEMPLATE)
+					.define('D', Items.DIAMOND)
+					.define('B', Items.BEACON)
+					.save(pvd);
 		}
 
 		// upgrades

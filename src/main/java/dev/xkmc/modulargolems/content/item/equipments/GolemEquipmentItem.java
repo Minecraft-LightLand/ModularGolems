@@ -5,8 +5,11 @@ import com.google.common.collect.Multimap;
 import dev.xkmc.l2library.util.math.MathHelper;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -87,6 +90,14 @@ public abstract class GolemEquipmentItem extends Item implements IGolemEquipment
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		list.add(MGLangData.GOLEM_EQUIPMENT.get(type.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
 				.withStyle(ChatFormatting.UNDERLINE));
+	}
+
+	@Override
+	public boolean canBeHurtBy(DamageSource source) {
+		return !getDefaultInstance().is(MGTagGen.TOUGH_ITEM) || !(
+				source.is(DamageTypeTags.IS_FIRE) ||
+						source.is(DamageTypeTags.IS_EXPLOSION) ||
+						source.is(DamageTypeTags.IS_LIGHTNING));
 	}
 
 }

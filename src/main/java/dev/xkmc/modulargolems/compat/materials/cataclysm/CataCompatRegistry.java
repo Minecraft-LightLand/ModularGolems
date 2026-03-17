@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.HarbingerArmorIte
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.IgnisArmorItem;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.MonstrosityArmorItem;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
-import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.CraftMaterialItem;
 import dev.xkmc.modulargolems.content.item.upgrade.RepairMaterialItem;
@@ -165,6 +164,17 @@ public class CataCompatRegistry {
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(TagGen.SKILL_EFFECT)
 					.addOptional(EFF_FORCE.getId()));
+			MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.TOUGH_ITEM)
+					.addOptional(IGNIS_HELMET.getId())
+					.addOptional(IGNIS_CHESTPLATE.getId())
+					.addOptional(IGNIS_SHINGUARD.getId())
+					.addOptional(HARBINGER_HELMET.getId())
+					.addOptional(HARBINGER_CHESTPLATE.getId())
+					.addOptional(HARBINGER_SHINGUARD.getId())
+					.addOptional(MONSTROSITY_HELMET.getId())
+					.addOptional(MONSTROSITY_CHESTPLATE.getId())
+					.addOptional(MONSTROSITY_SHINGUARD.getId())
+			);
 		}
 	}
 

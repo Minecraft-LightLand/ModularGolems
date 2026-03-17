@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "minecraft:beacon"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "III",
+    "BDD",
+    "TII"
+  ],
+  "result": {
+    "item": "modulargolems:beacon_cannon"
+  },
+  "show_notification": true
+}

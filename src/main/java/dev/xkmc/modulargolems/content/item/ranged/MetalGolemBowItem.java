@@ -8,13 +8,16 @@ import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -182,6 +185,14 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 			return true;
 		}
 		return super.canApplyAtEnchantingTable(stack, enchantment);
+	}
+	
+	@Override
+	public boolean canBeHurtBy(DamageSource source) {
+		return !getDefaultInstance().is(MGTagGen.TOUGH_ITEM) || !(
+				source.is(DamageTypeTags.IS_FIRE) ||
+						source.is(DamageTypeTags.IS_EXPLOSION) ||
+						source.is(DamageTypeTags.IS_LIGHTNING));
 	}
 
 }

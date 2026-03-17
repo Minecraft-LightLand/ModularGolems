@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers.TFHealin
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -120,7 +121,12 @@ public class TFCompatRegistry {
 	}
 
 	public static void register() {
-
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.TOUGH_ITEM)
+				.addOptional(FIERY_HELMET.getId())
+				.addOptional(FIERY_CHESTPLATE.getId())
+				.addOptional(FIERY_SHINGUARD.getId())
+				.addOptional(FIERY_BOOTS.getId())
+		);
 	}
 
 	private static void fiery(Object obj) {

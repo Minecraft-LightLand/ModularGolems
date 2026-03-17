@@ -19,6 +19,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -88,6 +89,12 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 			if (id >= 36) {
 				this.moveItemStackTo(stack, 0, 36, true);
 			} else {
+				if (golem instanceof SweepGolemEntity<?, ?> && stack.getItem() instanceof ArrowItem) {
+					this.moveItemStackTo(stack, 36 + 7, 37 + 7, false);
+				}
+				if (golem instanceof MetalGolemEntity && stack.getItem() instanceof IShoulderWeapon) {
+					this.moveItemStackTo(stack, 36 + 8, 37 + 9, false);
+				}
 				var es = getSlotForItem(stack);
 				for (int i = 0; i < SLOTS.length; i++) {
 					if (es.contains(SLOTS[i])) {

@@ -190,30 +190,31 @@ public class GolemItems {
 			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaric_vanguard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_BOOTS = REGISTRATE.item("barbaric_vanguard_boots", p -> new NetheriteBootItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 
 			BEACON_BOOTS = REGISTRATE.item("beacon_boots",
 							p -> new MetalGolemBeaconItem(p.stacksTo(1), 4, 4, GolemModelPaths.BOOTS_BEACON))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/beacon_boots")))
-					.register();
+					.tag(MGTagGen.TOUGH_ITEM).register();
 
 			DOG_ARMOR_IRON = regDogArmor("iron", ArmorMaterials.IRON, 16, 0).register();
 			DOG_ARMOR_GOLD = regDogArmor("gold", ArmorMaterials.GOLD, 12, 0).register();
 			DOG_ARMOR_DIAMOND = regDogArmor("diamond", ArmorMaterials.DIAMOND, 20, 8).register();
 			DOG_ARMOR_NETHERITE = regDogArmor("netherite", ArmorMaterials.NETHERITE, 20, 12)
-					.properties(p -> p.fireResistant().rarity(Rarity.EPIC)).register();
+					.properties(p -> p.fireResistant().rarity(Rarity.EPIC))
+					.tag(MGTagGen.TOUGH_ITEM).register();
 
 		}
 
@@ -226,10 +227,10 @@ public class GolemItems {
 					.register();
 			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemMechaBowItem(p, 30, 5))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.register();
+					.tag(MGTagGen.TOUGH_ITEM).register();
 			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.register();
+					.tag(MGTagGen.TOUGH_ITEM).register();
 		}
 
 		// cards

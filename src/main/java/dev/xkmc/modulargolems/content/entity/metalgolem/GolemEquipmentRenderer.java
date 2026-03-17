@@ -101,7 +101,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		model.copyFrom(getParentModel());
 		var animId = weapon.getAnimationId(entity, stack, hand);
 		if (animId != null && GolemModelAnimations.MAP.containsKey(animId)) {
-			var anim = GolemModelAnimations.MAP.get(id);
+			var anim = GolemModelAnimations.MAP.get(animId);
 			if (anim != null) {
 				float speed = weapon.getAnimationSpeed(entity, stack, hand);
 				float tick = weapon.getAnimationTick(entity, stack, hand);
