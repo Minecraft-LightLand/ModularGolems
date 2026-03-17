@@ -82,6 +82,15 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 				if (hoveredSlot.getContainerSlot() == 1) {
 					list = List.of(MGLangData.SLOT_OFF.get());
 				}
+				if (hoveredSlot.getContainerSlot() == 6) {
+					list = List.of(MGLangData.SLOT_BACKUP.get(),
+							MGLangData.SLOT_BACKUP_DESC.get(),
+							MGLangData.SLOT_BACKUP_INFO.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 7) {
+					list = List.of(MGLangData.SLOT_ARROW.get(),
+							MGLangData.SLOT_ARROW_DESC.get());
+				}
 			}if (menu.golem instanceof MetalGolemEntity) {
 				if (hoveredSlot.getContainerSlot() == 0) {
 					list = List.of(MGLangData.SLOT_MAIN.get(),
