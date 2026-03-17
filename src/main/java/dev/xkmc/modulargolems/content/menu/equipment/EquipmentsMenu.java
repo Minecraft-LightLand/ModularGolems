@@ -46,8 +46,8 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 			addSlot("head", e -> isValid(EquipmentSlot.HEAD, e));
 			addSlot("chest", e -> isValid(EquipmentSlot.BODY, e));
 		} else {
-			addSlot("main", e -> isValid(EquipmentSlot.MAINHAND, e));
-			addSlot("off", e -> isValid(EquipmentSlot.OFFHAND, e));
+			addSlot("right_hand", (i, e) -> isValid(EquipmentSlot.MAINHAND, e));
+			addSlot("left_hand", (i, e) -> isValid(EquipmentSlot.OFFHAND, e));
 			addSlot("head", e -> isValid(EquipmentSlot.HEAD, e));
 			addSlot("chest", e -> isValid(EquipmentSlot.CHEST, e));
 			addSlot("legs", e -> isValid(EquipmentSlot.LEGS, e));

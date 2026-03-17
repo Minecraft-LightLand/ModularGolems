@@ -172,6 +172,17 @@ public class CataCompatRegistry {
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(LCTagGen.SKILL_EFFECT)
 					.addOptional(EFF_FORCE.val().getId()));
+			MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.TOUGH_ITEM)
+					.addOptional(IGNIS_HELMET.getId())
+					.addOptional(IGNIS_CHESTPLATE.getId())
+					.addOptional(IGNIS_SHINGUARD.getId())
+					.addOptional(HARBINGER_HELMET.getId())
+					.addOptional(HARBINGER_CHESTPLATE.getId())
+					.addOptional(HARBINGER_SHINGUARD.getId())
+					.addOptional(MONSTROSITY_HELMET.getId())
+					.addOptional(MONSTROSITY_CHESTPLATE.getId())
+					.addOptional(MONSTROSITY_SHINGUARD.getId())
+			);
 		}
 
 	}

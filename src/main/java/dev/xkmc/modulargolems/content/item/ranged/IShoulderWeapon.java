@@ -1,21 +1,20 @@
-package dev.xkmc.modulargolems.content.client.weapon;
+package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public interface IEntityModelWeapon {
+public interface IShoulderWeapon {
 
 	@Nullable ResourceLocation getModelForHand(InteractionHand hand);
 
-	boolean shouldPlayAnimation(LivingEntity user, ItemStack stack, InteractionHand hand);
+	@Nullable ResourceLocation getAnimationId(MetalGolemEntity user, ItemStack stack, InteractionHand hand);
 
-	float getAnimationSpeed(LivingEntity user, ItemStack stack, InteractionHand hand);
+	float getAnimationSpeed(MetalGolemEntity user, ItemStack stack, InteractionHand hand);
 
-	float getAnimationTick(LivingEntity user, ItemStack stack, InteractionHand hand);
+	float getAnimationTick(MetalGolemEntity user, ItemStack stack, InteractionHand hand);
 
 	ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand);
 
@@ -27,8 +26,6 @@ public interface IEntityModelWeapon {
 		return getModelTexture(entity, stack, hand);
 	}
 
-	default @Nullable ResourceLocation getPoseId() {
-		return getModelForHand(InteractionHand.MAIN_HAND);
-	}
+	void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand);
 
 }

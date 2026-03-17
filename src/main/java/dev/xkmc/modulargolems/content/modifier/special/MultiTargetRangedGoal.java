@@ -27,7 +27,7 @@ public abstract class MultiTargetRangedGoal extends BaseRangedAttackGoal {
 		var list = golem.level().getEntities(
 				EntityTypeTest.forClass(LivingEntity.class),
 				golem.getBoundingBox().inflate(searchRange()),
-				e -> golem.canAttack(e) && golem.hasLineOfSight(e));
+				e -> golem.canAttack(e) && golem.hasLineOfSight(e) && golem.predicateTarget(e));
 		list.sort(Comparator.comparing(ke -> Optional.ofNullable(
 				TargetManager.predicateTarget(golem, ke)
 		).map(Enum::ordinal).orElse(100)));

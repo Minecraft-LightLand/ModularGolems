@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -14,9 +15,11 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -172,6 +175,14 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 		if (enchantment.is(Enchantments.PIERCING))
 			return true;
 		return super.supportsEnchantment(stack, enchantment);
+	}
+
+	@Override
+	public boolean canBeHurtBy(ItemStack stack, DamageSource source) {
+		return !getDefaultInstance().is(MGTagGen.TOUGH_ITEM) || !(
+				source.is(DamageTypeTags.IS_FIRE) ||
+						source.is(DamageTypeTags.IS_EXPLOSION) ||
+						source.is(DamageTypeTags.IS_LIGHTNING));
 	}
 
 }

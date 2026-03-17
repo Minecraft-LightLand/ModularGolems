@@ -44,17 +44,10 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @SerialClass
-public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType>
-		implements CrossbowAttackMob {
-
-	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
+public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> {
 
 	@SerialField
 	public int shieldCooldown = 0;
-	@SerialField
-	private ItemStack backupHand = ItemStack.EMPTY;
-	@SerialField
-	private ItemStack arrowSlot = ItemStack.EMPTY;
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
@@ -63,48 +56,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 	}
 
-	public ItemStack getProjectile(ItemStack pShootable) {
-		ItemStack ans;
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles(pShootable);
-			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
-				stack = arrowSlot;
-			}
-			ans = CommonHooks.getProjectile(this, pShootable, stack);
-		} else {
-			ans = CommonHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
-		}
-		if (isHostile()) ans = ans.copy();
-		return ans;
-	}
-
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-		super.defineSynchedData(builder);
-		builder.define(IS_CHARGING_CROSSBOW, false);
-	}
-
-	public boolean isChargingCrossbow() {
-		return this.entityData.get(IS_CHARGING_CROSSBOW);
-	}
-
-	public void setChargingCrossbow(boolean pIsCharging) {
-		this.entityData.set(IS_CHARGING_CROSSBOW, pIsCharging);
-	}
-
-	@Override
-	public void onCrossbowAttackPerformed() {
-		noActionTime = 0;
-	}
-
-	public void performCrossbowAttack(LivingEntity pUser, float pVelocity) {
-		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
-		ItemStack itemstack = pUser.getItemInHand(interactionhand);
-		if (itemstack.getItem() instanceof CrossbowItem cross) {
-			cross.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0, getTarget());
-		}
-		this.onCrossbowAttackPerformed();
-	}
 
 	public InteractionHand getWeaponHand() {
 		ItemStack stack = this.getMainHandItem();
@@ -299,51 +250,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	@Override
-	protected ItemWrapper getAltWeaponHand() {
-		return !backupHand.isEmpty() ? getBackupHand() : getWrapperOfHand(EquipmentSlot.OFFHAND);
-	}
-
-	public ItemWrapper getBackupHand() {
-		return ItemWrapper.simple(() -> this.backupHand, e -> this.backupHand = e);
-	}
-
-	public ItemWrapper getArrowSlot() {
-		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
-	}
-
-	@Override
 	public void checkRide(LivingEntity target) {
 		if (target instanceof DogGolemEntity || target instanceof AbstractHorse) {
 			startRiding(target);
 		}
-	}
-
-	@Override
-	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
-		super.dropCustomDeathLoot(level, source, player);
-		if (!arrowSlot.isEmpty())
-			spawnAtLocation(arrowSlot);
-		if (!backupHand.isEmpty())
-			spawnAtLocation(backupHand);
-	}
-
-
-	@Override
-	public List<IItemHandlerModifiable> aggregateInventories() {
-		var ans = new ArrayList<IItemHandlerModifiable>();
-		ans.add(new EntityHandsInvWrapper(this));
-		ans.add(new EntityArmorInvWrapper(this));
-		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
-		ans.add(new SlotWrapper(() -> backupHand, e -> backupHand = e));
-		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
-		return ans;
-	}
-
-	@Override
-	public void addItemsToList(List<ItemStack> list) {
-		super.addItemsToList(list);
-		if (!backupHand.isEmpty()) list.add(backupHand);
-		if (!arrowSlot.isEmpty()) list.add(arrowSlot);
 	}
 
 }

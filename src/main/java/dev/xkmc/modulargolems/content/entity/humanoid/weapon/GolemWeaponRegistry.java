@@ -42,7 +42,7 @@ public class GolemWeaponRegistry<T extends SweepGolemEntity<?,?>> extends Weapon
 		HUMANOID.initBasic();
 		LARGE.initBasic();
 		WeaponRegistry.BOW.register(ModularGolems.loc("golem_bow"),
-				e -> WeaponStatus.OFFENSIVE.of(e.getItem() instanceof MetalGolemBowItem),
+				e -> WeaponStatus.RANGED.of(e.getItem() instanceof MetalGolemBowItem),
 				(golem, stack) -> new GolemMechaBowBehavior(), 10);
 	}
 

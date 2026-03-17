@@ -17,14 +17,14 @@ import net.minecraft.world.item.DyeColor;
 public class BeaconRenderer {
 
 	private static final ResourceLocation BEACON_LOCATION = ModularGolems.loc("textures/equipments/beacon.png");
-	private static final ResourceLocation BEAM_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/beacon_beam.png");
+	public static final ResourceLocation BEAM_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/beacon_beam.png");
 
 	public static void renderGolemBeacon(MetalGolemEntity entity, PoseStack pose, MultiBufferSource source, float pTick) {
 		if (entity.isAddedToLevel() && entity.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof MetalGolemBeaconItem) {
 			int color = DyeColor.values()[entity.getConfigColor()].getTextureDiffuseColor();
 			pose.pushPose();
 			renderBeacon(pose, source, entity.tickCount + pTick);
-			renderBeam(pose, source, entity.tickCount + pTick, 1F, color);
+			renderBeam(pose, source, entity.tickCount + pTick, 1F, 1024, color);
 			pose.popPose();
 		}
 	}
@@ -68,10 +68,9 @@ public class BeaconRenderer {
 		pose.popPose();
 	}
 
-	protected static void renderBeam(PoseStack pose, MultiBufferSource source, float pTick, float scale, int color) {
+	public static void renderBeam(PoseStack pose, MultiBufferSource source, float pTick, float scale, float length, int color) {
 		float width1 = 0.2F;
 		float width2 = 0.25F;
-		int length = 1024;
 
 		float accurateTick = pTick % 40;
 		float f2 = Mth.frac(accurateTick * 0.2F - (float) Mth.floor(accurateTick * 0.1F));
@@ -92,7 +91,7 @@ public class BeaconRenderer {
 				0.0F, 1.0F, v2, v1);
 	}
 
-	private static void renderPart(PoseStack pose, VertexConsumer buffer, int color, int start, int end, float p_112164_, float p_112165_, float p_112166_, float p_112167_, float p_112168_, float p_112169_, float p_112170_, float p_112171_, float u1, float u2, float v1, float v2) {
+	private static void renderPart(PoseStack pose, VertexConsumer buffer, int color, float start, float end, float p_112164_, float p_112165_, float p_112166_, float p_112167_, float p_112168_, float p_112169_, float p_112170_, float p_112171_, float u1, float u2, float v1, float v2) {
 		PoseStack.Pose p = pose.last();
 		renderQuad(p, buffer, color, start, end, p_112164_, p_112165_, p_112166_, p_112167_, u1, u2, v1, v2);
 		renderQuad(p, buffer, color, start, end, p_112170_, p_112171_, p_112168_, p_112169_, u1, u2, v1, v2);
@@ -100,7 +99,7 @@ public class BeaconRenderer {
 		renderQuad(p, buffer, color, start, end, p_112168_, p_112169_, p_112164_, p_112165_, u1, u2, v1, v2);
 	}
 
-	private static void renderQuad(PoseStack.Pose pose, VertexConsumer buffer, int color, int y1, int y2, float x1, float z1, float x2, float z2, float u1, float u2, float v1, float v2) {
+	private static void renderQuad(PoseStack.Pose pose, VertexConsumer buffer, int color, float y1, float y2, float x1, float z1, float x2, float z2, float u1, float u2, float v1, float v2) {
 		addVertex(pose, buffer, color, y2, x1, z1, u2, v1);
 		addVertex(pose, buffer, color, y1, x1, z1, u2, v2);
 		addVertex(pose, buffer, color, y1, x2, z2, u1, v2);

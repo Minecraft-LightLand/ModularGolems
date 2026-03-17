@@ -1,17 +1,23 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
+import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -30,7 +36,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -40,15 +45,20 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.joml.Vector3f;
 
-import java.util.function.Predicate;
+import java.util.List;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 
 	private static final EntityDataAccessor<Vector3f> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.VECTOR3);
+	private static final EntityDataAccessor<ItemStack> LEFT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<ItemStack> RIGHT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+
+	@SerialField
+	public final TargetingAnimState animState = new TargetingAnimState();
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.LARGE, type, level);
@@ -57,6 +67,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 		builder.define(TARGET, new Vector3f(0, 0, 0));
+		builder.define(LEFT_SHOULDER, ItemStack.EMPTY);
+		builder.define(RIGHT_SHOULDER, ItemStack.EMPTY);
 	}
 
 	protected AABB getAttackBoundingBox(Entity target, double range) {
@@ -100,25 +112,20 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return succeed;
 	}
 
-	public ItemStack getProjectile(ItemStack pShootable) {
-		ItemStack ans;
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
-			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-			ans = CommonHooks.getProjectile(this, pShootable, stack);
-		} else {
-			ans = CommonHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
-		}
-		if (isHostile()) ans = ans.copy();
-		return ans;
-	}
-
 	// ------ vanilla golem behavior
 
 	private int attackAnimationTick;
 
 	public void aiStep() {
 		super.aiStep();
+		animState.tick(this);
+		var right = getRightShoulder().getItem();
+		if (!right.isEmpty() && right.getItem() instanceof IShoulderWeapon weapon)
+			weapon.onTick(this, right, InteractionHand.MAIN_HAND);
+		var left = getLeftShoulder().getItem();
+		if (!left.isEmpty() && left.getItem() instanceof IShoulderWeapon weapon)
+			weapon.onTick(this, left, InteractionHand.OFF_HAND);
+
 		if (this.attackAnimationTick > 0) {
 			--this.attackAnimationTick;
 		}
@@ -258,6 +265,63 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	public Vec3 getTargetAimPos() {
 		return new Vec3(entityData.get(TARGET));
+	}
+
+	@Override
+	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
+		super.dropCustomDeathLoot(level, source, player);
+		var left = entityData.get(LEFT_SHOULDER);
+		if (!left.isEmpty())
+			spawnAtLocation(left);
+		var right = entityData.get(RIGHT_SHOULDER);
+		if (!right.isEmpty())
+			spawnAtLocation(right);
+	}
+
+	@Override
+	public List<IItemHandlerModifiable> aggregateInventories() {
+		var ans = super.aggregateInventories();
+		ans.add(new SlotWrapper(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e)));
+		ans.add(new SlotWrapper(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e)));
+		return ans;
+	}
+
+	@Override
+	public void addItemsToList(List<ItemStack> list) {
+		super.addItemsToList(list);
+		var left = entityData.get(LEFT_SHOULDER);
+		if (!left.isEmpty())
+			list.add(left);
+		var right = entityData.get(RIGHT_SHOULDER);
+		if (!right.isEmpty())
+			list.add(right);
+	}
+
+	@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		if (tag.contains("left_shoulder", Tag.TAG_COMPOUND)) {
+			entityData.set(LEFT_SHOULDER, ItemStack.parseOptional(registryAccess(), tag.getCompound("left_shoulder")));
+		}
+		if (tag.contains("right_shoulder", Tag.TAG_COMPOUND)) {
+			entityData.set(RIGHT_SHOULDER, ItemStack.parseOptional(registryAccess(), tag.getCompound("right_shoulder")));
+		}
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.put("left_shoulder", entityData.get(LEFT_SHOULDER).save(registryAccess()));
+		tag.put("right_shoulder", entityData.get(RIGHT_SHOULDER).save(registryAccess()));
+
+	}
+
+	public ItemWrapper getLeftShoulder() {
+		return ItemWrapper.simple(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e));
+	}
+
+	public ItemWrapper getRightShoulder() {
+		return ItemWrapper.simple(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e));
 	}
 
 }

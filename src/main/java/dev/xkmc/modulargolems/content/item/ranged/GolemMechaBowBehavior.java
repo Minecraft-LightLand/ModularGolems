@@ -45,7 +45,7 @@ public class GolemMechaBowBehavior extends GolemBowBehavior {
 				EntityTypeTest.forClass(LivingEntity.class),
 				golem.getBoundingBox().inflate(range),
 				e -> {
-					if (!golem.canAttack(e) || !golem.hasLineOfSight(e)) return false;
+					if (!golem.canAttack(e) || !golem.hasLineOfSight(e) || !golem.predicateTarget(e)) return false;
 					if (golem.getTarget() == e) return false;
 					var diff = e.position().add(0, e.getBbHeight() / 2, 0)
 							.subtract(golem.getEyePosition()).normalize();

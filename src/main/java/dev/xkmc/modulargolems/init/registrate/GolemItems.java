@@ -28,6 +28,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.ranged.BeaconCannonItem;
 import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import dev.xkmc.modulargolems.content.item.ranged.MetalGolemMechaBowItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
@@ -106,6 +107,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
 	public static final ItemEntry<MetalGolemBowItem> IRON_BOW;
 	public static final ItemEntry<MetalGolemMechaBowItem> NETHERITE_BOW;
+	public static final ItemEntry<BeaconCannonItem> BEACON_CANNON;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<HeavySpearItem> HEAVY_SPEAR;
 	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
@@ -231,28 +233,28 @@ public class GolemItems {
 							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaric_vanguard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_BOOTS = REGISTRATE.item("barbaric_vanguard_boots", p -> new NetheriteBootItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 
 			BEACON_BOOTS = REGISTRATE.item("beacon_boots",
 							p -> new MetalGolemBeaconItem(p.stacksTo(1), 4, 4, GolemModelPaths.BOOTS_BEACON))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
-					.register();
+					.tag(MGTagGen.TOUGH_ITEM).register();
 
 		}
 
@@ -274,7 +276,10 @@ public class GolemItems {
 			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemMechaBowItem(p, 30, 5))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.BOW_ENCHANTABLE)
-					.register();
+					.tag(MGTagGen.TOUGH_ITEM).register();
+			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(MGTagGen.TOUGH_ITEM).register();
 		}
 
 		// cards

@@ -43,6 +43,7 @@ public class MGTagGen {
 	public static final TagKey<Item> SPECIAL_CRAFT = createItemTag("special_crafting_material");
 	public static final TagKey<Item> GOLEM_INTERACT = createItemTag("golem_interact");
 	public static final TagKey<Item> GOLEM_OMNI_WAND = createItemTag("golem_omni_wand");
+	public static final TagKey<Item> TOUGH_ITEM = createItemTag("tough_item");
 	public static final TagKey<Item> MODIFYING_ITEM = createItemTag("modifying_item");
 	public static final TagKey<Item> CURIO_SKIN = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_skin"));
 	public static final TagKey<Item> CURIO_PATH = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_route"));

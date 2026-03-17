@@ -6,8 +6,10 @@ import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
@@ -105,7 +107,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		@Override
 		public int getWidth(Font pFont) {
 			if (golem instanceof DogGolemEntity) return 18;
-			return 36;
+			return 72;
 		}
 
 		@Override
@@ -120,14 +122,17 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 			renderSlot(font, mx + 18, my + 36, g, golem.getItemBySlot(EquipmentSlot.LEGS), InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS);
 			renderSlot(font, mx + 18, my + 54, g, golem.getItemBySlot(EquipmentSlot.FEET), InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS);
 
-			if (golem instanceof HumanoidGolemEntity h) {
-				renderSlot(font, mx, my, g, golem.getItemBySlot(EquipmentSlot.MAINHAND), null);
-				renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.OFFHAND), InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
-				renderSlot(font, mx, my + 36, g, h.getBackupHand().getItem(), null);
-				renderSlot(font, mx, my + 54, g, h.getArrowSlot().getItem(), null);
-			} else {
-				renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.MAINHAND), null);
-				renderSlot(font, mx, my + 36, g, golem.getItemBySlot(EquipmentSlot.OFFHAND), InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+			renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.MAINHAND), null);
+			renderSlot(font, mx + 36, my + 18, g, golem.getItemBySlot(EquipmentSlot.OFFHAND), InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+
+			if (golem instanceof SweepGolemEntity<?, ?> h) {
+				renderSlot(font, mx + 36, my + 36, g, h.getBackupHand().getItem(), null);
+				renderSlot(font, mx + 36, my + 54, g, h.getArrowSlot().getItem(), null);
+			}
+
+			if (golem instanceof MetalGolemEntity e) {
+				renderSlot(font, mx, my, g, e.getRightShoulder().getItem(), null);
+				renderSlot(font, mx + 36, my, g, e.getLeftShoulder().getItem(), null);
 			}
 		}
 

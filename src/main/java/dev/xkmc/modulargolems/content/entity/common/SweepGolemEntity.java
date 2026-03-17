@@ -1,33 +1,59 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
 import dev.xkmc.mob_weapon_api.api.ai.IWeaponHolder;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemUser;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.wrapper.EntityArmorInvWrapper;
+import net.neoforged.neoforge.items.wrapper.EntityHandsInvWrapper;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 @SerialClass
 public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolemEntity<T, P>
-		implements RangedAttackMob, IWeaponHolder {
+		implements RangedAttackMob, IWeaponHolder, CrossbowAttackMob {
+
+	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private final GolemWeaponManager<T> weaponManager;
+
+	@SerialField
+	private ItemStack backupHand = ItemStack.EMPTY;
+	@SerialField
+	private ItemStack arrowSlot = ItemStack.EMPTY;
 
 	protected SweepGolemEntity(GolemWeaponRegistry<T> reg, EntityType<T> type, Level level) {
 		super(type, level);
@@ -35,6 +61,27 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		if (!this.level().isClientSide) {
 			weaponManager.reassessWeaponGoal();
 		}
+	}
+
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(IS_CHARGING_CROSSBOW, false);
+	}
+
+	public ItemStack getProjectile(ItemStack pShootable) {
+		ItemStack ans;
+		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
+			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles(pShootable);
+			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
+			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
+				stack = arrowSlot;
+			}
+			ans = CommonHooks.getProjectile(this, pShootable, stack);
+		} else {
+			ans = CommonHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
+		}
+		if (isHostile()) ans = ans.copy();
+		return ans;
 	}
 
 	protected boolean performRangedDamage(Entity target, float damage, double kb) {
@@ -123,10 +170,6 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		);
 	}
 
-	protected ItemWrapper getAltWeaponHand() {
-		return getWrapperOfHand(EquipmentSlot.OFFHAND);
-	}
-
 	private void switchWeapon(ItemWrapper mainhand, ItemWrapper offhand) {
 		LivingEntity target = getTarget();
 		ItemStack main = mainhand.getItem();
@@ -143,6 +186,68 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	public boolean hasRangeAttack() {
 		return weaponManager.isRangedModeAvailable(getMainHandItem()) ||
 				weaponManager.isRangedModeAvailable(getAltWeaponHand().getItem());
+	}
+
+	public boolean isChargingCrossbow() {
+		return this.entityData.get(IS_CHARGING_CROSSBOW);
+	}
+
+	public void setChargingCrossbow(boolean pIsCharging) {
+		this.entityData.set(IS_CHARGING_CROSSBOW, pIsCharging);
+	}
+
+	@Override
+	public void onCrossbowAttackPerformed() {
+		noActionTime = 0;
+	}
+
+	public void performCrossbowAttack(LivingEntity pUser, float pVelocity) {
+		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
+		ItemStack itemstack = pUser.getItemInHand(interactionhand);
+		if (itemstack.getItem() instanceof CrossbowItem cross) {
+			cross.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0, getTarget());
+		}
+		this.onCrossbowAttackPerformed();
+	}
+
+	protected ItemWrapper getAltWeaponHand() {
+		return !backupHand.isEmpty() ? getBackupHand() : getWrapperOfHand(EquipmentSlot.OFFHAND);
+	}
+
+	public ItemWrapper getBackupHand() {
+		return ItemWrapper.simple(() -> this.backupHand, e -> this.backupHand = e);
+	}
+
+	public ItemWrapper getArrowSlot() {
+		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
+	}
+
+	@Override
+	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
+		super.dropCustomDeathLoot(level, source, player);
+		if (!arrowSlot.isEmpty())
+			spawnAtLocation(arrowSlot);
+		if (!backupHand.isEmpty())
+			spawnAtLocation(backupHand);
+	}
+
+
+	@Override
+	public List<IItemHandlerModifiable> aggregateInventories() {
+		var ans = new ArrayList<IItemHandlerModifiable>();
+		ans.add(new EntityHandsInvWrapper(this));
+		ans.add(new EntityArmorInvWrapper(this));
+		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
+		ans.add(new SlotWrapper(() -> backupHand, e -> backupHand = e));
+		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
+		return ans;
+	}
+
+	@Override
+	public void addItemsToList(List<ItemStack> list) {
+		super.addItemsToList(list);
+		if (!backupHand.isEmpty()) list.add(backupHand);
+		if (!arrowSlot.isEmpty()) list.add(arrowSlot);
 	}
 
 }

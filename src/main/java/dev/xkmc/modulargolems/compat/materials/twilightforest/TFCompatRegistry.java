@@ -138,6 +138,12 @@ public class TFCompatRegistry {
 				.addOptional(TFItems.GIANT_PICKAXE.getId())
 				.addOptional(TFItems.GIANT_SWORD.getId())
 		);
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.TOUGH_ITEM)
+				.addOptional(FIERY_HELMET.getId())
+				.addOptional(FIERY_CHESTPLATE.getId())
+				.addOptional(FIERY_SHINGUARD.getId())
+				.addOptional(FIERY_BOOTS.getId())
+		);
 	}
 
 	private static void fiery(Object obj) {

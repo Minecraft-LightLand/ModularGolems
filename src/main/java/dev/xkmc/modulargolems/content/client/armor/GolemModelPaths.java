@@ -19,4 +19,8 @@ public class GolemModelPaths {
 			BOW_MAINHAND = ModularGolems.loc("bow_mainhand"),
 			BOW_OFFHAND = ModularGolems.loc("bow_offhand");
 
+	public static final ResourceLocation
+			BEACON_RIGHT = ModularGolems.loc("beacon_right"),
+			BEACON_LEFT = ModularGolems.loc("beacon_left");
+
 }
