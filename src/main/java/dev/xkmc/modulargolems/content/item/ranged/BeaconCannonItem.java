@@ -2,9 +2,12 @@ package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import net.minecraft.core.particles.ParticleTypes;
+import dev.xkmc.modulargolems.content.entity.misc.BeaconLaserEntity;
+import dev.xkmc.modulargolems.init.registrate.GolemMiscEntities;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +20,15 @@ public class BeaconCannonItem extends ShouldWeaponItem {
 
 	@Override
 	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
+		if (e.tickCount % 60 == (hand == InteractionHand.MAIN_HAND ? 20 : 50) &&
+				!e.level().isClientSide() && e.getTarget() != null && e.getTarget().isAlive()) {
+			var rot = ConnonPoseUtil.BEACON.getAngle(e, hand);
+			var diff = Mth.wrapDegrees(rot[0] * Mth.RAD_TO_DEG + e.yBodyRot);
+			if (Math.abs(diff) > 30) return;
+			var laser = new BeaconLaserEntity(GolemMiscEntities.LASER.get(), e.level(), e, 10, hand == InteractionHand.MAIN_HAND);
+			e.level().addFreshEntity(laser);
+			e.level().playSound(null, e.blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.NEUTRAL,1,1);
+		}
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public record ConnonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 				.add(side.scale(x * x0))
 				.add(forward.scale(z0)).scale(scale));
 
-		ans[0] = (float) Math.atan2(diff.x, diff.z) + br;
+		ans[0] = (float) Math.atan2(diff.x, diff.z);
 		ans[1] = (float) Math.asin(y1 * scale / diff.length())
 				- (float) Math.atan2(diff.y, diff.horizontalDistance());
 		return ans;

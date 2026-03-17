@@ -48,7 +48,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;position()Lnet/minecraft/world/phys/Vec3;"), method = "dropExperience")
 	public Vec3 modulargolems$dropExperience$moveToGolem(LivingEntity killed, Operation<Vec3> original) {
-		if (killed.getLastHurtMob() instanceof AbstractGolemEntity<?, ?> e) {
+		if (killed.getLastHurtByMob() instanceof AbstractGolemEntity<?, ?> e) {
 			if (e.hasFlag(GolemFlags.PICKUP)) {
 				return e.position();
 			}
