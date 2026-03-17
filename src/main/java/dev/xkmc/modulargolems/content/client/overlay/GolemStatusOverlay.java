@@ -114,8 +114,8 @@ public class GolemStatusOverlay implements IGuiOverlay {
 			}
 
 			if (golem instanceof MetalGolemEntity e) {
-				renderSlot(font, mx, my, g, e.getLeftShoulder().getItem(), null);
-				renderSlot(font, mx + 36, my, g, e.getRightShoulder().getItem(), null);
+				renderSlot(font, mx, my, g, e.getRightShoulder().getItem(), null);
+				renderSlot(font, mx + 36, my, g, e.getLeftShoulder().getItem(), null);
 			}
 		}
 

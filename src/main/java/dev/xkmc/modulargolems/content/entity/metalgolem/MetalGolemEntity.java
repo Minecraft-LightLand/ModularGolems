@@ -306,19 +306,20 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		tag.put("left_shoulder", entityData.get(LEFT_SHOULDER).save(new CompoundTag()));
-		tag.put("right_shoulder", entityData.get(RIGHT_SHOULDER).save(new CompoundTag()));
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
 		if (tag.contains("left_shoulder", Tag.TAG_COMPOUND)) {
 			entityData.set(LEFT_SHOULDER, ItemStack.of(tag.getCompound("left_shoulder")));
 		}
 		if (tag.contains("right_shoulder", Tag.TAG_COMPOUND)) {
 			entityData.set(RIGHT_SHOULDER, ItemStack.of(tag.getCompound("right_shoulder")));
 		}
+			}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.put("left_shoulder", entityData.get(LEFT_SHOULDER).save(new CompoundTag()));
+		tag.put("right_shoulder", entityData.get(RIGHT_SHOULDER).save(new CompoundTag()));
+
 	}
 
 	public ItemWrapper getLeftShoulder() {

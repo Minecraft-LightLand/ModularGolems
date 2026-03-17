@@ -2,7 +2,9 @@ package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +17,6 @@ public class BeaconCannonItem extends ShouldWeaponItem {
 
 	@Override
 	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
-
 	}
 
 	@Override

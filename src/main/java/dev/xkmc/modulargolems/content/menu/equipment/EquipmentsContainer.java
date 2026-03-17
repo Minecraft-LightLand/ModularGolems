@@ -26,9 +26,9 @@ public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<Equipme
 		}
 		if (parent.golem instanceof MetalGolemEntity metal) {
 			if (index == 8)
-				return metal.getLeftShoulder();
-			if (index == 9)
 				return metal.getRightShoulder();
+			if (index == 9)
+				return metal.getLeftShoulder();
 		}
 		return ItemWrapper.EMPTY;
 	}

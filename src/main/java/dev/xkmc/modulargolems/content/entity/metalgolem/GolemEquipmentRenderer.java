@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
+import dev.xkmc.modulargolems.content.client.pose.GolemShoulderPose;
 import dev.xkmc.modulargolems.content.client.weapon.GolemModelAnimations;
 import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
@@ -109,6 +110,11 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 				state.startIfStopped(0);
 				model.animate(state, anim, tick + speed * pTick);
 			}
+		}
+		var sp = GolemShoulderPose.MAP.get(id);
+		if (sp != null) {
+			sp.setup(entity, model, stack, hand, pTick);
+			sp.render(entity, model, stack, hand, pose, source, pTick);
 		}
 		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getModelTexture(entity, stack, hand)));
 		renderModel(model, gmpath, pose, buffer, light);
