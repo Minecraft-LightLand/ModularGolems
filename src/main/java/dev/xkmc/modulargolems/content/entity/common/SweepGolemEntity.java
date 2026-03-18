@@ -205,10 +205,14 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	}
 
 	public ItemWrapper getBackupHand() {
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(BACKUP_SLOT), e -> entityData.set(BACKUP_SLOT, e));
 		return ItemWrapper.simple(() -> this.backupHand, e -> this.backupHand = e);
 	}
 
 	public ItemWrapper getArrowSlot() {
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(ARROW_SLOT), e -> entityData.set(ARROW_SLOT, e));
 		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
 	}
 

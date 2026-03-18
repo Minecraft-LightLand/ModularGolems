@@ -498,7 +498,7 @@
   "item.modulargolems.soul_flame": "药水升级：魂火",
   "item.modulargolems.teleport": "瞬移升级",
   "modifier.modulargolems.conduit": "潮涌之力",
-  "modifier.modulargolems.conduit.desc": "当自身在水中/雨中时：受到的伤害减少至%s%%，每%s秒对附近水中/雨中的单个目标造成%s点信标伤害，提升以下数值：",
+  "modifier.modulargolems.conduit.desc": "当自身在水中/雨中时：受到的伤害减少至%s%%，每%s秒对附近水中/雨中的单个目标造成%s点潮涌伤害，提升以下数值：",
   "modifier.modulargolems.freezing": "药水升级：寒流",
   "modifier.modulargolems.freezing.desc": "对攻击自身和被自身攻击的目标施加寒流效果。免疫冰冻伤害",
   "modifier.modulargolems.soul_flame": "药水升级：魂火",
