@@ -6,7 +6,6 @@ import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
 import dev.xkmc.mob_weapon_api.api.ai.IWeaponHolder;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemUser;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponManager;
@@ -47,6 +46,8 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		implements RangedAttackMob, IWeaponHolder, CrossbowAttackMob {
 
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(SweepGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<ItemStack> BACKUP_SLOT = SynchedEntityData.defineId(SweepGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(SweepGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
 	private final GolemWeaponManager<T> weaponManager;
 
@@ -66,6 +67,8 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 		builder.define(IS_CHARGING_CROSSBOW, false);
+		builder.define(BACKUP_SLOT, ItemStack.EMPTY);
+		builder.define(ARROW_SLOT, ItemStack.EMPTY);
 	}
 
 	public ItemStack getProjectile(ItemStack pShootable) {
@@ -188,6 +191,17 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 				weaponManager.isRangedModeAvailable(getAltWeaponHand().getItem());
 	}
 
+	@Override
+	protected void customServerAiStep() {
+		super.customServerAiStep();
+		if (!ItemStack.matches(entityData.get(BACKUP_SLOT), backupHand)) {
+			entityData.set(BACKUP_SLOT, backupHand.copy());
+		}
+		if (!ItemStack.matches(entityData.get(ARROW_SLOT), arrowSlot)) {
+			entityData.set(ARROW_SLOT, arrowSlot.copy());
+		}
+	}
+
 	public boolean isChargingCrossbow() {
 		return this.entityData.get(IS_CHARGING_CROSSBOW);
 	}
@@ -215,10 +229,14 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	}
 
 	public ItemWrapper getBackupHand() {
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(BACKUP_SLOT), e -> entityData.set(BACKUP_SLOT, e));
 		return ItemWrapper.simple(() -> this.backupHand, e -> this.backupHand = e);
 	}
 
 	public ItemWrapper getArrowSlot() {
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(ARROW_SLOT), e -> entityData.set(ARROW_SLOT, e));
 		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
 	}
 
