@@ -46,7 +46,7 @@ import java.util.function.Predicate;
 public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolemEntity<T, P>
 		implements RangedAttackMob, IWeaponHolder, CrossbowAttackMob {
 
-	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(SweepGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	private final GolemWeaponManager<T> weaponManager;
 

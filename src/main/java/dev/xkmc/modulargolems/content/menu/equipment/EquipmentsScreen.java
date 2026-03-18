@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.menu.equipment;
 import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
@@ -32,14 +33,14 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 			sr.draw(g, "head", "slot", -1, -1);
 			sr.draw(g, "chest", "slot", -1, -1);
 		} else {
-			sr.draw(g, "main", "slot", -1, -1);
-			sr.draw(g, "off", "slot", -1, -1);
+			sr.draw(g, "right_hand", "slot", -1, -1);
+			sr.draw(g, "left_hand", "slot", -1, -1);
 			sr.draw(g, "head", "slot", -1, -1);
 			sr.draw(g, "chest", "slot", -1, -1);
 			sr.draw(g, "legs", "slot", -1, -1);
 			sr.draw(g, "feet", "slot", -1, -1);
-			if (menu.getAsPredSlot("off", 0, 0).getItem().isEmpty())
-				sr.draw(g, "off", "altas_shield", 0, 0);
+			if (menu.getAsPredSlot("left_hand", 0, 0).getItem().isEmpty())
+				sr.draw(g, "left_hand", "altas_shield", 0, 0);
 			if (menu.getAsPredSlot("head", 0, 0).getItem().isEmpty())
 				sr.draw(g, "head", "altas_helmet", 0, 0);
 			if (menu.getAsPredSlot("chest", 0, 0).getItem().isEmpty())
@@ -48,11 +49,19 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 				sr.draw(g, "legs", "altas_leggings", 0, 0);
 			if (menu.getAsPredSlot("feet", 0, 0).getItem().isEmpty())
 				sr.draw(g, "feet", "altas_boots", 0, 0);
-			if (menu.golem instanceof HumanoidGolemEntity) {
+			if (menu.golem instanceof SweepGolemEntity<?, ?>) {
 				sr.draw(g, "arrow", "slot", -1, -1);
 				sr.draw(g, "backup", "slot", -1, -1);
 				if (menu.getAsPredSlot("arrow", 0, 0).getItem().isEmpty())
 					sr.draw(g, "arrow", "slotbg_arrow", -1, -1);
+			}
+			if (menu.golem instanceof MetalGolemEntity) {
+				sr.draw(g, "left_shoulder", "slot", -1, -1);
+				sr.draw(g, "right_shoulder", "slot", -1, -1);
+				if (menu.getAsPredSlot("left_shoulder", 0, 0).getItem().isEmpty())
+					sr.draw(g, "left_shoulder", "slotbg_shoulder", -1, -1);
+				if (menu.getAsPredSlot("right_shoulder", 0, 0).getItem().isEmpty())
+					sr.draw(g, "right_shoulder", "slotbg_shoulder", -1, -1);
 			}
 		}
 
@@ -70,26 +79,51 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	@Override
 	protected void renderTooltip(GuiGraphics g, int mx, int my) {
 		super.renderTooltip(g, mx, my);
-		if (menu.golem instanceof HumanoidGolemEntity &&
+		if (menu.golem instanceof SweepGolemEntity<?,?> &&
 				menu.getCarried().isEmpty() &&
 				hoveredSlot != null && !hoveredSlot.hasItem()) {
 			List<Component> list = null;
-			if (hoveredSlot.getContainerSlot() == 0) {
-				list = List.of(MGLangData.SLOT_MAIN.get(),
-						MGLangData.SLOT_MAIN_DESC.get());
+			if (menu.golem instanceof HumanoidGolemEntity) {
+				if (hoveredSlot.getContainerSlot() == 0) {
+					list = List.of(MGLangData.SLOT_MAIN.get(),
+							MGLangData.SLOT_MAIN_DESC.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 1) {
+					list = List.of(MGLangData.SLOT_OFF.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 6) {
+					list = List.of(MGLangData.SLOT_BACKUP.get(),
+							MGLangData.SLOT_BACKUP_DESC.get(),
+							MGLangData.SLOT_BACKUP_INFO.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 7) {
+					list = List.of(MGLangData.SLOT_ARROW.get(),
+							MGLangData.SLOT_ARROW_DESC.get());
+				}
 			}
-			if (hoveredSlot.getContainerSlot() == 1) {
-				list = List.of(MGLangData.SLOT_OFF.get());
-			}
-			if (hoveredSlot.getContainerSlot() == 6) {
-				list = List.of(MGLangData.SLOT_BACKUP.get(),
-						MGLangData.SLOT_BACKUP_DESC.get(),
-						MGLangData.SLOT_BACKUP_INFO.get());
-			}
-			if (hoveredSlot.getContainerSlot() == 7) {
-				list = List.of(MGLangData.SLOT_ARROW.get(),
-						MGLangData.SLOT_ARROW_DESC.get());
-
+			if (menu.golem instanceof MetalGolemEntity) {
+				if (hoveredSlot.getContainerSlot() == 0) {
+					list = List.of(MGLangData.SLOT_MAIN.get(),
+							MGLangData.SLOT_MAIN_DESC_METAL.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 1) {
+					list = List.of(MGLangData.SLOT_OFF.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 6) {
+					list = List.of(MGLangData.SLOT_BACKUP.get(),
+							MGLangData.SLOT_BACKUP_DESC.get(),
+							MGLangData.SLOT_BACKUP_INFO.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 7) {
+					list = List.of(MGLangData.SLOT_ARROW.get(),
+							MGLangData.SLOT_ARROW_DESC.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 8) {
+					list = List.of(MGLangData.SLOT_SHOULDER.get());
+				}
+				if (hoveredSlot.getContainerSlot() == 9) {
+					list = List.of(MGLangData.SLOT_SHOULDER.get());
+				}
 			}
 			if (list != null) {
 				g.renderTooltip(this.font, list, Optional.empty(), ItemStack.EMPTY, mx, my);

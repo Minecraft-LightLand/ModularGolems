@@ -7,18 +7,29 @@
 		"altas_boots",
 		"altas_shield",
 		"slotbg_arrow",
-		"slotbg_sword"
+		"slotbg_sword",
+		"slotbg_shoulder"
 	],
 	"comp": {
-		"main": {
+		"left_shoulder": {
+			"sprite": "empty_slot",
+			"x": 115,
+			"y": 0
+		},
+		"right_shoulder": {
+			"sprite": "empty_slot",
+			"x": 79,
+			"y": 0
+		},
+		"left_hand": {
+			"sprite": "empty_slot",
+			"x": 115,
+			"y": 18
+		},
+		"right_hand": {
 			"sprite": "empty_slot",
 			"x": 79,
 			"y": 18
-		},
-		"off": {
-			"sprite": "empty_slot",
-			"x": 79,
-			"y": 36
 		},
 		"head": {
 			"sprite": "empty_slot",

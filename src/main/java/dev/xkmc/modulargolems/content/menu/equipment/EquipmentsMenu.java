@@ -4,10 +4,12 @@ import dev.xkmc.l2core.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2core.base.menu.base.PredSlot;
 import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -17,6 +19,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -52,9 +55,13 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 			addSlot("chest", e -> isValid(EquipmentSlot.CHEST, e));
 			addSlot("legs", e -> isValid(EquipmentSlot.LEGS, e));
 			addSlot("feet", e -> isValid(EquipmentSlot.FEET, e));
-			if (golem instanceof HumanoidGolemEntity) {
+			if (golem instanceof SweepGolemEntity<?, ?>) {
 				addSlot("backup", e -> isValid(EquipmentSlot.MAINHAND, e) || isValid(EquipmentSlot.OFFHAND, e));
 				addSlot("arrow", e -> true);
+			}
+			if (golem instanceof MetalGolemEntity) {
+				addSlot("right_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
+				addSlot("left_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
 			}
 		}
 	}
@@ -90,6 +97,12 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 			if (id >= 36) {
 				this.moveItemStackTo(stack, 0, 36, true);
 			} else {
+				if (golem instanceof SweepGolemEntity<?, ?> && stack.getItem() instanceof ArrowItem) {
+					this.moveItemStackTo(stack, 36 + 7, 37 + 7, false);
+				}
+				if (golem instanceof MetalGolemEntity && stack.getItem() instanceof IShoulderWeapon) {
+					this.moveItemStackTo(stack, 36 + 8, 37 + 9, false);
+				}
 				var es = getSlotForItem(stack);
 				for (int i = 0; i < equipmentSlots.length; i++) {
 					if (es.contains(equipmentSlots[i])) {

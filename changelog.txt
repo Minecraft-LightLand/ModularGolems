@@ -1,3 +1,11 @@
+3.1.23
+- Fix disassembly menu dupe
+- Fix multi-target attacking skills and bows attacking entities not as a valid target
+- Fix pickup upgrade not teleporting exp orbs when mob haven't hit golem once
+- Make endgame armors not destroyable with fire, explosion, or cactus
+- Allow metal golem to use backup hand and arrow slot
+- Add beacon cannon
+
 3.1.22
 - Metal Golem Bows
 - Fix equipment screen golem preview

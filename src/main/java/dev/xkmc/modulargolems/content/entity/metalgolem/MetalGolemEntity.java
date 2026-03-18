@@ -311,8 +311,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
-		tag.put("left_shoulder", entityData.get(LEFT_SHOULDER).save(registryAccess()));
-		tag.put("right_shoulder", entityData.get(RIGHT_SHOULDER).save(registryAccess()));
+		tag.put("left_shoulder", entityData.get(LEFT_SHOULDER).saveOptional(registryAccess()));
+		tag.put("right_shoulder", entityData.get(RIGHT_SHOULDER).saveOptional(registryAccess()));
 
 	}
 
