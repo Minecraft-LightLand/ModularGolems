@@ -60,16 +60,18 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 		long last = stack.getOrCreateTag().getLong("FixAction");
 		int takingItem = stack.getOrCreateTag().getInt("TakingItem");
 		var speed = Mth.clamp(stack.getOrCreateTag().getFloat("FixSpeed"), 0.25f, 4f);
-		if (last > time || last < time - (int) (80 / speed + 20)) {
-			if (e.tickCount % 60 == (hand == InteractionHand.MAIN_HAND ? 20 : 40) &&
-					(e.getHealth() <= e.getMaxHealth() * 0.75 || e.isReforged())) {
-				var take = fetch(e, true);
-				if (take.isEmpty()) return;
-				stack.getOrCreateTag().putLong("FixAction", time);
-				stack.getOrCreateTag().putInt("TakingItem", 2);
-				stack.getOrCreateTag().putFloat("FixSpeed", getSpeed(e));
-
+		if (last > time || last < time - (int) (100 / speed)) {
+			ItemStack other = hand == InteractionHand.MAIN_HAND ? e.getLeftShoulder().getItem() : e.getRightShoulder().getItem();
+			if (other.getItem() instanceof ArmAttachmentItem) {
+				long prev = stack.getOrCreateTag().getLong("FixAction");
+				if (prev <= time && prev > time - 20) return;
 			}
+			if (e.getHealth() > e.getMaxHealth() * 0.75 && !e.isReforged()) return;
+			var take = fetch(e, true);
+			if (take.isEmpty()) return;
+			stack.getOrCreateTag().putLong("FixAction", time);
+			stack.getOrCreateTag().putInt("TakingItem", 2);
+			stack.getOrCreateTag().putFloat("FixSpeed", getSpeed(e));
 		} else {
 			if (takingItem == 2 && last >= time - (int) (40 / speed)) {
 				stack.getOrCreateTag().putInt("TakingItem", 1);

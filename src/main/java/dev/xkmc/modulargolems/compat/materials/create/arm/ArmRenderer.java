@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllPartialModels;
-import dev.engine_room.flywheel.api.visualization.VisualizationManager;
 import dev.engine_room.flywheel.lib.transform.PoseTransformStack;
 import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.createmod.catnip.data.Iterate;
@@ -77,13 +76,6 @@ public class ArmRenderer {
 			msLocal.popPose();
 		}
 
-	}
-
-	private static void doItemTransforms(TransformStack<?> msr, float baseAngle, float lowerArmAngle, float upperArmAngle, float headAngle) {
-		transformBase(msr, baseAngle);
-		transformLowerArm(msr, lowerArmAngle);
-		transformUpperArm(msr, upperArmAngle);
-		transformHead(msr, headAngle);
 	}
 
 	public static void transformClawHalf(TransformStack<?> msr, boolean hasItem, boolean isBlockItem, int flip) {

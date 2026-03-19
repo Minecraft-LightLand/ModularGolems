@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.compat.materials.create.automation;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.api.data.recipe.MechanicalCraftingRecipeBuilder;
 import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
 import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
@@ -10,6 +11,7 @@ import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.compat.materials.create.CreateCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFCompatRegistry;
@@ -46,6 +48,17 @@ public class CreateGolemRecipeGen {
 		}
 		genSpecialRecipes(pvd);
 		genRecycleRecipes(pvd);
+
+
+		new MechanicalCraftingRecipeBuilder(CreateCompatRegistry.ARM.get(), 1)
+				.patternLine(" A ").patternLine("CCC").patternLine("BEB").patternLine("DED")
+				.whenModLoaded(CreateDispatch.MODID)
+				.key('A', AllBlocks.MECHANICAL_ARM.asItem())
+				.key('B', AllItems.BRASS_SHEET.get())
+				.key('C', AllItems.PRECISION_MECHANISM.get())
+				.key('D', GolemItems.GOLEM_TEMPLATE)
+				.key('E', AllBlocks.GEARBOX)
+				.build(pvd);
 	}
 
 	public static void genRecycleRecipes(RegistrateRecipeProvider pvd) {

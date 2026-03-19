@@ -104,13 +104,6 @@ public class CreateDispatch extends ModDispatch {
 				.define('C', AllItems.PRECISION_MECHANISM.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
-		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CreateCompatRegistry.ARM.get())::unlockedBy, AllBlocks.MECHANICAL_ARM.asItem())
-				.pattern(" A ").pattern("CCC").pattern("BBB")
-				.define('A', AllBlocks.MECHANICAL_ARM.asItem())
-				.define('B', AllItems.BRASS_SHEET.get())
-				.define('C', AllItems.PRECISION_MECHANISM.get())
-				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
-
 		CreateGolemRecipeGen.genAllUpgradeRecipes(pvd);
 
 	}
