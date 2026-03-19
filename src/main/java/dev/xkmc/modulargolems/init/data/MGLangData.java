@@ -31,6 +31,7 @@ public enum MGLangData {
 	BOW_STIFFNESS("tooltip.bow_stiffness", "Bow Stiffness: %s", 1, ChatFormatting.GRAY),
 	BOW_PIERCE("tooltip.bow_pierce", "Arrow pierces %s targets", 1, ChatFormatting.GRAY),
 	MULTI_SHOT("tooltip.multi_shot", "Shoots %s targets at once", 1, ChatFormatting.GRAY),
+	SHOULDER_WEAPON("tooltip.shoulder_weapon", "Mounts on Metal Golem Shoulders", 0, ChatFormatting.YELLOW),
 
 	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage", 1, ChatFormatting.GRAY),
 	HARBINGER_BOOST_MISSILE("tooltip.cataclysm.harbinger_armor_missile", "+%s Homing Missile Damage", 1, ChatFormatting.GRAY),

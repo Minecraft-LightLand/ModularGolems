@@ -3,7 +3,12 @@ package dev.xkmc.modulargolems.init.data;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import dev.xkmc.golemdungeons.init.GolemDungeons;
+import dev.xkmc.golemdungeons.init.reg.GDItems;
+import dev.xkmc.l2complements.init.L2Complements;
+import dev.xkmc.l2complements.init.registrate.LCItems;
 import dev.xkmc.l2library.serial.ingredients.EnchantmentIngredient;
+import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.l2library.serial.recipe.NBTRecipe;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
@@ -30,6 +35,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITagManager;
 
@@ -434,6 +440,28 @@ public class RecipeGen {
 					.define('D', Items.DIAMOND)
 					.define('B', Items.BEACON)
 					.save(pvd);
+
+			if (ModList.get().isLoaded(L2Complements.MODID)) {
+
+				unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.SONIC_CANNON.get())::unlockedBy, LCItems.SONIC_SHOOTER.get())
+						.pattern("III").pattern("BDD").pattern("TII")
+						.define('I', LCItems.WARDEN_BONE_SHARD)
+						.define('T', GolemItems.GOLEM_TEMPLATE)
+						.define('D', LCItems.RESONANT_FEATHER)
+						.define('B', LCItems.SONIC_SHOOTER)
+						.save(ConditionalRecipeWrapper.mod(pvd, L2Complements.MODID), "sonic_cannon_complements");
+			}
+
+			if (ModList.get().isLoaded(GolemDungeons.MODID)) {
+
+				unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.SONIC_CANNON.get())::unlockedBy, GDItems.SCULK_SCYTHE.get())
+						.pattern("III").pattern("BBD").pattern("TII")
+						.define('I', GDItems.SCULK_SCYTHE)
+						.define('T', GolemItems.GOLEM_TEMPLATE)
+						.define('B', Items.SCULK_CATALYST)
+						.define('D', Items.SCULK_SHRIEKER)
+						.save(ConditionalRecipeWrapper.mod(pvd, GolemDungeons.MODID), "sonic_cannon_dungeon");
+			}
 		}
 
 		// upgrades

@@ -23,4 +23,8 @@ public class GolemModelPaths {
 			BEACON_RIGHT = ModularGolems.loc("beacon_right"),
 			BEACON_LEFT = ModularGolems.loc("beacon_left");
 
+	public static final ResourceLocation
+			SONIC_MAINHAND = ModularGolems.loc("sonic_mainhand"),
+			SONIC_OFFHAND = ModularGolems.loc("sonic_offhand");
+
 }

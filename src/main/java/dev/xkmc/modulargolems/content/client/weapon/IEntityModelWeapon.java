@@ -11,11 +11,17 @@ public interface IEntityModelWeapon {
 
 	@Nullable ResourceLocation getModelForHand(InteractionHand hand);
 
-	boolean shouldPlayAnimation(LivingEntity user, ItemStack stack, InteractionHand hand);
+	default boolean shouldPlayAnimation(LivingEntity user, ItemStack stack, InteractionHand hand) {
+		return false;
+	}
 
-	float getAnimationSpeed(LivingEntity user, ItemStack stack, InteractionHand hand);
+	default float getAnimationSpeed(LivingEntity user, ItemStack stack, InteractionHand hand) {
+		return 1;
+	}
 
-	float getAnimationTick(LivingEntity user, ItemStack stack, InteractionHand hand);
+	default float getAnimationTick(LivingEntity user, ItemStack stack, InteractionHand hand) {
+		return 0;
+	}
 
 	ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand);
 

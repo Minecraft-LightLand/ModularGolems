@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.client.armor;
 
 import dev.xkmc.modulargolems.content.client.weapon.BeaconCannonModel;
 import dev.xkmc.modulargolems.content.client.weapon.GolemBows;
+import dev.xkmc.modulargolems.content.client.weapon.SonicCannonModel;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -196,6 +197,9 @@ public class GolemEquipmentModels {
 
 		regAndAdd(event, BeaconCannonModel.BEACON_RIGHT, BeaconCannonModel::rightLayer);
 		regAndAdd(event, BeaconCannonModel.BEACON_LEFT, BeaconCannonModel::leftLayer);
+
+		regAndAdd(event, SonicCannonModel.SONIC_MAINHAND, SonicCannonModel::createMainHand);
+		regAndAdd(event, SonicCannonModel.SONIC_OFFHAND, SonicCannonModel::createOffhand);
 
 	}
 

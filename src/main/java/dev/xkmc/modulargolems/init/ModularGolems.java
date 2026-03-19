@@ -117,6 +117,11 @@ public class ModularGolems {
 		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, MGAdvGen::genAdvancements);
 
 		var gen = event.getGenerator();
+		var server = event.includeServer();
+		var pvd = event.getLookupProvider();
+		var out = gen.getPackOutput();
+		var helper = event.getExistingFileHelper();
+		new MGDamageTypes(out, pvd, helper).generate(server, gen);
 		gen.addProvider(event.includeServer(), new MGConfigGen(gen));
 		CompatManager.gatherData(event);
 		gen.addProvider(event.includeServer(), new SlotGen(gen));

@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.item.equipments.DogGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
+import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.events.event.GolemThrowableEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -61,6 +62,7 @@ public class GolemEventListeners {
 				event.setSlot(1, mgai.getSlot());
 			} else if (stack.getItem() instanceof MetalGolemWeaponItem ||
 					stack.getItem() instanceof MetalGolemBowItem ||
+					stack.getItem() instanceof SonicCannonItem ||
 					stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
 				event.setSlot(1, EquipmentSlot.MAINHAND);
 			} else if (stack.getItem() instanceof BannerItem) {

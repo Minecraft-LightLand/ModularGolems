@@ -25,6 +25,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.ranged.BeaconCannonItem;
 import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import dev.xkmc.modulargolems.content.item.ranged.MetalGolemMechaBowItem;
+import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.*;
@@ -88,6 +89,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
 	public static final ItemEntry<MetalGolemBowItem> IRON_BOW;
 	public static final ItemEntry<MetalGolemMechaBowItem> NETHERITE_BOW;
+	public static final ItemEntry<SonicCannonItem> SONIC_CANNON;
 	public static final ItemEntry<BeaconCannonItem> BEACON_CANNON;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
@@ -228,6 +230,9 @@ public class GolemItems {
 			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemMechaBowItem(p, 30, 5))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
+			SONIC_CANNON = REGISTRATE.item("sonic_cannon", p -> new SonicCannonItem(p))
+				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+				.tag(MGTagGen.TOUGH_ITEM).register();
 			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();

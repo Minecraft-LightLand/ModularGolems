@@ -61,6 +61,9 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue mendingXpCost;
 		public final ForgeConfigSpec.DoubleValue armorBypassChance;
 		public final ForgeConfigSpec.DoubleValue slicingDropUpgradeChance;
+		public final ForgeConfigSpec.DoubleValue beaconCannonDamageFactor;
+		public final ForgeConfigSpec.DoubleValue sonicCannonDamageFactor;
+		public final ForgeConfigSpec.DoubleValue sonicCannonResonanceBonus;
 
 		public final ForgeConfigSpec.IntValue summonDistance;
 		public final ForgeConfigSpec.IntValue retrieveDistance;
@@ -164,6 +167,13 @@ public class MGConfig {
 						.define("bossBreakShield", true);
 				slicingDropUpgradeChance = builder.comment("Chance for each upgrade to drop when killed by Slicing Axe")
 						.defineInRange("slicingDropUpgradeChance", 0.5, 0, 1);
+				beaconCannonDamageFactor = builder.comment("Damage of Beacon Cannon as percentage of golem melee damage")
+						.defineInRange("beaconCannonDamageFactor", 0.5, 0, 1);
+				sonicCannonDamageFactor = builder.comment("Damage of Sonic Cannon as percentage of golem melee damage")
+						.defineInRange("sonicCannonDamageFactor", 0.25, 0, 1);
+				sonicCannonResonanceBonus = builder.comment("Bonus damage of Sonic Cannon per sculk part, as percentage of golem melee damage")
+						.defineInRange("sonicCannonResonanceBonus", 0.1, 0, 1);
+
 
 				largeGolemSlot = builder.comment("Default slots for large golem")
 						.defineInRange("largeGolemSlot", 4, 0, 100);
