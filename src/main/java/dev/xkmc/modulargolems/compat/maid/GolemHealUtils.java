@@ -7,7 +7,6 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -44,8 +43,6 @@ public class GolemHealUtils {
 			if (index >= 0) {
 				if (!inv.extractItem(index, 1, false).isEmpty()) {
 					golem.repairWithItem();
-					float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
-					golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
 					owner.getBrain().eraseMemory(MemoryModuleType.INTERACTION_TARGET);
 					return true;
 				}

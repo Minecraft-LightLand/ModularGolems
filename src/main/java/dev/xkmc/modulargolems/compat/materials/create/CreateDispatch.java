@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.create;
 
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
@@ -100,6 +101,13 @@ public class CreateDispatch extends ModDispatch {
 				.pattern(" C ").pattern("ABA").pattern(" C ")
 				.define('A', AllItems.EXTENDO_GRIP.get())
 				.define('B', GolemItems.EMPTY_UPGRADE.get())
+				.define('C', AllItems.PRECISION_MECHANISM.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		safeUpgrade(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CreateCompatRegistry.ARM.get())::unlockedBy, AllBlocks.MECHANICAL_ARM.asItem())
+				.pattern(" A ").pattern("CCC").pattern("BBB")
+				.define('A', AllBlocks.MECHANICAL_ARM.asItem())
+				.define('B', AllItems.BRASS_SHEET.get())
 				.define('C', AllItems.PRECISION_MECHANISM.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 

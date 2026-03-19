@@ -1,8 +1,10 @@
 package dev.xkmc.modulargolems.compat.materials.create.modifier;
 
 import dev.xkmc.modulargolems.compat.materials.create.CreateCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.create.arm.ArmAttachmentItem;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.sounds.SoundEvents;
@@ -28,7 +30,12 @@ public class MechBodyModifier extends GolemModifier {
 		if (golem.tickCount % 20 != 0) return;
 		int mobile = golem.getModifiers().getOrDefault(CreateCompatRegistry.MOBILE.get(), 0);
 		int force = golem.getModifiers().getOrDefault(CreateCompatRegistry.FORCE.get(), 0);
-		if (mobile == 0 && force == 0) return;
+		int arm = 0;
+		if (golem instanceof MetalGolemEntity e && (e.getHealth() < e.getMaxHealth() * 0.75 || e.isReforged())) {
+			if (e.getLeftShoulder().getItem().getItem() instanceof ArmAttachmentItem) arm++;
+			if (e.getRightShoulder().getItem().getItem() instanceof ArmAttachmentItem) arm++;
+		}
+		if (mobile == 0 && force == 0 && arm == 0) return;
 		var mobileIns = golem.getEffect(CreateCompatRegistry.EFF_MOBILE.get());
 		var forceIns = golem.getEffect(CreateCompatRegistry.EFF_FORCE.get());
 		int mobileTime = 0;
@@ -58,6 +65,9 @@ public class MechBodyModifier extends GolemModifier {
 					mobileTime + time, mobile - 1));
 			if (force > 0) golem.addEffect(new MobEffectInstance(CreateCompatRegistry.EFF_FORCE.get(),
 					forceTime + time, force - 1));
+			long last = golem.getPersistentData().getLong("MechEngineLastPoweredUp");
+			long next = Math.max(last, golem.level().getGameTime()) + time;
+			golem.getPersistentData().putLong("MechEngineLastPoweredUp", next);
 		}
 	}
 
@@ -68,7 +78,12 @@ public class MechBodyModifier extends GolemModifier {
 		if (time <= 0) return InteractionResult.PASS;
 		int mobile = golem.getModifiers().getOrDefault(CreateCompatRegistry.MOBILE.get(), 0);
 		int force = golem.getModifiers().getOrDefault(CreateCompatRegistry.FORCE.get(), 0);
-		if (mobile == 0 && force == 0) return InteractionResult.FAIL;
+		int arm = 0;
+		if (golem instanceof MetalGolemEntity e && (e.getHealth() < e.getMaxHealth() * 0.75 || e.isReforged())) {
+			if (e.getLeftShoulder().getItem().getItem() instanceof ArmAttachmentItem) arm++;
+			if (e.getRightShoulder().getItem().getItem() instanceof ArmAttachmentItem) arm++;
+		}
+		if (mobile == 0 && force == 0 && arm == 0) return InteractionResult.FAIL;
 		if (player.level().isClientSide()) return InteractionResult.SUCCESS;
 		var mobileIns = golem.getEffect(CreateCompatRegistry.EFF_MOBILE.get());
 		var forceIns = golem.getEffect(CreateCompatRegistry.EFF_FORCE.get());
@@ -77,14 +92,18 @@ public class MechBodyModifier extends GolemModifier {
 		if (mobileIns != null) mobileTime = mobileIns.getDuration();
 		if (forceIns != null) forceTime = forceIns.getDuration();
 		int maxFactor = MGConfig.COMMON.mechMaxFuel.get();
-		if (mobile > 0 && mobileTime >= time * maxFactor)
-			return InteractionResult.FAIL;
-		if (force > 0 && forceTime >= time * maxFactor)
+		boolean pass = arm > 0;
+		pass |= mobile > 0 && mobileTime < time * maxFactor;
+		pass |= force > 0 && forceTime < time * maxFactor;
+		if (!pass)
 			return InteractionResult.FAIL;
 		if (mobile > 0) golem.addEffect(new MobEffectInstance(CreateCompatRegistry.EFF_MOBILE.get(),
 				mobileTime + time, mobile - 1));
 		if (force > 0) golem.addEffect(new MobEffectInstance(CreateCompatRegistry.EFF_FORCE.get(),
 				forceTime + time, force - 1));
+		long last = golem.getPersistentData().getLong("MechEngineLastPoweredUp");
+		long next = Math.max(last, golem.level().getGameTime()) + time;
+		golem.getPersistentData().putLong("MechEngineLastPoweredUp", next);
 		if (!player.isCreative()) {
 			ItemStack remain = stack.getCraftingRemainingItem();
 			stack.shrink(1);

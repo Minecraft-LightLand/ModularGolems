@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -21,12 +22,17 @@ public class ArmPose implements GolemShoulderPose {
 
 	@Override
 	public void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
-		float time = entity.tickCount % 80 + pTick;
 		int s0 = hand == InteractionHand.MAIN_HAND ? 1 : -1;
 		var src = new Vec3(s0 * 7f / 16, 31f / 16, 0);
 		var def = ArmAngleTarget.NO_TARGET;
 		ArmState state;
-		if (time < 40) {
+		long last = stack.getOrCreateTag().getLong("FixAction");
+		float speed = Mth.clamp(stack.getOrCreateTag().getFloat("FixSpeed"), 0.25f, 4f);
+		long current = entity.level().getGameTime();
+		float time = ((current - last) + pTick) * speed;
+		if (last > current || time > 80) {
+			state = new ArmState(entity.level(), ItemStack.EMPTY, 0, def, def);
+		} else if (time < 40) {
 			float progress = 1 - Math.abs(time / 20 - 1);
 			var dst = new Vec3(0, 18 / 16f, 20 / 16f);
 			var target = new ArmAngleTarget(src, dst, Direction.SOUTH, false);

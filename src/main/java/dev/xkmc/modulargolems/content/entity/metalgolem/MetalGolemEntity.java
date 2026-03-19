@@ -56,6 +56,11 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	private static final EntityDataAccessor<ItemStack> RIGHT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
 	@SerialClass.SerialField(toClient = true)
+	private ItemStack leftShoulder = ItemStack.EMPTY;
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack rightShoulder = ItemStack.EMPTY;
+
+	@SerialClass.SerialField(toClient = true)
 	public final TargetingAnimState animState = new TargetingAnimState();
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
@@ -235,8 +240,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			return InteractionResult.PASS;
 		}
 		repairWithItem();
-		float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-		this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
 		if (!player.getAbilities().instabuild) {
 			itemstack.shrink(1);
 		}
@@ -266,6 +269,12 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		else {
 			var center = target.position().add(0, target.getBbHeight() / 2, 0);
 			entityData.set(TARGET, center.subtract(position()).toVector3f());
+		}
+		if (!ItemStack.matches(entityData.get(LEFT_SHOULDER), leftShoulder)) {
+			entityData.set(LEFT_SHOULDER, leftShoulder.copy());
+		}
+		if (!ItemStack.matches(entityData.get(RIGHT_SHOULDER), rightShoulder)) {
+			entityData.set(RIGHT_SHOULDER, rightShoulder.copy());
 		}
 	}
 
@@ -303,31 +312,29 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			list.add(right);
 	}
 
+	@Deprecated(forRemoval = true)
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
+		// Legacy
 		if (tag.contains("left_shoulder", Tag.TAG_COMPOUND)) {
-			entityData.set(LEFT_SHOULDER, ItemStack.of(tag.getCompound("left_shoulder")));
+			leftShoulder = ItemStack.of(tag.getCompound("left_shoulder"));
 		}
 		if (tag.contains("right_shoulder", Tag.TAG_COMPOUND)) {
-			entityData.set(RIGHT_SHOULDER, ItemStack.of(tag.getCompound("right_shoulder")));
+			rightShoulder = ItemStack.of(tag.getCompound("right_shoulder"));
 		}
-			}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		tag.put("left_shoulder", entityData.get(LEFT_SHOULDER).save(new CompoundTag()));
-		tag.put("right_shoulder", entityData.get(RIGHT_SHOULDER).save(new CompoundTag()));
-
 	}
 
 	public ItemWrapper getLeftShoulder() {
-		return ItemWrapper.simple(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e));
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e));
+		return ItemWrapper.simple(() -> leftShoulder, e -> leftShoulder = e);
 	}
 
 	public ItemWrapper getRightShoulder() {
-		return ItemWrapper.simple(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e));
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e));
+		return ItemWrapper.simple(() -> rightShoulder, e -> rightShoulder = e);
 	}
 
 }

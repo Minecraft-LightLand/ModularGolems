@@ -47,7 +47,11 @@
 			"bow_stiffness": "弓强度: %s",
 			"multi_shot": "一次射出至多%s支箭",
 			"bow_pierce": "箭穿透%s个实体",
-			"shoulder_weapon": "傀儡肩部武器",
+			"shoulder_weapon": "傀儡肩部装备",
+			"beacon_cannon": "发射信标激光造成魔法伤害",
+			"mechanical_arm": "使用材料自动修复傀儡。能被[蒸汽动力]技能加速",
+			"sonic_cannon": "发射三道音爆，造成深渊回响伤害",
+			"sonic_cannon_resonance": "在使用幽匿部件的傀儡上更强",
 			"target": {
 				"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
 				"remove": "蹲下右键移除最后一行",
@@ -135,7 +139,7 @@
 			"backup_info": "如果主手槽和副武器槽分别放置近战和远程武器，傀儡会根据目标的距离灵活切换武器战斗",
 			"main_desc": "可以放置任意物品",
 			"main_desc_metal": "可以放置傀儡武器",
-			"shoulder": "肩部武器槽"
+			"shoulder": "肩部装备槽"
 		},
 		"tracker": {
 			"alive": "存活",

@@ -3,14 +3,20 @@ package dev.xkmc.modulargolems.content.item.ranged;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.misc.BeaconLaserEntity;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscEntities;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class BeaconCannonItem extends ShouldWeaponItem {
 
@@ -67,4 +73,9 @@ public class BeaconCannonItem extends ShouldWeaponItem {
 		return 0;
 	}
 
+	@Override
+	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+		list.add(MGLangData.BEACON_CANNON.get());
+		super.appendHoverText(stack, level, list, flag);
+	}
 }

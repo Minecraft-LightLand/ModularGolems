@@ -5,12 +5,18 @@ import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SonicCannonItem extends GolemEquipmentItem implements IEntityModelWeapon {
 
@@ -49,4 +55,10 @@ public class SonicCannonItem extends GolemEquipmentItem implements IEntityModelW
 		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.SONIC_MAINHAND : GolemModelPaths.SONIC_OFFHAND;
 	}
 
+	@Override
+	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
+		list.add(MGLangData.SONIC_CANNON.get());
+		list.add(MGLangData.SONIC_CANNON_RESONANCE.get());
+		super.appendHoverText(stack, level, list, flag);
+	}
 }
