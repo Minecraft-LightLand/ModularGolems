@@ -96,7 +96,14 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		if (!(stack.getItem() instanceof IShoulderWeapon weapon)) return;
 		var id = weapon.getModelForHand(hand);
 		if (id == null) return;
-		GolemModelPath gmpath = GolemModelPath.get(id);
+		GolemModelPath gmpath = GolemModelPath.MAP.get(id);
+		if (gmpath == null) {
+			var sp = GolemShoulderPose.MAP.get(id);
+			if (sp != null) {
+				sp.render(entity, getParentModel(), stack, hand, pose, source, light, pTick);
+			}
+			return;
+		}
 		MetalGolemModel model = map.get(gmpath.models());
 		model.root().getAllParts().forEach(ModelPart::resetPose);
 		model.copyFrom(getParentModel());
@@ -114,7 +121,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		var sp = GolemShoulderPose.MAP.get(id);
 		if (sp != null) {
 			sp.setup(entity, model, stack, hand, pTick);
-			sp.render(entity, model, stack, hand, pose, source, pTick);
+			sp.render(entity, model, stack, hand, pose, source, light, pTick);
 		}
 		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getModelTexture(entity, stack, hand)));
 		renderModel(model, gmpath, pose, buffer, light);

@@ -46,6 +46,7 @@ public class CreateDispatch extends ModDispatch {
 	}
 
 	public CreateDispatch() {
+		super(() -> CreateClient::new);
 		CreateCompatRegistry.register();
 		MinecraftForge.EVENT_BUS.register(CreateRecipeEvents.class);
 		MinecraftForge.EVENT_BUS.register(CreateDispatch.class);

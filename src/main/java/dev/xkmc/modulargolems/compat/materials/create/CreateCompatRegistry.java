@@ -7,6 +7,7 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
+import dev.xkmc.modulargolems.compat.materials.create.arm.ArmAttachmentItem;
 import dev.xkmc.modulargolems.compat.materials.create.automation.DummyFurnace;
 import dev.xkmc.modulargolems.compat.materials.create.modifier.*;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -39,6 +40,7 @@ public class CreateCompatRegistry {
 
 	public static final ItemEntry<SimpleUpgradeItem> UP_COATING, UP_PUSH;
 	public static final ItemEntry<DummyFurnace> DUMMY;
+	public static final ItemEntry<ArmAttachmentItem> ARM;
 
 	public static final TagKey<Item> CARDBOARD = ItemTags.create(ModularGolems.loc("cardboard"));
 
@@ -62,6 +64,10 @@ public class CreateCompatRegistry {
 				.model((ctx, pvd) -> pvd.withExistingParent("item/" + ctx.getName(), "block/air"))
 				.removeTab(GolemItems.ITEMS.getKey())
 				.register();
+
+		ARM = ModularGolems.REGISTRATE.item("mechanical_arm", ArmAttachmentItem::new)
+				.model((ctx, pvd) -> pvd.generated(ctx, loc("item/equipments/" + ctx.getName())))
+				.register();
 	}
 
 	private static <T extends MobEffect> RegistryEntry<T> genEffect(String name, NonNullSupplier<T> sup, String desc) {
@@ -80,6 +86,10 @@ public class CreateCompatRegistry {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(TagGen.SKILL_EFFECT)
 					.addOptional(EFF_MOBILE.getId()).addOptional(EFF_FORCE.getId()));
 		}
+	}
+
+	public static ResourceLocation loc(String id) {
+		return new ResourceLocation("create", id);
 	}
 
 }
