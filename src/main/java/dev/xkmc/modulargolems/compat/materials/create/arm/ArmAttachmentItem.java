@@ -5,7 +5,9 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.ranged.ShouldWeaponItem;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -57,29 +59,31 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
 		if (e.level().isClientSide()) return;
 		var time = e.level().getGameTime();
-		long last = stack.getOrCreateTag().getLong("FixAction");
-		int takingItem = stack.getOrCreateTag().getInt("TakingItem");
-		var speed = Mth.clamp(stack.getOrCreateTag().getFloat("FixSpeed"), 0.25f, 4f);
+		var tag = stack.getOrCreateTag();
+		long last = tag.getLong("FixAction");
+		int takingItem = tag.getInt("TakingItem");
+		var speed = Mth.clamp(tag.getFloat("FixSpeed"), 0.25f, 4f);
 		if (last > time || last < time - (int) (100 / speed)) {
 			ItemStack other = hand == InteractionHand.MAIN_HAND ? e.getLeftShoulder().getItem() : e.getRightShoulder().getItem();
 			if (other.getItem() instanceof ArmAttachmentItem) {
-				long prev = stack.getOrCreateTag().getLong("FixAction");
+				long prev = tag.getLong("FixAction");
 				if (prev <= time && prev > time - 20) return;
 			}
 			if (e.getHealth() > e.getMaxHealth() * 0.75 && !e.isReforged()) return;
 			var take = fetch(e, true);
 			if (take.isEmpty()) return;
-			stack.getOrCreateTag().putLong("FixAction", time);
-			stack.getOrCreateTag().putInt("TakingItem", 2);
-			stack.getOrCreateTag().putFloat("FixSpeed", getSpeed(e));
+			tag.putLong("FixAction", time);
+			tag.putInt("TakingItem", 2);
+			tag.putFloat("FixSpeed", getSpeed(e));
+			tag.put("DisplayItem", take.save(new CompoundTag()));
 		} else {
 			if (takingItem == 2 && last >= time - (int) (40 / speed)) {
-				stack.getOrCreateTag().putInt("TakingItem", 1);
+				tag.putInt("TakingItem", 1);
 				if (e.getHealth() > e.getMaxHealth() * 0.75 && !e.isReforged())
-					stack.getOrCreateTag().putLong("FixAction", 0);
+					tag.putLong("FixAction", 0);
 			}
 			if (takingItem >= 1 && last >= time - (int) (60 / speed)) {
-				stack.getOrCreateTag().remove("TakingItem");
+				tag.remove("TakingItem");
 				if (e.getHealth() <= e.getMaxHealth() * 0.75 || e.isReforged()) {
 					var take = fetch(e, false);
 					if (!take.isEmpty()) {
@@ -91,16 +95,18 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 	}
 
 	public static float getSpeed(MetalGolemEntity e) {
-		float ans = 0.5f;
-		if (e.getModifiers().containsKey(CreateCompatRegistry.BODY.get()))
-			ans += 0.2f;
+		float ans = MGConfig.COMMON.mechanicalArmSpeed.get().floatValue();
 		if (e.getPersistentData().getLong("MechEngineLastPoweredUp") > e.level().getGameTime()) {
-			ans += 1f;
+			ans += MGConfig.COMMON.mechanicalArmPowerBonus.get().floatValue();
 		}
+		float bonus = 0;
+		if (e.getModifiers().containsKey(CreateCompatRegistry.BODY.get()))
+			bonus += 0.2f;
 		var mobile = e.getEffect(CreateCompatRegistry.EFF_MOBILE.get());
 		var force = e.getEffect(CreateCompatRegistry.EFF_FORCE.get());
-		if (mobile != null) ans += mobile.getAmplifier() * 0.2f;
-		if (force != null) ans += force.getAmplifier() * 0.1f;
+		if (mobile != null) bonus += mobile.getAmplifier() * 0.2f;
+		if (force != null) bonus += force.getAmplifier() * 0.1f;
+		ans += MGConfig.COMMON.mechanicalArmMiscBonusFactor.get().floatValue() * bonus;
 		return Mth.clamp(ans, 0.5f, 4f);
 	}
 

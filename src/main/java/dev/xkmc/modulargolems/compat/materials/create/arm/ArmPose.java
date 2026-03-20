@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.Tag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -28,10 +29,15 @@ public class ArmPose implements GolemShoulderPose {
 			var src = new Vec3(s0 * 7f / 16, 31f / 16, 0);
 			var def = ArmAngleTarget.NO_TARGET;
 			ArmState state;
-			long last = stack.getOrCreateTag().getLong("FixAction");
-			float speed = Mth.clamp(stack.getOrCreateTag().getFloat("FixSpeed"), 0.25f, 4f);
+			var tag = stack.getOrCreateTag();
+			long last = tag.getLong("FixAction");
+			float speed = Mth.clamp(tag.getFloat("FixSpeed"), 0.25f, 4f);
 			long current = entity.level().getGameTime();
 			float time = ((current - last) + pTick) * speed;
+			ItemStack repair = Items.IRON_INGOT.getDefaultInstance();
+			if (tag.contains("DisplayItem", Tag.TAG_COMPOUND)) {
+				repair = ItemStack.of(tag.getCompound("DisplayItem"));
+			}
 			if (last > current || time > 80) {
 				state = new ArmState(entity.level(), ItemStack.EMPTY, 0, def, def);
 			} else if (time < 40) {
@@ -42,7 +48,7 @@ public class ArmPose implements GolemShoulderPose {
 				var diff = ArmState.getShortestAngleDiff(def.baseAngle, target.baseAngle);
 				diff = diff > 0 ? diff - 360 : diff + 360;
 				target.baseAngle = def.baseAngle + diff;
-				ItemStack held = time > 20 ? Items.IRON_INGOT.getDefaultInstance() : ItemStack.EMPTY;
+				ItemStack held = time > 20 ? repair : ItemStack.EMPTY;
 				state = new ArmState(entity.level(), held, progress, def, target);
 			} else {
 				float progress = 1 - Math.abs((time - 40) / 20 - 1);
@@ -51,7 +57,7 @@ public class ArmPose implements GolemShoulderPose {
 				target.headAngle += 180;
 				var diff = ArmState.getShortestAngleDiff(def.baseAngle, target.baseAngle);
 				target.baseAngle = def.baseAngle + diff;
-				ItemStack held = time < 60 ? Items.IRON_INGOT.getDefaultInstance() : ItemStack.EMPTY;
+				ItemStack held = time < 60 ? repair : ItemStack.EMPTY;
 				state = new ArmState(entity.level(), held, progress, def, target);
 			}
 

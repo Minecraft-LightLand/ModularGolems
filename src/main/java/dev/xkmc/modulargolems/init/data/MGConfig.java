@@ -64,6 +64,9 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue beaconCannonDamageFactor;
 		public final ForgeConfigSpec.DoubleValue sonicCannonDamageFactor;
 		public final ForgeConfigSpec.DoubleValue sonicCannonResonanceBonus;
+		public final ForgeConfigSpec.DoubleValue mechanicalArmSpeed;
+		public final ForgeConfigSpec.DoubleValue mechanicalArmPowerBonus;
+		public final ForgeConfigSpec.DoubleValue mechanicalArmMiscBonusFactor;
 
 		public final ForgeConfigSpec.IntValue summonDistance;
 		public final ForgeConfigSpec.IntValue retrieveDistance;
@@ -248,6 +251,18 @@ public class MGConfig {
 							.defineInRange("mechAttack", 0.2, 0, 1);
 					mechMaxFuel = builder.comment("Maximum number of fuel item that can be added at the same time")
 							.defineInRange("mechMaxFuel", 3, 1, 364);
+					mechanicalArmSpeed = builder.comment("Mechanical Arm: default movement speed")
+							.comment("Animation at speed of 1 is 5 seconds. At speed of 0.5, it takes the arm 10 seconds to perform a fix.")
+							.defineInRange("mechanicalArmSpeed", 0.5, 0.1, 4);
+					mechanicalArmPowerBonus = builder.comment("Mechanical Arm: bonus speed when golem is fueled up")
+							.comment("At default speed of 0.5 and bonus of 1, golems fix itself 3 times faster when powered.")
+							.defineInRange("mechanicalArmPowerBonus", 1d, 0, 4);
+					mechanicalArmMiscBonusFactor = builder.comment("Mechanical Arm: bonus speed factor for other create golem effects")
+							.comment("- Mechanical Engine Modifier: +0.2, making Create golem fix itself faster than other golems even when unpowered.")
+							.comment("- Mechanical Mobility Effect: +0.2 per level, effectively another power bonus")
+							.comment("- Mechanical Force Effect: +0.1 per level, effectively another power bonus")
+							.comment("This config value puts a factor on above bonuses.")
+							.defineInRange("mechanicalArmMiscBonusFactor", 1d, 0, 10);
 				}
 				builder.pop();
 
