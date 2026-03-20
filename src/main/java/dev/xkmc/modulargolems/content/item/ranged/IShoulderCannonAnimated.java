@@ -14,7 +14,7 @@ public interface IShoulderCannonAnimated extends IShoulderWeapon {
 
 	@Override
 	default @Nullable ResourceLocation getAnimationId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		var model = getModelForHand(hand);
+		var model = getAnimBaseId(user, stack, hand);
 		if (model == null) return null;
 		int starting = user.animState.getStartingAnim();
 		int ending = user.animState.getEndingAnim();

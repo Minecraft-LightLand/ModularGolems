@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -89,10 +90,18 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		//TODO logic
+		list.add(MGLangData.FLAMETHROWER.get());
+		list.add(MGLangData.FLAMETHROWER_TNT.get());
+		list.add(MGLangData.FLAMETHROWER_FIRECHARGE.get());
+		list.add(MGLangData.FLAMETHROWER_FLAME.get());
 		list.add(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
 				.withStyle(ChatFormatting.UNDERLINE));
 		list.add(MGLangData.SHOULDER_WEAPON.get());
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment == Enchantments.INFINITY_ARROWS;
 	}
 
 	private static boolean supports(ItemStack stack) {
