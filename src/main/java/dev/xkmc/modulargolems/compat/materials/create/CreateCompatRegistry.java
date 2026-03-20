@@ -63,7 +63,7 @@ public class CreateCompatRegistry {
 
 		ARM = ModularGolems.REGISTRATE.item("mechanical_arm", ArmAttachmentItem::new)
 				.model((ctx, pvd) -> pvd.generated(ctx, loc("item/equipments/" + ctx.getName())))
-				.register();
+				.lang("Mechanic Repair Arm").register();
 	}
 
 	private static <T extends MobEffect> SimpleEntry<MobEffect> genEffect(String name, NonNullSupplier<T> sup, String desc) {
