@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "golemdungeons"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "minecraft:sculk_catalyst"
+    },
+    "D": {
+      "item": "minecraft:sculk_shrieker"
+    },
+    "I": {
+      "item": "golemdungeons:sculk_golem_scythe"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "III",
+    "BBD",
+    "TII"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:sonic_cannon"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "l2complements"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "l2complements:sonic_shooter"
+    },
+    "D": {
+      "item": "l2complements:resonant_feather"
+    },
+    "I": {
+      "item": "l2complements:warden_bone_shard"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "III",
+    "BDD",
+    "TII"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:sonic_cannon"
+  }
+}

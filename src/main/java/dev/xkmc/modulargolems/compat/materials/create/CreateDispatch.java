@@ -43,6 +43,7 @@ public class CreateDispatch extends ModDispatch {
 	}
 
 	public CreateDispatch() {
+		super(() -> CreateClient::new);
 		CreateCompatRegistry.register();
 		NeoForge.EVENT_BUS.register(CreateRecipeEvents.class);
 		NeoForge.EVENT_BUS.register(CreateDispatch.class);

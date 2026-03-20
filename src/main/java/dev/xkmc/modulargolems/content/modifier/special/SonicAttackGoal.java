@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier.special;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -36,6 +37,8 @@ public class SonicAttackGoal extends Goal {
 		LivingEntity livingentity = this.warden.getTarget();
 		if (targetPos != null && attackTime <= DELAY)
 			return true;
+		if (warden.getMainHandItem().getItem() instanceof SonicCannonItem)
+			return false;
 		return livingentity != null &&
 				livingentity.isAlive() &&
 				this.warden.canAttack(livingentity) &&

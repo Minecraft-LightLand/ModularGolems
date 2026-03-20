@@ -10,6 +10,7 @@ import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.DCReg;
 import dev.xkmc.l2core.init.reg.simple.DCVal;
 import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.l2core.util.DCStack;
 import dev.xkmc.l2menustacker.init.L2MSTagGen;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
@@ -31,6 +32,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.ranged.BeaconCannonItem;
 import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import dev.xkmc.modulargolems.content.item.ranged.MetalGolemMechaBowItem;
+import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -107,6 +109,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
 	public static final ItemEntry<MetalGolemBowItem> IRON_BOW;
 	public static final ItemEntry<MetalGolemMechaBowItem> NETHERITE_BOW;
+	public static final ItemEntry<SonicCannonItem> SONIC_CANNON;
 	public static final ItemEntry<BeaconCannonItem> BEACON_CANNON;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<HeavySpearItem> HEAVY_SPEAR;
@@ -136,6 +139,10 @@ public class GolemItems {
 	public static final DCVal<List<String>> DC_FILTER_NAME = DC.list("filter_name", Codec.STRING, ByteBufCodecs.STRING_UTF8, true);
 	public static final DCVal<List<EntityType<?>>> DC_FILTER_ENTITY = DC.list("filter_entity", Wrappers.cast(EntityType.class), true);
 	public static final DCVal<PathRecordCard.Pos> DC_PATH = DC.reg("path", PathRecordCard.Pos.class, true);
+	public static final DCVal<Integer> DC_CHARGE = DC.intVal("charge");
+	public static final DCVal<Long> DC_TIMESTAMP = DC.longVal("time_stamp");
+	public static final DCVal<Float> DC_USE_SPEED = DC.floatVal("use_speed");
+	public static final DCVal<DCStack> DC_DISPLAY_ITEM = DC.stack("display_item");
 
 	static {
 
@@ -276,6 +283,9 @@ public class GolemItems {
 			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemMechaBowItem(p, 30, 5))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.BOW_ENCHANTABLE)
+					.tag(MGTagGen.TOUGH_ITEM).register();
+			SONIC_CANNON = REGISTRATE.item("sonic_cannon", p -> new SonicCannonItem(p))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
 			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))

@@ -5,11 +5,15 @@ import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.ranged.ConnonPoseUtil;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGDamageTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
@@ -91,9 +95,10 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 			var pos = position();
 			var dst = lastTarget;
 			var list = getEntityHitResult(level(), e, pos, dst, e.getScale() * 0.2f);
-			var source = e.damageSources().indirectMagic(this, e);
+			var source = new DamageSource(level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(MGDamageTypes.BEACON), this, owner);
+			float dmg = (float) e.getAttributeValue(Attributes.ATTACK_DAMAGE) * MGConfig.COMMON.beaconCannonDamageFactor.get().floatValue();
 			for (var x : list) {
-				if (x.hurt(source, (float) e.getAttributeValue(Attributes.ATTACK_DAMAGE))) {
+				if (x.hurt(source, dmg)) {
 					hit.add(x);
 				}
 			}

@@ -72,7 +72,9 @@
 		"beacon_boots": "信标靴",
 		"iron_mecha_bow": "铁质机械弓",
 		"netherite_mecha_bow": "下界合金机械弓",
-		"beacon_cannon": "信标炮"
+		"beacon_cannon": "信标炮",
+		"sonic_cannon": "回响炮",
+		"mechanical_arm": "维修机械手"
 	},
 	"-cartesian": {
 		"golem": {

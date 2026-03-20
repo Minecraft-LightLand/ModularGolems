@@ -54,6 +54,12 @@ public class MGConfig {
 		public final ModConfigSpec.IntValue mendingXpCost;
 		public final ModConfigSpec.DoubleValue armorBypassChance;
 		public final ModConfigSpec.DoubleValue slicingDropUpgradeChance;
+		public final ModConfigSpec.DoubleValue beaconCannonDamageFactor;
+		public final ModConfigSpec.DoubleValue sonicCannonDamageFactor;
+		public final ModConfigSpec.DoubleValue sonicCannonResonanceBonus;
+		public final ModConfigSpec.DoubleValue mechanicalArmSpeed;
+		public final ModConfigSpec.DoubleValue mechanicalArmPowerBonus;
+		public final ModConfigSpec.DoubleValue mechanicalArmMiscBonusFactor;
 
 
 		public final ModConfigSpec.IntValue summonDistance;
@@ -128,6 +134,13 @@ public class MGConfig {
 						.defineInRange("targetResetNoMovementRange", 0.5, 0, 10);
 				slicingDropUpgradeChance = builder.text("Chance for each upgrade to drop when killed by Slicing Axe")
 						.defineInRange("slicingDropUpgradeChance", 0.5, 0, 1);
+				beaconCannonDamageFactor = builder.text("Damage of Beacon Cannon as percentage of golem melee damage")
+						.defineInRange("beaconCannonDamageFactor", 0.5, 0, 1);
+				sonicCannonDamageFactor = builder.text("Damage of Sonic Cannon as percentage of golem melee damage")
+						.defineInRange("sonicCannonDamageFactor", 0.25, 0, 1);
+				sonicCannonResonanceBonus = builder.text("Bonus damage of Sonic Cannon per sculk part, as percentage of golem melee damage")
+						.defineInRange("sonicCannonResonanceBonus", 0.1, 0, 1);
+
 
 				largeGolemSlot = builder.text("Default slots for large golem")
 						.defineInRange("largeGolemSlot", 4, 0, 100);
@@ -208,6 +221,18 @@ public class MGConfig {
 							.defineInRange("mechAttack", 0.2, 0, 1);
 					mechMaxFuel = builder.text("Maximum number of fuel item that can be added at the same time")
 							.defineInRange("mechMaxFuel", 3, 1, 364);
+					mechanicalArmSpeed = builder.text("Mechanical Arm: default movement speed")
+							.comment("Animation at speed of 1 is 5 seconds. At speed of 0.5, it takes the arm 10 seconds to perform a fix.")
+							.defineInRange("mechanicalArmSpeed", 0.5, 0.1, 4);
+					mechanicalArmPowerBonus = builder.text("Mechanical Arm: bonus speed when golem is fueled up")
+							.comment("At default speed of 0.5 and bonus of 1, golems fix itself 3 times faster when powered.")
+							.defineInRange("mechanicalArmPowerBonus", 1d, 0, 4);
+					mechanicalArmMiscBonusFactor = builder.text("Mechanical Arm: bonus speed factor for other create golem effects")
+							.comment("- Mechanical Engine Modifier: +0.2, making Create golem fix itself faster than other golems even when unpowered.")
+							.comment("- Mechanical Mobility Effect: +0.2 per level, effectively another power bonus")
+							.comment("- Mechanical Force Effect: +0.1 per level, effectively another power bonus")
+							.comment("This config value puts a factor on above bonuses.")
+							.defineInRange("mechanicalArmMiscBonusFactor", 1d, 0, 10);
 				}
 				builder.pop();
 

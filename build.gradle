@@ -179,6 +179,7 @@ dependencies {
 
     implementation "dev.xkmc:better_creative_tabs:0.1.0"
     implementation "dev.xkmc:more_wolf_armors:0.1.3"
+    implementation "dev.xkmc:golemdungeons:2.0.7-slim"
 
     implementation "mezz.jei:jei-${jei_minecraft_version}:${jei_version}"
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"

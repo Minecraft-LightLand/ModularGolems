@@ -8,6 +8,7 @@ import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.LCTagGen;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.modulargolems.compat.materials.create.arm.ArmAttachmentItem;
 import dev.xkmc.modulargolems.compat.materials.create.automation.DummyFurnace;
 import dev.xkmc.modulargolems.compat.materials.create.modifier.*;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -37,6 +38,7 @@ public class CreateCompatRegistry {
 
 	public static final ItemEntry<SimpleUpgradeItem> UP_COATING, UP_PUSH;
 	public static final ItemEntry<DummyFurnace> DUMMY;
+	public static final ItemEntry<ArmAttachmentItem> ARM;
 
 	static {
 		COATING = reg("coating", CoatingModifier::new, "Reduce damage taken by %s");
@@ -58,6 +60,10 @@ public class CreateCompatRegistry {
 				.model((ctx, pvd) -> pvd.withExistingParent("item/" + ctx.getName(), "block/air"))
 				.removeTab(GolemItems.ITEMS.key())
 				.register();
+
+		ARM = ModularGolems.REGISTRATE.item("mechanical_arm", ArmAttachmentItem::new)
+				.model((ctx, pvd) -> pvd.generated(ctx, loc("item/equipments/" + ctx.getName())))
+				.register();
 	}
 
 	private static <T extends MobEffect> SimpleEntry<MobEffect> genEffect(String name, NonNullSupplier<T> sup, String desc) {
@@ -75,6 +81,10 @@ public class CreateCompatRegistry {
 					.addOptional(EFF_MOBILE.val().getId())
 					.addOptional(EFF_FORCE.val().getId()));
 		}
+	}
+
+	public static ResourceLocation loc(String id) {
+		return ResourceLocation.fromNamespaceAndPath("create", id);
 	}
 
 }

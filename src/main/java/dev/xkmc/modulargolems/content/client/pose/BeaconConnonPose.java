@@ -30,7 +30,7 @@ public record BeaconConnonPose(String id, float x, float y, float z) implements 
 	}
 
 	@Override
-	public void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, float pTick) {
+	public void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
 	}
 
 

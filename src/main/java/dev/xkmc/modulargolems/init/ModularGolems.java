@@ -25,7 +25,6 @@ import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
-import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
@@ -150,6 +149,7 @@ public class ModularGolems {
 
 		var gen = event.getGenerator();
 		var pvd = event.getLookupProvider();
+		new MGDamageTypes(REGISTRATE).generate();
 		gen.addProvider(event.includeServer(), new MGConfigGen(gen, pvd));
 		CompatManager.gatherData(event);
 		gen.addProvider(event.includeServer(), new SlotGen(gen.getPackOutput(), event.getExistingFileHelper(), pvd));
