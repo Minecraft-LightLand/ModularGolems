@@ -251,7 +251,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	@Override
 	public double getMyRidingOffset() {
-		return -0.5;
+		return -getBbHeight() * 0.26 + 0.27;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
@@ -180,7 +181,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public double getMyRidingOffset() {
-		return -getBbHeight() * 0.18;
+		var skin = ClientSkinDispatch.get(this);
+		if (skin != null && skin.getClass().getName().contains("MaidSkin")) {
+			return -getBbHeight() * 0.005 + 0.25;
+		}
+		return -getBbHeight() * 0.34 + 0.25;
 	}
 
 	@Override
