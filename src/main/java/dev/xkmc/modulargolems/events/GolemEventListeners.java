@@ -3,11 +3,7 @@ package dev.xkmc.modulargolems.events;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.item.equipments.DogGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
-import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
-import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.events.event.GolemThrowableEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -58,12 +54,9 @@ public class GolemEventListeners {
 
 		// 大傀儡
 		if (golem instanceof MetalGolemEntity) {
-			if (stack.getItem() instanceof MetalGolemArmorItem mgai) {
-				event.setSlot(1, mgai.getSlot());
-			} else if (stack.getItem() instanceof MetalGolemWeaponItem ||
-					stack.getItem() instanceof MetalGolemBowItem ||
-					stack.getItem() instanceof SonicCannonItem ||
-					stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
+			if (stack.getItem() instanceof IGolemEquipmentItem item && item.isFor(golem.getType())) {
+				event.setSlot(1, item.getSlot());
+			} else if (stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
 				event.setSlot(1, EquipmentSlot.MAINHAND);
 			} else if (stack.getItem() instanceof BannerItem) {
 				event.setSlot(1, EquipmentSlot.HEAD, EquipmentSlot.FEET);
@@ -74,12 +67,12 @@ public class GolemEventListeners {
 
 		// 狗傀儡
 		if (golem instanceof DogGolemEntity) {
-			if (stack.getItem() instanceof BannerItem) {
+			if (stack.getItem() instanceof IGolemEquipmentItem item && item.isFor(golem.getType())) {
+				event.setSlot(1, item.getSlot());
+			} else if (stack.getItem() instanceof BannerItem) {
 				event.setSlot(1, EquipmentSlot.HEAD);
 			}
-			if (stack.getItem() instanceof DogGolemArmorItem mgai) {
-				event.setSlot(1, EquipmentSlot.CHEST);
-			}
+
 		}
 	}
 

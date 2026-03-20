@@ -66,7 +66,7 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 		if (last > time || last < time - (int) (100 / speed)) {
 			ItemStack other = hand == InteractionHand.MAIN_HAND ? e.getLeftShoulder().getItem() : e.getRightShoulder().getItem();
 			if (other.getItem() instanceof ArmAttachmentItem) {
-				long prev = tag.getLong("FixAction");
+				long prev = other.getOrCreateTag().getLong("FixAction");
 				if (prev <= time && prev > time - 20) return;
 			}
 			if (e.getHealth() > e.getMaxHealth() * 0.75 && !e.isReforged()) return;
