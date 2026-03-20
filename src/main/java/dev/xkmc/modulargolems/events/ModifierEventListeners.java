@@ -12,9 +12,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
@@ -91,6 +93,21 @@ public class ModifierEventListeners {
 
 	@SubscribeEvent
 	public static void onExplosion(ExplosionEvent.Detonate event) {
+		var direct = event.getExplosion().getDirectSourceEntity();
+		var owner = event.getExplosion().getIndirectSourceEntity();
+		if (direct != null && (owner instanceof AbstractGolemEntity<?, ?> golem)) {
+			if (!golem.isHostile()) event.getAffectedBlocks().clear();
+			event.getAffectedEntities().removeIf(e -> {
+				if (e instanceof ItemEntity) return true;
+				if (e instanceof LivingEntity le) {
+					if (!golem.canAttack(le)) return true;
+				}
+				if (e instanceof TraceableEntity proj) {
+					return proj.getOwner() == golem;
+				}
+				return false;
+			});
+		}
 		for (var e : event.getAffectedEntities()) {
 			// 如果有傀儡实体
 			if (e instanceof AbstractGolemEntity<?, ?> golem) {
