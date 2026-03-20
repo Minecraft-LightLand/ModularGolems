@@ -230,10 +230,10 @@ public class GolemItems {
 			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemMechaBowItem(p, 30, 5))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
-			SONIC_CANNON = REGISTRATE.item("sonic_cannon", p -> new SonicCannonItem(p))
+			SONIC_CANNON = REGISTRATE.item("sonic_cannon", p -> new SonicCannonItem(p.stacksTo(1)))
 				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 				.tag(MGTagGen.TOUGH_ITEM).register();
-			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p))
+			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
 		}
