@@ -22,9 +22,11 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -176,6 +178,14 @@ public class ModifierEventListeners {
 				event.setCanceled(true);
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public static void onMobGrief(EntityMobGriefingEvent event) {
+		var e = event.getEntity();
+		if (e instanceof TraceableEntity te) e = te.getOwner();
+		if (e instanceof AbstractGolemEntity<?, ?> golem && !golem.isHostile())
+			event.setResult(Event.Result.DENY);
 	}
 
 }
