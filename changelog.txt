@@ -1,3 +1,54 @@
+2.6.31
+- Add config for Beacon Cannon Damage
+- Add Sonic Cannon
+- Add Mechanic Repair Arm as Shoulder Equipment for repairing metal golem
+
+2.6.30
+- Fix disassembly menu dupe
+- Fix multi-target attacking skills and bows attacking entities not as a valid target
+- Fix pickup upgrade not teleporting exp orbs when mob haven't hit golem once
+- Make endgame armors not destroyable with fire, explosion, or cactus
+- Allow metal golem to use backup hand and arrow slot
+- Add beacon cannon
+
+2.6.29
+- Metal Golem Bows
+- Fix equipment screen golem preview
+- Golem properly rotates now when standing still
+
+2.6.28
+- Golem heals in ender/dimensional backpacks in L2Backpack
+- Casting / Recycle recipes for windspirit boots
+- Deployer apply dog armor for dog golems
+- Improve ironwood armor models
+
+2.6.27
+- Fix golems with jump attack not approaching target
+- Fix reflective trait descriptions
+
+2.6.26
+- Fix upgrade screen crash when inserting upgrade without golem
+
+2.6.25
+- Fix golem dungeon weapon modifiers not applied
+
+2.6.24
+- Nerf Thorn Modifier
+
+2.6.23
+- Fix dog golem equipment preview
+- Fix golem attribute not reset after taking down upgrade
+- Fix dog armor translation
+
+2.6.22
+- Add dog golem armor
+- buff dog golem
+- fix dog golem moving while sitting down
+
+2.6.21
+- Add Twilight Forest Golem Armor and Weapons
+- Buff diamond golem boots
+
 2.6.20
 - Add Golem Workbench
 - Add Apotheosis reforge support for Large Golem Equipments

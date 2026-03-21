@@ -7,6 +7,7 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -103,6 +104,18 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity>
 			this.leftFrontLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
 			this.rightFrontLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
 		}
+	}
+
+	public void copyFrom(DogGolemModel other) {
+		root.copyFrom(other.root);
+		head.copyFrom(other.head);
+		body.copyFrom(other.body);
+		rightHindLeg.copyFrom(other.rightHindLeg);
+		leftHindLeg.copyFrom(other.leftHindLeg);
+		rightFrontLeg.copyFrom(other.rightFrontLeg);
+		leftFrontLeg.copyFrom(other.leftFrontLeg);
+		tail.copyFrom(other.tail);
+		upperBody.copyFrom(other.upperBody);
 	}
 
 	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {

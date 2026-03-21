@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "key": {
+    "I": {
+      "item": "twilightforest:fiery_ingot"
+    },
+    "S": {
+      "item": "minecraft:blaze_rod"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "III",
+    "IS ",
+    "TST"
+  ],
+  "result": {
+    "item": "modulargolems:fiery_golem_axe"
+  },
+  "show_notification": true
+}

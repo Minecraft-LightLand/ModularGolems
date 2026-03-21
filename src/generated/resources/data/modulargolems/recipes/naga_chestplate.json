@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "B": {
+      "item": "twilightforest:naga_scale"
+    },
+    "I": {
+      "item": "twilightforest:naga_chestplate"
+    }
+  },
+  "pattern": [
+    "BAB",
+    "BIB",
+    "BBB"
+  ],
+  "result": {
+    "item": "modulargolems:naga_chestplate"
+  },
+  "show_notification": true
+}

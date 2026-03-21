@@ -39,7 +39,7 @@ public class TeleportToOwnerGoal extends Goal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
+		if (!this.golem.isMovable())
 			return false;
 		if (this.golem.isLeashed()) {
 			return false;

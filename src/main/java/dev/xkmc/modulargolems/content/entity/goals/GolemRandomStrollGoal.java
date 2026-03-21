@@ -18,7 +18,7 @@ public class GolemRandomStrollGoal extends RandomStrollGoal {
 
 	@Override
 	public boolean canUse() {
-		return golem.getMode().couldRandomStroll() && super.canUse();
+		return golem.getMode().couldRandomStroll() && golem.isMovable() && super.canUse();
 	}
 
 	@Override

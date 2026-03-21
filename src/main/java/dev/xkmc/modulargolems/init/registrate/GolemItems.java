@@ -22,6 +22,10 @@ import dev.xkmc.modulargolems.content.item.equipments.*;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.ranged.BeaconCannonItem;
+import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
+import dev.xkmc.modulargolems.content.item.ranged.MetalGolemMechaBowItem;
+import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.*;
@@ -33,10 +37,7 @@ import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.model.generators.ModelFile;
 
@@ -86,6 +87,10 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> WINDSPIRIT_BOOTS;
 	public static final ItemEntry<NetheriteBootItem> BARBARICFLAMEVANGUARD_BOOTS;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
+	public static final ItemEntry<MetalGolemBowItem> IRON_BOW;
+	public static final ItemEntry<MetalGolemMechaBowItem> NETHERITE_BOW;
+	public static final ItemEntry<SonicCannonItem> SONIC_CANNON;
+	public static final ItemEntry<BeaconCannonItem> BEACON_CANNON;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
 	public static final ItemEntry<ConfigCard>[] CARD;
@@ -96,6 +101,8 @@ public class GolemItems {
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
 	public static final ItemEntry<GolemFacade> FACADE;
 	public static final ItemEntry<AddSlotTemplate> ADD_DIAMOND, ADD_NETHERITE;
+
+	public static final ItemEntry<DogGolemArmorItem> DOG_ARMOR_IRON, DOG_ARMOR_GOLD, DOG_ARMOR_DIAMOND, DOG_ARMOR_NETHERITE;
 
 	static {
 
@@ -178,37 +185,57 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 			WINDSPIRIT_BOOTS = REGISTRATE.item("wind_spirit_boots", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.BOOTS, 3, 2, GolemModelPaths.BOOTS_DIAMOND))
+							ArmorItem.Type.BOOTS, 6, 6, GolemModelPaths.BOOTS_DIAMOND))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.defaultLang().register();
 
 			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaric_vanguard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_BOOTS = REGISTRATE.item("barbaric_vanguard_boots", p -> new NetheriteBootItem(p.stacksTo(1).fireResistant(),
 							ArmorItem.Type.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-					.defaultLang().register();
+					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 
 			BEACON_BOOTS = REGISTRATE.item("beacon_boots",
 							p -> new MetalGolemBeaconItem(p.stacksTo(1), 4, 4, GolemModelPaths.BOOTS_BEACON))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/beacon_boots")))
-					.register();
+					.tag(MGTagGen.TOUGH_ITEM).register();
+
+			DOG_ARMOR_IRON = regDogArmor("iron", ArmorMaterials.IRON, 16, 0).register();
+			DOG_ARMOR_GOLD = regDogArmor("gold", ArmorMaterials.GOLD, 12, 0).register();
+			DOG_ARMOR_DIAMOND = regDogArmor("diamond", ArmorMaterials.DIAMOND, 20, 8).register();
+			DOG_ARMOR_NETHERITE = regDogArmor("netherite", ArmorMaterials.NETHERITE, 20, 12)
+					.properties(p -> p.fireResistant().rarity(Rarity.EPIC))
+					.tag(MGTagGen.TOUGH_ITEM).register();
+
 		}
 
 		//metalgolem weapon
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
 			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
+			IRON_BOW = REGISTRATE.item("iron_mecha_bow", p -> new MetalGolemBowItem(p, 15, 0))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.register();
+			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemMechaBowItem(p, 30, 5))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(MGTagGen.TOUGH_ITEM).register();
+			SONIC_CANNON = REGISTRATE.item("sonic_cannon", p -> new SonicCannonItem(p.stacksTo(1)))
+				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+				.tag(MGTagGen.TOUGH_ITEM).register();
+			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p.stacksTo(1)))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(MGTagGen.TOUGH_ITEM).register();
 		}
 
 		// cards
@@ -388,6 +415,15 @@ public class GolemItems {
 		HOSTILE_WAND = REGISTRATE.item("hostile_wand", p -> new HostileWandItem(p.stacksTo(1)))
 				.model((ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 
+	}
+
+	private static ItemBuilder<DogGolemArmorItem, L2Registrate> regDogArmor(String id, ArmorMaterial mat, int def, int tough) {
+		return ModularGolems.REGISTRATE.item(id + "_dog_golem_armor", p -> new DogGolemArmorItem(
+						p.stacksTo(1), mat, def, tough))
+				.model((ctx, pvd) -> pvd.generated(ctx,
+						pvd.modLoc("item/dog_armor/" + id + "_collar"),
+						pvd.modLoc("item/dog_armor/" + id + "_wolf_armor")))
+				.color(() -> () -> (s, i) -> i == 0 ? ((DogGolemArmorItem) s.getItem()).getColor(s) : -1);
 	}
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<RegistryEntry<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {

@@ -3,13 +3,16 @@ package dev.xkmc.modulargolems.compat.materials.common;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.l2backpack.init.L2Backpack;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
+import dev.xkmc.modulargolems.compat.backpack.L2BCompat;
 import dev.xkmc.modulargolems.compat.maid.MaidRegistry;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.ACDispatch;
 import dev.xkmc.modulargolems.compat.materials.allthemodium.ATMDispatch;
 import dev.xkmc.modulargolems.compat.materials.blazegear.BGDispatch;
 import dev.xkmc.modulargolems.compat.materials.botania.BotDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
+import dev.xkmc.modulargolems.compat.materials.compositematerial.CMDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.GoetyDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.revelation.GRDispatch;
@@ -20,7 +23,6 @@ import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMDispatch;
 import dev.xkmc.modulargolems.compat.materials.mowziesmobs.MowzieDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
-import dev.xkmc.modulargolems.compat.materials.compositematerial.CMDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -29,8 +31,7 @@ import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import ewewukek.musketmod.MusketMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.ModList;
 import plus.dragons.createenchantmentindustry.EnchantmentIndustry;
@@ -63,6 +64,8 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
         if (ModList.get().isLoaded(CMDispatch.MODID)) LIST.add(new CMDispatch());
+		if (ModList.get().isLoaded(L2Backpack.MODID))
+			MinecraftForge.EVENT_BUS.register(L2BCompat.class);
 	}
 
 	public static void commonSetup() {

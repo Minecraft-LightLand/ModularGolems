@@ -1,0 +1,24 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:fiery_chestplate"
+    }
+  ],
+  "results": [
+    {
+      "count": 40,
+      "item": "twilightforest:fiery_ingot"
+    }
+  ]
+}

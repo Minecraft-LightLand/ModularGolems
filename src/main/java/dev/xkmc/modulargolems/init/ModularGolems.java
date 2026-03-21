@@ -26,10 +26,7 @@ import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
-import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
-import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import dev.xkmc.modulargolems.init.registrate.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -79,6 +76,7 @@ public class ModularGolems {
 		GolemItems.register();
 		GolemTypes.register();
 		GolemMiscs.register();
+		GolemMiscEntities.register();
 		GolemModifiers.register();
 		MGConfig.init();
 		GolemTriggers.register();
@@ -119,6 +117,11 @@ public class ModularGolems {
 		REGISTRATE.addDataGenerator(ProviderType.ADVANCEMENT, MGAdvGen::genAdvancements);
 
 		var gen = event.getGenerator();
+		var server = event.includeServer();
+		var pvd = event.getLookupProvider();
+		var out = gen.getPackOutput();
+		var helper = event.getExistingFileHelper();
+		new MGDamageTypes(out, pvd, helper).generate(server, gen);
 		gen.addProvider(event.includeServer(), new MGConfigGen(gen));
 		CompatManager.gatherData(event);
 		gen.addProvider(event.includeServer(), new SlotGen(gen));

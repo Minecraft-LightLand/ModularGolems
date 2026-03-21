@@ -27,28 +27,14 @@ public class IgnisArmors {
 						List.of("head", "head1", "left_helmet"),
 						List.of("head", "head1", "head_plate"),
 						List.of("head", "head1", "right_horn"),
-						List.of("head", "head1", "right_horn", "right_horn2"),
-						List.of("head", "head1", "right_horn", "right_horn2", "right_horn3"),
-						List.of("head", "head1", "left_horn"),
-						List.of("head", "head1", "left_horn", "left_horn2"),
-						List.of("head", "head1", "left_horn", "left_horn2", "left_horn3")
+						List.of("head", "head1", "left_horn")
 				)));
 
 		GolemModelPath.register(IGNIS_CHESTPLATES,
 				new GolemModelPath(CHESTPLATE_LAYER, List.of(
 						List.of("body", "body1"),
-						List.of("body", "body1", "cube_r1"),
-						List.of("body", "body1", "cube_r2"),
-
 						List.of("right_arm", "body2"),
-						List.of("right_arm", "body2", "cube_r3"),
-						List.of("right_arm", "body2", "cube_r4"),
-						List.of("right_arm", "body2", "cube_r5"),
-
-						List.of("left_arm", "body3"),
-						List.of("left_arm", "body3", "cube_r6"),
-						List.of("left_arm", "body3", "cube_r7"),
-						List.of("left_arm", "body3", "cube_r8")
+						List.of("left_arm", "body3")
 				)));
 
 		GolemModelPath.register(IGNIS_LEGGINGS,

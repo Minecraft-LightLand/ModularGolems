@@ -277,9 +277,9 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:retro-damage-indicators-1003431:5268035")
 
     compileOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
-    compileOnly fg.deobf("curse.maven:uranus-1010827:6095271")
-    compileOnly fg.deobf("curse.maven:jupiter-1072905:5881564")
-    compileOnly fg.deobf("com.iafenvoy:iceandfire:1.0-1.20.1-forge")
+    compileOnly fg.deobf("curse.maven:uranus-1010827:6914449")
+    compileOnly fg.deobf("curse.maven:jupiter-1072905:7592838")
+    compileOnly fg.deobf("curse.maven:iceandfire-ce-1040076:7545797")
 
     implementation fg.deobf("curse.maven:mowzies-mobs-250498:6224182")
     implementation fg.deobf("curse.maven:ato-405593:5348605")

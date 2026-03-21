@@ -149,6 +149,19 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 		return super.clickMenuButton(player, id);
 	}
 
+	@Override
+	public ItemStack quickMoveStack(Player pl, int id) {
+		var slot = this.slots.get(id);
+		ItemStack stack = slot.getItem();
+		if (slot instanceof ResultSlot result) {
+			if (moveItemStackTo(stack, 0, 36, true)) {
+				result.onTake(pl, stack);
+			}
+			return ItemStack.EMPTY;
+		}
+		return super.quickMoveStack(pl, id);
+	}
+
 	public class MainSlot extends PredSlot {
 
 		public List<ItemStack> dropList = new ArrayList<>();
@@ -206,6 +219,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			super(new SimpleContainer(1), 0, x, y, e -> false);
 			result = this;
 		}
+
 
 		@Override
 		public void onTake(Player player, ItemStack stack) {

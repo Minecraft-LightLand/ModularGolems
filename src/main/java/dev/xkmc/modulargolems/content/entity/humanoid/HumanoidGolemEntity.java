@@ -51,46 +51,14 @@ import java.util.function.Predicate;
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> implements CrossbowAttackMob {
 
-	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<ItemStack> BACKUP_SLOT = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.ITEM_STACK);
-	private static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.ITEM_STACK);
-
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
-	@SerialClass.SerialField
-	private ItemStack backupHand = ItemStack.EMPTY;
-	@SerialClass.SerialField
-	private ItemStack arrowSlot = ItemStack.EMPTY;
-
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
 		if (!this.level().isClientSide) {
 			this.groundNavigation.setCanOpenDoors(true);
 		}
-	}
-
-	public ItemStack getProjectile(ItemStack pShootable) {
-		ItemStack ans;
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
-			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
-				stack = arrowSlot;
-			}
-			ans = ForgeHooks.getProjectile(this, pShootable, stack);
-		} else {
-			ans = ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
-		}
-		if (isHostile()) ans = ans.copy();
-		return ans;
-	}
-
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(IS_CHARGING_CROSSBOW, false);
-		this.entityData.define(BACKUP_SLOT, ItemStack.EMPTY);
-		this.entityData.define(ARROW_SLOT, ItemStack.EMPTY);
 	}
 
 	public InteractionHand getWeaponHand() {
@@ -304,96 +272,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void tick() {
 		super.tick();
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
-	}
-
-	@Override
-	protected void customServerAiStep() {
-		super.customServerAiStep();
-		if (!ItemStack.matches(entityData.get(BACKUP_SLOT), backupHand)) {
-			entityData.set(BACKUP_SLOT, backupHand.copy());
-		}
-		if (!ItemStack.matches(entityData.get(ARROW_SLOT), arrowSlot)) {
-			entityData.set(ARROW_SLOT, arrowSlot.copy());
-		}
-	}
-
-	// weapon switch
-
-	@Override
-	protected ItemWrapper getAltWeaponHand() {
-		return !backupHand.isEmpty() ? getBackupHand() :
-				getWrapperOfHand(EquipmentSlot.OFFHAND);
-	}
-
-	public ItemWrapper getBackupHand() {
-		return ItemWrapper.simple(() -> this.backupHand, e -> this.backupHand = e);
-	}
-
-	public ItemWrapper getArrowSlot() {
-		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
-	}
-
-	// bow and crossbow
-
-	public boolean isChargingCrossbow() {
-		return this.entityData.get(IS_CHARGING_CROSSBOW);
-	}
-
-	public void setChargingCrossbow(boolean pIsCharging) {
-		this.entityData.set(IS_CHARGING_CROSSBOW, pIsCharging);
-	}
-
-	@Override
-	public void onCrossbowAttackPerformed() {
-		noActionTime = 0;
-	}
-
-	@Override
-	public void shootCrossbowProjectile(LivingEntity target, ItemStack stack, Projectile e, float a) {
-		shootCrossbowProjectile(this, target, e, a, 3);
-	}
-
-	public void shootCrossbowProjectile(LivingEntity user, LivingEntity target, Projectile e, float a, float v) {
-		ShootUtils.getShootVector(target, e.position(), v, 0.05f, 0).shoot(e, a);
-		user.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (user.getRandom().nextFloat() * 0.4F + 0.8F));
-	}
-
-	public void performCrossbowAttack(LivingEntity pUser, float pVelocity) {
-		InteractionHand interactionhand = ProjectileUtil.getWeaponHoldingHand(pUser, item -> item instanceof CrossbowItem);
-		ItemStack itemstack = pUser.getItemInHand(interactionhand);
-		if (pUser.isHolding(is -> is.getItem() instanceof CrossbowItem)) {
-			CrossbowItem.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0);
-		}
-		onCrossbowAttackPerformed();
-	}
-
-	// extra drops
-
-	@Override
-	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
-		super.dropCustomDeathLoot(source, i, b);
-		if (!arrowSlot.isEmpty())
-			spawnAtLocation(arrowSlot);
-		if (!backupHand.isEmpty())
-			spawnAtLocation(backupHand);
-	}
-
-	@Override
-	protected List<IItemHandlerModifiable> aggregateInventories() {
-		var ans = new ArrayList<IItemHandlerModifiable>();
-		ans.add(new EntityHandsInvWrapper(this));
-		ans.add(new EntityArmorInvWrapper(this));
-		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
-		ans.add(new SlotWrapper(() -> backupHand, e -> backupHand = e));
-		MinecraftForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
-		return ans;
-	}
-
-	@Override
-	public void addItemsToList(List<ItemStack> list) {
-		super.addItemsToList(list);
-		if (!backupHand.isEmpty()) list.add(backupHand);
-		if (!arrowSlot.isEmpty()) list.add(arrowSlot);
 	}
 
 }

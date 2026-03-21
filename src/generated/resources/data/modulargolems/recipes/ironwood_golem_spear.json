@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "key": {
+    "I": {
+      "item": "twilightforest:ironwood_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "TII",
+    " SI",
+    "S T"
+  ],
+  "result": {
+    "item": "modulargolems:ironwood_golem_spear"
+  },
+  "show_notification": true
+}

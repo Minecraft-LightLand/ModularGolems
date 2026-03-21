@@ -15,4 +15,16 @@ public class GolemModelPaths {
 			BOOTS_BEACON = ModularGolems.loc("beacon_boots"),
 			BOOTS_NETHERITE = ModularGolems.loc("barbaric_vanguard_boots");
 
+	public static final ResourceLocation
+			BOW_MAINHAND = ModularGolems.loc("bow_mainhand"),
+			BOW_OFFHAND = ModularGolems.loc("bow_offhand");
+
+	public static final ResourceLocation
+			BEACON_RIGHT = ModularGolems.loc("beacon_right"),
+			BEACON_LEFT = ModularGolems.loc("beacon_left");
+
+	public static final ResourceLocation
+			SONIC_MAINHAND = ModularGolems.loc("sonic_mainhand"),
+			SONIC_OFFHAND = ModularGolems.loc("sonic_offhand");
+
 }

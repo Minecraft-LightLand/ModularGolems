@@ -1,17 +1,25 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
+import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -26,7 +34,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -36,16 +43,36 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import org.joml.Vector3f;
 
-import java.util.function.Predicate;
+import java.util.List;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 
+	private static final EntityDataAccessor<Vector3f> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.VECTOR3);
+	private static final EntityDataAccessor<ItemStack> LEFT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<ItemStack> RIGHT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack leftShoulder = ItemStack.EMPTY;
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack rightShoulder = ItemStack.EMPTY;
+
+	@SerialClass.SerialField(toClient = true)
+	public final TargetingAnimState animState = new TargetingAnimState();
+
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.LARGE, type, level);
 		this.setMaxUpStep(1);
+	}
+
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		entityData.define(TARGET, new Vector3f(0, 0, 0));
+		entityData.define(LEFT_SHOULDER, ItemStack.EMPTY);
+		entityData.define(RIGHT_SHOULDER, ItemStack.EMPTY);
 	}
 
 	protected AABB getAttackBoundingBox(Entity target, double range) {
@@ -91,30 +118,20 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return succeed;
 	}
 
-
-	public ItemStack getProjectile(ItemStack pShootable) {
-		ItemStack ans;
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
-			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-			ans = ForgeHooks.getProjectile(this, pShootable, stack);
-		} else {
-			ans = ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
-		}
-		if (isHostile()) ans = ans.copy();
-		return ans;
-	}
-
 	// ------ vanilla golem behavior
 
 	private int attackAnimationTick;
 
-	protected void registerGoals() {
-		super.registerGoals();
-	}
-
 	public void aiStep() {
 		super.aiStep();
+		animState.tick(this);
+		var right = getRightShoulder().getItem();
+		if (!right.isEmpty() && right.getItem() instanceof IShoulderWeapon weapon)
+			weapon.onTick(this, right, InteractionHand.MAIN_HAND);
+		var left = getLeftShoulder().getItem();
+		if (!left.isEmpty() && left.getItem() instanceof IShoulderWeapon weapon)
+			weapon.onTick(this, left, InteractionHand.OFF_HAND);
+
 		if (this.attackAnimationTick > 0) {
 			--this.attackAnimationTick;
 		}
@@ -223,8 +240,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			return InteractionResult.PASS;
 		}
 		repairWithItem();
-		float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-		this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
 		if (!player.getAbilities().instabuild) {
 			itemstack.shrink(1);
 		}
@@ -244,6 +259,82 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (target instanceof DogGolemEntity dog && dog.getBbWidth() > getBbWidth()) {
 			startRiding(target);
 		}
+	}
+
+	@Override
+	protected void customServerAiStep() {
+		super.customServerAiStep();
+		var target = getTarget();
+		if (target == null) entityData.set(TARGET, new Vector3f(0, 0, 0));
+		else {
+			var center = target.position().add(0, target.getBbHeight() / 2, 0);
+			entityData.set(TARGET, center.subtract(position()).toVector3f());
+		}
+		if (!ItemStack.matches(entityData.get(LEFT_SHOULDER), leftShoulder)) {
+			entityData.set(LEFT_SHOULDER, leftShoulder.copy());
+		}
+		if (!ItemStack.matches(entityData.get(RIGHT_SHOULDER), rightShoulder)) {
+			entityData.set(RIGHT_SHOULDER, rightShoulder.copy());
+		}
+	}
+
+	public Vec3 getTargetAimPos() {
+		return new Vec3(entityData.get(TARGET));
+	}
+
+	@Override
+	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
+		super.dropCustomDeathLoot(source, i, b);
+		var left = entityData.get(LEFT_SHOULDER);
+		if (!left.isEmpty())
+			spawnAtLocation(left);
+		var right = entityData.get(RIGHT_SHOULDER);
+		if (!right.isEmpty())
+			spawnAtLocation(right);
+	}
+
+	@Override
+	protected List<IItemHandlerModifiable> aggregateInventories() {
+		var ans = super.aggregateInventories();
+		ans.add(new SlotWrapper(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e)));
+		ans.add(new SlotWrapper(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e)));
+		return ans;
+	}
+
+	@Override
+	public void addItemsToList(List<ItemStack> list) {
+		super.addItemsToList(list);
+		var left = entityData.get(LEFT_SHOULDER);
+		if (!left.isEmpty())
+			list.add(left);
+		var right = entityData.get(RIGHT_SHOULDER);
+		if (!right.isEmpty())
+			list.add(right);
+	}
+
+	@Deprecated(forRemoval = true)
+	@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		// Legacy
+		if (tag.contains("left_shoulder", Tag.TAG_COMPOUND)) {
+			leftShoulder = ItemStack.of(tag.getCompound("left_shoulder"));
+		}
+		if (tag.contains("right_shoulder", Tag.TAG_COMPOUND)) {
+			rightShoulder = ItemStack.of(tag.getCompound("right_shoulder"));
+		}
+	}
+
+	public ItemWrapper getLeftShoulder() {
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e));
+		return ItemWrapper.simple(() -> leftShoulder, e -> leftShoulder = e);
+	}
+
+	public ItemWrapper getRightShoulder() {
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e));
+		return ItemWrapper.simple(() -> rightShoulder, e -> rightShoulder = e);
 	}
 
 }

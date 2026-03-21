@@ -21,21 +21,13 @@ public class GolemBoots {
 		GolemModelPath.register(BOOTS_DIAMOND,
 				new GolemModelPath(DIAMOND_BOOTS_LAYER, List.of(
 						List.of("right_leg", "boots1"),
-						List.of("right_leg", "boots1", "boots2"),
-						List.of("right_leg", "boots1", "boots3"),
-						List.of("right_leg", "boots1", "boots4"),
-						List.of("left_leg", "boots5"),
-						List.of("left_leg", "boots5", "boots6"),
-						List.of("left_leg", "boots5", "boots7"),
-						List.of("left_leg", "boots5", "boots8")
+						List.of("left_leg", "boots5")
 				)));
 
 		GolemModelPath.register(BOOTS_NETHERITE,
 				new GolemModelPath(NETHERITE_BOOTS_LAYER, List.of(
 						List.of("right_leg", "boots1"),
-						List.of("right_leg", "boots1", "boots2"),
-						List.of("left_leg", "boots3"),
-						List.of("left_leg", "boots3", "boots4")
+						List.of("left_leg", "boots3")
 				)));
 
 		GolemModelPath.register(BOOTS_BEACON,

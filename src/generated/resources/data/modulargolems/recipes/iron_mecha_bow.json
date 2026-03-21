@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "C": {
+      "item": "minecraft:chain"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "CII",
+    "BCI",
+    "IBC"
+  ],
+  "result": {
+    "item": "modulargolems:iron_mecha_bow"
+  },
+  "show_notification": true
+}

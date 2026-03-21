@@ -22,8 +22,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -60,9 +58,41 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return List.of(Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.GREEN));
 	}
 
-	public void onGolemSpawn(AbstractGolemEntity<?, ?> entity, int level) {
+	public boolean canExistOn(GolemPart<?, ?> part) {
+		// 通过 GolemPartConfig 获取配置，并判断该零件是否允许当前修饰符类型
+		return GolemPartConfig.get().getFilter(part).getOrDefault(type, 0d) > 0;
+	}
+
+	public boolean fitsOn(GolemType<?, ?> type) {
+		return true;
+	}
+
+	// dynamic methods
+
+	/**
+	 * fires when this golem is attacked. Damage taking phase
+	 */
+	public void onDamaged(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
 
 	}
+
+	public void onDamageMax(AttackCache cache, AbstractGolemEntity<?, ?> golem, int value) {
+	}
+
+	/**
+	 * modify damage
+	 */
+	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+	}
+
+	/**
+	 * modify healing
+	 */
+	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
+		return onInventoryHealTick(heal, new HealingContext(entity.getHealth(), entity.getMaxHealth(), entity), level);
+	}
+
+	// static damage methods
 
 	/**
 	 * fires when this golem attacks others
@@ -99,18 +129,16 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 
 	}
 
-	/**
-	 * fires when this golem is attacked. Damage taking phase
-	 */
-	public void onDamaged(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
-
+	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
 	}
 
-	/**
-	 * modify healing
-	 */
-	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
-		return onInventoryHealTick(heal, new HealingContext(entity.getHealth(), entity.getMaxHealth(), entity), level);
+	public void finalizeHurtTarget(AttackCache cache, AbstractGolemEntity<?, ?> golem, int value) {
+	}
+
+	// static methods
+
+	public void onGolemSpawn(AbstractGolemEntity<?, ?> entity, int level) {
+
 	}
 
 	/**
@@ -118,12 +146,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	 */
 	public double onInventoryHealTick(double heal, HealingContext ctx, int level) {
 		return heal;
-	}
-
-	/**
-	 * modify damage
-	 */
-	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
 	}
 
 	/**
@@ -146,19 +168,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public void onClientTick(AbstractGolemEntity<?, ?> entity, int level) {
 	}
 
-	public boolean canExistOn(GolemPart<?, ?> part) {
-		// 通过 GolemPartConfig 获取配置，并判断该零件是否允许当前修饰符类型
-		return GolemPartConfig.get().getFilter(part).getOrDefault(type, 0d) > 0;
-	}
-
 	public void onSetTarget(AbstractGolemEntity<?, ?> golem, Mob mob, int level) {
-	}
-
-	public boolean fitsOn(GolemType<?, ?> type) {
-		return true;
-	}
-
-	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
 	}
 
 	public void handleEvent(AbstractGolemEntity<?, ?> golem, int value, byte event) {
@@ -170,9 +180,6 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	public void onKillTarget(AbstractGolemEntity<?, ?> golem, LivingEntity entity, LivingDeathEvent event, int level) {
-	}
-
-	public void finalizeHurtTarget(AttackCache cache, AbstractGolemEntity<?, ?> golem, int value) {
 	}
 
 	public float onHealPre(float heal, AbstractGolemEntity<?, ?> golem, int value) {

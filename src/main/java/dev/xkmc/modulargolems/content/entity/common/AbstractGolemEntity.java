@@ -7,7 +7,6 @@ import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
@@ -26,14 +25,14 @@ import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
-import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
-import dev.xkmc.modulargolems.events.event.GolemCollectItemEvent;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -55,6 +54,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -94,15 +94,12 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.EntityArmorInvWrapper;
 import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
 import net.minecraftforge.network.NetworkHooks;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import top.theillusivec4.curios.api.CuriosApi;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -184,6 +181,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 						goalSelector.addGoal(priority, goal);
 					}));
 		}
+		var sup = DefaultAttributes.getSupplier(getType());
+		for (var e : ForgeRegistries.ATTRIBUTES) {
+			var ins = getAttribute(e);
+			if (ins == null | !sup.hasAttribute(e)) continue;
+			ins.setBaseValue(sup.getBaseValue(e));
+		}
 		GolemMaterial.addAttributes(materials, upgrades, getThis());
 		refreshDimensions();
 	}
@@ -202,6 +205,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public HashMap<GolemModifier, Integer> getModifiers() {
 		return modifiers;
+	}
+
+	public HashMap<GolemModifier, Integer> getModifiersExtended() {
+		HashMap<GolemModifier, Integer> ans = new HashMap<>(modifiers);
+		for (var e : EquipmentSlot.values()) {
+			ItemStack stack = getItemBySlot(e);
+			if (stack.getItem() instanceof IGolemModifierItem item) {
+				for (var ins : item.getModifier(stack, this)) {
+					ans.compute(ins.mod(), (k, v) -> (v == null ? 0 : v) + ins.level());
+				}
+			}
+		}
+		return ans;
 	}
 
 	public boolean hasFlag(GolemFlags flag) {
@@ -233,7 +249,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return InteractionResult.SUCCESS;
 		} else {
 			ItemStack stack = player.getItemInHand(hand);
-			if (stack.getItem() instanceof GolemEquipmentItem item) {
+			if (stack.getItem() instanceof IGolemEquipmentItem item) {
 				if (item.isFor(getType()) && getItemBySlot(item.getSlot()).isEmpty()) {
 					if (!level().isClientSide()) {
 						setItemSlot(item.getSlot(), stack.split(1));
@@ -402,8 +418,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return hasFlag(GolemFlags.SWIM);
 	}
 
+	public boolean isMovable() {
+		return getMode().isMovable() && !isInSittingPose();
+	}
+
 	public void travel(Vec3 pTravelVector) {
-		if (!getMode().isMovable()) {
+		if (!isMovable()) {
 			pTravelVector = Vec3.ZERO;
 		}
 		if ((this.isControlledByLocalInstance() || this.isEffectiveAi()) && this.isInWater() && canSwim()) {
@@ -427,12 +447,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean isPushable() {
-		return getMode().isMovable();
+		return isMovable();
 	}
 
 	@Deprecated
 	public boolean isPushedByFluid() {
-		return !this.isSwimming() && getMode().isMovable();
+		return !this.isSwimming() && isMovable();
 	}
 
 	// ------ ownable entity
@@ -714,6 +734,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (getHealth() > 0.75 * getMaxHealth() && reforge > 0)
 			updateReforge(reforge - 1);
 		else repair(getMaxHealth() / 4);
+
+		float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
+		this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
 	}
 
 	@Override
@@ -723,7 +746,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!this.level().isClientSide && isAlive()) {
 			if (this.tickCount % 20 == 0) {
 				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.get());
-				for (var entry : getModifiers().entrySet()) {
+				for (var entry : getModifiersExtended().entrySet()) {
 					heal = entry.getKey().onHealTick(heal, this, entry.getValue());
 				}
 				if (heal > 0) {
@@ -1274,6 +1297,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			if (!item.isEmpty())
 				list.add(item);
 		}
+	}
+
+	@Override
+	public void lookAt(Entity e, float x, float y) {
+		if (!getMode().isMovable())
+			getLookControl().setLookAt(e, x, y);
+		else super.lookAt(e, x, y);
+	}
+
+	public void saveToItem(CompoundTag tag) {
+		super.save(tag);
+		tag.remove("AngryAt");
 	}
 
 }

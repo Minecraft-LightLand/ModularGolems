@@ -1,0 +1,65 @@
+{
+  "values": [
+    "modulargolems:barbaric_vanguard_helmet",
+    "modulargolems:barbaric_vanguard_chestplate",
+    "modulargolems:barbaric_vanguard_shinguard",
+    "modulargolems:barbaric_vanguard_boots",
+    "modulargolems:beacon_boots",
+    "modulargolems:netherite_dog_golem_armor",
+    "modulargolems:netherite_mecha_bow",
+    "modulargolems:sonic_cannon",
+    "modulargolems:beacon_cannon",
+    {
+      "id": "modulargolems:fiery_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery_boots",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ignis_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ignis_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ignis_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:harbinger_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:harbinger_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:harbinger_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:monstrosity_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:monstrosity_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:monstrosity_shinguard",
+      "required": false
+    }
+  ]
+}

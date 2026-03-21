@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "key": {
+    "I": {
+      "item": "twilightforest:steeleaf_ingot"
+    },
+    "S": {
+      "item": "twilightforest:liveroot"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "TII",
+    "ISI",
+    "SIT"
+  ],
+  "result": {
+    "item": "modulargolems:steeleaf_golem_sword"
+  },
+  "show_notification": true
+}

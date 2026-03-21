@@ -30,7 +30,7 @@ public class FollowOwnerGoal extends Goal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
+		if (this.golem.isInSittingPose() || !this.golem.isMovable())
 			return false;
 		if (this.golem.getControllingPassenger() instanceof Player)
 			return false;
@@ -48,7 +48,7 @@ public class FollowOwnerGoal extends Goal {
 			if (golem.getNavigation().isDone())
 				return false;
 		}
-		if (this.golem.isInSittingPose() || !this.golem.getMode().isMovable())
+		if (!this.golem.isMovable())
 			return false;
 		Vec3 target = this.golem.getTargetPos();
 		double stop = golem.getMode().getStopDistance();

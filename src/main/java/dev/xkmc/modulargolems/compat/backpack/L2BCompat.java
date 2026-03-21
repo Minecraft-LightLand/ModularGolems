@@ -10,6 +10,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
 
@@ -112,6 +114,38 @@ public class L2BCompat {
 			}
 		}
 		return false;
+	}
+
+	public static void tickPlayer(ServerPlayer player) {
+		var hasEnder = hasEnder(player);
+		var list = getAllContainers(player, hasEnder);
+		for (var stack : list) {
+			if (!(stack.getItem() instanceof WorldChestItem chest)) continue;
+			var opt = chest.getContainer(stack, player.serverLevel());
+			if (opt.isEmpty()) continue;
+			var cont = opt.get().container;
+			for (int i = 0; i < cont.getContainerSize(); i++) {
+				var item = cont.getItem(i);
+				if (item.getItem() instanceof GolemHolder<?, ?> holder) {
+					holder.inventoryTick(item, player.serverLevel(), player, 0, false);
+				}
+			}
+		}
+		if (hasEnder) {
+			for (int i = 0; i < 27; i++) {
+				var stack = player.getEnderChestInventory().getItem(i);
+				if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
+					holder.inventoryTick(stack, player.serverLevel(), player, 0, false);
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerTick(LivingEvent.LivingTickEvent event) {
+		if (event.getEntity() instanceof ServerPlayer sp && sp.isAlive() && sp.tickCount % 20 == 0) {
+			tickPlayer(sp);
+		}
 	}
 
 }

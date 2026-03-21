@@ -1,0 +1,36 @@
+{
+  "type": "create:mechanical_crafting",
+  "acceptMirrored": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "create:mechanical_arm"
+    },
+    "B": {
+      "item": "create:brass_sheet"
+    },
+    "C": {
+      "item": "create:precision_mechanism"
+    },
+    "D": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "E": {
+      "item": "create:gearbox"
+    }
+  },
+  "pattern": [
+    " A ",
+    "CCC",
+    "BEB",
+    "DED"
+  ],
+  "result": {
+    "item": "modulargolems:mechanical_arm"
+  }
+}
