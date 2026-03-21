@@ -1306,4 +1306,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		else super.lookAt(e, x, y);
 	}
 
+	public void saveToItem(CompoundTag tag) {
+		super.save(tag);
+		tag.remove("AngryAt");
+	}
+
 }

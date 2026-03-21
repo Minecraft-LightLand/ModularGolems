@@ -200,7 +200,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			uplist.add(StringTag.valueOf(rl.toString()));
 		}
 		var entityTag = tag.getSubTag(KEY_ENTITY).getOrCreate();
-		entity.save(entityTag);
+		entity.saveToItem(entityTag);
 
 		var name = entity.getCustomName();
 		if (name != null) stack.setHoverName(name);
