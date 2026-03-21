@@ -6,6 +6,7 @@
 		"altas_boots",
 		"altas_shield",
 		"slotbg_arrow",
+		"slotbg_bow",
 		"slotbg_sword",
 		"slotbg_shoulder",
 		"slot"
@@ -40,12 +41,12 @@
 		},
 		"backup": {
 			"sprite": "empty_slot",
-			"x": 133,
-			"y": 18
+			"x": 79,
+			"y": 36
 		},
 		"arrow": {
 			"sprite": "empty_slot",
-			"x": 133,
+			"x": 115,
 			"y": 36
 		}
 	},

@@ -32,6 +32,8 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 
 		if (menu.getAsPredSlot("left_hand", 0, 0).getItem().isEmpty())
 			sr.draw(g, "left_hand", "altas_shield", 0, 0);
+		if (menu.getAsPredSlot("right_hand", 0, 0).getItem().isEmpty())
+			sr.draw(g, "right_hand", "slotbg_sword", -1, -1);
 		if (menu.getAsPredSlot("armor", 0, 0).getItem().isEmpty())
 			sr.draw(g, "armor", "altas_helmet", 0, 0);
 		if (menu.getAsPredSlot("armor", 0, 1).getItem().isEmpty())
@@ -46,6 +48,8 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 			sr.draw(g, "backup", "slot", -1, -1);
 			if (menu.getAsPredSlot("arrow", 0, 0).getItem().isEmpty())
 				sr.draw(g, "arrow", "slotbg_arrow", -1, -1);
+			if (menu.getAsPredSlot("backup", 0, 0).getItem().isEmpty())
+				sr.draw(g, "backup", "slotbg_bow", -1, -1);
 		}
 		if (menu.golem instanceof MetalGolemEntity) {
 			sr.draw(g, "left_shoulder", "slot", -1, -1);
