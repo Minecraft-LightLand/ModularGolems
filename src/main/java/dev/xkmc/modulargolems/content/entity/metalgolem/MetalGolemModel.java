@@ -74,6 +74,8 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftLeg.xRot = 1.5F * Mth.triangleWave(f1, 13.0F) * f2;
 		this.rightLeg.yRot = 0.0F;
 		this.leftLeg.yRot = 0.0F;
+		this.rightLeg.zRot = 0.0F;
+		this.leftLeg.zRot = 0.0F;
 		if (this.riding) {
 			this.rightLeg.xRot = -1.4137167F;
 			this.rightLeg.yRot = ((float) Math.PI / 10F);

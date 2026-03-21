@@ -5,6 +5,7 @@ import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
@@ -180,7 +181,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public double getMyRidingOffset() {
-		return -getBbHeight() * 0.18;
+		var event = new GolemRidingOffsetEvent(this);
+		event.setOffset(-getBbHeight() * 0.34 + 0.25);
+		MinecraftForge.EVENT_BUS.post(event);
+		return event.getOffset();
 	}
 
 	@Override
