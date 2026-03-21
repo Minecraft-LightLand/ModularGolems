@@ -181,11 +181,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public double getMyRidingOffset() {
-		var skin = ClientSkinDispatch.get(this);
-		if (skin != null && skin.getClass().getName().contains("MaidSkin")) {
-			return -getBbHeight() * 0.005 + 0.25;
-		}
-		return -getBbHeight() * 0.34 + 0.25;
+		var event = new GolemRidingOffsetEvent(this);
+		event.setOffset(-getBbHeight() * 0.34 + 0.25);
+		MinecraftForge.EVENT_BUS.post(event);
+		return event.getOffset();
 	}
 
 	@Override
