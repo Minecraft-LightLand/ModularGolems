@@ -12,17 +12,21 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -91,6 +95,21 @@ public class ModifierEventListeners {
 
 	@SubscribeEvent
 	public static void onExplosion(ExplosionEvent.Detonate event) {
+		var direct = event.getExplosion().getDirectSourceEntity();
+		var owner = event.getExplosion().getIndirectSourceEntity();
+		if (direct != null && (owner instanceof AbstractGolemEntity<?, ?> golem)) {
+			if (!golem.isHostile()) event.getAffectedBlocks().clear();
+			event.getAffectedEntities().removeIf(e -> {
+				if (e instanceof ItemEntity) return true;
+				if (e instanceof LivingEntity le) {
+					if (!golem.canAttack(le)) return true;
+				}
+				if (e instanceof TraceableEntity proj) {
+					return proj.getOwner() == golem;
+				}
+				return false;
+			});
+		}
 		for (var e : event.getAffectedEntities()) {
 			// 如果有傀儡实体
 			if (e instanceof AbstractGolemEntity<?, ?> golem) {
@@ -159,6 +178,14 @@ public class ModifierEventListeners {
 				event.setCanceled(true);
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public static void onMobGrief(EntityMobGriefingEvent event) {
+		var e = event.getEntity();
+		if (e instanceof TraceableEntity te) e = te.getOwner();
+		if (e instanceof AbstractGolemEntity<?, ?> golem && !golem.isHostile())
+			event.setResult(Event.Result.DENY);
 	}
 
 }
