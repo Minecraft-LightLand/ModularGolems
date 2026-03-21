@@ -7,7 +7,7 @@
         "altas_shield"
     ],
     "comp": {
-        "hand": {
+        "left_hand": {
             "sprite": "slot",
             "x": 79,
             "y": 18,
