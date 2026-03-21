@@ -25,7 +25,10 @@ import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
-import dev.xkmc.modulargolems.content.item.equipments.*;
+import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
+import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -1182,6 +1185,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!getMode().isMovable())
 			getLookControl().setLookAt(e, x, y);
 		else super.lookAt(e, x, y);
+	}
+
+	public void saveToItem(CompoundTag tag) {
+		super.save(tag);
+		tag.remove("AngryAt");
 	}
 
 }
