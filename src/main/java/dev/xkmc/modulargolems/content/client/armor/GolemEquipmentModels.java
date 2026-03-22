@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.client.HarbingerArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.IgnisArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmors;
 import dev.xkmc.modulargolems.content.client.weapon.BeaconCannonModel;
+import dev.xkmc.modulargolems.content.client.weapon.FlameThrowerModel;
 import dev.xkmc.modulargolems.content.client.weapon.GolemBows;
 import dev.xkmc.modulargolems.content.client.weapon.SonicCannonModel;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -184,6 +185,9 @@ public class GolemEquipmentModels {
 
 		regAndAdd(event, SonicCannonModel.SONIC_MAINHAND, SonicCannonModel::createMainHand);
 		regAndAdd(event, SonicCannonModel.SONIC_OFFHAND, SonicCannonModel::createOffhand);
+
+		regAndAdd(event, FlameThrowerModel.FLAME_RIGHT, FlameThrowerModel::rightLayer);
+		regAndAdd(event, FlameThrowerModel.FLAME_LEFT, FlameThrowerModel::leftLayer);
 	}
 
 	public static synchronized void regAndAdd(EntityRenderersEvent.RegisterLayerDefinitions event, ModelLayerLocation layer, Supplier<LayerDefinition> factory) {

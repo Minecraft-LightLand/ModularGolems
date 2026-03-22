@@ -1,7 +1,11 @@
 package dev.xkmc.modulargolems.compat.maid;
 
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.events.event.GolemRidingOffsetEvent;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -41,6 +45,17 @@ public class MaidRegistry {
 				stack.inventoryTick(maid.level(), maid, i, false);
 				inv.setStackInSlot(i, stack);
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void maidOffset(GolemRidingOffsetEvent event) {
+		if (event.getGolem() instanceof HumanoidGolemEntity golem) {
+			var curio = CurioCompatRegistry.get();
+			if (curio == null) return;
+			var stack = curio.getSkin(golem);
+			if (stack.is(InitItems.GARAGE_KIT.get()))
+				event.setOffsetY(-golem.getBbHeight() * 0.005 + 0.25);
 		}
 	}
 

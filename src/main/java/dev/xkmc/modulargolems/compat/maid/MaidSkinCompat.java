@@ -46,7 +46,11 @@ public class MaidSkinCompat {
 		public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 			if (RENDERER == null) return;
 			try {
+				stack.pushPose();
+				float r = entity.getScale();
+				stack.scale(r, r, r);
 				RENDERER.render(entity, f1, f2, stack, source, i);
+				stack.popPose();
 			} catch (Exception e) {
 				ModularGolems.LOGGER.debug("Error rendering golem with TLM skin", e);
 			}

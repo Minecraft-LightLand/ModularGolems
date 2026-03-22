@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
+import dev.xkmc.modulargolems.events.event.GolemRidingOffsetEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
@@ -45,6 +46,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.joml.Vector3f;
 
@@ -246,6 +248,14 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			GolemTriggers.HOT_FIX.get().trigger((ServerPlayer) player);
 		}
 		return InteractionResult.sidedSuccess(this.level().isClientSide);
+	}
+
+	@Override
+	public Vec3 getVehicleAttachmentPoint(Entity vehicle) {
+		var event = new GolemRidingOffsetEvent(this);
+		event.setOffset(new Vec3(0, -getBbHeight() * 0.26 + 0.27, 0));
+		NeoForge.EVENT_BUS.post(event);
+		return event.getOffset();
 	}
 
 	@Override

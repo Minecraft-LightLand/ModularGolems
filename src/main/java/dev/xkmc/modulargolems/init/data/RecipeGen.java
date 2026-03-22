@@ -419,6 +419,14 @@ public class RecipeGen {
 					.define('B', Items.BEACON)
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.FLAME_THROWER.get())::unlockedBy, Items.BLAZE_ROD)
+					.pattern("II ").pattern("BDD").pattern("TI ")
+					.define('I', Items.IRON_INGOT)
+					.define('T', GolemItems.GOLEM_TEMPLATE)
+					.define('D', Items.BLAZE_ROD)
+					.define('B', Items.BLAST_FURNACE)
+					.save(pvd);
+
 			if (ModList.get().isLoaded(L2Complements.MODID)) {
 
 				unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.SONIC_CANNON.get())::unlockedBy, LCItems.SONIC_SHOOTER.get())

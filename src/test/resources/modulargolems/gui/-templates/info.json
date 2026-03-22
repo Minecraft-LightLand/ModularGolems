@@ -13,6 +13,7 @@
 	"slotbg": {
 		"ids": [
 			"_arrow",
+			"_bow",
 			"_sword",
 			"_shoulder"
 		],
