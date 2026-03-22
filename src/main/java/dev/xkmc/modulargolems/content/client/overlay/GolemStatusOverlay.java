@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.client.overlay;
 
 import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
+import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
@@ -21,7 +22,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -77,7 +77,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 
 	private record GolemEquipmentTooltip(AbstractGolemEntity<?, ?> golem) implements ClientTooltipComponent {
 
-		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(ModularGolems.MODID, "textures/gui/container/equipments_extra.png");
+		public static final SpriteManager SPRITE = new SpriteManager(ModularGolems.MODID, "equipments_extra");
 
 		@Override
 		public int getHeight() {
@@ -120,9 +120,11 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		private void renderSlot(GuiGraphics g, int x, int y, ItemStack stack, String bgName) {
 			if (bgName.startsWith("altas_")) {
 				blitSlotBg(g, x, y, "slot");
-				blitSlotBg(g, x + 1, y + 1, bgName);
+				if (stack.isEmpty())
+					blitSlotBg(g, x + 1, y + 1, bgName);
 			} else {
-				blitSlotBg(g, x, y, bgName);
+				if (stack.isEmpty()) blitSlotBg(g, x, y, bgName);
+				else blitSlotBg(g, x, y, "slot");
 			}
 			if (stack.isEmpty()) {
 				return;
@@ -132,20 +134,9 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		}
 
 		private void blitSlotBg(GuiGraphics g, int x, int y, String bgName) {
-			int u = 0, v = 0, w = 18, h = 18;
-			switch (bgName) {
-				case "altas_helmet" -> { u = 176; v = 0; w = 16; h = 16; }
-				case "altas_chestplate" -> { u = 192; v = 0; w = 16; h = 16; }
-				case "altas_leggings" -> { u = 208; v = 0; w = 16; h = 16; }
-				case "altas_boots" -> { u = 224; v = 0; w = 16; h = 16; }
-				case "altas_shield" -> { u = 176; v = 16; w = 16; h = 16; }
-				case "slotbg_arrow" -> { u = 176; v = 32; }
-				case "slotbg_bow" -> { u = 194; v = 32; }
-				case "slotbg_sword" -> { u = 212; v = 32; }
-				case "slotbg_shoulder" -> { u = 230; v = 32; }
-				case "slot" -> { u = 176; v = 50; }
-			}
-			g.blit(TEXTURE_LOCATION, x, y, u, v, w, h);
+			var tex = SPRITE.get().getTexture();
+			var side = SPRITE.get().getSide(bgName);
+			g.blit(tex, x, y, side.x, side.y, side.w, side.h);
 		}
 
 	}
