@@ -27,7 +27,7 @@ public class EsterEggUtil {
 			return false;
 		}
 		String id = e.getDisplayName().getString().toLowerCase(Locale.ROOT);
-		return id.equals("kobe") || id.equals("kobe bryant") || id.equals("manba");
+		return id.equals("kobe") || id.equals("kobe bryant") || id.equals("manba") || id.equals("科比") || id.equals("科比·布莱恩特") || id.equals("曼巴") || id.equals("牢大");
 	}
 
 	private static boolean hasFacadeWithMaterial(AbstractGolemEntity<?, ?> e, ResourceLocation material) {
