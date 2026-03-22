@@ -123,6 +123,13 @@ public class TFRecipeGen {
 					.define('B', TFItems.LIVEROOT.get())
 					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_HELMET.get())::unlockedBy, TFItems.NAGA_SCALE.get())
+					.pattern("BBB").pattern("BIB").pattern("A A")
+					.define('I', TFBlocks.NAGA_TROPHY.get())
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', TFItems.NAGA_SCALE.get())
+					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_CHESTPLATE.get())::unlockedBy, TFItems.NAGA_SCALE.get())
 					.pattern("BAB").pattern("BIB").pattern("BBB")
 					.define('I', TFItems.NAGA_CHESTPLATE.get())
@@ -133,6 +140,12 @@ public class TFRecipeGen {
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_SHINGUARD.get())::unlockedBy, TFItems.NAGA_SCALE.get())
 					.pattern("BIB").pattern("BAB").pattern("B B")
 					.define('I', TFItems.NAGA_LEGGINGS.get())
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', TFItems.NAGA_SCALE.get())
+					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_BOOTS.get())::unlockedBy, TFItems.NAGA_SCALE.get())
+					.pattern("A A").pattern("BAB").pattern("B B")
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', TFItems.NAGA_SCALE.get())
 					.save(ConditionalRecipeWrapper.mod(pvd, MODID));

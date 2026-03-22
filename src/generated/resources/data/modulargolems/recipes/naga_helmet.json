@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "B": {
+      "item": "twilightforest:naga_scale"
+    },
+    "I": {
+      "item": "twilightforest:naga_trophy"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BIB",
+    "A A"
+  ],
+  "result": {
+    "item": "modulargolems:naga_helmet"
+  },
+  "show_notification": true
+}

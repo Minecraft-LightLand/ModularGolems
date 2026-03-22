@@ -27,7 +27,7 @@ public class TFCompatRegistry {
 	public static final ItemEntry<IronwoodArmorItem> IRONWOOD_HELMET, IRONWOOD_CHESTPLATE, IRONWOOD_SHINGUARD, IRONWOOD_BOOTS;
 	public static final ItemEntry<KnightmetalArmorItem> KNIGHTMETAL_HELMET, KNIGHTMETAL_CHESTPLATE, KNIGHTMETAL_SHINGUARD, KNIGHTMETAL_BOOTS;
 	public static final ItemEntry<FieryArmorItem> FIERY_HELMET, FIERY_CHESTPLATE, FIERY_SHINGUARD, FIERY_BOOTS;
-	public static final ItemEntry<NagaArmorItem> NAGA_CHESTPLATE, NAGA_SHINGUARD;
+	public static final ItemEntry<NagaArmorItem> NAGA_HELMET, NAGA_CHESTPLATE, NAGA_SHINGUARD, NAGA_BOOTS;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] TF_GOLEM_WEAPON;
 	public static final RegistryEntry<FieryModifier> FIERY;
 	public static final RegistryEntry<TFDamageModifier> TF_DAMAGE;
@@ -55,12 +55,20 @@ public class TFCompatRegistry {
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
+		NAGA_HELMET = REGISTRATE.item("naga_helmet", p -> new NagaArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 10, 5, TFArmorPaths.NAGA_HELMETS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
 		NAGA_CHESTPLATE = REGISTRATE.item("naga_chestplate", p -> new NagaArmorItem(p.stacksTo(1),
 						ArmorItem.Type.CHESTPLATE, 13, 5, TFArmorPaths.NAGA_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		NAGA_SHINGUARD = REGISTRATE.item("naga_shinguard", p -> new NagaArmorItem(p.stacksTo(1),
 						ArmorItem.Type.LEGGINGS, 7, 5, TFArmorPaths.NAGA_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.defaultLang().register();
+		NAGA_BOOTS = REGISTRATE.item("naga_boots", p -> new NagaArmorItem(p.stacksTo(1),
+						ArmorItem.Type.BOOTS, 5, 5, TFArmorPaths.NAGA_BOOTS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
