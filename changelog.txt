@@ -2,6 +2,7 @@
 - Add Flame Thrower shoulder weapon
 - Fix golem riding offset with maid skins
 - Fix mobs attacking invisible golem when golem is placed into disassembly table
+- Improve golem equipment display & overlay
 - Golem no longer affected by root magic from ISS
 
 2.6.31
