@@ -55,7 +55,7 @@ public class MaidRegistry {
 			if (curio == null) return;
 			var stack = curio.getSkin(golem);
 			if (stack.is(InitItems.GARAGE_KIT.get()))
-				event.setOffsetY(-golem.getBbHeight() * 0.005 + 0.25);
+				event.setOffsetY(golem.getBbHeight() * 0.01);
 		}
 	}
 

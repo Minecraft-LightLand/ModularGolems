@@ -253,7 +253,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	public Vec3 getVehicleAttachmentPoint(Entity vehicle) {
 		var event = new GolemRidingOffsetEvent(this);
-		event.setOffset(new Vec3(0, -getBbHeight() * 0.26 + 0.27, 0));
+		event.setOffset(new Vec3(0, getBbHeight() * 0.265, 0));
 		NeoForge.EVENT_BUS.post(event);
 		return event.getOffset();
 	}

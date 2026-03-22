@@ -248,7 +248,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@Override
 	public Vec3 getVehicleAttachmentPoint(Entity vehicle) {
 		var event = new GolemRidingOffsetEvent(this);
-		event.setOffset(new Vec3(0, -getBbHeight() * 0.34 + 0.25, 0));
+		event.setOffset(new Vec3(0, getBbHeight() * 0.345, 0));
 		NeoForge.EVENT_BUS.post(event);
 		return event.getOffset();
 	}
