@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.compat.maid;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.event.ConvertMaidEvent;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;
+import com.github.tartaricacid.touhoulittlemaid.client.resource.CustomPackLoader;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemGarageKit;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -45,15 +46,23 @@ public class MaidSkinCompat {
 		@Override
 		public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 			if (RENDERER == null) return;
+			stack.pushPose();
 			try {
-				stack.pushPose();
-				float r = entity.getScale();
-				stack.scale(r, r, r);
+				IMaid maid = IMaid.convert(entity);
+				if (maid != null) {
+					var opt = CustomPackLoader.MAID_MODELS.getInfo(maid.getModelId());
+					if (opt.isPresent()) {
+						if (opt.get().isGeckoModel()) {
+							float r = entity.getScale();
+							stack.scale(r, r, r);
+						}
+					}
+				}
 				RENDERER.render(entity, f1, f2, stack, source, i);
-				stack.popPose();
 			} catch (Exception e) {
 				ModularGolems.LOGGER.debug("Error rendering golem with TLM skin", e);
 			}
+			stack.popPose();
 		}
 	}
 
