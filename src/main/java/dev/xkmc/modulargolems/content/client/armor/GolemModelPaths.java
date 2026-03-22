@@ -27,4 +27,7 @@ public class GolemModelPaths {
 			SONIC_MAINHAND = ModularGolems.loc("sonic_mainhand"),
 			SONIC_OFFHAND = ModularGolems.loc("sonic_offhand");
 
+	public static final ResourceLocation
+			FLAME_RIGHT = ModularGolems.loc("flame_thrower_right"),
+			FLAME_LEFT = ModularGolems.loc("flame_thrower_left");
 }

@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.client.overlay;
 
 import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
+import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
@@ -12,6 +13,7 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -19,18 +21,14 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,62 +77,66 @@ public class GolemStatusOverlay implements IGuiOverlay {
 
 	private record GolemEquipmentTooltip(AbstractGolemEntity<?, ?> golem) implements ClientTooltipComponent {
 
-		public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
+		public static final SpriteManager SPRITE = new SpriteManager(ModularGolems.MODID, "equipments_extra");
 
 		@Override
 		public int getHeight() {
-			if (golem instanceof DogGolemEntity) return 36;
-			return 72;
+			if (golem instanceof DogGolemEntity) return 38;
+			return 74;
 		}
 
 		@Override
 		public int getWidth(Font pFont) {
 			if (golem instanceof DogGolemEntity) return 18;
-			return 72;
+			return 54;
 		}
 
 		@Override
 		public void renderImage(Font font, int mx, int my, GuiGraphics g) {
 			if (golem instanceof DogGolemEntity) {
-				renderSlot(font, mx, my, g, golem.getItemBySlot(EquipmentSlot.HEAD), InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
-				renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.CHEST), InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE);
+				renderSlot(g, mx, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");
+				renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.CHEST), "altas_chestplate");
 				return;
 			}
-			renderSlot(font, mx + 18, my, g, golem.getItemBySlot(EquipmentSlot.HEAD), InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
-			renderSlot(font, mx + 18, my + 18, g, golem.getItemBySlot(EquipmentSlot.CHEST), InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE);
-			renderSlot(font, mx + 18, my + 36, g, golem.getItemBySlot(EquipmentSlot.LEGS), InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS);
-			renderSlot(font, mx + 18, my + 54, g, golem.getItemBySlot(EquipmentSlot.FEET), InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS);
+			renderSlot(g, mx + 18, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");
+			renderSlot(g, mx + 18, my + 18, golem.getItemBySlot(EquipmentSlot.CHEST), "altas_chestplate");
+			renderSlot(g, mx + 18, my + 36, golem.getItemBySlot(EquipmentSlot.LEGS), "altas_leggings");
+			renderSlot(g, mx + 18, my + 54, golem.getItemBySlot(EquipmentSlot.FEET), "altas_boots");
 
-			renderSlot(font, mx, my + 18, g, golem.getItemBySlot(EquipmentSlot.MAINHAND), null);
-			renderSlot(font, mx + 36, my + 18, g, golem.getItemBySlot(EquipmentSlot.OFFHAND), InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+			renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.MAINHAND), "slotbg_sword");
+			renderSlot(g, mx + 36, my + 18, golem.getItemBySlot(EquipmentSlot.OFFHAND), "altas_shield");
 
 			if (golem instanceof SweepGolemEntity<?, ?> h) {
-				renderSlot(font, mx + 36, my + 36, g, h.getBackupHand().getItem(), null);
-				renderSlot(font, mx + 36, my + 54, g, h.getArrowSlot().getItem(), null);
+				renderSlot(g, mx, my + 36, h.getBackupHand().getItem(), "slotbg_bow");
+				renderSlot(g, mx + 36, my + 36, h.getArrowSlot().getItem(), "slotbg_arrow");
 			}
 
 			if (golem instanceof MetalGolemEntity e) {
-				renderSlot(font, mx, my, g, e.getRightShoulder().getItem(), null);
-				renderSlot(font, mx + 36, my, g, e.getLeftShoulder().getItem(), null);
+				renderSlot(g, mx, my, e.getRightShoulder().getItem(), "slotbg_shoulder");
+				renderSlot(g, mx + 36, my, e.getLeftShoulder().getItem(), "slotbg_shoulder");
 			}
 		}
 
-		private void renderSlot(Font font, int x, int y, GuiGraphics g, ItemStack stack, @Nullable ResourceLocation atlasID) {
-			this.blit(g, x, y);
+		private void renderSlot(GuiGraphics g, int x, int y, ItemStack stack, String bgName) {
+			if (bgName.startsWith("altas_")) {
+				blitSlotBg(g, x, y, "slot");
+				if (stack.isEmpty())
+					blitSlotBg(g, x + 1, y + 1, bgName);
+			} else {
+				if (stack.isEmpty()) blitSlotBg(g, x, y, bgName);
+				else blitSlotBg(g, x, y, "slot");
+			}
 			if (stack.isEmpty()) {
-				if (atlasID != null) {
-					TextureAtlasSprite atlas = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-							.apply(atlasID);
-					g.blit(x + 1, y + 1, 100, 16, 16, atlas);
-				}
 				return;
 			}
 			g.renderItem(stack, x + 1, y + 1, 0);
-			g.renderItemDecorations(font, stack, x + 1, y + 1);
+			g.renderItemDecorations(Minecraft.getInstance().font, stack, x + 1, y + 1);
 		}
 
-		private void blit(GuiGraphics g, int x, int y) {
-			g.blit(TEXTURE_LOCATION, x, y, 0, 0, 0, 18, 18, 128, 128);
+		private void blitSlotBg(GuiGraphics g, int x, int y, String bgName) {
+			var tex = SPRITE.get().getTexture();
+			var side = SPRITE.get().getSide(bgName);
+			g.blit(tex, x, y, side.x, side.y, side.w, side.h);
 		}
 
 	}

@@ -13,6 +13,7 @@ import dev.xkmc.l2weaponry.init.registrate.LWItems;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import io.redspace.ironsspellbooks.IronsSpellbooks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -137,6 +138,10 @@ public class MGTagGen {
 		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
 				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 		pvd.addTag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
+
+		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(IronsSpellbooks.MODID, "cant_root")))
+				.add(GolemTypes.ENTITY_GOLEM.get(), GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
+
 	}
 
 	private static TagKey<Item> createItemTag(String id) {

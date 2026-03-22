@@ -36,6 +36,10 @@ public enum MGLangData {
 	SONIC_CANNON("tooltip.sonic_cannon", "Shoots 3 sonic booms to inflict abyss echo damage", 0, ChatFormatting.GRAY),
 	SONIC_CANNON_RESONANCE("tooltip.sonic_cannon_resonance", "Stronger when paired with Sculk golem material", 0, ChatFormatting.GRAY),
 	MECHANICAL_ARM("tooltip.mechanical_arm", "Repairs golem with materials automatically. Can be powered by Mechanical Engine modifier.", 0, ChatFormatting.GRAY),
+	FLAMETHROWER("tooltip.flamethrower", "Has 3 forms of attack depending on available ammunition:", 0, ChatFormatting.GRAY),
+	FLAMETHROWER_TNT("tooltip.flamethrower_tnt", "- Launches TNT toward target.", 0, ChatFormatting.GRAY),
+	FLAMETHROWER_FIRECHARGE("tooltip.flamethrower_firecharge", "- Shoots fire charge that causes explosion.", 0, ChatFormatting.GRAY),
+	FLAMETHROWER_FLAME("tooltip.flamethrower_flame", "- Consumes blaze powder to shoot 16 blaze flames. Supports Infinity enchantment.", 0, ChatFormatting.GRAY),
 
 	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage", 1, ChatFormatting.GRAY),
 	HARBINGER_BOOST_MISSILE("tooltip.cataclysm.harbinger_armor_missile", "+%s Homing Missile Damage", 1, ChatFormatting.GRAY),
