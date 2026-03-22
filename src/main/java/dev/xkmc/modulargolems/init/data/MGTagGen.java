@@ -145,6 +145,10 @@ public class MGTagGen {
 		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
 				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 		pvd.addTag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
+
+		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE,  ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "cant_root")))
+				.add(GolemTypes.ENTITY_GOLEM.get(), GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
+
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
