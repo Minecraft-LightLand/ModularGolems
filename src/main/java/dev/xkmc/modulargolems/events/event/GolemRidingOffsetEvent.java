@@ -27,7 +27,7 @@ public class GolemRidingOffsetEvent extends Event {
 	}
 
 	public void setOffsetY(double y) {
-		setOffset(new Vec3(offset.x, y, offset.z(;
+		setOffset(new Vec3(offset.x, y, offset.z));
 	}
 
 }

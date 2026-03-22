@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "minecraft:blast_furnace"
+    },
+    "D": {
+      "item": "minecraft:blaze_rod"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "II ",
+    "BDD",
+    "TI "
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:flame_thrower"
+  }
+}
