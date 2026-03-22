@@ -51,6 +51,8 @@ public class MGTagGen {
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<EntityType<?>> SHIELD_BREAKER = createEntityTag("shield_breaker");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
+	public static final TagKey<EntityType<?>> CANT_ROOT = TagKey.create(Registries.ENTITY_TYPE,
+			new ResourceLocation("irons_spellbooks", "cant_root"));
 
 	public static final List<Consumer<RegistrateItemTagsProvider>> OPTIONAL_ITEM = new ArrayList<>();
 	public static final List<Consumer<RegistrateTagsProvider<Block>>> OPTIONAL_BLOCK = new ArrayList<>();
@@ -137,6 +139,8 @@ public class MGTagGen {
 		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
 				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 		pvd.addTag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
+		pvd.addTag(CANT_ROOT).add(GolemTypes.ENTITY_GOLEM.get(),
+				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
