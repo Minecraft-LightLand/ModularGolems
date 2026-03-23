@@ -15,7 +15,8 @@
 			"_arrow",
 			"_bow",
 			"_sword",
-			"_shoulder"
+			"_shoulder",
+			"_dog_armor"
 		],
 		"w": 18,
 		"h": 18,
@@ -117,7 +118,7 @@
 		"dx": 1,
 		"dy": 1
 	},
-	"empty_slot": {
+	"empty": {
 		"w": 18,
 		"h": 18,
 		"dx": 1,
@@ -204,8 +205,7 @@
 			"_down",
 			"_down_hover",
 			"_ban",
-			"_ban_hover",
-			"_empty"
+			"_ban_hover"
 		],
 		"w": 14,
 		"h": 14
@@ -223,8 +223,7 @@
 			"_prev_down",
 			"_prev_down_hover",
 			"_prev_ban",
-			"_prev_ban_hover",
-			"_empty"
+			"_prev_ban_hover"
 		],
 		"w": 11,
 		"h": 11

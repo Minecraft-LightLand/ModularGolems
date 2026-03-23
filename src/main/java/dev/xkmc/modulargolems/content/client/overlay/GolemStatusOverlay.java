@@ -77,7 +77,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 
 	private record GolemEquipmentTooltip(AbstractGolemEntity<?, ?> golem) implements ClientTooltipComponent {
 
-		public static final SpriteManager SPRITE = new SpriteManager(ModularGolems.MODID, "equipments_extra");
+		public static final SpriteManager SPRITE = new SpriteManager(ModularGolems.MODID, "equipments");
 
 		@Override
 		public int getHeight() {
@@ -95,7 +95,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		public void renderImage(Font font, int mx, int my, GuiGraphics g) {
 			if (golem instanceof DogGolemEntity) {
 				renderSlot(g, mx, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");
-				renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.CHEST), "altas_chestplate");
+				renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.CHEST), "slotbg_dog_armor");
 				return;
 			}
 			renderSlot(g, mx + 18, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");
