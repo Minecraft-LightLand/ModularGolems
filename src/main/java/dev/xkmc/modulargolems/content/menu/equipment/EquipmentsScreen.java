@@ -32,6 +32,10 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		if (menu.golem instanceof DogGolemEntity) {
 			sr.draw(g, "head", "slot", -1, -1);
 			sr.draw(g, "chest", "slot", -1, -1);
+			if (menu.getAsPredSlot("head", 0, 0).getItem().isEmpty())
+				sr.draw(g, "head", "altas_helmet", 0, 0);
+			if (menu.getAsPredSlot("chest", 0, 0).getItem().isEmpty())
+				sr.draw(g, "chest", "altas_chestplate", 0, 0);
 		} else {
 			sr.draw(g, "right_hand", "slot", -1, -1);
 			sr.draw(g, "left_hand", "slot", -1, -1);
