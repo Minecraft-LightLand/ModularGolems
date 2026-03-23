@@ -128,29 +128,29 @@ public class TFRecipeGen {
 					.define('I', TFBlocks.NAGA_TROPHY.get())
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', TFItems.NAGA_SCALE.get())
-					.define('E', TFBlocks.ETCHED_NAGASTONE.get())
+					.define('E', TFItems.IRONWOOD_INGOT.get())
 					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_CHESTPLATE.get())::unlockedBy, TFItems.NAGA_SCALE.get())
-					.pattern("BAB").pattern("BIB").pattern("BBB")
+					.pattern("EAE").pattern("BIB").pattern("BBB")
 					.define('I', TFItems.NAGA_CHESTPLATE.get())
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', TFItems.NAGA_SCALE.get())
+					.define('E', TFItems.IRONWOOD_INGOT.get())
 					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_SHINGUARD.get())::unlockedBy, TFItems.NAGA_SCALE.get())
-					.pattern("BIB").pattern("BAB").pattern("BEB")
+					.pattern("EIE").pattern("EAE").pattern("E E")
 					.define('I', TFItems.NAGA_LEGGINGS.get())
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
-					.define('B', TFItems.NAGA_SCALE.get())
-					.define('E', TFBlocks.ETCHED_NAGASTONE.get())
+					.define('E', TFItems.IRONWOOD_INGOT.get())
 					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.NAGA_BOOTS.get())::unlockedBy, TFItems.NAGA_SCALE.get())
 					.pattern("B B").pattern("BAB").pattern("E E")
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', TFItems.NAGA_SCALE.get())
-					.define('E', TFBlocks.ETCHED_NAGASTONE.get())
+					.define('E', TFItems.IRONWOOD_INGOT.get())
 					.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TFCompatRegistry.KNIGHTMETAL_HELMET.get())::unlockedBy, TFItems.KNIGHTMETAL_INGOT.get())

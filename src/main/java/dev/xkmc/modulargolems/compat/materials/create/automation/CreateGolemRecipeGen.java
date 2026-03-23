@@ -169,21 +169,25 @@ public class CreateGolemRecipeGen {
 			genCrushingRecipe(TFCompatRegistry.NAGA_HELMET)
 					.output(TFBlocks.NAGA_TROPHY.get(), 1)
 					.output(TFItems.NAGA_SCALE.get(), 4)
+					.output(TFItems.IRONWOOD_INGOT.get(), 1)
 					.whenModLoaded(TFDispatch.MODID)
 					.build(pvd);
 
 			genCrushingRecipe(TFCompatRegistry.NAGA_CHESTPLATE)
-					.output(TFItems.NAGA_SCALE.get(), 12)
+					.output(TFItems.NAGA_SCALE.get(), 10)
+					.output(TFItems.IRONWOOD_INGOT.get(), 1)
 					.whenModLoaded(TFDispatch.MODID)
 					.build(pvd);
 
 			genCrushingRecipe(TFCompatRegistry.NAGA_SHINGUARD)
-					.output(TFItems.NAGA_SCALE.get(), 10)
+					.output(TFItems.NAGA_SCALE.get(), 6)
+					.output(TFItems.IRONWOOD_INGOT.get(), 4)
 					.whenModLoaded(TFDispatch.MODID)
 					.build(pvd);
 
 			genCrushingRecipe(TFCompatRegistry.NAGA_BOOTS)
 					.output(TFItems.NAGA_SCALE.get(), 3)
+					.output(TFItems.IRONWOOD_INGOT.get(), 1)
 					.whenModLoaded(TFDispatch.MODID)
 					.build(pvd);
 
