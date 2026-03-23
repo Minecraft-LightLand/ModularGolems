@@ -16,7 +16,7 @@ public class GolemAttackListener implements AttackListener {
 	@Override
 	public void onCreateSource(CreateSourceEvent event) {
 		if (event.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
-			for (var e : golem.getModifiers().entrySet()) {
+			for (var e : golem.getModifiersExtended().entrySet()) {
 				e.getKey().modifySource(golem, event, e.getValue());
 			}
 		}

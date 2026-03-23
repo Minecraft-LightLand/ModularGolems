@@ -11,20 +11,23 @@
     "A": {
       "item": "modulargolems:metal_golem_template"
     },
+    "B": {
+      "item": "twilightforest:naga_scale"
+    },
     "E": {
       "item": "twilightforest:ironwood_ingot"
     },
     "I": {
-      "item": "twilightforest:naga_leggings"
+      "item": "twilightforest:naga_trophy"
     }
   },
   "pattern": [
-    "EIE",
-    "EAE",
-    "E E"
+    "EBE",
+    "BIB",
+    "BAB"
   ],
   "result": {
     "count": 1,
-    "id": "modulargolems:naga_shinguard"
+    "id": "modulargolems:naga_helmet"
   }
 }

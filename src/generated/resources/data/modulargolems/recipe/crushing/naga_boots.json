@@ -12,16 +12,15 @@
   "type": "create:crushing",
   "ingredients": [
     {
-      "item": "modulargolems:naga_shinguard"
+      "item": "modulargolems:naga_boots"
     }
   ],
   "results": [
     {
-      "count": 6,
+      "count": 3,
       "id": "twilightforest:naga_scale"
     },
     {
-      "count": 4,
       "id": "twilightforest:ironwood_ingot"
     }
   ]

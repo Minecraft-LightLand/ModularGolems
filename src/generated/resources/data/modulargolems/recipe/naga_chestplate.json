@@ -14,12 +14,15 @@
     "B": {
       "item": "twilightforest:naga_scale"
     },
+    "E": {
+      "item": "twilightforest:ironwood_ingot"
+    },
     "I": {
       "item": "twilightforest:naga_chestplate"
     }
   },
   "pattern": [
-    "BAB",
+    "EAE",
     "BIB",
     "BBB"
   ],

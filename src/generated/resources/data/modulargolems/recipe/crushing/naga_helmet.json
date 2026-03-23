@@ -12,16 +12,18 @@
   "type": "create:crushing",
   "ingredients": [
     {
-      "item": "modulargolems:naga_shinguard"
+      "item": "modulargolems:naga_helmet"
     }
   ],
   "results": [
     {
-      "count": 6,
-      "id": "twilightforest:naga_scale"
+      "id": "twilightforest:naga_trophy"
     },
     {
       "count": 4,
+      "id": "twilightforest:naga_scale"
+    },
+    {
       "id": "twilightforest:ironwood_ingot"
     }
   ]

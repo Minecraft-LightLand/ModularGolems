@@ -17,8 +17,11 @@
   ],
   "results": [
     {
-      "count": 12,
+      "count": 10,
       "id": "twilightforest:naga_scale"
+    },
+    {
+      "id": "twilightforest:ironwood_ingot"
     }
   ]
 }
