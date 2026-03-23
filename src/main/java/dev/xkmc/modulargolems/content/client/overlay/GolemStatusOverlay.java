@@ -111,7 +111,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		public void renderImage(Font font, int mx, int my, GuiGraphics g) {
 			if (golem instanceof DogGolemEntity) {
 				renderSlot(g, mx, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");
-				renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.CHEST), "altas_chestplate");
+				renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.BODY), "altas_chestplate");
 				return;
 			}
 			renderSlot(g, mx + 18, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");

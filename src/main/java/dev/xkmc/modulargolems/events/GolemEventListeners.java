@@ -56,6 +56,8 @@ public class GolemEventListeners {
 			if (stack.getItem() instanceof BannerItem) {
 				event.setSlot(1, EquipmentSlot.HEAD);
 			}
+			if (stack.is(MGTagGen.C_WOLF_ARMORS))
+				event.setSlot(1, EquipmentSlot.BODY);
 		}
 	}
 

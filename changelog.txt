@@ -1,3 +1,10 @@
+3.1.25
+- Add Flame Thrower shoulder weapon
+- Fix golem riding offset with maid skins
+- Fix mobs attacking invisible golem when golem is placed into disassembly table
+- Improve golem equipment display & overlay
+- Golem no longer affected by root magic from ISS
+
 3.1.24
 - Add config for Beacon Cannon Damage
 - Add Sonic Cannon
@@ -15,6 +22,7 @@
 - Metal Golem Bows
 - Fix equipment screen golem preview
 - Golem properly rotates now when standing still
+
 
 3.1.21
 - Fix armor attributes of the same set don't stack
