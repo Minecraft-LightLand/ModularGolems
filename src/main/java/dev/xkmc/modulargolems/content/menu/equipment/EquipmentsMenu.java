@@ -6,6 +6,7 @@ import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -35,24 +36,35 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	}
 
 	public static EquipmentSlot[] SLOTS = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+	public static EquipmentSlot[] DOG_SLOTS = {EquipmentSlot.HEAD, EquipmentSlot.CHEST};
 
-	public static final SpriteManager EXTRA = new SpriteManager(ModularGolems.MODID, "equipments_extra");
+	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "equipments");
 
 	public final AbstractGolemEntity<?, ?> golem;
+	protected final EquipmentSlot[] equipmentSlots;
 
 	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable AbstractGolemEntity<?, ?> golem) {
-		super(type, wid, plInv, EXTRA, EquipmentsContainer::new, false);
+		super(type, wid, plInv, MANAGER, EquipmentsContainer::new, false);
 		this.golem = golem;
-		addSlot("right_hand", (i, e) -> isValid(SLOTS[0], e));
-		addSlot("left_hand", (i, e) -> isValid(SLOTS[1], e));
-		addSlot("armor", (i, e) -> isValid(SLOTS[i + 2], e));
-		if (golem instanceof SweepGolemEntity<?, ?>) {
-			addSlot("backup", e -> isValid(EquipmentSlot.MAINHAND, e) || isValid(EquipmentSlot.OFFHAND, e));
-			addSlot("arrow", e -> true);
-		}
-		if (golem instanceof MetalGolemEntity) {
-			addSlot("right_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
-			addSlot("left_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
+		equipmentSlots = golem instanceof DogGolemEntity ? DOG_SLOTS : SLOTS;
+		if (golem instanceof DogGolemEntity) {
+			addSlot("chest", e -> isValid(EquipmentSlot.HEAD, e));
+			addSlot("legs", e -> isValid(EquipmentSlot.CHEST, e));
+		} else {
+			addSlot("right_hand", (i, e) -> isValid(EquipmentSlot.MAINHAND, e));
+			addSlot("left_hand", (i, e) -> isValid(EquipmentSlot.OFFHAND, e));
+			addSlot("head", e -> isValid(EquipmentSlot.HEAD, e));
+			addSlot("chest", e -> isValid(EquipmentSlot.CHEST, e));
+			addSlot("legs", e -> isValid(EquipmentSlot.LEGS, e));
+			addSlot("feet", e -> isValid(EquipmentSlot.FEET, e));
+			if (golem instanceof SweepGolemEntity<?, ?>) {
+				addSlot("backup", e -> isValid(EquipmentSlot.MAINHAND, e) || isValid(EquipmentSlot.OFFHAND, e));
+				addSlot("arrow", e -> true);
+			}
+			if (golem instanceof MetalGolemEntity) {
+				addSlot("right_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
+				addSlot("left_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
+			}
 		}
 	}
 
@@ -95,8 +107,8 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 					this.moveItemStackTo(stack, 36 + 8, 37 + 9, false);
 				}
 				var es = getSlotForItem(stack);
-				for (int i = 0; i < SLOTS.length; i++) {
-					if (es.contains(SLOTS[i])) {
+				for (int i = 0; i < equipmentSlots.length; i++) {
+					if (es.contains(equipmentSlots[i])) {
 						this.moveItemStackTo(stack, 36 + i, 37 + i, false);
 						break;
 					}

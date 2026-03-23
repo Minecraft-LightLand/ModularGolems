@@ -1,26 +1,68 @@
 {
-    "side": [
-        "altas_helmet",
-        "altas_chestplate",
-        "altas_leggings",
-        "altas_boots",
-        "altas_shield"
-    ],
-    "comp": {
-        "left_hand": {
-            "sprite": "slot",
-            "x": 79,
-            "y": 18,
-            "rx": 1,
-            "ry": 2
-        },
-        "armor": {
-            "sprite": "slot",
-            "x": 97,
-            "y": 0,
-            "rx": 1,
-            "ry": 4
-        }
-    },
-    "isContainer": true
+	"side": [
+		"altas_helmet",
+		"altas_chestplate",
+		"altas_leggings",
+		"altas_boots",
+		"altas_shield",
+		"slotbg_arrow",
+		"slotbg_bow",
+		"slotbg_sword",
+		"slotbg_shoulder",
+		"slotbg_dog_armor",
+		"slot"
+	],
+	"comp": {
+		"left_shoulder": {
+			"sprite": "empty",
+			"x": 115,
+			"y": 0
+		},
+		"right_shoulder": {
+			"sprite": "empty",
+			"x": 79,
+			"y": 0
+		},
+		"left_hand": {
+			"sprite": "empty",
+			"x": 115,
+			"y": 18
+		},
+		"right_hand": {
+			"sprite": "empty",
+			"x": 79,
+			"y": 18
+		},
+		"head": {
+			"sprite": "empty",
+			"x": 97,
+			"y": 0
+		},
+		"chest": {
+			"sprite": "empty",
+			"x": 97,
+			"y": 18
+		},
+		"legs": {
+			"sprite": "empty",
+			"x": 97,
+			"y": 36
+		},
+		"feet": {
+			"sprite": "empty",
+			"x": 97,
+			"y": 54
+		},
+		"backup": {
+			"sprite": "empty",
+			"x": 79,
+			"y": 36
+		},
+		"arrow": {
+			"sprite": "empty",
+			"x": 115,
+			"y": 36
+		}
+	},
+	"isContainer": true
 }

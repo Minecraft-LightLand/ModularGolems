@@ -13,7 +13,7 @@
     ],
     "comp": {
         "extra_mat": {
-            "sprite": "empty_slot",
+            "sprite": "empty",
             "x": 132,
             "y": 36
         },
@@ -33,42 +33,42 @@
             "y": -23
         },
         "button": {
-            "sprite": "dissembly_empty",
+            "sprite": "empty",
             "x": 106,
             "y": 36
         },
         "arrow": {
-            "sprite": "empty_slot",
+            "sprite": "empty",
             "x": 132,
             "y": 18
         },
         "golem_up": {
-            "sprite": "empty_slot",
+            "sprite": "empty",
             "x": 88,
             "y": 0
         },
         "golem_left": {
-            "sprite": "empty_slot",
+            "sprite": "empty",
             "x": 70,
             "y": 18
         },
         "golem_middle": {
-            "sprite": "empty_slot",
+            "sprite": "empty",
             "x": 88,
             "y": 18
         },
         "golem_right": {
-            "sprite": "empty_slot",
+            "sprite": "empty",
             "x": 106,
             "y": 18
         },
         "golem_down": {
-            "sprite": "empty_slot",
+            "sprite": "empty",
             "x": 88,
             "y": 36
         },
         "result": {
-            "sprite": "empty_slot",
+            "sprite": "empty",
             "x": 159,
             "y": 18
         }

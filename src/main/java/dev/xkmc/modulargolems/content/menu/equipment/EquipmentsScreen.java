@@ -29,39 +29,50 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
 		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(g);
-
-		if (menu.getAsPredSlot("left_hand", 0, 0).getItem().isEmpty())
-			sr.draw(g, "left_hand", "altas_shield", 0, 0);
-		if (menu.getAsPredSlot("right_hand", 0, 0).getItem().isEmpty())
-			sr.draw(g, "right_hand", "slotbg_sword", -1, -1);
-		if (menu.getAsPredSlot("armor", 0, 0).getItem().isEmpty())
-			sr.draw(g, "armor", "altas_helmet", 0, 0);
-		if (menu.getAsPredSlot("armor", 0, 1).getItem().isEmpty())
-			sr.draw(g, "armor", "altas_chestplate", 0, 18);
-		if (menu.getAsPredSlot("armor", 0, 2).getItem().isEmpty())
-			sr.draw(g, "armor", "altas_leggings", 0, 18 * 2);
-		if (menu.getAsPredSlot("armor", 0, 3).getItem().isEmpty())
-			sr.draw(g, "armor", "altas_boots", 0, 18 * 3);
-
-		if (menu.golem instanceof SweepGolemEntity<?,?>) {
-			sr.draw(g, "arrow", "slot", -1, -1);
-			sr.draw(g, "backup", "slot", -1, -1);
-			if (menu.getAsPredSlot("arrow", 0, 0).getItem().isEmpty())
-				sr.draw(g, "arrow", "slotbg_arrow", -1, -1);
-			if (menu.getAsPredSlot("backup", 0, 0).getItem().isEmpty())
-				sr.draw(g, "backup", "slotbg_bow", -1, -1);
+		if (menu.golem instanceof DogGolemEntity) {
+			sr.draw(g, "chest", "slot", -1, -1);
+			sr.draw(g, "legs", "slot", -1, -1);
+			if (menu.getAsPredSlot("chest", 0, 0).getItem().isEmpty())
+				sr.draw(g, "chest", "altas_helmet", 0, 0);
+			if (menu.getAsPredSlot("legs", 0, 0).getItem().isEmpty())
+				sr.draw(g, "legs", "slotbg_dog_armor", -1, -1);
+		} else {
+			sr.draw(g, "right_hand", "slot", -1, -1);
+			sr.draw(g, "left_hand", "slot", -1, -1);
+			sr.draw(g, "head", "slot", -1, -1);
+			sr.draw(g, "chest", "slot", -1, -1);
+			sr.draw(g, "legs", "slot", -1, -1);
+			sr.draw(g, "feet", "slot", -1, -1);
+			if (menu.getAsPredSlot("left_hand", 0, 0).getItem().isEmpty())
+				sr.draw(g, "left_hand", "altas_shield", 0, 0);
+			if (menu.getAsPredSlot("right_hand", 0, 0).getItem().isEmpty())
+				sr.draw(g, "right_hand", "slotbg_sword", -1, -1);
+			if (menu.getAsPredSlot("head", 0, 0).getItem().isEmpty())
+				sr.draw(g, "head", "altas_helmet", 0, 0);
+			if (menu.getAsPredSlot("chest", 0, 0).getItem().isEmpty())
+				sr.draw(g, "chest", "altas_chestplate", 0, 0);
+			if (menu.getAsPredSlot("legs", 0, 0).getItem().isEmpty())
+				sr.draw(g, "legs", "altas_leggings", 0, 0);
+			if (menu.getAsPredSlot("feet", 0, 0).getItem().isEmpty())
+				sr.draw(g, "feet", "altas_boots", 0, 0);
+			if (menu.golem instanceof SweepGolemEntity<?, ?>) {
+				sr.draw(g, "arrow", "slot", -1, -1);
+				sr.draw(g, "backup", "slot", -1, -1);
+				if (menu.getAsPredSlot("arrow", 0, 0).getItem().isEmpty())
+					sr.draw(g, "arrow", "slotbg_arrow", -1, -1);
+				if (menu.getAsPredSlot("backup", 0, 0).getItem().isEmpty())
+					sr.draw(g, "backup", "slotbg_bow", -1, -1);
+			}
+			if (menu.golem instanceof MetalGolemEntity) {
+				sr.draw(g, "left_shoulder", "slot", -1, -1);
+				sr.draw(g, "right_shoulder", "slot", -1, -1);
+				if (menu.getAsPredSlot("left_shoulder", 0, 0).getItem().isEmpty())
+					sr.draw(g, "left_shoulder", "slotbg_shoulder", -1, -1);
+				if (menu.getAsPredSlot("right_shoulder", 0, 0).getItem().isEmpty())
+					sr.draw(g, "right_shoulder", "slotbg_shoulder", -1, -1);
+			}
 		}
-		if (menu.golem instanceof MetalGolemEntity) {
-			sr.draw(g, "left_shoulder", "slot", -1, -1);
-			sr.draw(g, "right_shoulder", "slot", -1, -1);
-			if (menu.getAsPredSlot("left_shoulder", 0, 0).getItem().isEmpty())
-				sr.draw(g, "left_shoulder", "slotbg_shoulder", -1, -1);
-			if (menu.getAsPredSlot("right_shoulder", 0, 0).getItem().isEmpty())
-				sr.draw(g, "right_shoulder", "slotbg_shoulder", -1, -1);
-		}
-
 		renderPreview(g, mx, my);
-
 	}
 
 	@Override
@@ -130,7 +141,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		int y = topPos + 80;
 		double lx = x - mx;
 		double ly = y - 40 - my;
-		int scale = menu.golem instanceof MetalGolemEntity ? 18 :
+		int scale = menu.golem instanceof MetalGolemEntity ? 20 :
 				menu.golem instanceof HumanoidGolemEntity ? 24 :
 						menu.golem instanceof DogGolemEntity ? 32 : 18;
 		float ax = (float) Math.atan(lx / 50.0);

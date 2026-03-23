@@ -44,7 +44,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 		var ref = menu.sprite.get().getComp("button");
 		this.addRenderableWidget(disintegrate = Button.builder(Component.empty(), (e) -> this.click(1))
-				.pos(leftPos + ref.x, topPos + ref.y).size(14, 14)
+				.pos(leftPos + ref.x + 1, topPos + ref.y + 1).size(14, 14)
 				.build(b -> new SpriteButton(b, menu.sprite.get(),
 						"dissembly_on", "dissembly_down", "dissembly_ban")));
 	}
