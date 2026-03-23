@@ -23,6 +23,7 @@
 - Fix equipment screen golem preview
 - Golem properly rotates now when standing still
 
+
 2.6.28
 - Golem heals in ender/dimensional backpacks in L2Backpack
 - Casting / Recycle recipes for windspirit boots
