@@ -24,9 +24,7 @@
 		"ironwood": "铁木升级",
 		"knightmetal": "骑士升级",
 		"naga": "娜迦升级",
-		"steeleaf": "钢叶升级",
-		"naga_chestplate": "娜迦鳞甲",
-		"naga_shinguard": "娜迦绑腿"
+		"steeleaf": "钢叶升级"
 	},
 	"-cartesian": {
 		"equipments": {
@@ -35,7 +33,8 @@
 				{
 					"ironwood": "铁木",
 					"knightmetal": "骑士",
-					"fiery": "炽铁"
+					"fiery": "炽铁",
+					"naga": "娜迦"
 				},
 				{
 					"chestplate": "傀儡护甲",

@@ -1,0 +1,27 @@
+{
+  "type": "create:crushing",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:naga_helmet"
+    }
+  ],
+  "results": [
+    {
+      "item": "twilightforest:naga_trophy"
+    },
+    {
+      "count": 4,
+      "item": "twilightforest:naga_scale"
+    }
+  ]
+}

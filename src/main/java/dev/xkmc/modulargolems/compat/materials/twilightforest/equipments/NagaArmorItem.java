@@ -7,9 +7,11 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -31,9 +33,14 @@ public class NagaArmorItem extends MetalGolemArmorItem implements IGolemModifier
 
 	@Override
 	public List<ModifierInstance> getModifier(ItemStack stack, @Nullable AbstractGolemEntity<?, ?> golem) {
+		if (getSlot() == EquipmentSlot.HEAD) return List.of(
+				new ModifierInstance(GolemModifiers.ARMOR_BYPASS.get(), 1),
+				new ModifierInstance(TFCompatRegistry.TF_HEALING.get(), 1),
+				new ModifierInstance(TFCompatRegistry.TF_DAMAGE.get(), 1)
+		);
 		return List.of(
-				new ModifierInstance(TFCompatRegistry.TF_HEALING.get(), 2),
-				new ModifierInstance(TFCompatRegistry.TF_DAMAGE.get(), 2)
+				new ModifierInstance(TFCompatRegistry.TF_HEALING.get(), 1),
+				new ModifierInstance(TFCompatRegistry.TF_DAMAGE.get(), 1)
 		);
 	}
 
@@ -57,7 +64,7 @@ public class NagaArmorItem extends MetalGolemArmorItem implements IGolemModifier
 		switch (getSlot()) {
 			case CHEST -> builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(uuid,
 					"Naga Armor", 1, AttributeModifier.Operation.ADDITION));
-			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid,
+			case LEGS, FEET -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid,
 					"Naga Armor", 0.2, AttributeModifier.Operation.MULTIPLY_BASE));
 		}
 

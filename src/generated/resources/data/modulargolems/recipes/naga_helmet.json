@@ -14,14 +14,17 @@
     "B": {
       "item": "twilightforest:naga_scale"
     },
+    "E": {
+      "item": "twilightforest:etched_nagastone"
+    },
     "I": {
       "item": "twilightforest:naga_trophy"
     }
   },
   "pattern": [
-    "BBB",
+    "EBE",
     "BIB",
-    "A A"
+    "BAB"
   ],
   "result": {
     "item": "modulargolems:naga_helmet"

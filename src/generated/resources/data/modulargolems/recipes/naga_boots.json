@@ -13,12 +13,15 @@
     },
     "B": {
       "item": "twilightforest:naga_scale"
+    },
+    "E": {
+      "item": "twilightforest:etched_nagastone"
     }
   },
   "pattern": [
-    "A A",
+    "B B",
     "BAB",
-    "B B"
+    "E E"
   ],
   "result": {
     "item": "modulargolems:naga_boots"

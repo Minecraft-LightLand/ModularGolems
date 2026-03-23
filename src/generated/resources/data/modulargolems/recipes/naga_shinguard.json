@@ -14,6 +14,9 @@
     "B": {
       "item": "twilightforest:naga_scale"
     },
+    "E": {
+      "item": "twilightforest:etched_nagastone"
+    },
     "I": {
       "item": "twilightforest:naga_leggings"
     }
@@ -21,7 +24,7 @@
   "pattern": [
     "BIB",
     "BAB",
-    "B B"
+    "BEB"
   ],
   "result": {
     "item": "modulargolems:naga_shinguard"

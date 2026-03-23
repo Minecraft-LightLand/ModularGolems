@@ -12,7 +12,7 @@ public class GolemAttackListener implements AttackListener {
 	// 当攻击源创建时触发。如果攻击者是 AbstractGolemEntity 的实例，则遍历该傀儡的修饰符，并调用每个修饰符的 modifySource 方法来修改攻击源。
 	public void onCreateSource(CreateSourceEvent event) {
 		if (event.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
-			for (var e : golem.getModifiers().entrySet()) {
+			for (var e : golem.getModifiersExtended().entrySet()) {
 				e.getKey().modifySource(golem, event, e.getValue());
 			}
 		}

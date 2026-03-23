@@ -29,6 +29,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
+import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
 
 import java.util.Set;
@@ -165,6 +166,12 @@ public class CreateGolemRecipeGen {
 					.whenModLoaded(TFDispatch.MODID)
 					.build(pvd);
 
+			genCrushingRecipe(TFCompatRegistry.NAGA_HELMET)
+					.output(TFBlocks.NAGA_TROPHY.get(), 1)
+					.output(TFItems.NAGA_SCALE.get(), 4)
+					.whenModLoaded(TFDispatch.MODID)
+					.build(pvd);
+
 			genCrushingRecipe(TFCompatRegistry.NAGA_CHESTPLATE)
 					.output(TFItems.NAGA_SCALE.get(), 12)
 					.whenModLoaded(TFDispatch.MODID)
@@ -172,6 +179,11 @@ public class CreateGolemRecipeGen {
 
 			genCrushingRecipe(TFCompatRegistry.NAGA_SHINGUARD)
 					.output(TFItems.NAGA_SCALE.get(), 10)
+					.whenModLoaded(TFDispatch.MODID)
+					.build(pvd);
+
+			genCrushingRecipe(TFCompatRegistry.NAGA_BOOTS)
+					.output(TFItems.NAGA_SCALE.get(), 3)
 					.whenModLoaded(TFDispatch.MODID)
 					.build(pvd);
 
