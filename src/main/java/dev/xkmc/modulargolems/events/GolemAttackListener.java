@@ -44,7 +44,7 @@ public class GolemAttackListener implements AttackListener {
 			if (owner != null) {
 				cache.getAttackTarget().setLastHurtByPlayer(owner);
 			}
-			for (var entry : golem.getModifiers().entrySet()) {
+			for (var entry : golem.getModifiersExtended().entrySet()) {
 				entry.getKey().finalizeHurtTarget(cache, golem, entry.getValue());
 			}
 		}

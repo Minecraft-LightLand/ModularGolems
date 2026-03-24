@@ -11,6 +11,7 @@ import dev.xkmc.l2weaponry.init.materials.LWToolMats;
 import dev.xkmc.l2weaponry.init.materials.LWToolTypes;
 import dev.xkmc.l2weaponry.init.registrate.LWItems;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import io.redspace.ironsspellbooks.IronsSpellbooks;
@@ -49,6 +50,7 @@ public class MGTagGen {
 	public static final TagKey<Item> CURIO_PATH = ItemTags.create(new ResourceLocation("curios", "golem_route"));
 	public static final TagKey<Item> PLAYER_SKIN = createItemTag("player_skin");
 	public static final TagKey<Item> LARGE_GOLEM_WEAPONS = createItemTag("large_golem_weapons");
+	public static final TagKey<Item> SHIELD_BREAKER_WEAPONS = createItemTag("shield_breaker_weapons");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<EntityType<?>> SHIELD_BREAKER = createEntityTag("shield_breaker");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");

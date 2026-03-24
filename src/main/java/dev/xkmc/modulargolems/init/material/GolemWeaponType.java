@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init.material;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -31,12 +32,17 @@ public enum GolemWeaponType {
 	}
 
 	public ItemEntry<MetalGolemWeaponItem> buildItem(IGolemWeaponMaterial material) {
-		return REGISTRATE.item(material.getName() + "_" + getName(),
+		var ans = REGISTRATE.item(material.getName() + "_" + getName(),
 						p -> factory.create(material.modify(p.stacksTo(1)), material.getDamage(), material.factory()))
 				.model((ctx, pvd) -> material.model(pvd.getBuilder(ctx.getName()))
 						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
 						.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
+		if (this == AXE) {
+			MGTagGen.OPTIONAL_ITEM.add(pvd -> pvd.addTag(MGTagGen.SHIELD_BREAKER_WEAPONS)
+					.addOptional(ans.getId()));
+		}
+		return ans;
 	}
 
 	public static ItemEntry<MetalGolemWeaponItem>[][] build(IGolemWeaponMaterial[] values) {

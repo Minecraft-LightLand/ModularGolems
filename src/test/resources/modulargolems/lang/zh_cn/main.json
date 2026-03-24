@@ -56,6 +56,7 @@
 			"flamethrower_firecharge": "- 发射会造成爆炸的火焰弹",
 			"flamethrower_flame": "- 消耗烈焰粉并发射16发火球。支持无限魔咒",
 			"flamethrower_tnt": "- 发射TNT",
+			"shield_break": "破盾武器",
 			"target": {
 				"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
 				"remove": "蹲下右键移除最后一行",

@@ -49,7 +49,7 @@ public class ModifierEventListeners {
 	public static void onHurtPre(LivingHurtEvent event) {
 		DamageSource source = event.getSource();
 		if (source.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onHurtTarget(entity, event, v));
+			entity.getModifiersExtended().forEach((k, v) -> k.onHurtTarget(entity, event, v));
 		}
 	}
 
@@ -60,35 +60,35 @@ public class ModifierEventListeners {
 				event.setCanceled(true);
 				return;
 			}
-			entity.getModifiers().forEach((k, v) -> k.onAttackTarget(entity, event, v));
+			entity.getModifiersExtended().forEach((k, v) -> k.onAttackTarget(entity, event, v));
 		}
 	}
 
 	@SubscribeEvent
 	public static void onAttacked(LivingAttackEvent event) {
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onAttacked(entity, event, v));
+			entity.getModifiersExtended().forEach((k, v) -> k.onAttacked(entity, event, v));
 		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void onHurtPost(LivingHurtEvent event) {
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onHurt(entity, event, v));
+			entity.getModifiersExtended().forEach((k, v) -> k.onHurt(entity, event, v));
 		}
 	}
 
 	@SubscribeEvent
 	public static void onDamaged(LivingDamageEvent event) {
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
-			entity.getModifiers().forEach((k, v) -> k.onDamaged(entity, event, v));
+			entity.getModifiersExtended().forEach((k, v) -> k.onDamaged(entity, event, v));
 		}
 	}
 
 	@SubscribeEvent
 	public static void onKillTarget(LivingDeathEvent event) {
 		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> golem) {
-			golem.getModifiers().forEach((k, v) -> k.onKillTarget(golem, event.getEntity(), event, v));
+			golem.getModifiersExtended().forEach((k, v) -> k.onKillTarget(golem, event.getEntity(), event, v));
 		}
 	}
 
@@ -114,7 +114,7 @@ public class ModifierEventListeners {
 			// 如果有傀儡实体
 			if (e instanceof AbstractGolemEntity<?, ?> golem) {
 				// 且实体有爆炸抗性修饰符,并且其值大于0，则取消爆炸对所有方块的影响
-				if (golem.getModifiers().getOrDefault(GolemModifiers.EXPLOSION_RES.get(), 0) > 0) {
+				if (golem.getModifiersExtended().getOrDefault(GolemModifiers.EXPLOSION_RES.get(), 0) > 0) {
 					event.getAffectedBlocks().clear();
 					return;
 				}

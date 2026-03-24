@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
@@ -82,6 +83,7 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 								Ingredient.of(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()]),
 								Ingredient.of(Blocks.STONECUTTER), RecipeCategory.COMBAT, ctx.get()
 						)::unlocks, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE).save(pvd, ctx.getName()))
+				.tag(MGTagGen.SHIELD_BREAKER_WEAPONS)
 				.defaultLang().register();
 	}
 }
