@@ -107,15 +107,15 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		MetalGolemModel model = map.get(gmpath.models());
 		model.root().getAllParts().forEach(ModelPart::resetPose);
 		model.copyFrom(getParentModel());
-		var animId = weapon.getAnimationId(entity, stack, hand);
-		if (animId != null && GolemModelAnimations.MAP.containsKey(animId)) {
-			var anim = GolemModelAnimations.MAP.get(animId);
-			if (anim != null) {
-				float speed = weapon.getAnimationSpeed(entity, stack, hand);
-				float tick = weapon.getAnimationTick(entity, stack, hand);
-				var state = new AnimationState();
-				state.startIfStopped(0);
-				model.animate(state, anim, tick + speed * pTick);
+		var list = weapon.getAnimationData(entity, stack, hand);
+		for (var entry : list) {
+			if (GolemModelAnimations.MAP.containsKey(entry.id())) {
+				var anim = GolemModelAnimations.MAP.get(entry.id());
+				if (anim != null) {
+					var state = new AnimationState();
+					state.startIfStopped(0);
+					model.animate(state, anim, entry.tick() + entry.speed() * pTick);
+				}
 			}
 		}
 		var sp = GolemShoulderPose.MAP.get(id);
@@ -198,7 +198,6 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		pose.popPose();
 
 	}
-
 
 
 }

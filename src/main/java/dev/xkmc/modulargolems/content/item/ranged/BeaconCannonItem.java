@@ -33,7 +33,8 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 			if (Math.abs(diff) > 30) return;
 			var laser = new BeaconLaserEntity(GolemMiscEntities.LASER.get(), e.level(), e, 10, hand == InteractionHand.MAIN_HAND);
 			e.level().addFreshEntity(laser);
-			e.level().playSound(null, e.blockPosition(), SoundEvents.BEACON_DEACTIVATE, SoundSource.NEUTRAL,2,1.5f);
+			if (!e.isSilent())
+				e.level().playSound(null, e.blockPosition(), SoundEvents.BEACON_DEACTIVATE, SoundSource.NEUTRAL, 2, 1.5f);
 		}
 	}
 

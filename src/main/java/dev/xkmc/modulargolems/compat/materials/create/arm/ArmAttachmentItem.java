@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.create.arm;
 
 import dev.xkmc.modulargolems.compat.materials.create.CreateCompatRegistry;
+import dev.xkmc.modulargolems.content.client.weapon.ShoulderAnimData;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
@@ -35,18 +36,8 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 	}
 
 	@Override
-	public @Nullable ResourceLocation getAnimationId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		return ID;
-	}
-
-	@Override
-	public float getAnimationSpeed(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		return 0;
-	}
-
-	@Override
-	public float getAnimationTick(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		return 0;
+	public List<ShoulderAnimData> getAnimationData(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
+		return List.of();
 	}
 
 	@Override

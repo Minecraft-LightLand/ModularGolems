@@ -1,10 +1,13 @@
 package dev.xkmc.modulargolems.content.item.ranged;
 
+import dev.xkmc.modulargolems.content.client.weapon.ShoulderAnimData;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public interface IShoulderCannonAnimated extends IShoulderWeapon {
 
@@ -13,35 +16,19 @@ public interface IShoulderCannonAnimated extends IShoulderWeapon {
 	}
 
 	@Override
-	default @Nullable ResourceLocation getAnimationId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
+	default List<ShoulderAnimData> getAnimationData(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
 		var model = getAnimBaseId(user, stack, hand);
-		if (model == null) return null;
+		if (model == null) return List.of();
 		int starting = user.animState.getStartingAnim();
 		int ending = user.animState.getEndingAnim();
 		if (starting >= 0 && starting <= 5)
-			return model.withSuffix("_start");
-		if (ending >= 0 && ending <= 5)
-			return model.withSuffix("_end");
-		if (starting > 0) {
-			return model.withSuffix("_active");
+			return List.of(new ShoulderAnimData(model.withSuffix("_start"), 1, starting));
+		else if (ending >= 0 && ending <= 5)
+			return List.of(new ShoulderAnimData(model.withSuffix("_end"), 1, ending));
+		else if (starting > 0) {
+			return List.of(new ShoulderAnimData(model.withSuffix("_active"), 1, 0));
 		}
-		return null;
-	}
-
-	@Override
-	default float getAnimationSpeed(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		return 1;
-	}
-
-	@Override
-	default float getAnimationTick(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		int starting = user.animState.getStartingAnim();
-		int ending = user.animState.getEndingAnim();
-		if (starting >= 0 && starting <= 5)
-			return starting;
-		if (ending >= 0 && ending <= 5)
-			return ending;
-		return 0;
+		return List.of();
 	}
 
 }

@@ -44,7 +44,8 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.SHIELD_BREAK.get());
+		if (stack.is(MGTagGen.SHIELD_BREAKER_WEAPONS))
+			list.add(MGLangData.SHIELD_BREAK.get());
 		super.appendHoverText(stack, level, list, flag);
 	}
 
