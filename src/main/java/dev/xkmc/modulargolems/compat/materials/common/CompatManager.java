@@ -63,7 +63,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(ATMDispatch.MODID)) LIST.add(new ATMDispatch());
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
-        if (ModList.get().isLoaded(CMDispatch.MODID)) LIST.add(new CMDispatch());
+		if (ModList.get().isLoaded(CMDispatch.MODID)) LIST.add(new CMDispatch());
 		if (ModList.get().isLoaded(L2Backpack.MODID))
 			MinecraftForge.EVENT_BUS.register(L2BCompat.class);
 	}

@@ -1,4 +1,3 @@
-
 package dev.xkmc.modulargolems.compat.materials.create.arm;
 
 import net.minecraft.core.Direction;

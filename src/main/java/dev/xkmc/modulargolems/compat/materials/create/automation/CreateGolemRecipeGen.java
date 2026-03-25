@@ -231,7 +231,7 @@ public class CreateGolemRecipeGen {
 					.whenModLoaded(TFDispatch.MODID)
 					.build(pvd);
 
-			for (var e : TFGolemWeaponMaterial.values()){
+			for (var e : TFGolemWeaponMaterial.values()) {
 
 				genCrushingRecipe(TFCompatRegistry.TF_GOLEM_WEAPON
 						[GolemWeaponType.AXE.ordinal()][e.ordinal()])

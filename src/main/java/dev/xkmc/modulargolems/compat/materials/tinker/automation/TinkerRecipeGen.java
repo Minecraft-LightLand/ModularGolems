@@ -61,59 +61,72 @@ public class TinkerRecipeGen {
 		melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE, TinkerFluids.moltenNetherite, 6 * 90,
 				e -> e.addByproduct(TinkerFluids.moltenDiamond.result(40 * 100)));
 
-        melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_HELMET, TinkerFluids.moltenNetherite, 5 * 90,
-                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(20 * 100)));
+		melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_HELMET, TinkerFluids.moltenNetherite, 5 * 90,
+				e -> e.addByproduct(TinkerFluids.moltenDiamond.result(20 * 100)));
 
-        melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD, TinkerFluids.moltenNetherite, 3 * 90,
-                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(18 * 100)));
+		melt(pvd, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD, TinkerFluids.moltenNetherite, 3 * 90,
+				e -> e.addByproduct(TinkerFluids.moltenDiamond.result(18 * 100)));
 
-        melt(pvd, GolemItems.WINDSPIRIT_CHESTPLATE, TinkerFluids.moltenDiamond, 40 * 100,
-                e->{});
+		melt(pvd, GolemItems.WINDSPIRIT_CHESTPLATE, TinkerFluids.moltenDiamond, 40 * 100,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.WINDSPIRIT_HELMET, TinkerFluids.moltenDiamond, 20 * 100,
-                e->{});
+		melt(pvd, GolemItems.WINDSPIRIT_HELMET, TinkerFluids.moltenDiamond, 20 * 100,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.WINDSPIRIT_SHINGUARD, TinkerFluids.moltenDiamond, 18 * 100,
-                e->{});
+		melt(pvd, GolemItems.WINDSPIRIT_SHINGUARD, TinkerFluids.moltenDiamond, 18 * 100,
+				e -> {
+				});
 
 		melt(pvd, GolemItems.WINDSPIRIT_BOOTS, TinkerFluids.moltenDiamond, 7 * 100,
-				e->{});
+				e -> {
+				});
 
-        melt(pvd, GolemItems.GOLEMGUARD_CHESTPLATE, TinkerFluids.moltenIron, 40 * 90,
-                e->{});
+		melt(pvd, GolemItems.GOLEMGUARD_CHESTPLATE, TinkerFluids.moltenIron, 40 * 90,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.GOLEMGUARD_HELMET, TinkerFluids.moltenIron, 20 * 90,
-                e->{});
+		melt(pvd, GolemItems.GOLEMGUARD_HELMET, TinkerFluids.moltenIron, 20 * 90,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.GOLEMGUARD_SHINGUARD, TinkerFluids.moltenIron, 18 * 90,
-                e->{});
+		melt(pvd, GolemItems.GOLEMGUARD_SHINGUARD, TinkerFluids.moltenIron, 18 * 90,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
-                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(4 * 100)));
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
+				e -> e.addByproduct(TinkerFluids.moltenDiamond.result(4 * 100)));
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
-                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(5 * 100)));
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
+				e -> e.addByproduct(TinkerFluids.moltenDiamond.result(5 * 100)));
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
-                e -> e.addByproduct(TinkerFluids.moltenDiamond.result(3 * 100)));
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()], TinkerFluids.moltenDebris, 4 * 90,
+				e -> e.addByproduct(TinkerFluids.moltenDiamond.result(3 * 100)));
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 4 * 100,
-                e->{});
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 4 * 100,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 5 * 100,
-                e->{});
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 5 * 100,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 3 * 100,
-                e->{});
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()], TinkerFluids.moltenDiamond, 3 * 100,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 4 * 90,
-                e->{});
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 4 * 90,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 5 * 90,
-                e->{});
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 5 * 90,
+				e -> {
+				});
 
-        melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 3 * 90,
-                e->{});
+		melt(pvd, GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SPEAR.ordinal()][VanillaGolemWeaponMaterial.IRON.ordinal()], TinkerFluids.moltenIron, 3 * 90,
+				e -> {
+				});
 
 	}
 

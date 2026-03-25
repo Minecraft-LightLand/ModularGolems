@@ -5,7 +5,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.world.entity.LivingEntity;
 
-public class FireBlastGoal extends BaseRangedAttackGoal implements IApostleGoal{
+public class FireBlastGoal extends BaseRangedAttackGoal implements IApostleGoal {
 
 	public FireBlastGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(200, 0, 2 + lv, golem, lv);

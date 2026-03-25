@@ -15,7 +15,6 @@ import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
-import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeScreen;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;

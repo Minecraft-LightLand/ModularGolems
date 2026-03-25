@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.compat.materials.create;
 
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.tterrag.registrate.providers.RegistrateLangProvider;

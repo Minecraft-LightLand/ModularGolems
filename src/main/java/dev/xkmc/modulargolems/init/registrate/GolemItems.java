@@ -229,8 +229,8 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
 			SONIC_CANNON = REGISTRATE.item("sonic_cannon", p -> new SonicCannonItem(p.stacksTo(1)))
-				.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
-				.tag(MGTagGen.TOUGH_ITEM).register();
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(MGTagGen.TOUGH_ITEM).register();
 			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
