@@ -5,9 +5,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
 
-public record ConnonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
+public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 
-	public static final ConnonPoseUtil BEACON = new ConnonPoseUtil(7f / 16f, 33 / 16f, 3 / 16f, 4.5f / 16f, 17f / 16f);
+	public static final float MAX_DEGREE = 15;
+
+	public static final CannonPoseUtil BEACON = new CannonPoseUtil(7f / 16f, 33 / 16f, 3 / 16f, 4.5f / 16f, 17f / 16f);
 
 	public float[] getAngle(MetalGolemEntity e, InteractionHand hand) {
 		var ans = new float[2];
@@ -58,6 +60,12 @@ public record ConnonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 		).scale(y1 * scale);
 
 		return e.position().add(origin.add(af).add(av));
+	}
+
+	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand) {
+		var rot = getAngle(e, hand);
+		var diff = Mth.wrapDegrees(rot[0] * Mth.RAD_TO_DEG + e.yBodyRot);
+		return Math.abs(diff) > CannonPoseUtil.MAX_DEGREE;
 	}
 
 }

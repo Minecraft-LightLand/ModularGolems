@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.SmallFireball;
@@ -41,14 +42,14 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 		super(p);
 	}
 
-
 	@Override
 	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
 		if (e.tickCount % 40 != (hand == InteractionHand.MAIN_HAND ? 10 : 30)) return;
 		var target = e.getTarget();
 		if (target == null || !target.isAlive()) return;
+		if (CannonPoseUtil.BEACON.isOutOfRange(e, hand)) return;
 		var ammo = e.getProjectile(stack);
-		var pos = ConnonPoseUtil.BEACON.getOrigin(e, hand);
+		var pos = CannonPoseUtil.BEACON.getOrigin(e, hand);
 		if (ammo.is(Items.TNT)) {
 			var tnt = TNTLauncher.getTNTEntity(e, pos, target);
 			if (tnt == null) return;

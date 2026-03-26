@@ -30,6 +30,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ForgeHooks;
@@ -255,10 +256,12 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
 		super.dropCustomDeathLoot(source, i, b);
-		if (!arrowSlot.isEmpty())
+		if (!arrowSlot.isEmpty() && arrowSlot.getEnchantmentLevel(Enchantments.VANISHING_CURSE) <= 0)
 			spawnAtLocation(arrowSlot);
-		if (!backupHand.isEmpty())
+		arrowSlot = ItemStack.EMPTY;
+		if (!backupHand.isEmpty() && backupHand.getEnchantmentLevel(Enchantments.VANISHING_CURSE) <= 0)
 			spawnAtLocation(backupHand);
+		backupHand = ItemStack.EMPTY;
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
@@ -285,12 +286,12 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
 		super.dropCustomDeathLoot(source, i, b);
-		var left = entityData.get(LEFT_SHOULDER);
-		if (!left.isEmpty())
-			spawnAtLocation(left);
-		var right = entityData.get(RIGHT_SHOULDER);
-		if (!right.isEmpty())
-			spawnAtLocation(right);
+		if (!leftShoulder.isEmpty() && leftShoulder.getEnchantmentLevel(Enchantments.VANISHING_CURSE) <= 0)
+			spawnAtLocation(leftShoulder);
+		leftShoulder = ItemStack.EMPTY;
+		if (!rightShoulder.isEmpty() && rightShoulder.getEnchantmentLevel(Enchantments.VANISHING_CURSE) <= 0)
+			spawnAtLocation(rightShoulder);
+		rightShoulder = ItemStack.EMPTY;
 	}
 
 	@Override
