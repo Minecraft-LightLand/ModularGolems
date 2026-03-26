@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
@@ -76,7 +77,7 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName())
 						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(GolemWeaponType.AXE.model)))
 						.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
-				.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE)
+				.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
 				.recipe((ctx, pvd) -> RecipeGen.unlock(pvd,
 						SmithingTransformRecipeBuilder.smithing(
 								Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE),

@@ -28,10 +28,11 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 				!e.level().isClientSide() && e.getTarget() != null && e.getTarget().isAlive()) {
 			var rot = ConnonPoseUtil.BEACON.getAngle(e, hand);
 			var diff = Mth.wrapDegrees(rot[0] * Mth.RAD_TO_DEG + e.yBodyRot);
-			if (Math.abs(diff) > 30) return;
+			if (Math.abs(diff) > ConnonPoseUtil.MAX_DEGREE) return;
 			var laser = new BeaconLaserEntity(GolemMiscEntities.LASER.get(), e.level(), e, 10, hand == InteractionHand.MAIN_HAND);
 			e.level().addFreshEntity(laser);
-			e.level().playSound(null, e.blockPosition(), SoundEvents.BEACON_DEACTIVATE, SoundSource.NEUTRAL,2,1.5f);
+			if (!e.isSilent())
+				e.level().playSound(null, e.blockPosition(), SoundEvents.BEACON_DEACTIVATE, SoundSource.NEUTRAL, 2, 1.5f);
 		}
 	}
 

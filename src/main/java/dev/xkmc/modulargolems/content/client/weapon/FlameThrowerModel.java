@@ -24,8 +24,8 @@ public class FlameThrowerModel {
 		GolemModelPath.register(GolemModelPaths.FLAME_LEFT,
 				new GolemModelPath(FLAME_LEFT, List.of(List.of("body", "flamethrower2"))));
 
-		GolemShoulderPose.register(GolemModelPaths.BEACON_RIGHT, new BeaconConnonPose("flamethrower", -1, 0, 0));
-		GolemShoulderPose.register(GolemModelPaths.BEACON_LEFT, new BeaconConnonPose("flamethrower2", 1, 0, 0));
+		GolemShoulderPose.register(GolemModelPaths.FLAME_RIGHT, new BeaconConnonPose("flamethrower", -1, 0, 0));
+		GolemShoulderPose.register(GolemModelPaths.FLAME_LEFT, new BeaconConnonPose("flamethrower2", 1, 0, 0));
 	}
 
 

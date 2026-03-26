@@ -1,3 +1,9 @@
+3.1.27
+- Golem axe breaks shield now
+
+3.1.26
+- Fix Naga Boots crash
+
 3.1.25
 - Add Flame Thrower shoulder weapon
 - Fix golem riding offset with maid skins

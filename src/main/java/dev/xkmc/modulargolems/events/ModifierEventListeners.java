@@ -57,7 +57,7 @@ public class ModifierEventListeners {
 		}
 		for (var e : event.getAffectedEntities()) {
 			if (e instanceof AbstractGolemEntity<?, ?> golem) {
-				if (golem.getModifiers().getOrDefault(GolemModifiers.EXPLOSION_RES.get(), 0) > 0) {
+				if (golem.getModifiersExtended().getOrDefault(GolemModifiers.EXPLOSION_RES.get(), 0) > 0) {
 					event.getAffectedBlocks().clear();
 					return;
 				}

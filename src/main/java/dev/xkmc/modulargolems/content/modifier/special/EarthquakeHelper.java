@@ -58,7 +58,7 @@ public class EarthquakeHelper {
 	public static Instance findInstance(AbstractGolemEntity<?, ?> golem, LivingEntity target, double distSqr) {
 		List<Instance> list = new ArrayList<>();
 		long time = golem.level().getGameTime();
-		for (var e : golem.getModifiers().entrySet()) {
+		for (var e : golem.getModifiersExtended().entrySet()) {
 			if (e.getKey() instanceof Modifier m) {
 				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
 				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {

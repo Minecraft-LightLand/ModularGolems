@@ -40,8 +40,8 @@ public class NagaArmors {
                 )));
         GolemModelPath.register(NAGA_BOOTS,
                 new GolemModelPath(BOOTS_LAYER, List.of(
-                        List.of("right_leg", "legs2"),
-                        List.of("left_leg", "legs3")
+                        List.of("right_leg", "boots1"),
+                        List.of("left_leg", "boots2")
                 )));
     }
 

@@ -58,7 +58,8 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 			var tnt = TNTLauncher.getTNTEntity(e, pos, target);
 			if (tnt == null) return;
 			e.level().addFreshEntity(tnt);
-			e.playSound(SoundEvents.BLAZE_SHOOT);
+			if (!e.isSilent())
+				e.playSound(SoundEvents.BLAZE_SHOOT);
 			if (!e.isHostile())
 				ammo.shrink(1);
 			return;
@@ -70,12 +71,13 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 			proj.setPos(pos);
 			proj.setDeltaMovement(dir);
 			e.level().addFreshEntity(proj);
-			e.playSound(SoundEvents.BLAZE_SHOOT);
+			if (!e.isSilent())
+				e.playSound(SoundEvents.BLAZE_SHOOT);
 			if (!e.isHostile())
 				ammo.shrink(1);
 			return;
 		}
-		if (EnchHelper.getLv(stack, Enchantments.INFINITY) <= 0) {
+		if (!e.isHostile() && EnchHelper.getLv(stack, Enchantments.INFINITY) <= 0) {
 			int charge = getCharge(stack);
 			if (charge <= 0) {
 				if (!ammo.is(Items.BLAZE_POWDER)) return;
@@ -90,7 +92,8 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 		proj.setPos(pos);
 		proj.setDeltaMovement(dir);
 		e.level().addFreshEntity(proj);
-		e.playSound(SoundEvents.BLAZE_SHOOT);
+		if (!e.isSilent())
+			e.playSound(SoundEvents.BLAZE_SHOOT);
 	}
 
 	@Override

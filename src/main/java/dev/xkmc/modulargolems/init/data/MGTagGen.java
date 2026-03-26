@@ -49,6 +49,7 @@ public class MGTagGen {
 	public static final TagKey<Item> CURIO_PATH = ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "golem_route"));
 	public static final TagKey<Item> PLAYER_SKIN = createItemTag("player_skin");
 	public static final TagKey<Item> LARGE_GOLEM_WEAPONS = createItemTag("large_golem_weapons");
+	public static final TagKey<Item> SHIELD_BREAKER_WEAPONS = createItemTag("shield_breaker_weapons");
 	public static final TagKey<Item> C_WOLF_ARMORS = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "wolf_armor"));
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");

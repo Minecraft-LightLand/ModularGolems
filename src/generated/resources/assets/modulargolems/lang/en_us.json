@@ -696,6 +696,7 @@
   "modulargolems.tooltip.repair_material": "Golem repair material",
   "modulargolems.tooltip.return_items": "Returns the following items on disassembly:",
   "modulargolems.tooltip.return_many": "Returns %s items on disassembly",
+  "modulargolems.tooltip.shield_break": "Shield Breaker",
   "modulargolems.tooltip.shift": "Press SHIFT to show modifier details",
   "modulargolems.tooltip.shoulder_weapon": "Mounts on Metal Golem Shoulders",
   "modulargolems.tooltip.slicing_enemy": "When metal golem kill certain enemies with this axe, drop one random metal golem part",

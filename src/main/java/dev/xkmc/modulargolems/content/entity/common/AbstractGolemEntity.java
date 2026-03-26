@@ -727,7 +727,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 					checkReforge();
 				}
 			}
-			for (var entry : getModifiers().entrySet()) {
+			for (var entry : getModifiersExtended().entrySet()) {
 				entry.getKey().onAiStep(this, entry.getValue());
 			}
 			this.updatePersistentAnger((ServerLevel) this.level(), true);
