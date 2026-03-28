@@ -1,3 +1,9 @@
+2.6.34
+- Limit shoulder weapon horizontal angle to 15 degrees
+- Fix shoulder weapon not attacking mobs above and below
+- Fix flame thrower not rotating
+- backup / arrow / shoulder slots respect vanishing curse now
+
 2.6.33
 - Golem axe breaks shields now
 

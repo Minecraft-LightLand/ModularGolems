@@ -63,9 +63,22 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 	}
 
 	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand) {
+		return isOutOfRange(e, hand, 5);
+	}
+
+	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand, float allowance) {
 		var rot = getAngle(e, hand);
+		var f0 = Vec3.directionFromRotation(rot[1] * Mth.RAD_TO_DEG, rot[0] * Mth.RAD_TO_DEG);
 		var diff = Mth.wrapDegrees(rot[0] * Mth.RAD_TO_DEG + e.yBodyRot);
-		return Math.abs(diff) > CannonPoseUtil.MAX_DEGREE;
+		if (Math.abs(diff) <= CannonPoseUtil.MAX_DEGREE) return false;
+		if (diff > MAX_DEGREE) {
+			rot[0] = (MAX_DEGREE - e.yBodyRot) * Mth.DEG_TO_RAD;
+		}
+		if (diff < -MAX_DEGREE) {
+			rot[0] = (-MAX_DEGREE - e.yBodyRot) * Mth.DEG_TO_RAD;
+		}
+		var f1 = Vec3.directionFromRotation(rot[1] * Mth.RAD_TO_DEG, rot[0] * Mth.RAD_TO_DEG);
+		return Math.acos(f0.dot(f1)) > allowance * Mth.DEG_TO_RAD;
 	}
 
 }
