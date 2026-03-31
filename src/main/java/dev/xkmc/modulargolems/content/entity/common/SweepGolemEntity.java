@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
+import dev.xkmc.l2core.init.reg.ench.EnchHelper;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
@@ -29,6 +30,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.CommonHooks;
@@ -100,7 +102,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		return flag;
 	}
 
-	protected boolean canSweep(){
+	protected boolean canSweep() {
 		return true;
 	}
 
@@ -243,10 +245,12 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	@Override
 	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
 		super.dropCustomDeathLoot(level, source, player);
-		if (!arrowSlot.isEmpty())
+		if (!arrowSlot.isEmpty() && EnchHelper.getLv(arrowSlot, Enchantments.VANISHING_CURSE) <= 0)
 			spawnAtLocation(arrowSlot);
-		if (!backupHand.isEmpty())
+		arrowSlot = ItemStack.EMPTY;
+		if (!backupHand.isEmpty() && EnchHelper.getLv(backupHand, Enchantments.VANISHING_CURSE) <= 0)
 			spawnAtLocation(backupHand);
+		backupHand = ItemStack.EMPTY;
 	}
 
 

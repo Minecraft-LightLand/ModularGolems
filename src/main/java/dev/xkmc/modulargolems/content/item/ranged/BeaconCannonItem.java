@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -26,9 +25,7 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
 		if (e.tickCount % 60 == (hand == InteractionHand.MAIN_HAND ? 20 : 50) &&
 				!e.level().isClientSide() && e.getTarget() != null && e.getTarget().isAlive()) {
-			var rot = ConnonPoseUtil.BEACON.getAngle(e, hand);
-			var diff = Mth.wrapDegrees(rot[0] * Mth.RAD_TO_DEG + e.yBodyRot);
-			if (Math.abs(diff) > ConnonPoseUtil.MAX_DEGREE) return;
+			if (CannonPoseUtil.BEACON.isOutOfRange(e, hand)) return;
 			var laser = new BeaconLaserEntity(GolemMiscEntities.LASER.get(), e.level(), e, 10, hand == InteractionHand.MAIN_HAND);
 			e.level().addFreshEntity(laser);
 			if (!e.isSilent())

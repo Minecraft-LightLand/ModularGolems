@@ -4,7 +4,7 @@ import dev.xkmc.l2core.base.entity.BaseEntity;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.item.ranged.ConnonPoseUtil;
+import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGDamageTypes;
 import net.minecraft.core.registries.Registries;
@@ -66,8 +66,8 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 	public void setup(LivingEntity le) {
 		if (!(le instanceof MetalGolemEntity e)) return;
 		var hand = right ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-		var pos = ConnonPoseUtil.BEACON.getOrigin(e, hand);
-		var rot = ConnonPoseUtil.BEACON.getAngle(e, hand);
+		var pos = CannonPoseUtil.BEACON.getOrigin(e, hand);
+		var rot = CannonPoseUtil.BEACON.getAngle(e, hand);
 		var dst = e.getTargetAimPos().add(e.position()).subtract(pos).normalize().scale(35).add(pos);
 		var hit = e.level().clip(new ClipContext(pos, dst, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()));
 		len = (float) hit.getLocation().subtract(pos).length();
