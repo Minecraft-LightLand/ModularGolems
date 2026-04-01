@@ -50,7 +50,7 @@ public class EtheriteModifier extends GolemModifier {
 	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
 		// 限制触发频率
 		// 每600tick(30秒)触发一次，且在tickCount为20时触发
-		if (golem.tickCount % MGConfig.COMMON.ethertiteRepairDelay.get() == 20) {//TODO config
+		if (level >= 4 && golem.tickCount % MGConfig.COMMON.ethertiteRepairDelay.get() == 20) {
 			golem.repairWithItem();
 		}
 	}

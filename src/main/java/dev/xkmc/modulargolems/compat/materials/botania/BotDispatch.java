@@ -4,7 +4,11 @@ import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.events.event.GolemInfoEvent;
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class BotDispatch extends ModDispatch {
 
@@ -12,6 +16,8 @@ public class BotDispatch extends ModDispatch {
 
 	public BotDispatch() {
 		BotCompatRegistry.register();
+		MinecraftForge.EVENT_BUS.register(BotDispatch.class);
+
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {
@@ -28,6 +34,13 @@ public class BotDispatch extends ModDispatch {
 	@Override
 	public ConfigDataProvider getDataGen(DataGenerator gen) {
 		return new BotConfigGen(gen);
+	}
+
+	@SubscribeEvent
+	public static void onGolemInfo(GolemInfoEvent event) {
+		if (event.getGolem().hasFlag(GolemFlags.BOTANIA)) {
+			event.addLine(BotUtils.getDesc(event.getGolem()));
+		}
 	}
 
 }

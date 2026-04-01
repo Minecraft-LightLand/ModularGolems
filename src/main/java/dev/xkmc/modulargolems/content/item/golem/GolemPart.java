@@ -21,10 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -89,7 +86,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 				modifiers.compute(k, (e, o) -> (o == null ? 0 : o) + v);
 			}
 		});
-		return new GolemMaterial(stats, modifiers, mat, this);
+		return new GolemMaterial(new LinkedHashMap<>(new TreeMap<>(stats)), modifiers, mat, this);
 	}
 
 	@Override

@@ -6,13 +6,12 @@ import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
-import dev.xkmc.modulargolems.compat.materials.botania.BotUtils;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
+import dev.xkmc.modulargolems.events.event.GolemInfoEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
@@ -28,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +53,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		if (golem.isHostile()) return;
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
-		if (golem.hasFlag(GolemFlags.BOTANIA)) {
-			text.add(BotUtils.getDesc(golem));
-		}
+		MinecraftForge.EVENT_BUS.post(new GolemInfoEvent(golem, text));
 		text.add(golem.getMode().getDesc(golem));
 		var config = golem.getConfigEntry(MGLangData.LOADING.get());
 		if (config != null) {
@@ -65,7 +63,11 @@ public class GolemStatusOverlay implements IGuiOverlay {
 				text.add(MGLangData.CONFIG_LOCK.get().withStyle(ChatFormatting.RED));
 			}
 		}
-		golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
+		if (golem.getModifiers().size() > 8) {
+			text.add(MGLangData.UPGRADE_COUNT.get(golem.getModifiers().size(), golem.getUpgrades().size()));
+		} else {
+			golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
+		}
 		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
 		new OverlayUtil(g, textPos, -1, -1)
 				.renderLongText(gui.getFont(), text);

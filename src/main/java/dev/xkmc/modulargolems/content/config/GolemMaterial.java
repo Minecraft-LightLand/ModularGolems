@@ -30,7 +30,7 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 
 	public static Map<Attribute, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, List<IUpgradeItem> upgrades) {
 		HashMap<Attribute, Map<GolemStatType, Double>> values = new LinkedHashMap<>();
-		for (GolemStatType type : GolemTypes.STAT_TYPES.get().getValues()) {
+		for (GolemStatType type : new TreeSet<>(GolemTypes.STAT_TYPES.get().getValues())) {
 			appendStat(values, type, 0);
 		}
 		for (GolemMaterial stats : list) {

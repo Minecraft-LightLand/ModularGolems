@@ -1,3 +1,8 @@
+2.6.36
+- Fix Etherite modifier
+- Sort stat display
+- Abbreviate overlay modifier display when there are more than 8
+
 2.6.34
 - Limit shoulder weapon horizontal angle to 15 degrees
 - Fix shoulder weapon not attacking mobs above and below
