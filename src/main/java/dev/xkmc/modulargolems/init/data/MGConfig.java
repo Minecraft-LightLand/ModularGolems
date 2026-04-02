@@ -90,6 +90,7 @@ public class MGConfig {
 		public final ModConfigSpec.DoubleValue earthquakeArmorBonus;
 		public final ModConfigSpec.DoubleValue sandCurseBonus;
 		public final ModConfigSpec.BooleanValue wandBypassConfig;
+		public final ModConfigSpec.BooleanValue sendForceRemovalMessage;
 
 		Common(Builder builder) {
 			markL2();
@@ -140,7 +141,8 @@ public class MGConfig {
 						.defineInRange("sonicCannonDamageFactor", 0.25, 0, 1);
 				sonicCannonResonanceBonus = builder.text("Bonus damage of Sonic Cannon per sculk part, as percentage of golem melee damage")
 						.defineInRange("sonicCannonResonanceBonus", 0.1, 0, 1);
-
+				sendForceRemovalMessage = builder.comment("Send force removal message")
+						.define("sendForceRemovalMessage", true);
 
 				largeGolemSlot = builder.text("Default slots for large golem")
 						.defineInRange("largeGolemSlot", 4, 0, 100);

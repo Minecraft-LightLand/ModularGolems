@@ -1,3 +1,8 @@
+3.1.29
+- Fix flame thrower enchantability
+- Sort stat display
+- Record golem forced removal on golm death info page
+
 3.1.28
 - Limit shoulder weapon horizontal angle to 15 degrees
 - Fix shoulder weapon not attacking mobs above and below

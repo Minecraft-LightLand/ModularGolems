@@ -61,6 +61,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -101,7 +102,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 @SerialClass
-public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolem
+public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
 		implements IEntityWithComplexSpawn, NeutralMob, OwnableEntity, PowerableMob {
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
@@ -291,9 +292,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	protected void actuallyHurt(DamageSource source, float damage) {
-		if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) damage *= 1000;
-		super.actuallyHurt(source, damage);
+	protected void postHurt(DamageSource source) {
 		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			unRide();
 			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
@@ -1058,16 +1057,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public void die(DamageSource source) {
-		untrack(GolemTracker.Status.DEATH, source.getEntity());
-		if (!isHostile()) {
-			ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
-			Player owner = getOwner();
-			if (owner != null && !level().isClientSide) {
-				owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
+	public boolean hurt(DamageSource source, float amount) {
+		if (level().isClientSide()) return false;
+		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
+			unRide();
+			if (hasFlag(GolemFlags.RECYCLE)) {
+				untrack(GolemTracker.Status.DEATH_RECYCLE, null);
+				returnToInventory();
+			} else {
+				untrack(GolemTracker.Status.DEATH, null);
 			}
+			this.discard();
+			return true;
 		}
-		super.die(source);
+		return super.hurt(source, amount);
 	}
 
 	public double getPerceivedTargetDistanceSquareForMeleeAttack(LivingEntity target) {
@@ -1190,6 +1193,63 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void saveToItem(CompoundTag tag) {
 		super.save(tag);
 		tag.remove("AngryAt");
+	}
+
+	private boolean untrackRemoved(@Nullable DamageSource source) {
+		if (level().isClientSide()) return false;
+		var tracker = getTracker();
+		if (tracker == null || tracker.isUntracked(this)) return false;
+		Player owner = getOwner();
+		Entity cause = null;
+		boolean sendMessages = MGConfig.COMMON.sendForceRemovalMessage.get();
+		if (source != null) {
+			ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
+			if (owner != null && sendMessages) {
+				owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
+			}
+			cause = source.getEntity();
+		} else {
+			ModularGolems.LOGGER.info("Golem {} is forcefully removed ", this);
+			if (owner != null && sendMessages) {
+				owner.sendSystemMessage(Component.literal("Golem " + this + " is forcefully removed"));
+			}
+			if (getLastHurtByMobTimestamp() == tickCount) {
+				cause = getLastHurtByMob();
+			}
+		}
+		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
+			tracker.untrack(this, GolemTracker.Status.DEATH_RECYCLE, cause);
+			returnToInventory();
+			level().broadcastEntityEvent(this, EntityEvent.POOF);
+			return true;
+		} else {
+			tracker.untrack(this, GolemTracker.Status.DEATH, cause);
+			return false;
+		}
+	}
+
+	@Override
+	public void onRemove(RemovalReason reason) {
+		if (reason.shouldDestroy())
+			untrackRemoved(null);
+	}
+
+	@Override
+	public boolean specialDeath(DamageSource source) {
+		if (untrackRemoved(source)) {
+			dead = true;
+			discard();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected void tickDeath() {
+		if (untrackRemoved(null)) {
+			discard();
+		}
+		super.tickDeath();
 	}
 
 }

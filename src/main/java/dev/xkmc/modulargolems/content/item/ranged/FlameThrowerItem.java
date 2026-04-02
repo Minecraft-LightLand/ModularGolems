@@ -110,7 +110,12 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 
 	@Override
 	public boolean isPrimaryItemFor(ItemStack stack, Holder<Enchantment> enchantment) {
-		return super.isPrimaryItemFor(stack, enchantment) == enchantment.is(Enchantments.INFINITY);
+		return super.isPrimaryItemFor(stack, enchantment) || enchantment.is(Enchantments.INFINITY);
+	}
+
+	@Override
+	public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
+		return super.supportsEnchantment(stack, enchantment) || enchantment.is(Enchantments.INFINITY);
 	}
 
 	private static boolean supports(ItemStack stack) {

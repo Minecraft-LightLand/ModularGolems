@@ -8,6 +8,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.function.Supplier;
 
 import static net.minecraft.world.item.component.ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT;
 
-public class GolemStatType extends NamedEntry<GolemStatType> {
+public class GolemStatType extends NamedEntry<GolemStatType> implements Comparable<GolemStatType>{
 
 	public enum Kind {
 		BASE, ADD, PERCENT
@@ -25,12 +26,22 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 
 	public final Kind kind;
 	public final StatFilterType type;
+	private final boolean showAsPercent;
 
 	public GolemStatType(Supplier<Holder<Attribute>> attribute, Kind kind, StatFilterType type) {
+		this(attribute, kind, type, false);
+	}
+
+	public GolemStatType(Supplier<Holder<Attribute>> attribute, Kind kind, StatFilterType type, boolean showAsPercent) {
 		super(GolemTypes.STAT_TYPES);
 		this.attribute = attribute;
 		this.kind = kind;
 		this.type = type;
+		this.showAsPercent = showAsPercent;
+	}
+
+	public boolean percentDisplay() {
+		return kind == Kind.PERCENT || showAsPercent;
 	}
 
 	public Holder<Attribute> getAttribute() {
@@ -39,10 +50,10 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 
 	public MutableComponent getAdderTooltip(double val) {
 		var attr = attribute.get().value();
-		if (kind == Kind.PERCENT) {
+		if (percentDisplay()) {
 			val = val * 100;
 		}
-		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
+		String key = "attribute.modifier." + (val < 0 ? "take." : "plus.") + (percentDisplay() ? 1 : 0);
 		return Component.translatable(key,
 				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
 				Component.translatable(attr.getDescriptionId())).withStyle(attr.getStyle(val > 0));
@@ -50,10 +61,10 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 
 	public MutableComponent getTotalTooltip(double val) {
 		var attr = attribute.get().value();
-		if (kind == Kind.PERCENT) {
+		if (percentDisplay()) {
 			val = val * 100;
 		}
-		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (kind == Kind.PERCENT ? 1 : 0);
+		String key = "attribute.modifier." + (val < 0 ? "take." : kind == Kind.BASE ? "equals." : "plus.") + (percentDisplay() ? 1 : 0);
 		return Component.translatable(key,
 				ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(val)),
 				Component.translatable(attr.getDescriptionId())).withStyle(attr.getStyle(val > 0));
@@ -92,6 +103,11 @@ public class GolemStatType extends NamedEntry<GolemStatType> {
 			}
 		}
 		return conflicting;
+	}
+
+	@Override
+	public int compareTo(@NotNull GolemStatType other) {
+		return getRegistryName().compareTo(other.getRegistryName());
 	}
 
 }

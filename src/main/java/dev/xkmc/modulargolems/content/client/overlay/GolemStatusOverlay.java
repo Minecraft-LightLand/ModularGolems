@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
+import dev.xkmc.modulargolems.events.event.GolemInfoEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
@@ -30,6 +31,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
+import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +65,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 		MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
 		text.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
-		if (golem.hasFlag(GolemFlags.BOTANIA)) {
-			//TODO bot text.add(BotUtils.getDesc(golem));
-		}
+		NeoForge.EVENT_BUS.post(new GolemInfoEvent(golem, text));
 		text.add(golem.getMode().getDesc(golem));
 		var config = golem.getConfigEntry(MGLangData.LOADING.get());
 		if (config != null) {

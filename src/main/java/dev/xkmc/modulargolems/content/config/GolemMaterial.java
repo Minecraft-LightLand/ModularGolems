@@ -31,8 +31,8 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 
 	public static Map<Holder<Attribute>, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, GolemUpgrade upgrades) {
 		HashMap<Holder<Attribute>, Map<GolemStatType, Double>> values = new LinkedHashMap<>();
-		for (var type : GolemTypes.STAT_TYPES.get().entrySet()) {
-			appendStat(values, type.getValue(), 0);
+		for (var type : new TreeSet<>(GolemTypes.STAT_TYPES.get().stream().toList())) {
+			appendStat(values, type, 0);
 		}
 		for (GolemMaterial stats : list) {
 			stats.stats.forEach((k, v) -> appendStat(values, k, v));
