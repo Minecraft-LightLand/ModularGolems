@@ -155,7 +155,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
-		this.setHealth(this.getMaxHealth());
+		if (!level().isClientSide())
+			this.setHealth(this.getMaxHealth());
 	}
 
 	public void updateAttributes(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
@@ -318,7 +319,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected void postHurt(DamageSource source) {
-		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
+		if (getHealthImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			unRide();
 			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
 			returnToInventory();
@@ -674,7 +675,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void repair(float amount) {
-		setHealth(Math.min(getMaxHealth(), getHealth() + amount));
+		setHealth(Math.min(getMaxHealth(), getHealthImpl() + amount));
 	}
 
 	public static final UUID REFORGE_ID = MathHelper.getUUIDFromString("GolemReforge");
@@ -711,7 +712,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void checkReforge() {
-		if (isAlive() && getHealth() <= getMaxHealth() / 2) {
+		if (isAlive() && getHealthImpl() <= getMaxHealth() / 2) {
 			int reforge = getPersistentData().getInt("GolemReforge");
 			if (reforge < getMaxReforge()) {
 				reforge++;
@@ -731,7 +732,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void repairWithItem() {
 		int reforge = getPersistentData().getInt("GolemReforge");
-		if (getHealth() > 0.75 * getMaxHealth() && reforge > 0)
+		if (getHealthImpl() > 0.75 * getMaxHealth() && reforge > 0)
 			updateReforge(reforge - 1);
 		else repair(getMaxHealth() / 4);
 
@@ -1177,6 +1178,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void tickDeath() {
+		if (getHealthImpl() > 0) return;
 		if (untrackRemoved(null)) {
 			discard();
 		}
@@ -1205,7 +1207,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				cause = getLastHurtByMob();
 			}
 		}
-		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
+		if (getHealthImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			tracker.untrack(this, GolemTracker.Status.DEATH_RECYCLE, cause);
 			returnToInventory();
 			level().broadcastEntityEvent(this, EntityEvent.POOF);

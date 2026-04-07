@@ -3,10 +3,10 @@ package dev.xkmc.modulargolems.content.item.golem;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
-import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.events.CraftEventListeners;
+import dev.xkmc.modulargolems.events.event.ModifyItemOnApplication;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +15,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +46,11 @@ public record GolemEquipUtil(boolean isClient, @Nullable Level level) {
 			return CraftEventListeners.appendUpgrade(first, holder, upgrade);
 		} else if (GolemEquipUtil.isGolemCurio(holder, second)) {
 			return equipCurioOnHolder(holder, first, second);
-		} else if (holder.getEntityType() == GolemTypes.TYPE_GOLEM.get()) {
+		}
+		var event = new ModifyItemOnApplication(first, second);
+		MinecraftForge.EVENT_BUS.post(event);
+		second = event.getStack();
+		if (holder.getEntityType() == GolemTypes.TYPE_GOLEM.get()) {
 			EquipmentSlot slot = LivingEntity.getEquipmentSlotForItem(second);
 			if (!second.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
 				if (!(second.getItem() instanceof IGolemEquipmentItem equipment)) return ItemStack.EMPTY;

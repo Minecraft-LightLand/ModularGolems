@@ -30,7 +30,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -200,7 +199,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			uplist.add(StringTag.valueOf(rl.toString()));
 		}
 		var entityTag = tag.getSubTag(KEY_ENTITY).getOrCreate();
+		entity.validateHealth();
+		var hp = entity.getHealthImpl();
 		entity.saveToItem(entityTag);
+		setHealth(stack, hp);
 
 		var name = entity.getCustomName();
 		if (name != null) stack.setHoverName(name);

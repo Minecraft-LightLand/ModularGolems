@@ -1,3 +1,7 @@
+2.6.37
+- Add health to golem status display
+- Fix golem weapon switch between staff and swords
+
 2.6.36
 - Fix Etherite modifier
 - Sort stat display

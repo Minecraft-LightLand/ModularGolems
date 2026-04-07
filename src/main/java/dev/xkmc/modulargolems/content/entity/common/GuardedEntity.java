@@ -1,20 +1,21 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
+import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.network.NetworkEvent;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 
 @SerialClass
@@ -33,7 +34,6 @@ public class GuardedEntity extends AbstractGolem {
 	protected boolean isEffectImmune() {
 		return false;
 	}
-
 
 	protected void postHurt(DamageSource source) {
 	}
@@ -85,12 +85,12 @@ public class GuardedEntity extends AbstractGolem {
 			if (isInvulnerable())
 				amount = Math.max(amount, Math.max(1, getMaxHealth() * 0.01f));
 		}
-		super.setHealth(getHealth() - amount);
+		setHealthImpl(getHealthImpl() - amount);
 		postHurt(source);
 	}
 
 	public final void validateData() {
-		if (getHealth() > 0) {
+		if (getHealthImpl() > 0) {
 			if (deathTime > 0) deathTime = 0;
 			if (dead) dead = false;
 		}
@@ -100,11 +100,11 @@ public class GuardedEntity extends AbstractGolem {
 	public final void setHealth(float amount) {
 		if (!Float.isFinite(amount)) return;
 		if (level().isClientSide()) {
-			super.setHealth(amount);
+			setHealthImpl(amount);
 		}
-		float health = getHealth();
+		float health = getHealthImpl();
 		if (tickCount > 5 && amount <= health) return;
-		super.setHealth(amount);
+		setHealthImpl(amount);
 	}
 
 	public void heal(float original) {
@@ -114,7 +114,7 @@ public class GuardedEntity extends AbstractGolem {
 			heal = Math.max(original, heal);
 			if (heal <= 0) return;
 		}
-		float f = getHealth();
+		float f = getHealthImpl();
 		float m = getMaxHealth();
 		heal = Math.min(m - f, heal);
 		if (f > 0 && heal > 0) {
@@ -128,7 +128,7 @@ public class GuardedEntity extends AbstractGolem {
 
 	@Override
 	public void die(DamageSource source) {
-		if (getHealth() > 0) return;
+		if (getHealthImpl() > 0) return;
 		if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, source)) return;
 		if (specialDeath(source)) return;
 		if (isRemoved() || dead) return;
@@ -173,6 +173,119 @@ public class GuardedEntity extends AbstractGolem {
 	}
 
 	public void onRemove(RemovalReason reason) {
+	}
+
+	@Override
+	protected void dropAllDeathLoot(DamageSource source) {
+		if (getHealthImpl() > 0) return;
+		super.dropAllDeathLoot(source);
+	}
+
+	@Override
+	public void setPose(Pose pose) {
+		if (getHealthImpl() > 0 && pose == Pose.DYING)
+			return;
+		super.setPose(pose);
+	}
+
+	@Override
+	public void handleEntityEvent(byte event) {
+		if (event == EntityEvent.DEATH && getHealthImpl() > 0)
+			return;
+		super.handleEntityEvent(event);
+	}
+
+	@Override
+	protected void tickDeath() {
+		if (getHealthImpl() > 0) return;
+		super.tickDeath();
+	}
+
+	@SerialClass.SerialField
+	private GuardedData guardedData;
+	private boolean loopingSetHealth = false;
+
+	public void setHealthImpl(float amount) {
+		boolean update = guardedData == null || amount != guardedData.amount();
+		guardedData = new GuardedData(amount);
+		if (!loopingSetHealth) {
+			loopingSetHealth = true;
+			super.setHealth(amount);
+			loopingSetHealth = false;
+			if (update && isAddedToWorld() && !level().isClientSide())
+				GuardedDataToClient.send(this);
+		}
+	}
+
+	public void applyData(GuardedData data) {
+		setHealthImpl(data.amount());
+	}
+
+	public float getHealthImpl() {
+		if (guardedData != null)
+			return Math.max(super.getHealth(), guardedData.amount());
+		if (!level().isClientSide())
+			validateHealth();
+		return super.getHealth();
+	}
+
+	@Override
+	public float getHealth() {
+		return getHealthImpl();
+	}
+
+	public void validateHealth() {
+		if (loopingSetHealth) return;
+		if (guardedData == null) {
+			guardedData = new GuardedData(super.getHealth());
+		} else {
+			if (super.getHealth() < guardedData.amount()) {
+				loopingSetHealth = true;
+				super.setHealth(guardedData.amount());
+				loopingSetHealth = false;
+			} else guardedData = new GuardedData(super.getHealth());
+		}
+	}
+
+	public record GuardedData(float amount) {
+
+	}
+
+	@SerialClass
+	public static class GuardedDataToClient extends SerialPacketBase {
+
+		public static void send(GuardedEntity e) {
+			var ans = new GuardedDataToClient();
+			ans.id = e.getId();
+			ans.data = e.guardedData;
+			ModularGolems.HANDLER.toTrackingPlayers(ans, e);
+		}
+
+		@SerialClass.SerialField
+		public int id;
+		@SerialClass.SerialField
+		public GuardedData data;
+
+		public GuardedDataToClient() {
+
+		}
+
+		@Override
+		public void handle(NetworkEvent.Context context) {
+			GuardedDataHandler.handle(this);
+		}
+	}
+
+	public static class GuardedDataHandler {
+
+		public static void handle(GuardedDataToClient packet) {
+			var level = Minecraft.getInstance().level;
+			if (level == null) return;
+			var e = level.getEntity(packet.id);
+			if (!(e instanceof GuardedEntity g)) return;
+			g.applyData(packet.data);
+		}
+
 	}
 
 }
