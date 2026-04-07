@@ -78,8 +78,8 @@ public class PickupGoal extends Goal {
 		}
 		if (destroyItemCount > 0) {
 			if (player != null) {
-				ModularGolems.LOGGER.info(MGLangData.DESTROY_ITEM.get(golem, destroyItemCount).getString());
-				player.sendSystemMessage(MGLangData.DESTROY_ITEM.get(golem, destroyItemCount));
+				ModularGolems.LOGGER.info(MGLangData.DESTROY_ITEM.get(golem.toString(), destroyItemCount).getString());
+				player.sendSystemMessage(MGLangData.DESTROY_ITEM.get(golem.toString(), destroyItemCount));
 				destroyItemCount = 0;
 			}
 		}
@@ -105,7 +105,7 @@ public class PickupGoal extends Goal {
 		}
 		if (destroyExpCount > 0) {
 			if (player != null) {
-				player.sendSystemMessage(MGLangData.DESTROY_EXP.get(golem, destroyExpCount));
+				player.sendSystemMessage(MGLangData.DESTROY_EXP.get(golem.toString(), destroyExpCount));
 				destroyExpCount = 0;
 			}
 		}

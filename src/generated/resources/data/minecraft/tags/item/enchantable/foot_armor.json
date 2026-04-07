@@ -2,6 +2,22 @@
   "values": [
     "modulargolems:wind_spirit_boots",
     "modulargolems:barbaric_vanguard_boots",
-    "modulargolems:beacon_boots"
+    "modulargolems:beacon_boots",
+    {
+      "id": "modulargolems:ironwood_boots",
+      "required": false
+    },
+    {
+      "id": "modulargolems:naga_boots",
+      "required": false
+    },
+    {
+      "id": "modulargolems:knightmetal_boots",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery_boots",
+      "required": false
+    }
   ]
 }

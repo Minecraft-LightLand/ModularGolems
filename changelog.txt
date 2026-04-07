@@ -1,3 +1,8 @@
+3.1.30
+- Fix twilight forest golem armor enchantability
+- Fix golem pickup modifier messages cause disconnect in multiplayer
+- Fix golem weapon switch between staff and swords
+
 3.1.29
 - Fix flame thrower enchantability
 - Sort stat display

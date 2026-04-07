@@ -4,6 +4,22 @@
     "modulargolems:wind_spirit_shinguard",
     "modulargolems:barbaric_vanguard_shinguard",
     {
+      "id": "modulargolems:ironwood_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:naga_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:knightmetal_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery_shinguard",
+      "required": false
+    },
+    {
       "id": "modulargolems:harbinger_shinguard",
       "required": false
     },

@@ -50,69 +50,85 @@ public class TFCompatRegistry {
 		IRONWOOD_HELMET = REGISTRATE.item("ironwood_helmet", p -> new IronwoodArmorItem(p.stacksTo(1),
 						ArmorItem.Type.HELMET, 8, 4, TFArmorPaths.IRONWOOD_HELMETS)) // 护甲值和韧性请根据设计调整
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))) // 注意：cataLoc 应替换为您第二个文件中的资源定位方法，例如 modLoc
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		IRONWOOD_CHESTPLATE = REGISTRATE.item("ironwood_chestplate", p -> new IronwoodArmorItem(p.stacksTo(1),
 						ArmorItem.Type.CHESTPLATE, 10, 4, TFArmorPaths.IRONWOOD_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		IRONWOOD_SHINGUARD = REGISTRATE.item("ironwood_shinguard", p -> new IronwoodArmorItem(p.stacksTo(1),
 						ArmorItem.Type.LEGGINGS, 6, 4, TFArmorPaths.IRONWOOD_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		IRONWOOD_BOOTS = REGISTRATE.item("ironwood_boots", p -> new IronwoodArmorItem(p.stacksTo(1),
 						ArmorItem.Type.BOOTS, 4, 4, TFArmorPaths.IRONWOOD_BOOTS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
 		NAGA_HELMET = REGISTRATE.item("naga_helmet", p -> new NagaArmorItem(p.stacksTo(1),
 						ArmorItem.Type.HELMET, 10, 5, TFArmorPaths.NAGA_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		NAGA_CHESTPLATE = REGISTRATE.item("naga_chestplate", p -> new NagaArmorItem(p.stacksTo(1),
 						ArmorItem.Type.CHESTPLATE, 13, 5, TFArmorPaths.NAGA_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		NAGA_SHINGUARD = REGISTRATE.item("naga_shinguard", p -> new NagaArmorItem(p.stacksTo(1),
 						ArmorItem.Type.LEGGINGS, 7, 5, TFArmorPaths.NAGA_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		NAGA_BOOTS = REGISTRATE.item("naga_boots", p -> new NagaArmorItem(p.stacksTo(1),
 						ArmorItem.Type.BOOTS, 5, 5, TFArmorPaths.NAGA_BOOTS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
 		KNIGHTMETAL_HELMET = REGISTRATE.item("knightmetal_helmet", p -> new KnightmetalArmorItem(p.stacksTo(1),
 						ArmorItem.Type.HELMET, 11, 6, TFArmorPaths.KNIGHTMETAL_HELMETS)) // 护甲值和韧性请根据设计调整
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))) // 注意：cataLoc 应替换为您第二个文件中的资源定位方法，例如 modLoc
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		KNIGHTMETAL_CHESTPLATE = REGISTRATE.item("knightmetal_chestplate", p -> new KnightmetalArmorItem(p.stacksTo(1),
 						ArmorItem.Type.CHESTPLATE, 14, 6, TFArmorPaths.KNIGHTMETAL_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		KNIGHTMETAL_SHINGUARD = REGISTRATE.item("knightmetal_shinguard", p -> new KnightmetalArmorItem(p.stacksTo(1),
 						ArmorItem.Type.LEGGINGS, 8, 6, TFArmorPaths.KNIGHTMETAL_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		KNIGHTMETAL_BOOTS = REGISTRATE.item("knightmetal_boots", p -> new KnightmetalArmorItem(p.stacksTo(1),
 						ArmorItem.Type.BOOTS, 6, 6, TFArmorPaths.KNIGHTMETAL_BOOTS))
 				.model((ctx, pvd) -> pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName())))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
 		FIERY_HELMET = REGISTRATE.item("fiery_helmet", p -> new FieryArmorItem(p.stacksTo(1),
 						ArmorItem.Type.HELMET, 11, 6, TFArmorPaths.FIERY_HELMETS)) // 护甲值和韧性请根据设计调整
 				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		FIERY_CHESTPLATE = REGISTRATE.item("fiery_chestplate", p -> new FieryArmorItem(p.stacksTo(1),
 						ArmorItem.Type.CHESTPLATE, 14, 6, TFArmorPaths.FIERY_CHESTPLATES))
 				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		FIERY_SHINGUARD = REGISTRATE.item("fiery_shinguard", p -> new FieryArmorItem(p.stacksTo(1),
 						ArmorItem.Type.LEGGINGS, 8, 6, TFArmorPaths.FIERY_LEGGINGS))
 				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		FIERY_BOOTS = REGISTRATE.item("fiery_boots", p -> new FieryArmorItem(p.stacksTo(1),
 						ArmorItem.Type.BOOTS, 6, 6, TFArmorPaths.FIERY_BOOTS))
 				.model((ctx, pvd) -> fiery(pvd.generated(ctx, tfLoc("item/equipments/" + ctx.getName()))))
+				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
 		TF_GOLEM_WEAPON = GolemWeaponType.build(TFGolemWeaponMaterial.values());

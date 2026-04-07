@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
@@ -202,6 +203,12 @@ public enum MGLangData {
 	public MutableComponent get(Object... args) {
 		if (args.length != arg)
 			throw new IllegalArgumentException("for " + name() + ": expect " + arg + " parameters, got " + args.length);
+		for (int i = 0; i < args.length; i++) {
+			var arg = args[i];
+			if (!(arg instanceof Component) && !TranslatableContents.isAllowedPrimitiveArgument(arg)) {
+				args[i] = arg + "";
+			}
+		}
 		MutableComponent ans = Component.translatable(key, args);
 		if (format != null) {
 			return ans.withStyle(format);

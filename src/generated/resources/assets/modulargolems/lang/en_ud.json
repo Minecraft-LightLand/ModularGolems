@@ -595,6 +595,8 @@
   "modulargolems.configuration.section.l2configs.modulargolems.client.toml.title": "uoıʇɐɹnbıɟuoƆ ʇuǝıןƆ sɯǝןo⅁ ɹɐןnpoW",
   "modulargolems.configuration.section.l2configs.modulargolems.server.toml": "uoıʇɐɹnbıɟuoƆ ɹǝʌɹǝS sɯǝןo⅁ ɹɐןnpoW",
   "modulargolems.configuration.section.l2configs.modulargolems.server.toml.title": "uoıʇɐɹnbıɟuoƆ ɹǝʌɹǝS sɯǝןo⅁ ɹɐןnpoW",
+  "modulargolems.configuration.sendForceRemovalMessage": "ǝbɐɯɐp ǝǝןǝɯ ɯǝןob ɟo ǝbɐʇuǝɔɹǝd sɐ 'ʇɹɐd ʞןnɔs ɹǝd uouuɐƆ ɔıuoS ɟo ǝbɐɯɐp snuoᗺ",
+  "modulargolems.configuration.sendForceRemovalMessage.tooltip": "ǝbɐssǝɯ ןɐʌoɯǝɹ ǝɔɹoɟ puǝS",
   "modulargolems.configuration.slicingDropUpgradeChance": "ǝxⱯ buıɔıןS ʎq pǝןןıʞ uǝɥʍ doɹp oʇ ǝpɐɹbdn ɥɔɐǝ ɹoɟ ǝɔuɐɥƆ",
   "modulargolems.configuration.slicingDropUpgradeChance.tooltip": "0˙Ɩ ~ 0˙0 :ǝbuɐᴚ \nϛ˙0 :ʇןnɐɟǝᗡ ",
   "modulargolems.configuration.sonicCannonDamageFactor": "ǝbɐɯɐp ǝǝןǝɯ ɯǝןob ɟo ǝbɐʇuǝɔɹǝd sɐ uouuɐƆ ɔıuoS ɟo ǝbɐɯɐᗡ",

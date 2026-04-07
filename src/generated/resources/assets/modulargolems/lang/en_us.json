@@ -595,6 +595,8 @@
   "modulargolems.configuration.section.l2configs.modulargolems.client.toml.title": "Modular Golems Client Configuration",
   "modulargolems.configuration.section.l2configs.modulargolems.server.toml": "Modular Golems Server Configuration",
   "modulargolems.configuration.section.l2configs.modulargolems.server.toml.title": "Modular Golems Server Configuration",
+  "modulargolems.configuration.sendForceRemovalMessage": "Bonus damage of Sonic Cannon per sculk part, as percentage of golem melee damage",
+  "modulargolems.configuration.sendForceRemovalMessage.tooltip": "Send force removal message",
   "modulargolems.configuration.slicingDropUpgradeChance": "Chance for each upgrade to drop when killed by Slicing Axe",
   "modulargolems.configuration.slicingDropUpgradeChance.tooltip": " Default: 0.5\n Range: 0.0 ~ 1.0",
   "modulargolems.configuration.sonicCannonDamageFactor": "Damage of Sonic Cannon as percentage of golem melee damage",

@@ -54,7 +54,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -76,7 +75,6 @@ import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -150,7 +148,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
-		this.setHealth(this.getMaxHealth());
+		if (!level().isClientSide())
+			this.setHealth(this.getMaxHealth());
 	}
 
 	public void updateAttributes(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
@@ -293,7 +292,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void postHurt(DamageSource source) {
-		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
+		if (getHealthImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			unRide();
 			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
 			returnToInventory();
@@ -646,7 +645,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void repair(float amount) {
-		setHealth(Math.min(getMaxHealth(), getHealth() + amount));
+		setHealth(Math.min(getMaxHealth(), getHealthImpl() + amount));
 	}
 
 	public static final ResourceLocation REFORGE_ID = ModularGolems.loc("golem_reforge");
@@ -682,7 +681,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void checkReforge() {
-		if (isAlive() && getHealth() <= getMaxHealth() / 2) {
+		if (isAlive() && getHealthImpl() <= getMaxHealth() / 2) {
 			int reforge = getPersistentData().getInt("GolemReforge");
 			if (reforge < getMaxReforge()) {
 				reforge++;
@@ -702,7 +701,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void repairWithItem() {
 		int reforge = getPersistentData().getInt("GolemReforge");
-		if (getHealth() > 0.75 * getMaxHealth() && reforge > 0)
+		if (getHealthImpl() > 0.75 * getMaxHealth() && reforge > 0)
 			updateReforge(reforge - 1);
 		else repair(getMaxHealth() / 4);
 		float f1 = 1 + (getRandom().nextFloat() - getRandom().nextFloat()) * 0.2F;
@@ -1217,7 +1216,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				cause = getLastHurtByMob();
 			}
 		}
-		if (getHealth() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
+		if (getHealthImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			tracker.untrack(this, GolemTracker.Status.DEATH_RECYCLE, cause);
 			returnToInventory();
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
@@ -1246,6 +1245,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void tickDeath() {
+		if (getHealthImpl() > 0) return;
 		if (untrackRemoved(null)) {
 			discard();
 		}
