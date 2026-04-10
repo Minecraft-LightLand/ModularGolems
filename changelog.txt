@@ -1,3 +1,6 @@
+3.1.31
+- Fix ignis golem armor enchantability
+
 3.1.30
 - Fix twilight forest golem armor enchantability
 - Fix golem pickup modifier messages cause disconnect in multiplayer

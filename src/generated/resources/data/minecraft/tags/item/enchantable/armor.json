@@ -99,6 +99,18 @@
     {
       "id": "modulargolems:monstrosity_shinguard",
       "required": false
+    },
+    {
+      "id": "modulargolems:ignis_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ignis_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ignis_shinguard",
+      "required": false
     }
   ]
 }

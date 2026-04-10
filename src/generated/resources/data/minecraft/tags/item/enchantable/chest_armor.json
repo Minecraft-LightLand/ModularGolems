@@ -26,6 +26,10 @@
     {
       "id": "modulargolems:monstrosity_chestplate",
       "required": false
+    },
+    {
+      "id": "modulargolems:ignis_chestplate",
+      "required": false
     }
   ]
 }

@@ -26,6 +26,10 @@
     {
       "id": "modulargolems:monstrosity_helmet",
       "required": false
+    },
+    {
+      "id": "modulargolems:ignis_helmet",
+      "required": false
     }
   ]
 }
