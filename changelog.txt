@@ -1,3 +1,7 @@
+3.1.32
+- Disintegrating golem returns shoulder weapons now
+- Fix golem not using some weapons that fit 2 categories at once
+
 3.1.31
 - Fix ignis golem armor enchantability
 

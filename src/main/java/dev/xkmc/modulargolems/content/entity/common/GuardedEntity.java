@@ -70,14 +70,14 @@ public abstract class GuardedEntity extends AbstractGolem {
 				amount = Math.max(amount, Math.max(1, getMaxHealth() * 0.01f));
 		}
 		getCombatTracker().recordDamage(source, amount);
-		setHealthImpl(getHealthImpl() - amount);
+		setGuardedDataImpl(getGuardedDataImpl() - amount);
 		gameEvent(GameEvent.ENTITY_DAMAGE);
 		onDamageTaken(damageContainers.peek());
 		postHurt(source);
 	}
 
 	public final void validateData() {
-		if (getHealthImpl() > 0) {
+		if (getGuardedDataImpl() > 0) {
 			if (deathTime > 0) deathTime = 0;
 			if (dead) dead = false;
 		}
@@ -87,11 +87,11 @@ public abstract class GuardedEntity extends AbstractGolem {
 	public final void setHealth(float amount) {
 		if (!Float.isFinite(amount)) return;
 		if (level().isClientSide()) {
-			setHealthImpl(amount);
+			setGuardedDataImpl(amount);
 		}
-		float health = getHealthImpl();
+		float health = getGuardedDataImpl();
 		if (tickCount > 5 && amount <= health) return;
-		setHealthImpl(amount);
+		setGuardedDataImpl(amount);
 	}
 
 	public void heal(float original) {
@@ -101,7 +101,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 			heal = Math.max(original, heal);
 			if (heal <= 0) return;
 		}
-		float f = getHealthImpl();
+		float f = getGuardedDataImpl();
 		float m = getMaxHealth();
 		heal = Math.min(m - f, heal);
 		if (f > 0 && heal > 0) {
@@ -115,7 +115,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 
 	@Override
 	public void die(DamageSource source) {
-		if (getHealthImpl() > 0) return;
+		if (getGuardedDataImpl() > 0) return;
 		if (CommonHooks.onLivingDeath(this, source)) return;
 		if (specialDeath(source)) return;
 		if (isRemoved() || dead) return;
@@ -155,6 +155,8 @@ public abstract class GuardedEntity extends AbstractGolem {
 		}
 		validateData();
 		super.tick();
+		if (tickCount % 20 == 13 && isAddedToLevel() && !level().isClientSide())
+			GuardedDataToClient.send(this);
 	}
 
 	public void onRemove(RemovalReason reason) {
@@ -162,27 +164,27 @@ public abstract class GuardedEntity extends AbstractGolem {
 
 	@Override
 	protected void dropAllDeathLoot(ServerLevel p_348524_, DamageSource p_21192_) {
-		if (getHealthImpl() > 0) return;
+		if (getGuardedDataImpl() > 0) return;
 		super.dropAllDeathLoot(p_348524_, p_21192_);
 	}
 
 	@Override
 	public void setPose(Pose pose) {
-		if (getHealthImpl() > 0 && pose == Pose.DYING)
+		if (getGuardedDataImpl() > 0 && pose == Pose.DYING)
 			return;
 		super.setPose(pose);
 	}
 
 	@Override
 	public void handleEntityEvent(byte event) {
-		if (event == EntityEvent.DEATH && getHealthImpl() > 0)
+		if (event == EntityEvent.DEATH && getGuardedDataImpl() > 0)
 			return;
 		super.handleEntityEvent(event);
 	}
 
 	@Override
 	protected void tickDeath() {
-		if (getHealthImpl() > 0) return;
+		if (getGuardedDataImpl() > 0) return;
 		super.tickDeath();
 	}
 
@@ -190,7 +192,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 	private GuardedData guardedData;
 	private boolean loopingSetHealth = false;
 
-	public void setHealthImpl(float amount) {
+	public void setGuardedDataImpl(float amount) {
 		boolean update = guardedData == null || amount != guardedData.amount();
 		guardedData = new GuardedData(amount);
 		if (!loopingSetHealth) {
@@ -203,23 +205,28 @@ public abstract class GuardedEntity extends AbstractGolem {
 	}
 
 	public void applyData(GuardedData data) {
-		setHealthImpl(data.amount());
+		setGuardedDataImpl(data.amount());
 	}
 
-	public float getHealthImpl() {
+	public float getGuardedDataImpl() {
 		if (guardedData != null)
 			return Math.max(super.getHealth(), guardedData.amount());
 		if (!level().isClientSide())
-			validateHealth();
+			validateGuardedData();
 		return super.getHealth();
 	}
 
 	@Override
 	public float getHealth() {
-		return getHealthImpl();
+		return getGuardedDataImpl();
 	}
 
-	public void validateHealth() {
+	@Override
+	protected boolean isImmobile() {
+		return getGuardedDataImpl() <= 0;
+	}
+
+	public void validateGuardedData() {
 		if (loopingSetHealth) return;
 		if (guardedData == null) {
 			guardedData = new GuardedData(super.getHealth());

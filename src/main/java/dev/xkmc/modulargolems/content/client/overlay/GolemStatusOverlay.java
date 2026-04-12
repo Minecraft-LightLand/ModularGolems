@@ -59,7 +59,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		int screenWidth = g.guiWidth();
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
-		float health = golem.getHealth();
+		float health = golem.getGuardedDataImpl();
 		float max = golem.getMaxHealth();
 		float f = Mth.clamp(health / max, 0f, 1f);
 		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);

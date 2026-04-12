@@ -175,7 +175,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	public Crackiness.Level getCrackiness() {
-		return Crackiness.GOLEM.byFraction(this.getHealth() / this.getMaxHealth());
+		return Crackiness.GOLEM.byFraction(this.getGuardedDataImpl() / this.getMaxHealth());
 	}
 
 	public void handleEntityEvent(byte event) {
@@ -239,7 +239,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			return super.mobInteractImpl(player, hand);
 		}
 		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
-		if (getHealth() >= getMaxHealth() && !isReforged()) {
+		if (getGuardedDataImpl() >= getMaxHealth() && !isReforged()) {
 			return InteractionResult.PASS;
 		}
 		repairWithItem();
@@ -310,10 +310,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	public void addItemsToList(List<ItemStack> list) {
 		super.addItemsToList(list);
-		var left = entityData.get(LEFT_SHOULDER);
+		var left = leftShoulder;
 		if (!left.isEmpty())
 			list.add(left);
-		var right = entityData.get(RIGHT_SHOULDER);
+		var right = rightShoulder;
 		if (!right.isEmpty())
 			list.add(right);
 	}

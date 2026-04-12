@@ -64,7 +64,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (this.isAngry()) {
 			return 1.5393804F;
 		} else {
-			float percentage = 1 - this.getHealth() / this.getMaxHealth();
+			float percentage = 1 - this.getGuardedDataImpl() / this.getMaxHealth();
 			return (0.55F - percentage * 0.16F) * (float) Math.PI;
 		}
 	}
