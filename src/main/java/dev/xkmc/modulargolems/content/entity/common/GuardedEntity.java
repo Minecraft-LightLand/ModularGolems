@@ -208,7 +208,6 @@ public class GuardedEntity extends AbstractGolem {
 	private boolean loopingSetHealth = false;
 
 	public void setGuardedDataImpl(float amount) {
-		ModularGolems.LOGGER.info("Golem Set Health Actual: " + (int) amount + " at " + (level().isClientSide() ? "client" : "server"));
 		boolean update = guardedData == null || amount != guardedData.amount();
 		guardedData = new GuardedData(amount);
 		if (!loopingSetHealth) {
