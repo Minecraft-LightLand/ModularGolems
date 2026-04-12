@@ -56,7 +56,7 @@ public class AtomicFuelingModifier extends GolemModifier {
 	@Override
 	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
 		if (golem.tickCount % 20 != 0) return;
-		float hp = golem.getHealth();
+		float hp = golem.getGuardedDataImpl();
 		float max = golem.getMaxHealth();
 		if (max * (1 - health()) <= hp) return;
 		ItemStack uranium = golem.getProjectile(ACCompatRegistry.DUMMY_URANIUM.asStack());
@@ -69,7 +69,7 @@ public class AtomicFuelingModifier extends GolemModifier {
 	public InteractionResult interact(Player player, AbstractGolemEntity<?, ?> golem, InteractionHand hand, int level) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (!ACCompatRegistry.DUMMY_URANIUM.get().isValid(stack)) return InteractionResult.PASS;
-		float hp = golem.getHealth();
+		float hp = golem.getGuardedDataImpl();
 		float max = golem.getMaxHealth();
 		if (!player.level().isClientSide()) {
 			if (!player.isCreative()) stack.shrink(1);

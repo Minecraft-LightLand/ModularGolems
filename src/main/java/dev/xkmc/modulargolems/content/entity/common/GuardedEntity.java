@@ -85,12 +85,12 @@ public class GuardedEntity extends AbstractGolem {
 			if (isInvulnerable())
 				amount = Math.max(amount, Math.max(1, getMaxHealth() * 0.01f));
 		}
-		setHealthImpl(getHealthImpl() - amount);
+		setGuardedDataImpl(getGuardedDataImpl() - amount);
 		postHurt(source);
 	}
 
 	public final void validateData() {
-		if (getHealthImpl() > 0) {
+		if (getGuardedDataImpl() > 0) {
 			if (deathTime > 0) deathTime = 0;
 			if (dead) dead = false;
 		}
@@ -100,11 +100,11 @@ public class GuardedEntity extends AbstractGolem {
 	public final void setHealth(float amount) {
 		if (!Float.isFinite(amount)) return;
 		if (level().isClientSide()) {
-			setHealthImpl(amount);
+			setGuardedDataImpl(amount);
 		}
-		float health = getHealthImpl();
+		float health = getGuardedDataImpl();
 		if (tickCount > 5 && amount <= health) return;
-		setHealthImpl(amount);
+		setGuardedDataImpl(amount);
 	}
 
 	public void heal(float original) {
@@ -114,12 +114,12 @@ public class GuardedEntity extends AbstractGolem {
 			heal = Math.max(original, heal);
 			if (heal <= 0) return;
 		}
-		float f = getHealthImpl();
+		float f = getGuardedDataImpl();
 		float m = getMaxHealth();
 		heal = Math.min(m - f, heal);
 		if (f > 0 && heal > 0) {
 			onHeal(heal);
-			setHealth(f + heal);
+			setGuardedDataImpl(f + heal);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class GuardedEntity extends AbstractGolem {
 
 	@Override
 	public void die(DamageSource source) {
-		if (getHealthImpl() > 0) return;
+		if (getGuardedDataImpl() > 0) return;
 		if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, source)) return;
 		if (specialDeath(source)) return;
 		if (isRemoved() || dead) return;
@@ -170,6 +170,8 @@ public class GuardedEntity extends AbstractGolem {
 		}
 		validateData();
 		super.tick();
+		if (tickCount % 20 == 13 && isAddedToWorld() && !level().isClientSide())
+			GuardedDataToClient.send(this);
 	}
 
 	public void onRemove(RemovalReason reason) {
@@ -177,27 +179,27 @@ public class GuardedEntity extends AbstractGolem {
 
 	@Override
 	protected void dropAllDeathLoot(DamageSource source) {
-		if (getHealthImpl() > 0) return;
+		if (getGuardedDataImpl() > 0) return;
 		super.dropAllDeathLoot(source);
 	}
 
 	@Override
 	public void setPose(Pose pose) {
-		if (getHealthImpl() > 0 && pose == Pose.DYING)
+		if (getGuardedDataImpl() > 0 && pose == Pose.DYING)
 			return;
 		super.setPose(pose);
 	}
 
 	@Override
 	public void handleEntityEvent(byte event) {
-		if (event == EntityEvent.DEATH && getHealthImpl() > 0)
+		if (event == EntityEvent.DEATH && getGuardedDataImpl() > 0)
 			return;
 		super.handleEntityEvent(event);
 	}
 
 	@Override
 	protected void tickDeath() {
-		if (getHealthImpl() > 0) return;
+		if (getGuardedDataImpl() > 0) return;
 		super.tickDeath();
 	}
 
@@ -205,7 +207,8 @@ public class GuardedEntity extends AbstractGolem {
 	private GuardedData guardedData;
 	private boolean loopingSetHealth = false;
 
-	public void setHealthImpl(float amount) {
+	public void setGuardedDataImpl(float amount) {
+		ModularGolems.LOGGER.info("Golem Set Health Actual: " + (int) amount + " at " + (level().isClientSide() ? "client" : "server"));
 		boolean update = guardedData == null || amount != guardedData.amount();
 		guardedData = new GuardedData(amount);
 		if (!loopingSetHealth) {
@@ -218,23 +221,28 @@ public class GuardedEntity extends AbstractGolem {
 	}
 
 	public void applyData(GuardedData data) {
-		setHealthImpl(data.amount());
+		setGuardedDataImpl(data.amount());
 	}
 
-	public float getHealthImpl() {
+	public float getGuardedDataImpl() {
 		if (guardedData != null)
 			return Math.max(super.getHealth(), guardedData.amount());
 		if (!level().isClientSide())
-			validateHealth();
+			validateGuardedData();
 		return super.getHealth();
 	}
 
 	@Override
 	public float getHealth() {
-		return getHealthImpl();
+		return getGuardedDataImpl();
 	}
 
-	public void validateHealth() {
+	@Override
+	protected boolean isImmobile() {
+		return getGuardedDataImpl() <= 0;
+	}
+
+	public void validateGuardedData() {
 		if (loopingSetHealth) return;
 		if (guardedData == null) {
 			guardedData = new GuardedData(super.getHealth());

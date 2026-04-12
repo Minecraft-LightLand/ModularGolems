@@ -1,3 +1,7 @@
+2.6.38
+- Disintegrating golem returns shoulder weapons now
+- Fix golem not using some weapons that fit 2 categories at once
+
 2.6.37
 - Add health to golem status display
 - Fix golem weapon switch between staff and swords

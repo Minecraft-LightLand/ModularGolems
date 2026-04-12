@@ -57,7 +57,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		List<Component> text = new ArrayList<>();
 		text.add(golem.getName());
 		var max = golem.getMaxHealth();
-		float health = Math.min(max, golem.getHealthImpl());
+		float health = Math.min(max, golem.getGuardedDataImpl());
 		float f = Mth.clamp(health / max, 0f, 1f);
 		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 		MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));

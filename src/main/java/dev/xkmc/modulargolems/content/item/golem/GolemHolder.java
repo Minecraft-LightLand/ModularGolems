@@ -199,8 +199,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			uplist.add(StringTag.valueOf(rl.toString()));
 		}
 		var entityTag = tag.getSubTag(KEY_ENTITY).getOrCreate();
-		entity.validateHealth();
-		var hp = entity.getHealthImpl();
+		entity.validateGuardedData();
+		var hp = entity.getGuardedDataImpl();
 		entity.saveToItem(entityTag);
 		setHealth(stack, hp);
 

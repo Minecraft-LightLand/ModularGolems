@@ -126,7 +126,7 @@ public class PickupGoal extends Goal {
 		if (!golem.hasFlag(GolemFlags.MENDING)) {
 			return exp;
 		}
-		float lost = golem.getMaxHealth() - golem.getHealth();
+		float lost = golem.getMaxHealth() - golem.getGuardedDataImpl();
 		float ratio = MGConfig.COMMON.mendingXpCost.get();
 		float heal = Math.min(lost, exp / ratio);
 		int cost = (int) (heal * ratio);

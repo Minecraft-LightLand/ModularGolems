@@ -92,7 +92,7 @@ public class GolemHealUtils {
 	private boolean shouldHeal(AbstractGolemEntity<?, ?> golem) {
 		if (golem.getType() != GolemTypes.ENTITY_GOLEM.get())
 			return false;
-		if (golem.getHealth() > golem.getMaxHealth() * 0.75 && !golem.isReforged())
+		if (golem.getGuardedDataImpl() > golem.getMaxHealth() * 0.75 && !golem.isReforged())
 			return false;
 		var mat = golem.getMaterials().get(MetalGolemPartType.BODY.ordinal()).id();
 		return getIndexOfMaterial(mat) >= 0;

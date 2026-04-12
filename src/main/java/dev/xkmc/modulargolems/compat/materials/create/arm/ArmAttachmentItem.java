@@ -60,7 +60,7 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 				long prev = other.getOrCreateTag().getLong("FixAction");
 				if (prev <= time && prev > time - 20) return;
 			}
-			if (e.getHealth() > e.getMaxHealth() * 0.75 && !e.isReforged()) return;
+			if (e.getGuardedDataImpl() > e.getMaxHealth() * 0.75 && !e.isReforged()) return;
 			var take = fetch(e, true);
 			if (take.isEmpty()) return;
 			tag.putLong("FixAction", time);
@@ -70,12 +70,12 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 		} else {
 			if (takingItem == 2 && last >= time - (int) (40 / speed)) {
 				tag.putInt("TakingItem", 1);
-				if (e.getHealth() > e.getMaxHealth() * 0.75 && !e.isReforged())
+				if (e.getGuardedDataImpl() > e.getMaxHealth() * 0.75 && !e.isReforged())
 					tag.putLong("FixAction", 0);
 			}
 			if (takingItem >= 1 && last >= time - (int) (60 / speed)) {
 				tag.remove("TakingItem");
-				if (e.getHealth() <= e.getMaxHealth() * 0.75 || e.isReforged()) {
+				if (e.getGuardedDataImpl() <= e.getMaxHealth() * 0.75 || e.isReforged()) {
 					var take = fetch(e, false);
 					if (!take.isEmpty()) {
 						e.repairWithItem();

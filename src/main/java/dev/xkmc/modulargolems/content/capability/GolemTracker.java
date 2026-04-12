@@ -83,7 +83,7 @@ public class GolemTracker {
 			timestamp = e.level().getGameTime();
 			cause = null;
 			mhp = e.getMaxHealth();
-			hp = e.getHealth();
+			hp = e.getGuardedDataImpl();
 			if (name == null || e.tickCount % 20 == 10) {
 				name = Component.Serializer.toJson(e.getName());
 				golemType = GolemType.getGolemType(e.getType());
@@ -103,7 +103,7 @@ public class GolemTracker {
 				update(e);
 			if (!type.isDeath() || !status.isDeath())
 				status = type;
-			hp = e.getHealth();
+			hp = e.getGuardedDataImpl();
 			if (cause != null)
 				this.cause = Component.Serializer.toJson(cause.getName());
 		}

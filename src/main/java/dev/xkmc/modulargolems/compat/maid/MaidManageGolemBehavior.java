@@ -79,7 +79,7 @@ class MaidManageGolemBehavior extends Behavior<EntityMaid> {
 	}
 
 	private boolean shouldCollect(EntityMaid owner, AbstractGolemEntity<?, ?> golem) {
-		return golem.isAlive() && (golem.getHealth() < golem.getMaxHealth() * collectHealth(owner) ||
+		return golem.isAlive() && (golem.getGuardedDataImpl() < golem.getMaxHealth() * collectHealth(owner) ||
 				golem.distanceTo(owner) > MAX_DIST);
 	}
 

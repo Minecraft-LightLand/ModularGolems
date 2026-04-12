@@ -89,7 +89,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	 * modify healing
 	 */
 	public double onHealTick(double heal, AbstractGolemEntity<?, ?> entity, int level) {
-		return onInventoryHealTick(heal, new HealingContext(entity.getHealth(), entity.getMaxHealth(), entity), level);
+		return onInventoryHealTick(heal, new HealingContext(entity.getGuardedDataImpl(), entity.getMaxHealth(), entity), level);
 	}
 
 	// static damage methods

@@ -31,7 +31,7 @@ public class MechBodyModifier extends GolemModifier {
 		int mobile = golem.getModifiers().getOrDefault(CreateCompatRegistry.MOBILE.get(), 0);
 		int force = golem.getModifiers().getOrDefault(CreateCompatRegistry.FORCE.get(), 0);
 		int arm = 0;
-		if (golem instanceof MetalGolemEntity e && (e.getHealth() < e.getMaxHealth() * 0.75 || e.isReforged())) {
+		if (golem instanceof MetalGolemEntity e && (e.getGuardedDataImpl() < e.getMaxHealth() * 0.75 || e.isReforged())) {
 			if (e.getLeftShoulder().getItem().getItem() instanceof ArmAttachmentItem) arm++;
 			if (e.getRightShoulder().getItem().getItem() instanceof ArmAttachmentItem) arm++;
 		}
@@ -79,7 +79,7 @@ public class MechBodyModifier extends GolemModifier {
 		int mobile = golem.getModifiers().getOrDefault(CreateCompatRegistry.MOBILE.get(), 0);
 		int force = golem.getModifiers().getOrDefault(CreateCompatRegistry.FORCE.get(), 0);
 		int arm = 0;
-		if (golem instanceof MetalGolemEntity e && (e.getHealth() < e.getMaxHealth() * 0.75 || e.isReforged())) {
+		if (golem instanceof MetalGolemEntity e && (e.getGuardedDataImpl() < e.getMaxHealth() * 0.75 || e.isReforged())) {
 			if (e.getLeftShoulder().getItem().getItem() instanceof ArmAttachmentItem) arm++;
 			if (e.getRightShoulder().getItem().getItem() instanceof ArmAttachmentItem) arm++;
 		}

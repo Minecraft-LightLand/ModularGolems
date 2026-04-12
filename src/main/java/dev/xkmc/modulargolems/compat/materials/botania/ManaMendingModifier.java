@@ -17,7 +17,7 @@ public class ManaMendingModifier extends ManaModifier {
 
 	@Override
 	public double onHealTick(double heal, AbstractGolemEntity<?, ?> le, int level) {
-		var healthDiff = le.getMaxHealth() - le.getHealth() - heal;
+		var healthDiff = le.getMaxHealth() - le.getGuardedDataImpl() - heal;
 		var cost = MGConfig.COMMON.manaMendingCost.get();
 		int maxHeal = (int) Math.floor(Math.min(healthDiff, MGConfig.COMMON.manaMendingVal.get() * level));
 		if (maxHeal <= 0) return heal;
