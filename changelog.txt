@@ -1,3 +1,6 @@
+3.1.33
+- Fix the issue of golem rendering death animation after fixing dead gelems
+
 3.1.32
 - Disintegrating golem returns shoulder weapons now
 - Fix golem not using some weapons that fit 2 categories at once

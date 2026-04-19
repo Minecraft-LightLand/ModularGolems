@@ -155,8 +155,10 @@ public abstract class GuardedEntity extends AbstractGolem {
 		}
 		validateData();
 		super.tick();
-		if (tickCount % 20 == 13 && isAddedToLevel() && !level().isClientSide())
+		if (tickCount % 20 == 13 && isAddedToLevel() && !level().isClientSide()) {
+			validateGuardedData();
 			GuardedDataToClient.send(this);
+		}
 	}
 
 	public void onRemove(RemovalReason reason) {
