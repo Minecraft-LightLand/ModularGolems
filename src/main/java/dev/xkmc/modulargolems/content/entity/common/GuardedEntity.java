@@ -170,8 +170,10 @@ public class GuardedEntity extends AbstractGolem {
 		}
 		validateData();
 		super.tick();
-		if (tickCount % 20 == 13 && isAddedToWorld() && !level().isClientSide())
+		if (tickCount % 20 == 13 && isAddedToWorld() && !level().isClientSide()) {
+			validateGuardedData();
 			GuardedDataToClient.send(this);
+		}
 	}
 
 	public void onRemove(RemovalReason reason) {

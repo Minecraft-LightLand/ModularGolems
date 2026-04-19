@@ -37,7 +37,7 @@ public class HellBoltGoal extends MultiTargetRangedGoal implements IApostleGoal 
 				golem.getEyeY() - 0.2,
 				golem.getZ() + dir.z / (double) 2.0F, dir.x, dir.y, dir.z, level);
 		hellBolt.setOwner(golem);
-		hellBolt.setDamage(3 + lv * 2);
+		hellBolt.setDamage(5 + lv * 5);
 		level.playSound(null, golem.getX(), golem.getY(), golem.getZ(), SoundEvents.BLAZE_SHOOT, golem.getSoundSource(), 1.0F, 1.0F);
 		level.addFreshEntity(hellBolt);
 	}

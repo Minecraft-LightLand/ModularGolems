@@ -8,7 +8,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "modulargolems:fire_blast",
-			"text": "每10秒在前方召唤炎爆陷阱。高等级提高范围。最高3级 $(li)召唤范围: 3 - 6格 $(li)伤害: 等同傀儡近战伤害"
+			"text": "每10秒召唤炎爆陷阱。高等级提高范围。最高3级 $(li)直径: 4 - 6格 $(li)伤害: 等同傀儡近战伤害 $(li)目标: 1 - 3"
 		}
 	]
 }

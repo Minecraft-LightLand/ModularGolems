@@ -37,7 +37,7 @@ public class HellBlastGoal extends MultiTargetRangedGoal implements IApostleGoal
 				this.golem.getEyeY() - 0.2,
 				this.golem.getZ() + dir.z / (double) 2.0F,
 				dir.x, dir.y, dir.z, level);
-		hellBlast.setDamage(3 + lv * 2);
+		hellBlast.setDamage(10 + lv * 10);
 		hellBlast.setOwner(golem);
 		level.addFreshEntity(hellBlast);
 	}

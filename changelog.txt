@@ -1,3 +1,7 @@
+2.6.39
+- Buff Goety Apostle upgrades
+- Fix the issue of golem rendering death animation after fixing dead gelems
+
 2.6.38
 - Disintegrating golem returns shoulder weapons now
 - Fix golem not using some weapons that fit 2 categories at once

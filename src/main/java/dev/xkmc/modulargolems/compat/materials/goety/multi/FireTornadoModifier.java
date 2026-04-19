@@ -1,6 +1,7 @@
-package dev.xkmc.modulargolems.compat.materials.goety.modifier;
+package dev.xkmc.modulargolems.compat.materials.goety.multi;
 
 import com.Polarice3.Goety.common.entities.projectiles.FireTornado;
+import dev.xkmc.modulargolems.compat.materials.goety.modifier.IApostleModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;

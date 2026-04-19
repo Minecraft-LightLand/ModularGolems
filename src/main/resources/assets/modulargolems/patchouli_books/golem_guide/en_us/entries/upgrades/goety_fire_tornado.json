@@ -8,7 +8,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "modulargolems:fire_tornado",
-			"text": "Summon Fire Tornado Trap toward target position every 10 seconds. Higher level increase damage and duration. Max: 5$(li)Duration: 8 - 12 seconds $(li)Damage: 4 - 12"
+			"text": "Summon Fire Tornado Trap toward target position every 10 seconds. Higher level increase damage and duration. Max: 5$(li)Duration: 8 - 12 seconds $(li)Damage: 12 - 24  $(li)Targeting: 3 - 7"
 		}
 	]
 }

@@ -8,7 +8,7 @@
 		{
 			"type": "patchouli:spotlight",
 			"item": "modulargolems:hell_blast",
-			"text": "Shoot Hell Blast toward targets every 10 seconds. Targets multiple enemies at the same time in range of 16 blocks. Higher level increase damage and maximum target count. Can target 2 enemies per level. Max: 3$(li)Damage: 5 - 9"
+			"text": "Shoot Hell Blast toward targets every 10 seconds. Targets multiple enemies at the same time in range of 16 blocks. Higher level increase damage and maximum target count. Can target 2 enemies per level. Max: 3$(li)Damage: 20 - 40"
 		}
 	]
 }
