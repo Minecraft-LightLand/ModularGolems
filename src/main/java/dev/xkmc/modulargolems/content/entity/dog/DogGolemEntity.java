@@ -236,23 +236,25 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (!this.level().isClientSide) {
 			this.setInSittingPose(false);
 		}
-		return super.hurt(source, amount);
-	}
-
-	protected SoundEvent getHurtSound(DamageSource p_28872_) {
-		return SoundEvents.WOLF_HURT;
-	}
-
-	protected SoundEvent getDeathSound() {
-		return SoundEvents.WOLF_DEATH;
+		boolean flag = super.hurt(source, amount);
+		if (flag) {
+			this.playSound(SoundEvents.IRON_GOLEM_HURT, 1.0F, 1.5F);
+		}
+		return flag;
 	}
 
 	protected void playStepSound(BlockPos p_28864_, BlockState p_28865_) {
-		this.playSound(SoundEvents.WOLF_STEP, 1.0F, 1.0F);
+		this.playSound(SoundEvents.IRON_GOLEM_STEP, 1.0F, 1.5F);
 	}
 
 	public Vec3 getLeashOffset() {
 		return new Vec3(0.0D, 0.6F * this.getEyeHeight(), this.getBbWidth() * 0.4F);
+	}
+
+	@Override
+	public void die(DamageSource source) {
+		super.die(source);
+		this.playSound(SoundEvents.IRON_GOLEM_DEATH, 1.0F, 1.5F);
 	}
 
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {

@@ -14,9 +14,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
@@ -236,6 +238,25 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void tick() {
 		super.tick();
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
+	}
+
+	@Override
+	public boolean hurt(DamageSource source, float amount) {
+		boolean flag = super.hurt(source, amount);
+		if (flag) {
+			playSound(SoundEvents.IRON_GOLEM_HURT, 1.0F, 1.25F);
+		}
+		return flag;
+	}
+
+	@Override
+	public void die(DamageSource source) {
+		super.die(source);
+		playSound(SoundEvents.IRON_GOLEM_DEATH, 1.0F, 1.25F);
+	}
+
+	protected void playStepSound(BlockPos p_28864_, BlockState p_28865_) {
+		this.playSound(SoundEvents.IRON_GOLEM_STEP, 1.0F, 1.25F);
 	}
 
 	@Override
