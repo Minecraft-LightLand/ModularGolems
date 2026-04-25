@@ -32,14 +32,11 @@ public class ResonantAttackModifier extends GolemModifier {
 		var target = cache.getAttackTarget();
 		double factor = MGConfig.COMMON.resonanceAttackDamageFactor.get();
 		var damage = cache.getDamageDealt() * (float)factor * value;
-		double x = target.getX();
-		double y = target.getY() + target.getBbHeight() / 2;
-		double z = target.getZ();
+		var aabb = target.getBoundingBox().inflate(MGConfig.COMMON.resonanceAttackRange.get());
 		// TODO add particle
 		GeneralEventHandler.schedulePersistent(() -> {
 			if (level.getGameTime() > time + 10) {//TODO delay should be adjusted
 				var source = golem.damageSources().magic();
-				var aabb = target.getBoundingBox().inflate(MGConfig.COMMON.resonanceAttackRange.get());
 				var list = level.getEntitiesOfClass(LivingEntity.class, aabb);
 				for (var e : list) {
 					if (e.getType() != target.getType()) continue;
