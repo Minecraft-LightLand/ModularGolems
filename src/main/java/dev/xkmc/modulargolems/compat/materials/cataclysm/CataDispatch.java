@@ -29,6 +29,7 @@ public class CataDispatch extends ModDispatch {
 		pvd.add("golem_material." + MODID + ".storm", "Storm");
 		pvd.add("golem_material." + MODID + ".ender_guardian", "Ender Guardian");
 		pvd.add("golem_material." + MODID + ".ancient_metal", "Ancient Metal");
+		CataUpgradeTemplateItem.genLang(pvd);
 	}
 
 	@Override

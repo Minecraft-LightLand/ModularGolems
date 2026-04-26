@@ -30,7 +30,7 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class CataCompatRegistry {
 
-	public static final ItemEntry<Item> HARBINGER_TEMPLATE, MONSTROSITY_TEMPLATE;
+	public static final ItemEntry<CataUpgradeTemplateItem> HARBINGER_TEMPLATE, MONSTROSITY_TEMPLATE;
 	public static final ItemEntry<HarbingerArmorItem> HARBINGER_HELMET, HARBINGER_CHESTPLATE, HARBINGER_SHINGUARD;
 	public static final ItemEntry<MonstrosityArmorItem> MONSTROSITY_HELMET, MONSTROSITY_CHESTPLATE, MONSTROSITY_SHINGUARD;
 	public static final ItemEntry<IgnisArmorItem> IGNIS_HELMET, IGNIS_CHESTPLATE, IGNIS_SHINGUARD;
@@ -59,11 +59,13 @@ public class CataCompatRegistry {
 
 	static {
 
-		HARBINGER_TEMPLATE = REGISTRATE.item("harbinger_upgrade_template", Item::new)
+		HARBINGER_TEMPLATE = REGISTRATE.item("harbinger_upgrade_template",
+						p -> new CataUpgradeTemplateItem("harbinger"))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/" + ctx.getName())))
 				.register();
 
-		MONSTROSITY_TEMPLATE = REGISTRATE.item("monstrosity_upgrade_template", Item::new)
+		MONSTROSITY_TEMPLATE = REGISTRATE.item("monstrosity_upgrade_template",
+						p -> new CataUpgradeTemplateItem("monstrosity"))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/" + ctx.getName())))
 				.register();
 
