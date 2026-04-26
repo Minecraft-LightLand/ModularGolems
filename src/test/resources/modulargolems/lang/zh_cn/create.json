@@ -8,7 +8,7 @@
 	},
 	"modifier.modulargolems": {
 		"coating": "镀层升级",
-		"coating.desc": "受到的伤害减少%s",
+		"coating.desc": "受到的最终伤害减少%s点",
 		"push": "击退提升",
 		"mechanical_engine": "蒸汽动力",
 		"mechanical_engine.desc": "可消耗燃料强化自身",

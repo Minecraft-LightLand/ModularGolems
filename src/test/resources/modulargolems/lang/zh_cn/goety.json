@@ -26,5 +26,5 @@
 	"modifier.modulargolems.hell_bolt.desc": "可对多个目标发射狱火束",
 	"item.modulargolems.soul_collection": "灵魂收割升级",
 	"modifier.modulargolems.soul_collection": "灵魂收割",
-	"modifier.modulargolems.soul_collection.desc": "击杀目标时为主人提供灵魂能量"
+	"modifier.modulargolems.soul_collection.desc": "击杀目标时为所有者提供灵魂能量"
 }

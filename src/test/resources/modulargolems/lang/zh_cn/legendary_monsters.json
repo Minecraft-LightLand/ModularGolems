@@ -7,7 +7,7 @@
 	"item.modulargolems.cloud_cube": "浮云立方",
 	"item.modulargolems.thunderstorm": "雷暴升级",
 	"modifier.modulargolems.thunderstorm": "雷暴",
-	"modifier.modulargolems.thunderstorm.desc": "可召唤雷暴攻击多个目标。受伤时向周围释放电磁脉冲",
+	"modifier.modulargolems.thunderstorm.desc": "可召唤雷暴攻击多个目标。受到伤害时向周围释放电磁脉冲",
 	"modifier.modulargolems.cloud_forming": "聚云",
-	"modifier.modulargolems.cloud_forming.desc": "对高生命值目标造成更多伤害"
+	"modifier.modulargolems.cloud_forming.desc": "造成的伤害根据目标的生命值上限提升"
 }

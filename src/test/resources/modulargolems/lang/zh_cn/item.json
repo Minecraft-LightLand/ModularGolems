@@ -64,9 +64,9 @@
 		"diamond_expansion_template": "扩充模版 - 钻石",
 		"netherite_expansion_template": "扩充模版 - 下界合金",
 		"hostile_wand": "敌对傀儡调试器",
-		"barbaric_vanguard_boots": "蛮荒镣铐",
-		"wind_spirit_boots": "风行靴",
-		"beacon_boots": "信标靴",
+		"barbaric_vanguard_boots": "蛮荒傀儡镣铐",
+		"wind_spirit_boots": "风行傀儡靴子",
+		"beacon_boots": "信标傀儡靴子",
 		"diamond_dog_golem_armor": "钻石制傀儡狼铠",
 		"gold_dog_golem_armor": "金制傀儡狼铠",
 		"iron_dog_golem_armor": "铁制傀儡狼铠",
@@ -135,9 +135,9 @@
 					"wind_spirit": "风行"
 				},
 				{
-					"chestplate": "护甲",
-					"helmet": "头盔",
-					"shinguard": "护腿"
+					"chestplate": "傀儡胸甲",
+					"helmet": "傀儡头盔",
+					"shinguard": "傀儡护腿"
 				}
 			]
 		},

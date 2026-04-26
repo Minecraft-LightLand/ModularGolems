@@ -5,13 +5,13 @@
 	"item.modulargolems.the_profane": "使徒头衔: 天启饥荒",
 	"item.modulargolems.the_terrible": "使徒头衔: 可怖之物",
 	"modifier.modulargolems.the_abhorrent": "憎恶本质",
-	"modifier.modulargolems.the_abhorrent.desc": "降低目标无敌帧时长",
+	"modifier.modulargolems.the_abhorrent.desc": "攻击时减少目标的无敌帧时长",
 	"modifier.modulargolems.the_atrocious": "十恶不赦",
-	"modifier.modulargolems.the_atrocious.desc": "减少使徒升级技能冷却",
+	"modifier.modulargolems.the_atrocious.desc": "减少使徒升级的技能冷却",
 	"modifier.modulargolems.the_profane": "天启饥荒",
 	"modifier.modulargolems.the_profane.desc": "攻击时随机移除目标的%s个正面效果",
 	"modifier.modulargolems.the_risen": "不灭重生",
 	"modifier.modulargolems.the_risen.desc": "死亡时掉落0点生命值的可修复物品形态，且在物品栏中0点生命值也可回复生命值",
 	"modifier.modulargolems.the_terrible": "可怖之物",
-	"modifier.modulargolems.the_terrible.desc": "拉弓速度更快。可朝至多%2$s个目标各射%1$s支箭"
+	"modifier.modulargolems.the_terrible.desc": "拉弓速度更快。可对至多%2$s个目标分别射出%1$s支箭"
 }
