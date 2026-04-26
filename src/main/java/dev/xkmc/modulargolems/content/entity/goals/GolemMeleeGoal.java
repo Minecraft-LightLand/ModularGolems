@@ -83,33 +83,28 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 
 	public boolean canUse() {
 		long i = golem.level().getGameTime();
-		if (i - this.lastCanUseCheck < 20L) {
+		if (i - this.lastCanUseCheck < 10L)
 			return false;
-		} else {
-			this.lastCanUseCheck = i;
-			LivingEntity livingentity = golem.getTarget();
-			if (livingentity == null) {
-				return false;
-			} else if (!livingentity.isAlive()) {
-				return false;
-			} else {
-				if (canPenalize) {
-					if (--this.repathDelay <= 0) {
-						this.path = golem.getNavigation().createPath(livingentity, 0);
-						this.repathDelay = 4 + golem.getRandom().nextInt(7);
-						return this.path != null;
-					} else {
-						return true;
-					}
-				}
+		LivingEntity livingentity = golem.getTarget();
+		if (livingentity == null)
+			return false;
+		if (!livingentity.isAlive())
+			return false;
+		if (canReachTarget(livingentity)) {
+			return true;
+		}
+		this.lastCanUseCheck = i;
+		if (canPenalize) {
+			if (--this.repathDelay <= 0) {
 				this.path = golem.getNavigation().createPath(livingentity, 0);
-				if (this.path != null) {
-					return true;
-				} else {
-					return this.getAttackReachSqr(livingentity) >= golem.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-				}
+				this.repathDelay = 4 + golem.getRandom().nextInt(7);
+				return this.path != null;
+			} else {
+				return true;
 			}
 		}
+		this.path = golem.getNavigation().createPath(livingentity, 0);
+		return this.path != null;
 	}
 
 	public boolean canContinueToUse() {
@@ -128,7 +123,9 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	}
 
 	public void start() {
-		golem.getNavigation().moveTo(this.path, this.speedModifier);
+		if (path != null) {
+			golem.getNavigation().moveTo(this.path, this.speedModifier);
+		}
 		golem.setAggressive(true);
 		this.repathDelay = 0;
 		this.ticksUntilNextAttack = 0;
