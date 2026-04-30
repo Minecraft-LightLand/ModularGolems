@@ -15,7 +15,7 @@
 		"tf_healing": "暮色再生加成",
 		"tf_healing.desc": "在暮色森林中，生命值回复提升%s%%",
 		"carminite": "砷铅铁升级",
-		"carminite.desc": "受到伤害后%s秒内隐身并免疫伤害",
+		"carminite.desc": "受到伤害后，%s秒内隐身并免疫伤害",
 		"naga": "娜迦升级"
 	},
 	"item.modulargolems": {

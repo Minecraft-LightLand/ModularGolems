@@ -11,7 +11,7 @@
 	"modifier.modulargolems.the_profane": "天启饥荒",
 	"modifier.modulargolems.the_profane.desc": "攻击时随机移除目标的%s个正面效果",
 	"modifier.modulargolems.the_risen": "不灭重生",
-	"modifier.modulargolems.the_risen.desc": "死亡时掉落0点生命值的可修复物品形态，且在物品栏中0点生命值也可回复生命值",
+	"modifier.modulargolems.the_risen.desc": "死亡时掉落0点生命值的可修复物品形态，且在物品栏中生命值为0点时也可回复生命值",
 	"modifier.modulargolems.the_terrible": "可怖之物",
 	"modifier.modulargolems.the_terrible.desc": "拉弓速度更快。可对至多%2$s个目标分别射出%1$s支箭"
 }

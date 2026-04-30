@@ -17,7 +17,7 @@
 			"following": "傀儡会跟随玩家",
 			"guarding": "傀儡会在(%s, %s, %s)附近行动",
 			"standing": "傀儡会停在(%s, %s, %s)",
-			"potion_attack": "对攻击自身和被自身攻击的目标施加：%s",
+			"potion_attack": "攻击/被攻击时，对目标/攻击者施加：%s",
 			"potion_defense": "获得常驻效果：%s",
 			"follow": "跟随",
 			"golem_equipment": "只对%s生效",

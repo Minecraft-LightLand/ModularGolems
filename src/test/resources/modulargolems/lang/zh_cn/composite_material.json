@@ -13,7 +13,7 @@
     "obsidian": "坚韧外壳",
     "obsidian.desc": "受到的最终伤害减少%s点",
     "primitive_blast": "荒古之力",
-    "primitive_blast.desc": "增加最大生命值%s%%的攻击伤害",
+    "primitive_blast.desc": "提升生命值上限%s%%的攻击伤害",
     "primitive_curse": "荒古诅咒",
     "primitive_curse.desc": "受到的伤害减少%1$s%%，但升级槽%2$s",
     "resonant_attack": "共鸣震慑",

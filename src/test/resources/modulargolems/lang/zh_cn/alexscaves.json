@@ -11,7 +11,7 @@
 	"golem_material.alexscaves.nuclear": "核能",
 	"modifier.modulargolems": {
 		"atomic_fueling": "反应充能",
-		"atomic_fueling.desc": "可消耗[%s]回复%s生命值，并提升%s攻击伤害和移动速度，持续%s秒。免疫辐照效果",
+		"atomic_fueling.desc": "可消耗[%s]回复%s的生命值，并提升%s的攻击伤害和移动速度，持续%s秒。免疫辐照效果",
 		"free_movement": "穿行",
 		"free_movement.desc": "不会被方块和焦糖减速",
 		"gum_shooter": "糖果机",
