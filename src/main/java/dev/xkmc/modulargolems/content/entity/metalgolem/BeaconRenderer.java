@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -13,6 +14,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
 public class BeaconRenderer {
 
@@ -22,55 +26,45 @@ public class BeaconRenderer {
 	public static void renderGolemBeacon(MetalGolemEntity entity, PoseStack pose, MultiBufferSource source, float pTick) {
 		if (entity.isAddedToLevel() && entity.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof MetalGolemBeaconItem) {
 			int color = DyeColor.values()[entity.getConfigColor()].getTextureDiffuseColor();
-			pose.pushPose();
-			renderBeacon(pose, source, entity.tickCount + pTick);
-			renderBeam(pose, source, entity.tickCount + pTick, 1F, 1024, color);
-			pose.popPose();
+			float totalTick = entity.tickCount + pTick;
+			float entityScale = entity.getScale();
+			float beaconScale = 0.5f * entityScale;
+			float radius = 1.2f * entityScale;
+			float rotationSpeed = 2.5f;
+			for (int i = 0; i < 3; i++) {
+				float angleOffset = i * 120f;
+				float angle = totalTick * rotationSpeed + angleOffset;
+				float beaconX = (float) Math.cos(Math.toRadians(angle)) * radius;
+				float beaconZ = (float) Math.sin(Math.toRadians(angle)) * radius;
+				float beaconY = entity.getBbHeight() * 0.1f;
+				pose.pushPose();
+				pose.translate(beaconX, beaconY, beaconZ);
+				pose.scale(beaconScale, beaconScale, beaconScale);
+				pose.mulPose(Axis.YP.rotationDegrees(-angle));
+				ItemStack beaconStack = new ItemStack(Blocks.BEACON);
+				Minecraft.getInstance().getItemRenderer().renderStatic(
+						beaconStack,
+						ItemDisplayContext.FIXED,
+						15728880,
+						OverlayTexture.NO_OVERLAY,
+						pose,
+						source,
+						entity.level(),
+						0
+				);
+				pose.popPose();
+				pose.pushPose();
+				pose.translate(beaconX, beaconY, beaconZ);
+				float beamScale = 0.25f * entityScale;
+				renderBeam(pose, source, totalTick + i * 10, beamScale, 1024, color);
+				pose.popPose();
+			}
 		}
 	}
 
-	protected static void renderBeacon(PoseStack pose, MultiBufferSource source, float pTick) {
-		float w = 1.5F;
-		float h = 0.5f;
-
-		pose.pushPose();
-		float accurateTick = pTick % 360;
-		pose.mulPose(Axis.YP.rotationDegrees(accurateTick - 45.0F));
-		pose.translate(0, -0.49f, 0);
-
-		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(BEACON_LOCATION));
-		PoseStack.Pose p = pose.last();
-		addVertex(p, buffer, -1, h, -w, -w, 0, 0);
-		addVertex(p, buffer, -1, h, -w, w, 0, 1);
-		addVertex(p, buffer, -1, h, w, w, 1, 1);
-		addVertex(p, buffer, -1, h, w, -w, 1, 0);
-		addVertex(p, buffer, -1, -h, -w, -w, 0, 0);
-		addVertex(p, buffer, -1, -h, -w, w, 0, 1);
-		addVertex(p, buffer, -1, -h, w, w, 1, 1);
-		addVertex(p, buffer, -1, -h, w, -w, 1, 0);
-		addVertex(p, buffer, -1, -h, w, -w, 0, 0);
-		addVertex(p, buffer, -1, h, w, -w, 0, 1 / 3f);
-		addVertex(p, buffer, -1, h, w, w, 1, 1 / 3f);
-		addVertex(p, buffer, -1, -h, w, w, 1, 0);
-		addVertex(p, buffer, -1, -h, -w, -w, 0, 0);
-		addVertex(p, buffer, -1, h, -w, -w, 0, 1 / 3f);
-		addVertex(p, buffer, -1, h, -w, w, 1, 1 / 3f);
-		addVertex(p, buffer, -1, -h, -w, w, 1, 0);
-		addVertex(p, buffer, -1, -h, -w, w, 0, 0);
-		addVertex(p, buffer, -1, h, -w, w, 0, 1 / 3f);
-		addVertex(p, buffer, -1, h, w, w, 1, 1 / 3f);
-		addVertex(p, buffer, -1, -h, w, w, 1, 0);
-		addVertex(p, buffer, -1, -h, -w, -w, 0, 0);
-		addVertex(p, buffer, -1, h, -w, -w, 0, 1 / 3f);
-		addVertex(p, buffer, -1, h, w, -w, 1, 1 / 3f);
-		addVertex(p, buffer, -1, -h, w, -w, 1, 0);
-
-		pose.popPose();
-	}
-
 	public static void renderBeam(PoseStack pose, MultiBufferSource source, float pTick, float scale, float length, int color) {
-		float width1 = 0.2F;
-		float width2 = 0.25F;
+		float width1 = 0.2F * scale;
+		float width2 = 0.25F * scale;
 
 		float accurateTick = pTick % 40;
 		float f2 = Mth.frac(accurateTick * 0.2F - (float) Mth.floor(accurateTick * 0.1F));

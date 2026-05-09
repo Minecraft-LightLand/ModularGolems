@@ -1,0 +1,28 @@
+{
+	"item.modulargolems.candy_mixture": "糖果机块",
+	"item.modulargolems.candy_construct": "糖果机核",
+	"item.modulargolems.magnetic_alloy": "磁力合金",
+	"item.modulargolems.magnetic_construct": "磁力机核",
+	"item.modulargolems.nuclear_construct": "核能机核",
+	"effect.modulargolems.atomic_boost": "核能强化",
+	"effect.modulargolems.atomic_boost.description": "提升攻击伤害和移动速度",
+	"golem_material.alexscaves.candy": "糖果",
+	"golem_material.alexscaves.magnetic": "磁力",
+	"golem_material.alexscaves.nuclear": "核能",
+	"modifier.modulargolems": {
+		"atomic_fueling": "反应充能",
+		"atomic_fueling.desc": "可消耗[%s]回复%s的生命值，并提升%s的攻击伤害和移动速度，持续%s秒。免疫辐照效果",
+		"free_movement": "穿行",
+		"free_movement.desc": "不会被方块和焦糖减速",
+		"gum_shooter": "糖果机",
+		"gum_shooter.desc": "可发射糖果子弹，造成%s点伤害",
+		"polarize": "磁力极化",
+		"polarize.desc": "可根据攻击模式改变技能效果：近战模式牵引周围的目标，远程模式排斥周围的目标。触发时持续造成%s点伤害",
+		"radiation": "辐照",
+		"radiation.desc": "对攻击的目标施加%s效果。对受到辐照效果的目标造成的伤害每级提升%s",
+		"reformation": "磁力重组",
+		"reformation.desc": "可消耗铁锭获得%s点伤害吸收，并回复%s点生命值。最多叠加%s点伤害吸收",
+		"sticky_caramel": "粘性焦糖",
+		"sticky_caramel.desc": "在攻击目标脚下生成焦糖"
+	}
+}

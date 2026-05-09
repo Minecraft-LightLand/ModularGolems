@@ -80,6 +80,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	@Override
 	protected void init() {
 		super.init();
+		if (menu.golem == null) return;
 		new TabManager<>(this, new EquipmentGroup(menu.golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT.get());
 	}

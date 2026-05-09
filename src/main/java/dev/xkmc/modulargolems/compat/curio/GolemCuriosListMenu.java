@@ -4,6 +4,7 @@ import dev.xkmc.l2tabs.compat.api.AccessoriesMultiplex;
 import dev.xkmc.l2tabs.compat.api.IAccessoriesWrapper;
 import dev.xkmc.l2tabs.compat.common.BaseCuriosListMenu;
 import dev.xkmc.l2tabs.compat.common.CuriosEventHandler;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.FriendlyByteBuf;
@@ -11,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +40,14 @@ public class GolemCuriosListMenu extends BaseCuriosListMenu<GolemCuriosListMenu>
 			var pvd = new GolemCuriosMenuPvd(curios.entity, i);
 			CuriosEventHandler.openMenuWrapped(player, () -> player.openMenu(pvd, pvd::writeBuffer));
 		}
+	}
+
+	@Override
+	public boolean stillValid(Player player) {
+		if (!player.isAlive()) return false;
+		if (curios.entity instanceof AbstractGolemEntity<?, ?> golem)
+			return !golem.isRemoved() && golem.getGuardedDataImpl() > 0;
+		return curios.entity.isAlive();
 	}
 
 }

@@ -7,7 +7,7 @@
 		"hostility_core": "恶意核心",
 		"hostility_core.desc": "其他恶意升级不消耗升级槽",
 		"hostility_potion": "恶意升级：药水",
-		"hostility_potion.desc": "每种药水升级在首次升级时不消耗升级槽",
+		"hostility_potion.desc": "每种药水升级在首次安装时不消耗升级槽",
 		"hostility_protection": "恶意升级：保护",
 		"hostility_reflect": "恶意升级：反射",
 		"hostility_regen": "恶意升级：再生",

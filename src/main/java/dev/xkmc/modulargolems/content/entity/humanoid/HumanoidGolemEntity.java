@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -251,6 +252,14 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		event.setOffset(new Vec3(0, getBbHeight() * 0.345, 0));
 		NeoForge.EVENT_BUS.post(event);
 		return event.getOffset();
+	}
+
+	protected SoundEvent getHurtSound(DamageSource p_28872_) {
+		return SoundEvents.IRON_GOLEM_HURT;
+	}
+
+	protected SoundEvent getDeathSound() {
+		return SoundEvents.IRON_GOLEM_DEATH;
 	}
 
 }
