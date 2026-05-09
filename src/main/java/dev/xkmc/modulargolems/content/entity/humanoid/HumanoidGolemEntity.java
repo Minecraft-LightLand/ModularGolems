@@ -16,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -276,6 +277,14 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void tick() {
 		super.tick();
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
+	}
+
+	protected SoundEvent getHurtSound(DamageSource p_28872_) {
+		return SoundEvents.IRON_GOLEM_HURT;
+	}
+
+	protected SoundEvent getDeathSound() {
+		return SoundEvents.IRON_GOLEM_DEATH;
 	}
 
 }

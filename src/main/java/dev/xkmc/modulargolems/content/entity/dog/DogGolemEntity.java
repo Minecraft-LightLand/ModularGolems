@@ -237,11 +237,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected SoundEvent getHurtSound(DamageSource p_28872_) {
-		return SoundEvents.WOLF_HURT;
+		return SoundEvents.IRON_GOLEM_HURT;
 	}
 
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.WOLF_DEATH;
+		return SoundEvents.IRON_GOLEM_DEATH;
 	}
 
 	protected void playStepSound(BlockPos p_28864_, BlockState p_28865_) {
