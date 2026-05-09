@@ -9,13 +9,13 @@
 		"fiery": "炽热",
 		"fiery.desc": "对不免疫火焰伤害的目标造成的伤害提升%s%%",
 		"thorn": "荆棘",
-		"thorn.desc": "受到直接物理伤害时，对攻击者反弹%s%%的荆棘伤害",
+		"thorn.desc": "将直接物理伤害以%s%%荆棘伤害的形式反射",
 		"tf_damage": "暮色伤害加成",
-		"tf_damage.desc": "在暮色森林中，造成的伤害提升%s%%",
+		"tf_damage.desc": "在暮色森林中，额外造成%s%%的伤害",
 		"tf_healing": "暮色再生加成",
-		"tf_healing.desc": "在暮色森林中，生命值回复提升%s%%",
+		"tf_healing.desc": "在暮色森林中，提升%s%%回复能力",
 		"carminite": "砷铅铁升级",
-		"carminite.desc": "受到伤害后，%s秒内隐身并免疫伤害",
+		"carminite.desc": "受伤后%s秒内隐身并免疫伤害",
 		"naga": "娜迦升级"
 	},
 	"item.modulargolems": {
@@ -37,7 +37,7 @@
 					"naga": "娜迦"
 				},
 				{
-					"chestplate": "傀儡胸甲",
+					"chestplate": "傀儡护甲",
 					"helmet": "傀儡头盔",
 					"shinguard": "傀儡护腿",
 					"boots": "傀儡靴子"
