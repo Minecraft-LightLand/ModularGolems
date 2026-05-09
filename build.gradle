@@ -273,7 +273,7 @@ dependencies {
     //implementation fg.deobf("curse.maven:mutil-351914:4824501")
     //implementation fg.deobf("curse.maven:tetra-289712:6096160")
 
-    implementation fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
+    compileOnly fg.deobf("curse.maven:ewewukeks-musket-mod-354562:5675968")
     runtimeOnly fg.deobf("curse.maven:retro-damage-indicators-1003431:5268035")
 
     compileOnly fg.deobf("curse.maven:architectury-api-419699:5137938")

@@ -11,7 +11,7 @@
 	"modifier.modulargolems.haunted": "缠魂",
 	"modifier.modulargolems.haunted.desc": "击败目标时有概率召唤缠魂盔甲仆从。目标的盔甲越多概率越高",
 	"modifier.modulargolems.soul_repair": "灵魂修补",
-	"modifier.modulargolems.soul_repair.desc": "可使用召唤者的灵魂能量修复装备。生命值低时也可使用灵魂能量回复生命值",
+	"modifier.modulargolems.soul_repair.desc": "可使用召唤者的灵魂能量修复装备。生命值较低时也可使用灵魂能量回复生命值",
 	"modifier.modulargolems.fire_blast": "炎爆",
 	"modifier.modulargolems.fire_blast.desc": "可在前方召唤炎爆陷阱",
 	"modifier.modulargolems.fire_tornado": "燃烧龙卷风",
@@ -26,5 +26,5 @@
 	"modifier.modulargolems.hell_bolt.desc": "可对多个目标发射狱火束",
 	"item.modulargolems.soul_collection": "灵魂收割升级",
 	"modifier.modulargolems.soul_collection": "灵魂收割",
-	"modifier.modulargolems.soul_collection.desc": "击杀目标时为主人提供灵魂能量"
+	"modifier.modulargolems.soul_collection.desc": "击杀目标时为所有者提供灵魂能量"
 }
