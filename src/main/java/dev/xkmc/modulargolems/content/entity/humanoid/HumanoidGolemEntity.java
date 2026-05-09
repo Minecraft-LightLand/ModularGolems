@@ -262,4 +262,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return SoundEvents.IRON_GOLEM_DEATH;
 	}
 
+	@Override
+	public float getVoicePitch() {
+		return super.getVoicePitch() * 1.25f;
+	}
+
 }
