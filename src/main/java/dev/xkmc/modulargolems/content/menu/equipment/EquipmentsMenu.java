@@ -40,6 +40,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
 	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "equipments");
 
+	@Nullable
 	public final AbstractGolemEntity<?, ?> golem;
 	protected final EquipmentSlot[] equipmentSlots;
 
@@ -83,9 +84,9 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
 	@Override
 	public boolean stillValid(Player player) {
-		if (golem == null) return false;
+		if (golem == null || !player.isAlive()) return false;
 		golem.inventoryTick = 5;
-		return golem.getGuardedDataImpl() > 0;
+		return !golem.isRemoved() && golem.getGuardedDataImpl() > 0;
 	}
 
 	@Override
