@@ -1,20 +1,14 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
-import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -27,28 +21,15 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.EntityArmorInvWrapper;
-import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.function.Predicate;
 
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> implements CrossbowAttackMob {
@@ -224,7 +205,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public InteractionHand shieldSlot() {
 		return getItemBySlot(EquipmentSlot.MAINHAND).canPerformAction(ToolActions.SHIELD_BLOCK) ? InteractionHand.MAIN_HAND :
 				getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ToolActions.SHIELD_BLOCK) ? InteractionHand.OFF_HAND :
-						null;
+				null;
 	}
 
 	protected void hurtCurrentlyUsedShield(float damage) {
@@ -285,6 +266,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	protected SoundEvent getDeathSound() {
 		return SoundEvents.IRON_GOLEM_DEATH;
+	}
+
+	@Override
+	public float getVoicePitch() {
+		return super.getVoicePitch() * 1.25f;
 	}
 
 }
