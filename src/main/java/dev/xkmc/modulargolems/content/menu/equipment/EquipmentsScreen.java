@@ -88,7 +88,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	@Override
 	protected void renderTooltip(GuiGraphics g, int mx, int my) {
 		super.renderTooltip(g, mx, my);
-		if (menu.golem instanceof SweepGolemEntity<?,?> &&
+		if (menu.golem instanceof SweepGolemEntity<?, ?> &&
 				menu.getCarried().isEmpty() &&
 				hoveredSlot != null && !hoveredSlot.hasItem()) {
 			List<Component> list = null;
@@ -148,7 +148,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		double ly = y - 40 - my;
 		float scale = menu.golem instanceof MetalGolemEntity ? 18 :
 				menu.golem instanceof HumanoidGolemEntity ? 24 :
-						menu.golem instanceof DogGolemEntity ? 32 : 18;
+				menu.golem instanceof DogGolemEntity ? 32 : 18;
 		float ax = (float) Math.atan(lx / 50.0);
 		float ay = (float) Math.atan(ly / 50.0);
 		scale = scale / menu.golem.getScale();

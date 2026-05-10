@@ -7,7 +7,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.ModList;
 
 import java.util.Locale;
@@ -30,7 +30,7 @@ public class EsterEggUtil {
 		return id.equals("kobe") || id.equals("kobe bryant") || id.equals("manba") || id.equals("科比") || id.equals("科比·布莱恩特") || id.equals("曼巴") || id.equals("牢大");
 	}
 
-	private static boolean hasFacadeWithMaterial(AbstractGolemEntity<?, ?> e, ResourceLocation material) {
+	private static boolean hasFacadeWithMaterial(AbstractGolemEntity<?, ?> e, Identifier material) {
 		if (ModList.get().isLoaded("curios")) {
 			var opt = CurioCompatRegistry.getItem(e, "golem_skin");
 			if (opt.isPresent() && opt.get().getItem() instanceof GolemFacade) {

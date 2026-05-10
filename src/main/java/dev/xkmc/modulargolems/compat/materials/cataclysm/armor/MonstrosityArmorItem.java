@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class MonstrosityArmorItem extends MetalGolemArmorItem {
 
-	public MonstrosityArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public MonstrosityArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, Identifier model) {
 		super(properties, type, defense, toughness, model, e -> {
 			var id = ModularGolems.loc("monstrosity_armor_" + type.getName());
 			e.add(L2DamageTracker.REDUCTION, new AttributeModifier(id, -0.2,

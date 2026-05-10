@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.l2hostility;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2hostility.init.L2Hostility;
 import dev.xkmc.l2hostility.init.data.LHConfig;

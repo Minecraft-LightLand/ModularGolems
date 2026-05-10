@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.client.pose;
 
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 import java.util.LinkedHashMap;
@@ -11,9 +11,9 @@ public class MetalGolemPose {
 
 	public static final MetalGolemPose DEFAULT = new MetalGolemPose();
 
-	public static final LinkedHashMap<ResourceLocation, MetalGolemPose> MAP = new LinkedHashMap<>();
+	public static final LinkedHashMap<Identifier, MetalGolemPose> MAP = new LinkedHashMap<>();
 
-	public static synchronized void register(ResourceLocation id, MetalGolemPose pose) {
+	public static synchronized void register(Identifier id, MetalGolemPose pose) {
 		MAP.put(id, pose);
 	}
 

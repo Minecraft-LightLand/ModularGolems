@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;

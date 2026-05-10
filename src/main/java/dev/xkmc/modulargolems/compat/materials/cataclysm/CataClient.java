@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmor
 import dev.xkmc.modulargolems.compat.materials.common.ClientModDispatch;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.regAndAdd;
@@ -16,7 +16,7 @@ public class CataClient extends ClientModDispatch {
 	@Override
 	public void dispatchClientSetup() {
 
-		ModelOverrides.registerOverride(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "ignitium"),
+		ModelOverrides.registerOverride(Identifier.fromNamespaceAndPath(CataDispatch.MODID, "ignitium"),
 				ModelOverride.texturePredicate((e) -> CataDispatch.ignisBlue(e) ? "_soul" : ""));
 	}
 

@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.concurrent.CompletableFuture;
@@ -21,8 +21,8 @@ public class ATMConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, ATMDispatch.MODID), new GolemMaterialConfig()
-				.addMaterial(ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "allthemodium"),
+		map.add(ModularGolems.MATERIALS, Identifier.fromNamespaceAndPath(ATMDispatch.MODID, ATMDispatch.MODID), new GolemMaterialConfig()
+				.addMaterial(Identifier.fromNamespaceAndPath(ATMDispatch.MODID, "allthemodium"),
 						Ingredient.of(ModRegistry.ALLTHEMODIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 50)
@@ -38,7 +38,7 @@ public class ATMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 1)
 				.end()
 
-				.addMaterial(ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "vibranium"),
+				.addMaterial(Identifier.fromNamespaceAndPath(ATMDispatch.MODID, "vibranium"),
 						Ingredient.of(ModRegistry.VIBRANIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 800)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 80)
@@ -56,7 +56,7 @@ public class ATMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 2)
 				.end()
 
-				.addMaterial(ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "unobtainium"),
+				.addMaterial(Identifier.fromNamespaceAndPath(ATMDispatch.MODID, "unobtainium"),
 						Ingredient.of(ModRegistry.UNOBTAINIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 100)

@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -39,13 +39,13 @@ public class GolemClientEventListeners {
 	public static void onHumanoidSkin(HumanoidSkinEvent event) {
 		if (event.getStack().is(Items.PLAYER_HEAD)) {
 			String name = event.getStack().getHoverName().getString();
-			var rl = ResourceLocation.tryParse(name);
+			var rl = Identifier.tryParse(name);
 			if (rl != null)
 				event.setSkin(new SpecialRenderProfile(true, rl));
 		}
 		if (event.getStack().is(Items.PIGLIN_HEAD)) {
 			String name = event.getStack().getHoverName().getString();
-			var rl = ResourceLocation.tryParse(name);
+			var rl = Identifier.tryParse(name);
 			if (rl != null)
 				event.setSkin(new SpecialRenderProfile(false, rl));
 		}

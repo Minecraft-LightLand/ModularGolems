@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.SkinManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 
 import javax.annotation.Nullable;
@@ -23,8 +23,8 @@ public class ClientProfileManager {
 		PlayerSkin skin = skins.getInsecureSkin(profile);
 		PlayerSkin.Model skinModel = skin.model();
 		boolean slim = skinModel == PlayerSkin.Model.SLIM;
-		ResourceLocation texture = skins.getInsecureSkin(profile).texture();
-		if (texture.equals(ResourceLocation.withDefaultNamespace("missingno")))
+		Identifier texture = skins.getInsecureSkin(profile).texture();
+		if (texture.equals(Identifier.withDefaultNamespace("missingno")))
 			return null;
 		return new SpecialRenderProfile(slim, texture);
 	}

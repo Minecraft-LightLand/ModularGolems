@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 
@@ -73,7 +73,7 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 			boolean showFlag = captainId != null && entity.getUUID().equals(captainId);
 			if (showFlag) {
 				String color = DyeColor.values()[entry.getColor()].getName();
-				Item item = BuiltInRegistries.ITEM.get(ResourceLocation.withDefaultNamespace(color + "_banner"));
+				Item item = BuiltInRegistries.ITEM.get(Identifier.withDefaultNamespace(color + "_banner"));
 				return item.getDefaultInstance();
 			}
 		}

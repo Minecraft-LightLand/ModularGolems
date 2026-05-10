@@ -16,7 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 	private UUID delId = null;
 
 	protected GolemInfoScreen(Component title) {
-		super(title, ResourceLocation.parse("l2tabs:textures/gui/empty.png"));
+		super(title, Identifier.parse("l2tabs:textures/gui/empty.png"));
 	}
 
 	public List<Pair<UUID, GolemTracker.TrackedData>> getData(Predicate<GolemTracker.TrackedData> status) {

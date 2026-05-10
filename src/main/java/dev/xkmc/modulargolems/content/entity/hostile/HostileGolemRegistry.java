@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.entity.hostile;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class HostileGolemRegistry {
 
-	private static final Map<ResourceLocation, HostileFaction> HOSTILE_MAP = new ConcurrentHashMap<>();
+	private static final Map<Identifier, HostileFaction> HOSTILE_MAP = new ConcurrentHashMap<>();
 
 	private static final Map<UUID, HostileFaction> UUID_MAP = new ConcurrentHashMap<>();
 
@@ -24,7 +24,7 @@ public class HostileGolemRegistry {
 		return entry;
 	}
 
-	public static HostileFaction getFaction(ResourceLocation id) {
+	public static HostileFaction getFaction(Identifier id) {
 		return HOSTILE_MAP.get(id);
 	}
 

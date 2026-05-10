@@ -35,7 +35,7 @@ import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -47,10 +47,10 @@ import java.util.List;
 @JeiPlugin
 public class GolemJEIPlugin implements IModPlugin {
 
-	public static final ResourceLocation ID = ModularGolems.loc("main");
+	public static final Identifier ID = ModularGolems.loc("main");
 
 	@Override
-	public ResourceLocation getPluginUid() {
+	public Identifier getPluginUid() {
 		return ID;
 	}
 

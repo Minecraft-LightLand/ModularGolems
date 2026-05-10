@@ -5,7 +5,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -34,7 +34,7 @@ public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEqu
 		return lang.withStyle(eff.getCategory().getTooltipFormatting());
 	}
 
-	public MetalGolemBeaconItem(Properties properties, int def, int tough, ResourceLocation model) {
+	public MetalGolemBeaconItem(Properties properties, int def, int tough, Identifier model) {
 		super(properties, ArmorItem.Type.BOOTS, def, tough, model, e ->
 				e.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(
 						ModularGolems.loc(EquipmentSlot.FEET.getName() + "_armor"), -0.5f,

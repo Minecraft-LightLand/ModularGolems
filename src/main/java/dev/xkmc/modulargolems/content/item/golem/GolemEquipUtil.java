@@ -4,14 +4,13 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.item.data.GolemEquipments;
-import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.events.CraftEventListeners;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +27,7 @@ public record GolemEquipUtil(boolean isClient, @Nullable Level level) {
 		if (!ModList.get().isLoaded(CuriosApi.MODID)) return false;
 		var set = CuriosApi.getEntitySlots(holder.getEntityType().type(), false).keySet();
 		for (var e : set) {
-			if (stack.is(ItemTags.create(ResourceLocation.fromNamespaceAndPath(CuriosApi.MODID, e)))) {
+			if (stack.is(ItemTags.create(Identifier.fromNamespaceAndPath(CuriosApi.MODID, e)))) {
 				return true;
 			}
 		}

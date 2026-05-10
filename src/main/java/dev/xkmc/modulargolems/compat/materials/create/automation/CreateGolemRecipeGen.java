@@ -22,7 +22,7 @@ import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -264,17 +264,17 @@ public class CreateGolemRecipeGen {
 
 	public static void genSpecialRecipes(RegistrateRecipeProvider pvd) {
 		for (var part : GolemPart.LIST) {
-			genAssembly(pvd, part, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "andesite_alloy"), AllItems.ANDESITE_ALLOY, AllBlocks.COGWHEEL);
-			genAssembly(pvd, part, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "brass"), Ingredient.of(AllTags.commonItemTag("ingots/brass")), AllItems.PRECISION_MECHANISM);
-			genAssembly(pvd, part, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "railway"), Ingredient.of(AllTags.commonItemTag("plates/brass")), AllItems.PRECISION_MECHANISM, AllItems.ELECTRON_TUBE, AllItems.STURDY_SHEET);
+			genAssembly(pvd, part, Identifier.fromNamespaceAndPath(CreateDispatch.MODID, "andesite_alloy"), AllItems.ANDESITE_ALLOY, AllBlocks.COGWHEEL);
+			genAssembly(pvd, part, Identifier.fromNamespaceAndPath(CreateDispatch.MODID, "brass"), Ingredient.of(AllTags.commonItemTag("ingots/brass")), AllItems.PRECISION_MECHANISM);
+			genAssembly(pvd, part, Identifier.fromNamespaceAndPath(CreateDispatch.MODID, "railway"), Ingredient.of(AllTags.commonItemTag("plates/brass")), AllItems.PRECISION_MECHANISM, AllItems.ELECTRON_TUBE, AllItems.STURDY_SHEET);
 		}
 	}
 
-	private static void genAssembly(RegistrateRecipeProvider pvd, GolemPart<?, ?> part, ResourceLocation id, ItemLike ingredient, ItemLike... parts) {
+	private static void genAssembly(RegistrateRecipeProvider pvd, GolemPart<?, ?> part, Identifier id, ItemLike ingredient, ItemLike... parts) {
 		genAssembly(pvd, part, id, Ingredient.of(ingredient), parts);
 	}
 
-	private static void genAssembly(RegistrateRecipeProvider pvd, GolemPart<?, ?> part, ResourceLocation id, Ingredient ingredient, ItemLike... parts) {
+	private static void genAssembly(RegistrateRecipeProvider pvd, GolemPart<?, ?> part, Identifier id, Ingredient ingredient, ItemLike... parts) {
 		var part_rl = BuiltInRegistries.ITEM.getKey(part);
 		String item_name = part_rl.getPath();
 		var recipe = new ConditionalSARecipeBuilder(ModularGolems.loc(id.getPath() + "_assemble_" + item_name));

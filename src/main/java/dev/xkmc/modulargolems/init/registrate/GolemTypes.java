@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.init.registrate;
 
 import com.tterrag.registrate.util.entry.EntityEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;

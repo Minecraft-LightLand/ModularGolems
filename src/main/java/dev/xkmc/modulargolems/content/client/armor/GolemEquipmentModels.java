@@ -1,8 +1,5 @@
 package dev.xkmc.modulargolems.content.client.armor;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.client.HarbingerArmors;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.client.IgnisArmors;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmors;
 import dev.xkmc.modulargolems.content.client.weapon.BeaconCannonModel;
 import dev.xkmc.modulargolems.content.client.weapon.FlameThrowerModel;
 import dev.xkmc.modulargolems.content.client.weapon.GolemBows;

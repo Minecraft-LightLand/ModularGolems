@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.client.armor;
 
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public record GolemModelPath(ModelLayerLocation models, List<List<String>> paths) {
 
-	public static final Map<ResourceLocation, GolemModelPath> MAP = new HashMap<>();
+	public static final Map<Identifier, GolemModelPath> MAP = new HashMap<>();
 
 	static {
 		register(GolemModelPaths.HELMETS,
@@ -48,12 +48,12 @@ public record GolemModelPath(ModelLayerLocation models, List<List<String>> paths
 				)));
 	}
 
-	public synchronized static GolemModelPath register(ResourceLocation id, GolemModelPath path) {
+	public synchronized static GolemModelPath register(Identifier id, GolemModelPath path) {
 		MAP.put(id, path);
 		return path;
 	}
 
-	public static GolemModelPath get(ResourceLocation id) {
+	public static GolemModelPath get(Identifier id) {
 		return MAP.get(id);
 	}
 

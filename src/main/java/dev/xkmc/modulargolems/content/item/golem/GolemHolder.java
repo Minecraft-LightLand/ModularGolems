@@ -29,7 +29,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -392,7 +392,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public void fillItemCategory(CreativeModeTabModifier tab) {
-		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+		for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 			ItemStack stack = new ItemStack(this);
 			ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 			for (P part : getEntityType().values()) {
@@ -402,7 +402,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 	}
 
-	public ItemStack withUniformMaterial(ResourceLocation rl) {
+	public ItemStack withUniformMaterial(Identifier rl) {
 		ItemStack stack = new ItemStack(this);
 		ArrayList<GolemHolderMaterial.Entry> list = new ArrayList<>();
 		for (P part : getEntityType().values()) {

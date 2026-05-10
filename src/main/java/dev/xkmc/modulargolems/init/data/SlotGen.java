@@ -10,8 +10,6 @@ import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import top.theillusivec4.curios.api.CuriosDataProvider;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class SlotGen extends CuriosDataProvider {
@@ -29,7 +27,7 @@ public class SlotGen extends CuriosDataProvider {
 						"golem_route", "golem_skin",
 						"curio", "back", "belt", "body", "boot", "bracelet", "charm", "head",
 						"hands", "necklace", "ring", "feet",
-						"spellbook", "halo", "heart_amulet",  "hostility_curse", "accessory",
+						"spellbook", "halo", "heart_amulet", "hostility_curse", "accessory",
 						"artifact_head", "artifact_necklace", "artifact_bracelet", "artifact_body", "artifact_belt"
 				)
 				.addEntities(GolemTypes.TYPE_GOLEM.get().type(),

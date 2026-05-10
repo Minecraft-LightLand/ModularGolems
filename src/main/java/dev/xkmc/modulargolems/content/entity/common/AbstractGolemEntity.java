@@ -50,7 +50,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -648,7 +648,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		setGuardedDataImpl(Math.min(getMaxHealth(), getGuardedDataImpl() + amount));
 	}
 
-	public static final ResourceLocation REFORGE_ID = ModularGolems.loc("golem_reforge");
+	public static final Identifier REFORGE_ID = ModularGolems.loc("golem_reforge");
 
 	protected int getMaxReforge() {
 		return GolemType.getGolemType(getType()).getBodyPart().toItem().count - 1;

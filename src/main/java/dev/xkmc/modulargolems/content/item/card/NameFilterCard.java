@@ -8,7 +8,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
@@ -32,7 +32,7 @@ public class NameFilterCard extends TargetFilterCard {
 		for (var s : strs) {
 			String str = s.trim();
 			if (str.startsWith("#")) {
-				ResourceLocation rl = ResourceLocation.tryParse(str.substring(1));
+				Identifier rl = Identifier.tryParse(str.substring(1));
 				if (rl == null) continue;
 				TagKey<EntityType<?>> key = TagKey.create(Registries.ENTITY_TYPE, rl);
 				var ref = BuiltInRegistries.ENTITY_TYPE.getTag(key);
@@ -40,7 +40,7 @@ public class NameFilterCard extends TargetFilterCard {
 					ans.add(Either.right(key));
 				}
 			} else {
-				ResourceLocation rl = ResourceLocation.tryParse(str);
+				Identifier rl = Identifier.tryParse(str);
 				if (rl == null) continue;
 				if (!BuiltInRegistries.ENTITY_TYPE.containsKey(rl)) continue;
 				var type = BuiltInRegistries.ENTITY_TYPE.get(rl);

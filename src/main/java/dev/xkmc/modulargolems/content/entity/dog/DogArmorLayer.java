@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.Crackiness;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class DogArmorLayer extends RenderLayer<DogGolemEntity, DogGolemModel> {
 	private final DogGolemModel model;
-	private static final Map<Crackiness.Level, ResourceLocation> ARMOR_CRACK_LOCATIONS;
+	private static final Map<Crackiness.Level, Identifier> ARMOR_CRACK_LOCATIONS;
 
 	public DogArmorLayer(RenderLayerParent<DogGolemEntity, DogGolemModel> renderer, EntityModelSet models) {
 		super(renderer);
@@ -54,7 +54,7 @@ public class DogArmorLayer extends RenderLayer<DogGolemEntity, DogGolemModel> {
 		if (ModList.get().isLoaded(MoreWolfArmors.MODID)) {
 			if (armorStack.getItem() instanceof WolfArmorItem) {
 				int i = DyedItemColor.getOrDefault(armorStack, DyeColor.RED.getTextureDiffuseColor());
-				ResourceLocation tex = armorItem.getOverlayTexture();
+				Identifier tex = armorItem.getOverlayTexture();
 				if (tex == null) return;
 				model.renderToBuffer(
 						poseStack,
@@ -73,12 +73,12 @@ public class DogArmorLayer extends RenderLayer<DogGolemEntity, DogGolemModel> {
 				return;
 			}
 
-			ResourceLocation resourcelocation = armorItem.getOverlayTexture();
-			if (resourcelocation == null) {
+			Identifier Identifier = armorItem.getOverlayTexture();
+			if (Identifier == null) {
 				return;
 			}
 
-			this.model.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(resourcelocation)), packedLight, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.opaque(i));
+			this.model.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(Identifier)), packedLight, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.opaque(i));
 		}
 
 	}
@@ -86,8 +86,8 @@ public class DogArmorLayer extends RenderLayer<DogGolemEntity, DogGolemModel> {
 	private void maybeRenderCracks(PoseStack poseStack, MultiBufferSource buffer, int packedLight, ItemStack armorStack) {
 		Crackiness.Level crackiness$level = Crackiness.WOLF_ARMOR.byDamage(armorStack);
 		if (crackiness$level != Crackiness.Level.NONE) {
-			ResourceLocation resourcelocation = ARMOR_CRACK_LOCATIONS.get(crackiness$level);
-			VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityTranslucent(resourcelocation));
+			Identifier Identifier = ARMOR_CRACK_LOCATIONS.get(crackiness$level);
+			VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityTranslucent(Identifier));
 			this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
 		}
 
@@ -95,9 +95,9 @@ public class DogArmorLayer extends RenderLayer<DogGolemEntity, DogGolemModel> {
 
 	static {
 		ARMOR_CRACK_LOCATIONS = Map.of(
-				Crackiness.Level.LOW, ResourceLocation.withDefaultNamespace("textures/entity/wolf/wolf_armor_crackiness_low.png"),
-				Crackiness.Level.MEDIUM, ResourceLocation.withDefaultNamespace("textures/entity/wolf/wolf_armor_crackiness_medium.png"),
-				Crackiness.Level.HIGH, ResourceLocation.withDefaultNamespace("textures/entity/wolf/wolf_armor_crackiness_high.png")
+				Crackiness.Level.LOW, Identifier.withDefaultNamespace("textures/entity/wolf/wolf_armor_crackiness_low.png"),
+				Crackiness.Level.MEDIUM, Identifier.withDefaultNamespace("textures/entity/wolf/wolf_armor_crackiness_medium.png"),
+				Crackiness.Level.HIGH, Identifier.withDefaultNamespace("textures/entity/wolf/wolf_armor_crackiness_high.png")
 		);
 	}
 }

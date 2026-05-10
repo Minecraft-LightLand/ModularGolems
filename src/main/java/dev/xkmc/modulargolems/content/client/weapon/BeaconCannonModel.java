@@ -106,10 +106,10 @@ public class BeaconCannonModel {
 		PartDefinition body = partdefinition.getChild("body");
 
 		PartDefinition flamethrower2 = body.addOrReplaceChild("flamethrower2", CubeListBuilder.create()
-				.texOffs(0, 15).addBox(-2.0002F, -6.996F, 1.5454F, 4.0F, 7.0F, 6.0F, new CubeDeformation(0.0F))
-				.texOffs(20, 15).addBox(-1.0002F, -16.996F, 2.0454F, 2.0F, 10.0F, 5.0F, new CubeDeformation(0.0F))
-				.texOffs(24, 0).addBox(-2.0002F, 0.004F, -0.9546F, 4.0F, 8.0F, 2.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 0).addBox(-2.5002F, 0.004F, 1.0454F, 5.0F, 8.0F, 7.0F, new CubeDeformation(0.0F)),
+						.texOffs(0, 15).addBox(-2.0002F, -6.996F, 1.5454F, 4.0F, 7.0F, 6.0F, new CubeDeformation(0.0F))
+						.texOffs(20, 15).addBox(-1.0002F, -16.996F, 2.0454F, 2.0F, 10.0F, 5.0F, new CubeDeformation(0.0F))
+						.texOffs(24, 0).addBox(-2.0002F, 0.004F, -0.9546F, 4.0F, 8.0F, 2.0F, new CubeDeformation(0.0F))
+						.texOffs(0, 0).addBox(-2.5002F, 0.004F, 1.0454F, 5.0F, 8.0F, 7.0F, new CubeDeformation(0.0F)),
 				PartPose.offset(6.0F, 5.0F, 4.0F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
@@ -122,10 +122,10 @@ public class BeaconCannonModel {
 		PartDefinition body = partdefinition.getChild("body");
 
 		PartDefinition flamethrower = body.addOrReplaceChild("flamethrower", CubeListBuilder.create()
-				.texOffs(0, 15).addBox(-2.0F, -7.0F, 1.5F, 4.0F, 7.0F, 6.0F, new CubeDeformation(0.0F))
-				.texOffs(20, 15).addBox(-1.0F, -17.0F, 2.0F, 2.0F, 10.0F, 5.0F, new CubeDeformation(0.0F))
-				.texOffs(24, 0).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 8.0F, 2.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 0).addBox(-2.5F, 0.0F, 1.0F, 5.0F, 8.0F, 7.0F, new CubeDeformation(0.0F)),
+						.texOffs(0, 15).addBox(-2.0F, -7.0F, 1.5F, 4.0F, 7.0F, 6.0F, new CubeDeformation(0.0F))
+						.texOffs(20, 15).addBox(-1.0F, -17.0F, 2.0F, 2.0F, 10.0F, 5.0F, new CubeDeformation(0.0F))
+						.texOffs(24, 0).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 8.0F, 2.0F, new CubeDeformation(0.0F))
+						.texOffs(0, 0).addBox(-2.5F, 0.0F, 1.0F, 5.0F, 8.0F, 7.0F, new CubeDeformation(0.0F)),
 				PartPose.offset(-6.0F, 5.0F, 4.0F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);

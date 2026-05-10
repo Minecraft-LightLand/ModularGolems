@@ -7,7 +7,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class PlayerSkinRenderer extends HumanoidGolemRenderer {
 
@@ -33,7 +33,7 @@ public class PlayerSkinRenderer extends HumanoidGolemRenderer {
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(HumanoidGolemEntity entity) {
+	public Identifier getTextureLocation(HumanoidGolemEntity entity) {
 		var skin = ClientSkinDispatch.get(entity);
 		if (skin instanceof SpecialRenderProfile profile && profile.texture() != null)
 			return profile.texture();

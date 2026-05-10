@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.item.data;
 
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public record GolemHolderMaterial(ArrayList<Entry> parts) {
 		return new ArrayList<>(parts);
 	}
 
-	public record Entry(Item part, ResourceLocation material) {
+	public record Entry(Item part, Identifier material) {
 
 	}
 

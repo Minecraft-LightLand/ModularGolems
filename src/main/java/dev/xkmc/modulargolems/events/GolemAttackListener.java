@@ -6,12 +6,12 @@ import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 
 public class GolemAttackListener implements AttackListener {
 
-	private static final ResourceLocation WEAPON_INHERENT = ModularGolems.loc("weapon_inherent");
+	private static final Identifier WEAPON_INHERENT = ModularGolems.loc("weapon_inherent");
 
 	@Override
 	public void onCreateSource(CreateSourceEvent event) {

@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 import static net.minecraft.world.item.component.ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT;
 
-public class GolemStatType extends NamedEntry<GolemStatType> implements Comparable<GolemStatType>{
+public class GolemStatType extends NamedEntry<GolemStatType> implements Comparable<GolemStatType> {
 
 	public enum Kind {
 		BASE, ADD, PERCENT

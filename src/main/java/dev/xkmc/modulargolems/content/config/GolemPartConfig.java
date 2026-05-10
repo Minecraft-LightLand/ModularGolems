@@ -11,7 +11,7 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class GolemPartConfig extends BaseConfig {
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
 	@SerialField
-	public HashMap<ResourceLocation, HashMap<GolemStatType, Double>> magnifiers = new HashMap<>();
+	public HashMap<Identifier, HashMap<GolemStatType, Double>> magnifiers = new HashMap<>();
 
 	public HashMap<StatFilterType, Double> getFilter(GolemPart<?, ?> part) {
 		return filters.get(part);

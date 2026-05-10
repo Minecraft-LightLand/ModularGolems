@@ -4,18 +4,16 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
-import dev.xkmc.modulargolems.content.client.pose.BowPose;
 import dev.xkmc.modulargolems.content.client.pose.MetalGolemPose;
 import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
-import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -126,7 +124,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		}
 	}
 
-	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
+	public Identifier getTextureLocationInternal(Identifier rl) {
 		return rl.withPath(e -> "textures/entity/metal_golem/" + e + ".png");
 	}
 

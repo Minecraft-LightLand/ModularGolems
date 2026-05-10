@@ -17,7 +17,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.fml.ModList;
@@ -74,7 +74,7 @@ public class CreateCompatRegistry {
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.SPECIAL_CRAFT)
 				.addOptional(AllItems.CARDBOARD.getId())
 				.addOptional(AllItems.ANDESITE_ALLOY.getId())
-				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "ingots/brass"))
+				.addOptionalTag(Identifier.fromNamespaceAndPath("c", "ingots/brass"))
 				.addOptional(AllBlocks.RAILWAY_CASING.getId()));
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(LCTagGen.SKILL_EFFECT)
@@ -83,8 +83,8 @@ public class CreateCompatRegistry {
 		}
 	}
 
-	public static ResourceLocation loc(String id) {
-		return ResourceLocation.fromNamespaceAndPath("create", id);
+	public static Identifier loc(String id) {
+		return Identifier.fromNamespaceAndPath("create", id);
 	}
 
 }

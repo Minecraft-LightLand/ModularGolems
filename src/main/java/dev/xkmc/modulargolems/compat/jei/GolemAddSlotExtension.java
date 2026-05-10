@@ -10,7 +10,7 @@ import dev.xkmc.modulargolems.content.recipe.GolemSmithAddSlotRecipe;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import mezz.jei.api.gui.builder.IIngredientAcceptor;
 import mezz.jei.api.recipe.category.extensions.vanilla.smithing.ISmithingCategoryExtension;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public record GolemAddSlotExtension(
 	public <T extends IIngredientAcceptor<T>> void setBase(GolemSmithAddSlotRecipe r, T t) {
 		if (r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?> golem) {
 			List<ItemStack> list = new ArrayList<>();
-			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 				ItemStack stack = new ItemStack(golem);
 				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 				for (var part : golem.getEntityType().values()) {
@@ -49,7 +49,7 @@ public record GolemAddSlotExtension(
 	public <T extends IIngredientAcceptor<T>> void setAddition(GolemSmithAddSlotRecipe r, T t) {
 		if (r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?>) {
 			List<ItemStack> list = new ArrayList<>();
-			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 				var mat = GolemMaterialConfig.get().getRepairIngredient(rl);
 				list.addAll(List.of(mat.getItems()));
 			}
@@ -62,7 +62,7 @@ public record GolemAddSlotExtension(
 		if (r.template.getItems()[0].getItem() instanceof IUpgradeItem item &&
 				r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?> golem) {
 			List<ItemStack> list = new ArrayList<>();
-			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 				ItemStack stack = new ItemStack(golem);
 				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 				for (var part : golem.getEntityType().values()) {

@@ -1,4 +1,3 @@
-
 package dev.xkmc.modulargolems.content.modifier.special;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

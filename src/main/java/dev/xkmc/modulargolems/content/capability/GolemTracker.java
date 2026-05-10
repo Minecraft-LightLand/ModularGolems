@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,7 +62,7 @@ public class GolemTracker {
 		@SerialField
 		public Status status = Status.ALIVE;
 		@SerialField
-		public ResourceLocation lastDim;
+		public Identifier lastDim;
 		@SerialField
 		public BlockPos lastPos;
 		@SerialField
@@ -74,7 +74,7 @@ public class GolemTracker {
 		@SerialField
 		public GolemType<?, ?> golemType;
 		@SerialField
-		public List<ResourceLocation> materials = new ArrayList<>();
+		public List<Identifier> materials = new ArrayList<>();
 		@SerialField
 		public RetrieveTarget target = null;
 

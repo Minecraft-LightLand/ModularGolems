@@ -9,9 +9,8 @@ import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class DogGolemModel extends AgeableListModel<DogGolemEntity>
@@ -105,7 +104,7 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity>
 		}
 	}
 
-	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
+	public Identifier getTextureLocationInternal(Identifier rl) {
 		return rl.withPath(e -> "textures/entity/dog_golem/" + e + ".png");
 	}
 

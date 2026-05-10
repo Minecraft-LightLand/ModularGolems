@@ -16,12 +16,12 @@ import dev.xkmc.modulargolems.content.item.ranged.SonicCannonBehavior;
 import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 
-public class GolemWeaponRegistry<T extends SweepGolemEntity<?,?>> extends WeaponGoalRegistry<T> {
+public class GolemWeaponRegistry<T extends SweepGolemEntity<?, ?>> extends WeaponGoalRegistry<T> {
 
 	public static final GolemWeaponRegistry<HumanoidGolemEntity> HUMANOID = new GolemWeaponRegistry<>();
 	public static final GolemWeaponRegistry<MetalGolemEntity> LARGE = new GolemWeaponRegistry<>();
 
-	private void initBasic(){
+	private void initBasic() {
 		register(ModularGolems.loc("bow"),
 				(golem, stack, hand) -> WeaponRegistry.BOW.getProperties(stack),
 				(golem, melee) -> new SmartBowAttackGoal<>(golem, melee, 1.0D, 25)

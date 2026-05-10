@@ -12,7 +12,7 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.Item;
@@ -26,11 +26,11 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 
 	public static final List<GolemPart<?, ?>> LIST = new ArrayList<>();
 
-	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {
+	public static Optional<Identifier> getMaterial(ItemStack stack) {
 		return Optional.ofNullable(GolemItems.DC_PART_MAT.get(stack));
 	}
 
-	public static ItemStack setMaterial(ItemStack stack, ResourceLocation material) {
+	public static ItemStack setMaterial(ItemStack stack, Identifier material) {
 		return GolemItems.DC_PART_MAT.set(stack, material);
 	}
 
@@ -61,7 +61,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		});
 	}
 
-	public GolemMaterial parseMaterial(ResourceLocation mat) {
+	public GolemMaterial parseMaterial(Identifier mat) {
 		var magnifier = GolemPartConfig.get().getMagnifier(getEntityType());
 		var filter = GolemPartConfig.get().getFilter(this);
 		HashMap<GolemStatType, Double> stats = new HashMap<>();
@@ -96,7 +96,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 
 	public void fillItemCategory(CreativeModeTabModifier tab) {
 		tab.accept(new ItemStack(this));
-		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+		for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 			ItemStack stack = new ItemStack(this);
 			tab.accept(setMaterial(stack, rl));
 		}

@@ -23,7 +23,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +49,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 	};
 
 	private final EntityModelSet entityModelSet;
-	private final HashMap<ResourceLocation, IGolemModel<?, ?, ?>> map = new HashMap<>();
+	private final HashMap<Identifier, IGolemModel<?, ?, ?>> map = new HashMap<>();
 
 	public GolemBEWLR(BlockEntityRenderDispatcher dispatcher, EntityModelSet set) {
 		super(dispatcher, set);
@@ -64,7 +64,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 
 	@Override
 	public void renderByItem(ItemStack stack, ItemDisplayContext type, PoseStack poseStack,
-							 MultiBufferSource bufferSource, int light, int overlay) {
+	                         MultiBufferSource bufferSource, int light, int overlay) {
 		BEWLRHandle handle = new BEWLRHandle(stack, type, poseStack, bufferSource, light, overlay);
 		poseStack.pushPose();
 		if (stack.getItem() instanceof IGolemPartItem part) {
@@ -86,7 +86,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		PoseStack stack = handle.poseStack();
 		parts[0].setupItemRender(stack, handle.type(), null);
 		for (int i = 0; i < parts.length; i++) {
-			ResourceLocation id = list.size() > i ? list.get(i).id() : GolemMaterial.EMPTY;
+			Identifier id = list.size() > i ? list.get(i).id() : GolemMaterial.EMPTY;
 			renderPart(handle, id, item.getEntityType(), parts[i]);
 		}
 	}
@@ -95,12 +95,12 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		PoseStack stack = handle.poseStack();
 		P part = item.getPart();
 		part.setupItemRender(stack, handle.type(), part);
-		Optional<ResourceLocation> id = GolemPart.getMaterial(handle.stack());
+		Optional<Identifier> id = GolemPart.getMaterial(handle.stack());
 		renderPart(handle, id.orElse(GolemMaterial.EMPTY), item.getEntityType(), part);
 	}
 
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends EntityModel<T> & IGolemModel<T, P, M>>
-	void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
+	void renderPart(BEWLRHandle handle, Identifier id, GolemType<T, P> type, P part) {
 		M model = Wrappers.cast(map.get(type.getRegistryName()));
 		RenderType rt = model.renderType(model.getTextureLocationInternal(id));
 		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), rt, false, handle.stack().hasFoil());
@@ -114,7 +114,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		}
 	}
 
-	private void renderFacade(BEWLRHandle handle, ResourceLocation id) {
+	private void renderFacade(BEWLRHandle handle, Identifier id) {
 		MetalGolemModel model = Wrappers.cast(map.get(GolemTypes.TYPE_GOLEM.id()));
 		handle.poseStack().translate(0.5f, -0.375f, 0.5f);
 		handle.poseStack().mulPose(Axis.YP.rotationDegrees(180));

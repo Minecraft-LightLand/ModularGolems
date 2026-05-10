@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.item.equipments;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -16,16 +16,16 @@ import java.util.function.Consumer;
 
 public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemModelItem {
 
-	private final ResourceLocation model;
+	private final Identifier model;
 
-	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, Identifier model) {
 		this(properties, type, defense, toughness, model, e -> {
 		});
 	}
 
-	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model, Consumer<ItemAttributeModifiers.Builder> attr) {
+	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, Identifier model, Consumer<ItemAttributeModifiers.Builder> attr) {
 		super(properties, type.getSlot(), GolemTypes.ENTITY_GOLEM::get, builder -> {
-			ResourceLocation rl = ModularGolems.loc(type.getName() + "_armor");
+			Identifier rl = ModularGolems.loc(type.getName() + "_armor");
 			builder.add(Attributes.ARMOR, new AttributeModifier(rl, defense,
 					AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(type.getSlot()));
 			builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(rl.withSuffix("_toughness"), toughness,
@@ -39,14 +39,14 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 		return def;
 	}
 
-	public ResourceLocation getModelTexture(LivingEntity user) {
-		ResourceLocation rl = BuiltInRegistries.ITEM.getKey(this);
-		return ResourceLocation.fromNamespaceAndPath(namespace(rl.getNamespace()), "textures/equipments/" + rl.getPath() + ".png");
+	public Identifier getModelTexture(LivingEntity user) {
+		Identifier rl = BuiltInRegistries.ITEM.getKey(this);
+		return Identifier.fromNamespaceAndPath(namespace(rl.getNamespace()), "textures/equipments/" + rl.getPath() + ".png");
 	}
 
-	public ResourceLocation getEmissiveModelTexture(LivingEntity user) {
-		ResourceLocation rl = BuiltInRegistries.ITEM.getKey(this);
-		return ResourceLocation.fromNamespaceAndPath(namespace(rl.getNamespace()), "textures/equipments/" + rl.getPath() + "_emissive.png");
+	public Identifier getEmissiveModelTexture(LivingEntity user) {
+		Identifier rl = BuiltInRegistries.ITEM.getKey(this);
+		return Identifier.fromNamespaceAndPath(namespace(rl.getNamespace()), "textures/equipments/" + rl.getPath() + "_emissive.png");
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 		return 15;
 	}
 
-	public ResourceLocation getModelPath() {
+	public Identifier getModelPath() {
 		return model;
 	}
 

@@ -8,14 +8,14 @@ import net.minecraft.client.model.geom.builders.*;
 
 import java.util.List;
 
-import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.buildGolemBaseLayers;
 import static dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorPaths.*;
+import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.buildGolemBaseLayers;
 
 public class MonstrosityArmors {
 
-	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(ModularGolems.loc( "monstrosity_helmet"), "main");
-	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(ModularGolems.loc( "monstrosity_chestplate"), "main");
-	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(ModularGolems.loc( "monstrosity_shinguard"), "main");
+	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(ModularGolems.loc("monstrosity_helmet"), "main");
+	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(ModularGolems.loc("monstrosity_chestplate"), "main");
+	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(ModularGolems.loc("monstrosity_shinguard"), "main");
 
 	static {
 		GolemModelPath.register(MONSTROSITY_HELMETS,

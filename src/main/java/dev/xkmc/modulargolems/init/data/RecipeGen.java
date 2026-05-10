@@ -29,7 +29,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -245,7 +245,7 @@ public class RecipeGen {
 					.save(pvd, ModularGolems.loc("craft_config_card"));
 
 			for (int i = 0; i < 16; i++) {
-				Item dye = BuiltInRegistries.ITEM.get(ResourceLocation.withDefaultNamespace(DyeColor.byId(i).getName() + "_dye"));
+				Item dye = BuiltInRegistries.ITEM.get(Identifier.withDefaultNamespace(DyeColor.byId(i).getName() + "_dye"));
 				assert dye != null;
 				unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.CARD[i].get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 						.requires(MGTagGen.CONFIG_CARD).requires(dye).save(pvd);
@@ -371,7 +371,7 @@ public class RecipeGen {
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.BEACON_BOOTS.get())::unlockedBy, Items.BEACON)
 					.pattern("SXS").pattern("ABA").pattern("AAA")
 					.define('X', Items.BEACON)
-					.define('S',Items.NETHER_STAR)
+					.define('S', Items.NETHER_STAR)
 					.define('B', GolemItems.WINDSPIRIT_BOOTS.get())
 					.define('A', Items.ANVIL)
 					.save(pvd);
@@ -634,7 +634,7 @@ public class RecipeGen {
 	}
 
 	@SuppressWarnings("ConstantConditions")
-	private static ResourceLocation getID(Item item) {
+	private static Identifier getID(Item item) {
 		return ModularGolems.loc(BuiltInRegistries.ITEM.getKey(item).getPath());
 	}
 

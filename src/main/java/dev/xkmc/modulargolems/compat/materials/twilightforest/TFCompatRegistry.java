@@ -15,7 +15,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ArmorItem;
@@ -174,8 +174,8 @@ public class TFCompatRegistry {
 		FieryModelTransformer.transform(obj);
 	}
 
-	public static ResourceLocation tfLoc(String id) {
-		return  ResourceLocation.fromNamespaceAndPath(TFDispatch.MODID, id);
+	public static Identifier tfLoc(String id) {
+		return Identifier.fromNamespaceAndPath(TFDispatch.MODID, id);
 	}
 
 }

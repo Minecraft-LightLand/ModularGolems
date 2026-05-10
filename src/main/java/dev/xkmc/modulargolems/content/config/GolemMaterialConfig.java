@@ -10,7 +10,7 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.apache.http.util.Asserts;
 
@@ -25,37 +25,37 @@ public class GolemMaterialConfig extends BaseConfig {
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
 	@SerialField
-	public HashMap<ResourceLocation, HashMap<GolemStatType, Double>> stats = new HashMap<>();
+	public HashMap<Identifier, HashMap<GolemStatType, Double>> stats = new HashMap<>();
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
 	@SerialField
-	public HashMap<ResourceLocation, HashMap<GolemModifier, Integer>> modifiers = new HashMap<>();
+	public HashMap<Identifier, HashMap<GolemModifier, Integer>> modifiers = new HashMap<>();
 
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialField
-	public HashMap<ResourceLocation, Ingredient> ingredients = new HashMap<>();
+	public HashMap<Identifier, Ingredient> ingredients = new HashMap<>();
 
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialField
-	public HashMap<ResourceLocation, Ingredient> repairIngredients = new HashMap<>();
+	public HashMap<Identifier, Ingredient> repairIngredients = new HashMap<>();
 
-	public List<ResourceLocation> getAllMaterials() {
-		TreeSet<ResourceLocation> set = new TreeSet<>(stats.keySet());
+	public List<Identifier> getAllMaterials() {
+		TreeSet<Identifier> set = new TreeSet<>(stats.keySet());
 		set.retainAll(modifiers.keySet());
 		set.retainAll(ingredients.keySet());
-		List<ResourceLocation> ans = new ArrayList<>(set);
-		ans.sort(Comparator.<ResourceLocation, Integer>comparing(rl -> rl.getNamespace().equals(ModularGolems.MODID) ? 0 : 1)
-				.thenComparing(ResourceLocation::getNamespace)
-				.thenComparing(ResourceLocation::getPath));
+		List<Identifier> ans = new ArrayList<>(set);
+		ans.sort(Comparator.<Identifier, Integer>comparing(rl -> rl.getNamespace().equals(ModularGolems.MODID) ? 0 : 1)
+				.thenComparing(Identifier::getNamespace)
+				.thenComparing(Identifier::getPath));
 		return ans;
 	}
 
-	public Ingredient getCraftIngredient(ResourceLocation id) {
+	public Ingredient getCraftIngredient(Identifier id) {
 		var ans = ingredients.get(id);
 		return ans == null ? Ingredient.EMPTY : ans;
 	}
 
-	public Ingredient getRepairIngredient(ResourceLocation id) {
+	public Ingredient getRepairIngredient(Identifier id) {
 		var rep = repairIngredients.get(id);
 		if (rep != null) return rep;
 		var ans = ingredients.get(id);
@@ -63,12 +63,12 @@ public class GolemMaterialConfig extends BaseConfig {
 	}
 
 	@DataGenOnly
-	public Builder addMaterial(ResourceLocation id, Ingredient ingredient) {
+	public Builder addMaterial(Identifier id, Ingredient ingredient) {
 		return new Builder(this, id, ingredient);
 	}
 
 	@DataGenOnly
-	public Builder addMaterial(ResourceLocation id, Ingredient ingredient, Ingredient repair) {
+	public Builder addMaterial(Identifier id, Ingredient ingredient, Ingredient repair) {
 		return new Builder(this, id, ingredient, repair);
 	}
 
@@ -76,21 +76,21 @@ public class GolemMaterialConfig extends BaseConfig {
 	public static class Builder {
 
 		private final GolemMaterialConfig parent;
-		private final ResourceLocation id;
+		private final Identifier id;
 		private final Ingredient ingredient;
 		private final Ingredient repairIngredient;
 
 		private final HashMap<GolemStatType, Double> stats = new HashMap<>();
 		private final HashMap<GolemModifier, Integer> modifiers = new HashMap<>();
 
-		private Builder(GolemMaterialConfig parent, ResourceLocation id, Ingredient ingredient) {
+		private Builder(GolemMaterialConfig parent, Identifier id, Ingredient ingredient) {
 			this.parent = parent;
 			this.id = id;
 			this.ingredient = ingredient;
 			this.repairIngredient = ingredient;
 		}
 
-		private Builder(GolemMaterialConfig parent, ResourceLocation id, Ingredient ingredient, Ingredient repair) {
+		private Builder(GolemMaterialConfig parent, Identifier id, Ingredient ingredient, Ingredient repair) {
 			this.parent = parent;
 			this.id = id;
 			this.ingredient = ingredient;

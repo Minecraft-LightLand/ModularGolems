@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +34,7 @@ public abstract class AbstractGolemRenderer<
 
 	public static final List<Function<AbstractGolemRenderer<?, ?, ?>, RenderLayer<? extends AbstractGolemEntity<?, ?>, ?>>> LIST = new ArrayList<>();
 
-	private static final ResourceLocation GOLEM_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/iron_golem/iron_golem.png");
+	private static final Identifier GOLEM_LOCATION = Identifier.withDefaultNamespace("textures/entity/iron_golem/iron_golem.png");
 
 	private final Supplier<P[]> list;
 
@@ -45,7 +45,7 @@ public abstract class AbstractGolemRenderer<
 		LIST.forEach(e -> this.addLayer(Wrappers.cast(e.apply(this))));
 	}
 
-	public ResourceLocation getTextureLocation(T entity) {
+	public Identifier getTextureLocation(T entity) {
 		return GOLEM_LOCATION;
 	}
 
@@ -74,7 +74,7 @@ public abstract class AbstractGolemRenderer<
 		boolean ghost = !visible && player != null && !entity.isInvisibleTo(player);
 		boolean glowing = Minecraft.getInstance().shouldEntityAppearGlowing(entity);
 		pose.pushPose();
-		ResourceLocation facade = null;
+		Identifier facade = null;
 		if (ModList.get().isLoaded("curios")) {
 			var opt = CurioCompatRegistry.getItem(entity, "golem_skin");
 			if (opt.isPresent() && opt.get().getItem() instanceof GolemFacade)
@@ -82,7 +82,7 @@ public abstract class AbstractGolemRenderer<
 		}
 		var materials = entity.getMaterials();
 		for (P part : list.get()) {
-			ResourceLocation rl = facade;
+			Identifier rl = facade;
 			if (rl == null) {
 				int index = part.ordinal();
 				rl = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;

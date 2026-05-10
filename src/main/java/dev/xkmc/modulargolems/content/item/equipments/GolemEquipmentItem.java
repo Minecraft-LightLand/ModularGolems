@@ -31,7 +31,7 @@ public abstract class GolemEquipmentItem extends Item implements IGolemEquipment
 	private final Supplier<EntityType<?>> type;
 
 	public GolemEquipmentItem(Properties properties, EquipmentSlot slot, Supplier<EntityType<?>> type,
-							  Consumer<ItemAttributeModifiers.Builder> attr) {
+	                          Consumer<ItemAttributeModifiers.Builder> attr) {
 		super(properties.attributes(Util.make(ItemAttributeModifiers.builder(), attr).build()));
 		this.slot = slot;
 		this.type = type;

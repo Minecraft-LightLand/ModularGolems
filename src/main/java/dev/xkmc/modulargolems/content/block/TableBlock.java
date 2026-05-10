@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.block;
 
-import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;

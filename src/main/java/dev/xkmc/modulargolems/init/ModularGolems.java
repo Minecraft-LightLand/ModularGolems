@@ -35,7 +35,7 @@ import dev.xkmc.modulargolems.init.data.*;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -110,8 +110,8 @@ public class ModularGolems {
 		}
 	}
 
-	public static ResourceLocation loc(String id) {
-		return ResourceLocation.fromNamespaceAndPath(MODID, id);
+	public static Identifier loc(String id) {
+		return Identifier.fromNamespaceAndPath(MODID, id);
 	}
 
 	@SubscribeEvent

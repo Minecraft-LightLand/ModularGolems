@@ -5,7 +5,7 @@ import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.modifier.common.AddSlotModifier;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
@@ -30,7 +30,7 @@ public class ATMCompatRegistry {
 	private static ItemEntry<AddSlotTemplate> adder(String id, Val<AddSlotModifier> modifier) {
 		return REGISTRATE.item(id, p -> new AddSlotTemplate(p, modifier))
 				.model((ctx, pvd) ->
-						pvd.generated(ctx, ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID,
+						pvd.generated(ctx, Identifier.fromNamespaceAndPath(ATMDispatch.MODID,
 								"item/" + ctx.getName()))).defaultLang().register();
 	}
 

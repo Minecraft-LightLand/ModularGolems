@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.compat.materials.mowziesmobs;
 
 import com.bobmowzie.mowziesmobs.server.item.ItemHandler;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;

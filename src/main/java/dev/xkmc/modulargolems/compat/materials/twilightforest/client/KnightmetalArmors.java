@@ -5,7 +5,6 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
@@ -14,10 +13,10 @@ import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.b
 
 public class KnightmetalArmors {
 
-	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(ModularGolems.loc( "knightmetal_helmet"), "main");
-	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(ModularGolems.loc( "knightmetal_chestplate"), "main");
-	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(ModularGolems.loc( "knightmetal_shinguard"), "main");
-	public static final ModelLayerLocation BOOTS_LAYER = new ModelLayerLocation(ModularGolems.loc( "knightmetal_boots"), "main");
+	public static final ModelLayerLocation HELMET_LAYER = new ModelLayerLocation(ModularGolems.loc("knightmetal_helmet"), "main");
+	public static final ModelLayerLocation CHESTPLATE_LAYER = new ModelLayerLocation(ModularGolems.loc("knightmetal_chestplate"), "main");
+	public static final ModelLayerLocation SHINGUARD_LAYER = new ModelLayerLocation(ModularGolems.loc("knightmetal_shinguard"), "main");
+	public static final ModelLayerLocation BOOTS_LAYER = new ModelLayerLocation(ModularGolems.loc("knightmetal_boots"), "main");
 
 	static {
 		GolemModelPath.register(KNIGHTMETAL_HELMETS,

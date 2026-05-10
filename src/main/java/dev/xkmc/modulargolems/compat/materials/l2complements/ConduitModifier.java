@@ -10,7 +10,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -28,10 +28,10 @@ public class ConduitModifier extends GolemModifier {
 	private static final String STR_ARMOR = "conduit_armor";
 	private static final String STR_TOUGH = "conduit_toughness";
 
-	private static final ResourceLocation ID_ATK = ModularGolems.loc(STR_ATK);
-	private static final ResourceLocation ID_SPEED = ModularGolems.loc(STR_SPEED);
-	private static final ResourceLocation ID_ARMOR = ModularGolems.loc(STR_ARMOR);
-	private static final ResourceLocation ID_TOUGH = ModularGolems.loc(STR_TOUGH);
+	private static final Identifier ID_ATK = ModularGolems.loc(STR_ATK);
+	private static final Identifier ID_SPEED = ModularGolems.loc(STR_SPEED);
+	private static final Identifier ID_ARMOR = ModularGolems.loc(STR_ARMOR);
+	private static final Identifier ID_TOUGH = ModularGolems.loc(STR_TOUGH);
 
 	public ConduitModifier() {
 		super(StatFilterType.MASS, 4);

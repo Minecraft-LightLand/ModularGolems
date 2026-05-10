@@ -7,7 +7,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.EnergySwirlLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class ForceFieldLayer<T extends AbstractGolemEntity<T, ?>, M extends EntityModel<T>> extends EnergySwirlLayer<T, M> {
@@ -16,7 +16,7 @@ public class ForceFieldLayer<T extends AbstractGolemEntity<T, ?>, M extends Enti
 		AbstractGolemRenderer.LIST.add(ForceFieldLayer::new);
 	}
 
-	private static final ResourceLocation WITHER_ARMOR_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/wither/wither_armor.png");
+	private static final Identifier WITHER_ARMOR_LOCATION = Identifier.withDefaultNamespace("textures/entity/wither/wither_armor.png");
 	private final M model;
 
 	public ForceFieldLayer(RenderLayerParent<T, M> pRenderer) {
@@ -34,7 +34,7 @@ public class ForceFieldLayer<T extends AbstractGolemEntity<T, ?>, M extends Enti
 		return Mth.cos(t * 0.02F) * 3.0F;
 	}
 
-	protected ResourceLocation getTextureLocation() {
+	protected Identifier getTextureLocation() {
 		return WITHER_ARMOR_LOCATION;
 	}
 

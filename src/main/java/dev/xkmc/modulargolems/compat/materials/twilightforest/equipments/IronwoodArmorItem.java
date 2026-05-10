@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class IronwoodArmorItem extends MetalGolemArmorItem implements IGolemModifierItem {
 
-	public IronwoodArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public IronwoodArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, Identifier model) {
 		super(properties, type, defense, toughness, model, e ->
 				e.add(GolemTypes.GOLEM_REGEN, new AttributeModifier(TFCompatRegistry.tfLoc("ironwood_armor_" + type.getName()), 0.5,
 						AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(type.getSlot())));
@@ -46,7 +46,7 @@ public class IronwoodArmorItem extends MetalGolemArmorItem implements IGolemModi
 	}
 
 	@Override
-	public ResourceLocation getModelTexture(LivingEntity user) {
+	public Identifier getModelTexture(LivingEntity user) {
 		return TFCompatRegistry.tfLoc("textures/equipments/ironwood.png");
 	}
 }

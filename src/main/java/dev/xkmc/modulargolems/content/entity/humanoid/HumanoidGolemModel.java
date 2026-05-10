@@ -12,7 +12,7 @@ import net.minecraft.client.model.AnimationUtils;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
@@ -46,7 +46,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 	}
 
 	@Override
-	public ResourceLocation getTextureLocationInternal(ResourceLocation rl) {
+	public Identifier getTextureLocationInternal(Identifier rl) {
 		return rl.withPath(e -> "textures/entity/humanoid_golem/" + e + ".png");
 	}
 

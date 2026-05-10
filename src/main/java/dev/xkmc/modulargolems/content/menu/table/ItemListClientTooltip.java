@@ -3,14 +3,14 @@ package dev.xkmc.modulargolems.content.menu.table;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
 public record ItemListClientTooltip(List<ItemStack> inv) implements ClientTooltipComponent {
 
-	public static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.withDefaultNamespace("textures/gui/container/bundle.png");
+	public static final Identifier TEXTURE_LOCATION = Identifier.withDefaultNamespace("textures/gui/container/bundle.png");
 
 	public ItemListClientTooltip(ItemListTooltip comp) {
 		this(comp.inv());

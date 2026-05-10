@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -123,7 +123,7 @@ public class PathRecordCard extends Item {
 		list.add(MGLangData.PATH.get().withStyle(ChatFormatting.GRAY));
 	}
 
-	public record Pos(ResourceLocation level, ArrayList<BlockPos> pos) {
+	public record Pos(Identifier level, ArrayList<BlockPos> pos) {
 
 		public Pos copy() {
 			return new Pos(level, new ArrayList<>(pos));

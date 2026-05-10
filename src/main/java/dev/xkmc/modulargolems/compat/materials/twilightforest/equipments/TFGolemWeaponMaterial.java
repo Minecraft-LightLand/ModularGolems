@@ -4,7 +4,7 @@ import dev.xkmc.modulargolems.compat.materials.twilightforest.TFCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.client.FieryModelTransformer;
 import dev.xkmc.modulargolems.init.material.IGolemWeaponFactory;
 import dev.xkmc.modulargolems.init.material.IGolemWeaponMaterial;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -47,7 +47,7 @@ public enum TFGolemWeaponMaterial implements IGolemWeaponMaterial {
 		return ingot.asItem();
 	}
 
-	public ResourceLocation modLoc(String s) {
+	public Identifier modLoc(String s) {
 		return TFCompatRegistry.tfLoc(s);
 	}
 

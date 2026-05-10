@@ -10,8 +10,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
@@ -51,7 +50,7 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 	public ItemStack assemble(CraftingInput cont, HolderLookup.Provider access) {
 		boolean holderFirst = false;
 		ItemStack holder = null;
-		ResourceLocation mat = null;
+		Identifier mat = null;
 		IGolemPart<?>[] parts = null;
 		IGolemPart<?> sel = null;
 		for (int i = 0; i < cont.size(); i++) {
@@ -70,7 +69,7 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 		return replacePart(holder, mat, parts, sel, holderFirst);
 	}
 
-	public ItemStack assembleForJEI(ResourceLocation mat) {
+	public ItemStack assembleForJEI(Identifier mat) {
 		boolean holderFirst = false;
 		ItemStack holder = null;
 		IGolemPart<?>[] parts = null;
@@ -94,7 +93,7 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 
 	@ParametersAreNullableByDefault
 	public ItemStack replacePart(
-			ItemStack holder, ResourceLocation mat,
+			ItemStack holder, Identifier mat,
 			IGolemPart<?>[] parts, IGolemPart<?> sel, boolean holderFirst
 	) {
 		if (holder == null || parts == null || mat == null || sel == null)
@@ -123,7 +122,8 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 					return ItemStack.EMPTY;
 				}
 			}
-		}ItemStack result = holder.copy();
+		}
+		ItemStack result = holder.copy();
 		var matData = GolemItems.HOLDER_MAT.get(result);
 		ArrayList<GolemHolderMaterial.Entry> list;
 		if (matData == null || matData.size() < parts.length) {

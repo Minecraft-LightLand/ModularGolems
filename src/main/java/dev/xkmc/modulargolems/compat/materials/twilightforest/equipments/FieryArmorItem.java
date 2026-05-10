@@ -8,19 +8,18 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class FieryArmorItem extends MetalGolemArmorItem implements IGolemModifierItem {
 
-	public FieryArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public FieryArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, Identifier model) {
 		super(properties, type, defense, toughness, model);
 	}
 
@@ -49,12 +48,12 @@ public class FieryArmorItem extends MetalGolemArmorItem implements IGolemModifie
 	}
 
 	@Override
-	public ResourceLocation getModelTexture(LivingEntity user) {
-		return TFCompatRegistry.tfLoc( "textures/equipments/fiery.png");
+	public Identifier getModelTexture(LivingEntity user) {
+		return TFCompatRegistry.tfLoc("textures/equipments/fiery.png");
 	}
 
 	@Override
-	public ResourceLocation getEmissiveModelTexture(LivingEntity user) {
+	public Identifier getEmissiveModelTexture(LivingEntity user) {
 		return TFCompatRegistry.tfLoc("textures/equipments/fiery_emissive.png");
 	}
 

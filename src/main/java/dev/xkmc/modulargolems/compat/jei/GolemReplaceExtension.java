@@ -8,7 +8,7 @@ import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -43,7 +43,7 @@ public record GolemReplaceExtension()
 			ItemStack[] stacks = ing.getItems();
 			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
 				List<ItemStack> list = new ArrayList<>();
-				for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+				for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 					ItemStack stack = new ItemStack(part);
 					list.add(GolemPart.setMaterial(stack, rl));
 					outputs.add(recipe.assembleForJEI(rl));
@@ -59,7 +59,7 @@ public record GolemReplaceExtension()
 		craftingGridHelper.createAndSetInputs(builder, inputs, width, height);
 	}
 
-	private void setRecipeSpecial(RecipeHolder<GolemReplaceRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, ItemStack focusResult, ResourceLocation mat) {
+	private void setRecipeSpecial(RecipeHolder<GolemReplaceRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, ItemStack focusResult, Identifier mat) {
 		GolemReplaceRecipe recipe = holder.value();
 		List<List<ItemStack>> inputs = new ArrayList<>();
 		for (Ingredient ing : recipe.getIngredients()) {

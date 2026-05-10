@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.concurrent.CompletableFuture;
@@ -22,8 +22,8 @@ public class LHConfigGen extends ConfigDataProvider {
 	@Override
 	public void add(Collector collector) {
 
-		collector.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(LHDispatch.MODID, LHDispatch.MODID), new GolemMaterialConfig()
-				.addMaterial(ResourceLocation.fromNamespaceAndPath(LHDispatch.MODID, "chaotic"), Ingredient.of(LHItems.CHAOS_INGOT))
+		collector.add(ModularGolems.MATERIALS, Identifier.fromNamespaceAndPath(LHDispatch.MODID, LHDispatch.MODID), new GolemMaterialConfig()
+				.addMaterial(Identifier.fromNamespaceAndPath(LHDispatch.MODID, "chaotic"), Ingredient.of(LHItems.CHAOS_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 400)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 25)
 				.addStat(GolemTypes.STAT_REGEN.get(), 5)
@@ -34,7 +34,7 @@ public class LHConfigGen extends ConfigDataProvider {
 				.addModifier(LHCompatRegistry.LH_CORE.get(), 1)
 				.end()
 
-				.addMaterial(ResourceLocation.fromNamespaceAndPath(LHDispatch.MODID, "miraculous"), Ingredient.of(LHItems.MIRACLE_INGOT))
+				.addMaterial(Identifier.fromNamespaceAndPath(LHDispatch.MODID, "miraculous"), Ingredient.of(LHItems.MIRACLE_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 35)
 				.addStat(GolemTypes.STAT_REGEN.get(), 10)

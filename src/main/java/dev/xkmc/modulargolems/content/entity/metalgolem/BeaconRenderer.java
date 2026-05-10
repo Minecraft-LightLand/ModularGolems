@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.DyeColor;
@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.Blocks;
 
 public class BeaconRenderer {
 
-	private static final ResourceLocation BEACON_LOCATION = ModularGolems.loc("textures/equipments/beacon.png");
-	public static final ResourceLocation BEAM_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/beacon_beam.png");
+	private static final Identifier BEACON_LOCATION = ModularGolems.loc("textures/equipments/beacon.png");
+	public static final Identifier BEAM_LOCATION = Identifier.withDefaultNamespace("textures/entity/beacon_beam.png");
 
 	public static void renderGolemBeacon(MetalGolemEntity entity, PoseStack pose, MultiBufferSource source, float pTick) {
 		if (entity.isAddedToLevel() && entity.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof MetalGolemBeaconItem) {

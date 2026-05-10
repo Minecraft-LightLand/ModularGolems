@@ -1,12 +1,11 @@
 package dev.xkmc.modulargolems.init.loot;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -18,17 +17,17 @@ public class DropPartModifier extends LootModifier {
 
 	public static final MapCodec<DropPartModifier> CODEC = RecordCodecBuilder.mapCodec(i ->
 			LootModifier.codecStart(i).and(
-					ResourceLocation.CODEC.fieldOf("material").forGetter(e -> e.material)
+					Identifier.CODEC.fieldOf("material").forGetter(e -> e.material)
 			).apply(i, DropPartModifier::new));
 
-	private final ResourceLocation material;
+	private final Identifier material;
 
-	protected DropPartModifier(LootItemCondition[] conditionsIn, ResourceLocation material) {
+	protected DropPartModifier(LootItemCondition[] conditionsIn, Identifier material) {
 		super(conditionsIn);
 		this.material = material;
 	}
 
-	protected DropPartModifier(ResourceLocation material, LootItemCondition... conditionsIn) {
+	protected DropPartModifier(Identifier material, LootItemCondition... conditionsIn) {
 		super(conditionsIn);
 		this.material = material;
 	}

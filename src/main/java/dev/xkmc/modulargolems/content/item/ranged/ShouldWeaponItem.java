@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +21,7 @@ public abstract class ShouldWeaponItem extends Item implements IShoulderWeapon {
 	}
 
 	@Override
-	public ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
 		return id.withPath(e -> "textures/equipments/" + e + ".png");
 	}

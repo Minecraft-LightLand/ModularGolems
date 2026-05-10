@@ -41,7 +41,7 @@ import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
@@ -52,7 +52,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.Tags;
 
 import java.util.List;
 import java.util.Set;
@@ -125,7 +124,7 @@ public class GolemItems {
 
 
 	private static final DCReg DC = DCReg.of(ModularGolems.REG);
-	public static final DCVal<ResourceLocation> DC_PART_MAT = DC.loc("part_material");
+	public static final DCVal<Identifier> DC_PART_MAT = DC.loc("part_material");
 	public static final DCVal<CustomData> ENTITY = DC.reg("golem_entity", CustomData.CODEC, CustomData.STREAM_CODEC, true);
 	public static final DCVal<GolemHolderMaterial> HOLDER_MAT = DC.reg("golem_materials", GolemHolderMaterial.class, true);
 	public static final DCVal<GolemUpgrade> UPGRADE = DC.reg("upgrades", GolemUpgrade.class, true);
@@ -511,24 +510,24 @@ public class GolemItems {
 
 	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<Val<? extends GolemModifier>> mod, int level, boolean foil, String modid) {
 		return REGISTRATE.item(id, p -> new SimpleUpgradeItem(p, mod.get()::get, level, foil))
-				.model((ctx, pvd) -> pvd.generated(ctx, ResourceLocation.fromNamespaceAndPath(modid, "item/upgrades/" + id))
-						.override().predicate(ResourceLocation.fromNamespaceAndPath(ModularGolems.MODID, "blue_arrow"), 0.5f)
+				.model((ctx, pvd) -> pvd.generated(ctx, Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id))
+						.override().predicate(Identifier.fromNamespaceAndPath(ModularGolems.MODID, "blue_arrow"), 0.5f)
 						.model(pvd.getBuilder(pvd.name(ctx) + "_purple")
 								.parent(new ModelFile.UncheckedModelFile("item/generated"))
-								.texture("layer0", ResourceLocation.fromNamespaceAndPath(modid, "item/upgrades/" + id))
-								.texture("layer1", ResourceLocation.fromNamespaceAndPath(ModularGolems.MODID, "item/purple_arrow")))
-						.end().override().predicate(ResourceLocation.fromNamespaceAndPath(ModularGolems.MODID, "blue_arrow"), 1)
+								.texture("layer0", Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id))
+								.texture("layer1", Identifier.fromNamespaceAndPath(ModularGolems.MODID, "item/purple_arrow")))
+						.end().override().predicate(Identifier.fromNamespaceAndPath(ModularGolems.MODID, "blue_arrow"), 1)
 						.model(pvd.getBuilder(pvd.name(ctx) + "_blue")
 								.parent(new ModelFile.UncheckedModelFile("item/generated"))
-								.texture("layer0", ResourceLocation.fromNamespaceAndPath(modid, "item/upgrades/" + id))
-								.texture("layer1", ResourceLocation.fromNamespaceAndPath(ModularGolems.MODID, "item/blue_arrow")))
+								.texture("layer0", Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id))
+								.texture("layer1", Identifier.fromNamespaceAndPath(ModularGolems.MODID, "item/blue_arrow")))
 						.end())
 				.removeTab(ITEMS.key()).tab(UPGRADES.key());
 	}
 
 	public static <T extends Item> ItemEntry<T> item(String modid, String id, NonNullFunction<Item.Properties, T> func) {
 		return REGISTRATE.item(id, func)
-				.model((ctx, pvd) -> pvd.generated(ctx, ResourceLocation.fromNamespaceAndPath(modid, "item/" + id)))
+				.model((ctx, pvd) -> pvd.generated(ctx, Identifier.fromNamespaceAndPath(modid, "item/" + id)))
 				.register();
 	}
 

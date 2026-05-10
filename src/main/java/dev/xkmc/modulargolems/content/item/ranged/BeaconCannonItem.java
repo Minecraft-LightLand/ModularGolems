@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.content.entity.misc.BeaconLaserEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscEntities;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -34,7 +34,7 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 	}
 
 	@Override
-	public ResourceLocation getModelForHand(InteractionHand hand) {
+	public Identifier getModelForHand(InteractionHand hand) {
 		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BEACON_RIGHT : GolemModelPaths.BEACON_LEFT;
 	}
 

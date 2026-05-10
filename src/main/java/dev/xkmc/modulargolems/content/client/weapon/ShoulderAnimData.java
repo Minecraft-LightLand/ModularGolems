@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.content.client.weapon;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record ShoulderAnimData(ResourceLocation id, float speed, float tick) {
+public record ShoulderAnimData(Identifier id, float speed, float tick) {
 }

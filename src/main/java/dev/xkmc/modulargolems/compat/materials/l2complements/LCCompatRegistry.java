@@ -6,7 +6,6 @@ import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.PotionAttackModifier;
-import dev.xkmc.modulargolems.content.modifier.base.PotionDefenseModifier;
 import dev.xkmc.modulargolems.content.modifier.base.TargetBonusModifier;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;

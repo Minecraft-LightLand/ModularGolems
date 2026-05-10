@@ -15,7 +15,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.item.Item;
@@ -25,9 +25,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.*;
 
 public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemModifier, Integer> modifiers,
-							ResourceLocation id, Item part) {
+                            Identifier id, Item part) {
 
-	public static final ResourceLocation EMPTY = ModularGolems.loc("empty");
+	public static final Identifier EMPTY = ModularGolems.loc("empty");
 
 	public static Map<Holder<Attribute>, Pair<GolemStatType, Double>> collectAttributes(List<GolemMaterial> list, GolemUpgrade upgrades) {
 		HashMap<Holder<Attribute>, Map<GolemStatType, Double>> values = new LinkedHashMap<>();
@@ -120,8 +120,8 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 		attrs.forEach((k, v) -> v.getFirst().applyToEntity(entity, v.getSecond()));
 	}
 
-	public static Optional<ResourceLocation> getMaterial(ItemStack stack) {
-		for (Map.Entry<ResourceLocation, Ingredient> ent : GolemMaterialConfig.get().ingredients.entrySet()) {
+	public static Optional<Identifier> getMaterial(ItemStack stack) {
+		for (Map.Entry<Identifier, Ingredient> ent : GolemMaterialConfig.get().ingredients.entrySet()) {
 			if (ent.getValue().test(stack)) {
 				return Optional.of(ent.getKey());
 			}
@@ -129,8 +129,8 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 		return Optional.empty();
 	}
 
-	public static Optional<ResourceLocation> getRepairMaterial(ItemStack stack) {
-		for (Map.Entry<ResourceLocation, Ingredient> ent : GolemMaterialConfig.get().repairIngredients.entrySet()) {
+	public static Optional<Identifier> getRepairMaterial(ItemStack stack) {
+		for (Map.Entry<Identifier, Ingredient> ent : GolemMaterialConfig.get().repairIngredients.entrySet()) {
 			if (ent.getValue().test(stack)) {
 				return Optional.of(ent.getKey());
 			}

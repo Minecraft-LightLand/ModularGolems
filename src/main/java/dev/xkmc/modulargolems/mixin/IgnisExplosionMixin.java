@@ -21,7 +21,9 @@ import java.util.List;
 @Mixin(targets = "com.github.L_Ender.cataclysm.util.CustomExplosion.IgnisExplosion")
 public abstract class IgnisExplosionMixin extends Explosion {
 
-	@Shadow @Final private ObjectArrayList<BlockPos> toBlow;
+	@Shadow
+	@Final
+	private ObjectArrayList<BlockPos> toBlow;
 
 	public IgnisExplosionMixin(Level p_46051_, @Nullable Entity p_46052_, double p_46055_, double p_46056_, double p_46057_, float p_46058_, List<BlockPos> p_312600_, BlockInteraction p_46060_, ParticleOptions p_312560_, ParticleOptions p_312844_, Holder<SoundEvent> p_320054_) {
 		super(p_46051_, p_46052_, p_46055_, p_46056_, p_46057_, p_46058_, p_312600_, p_46060_, p_312560_, p_312844_, p_320054_);

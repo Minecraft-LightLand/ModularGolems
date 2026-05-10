@@ -16,7 +16,7 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.util.EsterEggUtil;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -45,7 +45,7 @@ public class GolemClient {
 		event.enqueueWork(() -> {
 			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
 					entity != null && entity.isBlocking() && entity.getUseItem() == stack ? 1.0F : 0.0F;
-			ItemProperties.register(Items.SHIELD, ResourceLocation.withDefaultNamespace("blocking"), func);
+			ItemProperties.register(Items.SHIELD, Identifier.withDefaultNamespace("blocking"), func);
 			ClampedItemPropertyFunction arrow = (stack, level, entity, layer) ->
 					stack.is(MGTagGen.BLUE_UPGRADES) ? 1 : stack.is(MGTagGen.POTION_UPGRADES) ? 0.5f : 0;
 			for (var item : UpgradeItem.LIST)

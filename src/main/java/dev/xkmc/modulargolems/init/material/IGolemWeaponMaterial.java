@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.init.material;
 
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 
 public interface IGolemWeaponMaterial {
@@ -22,7 +22,7 @@ public interface IGolemWeaponMaterial {
 
 	boolean fireResistant();
 
-	default ResourceLocation modLoc(String s) {
+	default Identifier modLoc(String s) {
 		return ModularGolems.loc(s);
 	}
 

@@ -21,7 +21,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.data.MGConfigGen;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import ewewukek.musketmod.MusketMod;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
@@ -99,10 +99,10 @@ public abstract class CompatManager {
 		}
 	}
 
-	private static Map<ResourceLocation, Ingredient> ALL_CONFIGS;
+	private static Map<Identifier, Ingredient> ALL_CONFIGS;
 
 	@SuppressWarnings("ConstantConditions")
-	public static Map<ResourceLocation, Ingredient> gatherConfig() {
+	public static Map<Identifier, Ingredient> gatherConfig() {
 		if (ALL_CONFIGS != null) return ALL_CONFIGS;
 		ConfigDataProvider.Collector map = new ConfigDataProvider.Collector(new HashMap<>());
 		for (ModDispatch dispatch : CompatManager.LIST) {
@@ -110,7 +110,7 @@ public abstract class CompatManager {
 			gen.add(map);
 		}
 		new MGConfigGen(null, null).add(map);
-		Map<ResourceLocation, Ingredient> ing = new HashMap<>();
+		Map<Identifier, Ingredient> ing = new HashMap<>();
 		for (ConfigDataProvider.ConfigEntry<?> config : map.map().values()) {
 			if (config.config() instanceof GolemMaterialConfig mat) {
 				ing.putAll(mat.ingredients);

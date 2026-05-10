@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -19,7 +19,7 @@ public class GolemHealUtils {
 	private final EntityMaid owner;
 	private final IItemHandlerModifiable inv;
 
-	private final Map<ResourceLocation, Integer> cache = new LinkedHashMap<>();
+	private final Map<Identifier, Integer> cache = new LinkedHashMap<>();
 
 	public GolemHealUtils(EntityMaid owner, IItemHandlerModifiable inv) {
 		this.owner = owner;
@@ -98,7 +98,7 @@ public class GolemHealUtils {
 		return getIndexOfMaterial(mat) >= 0;
 	}
 
-	private int getIndexOfMaterial(ResourceLocation mat) {
+	private int getIndexOfMaterial(Identifier mat) {
 		Ingredient ing = GolemMaterialConfig.get().getRepairIngredient(mat);
 		var old = cache.get(mat);
 		if (old != null) {

@@ -168,7 +168,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 	}
 
 	protected void renderArmWithItem(MetalGolemEntity entity, ItemStack stack, EquipmentSlot slot,
-									 PoseStack pose, MultiBufferSource source, int light, float pTick) {
+	                                 PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		if (stack.isEmpty()) return;
 		if (stack.getItem() instanceof IEntityModelWeapon weapon) {
 			InteractionHand hand = slot == EquipmentSlot.MAINHAND ? InteractionHand.MAIN_HAND :

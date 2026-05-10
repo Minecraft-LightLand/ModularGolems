@@ -13,14 +13,13 @@ import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
 public class GolemBows {
 
-	public static final ModelLayerLocation BOW_MAINHAND = new ModelLayerLocation(ModularGolems.loc( "bow"), "mainhand");
-	public static final ModelLayerLocation BOW_OFFHAND = new ModelLayerLocation(ModularGolems.loc( "bow"), "offhand");
+	public static final ModelLayerLocation BOW_MAINHAND = new ModelLayerLocation(ModularGolems.loc("bow"), "mainhand");
+	public static final ModelLayerLocation BOW_OFFHAND = new ModelLayerLocation(ModularGolems.loc("bow"), "offhand");
 
 	public static final AnimationDefinition PULL_MAINHAND;
 

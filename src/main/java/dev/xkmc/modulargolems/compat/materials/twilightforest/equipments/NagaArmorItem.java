@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class NagaArmorItem extends MetalGolemArmorItem implements IGolemModifierItem {
 
-	public NagaArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public NagaArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, Identifier model) {
 		super(properties, type, defense, toughness, model, e -> {
 			var uuid = TFCompatRegistry.tfLoc("naga_armor_" + type.getName());
 			e.add(GolemTypes.GOLEM_REGEN, new AttributeModifier(uuid, 0.5,
@@ -63,7 +63,7 @@ public class NagaArmorItem extends MetalGolemArmorItem implements IGolemModifier
 	}
 
 	@Override
-	public ResourceLocation getModelTexture(LivingEntity user) {
+	public Identifier getModelTexture(LivingEntity user) {
 		return TFCompatRegistry.tfLoc("textures/equipments/naga.png");
 	}
 

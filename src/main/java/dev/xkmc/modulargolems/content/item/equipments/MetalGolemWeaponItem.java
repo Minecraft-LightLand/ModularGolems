@@ -5,7 +5,7 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,20 +14,18 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public class MetalGolemWeaponItem extends GolemEquipmentItem {
 
-	public static final ResourceLocation ATK = ModularGolems.loc("weapon_attack_add");
-	public static final ResourceLocation ATKP = ModularGolems.loc("weapon_attack_percent");
-	public static final ResourceLocation RANGE = ModularGolems.loc("weapon_attack_range");
-	public static final ResourceLocation SWEEP = ModularGolems.loc("weapon_sweep_range");
+	public static final Identifier ATK = ModularGolems.loc("weapon_attack_add");
+	public static final Identifier ATKP = ModularGolems.loc("weapon_attack_percent");
+	public static final Identifier RANGE = ModularGolems.loc("weapon_attack_range");
+	public static final Identifier SWEEP = ModularGolems.loc("weapon_sweep_range");
 
 	public MetalGolemWeaponItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep) {
 		this(properties, attackDamage, percentAttack, range, sweep, e -> {

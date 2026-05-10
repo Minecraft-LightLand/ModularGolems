@@ -7,7 +7,6 @@ import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
 import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;

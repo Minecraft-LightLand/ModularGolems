@@ -4,7 +4,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2itemselector.select.item.CustomDisplaySelectItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -28,7 +28,7 @@ public class BaseWandItem extends Item implements CustomDisplaySelectItem {
 	}
 
 	@Override
-	public ItemStack getDisplay(ResourceLocation id, ItemStack stack) {
+	public ItemStack getDisplay(Identifier id, ItemStack stack) {
 		return base == null ? stack : base.asStack();
 	}
 

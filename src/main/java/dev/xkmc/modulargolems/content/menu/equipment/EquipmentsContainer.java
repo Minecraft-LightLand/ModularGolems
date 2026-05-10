@@ -18,7 +18,7 @@ public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<Equipme
 		if (index < 6) {
 			return parent.golem.getWrapperOfHand(parent.equipmentSlots[index]);
 		}
-		if (parent.golem instanceof SweepGolemEntity<?,?> e) {
+		if (parent.golem instanceof SweepGolemEntity<?, ?> e) {
 			if (index == 6)
 				return e.getBackupHand();
 			if (index == 7)

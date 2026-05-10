@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -20,9 +20,9 @@ import java.util.function.Supplier;
 
 public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends NamedEntry<GolemType<?, ?>> {
 
-	private static final HashMap<ResourceLocation, GolemType<?, ?>> ENTITY_TYPE_TO_GOLEM_TYPE = new HashMap<>();
-	public static final HashMap<ResourceLocation, GolemHolder<?, ?>> GOLEM_TYPE_TO_ITEM = new HashMap<>();
-	public static final HashMap<ResourceLocation, Supplier<ModelProvider<?, ?>>> GOLEM_TYPE_TO_MODEL = new HashMap<>();
+	private static final HashMap<Identifier, GolemType<?, ?>> ENTITY_TYPE_TO_GOLEM_TYPE = new HashMap<>();
+	public static final HashMap<Identifier, GolemHolder<?, ?>> GOLEM_TYPE_TO_ITEM = new HashMap<>();
+	public static final HashMap<Identifier, Supplier<ModelProvider<?, ?>>> GOLEM_TYPE_TO_MODEL = new HashMap<>();
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> GolemType<T, P> getGolemType(EntityType<T> type) {
 		return Wrappers.cast(ENTITY_TYPE_TO_GOLEM_TYPE.get(BuiltInRegistries.ENTITY_TYPE.getKey(type)));

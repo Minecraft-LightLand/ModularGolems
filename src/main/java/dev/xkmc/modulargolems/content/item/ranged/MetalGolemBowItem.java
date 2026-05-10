@@ -14,7 +14,7 @@ import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -92,12 +92,12 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	}
 
 	@Override
-	public @Nullable ResourceLocation getModelForHand(InteractionHand hand) {
+	public @Nullable Identifier getModelForHand(InteractionHand hand) {
 		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BOW_MAINHAND : GolemModelPaths.BOW_OFFHAND;
 	}
 
 	@Override
-	public ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
 		assert id != null;
 		String suffix = shouldPlayAnimation(entity, stack, hand) ? "_pulling.png" : ".png";

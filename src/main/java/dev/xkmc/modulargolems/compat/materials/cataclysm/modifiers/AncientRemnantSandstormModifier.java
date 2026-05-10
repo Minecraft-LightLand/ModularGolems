@@ -35,7 +35,7 @@ public class AncientRemnantSandstormModifier extends GolemModifier {
 		int lv = CataclysmProxy.getSandCurseLevel(cache.getTarget());
 		if (lv > 0) {
 			float factor = 1 + level * MGConfig.COMMON.sandCurseBonus.get().floatValue();
-			cache.addHurtModifier(DamageModifier.multTotal(factor, ModularGolems.loc("curse_of_desert") ));
+			cache.addHurtModifier(DamageModifier.multTotal(factor, ModularGolems.loc("curse_of_desert")));
 		}
 	}
 

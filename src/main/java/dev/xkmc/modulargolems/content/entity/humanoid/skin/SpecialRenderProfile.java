@@ -3,11 +3,11 @@ package dev.xkmc.modulargolems.content.entity.humanoid.skin;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import javax.annotation.Nullable;
 
-public record SpecialRenderProfile(boolean slim, @Nullable ResourceLocation texture) implements SpecialRenderSkin {
+public record SpecialRenderProfile(boolean slim, @Nullable Identifier texture) implements SpecialRenderSkin {
 
 	@Override
 	public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {

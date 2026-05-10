@@ -14,7 +14,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -45,7 +45,7 @@ public record GolemAssemblyExtension(
 			ItemStack[] stacks = ing.getItems();
 			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
 				List<ItemStack> list = new ArrayList<>();
-				for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+				for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 					ItemStack stack = new ItemStack(part);
 					list.add(GolemPart.setMaterial(stack, rl));
 				}
@@ -57,7 +57,7 @@ public record GolemAssemblyExtension(
 		ItemStack resultItem = holder.value().getResultItem(Minecraft.getInstance().level.registryAccess());
 		List<ItemStack> list = new ArrayList<>();
 		if (resultItem.getItem() instanceof GolemHolder<?, ?> golem) {
-			Pair<GolemPart<?, ?>, ResourceLocation> fix = null;
+			Pair<GolemPart<?, ?>, Identifier> fix = null;
 			var focus = focuses.getItemStackFocuses(RecipeIngredientRole.INPUT).findAny();
 			if (focus.isPresent()) {
 				ItemStack stack = focus.get().getTypedValue().getIngredient();
@@ -68,7 +68,7 @@ public record GolemAssemblyExtension(
 					}
 				}
 			}
-			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 				ItemStack stack = new ItemStack(golem);
 				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 				for (var part : golem.getEntityType().values()) {

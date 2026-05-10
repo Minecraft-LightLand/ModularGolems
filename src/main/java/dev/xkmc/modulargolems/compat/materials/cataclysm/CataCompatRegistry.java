@@ -18,7 +18,7 @@ import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -190,8 +190,8 @@ public class CataCompatRegistry {
 
 	}
 
-	private static ResourceLocation cataLoc(String id) {
-		return ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, id);
+	private static Identifier cataLoc(String id) {
+		return Identifier.fromNamespaceAndPath(CataDispatch.MODID, id);
 	}
 
 }

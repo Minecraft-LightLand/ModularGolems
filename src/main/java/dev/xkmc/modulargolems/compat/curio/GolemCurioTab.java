@@ -10,11 +10,11 @@ import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class GolemCurioTab extends TabBase<EquipmentGroup, GolemCurioTab> {
 
-	private static final ResourceLocation ICON = L2Tabs.loc("curios");
+	private static final Identifier ICON = L2Tabs.loc("curios");
 
 	public GolemCurioTab(int index, TabToken<EquipmentGroup, GolemCurioTab> token, TabManager<EquipmentGroup> manager, Component title) {
 		super(index, token, manager, title);

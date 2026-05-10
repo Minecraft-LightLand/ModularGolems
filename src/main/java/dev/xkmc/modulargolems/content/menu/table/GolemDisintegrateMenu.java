@@ -331,7 +331,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 		private IGolemPart<?> of(GolemHolder<?, ?> holder) {
 			return holder == GolemItems.HOLDER_GOLEM.get() ? large :
 					holder == GolemItems.HOLDER_HUMANOID.get() ? humanoid :
-							holder == GolemItems.HOLDER_DOG.get() ? dog : null;
+					holder == GolemItems.HOLDER_DOG.get() ? dog : null;
 		}
 
 		public boolean isValid(ItemStack golem, ItemStack item) {

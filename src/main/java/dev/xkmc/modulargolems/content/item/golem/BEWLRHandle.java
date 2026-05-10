@@ -6,5 +6,5 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public record BEWLRHandle(ItemStack stack, ItemDisplayContext type, PoseStack poseStack,
-						  MultiBufferSource bufferSource, int light, int overlay) {
+                          MultiBufferSource bufferSource, int light, int overlay) {
 }

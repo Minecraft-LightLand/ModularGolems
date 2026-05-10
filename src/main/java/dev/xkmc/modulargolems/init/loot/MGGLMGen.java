@@ -9,7 +9,7 @@ import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
@@ -33,15 +33,15 @@ public class MGGLMGen extends GlobalLootModifierProvider {
 	}
 
 	public void drop(String modid, EntityType<?> type, String material) {
-		drop(modid, type, ResourceLocation.fromNamespaceAndPath(modid, material));
+		drop(modid, type, Identifier.fromNamespaceAndPath(modid, material));
 	}
 
-	public void drop(String modid, EntityType<?> type, ResourceLocation material) {
+	public void drop(String modid, EntityType<?> type, Identifier material) {
 		drop(type, material, new ModLoadedCondition(modid));
 	}
 
 
-	public void drop(EntityType<?> type, ResourceLocation material, ICondition... conditions) {
+	public void drop(EntityType<?> type, Identifier material, ICondition... conditions) {
 		add("slicing_axe_drop_" + material.getPath(), new DropPartModifier(material,
 				LootItemEntityPropertyCondition.hasProperties(
 						LootContext.EntityTarget.THIS,

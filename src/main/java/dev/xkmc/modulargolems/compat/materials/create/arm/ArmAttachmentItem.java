@@ -11,7 +11,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -24,14 +24,14 @@ import java.util.List;
 
 public class ArmAttachmentItem extends ShouldWeaponItem {
 
-	public static final ResourceLocation ID = CreateCompatRegistry.loc("arm");
+	public static final Identifier ID = CreateCompatRegistry.loc("arm");
 
 	public ArmAttachmentItem(Properties properties) {
 		super(properties);
 	}
 
 	@Override
-	public @Nullable ResourceLocation getModelForHand(InteractionHand hand) {
+	public @Nullable Identifier getModelForHand(InteractionHand hand) {
 		return ID;
 	}
 

@@ -11,7 +11,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -133,12 +133,12 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public @Nullable ResourceLocation getModelForHand(InteractionHand hand) {
+	public @Nullable Identifier getModelForHand(InteractionHand hand) {
 		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.FLAME_RIGHT : GolemModelPaths.FLAME_LEFT;
 	}
 
 	@Override
-	public @Nullable ResourceLocation getAnimBaseId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
+	public @Nullable Identifier getAnimBaseId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
 		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BEACON_RIGHT : GolemModelPaths.BEACON_LEFT;
 	}
 
@@ -148,13 +148,13 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public ResourceLocation getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
 		return id.withPath(e -> "textures/equipments/" + e + "_emissive.png");
 	}
 
 	@Override
-	public ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
 		return id.withPath(e -> "textures/equipments/" + e + ".png");
 	}

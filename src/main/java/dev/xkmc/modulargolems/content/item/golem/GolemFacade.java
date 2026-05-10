@@ -5,7 +5,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -15,11 +15,11 @@ public class GolemFacade extends Item {
 		super(prop);
 	}
 
-	public static ItemStack setMaterial(ItemStack stack, ResourceLocation id) {
+	public static ItemStack setMaterial(ItemStack stack, Identifier id) {
 		return GolemItems.DC_PART_MAT.set(stack, id);
 	}
 
-	public static ResourceLocation getMaterial(ItemStack stack) {
+	public static Identifier getMaterial(ItemStack stack) {
 		return GolemItems.DC_PART_MAT.getOrDefault(stack, ModularGolems.loc("iron"));
 	}
 
@@ -31,7 +31,7 @@ public class GolemFacade extends Item {
 	}
 
 	public void fillItemCategory(CreativeModeTabModifier tab) {
-		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+		for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 			ItemStack stack = new ItemStack(this);
 			setMaterial(stack, rl);
 			tab.accept(stack);

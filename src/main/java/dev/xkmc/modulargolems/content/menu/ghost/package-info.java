@@ -1,8 +1,4 @@
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+@org.jspecify.annotations.NullMarked
 
 package dev.xkmc.modulargolems.content.menu.ghost;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
-
-import javax.annotation.ParametersAreNonnullByDefault;

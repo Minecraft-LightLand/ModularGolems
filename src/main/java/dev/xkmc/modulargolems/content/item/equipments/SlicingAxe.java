@@ -1,4 +1,3 @@
-
 package dev.xkmc.modulargolems.content.item.equipments;
 
 import com.tterrag.registrate.util.entry.ItemEntry;

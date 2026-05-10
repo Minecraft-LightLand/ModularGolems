@@ -124,12 +124,12 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 				double ly = y - 40 - my;
 				int scale = golem instanceof MetalGolemEntity ? 18 :
 						golem instanceof HumanoidGolemEntity ? 24 :
-								golem instanceof DogGolemEntity ? 32 : 18;
+						golem instanceof DogGolemEntity ? 32 : 18;
 				float ax = (float) Math.atan(lx / 50.0);
 				float ay = (float) Math.atan(ly / 50.0);
 				InventoryScreen.renderEntityInInventoryFollowsAngle(g,//TODO
 						leftPos + 3, topPos + 16, leftPos + 58, topPos + 99, 20,
-						1f/scale, ax, ay, golem);
+						1f / scale, ax, ay, golem);
 			}
 		}
 	}

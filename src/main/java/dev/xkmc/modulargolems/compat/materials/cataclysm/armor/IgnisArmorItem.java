@@ -9,7 +9,7 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class IgnisArmorItem extends MetalGolemArmorItem {
 
-	public IgnisArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+	public IgnisArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, Identifier model) {
 		super(properties, type, defense, toughness, model, e -> {
 			var id = ModularGolems.loc("ignis_armor_" + type.getName());
 			e.add(L2DamageTracker.REDUCTION, new AttributeModifier(id, -0.2,

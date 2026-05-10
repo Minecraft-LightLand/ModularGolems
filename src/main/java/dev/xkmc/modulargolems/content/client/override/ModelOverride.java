@@ -11,7 +11,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
@@ -22,7 +22,7 @@ public class ModelOverride {
 		return new ModelOverride() {
 
 			@Override
-			public ResourceLocation getTexture(AbstractGolemEntity<?, ?> golem, ResourceLocation id) {
+			public Identifier getTexture(AbstractGolemEntity<?, ?> golem, Identifier id) {
 				return super.getTexture(golem, id).withSuffix(modifier.apply(golem));
 			}
 
@@ -32,12 +32,12 @@ public class ModelOverride {
 	public ModelOverride() {
 	}
 
-	public ResourceLocation getTexture(AbstractGolemEntity<?, ?> golem, ResourceLocation id) {
+	public Identifier getTexture(AbstractGolemEntity<?, ?> golem, Identifier id) {
 		return id;
 	}
 
 	public synchronized <M extends EntityModel<T> & IGolemModel<T, P, M>, T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void renderAll(
-			AbstractGolemRenderer<T, P, M> renderer, T entity, P part, PoseStack pose, MultiBufferSource buffer, ResourceLocation mat,
+			AbstractGolemRenderer<T, P, M> renderer, T entity, P part, PoseStack pose, MultiBufferSource buffer, Identifier mat,
 			int light, float pTick, boolean visible, boolean ghost, boolean glowing
 	) {
 		var camera = Minecraft.getInstance().getCameraEntity();
@@ -45,7 +45,7 @@ public class ModelOverride {
 				camera != null && camera.getVehicle() == entity && entity.getBbWidth() >= 2)
 			ghost = true;
 		var model = renderer.getModel();
-		ResourceLocation tex = getTexture(entity, mat);
+		Identifier tex = getTexture(entity, mat);
 		RenderType rt = getRenderType(model, model.getTextureLocationInternal(tex), visible, ghost, glowing);
 		if (rt != null) {
 			renderer.renderPartModel(entity, part, pose, buffer.getBuffer(rt), light, pTick, ghost);
@@ -61,7 +61,7 @@ public class ModelOverride {
 
 	@Nullable
 	protected <M extends EntityModel<?> & IGolemModel<?, ?, M>> RenderType getRenderType(
-			M model, ResourceLocation tex, boolean visible, boolean ghost, boolean glowing
+			M model, Identifier tex, boolean visible, boolean ghost, boolean glowing
 	) {
 		if (ghost) return RenderType.itemEntityTranslucentCull(tex);
 		if (visible) return model.renderType(tex);

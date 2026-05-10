@@ -9,7 +9,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
@@ -30,12 +30,12 @@ import java.util.function.Predicate;
 
 public class MaidSummonerTask implements IRangedAttackTask {
 
-	public static final ResourceLocation UID = ModularGolems.loc("summon_golems");
+	public static final Identifier UID = ModularGolems.loc("summon_golems");
 
 	public static final int STOP_MOVING_DIST = 24;
 	public static final int STOP_ATTACK_DIST = 35;
 
-	public ResourceLocation getUid() {
+	public Identifier getUid() {
 		return UID;
 	}
 

@@ -4,7 +4,7 @@ import dev.xkmc.l2core.serial.advancements.BaseCriterion;
 import dev.xkmc.l2core.serial.advancements.BaseCriterionInstance;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 
 public class GolemMassSummonTrigger extends BaseCriterion<GolemMassSummonTrigger.Ins, GolemMassSummonTrigger> {
@@ -19,7 +19,7 @@ public class GolemMassSummonTrigger extends BaseCriterion<GolemMassSummonTrigger
 		return ans;
 	}
 
-	public GolemMassSummonTrigger(ResourceLocation id) {
+	public GolemMassSummonTrigger(Identifier id) {
 		super(Ins.class);
 	}
 
