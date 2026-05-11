@@ -1,3 +1,9 @@
+3.1.35
+- Fix config card reset after changing dimension
+- Hostile golem no longer destroy items
+- Reduce voice volume for humanoid and dog golem
+- Add voice volume config for player golem and hostile golem
+
 3.1.34
 - Fix golem curios screen not closing after golem death
 - Change golem beacon rendering

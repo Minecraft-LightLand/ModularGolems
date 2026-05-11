@@ -263,6 +263,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	@Override
+	protected float getSoundVolume() {
+		return 0.6f * super.getSoundVolume();
+	}
+
+	@Override
 	public float getVoicePitch() {
 		return super.getVoicePitch() * 1.25f;
 	}
