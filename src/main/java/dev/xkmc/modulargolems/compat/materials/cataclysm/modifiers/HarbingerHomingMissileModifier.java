@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -29,7 +29,7 @@ public class HarbingerHomingMissileModifier extends GolemModifier {
 		var event = cache.getLivingHurtEvent();
 		assert event != null;
 		var source = event.getSource();
-		if (CataclysmProxy.isMissile(source) && entity.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.HARBINGER_CHESTPLATE.get())) {
+		if (GolemCataProxy.isMissile(source) && entity.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.HARBINGER_CHESTPLATE.get())) {
 			cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.missileArmorBonus.get().floatValue()));
 		}
 	}

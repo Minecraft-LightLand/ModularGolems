@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
@@ -45,7 +45,7 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 			if (!golem.isAlliedTo(entity) && entity != golem) {
 				float damage = GolemUtils.adjustedDamage(
 						(float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE),
-						CataclysmProxy.monstrosityEarthquakeDamage() * entity.getMaxHealth()
+						GolemCataProxy.monstrosityEarthquakeDamage() * entity.getMaxHealth()
 				);
 				float factor = 0;
 				if (golem.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MONSTROSITY_HELMET.get()))

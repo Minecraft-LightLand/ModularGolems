@@ -1,9 +1,10 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -37,7 +38,7 @@ public class IgnisFireballModifier extends GolemModifier {
 		int index = user.getRandom().nextInt(5);
 		lv = Mth.clamp(lv, 0, 2);
 		for (int i = 2 - lv; i < 3 + lv; i++) {
-			CataclysmProxy.shootFireball(user, new Vec3(ANGLE[i], 3.0D, 0.0D), 15 + i * 10, index == i);
+			GolemCataProxy.shootFireball(user, new Vec3(ANGLE[i], 3.0D, 0.0D), 15 + i * 10, index == i, CataDispatch.ignisBlue(user));
 		}
 	}
 
@@ -47,7 +48,7 @@ public class IgnisFireballModifier extends GolemModifier {
 		assert event != null;
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
-		if (direct == null || !CataclysmProxy.isIgnisExplosive(direct)) return;
+		if (direct == null || !GolemCataProxy.isIgnisExplosive(direct)) return;
 		cache.addHurtModifier(DamageModifier.multTotal(MGConfig.COMMON.ignisSkillDamageFactor.get().floatValue()));
 		if (entity.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.IGNIS_HELMET.get())) {
 			cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.fireballArmorBonus.get().floatValue()));
@@ -58,10 +59,10 @@ public class IgnisFireballModifier extends GolemModifier {
 	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
-		if (direct != null && CataclysmProxy.isIgnisExplosive(direct)) {
-			if (CataclysmProxy.isSoul(direct)) {
+		if (direct != null && GolemCataProxy.isIgnisExplosive(direct)) {
+			if (GolemCataProxy.isSoul(direct)) {
 				event.getEntity().invulnerableTime = 0;
-				CataclysmProxy.stun(event.getEntity(), 20);
+				GolemCataProxy.inflictStun(entity, event.getEntity(), 20);
 			}
 		}
 	}
@@ -72,10 +73,10 @@ public class IgnisFireballModifier extends GolemModifier {
 		assert event != null;
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
-		if (direct == null || !CataclysmProxy.isIgnisExplosive(direct)) return;
+		if (direct == null || !GolemCataProxy.isIgnisExplosive(direct)) return;
 		LivingEntity target = cache.getAttackTarget();
 		float rate = MGConfig.COMMON.ignitiumHealRate.get().floatValue();
-		CataclysmProxy.stackBlazingBrand(golem, target, rate * cache.getDamageDealt(), CataclysmProxy.isSoul(direct) ? 3 : 1);
+		CataDispatch.stackBlazingBrand(golem, target, rate * cache.getDamageDealt(), GolemCataProxy.isSoul(direct) ? 3 : 1);
 	}
 
 }

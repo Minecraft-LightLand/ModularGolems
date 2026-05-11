@@ -1,10 +1,10 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -82,7 +82,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		var self = golem.position();
 		list.sort(Comparator.comparingDouble(self::distanceToSqr));
 		for (int i = 0; i < list.size(); i++) {
-			CataclysmProxy.createBlast(golem, list.get(i), 40, i * 2, 3, atk, soul);
+			GolemCataProxy.createBlast(golem, list.get(i), 40, i * 2, 3, atk, soul);
 		}
 	}
 
@@ -97,7 +97,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		assert event != null;
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
-		if (direct == null || !CataclysmProxy.isIgnisStrike(direct)) return;
+		if (direct == null || !GolemCataProxy.isIgnisStrike(direct)) return;
 		cache.addHurtModifier(DamageModifier.multTotal(MGConfig.COMMON.ignisSkillDamageFactor.get().floatValue()));
 		if (entity.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.IGNIS_SHINGUARD.get())) {
 			cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.flameStrikeArmorBonus.get().floatValue()));
@@ -108,10 +108,10 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
-		if (direct != null && CataclysmProxy.isIgnisStrike(direct)) {
-			if (CataclysmProxy.isSoul(direct)) {
+		if (direct != null && GolemCataProxy.isIgnisStrike(direct)) {
+			if (GolemCataProxy.isSoul(direct)) {
 				event.getEntity().invulnerableTime = 0;
-				CataclysmProxy.stun(event.getEntity(), 20);
+				GolemCataProxy.inflictStun(entity, event.getEntity(), 20);
 			}
 		}
 	}
@@ -122,10 +122,10 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		assert event != null;
 		var source = event.getSource();
 		var direct = source.getDirectEntity();
-		if (direct == null || !CataclysmProxy.isIgnisStrike(direct)) return;
+		if (direct == null || !GolemCataProxy.isIgnisStrike(direct)) return;
 		LivingEntity target = cache.getAttackTarget();
 		float rate = MGConfig.COMMON.ignitiumHealRate.get().floatValue();
-		CataclysmProxy.stackBlazingBrand(golem, target, rate * cache.getDamageDealt(), CataclysmProxy.isSoul(direct) ? 3 : 1);
+		CataDispatch.stackBlazingBrand(golem, target, rate * cache.getDamageDealt(), GolemCataProxy.isSoul(direct) ? 3 : 1);
 	}
 
 	@Nullable

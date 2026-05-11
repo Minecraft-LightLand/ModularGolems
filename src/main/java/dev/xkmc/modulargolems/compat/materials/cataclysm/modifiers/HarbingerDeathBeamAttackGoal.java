@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +30,7 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 				if (target != null) {
 					golem.getLookControl().setLookAt(target, 30, 90);
 				}
-				CataclysmProxy.updateLaser(golem, beam);
+				GolemCataProxy.updateLaser(golem, beam);
 				beam.setPosRaw(golem.getX(), golem.getEyeY(), golem.getZ());
 			}
 		}
@@ -39,7 +39,7 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 
 	@Override
 	protected boolean performAttack(LivingEntity target) {
-		beam = CataclysmProxy.addLaserBeam(golem, 60);
+		beam = GolemCataProxy.addLaserBeam(golem, 60);
 		golem.getNavigation().stop();
 		return true;
 	}

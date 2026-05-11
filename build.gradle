@@ -121,7 +121,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 if (lljij.toBoolean()) {
-
+    jarJar.enable()
     reobf {
         jarJar {}
     }
@@ -217,9 +217,14 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.16")) {
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.19-slim")) {
         transitive = false
-        jarJar.ranged(it, "[0.2.16,)")
+        jarJar.ranged(it, "[0.2.19,)")
+    }
+
+    implementation fg.deobf(jarJar("dev.xkmc.cataclysm_mux:cataclysm_mux:0.0.1")) {
+        transitive = false
+        jarJar.ranged(it, "[0,)")
     }
 
     implementation fg.deobf("dev.xkmc.l2backpack:l2backpack:2.5.7-slim")

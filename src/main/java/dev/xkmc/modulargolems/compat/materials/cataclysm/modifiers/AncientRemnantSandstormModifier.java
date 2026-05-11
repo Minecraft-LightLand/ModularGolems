@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -25,7 +25,7 @@ public class AncientRemnantSandstormModifier extends GolemModifier {
 
 	@Override
 	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (CataclysmProxy.isSandstorm(event.getSource())) {
+		if (GolemCataProxy.isSandstorm(event.getSource())) {
 			event.getEntity().invulnerableTime = 0;
 		}
 	}
@@ -34,7 +34,7 @@ public class AncientRemnantSandstormModifier extends GolemModifier {
 	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
 		var event = cache.getLivingHurtEvent();
 		if (event == null) return;
-		int lv = CataclysmProxy.getSandCurseLevel(cache.getAttackTarget());
+		int lv = GolemCataProxy.getSandCurseLevel(cache.getAttackTarget());
 		if (lv > 0) {
 			cache.addHurtModifier(DamageModifier.multTotal(1 + level * MGConfig.COMMON.sandCurseBonus.get().floatValue()));
 		}
