@@ -1,9 +1,6 @@
 package dev.xkmc.modulargolems.init;
 
 import com.tterrag.registrate.providers.ProviderType;
-import dev.xkmc.l2complements.init.L2Complements;
-import dev.xkmc.l2complements.init.registrate.LCEnchantments;
-import dev.xkmc.l2core.compat.patchouli.PatchouliHelper;
 import dev.xkmc.l2core.init.L2TagGen;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.simple.Reg;
@@ -14,7 +11,6 @@ import dev.xkmc.l2menustacker.click.quickaccess.DefaultQuickAccessActions;
 import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
-import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
@@ -34,12 +30,9 @@ import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.*;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.*;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -49,12 +42,10 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import plus.dragons.createenchantmentindustry.common.CEICommon;
-import vazkii.patchouli.api.PatchouliAPI;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ModularGolems.MODID)
-@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ModularGolems.MODID)
 public class ModularGolems {
 
 	public static final String MODID = "modulargolems";
@@ -96,6 +87,7 @@ public class ModularGolems {
 		GolemModes.register();
 		CurioCompatRegistry.register();
 		AttackEventHandler.register(3500, new GolemAttackListener());
+		/*
 		if (ModList.get().isLoaded(PatchouliAPI.MOD_ID)) {
 			new PatchouliHelper(REGISTRATE, "golem_guide")
 					.buildModel().buildShapelessRecipe(e -> e
@@ -108,6 +100,8 @@ public class ModularGolems {
 		if (ModList.get().isLoaded(CEICommon.ID)) {
 			CEICompat.register();
 		}
+
+		 */
 	}
 
 	public static Identifier loc(String id) {
@@ -138,7 +132,7 @@ public class ModularGolems {
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
-	public static void gatherData(GatherDataEvent event) {
+	public static void gatherData(GatherDataEvent.Client event) {
 
 		REGISTRATE.addDataGenerator(ProviderType.LANG, MGLangData::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
@@ -152,17 +146,17 @@ public class ModularGolems {
 		var gen = event.getGenerator();
 		var pvd = event.getLookupProvider();
 		new MGDamageTypes(REGISTRATE).generate();
-		gen.addProvider(event.includeServer(), new MGConfigGen(gen, pvd));
+		gen.addProvider(true, new MGConfigGen(gen, pvd));
 		CompatManager.gatherData(event);
-		gen.addProvider(event.includeServer(), new SlotGen(gen.getPackOutput(), event.getExistingFileHelper(), pvd));
-		gen.addProvider(event.includeServer(), new MGGLMGen(gen.getPackOutput(), pvd, MODID));
+		gen.addProvider(true, new SlotGen(gen.getPackOutput(), pvd));
+		gen.addProvider(true, new MGGLMGen(gen.getPackOutput(), pvd, MODID));
 		var init = REGISTRATE.getDataGenInitializer();
-		if (ModList.get().isLoaded(L2Complements.MODID)) {
+		/*if (ModList.get().isLoaded(L2Complements.MODID)) {
 			REGISTRATE.addDataGenerator(L2TagGen.EFF_TAGS, MGTagGen::onEffTagGen);
 			init.add(Registries.ENCHANTMENT, LCEnchantments.REG::build);// fill registry
-		}
+		}*/
 		init.addDependency(L2TagGen.ENCH_TAGS, ProviderType.DYNAMIC);
-		init.addDependency(ProviderType.RECIPE, L2TagGen.ENCH_TAGS);
+		init.addDependency(ProviderType.RECIPE_RUNNER, L2TagGen.ENCH_TAGS);
 	}
 
 }

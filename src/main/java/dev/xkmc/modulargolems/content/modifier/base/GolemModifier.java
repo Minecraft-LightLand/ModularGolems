@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.modifier.base;
 import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.OnDamageSourceModifyEvent;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -143,7 +144,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return true;
 	}
 
-	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
+	public void modifySource(AbstractGolemEntity<?, ?> golem, OnDamageSourceModifyEvent event, int value) {
 	}
 
 	public void handleEvent(AbstractGolemEntity<?, ?> golem, int value, byte event) {

@@ -10,7 +10,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.animal.golem.AbstractGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
+import org.jspecify.annotations.Nullable;
 
 public abstract class GuardedEntity extends AbstractGolem {
 
@@ -43,8 +44,8 @@ public abstract class GuardedEntity extends AbstractGolem {
 	}
 
 	@Override
-	protected void actuallyHurt(DamageSource source, float amount) {
-		if (isInvulnerableTo(source)) return;
+	protected void actuallyHurt(ServerLevel level, DamageSource source, float amount) {
+		if (isInvulnerableTo(level, source)) return;
 		damageContainers.peek().setReduction(DamageContainer.Reduction.ARMOR, damageContainers.peek().getNewDamage() - getDamageAfterArmorAbsorb(source, damageContainers.peek().getNewDamage()));
 		getDamageAfterMagicAbsorb(source, damageContainers.peek().getNewDamage());
 		float damage = CommonHooks.onLivingDamagePre(this, damageContainers.peek());
@@ -121,8 +122,8 @@ public abstract class GuardedEntity extends AbstractGolem {
 		if (isRemoved() || dead) return;
 		Entity entity = source.getEntity();
 		LivingEntity livingentity = this.getKillCredit();
-		if (this.deathScore >= 0 && livingentity != null) {
-			livingentity.awardKillScore(this, this.deathScore, source);
+		if (livingentity != null) {
+			livingentity.awardKillScore(this, source);
 		}
 		if (this.isSleeping()) {
 			this.stopSleeping();
@@ -131,7 +132,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 		this.getCombatTracker().recheckStatus();
 		Level level = this.level();
 		if (level instanceof ServerLevel serverlevel) {
-			if (entity == null || entity.killedEntity(serverlevel, this)) {
+			if (entity == null || entity.killedEntity(serverlevel, this, source)) {
 				this.gameEvent(GameEvent.ENTITY_DIE);
 				this.dropAllDeathLoot(serverlevel, source);
 				this.createWitherRose(livingentity);
@@ -190,6 +191,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 		super.tickDeath();
 	}
 
+	@Nullable
 	@SerialField
 	private GuardedData guardedData;
 	private boolean loopingSetHealth = false;
@@ -248,6 +250,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 	public record GuardedDataToClient(int id, GuardedData data) implements SerialPacketBase<GuardedDataToClient> {
 
 		public static void send(GuardedEntity e) {
+			if (e.guardedData == null) return;
 			ModularGolems.HANDLER.toTrackingPlayers(new GuardedDataToClient(e.getId(), e.guardedData), e);
 		}
 

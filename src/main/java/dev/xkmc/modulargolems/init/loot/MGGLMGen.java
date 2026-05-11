@@ -4,10 +4,11 @@ import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.advancements.critereon.EntityEquipmentPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.EntityEquipmentPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
@@ -42,15 +43,17 @@ public class MGGLMGen extends GlobalLootModifierProvider {
 
 
 	public void drop(EntityType<?> type, Identifier material, ICondition... conditions) {
+		var re = registries.lookupOrThrow(Registries.ENTITY_TYPE);
+		var ri = registries.lookupOrThrow(Registries.ITEM);
 		add("slicing_axe_drop_" + material.getPath(), new DropPartModifier(material,
 				LootItemEntityPropertyCondition.hasProperties(
 						LootContext.EntityTarget.THIS,
-						EntityPredicate.Builder.entity().of(type)).build(),
+						EntityPredicate.Builder.entity().of(re, type)).build(),
 				LootItemEntityPropertyCondition.hasProperties(
 						LootContext.EntityTarget.DIRECT_ATTACKER,
-						EntityPredicate.Builder.entity().of(GolemTypes.ENTITY_GOLEM.get()).equipment(
+						EntityPredicate.Builder.entity().of(re, GolemTypes.ENTITY_GOLEM.get()).equipment(
 								EntityEquipmentPredicate.Builder.equipment().mainhand(
-										ItemPredicate.Builder.item().of(GolemItems.SLICING_AXE.get())
+										ItemPredicate.Builder.item().of(ri, GolemItems.SLICING_AXE.get())
 								).build()
 						).build()
 				).build()

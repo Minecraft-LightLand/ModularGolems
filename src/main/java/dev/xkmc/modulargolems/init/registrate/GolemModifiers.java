@@ -108,7 +108,7 @@ public class GolemModifiers {
 		BELL = reg("bell", BellModifier::new,
 				"When the golem wants to attack, it will ring its bell, attracting all enemies and light them up.");
 		SLOW = reg("slow", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
-						i -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 60, i - 1)),
+						i -> new MobEffectInstance(MobEffects.SLOWNESS, 60, i - 1)),
 				"Potion Upgrade: Slowness", null);
 		WEAK = reg("weak", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
 						i -> new MobEffectInstance(MobEffects.WEAKNESS, 60, i - 1)),
@@ -116,7 +116,7 @@ public class GolemModifiers {
 		WITHER = reg("wither", () -> new PotionAttackModifier(StatFilterType.MASS, 3,
 						i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)),
 				"Potion Upgrade: Wither", null);
-		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getType().is(EntityTypeTags.RAIDERS)),
+		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getType().builtInRegistryHolder().is(EntityTypeTags.RAIDERS)),
 				"Deal %s%% more damage to illagers");
 		PICKUP = reg("pickup", PickupModifier::new, "Pickup",
 				"Golems will pickup items and experiences within %s blocks and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them");

@@ -179,6 +179,11 @@ repositories {
         url "https://maven.gegy.dev/releases"
         content { includeGroup "com.tterrag.registrate" }
     }
+    maven {
+        name = "Curios"
+        url = uri("https://maven.theillusivec4.top/")
+        content { includeGroup "top.theillusivec4.curios" }
+    }
 }
 
 dependencies {
@@ -197,4 +202,7 @@ dependencies {
     // JEI
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${jei_minecraft_version}:${jei_version}"
+    // Curios
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
 }

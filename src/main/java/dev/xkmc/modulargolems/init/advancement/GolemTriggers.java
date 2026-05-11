@@ -4,7 +4,7 @@ import dev.xkmc.l2core.init.reg.simple.SR;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.critereon.PlayerTrigger;
+import net.minecraft.advancements.criterion.PlayerTrigger;
 import net.minecraft.core.registries.Registries;
 
 public class GolemTriggers {

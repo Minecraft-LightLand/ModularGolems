@@ -1,13 +1,16 @@
 package dev.xkmc.modulargolems.content.recipe;
 
 import dev.xkmc.l2core.serial.recipe.AbstractShapedRecipe;
+import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.Level;
 
@@ -15,8 +18,8 @@ import java.util.ArrayList;
 
 public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecipe> {
 
-	public GolemAssembleRecipe(String group, ShapedRecipePattern pattern, ItemStack result) {
-		super(group, pattern, result);
+	public GolemAssembleRecipe(CommonInfo commonInfo, CraftingBookInfo bookInfo, ShapedRecipePattern pattern, ItemStackTemplate result) {
+		super(commonInfo, bookInfo, pattern, result);
 	}
 
 	@Override
@@ -34,8 +37,8 @@ public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecip
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInput cont, HolderLookup.Provider access) {
-		ItemStack stack = super.assemble(cont, access);
+	public ItemStack assemble(CraftingInput cont) {
+		ItemStack stack = super.assemble(cont);
 		ArrayList<GolemHolderMaterial.Entry> list = new ArrayList<>();
 		for (int i = 0; i < cont.size(); i++) {
 			ItemStack input = cont.getItem(i);
@@ -47,8 +50,8 @@ public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecip
 	}
 
 	@Override
-	public Serializer<GolemAssembleRecipe> getSerializer() {
-		return GolemMiscs.ASSEMBLE.get();
+	public RecipeSerializer<ShapedRecipe> getSerializer() {
+		return Wrappers.cast(GolemMiscs.ASSEMBLE.get());
 	}
 
 }

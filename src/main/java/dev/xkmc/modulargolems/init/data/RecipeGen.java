@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.init.data;
 
-import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import com.tterrag.registrate.providers.generators.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.golemdungeons.init.GolemDungeons;

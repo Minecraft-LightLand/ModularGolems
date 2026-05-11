@@ -14,8 +14,6 @@ import dev.xkmc.modulargolems.content.menu.table.ItemListClientTooltip;
 import dev.xkmc.modulargolems.content.menu.table.ItemListTooltip;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.util.EsterEggUtil;
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
@@ -23,12 +21,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import net.neoforged.neoforge.common.NeoForge;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class GolemClient {
@@ -38,9 +35,9 @@ public class GolemClient {
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
 
-		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+		/*if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			NeoForge.EVENT_BUS.register(MaidSkinCompat.class);
-		}
+		}*/
 
 		event.enqueueWork(() -> {
 			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
@@ -70,8 +67,8 @@ public class GolemClient {
 	}
 
 	@SubscribeEvent
-	public static void onResourceReload(RegisterClientReloadListenersEvent event) {
-		event.registerReloadListener(GolemBEWLR.INSTANCE.get());
+	public static void onResourceReload(AddClientReloadListenersEvent event) {
+		event.addListener(ModularGolems.loc("bewlr"), GolemBEWLR.INSTANCE.get());
 	}
 
 	@SubscribeEvent

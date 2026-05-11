@@ -21,7 +21,7 @@ public class EarthquakeHelper {
 	public static final double RANGE = 5;
 
 	public static void makeParticles(LivingEntity le, float vec, float math) {
-		if (le.level().isClientSide) {
+		if (le.level().isClientSide()) {
 			for (int i1 = 0; i1 < 80 + le.getRandom().nextInt(12); ++i1) {
 				double DeltaMovementX = le.getRandom().nextGaussian() * 0.07;
 				double DeltaMovementY = le.getRandom().nextGaussian() * 0.07;
@@ -60,7 +60,7 @@ public class EarthquakeHelper {
 		long time = golem.level().getGameTime();
 		for (var e : golem.getModifiersExtended().entrySet()) {
 			if (e.getKey() instanceof Modifier m) {
-				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
+				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp").orElse(0L);
 				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {
 					if (m.getEarthquakeRangeSqr(golem, target, e.getValue()) > distSqr) {
 						list.add(new Instance(m, e.getValue()));

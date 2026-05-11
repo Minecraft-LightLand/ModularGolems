@@ -55,6 +55,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
@@ -84,6 +85,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
@@ -101,7 +103,7 @@ import java.util.*;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
-		implements IEntityWithComplexSpawn, NeutralMob, OwnableEntity, PowerableMob {
+		implements IEntityWithComplexSpawn, NeutralMob, OwnableEntity/*, PowerableMob*/ {
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
@@ -712,7 +714,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void aiStep() {
 		this.updateSwingTime();
 		super.aiStep();
-		if (!this.level().isClientSide && isAlive()) {
+		if (!this.level().isClientSide() && isAlive()) {
 			if (this.tickCount % 20 == 0) {
 				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.holder());
 				for (var entry : getModifiersExtended().entrySet()) {
@@ -808,7 +810,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			}
 		}
 		setMode(mode, mode == 0 ? BlockPos.ZERO : guard);
-		moveTo(pos);
+		snapTo(pos);
 		setTarget(null);
 		setPersistentAngerTarget(null);
 		return true;
@@ -970,12 +972,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean doHurtTarget(Entity target) {
-		return super.doHurtTarget(target);
+	public boolean doHurtTarget(ServerLevel level, Entity target) {
+		return super.doHurtTarget(level, target);
 	}
 
 	public int aiHurtTarget(Entity target) {
-		boolean ans = doHurtTarget(target);
+		if (!(level() instanceof ServerLevel sl)) return -1;
+		boolean ans = doHurtTarget(sl, target);
 		return ans ? -1 : 0;
 	}
 
@@ -1056,7 +1059,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurt(ServerLevel sl, DamageSource source, float amount) {
 		if (level().isClientSide()) return false;
 		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
 			unRide();
@@ -1069,7 +1072,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.discard();
 			return true;
 		}
-		return super.hurt(source, amount);
+		return super.hurtServer(sl, source, amount);
 	}
 
 	public double getPerceivedTargetDistanceSquareForMeleeAttack(LivingEntity target) {
@@ -1189,9 +1192,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		else super.lookAt(e, x, y);
 	}
 
-	public void saveToItem(CompoundTag tag) {
-		super.save(tag);
-		tag.remove("AngryAt");
+	public CompoundTag saveToItem() {
+		var output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, level().registryAccess());
+		super.save(output);
+		var ans = output.buildResult();
+		ans.remove("AngryAt");
+		return ans;
 	}
 
 	private boolean untrackRemoved(@Nullable DamageSource source) {

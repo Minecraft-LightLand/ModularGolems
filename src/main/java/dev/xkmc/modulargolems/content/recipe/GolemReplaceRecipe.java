@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.recipe;
 
 import dev.xkmc.l2core.serial.recipe.AbstractShapedRecipe;
+import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -9,10 +10,12 @@ import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.Level;
 
@@ -21,8 +24,8 @@ import java.util.ArrayList;
 
 public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe> {
 
-	public GolemReplaceRecipe(String group, ShapedRecipePattern pattern, ItemStack result) {
-		super(group, pattern, result);
+	public GolemReplaceRecipe(CommonInfo commonInfo, CraftingBookInfo bookInfo, ShapedRecipePattern pattern, ItemStackTemplate result) {
+		super(commonInfo, bookInfo, pattern, result);
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 				}
 			}
 		}
-		var stack = assemble(cont, level.registryAccess());
+		var stack = assemble(cont);
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
 			var mats = GolemHolder.getMaterial(stack);
 			var upgrades = GolemHolder.getUpgrades(stack);
@@ -47,7 +50,7 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInput cont, HolderLookup.Provider access) {
+	public ItemStack assemble(CraftingInput cont) {
 		boolean holderFirst = false;
 		ItemStack holder = null;
 		Identifier mat = null;
@@ -75,16 +78,16 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 		IGolemPart<?>[] parts = null;
 		IGolemPart<?> sel = null;
 		for (var ing : getIngredients()) {
-			if (ing.isEmpty() || ing.getItems().length != 1)
+			if (ing.isEmpty())
 				continue;
-			ItemStack input = ing.getItems()[0];
+			var input = ing.get().items().toList();
 			if (input.isEmpty()) continue;
-			if (input.getItem() instanceof GolemHolder<?, ?> h) {
-				holder = input;
+			if (input.getFirst().value() instanceof GolemHolder<?, ?> h) {
+				holder = h.getDefaultInstance();
 				parts = h.getEntityType().values();
 				if (sel == null) holderFirst = true;
 			}
-			if (input.getItem() instanceof GolemPart<?, ?> p) {
+			if (input.getFirst().value() instanceof GolemPart<?, ?> p) {
 				sel = p.getPart();
 			}
 		}
@@ -138,8 +141,8 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 	}
 
 	@Override
-	public Serializer<GolemReplaceRecipe> getSerializer() {
-		return GolemMiscs.REPLACE.get();
+	public RecipeSerializer<ShapedRecipe> getSerializer() {
+		return Wrappers.cast(GolemMiscs.REPLACE.get());
 	}
 
 }

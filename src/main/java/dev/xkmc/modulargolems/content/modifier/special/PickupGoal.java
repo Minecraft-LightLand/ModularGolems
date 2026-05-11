@@ -11,7 +11,6 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.mixin.ExperienceOrbAccessor;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -24,7 +23,8 @@ import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import javax.annotation.Nullable;
 
@@ -38,6 +38,7 @@ public class PickupGoal extends Goal {
 
 	private int delay = 0;
 	private int destroyItemCount = 0, destroyExpCount = 0;
+	@Nullable
 	private BlockEntity target;
 
 	public PickupGoal(AbstractGolemEntity<?, ?> golem, int lv) {
@@ -133,10 +134,8 @@ public class PickupGoal extends Goal {
 	}
 
 	private void handleLeftoverItem(ItemEntity item, @Nullable Player player) {
-		if (item.getPersistentData().contains(KEY, Tag.TAG_LONG)) {
-			if (item.getPersistentData().getLong(KEY) > item.level().getGameTime()) {
-				return;
-			}
+		if (item.getPersistentData().getLong(KEY).orElse(0L) > item.level().getGameTime()) {
+			return;
 		}
 		GolemHandleItemEvent event = new GolemHandleItemEvent(golem, item);
 		NeoForge.EVENT_BUS.post(event);
@@ -147,20 +146,20 @@ public class PickupGoal extends Goal {
 			return;
 		}
 		if (target != null && target.getLevel() != null && golem.getMode() == GolemModes.STAND) {
-			var handler = target.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, target.getBlockPos(), null);
+			var handler = target.getLevel().getCapability(Capabilities.Item.BLOCK, target.getBlockPos(), null);
 			if (handler != null) {
-				ItemStack remain = ItemHandlerHelper.insertItem(handler, item.getItem(), false);
-				if (remain.isEmpty()) {
+				var inserted = ResourceHandlerUtil.insertStacking(handler, ItemResource.of(item.getItem()), item.getItem().getCount(), null);
+				item.getItem().shrink(inserted);
+				if (item.getItem().isEmpty()) {
 					item.discard();
 					return;
 				}
-				item.setItem(remain);
 			}
 		}
 		if (player != null && player.isAlive()) {
 			item.playerTouch(player);
 			if (!item.isRemoved()) {
-				item.moveTo(player.position());
+				item.snapTo(player.position());
 				item.getPersistentData().putLong(KEY, item.level().getGameTime() + DELAY);
 				return;
 			}
@@ -213,7 +212,7 @@ public class PickupGoal extends Goal {
 						continue;
 					}
 					BlockEntity be = golem.level().getBlockEntity(pos);
-					var handler = golem.level().getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+					var handler = golem.level().getCapability(Capabilities.Item.BLOCK, pos, null);
 					if (be != null && handler != null) {
 						double d = pos.distToCenterSqr(golem.position());
 						if (d < dist) {

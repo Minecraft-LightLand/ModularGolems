@@ -117,7 +117,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		GolemItems.UPGRADE.set(stack, entity.getUpgrades());
 		entity.validateGuardedData();
 		var hp = entity.getGuardedDataImpl();
-		CustomData.update(GolemItems.ENTITY.get(), stack, entity::saveToItem);
+		CustomData.set(GolemItems.ENTITY.get(), stack, entity.saveToItem());
 		setHealth(stack, hp);
 		Optional.ofNullable(entity.getCustomName()).ifPresent(e -> stack.set(DataComponents.CUSTOM_NAME, e));
 		return stack;

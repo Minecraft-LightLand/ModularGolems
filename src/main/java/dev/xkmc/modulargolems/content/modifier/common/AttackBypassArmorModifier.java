@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier.common;
 
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
+import dev.xkmc.l2damagetracker.contents.attack.OnDamageSourceModifyEvent;
 import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -25,7 +26,7 @@ public class AttackBypassArmorModifier extends GolemModifier {
 	}
 
 	@Override
-	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
+	public void modifySource(AbstractGolemEntity<?, ?> golem, OnDamageSourceModifyEvent event, int value) {
 		if (event.getResult() == null) return;
 		if (!event.getResult().validState(DefaultDamageState.BYPASS_ARMOR)) return;
 		if (MGConfig.COMMON.armorBypassChance.get() * value > golem.getRandom().nextDouble())
