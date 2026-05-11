@@ -8,8 +8,15 @@ public class MGConfig {
 
 	public static class Client extends ConfigInit {
 
+		public final ModConfigSpec.DoubleValue golemSoundVolumeFactor;
+		public final ModConfigSpec.DoubleValue hostileGolemSoundVolumeFactor;
+
 		Client(Builder builder) {
 			markL2();
+			golemSoundVolumeFactor = builder.text("Player golem sound factor")
+					.defineInRange("golemSoundVolumeFactor", 1d, 0, 2);
+			hostileGolemSoundVolumeFactor = builder.text("Hostile golem sound factor")
+					.defineInRange("hostileGolemSoundVolumeFactor", 1d, 0, 2);
 		}
 
 	}

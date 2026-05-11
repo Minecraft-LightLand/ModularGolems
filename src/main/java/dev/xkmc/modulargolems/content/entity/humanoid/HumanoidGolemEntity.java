@@ -184,7 +184,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public InteractionHand shieldSlot() {
 		return getItemBySlot(EquipmentSlot.MAINHAND).canPerformAction(ItemAbilities.SHIELD_BLOCK) ? InteractionHand.MAIN_HAND :
 				getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ItemAbilities.SHIELD_BLOCK) ? InteractionHand.OFF_HAND :
-						null;
+				null;
 	}
 
 	protected void hurtCurrentlyUsedShield(float damage) {
@@ -260,6 +260,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	protected SoundEvent getDeathSound() {
 		return SoundEvents.IRON_GOLEM_DEATH;
+	}
+
+	@Override
+	protected float getSoundVolume() {
+		return 0.6f * super.getSoundVolume();
 	}
 
 	@Override

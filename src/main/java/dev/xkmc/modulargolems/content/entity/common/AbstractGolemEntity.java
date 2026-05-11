@@ -1252,4 +1252,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.tickDeath();
 	}
 
+	@Override
+	protected float getSoundVolume() {
+		return super.getSoundVolume() * (isHostile() ?
+				MGConfig.CLIENT.hostileGolemSoundVolumeFactor.get().floatValue() :
+				MGConfig.CLIENT.golemSoundVolumeFactor.get().floatValue()
+		);
+	}
+
 }

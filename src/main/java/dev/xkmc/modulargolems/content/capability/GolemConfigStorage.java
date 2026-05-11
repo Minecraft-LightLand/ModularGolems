@@ -25,6 +25,7 @@ public class GolemConfigStorage extends BaseSavedData<GolemConfigStorage> {
 
 	public static GolemConfigStorage get(Level level) {
 		if (level instanceof ServerLevel sl) {
+			sl = sl.getServer().overworld();
 			GolemConfigStorage ans = sl.getDataStorage().computeIfAbsent(FACTORY, ID);
 			ans.level = sl;
 			return ans;

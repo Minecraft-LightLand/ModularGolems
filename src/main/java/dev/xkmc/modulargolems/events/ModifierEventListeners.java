@@ -43,7 +43,7 @@ public class ModifierEventListeners {
 		var direct = event.getExplosion().getDirectSourceEntity();
 		var owner = event.getExplosion().getIndirectSourceEntity();
 		if (direct != null && (owner instanceof AbstractGolemEntity<?, ?> golem)) {
-			if (!golem.isHostile()) event.getAffectedBlocks().clear();
+			event.getAffectedBlocks().clear();
 			event.getAffectedEntities().removeIf(e -> {
 				if (e instanceof ItemEntity) return true;
 				if (e instanceof LivingEntity le) {
