@@ -1313,4 +1313,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		tag.remove("AngryAt");
 	}
 
+	@Override
+	protected float getSoundVolume() {
+		return super.getSoundVolume() * (isHostile() ?
+				MGConfig.CLIENT.hostileGolemSoundVolumeFactor.get().floatValue() :
+				MGConfig.CLIENT.golemSoundVolumeFactor.get().floatValue()
+		);
+	}
+
 }

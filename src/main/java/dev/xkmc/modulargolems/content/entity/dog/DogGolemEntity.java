@@ -245,6 +245,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	@Override
+	protected float getSoundVolume() {
+		return 0.4f * super.getSoundVolume();
+	}
+
+	@Override
 	public float getVoicePitch() {
 		return super.getVoicePitch() * 1.5f;
 	}

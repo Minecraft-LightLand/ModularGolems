@@ -1,3 +1,8 @@
+2.6.41
+- Hostile golem no longer destroy items
+- Reduce voice volume for humanoid and dog golem
+- Add voice volume config for player golem and hostile golem
+
 2.6.40
 - Fix golem curios screen not closing after golem death
 - Change golem beacon rendering

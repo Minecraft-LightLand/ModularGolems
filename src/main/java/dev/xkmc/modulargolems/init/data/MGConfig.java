@@ -11,12 +11,18 @@ public class MGConfig {
 	public static class Client {
 
 		public final ForgeConfigSpec.BooleanValue shieldUsePoseFixForModdedShields;
+		public final ForgeConfigSpec.DoubleValue golemSoundVolumeFactor;
+		public final ForgeConfigSpec.DoubleValue hostileGolemSoundVolumeFactor;
 
 		Client(ForgeConfigSpec.Builder builder) {
 			shieldUsePoseFixForModdedShields = builder
 					.comment("Replace isUsingItem with isBlocking for modded shield model predicate")
 					.comment("Fix shield rendering on humanoid golem but may break stuff")
 					.define("shieldUsePoseFixForModdedShields", false);
+			golemSoundVolumeFactor = builder.comment("Player golem sound factor")
+					.defineInRange("golemSoundVolumeFactor", 1d, 0, 2);
+			hostileGolemSoundVolumeFactor = builder.comment("Hostile golem sound factor")
+					.defineInRange("hostileGolemSoundVolumeFactor", 1d, 0, 2);
 		}
 
 	}
