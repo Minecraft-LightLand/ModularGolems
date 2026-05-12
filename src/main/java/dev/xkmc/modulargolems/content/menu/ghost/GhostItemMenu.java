@@ -6,10 +6,7 @@ import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Predicate;
@@ -86,14 +83,14 @@ public abstract class GhostItemMenu extends AbstractContainerMenu {
 		getContainer(slot).set(slot, ItemStack.EMPTY);
 	}
 
-	public void clicked(int slotId, int dragType, ClickType clickTypeIn, Player player) {
+	public void clicked(int slotId, int dragType, ContainerInput clickTypeIn, Player player) {
 		if (slotId < 36) {
 			super.clicked(slotId, dragType, clickTypeIn, player);
-		} else if (clickTypeIn != ClickType.THROW) {
+		} else if (clickTypeIn != ContainerInput.THROW) {
 			ItemStack held = getCarried();
 			int slot = slotId - 36;
 			ItemStack insert;
-			if (clickTypeIn == ClickType.CLONE) {
+			if (clickTypeIn == ContainerInput.CLONE) {
 				if (player.isCreative() && held.isEmpty()) {
 					insert = getSlotContent(slot).copy();
 					insert.setCount(insert.getMaxStackSize());

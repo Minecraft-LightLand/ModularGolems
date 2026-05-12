@@ -75,6 +75,8 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	protected MainSlot main;
 	protected ExtraMatSlot extra;
 	protected ResultSlot result;
+
+	@Nullable
 	protected PartSlot body;
 	protected final List<PartSlot> partSlots = new ArrayList<>();
 
@@ -154,9 +156,9 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	public ItemStack quickMoveStack(Player pl, int id) {
 		var slot = this.slots.get(id);
 		ItemStack stack = slot.getItem();
-		if (slot instanceof ResultSlot result) {
+		if (slot instanceof ResultSlot resultSlot) {
 			if (moveItemStackTo(stack, 0, 36, true)) {
-				result.onTake(pl, stack);
+				resultSlot.onTake(pl, stack);
 			}
 			return ItemStack.EMPTY;
 		}
@@ -187,7 +189,8 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 
 	public class ExtraMatSlot extends PredSlot {
 
-		public Ingredient ingot = Ingredient.EMPTY;
+		@Nullable
+		public Ingredient ingot = null;
 		public int count = 0;
 
 		public ExtraMatSlot(Container container, int index, int x, int y) {
@@ -197,12 +200,12 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 
 		@Override
 		public boolean mayPlace(ItemStack stack) {
-			return ingot.test(stack);
+			return ingot != null && ingot.test(stack);
 		}
 
 		@Override
 		public boolean isActive() {
-			return !getItem().isEmpty() || !ingot.isEmpty() && count > 0;
+			return !getItem().isEmpty() || ingot != null && count > 0;
 		}
 
 		public void update() {
@@ -243,7 +246,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 
 		public void update() {
 			rem = 0;
-			extra.ingot = Ingredient.EMPTY;
+			extra.ingot = null;
 			extra.count = 0;
 			output = ItemStack.EMPTY;
 			error = null;

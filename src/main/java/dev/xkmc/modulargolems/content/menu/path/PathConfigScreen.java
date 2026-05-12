@@ -4,7 +4,7 @@ import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.modulargolems.content.menu.ghost.GhostItemScreen;
 import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -22,9 +22,10 @@ public class PathConfigScreen extends GhostItemScreen<PathConfigMenu> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics poseStack, float ptick, int mx, int my) {
+	public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float a) {
+		super.extractBackground(g, mouseX, mouseY, a);
 		var sr = getRenderer();
-		sr.start(poseStack);
+		sr.start(g);
 	}
 
 }

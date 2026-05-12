@@ -1,12 +1,14 @@
 package dev.xkmc.modulargolems.content.menu.filter;
 
+import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.modulargolems.content.menu.ghost.GhostItemScreen;
 import dev.xkmc.modulargolems.content.menu.ghost.ItemTarget;
 import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -27,16 +29,19 @@ public class ItemConfigScreen extends GhostItemScreen<ItemConfigMenu> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics poseStack, float ptick, int mx, int my) {
+	public void extractBackground(GuiGraphicsExtractor g, int mx, int my, float a) {
+		super.extractBackground(g, mx, my, a);
 		var sr = getRenderer();
-		sr.start(poseStack);
+		sr.start(g);
 		var config = menu.getConfig();
-		if (config.isBlacklist()) sr.draw(poseStack, "filter", "filter_on");
-		if (config.isTagMatch()) sr.draw(poseStack, "match", "match_on");
+		if (config.isBlacklist()) sr.draw(g, "filter", "filter_on");
+		if (config.isTagMatch()) sr.draw(g, "match", "match_on");
 	}
 
 	@Override
-	public boolean mouseClicked(double mx, double my, int btn) {
+	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+		double mx = event.x();
+		double my = event.y();
 		if (menu.sprite.within("filter", mx - leftPos, my - topPos)) {
 			menu.getConfig().toggleFilter();
 			return true;
@@ -45,21 +50,21 @@ public class ItemConfigScreen extends GhostItemScreen<ItemConfigMenu> {
 			menu.getConfig().toggleTag();
 			return true;
 		}
-		return super.mouseClicked(mx, my, btn);
+		return super.mouseClicked(event, doubleClick);
 	}
 
 	@Override
-	protected void renderTooltip(GuiGraphics g, int mx, int my) {
+	protected void extractTooltip(GuiGraphicsExtractor g, int mx, int my) {
 		if (menu.getCarried().isEmpty()) {
 			var c = menu.getConfig();
 			if (menu.sprite.within("filter", mx - leftPos, my - topPos)) {
-				g.renderTooltip(font, (c.isBlacklist() ? MGLangData.UI_BLACKLIST : MGLangData.UI_WHITELIST).get(), mx, my);
+				GuiHelper.tooltip(g, (c.isBlacklist() ? MGLangData.UI_BLACKLIST : MGLangData.UI_WHITELIST).get(), mx, my);
 			}
 			if (menu.sprite.within("match", mx - leftPos, my - topPos)) {
-				g.renderTooltip(font, (c.isTagMatch() ? MGLangData.UI_MATCH_TAG : MGLangData.UI_MATCH_ITEM).get(), mx, my);
+				GuiHelper.tooltip(g, (c.isTagMatch() ? MGLangData.UI_MATCH_TAG : MGLangData.UI_MATCH_ITEM).get(), mx, my);
 			}
 		}
-		super.renderTooltip(g, mx, my);
+		super.extractTooltip(g, mx, my);
 	}
 
 	public List<ItemTarget> getTargets() {

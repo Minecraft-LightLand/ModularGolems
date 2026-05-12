@@ -41,7 +41,7 @@ public record OpenConfigMenuToServer(
 		var entry = GolemConfigStorage.get(player.level()).getStorage(uuid, color);
 		if (entry == null) return;
 		if (!player.getUUID().equals(uuid)) return;
-		IMenuPvd pvd = type.construct(sp.serverLevel(), entry);
+		IMenuPvd pvd = type.construct(sp.level(), entry);
 		sp.openMenu(pvd, pvd::writeBuffer);
 	}
 

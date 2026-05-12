@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
@@ -10,14 +11,12 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.Optional;
 
 public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implements ITabScreen {
 
@@ -26,7 +25,8 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
+	public void extractBackground(GuiGraphicsExtractor g, int mx, int my, float a) {
+		super.extractBackground(g, mx, my, a);
 		var sr = getRenderer();
 		sr.start(g);
 		if (menu.golem instanceof DogGolemEntity) {
@@ -86,8 +86,8 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	}
 
 	@Override
-	protected void renderTooltip(GuiGraphics g, int mx, int my) {
-		super.renderTooltip(g, mx, my);
+	protected void extractTooltip(GuiGraphicsExtractor g, int mx, int my) {
+		super.extractTooltip(g, mx, my);
 		if (menu.golem instanceof SweepGolemEntity<?, ?> &&
 				menu.getCarried().isEmpty() &&
 				hoveredSlot != null && !hoveredSlot.hasItem()) {
@@ -135,12 +135,12 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 				}
 			}
 			if (list != null) {
-				g.renderTooltip(this.font, list, Optional.empty(), ItemStack.EMPTY, mx, my);
+				GuiHelper.tooltip(g, list, mx, my);
 			}
 		}
 	}
 
-	private void renderPreview(GuiGraphics g, int mx, int my) {
+	private void renderPreview(GuiGraphicsExtractor g, int mx, int my) {
 		if (menu.golem == null) return;
 		int x = leftPos + 30;
 		int y = topPos + 80;

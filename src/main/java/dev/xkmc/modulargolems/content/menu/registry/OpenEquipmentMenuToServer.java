@@ -36,7 +36,7 @@ public record OpenEquipmentMenuToServer(
 	@Override
 	public void handle(Player player) {
 		if (!(player instanceof ServerPlayer sp)) return;
-		var entry = sp.serverLevel().getEntity(uuid);
+		var entry = sp.level().getEntity(uuid);
 		if (!(entry instanceof AbstractGolemEntity<?, ?> golem)) return;
 		if (!golem.canModify(player)) return;
 		IMenuPvd pvd = type.construct(golem);
