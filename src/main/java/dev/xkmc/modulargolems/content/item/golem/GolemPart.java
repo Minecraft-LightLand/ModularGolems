@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.item.golem;
 
 import com.tterrag.registrate.util.CreativeModeTabModifier;
+import dev.xkmc.l2core.util.TooltipHelper;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
@@ -10,7 +11,6 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
@@ -18,8 +18,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item implements IGolemPartItem {
@@ -47,17 +49,17 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
 		getMaterial(stack).ifPresent(e -> {
 			GolemMaterial mat = parseMaterial(e);
-			list.add(mat.getDesc());
+			list.accept(mat.getDesc());
 			int n = mat.modifiers().size();
 			mat.modifiers().forEach((m, v) -> {
-				list.add(m.getTooltip(v));
-				if (n == 1 || Screen.hasShiftDown())
-					list.addAll(m.getDetail(v));
+				list.accept(m.getTooltip(v));
+				if (n == 1 || TooltipHelper.hasShiftDown())
+					m.getDetail(v).forEach(list);
 			});
-			mat.stats().forEach((k, v) -> list.add(k.getAdderTooltip(v)));
+			mat.stats().forEach((k, v) -> list.accept(k.getAdderTooltip(v)));
 		});
 	}
 

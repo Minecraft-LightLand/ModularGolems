@@ -25,7 +25,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -124,16 +123,16 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public static float getHealth(ItemStack stack) {
 		return Optional.ofNullable(stack.get(GolemItems.ENTITY))
-				.map(e -> e.getUnsafe()).map(e -> e.getFloat("Health")).orElse(-1f);
+				.map(e -> e.tag).map(e -> e.getFloatOr("Health", -1f)).orElse(-1f);
 	}
 
 	public static float getMaxHealth(ItemStack stack) {
 		var entity = Optional.ofNullable(stack.get(GolemItems.ENTITY));
 		if (entity.isPresent()) {
 			AttributeInstance ins = null;
-			for (var e : entity.get().getUnsafe().getList("attributes", Tag.TAG_COMPOUND)) {
+			for (var e : entity.get().tag.getListOrEmpty("attributes")) {
 				if (!(e instanceof CompoundTag t)) continue;
-				if (t.getString("id").equals("minecraft:generic.max_health")) {
+				if (t.getStringOr("id", "").equals("minecraft:generic.max_health")) {
 					ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
 					});
 					ins.load(t);
@@ -152,7 +151,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public static int getReforge(ItemStack stack) {
 		return Optional.ofNullable(stack.get(GolemItems.ENTITY))
-				.map(e -> e.tag.getCompound("NeoForgeData").getInt("GolemReforge"))
+				.map(e -> e.tag.getCompoundOrEmpty("NeoForgeData").getIntOr("GolemReforge", 0))
 				.orElse(0);
 	}
 
@@ -319,7 +318,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		var mat = GolemItems.HOLDER_MAT.get(stack);
 		if (mat != null) {
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?, ?> golem = type.get().create(level);
+				AbstractGolemEntity<?, ?> golem = type.get().create(level, EntitySpawnReason.LOAD);
 				setPos(level, golem, pos);
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
@@ -346,10 +345,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		var data = GolemItems.ENTITY.get(stack);
 		var mat = GolemItems.HOLDER_MAT.get(stack);
 		if (data != null) {
-			golem = type.get().create(level, data.tag);
+			golem = type.get().create(level, data.tag, EntitySpawnReason.LOAD);
+			if (golem == null) return null;
 			golem.updateAttributes(getMaterial(stack), getUpgrades(stack), null);
 		} else if (mat != null) {
-			golem = type.get().create(level);
+			golem = type.get().create(level, EntitySpawnReason.LOAD);
 			golem.onCreate(getMaterial(stack), getUpgrades(stack), null);
 			GolemEquipUtil.addItemsToGolem(golem, stack, true);
 		} else return null;

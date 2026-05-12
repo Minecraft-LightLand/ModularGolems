@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.DamageTypeTags;
 
 import java.util.List;
 
@@ -27,10 +28,8 @@ public class AttackBypassArmorModifier extends GolemModifier {
 
 	@Override
 	public void modifySource(AbstractGolemEntity<?, ?> golem, OnDamageSourceModifyEvent event, int value) {
-		if (event.getResult() == null) return;
-		if (!event.getResult().validState(DefaultDamageState.BYPASS_ARMOR)) return;
 		if (MGConfig.COMMON.armorBypassChance.get() * value > golem.getRandom().nextDouble())
-			event.enable(DefaultDamageState.BYPASS_ARMOR);
+			event.enable(DamageTypeTags.BYPASSES_ARMOR);
 	}
 
 }

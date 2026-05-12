@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import io.netty.util.collection.IntObjectHashMap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -74,7 +75,7 @@ public class ClientHolderManager {
 			if (ans != null)
 				ans.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 		} else {
-			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(level);
+			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(level, EntitySpawnReason.LOAD);
 			golem.addTag("ClientOnly");
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 			GolemEquipUtil.addItemsToGolem(golem, stack, false);

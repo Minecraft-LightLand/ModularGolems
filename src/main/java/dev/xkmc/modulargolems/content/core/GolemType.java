@@ -10,8 +10,11 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.TagValueInput;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -49,17 +52,20 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		GOLEM_TYPE_TO_MODEL.put(type.getId(), Wrappers.cast(model));
 	}
 
-	public T create(Level level) {
-		return Objects.requireNonNull(type.get().create(level));
+	public T create(Level level, EntitySpawnReason reason) {
+		return Objects.requireNonNull(type.get().create(level, reason));
 	}
 
-	public T create(Level level, CompoundTag tag) {
-		return Wrappers.cast(EntityType.create(tag, level).get());
+	@Nullable
+	public T create(Level level, CompoundTag tag, EntitySpawnReason reason) {
+		var in = TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), tag);
+		var ans = EntityType.create(in, level, reason);
+		return ans.<T>map(Wrappers::cast).orElse(null);
 	}
 
 	@Nullable
 	public T createForDisplay(Level level, CompoundTag tag) {
-		var ans = EntityType.create(tag, level).orElse(null);
+		var ans = create(level, tag, EntitySpawnReason.LOAD);
 		if (ans == null) return null;
 		T golem = Wrappers.cast(ans);
 		golem.addTag("ClientOnly");

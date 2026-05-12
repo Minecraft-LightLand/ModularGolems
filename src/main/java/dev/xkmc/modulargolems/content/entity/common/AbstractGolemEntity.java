@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.entity.common;
 import dev.xkmc.l2core.base.entity.SyncedData;
 import dev.xkmc.l2core.util.ServerOnly;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
-import dev.xkmc.l2serial.serialization.codec.TagCodec;
+import dev.xkmc.l2serial.serialization.codec.ValueCodec;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.l2serial.util.Wrappers;
@@ -86,6 +86,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
@@ -490,21 +492,21 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ addition golem behavior
 
-	public void addAdditionalSaveData(CompoundTag tag) {
-		super.addAdditionalSaveData(tag);
-		this.addPersistentAngerSaveData(tag);
+
+	@Override
+	protected void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		this.addPersistentAngerSaveData(output);
 		var pvd = level().registryAccess();
-		tag.put("auto-serial", Objects.requireNonNull(new TagCodec(pvd).toTag(new CompoundTag(), this)));
+		new ValueCodec().toTag(pvd, output, this.getClass(), this, "auto-serial");
 		GOLEM_DATA.write(pvd, tag, entityData);
 	}
 
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
 		this.readPersistentAngerSaveData(this.level(), tag);
 		var pvd = level().registryAccess();
-		if (tag.contains("auto-serial")) {
-			Wrappers.run(() -> new TagCodec(pvd).fromTag(tag.getCompound("auto-serial"), this.getClass(), this));
-		}
+		new ValueCodec().fromTag(tag, getClass(), this, "auto-serial");
 		updateAttributes(materials, Wrappers.cast(getUpgrades()), owner);
 		GOLEM_DATA.read(pvd, tag, entityData);
 

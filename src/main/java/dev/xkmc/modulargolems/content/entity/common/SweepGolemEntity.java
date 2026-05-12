@@ -13,7 +13,6 @@ import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -32,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.NeoForge;
@@ -116,7 +116,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	protected abstract boolean performDamageTarget(Entity target, float damage, double kb);
 
 
-	public void readAdditionalSaveData(CompoundTag pCompound) {
+	public void readAdditionalSaveData(ValueInput pCompound) {
 		super.readAdditionalSaveData(pCompound);
 		weaponManager.reassessWeaponGoal();
 	}

@@ -1,8 +1,11 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 
 public class SpriteButton extends Button {
 
@@ -16,21 +19,22 @@ public class SpriteButton extends Button {
 	}
 
 	@Override
-	public void onPress() {
+	public void onPress(InputWithModifiers input) {
 		pressed = true;
 	}
 
 	@Override
-	public void onRelease(double mx, double my) {
+	public void onRelease(MouseButtonEvent event) {
 		if (!pressed) return;
 		pressed = false;
-		if (clicked(mx, my)) {
-			super.onPress();
+		if (isMouseOver(event.x(), event.y())) {
+			onPress.onPress(this);
 		}
 	}
 
-	public void renderWidget(GuiGraphics g, int mx, int my, float pt) {
-		if (pressed & !clicked(mx, my)) pressed = false;
+	@Override
+	protected void extractContents(GuiGraphicsExtractor g, int mx, int my, float a) {
+		if (pressed & !isMouseOver(mx, my)) pressed = false;
 		String tex = id;
 		if (isActive()) {
 			if (pressed) tex += "_down";
@@ -38,7 +42,7 @@ public class SpriteButton extends Button {
 			if (isHoveredOrFocused())
 				tex += "_hover";
 		} else tex += "_ban";
-		g.blitSprite(ModularGolems.loc(tex), getX(), getY(), width, height);
+		g.blitSprite(RenderPipelines.GUI_TEXTURED, ModularGolems.loc(tex), getX(), getY(), width, height);
 	}
 
 }

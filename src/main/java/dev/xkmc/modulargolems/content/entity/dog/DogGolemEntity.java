@@ -7,12 +7,9 @@ import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import dev.xkmc.more_wolf_armors.content.WolfArmorItem;
-import dev.xkmc.more_wolf_armors.init.MoreWolfArmors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -34,9 +31,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
 
@@ -194,14 +192,14 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		builder.define(DATA_FLAGS_ID, (byte) 0);
 	}
 
-	public void addAdditionalSaveData(CompoundTag p_21819_) {
-		super.addAdditionalSaveData(p_21819_);
-		p_21819_.putBoolean("Sitting", isInSittingPose());
+	public void addAdditionalSaveData(ValueOutput tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putBoolean("Sitting", isInSittingPose());
 	}
 
-	public void readAdditionalSaveData(CompoundTag p_21815_) {
-		super.readAdditionalSaveData(p_21815_);
-		this.setInSittingPose(p_21815_.getBoolean("Sitting"));
+	public void readAdditionalSaveData(ValueInput tag) {
+		super.readAdditionalSaveData(tag);
+		this.setInSittingPose(tag.getBooleanOr("Sitting", false));
 	}
 
 	public boolean isInSittingPose() {
@@ -232,11 +230,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return super.canAttackType(type) && !isInSittingPose();
 	}
 
-	public boolean hurt(DamageSource source, float amount) {
-		if (!this.level().isClientSide) {
+	public boolean hurtServer(ServerLevel sl, DamageSource source, float amount) {
+		if (super.hurtServer(sl, source, amount)) {
 			this.setInSittingPose(false);
+			return true;
 		}
-		return super.hurt(source, amount);
+		return false;
 	}
 
 	protected SoundEvent getHurtSound(DamageSource p_28872_) {
@@ -257,8 +256,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return super.getVoicePitch() * 1.5f;
 	}
 
-	protected void playStepSound(BlockPos p_28864_, BlockState p_28865_) {
-		this.playSound(SoundEvents.WOLF_STEP, 1.0F, 1.0F);
+	protected void playStepSound(BlockPos pos, BlockState state) {
+		this.playSound(SoundEvents.WOLF_STEP.value(), 1.0F, 1.0F);
 	}
 
 	public Vec3 getLeashOffset() {
@@ -309,9 +308,9 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	// armor
 
-	protected void actuallyHurt(DamageSource source, float amount) {
+	protected void actuallyHurt(ServerLevel sl, DamageSource source, float amount) {
 		if (!this.canArmorAbsorb(source)) {
-			super.actuallyHurt(source, amount);
+			super.actuallyHurt(sl, source, amount);
 		} else {
 			ItemStack stack = getBodyArmorItem();
 			int i = stack.getDamageValue();
@@ -321,12 +320,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 				this.playSound(SoundEvents.WOLF_ARMOR_CRACK);
 				if (level() instanceof ServerLevel serverlevel) {
 					ItemStack item = Items.ARMADILLO_SCUTE.getDefaultInstance();
-					if (ModList.get().isLoaded(MoreWolfArmors.MODID)) {
+					/*if (ModList.get().isLoaded(MoreWolfArmors.MODID)) {
 						if (stack.getItem() instanceof WolfArmorItem armor) {
 							item = armor.getBreakParticleItem(stack);
 						}
-					}
-					serverlevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, item),
+					} TODO */
+					serverlevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, item.getItem()),
 							getX(), getY() + 1.0, getZ(), 20, 0.2, 0.1, 0.2, 0.1);
 				}
 			}

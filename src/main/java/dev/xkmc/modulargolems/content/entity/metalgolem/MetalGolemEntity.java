@@ -18,8 +18,6 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -46,6 +44,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
@@ -92,12 +91,13 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
 		var source = level().damageSources().mobAttack(this);
 		if (target instanceof LivingEntity le) {
-			le.setLastHurtByPlayer(getOwner());
+			var owner = getOwner();
+			if (owner != null) le.setLastHurtByPlayer(owner, 200);
 			damage = EnchantmentHelper.modifyDamage(sl, this.getWeaponItem(), target, source, damage);
 			float kbench = getKnockback(target, source);
 			if (kbench > dokb) dokb += Math.sqrt(kbench - dokb);
 		}
-		boolean succeed = target.hurt(source, damage);
+		boolean succeed = target.hurtServer(sl, source, damage);
 		if (getMainHandItem().getItem() instanceof ExtraAttackGolemWeapon item) {
 			succeed |= item.repeatAttack(this, target, damage, succeed);
 		}
@@ -113,7 +113,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 						.add(0, ver, 0);
 				Vec3 vec = target.getDeltaMovement();
 				vec = new Vec3(vec.x / 2 + kbVec.x, Math.max(kbVec.y, vec.y), vec.z / 2 + kbVec.z);
-				target.hasImpulse = true;
+				target.needsSync = true;
 				target.setDeltaMovement(vec);
 			}
 			EnchantmentHelper.doPostAttackEffects(sl, target, source);
@@ -145,7 +145,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			BlockPos pos = new BlockPos(i, j, k);
 			BlockState blockstate = this.level().getBlockState(pos);
 			if (!blockstate.isAir()) {
-				this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate).setPos(pos), this.getX() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), this.getY() + 0.1D, this.getZ() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), 4.0D * ((double) this.random.nextFloat() - 0.5D), 0.5D, ((double) this.random.nextFloat() - 0.5D) * 4.0D);
+				this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, blockstate, pos), this.getX() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), this.getY() + 0.1D, this.getZ() + ((double) this.random.nextFloat() - 0.5D) * (double) this.getBbWidth(), 4.0D * ((double) this.random.nextFloat() - 0.5D), 0.5D, ((double) this.random.nextFloat() - 0.5D) * 4.0D);
 			}
 		}
 	}
@@ -165,9 +165,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return flag;
 	}
 
-	public boolean hurt(DamageSource source, float amount) {
+	public boolean hurtServer(ServerLevel sl, DamageSource source, float amount) {
 		Crackiness.Level crack = this.getCrackiness();
-		boolean flag = super.hurt(source, amount);
+		boolean flag = super.hurtServer(sl, source, amount);
 		if (flag && this.getCrackiness() != crack) {
 			this.playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);
 		}
@@ -233,7 +233,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			return super.mobInteractImpl(player, hand);
 		var mat = getMaterials().get(MetalGolemPartType.BODY.ordinal());
 		Ingredient ing = GolemMaterialConfig.get().getRepairIngredient(mat.id());
-		if (!ing.test(itemstack)) {
+		if (ing != null && !ing.test(itemstack)) {
 			if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 				return InteractionResult.PASS;
 			return super.mobInteractImpl(player, hand);
@@ -249,7 +249,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (!this.level().isClientSide()) {
 			GolemTriggers.HOT_FIX.get().trigger((ServerPlayer) player);
 		}
-		return InteractionResult.sidedSuccess(this.level().isClientSide);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
@@ -268,8 +268,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	@Override
-	protected void customServerAiStep() {
-		super.customServerAiStep();
+	protected void customServerAiStep(ServerLevel sl) {
+		super.customServerAiStep(sl);
 		var target = getTarget();
 		if (target == null) entityData.set(TARGET, new Vector3f(0, 0, 0));
 		else {
@@ -292,10 +292,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
 		super.dropCustomDeathLoot(level, source, player);
 		if (!leftShoulder.isEmpty() && EnchHelper.getLv(leftShoulder, Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(leftShoulder);
+			spawnAtLocation(level, leftShoulder);
 		leftShoulder = ItemStack.EMPTY;
 		if (!rightShoulder.isEmpty() && EnchHelper.getLv(rightShoulder, Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(rightShoulder);
+			spawnAtLocation(level, rightShoulder);
 		rightShoulder = ItemStack.EMPTY;
 	}
 
@@ -319,15 +319,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag tag) {
+	public void readAdditionalSaveData(ValueInput tag) {
 		super.readAdditionalSaveData(tag);
-		// Legacy
-		if (tag.contains("left_shoulder", Tag.TAG_COMPOUND)) {
-			leftShoulder = ItemStack.parseOptional(registryAccess(), tag.getCompound("left_shoulder"));
-		}
-		if (tag.contains("right_shoulder", Tag.TAG_COMPOUND)) {
-			rightShoulder = ItemStack.parseOptional(registryAccess(), tag.getCompound("right_shoulder"));
-		}
 	}
 
 	public ItemWrapper getLeftShoulder() {
