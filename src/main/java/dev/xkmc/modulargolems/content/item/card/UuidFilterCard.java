@@ -6,8 +6,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class UuidFilterCard extends ClickEntityFilterCard<UUID> {
 
@@ -37,17 +39,17 @@ public class UuidFilterCard extends ClickEntityFilterCard<UUID> {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay display, Consumer<Component> list, TooltipFlag flag) {
 		var ids = getList(stack);
 		if (!ids.isEmpty() && !flag.hasShiftDown()) {
 			for (var e : ids) {
-				list.add(getName(e));
+				list.accept(getName(e));
 			}
-			list.add(MGLangData.TARGET_SHIFT.get());
+			list.accept(MGLangData.TARGET_SHIFT.get());
 		} else {
-			list.add(MGLangData.TARGET_UUID_ADD.get());
-			list.add(MGLangData.TARGET_UUID_REMOVE.get());
-			list.add(MGLangData.TARGET_REMOVE.get());
+			list.accept(MGLangData.TARGET_UUID_ADD.get());
+			list.accept(MGLangData.TARGET_UUID_REMOVE.get());
+			list.accept(MGLangData.TARGET_REMOVE.get());
 		}
 	}
 

@@ -18,6 +18,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -25,7 +26,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -129,12 +130,13 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-		return InteractionResultHolder.pass(player.getItemInHand(hand));
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
+		return InteractionResult.PASS;
 	}
 
 	@Override
-	public void releaseUsing(ItemStack stack, Level level, LivingEntity user, int time) {
+	public boolean releaseUsing(ItemStack stack, Level level, LivingEntity user, int time) {
+		return false;
 	}
 
 	@Override

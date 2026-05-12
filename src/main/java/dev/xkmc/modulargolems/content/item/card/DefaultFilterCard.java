@@ -3,15 +3,16 @@ package dev.xkmc.modulargolems.content.item.card;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
-import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class DefaultFilterCard extends TargetFilterCard {
@@ -30,13 +31,13 @@ public class DefaultFilterCard extends TargetFilterCard {
 	}
 
 	@Override
-	protected InteractionResultHolder<ItemStack> removeLast(Player player, ItemStack stack) {
-		return InteractionResultHolder.pass(stack);
+	protected InteractionResult removeLast(Player player, ItemStack stack) {
+		return InteractionResult.PASS;
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.TARGET_DEFAULT.get());
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay display, Consumer<Component> list, TooltipFlag flag) {
+		list.accept(MGLangData.TARGET_DEFAULT.get());
 	}
 
 }

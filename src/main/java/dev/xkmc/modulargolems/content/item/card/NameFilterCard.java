@@ -10,15 +10,17 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class NameFilterCard extends TargetFilterCard {
@@ -35,7 +37,7 @@ public class NameFilterCard extends TargetFilterCard {
 				Identifier rl = Identifier.tryParse(str.substring(1));
 				if (rl == null) continue;
 				TagKey<EntityType<?>> key = TagKey.create(Registries.ENTITY_TYPE, rl);
-				var ref = BuiltInRegistries.ENTITY_TYPE.getTag(key);
+				var ref = BuiltInRegistries.ENTITY_TYPE.get(key);
 				if (ref.isPresent()) {
 					ans.add(Either.right(key));
 				}
@@ -44,7 +46,8 @@ public class NameFilterCard extends TargetFilterCard {
 				if (rl == null) continue;
 				if (!BuiltInRegistries.ENTITY_TYPE.containsKey(rl)) continue;
 				var type = BuiltInRegistries.ENTITY_TYPE.get(rl);
-				ans.add(Either.left(type));
+				if (type.isEmpty()) continue;
+				ans.add(Either.left(type.get().value()));
 			}
 		}
 		return ans;
@@ -72,7 +75,7 @@ public class NameFilterCard extends TargetFilterCard {
 		var list = getList(getStrings(stack));
 		return e -> {
 			for (var x : list) {
-				if (x.map(l -> e.getType() == l, r -> e.getType().is(r))) {
+				if (x.map(l -> e.getType() == l, r -> e.getType().builtInRegistryHolder().is(r))) {
 					return true;
 				}
 			}
@@ -81,25 +84,25 @@ public class NameFilterCard extends TargetFilterCard {
 	}
 
 	@Override
-	protected InteractionResultHolder<ItemStack> removeLast(Player player, ItemStack stack) {
+	protected InteractionResult removeLast(Player player, ItemStack stack) {
 		var list = new ArrayList<>(getStrings(stack));
 		if (list.isEmpty()) {
-			return InteractionResultHolder.fail(stack);
+			return InteractionResult.FAIL;
 		}
 		if (!player.level().isClientSide()) {
 			String e = list.removeLast();
 			setList(stack, getList(list));
 			player.sendSystemMessage(MGLangData.TARGET_MSG_REMOVED.get(Component.literal(e)));
 		}
-		return InteractionResultHolder.success(stack);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	protected InteractionResultHolder<ItemStack> onUse(Player player, ItemStack stack) {
+	protected InteractionResult onUse(Player player, ItemStack stack) {
 		var strs = new ArrayList<>(getStrings(stack));
 		String name = stack.getHoverName().getString();
 		if (strs.contains(name)) {
-			return InteractionResultHolder.success(stack);
+			return InteractionResult.SUCCESS;
 		}
 		if (!player.level().isClientSide()) {
 			strs.add(name);
@@ -107,20 +110,20 @@ public class NameFilterCard extends TargetFilterCard {
 			stack.remove(DataComponents.CUSTOM_NAME);
 			player.sendSystemMessage(MGLangData.TARGET_MSG_ADDED.get(Component.literal(name)));
 		}
-		return InteractionResultHolder.success(stack);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay display, Consumer<Component> list, TooltipFlag flag) {
 		var strs = getStrings(stack);
 		if (!strs.isEmpty() && !flag.hasShiftDown()) {
 			for (var e : strs) {
-				list.add(Component.literal(e));
+				list.accept(Component.literal(e));
 			}
-			list.add(MGLangData.TARGET_SHIFT.get());
+			list.accept(MGLangData.TARGET_SHIFT.get());
 		} else {
-			list.add(MGLangData.TARGET_NAME.get());
-			list.add(MGLangData.TARGET_REMOVE.get());
+			list.accept(MGLangData.TARGET_NAME.get());
+			list.accept(MGLangData.TARGET_REMOVE.get());
 		}
 	}
 

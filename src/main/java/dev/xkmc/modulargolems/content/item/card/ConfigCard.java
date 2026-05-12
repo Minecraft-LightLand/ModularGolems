@@ -15,7 +15,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -111,7 +110,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		UUID uuid = getUUID(stack);
 		if (uuid == null) {
@@ -136,10 +135,10 @@ public class ConfigCard extends Item implements GolemInteractItem {
 			if (editor != null && player instanceof ServerPlayer sp) {
 				var pvd = new ConfigMenuProvider(uuid, color.getId(), editor);
 				sp.openMenu(pvd, pvd::writeBuffer);
-				return InteractionResultHolder.success(stack);
+				return InteractionResult.SUCCESS;
 			}
 		}
-		return InteractionResultHolder.pass(stack);
+		return InteractionResult.PASS;
 	}
 
 	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag flag) {

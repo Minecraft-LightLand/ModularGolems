@@ -4,7 +4,6 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -58,15 +57,15 @@ public abstract class ClickEntityFilterCard<T> extends TargetFilterCard {
 	}
 
 	@Override
-	protected InteractionResultHolder<ItemStack> removeLast(Player player, ItemStack stack) {
+	protected InteractionResult removeLast(Player player, ItemStack stack) {
 		var list = new ArrayList<>(getList(stack));
-		if (list.isEmpty()) return InteractionResultHolder.fail(stack);
+		if (list.isEmpty()) return InteractionResult.FAIL;
 		if (!player.level().isClientSide()) {
 			var val = list.removeLast();
 			setList(stack, list);
 			player.sendSystemMessage(MGLangData.TARGET_MSG_REMOVED.get(getName(val)));
 		}
-		return InteractionResultHolder.success(stack);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

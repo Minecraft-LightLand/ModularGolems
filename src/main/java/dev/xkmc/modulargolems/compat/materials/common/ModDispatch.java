@@ -1,13 +1,13 @@
 package dev.xkmc.modulargolems.compat.materials.common;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import com.tterrag.registrate.providers.generators.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Item;
