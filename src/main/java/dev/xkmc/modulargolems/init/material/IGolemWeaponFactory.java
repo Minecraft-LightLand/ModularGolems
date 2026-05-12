@@ -5,6 +5,6 @@ import net.minecraft.world.item.Item;
 
 public interface IGolemWeaponFactory {
 
-	MetalGolemWeaponItem create(Item.Properties properties, int attackDamage, double percentAttack, float range, float sweep);
+	MetalGolemWeaponItem create(Item.Properties properties, int attackDamage, double percentAttack, float range, float sweep, int shieldBreak);
 
 }

@@ -11,7 +11,7 @@ public class HeavySpearItem extends MetalGolemWeaponItem {
 	private final int damage;
 
 	public HeavySpearItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep) {
-		super(properties, attackDamage, percentAttack, range, sweep);
+		super(properties, attackDamage, percentAttack, range, sweep, 5);
 		this.damage = attackDamage;
 	}
 
