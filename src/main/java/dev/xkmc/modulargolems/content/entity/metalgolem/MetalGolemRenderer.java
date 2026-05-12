@@ -3,14 +3,15 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
-import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
-import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
+import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
 
-public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemPartType, MetalGolemModel> {
+public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemRenderState, MetalGolemPartType, MetalGolemModel> {
 
 	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable MetalGolemPartType part) {
 		switch (transform) {
@@ -72,20 +73,21 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
 	}
 
-	protected void setupRotations(MetalGolemEntity entity, PoseStack stack, float bob, float yr, float pt, float scale) {
-		super.setupRotations(entity, stack, bob, yr, pt, scale);
-		if (!((double) entity.walkAnimation.speed() < 0.01D)) {
-			float f = 13.0F;
-			float f1 = entity.walkAnimation.position() - entity.walkAnimation.speed() * (1.0F - pt) + 6.0F;
-			float f2 = (Math.abs(f1 % f - 6.5F) - 3.25F) / 3.25F;
-			stack.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
+	@Override
+	protected void setupRotations(MetalGolemRenderState state, PoseStack poseStack, float bodyRot, float entityScale) {
+		super.setupRotations(state, poseStack, bodyRot, entityScale);
+		if (!(state.walkAnimationSpeed < 0.01)) {
+			float p = 13.0F;
+			float wp = state.walkAnimationPos + 6.0F;
+			float triangleWave = (Math.abs(wp % 13.0F - 6.5F) - 3.25F) / 3.25F;
+			poseStack.mulPose(Axis.ZP.rotationDegrees(6.5F * triangleWave));
 		}
 	}
 
 	@Override
-	public void render(MetalGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
-		super.render(entity, f1, f2, stack, source, i);
-		BeaconRenderer.renderGolemBeacon(entity, stack, source, f2);
+	public void submit(MetalGolemRenderState state, PoseStack pose, SubmitNodeCollector col, CameraRenderState cam) {
+		super.submit(state, pose, col, cam);
+		BeaconRenderer.renderGolemBeacon(state, pose, col, cam);
 	}
 
 }

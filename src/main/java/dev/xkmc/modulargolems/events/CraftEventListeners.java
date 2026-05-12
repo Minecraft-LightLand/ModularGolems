@@ -20,11 +20,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import net.neoforged.neoforge.event.GrindstoneEvent;
-import net.neoforged.neoforge.event.entity.player.AnvilRepairEvent;
+import net.neoforged.neoforge.event.entity.player.AnvilCraftEvent;
 
 import java.util.ArrayList;
 
-@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = ModularGolems.MODID)
 public class CraftEventListeners {
 
 	@SubscribeEvent
@@ -39,7 +39,7 @@ public class CraftEventListeners {
 				GolemPart.setMaterial(new_stack, mat.get());
 				event.setOutput(new_stack);
 				event.setMaterialCost(part.count);
-				event.setCost(1);
+				event.setXpCost(1);
 			}
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
@@ -59,12 +59,12 @@ public class CraftEventListeners {
 			int consume = Math.min(stack.getCount(), block.getCount());
 			event.setOutput(ans);
 			event.setMaterialCost(consume);
-			event.setCost(stack.getCount() - consume + 1);
+			event.setXpCost(stack.getCount() - consume + 1);
 		}
 	}
 
 	@SubscribeEvent
-	public static void onAnvilFinish(AnvilRepairEvent event) {
+	public static void onAnvilFinish(AnvilCraftEvent event) {
 		if (event.getEntity().level().isClientSide())
 			return;
 		ItemStack stack = event.getLeft();
@@ -121,7 +121,7 @@ public class CraftEventListeners {
 				var result = stack.copy();
 				GolemHolder.setReforge(result, reforge - repairStack.getCount());
 				event.setMaterialCost(repairStack.getCount());
-				event.setCost(1);
+				event.setXpCost(1);
 				event.setOutput(result);
 			} else {
 				var result = stack.copy();
@@ -130,7 +130,7 @@ public class CraftEventListeners {
 				float health = GolemHolder.getHealth(stack);
 				int maxFix = Math.min(repairStack.getCount() - reforge, (int) Math.ceil((max - health) / max * 4));
 				event.setMaterialCost(maxFix + reforge);
-				event.setCost(reforge + maxFix);
+				event.setXpCost(reforge + maxFix);
 				GolemHolder.setHealth(result, Math.min(max, health + max / 4 * maxFix));
 				event.setOutput(result);
 			}
@@ -140,7 +140,7 @@ public class CraftEventListeners {
 			if (health >= max) return;
 			int maxFix = Math.min(repairStack.getCount(), (int) Math.ceil((max - health) / max * 4));
 			event.setMaterialCost(maxFix);
-			event.setCost(maxFix);
+			event.setXpCost(maxFix);
 			ItemStack result = stack.copy();
 			GolemHolder.setHealth(result, Math.min(max, health + max / 4 * maxFix));
 			event.setOutput(result);
@@ -154,7 +154,7 @@ public class CraftEventListeners {
 		ItemStack result = stack.copy();
 		GolemUpgrade.addSlot(result, slot);
 		event.setOutput(result);
-		event.setCost(1);
+		event.setXpCost(1);
 		event.setMaterialCost(1);
 	}
 
@@ -165,7 +165,7 @@ public class CraftEventListeners {
 		ItemStack result = appendUpgrade(stack, holder, upgrade);
 		if (result.isEmpty()) return;
 		event.setOutput(result);
-		event.setCost(Math.min(39, 4 * (1 + upgrades.size())));
+		event.setXpCost(Math.min(39, 4 * (1 + upgrades.size())));
 		event.setMaterialCost(1);
 	}
 

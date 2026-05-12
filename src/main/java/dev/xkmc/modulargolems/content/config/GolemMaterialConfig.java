@@ -12,7 +12,7 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.apache.http.util.Asserts;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -50,16 +50,16 @@ public class GolemMaterialConfig extends BaseConfig {
 		return ans;
 	}
 
+	@Nullable
 	public Ingredient getCraftIngredient(Identifier id) {
-		var ans = ingredients.get(id);
-		return ans == null ? Ingredient.EMPTY : ans;
+		return ingredients.get(id);
 	}
 
+	@Nullable
 	public Ingredient getRepairIngredient(Identifier id) {
 		var rep = repairIngredients.get(id);
 		if (rep != null) return rep;
-		var ans = ingredients.get(id);
-		return ans == null ? Ingredient.EMPTY : ans;
+		return ingredients.get(id);
 	}
 
 	@DataGenOnly
@@ -103,7 +103,8 @@ public class GolemMaterialConfig extends BaseConfig {
 		}
 
 		public Builder addModifier(GolemModifier modifier, int lv) {
-			Asserts.check(!(modifier instanceof AttributeGolemModifier), "Material cannot use attribute modifier");
+			if (modifier instanceof AttributeGolemModifier)
+				throw new IllegalArgumentException("Material cannot use attribute modifier");
 			modifiers.put(modifier, lv);
 			return this;
 		}

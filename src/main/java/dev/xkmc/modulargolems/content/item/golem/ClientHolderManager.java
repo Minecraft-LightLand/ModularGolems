@@ -7,6 +7,8 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import io.netty.util.collection.IntObjectHashMap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
@@ -15,7 +17,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import org.jetbrains.annotations.Nullable;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID)
 public class ClientHolderManager {
 
 	static final class TimedCache {
@@ -68,7 +70,7 @@ public class ClientHolderManager {
 		var data = GolemItems.ENTITY.get(stack);
 		var icon = GolemItems.DC_ICON.get(stack);
 		if (data != null) {
-			ans = holder.getEntityType().createForDisplay(level, data.getUnsafe());
+			ans = holder.getEntityType().createForDisplay(level, data.copyTag());//FIXME get unsafe
 			if (ans != null)
 				ans.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 		} else {
@@ -78,7 +80,7 @@ public class ClientHolderManager {
 			GolemEquipUtil.addItemsToGolem(golem, stack, false);
 			if (icon != null) {
 				for (var e : icon.list()) {
-					golem.equipItemIfPossible(e);
+					equipItemIfPossible(golem, e);
 				}
 			}
 			ans = Wrappers.cast(golem);
@@ -86,6 +88,14 @@ public class ClientHolderManager {
 		if (ans == null) return null;
 		ans.hurtTime = 0;
 		return ans;
+	}
+
+	private static void equipItemIfPossible(Mob le, ItemStack itemStack) {
+		EquipmentSlot slot = le.getEquipmentSlotForItem(itemStack);
+		if (!le.isEquippableInSlot(itemStack, slot)) return;
+		ItemStack current = le.getItemBySlot(slot);
+		if (!current.isEmpty()) return;
+		le.setItemSlot(slot, itemStack);
 	}
 
 }

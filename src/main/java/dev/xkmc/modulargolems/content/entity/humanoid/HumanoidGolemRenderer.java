@@ -3,18 +3,18 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.compat.curio.ClientCuriosRenderHelper;
-import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
-import dev.xkmc.modulargolems.content.entity.common.GolemBannerLayer;
-import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
+import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
+import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
@@ -80,7 +80,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 	}
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx, boolean slim) {
-		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER), slim), 0.5f, HumanoidGolemPartType::values);
+		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER)), 0.5f, HumanoidGolemPartType::values);
 		this.addLayer(new HumanoidArmorLayer<>(this,
 				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)),
 				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR)),
@@ -96,25 +96,27 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 	}
 
 	@Override
-	public void render(HumanoidGolemRenderState entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+	public void submit(HumanoidGolemRenderState entity, PoseStack stack, SubmitNodeCollector source, CameraRenderState cam) {
 		var camera = Minecraft.getInstance().getCameraEntity();
-		if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON &&
-				camera != null && camera.getVehicle() != null &&
-				entity.getVehicle() == camera.getVehicle())
-			return;
-		var profile = ClientSkinDispatch.get(entity);
+		if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON) {
+			if (camera != null && camera.getVehicle() != null) {
+				if (entity.getVehicleId() == camera.getVehicle().getId())
+					return;
+			}
+		}
+		var profile = entity.skinProfile;
 		if (profile != null) {
-			profile.render(entity, f1, f2, stack, source, i);
+			profile.submit(entity, stack, source, cam);
 			return;
 		}
-		renderImpl(entity, f1, f2, stack, source, i);
+		submitImpl(entity, stack, source, cam);
 	}
 
-	public void renderImpl(HumanoidGolemRenderState entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
-		super.render(entity, f1, f2, stack, source, i);
+	public void submitImpl(HumanoidGolemRenderState entity, PoseStack stack, SubmitNodeCollector source, CameraRenderState cam) {
+		super.submit(entity, stack, source, cam);
 	}
 
-	public static final ThreadLocal<HumanoidGolemModel> MODEL_DELEGATE = new ThreadLocal<>();
+	public static final ThreadLocal<@Nullable HumanoidGolemModel> MODEL_DELEGATE = new ThreadLocal<>();
 
 	@Override
 	public HumanoidGolemModel getModel() {

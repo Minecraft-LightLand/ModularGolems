@@ -1,19 +1,14 @@
 package dev.xkmc.modulargolems.events;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
-import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientProfileManager;
-import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderProfile;
+import dev.xkmc.modulargolems.content.entity.skin.ClientProfileManager;
+import dev.xkmc.modulargolems.content.entity.skin.SpecialRenderProfile;
 import dev.xkmc.modulargolems.content.menu.table.TableTab;
 import dev.xkmc.modulargolems.events.event.HumanoidSkinEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
@@ -23,16 +18,20 @@ import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID)
 public class GolemClientEventListeners {
 
 	@SubscribeEvent
-	public static void renderStageEvent(RenderLevelStageEvent event) {
-		if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES) {
-			BlockOutliner.renderOutline(event.getPoseStack(), event.getCamera().getPosition());
-		}
+	public static void onRenderStateAttach(RegisterRenderStateModifiersEvent event) {
+
+	}
+
+	@SubscribeEvent
+	public static void renderStageEvent(RenderLevelStageEvent.AfterTranslucentBlocks event) {
+		BlockOutliner.renderOutline(event.getPoseStack(), event.getLevelRenderState().cameraRenderState.pos);
 	}
 
 	@SubscribeEvent
@@ -72,32 +71,7 @@ public class GolemClientEventListeners {
 	@SubscribeEvent
 	public static void onLayerRender(RenderGuiLayerEvent.Pre event) {
 		if (event.getName().equals(VanillaGuiLayers.HOTBAR)) {
-			clearDepth(event.getGuiGraphics());
-		}
-	}
-
-	private static void clearDepth(GuiGraphics g) {
-		g.pose().popPose();
-		g.pose().pushPose();
-		g.pose().translate(0, 0, -1000);
-		g.fill(LayerRenderType.GUI, 0, 0, g.guiWidth(), g.guiHeight(), -1);
-		g.pose().translate(0, 0, 1000);
-	}
-
-	private static class LayerRenderType extends RenderType {
-		public static final RenderType GUI = create(
-				"reverse_gui",
-				DefaultVertexFormat.POSITION_COLOR,
-				VertexFormat.Mode.QUADS,
-				786432,
-				RenderType.CompositeState.builder()
-						.setShaderState(RENDERTYPE_GUI_SHADER)
-						.setWriteMaskState(RenderStateShard.DEPTH_WRITE)
-						.setDepthTestState(GREATER_DEPTH_TEST)
-						.createCompositeState(false));
-
-		public LayerRenderType(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling, boolean sortOnUpload, Runnable setupState, Runnable clearState) {
-			super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);
+			//clearDepth(event.getGuiGraphics());
 		}
 	}
 

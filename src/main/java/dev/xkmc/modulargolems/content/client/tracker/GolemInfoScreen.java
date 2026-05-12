@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.client.tracker;
 
 import com.mojang.datafixers.util.Pair;
+import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2tabs.tabs.contents.BaseTextScreen;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
@@ -13,10 +14,12 @@ import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -34,6 +37,8 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 	private int page = 0, size = 0;
 	private Button left, right;
 	private boolean leftAdded, rightAdded;
+
+	@Nullable
 	private UUID delId = null;
 
 	protected GolemInfoScreen(Component title) {
@@ -80,19 +85,19 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 	}
 
 	@Override
-	public void render(GuiGraphics g, int mx, int my, float ptick) {
+	public void extractBackground(GuiGraphicsExtractor g, int mx, int my, float ptick) {
+		super.extractBackground(g, mx, my, ptick);
 		var player = Minecraft.getInstance().player;
 		if (player == null) return;
 		long time = player.level().getGameTime();
 		var data = getData();
 		size = data.size();
 		updateButtons();
-		super.render(g, mx, my, ptick);
 		int start = page * linePerPage();
 		int max = Math.min((page + 1) * linePerPage(), size);
 		int x = this.leftPos + 8;
 		int y = this.topPos + 6;
-		g.drawString(this.font, title, x, y, 0, false);
+		g.text(this.font, title, x, y, 0, false);
 		y += 15;
 		GolemTracker.TrackedData focus = null;
 		int delLine = -1;
@@ -100,7 +105,7 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 		for (int i = 0; i < max - start; i++) {
 			var ent = data.get(start + i);
 			Component comp = TrackerInfo.getDesc(ent.getSecond());
-			g.drawString(this.font, comp, x, y, 0, false);
+			g.text(this.font, comp, x, y, 0, false);
 			int w = Math.min(font.width(comp), imageWidth - 30);
 			if (my > y && my < y + 10) {
 				if (mx > x && mx < x + w) {
@@ -111,11 +116,11 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 				}
 			}
 			var del = Component.literal("X").withStyle(delLine == start + i ? ChatFormatting.RED : ChatFormatting.BLACK);
-			g.drawString(this.font, del, x + imageWidth - 20, y, 0, false);
+			g.text(this.font, del, x + imageWidth - 20, y, 0, false);
 			y += 10;
 		}
 		if (focus != null) {
-			g.renderComponentTooltip(this.font, TrackerInfo.getDetail(focus, player, time), mx, my);
+			GuiHelper.tooltip(g, TrackerInfo.getDetail(focus, player, time), mx, my);
 		}
 	}
 
@@ -129,11 +134,11 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 	}
 
 	@Override
-	public boolean mouseClicked(double x, double y, int btn) {
-		if (super.mouseClicked(x, y, btn)) return true;
+	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+		if (super.mouseClicked(event, doubleClick)) return true;
 		var player = Minecraft.getInstance().player;
 		if (player == null) return false;
-		if (delId != null && btn == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		if (delId != null && event.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			ModularGolems.HANDLER.toServer(new TrackerDeleteToServer(player.getUUID(), delId));
 			return true;
 		}

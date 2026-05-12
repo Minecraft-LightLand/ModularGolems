@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
+package dev.xkmc.modulargolems.content.entity.weapon;
 
 import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;

@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;

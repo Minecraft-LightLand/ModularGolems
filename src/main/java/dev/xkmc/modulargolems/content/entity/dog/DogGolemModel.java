@@ -2,16 +2,17 @@ package dev.xkmc.modulargolems.content.entity.dog;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
-import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
-import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
+import dev.xkmc.modulargolems.content.entity.render.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.render.IHeadedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+
+import java.util.function.Consumer;
 
 public class DogGolemModel extends EntityModel<DogGolemState> implements IGolemModel<
 		DogGolemEntity, DogGolemState, DogGolemPartType, DogGolemModel>, IHeadedModel {
@@ -87,17 +88,18 @@ public class DogGolemModel extends EntityModel<DogGolemState> implements IGolemM
 		}
 	}
 
-	public void renderToBufferInternal(DogGolemPartType type, PoseStack stack, VertexConsumer consumer, int light, int overlay, int alpha) {
+	@Override
+	public void renderToBufferInternal(DogGolemPartType type, Consumer<ModelPart> col) {
 		if (type == DogGolemPartType.BODY) {
-			this.body.render(stack, consumer, light, overlay, alpha);
-			this.head.render(stack, consumer, light, overlay, alpha);
-			this.upperBody.render(stack, consumer, light, overlay, alpha);
-			this.tail.render(stack, consumer, light, overlay, alpha);
+			col.accept(body);
+			col.accept(head);
+			col.accept(upperBody);
+			col.accept(tail);
 		} else if (type == DogGolemPartType.LEGS) {
-			this.leftHindLeg.render(stack, consumer, light, overlay, alpha);
-			this.rightHindLeg.render(stack, consumer, light, overlay, alpha);
-			this.leftFrontLeg.render(stack, consumer, light, overlay, alpha);
-			this.rightFrontLeg.render(stack, consumer, light, overlay, alpha);
+			col.accept(leftHindLeg);
+			col.accept(rightHindLeg);
+			col.accept(leftFrontLeg);
+			col.accept(rightFrontLeg);
 		}
 	}
 

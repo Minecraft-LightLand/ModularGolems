@@ -6,7 +6,6 @@ import dev.xkmc.modulargolems.content.menu.registry.ConfigGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;

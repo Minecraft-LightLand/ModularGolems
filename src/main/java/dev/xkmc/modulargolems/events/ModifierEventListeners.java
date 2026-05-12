@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
@@ -27,7 +27,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 
-@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = ModularGolems.MODID)
 public class ModifierEventListeners {
 
 	@SubscribeEvent
@@ -79,7 +79,7 @@ public class ModifierEventListeners {
 					priority = goal.getPriority();
 					ans = new NearestAttackableTargetGoal<>(mob, AbstractGolemEntity.class,
 							target.randomInterval, target.mustSee, target.mustReach,
-							e -> e instanceof AbstractGolemEntity<?, ?> golem && !golem.isHostile());
+							(e, sl) -> e instanceof AbstractGolemEntity<?, ?> golem && !golem.isHostile());
 					break;
 				}
 			}
@@ -93,7 +93,7 @@ public class ModifierEventListeners {
 	public static void onLivingDrop(LivingDropsEvent event) {
 		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> e) {
 			if (e.hasFlag(GolemFlags.PICKUP)) {
-				event.getDrops().forEach(x -> x.moveTo(e.position()));
+				event.getDrops().forEach(x -> x.snapTo(e.position()));
 			}
 		}
 	}

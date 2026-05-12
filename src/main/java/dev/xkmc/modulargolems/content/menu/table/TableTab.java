@@ -10,13 +10,16 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
 
 public class TableTab extends TabBase<TableGroup, TableTab> {
 
+	@Nullable
 	public static Level level = null;
 	public static long time = 0;
+	@Nullable
 	public static TableTabType lastOpened = null;
 
 	public static TabToken.TabFactory<TableGroup, TableTab> from(TableTabType type) {

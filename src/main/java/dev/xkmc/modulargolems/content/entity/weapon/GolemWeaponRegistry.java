@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
+package dev.xkmc.modulargolems.content.entity.weapon;
 
 import dev.xkmc.mob_weapon_api.api.goals.WeaponGoalRegistry;
 import dev.xkmc.mob_weapon_api.example.goal.SmartBowAttackGoal;

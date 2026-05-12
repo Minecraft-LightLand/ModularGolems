@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.humanoid.skin;
+package dev.xkmc.modulargolems.content.entity.skin;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;

@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.targeting;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.phys.AABB;
@@ -13,7 +14,8 @@ public class Golem3DTargetGoal extends NearestAttackableTargetGoal<LivingEntity>
 	private final AbstractGolemEntity<?, ?> self;
 
 	public Golem3DTargetGoal(AbstractGolemEntity<?, ?> self, int interval) {
-		super(self, LivingEntity.class, interval, false, false, self::predicateTarget);
+		super(self, LivingEntity.class, interval, false, false,
+				(e, sl) -> self.predicateTarget(e));
 		this.self = self;
 	}
 
@@ -22,12 +24,13 @@ public class Golem3DTargetGoal extends NearestAttackableTargetGoal<LivingEntity>
 	}
 
 	public void findTarget() {
+		if (!(self.level() instanceof ServerLevel sl)) return;
 		var entities = self.level().getEntitiesOfClass(this.targetType, this.getTargetSearchArea(this.getFollowDistance()));
 		var list = new ArrayList<TargetingStatus>();
 		var cen = self.getEyePosition();
 		var box = self.getBoundingBox();
 		for (var e : entities) {
-			if (!targetConditions.test(self, e)) continue;
+			if (!targetConditions.test(sl, self, e)) continue;
 			var reason = TargetManager.predicateTarget(self, e);
 			if (reason == null) continue;
 			var ebox = e.getBoundingBox();

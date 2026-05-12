@@ -10,7 +10,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.render.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;

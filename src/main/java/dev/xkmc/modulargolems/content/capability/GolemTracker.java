@@ -61,6 +61,7 @@ public class GolemTracker {
 
 		@SerialField
 		public Status status = Status.ALIVE;
+		@Nullable
 		@SerialField
 		public Identifier lastDim;
 		@SerialField
@@ -68,6 +69,7 @@ public class GolemTracker {
 		@SerialField
 		public long timestamp;
 		@SerialField
+		@Nullable
 		public Component name, cause;
 		@SerialField
 		public float mhp, hp;
@@ -76,12 +78,13 @@ public class GolemTracker {
 		@SerialField
 		public List<Identifier> materials = new ArrayList<>();
 		@SerialField
+		@Nullable
 		public RetrieveTarget target = null;
 
 		public void update(AbstractGolemEntity<?, ?> e) {
 			status = Status.ALIVE;
 			target = null;
-			lastDim = e.level().dimension().location();
+			lastDim = e.level().dimension().identifier();
 			lastPos = e.blockPosition();
 			timestamp = e.level().getGameTime();
 			cause = null;

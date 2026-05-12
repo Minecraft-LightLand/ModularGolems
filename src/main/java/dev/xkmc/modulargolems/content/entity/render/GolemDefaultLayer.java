@@ -1,7 +1,8 @@
-package dev.xkmc.modulargolems.content.entity.common;
+package dev.xkmc.modulargolems.content.entity.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;

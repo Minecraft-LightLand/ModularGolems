@@ -15,7 +15,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
 
-@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = ModularGolems.MODID)
 public class GolemEventListeners {
 
 	@SubscribeEvent

@@ -3,14 +3,14 @@ package dev.xkmc.modulargolems.events;
 import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.util.TriState;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
-@EventBusSubscriber(modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = ModularGolems.MODID)
 public class GolemItemPriorityHandler {
 
 	@SubscribeEvent(priority = EventPriority.HIGH)

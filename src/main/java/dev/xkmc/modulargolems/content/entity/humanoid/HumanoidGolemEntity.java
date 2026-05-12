@@ -4,7 +4,7 @@ import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;

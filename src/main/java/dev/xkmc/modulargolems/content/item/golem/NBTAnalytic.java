@@ -7,13 +7,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class NBTAnalytic {
 
-	public static void analyze(ItemStack stack, List<Component> list) {
+	public static void analyze(ItemStack stack, Consumer<Component> list) {
 		var root = GolemItems.ENTITY.get(stack);
 		if (root == null) return;
-		var entity = root.getUnsafe();
+		var entity = root.tag;
 		list.add(log(entity, "entity NBT"));
 		list.add(log(entity, "equipment", "ArmorItems", "HandItems"));
 		list.add(log(entity, "golem data", "auto-serial"));

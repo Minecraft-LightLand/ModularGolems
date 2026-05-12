@@ -1,6 +1,7 @@
-package dev.xkmc.modulargolems.content.entity.common;
+package dev.xkmc.modulargolems.content.entity.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;

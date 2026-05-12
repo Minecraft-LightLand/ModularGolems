@@ -1,47 +1,40 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import dev.xkmc.mob_weapon_api.example.behavior.ThrowableBehavior;
-import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
-import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
-import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
-import net.minecraft.client.model.AnimationUtils;
+import dev.xkmc.modulargolems.content.entity.render.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.render.IHeadedModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
-import net.neoforged.neoforge.common.ItemAbilities;
+
+import java.util.function.Consumer;
 
 public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> implements
 		IGolemModel<HumanoidGolemEntity, HumanoidGolemRenderState, HumanoidGolemPartType, HumanoidGolemModel>, IHeadedModel {
 
 	public HumanoidGolemModel(EntityModelSet set) {
-		this(set.bakeLayer(GolemEquipmentModels.HUMANOID), false);
+		this(set.bakeLayer(GolemEquipmentModels.HUMANOID));
 	}
 
-	public HumanoidGolemModel(ModelPart modelPart, boolean slim) {
-		super(modelPart, slim);
+	public HumanoidGolemModel(ModelPart modelPart) {
+		super(modelPart);
 	}
 
 	@Override
-	public void renderToBufferInternal(HumanoidGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, int alpha) {
+	public void renderToBufferInternal(HumanoidGolemPartType type, Consumer<ModelPart> col) {
 		if (type == HumanoidGolemPartType.BODY) {
-			this.body.render(stack, consumer, i, j, alpha);
-			this.head.render(stack, consumer, i, j, alpha);
-			this.hat.render(stack, consumer, i, j, alpha);
+			col.accept(body);
+			col.accept(head);
+			col.accept(hat);
 		} else if (type == HumanoidGolemPartType.ARMS) {
-			this.leftArm.render(stack, consumer, i, j, alpha);
-			this.rightArm.render(stack, consumer, i, j, alpha);
+			col.accept(leftArm);
+			col.accept(rightArm);
 		} else if (type == HumanoidGolemPartType.LEGS) {
-			this.leftLeg.render(stack, consumer, i, j, alpha);
-			this.rightLeg.render(stack, consumer, i, j, alpha);
+			col.accept(leftLeg);
+			col.accept(rightLeg);
 		}
 	}
 
@@ -51,69 +44,15 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> 
 	}
 
 	@Override
-	public void setupAnim(HumanoidGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
-		super.setupAnim(entity, f1, f2, f3, f4, f5);
-		if (entity.isAggressive() && this.attackTime == 0.0F) {
-			if (leftArmPose == ArmPose.ITEM) {
+	public void setupAnim(HumanoidGolemRenderState state) {
+		super.setupAnim(state);
+		if (state.isAggressive() && state.attackTime == 0.0F) {
+			if (state.leftArmPose == ArmPose.ITEM) {
 				this.leftArm.xRot = -1.8F;
-			} else if (rightArmPose == ArmPose.ITEM) {
+			} else if (state.rightArmPose == ArmPose.ITEM) {
 				this.rightArm.xRot = -1.8F;
 			}
 		}
-
-		this.leftSleeve.copyFrom(this.leftArm);
-		this.rightSleeve.copyFrom(this.rightArm);
-
-	}
-
-	protected void setupAttackAnimation(HumanoidGolemEntity entity, float time) {
-		if ((leftArmPose == ArmPose.ITEM || rightArmPose == ArmPose.ITEM) && this.attackTime > 0.0F) {
-			AnimationUtils.swingWeaponDown(this.rightArm, this.leftArm, entity, this.attackTime, time);
-		} else {
-			super.setupAttackAnimation(entity, time);
-		}
-	}
-
-	public void prepareMobModel(HumanoidGolemEntity entity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick) {
-		this.rightArmPose = ArmPose.EMPTY;
-		this.leftArmPose = ArmPose.EMPTY;
-		InteractionHand hand = entity.getWeaponHand();
-		ItemStack itemstack = entity.getItemInHand(hand);
-		ArmPose pos = ArmPose.EMPTY;
-		if (entity.isAggressive() && entity.isUsingItem() && WeaponRegistry.HOLD.get(entity, itemstack)
-				.orElse(null) instanceof ThrowableBehavior) {
-			pos = ArmPose.THROW_SPEAR;
-		} else if (entity.isAggressive() && itemstack.getUseAnimation() == UseAnim.BOW) {
-			pos = ArmPose.BOW_AND_ARROW;
-		} else if (itemstack.getUseAnimation() == UseAnim.CROSSBOW) {
-			if (entity.isChargingCrossbow()) {
-				pos = ArmPose.CROSSBOW_CHARGE;
-			} else if (entity.isAggressive()) {
-				pos = ArmPose.CROSSBOW_HOLD;
-			}
-		} else if (entity.isAggressive()) {
-			pos = ArmPose.ITEM;
-		}
-		ArmPose anti_pos = ArmPose.EMPTY;
-		if (hand == InteractionHand.OFF_HAND) {
-			anti_pos = pos;
-			pos = ArmPose.EMPTY;
-		}
-		if (entity.isBlocking()) {
-			if (entity.getMainHandItem().canPerformAction(ItemAbilities.SHIELD_BLOCK)) {
-				pos = ArmPose.BLOCK;
-			} else {
-				anti_pos = ArmPose.BLOCK;
-			}
-		}
-		if (entity.getMainArm() == HumanoidArm.RIGHT) {
-			this.rightArmPose = pos;
-			this.leftArmPose = anti_pos;
-		} else {
-			this.leftArmPose = pos;
-			this.rightArmPose = anti_pos;
-		}
-		super.prepareMobModel(entity, pLimbSwing, pLimbSwingAmount, pPartialTick);
 	}
 
 	@Override

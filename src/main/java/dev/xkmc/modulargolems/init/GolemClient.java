@@ -6,7 +6,7 @@ import dev.xkmc.modulargolems.compat.maid.MaidSkinCompat;
 import dev.xkmc.modulargolems.compat.materials.common.ClientCompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
-import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
+import dev.xkmc.modulargolems.content.entity.skin.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;

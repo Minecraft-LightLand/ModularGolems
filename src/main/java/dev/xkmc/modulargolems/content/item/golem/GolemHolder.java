@@ -30,15 +30,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -47,6 +45,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -153,23 +152,24 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public static int getReforge(ItemStack stack) {
 		return Optional.ofNullable(stack.get(GolemItems.ENTITY))
-				.map(e -> e.getUnsafe().getCompound("NeoForgeData").getInt("GolemReforge"))
+				.map(e -> e.tag.getCompound("NeoForgeData").getInt("GolemReforge"))
 				.orElse(0);
 	}
 
 	public static void setReforge(ItemStack stack, int reforge) {
 		var entity = Optional.ofNullable(stack.get(GolemItems.ENTITY));
-		if (entity.isPresent()) {
-			var tag = entity.get().getUnsafe();
-			tag.getCompound("NeoForgeData").putInt("GolemReforge", reforge);
-			for (var e : tag.getList("attributes", Tag.TAG_COMPOUND)) {
+		if (entity.isEmpty()) return;
+		entity.get().update(tag -> {
+			tag.getCompoundOrEmpty("NeoForgeData").putInt("GolemReforge", reforge);
+			for (var e : tag.getListOrEmpty("attributes")) {
 				if (!(e instanceof CompoundTag t)) continue;
-				if (t.getString("id").equals("minecraft:generic.max_health")) {
-					t.getList("modifiers", Tag.TAG_COMPOUND).removeIf(x ->
-							x instanceof CompoundTag comp && comp.getString("id").equals(AbstractGolemEntity.REFORGE_ID.toString()));
+				if (t.getString("id").orElse("").equals("minecraft:generic.max_health")) {
+					t.getListOrEmpty("modifiers").removeIf(x ->
+							x instanceof CompoundTag comp && comp.getString("id").orElse("")
+									.equals(AbstractGolemEntity.REFORGE_ID.toString()));
 				}
 			}
-		}
+		});
 	}
 
 	public static void setHealth(ItemStack result, float health) {
@@ -228,7 +228,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+	public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot selected) {
 		if (entity.tickCount % 20 == 0) {
 			var health = getHealth(stack);
 			var heal = getInvHeal(stack, entity);
@@ -298,7 +298,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			if (getHealth(stack) <= 0)
 				return false;
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?, ?> golem = type.get().create(level, data.getUnsafe());
+				AbstractGolemEntity<?, ?> golem = type.get().create(level, data.tag);
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				setPos(level, golem, pos);
@@ -346,7 +346,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		var data = GolemItems.ENTITY.get(stack);
 		var mat = GolemItems.HOLDER_MAT.get(stack);
 		if (data != null) {
-			golem = type.get().create(level, data.getUnsafe());
+			golem = type.get().create(level, data.tag);
 			golem.updateAttributes(getMaterial(stack), getUpgrades(stack), null);
 		} else if (mat != null) {
 			golem = type.get().create(level);
@@ -439,7 +439,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
 		if (flag.hasAltDown()) {
 			NBTAnalytic.analyze(stack, list);
 			return;
@@ -452,45 +452,45 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				float f = Mth.clamp(health / max, 0f, 1f);
 				int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 				MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
-				list.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
+				list.accept(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
 			}
 			int reforge = getReforge(stack);
 			if (reforge > 0) {
-				list.add(MGLangData.MELTDOWN.get(reforge));
+				list.accept(MGLangData.MELTDOWN.get(reforge));
 			}
 			var config = getGolemConfig(stack);
 
 			if (level == null || config.isEmpty()) {
-				list.add(MGLangData.NO_CONFIG.get());
+				list.accept(MGLangData.NO_CONFIG.get());
 			} else {
 				var id = config.get().id();
 				var color = config.get().color();
 				var entry = GolemConfigStorage.get(level)
 						.getOrCreateStorage(id, color, MGLangData.LOADING.get());
 				entry.clientTick(level, false);
-				list.add(entry.getDisplayName());
+				list.accept(entry.getDisplayName());
 			}
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
 			var parts = getEntityType().values();
 			if (mats.size() == parts.length) {
 				for (int i = 0; i < parts.length; i++) {
-					list.add(parts[i].getDesc(mats.get(i).getDesc()));
+					list.accept(parts[i].getDesc(mats.get(i).getDesc()));
 				}
 			}
-			list.add(MGLangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
+			list.accept(MGLangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
 			var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 			if (modifiers.size() > 8) {
-				list.add(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.size()));
+				list.accept(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.size()));
 			} else {
-				modifiers.forEach((k, v) -> list.add(k.getTooltip(v)));
+				modifiers.forEach((k, v) -> list.accept(k.getTooltip(v)));
 			}
 			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> {
 				if (Math.abs(v.getSecond()) > 1e-3) {
-					list.add(v.getFirst().getTotalTooltip(v.getSecond()));
+					list.accept(v.getFirst().getTotalTooltip(v.getSecond()));
 				}
 			});
-			list.add(MGLangData.SHIFT.get());
+			list.accept(MGLangData.SHIFT.get());
 		} else {
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
@@ -501,14 +501,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				index++;
 				var k = entry.getKey();
 				var v = entry.getValue();
-				list.add(k.getTooltip(v));
+				list.accept(k.getTooltip(v));
 				if (size > 12) {
 					continue;
 				}
 				if (size > 4 && level != null) {
 					if (level.getGameTime() / 30 % size != index - 1) continue;
 				}
-				list.addAll(k.getDetail(v));
+				k.getDetail(v).forEach(list);
 			}
 		}
 	}

@@ -1,9 +1,6 @@
 package dev.xkmc.modulargolems.events;
 
-import dev.xkmc.l2damagetracker.contents.attack.AttackListener;
-import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
-import dev.xkmc.l2damagetracker.contents.attack.DamageData;
-import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
+import dev.xkmc.l2damagetracker.contents.attack.*;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.Identifier;
@@ -14,7 +11,7 @@ public class GolemAttackListener implements AttackListener {
 	private static final Identifier WEAPON_INHERENT = ModularGolems.loc("weapon_inherent");
 
 	@Override
-	public void onCreateSource(CreateSourceEvent event) {
+	public void onCreateSource(OnDamageSourceModifyEvent event) {
 		if (event.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
 			for (var e : golem.getModifiersExtended().entrySet()) {
 				e.getKey().modifySource(golem, event, e.getValue());

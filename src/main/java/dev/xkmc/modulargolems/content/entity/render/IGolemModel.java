@@ -1,12 +1,14 @@
-package dev.xkmc.modulargolems.content.entity.common;
+package dev.xkmc.modulargolems.content.entity.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.Identifier;
+
+import java.util.function.Consumer;
 
 public interface IGolemModel<
 		E extends AbstractGolemEntity<E, P>,
@@ -19,7 +21,7 @@ public interface IGolemModel<
 		return Wrappers.cast(this);
 	}
 
-	void renderToBufferInternal(P type, PoseStack stack, VertexConsumer consumer, int light, int overlay, int alpha);
+	void renderToBufferInternal(P type, Consumer<ModelPart> col);
 
 	Identifier getTextureLocationInternal(Identifier rl);
 

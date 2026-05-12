@@ -1,18 +1,19 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
 import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.Optional;
 
 public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> implements ITabScreen {
 
@@ -23,7 +24,8 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics g, float p_97788_, int p_97789_, int p_97790_) {
+	public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float a) {
+		super.extractBackground(g, mouseX, mouseY, a);
 		var sr = getRenderer();
 		sr.start(g);
 		updatePage();
@@ -51,20 +53,22 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 	}
 
 
-	protected void renderTooltip(GuiGraphics g, int x, int y) {
+	@Override
+	protected void extractTooltip(GuiGraphicsExtractor g, int x, int y) {
 		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.hasItem()) {
 			ItemStack stack = hoveredSlot.getItem();
 			if (hoveredSlot instanceof UpgradeSlot) {
 				if (stack.getItem() instanceof IUpgradeItem && !(stack.getItem() instanceof UpgradeItem)) {
-					g.renderTooltip(font, List.of(MGLangData.UI_REMOVE_TEMPLATE.get()), Optional.empty(), stack, x, y);
+					GuiHelper.tooltip(g, List.of(MGLangData.UI_REMOVE_TEMPLATE.get()), null, stack, x, y);
 					return;
 				}
 				if (!hoveredSlot.mayPickup(menu.inventory.player)) {
-					g.renderTooltip(font, List.of(MGLangData.UI_NO_SLOT.get()), Optional.empty(), stack, x, y);
+					GuiHelper.tooltip(g, List.of(MGLangData.UI_NO_SLOT.get()), null, stack, x, y);
 					return;
 				}
 			}
-			g.renderTooltip(font, getTooltipFromContainerItem(stack), stack.getTooltipImage(), stack, x, y);
+			var image = stack.getTooltipImage().map(ClientTooltipComponent::create).orElse(null);
+			GuiHelper.tooltip(g, getTooltipFromContainerItem(stack), image, stack, x, y);
 		}
 
 	}
