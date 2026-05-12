@@ -105,8 +105,6 @@ public class MGTagGen {
 		}
 		if (ModList.get().isLoaded(Cataclysm.MODID)) {
 			pvd.addTag(LARGE_GOLEM_WEAPONS)
-					.addOptional(ModItems.THE_INCINERATOR.getId())
-					.addOptional(ModItems.FINAL_FRACTAL.getId())
 					.addOptional(ModItems.THE_ANNIHILATOR.getId())
 					.addOptional(ModItems.THE_IMMOLATOR.getId())
 					.addOptional(ModItems.THE_INCINERATOR.getId())
@@ -121,7 +119,8 @@ public class MGTagGen {
 					.addOptional(ModItems.WITHER_ASSULT_SHOULDER_WEAPON.getId())
 					.addOptional(ModItems.VOID_ASSULT_SHOULDER_WEAPON.getId())
 					.addOptional(ModItems.ASTRAPE.getId())
-					.addOptional(ModItems.CERAUNUS.getId());
+					.addOptional(ModItems.CERAUNUS.getId())
+					.addOptional(ModItems.BRONTES.getId());
 		}
 		if (ModList.get().isLoaded(L2Weaponry.MODID)) {
 			var tag = pvd.addTag(LARGE_GOLEM_WEAPONS);

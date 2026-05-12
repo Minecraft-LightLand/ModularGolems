@@ -9,14 +9,6 @@
       "required": false
     },
     {
-      "id": "cataclysm:the_incinerator",
-      "required": false
-    },
-    {
-      "id": "cataclysm:final_fractal",
-      "required": false
-    },
-    {
       "id": "cataclysm:the_annihilator",
       "required": false
     },
@@ -70,6 +62,10 @@
     },
     {
       "id": "cataclysm:ceraunus",
+      "required": false
+    },
+    {
+      "id": "cataclysm:brontes",
       "required": false
     },
     {
