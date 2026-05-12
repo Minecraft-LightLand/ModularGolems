@@ -5,11 +5,8 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"AbstractArrowMixin",
-		"BeltDeployerCallbacksMixin",
-		"EntityAxeAttackMixin",
 		"EntityMixin",
 		"ExperienceOrbAccessor",
-		"IgnisExplosionMixin",
 		"LivingEntityMixin",
 		"PlayerMixin",
 		"ServerLevelMixin"
