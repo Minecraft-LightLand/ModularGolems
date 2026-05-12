@@ -18,8 +18,8 @@ import dev.xkmc.modulargolems.content.block.TableBlock;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.card.*;
@@ -39,6 +39,8 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -46,11 +48,11 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 
@@ -162,35 +164,50 @@ public class GolemItems {
 
 		{
 			RETRIEVAL_WAND = REGISTRATE.item("retrieval_wand", p -> new RetrievalWandItem(p.stacksTo(1), null))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM))
+					.defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 			COMMAND_WAND = REGISTRATE.item("command_wand", p -> new CommandWandItem(p.stacksTo(1), null))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM))
+					.defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 			DISPENSE_WAND = REGISTRATE.item("summon_wand", p -> new DispenseWand(p.stacksTo(1), null))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM))
+					.defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 			RIDER_WAND = REGISTRATE.item("rider_wand", p -> new RiderWandItem(p.stacksTo(1), null))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM))
+					.defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 			SQUAD_WAND = REGISTRATE.item("squad_wand", p -> new SquadWandItem(p.stacksTo(1), null))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM))
+					.defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 
 
 			OMNI_COMMAND = REGISTRATE.item("omnipotent_wand_command", p -> new CommandWandItem(p.stacksTo(1), COMMAND_WAND))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM, new Material(pvd.modLoc("item/omnipotent_wand"))))
 					.lang("Omnipotent Wand: Command").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.register();
 			OMNI_RETRIVAL = REGISTRATE.item("omnipotent_wand_retrieval", p -> new RetrievalWandItem(p.stacksTo(1), RETRIEVAL_WAND))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM, new Material(pvd.modLoc("item/omnipotent_wand"))))
 					.lang("Omnipotent Wand: Retrieval").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_DISPENSE = REGISTRATE.item("omnipotent_wand_summon", p -> new DispenseWand(p.stacksTo(1), DISPENSE_WAND))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM, new Material(pvd.modLoc("item/omnipotent_wand"))))
 					.lang("Omnipotent Wand: Summon").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_RIDER = REGISTRATE.item("omnipotent_wand_rider", p -> new RiderWandItem(p.stacksTo(1), RIDER_WAND))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM, new Material(pvd.modLoc("item/omnipotent_wand"))))
 					.lang("Omnipotent Wand: Rider").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 			OMNI_SQUAD = REGISTRATE.item("omnipotent_wand_squad", p -> new SquadWandItem(p.stacksTo(1), SQUAD_WAND))
-					.model(() -> (ctx, pvd) -> pvd.handheld(ctx, pvd.modLoc("item/omnipotent_wand")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM, new Material(pvd.modLoc("item/omnipotent_wand"))))
 					.lang("Omnipotent Wand: Squad").tag(MGTagGen.GOLEM_OMNI_WAND)
 					.removeTab(ITEMS.key()).register();
 
@@ -199,66 +216,78 @@ public class GolemItems {
 		// golemguard armor
 		{
 			GOLEMGUARD_HELMET = REGISTRATE.item("roman_guard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.HELMET, 8, 4, GolemModelPaths.HELMETS))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.HELMET, 8, 4, GolemModelPaths.HELMETS))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 			GOLEMGUARD_CHESTPLATE = REGISTRATE.item("roman_guard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.CHESTPLATE, 10, 4, GolemModelPaths.CHESTPLATES))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.CHESTPLATE, 10, 4, GolemModelPaths.CHESTPLATES))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 			GOLEMGUARD_SHINGUARD = REGISTRATE.item("roman_guard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.LEGGINGS, 6, 4, GolemModelPaths.LEGGINGS))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.LEGGINGS, 6, 4, GolemModelPaths.LEGGINGS))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 
 			WINDSPIRIT_HELMET = REGISTRATE.item("wind_spirit_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.HELMET, 11, 6, GolemModelPaths.HELMETS))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.HELMET, 11, 6, GolemModelPaths.HELMETS))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 			WINDSPIRIT_CHESTPLATE = REGISTRATE.item("wind_spirit_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.CHESTPLATE, 14, 6, GolemModelPaths.CHESTPLATES))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.CHESTPLATE, 14, 6, GolemModelPaths.CHESTPLATES))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 			WINDSPIRIT_SHINGUARD = REGISTRATE.item("wind_spirit_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.LEGGINGS, 8, 6, GolemModelPaths.LEGGINGS))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.LEGGINGS, 8, 6, GolemModelPaths.LEGGINGS))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 			WINDSPIRIT_BOOTS = REGISTRATE.item("wind_spirit_boots", p -> new MetalGolemArmorItem(p.stacksTo(1),
-							ArmorItem.Type.BOOTS, 6, 6, GolemModelPaths.BOOTS_DIAMOND))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.BOOTS, 6, 6, GolemModelPaths.BOOTS_DIAMOND))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 
 			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.HELMET, 14, 8, GolemModelPaths.HELMETS))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaric_vanguard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.CHESTPLATES))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.CHESTPLATE, 18, 8, GolemModelPaths.CHESTPLATES))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_BOOTS = REGISTRATE.item("barbaric_vanguard_boots", p -> new NetheriteBootItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							ArmorType.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 
 			BEACON_BOOTS = REGISTRATE.item("beacon_boots",
 							p -> new MetalGolemBeaconItem(p.stacksTo(1), 4, 4, GolemModelPaths.BOOTS_BEACON))
-					.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).register();
 
@@ -270,9 +299,10 @@ public class GolemItems {
 			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
 			HEAVY_SPEAR = REGISTRATE.item("heavy_golem_spear",
 							p -> new HeavySpearItem(p.stacksTo(1), 10, 0, 2, 2))
-					.model(() -> (ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile(pvd.modLoc("item/long_weapon")))
-							.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
-					.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE)
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.createItem(pvd.modLoc("long_weapon").toString(), TextureSlot.LAYER0),
+									new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+					.tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE)
 					.defaultLang()
 					.register();
 			IRON_BOW = REGISTRATE.item("iron_mecha_bow", p -> new MetalGolemBowItem(p, 15, 0))
@@ -301,28 +331,34 @@ public class GolemItems {
 				DyeColor color = DyeColor.byId(i);
 				String name = color.getName();
 				CARD[i] = REGISTRATE.item(name + "_config_card", p -> new ConfigCard(p.stacksTo(1), color))
-						.model(() -> (ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/" + name)))
+						.model(() -> (ctx, pvd) ->
+								pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_ITEM, new Material(pvd.modLoc("item/card/" + name))))
 						.tag(MGTagGen.CONFIG_CARD).defaultLang().register();
 			}
 
 			CARD_NAME = REGISTRATE.item("target_filter_name", p -> new NameFilterCard(p.stacksTo(1)))
-					.model(() -> (ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/name")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_ITEM, new Material(pvd.modLoc("item/card/name"))))
 					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Target Filter: Datapack").register();
 			CARD_TYPE = REGISTRATE.item("target_filter_type", p -> new EntityTypeFilterCard(p.stacksTo(1)))
-					.model(() -> (ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/type")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_ITEM, new Material(pvd.modLoc("item/card/type"))))
 					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Target Filter: Entity Type").register();
 			CARD_UUID = REGISTRATE.item("target_filter_uuid", p -> new UuidFilterCard(p.stacksTo(1)))
-					.model(() -> (ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/uuid")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_ITEM, new Material(pvd.modLoc("item/card/uuid"))))
 					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Target Filter: Entity UUID").register();
 			CARD_DEF = REGISTRATE.item("target_filter_default", p -> new DefaultFilterCard(p.stacksTo(1)))
-					.model(() -> (ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/default")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_ITEM, new Material(pvd.modLoc("item/card/default"))))
 					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Target Filter: Default Target").register();
 			CARD_PATH = REGISTRATE.item("patrol_path_recorder", p -> new PathRecordCard(p.stacksTo(1)))
-					.model(() -> (ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/path")))
+					.model(() -> (ctx, pvd) ->
+							pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_ITEM, new Material(pvd.modLoc("item/card/path"))))
 					.tag(MGTagGen.GOLEM_INTERACT, MGTagGen.CURIO_PATH)
 					.lang("Patrol Path Recorder").register();
 		}
@@ -489,7 +525,7 @@ public class GolemItems {
 
 		REGISTRATE.defaultCreativeTab(ITEMS.getKey());
 		HOSTILE_WAND = REGISTRATE.item("hostile_wand", p -> new HostileWandItem(p.stacksTo(1)))
-				.model(() -> (ctx, pvd) -> pvd.handheld(ctx)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
+				.model(() -> (ctx, pvd) -> pvd.generateFlatItem(ctx.get(), ModelTemplates.FLAT_HANDHELD_ITEM)).defaultLang().tag(MGTagGen.GOLEM_INTERACT).register();
 
 	}
 

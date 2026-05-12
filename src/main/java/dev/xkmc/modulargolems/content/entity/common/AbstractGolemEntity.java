@@ -84,7 +84,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -105,7 +105,7 @@ import java.util.*;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
-		implements IEntityWithComplexSpawn, NeutralMob, OwnableEntity/*, PowerableMob*/ {
+		implements IEntityWithComplexSpawn, NeutralMob, OwnableEntity {
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
@@ -312,7 +312,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	protected AABB getAttackBoundingBox() {
+	protected AABB getAttackBoundingBox(double horizontalExpansion) {
 		var r = getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
 		return getBoundingBox().inflate(r);
 	}
@@ -336,20 +336,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		if (!isHostile()) {
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				dropSlot(slot, true);
+				dropSlot(level, slot, true);
 			}
 		}
 		super.dropCustomDeathLoot(level, source, player);
 	}
 
-	protected void dropSlot(EquipmentSlot slot, boolean isDeath) {
+	protected void dropSlot(ServerLevel sl, EquipmentSlot slot, boolean isDeath) {
 		ItemStack itemstack = this.getItemBySlot(slot);
 		if (itemstack.isEmpty()) return;
 		var bind = EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE;
 		var vanish = EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP;
 		if (!isDeath && EnchantmentHelper.has(itemstack, bind)) return;
 		if (isDeath && EnchantmentHelper.has(itemstack, vanish)) return;
-		this.spawnAtLocation(itemstack);
+		this.spawnAtLocation(sl, itemstack);
 		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
 
@@ -410,11 +410,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!isMovable()) {
 			pTravelVector = Vec3.ZERO;
 		}
-		if ((this.isControlledByLocalInstance() || this.isEffectiveAi()) && this.isInWater() && canSwim()) {
+		boolean driven = isEffectiveAi() || getControllingPassenger() instanceof Player pl && pl.isLocalPlayer();
+		if (driven && this.isInWater() && canSwim()) {
 			this.moveRelative(0.08F, pTravelVector);
 			this.move(MoverType.SELF, this.getDeltaMovement());
 			this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-			if (this.isControlledByLocalInstance()) {
+			if (this.hasControllingPassenger()) {
 				super.travel(pTravelVector);
 			}
 		} else {
@@ -446,6 +447,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Nullable
+	public Player getOwnerPlayer() {
+		var ans = getOwner();
+		return ans instanceof Player player ? player : null;
+	}
+
+	@Nullable
 	public final UUID getOwnerUUID() {
 		if (level().isClientSide()) {
 			return entityData.get(OWNER_ID).orElse(null);
@@ -453,14 +460,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return owner;
 	}
 
-	@Nullable
-	public Player getOwner() {
-		try {
-			UUID uuid = this.getOwnerUUID();
-			return uuid == null ? null : this.level().getPlayerByUUID(uuid);
-		} catch (IllegalArgumentException illegalargumentexception) {
-			return null;
-		}
+	@Override
+	public @Nullable EntityReference<LivingEntity> getOwnerReference() {
+		var id = getOwnerUUID();
+		if (id == null) return null;
+		return EntityReference.of(id);
 	}
 
 	@Nullable
@@ -499,7 +503,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.addPersistentAngerSaveData(output);
 		var pvd = level().registryAccess();
 		new ValueCodec().toTag(pvd, output, this.getClass(), this, "auto-serial");
-		GOLEM_DATA.write(pvd, tag, entityData);
+		GOLEM_DATA.write(output, entityData);
 	}
 
 	public void readAdditionalSaveData(ValueInput tag) {
@@ -508,7 +512,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		var pvd = level().registryAccess();
 		new ValueCodec().fromTag(tag, getClass(), this, "auto-serial");
 		updateAttributes(materials, Wrappers.cast(getUpgrades()), owner);
-		GOLEM_DATA.read(pvd, tag, entityData);
+		GOLEM_DATA.read(tag, entityData);
 
 	}
 
@@ -580,12 +584,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean canAttackType(EntityType<?> type) {
-		return !hasFlag(GolemFlags.PASSIVE);
-	}
-
-	@Override
 	public boolean canAttack(LivingEntity target) {
+		if (hasFlag(GolemFlags.PASSIVE)) return false;
 		var owner = getOwner();
 		var leader = getLeader();
 		if (target == owner || target == leader)
@@ -618,7 +618,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				return false;
 			}
 		}
-		return !this.isAlliedTo(target) && canAttackType(target.getType()) && super.canAttack(target);
+		return !this.isAlliedTo(target) && super.canAttack(target);
 	}
 
 	protected float getAttackDamage() {
@@ -824,8 +824,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean canChangeDimensions(Level from, Level to) {
-		return getMode().canChangeDimensions() && super.canChangeDimensions(from, to);
+	public boolean canTeleport(Level from, Level to) {
+		return getMode().canChangeDimensions() && super.canTeleport(from, to);
 	}
 
 	private static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
@@ -898,7 +898,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	@Nullable
-	private UUID persistentAngerTarget;
+	private EntityReference<LivingEntity> persistentAngerTarget;
+	private long persistentAngerEndTime;
 
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
@@ -918,13 +919,24 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.entityData.set(DATA_REMAINING_ANGER_TIME, pTime);
 	}
 
-	public void setPersistentAngerTarget(@Nullable UUID target) {
-		this.persistentAngerTarget = target;
+	@Override
+	public void setPersistentAngerTarget(@Nullable EntityReference<LivingEntity> persistentAngerTarget) {
+		this.persistentAngerTarget = persistentAngerTarget;
 	}
 
 	@Nullable
-	public UUID getPersistentAngerTarget() {
+	public EntityReference<LivingEntity> getPersistentAngerTarget() {
 		return this.persistentAngerTarget;
+	}
+
+	@Override
+	public void setPersistentAngerEndTime(long endTime) {
+		this.persistentAngerEndTime = endTime;
+	}
+
+	@Override
+	public long getPersistentAngerEndTime() {
+		return this.persistentAngerEndTime;
 	}
 
 	// ------ tamable
@@ -962,20 +974,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return isAlliedTo(player);
 	}
 
-	public boolean isAlliedTo(Entity other) {
+	public boolean considersEntityAsAlly(Entity other) {
 		if (other == this) return true;
 		LivingEntity owner = this.getOwner();
 		if (other == owner) {
 			return true;
 		}
 		if (owner != null) {
-			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
+			return owner.isAlliedTo(other);
 		}
 		var opt = HostileGolemRegistry.tryGetFaction(this);
 		if (opt.isPresent() && opt.get().isAlliedTo(this, other)) {
 			return true;
 		}
-		return super.isAlliedTo(other);
+		return super.considersEntityAsAlly(other);
 	}
 
 	@Override
@@ -1056,11 +1068,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean isPowered() {
-		return true;
-	}
-
-	@Override
 	public boolean isInvulnerable() {
 		return hasFlag(GolemFlags.IMMUNITY);
 	}
@@ -1105,13 +1112,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return ItemWrapper.simple(() -> this.getItemBySlot(slot), e -> super.setItemSlot(slot, e));
 	}
 
-	@Nullable
 	@Override
-	public Entity changeDimension(DimensionTransition dim) {
+	public @Nullable Entity teleport(TeleportTransition transition) {
 		if (!MGConfig.COMMON.allowDimensionChange.get()) {
 			return null;
 		}
-		return super.changeDimension(dim);
+		return super.teleport(transition);
 	}
 
 	public boolean isInRangedMode() {

@@ -9,24 +9,24 @@ public class GolemDisableShieldEvent extends GolemItemUseEvent {
 
 	private final LivingEntity source;
 
-	private boolean shouldDisable;
+	private int cd;
 
-	public GolemDisableShieldEvent(HumanoidGolemEntity golem, ItemStack stack, InteractionHand hand, LivingEntity source, boolean shouldDisable) {
+	public GolemDisableShieldEvent(HumanoidGolemEntity golem, ItemStack stack, InteractionHand hand, LivingEntity source, int cd) {
 		super(golem, stack, hand);
 		this.source = source;
-		this.shouldDisable = shouldDisable;
+		this.cd = cd;
 	}
 
 	public LivingEntity getSource() {
 		return source;
 	}
 
-	public void setDisabled(boolean disabled) {
-		shouldDisable = disabled;
+	public void setCoolDown(int cd) {
+		this.cd = cd;
 	}
 
-	public boolean shouldDisable() {
-		return shouldDisable;
+	public int shieldCoolDown() {
+		return cd;
 	}
 
 }

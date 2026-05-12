@@ -10,20 +10,24 @@ import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -41,7 +45,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			this.groundNavigation.setCanOpenDoors(true);
 		}
 	}
@@ -50,7 +54,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public InteractionHand getWeaponHand() {
 		ItemStack stack = this.getMainHandItem();
 		InteractionHand hand = InteractionHand.MAIN_HAND;
-		if (stack.canPerformAction(ItemAbilities.SHIELD_BLOCK)) {
+		if (stack.has(DataComponents.BLOCKS_ATTACKS)) {
 			hand = InteractionHand.OFF_HAND;
 		}
 		return hand;
@@ -88,10 +92,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 	}
 
-	public boolean doHurtTarget(Entity target) {
+	public boolean doHurtTarget(ServerLevel sl, Entity target) {
 		boolean can_sweep = getMainHandItem().canPerformAction(ItemAbilities.SWORD_SWEEP);
 		if (!can_sweep) {
-			if (super.doHurtTarget(target)) {
+			if (super.doHurtTarget(sl, target)) {
 				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
 				stack.hurtAndBreak(1, this, EquipmentSlot.MAINHAND);
 				return true;
@@ -115,7 +119,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	protected boolean performDamageTarget(Entity target, float damage, double kb) {
-		return super.doHurtTarget(target);
+		if (!(level() instanceof ServerLevel sl)) return true;
+		return super.doHurtTarget(sl, target);
 	}
 
 	@Override
@@ -124,9 +129,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 			return InteractionResult.PASS;
 		if (player.isShiftKeyDown()) {
-			if (canModify(player)) {
+			if (canModify(player) && level() instanceof ServerLevel sl) {
 				for (EquipmentSlot slot : EquipmentSlot.values()) {
-					dropSlot(slot, false);
+					dropSlot(sl, slot, false);
 				}
 			}
 			if (itemstack.isEmpty()) {
@@ -142,22 +147,29 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				!canModify(player)) {
 			return InteractionResult.FAIL;
 		}
-		GolemEquipEvent event = new GolemEquipEvent(this, itemstack);
+		GolemEquipItemEvent event = new GolemEquipItemEvent(this, itemstack);
 		NeoForge.EVENT_BUS.post(event);
 		if (event.canEquip()) {
 			if (level().isClientSide()) {
 				return InteractionResult.SUCCESS;
 			}
-			if (hasItemInSlot(event.getSlot())) {
-				dropSlot(event.getSlot(), false);
+			for (var e : event.getSlot()) {
+				if (getItemBySlot(e).isEmpty()) {
+					setItemSlot(e, itemstack.split(event.getAmount()));
+					int count = (int) Arrays.stream(EquipmentSlot.values()).filter(s -> !getItemBySlot(s).isEmpty()).count();
+					GolemTriggers.EQUIP.get().trigger((ServerPlayer) player, count);
+					return InteractionResult.SUCCESS;
+				}
 			}
-			if (hasItemInSlot(event.getSlot())) {
-				return InteractionResult.FAIL;
+			for (var e : event.getSlot()) {
+				dropSlot(e, false);
+				if (hasItemInSlot(e)) continue;
+				setItemSlot(e, itemstack.split(event.getAmount()));
+				int count = (int) Arrays.stream(EquipmentSlot.values()).filter(s -> !getItemBySlot(s).isEmpty()).count();
+				GolemTriggers.EQUIP.get().trigger((ServerPlayer) player, count);
+				return InteractionResult.SUCCESS;
 			}
-			setItemSlot(event.getSlot(), itemstack.split(event.getAmount()));
-			int count = (int) Arrays.stream(EquipmentSlot.values()).filter(e -> !getItemBySlot(e).isEmpty()).count();
-			GolemTriggers.EQUIP.get().trigger((ServerPlayer) player, count);
-			return InteractionResult.CONSUME;
+			return InteractionResult.FAIL;
 		}
 		return InteractionResult.FAIL;
 	}
@@ -165,29 +177,33 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	// ------ player equipment hurt
 
 	@Override
-	protected void hurtArmor(DamageSource source, float damage) {
-		if (damage <= 0.0F) return;
-		damage /= 4.0F;
-		if (damage < 1.0F) {
-			damage = 1.0F;
-		}
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
-			ItemStack itemstack = this.getItemBySlot(slot);
-			if ((!source.is(DamageTypeTags.IS_FIRE) || !itemstack.getItem().canBeHurtBy(itemstack, source)) && itemstack.getItem() instanceof ArmorItem) {
-				itemstack.hurtAndBreak((int) damage, this, slot);
-			}
-		}
+	protected void hurtArmor(DamageSource damageSource, float damage) {
+		this.doHurtEquipment(damageSource, damage, EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD);
 	}
+
+	@Override
+	protected void hurtHelmet(DamageSource damageSource, float damage) {
+		this.doHurtEquipment(damageSource, damage, EquipmentSlot.HEAD);
+	}
+
 
 	@Nullable
 	public InteractionHand shieldSlot() {
-		return getItemBySlot(EquipmentSlot.MAINHAND).canPerformAction(ItemAbilities.SHIELD_BLOCK) ? InteractionHand.MAIN_HAND :
-				getItemBySlot(EquipmentSlot.OFFHAND).canPerformAction(ItemAbilities.SHIELD_BLOCK) ? InteractionHand.OFF_HAND :
+		var main = getItemBySlot(EquipmentSlot.MAINHAND);
+		var off = getItemBySlot(EquipmentSlot.OFFHAND);
+		return main.has(DataComponents.BLOCKS_ATTACKS) ? InteractionHand.MAIN_HAND :
+				off.has(DataComponents.BLOCKS_ATTACKS) ? InteractionHand.OFF_HAND :
 				null;
 	}
 
-	protected void hurtCurrentlyUsedShield(float damage) {
+	@Override
+	public @Nullable ItemStack getItemBlockingWith() {
+		var slot = shieldSlot();
+		if (slot == null) return null;
+		return getItemInHand(slot);
+	}
+
+	protected void hurtCurrentlyUsedShield(float damage) {//TODO
 		InteractionHand hand = shieldSlot();
 		if (hand == null) return;
 		ItemStack stack = getItemInHand(hand);
@@ -196,47 +212,46 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		NeoForge.EVENT_BUS.post(event);
 		i = event.getCost();
 		if (i > 0) {
-			stack.hurtAndBreak(i, this, LivingEntity.getSlotForHand(hand));
+			stack.hurtAndBreak(i, this, hand.asEquipmentSlot());
 		}
 		if (stack.isEmpty()) {
 			this.setItemInHand(hand, ItemStack.EMPTY);
-			this.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
+			this.playSound(SoundEvents.SHIELD_BREAK.value(), 0.8F, 0.8F + random.nextFloat() * 0.4F);
 		} else {
-			this.playSound(SoundEvents.SHIELD_BLOCK, 0.8F, 0.8F + level().random.nextFloat() * 0.4F);
-		}
-	}
-
-	protected void blockUsingShield(LivingEntity source) {
-		super.blockUsingShield(source);
-		InteractionHand hand = shieldSlot();
-		if (hand == null) return;
-		ItemStack stack = getItemInHand(hand);
-		boolean canDisable = source.canDisableShield() || source.getMainHandItem().canDisableShield(stack, this, source);
-		int cd = 100;
-		if (source.getType().is(MGTagGen.SHIELD_BREAKER)) {
-			canDisable = true;
-			cd *= 2;
-		}
-		GolemDisableShieldEvent event = new GolemDisableShieldEvent(this, stack, hand, source, canDisable);
-		NeoForge.EVENT_BUS.post(event);
-		if (event.shouldDisable()) {
-			this.shieldCooldown = cd;
-			this.level().broadcastEntityEvent(this, EntityEvent.SHIELD_DISABLED);
+			this.playSound(SoundEvents.SHIELD_BLOCK.value(), 0.8F, 0.8F + random.nextFloat() * 0.4F);
 		}
 	}
 
 	@Override
-	public void handleEntityEvent(byte event) {
-		if (event == EntityEvent.SHIELD_DISABLED) {
-			shieldCooldown = 100;
+	protected void blockUsingItem(ServerLevel level, LivingEntity attacker) {
+		super.blockUsingItem(level, attacker);
+		InteractionHand hand = shieldSlot();
+		if (hand == null) return;
+		ItemStack stack = getItemInHand(hand);
+		BlocksAttacks data = stack.get(DataComponents.BLOCKS_ATTACKS);
+		if (data == null) return;
+		int cd = (int) (attacker.getSecondsToDisableBlocking() * 20);
+		if (attacker.getType().builtInRegistryHolder().is(MGTagGen.SHIELD_BREAKER)) {
+			cd = Math.min(cd * 2, 200);
 		}
-		super.handleEntityEvent(event);
+		GolemDisableShieldEvent event = new GolemDisableShieldEvent(this, stack, hand, attacker, cd);
+		NeoForge.EVENT_BUS.post(event);
+		cd = event.shieldCoolDown();
+		if (cd > 0) {
+			data.disable(level, this, cd / 20f, stack);
+			int cooldownTicks = (int) (data.disableCooldownScale() * cd);
+			if (cooldownTicks > 0) {
+				this.shieldCooldown = cd;
+				//TODO
+			}
+		}
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
+		//TODO
 	}
 
 	@Override
