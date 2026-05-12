@@ -112,7 +112,6 @@ public class MGTagGen {
 		}
 		if (ModList.get().isLoaded(Cataclysm.MODID)) {
 			pvd.addTag(LARGE_GOLEM_WEAPONS)
-					.addOptional(ModItems.THE_INCINERATOR.getId())
 					.addOptional(ModItems.THE_ANNIHILATOR.getId())
 					.addOptional(ModItems.THE_IMMOLATOR.getId())
 					.addOptional(ModItems.THE_INCINERATOR.getId())

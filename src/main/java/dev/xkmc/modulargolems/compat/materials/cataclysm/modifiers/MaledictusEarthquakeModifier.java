@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
+import dev.xkmc.cataclysm_mux.MWCataProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -38,14 +39,14 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 			if (!golem.isAlliedTo(entity) && entity != golem) {
 				float damage = GolemUtils.adjustedDamage(
 						(float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE),
-						entity.getMaxHealth() * CataclysmProxy.maledictusEarthquakeDamage());
+						entity.getMaxHealth() * GolemCataProxy.maledictusEarthquakeDamage());
 				boolean flag = entity.hurt(golem.damageSources().mobAttack(golem), damage);
 				if (flag) {
 					EarthquakeHelper.launch(golem, entity, 0.5f);
 				}
 			}
 		}
-		dev.xkmc.mob_weapon_api.integration.cataclysm.CataclysmProxy.spawnHalberd(golem);
+		MWCataProxy.spawnHalberd(golem);
 	}
 
 }

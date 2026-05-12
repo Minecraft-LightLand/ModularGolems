@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -31,7 +31,7 @@ public class HarbingerHomingMissileAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	private void addMissile(LivingEntity target, float y, float r) {
-		CataclysmProxy.addMissile(golem, target, golem.position().add(
+		GolemCataProxy.addMissile(golem, target, golem.position().add(
 				r * Math.cos(golem.yBodyRot * Mth.DEG_TO_RAD),
 				y + golem.getEyeHeight(),
 				r * Math.sin(golem.yBodyRot * Mth.DEG_TO_RAD)

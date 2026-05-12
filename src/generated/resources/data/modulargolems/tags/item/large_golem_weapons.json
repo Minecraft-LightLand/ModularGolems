@@ -1,10 +1,6 @@
 {
   "values": [
     {
-      "id": "cataclysm:the_incinerator",
-      "required": false
-    },
-    {
       "id": "cataclysm:the_annihilator",
       "required": false
     },

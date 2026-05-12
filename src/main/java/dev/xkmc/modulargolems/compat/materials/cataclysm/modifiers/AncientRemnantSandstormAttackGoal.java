@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.MultiTargetRangedGoal;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,7 +28,7 @@ public class AncientRemnantSandstormAttackGoal extends MultiTargetRangedGoal {
 
 	@Override
 	protected void performAttackImpl(LivingEntity target) {
-		CataclysmProxy.sandstormAttack(golem, target, 100);
+		GolemCataProxy.sandstormAttack(golem, target, 100);
 	}
 
 }

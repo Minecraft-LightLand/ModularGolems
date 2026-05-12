@@ -1,11 +1,11 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -22,7 +22,7 @@ public class IgnisAttackModifier extends GolemModifier {
 	public void postHurtTarget(AbstractGolemEntity<?, ?> golem, DamageData.DefenceMax cache, int level) {
 		LivingEntity target = cache.getTarget();
 		float rate = MGConfig.COMMON.ignitiumHealRate.get().floatValue() * level;
-		CataclysmProxy.stackBlazingBrand(golem, target, rate * cache.getDamageFinal(), 1);
+		CataDispatch.stackBlazingBrand(golem, target, rate * cache.getDamageFinal(), 1);
 	}
 
 	@Override

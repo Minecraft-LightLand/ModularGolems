@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataclysmProxy;
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -46,7 +46,7 @@ public class LeviathanBlastPortalModifier extends GolemModifier {
 			pos = pos.below();
 		} while (pos.getY() >= Mth.floor(minY) - 1);
 		if (flag) {
-			CataclysmProxy.spawnBlastPortal(user, x, pos.getY() + dy, z, rotation, delay);
+			GolemCataProxy.spawnBlastPortal(user, x, pos.getY() + dy, z, rotation, delay);
 		}
 
 	}

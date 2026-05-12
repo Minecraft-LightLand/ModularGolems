@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.cataclysm_mux.MWCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
-import dev.xkmc.mob_weapon_api.integration.cataclysm.CataclysmProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -21,7 +21,7 @@ public class ScyllaWaveAttackModifier extends GolemModifier {
 		var last = entity.getPersistentData().getLong("ScyllaWaveTime");
 		if (last < time && last > time - 40) return;
 		entity.getPersistentData().putLong("ScyllaWaveTime", time);
-		CataclysmProxy.ceraunus(entity.level(), entity, le);
+		MWCataProxy.ceraunus(entity.level(), entity, le);
 	}
 
 }

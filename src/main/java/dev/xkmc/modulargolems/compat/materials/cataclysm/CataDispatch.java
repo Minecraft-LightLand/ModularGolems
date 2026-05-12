@@ -3,7 +3,9 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.IgnisArmorItem;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
@@ -62,6 +64,13 @@ public class CataDispatch extends ModDispatch {
 
 	public static boolean ignisBlue(LivingEntity e) {
 		return e.getHealth() <= e.getMaxHealth() / 2 || e.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.IGNIS_CHESTPLATE.get());
+	}
+
+	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, float dmg, int min) {
+		if (golem.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof IgnisArmorItem) min++;
+		if (golem.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof IgnisArmorItem) min++;
+		if (golem.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof IgnisArmorItem) min++;
+		GolemCataProxy.stackBlazingBrand(golem, target, dmg, min);
 	}
 
 }

@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import dev.xkmc.mob_weapon_api.integration.cataclysm.CataclysmProxy;
+import dev.xkmc.cataclysm_mux.MWCataProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.MultiTargetRangedGoal;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,7 +28,7 @@ public class ScyllaLightningAttackGoal extends MultiTargetRangedGoal {
 
 	@Override
 	protected void performAttackImpl(LivingEntity target) {
-		CataclysmProxy.astrape(golem.level(), golem, target);
+		MWCataProxy.astrape(golem.level(), golem, target);
 	}
 
 }

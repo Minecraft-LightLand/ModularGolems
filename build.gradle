@@ -168,6 +168,7 @@ dependencies {
     implementation jarJar(group: 'dev.xkmc', name: 'l2tabs', version: "[${l2tabs_ver},)")
     implementation jarJar(group: 'dev.xkmc', name: 'l2damagetracker', version: "[${l2damagetracker_ver},)")
     implementation jarJar(group: 'dev.xkmc', name: 'mob_weapon_api', version: "[${mob_weapon_api_ver},)")
+    implementation jarJar(group: 'dev.xkmc', name: 'cataclysm_mux', version: "[1,)")
 
     implementation "dev.xkmc:l2backpack:${l2backpack_ver}"
     implementation "dev.xkmc:l2complements:${l2complements_ver}"
