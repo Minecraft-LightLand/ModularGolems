@@ -1,15 +1,8 @@
 package dev.xkmc.modulargolems.init.data;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.init.ModItems;
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
-import dev.xkmc.l2weaponry.init.L2Weaponry;
-import dev.xkmc.l2weaponry.init.materials.LWToolMats;
-import dev.xkmc.l2weaponry.init.materials.LWToolTypes;
-import dev.xkmc.l2weaponry.init.registrate.LWItems;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -24,7 +17,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.ArrayList;
@@ -62,7 +54,7 @@ public class MGTagGen {
 	public static final List<Consumer<RegistrateTagsProvider<MobEffect>>> OPTIONAL_EFF = new ArrayList<>();
 
 	public static void onBlockTagGen(RegistrateTagsProvider.IntrinsicImpl<Block> pvd) {
-		pvd.addTag(POTENTIAL_DST)
+		pvd.tag(POTENTIAL_DST)
 				.addTag(BlockTags.SHULKER_BOXES)
 				.addTag(Tags.Blocks.CHESTS)
 				.addTag(Tags.Blocks.BARRELS);
@@ -74,16 +66,16 @@ public class MGTagGen {
 	}
 
 	public static void onItemTagGen(RegistrateItemTagsProvider pvd) {
-		pvd.addTag(L2ISTagGen.SELECTABLE).addTag(GOLEM_OMNI_WAND);
-		pvd.addTag(MGTagGen.GOLEM_INTERACT).addTag(GOLEM_OMNI_WAND);
-		pvd.addTag(MODIFYING_ITEM).add(Items.LEAD, Items.NAME_TAG)
-				.addOptional(Identifier.fromNamespaceAndPath("nestle", "nestle_lead"));
-		pvd.addTag(C_WOLF_ARMORS).add(Items.WOLF_ARMOR);
-		pvd.addTag(SCULK_MATS).add(Items.ECHO_SHARD);
-		pvd.addTag(SPECIAL_CRAFT);
-		pvd.addTag(GOLEM_INTERACT).addTag(CONFIG_CARD).addTag(GOLEM_HOLDERS);
+		pvd.tag(L2ISTagGen.SELECTABLE).addTag(GOLEM_OMNI_WAND);
+		pvd.tag(MGTagGen.GOLEM_INTERACT).addTag(GOLEM_OMNI_WAND);
+		pvd.tag(MODIFYING_ITEM).add(Items.LEAD, Items.NAME_TAG);
+		pvd.rawBuilder(MODIFYING_ITEM).addElement(Identifier.fromNamespaceAndPath("nestle", "nestle_lead"));
+		pvd.tag(C_WOLF_ARMORS).add(Items.WOLF_ARMOR);
+		pvd.tag(SCULK_MATS).add(Items.ECHO_SHARD);
+		pvd.tag(SPECIAL_CRAFT);
+		pvd.tag(GOLEM_INTERACT).addTag(CONFIG_CARD).addTag(GOLEM_HOLDERS);
 		OPTIONAL_ITEM.forEach(e -> e.accept(pvd));
-		pvd.addTag(BLUE_UPGRADES).add(
+		pvd.tag(BLUE_UPGRADES).add(
 				GolemItems.BELL.get(),
 				GolemItems.ENDER_SIGHT.get(),
 				GolemItems.FLOAT.get(),
@@ -98,15 +90,15 @@ public class MGTagGen {
 				GolemItems.MOUNT_UPGRADE.get(),
 				GolemItems.SIZE_UPGRADE.get()
 		);
-		pvd.addTag(POTION_UPGRADES).add(
+		pvd.tag(POTION_UPGRADES).add(
 				GolemItems.WEAK.get(),
 				GolemItems.SLOW.get(),
 				GolemItems.WITHER.get()
 		);
-		pvd.addTag(PLAYER_SKIN).add(Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
-		var skin = pvd.addTag(CURIO_SKIN);
+		pvd.tag(PLAYER_SKIN).add(Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
+		var skin = pvd.tag(CURIO_SKIN);
 		skin.addTag(PLAYER_SKIN).add(Items.PLAYER_HEAD, Items.PIGLIN_HEAD);
-
+/*
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			skin.addOptional(Identifier.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "garage_kit"));
 		}
@@ -138,16 +130,16 @@ public class MGTagGen {
 				tag.addOptional(LWToolMats.ETERNIUM.getTool(e).builtInRegistryHolder().key().location());
 			}
 			tag.addOptional(LWItems.CHEATER_CLAW.getId()).addOptional(LWItems.CHEATER_MACHETE.getId());
-		}
+		}*/
 	}
 
 	public static void onEntityTagGen(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> pvd) {
-		pvd.addTag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
-		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
+		pvd.tag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
+		pvd.tag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
 				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
-		pvd.addTag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
+		pvd.tag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
 
-		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath("irons_spellbooks", "cant_root")))
+		pvd.tag(TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath("irons_spellbooks", "cant_root")))
 				.add(GolemTypes.ENTITY_GOLEM.get(), GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 
 	}

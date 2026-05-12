@@ -25,8 +25,8 @@ public class HeavySpearItem extends MetalGolemWeaponItem {
 			if (!canSmashAttack(user)) {
 				return 0;
 			} else {
-				float fall = user.fallDistance;
-				float bonus;
+				double fall = user.fallDistance;
+				double bonus;
 				if (fall <= 3) {
 					bonus = 4 * fall;
 				} else if (fall <= 8) {
@@ -37,7 +37,7 @@ public class HeavySpearItem extends MetalGolemWeaponItem {
 				if (user.level() instanceof ServerLevel sl) {
 					bonus += EnchantmentHelper.modifyFallBasedDamage(sl, user.getWeaponItem(), target, source, 0) * fall;
 				}
-				return bonus * Math.max(1, amount / damage);
+				return (float) bonus * Math.max(1, amount / damage);
 			}
 		}
 		return 0;

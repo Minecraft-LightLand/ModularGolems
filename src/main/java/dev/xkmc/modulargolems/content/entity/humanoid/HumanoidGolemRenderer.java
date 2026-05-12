@@ -19,9 +19,10 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
-public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel> {
+public class HumanoidGolemRenderer extends AbstractGolemRenderer<
+		HumanoidGolemEntity, HumanoidGolemRenderState, HumanoidGolemPartType, HumanoidGolemModel> {
 
-	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable HumaniodGolemPartType part) {
+	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable HumanoidGolemPartType part) {
 		switch (transform) {
 			case GUI:
 			case FIRST_PERSON_LEFT_HAND:
@@ -59,15 +60,15 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 			float size = 0.45f;
 			stack.scale(size, size, size);
 			stack.translate(0, -2, 0);
-		} else if (part == HumaniodGolemPartType.BODY) {
+		} else if (part == HumanoidGolemPartType.BODY) {
 			float size = 0.65f;
 			stack.scale(size, size, size);
 			stack.translate(0, -1.2, 0);
-		} else if (part == HumaniodGolemPartType.LEGS) {
+		} else if (part == HumanoidGolemPartType.LEGS) {
 			float size = 0.8f;
 			stack.scale(size, size, size);
 			stack.translate(0, -2, 0);
-		} else if (part == HumaniodGolemPartType.ARMS) {
+		} else if (part == HumanoidGolemPartType.ARMS) {
 			float size = 0.6f;
 			stack.scale(size, size, size);
 			stack.translate(0, -1.5, 0);
@@ -79,7 +80,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 	}
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx, boolean slim) {
-		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER), slim), 0.5f, HumaniodGolemPartType::values);
+		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER), slim), 0.5f, HumanoidGolemPartType::values);
 		this.addLayer(new HumanoidArmorLayer<>(this,
 				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)),
 				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR)),
@@ -95,7 +96,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 	}
 
 	@Override
-	public void render(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+	public void render(HumanoidGolemRenderState entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 		var camera = Minecraft.getInstance().getCameraEntity();
 		if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON &&
 				camera != null && camera.getVehicle() != null &&
@@ -109,7 +110,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 		renderImpl(entity, f1, f2, stack, source, i);
 	}
 
-	public void renderImpl(HumanoidGolemEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+	public void renderImpl(HumanoidGolemRenderState entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
 		super.render(entity, f1, f2, stack, source, i);
 	}
 

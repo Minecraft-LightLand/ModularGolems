@@ -15,16 +15,18 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
@@ -35,28 +37,28 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 	}
 
 	@Override
-	public boolean dropCustomDeathLoot(AbstractGolemEntity<?, ?> self, MetalGolemEntity attacker, ItemStack stack, DamageSource source) {
+	public boolean dropCustomDeathLoot(ServerLevel sl, AbstractGolemEntity<?, ?> self, MetalGolemEntity attacker, ItemStack stack, DamageSource source) {
 		if (attacker.isHostile()) return false;
 		double rate = MGConfig.COMMON.slicingDropUpgradeChance.get();
 		var random = self.getRandom();
 		if (self.isHostile()) {
 			var mats = self.getMaterials();
 			var mat = mats.get(random.nextInt(mats.size()));
-			self.spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
+			self.spawnAtLocation(sl, GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
 			var upgrades = self.getUpgrades().upgrades();
 			if (!upgrades.isEmpty()) {
 				var upgrade = upgrades.get(random.nextInt(upgrades.size()));
 				if (random.nextFloat() < rate) {
-					self.spawnAtLocation(upgrade.getDefaultInstance());
+					self.spawnAtLocation(sl, upgrade.getDefaultInstance());
 				}
 			}
 		} else {
 			for (GolemMaterial mat : self.getMaterials()) {
-				self.spawnAtLocation(GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
+				self.spawnAtLocation(sl, GolemPart.setMaterial(mat.part().getDefaultInstance(), mat.id()));
 			}
 			for (var e : self.getUpgrades().upgrades()) {
 				if (random.nextFloat() < rate) {
-					self.spawnAtLocation(e.getDefaultInstance());
+					self.spawnAtLocation(sl, e.getDefaultInstance());
 				}
 			}
 		}
@@ -64,19 +66,19 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.SLICING_GOLEM.get(Math.round(MGConfig.COMMON.slicingDropUpgradeChance.get() * 100) + "%"));
-		list.add(MGLangData.SLICING_ENEMY.get());
-		super.appendHoverText(stack, level, list, flag);
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
+		list.accept(MGLangData.SLICING_GOLEM.get(Math.round(MGConfig.COMMON.slicingDropUpgradeChance.get() * 100) + "%"));
+		list.accept(MGLangData.SLICING_ENEMY.get());
+		super.appendHoverText(stack, level, disp, list, flag);
 	}
 
 	public static ItemEntry<SlicingAxe> buildItem(String id, VanillaGolemWeaponMaterial material) {
 		return REGISTRATE.item(id, p -> new SlicingAxe(material.modify(p.stacksTo(1)),
 						0, material.getDamage() * 0.05, 0, 2))
-				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName())
+				.model(() -> (ctx, pvd) -> pvd.getBuilder(ctx.getName())
 						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(GolemWeaponType.AXE.model)))
 						.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
-				.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
+				.tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
 				.recipe((ctx, pvd) -> RecipeGen.unlock(pvd,
 						SmithingTransformRecipeBuilder.smithing(
 								Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE),

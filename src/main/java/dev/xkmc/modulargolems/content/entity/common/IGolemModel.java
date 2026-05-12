@@ -5,9 +5,15 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.Identifier;
 
-public interface IGolemModel<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends EntityModel<T> & IGolemModel<T, P, M>> {
+public interface IGolemModel<
+		E extends AbstractGolemEntity<E, P>,
+		S extends LivingEntityRenderState & AbstractGolemRenderState<E, S, P>,
+		P extends IGolemPart<P>,
+		M extends EntityModel<S> & IGolemModel<E, S, P, M>
+		> {
 
 	default M getThis() {
 		return Wrappers.cast(this);

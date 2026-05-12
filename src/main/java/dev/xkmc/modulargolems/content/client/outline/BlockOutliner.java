@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.client.outline;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -36,10 +36,10 @@ public class BlockOutliner {
 			return;
 		}
 		var buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-		var vc = buffer.getBuffer(RenderType.lines());
+		var vc = buffer.getBuffer(RenderTypes.lines());
 
 		BlockPos pre = null, first = null;
-		float time = (level.getGameTime() + Minecraft.getInstance().getTimer().getRealtimeDeltaTicks()) / 40f % 1;
+		float time = (level.getGameTime() + Minecraft.getInstance().getDeltaTracker().getRealtimeDeltaTicks()) / 40f % 1;
 		for (var pos : selection) {
 			renderBox(pose, vc, pos, camera.toVector3f(), pre == null ? 0xff7fff7f : 0xFF7FCDE0);
 			if (pre != null) {

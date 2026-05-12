@@ -81,7 +81,7 @@ public class TargetFilterConfig {
 
 	public void resetFriendly() {
 		friendlyTo.clear();
-		friendlyTo.add(NameFilterCard.getFriendly());
+		friendlyTo.add(NameFilterCard.getFriendly().create());
 	}
 
 }

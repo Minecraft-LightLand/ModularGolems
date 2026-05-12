@@ -7,14 +7,14 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
-import net.minecraft.client.model.AgeableListModel;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
-public class DogGolemModel extends AgeableListModel<DogGolemEntity>
-		implements IGolemModel<DogGolemEntity, DogGolemPartType, DogGolemModel>, IHeadedModel {
+public class DogGolemModel extends EntityModel<DogGolemState> implements IGolemModel<
+		DogGolemEntity, DogGolemState, DogGolemPartType, DogGolemModel>, IHeadedModel {
 
 	private final ModelPart root;
 	private final ModelPart head;
@@ -31,6 +31,7 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity>
 	}
 
 	public DogGolemModel(ModelPart part) {
+		super(part);
 		this.root = part;
 		this.head = part.getChild("head");
 		this.body = part.getChild("body");
@@ -40,10 +41,6 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity>
 		this.rightFrontLeg = part.getChild("right_front_leg");
 		this.leftFrontLeg = part.getChild("left_front_leg");
 		this.tail = part.getChild("tail");
-	}
-
-	public ModelPart root() {
-		return this.root;
 	}
 
 	public void setupAnim(DogGolemEntity dog, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {

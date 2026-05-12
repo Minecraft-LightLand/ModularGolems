@@ -14,9 +14,10 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class SonicCannonItem extends GolemEquipmentItem implements IEntityModelWeapon {
 
@@ -56,9 +57,9 @@ public class SonicCannonItem extends GolemEquipmentItem implements IEntityModelW
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.SONIC_CANNON.get());
-		list.add(MGLangData.SONIC_CANNON_RESONANCE.get());
-		super.appendHoverText(stack, level, list, flag);
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
+		list.accept(MGLangData.SONIC_CANNON.get());
+		list.accept(MGLangData.SONIC_CANNON_RESONANCE.get());
+		super.appendHoverText(stack, level, disp, list, flag);
 	}
 }

@@ -15,18 +15,19 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.SmallFireball;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderCannonAnimated {
@@ -98,14 +99,14 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.FLAMETHROWER.get());
-		list.add(MGLangData.FLAMETHROWER_TNT.get());
-		list.add(MGLangData.FLAMETHROWER_FIRECHARGE.get());
-		list.add(MGLangData.FLAMETHROWER_FLAME.get());
-		list.add(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay display, Consumer<Component> list, TooltipFlag flag) {
+		list.accept(MGLangData.FLAMETHROWER.get());
+		list.accept(MGLangData.FLAMETHROWER_TNT.get());
+		list.accept(MGLangData.FLAMETHROWER_FIRECHARGE.get());
+		list.accept(MGLangData.FLAMETHROWER_FLAME.get());
+		list.accept(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
 				.withStyle(ChatFormatting.UNDERLINE));
-		list.add(MGLangData.SHOULDER_WEAPON.get());
+		list.accept(MGLangData.SHOULDER_WEAPON.get());
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.common.IHeadedModel;
 import net.minecraft.client.animation.AnimationDefinition;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
@@ -19,7 +20,8 @@ import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
-public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> implements IGolemModel<MetalGolemEntity, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
+public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implements IGolemModel<
+		MetalGolemEntity, MetalGolemRenderState, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
 
 	private final ModelPart root;
 	private final ModelPart head;
@@ -37,6 +39,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 	}
 
 	public MetalGolemModel(ModelPart part) {
+		super(part);
 		this.root = part;
 		this.body = part.getChild("body");
 		this.head = part.getChild("head");
@@ -46,10 +49,6 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		this.leftLeg = part.getChild("left_leg");
 		this.leftForeArm = leftArm.getChild("left_forearm");
 		this.rightForeArm = rightArm.getChild("right_forearm");
-	}
-
-	public ModelPart root() {
-		return this.root;
 	}
 
 	public void copyFrom(MetalGolemModel other) {
@@ -63,7 +62,7 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		rightForeArm.copyFrom(other.rightForeArm);
 	}
 
-	public void setupAnim(MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
+	public void setupAnim(MetalGolemRenderState entity, float f1, float f2, float f3, float f4, float f5) {
 		root.resetPose();
 		this.head.yRot = f4 * ((float) Math.PI / 180F);
 		this.head.xRot = f5 * ((float) Math.PI / 180F);
@@ -84,14 +83,9 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 
 	}
 
-	@Override
-	public void animate(AnimationState state, AnimationDefinition def, float tick) {
-		super.animate(state, def, tick);
-	}
-
-	public void prepareMobModel(MetalGolemEntity entity, float bob, float speed, float pTick) {
+	public void prepareMobModel(MetalGolemRenderState entity, float bob, float speed, float pTick) {
 		MetalGolemPose pose = MetalGolemPose.DEFAULT;
-		ItemStack stack = entity.getMainHandItem();
+		ItemStack stack = entity.getMainHandItemStack();
 		if (!stack.isEmpty()) {
 			pose = WeaponPose.WEAPON;
 			if (stack.getItem() instanceof IEntityModelWeapon weapon) {

@@ -15,13 +15,14 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEquipmentItem {
 
@@ -35,7 +36,7 @@ public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEqu
 	}
 
 	public MetalGolemBeaconItem(Properties properties, int def, int tough, Identifier model) {
-		super(properties, ArmorItem.Type.BOOTS, def, tough, model, e ->
+		super(properties, ArmorType.BOOTS, def, tough, model, e ->
 				e.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(
 						ModularGolems.loc(EquipmentSlot.FEET.getName() + "_armor"), -0.5f,
 						AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.FEET)
@@ -43,12 +44,12 @@ public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEqu
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.BEACON_BOOTS.get(
-				effDesc(MobEffects.DAMAGE_BOOST.value(), 1),
-				effDesc(MobEffects.DAMAGE_RESISTANCE.value(), 1)
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
+		list.accept(MGLangData.BEACON_BOOTS.get(
+				effDesc(MobEffects.STRENGTH.value(), 1),
+				effDesc(MobEffects.RESISTANCE.value(), 1)
 		));
-		super.appendHoverText(stack, level, list, flag);
+		super.appendHoverText(stack, level, disp, list, flag);
 	}
 
 	@Override
@@ -59,8 +60,8 @@ public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEqu
 			double range = 40;
 			AABB aabb = golem.getBoundingBox().inflate(range).expandTowards(0D, level.getHeight(), 0D);
 			for (LivingEntity e : level.getEntitiesOfClass(LivingEntity.class, aabb, golem::isAlliedTo)) {
-				e.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 1, true, true));
-				e.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 200, 1, true, true));
+				e.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 200, 1, true, true), golem);
+				e.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 200, 1, true, true), golem);
 				e.heal(2);
 			}
 		}

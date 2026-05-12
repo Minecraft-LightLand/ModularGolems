@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Either;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 
@@ -64,10 +66,12 @@ public class NameFilterCard extends TargetFilterCard {
 		super(properties);
 	}
 
-	public static ItemStack getFriendly() {
-		ItemStack friendly = GolemItems.CARD_NAME.asStack();
-		NameFilterCard.setList(friendly, List.of(Either.right(MGTagGen.GOLEM_FRIENDLY)));
-		return friendly;
+	public static ItemStackTemplate getFriendly() {
+		var ans = List.of("#" + MGTagGen.GOLEM_FRIENDLY.location());
+		var patch = DataComponentPatch.builder()
+				.set(GolemItems.DC_FILTER_NAME.get(), ans)
+				.build();
+		return new ItemStackTemplate(GolemItems.CARD_NAME.get(), patch);
 	}
 
 	@Override

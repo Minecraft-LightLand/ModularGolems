@@ -10,16 +10,15 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -31,12 +30,12 @@ import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -45,7 +44,7 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	private final int baseline;
 
 	public MetalGolemBowItem(Properties properties, int baseline, Consumer<ItemAttributeModifiers.Builder> attr) {
-		super(properties.stacksTo(1).attributes(Util.make(ItemAttributeModifiers.builder(), attr).build()));
+		super(properties.stacksTo(1).enchantable(15).attributes(Util.make(ItemAttributeModifiers.builder(), attr).build()));
 		this.baseline = baseline;
 	}
 
@@ -121,12 +120,12 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> list, TooltipFlag tooltipFlag) {
+		list.accept(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
 				.withStyle(ChatFormatting.UNDERLINE));
-		list.add(MGLangData.BOW_STIFFNESS.get(baseline + "").withStyle(ChatFormatting.BLUE));
+		list.accept(MGLangData.BOW_STIFFNESS.get(baseline + "").withStyle(ChatFormatting.BLUE));
 		int pierce = getPiercing(stack, null);
-		list.add(MGLangData.BOW_PIERCE.get(pierce + "").withStyle(ChatFormatting.GRAY));
+		list.accept(MGLangData.BOW_PIERCE.get(pierce + "").withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override
@@ -153,16 +152,6 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 		if (slot != getSlot()) return;
 		if (!isFor(entity.getType())) return;
 		stack.getAttributeModifiers().forEach(slot, action);
-	}
-
-	@Override
-	public boolean isEnchantable(ItemStack stack) {
-		return true;
-	}
-
-	@Override
-	public int getEnchantmentValue() {
-		return 15;
 	}
 
 	@Override

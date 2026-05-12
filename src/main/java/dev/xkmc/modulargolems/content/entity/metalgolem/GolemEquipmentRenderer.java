@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.AnimationState;
@@ -27,14 +28,13 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
 
 import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.LIST;
 
-public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalGolemModel> {
+public class GolemEquipmentRenderer extends RenderLayer<HumanoidRenderState, MetalGolemModel> {
 
 	public HashMap<ModelLayerLocation, MetalGolemModel> map = new HashMap<>();
 	private final ItemInHandRenderer itemInHandRenderer;
@@ -48,15 +48,16 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 	}
 
 	@Override
-	public void render(@NotNull PoseStack pose, MultiBufferSource source, int i, @NotNull MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5, float f6) {
+	public void render(PoseStack pose, MultiBufferSource source, int i, HumanoidRenderState entity, float f1, float f2, float f3, float f4, float f5, float f6) {
+
 		for (var e : EquipmentSlot.values()) {
 			ItemStack stack = entity.getItemBySlot(e);
 			if (stack.getItem() instanceof GolemModelItem mgaitem) {
 				renderArmor(entity, stack, mgaitem, pose, source, i);
-			} else {
-				renderArmWithItem(entity, stack, e, pose, source, i, f3);
 			}
 		}
+		renderArmWithItem(entity, entity.rightHandItemStack, EquipmentSlot.MAINHAND, pose, source, i, f3);
+		renderArmWithItem(entity, entity.leftHandItemStack, EquipmentSlot.OFFHAND, pose, source, i, f3);
 		renderShoulderWeapon(entity, entity.getRightShoulder().getItem(), InteractionHand.MAIN_HAND, pose, source, i, f3);
 		renderShoulderWeapon(entity, entity.getLeftShoulder().getItem(), InteractionHand.OFF_HAND, pose, source, i, f3);
 	}

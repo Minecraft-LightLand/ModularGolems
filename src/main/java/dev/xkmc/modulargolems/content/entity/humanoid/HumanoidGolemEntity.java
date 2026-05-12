@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 
 @SerialClass
-public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> {
+public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> {
 
 	@SerialField
 	public int shieldCooldown = 0;

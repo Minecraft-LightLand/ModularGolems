@@ -8,16 +8,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
+import net.minecraft.world.item.component.TooltipDisplay;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class MetalGolemWeaponItem extends GolemEquipmentItem {
@@ -33,52 +30,46 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 	}
 
 	public MetalGolemWeaponItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep, Consumer<ItemAttributeModifiers.Builder> attr) {
-		super(properties, EquipmentSlot.MAINHAND, GolemTypes.ENTITY_GOLEM::get, builder -> {
-			if (attackDamage > 0) {
-				builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATK, attackDamage,
-						AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-			}
-			if (percentAttack > 0) {
-				builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATKP, percentAttack,
-						AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND);
-			}
-			if (range > 0) {
-				builder.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(RANGE, range,
-						AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-			}
-			if (sweep > 0) {
-				builder.add(GolemTypes.GOLEM_SWEEP.holder(), new AttributeModifier(SWEEP, sweep,
-						AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-			}
-			attr.accept(builder);
-		});
+		super(properties.enchantable(15),
+				EquipmentSlot.MAINHAND, GolemTypes.ENTITY_GOLEM::get, builder -> {
+					if (attackDamage > 0) {
+						builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATK, attackDamage,
+								AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+					}
+					if (percentAttack > 0) {
+						builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATKP, percentAttack,
+								AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND);
+					}
+					if (range > 0) {
+						builder.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(RANGE, range,
+								AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+					}
+					if (sweep > 0) {
+						builder.add(GolemTypes.GOLEM_SWEEP.holder(), new AttributeModifier(SWEEP, sweep,
+								AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+					}
+					attr.accept(builder);
+				});
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
 		if (stack.is(MGTagGen.SHIELD_BREAKER_WEAPONS))
-			list.add(MGLangData.SHIELD_BREAK.get());
-		super.appendHoverText(stack, level, list, flag);
+			list.accept(MGLangData.SHIELD_BREAK.get());
+		super.appendHoverText(stack, level, disp, list, flag);
 	}
 
-	@Override
-	public boolean isEnchantable(ItemStack stack) {
-		return true;
-	}
-
-	@Override
-	public int getEnchantmentValue() {
-		return 15;
-	}
-
+	/* TODO
 	@Override
 	public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
 		return stack.is(MGTagGen.SHIELD_BREAKER_WEAPONS);
 	}
 
 	@Override
-	public boolean canPerformAction(ItemStack stack, ItemAbility ability) {
-		return ability == ItemAbilities.SWORD_DIG || super.canPerformAction(stack, ability);
+	public boolean canPerformAction(ItemInstance stack, ItemAbility ability) {
+		return ability == ItemAbilities.SWORD_SWEEP || super.canPerformAction(stack, ability);
 	}
+
+	 */
 
 }
