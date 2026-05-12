@@ -8,7 +8,6 @@ import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -32,14 +31,14 @@ public class RiderWandItem extends BaseWandItem implements GolemInteractItem {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
+	public InteractionResult use(Level level, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
 		if (user.getVehicle() instanceof AbstractGolemEntity<?, ?>) {
 			if (!level.isClientSide())
 				user.stopRiding();
-			return InteractionResultHolder.success(stack);
+			return InteractionResult.SUCCESS;
 		}
-		return InteractionResultHolder.pass(stack);
+		return InteractionResult.PASS;
 	}
 
 	private static boolean ride(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
@@ -47,7 +46,7 @@ public class RiderWandItem extends BaseWandItem implements GolemInteractItem {
 		if (!golem.canWandModify(user) && !(golem.getControllingPassenger() instanceof Player)) return false;
 		if (level.isClientSide()) return true;
 		if (golem instanceof DogGolemEntity e) {
-			user.startRiding(e, false);
+			user.startRiding(e, false, true);
 			return true;
 		}
 		return true;

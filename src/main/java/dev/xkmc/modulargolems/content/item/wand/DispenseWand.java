@@ -1,14 +1,14 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
+import dev.xkmc.l2core.content.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -23,7 +23,7 @@ public class DispenseWand extends BaseWandItem implements GolemInteractItem {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
+	public InteractionResult use(Level level, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
 		if (user instanceof ServerPlayer sp) {
 			boolean all = user.isShiftKeyDown();
@@ -49,7 +49,7 @@ public class DispenseWand extends BaseWandItem implements GolemInteractItem {
 				GolemTriggers.MAS_SUMMON.get().trigger(sp, counter[0]);
 			}
 		}
-		return InteractionResultHolder.success(stack);
+		return InteractionResult.SUCCESS;
 	}
 
 }

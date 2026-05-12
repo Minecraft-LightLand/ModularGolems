@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
-import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
+import dev.xkmc.l2core.content.raytrace.IGlowingTarget;
+import dev.xkmc.l2core.content.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +36,7 @@ public class SquadWandItem extends BaseWandItem implements GolemInteractItem, IG
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (!level.isClientSide()) {
 			LivingEntity target = RayTraceUtil.serverGetTarget(player);
@@ -45,7 +44,7 @@ public class SquadWandItem extends BaseWandItem implements GolemInteractItem, IG
 				interactLivingEntity(stack, player, target, hand);
 			}
 		}
-		return InteractionResultHolder.success(stack);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
+import dev.xkmc.l2core.content.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -25,23 +24,23 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
+	public InteractionResult use(Level level, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
 		if (user.isShiftKeyDown()) {
 			var result = RayTraceUtil.rayTraceEntity(user, MGConfig.COMMON.retrieveDistance.get(), e -> (e instanceof AbstractGolemEntity<?, ?> golem) && golem.canWandModify(user));
-			if (result == null) return InteractionResultHolder.fail(stack);
+			if (result == null) return InteractionResult.FAIL;
 			var golem = result.getEntity();
-			return attemptRetrieve(level, user, Wrappers.cast(golem)) ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
+			return attemptRetrieve(level, user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 		} else {
 			var list = level.getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), user.getBoundingBox().inflate(MGConfig.COMMON.retrieveRange.get()), e -> true);
 			if (list.isEmpty()) {
-				return InteractionResultHolder.pass(stack);
+				return InteractionResult.PASS;
 			}
 			boolean success = false;
 			for (var golem : list) {
 				success |= attemptRetrieve(level, user, golem);
 			}
-			return success ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
+			return success ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 		}
 	}
 

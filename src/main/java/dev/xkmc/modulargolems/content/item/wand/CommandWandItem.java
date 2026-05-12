@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.content.item.wand;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
-import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
+import dev.xkmc.l2core.content.raytrace.IGlowingTarget;
+import dev.xkmc.l2core.content.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
@@ -14,11 +14,12 @@ import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenuPvd;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,8 +37,8 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-		if (level.isClientSide() && selected && entity instanceof Player player) {
+	public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+		if (level.isClientSide() && slot == EquipmentSlot.MAINHAND && entity instanceof Player player) {
 			RayTraceUtil.clientUpdateTarget(player, RANGE);
 			if (RayTraceUtil.serverGetTarget(player) instanceof AbstractGolemEntity<?, ?> golem) {
 				if (golem.getMode() == GolemModes.ROUTE) {
@@ -48,7 +49,7 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (!level.isClientSide()) {
 			LivingEntity target = RayTraceUtil.serverGetTarget(player);
@@ -56,7 +57,7 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 				interactLivingEntity(stack, player, target, hand);
 			}
 		}
-		return InteractionResultHolder.success(stack);
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override
@@ -94,13 +95,13 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 	}
 
 	@Override
-	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		if (!(attacker instanceof Player player)) return false;
+	public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		if (!(attacker instanceof Player player)) return;
 		var list = target.level().getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), attacker.getBoundingBox().inflate(32), e -> true);
 		int size = 0;
 		for (var e : list) {
-			if (!ConfigCard.getFilter(player).test(e)) return false;
-			if (!e.canWandModify(player)) return false;
+			if (!ConfigCard.getFilter(player).test(e)) return;
+			if (!e.canWandModify(player)) return;
 			if (e.getOwner() == attacker) {
 				size++;
 				e.resetTarget(target);
@@ -109,7 +110,6 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 		if (attacker instanceof ServerPlayer pl) {
 			pl.sendSystemMessage(MGLangData.CALL_ATTACK.get(size, target.getDisplayName()), true);
 		}
-		return false;
 	}
 
 }

@@ -20,19 +20,21 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
 public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrateMenu> implements ITabScreen {
 
 	private Button disintegrate;
+	@Nullable
 	private Component buttonError;
 
 	public GolemDisinegrateScreen(GolemDisintegrateMenu cont, Inventory plInv, Component title) {
@@ -68,7 +70,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		}
 		if (menu.extra.isActive()) {
 			sr.draw(g, "extra_mat", "slot", -1, -1);
-			if (menu.extra.getItem().isEmpty() && !menu.extra.ingot.isEmpty()) {
+			if (menu.extra.getItem().isEmpty() && menu.extra.ingot != null) {
 				drawShadow(g, menu.extra, getExtraMat());
 			}
 		}
@@ -102,17 +104,18 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 	}
 
 	private ItemStack getExtraMat() {
-		var list = menu.extra.ingot.getItems();
-		if (list.length == 0) return ItemStack.EMPTY;
+		if (menu.extra.ingot == null) return ItemStack.EMPTY;
+		var list = menu.extra.ingot.display().resolveForStacks(ContextMap.EMPTY);
+		if (list.isEmpty()) return ItemStack.EMPTY;
 		var time = menu.inventory.player.level().getGameTime() / 30;
-		return list[(int) (time % list.length)];
+		return list.get((int) (time % list.size()));
 	}
 
 	private void drawShadow(GuiGraphicsExtractor g, Slot e, ItemStack stack) {
 		int x = leftPos + e.x;
 		int y = topPos + e.y;
 		g.item(stack, x, y, e.x + e.y * this.imageWidth);
-		g.fillGradient(RenderType.guiOverlay(), x, y, x + 16, y + 16, 0x7f8B8B8B, 0x7f8B8B8B, 0);
+		g.fillGradient(x, y, x + 16, y + 16, 0x7f8B8B8B, 0x7f8B8B8B);
 
 	}
 
@@ -203,7 +206,8 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		box.renderLongText(font, comp);
 	}
 
-	protected void renderTooltip(GuiGraphicsExtractor g, int x, int y) {
+	@Override
+	protected void extractTooltip(GuiGraphicsExtractor g, int x, int y) {
 		if (disintegrate.isHovered()) {
 			if (buttonError != null) {
 				GuiHelper.tooltip(g, buttonError, x, y);
@@ -224,18 +228,21 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.getItem().isEmpty()) {
 			if (hoveredSlot instanceof GolemDisintegrateMenu.ResultSlot slot && slot.error != null) {
 				ClientTooltipComponent item = null;
-				if (!menu.extra.ingot.isEmpty()) {
+				if (menu.extra.ingot != null) {
 					item = new ItemListClientTooltip(List.of(getExtraMat().copyWithCount(menu.extra.count)));
 				}
 				GuiHelper.tooltip(g, List.of(slot.error), item, x, y);
 				return;
 			}
 			if (hoveredSlot instanceof GolemDisintegrateMenu.PartSlot slot && !slot.partShadow.isEmpty()) {
-				GuiHelper.tooltip(g, getTooltipFromContainerItem(stack), stack.getTooltipImage(), slot.partShadow, x, y);
+				var stack = slot.partShadow;
+				var opt = stack.getTooltipImage();
+				var image = opt.map(ClientTooltipComponent::create).orElse(null);
+				GuiHelper.tooltip(g, getTooltipFromContainerItem(stack), image, slot.partShadow, x, y);
 				return;
 			}
 		}
-		super.renderTooltip(g, x, y);
+		super.extractTooltip(g, x, y);
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	protected SweepGolemEntity(GolemWeaponRegistry<T> reg, EntityType<T> type, Level level) {
 		super(type, level);
 		weaponManager = new GolemWeaponManager<>(reg, getThis());
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			weaponManager.reassessWeaponGoal();
 		}
 	}
@@ -123,7 +123,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 
 	public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
 		super.setItemSlot(pSlot, pStack);
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			doReassessGoal = true;
 		}
 	}
@@ -194,8 +194,8 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	}
 
 	@Override
-	protected void customServerAiStep() {
-		super.customServerAiStep();
+	protected void customServerAiStep(ServerLevel sl) {
+		super.customServerAiStep(sl);
 		if (!ItemStack.matches(entityData.get(BACKUP_SLOT), backupHand)) {
 			entityData.set(BACKUP_SLOT, backupHand.copy());
 		}
@@ -246,10 +246,10 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
 		super.dropCustomDeathLoot(level, source, player);
 		if (!arrowSlot.isEmpty() && EnchHelper.getLv(arrowSlot, Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(arrowSlot);
+			spawnAtLocation(level, arrowSlot);
 		arrowSlot = ItemStack.EMPTY;
 		if (!backupHand.isEmpty() && EnchHelper.getLv(backupHand, Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(backupHand);
+			spawnAtLocation(level, backupHand);
 		backupHand = ItemStack.EMPTY;
 	}
 

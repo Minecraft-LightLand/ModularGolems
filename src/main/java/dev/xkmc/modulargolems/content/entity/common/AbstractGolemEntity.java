@@ -171,7 +171,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
 		}
 		var sup = DefaultAttributes.getSupplier(getType());
-		for (var e : BuiltInRegistries.ATTRIBUTE.holders().toList()) {
+		for (var e : BuiltInRegistries.ATTRIBUTE.asHolderIdMap()) {
 			var ins = getAttribute(e);
 			if (ins == null | !sup.hasAttribute(e)) continue;
 			ins.setBaseValue(sup.getBaseValue(e));
@@ -320,15 +320,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		boolean skip = false;
 		if (source.getDirectEntity() instanceof MetalGolemEntity golem &&
 				golem.getMainHandItem().getItem() instanceof CustomDropGolemWeapon item) {
-			skip = item.dropCustomDeathLoot(this, golem, golem.getMainHandItem(), source);
+			skip = item.dropCustomDeathLoot(level, this, golem, golem.getMainHandItem(), source);
 		}
 		if (!skip) {
 			Map<Item, Integer> drop = new HashMap<>();
 			for (GolemMaterial mat : getMaterials()) {
-				Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
+				var ing = GolemMaterialConfig.get().getCraftIngredient(mat.id()).items().findFirst();
+				if (ing.isEmpty()) continue;
+				Item item = ing.get().value();
 				drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
 			}
-			drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
+			drop.forEach((k, v) -> spawnAtLocation(level, new ItemStack(k, v)));
 		}
 		if (!isHostile()) {
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
@@ -378,8 +380,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.maxUpStep() * getScale();
 	}
 
-	public float getScale() {
-		if (materials == null || materials.isEmpty() || level().isClientSide() && !isAddedToLevel() || getTags().contains("ClientOnly")) {
+	@Override
+	public float getAgeScale() {
+		if (materials == null || materials.isEmpty() || level().isClientSide() && !isAddedToLevel() || entityTags().contains("ClientOnly")) {
 			return 1;
 		}
 		var def = DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE);
@@ -418,7 +421,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void updateSwimming() {
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			this.setSwimming(this.isEffectiveAi() && this.isInWater() && this.canSwim());
 		}
 
@@ -605,7 +608,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		var config = getConfigEntry(null);
 		if (config == null) {
-			if (target.getType().is(MGTagGen.GOLEM_FRIENDLY)) {
+			if (target.getType().builtInRegistryHolder().is(MGTagGen.GOLEM_FRIENDLY)) {
 				return false;
 			}
 		} else {
@@ -630,7 +633,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.specialAttackCoolDown--;
 		}
 		checkSize();
-		if (this.level().isClientSide) {
+		if (this.level().isClientSide()) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
 			}
@@ -684,7 +687,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void checkReforge() {
 		if (isAlive() && getGuardedDataImpl() <= getMaxHealth() / 2) {
-			int reforge = getPersistentData().getInt("GolemReforge");
+			int reforge = getReforgeCount();
 			if (reforge < getMaxReforge()) {
 				reforge++;
 				updateReforge(reforge);
@@ -694,15 +697,15 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public boolean isReforged() {
-		return getPersistentData().getInt("GolemReforge") > 0;
+		return getReforgeCount() > 0;
 	}
 
 	public int getReforgeCount() {
-		return getPersistentData().getInt("GolemReforge");
+		return getPersistentData().getInt("GolemReforge").orElse(0);
 	}
 
 	public void repairWithItem() {
-		int reforge = getPersistentData().getInt("GolemReforge");
+		int reforge = getReforgeCount();
 		if (getGuardedDataImpl() > 0.75 * getMaxHealth() && reforge > 0)
 			updateReforge(reforge - 1);
 		else repair(getMaxHealth() / 4);
@@ -714,7 +717,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void aiStep() {
 		this.updateSwingTime();
 		super.aiStep();
-		if (!this.level().isClientSide() && isAlive()) {
+		if (level() instanceof ServerLevel sl && isAlive()) {
 			if (this.tickCount % 20 == 0) {
 				double heal = this.getAttributeValue(GolemTypes.GOLEM_REGEN.holder());
 				for (var entry : getModifiersExtended().entrySet()) {
@@ -740,11 +743,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			ItemStack stack = getItemBySlot(slot);
 			if (!stack.isEmpty()) {
 				try {
-					stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
+					stack.inventoryTick(level(), this, EquipmentSlot.MAINHAND);
 				} catch (Exception e) {
-					ModularGolems.LOGGER.warn("Golem cannot use item " + stack, e);
-					spawnAtLocation(stack);
-					setItemSlot(slot, ItemStack.EMPTY);
+					if (level() instanceof ServerLevel sl) {
+						ModularGolems.LOGGER.warn("Golem cannot use item " + stack, e);
+						spawnAtLocation(sl, stack);
+						setItemSlot(slot, ItemStack.EMPTY);
+					}
 				}
 			}
 		}
@@ -755,14 +760,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean killedEntity(ServerLevel level, LivingEntity target) {
+	public boolean killedEntity(ServerLevel level, LivingEntity target, DamageSource source) {
 		Player player = getOwner();
 		if (player != null) GolemTriggers.KILL.get().trigger((ServerPlayer) player, target);
 		if (target == getTarget()) {
 			targeter.findTarget();
 			setTarget(targeter.getTarget());
 		}
-		return super.killedEntity(level, target);
+		return super.killedEntity(level, target, source);
 	}
 
 	@Override
@@ -1059,9 +1064,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public boolean hurt(ServerLevel sl, DamageSource source, float amount) {
+	public boolean hurtServer(ServerLevel sl, DamageSource source, float amount) {
 		if (level().isClientSide()) return false;
-		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
+		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinY() - 64) {
 			unRide();
 			if (hasFlag(GolemFlags.RECYCLE)) {
 				untrack(GolemTracker.Status.DEATH_RECYCLE, null);

@@ -8,7 +8,8 @@ import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
@@ -27,8 +28,8 @@ public class GolemCurioTab extends TabBase<EquipmentGroup, GolemCurioTab> {
 	}
 
 	@Override
-	protected void renderIcon(GuiGraphics g) {
-		g.blitSprite(ICON, getX() + 7, getY() + 5, 14, 14);
+	protected void renderIcon(GuiGraphicsExtractor g) {
+		g.blitSprite(RenderPipelines.GUI_TEXTURED, ICON, getX() + 7, getY() + 5, 14, 14);
 	}
 
 }

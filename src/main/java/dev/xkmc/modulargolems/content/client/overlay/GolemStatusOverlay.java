@@ -2,10 +2,11 @@ package dev.xkmc.modulargolems.content.client.overlay;
 
 import dev.xkmc.l2core.base.menu.base.MenuLayoutConfig;
 import dev.xkmc.l2core.base.menu.base.SpriteManager;
+import dev.xkmc.l2core.content.raytrace.IGlowingTarget;
+import dev.xkmc.l2core.content.raytrace.RayTraceUtil;
+import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2itemselector.overlay.OverlayUtil;
 import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
-import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
-import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
@@ -18,8 +19,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
@@ -30,15 +30,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
+import net.neoforged.neoforge.client.gui.GuiLayer;
 import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GolemStatusOverlay implements LayeredDraw.Layer {
+public class GolemStatusOverlay implements GuiLayer {
 
 	@Override
-	public void render(GuiGraphics g, DeltaTracker delta) {
+	public void render(GuiGraphicsExtractor g, DeltaTracker delta) {
 		if (Minecraft.getInstance().screen != null) return;
 		boolean offset = ItemSelectionOverlay.INSTANCE.isRendering();
 		LocalPlayer player = Minecraft.getInstance().player;
@@ -82,12 +83,11 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 			modifiers.forEach((k, v) -> text.add(k.getTooltip(v)));
 		}
 		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
-		new OverlayUtil(g, textPos, -1, -1)
-				.renderLongText(font, text);
+		new OverlayUtil(g, textPos, -1, -1).renderLongText(font, text);
 		OverlayUtil util = new OverlayUtil(g, (int) (screenWidth * 0.6), -1, -1);
 		util.bg = 0xffc6c6c6;
 		List<ClientTooltipComponent> list = List.of(new GolemEquipmentTooltip(golem));
-		util.renderTooltipInternal(font, list);
+		g.tooltip(font, list, (int) (screenWidth * 0.6), -1, util, null);
 	}
 
 	private record GolemEquipmentTooltip(AbstractGolemEntity<?, ?> golem) implements ClientTooltipComponent {
@@ -95,7 +95,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		public static final SpriteManager SPRITE = new SpriteManager(ModularGolems.MODID, "equipments");
 
 		@Override
-		public int getHeight() {
+		public int getHeight(Font f) {
 			if (golem instanceof DogGolemEntity) return 38;
 			return 74;
 		}
@@ -107,7 +107,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		}
 
 		@Override
-		public void renderImage(Font font, int mx, int my, GuiGraphics g) {
+		public void extractImage(Font font, int mx, int my, int sw, int sh, GuiGraphicsExtractor g) {
 			if (golem instanceof DogGolemEntity) {
 				renderSlot(g, mx, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");
 				renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.BODY), "altas_chestplate");
@@ -132,7 +132,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 			}
 		}
 
-		private void renderSlot(GuiGraphics g, int x, int y, ItemStack stack, String bgName) {
+		private void renderSlot(GuiGraphicsExtractor g, int x, int y, ItemStack stack, String bgName) {
 			if (bgName.startsWith("altas_")) {
 				blitSlotBg(g, x, y, "slot");
 				if (stack.isEmpty())
@@ -144,16 +144,16 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 			if (stack.isEmpty()) {
 				return;
 			}
-			g.renderItem(stack, x + 1, y + 1, 0);
-			g.renderItemDecorations(Minecraft.getInstance().font, stack, x + 1, y + 1);
+			g.item(stack, x + 1, y + 1, 0);
+			g.itemDecorations(Minecraft.getInstance().font, stack, x + 1, y + 1);
 		}
 
-		private void blitSlotBg(GuiGraphics g, int x, int y, String bgName) {
+		private void blitSlotBg(GuiGraphicsExtractor g, int x, int y, String bgName) {
 			var level = Minecraft.getInstance().level;
 			if (level == null) return;
 			var tex = MenuLayoutConfig.getTexture(SPRITE.id());
 			var side = SPRITE.get(level.registryAccess()).getSide(bgName);
-			g.blit(tex, x, y, side.x, side.y, side.w, side.h);
+			GuiHelper.blit(g, tex, x, y, side.x, side.y, side.w, side.h);
 		}
 
 	}
