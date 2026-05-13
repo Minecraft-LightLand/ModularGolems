@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosResources;
 
 public class MGDataMapGen {
 
@@ -41,7 +42,7 @@ public class MGDataMapGen {
 				.add(GolemTabRegistry.EQUIPMENT.id(), 0, false)
 				.add(GolemTabRegistry.ATTRIBUTE.id(), 10, false)
 				.add(CurioCompatRegistry.get().tab.id(), 20, false,
-						new ModLoadedCondition(CuriosApi.MODID))
+						new ModLoadedCondition(CuriosResources.MOD_ID))
 				.add(GolemTabRegistry.TRACKER.id(), 3400, false)
 				.add(GolemTabRegistry.TRACKER_ALIVE.id(), 100, false)
 				.add(GolemTabRegistry.TRACKER_DEAD.id(), 200, false)
@@ -55,10 +56,10 @@ public class MGDataMapGen {
 				.add(GolemTabRegistry.TABLE_GRINDSTONE.id(), 700, false);
 
 		pvd.builder(L2Tabs.ATTRIBUTE_ENTRY.reg())
-				.add(GolemTypes.GOLEM_REGEN.key(), new AttrDispEntry(false, 7100, 0), false)
-				.add(GolemTypes.GOLEM_SWEEP.key(), new AttrDispEntry(false, 7200, 0), false)
-				.add(GolemTypes.GOLEM_SIZE.key(), new AttrDispEntry(false, 7300, 0), false)
-				.add(GolemTypes.GOLEM_JUMP.key(), new AttrDispEntry(false, 7400, 0), false)
+				.add(GolemTypes.GOLEM_REGEN.key(), new AttrDispEntry(false, 7100, true), false)
+				.add(GolemTypes.GOLEM_SWEEP.key(), new AttrDispEntry(false, 7200, true), false)
+				.add(GolemTypes.GOLEM_SIZE.key(), new AttrDispEntry(false, 7300, false), false)
+				.add(GolemTypes.GOLEM_JUMP.key(), new AttrDispEntry(false, 7400, false), false)
 		;
 
 	}

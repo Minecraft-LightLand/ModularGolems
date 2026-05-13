@@ -23,6 +23,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -42,6 +43,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -173,10 +175,6 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public static void setHealth(ItemStack result, float health) {
 		CustomData.update(GolemItems.ENTITY.get(), result, e -> e.putFloat("Health", health));
-	}
-
-	public static ItemStack toEntityIcon(ItemStack golem, ItemStack... equipments) {
-		return GolemItems.DC_ICON.set(golem, new GolemIcon(new ArrayList<>(List.of(equipments))));
 	}
 
 	public ItemStack toEntityWithItem(ItemStack golem, ItemStack... equipments) {
@@ -402,13 +400,28 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 	}
 
-	public ItemStack withUniformMaterial(Identifier rl) {
-		ItemStack stack = new ItemStack(this);
+	public ItemStackTemplate withUniformMaterial(Identifier rl) {
 		ArrayList<GolemHolderMaterial.Entry> list = new ArrayList<>();
 		for (P part : getEntityType().values()) {
 			list.add(new GolemHolderMaterial.Entry(part.toItem(), rl));
 		}
-		return GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(list));
+		var patch = DataComponentPatch.builder()
+				.set(GolemItems.HOLDER_MAT.get(), new GolemHolderMaterial(list))
+				.build();
+		return new ItemStackTemplate(this, patch);
+	}
+
+
+	public ItemStackTemplate toEntityIcon(Identifier rl, ItemStack... equipments) {
+		ArrayList<GolemHolderMaterial.Entry> list = new ArrayList<>();
+		for (P part : getEntityType().values()) {
+			list.add(new GolemHolderMaterial.Entry(part.toItem(), rl));
+		}
+		var patch = DataComponentPatch.builder()
+				.set(GolemItems.HOLDER_MAT.get(), new GolemHolderMaterial(list))
+				.set(GolemItems.DC_ICON.get(), new GolemIcon(new ArrayList<>(List.of(equipments))))
+				.build();
+		return new ItemStackTemplate(this, patch);
 	}
 
 	public int getRemaining(ArrayList<GolemMaterial> mats, GolemUpgrade upgrades) {

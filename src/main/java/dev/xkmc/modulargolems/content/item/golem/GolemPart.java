@@ -11,12 +11,14 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 
@@ -113,6 +115,12 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 						source.is(DamageTypeTags.IS_LIGHTNING)))
 			return false;
 		return super.canBeHurtBy(stack, source);
+	}
+
+	public ItemStackTemplate withMaterial(Identifier material) {
+		return new ItemStackTemplate(this, DataComponentPatch.builder()
+				.set(GolemItems.DC_PART_MAT.get(), material)
+				.build());
 	}
 
 }

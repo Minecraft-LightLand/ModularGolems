@@ -5,8 +5,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class AddSlotItem extends Item {
 
@@ -17,9 +19,10 @@ public class AddSlotItem extends Item {
 		this.slot = slot;
 	}
 
+
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> list, TooltipFlag tooltipFlag) {
-		list.add(MGLangData.ADD_SLOT.get(slot));
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
+		list.accept(MGLangData.ADD_SLOT.get(slot));
 	}
 
 }

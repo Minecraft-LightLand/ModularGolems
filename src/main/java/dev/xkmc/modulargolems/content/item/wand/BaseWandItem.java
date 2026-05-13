@@ -8,9 +8,11 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class BaseWandItem extends Item implements CustomDisplaySelectItem {
 
@@ -33,18 +35,18 @@ public class BaseWandItem extends Item implements CustomDisplaySelectItem {
 	}
 
 	@Override
-	public final void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
+	public final void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
 		if (base != null) {
-			list.add(MGLangData.WAND_MODE.get(base.asStack().getHoverName()));
-			list.add(MGLangData.WAND_SWITCH.get());
+			list.accept(MGLangData.WAND_MODE.get(base.asStack().getHoverName()));
+			list.accept(MGLangData.WAND_SWITCH.get());
 		}
 		if (right != null) {
-			list.add(MGLangData.WAND_RIGHT.get());
-			list.add(right.get());
+			list.accept(MGLangData.WAND_RIGHT.get());
+			list.accept(right.get());
 		}
 		if (shift != null) {
-			list.add(MGLangData.WAND_SHIFT.get());
-			list.add(shift.get());
+			list.accept(MGLangData.WAND_SHIFT.get());
+			list.accept(shift.get());
 		}
 	}
 }

@@ -71,7 +71,7 @@ public class ClientHolderManager {
 		var data = GolemItems.ENTITY.get(stack);
 		var icon = GolemItems.DC_ICON.get(stack);
 		if (data != null) {
-			ans = holder.getEntityType().createForDisplay(level, data.copyTag());//FIXME get unsafe
+			ans = holder.getEntityType().createForDisplay(level, data.tag);
 			if (ans != null)
 				ans.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
 		} else {

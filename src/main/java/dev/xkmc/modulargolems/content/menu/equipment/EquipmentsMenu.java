@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
-import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -122,15 +121,8 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		if (!stillValid(inventory.player) || golem == null) {
 			return Set.of();
 		}
-		if (!stack.getItem().canFitInsideContainerItems()) return Set.of();
+		if (!stack.canFitInsideContainerItems()) return Set.of();
 		if (stack.getItem() instanceof GolemHolder) return Set.of();
-		if (golem instanceof HumanoidGolemEntity humanoidGolem) {
-			GolemEquipEvent event = new GolemEquipEvent(humanoidGolem, stack);
-			NeoForge.EVENT_BUS.post(event);
-			if (event.canEquip()) {
-				return Set.of(event.getSlot());
-			}
-		}
 		GolemEquipItemEvent event = new GolemEquipItemEvent(golem, stack);
 		NeoForge.EVENT_BUS.post(event);
 		if (event.canEquip()) {

@@ -11,9 +11,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityReference;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
@@ -33,6 +35,7 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 
 	public static final EntityDataAccessor<Integer> OWNER_ID = SynchedEntityData.defineId(BeaconLaserEntity.class, EntityDataSerializers.INT);
 
+	@Nullable
 	@SerialField
 	public UUID owner;
 	@SerialField
@@ -44,9 +47,10 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 	@SerialField
 	private Vec3 lastTarget = Vec3.ZERO;
 
+	@Nullable
 	public LivingEntity ownerCache;
 
-	private Set<LivingEntity> hit = new HashSet<>();
+	private final Set<LivingEntity> hit = new HashSet<>();
 
 
 	public BeaconLaserEntity(EntityType<?> type, Level level) {
@@ -78,6 +82,11 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 	}
 
 	@Override
+	public boolean hurtServer(ServerLevel level, DamageSource source, float damage) {
+		return false;
+	}
+
+	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		builder.define(OWNER_ID, -1);
 	}
@@ -91,14 +100,14 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 		}
 		if (owner != null && tickCount == 0) setup(owner);
 		super.tick();
-		if (!level().isClientSide() && owner instanceof MetalGolemEntity e) {
+		if (level() instanceof ServerLevel sl && owner instanceof MetalGolemEntity e) {
 			var pos = position();
 			var dst = lastTarget;
 			var list = getEntityHitResult(level(), e, pos, dst, e.getScale() * 0.2f);
 			var source = new DamageSource(level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(MGDamageTypes.BEACON), this, owner);
 			float dmg = (float) e.getAttributeValue(Attributes.ATTACK_DAMAGE) * MGConfig.COMMON.beaconCannonDamageFactor.get().floatValue();
 			for (var x : list) {
-				if (x.hurt(source, dmg)) {
+				if (x.hurtServer(sl, source, dmg)) {
 					hit.add(x);
 				}
 			}
@@ -119,8 +128,8 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 	}
 
 	@Override
-	public @Nullable UUID getOwnerUUID() {
-		return owner;
+	public @Nullable EntityReference<LivingEntity> getOwnerReference() {
+		return owner == null ? null : EntityReference.of(owner);
 	}
 
 	@Override

@@ -1,13 +1,11 @@
 package dev.xkmc.modulargolems.init;
 
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
-import dev.xkmc.modulargolems.compat.maid.MaidSkinCompat;
 import dev.xkmc.modulargolems.compat.materials.common.ClientCompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
 import dev.xkmc.modulargolems.content.entity.skin.PlayerSkinRenderer;
-import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
+import dev.xkmc.modulargolems.content.item.render.IsInTag;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.table.ItemListClientTooltip;
@@ -18,17 +16,20 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
+import net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID)
 public class GolemClient {
+
+	public static void registerItemModelProperty(RegisterConditionalItemModelPropertyEvent event) {
+		event.register(ModularGolems.loc("tag"), IsInTag.MAP_CODEC);
+	}
 
 	private static final boolean ENABLE_TLM = true;
 
@@ -67,17 +68,13 @@ public class GolemClient {
 	}
 
 	@SubscribeEvent
-	public static void onResourceReload(AddClientReloadListenersEvent event) {
-		event.addListener(ModularGolems.loc("bewlr"), GolemBEWLR.INSTANCE.get());
-	}
-
-	@SubscribeEvent
 	public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
 		PlayerSkinRenderer.SLIM = new PlayerSkinRenderer(event.getContext(), true);
 		PlayerSkinRenderer.REGULAR = new PlayerSkinRenderer(event.getContext(), false);
-		if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+		/*if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			MaidSkinCompat.addLayers(event);
 		}
+		 */
 	}
 
 	@SubscribeEvent

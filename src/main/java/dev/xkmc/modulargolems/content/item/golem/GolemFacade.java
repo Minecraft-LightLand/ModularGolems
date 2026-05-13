@@ -26,7 +26,7 @@ public class GolemFacade extends Item {
 	@Override
 	public Component getName(ItemStack stack) {
 		var id = getMaterial(stack);
-		return Component.translatable(this.getDescriptionId(stack)).append(": ").append(
+		return Component.translatable(this.getDescriptionId()).append(": ").append(
 				Component.translatable("golem_material." + id.getNamespace() + "." + id.getPath()));
 	}
 
