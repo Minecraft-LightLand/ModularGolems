@@ -146,9 +146,11 @@ public class MGTagGen {
 				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 		pvd.addTag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
 
-		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE,  ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "cant_root")))
+		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("irons_spellbooks", "cant_root")))
 				.add(GolemTypes.ENTITY_GOLEM.get(), GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 
+		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("carryon", "entity_blacklist")))
+				.add(GolemTypes.ENTITY_GOLEM.get(), GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
