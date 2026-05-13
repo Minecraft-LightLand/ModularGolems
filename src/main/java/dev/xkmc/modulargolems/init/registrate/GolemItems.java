@@ -10,7 +10,6 @@ import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.DCReg;
 import dev.xkmc.l2core.init.reg.simple.DCVal;
 import dev.xkmc.l2core.init.reg.simple.Val;
-import dev.xkmc.l2core.serial.advancements.CriterionBuilder;
 import dev.xkmc.l2core.util.DCStack;
 import dev.xkmc.l2menustacker.init.L2MSTagGen;
 import dev.xkmc.l2serial.util.Wrappers;
@@ -33,8 +32,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.ranged.*;
-import dev.xkmc.modulargolems.content.item.render.GolemBEWLR;
-import dev.xkmc.modulargolems.content.item.render.IsInTag;
+import dev.xkmc.modulargolems.content.item.render.*;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -45,7 +43,6 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import net.minecraft.client.data.models.model.*;
-import net.minecraft.client.renderer.special.ShieldSpecialRenderer;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
@@ -434,11 +431,10 @@ public class GolemItems {
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
 				.model(() -> (ctx, pvd) ->
 						pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(
-								ModelLocationUtils.getModelLocation(ctx.get()), new ShieldSpecialRenderer.Unbaked())))//TODO
+								ModelLocationUtils.getModelLocation(ctx.get()), new GolemFacadeRenderer.Unbaked())))
 				.removeTab(GOLEMS.key())
 				.transform(e -> e.tab(ITEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
-				.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 				.tag(MGTagGen.CURIO_SKIN).register();
 
 		CompatManager.lateRegister();
@@ -455,7 +451,7 @@ public class GolemItems {
 						new GolemHolder<>(p.fireResistant(), type))
 				.model(() -> (ctx, pvd) ->
 						pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(
-								ModelLocationUtils.getModelLocation(ctx.get()), new ShieldSpecialRenderer.Unbaked())))//TODO
+								ModelLocationUtils.getModelLocation(ctx.get()), new GolemHolderRenderer.Unbaked(type.id()))))
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
 				.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
@@ -467,7 +463,7 @@ public class GolemItems {
 						new GolemPart<>(p.fireResistant(), type, part, count))
 				.model(() -> (ctx, pvd) ->
 						pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(
-								ModelLocationUtils.getModelLocation(ctx.get()), new ShieldSpecialRenderer.Unbaked())))//TODO
+								ModelLocationUtils.getModelLocation(ctx.get()), new GolemPartRenderer.Unbaked(type.id()))))
 				.tab(ITEMS.key())
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))

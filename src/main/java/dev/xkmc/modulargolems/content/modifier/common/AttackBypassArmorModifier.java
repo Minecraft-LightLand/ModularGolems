@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.modifier.common;
 
-import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
-import dev.xkmc.l2damagetracker.contents.attack.OnDamageSourceModifyEvent;
+import dev.xkmc.l2damagetracker.contents.attack
+		.OnDamageSourceModifyEvent;
 import dev.xkmc.l2damagetracker.contents.damage.DefaultDamageState;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

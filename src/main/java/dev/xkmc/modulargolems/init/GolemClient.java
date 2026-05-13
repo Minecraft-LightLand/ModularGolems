@@ -4,50 +4,45 @@ import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.ClientCompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
+import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.entity.skin.PlayerSkinRenderer;
+import dev.xkmc.modulargolems.content.item.render.GolemFacadeRenderer;
+import dev.xkmc.modulargolems.content.item.render.GolemHolderRenderer;
+import dev.xkmc.modulargolems.content.item.render.GolemPartRenderer;
 import dev.xkmc.modulargolems.content.item.render.IsInTag;
-import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.table.ItemListClientTooltip;
 import dev.xkmc.modulargolems.content.menu.table.ItemListTooltip;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.util.EsterEggUtil;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
-import net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyEvent;
-import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID)
 public class GolemClient {
 
+	@SubscribeEvent
 	public static void registerItemModelProperty(RegisterConditionalItemModelPropertyEvent event) {
 		event.register(ModularGolems.loc("tag"), IsInTag.MAP_CODEC);
 	}
 
-	private static final boolean ENABLE_TLM = true;
+	@SubscribeEvent
+	public static void registerSpecialModel(RegisterSpecialModelRendererEvent event) {
+		event.register(ModularGolems.loc("holder"), GolemHolderRenderer.Unbaked.MAP_CODEC);
+		event.register(ModularGolems.loc("part"), GolemPartRenderer.Unbaked.MAP_CODEC);
+		event.register(ModularGolems.loc("facade"), GolemFacadeRenderer.Unbaked.MAP_CODEC);
+	}
+
+	private static final boolean ENABLE_TLM = true;//TODO
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
-
-		/*if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
-			NeoForge.EVENT_BUS.register(MaidSkinCompat.class);
-		}*/
+		//if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) NeoForge.EVENT_BUS.register(MaidSkinCompat.class);
 
 		event.enqueueWork(() -> {
-			ClampedItemPropertyFunction func = (stack, level, entity, layer) ->
-					entity != null && entity.isBlocking() && entity.getUseItem() == stack ? 1.0F : 0.0F;
-			ItemProperties.register(Items.SHIELD, Identifier.withDefaultNamespace("blocking"), func);
-			ClampedItemPropertyFunction arrow = (stack, level, entity, layer) ->
-					stack.is(MGTagGen.BLUE_UPGRADES) ? 1 : stack.is(MGTagGen.POTION_UPGRADES) ? 0.5f : 0;
-			for (var item : UpgradeItem.LIST)
-				ItemProperties.register(item, ModularGolems.loc("blue_arrow"), arrow);
 			ClientCompatManager.dispatchClientSetup();
 
 			GolemTabRegistry.register();
@@ -68,13 +63,15 @@ public class GolemClient {
 	}
 
 	@SubscribeEvent
+	public static void onResourceReload(AddClientReloadListenersEvent event) {
+		ModelOverrides.reload();
+	}
+
+	@SubscribeEvent
 	public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
 		PlayerSkinRenderer.SLIM = new PlayerSkinRenderer(event.getContext(), true);
 		PlayerSkinRenderer.REGULAR = new PlayerSkinRenderer(event.getContext(), false);
-		/*if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
-			MaidSkinCompat.addLayers(event);
-		}
-		 */
+		// if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidSkinCompat.addLayers(event);
 	}
 
 	@SubscribeEvent
