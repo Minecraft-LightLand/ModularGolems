@@ -100,7 +100,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 		var camera = Minecraft.getInstance().getCameraEntity();
 		if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON) {
 			if (camera != null && camera.getVehicle() != null) {
-				if (entity.getVehicleId() == camera.getVehicle().getId())
+				if (entity.common().getVehicleId() == camera.getVehicle().getId())
 					return;
 			}
 		}

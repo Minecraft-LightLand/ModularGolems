@@ -137,7 +137,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				if (t.getStringOr("id", "").equals("minecraft:generic.max_health")) {
 					ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
 					});
-					ins.load(t);
+					//FIXME ins.load(t);
 					break;
 				}
 			}
@@ -295,7 +295,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			if (getHealth(stack) <= 0)
 				return false;
 			if (!level.isClientSide()) {
-				AbstractGolemEntity<?, ?> golem = type.get().create(level, data.tag);
+				AbstractGolemEntity<?, ?> golem = type.get().create(level, data.tag, EntitySpawnReason.LOAD);
 				UUID id = player == null ? null : player.getUUID();
 				golem.updateAttributes(getMaterial(stack), getUpgrades(stack), id);
 				setPos(level, golem, pos);
@@ -315,13 +315,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		var mat = GolemItems.HOLDER_MAT.get(stack);
 		if (mat != null) {
-			if (!level.isClientSide()) {
+			if (level instanceof ServerLevel sl) {
 				AbstractGolemEntity<?, ?> golem = type.get().create(level, EntitySpawnReason.LOAD);
 				setPos(level, golem, pos);
 				UUID id = player == null ? null : player.getUUID();
 				golem.onCreate(getMaterial(stack), getUpgrades(stack), id);
 				getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.id(), e.color()));
-				GolemEquipUtil.addItemsToGolem(golem, stack, true);
+				GolemEquipUtil.addItemsToGolem(golem, stack, sl);
 				Optional.ofNullable(stack.get(DataComponents.CUSTOM_NAME)).ifPresent(golem::setCustomName);
 				if (!golem.initMode(player)) {
 					return false;
@@ -349,7 +349,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		} else if (mat != null) {
 			golem = type.get().create(level, EntitySpawnReason.LOAD);
 			golem.onCreate(getMaterial(stack), getUpgrades(stack), null);
-			GolemEquipUtil.addItemsToGolem(golem, stack, true);
+			GolemEquipUtil.addItemsToGolem(golem, stack, null);
 		} else return null;
 		getGolemConfig(stack).ifPresent(e -> golem.setConfigCard(e.id(), e.color()));
 		Optional.ofNullable(stack.get(DataComponents.CUSTOM_NAME)).ifPresent(golem::setCustomName);

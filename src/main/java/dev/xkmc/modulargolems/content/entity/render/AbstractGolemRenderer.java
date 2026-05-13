@@ -75,10 +75,11 @@ public abstract class AbstractGolemRenderer<
 		boolean glowing = entity.appearsGlowing();
 		pose.pushPose();
 		Identifier facade = null;
-		var opt = entity.getSkin();
+		var common = entity.common();
+		var opt = common.skin();
 		if (opt.getItem() instanceof GolemFacade)
 			facade = GolemFacade.getMaterial(opt);
-		var materials = entity.getMaterials();
+		var materials = common.materials();
 		for (P part : list.get()) {
 			Identifier rl = facade;
 			if (rl == null) {

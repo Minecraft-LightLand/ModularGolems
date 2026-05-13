@@ -30,6 +30,7 @@ import java.util.function.Predicate;
 
 public class CurioCompatRegistry {
 
+	@Nullable
 	public static CurioCompatRegistry INSTANCE;
 
 	@Nullable
@@ -128,9 +129,10 @@ public class CurioCompatRegistry {
 		consumer.accept(GolemCuriosListScreen.class);
 	}
 
-	public ItemStack getSkin(HumanoidGolemEntity le) {
+	public ItemStack getSkin(LivingEntity le) {
 		return CuriosApi.getCuriosInventory(le).flatMap(e -> e.getStacksHandler("golem_skin"))
-				.map(ICurioStacksHandler::getStacks).map(e -> e.getSlots() == 0 ? null : e.getStackInSlot(0)).orElse(ItemStack.EMPTY);
+				.map(ICurioStacksHandler::getStacks).map(e -> e.getSlots() == 0 ? null : e.getStackInSlot(0))
+				.orElse(ItemStack.EMPTY);
 	}
 
 }

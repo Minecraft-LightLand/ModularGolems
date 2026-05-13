@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderState;
+import dev.xkmc.modulargolems.content.entity.render.CommonGolemRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.world.entity.Crackiness;
 
@@ -12,5 +13,12 @@ public class MetalGolemRenderState extends HumanoidRenderState implements Abstra
 	public float attackTicksRemaining;
 
 	public MetalGolemAimState aim;
+
+	public CommonGolemRenderState common;
+
+	@Override
+	public CommonGolemRenderState common() {
+		return common;
+	}
 
 }

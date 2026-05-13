@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -155,14 +156,14 @@ public record GolemEquipUtil(boolean isClient, @Nullable Level level) {
 		return false;
 	}
 
-	public static void addItemsToGolem(AbstractGolemEntity<?, ?> golem, ItemStack root, boolean dropExtra) {
+	public static void addItemsToGolem(AbstractGolemEntity<?, ?> golem, ItemStack root, @Nullable ServerLevel sl) {
 		var equipMap = GolemItems.EQUIPMENTS.get(root);
 		if (equipMap != null) {
 			for (var ent : equipMap.equipments().entrySet()) {
 				var item = ent.getValue();
 				if (!giveItemToGolem(golem, item, ent.getKey())) {
-					if (dropExtra) {
-						golem.spawnAtLocation(item);
+					if (sl != null) {
+						golem.spawnAtLocation(sl, item);
 					}
 				}
 			}

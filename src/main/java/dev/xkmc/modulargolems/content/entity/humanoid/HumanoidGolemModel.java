@@ -46,7 +46,7 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> 
 	@Override
 	public void setupAnim(HumanoidGolemRenderState state) {
 		super.setupAnim(state);
-		if (state.isAggressive() && state.attackTime == 0.0F) {
+		if (state.common().aggressive() && state.attackTime == 0.0F) {
 			if (state.leftArmPose == ArmPose.ITEM) {
 				this.leftArm.xRot = -1.8F;
 			} else if (state.rightArmPose == ArmPose.ITEM) {

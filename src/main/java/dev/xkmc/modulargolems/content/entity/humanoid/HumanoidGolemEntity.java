@@ -60,25 +60,17 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return hand;
 	}
 
-	protected boolean rendering, render_trigger = false;
-
 	@Override
 	public boolean isBlocking() {
-		boolean ans = shieldCooldown == 0 && isAggressive() && shieldSlot() != null;
-		if (ans && rendering) {
-			render_trigger = true;
-		}
-		return ans;
+		return shieldCooldown == 0 && isAggressive() && shieldSlot() != null;
 	}
 
-	public ItemStack getUseItem() {
-		ItemStack ans = super.getUseItem();
-		if (rendering && render_trigger) {
-			render_trigger = false;
+	public ItemStack getUseItemForRendering() {
+		if (isBlocking()) {
 			InteractionHand hand = shieldSlot();
 			if (hand != null) return getItemInHand(hand);
 		}
-		return ans;
+		return super.getUseItem();
 	}
 
 	// ------ common golem behavior

@@ -78,7 +78,7 @@ public class ClientHolderManager {
 			AbstractGolemEntity<?, ?> golem = holder.getEntityType().create(level, EntitySpawnReason.LOAD);
 			golem.addTag("ClientOnly");
 			golem.onCreate(GolemHolder.getMaterial(stack), GolemHolder.getUpgrades(stack), null);
-			GolemEquipUtil.addItemsToGolem(golem, stack, false);
+			GolemEquipUtil.addItemsToGolem(golem, stack, null);
 			if (icon != null) {
 				for (var e : icon.list()) {
 					equipItemIfPossible(golem, e);

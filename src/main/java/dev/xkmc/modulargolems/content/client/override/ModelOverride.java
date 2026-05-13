@@ -52,7 +52,7 @@ public class ModelOverride {
 			var camera = Minecraft.getInstance().getCameraEntity();
 			if (camera != null && entity.boundingBoxWidth >= 2) {
 				var veh = camera.getVehicle();
-				if (veh != null && veh.getId() == entity.getId())
+				if (veh != null && veh.getId() == entity.common().id())
 					ghost = true;
 			}
 		}

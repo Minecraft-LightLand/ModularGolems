@@ -18,19 +18,10 @@ public interface AbstractGolemRenderState<
 		P extends IGolemPart<P>
 		> {
 
-	ContextKey<ItemStack> SKIN = new ContextKey<>(ModularGolems.loc("golem_skin"));
-
 	default S self() {
 		return Wrappers.cast(this);
 	}
 
-	ItemStack getSkin();
+	CommonGolemRenderState common();
 
-	List<GolemMaterial> getMaterials();
-
-	int getId();
-
-	boolean isAggressive();
-
-	int getVehicleId();
 }

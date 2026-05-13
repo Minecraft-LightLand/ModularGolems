@@ -68,7 +68,7 @@ public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implemen
 		float animationPos = state.walkAnimationPos;
 		if (atkTick > 0) {
 			pose.attackModel(state, this, atkTick);
-		} else if (state.isAggressive()) {
+		} else if (state.common().aggressive()) {
 			pose.aggressive(state, this, animationPos, animationSpeed);
 		} else {
 			pose.walking(state, this, animationPos, animationSpeed);
