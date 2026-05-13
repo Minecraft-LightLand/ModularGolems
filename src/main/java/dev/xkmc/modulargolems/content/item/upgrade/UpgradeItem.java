@@ -6,9 +6,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class UpgradeItem extends Item implements IUpgradeItem {
 
@@ -30,10 +32,10 @@ public abstract class UpgradeItem extends Item implements IUpgradeItem {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
 		for (var e : get()) {
-			list.add(e.mod().getTooltip(e.level()));
-			list.addAll(e.mod().getDetail(e.level()));
+			list.accept(e.mod().getTooltip(e.level()));
+			e.mod().getDetail(e.level()).forEach(list);
 		}
 	}
 

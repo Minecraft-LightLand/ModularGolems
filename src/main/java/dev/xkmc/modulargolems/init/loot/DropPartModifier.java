@@ -22,13 +22,13 @@ public class DropPartModifier extends LootModifier {
 
 	private final Identifier material;
 
-	protected DropPartModifier(LootItemCondition[] conditionsIn, Identifier material) {
-		super(conditionsIn);
+	protected DropPartModifier(LootItemCondition[] conditionsIn, int priority, Identifier material) {
+		super(conditionsIn, priority);
 		this.material = material;
 	}
 
-	protected DropPartModifier(Identifier material, LootItemCondition... conditionsIn) {
-		super(conditionsIn);
+	protected DropPartModifier(int priority, Identifier material, LootItemCondition... conditionsIn) {
+		super(conditionsIn, priority);
 		this.material = material;
 	}
 

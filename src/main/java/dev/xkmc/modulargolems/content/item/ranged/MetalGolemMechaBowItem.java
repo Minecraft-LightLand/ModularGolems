@@ -9,11 +9,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class MetalGolemMechaBowItem extends MetalGolemBowItem implements IMultiShotBow {
@@ -36,9 +36,9 @@ public class MetalGolemMechaBowItem extends MetalGolemBowItem implements IMultiS
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(stack, level, list, flag);
-		list.add(MGLangData.MULTI_SHOT.get(getMaxShoot(null, stack)).withStyle(ChatFormatting.GRAY));
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
+		super.appendHoverText(stack, level, disp, list, flag);
+		list.accept(MGLangData.MULTI_SHOT.get(getMaxShoot(null, stack)).withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override

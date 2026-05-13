@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
 
-public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogGolemPartType, DogGolemModel> {
+public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogGolemRenderState, DogGolemPartType, DogGolemModel> {
 
 	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable DogGolemPartType part) {
 		switch (transform) {

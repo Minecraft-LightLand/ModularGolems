@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jspecify.annotations.Nullable;
 
 public class UpgradeApplyTrigger extends BaseCriterion<UpgradeApplyTrigger.Ins, UpgradeApplyTrigger> {
 
@@ -38,7 +39,7 @@ public class UpgradeApplyTrigger extends BaseCriterion<UpgradeApplyTrigger.Ins, 
 	}
 
 	public void trigger(ServerPlayer player, ItemStack upgrade, int remain, int total) {
-		this.trigger(player, e -> (e.ingredient.isEmpty() || e.ingredient.test(upgrade)) &&
+		this.trigger(player, e -> (e.ingredient == null || e.ingredient.test(upgrade)) &&
 				(e.remain < 0 || e.remain >= remain) &&
 				(e.total < 0 || e.total <= total));
 	}
@@ -46,8 +47,9 @@ public class UpgradeApplyTrigger extends BaseCriterion<UpgradeApplyTrigger.Ins, 
 	@SerialClass
 	public static class Ins extends BaseCriterionInstance<Ins, UpgradeApplyTrigger> {
 
+		@Nullable
 		@SerialField
-		private Ingredient ingredient = Ingredient.EMPTY;
+		private Ingredient ingredient = null;
 
 		@SerialField
 		private int remain = -1, total = -1;

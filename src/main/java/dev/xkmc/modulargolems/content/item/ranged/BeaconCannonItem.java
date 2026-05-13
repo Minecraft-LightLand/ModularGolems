@@ -12,8 +12,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCannonAnimated {
 
@@ -39,9 +40,9 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.BEACON_CANNON.get());
-		super.appendHoverText(stack, level, list, flag);
+	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
+		list.accept(MGLangData.BEACON_CANNON.get());
+		super.appendHoverText(stack, level, disp, list, flag);
 	}
 
 }

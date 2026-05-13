@@ -14,8 +14,8 @@ import net.minecraft.util.Mth;
 
 import java.util.function.Consumer;
 
-public class DogGolemModel extends EntityModel<DogGolemState> implements IGolemModel<
-		DogGolemEntity, DogGolemState, DogGolemPartType, DogGolemModel>, IHeadedModel {
+public class DogGolemModel extends EntityModel<DogGolemRenderState> implements IGolemModel<
+		DogGolemEntity, DogGolemRenderState, DogGolemPartType, DogGolemModel>, IHeadedModel {
 
 	private final ModelPart root;
 	private final ModelPart head;

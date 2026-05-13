@@ -45,7 +45,7 @@ public class MGGLMGen extends GlobalLootModifierProvider {
 	public void drop(EntityType<?> type, Identifier material, ICondition... conditions) {
 		var re = registries.lookupOrThrow(Registries.ENTITY_TYPE);
 		var ri = registries.lookupOrThrow(Registries.ITEM);
-		add("slicing_axe_drop_" + material.getPath(), new DropPartModifier(material,
+		add("slicing_axe_drop_" + material.getPath(), new DropPartModifier(0, material,
 				LootItemEntityPropertyCondition.hasProperties(
 						LootContext.EntityTarget.THIS,
 						EntityPredicate.Builder.entity().of(re, type)).build(),
