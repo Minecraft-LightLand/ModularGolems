@@ -142,6 +142,8 @@ public class MGTagGen {
 		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(IronsSpellbooks.MODID, "cant_root")))
 				.add(GolemTypes.ENTITY_GOLEM.get(), GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 
+		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("carryon", "entity_blacklist")))
+				.add(GolemTypes.ENTITY_GOLEM.get(), GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
 	}
 
 	private static TagKey<Item> createItemTag(String id) {
