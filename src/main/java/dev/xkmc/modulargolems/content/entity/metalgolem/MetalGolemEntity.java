@@ -19,6 +19,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -49,14 +50,15 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import org.joml.Vector3f;
 
 import java.util.List;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 
-	private static final EntityDataAccessor<Vector3f> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.VECTOR3);
+	public static final EntityDataSerializer<Vec3> VEC3 = EntityDataSerializer.forValueType(Vec3.STREAM_CODEC);
+
+	private static final EntityDataAccessor<Vec3> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, VEC3);
 	private static final EntityDataAccessor<ItemStack> LEFT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<ItemStack> RIGHT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
@@ -74,7 +76,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
-		builder.define(TARGET, new Vector3f(0, 0, 0));
+		builder.define(TARGET, new Vec3(0, 0, 0));
 		builder.define(LEFT_SHOULDER, ItemStack.EMPTY);
 		builder.define(RIGHT_SHOULDER, ItemStack.EMPTY);
 	}
@@ -91,7 +93,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
 		var source = level().damageSources().mobAttack(this);
 		if (target instanceof LivingEntity le) {
-			var owner = getOwner();
+			var owner = getOwnerPlayer();
 			if (owner != null) le.setLastHurtByPlayer(owner, 200);
 			damage = EnchantmentHelper.modifyDamage(sl, this.getWeaponItem(), target, source, damage);
 			float kbench = getKnockback(target, source);
@@ -271,10 +273,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	protected void customServerAiStep(ServerLevel sl) {
 		super.customServerAiStep(sl);
 		var target = getTarget();
-		if (target == null) entityData.set(TARGET, new Vector3f(0, 0, 0));
+		if (target == null) entityData.set(TARGET, new Vec3(0, 0, 0));
 		else {
 			var center = target.position().add(0, target.getBbHeight() / 2, 0);
-			entityData.set(TARGET, center.subtract(position()).toVector3f());
+			entityData.set(TARGET, center.subtract(position()));
 		}
 		if (!ItemStack.matches(entityData.get(LEFT_SHOULDER), leftShoulder)) {
 			entityData.set(LEFT_SHOULDER, leftShoulder.copy());
@@ -285,7 +287,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	public Vec3 getTargetAimPos() {
-		return new Vec3(entityData.get(TARGET));
+		return entityData.get(TARGET);
 	}
 
 	@Override

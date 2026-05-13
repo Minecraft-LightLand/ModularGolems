@@ -86,7 +86,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public void onEquippedItemBroken(Item item, EquipmentSlot slot) {
-		Player player = getOwner();
+		Player player = getOwnerPlayer();
 		if (player != null) {
 			GolemTriggers.BREAK.get().trigger((ServerPlayer) player);
 		}
@@ -143,14 +143,14 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 			return super.mobInteractImpl(player, hand);
 		}
 		if ((itemstack.getItem() instanceof GolemHolder) ||
-				!itemstack.getItem().canFitInsideContainerItems() ||
+				!itemstack.canFitInsideContainerItems() ||
 				!canModify(player)) {
 			return InteractionResult.FAIL;
 		}
 		GolemEquipItemEvent event = new GolemEquipItemEvent(this, itemstack);
 		NeoForge.EVENT_BUS.post(event);
 		if (event.canEquip()) {
-			if (level().isClientSide()) {
+			if (!(level() instanceof ServerLevel sl)) {
 				return InteractionResult.SUCCESS;
 			}
 			for (var e : event.getSlot()) {
@@ -162,7 +162,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				}
 			}
 			for (var e : event.getSlot()) {
-				dropSlot(e, false);
+				dropSlot(sl, e, false);
 				if (hasItemInSlot(e)) continue;
 				setItemSlot(e, itemstack.split(event.getAmount()));
 				int count = (int) Arrays.stream(EquipmentSlot.values()).filter(s -> !getItemBySlot(s).isEmpty()).count();

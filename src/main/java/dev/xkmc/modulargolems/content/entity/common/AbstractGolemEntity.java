@@ -40,7 +40,6 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -57,6 +56,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.TimeUtil;
+import net.minecraft.util.Util;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -763,7 +763,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean killedEntity(ServerLevel level, LivingEntity target, DamageSource source) {
-		Player player = getOwner();
+		Player player = getOwnerPlayer();
 		if (player != null) GolemTriggers.KILL.get().trigger((ServerPlayer) player, target);
 		if (target == getTarget()) {
 			targeter.findTarget();
@@ -941,7 +941,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ tamable
 
-	public PlayerTeam getTeam() {
+	public @Nullable PlayerTeam getTeam() {
 		LivingEntity owner = this.getOwner();
 		if (owner != null) {
 			return owner.getTeam();
@@ -1162,7 +1162,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				return;
 			}
 		}
-		Player player = getOwner();
+		Player player = getOwnerPlayer();
 		if (player != null && player.isAlive()) {
 			if (NeoForge.EVENT_BUS.post(new GolemToOwnerEvent(player, stack)).isCanceled()) {
 				return;
@@ -1170,7 +1170,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			if (player instanceof ServerPlayer sp)
 				GolemTransportHandler.addGolemToPlayer(sp, stack, this);
 		} else {
-			spawnAtLocation(stack);
+			if (level() instanceof ServerLevel sl)
+				spawnAtLocation(sl, stack);
 		}
 	}
 
@@ -1217,7 +1218,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (level().isClientSide()) return false;
 		var tracker = getTracker();
 		if (tracker == null || tracker.isUntracked(this)) return false;
-		Player owner = getOwner();
+		Player owner = getOwnerPlayer();
 		Entity cause = null;
 		boolean sendMessages = MGConfig.COMMON.sendForceRemovalMessage.get();
 		if (source != null) {

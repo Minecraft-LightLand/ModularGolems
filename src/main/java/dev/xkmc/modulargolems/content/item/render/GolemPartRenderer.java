@@ -54,7 +54,7 @@ public class GolemPartRenderer<P extends IGolemPart<P>, M extends EntityModel<?>
 	public record Data<P extends IGolemPart<P>>(Identifier data, P part) {
 	}
 
-	public record Unbaked(Identifier golemType) implements SpecialModelRenderer.Unbaked<Data<?>> {
+	public record Unbaked(Identifier golemType) implements SpecialModelRenderer.Unbaked<Data> {
 
 		public static final MapCodec<GolemPartRenderer.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 				Identifier.CODEC.fieldOf("golem_type").forGetter(Unbaked::golemType)
@@ -65,9 +65,9 @@ public class GolemPartRenderer<P extends IGolemPart<P>, M extends EntityModel<?>
 			return MAP_CODEC;
 		}
 
-		public GolemPartRenderer<?, ?> bake(BakingContext context) {
-			return new GolemPartRenderer<>(Wrappers.cast(GolemType.GOLEM_TYPE_TO_MODEL.get(golemType).get()
-					.generateModel(context.entityModelSet()).getThis()));
+		public GolemPartRenderer bake(BakingContext context) {
+			return new GolemPartRenderer(GolemType.GOLEM_TYPE_TO_MODEL.get(golemType).get()
+					.generateModel(context.entityModelSet()).getThis());
 		}
 
 	}

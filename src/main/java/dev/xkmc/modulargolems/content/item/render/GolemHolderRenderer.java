@@ -100,7 +100,7 @@ public class GolemHolderRenderer<
 			List<GolemMaterial> mats, @Nullable S state) {
 	}
 
-	public record Unbaked(Identifier golemType) implements SpecialModelRenderer.Unbaked<Data<?>> {
+	public record Unbaked(Identifier golemType) implements SpecialModelRenderer.Unbaked<Data> {
 
 		public static final MapCodec<GolemHolderRenderer.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 				Identifier.CODEC.fieldOf("golem_type").forGetter(Unbaked::golemType)
@@ -111,10 +111,10 @@ public class GolemHolderRenderer<
 			return MAP_CODEC;
 		}
 
-		public GolemHolderRenderer<?, ?, ?, ?> bake(BakingContext context) {
-			return new GolemHolderRenderer<>(Wrappers.cast(GolemType.GOLEM_TYPE_TO_MODEL.get(golemType).get()
-					.generateModel(context.entityModelSet()).getThis()),
-					Wrappers.cast(GolemType.GOLEM_TYPE_TO_ITEM.get(golemType).getEntityType()));
+		public GolemHolderRenderer bake(BakingContext context) {
+			return new GolemHolderRenderer(GolemType.GOLEM_TYPE_TO_MODEL.get(golemType).get()
+					.generateModel(context.entityModelSet()).getThis(),
+					GolemType.GOLEM_TYPE_TO_ITEM.get(golemType).getEntityType());
 		}
 
 	}
