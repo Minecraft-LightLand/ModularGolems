@@ -42,7 +42,7 @@ side = "BOTH"
 [[dependencies.${ mod_id }]]
 modId = "cataclysm"
 type = "optional"
-versionRange = "[3.23,)"
+versionRange = "[3.16,)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.${ mod_id }]]
