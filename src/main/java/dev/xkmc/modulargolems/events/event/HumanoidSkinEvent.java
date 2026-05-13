@@ -1,6 +1,6 @@
 package dev.xkmc.modulargolems.events.event;
 
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.skin.SpecialRenderSkin;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.Event;
@@ -8,17 +8,17 @@ import org.jetbrains.annotations.Nullable;
 
 public class HumanoidSkinEvent extends Event {
 
-	private final HumanoidGolemEntity golem;
+	private final HumanoidGolemRenderState golem;
 	private final ItemStack stack;
 
 	private SpecialRenderSkin skin;
 
-	public HumanoidSkinEvent(HumanoidGolemEntity golem, ItemStack stack) {
+	public HumanoidSkinEvent(HumanoidGolemRenderState golem, ItemStack stack) {
 		this.golem = golem;
 		this.stack = stack;
 	}
 
-	public HumanoidGolemEntity getGolem() {
+	public HumanoidGolemRenderState getGolem() {
 		return golem;
 	}
 

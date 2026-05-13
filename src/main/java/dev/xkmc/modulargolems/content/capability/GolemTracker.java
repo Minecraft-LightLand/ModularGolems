@@ -64,6 +64,7 @@ public class GolemTracker {
 		@Nullable
 		@SerialField
 		public Identifier lastDim;
+		@Nullable
 		@SerialField
 		public BlockPos lastPos;
 		@SerialField
@@ -73,6 +74,7 @@ public class GolemTracker {
 		public Component name, cause;
 		@SerialField
 		public float mhp, hp;
+		@Nullable
 		@SerialField
 		public GolemType<?, ?> golemType;
 		@SerialField

@@ -21,12 +21,12 @@ public record ConfigUpdateToServer(
 	@Override
 	public void handle(Player player) {
 		if (!(player instanceof ServerPlayer sender)) return;
-		var data = GolemConfigStorage.get(sender.serverLevel())
+		var data = GolemConfigStorage.get(sender.level())
 				.getOrCreateStorage(id, color, entry.init(id, color).getDisplayName());
 		CompoundTag tag = new TagCodec(player.level().registryAccess()).toTag(new CompoundTag(), entry);
 		assert tag != null;
 		new TagCodec(player.level().registryAccess()).fromTag(tag, GolemConfigEntry.class, data);
-		data.sync(sender.serverLevel());
+		data.sync(sender.level());
 	}
 
 }

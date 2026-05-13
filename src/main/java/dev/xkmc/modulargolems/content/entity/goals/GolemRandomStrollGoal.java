@@ -7,6 +7,8 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
+
 public class GolemRandomStrollGoal extends RandomStrollGoal {
 
 	private final AbstractGolemEntity<?, ?> golem;
@@ -26,8 +28,8 @@ public class GolemRandomStrollGoal extends RandomStrollGoal {
 		return golem.getMode().couldRandomStroll() && super.canContinueToUse();
 	}
 
-	protected Vec3 getPosition() {
-		if (this.mob.isInWaterOrBubble()) {
+	protected @Nullable Vec3 getPosition() {
+		if (this.mob.isInWater()) {
 			if (golem.hasFlag(GolemFlags.SWIM)) {
 				return BehaviorUtils.getRandomSwimmablePos(this.mob, 10, 7);
 			}

@@ -26,7 +26,7 @@ public class TrackerInfo {
 	public static List<Component> getDetail(GolemTracker.TrackedData data, Player player, long time) {
 		List<Component> ans = new ArrayList<>();
 		if (data.name != null) ans.add(data.name);
-		if (data.status == GolemTracker.Status.RETRIEVED) {
+		if (data.status == GolemTracker.Status.RETRIEVED && data.target != null) {
 			var ret = switch (data.target) {
 				case DIMENSIONAL -> MGLangData.TRACKER_DIMENSIONAL.get();
 				case ENDER -> MGLangData.TRACKER_ENDER.get();
@@ -44,11 +44,13 @@ public class TrackerInfo {
 						MGLangData.TRACKER_PRESENT.get().withStyle(ChatFormatting.DARK_GREEN) :
 						MGLangData.TRACKER_TIME.get().withStyle(ChatFormatting.RED));
 			}
-			boolean diffDim = !data.lastDim.equals(player.level().dimension().location());
-			var p = data.lastPos;
-			boolean tooFar = diffDim || p.distSqr(player.blockPosition()) > 128 * 128;
-			ans.add(MGLangData.TRACKER_DIM.get(data.lastDim.toString()).withStyle(diffDim ? ChatFormatting.RED : ChatFormatting.GRAY));
-			ans.add(MGLangData.TRACKER_POS.get(p.getX(), p.getY(), p.getZ()).withStyle(tooFar ? ChatFormatting.RED : ChatFormatting.GRAY));
+			if (data.lastDim != null && data.lastPos != null) {
+				boolean diffDim = !data.lastDim.equals(player.level().dimension().identifier());
+				var p = data.lastPos;
+				boolean tooFar = diffDim || p.distSqr(player.blockPosition()) > 128 * 128;
+				ans.add(MGLangData.TRACKER_DIM.get(data.lastDim.toString()).withStyle(diffDim ? ChatFormatting.RED : ChatFormatting.GRAY));
+				ans.add(MGLangData.TRACKER_POS.get(p.getX(), p.getY(), p.getZ()).withStyle(tooFar ? ChatFormatting.RED : ChatFormatting.GRAY));
+			}
 			ans.add(getStatusDesc(data));
 		}
 		if (data.golemType != null) {

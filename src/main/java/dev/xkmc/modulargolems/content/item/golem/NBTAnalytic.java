@@ -15,11 +15,11 @@ public class NBTAnalytic {
 		var root = GolemItems.ENTITY.get(stack);
 		if (root == null) return;
 		var entity = root.tag;
-		list.add(log(entity, "entity NBT"));
-		list.add(log(entity, "equipment", "ArmorItems", "HandItems"));
-		list.add(log(entity, "golem data", "auto-serial"));
-		list.add(log(entity, "Capability", "ForgeCaps"));
-		list.add(log(entity, "Attribute", "Attributes"));
+		list.accept(log(entity, "entity NBT"));
+		list.accept(log(entity, "equipment", "ArmorItems", "HandItems"));
+		list.accept(log(entity, "golem data", "auto-serial"));
+		list.accept(log(entity, "Capability", "ForgeCaps"));
+		list.accept(log(entity, "Attribute", "Attributes"));
 	}
 
 	private static Component log(CompoundTag root, String name, String... key) {

@@ -26,7 +26,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AnimalArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -46,7 +45,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	public float getJumpStrength() {
 		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.holder());
 		ans *= getScale();
-		MobEffectInstance ins = getEffect(MobEffects.JUMP);
+		MobEffectInstance ins = getEffect(MobEffects.JUMP_BOOST);
 		if (ins != null) {
 			int lv = ins.getAmplifier() + 1;
 			ans *= (1 + lv * 0.625f);
@@ -74,8 +73,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		Vec2 vec2 = this.getRiddenRotation(player);
 		this.setRot(vec2.y, vec2.x);
 		this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
-		if (this.isControlledByLocalInstance()) {
-			if (this.onGround() || this.isInWaterOrBubble()) {
+		if (player.isLocalPlayer()) {
+			if (this.onGround() || this.isInWater()) {
 				if (player.jumping) {
 					this.executeRidersJump(vec3);
 				}
@@ -101,6 +100,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		return ans;
 	}
 
+	@Nullable
 	public LivingEntity getControllingPassenger() {
 		Entity entity = this.getFirstPassenger();
 		if (entity instanceof Player pl) {
@@ -121,7 +121,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		Vec3 vec3 = this.getDeltaMovement();
 		float jump = getJumpStrength();
 		this.setDeltaMovement(vec3.x, jump, vec3.z);
-		this.hasImpulse = true;
+		this.needsSync = true;
 		CommonHooks.onLivingJump(this);
 		if (action.z > 0.0D) {
 			float x0 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
@@ -226,8 +226,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	@Override
-	public boolean canAttackType(EntityType<?> type) {
-		return super.canAttackType(type) && !isInSittingPose();
+	public boolean canAttack(LivingEntity target) {
+		return !isInSittingPose() && super.canAttack(target);
 	}
 
 	public boolean hurtServer(ServerLevel sl, DamageSource source, float amount) {
@@ -273,14 +273,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		else {
 			if (!level().isClientSide()) {
 				ItemStack armor = getBodyArmorItem();
-				if (!armor.isEmpty() && armor.getItem() instanceof AnimalArmorItem ani) {
-					if (ani.getMaterial().value().repairIngredient().get().test(itemstack) && armor.isDamaged()) {
-						itemstack.shrink(1);
-						playSound(SoundEvents.WOLF_ARMOR_REPAIR);
-						int i = (int) (armor.getMaxDamage() * 0.125F);
-						armor.setDamageValue(Math.max(0, armor.getDamageValue() - i));
-						return InteractionResult.SUCCESS;
-					}
+				if (!armor.isEmpty() && armor.isDamaged() && armor.isValidRepairItem(itemstack)) {
+					itemstack.shrink(1);
+					playSound(SoundEvents.WOLF_ARMOR_REPAIR);
+					int i = (int) (armor.getMaxDamage() * 0.125F);
+					armor.setDamageValue(Math.max(0, armor.getDamageValue() - i));
+					return InteractionResult.SUCCESS;
 				}
 				if (canModify(player)) {
 					if (itemstack.is(MGTagGen.C_WOLF_ARMORS)) {
@@ -324,7 +322,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 						if (stack.getItem() instanceof WolfArmorItem armor) {
 							item = armor.getBreakParticleItem(stack);
 						}
-					} TODO */
+					} TODO more wolf armor*/
 					serverlevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, item.getItem()),
 							getX(), getY() + 1.0, getZ(), 20, 0.2, 0.1, 0.2, 0.1);
 				}

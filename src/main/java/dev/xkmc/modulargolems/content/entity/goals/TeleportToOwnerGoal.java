@@ -48,7 +48,7 @@ public class TeleportToOwnerGoal extends Goal {
 			return false;
 		Vec3 target = this.golem.getTargetPos();
 		double maxDist = MGConfig.COMMON.maxWanderRadius.get();
-		return this.golem.distanceToSqr(target) >= maxDist * maxDist || this.golem.position().y < golem.level().getMinBuildHeight() - 32;
+		return this.golem.distanceToSqr(target) >= maxDist * maxDist || this.golem.position().y < golem.level().getMinY() - 32;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class TeleportToOwnerGoal extends Goal {
 
 	private void teleportToOwner() {
 		BlockPos blockpos = BlockPos.containing(this.golem.getTargetPos());
-		if (blockpos.getY() < golem.level().getMinBuildHeight() - 32) return;
+		if (blockpos.getY() < golem.level().getMinY() - 32) return;
 		for (int i = 0; i < 20; ++i) {
 			int j = this.randomIntInclusive(-3, 3);
 			int k = this.randomIntInclusive(-1, 1);
@@ -99,7 +99,7 @@ public class TeleportToOwnerGoal extends Goal {
 			while (e.getControlledVehicle() instanceof LivingEntity le) {
 				e = le;
 			}
-			e.moveTo((double) pX + 0.5D, pY, (double) pZ + 0.5D, this.golem.getYRot(), this.golem.getXRot());
+			e.snapTo((double) pX + 0.5D, pY, (double) pZ + 0.5D, this.golem.getYRot(), this.golem.getXRot());
 			this.navigation.stop();
 			if (fly) {
 				e.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60));

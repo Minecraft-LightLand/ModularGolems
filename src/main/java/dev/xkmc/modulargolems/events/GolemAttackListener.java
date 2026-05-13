@@ -1,6 +1,9 @@
 package dev.xkmc.modulargolems.events;
 
-import dev.xkmc.l2damagetracker.contents.attack.*;
+import dev.xkmc.l2damagetracker.contents.attack.AttackListener;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
+import dev.xkmc.l2damagetracker.contents.attack.OnDamageSourceModifyEvent;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.Identifier;
@@ -12,7 +15,7 @@ public class GolemAttackListener implements AttackListener {
 
 	@Override
 	public void onCreateSource(OnDamageSourceModifyEvent event) {
-		if (event.getAttacker() instanceof AbstractGolemEntity<?, ?> golem) {
+		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> golem) {
 			for (var e : golem.getModifiersExtended().entrySet()) {
 				e.getKey().modifySource(golem, event, e.getValue());
 			}
@@ -74,9 +77,9 @@ public class GolemAttackListener implements AttackListener {
 			for (var entry : golem.getModifiersExtended().entrySet()) {
 				entry.getKey().postHurtTarget(golem, data, entry.getValue());
 			}
-			var owner = golem.getOwner();
+			var owner = golem.getOwnerPlayer();
 			if (owner != null) {
-				data.getTarget().setLastHurtByPlayer(owner);
+				data.getTarget().setLastHurtByPlayer(owner, 200);
 			}
 		}
 		if (data.getTarget() instanceof AbstractGolemEntity<?, ?> golem) {

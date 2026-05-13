@@ -10,4 +10,7 @@ public class MetalGolemRenderState extends HumanoidRenderState implements Abstra
 	public Crackiness.Level crackiness;
 
 	public float attackTicksRemaining;
+
+	public MetalGolemAimState aim;
+
 }

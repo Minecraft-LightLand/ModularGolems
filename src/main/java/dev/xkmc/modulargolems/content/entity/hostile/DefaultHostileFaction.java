@@ -27,7 +27,7 @@ public class DefaultHostileFaction extends HostileFaction {
 
 	@Override
 	public ItemStack getBanner(AbstractGolemEntity<?, ?> e, int col) {
-		return Raid.getLeaderBannerInstance(e.registryAccess().lookupOrThrow(Registries.BANNER_PATTERN));
+		return Raid.getOminousBannerInstance(e.registryAccess().lookupOrThrow(Registries.BANNER_PATTERN));
 	}
 
 }

@@ -64,7 +64,7 @@ public class PickupGoal extends Goal {
 	}
 
 	private void tryHandleItem(AABB box) {
-		Player player = golem.getOwner();
+		Player player = golem.getOwnerPlayer();
 		var items = golem.level().getEntities(EntityTypeTest.forClass(ItemEntity.class),
 				box, e -> true);
 		validateTarget();
@@ -87,17 +87,17 @@ public class PickupGoal extends Goal {
 	}
 
 	private void tryHandleExp(AABB box) {
-		Player player = golem.getOwner();
+		Player player = golem.getOwnerPlayer();
 		var exps = golem.level().getEntities(EntityTypeTest.forClass(ExperienceOrb.class),
 				box, e -> true);
 		ExperienceOrb first = null;
 		for (var exp : exps) {
-			exp.value = exp.value * ((ExperienceOrbAccessor) exp).getCount();
+			exp.setValue(exp.getValue() * ((ExperienceOrbAccessor) exp).getCount());
 			((ExperienceOrbAccessor) exp).setCount(1);
 			if (first == null) {
 				first = exp;
 			} else {
-				first.value += exp.value;
+				first.setValue(first.getValue() + exp.getValue());
 				exp.discard();
 			}
 		}
@@ -175,10 +175,10 @@ public class PickupGoal extends Goal {
 	}
 
 	private void handleLeftoverExp(ExperienceOrb exp, @Nullable Player player) {
-		exp.value = repairGolemAndItems(exp.value);
+		exp.setValue(repairGolemAndItems(exp.getValue()));
 		GolemHandleExpEvent event = new GolemHandleExpEvent(golem, exp);
 		NeoForge.EVENT_BUS.post(event);
-		if (exp.value <= 0) {
+		if (exp.getValue() <= 0) {
 			exp.discard();
 		}
 		if (exp.isRemoved()) {
@@ -191,7 +191,7 @@ public class PickupGoal extends Goal {
 		if (exp.isRemoved()) {
 			return;
 		}
-		destroyExpCount += exp.value;
+		destroyExpCount += exp.getValue();
 		exp.discard();
 	}
 

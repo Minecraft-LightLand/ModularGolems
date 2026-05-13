@@ -15,7 +15,7 @@ public record ConfigHeartBeatToServer(
 		if (!(player instanceof ServerPlayer sp)) return;
 		var entry = GolemConfigStorage.get(player.level()).getStorage(id, color);
 		if (entry == null) return;
-		entry.heartBeat(sp.serverLevel(), sp);
+		entry.heartBeat(sp.level(), sp);
 	}
 
 }
