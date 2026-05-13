@@ -1,17 +1,14 @@
 package dev.xkmc.modulargolems.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
-import net.minecraft.world.entity.ai.village.poi.PoiTypes;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,19 +16,17 @@ import java.util.Optional;
 @Mixin(ServerLevel.class)
 public class ServerLevelMixin {
 
-	@Inject(at = @At("HEAD"), method = "findLightningRod", cancellable = true)
-	public void findLightningRod(BlockPos blockpos, CallbackInfoReturnable<Optional<BlockPos>> cir) {
+	@ModifyReturnValue(at = @At("RETURN"), method = "findLightningRod")
+	public Optional<BlockPos> findLightningRod(Optional<BlockPos> original, @Local(argsOnly = true) BlockPos center) {
+		if (original.isPresent()) return original;
 		ServerLevel self = (ServerLevel) (Object) this;
-		Optional<BlockPos> optional = self.getPoiManager().findClosest((poi) -> poi.is(PoiTypes.LIGHTNING_ROD),
-				(pos) -> pos.getY() == self.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()) - 1,
-				blockpos, 128, PoiManager.Occupancy.ANY);
-		if (optional.isPresent()) cir.setReturnValue(optional);
-		AABB aabb = (AABB.encapsulatingFullBlocks(blockpos, new BlockPos(blockpos.getX(), self.getMaxBuildHeight(), blockpos.getZ()))).inflate(64);
+		AABB aabb = (AABB.encapsulatingFullBlocks(center, new BlockPos(center.getX(), self.getMaxY(), center.getZ()))).inflate(64);
 		List<AbstractGolemEntity> list = self.getEntitiesOfClass(AbstractGolemEntity.class, aabb, (e) -> e != null &&
 				e.isAlive() && self.canSeeSky(e.blockPosition()) && e.hasFlag(GolemFlags.THUNDER_IMMUNE));
-		if (list.size() > 0) {
-			cir.setReturnValue(Optional.of(list.get(self.random.nextInt(list.size())).blockPosition()));
+		if (!list.isEmpty()) {
+			return Optional.of(list.get(self.getRandom().nextInt(list.size())).blockPosition());
 		}
+		return original;
 	}
 
 }

@@ -12,6 +12,8 @@ import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -19,8 +21,11 @@ import java.util.concurrent.CompletableFuture;
 
 public class MGConfigGen extends ConfigDataProvider {
 
+	private final CompletableFuture<HolderLookup.Provider> pvd;
+
 	public MGConfigGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> pvd) {
 		super(generator, pvd, "Golem Config");
+		this.pvd = pvd;
 	}
 
 	@Override
@@ -57,7 +62,7 @@ public class MGConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
 
-				.addMaterial(ModularGolems.loc("sculk"), Ingredient.of(MGTagGen.SCULK_MATS))
+				.addMaterial(ModularGolems.loc("sculk"), of(MGTagGen.SCULK_MATS))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.5)
@@ -148,6 +153,10 @@ public class MGConfigGen extends ConfigDataProvider {
 				.addFilter(GolemTypes.STAT_SWEEP.get(), 0)
 				.end()
 		);
+	}
+
+	private Ingredient of(TagKey<Item> tag) {
+		return Ingredient.of(pvd.getNow(null).getOrThrow(tag));
 	}
 
 }

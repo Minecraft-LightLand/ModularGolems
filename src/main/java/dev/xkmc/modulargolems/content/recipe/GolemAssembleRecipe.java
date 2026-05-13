@@ -18,8 +18,11 @@ import java.util.ArrayList;
 
 public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecipe> {
 
+	private final ItemStackTemplate result;
+
 	public GolemAssembleRecipe(CommonInfo commonInfo, CraftingBookInfo bookInfo, ShapedRecipePattern pattern, ItemStackTemplate result) {
 		super(commonInfo, bookInfo, pattern, result);
+		this.result = result;
 	}
 
 	@Override
@@ -34,6 +37,10 @@ public class GolemAssembleRecipe extends AbstractShapedRecipe<GolemAssembleRecip
 			}
 		}
 		return true;
+	}
+
+	public ItemStack getResult() {
+		return result.create();
 	}
 
 	@Override

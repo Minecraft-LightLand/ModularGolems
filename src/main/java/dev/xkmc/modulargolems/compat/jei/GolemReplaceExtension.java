@@ -9,15 +9,25 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public record GolemReplaceExtension()
 		implements ICraftingCategoryExtension<GolemReplaceRecipe> {
+
+	@Override
+	public List<SlotDisplay> getIngredients(RecipeHolder<GolemReplaceRecipe> recipeHolder) {
+		return recipeHolder.value().getIngredients().stream()
+				.map(e -> e.map(Ingredient::display).orElse(null))
+				.filter(Objects::nonNull).toList();
+	}
 
 	@Override
 	public void setRecipe(RecipeHolder<GolemReplaceRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
@@ -39,9 +49,14 @@ public record GolemReplaceExtension()
 		GolemReplaceRecipe recipe = holder.value();
 		List<List<ItemStack>> inputs = new ArrayList<>();
 		List<ItemStack> outputs = new ArrayList<>();
-		for (Ingredient ing : recipe.getIngredients()) {
-			ItemStack[] stacks = ing.getItems();
-			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
+		for (var opt : recipe.getIngredients()) {
+			if (opt.isEmpty()) {
+				inputs.add(List.of());
+				continue;
+			}
+			var ing = opt.get();
+			List<ItemStack> stacks = ing.display().resolveForStacks(ContextMap.EMPTY);
+			if (stacks.size() == 1 && stacks.getFirst().getItem() instanceof GolemPart<?, ?> part) {
 				List<ItemStack> list = new ArrayList<>();
 				for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 					ItemStack stack = new ItemStack(part);
@@ -50,7 +65,7 @@ public record GolemReplaceExtension()
 				}
 				inputs.add(list);
 			} else {
-				inputs.add(List.of(stacks));
+				inputs.add(stacks);
 			}
 		}
 		int width = getWidth(holder);
@@ -62,11 +77,16 @@ public record GolemReplaceExtension()
 	private void setRecipeSpecial(RecipeHolder<GolemReplaceRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, ItemStack focusResult, Identifier mat) {
 		GolemReplaceRecipe recipe = holder.value();
 		List<List<ItemStack>> inputs = new ArrayList<>();
-		for (Ingredient ing : recipe.getIngredients()) {
-			ItemStack[] stacks = ing.getItems();
-			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?>) {
+		for (var opt : recipe.getIngredients()) {
+			if (opt.isEmpty()) {
+				inputs.add(List.of());
+				continue;
+			}
+			var ing = opt.get();
+			var stacks = ing.display().resolveForStacks(ContextMap.EMPTY);
+			if (stacks.size() == 1 && stacks.getFirst().getItem() instanceof GolemPart<?, ?>) {
 				inputs.add(List.of(focusResult));
-			} else inputs.add(List.of(stacks));
+			} else inputs.add(stacks);
 		}
 		int width = getWidth(holder);
 		int height = getHeight(holder);

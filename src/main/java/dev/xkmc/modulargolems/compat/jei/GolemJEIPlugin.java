@@ -36,6 +36,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -98,12 +99,16 @@ public class GolemJEIPlugin implements IModPlugin {
 
 	private static void addPartCraftRecipes(List<IJeiAnvilRecipe> recipes, GolemMaterialConfig config, IVanillaRecipeFactory factory) {
 		for (var mat : config.getAllMaterials()) {
+			var repair = config.getRepairIngredient(mat);
+			var craft = config.getCraftIngredient(mat);
+			if (repair == null || craft == null) continue;
 			{
-				recipes.add(factory.createAnvilRecipe(GolemItems.EMPTY_UPGRADE.asStack(),
-						List.of(config.getRepairIngredient(mat).getItems()),
-						List.of(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat))));
+				var id = mat.withSuffix("_facade");
+				recipes.add(factory.createAnvilRecipe(List.of(GolemItems.EMPTY_UPGRADE.asStack()),
+						repair.display().resolveForStacks(ContextMap.EMPTY),
+						List.of(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat)), id));
 			}
-			var arr = config.getCraftIngredient(mat).getItems();
+			var arr = craft.display().resolveForStacks(ContextMap.EMPTY);
 			boolean special = false;
 			for (ItemStack stack : arr) {
 				if (stack.is(MGTagGen.SPECIAL_CRAFT)) {
@@ -117,8 +122,9 @@ public class GolemJEIPlugin implements IModPlugin {
 				for (ItemStack stack : arr) {
 					list.add(new ItemStack(stack.getItem(), item.count));
 				}
+				var id = mat.withSuffix("_" + item.builtInRegistryHolder().unwrapKey().orElseThrow().identifier().getPath());
 				recipes.add(factory.createAnvilRecipe(new ItemStack(item), list,
-						List.of(GolemPart.setMaterial(new ItemStack(item), mat))));
+						List.of(GolemPart.setMaterial(new ItemStack(item), mat)), id));
 			}
 		}
 	}
@@ -129,6 +135,8 @@ public class GolemJEIPlugin implements IModPlugin {
 			List<ItemStack> material = new ArrayList<>();
 			List<ItemStack> result = new ArrayList<>();
 			for (var mat : config.getAllMaterials()) {
+				var repair = config.getRepairIngredient(mat);
+				if (repair == null) continue;
 				ItemStack golem = new ItemStack(types);
 				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 				for (IGolemPart<?> part : types.getEntityType().values()) {
@@ -137,11 +145,11 @@ public class GolemJEIPlugin implements IModPlugin {
 				golem = GolemItems.HOLDER_MAT.set(golem, new GolemHolderMaterial(mats));
 				ItemStack damaged = golem.copy();
 				input.add(GolemItems.DC_DISP_HP.set(damaged, 0.75));
-				var arr = config.getRepairIngredient(mat).getItems();
-				material.add(new ItemStack(arr.length > 0 ? arr[0].getItem() : Items.BARRIER));
+				var arr = repair.display().resolveForStacks(ContextMap.EMPTY);
+				material.add(new ItemStack(!arr.isEmpty() ? arr.getFirst().getItem() : Items.BARRIER));
 				result.add(GolemItems.DC_DISP_HP.set(golem, 1d));
 			}
-			recipes.add(factory.createAnvilRecipe(input, material, result));
+			recipes.add(factory.createAnvilRecipe(input, material, result, ModularGolems.loc("repair")));
 		}
 	}
 
@@ -153,7 +161,8 @@ public class GolemJEIPlugin implements IModPlugin {
 				mats.add(item.getDefaultInstance());
 				result.add(GolemUpgrade.add(new ItemStack(types), item));
 			}
-			recipes.add(factory.createAnvilRecipe(List.of(types.getDefaultInstance()), mats, result));
+			var id = types.getEntityType().getRegistryName().withPrefix("upgrade_");
+			recipes.add(factory.createAnvilRecipe(List.of(types.getDefaultInstance()), mats, result, id));
 		}
 
 		List<ItemStack> input = new ArrayList<>();
@@ -165,7 +174,8 @@ public class GolemJEIPlugin implements IModPlugin {
 			for (var types : GolemType.GOLEM_TYPE_TO_ITEM.values()) {
 				result.add(GolemUpgrade.addSlot(new ItemStack(types), 1));
 			}
-			recipes.add(factory.createAnvilRecipe(input, List.of(GolemItems.ADD_SLOT.asStack()), result));
+			var id = ModularGolems.loc("add_slot");
+			recipes.add(factory.createAnvilRecipe(input, List.of(GolemItems.ADD_SLOT.asStack()), result, id));
 		}
 
 		{
@@ -173,7 +183,8 @@ public class GolemJEIPlugin implements IModPlugin {
 			for (var types : GolemType.GOLEM_TYPE_TO_ITEM.values()) {
 				result.add(GolemUpgrade.addSlot(new ItemStack(types), 100));
 			}
-			recipes.add(factory.createAnvilRecipe(input, List.of(GolemItems.INF_SLOT.asStack()), result));
+			var id = ModularGolems.loc("inf_slot");
+			recipes.add(factory.createAnvilRecipe(input, List.of(GolemItems.INF_SLOT.asStack()), result, id));
 		}
 	}
 

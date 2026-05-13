@@ -31,6 +31,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.BiFunction;
 
@@ -406,6 +407,12 @@ public class RecipeGen {
 
 			smithing(pvd, GolemItems.IRON_BOW.get(), Items.NETHERITE_INGOT, GolemItems.NETHERITE_BOW.get());
 
+			smithing(pvd,
+					GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()].get(),
+					Blocks.STONECUTTER.asItem(),
+					GolemItems.SLICING_AXE.get()
+			);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(ri, RecipeCategory.COMBAT, GolemItems.BEACON_CANNON.get()), Items.BEACON)
 					.pattern("III").pattern("BDD").pattern("TII")
 					.define('I', Items.IRON_INGOT)
@@ -623,7 +630,12 @@ public class RecipeGen {
 	}
 
 	public static void smithing(RegistrateRecipeProvider pvd, Item in, Item mat, Item out) {
-		Ingredient ing = Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE);
+		smithing(pvd, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, in, mat, out);
+	}
+
+
+	public static void smithing(RegistrateRecipeProvider pvd, Item template, Item in, Item mat, Item out) {
+		Ingredient ing = Ingredient.of(template);
 		var ans = SmithingTransformRecipeBuilder.smithing(ing, Ingredient.of(in), Ingredient.of(mat),
 				RecipeCategory.COMBAT, out);
 		ans.unlocks("has_" + pvd.safeName(mat), DataIngredient.items(mat).getCriterion(pvd));
@@ -632,8 +644,7 @@ public class RecipeGen {
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> void
 	expand(RegistrateRecipeProvider pvd, ItemEntry<GolemHolder<T, P>> holder) {
-		var ans = new GolemSmithBuilder(pvd.registries().lookupOrThrow(Registries.ITEM),
-				holder.get(), MGTagGen.EXPANSION);
+		var ans = new GolemSmithBuilder(pvd.registries().lookupOrThrow(Registries.ITEM), holder.get(), MGTagGen.EXPANSION);
 		ans.unlocks("has_" + pvd.safeName(holder.get()), DataIngredient.items(holder.get()).getCriterion(pvd));
 		ans.save(pvd, ModularGolems.loc("expansion_" + holder.getId().getPath()));
 	}

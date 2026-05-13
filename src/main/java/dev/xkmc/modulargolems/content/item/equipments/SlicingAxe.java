@@ -8,23 +8,18 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
-import dev.xkmc.modulargolems.init.data.RecipeGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
 
 import java.util.function.Consumer;
 
@@ -33,7 +28,7 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemWeapon {
 
 	public SlicingAxe(Properties properties, int attackDamage, double percentAttack, float range, float sweep) {
-		super(properties, attackDamage, percentAttack, range, sweep);
+		super(properties, attackDamage, percentAttack, range, sweep, 10);
 	}
 
 	@Override
@@ -75,16 +70,10 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 	public static ItemEntry<SlicingAxe> buildItem(String id, VanillaGolemWeaponMaterial material) {
 		return REGISTRATE.item(id, p -> new SlicingAxe(material.modify(p.stacksTo(1)),
 						0, material.getDamage() * 0.05, 0, 2))
-				.model(() -> (ctx, pvd) -> pvd.getBuilder(ctx.getName())
-						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(GolemWeaponType.AXE.model)))
-						.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
+				.model(() -> (ctx, pvd) ->
+						pvd.generateFlatItem(ctx.get(), ModelTemplates.createItem(GolemWeaponType.AXE.model, TextureSlot.LAYER0),
+								new Material(material.modLoc("item/equipments/" + ctx.getName()))))
 				.tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
-				.recipe((ctx, pvd) -> RecipeGen.unlock(pvd,
-						SmithingTransformRecipeBuilder.smithing(
-								Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE),
-								Ingredient.of(GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.DIAMOND.ordinal()]),
-								Ingredient.of(Blocks.STONECUTTER), RecipeCategory.COMBAT, ctx.get()
-						)::unlocks, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE).save(pvd, ctx.getName()))
 				.defaultLang().register();
 	}
 }

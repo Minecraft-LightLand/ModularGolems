@@ -1,41 +1,19 @@
 package dev.xkmc.modulargolems.content.entity.skin;
 
-import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.block.entity.SkullBlockEntity;
-
-import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.TreeMap;
+import net.minecraft.world.entity.player.PlayerModelType;
+import net.minecraft.world.item.component.ResolvableProfile;
 
 public class ClientProfileManager {
 
-	private static final Map<String, GameProfile> CACHE = new TreeMap<>();
-
-	@Nullable
 	public static SpecialRenderProfile get(String name) {
-		var profile = getProfile(name);
-		if (profile == null) return null;
-		SkinManager skins = Minecraft.getInstance().getSkinManager();
-		PlayerSkin skin = skins.getInsecureSkin(profile);
-		PlayerSkin.Model skinModel = skin.model();
-		boolean slim = skinModel == PlayerSkin.Model.SLIM;
-		Identifier texture = skins.getInsecureSkin(profile).texture();
-		if (texture.equals(Identifier.withDefaultNamespace("missingno")))
-			return null;
+		var profile = ResolvableProfile.createUnresolved(name);
+		var cache = Minecraft.getInstance().playerSkinRenderCache();
+		var info = cache.getOrDefault(profile);
+		boolean slim = info.playerSkin().model() == PlayerModelType.SLIM;
+		Identifier texture = info.playerSkin().body().texturePath();
 		return new SpecialRenderProfile(slim, texture);
-	}
-
-	@Nullable
-	private static GameProfile getProfile(String name) {
-		if (!CACHE.containsKey(name)) {
-			CACHE.put(name, null);
-			SkullBlockEntity.fetchGameProfile(name).thenAccept(x -> x.ifPresent(e -> CACHE.put(name, e)));
-		}
-		return CACHE.get(name);
 	}
 
 }

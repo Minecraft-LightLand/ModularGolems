@@ -19,7 +19,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
 	@Inject(at = @At("HEAD"), method = "wantsToStopRiding", cancellable = true)
 	public void modulargolems$wantsToStopRiding$dogOverride(CallbackInfoReturnable<Boolean> cir) {
-		if (getVehicle() instanceof DogGolemEntity dog && dog.isInWaterOrBubble()) {
+		if (getVehicle() instanceof DogGolemEntity dog && dog.isInWater()) {
 			cir.setReturnValue(false);
 		}
 	}

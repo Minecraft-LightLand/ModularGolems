@@ -13,17 +13,26 @@ import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public record GolemAssemblyExtension(
 ) implements ICraftingCategoryExtension<GolemAssembleRecipe> {
+
+	@Override
+	public List<SlotDisplay> getIngredients(RecipeHolder<GolemAssembleRecipe> recipeHolder) {
+		return recipeHolder.value().getIngredients().stream()
+				.map(e -> e.map(Ingredient::display).orElse(null))
+				.filter(Objects::nonNull).toList();
+	}
 
 	@Override
 	public void setRecipe(RecipeHolder<GolemAssembleRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
@@ -41,9 +50,14 @@ public record GolemAssemblyExtension(
 
 	private void setRecipeAll(RecipeHolder<GolemAssembleRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
 		List<List<ItemStack>> inputs = new ArrayList<>();
-		for (Ingredient ing : holder.value().getIngredients()) {
-			ItemStack[] stacks = ing.getItems();
-			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
+		for (var opt : holder.value().getIngredients()) {
+			if (opt.isEmpty()) {
+				inputs.add(List.of());
+				continue;
+			}
+			var ing = opt.get();
+			var stacks = ing.display().resolveForStacks(ContextMap.EMPTY);
+			if (stacks.size() == 1 && stacks.getFirst().getItem() instanceof GolemPart<?, ?> part) {
 				List<ItemStack> list = new ArrayList<>();
 				for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
 					ItemStack stack = new ItemStack(part);
@@ -51,10 +65,10 @@ public record GolemAssemblyExtension(
 				}
 				inputs.add(list);
 			} else {
-				inputs.add(List.of(stacks));
+				inputs.add(stacks);
 			}
 		}
-		ItemStack resultItem = holder.value().getResultItem(Minecraft.getInstance().level.registryAccess());
+		ItemStack resultItem = holder.value().getResult();
 		List<ItemStack> list = new ArrayList<>();
 		if (resultItem.getItem() instanceof GolemHolder<?, ?> golem) {
 			Pair<GolemPart<?, ?>, Identifier> fix = null;
@@ -94,12 +108,17 @@ public record GolemAssemblyExtension(
 		var mats = GolemHolder.getMaterial(focusResult);
 		List<List<ItemStack>> inputs = new ArrayList<>();
 		int ind = 0;
-		for (Ingredient ing : holder.value().getIngredients()) {
-			ItemStack[] stacks = ing.getItems();
-			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
+		for (var opt : holder.value().getIngredients()) {
+			if (opt.isEmpty()) {
+				inputs.add(List.of());
+				continue;
+			}
+			var ing = opt.get();
+			var stacks = ing.display().resolveForStacks(ContextMap.EMPTY);
+			if (stacks.size() == 1 && stacks.getFirst().getItem() instanceof GolemPart<?, ?> part) {
 				GolemMaterial mat = mats.get(ind++);
 				inputs.add(List.of(GolemPart.setMaterial(new ItemStack(part), mat.id())));
-			} else inputs.add(List.of(stacks));
+			} else inputs.add(stacks);
 
 		}
 		int width = getWidth(holder);
