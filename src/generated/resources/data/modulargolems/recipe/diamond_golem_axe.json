@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "I": {
-      "item": "minecraft:diamond"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    },
-    "T": {
-      "item": "modulargolems:metal_golem_template"
-    }
+    "I": "minecraft:diamond",
+    "S": "minecraft:stick",
+    "T": "modulargolems:metal_golem_template"
   },
   "pattern": [
     "III",
@@ -18,7 +12,6 @@
     "TST"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:diamond_golem_axe"
   }
 }

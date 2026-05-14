@@ -21,5 +21,6 @@
       }
     }
   ],
-  "material": "modulargolems:sculk"
+  "material": "modulargolems:sculk",
+  "priority": 0
 }

@@ -1,20 +1,10 @@
 {
   "ingredients": {
-    "modulargolems:copper": {
-      "item": "minecraft:copper_ingot"
-    },
-    "modulargolems:gold": {
-      "item": "minecraft:gold_ingot"
-    },
-    "modulargolems:iron": {
-      "item": "minecraft:iron_ingot"
-    },
-    "modulargolems:netherite": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "modulargolems:sculk": {
-      "tag": "modulargolems:sculk_materials"
-    }
+    "modulargolems:copper": "minecraft:copper_ingot",
+    "modulargolems:gold": "minecraft:gold_ingot",
+    "modulargolems:iron": "minecraft:iron_ingot",
+    "modulargolems:netherite": "minecraft:netherite_ingot",
+    "modulargolems:sculk": "#modulargolems:sculk_materials"
   },
   "modifiers": {
     "modulargolems:copper": {
@@ -31,21 +21,11 @@
     }
   },
   "repairIngredients": {
-    "modulargolems:copper": {
-      "item": "minecraft:copper_ingot"
-    },
-    "modulargolems:gold": {
-      "item": "minecraft:gold_ingot"
-    },
-    "modulargolems:iron": {
-      "item": "minecraft:iron_ingot"
-    },
-    "modulargolems:netherite": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "modulargolems:sculk": {
-      "tag": "modulargolems:sculk_materials"
-    }
+    "modulargolems:copper": "minecraft:copper_ingot",
+    "modulargolems:gold": "minecraft:gold_ingot",
+    "modulargolems:iron": "minecraft:iron_ingot",
+    "modulargolems:netherite": "minecraft:netherite_ingot",
+    "modulargolems:sculk": "#modulargolems:sculk_materials"
   },
   "stats": {
     "modulargolems:copper": {

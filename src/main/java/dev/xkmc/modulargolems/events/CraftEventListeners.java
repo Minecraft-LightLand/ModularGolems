@@ -64,7 +64,7 @@ public class CraftEventListeners {
 	}
 
 	@SubscribeEvent
-	public static void onAnvilFinish(AnvilCraftEvent event) {
+	public static void onAnvilFinish(AnvilCraftEvent.Post event) {
 		if (event.getEntity().level().isClientSide())
 			return;
 		ItemStack stack = event.getLeft();

@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "modulargolems:item/humanoid_golem_arms",
+    "model": {
+      "type": "modulargolems:part",
+      "golem_type": "modulargolems:humanoid_golem"
+    }
+  }
+}

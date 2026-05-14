@@ -2,17 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
+    "modulargolems:empty_upgrade",
     {
-      "item": "modulargolems:empty_upgrade"
-    },
-    {
-      "type": "l2core:enchantment",
+      "neoforge:ingredient_type": "l2core:enchantment",
       "enchantment": "minecraft:mending",
       "minLevel": 1
     }
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:pickup_mending"
   }
 }

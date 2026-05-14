@@ -2,15 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "modulargolems:config_card"
-    },
-    {
-      "item": "minecraft:gray_dye"
-    }
+    "#modulargolems:config_card",
+    "minecraft:gray_dye"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:gray_config_card"
   }
 }

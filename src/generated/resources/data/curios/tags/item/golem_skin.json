@@ -3,10 +3,6 @@
     "modulargolems:golem_facade",
     "#modulargolems:player_skin",
     "minecraft:player_head",
-    "minecraft:piglin_head",
-    {
-      "id": "touhou_little_maid:garage_kit",
-      "required": false
-    }
+    "minecraft:piglin_head"
   ]
 }

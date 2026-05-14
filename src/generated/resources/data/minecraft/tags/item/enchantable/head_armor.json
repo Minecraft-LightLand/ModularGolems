@@ -2,34 +2,6 @@
   "values": [
     "modulargolems:roman_guard_helmet",
     "modulargolems:wind_spirit_helmet",
-    "modulargolems:barbaric_vanguard_helmet",
-    {
-      "id": "modulargolems:ironwood_helmet",
-      "required": false
-    },
-    {
-      "id": "modulargolems:naga_helmet",
-      "required": false
-    },
-    {
-      "id": "modulargolems:knightmetal_helmet",
-      "required": false
-    },
-    {
-      "id": "modulargolems:fiery_helmet",
-      "required": false
-    },
-    {
-      "id": "modulargolems:harbinger_helmet",
-      "required": false
-    },
-    {
-      "id": "modulargolems:monstrosity_helmet",
-      "required": false
-    },
-    {
-      "id": "modulargolems:ignis_helmet",
-      "required": false
-    }
+    "modulargolems:barbaric_vanguard_helmet"
   ]
 }

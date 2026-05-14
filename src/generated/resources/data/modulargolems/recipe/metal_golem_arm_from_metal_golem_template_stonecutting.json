@@ -1,10 +1,7 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "modulargolems:metal_golem_template"
-  },
+  "ingredient": "modulargolems:metal_golem_template",
   "result": {
-    "count": 1,
     "id": "modulargolems:metal_golem_arm"
   }
 }

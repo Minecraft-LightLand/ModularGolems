@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:dragon_breath"
-    },
-    "B": {
-      "item": "modulargolems:empty_upgrade"
-    },
-    "C": {
-      "item": "minecraft:fermented_spider_eye"
-    },
-    "D": {
-      "item": "minecraft:redstone"
-    },
-    "E": {
-      "item": "minecraft:sugar"
-    }
+    "A": "minecraft:dragon_breath",
+    "B": "modulargolems:empty_upgrade",
+    "C": "minecraft:fermented_spider_eye",
+    "D": "minecraft:redstone",
+    "E": "minecraft:sugar"
   },
   "pattern": [
     "CDC",
@@ -24,7 +14,6 @@
     "EDE"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:slow"
   }
 }

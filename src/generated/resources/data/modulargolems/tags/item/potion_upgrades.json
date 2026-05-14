@@ -1,21 +1,5 @@
 {
   "values": [
-    {
-      "id": "modulargolems:soul_flame",
-      "required": false
-    },
-    {
-      "id": "modulargolems:freezing",
-      "required": false
-    },
-    {
-      "id": "modulargolems:curse",
-      "required": false
-    },
-    {
-      "id": "modulargolems:incarcerate",
-      "required": false
-    },
     "modulargolems:weak",
     "modulargolems:slow",
     "modulargolems:wither"

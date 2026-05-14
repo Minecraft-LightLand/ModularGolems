@@ -1,16 +1,9 @@
 {
   "type": "modulargolems:golem_add_slot",
-  "addition": {
-    "item": "minecraft:iron_ingot"
-  },
-  "base": {
-    "item": "modulargolems:humanoid_golem_holder"
-  },
+  "addition": "minecraft:iron_ingot",
+  "base": "modulargolems:humanoid_golem_holder",
   "result": {
-    "count": 1,
     "id": "modulargolems:humanoid_golem_holder"
   },
-  "template": {
-    "tag": "modulargolems:expansion_template"
-  }
+  "template": "#modulargolems:expansion_template"
 }

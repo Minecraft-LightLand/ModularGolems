@@ -412,7 +412,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 
-	public ItemStackTemplate toEntityIcon(Identifier rl, ItemStack... equipments) {
+	public ItemStackTemplate toEntityIcon(Identifier rl, Item... equipments) {
 		ArrayList<GolemHolderMaterial.Entry> list = new ArrayList<>();
 		for (P part : getEntityType().values()) {
 			list.add(new GolemHolderMaterial.Entry(part.toItem(), rl));

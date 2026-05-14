@@ -1,16 +1,10 @@
 {
   "type": "modulargolems:golem_assemble",
-  "category": "misc",
+  "category": "equipment",
   "key": {
-    "A": {
-      "item": "modulargolems:humanoid_golem_body"
-    },
-    "B": {
-      "item": "modulargolems:humanoid_golem_arms"
-    },
-    "C": {
-      "item": "modulargolems:humanoid_golem_legs"
-    }
+    "A": "modulargolems:humanoid_golem_body",
+    "B": "modulargolems:humanoid_golem_arms",
+    "C": "modulargolems:humanoid_golem_legs"
   },
   "pattern": [
     "A",
@@ -18,7 +12,6 @@
     "C"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:humanoid_golem_holder"
   }
 }

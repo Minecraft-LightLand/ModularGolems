@@ -43,12 +43,12 @@ public class MGAdvGen {
 						"You but Tougher", "Craft a Humaniod Golem.")
 				.create("fully_equipped", GolemItems.HOLDER_HUMANOID.get().toEntityIcon(
 								ModularGolems.loc("iron"),
-								Items.DIAMOND_HELMET.getDefaultInstance(),
-								Items.DIAMOND_CHESTPLATE.getDefaultInstance(),
-								Items.DIAMOND_LEGGINGS.getDefaultInstance(),
-								Items.DIAMOND_BOOTS.getDefaultInstance(),
-								Items.DIAMOND_SWORD.getDefaultInstance(),
-								Items.SHIELD.getDefaultInstance()
+								Items.DIAMOND_HELMET,
+								Items.DIAMOND_CHESTPLATE,
+								Items.DIAMOND_LEGGINGS,
+								Items.DIAMOND_BOOTS,
+								Items.DIAMOND_SWORD,
+								Items.SHIELD
 						),
 						one(GolemEquipTrigger.ins(6).build()),
 						"Fully Equipped", "Give Humaniod Golem full armor set, a sword, and a shield.").type(AdvancementType.GOAL)

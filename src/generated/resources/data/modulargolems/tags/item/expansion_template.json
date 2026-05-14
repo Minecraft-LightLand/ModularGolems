@@ -1,18 +1,6 @@
 {
   "values": [
     "modulargolems:diamond_expansion_template",
-    "modulargolems:netherite_expansion_template",
-    {
-      "id": "modulargolems:allthemodium_expansion_template",
-      "required": false
-    },
-    {
-      "id": "modulargolems:vibranium_expansion_template",
-      "required": false
-    },
-    {
-      "id": "modulargolems:unobtainium_expansion_template",
-      "required": false
-    }
+    "modulargolems:netherite_expansion_template"
   ]
 }

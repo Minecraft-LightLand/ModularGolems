@@ -26,11 +26,9 @@ import static dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels.L
 public class GolemEquipmentRenderer extends RenderLayer<MetalGolemRenderState, MetalGolemModel> {
 
 	public HashMap<ModelLayerLocation, MetalGolemModel> map = new HashMap<>();
-	private final ItemInHandRenderer itemInHandRenderer;
 
 	public GolemEquipmentRenderer(RenderLayerParent<MetalGolemRenderState, MetalGolemModel> r, EntityRendererProvider.Context e) {
 		super(r);
-		itemInHandRenderer = e.getEntityRenderDispatcher().getItemInHandRenderer();
 		for (var l : LIST) {
 			map.put(l, new MetalGolemModel(e.bakeLayer(l)));
 		}
@@ -42,7 +40,8 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemRenderState, M
 	}
 
 	public void render(PoseStack pose, MultiBufferSource source, int i, MetalGolemRenderState entity, float f1, float f2, float f3, float f4, float f5, float f6) {
-/* FIXME
+
+		/* FIXME
 		for (var e : EquipmentSlot.values()) {
 			ItemStack stack = entity.getItemBySlot(e);
 			if (stack.getItem() instanceof GolemModelItem mgaitem) {
@@ -53,8 +52,8 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemRenderState, M
 		renderArmWithItem(entity, entity.leftHandItemStack, EquipmentSlot.OFFHAND, pose, source, i, f3);
 		renderShoulderWeapon(entity, entity.getRightShoulder().getItem(), InteractionHand.MAIN_HAND, pose, source, i, f3);
 		renderShoulderWeapon(entity, entity.getLeftShoulder().getItem(), InteractionHand.OFF_HAND, pose, source, i, f3);
-
  */
+
 	}
 
 	protected void renderModel(MetalGolemModel model, GolemModelPath gmpath, PoseStack pose, VertexConsumer buffer, int light) {

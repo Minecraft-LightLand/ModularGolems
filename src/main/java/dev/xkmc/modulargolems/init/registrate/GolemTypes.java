@@ -11,9 +11,9 @@ import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemModel;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemRenderer;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemModel;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
@@ -28,6 +28,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.function.Supplier;
 
@@ -91,7 +92,8 @@ public class GolemTypes {
 						.add(GOLEM_REGEN.holder())
 						.add(GOLEM_SWEEP.holder())
 						.add(GOLEM_SIZE.holder(), 3)
-				).tag(MGTagGen.GOLEM_FRIENDLY).register();
+				).loot((pvd, e) -> pvd.add(e, LootTable.lootTable()))
+				.tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_HUMANOID = REGISTRATE.entity("humanoid_golem", HumanoidGolemEntity::new, MobCategory.MISC)
 				.properties(e -> e.sized(0.6F, 1.8F)
@@ -113,7 +115,8 @@ public class GolemTypes {
 						.add(GOLEM_REGEN.holder())
 						.add(GOLEM_SWEEP.holder(), 1)
 						.add(GOLEM_SIZE.holder(), 2.5)
-				).tag(MGTagGen.GOLEM_FRIENDLY).register();
+				).loot((pvd, e) -> pvd.add(e, LootTable.lootTable()))
+				.tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
 				.properties(e -> e.sized(0.9F, 0.9F)
@@ -134,7 +137,8 @@ public class GolemTypes {
 						.add(GOLEM_JUMP.holder(), 0.5D)
 						.add(GOLEM_REGEN.holder())
 						.add(GOLEM_SIZE.holder(), 1)
-				).tag(MGTagGen.GOLEM_FRIENDLY).register();
+				).loot((pvd, e) -> pvd.add(e, LootTable.lootTable()))
+				.tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		TYPE_GOLEM = new Val.Registrate<>(REGISTRATE.generic(TYPES, "metal_golem",
 						() -> new GolemType<>(ENTITY_GOLEM, MetalGolemPartType::values, MetalGolemPartType.BODY, () -> MetalGolemModel::new))

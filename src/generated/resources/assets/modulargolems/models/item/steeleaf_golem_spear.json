@@ -1,6 +1,0 @@
-{
-  "parent": "modulargolems:item/long_weapon",
-  "textures": {
-    "layer0": "twilightforest:item/equipments/steeleaf_golem_spear"
-  }
-}

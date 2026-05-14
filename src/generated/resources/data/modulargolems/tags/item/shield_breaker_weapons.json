@@ -36,54 +36,6 @@
       "id": "modulargolems:netherite_golem_sword",
       "required": false
     },
-    "modulargolems:golem_slicing_axe",
-    {
-      "id": "modulargolems:ironwood_golem_spear",
-      "required": false
-    },
-    {
-      "id": "modulargolems:steeleaf_golem_spear",
-      "required": false
-    },
-    {
-      "id": "modulargolems:knightmetal_golem_spear",
-      "required": false
-    },
-    {
-      "id": "modulargolems:fiery_golem_spear",
-      "required": false
-    },
-    {
-      "id": "modulargolems:ironwood_golem_axe",
-      "required": false
-    },
-    {
-      "id": "modulargolems:steeleaf_golem_axe",
-      "required": false
-    },
-    {
-      "id": "modulargolems:knightmetal_golem_axe",
-      "required": false
-    },
-    {
-      "id": "modulargolems:fiery_golem_axe",
-      "required": false
-    },
-    {
-      "id": "modulargolems:ironwood_golem_sword",
-      "required": false
-    },
-    {
-      "id": "modulargolems:steeleaf_golem_sword",
-      "required": false
-    },
-    {
-      "id": "modulargolems:knightmetal_golem_sword",
-      "required": false
-    },
-    {
-      "id": "modulargolems:fiery_golem_sword",
-      "required": false
-    }
+    "modulargolems:golem_slicing_axe"
   ]
 }

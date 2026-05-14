@@ -2,18 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "modulargolems:metal_golem_template"
-    },
-    {
-      "item": "minecraft:paper"
-    },
-    {
-      "item": "minecraft:clay_ball"
-    }
+    "modulargolems:metal_golem_template",
+    "minecraft:paper",
+    "minecraft:clay_ball"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:target_filter_type"
   }
 }

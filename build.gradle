@@ -203,6 +203,9 @@ dependencies {
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${jei_minecraft_version}:${jei_version}"
     // Curios
-    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
+
+    testImplementation "com.mojang:datafixerupper:8.0.16"
+    testImplementation "com.google.guava:guava:32.1.2-jre"
 }

@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:blaze_powder"
-    },
-    "B": {
-      "item": "modulargolems:empty_upgrade"
-    },
-    "C": {
-      "item": "minecraft:dragon_breath"
-    },
-    "D": {
-      "item": "minecraft:cauldron"
-    },
-    "E": {
-      "item": "minecraft:nether_star"
-    }
+    "A": "minecraft:blaze_powder",
+    "B": "modulargolems:empty_upgrade",
+    "C": "minecraft:dragon_breath",
+    "D": "minecraft:cauldron",
+    "E": "minecraft:nether_star"
   },
   "pattern": [
     "CEC",
@@ -24,7 +14,6 @@
     "CDC"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:cauldron"
   }
 }

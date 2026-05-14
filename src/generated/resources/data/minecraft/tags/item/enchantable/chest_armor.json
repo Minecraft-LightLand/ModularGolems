@@ -2,34 +2,6 @@
   "values": [
     "modulargolems:roman_guard_chestplate",
     "modulargolems:wind_spirit_chestplate",
-    "modulargolems:barbaric_vanguard_chestplate",
-    {
-      "id": "modulargolems:ironwood_chestplate",
-      "required": false
-    },
-    {
-      "id": "modulargolems:naga_chestplate",
-      "required": false
-    },
-    {
-      "id": "modulargolems:knightmetal_chestplate",
-      "required": false
-    },
-    {
-      "id": "modulargolems:fiery_chestplate",
-      "required": false
-    },
-    {
-      "id": "modulargolems:harbinger_chestplate",
-      "required": false
-    },
-    {
-      "id": "modulargolems:monstrosity_chestplate",
-      "required": false
-    },
-    {
-      "id": "modulargolems:ignis_chestplate",
-      "required": false
-    }
+    "modulargolems:barbaric_vanguard_chestplate"
   ]
 }

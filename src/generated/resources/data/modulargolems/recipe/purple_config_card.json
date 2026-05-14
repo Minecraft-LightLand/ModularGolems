@@ -2,15 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "modulargolems:config_card"
-    },
-    {
-      "item": "minecraft:purple_dye"
-    }
+    "#modulargolems:config_card",
+    "minecraft:purple_dye"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:purple_config_card"
   }
 }

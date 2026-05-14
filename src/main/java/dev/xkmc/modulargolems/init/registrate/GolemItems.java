@@ -32,13 +32,17 @@ import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.ranged.*;
-import dev.xkmc.modulargolems.content.item.render.*;
+import dev.xkmc.modulargolems.content.item.render.GolemFacadeRenderer;
+import dev.xkmc.modulargolems.content.item.render.GolemHolderRenderer;
+import dev.xkmc.modulargolems.content.item.render.GolemPartRenderer;
+import dev.xkmc.modulargolems.content.item.render.IsInTag;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.*;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGModelGen;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
@@ -149,16 +153,7 @@ public class GolemItems {
 
 		TABLE = REGISTRATE.block("golem_workbench", TableBlock::new)
 				.initialProperties(() -> Blocks.ANVIL)
-				.blockstate(() -> (ctx, pvd) -> pvd
-						.generate(ctx.get(), TexturedModel.createDefault(block -> new TextureMapping()
-										.put(TextureSlot.TOP, new Material(pvd.modLoc("block/table_top")))
-										.put(TextureSlot.create("middle"), new Material(pvd.modLoc("block/table_middle")))
-										.put(TextureSlot.BOTTOM, new Material(pvd.modLoc("block/table_bottom")))
-										.put(TextureSlot.PARTICLE, new Material(pvd.modLoc("block/table_particle"))),
-								ModelTemplates.create(pvd.modLoc("table").toString(),
-										TextureSlot.TOP, TextureSlot.create("middle"), TextureSlot.BOTTOM, TextureSlot.PARTICLE
-								)))
-				)
+				.blockstate(() -> MGModelGen::genTable)
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
 				.item().tag(L2MSTagGen.QUICK_ACCESS_VANILLA).build()
 				.register();
@@ -490,12 +485,16 @@ public class GolemItems {
 		return REGISTRATE.item(id, p -> new SimpleUpgradeItem(p, mod.get()::get, level, foil))
 				.model(() -> (ctx, pvd) ->
 						pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.conditional(new IsInTag(MGTagGen.BLUE_UPGRADES),
-								ItemModelUtils.plainModel(ModelTemplates.TWO_LAYERED_ITEM.create(ctx.get(), TextureMapping.layered(
+								ItemModelUtils.plainModel(ModelTemplates.TWO_LAYERED_ITEM.create(
+										ModelLocationUtils.getModelLocation(ctx.get(), "_blue"),
+										TextureMapping.layered(
 												new Material(Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id)),
 												new Material(pvd.modLoc("item/blue_arrow"))),
 										pvd.modelOutput)),
 								ItemModelUtils.conditional(new IsInTag(MGTagGen.POTION_UPGRADES),
-										ItemModelUtils.plainModel(ModelTemplates.TWO_LAYERED_ITEM.create(ctx.get(), TextureMapping.layered(
+										ItemModelUtils.plainModel(ModelTemplates.TWO_LAYERED_ITEM.create(
+												ModelLocationUtils.getModelLocation(ctx.get(), "_purple"),
+												TextureMapping.layered(
 														new Material(Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id)),
 														new Material(pvd.modLoc("item/purple_arrow"))),
 												pvd.modelOutput)),

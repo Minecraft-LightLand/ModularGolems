@@ -2,22 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "A": {
-      "item": "modulargolems:metal_golem_template"
-    },
-    "B": {
-      "item": "minecraft:anvil"
-    },
-    "I": {
-      "item": "minecraft:netherite_boots"
-    }
+    "A": "modulargolems:metal_golem_template",
+    "B": "minecraft:anvil",
+    "I": "minecraft:netherite_boots"
   },
   "pattern": [
     "I I",
     "BAB"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:barbaric_vanguard_boots"
   }
 }

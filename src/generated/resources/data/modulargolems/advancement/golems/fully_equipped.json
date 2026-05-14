@@ -17,30 +17,12 @@
       "components": {
         "modulargolems:golem_as_icon": {
           "list": [
-            {
-              "count": 1,
-              "id": "minecraft:diamond_helmet"
-            },
-            {
-              "count": 1,
-              "id": "minecraft:diamond_chestplate"
-            },
-            {
-              "count": 1,
-              "id": "minecraft:diamond_leggings"
-            },
-            {
-              "count": 1,
-              "id": "minecraft:diamond_boots"
-            },
-            {
-              "count": 1,
-              "id": "minecraft:diamond_sword"
-            },
-            {
-              "count": 1,
-              "id": "minecraft:shield"
-            }
+            "minecraft:diamond_helmet",
+            "minecraft:diamond_chestplate",
+            "minecraft:diamond_leggings",
+            "minecraft:diamond_boots",
+            "minecraft:diamond_sword",
+            "minecraft:shield"
           ]
         },
         "modulargolems:golem_materials": {
@@ -60,7 +42,6 @@
           ]
         }
       },
-      "count": 1,
       "id": "modulargolems:humanoid_golem_holder"
     },
     "title": {

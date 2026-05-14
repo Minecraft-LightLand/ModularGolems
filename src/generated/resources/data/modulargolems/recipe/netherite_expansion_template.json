@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "modulargolems:empty_upgrade"
-    },
-    "B": {
-      "item": "minecraft:netherite_upgrade_smithing_template"
-    },
-    "C": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "D": {
-      "item": "minecraft:nether_star"
-    }
+    "A": "modulargolems:empty_upgrade",
+    "B": "minecraft:netherite_upgrade_smithing_template",
+    "C": "minecraft:netherite_ingot",
+    "D": "minecraft:nether_star"
   },
   "pattern": [
     "ADA",
@@ -21,7 +13,6 @@
     "ACA"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:netherite_expansion_template"
   }
 }

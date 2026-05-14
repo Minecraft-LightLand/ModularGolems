@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "minecraft:stonecutter",
+  "base": "modulargolems:diamond_golem_axe",
+  "result": {
+    "id": "modulargolems:golem_slicing_axe"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

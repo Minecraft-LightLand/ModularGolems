@@ -2,22 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "A": {
-      "item": "modulargolems:metal_golem_template"
-    },
-    "B": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "I": {
-      "item": "minecraft:diamond_boots"
-    }
+    "A": "modulargolems:metal_golem_template",
+    "B": "minecraft:lapis_lazuli",
+    "I": "minecraft:diamond_boots"
   },
   "pattern": [
     "I I",
     "BAB"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:wind_spirit_boots"
   }
 }

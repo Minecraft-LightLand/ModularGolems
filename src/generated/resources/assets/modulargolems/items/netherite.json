@@ -1,0 +1,24 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:condition",
+      "on_false": {
+        "type": "minecraft:model",
+        "model": "modulargolems:item/netherite"
+      },
+      "on_true": {
+        "type": "minecraft:model",
+        "model": "modulargolems:item/netherite_purple"
+      },
+      "property": "modulargolems:tag",
+      "tag": "modulargolems:potion_upgrades"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "modulargolems:item/netherite_blue"
+    },
+    "property": "modulargolems:tag",
+    "tag": "modulargolems:blue_upgrades"
+  }
+}

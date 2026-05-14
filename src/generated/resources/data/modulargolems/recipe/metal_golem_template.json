@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:copper_ingot"
-    },
-    "B": {
-      "item": "minecraft:stick"
-    },
-    "C": {
-      "item": "minecraft:clay_ball"
-    }
+    "A": "minecraft:copper_ingot",
+    "B": "minecraft:stick",
+    "C": "minecraft:clay_ball"
   },
   "pattern": [
     "CBC",
@@ -18,7 +12,6 @@
     "CBC"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:metal_golem_template"
   }
 }

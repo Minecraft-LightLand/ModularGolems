@@ -1,22 +1,22 @@
 {
   "values": {
     "modulargolems:golem_jump": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 7400,
       "usePercent": false
     },
     "modulargolems:golem_regen": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": true,
       "order": 7100,
       "usePercent": false
     },
     "modulargolems:golem_size": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": false,
       "order": 7300,
       "usePercent": false
     },
     "modulargolems:golem_sweep": {
-      "intrinsic": 0.0,
+      "alwaysDisplay": true,
       "order": 7200,
       "usePercent": false
     }

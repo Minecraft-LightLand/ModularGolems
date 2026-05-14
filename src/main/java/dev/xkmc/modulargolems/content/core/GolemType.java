@@ -8,7 +8,6 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -69,12 +68,13 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		if (ans == null) return null;
 		T golem = Wrappers.cast(ans);
 		golem.addTag("ClientOnly");
+		/* FIXME attribute
 		if (tag.contains("attributes", 9)) {
 			golem.getAttributes().load(tag.getList("attributes", 10));
 		}
 		if (tag.contains("Health", Tag.TAG_FLOAT)) {
 			golem.setHealth(tag.getFloat("Health"));
-		}
+		}*/
 		golem.yHeadRot = 0;
 		golem.yHeadRotO = 0;
 		golem.yBodyRot = 0;

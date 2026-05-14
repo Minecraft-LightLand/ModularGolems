@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:golden_apple"
-    },
-    "B": {
-      "item": "modulargolems:empty_upgrade"
-    },
-    "C": {
-      "item": "minecraft:golden_carrot"
-    }
+    "A": "minecraft:golden_apple",
+    "B": "modulargolems:empty_upgrade",
+    "C": "minecraft:golden_carrot"
   },
   "pattern": [
     "CAC",
@@ -18,7 +12,6 @@
     "CAC"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:gold"
   }
 }

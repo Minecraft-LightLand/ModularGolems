@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "modulargolems:item/humanoid_golem_holder",
+    "model": {
+      "type": "modulargolems:holder",
+      "golem_type": "modulargolems:humanoid_golem"
+    }
+  }
+}

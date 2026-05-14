@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "B": {
-      "item": "modulargolems:metal_golem_template"
-    },
-    "C": {
-      "item": "minecraft:chain"
-    },
-    "I": {
-      "item": "minecraft:iron_ingot"
-    }
+    "B": "modulargolems:metal_golem_template",
+    "C": "minecraft:iron_chain",
+    "I": "minecraft:iron_ingot"
   },
   "pattern": [
     "CII",
@@ -18,7 +12,6 @@
     "IBC"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:iron_mecha_bow"
   }
 }

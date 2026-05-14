@@ -1,10 +1,11 @@
 package dev.xkmc.modulargolems.content.item.data;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
-public record GolemIcon(ArrayList<ItemStack> list) {
+public record GolemIcon(ArrayList<Item> list) {
 
 	@Override
 	public boolean equals(Object obj) {

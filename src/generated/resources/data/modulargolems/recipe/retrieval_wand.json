@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "E": {
-      "item": "minecraft:ender_pearl"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    },
-    "T": {
-      "item": "modulargolems:metal_golem_template"
-    }
+    "E": "minecraft:ender_pearl",
+    "S": "minecraft:stick",
+    "T": "modulargolems:metal_golem_template"
   },
   "pattern": [
     " ET",
@@ -18,7 +12,6 @@
     "S  "
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:retrieval_wand"
   }
 }

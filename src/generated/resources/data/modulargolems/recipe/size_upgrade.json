@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:iron_block"
-    },
-    "B": {
-      "item": "modulargolems:empty_upgrade"
-    },
-    "C": {
-      "item": "minecraft:copper_block"
-    }
+    "A": "minecraft:iron_block",
+    "B": "modulargolems:empty_upgrade",
+    "C": "minecraft:copper_block"
   },
   "pattern": [
     "CAC",
@@ -18,7 +12,6 @@
     "CAC"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:size_upgrade"
   }
 }

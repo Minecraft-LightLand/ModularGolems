@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "B": {
-      "item": "modulargolems:empty_upgrade"
-    },
-    "C": {
-      "item": "minecraft:diamond"
-    }
+    "A": "minecraft:netherite_ingot",
+    "B": "modulargolems:empty_upgrade",
+    "C": "minecraft:diamond"
   },
   "pattern": [
     "CAC",
@@ -18,7 +12,6 @@
     "CAC"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:netherite"
   }
 }

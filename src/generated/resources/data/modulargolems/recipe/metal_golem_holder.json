@@ -1,23 +1,16 @@
 {
   "type": "modulargolems:golem_assemble",
-  "category": "misc",
+  "category": "equipment",
   "key": {
-    "A": {
-      "item": "modulargolems:metal_golem_arm"
-    },
-    "B": {
-      "item": "modulargolems:metal_golem_body"
-    },
-    "L": {
-      "item": "modulargolems:metal_golem_legs"
-    }
+    "A": "modulargolems:metal_golem_arm",
+    "B": "modulargolems:metal_golem_body",
+    "L": "modulargolems:metal_golem_legs"
   },
   "pattern": [
     "ABA",
     " L "
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:metal_golem_holder"
   }
 }

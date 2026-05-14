@@ -81,7 +81,7 @@ public class ClientHolderManager {
 			GolemEquipUtil.addItemsToGolem(golem, stack, null);
 			if (icon != null) {
 				for (var e : icon.list()) {
-					equipItemIfPossible(golem, e);
+					equipItemIfPossible(golem, e.getDefaultInstance());
 				}
 			}
 			ans = Wrappers.cast(golem);

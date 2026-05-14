@@ -1,20 +1,15 @@
 {
   "type": "modulargolems:golem_replace_part",
-  "category": "misc",
+  "category": "equipment",
   "key": {
-    "H": {
-      "item": "modulargolems:humanoid_golem_holder"
-    },
-    "P": {
-      "item": "modulargolems:humanoid_golem_body"
-    }
+    "H": "modulargolems:humanoid_golem_holder",
+    "P": "modulargolems:humanoid_golem_body"
   },
   "pattern": [
     "P",
     "H"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:humanoid_golem_holder"
   }
 }

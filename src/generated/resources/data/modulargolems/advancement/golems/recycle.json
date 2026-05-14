@@ -3,9 +3,7 @@
   "criteria": {
     "0": {
       "conditions": {
-        "ingredient": {
-          "item": "modulargolems:recycle"
-        },
+        "ingredient": "modulargolems:recycle",
         "remain": -1,
         "total": -1
       },
@@ -18,7 +16,6 @@
     },
     "frame": "challenge",
     "icon": {
-      "count": 1,
       "id": "modulargolems:recycle"
     },
     "title": {

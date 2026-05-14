@@ -10,7 +10,7 @@ public class GolemMiscEntities {
 
 	public static final EntityEntry<BeaconLaserEntity> LASER = ModularGolems.REGISTRATE
 			.<BeaconLaserEntity>entity("beacon_laser", BeaconLaserEntity::new, MobCategory.MISC)
-			.properties(p -> p.fireImmune().noSave().noSummon().sized(0, 0))
+			.properties(p -> p.fireImmune().noSave().noSummon().sized(0, 0).noLootTable())
 			.renderer(() -> BeaconLaserRenderer::new)
 			.register();
 

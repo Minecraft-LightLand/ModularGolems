@@ -1,6 +1,0 @@
-{
-  "parent": "modulargolems:item/battle_axe",
-  "textures": {
-    "layer0": "twilightforest:item/equipments/knightmetal_golem_axe"
-  }
-}

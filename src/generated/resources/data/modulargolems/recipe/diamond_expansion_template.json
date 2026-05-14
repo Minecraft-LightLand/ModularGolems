@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "modulargolems:empty_upgrade"
-    },
-    "B": {
-      "item": "minecraft:netherite_upgrade_smithing_template"
-    },
-    "C": {
-      "item": "minecraft:diamond"
-    }
+    "A": "modulargolems:empty_upgrade",
+    "B": "minecraft:netherite_upgrade_smithing_template",
+    "C": "minecraft:diamond"
   },
   "pattern": [
     "ACA",
@@ -18,7 +12,6 @@
     "ACA"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:diamond_expansion_template"
   }
 }

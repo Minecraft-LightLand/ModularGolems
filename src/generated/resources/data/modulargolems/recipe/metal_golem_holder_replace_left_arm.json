@@ -1,19 +1,14 @@
 {
   "type": "modulargolems:golem_replace_part",
-  "category": "misc",
+  "category": "equipment",
   "key": {
-    "H": {
-      "item": "modulargolems:metal_golem_holder"
-    },
-    "P": {
-      "item": "modulargolems:metal_golem_arm"
-    }
+    "H": "modulargolems:metal_golem_holder",
+    "P": "modulargolems:metal_golem_arm"
   },
   "pattern": [
     "HP"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:metal_golem_holder"
   }
 }

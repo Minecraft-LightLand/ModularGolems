@@ -1,20 +1,3 @@
 {
-  "values": [
-    {
-      "id": "create:cardboard",
-      "required": false
-    },
-    {
-      "id": "create:andesite_alloy",
-      "required": false
-    },
-    {
-      "id": "#c:ingots/brass",
-      "required": false
-    },
-    {
-      "id": "create:railway_casing",
-      "required": false
-    }
-  ]
+  "values": []
 }

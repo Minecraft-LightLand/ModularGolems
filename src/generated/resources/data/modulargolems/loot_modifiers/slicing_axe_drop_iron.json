@@ -21,5 +21,6 @@
       }
     }
   ],
-  "material": "modulargolems:iron"
+  "material": "modulargolems:iron",
+  "priority": 0
 }

@@ -1,5 +1,5 @@
 {
-  "parent": "modulargolems:custom/table",
+  "parent": "modulargolems:block/table",
   "textures": {
     "bottom": "modulargolems:block/table_bottom",
     "middle": "modulargolems:block/table_middle",

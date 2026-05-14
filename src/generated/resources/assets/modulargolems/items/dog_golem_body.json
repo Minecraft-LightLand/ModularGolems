@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "modulargolems:item/dog_golem_body",
+    "model": {
+      "type": "modulargolems:part",
+      "golem_type": "modulargolems:dog_golem"
+    }
+  }
+}

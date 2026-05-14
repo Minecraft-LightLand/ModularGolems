@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "A": {
-      "item": "modulargolems:metal_golem_template"
-    },
-    "B": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "I": {
-      "item": "minecraft:diamond_leggings"
-    }
+    "A": "modulargolems:metal_golem_template",
+    "B": "minecraft:lapis_lazuli",
+    "I": "minecraft:diamond_leggings"
   },
   "pattern": [
     "BIB",
@@ -18,7 +12,6 @@
     "I I"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:wind_spirit_shinguard"
   }
 }

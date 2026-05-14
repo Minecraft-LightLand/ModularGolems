@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    },
-    "T": {
-      "item": "modulargolems:metal_golem_template"
-    }
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:stick",
+    "T": "modulargolems:metal_golem_template"
   },
   "pattern": [
     "TII",
@@ -18,7 +12,6 @@
     "S T"
   ],
   "result": {
-    "count": 1,
     "id": "modulargolems:iron_golem_spear"
   }
 }
