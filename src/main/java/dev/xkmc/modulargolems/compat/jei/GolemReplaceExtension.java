@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.jei;
 
+import dev.xkmc.l2core.util.ContextHelper;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.recipe.GolemReplaceRecipe;
@@ -9,7 +10,6 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -55,7 +55,7 @@ public record GolemReplaceExtension()
 				continue;
 			}
 			var ing = opt.get();
-			List<ItemStack> stacks = ing.display().resolveForStacks(ContextMap.EMPTY);
+			List<ItemStack> stacks = ContextHelper.resolve(ing);
 			if (stacks.size() == 1 && stacks.getFirst().getItem() instanceof GolemPart<?, ?> part) {
 				List<ItemStack> list = new ArrayList<>();
 				for (Identifier rl : GolemMaterialConfig.get().getAllMaterials()) {
@@ -83,7 +83,7 @@ public record GolemReplaceExtension()
 				continue;
 			}
 			var ing = opt.get();
-			var stacks = ing.display().resolveForStacks(ContextMap.EMPTY);
+			var stacks = ContextHelper.resolve(ing);
 			if (stacks.size() == 1 && stacks.getFirst().getItem() instanceof GolemPart<?, ?>) {
 				inputs.add(List.of(focusResult));
 			} else inputs.add(stacks);

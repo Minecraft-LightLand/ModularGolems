@@ -59,10 +59,10 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	private double pathedY;
 	private double pathedZ;
 	private int repathDelay;
-	private int ticksUntilNextAttack;
+	private int nextAttackTick;
 	private long lastCanUseCheck;
 	private int failureDelay = 0;
-	private boolean canPenalize = false;
+	private final boolean canPenalize = false;
 
 	private final AbstractGolemEntity<?, ?> golem;
 
@@ -132,7 +132,6 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		}
 		golem.setAggressive(true);
 		this.repathDelay = 0;
-		this.ticksUntilNextAttack = 0;
 	}
 
 	public void stop() {
@@ -149,11 +148,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	}
 
 	protected void resetAttackCooldown() {
-		this.ticksUntilNextAttack = getMeleeInterval();
+		this.nextAttackTick = golem.tickCount + getMeleeInterval();
 	}
 
 	protected boolean isTimeToAttack() {
-		return this.ticksUntilNextAttack <= 0;
+		return this.nextAttackTick <= golem.tickCount;
 	}
 
 
@@ -192,7 +191,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		if (isTimeToAttack()) {
 			timeNoMovement++;
 		}
-		golem.lookAt(target, 30.0F, 30.0F);
+		golem.getLookControl().setLookAt(target, 30.0F, 30.0F);
 		double dist = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
 		tickMove(target, dist);
 		checkAndPerformAttack(target, dist);
@@ -258,7 +257,6 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	}
 
 	protected void checkAndPerformAttack(LivingEntity target, double distSqr) {
-		this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
 		if (isTimeToAttack()) {
 			double dist = Math.sqrt(distSqr);
 			if (dist < lastDist - getTargetDistanceDelta()) {

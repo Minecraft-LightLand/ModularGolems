@@ -111,7 +111,7 @@ public class PathRecordCard extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
-		if (slot==EquipmentSlot.MAINHAND && owner instanceof Player player && level.isClientSide()) {
+		if (slot == EquipmentSlot.MAINHAND && owner instanceof Player player && level.isClientSide()) {
 			var pos = getList(itemStack);
 			if (pos != null && pos.level().equals(level.dimension().identifier())) {
 				BlockOutliner.drawOutlines(player, pos.pos);

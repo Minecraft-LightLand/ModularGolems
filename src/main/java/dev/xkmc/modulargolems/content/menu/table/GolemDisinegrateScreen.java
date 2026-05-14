@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.menu.table;
 
 import com.mojang.datafixers.util.Pair;
 import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2core.util.ContextHelper;
 import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2itemselector.overlay.TextBox;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
@@ -22,7 +23,6 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
@@ -105,7 +105,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 	private ItemStack getExtraMat() {
 		if (menu.extra.ingot == null) return ItemStack.EMPTY;
-		var list = menu.extra.ingot.display().resolveForStacks(ContextMap.EMPTY);
+		var list = ContextHelper.resolve(menu.extra.ingot);
 		if (list.isEmpty()) return ItemStack.EMPTY;
 		var time = menu.inventory.player.level().getGameTime() / 30;
 		return list.get((int) (time % list.size()));

@@ -8,8 +8,9 @@ import net.minecraft.world.phys.Vec3;
 public class BowPoseUtil {
 
 	public static float getAngle(MetalGolemAimState e) {
-		var dst = e.targetAimPos();
-		if (dst.length() == 0) return 0;
+		var opt = e.targetAimPos();
+		if (opt.isEmpty()) return 0;
+		var dst = opt.get();
 		var pos = e.position();
 		dst = dst.add(pos);
 		var scale = e.scale();

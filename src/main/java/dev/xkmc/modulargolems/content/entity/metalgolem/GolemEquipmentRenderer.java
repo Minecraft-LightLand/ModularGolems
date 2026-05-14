@@ -49,6 +49,9 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemRenderState, M
 	@Override
 	public void submit(PoseStack pose, SubmitNodeCollector col, int light, MetalGolemRenderState state, float yRot, float xRot) {
 		submitArmor(state, state.headEquipment, pose, col, light);
+		submitArmor(state, state.chestEquipment, pose, col, light);
+		submitArmor(state, state.legsEquipment, pose, col, light);
+		submitArmor(state, state.feetEquipment, pose, col, light);
 		submitArmWithItem(state, state.rightHandItemState, state.rightWeaponState, state.rightHandItemStack, HumanoidArm.RIGHT, pose, col, light);
 		submitArmWithItem(state, state.leftHandItemState, state.leftWeaponState, state.leftHandItemStack, HumanoidArm.LEFT, pose, col, light);
 		submitShoulder(state, state.rightShoulderState, state.rightShoulderItem, HumanoidArm.RIGHT, pose, col, light);

@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.render.CommonGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.skin.ClientSkinDispatch;
-import dev.xkmc.modulargolems.content.entity.skin.SpecialRenderProfile;
 import dev.xkmc.modulargolems.content.entity.skin.SpecialRenderSkin;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.item.ItemModelResolver;

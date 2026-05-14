@@ -177,7 +177,7 @@ public class BeaconRenderer {
 	}
 
 	private static void addVertex(PoseStack.Pose pose, VertexConsumer builder, int color, float y, float x, float z, float u, float v) {
-		builder.addVertex(pose, x, (float) y, z)
+		builder.addVertex(pose, x, y, z)
 				.setColor(color)
 				.setUv(u, v)
 				.setOverlay(OverlayTexture.NO_OVERLAY)

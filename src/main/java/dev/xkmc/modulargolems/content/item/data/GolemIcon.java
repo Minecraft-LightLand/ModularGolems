@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.content.item.data;
 
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 

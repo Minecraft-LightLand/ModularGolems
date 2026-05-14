@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.mob_weapon_api.api.projectile.ProjectileWeaponUser;
 import dev.xkmc.mob_weapon_api.api.simple.IHoldWeaponBehavior;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemAimState;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.init.ModularGolems;

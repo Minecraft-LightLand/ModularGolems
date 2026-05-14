@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.recipe;
 
 import dev.xkmc.l2core.serial.recipe.AbstractSmithingRecipe;
 import dev.xkmc.l2serial.util.Wrappers;
-import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;

@@ -14,8 +14,9 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 
 	public float[] getAngle(MetalGolemAimState e, HumanoidArm hand) {
 		var ans = new float[2];
-		var dst = e.targetAimPos();
-		if (dst.length() == 0) return ans;
+		var opt = e.targetAimPos();
+		if (opt.isEmpty()) return ans;
+		var dst = opt.get();
 		int x = hand == HumanoidArm.RIGHT ? -1 : 1;
 		var scale = e.scale();
 		var br = e.yBodyRot() * Mth.DEG_TO_RAD;
@@ -32,8 +33,9 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 	}
 
 	public Vec3 getOrigin(MetalGolemEntity e, HumanoidArm hand) {
-		var dst = e.getTargetAimPos();
-		if (dst.length() == 0) return e.position();
+		var opt = e.getTargetAimPos();
+		if (opt.isEmpty()) return e.position();
+		var dst = opt.get();
 		int x = hand == HumanoidArm.RIGHT ? -1 : 1;
 		var scale = e.getScale();
 		var br = e.yBodyRot * Mth.DEG_TO_RAD;

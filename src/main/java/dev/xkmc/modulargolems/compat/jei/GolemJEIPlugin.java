@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.jei;
 
+import dev.xkmc.l2core.util.ContextHelper;
 import dev.xkmc.l2tabs.compat.jei.SideTabProperties;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
@@ -36,7 +37,6 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -105,10 +105,10 @@ public class GolemJEIPlugin implements IModPlugin {
 			{
 				var id = mat.withSuffix("_facade");
 				recipes.add(factory.createAnvilRecipe(List.of(GolemItems.EMPTY_UPGRADE.asStack()),
-						repair.display().resolveForStacks(ContextMap.EMPTY),
+						ContextHelper.resolve(repair),
 						List.of(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat)), id));
 			}
-			var arr = craft.display().resolveForStacks(ContextMap.EMPTY);
+			var arr = ContextHelper.resolve(craft);
 			boolean special = false;
 			for (ItemStack stack : arr) {
 				if (stack.is(MGTagGen.SPECIAL_CRAFT)) {
@@ -145,7 +145,7 @@ public class GolemJEIPlugin implements IModPlugin {
 				golem = GolemItems.HOLDER_MAT.set(golem, new GolemHolderMaterial(mats));
 				ItemStack damaged = golem.copy();
 				input.add(GolemItems.DC_DISP_HP.set(damaged, 0.75));
-				var arr = repair.display().resolveForStacks(ContextMap.EMPTY);
+				var arr = ContextHelper.resolve(repair);
 				material.add(new ItemStack(!arr.isEmpty() ? arr.getFirst().getItem() : Items.BARRIER));
 				result.add(GolemItems.DC_DISP_HP.set(golem, 1d));
 			}

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.render.CommonGolemRenderState;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
@@ -44,6 +45,11 @@ public class MetalGolemRenderState extends HumanoidRenderState implements Abstra
 	}
 
 	public void update(MetalGolemEntity entity, float pt, ItemModelResolver imr) {
+		ArmedEntityRenderState.extractArmedEntityRenderState(entity, this, imr, pt);
+		headEquipment = entity.getItemBySlot(EquipmentSlot.HEAD);
+		chestEquipment = entity.getItemBySlot(EquipmentSlot.CHEST);
+		legsEquipment = entity.getItemBySlot(EquipmentSlot.LEGS);
+		feetEquipment = entity.getItemBySlot(EquipmentSlot.FEET);
 		common = CommonGolemRenderState.of(entity, imr, pt);
 		crackiness = entity.getCrackiness();
 		attackTicksRemaining = entity.getAttackAnimationTick() > 0.0F ? entity.getAttackAnimationTick() - pt : 0.0F;

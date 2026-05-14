@@ -23,10 +23,7 @@ public class RideUpgrade extends AttributeGolemModifier {
 
 	@Override
 	public boolean onAttacked(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
-		if (event.getSource().getEntity() instanceof Mob mob && mob.getTarget() != entity) {
-			return true;
-		}
-		return false;
+		return event.getSource().getEntity() instanceof Mob mob && mob.getTarget() != entity;
 	}
 
 	@Override

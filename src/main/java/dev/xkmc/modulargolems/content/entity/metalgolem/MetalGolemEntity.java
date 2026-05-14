@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
+import dev.xkmc.l2core.init.L2LibReg;
 import dev.xkmc.l2core.init.reg.ench.EnchHelper;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
@@ -19,7 +20,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -50,13 +50,12 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import java.util.List;
+import java.util.Optional;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
 
-	public static final EntityDataSerializer<Vec3> VEC3 = EntityDataSerializer.forValueType(Vec3.STREAM_CODEC);
-
-	private static final EntityDataAccessor<Vec3> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, VEC3);
+	private static final EntityDataAccessor<Optional<Vec3>> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, L2LibReg.EDS_VEC3.get());
 	private static final EntityDataAccessor<ItemStack> LEFT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<ItemStack> RIGHT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
@@ -74,7 +73,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
-		builder.define(TARGET, new Vec3(0, 0, 0));
+		builder.define(TARGET, Optional.empty());
 		builder.define(LEFT_SHOULDER, ItemStack.EMPTY);
 		builder.define(RIGHT_SHOULDER, ItemStack.EMPTY);
 	}
@@ -150,9 +149,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 	}
 
-	public boolean doHurtTarget(Entity target) {
+	public boolean doHurtTarget(ServerLevel sl, Entity target) {
 		this.attackAnimationTick = 10;
-		this.level().broadcastEntityEvent(this, (byte) 4);
+		this.level().broadcastEntityEvent(this, EntityEvent.START_ATTACKING);
 		float damage = this.getAttackDamage();
 		double kb;
 		if (target instanceof LivingEntity le) {
@@ -179,7 +178,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	public void handleEntityEvent(byte event) {
-		if (event == 4) {
+		if (event == EntityEvent.START_ATTACKING) {
 			this.attackAnimationTick = 10;
 			this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
 		} else {
@@ -271,10 +270,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	protected void customServerAiStep(ServerLevel sl) {
 		super.customServerAiStep(sl);
 		var target = getTarget();
-		if (target == null) entityData.set(TARGET, new Vec3(0, 0, 0));
+		if (target == null) entityData.set(TARGET, Optional.empty());
 		else {
 			var center = target.position().add(0, target.getBbHeight() / 2, 0);
-			entityData.set(TARGET, center.subtract(position()));
+			entityData.set(TARGET, Optional.of(center.subtract(position())));
 		}
 		if (!ItemStack.matches(entityData.get(LEFT_SHOULDER), leftShoulder)) {
 			entityData.set(LEFT_SHOULDER, leftShoulder.copy());
@@ -284,7 +283,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 	}
 
-	public Vec3 getTargetAimPos() {
+	public Optional<Vec3> getTargetAimPos() {
 		return entityData.get(TARGET);
 	}
 

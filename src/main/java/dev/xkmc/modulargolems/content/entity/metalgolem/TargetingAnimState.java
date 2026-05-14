@@ -23,7 +23,7 @@ public class TargetingAnimState {
 
 		var pos = e.getTargetAimPos();
 		boolean prevTargeting = targeting;
-		targeting = pos.length() > 0;
+		targeting = pos.isPresent();
 		if (!targeting && prevTargeting) {
 			lastTargetTime = lastTick - 1;
 		}

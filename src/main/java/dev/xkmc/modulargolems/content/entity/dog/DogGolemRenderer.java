@@ -3,8 +3,6 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

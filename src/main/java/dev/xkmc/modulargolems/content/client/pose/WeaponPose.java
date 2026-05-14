@@ -10,7 +10,7 @@ public class WeaponPose extends MetalGolemPose {
 
 	@Override
 	public void attackModel(MetalGolemRenderState entity, MetalGolemModel model, float atkTick) {
-		AnimationUtils.swingWeaponDown(model.rightArm, model.leftArm, entity.mainArm, entity.attackTime, atkTick);
+		AnimationUtils.swingWeaponDown(model.rightArm, model.leftArm, entity.mainArm, entity.attackTime, entity.ageInTicks);
 		model.leftArm.xRot = 0;
 		model.rightForeArm.xRot = 0;
 		model.leftForeArm.xRot = 0;

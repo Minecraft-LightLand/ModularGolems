@@ -1,4 +1,3 @@
-
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import com.mojang.blaze3d.vertex.PoseStack;

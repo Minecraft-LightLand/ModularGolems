@@ -7,7 +7,6 @@ import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.registry.IMenuPvd;
