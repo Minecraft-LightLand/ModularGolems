@@ -9,6 +9,8 @@ import net.minecraft.world.item.ItemStack;
 public class DogGolemRenderState extends LivingEntityRenderState implements AbstractGolemRenderState<
 		DogGolemEntity, DogGolemRenderState, DogGolemPartType> {
 
+	public boolean isSitting;
+	public float tailAngle;
 	public CommonGolemRenderState common;
 	public ItemStack bodyArmorItem;
 
@@ -18,8 +20,10 @@ public class DogGolemRenderState extends LivingEntityRenderState implements Abst
 	}
 
 	public void update(DogGolemEntity entity, float pt, ItemModelResolver imr) {
+		isSitting = entity.isInSittingPose();
+		tailAngle = entity.getTailAngle();
 		common = CommonGolemRenderState.of(entity, imr, pt);
-		bodyArmorItem = entity.getBodyArmorItem();
+		bodyArmorItem = entity.getBodyArmorItem().copy();
 	}
 
 }
