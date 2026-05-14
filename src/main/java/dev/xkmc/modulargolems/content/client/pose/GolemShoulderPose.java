@@ -1,11 +1,12 @@
 package dev.xkmc.modulargolems.content.client.pose;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemAimState;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderState;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.LinkedHashMap;
@@ -20,8 +21,8 @@ public interface GolemShoulderPose {
 		}
 	}
 
-	void setup(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, float pTick);
+	void setup(MetalGolemAimState entity, MetalGolemModel model, ItemStack stack, HumanoidArm hand);
 
-	void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick);
+	void submit(MetalGolemRenderState entity, ItemStack stack, HumanoidArm hand, PoseStack pose, SubmitNodeCollector source, int light);
 
 }

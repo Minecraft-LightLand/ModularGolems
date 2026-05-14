@@ -33,7 +33,7 @@ public class BowPoseUtil {
 	}
 
 	public static Vec3 getOrigin(MetalGolemEntity e) {
-		return getOrigin(MetalGolemAimState.of(e));
+		return getOrigin(MetalGolemAimState.of(e, 1));
 	}
 
 }

@@ -8,6 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,7 +23,7 @@ public abstract class ShouldWeaponItem extends Item implements IShoulderWeapon {
 	}
 
 	@Override
-	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, HumanoidArm hand) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
 		return id.withPath(e -> "textures/equipments/" + e + ".png");
 	}

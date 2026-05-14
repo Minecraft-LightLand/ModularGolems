@@ -5,7 +5,6 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.compat.curio.ClientCuriosRenderHelper;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
-import dev.xkmc.modulargolems.content.entity.render.ItemInGolemHandLayer;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;

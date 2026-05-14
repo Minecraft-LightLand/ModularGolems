@@ -1,8 +1,9 @@
 package dev.xkmc.modulargolems.content.item.ranged;
 
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemAimState;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.phys.Vec3;
 
 public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
@@ -11,13 +12,13 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 
 	public static final float MAX_DEGREE = 15;
 
-	public float[] getAngle(MetalGolemEntity e, InteractionHand hand) {
+	public float[] getAngle(MetalGolemAimState e, HumanoidArm hand) {
 		var ans = new float[2];
-		var dst = e.getTargetAimPos();
+		var dst = e.targetAimPos();
 		if (dst.length() == 0) return ans;
-		int x = hand == InteractionHand.MAIN_HAND ? -1 : 1;
-		var scale = e.getScale();
-		var br = e.yBodyRot * Mth.DEG_TO_RAD;
+		int x = hand == HumanoidArm.RIGHT ? -1 : 1;
+		var scale = e.scale();
+		var br = e.yBodyRot() * Mth.DEG_TO_RAD;
 		var forward = new Vec3(-Math.sin(br), 0, Math.cos(br));
 		var side = forward.yRot(-(float) (Math.PI / 2));
 		var diff = dst.add(new Vec3(0, -y0, 0)
@@ -30,10 +31,10 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 		return ans;
 	}
 
-	public Vec3 getOrigin(MetalGolemEntity e, InteractionHand hand) {
+	public Vec3 getOrigin(MetalGolemEntity e, HumanoidArm hand) {
 		var dst = e.getTargetAimPos();
 		if (dst.length() == 0) return e.position();
-		int x = hand == InteractionHand.MAIN_HAND ? -1 : 1;
+		int x = hand == HumanoidArm.RIGHT ? -1 : 1;
 		var scale = e.getScale();
 		var br = e.yBodyRot * Mth.DEG_TO_RAD;
 		var forward = new Vec3(-Math.sin(br), 0, Math.cos(br));
@@ -62,12 +63,12 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 		return e.position().add(origin.add(af).add(av));
 	}
 
-	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand) {
+	public boolean isOutOfRange(MetalGolemEntity e, HumanoidArm hand) {
 		return isOutOfRange(e, hand, 5);
 	}
 
-	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand, float allowance) {
-		var rot = getAngle(e, hand);
+	public boolean isOutOfRange(MetalGolemEntity e, HumanoidArm hand, float allowance) {
+		var rot = getAngle(MetalGolemAimState.of(e, 1), hand);
 		var f0 = Vec3.directionFromRotation(rot[1] * Mth.RAD_TO_DEG, rot[0] * Mth.RAD_TO_DEG);
 		var diff = Mth.wrapDegrees(rot[0] * Mth.RAD_TO_DEG + e.yBodyRot);
 		if (Math.abs(diff) <= CannonPoseUtil.MAX_DEGREE) return false;

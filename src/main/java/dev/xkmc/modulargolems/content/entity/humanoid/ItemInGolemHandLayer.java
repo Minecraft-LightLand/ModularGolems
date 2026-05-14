@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.render;
+package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;

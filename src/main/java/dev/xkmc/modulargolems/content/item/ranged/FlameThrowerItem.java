@@ -14,6 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
@@ -49,8 +50,8 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
-		if (e.tickCount % 40 != (hand == InteractionHand.MAIN_HAND ? 10 : 30)) return;
+	public void onTick(MetalGolemEntity e, ItemStack stack, HumanoidArm hand) {
+		if (e.tickCount % 40 != (hand == HumanoidArm.RIGHT ? 10 : 30)) return;
 		var target = e.getTarget();
 		if (target == null || !target.isAlive()) return;
 		if (CannonPoseUtil.BEACON.isOutOfRange(e, hand, 15)) return;
@@ -134,13 +135,13 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public @Nullable Identifier getModelForHand(InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.FLAME_RIGHT : GolemModelPaths.FLAME_LEFT;
+	public @Nullable Identifier getModelForHand(HumanoidArm hand) {
+		return hand == HumanoidArm.RIGHT ? GolemModelPaths.FLAME_RIGHT : GolemModelPaths.FLAME_LEFT;
 	}
 
 	@Override
-	public @Nullable Identifier getAnimBaseId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BEACON_RIGHT : GolemModelPaths.BEACON_LEFT;
+	public @Nullable Identifier getAnimBaseId(MetalGolemEntity user, ItemStack stack, HumanoidArm hand) {
+		return hand == HumanoidArm.RIGHT ? GolemModelPaths.BEACON_RIGHT : GolemModelPaths.BEACON_LEFT;
 	}
 
 	@Override
@@ -149,13 +150,13 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public Identifier getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, HumanoidArm hand) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
 		return id.withPath(e -> "textures/equipments/" + e + "_emissive.png");
 	}
 
 	@Override
-	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, HumanoidArm hand) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
 		return id.withPath(e -> "textures/equipments/" + e + ".png");
 	}

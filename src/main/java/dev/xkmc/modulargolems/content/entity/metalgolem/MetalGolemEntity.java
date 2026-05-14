@@ -5,9 +5,9 @@ import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.entity.common.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
@@ -30,10 +30,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Crackiness;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +46,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
@@ -134,10 +130,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		animState.tick(this);
 		var right = getRightShoulder().getItem();
 		if (!right.isEmpty() && right.getItem() instanceof IShoulderWeapon weapon)
-			weapon.onTick(this, right, InteractionHand.MAIN_HAND);
+			weapon.onTick(this, right, HumanoidArm.RIGHT);
 		var left = getLeftShoulder().getItem();
 		if (!left.isEmpty() && left.getItem() instanceof IShoulderWeapon weapon)
-			weapon.onTick(this, left, InteractionHand.OFF_HAND);
+			weapon.onTick(this, left, HumanoidArm.LEFT);
 
 		if (this.attackAnimationTick > 0) {
 			--this.attackAnimationTick;

@@ -91,30 +91,31 @@ public class MetalGolemBowItem extends BowItem implements IGolemEquipmentItem, I
 	}
 
 	@Override
-	public @Nullable Identifier getModelForHand(InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BOW_MAINHAND : GolemModelPaths.BOW_OFFHAND;
+	public @Nullable Identifier getModelForHand(HumanoidArm hand) {
+		return hand == HumanoidArm.RIGHT ? GolemModelPaths.BOW_MAINHAND : GolemModelPaths.BOW_OFFHAND;
 	}
 
 	@Override
-	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, HumanoidArm hand) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
-		assert id != null;
 		String suffix = shouldPlayAnimation(entity, stack, hand) ? "_pulling.png" : ".png";
 		return id.withPath(e -> "textures/equipments/" + e + suffix);
 	}
 
 	@Override
-	public boolean shouldPlayAnimation(LivingEntity user, ItemStack stack, InteractionHand hand) {
+	public boolean shouldPlayAnimation(MetalGolemEntity user, ItemStack stack, HumanoidArm arm) {
+		if (user.isLeftHanded()) arm = arm.getOpposite();
+		var hand = arm == HumanoidArm.RIGHT ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 		return user.isUsingItem() && user.getUsedItemHand() == hand;
 	}
 
 	@Override
-	public float getAnimationSpeed(LivingEntity user, ItemStack stack, InteractionHand hand) {
+	public float getAnimationSpeed(MetalGolemEntity user, ItemStack stack, HumanoidArm hand) {
 		return 10f / getPullTime(user);
 	}
 
 	@Override
-	public float getAnimationTick(LivingEntity user, ItemStack stack, InteractionHand hand) {
+	public float getAnimationTick(MetalGolemEntity user, ItemStack stack, HumanoidArm hand) {
 		return 10f * user.getTicksUsingItem() / getPullTime(user);
 	}
 

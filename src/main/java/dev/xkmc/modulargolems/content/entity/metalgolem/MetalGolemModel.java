@@ -8,18 +8,20 @@ import dev.xkmc.modulargolems.content.client.pose.WeaponPose;
 import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.entity.render.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.render.IHeadedModel;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
 public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implements IGolemModel<
-		MetalGolemEntity, MetalGolemRenderState, MetalGolemPartType, MetalGolemModel>, IHeadedModel {
+		MetalGolemEntity, MetalGolemRenderState, MetalGolemPartType, MetalGolemModel>, IHeadedModel, ArmedModel {
 
 	private final ModelPart root;
 	private final ModelPart head;
@@ -93,10 +95,6 @@ public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implemen
 
 	}
 
-	public void prepareMobModel(MetalGolemRenderState entity, float bob, float speed, float pTick) {
-
-	}
-
 	public void renderToBufferInternal(MetalGolemPartType type, Consumer<ModelPart> col) {
 		if (type == MetalGolemPartType.BODY) {
 			col.accept(body);
@@ -115,15 +113,18 @@ public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implemen
 		return rl.withPath(e -> "textures/entity/metal_golem/" + e + ".png");
 	}
 
-	public void transformToHand(EquipmentSlot slot, PoseStack pose) {
-		if (slot == EquipmentSlot.MAINHAND) {
+	@Override
+	public void translateToHand(EntityRenderState state, HumanoidArm arm, PoseStack pose) {
+		if (arm == HumanoidArm.RIGHT) {
 			rightArm.translateAndRotate(pose);
 			rightForeArm.translateAndRotate(pose);
 		}
-		if (slot == EquipmentSlot.OFFHAND) {
+		if (arm == HumanoidArm.LEFT) {
 			leftArm.translateAndRotate(pose);
 			leftForeArm.translateAndRotate(pose);
 		}
+		//TODO
+		pose.translate((arm == HumanoidArm.RIGHT ? 1 : -1) * 0.7f, 0.8F, -0.25F);
 	}
 
 	@Override

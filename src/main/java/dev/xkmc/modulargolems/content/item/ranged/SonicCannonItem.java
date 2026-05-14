@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -37,12 +38,12 @@ public class SonicCannonItem extends GolemEquipmentItem implements IEntityModelW
 	}
 
 	@Override
-	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getModelTexture(MetalGolemEntity entity, ItemStack stack, HumanoidArm hand) {
 		return ModularGolems.loc("textures/equipments/sonic_cannon.png");
 	}
 
 	@Override
-	public Identifier getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public Identifier getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, HumanoidArm hand) {
 		return ModularGolems.loc("textures/equipments/sonic_cannon_emissive.png");
 	}
 
@@ -52,8 +53,8 @@ public class SonicCannonItem extends GolemEquipmentItem implements IEntityModelW
 	}
 
 	@Override
-	public @Nullable Identifier getModelForHand(InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.SONIC_MAINHAND : GolemModelPaths.SONIC_OFFHAND;
+	public @Nullable Identifier getModelForHand(HumanoidArm hand) {
+		return hand == HumanoidArm.RIGHT ? GolemModelPaths.SONIC_MAINHAND : GolemModelPaths.SONIC_OFFHAND;
 	}
 
 	@Override
