@@ -28,7 +28,6 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> 
 		if (type == HumanoidGolemPartType.BODY) {
 			col.accept(body);
 			col.accept(head);
-			col.accept(hat);
 		} else if (type == HumanoidGolemPartType.ARMS) {
 			col.accept(leftArm);
 			col.accept(rightArm);

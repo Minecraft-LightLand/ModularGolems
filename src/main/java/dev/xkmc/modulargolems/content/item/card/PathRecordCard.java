@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.card;
 
+import dev.xkmc.l2core.content.raytrace.IClientTickItem;
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
@@ -7,10 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class PathRecordCard extends Item {
+public class PathRecordCard extends Item implements IClientTickItem {
 
 	@Nullable
 	public static Pos getList(ItemStack stack) {
@@ -110,12 +108,10 @@ public class PathRecordCard extends Item {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
-		if (slot == EquipmentSlot.MAINHAND && owner instanceof Player player && level.isClientSide()) {
-			var pos = getList(itemStack);
-			if (pos != null && pos.level().equals(level.dimension().identifier())) {
-				BlockOutliner.drawOutlines(player, pos.pos);
-			}
+	public void clientMainHandTick(Level level, Player player, ItemStack itemStack) {
+		var pos = getList(itemStack);
+		if (pos != null && pos.level().equals(level.dimension().identifier())) {
+			BlockOutliner.drawOutlines(player, pos.pos);
 		}
 	}
 

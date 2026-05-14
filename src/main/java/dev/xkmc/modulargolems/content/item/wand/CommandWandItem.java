@@ -14,12 +14,9 @@ import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenuPvd;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,13 +34,11 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
-		if (level.isClientSide() && slot == EquipmentSlot.MAINHAND && entity instanceof Player player) {
-			RayTraceUtil.clientUpdateTarget(player, RANGE);
-			if (RayTraceUtil.serverGetTarget(player) instanceof AbstractGolemEntity<?, ?> golem) {
-				if (golem.getMode() == GolemModes.ROUTE) {
-					BlockOutliner.drawOutlines(player, golem.getPatrolList());
-				}
+	public void clientMainHandTick(Level level, Player player, ItemStack itemStack) {
+		IGlowingTarget.super.clientMainHandTick(level, player, itemStack);
+		if (RayTraceUtil.serverGetTarget(player) instanceof AbstractGolemEntity<?, ?> golem) {
+			if (golem.getMode() == GolemModes.ROUTE) {
+				BlockOutliner.drawOutlines(player, golem.getPatrolList());
 			}
 		}
 	}

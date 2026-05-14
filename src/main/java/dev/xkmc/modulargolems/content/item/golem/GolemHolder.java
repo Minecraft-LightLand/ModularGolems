@@ -26,6 +26,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -134,10 +135,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			AttributeInstance ins = null;
 			for (var e : entity.get().tag.getListOrEmpty("attributes")) {
 				if (!(e instanceof CompoundTag t)) continue;
-				if (t.getStringOr("id", "").equals("minecraft:generic.max_health")) {
+				if (t.getStringOr("id", "").equals("minecraft:max_health")) {
 					ins = new AttributeInstance(Attributes.MAX_HEALTH, x -> {
 					});
-					//FIXME ins.load(t);
+					var packed = AttributeInstance.Packed.CODEC.decode(NbtOps.INSTANCE, t).result();
+					if (packed.isPresent()) {
+						var data = packed.get().getFirst();
+						ins.apply(data);
+					}
 					break;
 				}
 			}

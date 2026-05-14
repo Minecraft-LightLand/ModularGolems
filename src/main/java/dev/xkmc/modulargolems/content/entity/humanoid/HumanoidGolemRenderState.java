@@ -4,8 +4,10 @@ import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.render.CommonGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.skin.ClientSkinDispatch;
 import dev.xkmc.modulargolems.content.entity.skin.SpecialRenderSkin;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.world.entity.EquipmentSlot;
 import org.jspecify.annotations.Nullable;
 
 public class HumanoidGolemRenderState extends HumanoidRenderState implements AbstractGolemRenderState<
@@ -22,6 +24,11 @@ public class HumanoidGolemRenderState extends HumanoidRenderState implements Abs
 
 	@Override
 	public void update(HumanoidGolemEntity entity, float pt, ItemModelResolver imr) {
+		ArmedEntityRenderState.extractArmedEntityRenderState(entity, this, imr, pt);
+		headEquipment = entity.getItemBySlot(EquipmentSlot.HEAD);
+		chestEquipment = entity.getItemBySlot(EquipmentSlot.CHEST);
+		legsEquipment = entity.getItemBySlot(EquipmentSlot.LEGS);
+		feetEquipment = entity.getItemBySlot(EquipmentSlot.FEET);
 		common = CommonGolemRenderState.of(entity, imr, pt);
 		skinProfile = ClientSkinDispatch.get(this);
 	}

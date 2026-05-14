@@ -123,8 +123,6 @@ public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implemen
 			leftArm.translateAndRotate(pose);
 			leftForeArm.translateAndRotate(pose);
 		}
-		//TODO
-		pose.translate((arm == HumanoidArm.RIGHT ? 1 : -1) * 0.7f, 0.8F, -0.25F);
 	}
 
 	@Override

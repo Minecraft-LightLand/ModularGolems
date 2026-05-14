@@ -66,10 +66,13 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemRenderState, M
 		@Override
 		public void accept(ModelPart part) {
 			col.submitModelPart(part, pose, type, light, OverlayTexture.NO_OVERLAY,
-					null, false, foil, -1, null, outline);
+					null, false, false, -1, null, outline);
 			if (altType != null)
 				col.submitModelPart(part, pose, type, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY,
-						null, false, foil, -1, null, outline);
+						null, false, false, -1, null, -1);
+			if (foil)
+				col.submitModelPart(part, pose, RenderTypes.armorEntityGlint(), light, OverlayTexture.NO_OVERLAY,
+						null, false, true, -1, null, -1);
 		}
 
 	}
@@ -175,6 +178,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemRenderState, M
 		this.getParentModel().translateToHand(state, arm, pose);
 		pose.mulPose(Axis.XP.rotationDegrees(-90.0F));
 		pose.mulPose(Axis.YP.rotationDegrees(180.0F));
+		pose.translate((arm == HumanoidArm.RIGHT ? 1 : -1) * 10 / 16f, 4f / 16f, -4f / 16f);
 		boolean isLeftHand = arm == HumanoidArm.LEFT;
 		float offsetX = 1.0F;
 		float offsetY = 2.0F;

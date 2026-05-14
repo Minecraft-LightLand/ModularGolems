@@ -8,10 +8,12 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.TagValueInput;
 import org.jetbrains.annotations.Nullable;
@@ -68,13 +70,16 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		if (ans == null) return null;
 		T golem = Wrappers.cast(ans);
 		golem.addTag("ClientOnly");
-		/* FIXME attribute
-		if (tag.contains("attributes", 9)) {
-			golem.getAttributes().load(tag.getList("attributes", 10));
+		var attrData = tag.getList("attributes");
+		if (attrData.isPresent()) {
+			var result = AttributeInstance.Packed.LIST_CODEC.decode(NbtOps.INSTANCE, attrData.get()).result();
+			if (result.isPresent()) {
+				golem.getAttributes().apply(result.get().getFirst());
+			}
 		}
-		if (tag.contains("Health", Tag.TAG_FLOAT)) {
-			golem.setHealth(tag.getFloat("Health"));
-		}*/
+		if (tag.contains("Health")) {
+			golem.setHealth(tag.getFloatOr("Health", 1));
+		}
 		golem.yHeadRot = 0;
 		golem.yHeadRotO = 0;
 		golem.yBodyRot = 0;
