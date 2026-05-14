@@ -289,8 +289,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 							return InteractionResult.CONSUME;
 						}
 					}
+					setInSittingPose(!isInSittingPose());
 				}
-				setInSittingPose(!isInSittingPose());
 			}
 			return InteractionResult.SUCCESS;
 		}
