@@ -23,7 +23,7 @@ public class HumanoidGolemRenderState extends HumanoidRenderState implements Abs
 
 	@Override
 	public void update(HumanoidGolemEntity entity, float pt, ItemModelResolver imr) {
-		common = CommonGolemRenderState.of(entity, imr);
+		common = CommonGolemRenderState.of(entity, imr, pt);
 		skinProfile = ClientSkinDispatch.get(this);
 	}
 

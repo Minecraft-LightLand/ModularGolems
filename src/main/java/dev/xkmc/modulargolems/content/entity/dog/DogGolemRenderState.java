@@ -18,7 +18,7 @@ public class DogGolemRenderState extends LivingEntityRenderState implements Abst
 	}
 
 	public void update(DogGolemEntity entity, float pt, ItemModelResolver imr) {
-		common = CommonGolemRenderState.of(entity, imr);
+		common = CommonGolemRenderState.of(entity, imr, pt);
 		bodyArmorItem = entity.getBodyArmorItem();
 	}
 

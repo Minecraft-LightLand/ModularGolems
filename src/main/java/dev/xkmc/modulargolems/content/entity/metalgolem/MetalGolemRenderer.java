@@ -98,8 +98,7 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 	@Override
 	public void submit(MetalGolemRenderState state, PoseStack pose, SubmitNodeCollector col, CameraRenderState cam) {
 		super.submit(state, pose, col, cam);
-		if (state.renderBeacon)
-			BeaconRenderer.renderGolemBeacon(state, pose, col, cam);
+		BeaconRenderer.renderGolemBeacon(state, pose, col, cam);
 	}
 
 }

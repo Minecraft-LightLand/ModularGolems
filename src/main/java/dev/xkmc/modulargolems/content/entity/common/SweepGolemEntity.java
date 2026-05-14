@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemUser;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;
-import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -33,12 +32,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.CommonHooks;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.wrapper.EntityArmorInvWrapper;
-import net.neoforged.neoforge.items.wrapper.EntityHandsInvWrapper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -254,13 +250,10 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 
 
 	@Override
-	public List<IItemHandlerModifiable> aggregateInventories() {
-		var ans = new ArrayList<IItemHandlerModifiable>();
-		ans.add(new EntityHandsInvWrapper(this));
-		ans.add(new EntityArmorInvWrapper(this));
+	protected List<ResourceHandler<ItemResource>> aggregateInventories() {
+		var ans = super.aggregateInventories();
 		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
 		ans.add(new SlotWrapper(() -> backupHand, e -> backupHand = e));
-		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
 		return ans;
 	}
 

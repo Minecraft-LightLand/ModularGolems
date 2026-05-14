@@ -25,9 +25,12 @@ public record CommonGolemRenderState(
 		List<GolemMaterial> materials,
 		int id,
 		boolean aggressive,
-		int getVehicleId) {
+		int getVehicleId,
+		float time,
+		int configColor
+) {
 
-	public static CommonGolemRenderState of(AbstractGolemEntity<?, ?> e, ItemModelResolver imr) {
+	public static CommonGolemRenderState of(AbstractGolemEntity<?, ?> e, ItemModelResolver imr, float pt) {
 		var skin = ItemStack.EMPTY;
 		if (CurioCompatRegistry.get() != null)
 			skin = CurioCompatRegistry.get().getSkin(e);
@@ -39,7 +42,8 @@ public record CommonGolemRenderState(
 		if (isBanner(banner)) {
 			imr.updateForLiving(bannerState, banner, ItemDisplayContext.HEAD, e);
 		}
-		return new CommonGolemRenderState(e.getDisplayName(), skin, bannerState, e.getMaterials(), e.getId(), e.isAggressive(), vid);
+		return new CommonGolemRenderState(e.getDisplayName(), skin, bannerState, e.getMaterials(), e.getId(), e.isAggressive(), vid,
+				e.tickCount + pt, e.getConfigColor());
 	}
 
 	public static ItemStack getBanner(AbstractGolemEntity<?, ?> entity) {

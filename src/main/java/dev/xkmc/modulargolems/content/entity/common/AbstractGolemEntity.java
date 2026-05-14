@@ -94,11 +94,10 @@ import net.minecraft.world.scores.PlayerTeam;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
-import net.neoforged.neoforge.items.wrapper.EntityArmorInvWrapper;
-import net.neoforged.neoforge.items.wrapper.EntityHandsInvWrapper;
+import net.neoforged.neoforge.transfer.CombinedResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.LivingEntityEquipmentWrapper;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -383,12 +382,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
-	public float getAgeScale() {
+	protected float sanitizeScale(float scale) {
 		if (materials == null || materials.isEmpty() || level().isClientSide() && !isAddedToLevel() || entityTags().contains("ClientOnly")) {
 			return 1;
 		}
 		var def = DefaultAttributes.getSupplier(getType()).getValue(GolemTypes.GOLEM_SIZE);
-		return (float) (getScaleImpl() / def);
+		return (float) (scale * getScaleImpl() / def);
 	}
 
 	public void calculateEntityAnimation(boolean hasY) {
@@ -1175,16 +1174,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 	}
 
-	public List<IItemHandlerModifiable> aggregateInventories() {
-		var ans = new ArrayList<IItemHandlerModifiable>();
-		ans.add(new EntityHandsInvWrapper(this));
-		ans.add(new EntityArmorInvWrapper(this));
-		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
+	protected List<ResourceHandler<ItemResource>> aggregateInventories() {
+		var ans = new ArrayList<ResourceHandler<ItemResource>>();
+		ans.add(LivingEntityEquipmentWrapper.of(this, EquipmentSlot.Type.HAND));
+		ans.add(LivingEntityEquipmentWrapper.of(this, EquipmentSlot.Type.HUMANOID_ARMOR));
 		return ans;
 	}
 
-	public IItemHandler getItemHandler() {
-		return new CombinedInvWrapper(aggregateInventories().toArray(new IItemHandlerModifiable[0]));
+	public ResourceHandler<ItemResource> getItemHandler() {
+		var ans = aggregateInventories();
+		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
+		return new CombinedResourceHandler<>(aggregateInventories());
 	}
 
 	public boolean hasRangeAttack() {

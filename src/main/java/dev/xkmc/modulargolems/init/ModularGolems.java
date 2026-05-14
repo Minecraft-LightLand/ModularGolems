@@ -126,9 +126,9 @@ public class ModularGolems {
 
 	@SubscribeEvent
 	public static void attachCap(RegisterCapabilitiesEvent event) {
-		event.registerEntity(Capabilities.ItemHandler.ENTITY, GolemTypes.ENTITY_GOLEM.get(), (e, c) -> e.getItemHandler());
-		event.registerEntity(Capabilities.ItemHandler.ENTITY, GolemTypes.ENTITY_HUMANOID.get(), (e, c) -> e.getItemHandler());
-		event.registerEntity(Capabilities.ItemHandler.ENTITY, GolemTypes.ENTITY_DOG.get(), (e, c) -> e.getItemHandler());
+		event.registerEntity(Capabilities.Item.ENTITY, GolemTypes.ENTITY_GOLEM.get(), (e, c) -> e.getItemHandler());
+		event.registerEntity(Capabilities.Item.ENTITY, GolemTypes.ENTITY_HUMANOID.get(), (e, c) -> e.getItemHandler());
+		event.registerEntity(Capabilities.Item.ENTITY, GolemTypes.ENTITY_DOG.get(), (e, c) -> e.getItemHandler());
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
