@@ -1,10 +1,191 @@
 {
   "model": {
-    "type": "minecraft:special",
-    "base": "modulargolems:item/humanoid_golem_arms",
-    "model": {
-      "type": "modulargolems:part",
-      "golem_type": "modulargolems:humanoid_golem"
-    }
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/humanoid_golem_arms_first",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:humanoid_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.90198,
+              -0.37361234,
+              0.1999641,
+              0.08282785
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.6000001,
+              0.6,
+              0.6000001
+            ],
+            "translation": [
+              0.63639617,
+              0.63639605,
+              0.0
+            ]
+          }
+        },
+        "when": [
+          "gui",
+          "firstperson_lefthand",
+          "firstperson_righthand"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/humanoid_golem_arms_third",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:humanoid_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.90197986,
+              -0.37361234,
+              0.1999641,
+              0.08282785
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.375,
+              0.375,
+              0.375
+            ],
+            "translation": [
+              0.6477476,
+              0.79774755,
+              0.5
+            ]
+          }
+        },
+        "when": [
+          "thirdperson_lefthand",
+          "thirdperson_righthand"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/humanoid_golem_arms_entity",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:humanoid_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.90197986,
+              -0.37361234,
+              0.1999641,
+              0.08282785
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.375,
+              0.375,
+              0.375
+            ],
+            "translation": [
+              0.6477476,
+              0.39774755,
+              0.5
+            ]
+          }
+        },
+        "when": "ground"
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/humanoid_golem_arms_def",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:humanoid_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.5,
+              0.5,
+              -0.5
+            ],
+            "translation": [
+              0.5,
+              0.75,
+              0.5
+            ]
+          }
+        },
+        "when": [
+          "none",
+          "head",
+          "fixed"
+        ]
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:special",
+      "base": "modulargolems:item/humanoid_golem_arms_other",
+      "model": {
+        "type": "modulargolems:part",
+        "golem_type": "modulargolems:humanoid_golem"
+      },
+      "transformation": {
+        "left_rotation": [
+          0.90198,
+          -0.37361234,
+          0.1999641,
+          0.08282785
+        ],
+        "right_rotation": [
+          -0.0,
+          -0.0,
+          -0.0,
+          1.0
+        ],
+        "scale": [
+          0.6000001,
+          0.6,
+          0.6000001
+        ],
+        "translation": [
+          0.63639617,
+          0.63639605,
+          0.5
+        ]
+      }
+    },
+    "property": "minecraft:display_context"
   }
 }

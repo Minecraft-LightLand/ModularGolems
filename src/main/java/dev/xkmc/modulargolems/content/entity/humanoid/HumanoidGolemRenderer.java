@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.compat.curio.ClientCuriosRenderHelper;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
+import dev.xkmc.modulargolems.content.entity.render.GolemTransformType;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -15,42 +16,36 @@ import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.WingsLayer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
 public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 		HumanoidGolemEntity, HumanoidGolemRenderState, HumanoidGolemPartType, HumanoidGolemModel> {
 
-	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable HumanoidGolemPartType part) {
+	public static void transform(PoseStack stack, GolemTransformType transform, @Nullable HumanoidGolemPartType part) {
 		switch (transform) {
-			case GUI:
-			case FIRST_PERSON_LEFT_HAND:
-			case FIRST_PERSON_RIGHT_HAND:
+			case FIRST:
 				break;
-			case THIRD_PERSON_LEFT_HAND:
-			case THIRD_PERSON_RIGHT_HAND: {
+			case THIRD: {
 				stack.translate(0.25, 0.4, 0.5);
 				float size = 0.625f;
 				stack.scale(size, size, size);
 				break;
 			}
-			case GROUND: {
+			case ENTITY: {
 				stack.translate(0.25, 0, 0.5);
 				float size = 0.625f;
 				stack.scale(size, size, size);
 				break;
 			}
-			case NONE:
-			case HEAD:
-			case FIXED: {
+			case DEF: {
 				stack.translate(0.5, 0.5, 0.5);
 				float size = 0.5f;
 				stack.scale(size, -size, size);
 				stack.translate(0, -0.5, 0);
 				return;
 			}
-			default:
+			case OTHER:
 				stack.translate(0, 0, 0.5);
 				break;
 		}

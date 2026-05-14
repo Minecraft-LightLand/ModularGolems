@@ -1,10 +1,191 @@
 {
   "model": {
-    "type": "minecraft:special",
-    "base": "modulargolems:item/metal_golem_arm",
-    "model": {
-      "type": "modulargolems:part",
-      "golem_type": "modulargolems:metal_golem"
-    }
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/metal_golem_arm_first",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:metal_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.90197986,
+              -0.37361234,
+              0.19996409,
+              0.08282785
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.54999995,
+              0.54999995,
+              0.55
+            ],
+            "translation": [
+              0.41441524,
+              0.9078745,
+              -0.162708
+            ]
+          }
+        },
+        "when": [
+          "gui",
+          "firstperson_lefthand",
+          "firstperson_righthand"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/metal_golem_arm_third",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:metal_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.90197986,
+              -0.37361234,
+              0.19996412,
+              0.08282786
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.34375,
+              0.34375,
+              0.34375
+            ],
+            "translation": [
+              0.50900954,
+              0.9674216,
+              0.3983075
+            ]
+          }
+        },
+        "when": [
+          "thirdperson_lefthand",
+          "thirdperson_righthand"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/metal_golem_arm_entity",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:metal_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.90197986,
+              -0.37361234,
+              0.19996412,
+              0.08282786
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.34375,
+              0.34375,
+              0.34375
+            ],
+            "translation": [
+              0.50900954,
+              0.56742156,
+              0.3983075
+            ]
+          }
+        },
+        "when": "ground"
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/metal_golem_arm_def",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:metal_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.45,
+              0.45,
+              -0.45
+            ],
+            "translation": [
+              0.5,
+              0.5675,
+              0.5
+            ]
+          }
+        },
+        "when": [
+          "none",
+          "head",
+          "fixed"
+        ]
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:special",
+      "base": "modulargolems:item/metal_golem_arm_other",
+      "model": {
+        "type": "modulargolems:part",
+        "golem_type": "modulargolems:metal_golem"
+      },
+      "transformation": {
+        "left_rotation": [
+          0.90197986,
+          -0.37361234,
+          0.19996409,
+          0.08282785
+        ],
+        "right_rotation": [
+          -0.0,
+          -0.0,
+          -0.0,
+          1.0
+        ],
+        "scale": [
+          0.54999995,
+          0.54999995,
+          0.55
+        ],
+        "translation": [
+          0.41441524,
+          0.9078745,
+          0.33729202
+        ]
+      }
+    },
+    "property": "minecraft:display_context"
   }
 }

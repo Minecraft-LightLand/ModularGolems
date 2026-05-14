@@ -1,10 +1,191 @@
 {
   "model": {
-    "type": "minecraft:special",
-    "base": "modulargolems:item/dog_golem_legs",
-    "model": {
-      "type": "modulargolems:part",
-      "golem_type": "modulargolems:dog_golem"
-    }
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/dog_golem_legs_first",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:dog_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.9019798,
+              -0.3736123,
+              0.19996412,
+              0.082827866
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.9999998,
+              0.9999998,
+              1.0
+            ],
+            "translation": [
+              1.343503,
+              1.3435028,
+              0.0
+            ]
+          }
+        },
+        "when": [
+          "gui",
+          "firstperson_lefthand",
+          "firstperson_righthand"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/dog_golem_legs_third",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:dog_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.9019798,
+              -0.3736123,
+              0.19996412,
+              0.082827866
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.4999999,
+              0.4999999,
+              0.5
+            ],
+            "translation": [
+              0.9217515,
+              1.0717514,
+              0.5
+            ]
+          }
+        },
+        "when": [
+          "thirdperson_lefthand",
+          "thirdperson_righthand"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/dog_golem_legs_entity",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:dog_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              0.9019798,
+              -0.3736123,
+              0.19996412,
+              0.082827866
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              0.4999999,
+              0.4999999,
+              0.5
+            ],
+            "translation": [
+              0.9217515,
+              0.6717514,
+              0.5
+            ]
+          }
+        },
+        "when": "ground"
+      },
+      {
+        "model": {
+          "type": "minecraft:special",
+          "base": "modulargolems:item/dog_golem_legs_def",
+          "model": {
+            "type": "modulargolems:part",
+            "golem_type": "modulargolems:dog_golem"
+          },
+          "transformation": {
+            "left_rotation": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "right_rotation": [
+              -0.0,
+              -0.0,
+              -0.0,
+              1.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              -1.0
+            ],
+            "translation": [
+              0.5,
+              1.0,
+              0.5
+            ]
+          }
+        },
+        "when": [
+          "none",
+          "head",
+          "fixed"
+        ]
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:special",
+      "base": "modulargolems:item/dog_golem_legs_other",
+      "model": {
+        "type": "modulargolems:part",
+        "golem_type": "modulargolems:dog_golem"
+      },
+      "transformation": {
+        "left_rotation": [
+          0.90197986,
+          -0.37361234,
+          0.19996409,
+          0.082827844
+        ],
+        "right_rotation": [
+          -0.0,
+          -0.0,
+          -0.0,
+          1.0
+        ],
+        "scale": [
+          0.75,
+          0.75,
+          0.75
+        ],
+        "translation": [
+          1.1076273,
+          1.0076271,
+          0.5
+        ]
+      }
+    },
+    "property": "minecraft:display_context"
   }
 }

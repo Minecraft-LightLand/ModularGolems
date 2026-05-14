@@ -21,10 +21,13 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderer;
 import dev.xkmc.modulargolems.content.item.card.*;
 import dev.xkmc.modulargolems.content.item.data.*;
 import dev.xkmc.modulargolems.content.item.equipments.*;
@@ -35,7 +38,6 @@ import dev.xkmc.modulargolems.content.item.ranged.*;
 import dev.xkmc.modulargolems.content.item.render.GolemFacadeRenderer;
 import dev.xkmc.modulargolems.content.item.render.GolemHolderRenderer;
 import dev.xkmc.modulargolems.content.item.render.GolemPartRenderer;
-import dev.xkmc.modulargolems.content.item.render.IsInTag;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -46,7 +48,8 @@ import dev.xkmc.modulargolems.init.data.MGModelGen;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
-import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
@@ -409,24 +412,23 @@ public class GolemItems {
 
 		// holders
 		{
-			HOLDER_GOLEM = regHolder("metal_golem_holder", GolemTypes.TYPE_GOLEM);
-			HOLDER_HUMANOID = regHolder("humanoid_golem_holder", GolemTypes.TYPE_HUMANOID);
-			HOLDER_DOG = regHolder("dog_golem_holder", GolemTypes.TYPE_DOG);
-			GOLEM_BODY = regPart("metal_golem_body", GolemTypes.TYPE_GOLEM, MetalGolemPartType.BODY, 9);
-			GOLEM_ARM = regPart("metal_golem_arm", GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9);
-			GOLEM_LEGS = regPart("metal_golem_legs", GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9);
-			HUMANOID_BODY = regPart("humanoid_golem_body", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.BODY, 6);
-			HUMANOID_ARMS = regPart("humanoid_golem_arms", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.ARMS, 6);
-			HUMANOID_LEGS = regPart("humanoid_golem_legs", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.LEGS, 6);
-			DOG_BODY = regPart("dog_golem_body", GolemTypes.TYPE_DOG, DogGolemPartType.BODY, 6);
-			DOG_LEGS = regPart("dog_golem_legs", GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3);
+			HOLDER_GOLEM = regHolder("metal_golem_holder", GolemTypes.TYPE_GOLEM, () -> MetalGolemRenderer::transform);
+			HOLDER_HUMANOID = regHolder("humanoid_golem_holder", GolemTypes.TYPE_HUMANOID, () -> HumanoidGolemRenderer::transform);
+			HOLDER_DOG = regHolder("dog_golem_holder", GolemTypes.TYPE_DOG, () -> DogGolemRenderer::transform);
+			GOLEM_BODY = regPart("metal_golem_body", GolemTypes.TYPE_GOLEM, MetalGolemPartType.BODY, 9, () -> MetalGolemRenderer::transform);
+			GOLEM_ARM = regPart("metal_golem_arm", GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9, () -> MetalGolemRenderer::transform);
+			GOLEM_LEGS = regPart("metal_golem_legs", GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9, () -> MetalGolemRenderer::transform);
+			HUMANOID_BODY = regPart("humanoid_golem_body", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.BODY, 6, () -> HumanoidGolemRenderer::transform);
+			HUMANOID_ARMS = regPart("humanoid_golem_arms", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.ARMS, 6, () -> HumanoidGolemRenderer::transform);
+			HUMANOID_LEGS = regPart("humanoid_golem_legs", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.LEGS, 6, () -> HumanoidGolemRenderer::transform);
+			DOG_BODY = regPart("dog_golem_body", GolemTypes.TYPE_DOG, DogGolemPartType.BODY, 6, () -> DogGolemRenderer::transform);
+			DOG_LEGS = regPart("dog_golem_legs", GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3, () -> DogGolemRenderer::transform);
 
 		}
 
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
 				.model(() -> (ctx, pvd) ->
-						pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(
-								ModelLocationUtils.getModelLocation(ctx.get()), new GolemFacadeRenderer.Unbaked())))
+						MGModelGen.genFacadeItem(ctx, pvd, new GolemFacadeRenderer.Unbaked()))
 				.removeTab(GOLEMS.key())
 				.transform(e -> e.tab(ITEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
@@ -441,24 +443,22 @@ public class GolemItems {
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemEntry<GolemHolder<T, P>> regHolder(String id, Val<GolemType<T, P>> type) {
+	ItemEntry<GolemHolder<T, P>> regHolder(String id, Val<GolemType<T, P>> type, Supplier<MGModelGen.Transformer<P>> trans) {
 		return REGISTRATE.item(id, p ->
 						new GolemHolder<>(p.fireResistant(), type))
 				.model(() -> (ctx, pvd) ->
-						pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(
-								ModelLocationUtils.getModelLocation(ctx.get()), new GolemHolderRenderer.Unbaked(type.id()))))
+						MGModelGen.genHolderItem(ctx, pvd, trans.get(), new GolemHolderRenderer.Unbaked(type.id())))
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
 				.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemEntry<GolemPart<T, P>> regPart(String id, Val<GolemType<T, P>> type, P part, int count) {
+	ItemEntry<GolemPart<T, P>> regPart(String id, Val<GolemType<T, P>> type, P part, int count, Supplier<MGModelGen.Transformer<P>> trans) {
 		return REGISTRATE.item(id, p ->
 						new GolemPart<>(p.fireResistant(), type, part, count))
 				.model(() -> (ctx, pvd) ->
-						pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(
-								ModelLocationUtils.getModelLocation(ctx.get()), new GolemPartRenderer.Unbaked(type.id()))))
+						MGModelGen.genPartItem(ctx, pvd, trans.get(), new GolemPartRenderer.Unbaked(type.id())))
 				.tab(ITEMS.key())
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
@@ -483,25 +483,7 @@ public class GolemItems {
 
 	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<Val<? extends GolemModifier>> mod, int level, boolean foil, String modid) {
 		return REGISTRATE.item(id, p -> new SimpleUpgradeItem(p, mod.get()::get, level, foil))
-				.model(() -> (ctx, pvd) ->
-						pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.conditional(new IsInTag(MGTagGen.BLUE_UPGRADES),
-								ItemModelUtils.plainModel(ModelTemplates.TWO_LAYERED_ITEM.create(
-										ModelLocationUtils.getModelLocation(ctx.get(), "_blue"),
-										TextureMapping.layered(
-												new Material(Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id)),
-												new Material(pvd.modLoc("item/blue_arrow"))),
-										pvd.modelOutput)),
-								ItemModelUtils.conditional(new IsInTag(MGTagGen.POTION_UPGRADES),
-										ItemModelUtils.plainModel(ModelTemplates.TWO_LAYERED_ITEM.create(
-												ModelLocationUtils.getModelLocation(ctx.get(), "_purple"),
-												TextureMapping.layered(
-														new Material(Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id)),
-														new Material(pvd.modLoc("item/purple_arrow"))),
-												pvd.modelOutput)),
-										ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ctx.get(), TextureMapping.layer0(
-														new Material(Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id))),
-												pvd.modelOutput))
-								))))
+				.model(() -> (ctx, pvd) -> MGModelGen.genUpgrade(ctx, pvd, modid, id))
 				.removeTab(ITEMS.key()).tab(UPGRADES.key());
 	}
 

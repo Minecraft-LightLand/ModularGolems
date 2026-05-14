@@ -5,41 +5,36 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
+import dev.xkmc.modulargolems.content.entity.render.GolemTransformType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
 
 public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogGolemRenderState, DogGolemPartType, DogGolemModel> {
 
-	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable DogGolemPartType part) {
+	public static void transform(PoseStack stack, GolemTransformType transform, @Nullable DogGolemPartType part) {
 		switch (transform) {
-			case GUI:
-			case FIRST_PERSON_LEFT_HAND:
-			case FIRST_PERSON_RIGHT_HAND:
+			case FIRST:
 				break;
-			case THIRD_PERSON_LEFT_HAND:
-			case THIRD_PERSON_RIGHT_HAND: {
+			case THIRD: {
 				stack.translate(0.25, 0.4, 0.5);
 				float size = 0.5F;
 				stack.scale(size, size, size);
 				break;
 			}
-			case GROUND: {
+			case ENTITY: {
 				stack.translate(0.25, 0, 0.5);
 				float size = 0.5F;
 				stack.scale(size, size, size);
 				break;
 			}
-			case NONE:
-			case HEAD:
-			case FIXED: {
+			case DEF: {
 				stack.translate(0.5, 0.5, 0.5);
 				float size = 1f;
 				stack.scale(size, -size, size);
 				stack.translate(0, -0.5, 0);
 				return;
 			}
-			default:
+			case OTHER:
 				stack.translate(0.1, 0, 0.5);
 				float size = 0.75F;
 				stack.scale(size, size, size);

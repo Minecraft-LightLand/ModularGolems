@@ -1,14 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.item.ItemDisplayContext;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
@@ -27,11 +24,6 @@ public enum HumanoidGolemPartType implements IGolemPart<HumanoidGolemPartType> {
 			case ARMS -> GolemItems.HUMANOID_ARMS.get();
 			case LEGS -> GolemItems.HUMANOID_LEGS.get();
 		};
-	}
-
-	@Override
-	public void setupItemRender(PoseStack stack, ItemDisplayContext transform, @Nullable HumanoidGolemPartType part) {
-		HumanoidGolemRenderer.transform(stack, transform, part);
 	}
 
 }

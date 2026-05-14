@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.render.GolemTransformType;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.ChatFormatting;
@@ -14,11 +15,6 @@ import java.util.Locale;
 
 public enum MetalGolemPartType implements IGolemPart<MetalGolemPartType> {
 	RIGHT, BODY, LEFT, LEG;
-
-	@Override
-	public void setupItemRender(PoseStack stack, ItemDisplayContext transform, @Nullable MetalGolemPartType part) {
-		MetalGolemRenderer.transform(stack, transform, part);
-	}
 
 	@Override
 	public MutableComponent getDesc(MutableComponent desc) {

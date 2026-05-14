@@ -5,43 +5,38 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
+import dev.xkmc.modulargolems.content.entity.render.GolemTransformType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.Nullable;
 
 public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemRenderState, MetalGolemPartType, MetalGolemModel> {
 
-	protected static void transform(PoseStack stack, ItemDisplayContext transform, @Nullable MetalGolemPartType part) {
+	public static void transform(PoseStack stack, GolemTransformType transform, @Nullable MetalGolemPartType part) {
 		switch (transform) {
-			case GUI:
-			case FIRST_PERSON_LEFT_HAND:
-			case FIRST_PERSON_RIGHT_HAND:
+			case FIRST:
 				break;
-			case THIRD_PERSON_LEFT_HAND:
-			case THIRD_PERSON_RIGHT_HAND: {
+			case THIRD: {
 				stack.translate(0.25, 0.4, 0.5);
 				float size = 0.625f;
 				stack.scale(size, size, size);
 				break;
 			}
-			case GROUND: {
+			case ENTITY: {
 				stack.translate(0.25, 0, 0.5);
 				float size = 0.625f;
 				stack.scale(size, size, size);
 				break;
 			}
-			case NONE:
-			case HEAD:
-			case FIXED: {
+			case DEF: {
 				stack.translate(0.5, 0.5, 0.5);
 				float size = 0.45f;
 				stack.scale(size, -size, size);
 				stack.translate(0, -0.15, 0);
 				return;
 			}
-			default:
+			case OTHER:
 				stack.translate(0, 0, 0.5);
 				break;
 		}
