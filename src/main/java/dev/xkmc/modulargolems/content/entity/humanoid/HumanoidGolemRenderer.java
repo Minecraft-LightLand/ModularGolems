@@ -5,15 +5,16 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.compat.curio.ClientCuriosRenderHelper;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
+import dev.xkmc.modulargolems.content.entity.render.ItemInGolemHandLayer;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
-import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.entity.layers.WingsLayer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.neoforged.fml.ModList;
@@ -81,18 +82,27 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx, boolean slim) {
 		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER)), 0.5f, HumanoidGolemPartType::values);
-		this.addLayer(new HumanoidArmorLayer<>(this,
-				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)),
-				new HumanoidModel<>(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR)),
-				ctx.getModelManager()));
-		this.addLayer(new CustomHeadLayer<>(this, ctx.getModelSet(),
-				1, 1, 1, ctx.getItemInHandRenderer()));
-		this.addLayer(new ElytraLayer<>(this, ctx.getModelSet()));
-		this.addLayer(new LayerWrapper<>(this,
-				new ItemInGolemHandLayer<>(this, ctx.getItemInHandRenderer())));
-		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
+		this.addLayer(new HumanoidArmorLayer<>(this, ArmorModelSet.bake(
+				slim ? ModelLayers.PLAYER_SLIM_ARMOR : ModelLayers.PLAYER_ARMOR,
+				ctx.getModelSet(), HumanoidGolemModel::new
+		), ctx.getEquipmentRenderer()));
+		this.addLayer(new CustomHeadLayer<>(this, ctx.getModelSet(), ctx.getPlayerSkinRenderCache()));
+		this.addLayer(new WingsLayer<>(this, ctx.getModelSet(), ctx.getEquipmentRenderer()));
+		this.addLayer(new ItemInGolemHandLayer<>(this));
+		this.addLayer(new GolemBannerLayer<>(this));
 		if (ModList.get().isLoaded("curios"))
-			ClientCuriosRenderHelper.addLayer(this);
+			ClientCuriosRenderHelper.addLayer(this, ctx);
+	}
+
+	@Override
+	public HumanoidGolemRenderState createRenderState() {
+		return new HumanoidGolemRenderState();
+	}
+
+	@Override
+	public void extractRenderState(HumanoidGolemEntity entity, HumanoidGolemRenderState state, float pt) {
+		super.extractRenderState(entity, state, pt);
+		state.update(entity, pt, itemModelResolver);
 	}
 
 	@Override

@@ -1,88 +1,51 @@
 package dev.xkmc.modulargolems.content.entity.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.*;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 
-import java.util.UUID;
+public class GolemBannerLayer<
+		E extends AbstractGolemEntity<E, P>,
+		S extends LivingEntityRenderState & AbstractGolemRenderState<E, S, P>,
+		P extends IGolemPart<P>,
+		M extends EntityModel<S> & IHeadedModel> extends RenderLayer<S, M> {
 
-public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends EntityModel<T> & IHeadedModel> extends RenderLayer<T, M> {
 	private final float scaleX;
 	private final float scaleY;
 	private final float scaleZ;
-	private final ItemInHandRenderer itemInHandRenderer;
 
-	public GolemBannerLayer(RenderLayerParent<T, M> parent, ItemInHandRenderer iihr) {
-		this(parent, 1.0F, 1.0F, 1.0F, iihr);
+	public GolemBannerLayer(RenderLayerParent<S, M> parent) {
+		this(parent, 1.0F, 1.0F, 1.0F);
 	}
 
-	public GolemBannerLayer(RenderLayerParent<T, M> parent, float sx, float sy, float sz, ItemInHandRenderer iihr) {
+	public GolemBannerLayer(RenderLayerParent<S, M> parent, float sx, float sy, float sz) {
 		super(parent);
 		this.scaleX = sx;
 		this.scaleY = sy;
 		this.scaleZ = sz;
-		this.itemInHandRenderer = iihr;
 	}
 
-	public void render(PoseStack pose, MultiBufferSource buffer, int light, T entity, float f1, float f2, float f3, float f4, float f5, float f6) {
+	@Override
+	public void submit(PoseStack pose, SubmitNodeCollector col, int light, S state, float yRot, float xRot) {
 		var mc = Minecraft.getInstance();
 		var cam = mc.getCameraEntity();
-		if (cam != null && entity.isPassengerOfSameVehicle(cam)) return;
-		ItemStack stack = getBanner(entity);
-		if (!renders(stack)) return;
+		if (cam != null && state.isPassengerOfSameVehicle(cam)) return;
+		var stack = state.common().banner();
 		pose.pushPose();
 		pose.scale(this.scaleX, this.scaleY, this.scaleZ);
 		this.getParentModel().getHead().translateAndRotate(pose);
 		this.getParentModel().translateToHead(pose);
-		this.itemInHandRenderer.renderItem(entity, stack, ItemDisplayContext.HEAD, false, pose, buffer, light);
+		stack.submit(pose, col, light, OverlayTexture.NO_OVERLAY, 0);
 		pose.popPose();
 
 	}
 
-	public ItemStack getBanner(T entity) {
-		ItemStack stack = entity.getItemBySlot(EquipmentSlot.HEAD);
-		if (entity instanceof HumanoidGolemEntity && renders(stack)) {
-			return ItemStack.EMPTY;
-		}
-		var selfFact = HostileGolemRegistry.tryGetFaction(entity);
-		if (selfFact.isPresent()) {
-			if (entity.hasPassenger(e -> e instanceof AbstractGolemEntity<?, ?>))
-				return ItemStack.EMPTY;
-			return selfFact.get().getBanner(entity, entity.getConfigColor());
-		}
-		if (entity instanceof MetalGolemEntity && !renders(stack)) {
-			stack = entity.getItemBySlot(EquipmentSlot.FEET);
-		}
-		if (renders(stack)) return stack;
-		var entry = entity.getConfigEntry(MGLangData.LOADING.get());
-		if (entry != null) {
-			entry.clientTick(entity.level(), false);
-			UUID captainId = entry.squadConfig.getCaptainId();
-			boolean showFlag = captainId != null && entity.getUUID().equals(captainId);
-			if (showFlag) {
-				String color = DyeColor.values()[entry.getColor()].getName();
-				Item item = BuiltInRegistries.ITEM.get(Identifier.withDefaultNamespace(color + "_banner"));
-				return item.getDefaultInstance();
-			}
-		}
-		return ItemStack.EMPTY;
-	}
-
-	public boolean renders(ItemStack stack) {
-		return stack.getItem() instanceof BannerItem;
-	}
 
 }

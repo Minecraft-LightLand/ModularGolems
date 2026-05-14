@@ -3,6 +3,9 @@ package dev.xkmc.modulargolems.events.event;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -12,24 +15,50 @@ import net.neoforged.bus.api.ICancellableEvent;
 
 public class GolemRenderItemInHandEvent extends Event implements ICancellableEvent {
 
-	public final LivingEntity entity;
-	public final ItemStack stack;
-	public final ItemDisplayContext ctx;
-	public final HumanoidArm arm;
-	public final PoseStack pose;
-	public final MultiBufferSource buffer;
-	public final int light;
-	public final ItemInHandRenderer renderer;
+	private final ArmedEntityRenderState state;
+	private final ItemStackRenderState item;
+	private final ItemStack stack;
+	private final HumanoidArm arm;
+	private final PoseStack pose;
+	private final SubmitNodeCollector col;
+	private final int light;
 
-	public GolemRenderItemInHandEvent(LivingEntity entity, ItemStack stack, ItemDisplayContext ctx, HumanoidArm arm, PoseStack pose, MultiBufferSource buffer, int light, ItemInHandRenderer renderer) {
-		this.entity = entity;
+	public GolemRenderItemInHandEvent(ArmedEntityRenderState state, ItemStackRenderState item, ItemStack stack, HumanoidArm arm, PoseStack pose, SubmitNodeCollector col, int light) {
+		this.state = state;
+		this.item = item;
 		this.stack = stack;
-		this.ctx = ctx;
 		this.arm = arm;
 		this.pose = pose;
-		this.buffer = buffer;
+		this.col = col;
 		this.light = light;
-		this.renderer = renderer;
+	}
+
+	public ArmedEntityRenderState getState() {
+		return state;
+	}
+
+	public ItemStackRenderState getItem() {
+		return item;
+	}
+
+	public ItemStack getStack() {
+		return stack;
+	}
+
+	public HumanoidArm getArm() {
+		return arm;
+	}
+
+	public PoseStack getPose() {
+		return pose;
+	}
+
+	public SubmitNodeCollector getCol() {
+		return col;
+	}
+
+	public int getLight() {
+		return light;
 	}
 
 }

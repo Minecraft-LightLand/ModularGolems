@@ -9,6 +9,7 @@ import java.util.UUID;
 @SerialClass
 public class SquadConfig {
 
+	@Nullable
 	@SerialField
 	protected UUID captainId = null;
 

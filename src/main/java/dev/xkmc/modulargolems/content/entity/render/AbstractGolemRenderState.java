@@ -1,16 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.render;
 
 import dev.xkmc.l2serial.util.Wrappers;
-import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.util.context.ContextKey;
-import net.minecraft.world.item.ItemStack;
-
-import java.util.List;
-import java.util.Optional;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.world.entity.Entity;
 
 public interface AbstractGolemRenderState<
 		E extends AbstractGolemEntity<E, P>,
@@ -23,5 +18,13 @@ public interface AbstractGolemRenderState<
 	}
 
 	CommonGolemRenderState common();
+
+	default boolean isPassengerOfSameVehicle(Entity cam) {
+		var veh = cam.getVehicle();
+		if (veh == null) return false;
+		return veh.getId() == common().id() || veh.getId() == common().getVehicleId();
+	}
+
+	void update(E entity, float pt, ItemModelResolver imr);
 
 }

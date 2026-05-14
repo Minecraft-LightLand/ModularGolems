@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.client.pose;
 
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderState;
 import net.minecraft.resources.Identifier;

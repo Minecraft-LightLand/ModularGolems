@@ -6,9 +6,10 @@ import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemBeaconItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -23,8 +24,8 @@ public class BeaconRenderer {
 	private static final Identifier BEACON_LOCATION = ModularGolems.loc("textures/equipments/beacon.png");
 	public static final Identifier BEAM_LOCATION = Identifier.withDefaultNamespace("textures/entity/beacon_beam.png");
 
-	public static void renderGolemBeacon(MetalGolemEntity entity, PoseStack pose, MultiBufferSource source, float pTick) {
-		if (entity.isAddedToLevel() && entity.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof MetalGolemBeaconItem) {
+	public static void renderGolemBeacon(MetalGolemRenderState state, PoseStack pose, SubmitNodeCollector col, CameraRenderState cam) {
+
 			int color = DyeColor.values()[entity.getConfigColor()].getTextureDiffuseColor();
 			float totalTick = entity.tickCount + pTick;
 			float entityScale = entity.getScale();
@@ -59,7 +60,7 @@ public class BeaconRenderer {
 				renderBeam(pose, source, totalTick + i * 10, beamScale, 1024, color);
 				pose.popPose();
 			}
-		}
+
 	}
 
 	public static void renderBeam(PoseStack pose, MultiBufferSource source, float pTick, float scale, float length, int color) {
@@ -72,14 +73,14 @@ public class BeaconRenderer {
 		pose.mulPose(Axis.YP.rotationDegrees(accurateTick * 2.25F - 45.0F));
 		float v1 = -1.0F + f2;
 		float v2 = (float) length * scale * (0.5F / width1) + v1;
-		renderPart(pose, source.getBuffer(RenderType.beaconBeam(BEAM_LOCATION, false)),
+		renderPart(pose, source.getBuffer(RenderTypes.beaconBeam(BEAM_LOCATION, false)),
 				color,
 				0, length, 0.0F, width1, width1, 0.0F, -width1, 0.0F, 0.0F, -width1,
 				0.0F, 1.0F, v2, v1);
 		pose.popPose();
 		v1 = -1.0F + f2;
 		v2 = (float) length * scale + v1;
-		renderPart(pose, source.getBuffer(RenderType.beaconBeam(BEAM_LOCATION, true)),
+		renderPart(pose, source.getBuffer(RenderTypes.beaconBeam(BEAM_LOCATION, true)),
 				color & 0x00FFFFFF | 0x1F000000,
 				0, length, -width2, -width2, width2, -width2, -width2, width2, width2, width2,
 				0.0F, 1.0F, v2, v1);

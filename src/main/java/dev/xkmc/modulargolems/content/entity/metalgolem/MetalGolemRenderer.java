@@ -70,7 +70,7 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 		super(ctx, new MetalGolemModel(ctx.bakeLayer(GolemEquipmentModels.METALGOLEM)), 0.7F, MetalGolemPartType::values);
 		this.addLayer(new MetalGolemCrackinessLayer(this));
 		this.addLayer(new GolemEquipmentRenderer(this, ctx));
-		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
+		this.addLayer(new GolemBannerLayer<>(this));
 	}
 
 	@Override
@@ -85,9 +85,21 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 	}
 
 	@Override
+	public MetalGolemRenderState createRenderState() {
+		return new MetalGolemRenderState();
+	}
+
+	@Override
+	public void extractRenderState(MetalGolemEntity entity, MetalGolemRenderState state, float pt) {
+		super.extractRenderState(entity, state, pt);
+		state.update(entity, pt, itemModelResolver);
+	}
+
+	@Override
 	public void submit(MetalGolemRenderState state, PoseStack pose, SubmitNodeCollector col, CameraRenderState cam) {
 		super.submit(state, pose, col, cam);
-		BeaconRenderer.renderGolemBeacon(state, pose, col, cam);
+		if (state.renderBeacon)
+			BeaconRenderer.renderGolemBeacon(state, pose, col, cam);
 	}
 
 }

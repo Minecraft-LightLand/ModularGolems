@@ -7,7 +7,6 @@ import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
 import dev.xkmc.mob_weapon_api.api.ai.IWeaponHolder;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
-import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemUser;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;

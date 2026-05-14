@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.humanoid;
+package dev.xkmc.modulargolems.content.entity.common;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;

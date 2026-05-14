@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -64,12 +66,19 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 
 	public DogGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new DogGolemModel(ctx.bakeLayer(GolemEquipmentModels.DOGGOLEM)), 1F, DogGolemPartType::values);
-		addLayer(new DogArmorLayer(this, ctx.getModelSet()));
-		addLayer(new GolemBannerLayer<>(this, ctx.get()));
+		addLayer(new DogArmorLayer(this, ctx.getModelSet(), ctx.getEquipmentRenderer()));
+		addLayer(new GolemBannerLayer<>(this));
 	}
 
-	protected float getBob(DogGolemEntity dog, float pPartialTicks) {
-		return dog.getTailAngle();
+	@Override
+	public DogGolemRenderState createRenderState() {
+		return new DogGolemRenderState();
+	}
+
+	@Override
+	public void extractRenderState(DogGolemEntity entity, DogGolemRenderState state, float pt) {
+		super.extractRenderState(entity, state, pt);
+		state.update(entity, pt, itemModelResolver);
 	}
 
 }
