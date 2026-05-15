@@ -21,13 +21,10 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderer;
 import dev.xkmc.modulargolems.content.item.card.*;
 import dev.xkmc.modulargolems.content.item.data.*;
 import dev.xkmc.modulargolems.content.item.equipments.*;
@@ -45,6 +42,7 @@ import dev.xkmc.modulargolems.content.item.wand.*;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGModelGen;
+import dev.xkmc.modulargolems.init.data.MGSpecialModelGen;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
@@ -412,23 +410,23 @@ public class GolemItems {
 
 		// holders
 		{
-			HOLDER_GOLEM = regHolder("metal_golem_holder", GolemTypes.TYPE_GOLEM, () -> MetalGolemRenderer::transform);
-			HOLDER_HUMANOID = regHolder("humanoid_golem_holder", GolemTypes.TYPE_HUMANOID, () -> HumanoidGolemRenderer::transform);
-			HOLDER_DOG = regHolder("dog_golem_holder", GolemTypes.TYPE_DOG, () -> DogGolemRenderer::transform);
-			GOLEM_BODY = regPart("metal_golem_body", GolemTypes.TYPE_GOLEM, MetalGolemPartType.BODY, 9, () -> MetalGolemRenderer::transform);
-			GOLEM_ARM = regPart("metal_golem_arm", GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9, () -> MetalGolemRenderer::transform);
-			GOLEM_LEGS = regPart("metal_golem_legs", GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9, () -> MetalGolemRenderer::transform);
-			HUMANOID_BODY = regPart("humanoid_golem_body", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.BODY, 6, () -> HumanoidGolemRenderer::transform);
-			HUMANOID_ARMS = regPart("humanoid_golem_arms", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.ARMS, 6, () -> HumanoidGolemRenderer::transform);
-			HUMANOID_LEGS = regPart("humanoid_golem_legs", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.LEGS, 6, () -> HumanoidGolemRenderer::transform);
-			DOG_BODY = regPart("dog_golem_body", GolemTypes.TYPE_DOG, DogGolemPartType.BODY, 6, () -> DogGolemRenderer::transform);
-			DOG_LEGS = regPart("dog_golem_legs", GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3, () -> DogGolemRenderer::transform);
+			HOLDER_GOLEM = regHolder("metal_golem_holder", GolemTypes.TYPE_GOLEM, () -> MGSpecialModelGen::transformMetalGolem);
+			HOLDER_HUMANOID = regHolder("humanoid_golem_holder", GolemTypes.TYPE_HUMANOID, () -> MGSpecialModelGen::transformHumanoid);
+			HOLDER_DOG = regHolder("dog_golem_holder", GolemTypes.TYPE_DOG, () -> MGSpecialModelGen::transformDog);
+			GOLEM_BODY = regPart("metal_golem_body", GolemTypes.TYPE_GOLEM, MetalGolemPartType.BODY, 9, () -> MGSpecialModelGen::transformMetalGolem);
+			GOLEM_ARM = regPart("metal_golem_arm", GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9, () -> MGSpecialModelGen::transformMetalGolem);
+			GOLEM_LEGS = regPart("metal_golem_legs", GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9, () -> MGSpecialModelGen::transformMetalGolem);
+			HUMANOID_BODY = regPart("humanoid_golem_body", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.BODY, 6, () -> MGSpecialModelGen::transformHumanoid);
+			HUMANOID_ARMS = regPart("humanoid_golem_arms", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.ARMS, 6, () -> MGSpecialModelGen::transformHumanoid);
+			HUMANOID_LEGS = regPart("humanoid_golem_legs", GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.LEGS, 6, () -> MGSpecialModelGen::transformHumanoid);
+			DOG_BODY = regPart("dog_golem_body", GolemTypes.TYPE_DOG, DogGolemPartType.BODY, 6, () -> MGSpecialModelGen::transformDog);
+			DOG_LEGS = regPart("dog_golem_legs", GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3, () -> MGSpecialModelGen::transformDog);
 
 		}
 
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
 				.model(() -> (ctx, pvd) ->
-						MGModelGen.genFacadeItem(ctx, pvd, new GolemFacadeRenderer.Unbaked()))
+						MGSpecialModelGen.genFacadeItem(ctx, pvd, new GolemFacadeRenderer.Unbaked()))
 				.removeTab(GOLEMS.key())
 				.transform(e -> e.tab(ITEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
@@ -443,22 +441,22 @@ public class GolemItems {
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemEntry<GolemHolder<T, P>> regHolder(String id, Val<GolemType<T, P>> type, Supplier<MGModelGen.Transformer<P>> trans) {
+	ItemEntry<GolemHolder<T, P>> regHolder(String id, Val<GolemType<T, P>> type, Supplier<MGSpecialModelGen.Transformer<P>> trans) {
 		return REGISTRATE.item(id, p ->
 						new GolemHolder<>(p.fireResistant(), type))
 				.model(() -> (ctx, pvd) ->
-						MGModelGen.genHolderItem(ctx, pvd, trans.get(), new GolemHolderRenderer.Unbaked(type.id())))
+						MGSpecialModelGen.genHolderItem(ctx, pvd, trans.get(), new GolemHolderRenderer.Unbaked(type.id())))
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
 				.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemEntry<GolemPart<T, P>> regPart(String id, Val<GolemType<T, P>> type, P part, int count, Supplier<MGModelGen.Transformer<P>> trans) {
+	ItemEntry<GolemPart<T, P>> regPart(String id, Val<GolemType<T, P>> type, P part, int count, Supplier<MGSpecialModelGen.Transformer<P>> trans) {
 		return REGISTRATE.item(id, p ->
 						new GolemPart<>(p.fireResistant(), type, part, count))
 				.model(() -> (ctx, pvd) ->
-						MGModelGen.genPartItem(ctx, pvd, trans.get(), new GolemPartRenderer.Unbaked(type.id())))
+						MGSpecialModelGen.genPartItem(ctx, pvd, trans.get(), new GolemPartRenderer.Unbaked(type.id())))
 				.tab(ITEMS.key())
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
