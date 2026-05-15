@@ -52,7 +52,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.Tags;
 
 import java.util.List;
 import java.util.Set;
@@ -272,7 +271,7 @@ public class GolemItems {
 							p -> new HeavySpearItem(p.stacksTo(1), 10, 0, 2, 2))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile(pvd.modLoc("item/long_weapon")))
 							.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
-					.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE)
+					.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
 					.defaultLang()
 					.register();
 			IRON_BOW = REGISTRATE.item("iron_mecha_bow", p -> new MetalGolemBowItem(p, 15, 0))

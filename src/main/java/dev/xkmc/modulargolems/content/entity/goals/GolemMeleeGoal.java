@@ -174,11 +174,11 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 
 	@Override
 	public void tick() {
+		if (maceJump && golem.onGround()) {
+			maceJump = false;
+		}
 		LivingEntity target = golem.getTarget();
 		if (target == null) {
-			if (maceJump && golem.onGround()) {
-				maceJump = false;
-			}
 			return;
 		}
 		if (isTimeToAttack()) {

@@ -33,13 +33,14 @@ public enum GolemWeaponType {
 	}
 
 	public ItemEntry<MetalGolemWeaponItem> buildItem(IGolemWeaponMaterial material) {
-		return REGISTRATE.item(material.getName() + "_" + getName(), p ->
+		var builder = REGISTRATE.item(material.getName() + "_" + getName(), p ->
 						factory.create(material.modify(p.stacksTo(1)), material.getDamage(), material.factory()))
 				.model((ctx, pvd) -> material.model(pvd.getBuilder(ctx.getName()))
 						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
 						.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())))
-				.asOptional().tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
-				.defaultLang().register();
+				.asOptional().tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE);
+		if (this != SWORD) builder.tag(MGTagGen.SHIELD_BREAKER_WEAPONS);
+		return builder.defaultLang().register();
 	}
 
 	public static ItemEntry<MetalGolemWeaponItem>[][] build(IGolemWeaponMaterial[] values) {
