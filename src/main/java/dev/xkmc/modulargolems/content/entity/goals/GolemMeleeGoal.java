@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.AttackRange;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
@@ -35,8 +37,8 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	}
 
 	public static double calculateDistSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target) {
-		AABB aabb0 = golem.getBoundingBox();
-		AABB aabb1 = target.getBoundingBox();
+		AABB aabb0 = golem.getRawAttackBoundingBox();
+		AABB aabb1 = target.getHitbox();
 		double x = getDistance(aabb0.minX, aabb0.maxX, aabb1.minX, aabb1.maxX);
 		double y = getDistance(aabb0.minY, aabb0.maxY, aabb1.minY, aabb1.maxY);
 		double z = getDistance(aabb0.minZ, aabb0.maxZ, aabb1.minZ, aabb1.maxZ);
@@ -163,7 +165,10 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	}
 
 	public double getAttackReachSqr(LivingEntity target) {
-		double val = golem.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
+		var ins = golem.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
+		assert ins != null;
+		AttackRange attackRange = golem.getActiveItem().get(DataComponents.ATTACK_RANGE);
+		double val = attackRange == null ? ins.getValue() : attackRange.effectiveMaxRange(golem) - ins.getBaseValue();
 		return val * val + target.getBbWidth();
 	}
 

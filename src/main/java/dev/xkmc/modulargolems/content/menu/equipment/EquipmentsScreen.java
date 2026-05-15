@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2core.base.menu.base.PredSlot;
 import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
@@ -90,7 +91,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		super.extractTooltip(g, mx, my);
 		if (menu.golem instanceof SweepGolemEntity<?, ?> &&
 				menu.getCarried().isEmpty() &&
-				hoveredSlot != null && !hoveredSlot.hasItem()) {
+				hoveredSlot instanceof PredSlot && !hoveredSlot.hasItem()) {
 			List<Component> list = null;
 			if (menu.golem instanceof HumanoidGolemEntity) {
 				if (hoveredSlot.getContainerSlot() == 0) {

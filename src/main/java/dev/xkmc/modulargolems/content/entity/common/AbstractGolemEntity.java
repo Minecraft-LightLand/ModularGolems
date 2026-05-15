@@ -310,10 +310,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 	}
 
+	public AABB getRawAttackBoundingBox() {
+		return super.getAttackBoundingBox(0);
+	}
+
 	@Override
-	protected AABB getAttackBoundingBox(double horizontalExpansion) {
+	public AABB getAttackBoundingBox(double horizontalExpansion) {
 		var r = getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
-		return getBoundingBox().inflate(r);
+		return super.getAttackBoundingBox(horizontalExpansion).inflate(r);
 	}
 
 	@Override
