@@ -187,17 +187,17 @@ repositories {
 }
 
 dependencies {
-    implementation "dev.xkmc:l2serial:${l2serial_ver}"
-    implementation "dev.xkmc:l2core:${l2core_ver}"
-    implementation "dev.xkmc:l2menustacker:${l2menustacker_ver}"
-    implementation "dev.xkmc:l2tabs:${l2tabs_ver}"
-    implementation "dev.xkmc:l2damagetracker:${l2damagetracker_ver}"
-    implementation "dev.xkmc:l2itemselector:${l2itemselector_ver}"
-    implementation "dev.xkmc:l2modularblock:${l2modularblock_ver}"
+    implementation jarJar("dev.xkmc:l2serial:${l2serial_ver}")
+    implementation jarJar("dev.xkmc:l2core:${l2core_ver}")
+    implementation jarJar("dev.xkmc:l2menustacker:${l2menustacker_ver}")
+    implementation jarJar("dev.xkmc:l2tabs:${l2tabs_ver}")
+    implementation jarJar("dev.xkmc:l2damagetracker:${l2damagetracker_ver}")
+    implementation jarJar("dev.xkmc:l2itemselector:${l2itemselector_ver}")
+    implementation jarJar("dev.xkmc:l2modularblock:${l2modularblock_ver}")
 
     implementation jarJar("dev.xkmc:mob_weapon_api:${mob_weapon_api_ver}")
 
-    implementation "com.tterrag.registrate:Registrate:${registrate_ver}"
+    implementation jarJar("com.tterrag.registrate:Registrate:${registrate_ver}")
 
     // JEI
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-api:${jei_version}"
