@@ -24,11 +24,6 @@ public class HumanoidGolemRenderState extends HumanoidRenderState implements Abs
 
 	@Override
 	public void update(HumanoidGolemEntity entity, float pt, ItemModelResolver imr) {
-		ArmedEntityRenderState.extractArmedEntityRenderState(entity, this, imr, pt);
-		headEquipment = entity.getItemBySlot(EquipmentSlot.HEAD);
-		chestEquipment = entity.getItemBySlot(EquipmentSlot.CHEST);
-		legsEquipment = entity.getItemBySlot(EquipmentSlot.LEGS);
-		feetEquipment = entity.getItemBySlot(EquipmentSlot.FEET);
 		common = CommonGolemRenderState.of(entity, imr, pt);
 		skinProfile = ClientSkinDispatch.get(this);
 	}

@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
 import dev.xkmc.modulargolems.content.entity.render.GolemTransformType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import org.jetbrains.annotations.Nullable;
 
@@ -87,6 +88,7 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 	@Override
 	public void extractRenderState(MetalGolemEntity entity, MetalGolemRenderState state, float pt) {
 		super.extractRenderState(entity, state, pt);
+		HumanoidMobRenderer.extractHumanoidRenderState(entity, state, pt, this.itemModelResolver);
 		state.update(entity, pt, itemModelResolver);
 	}
 
