@@ -160,15 +160,17 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public static void setReforge(ItemStack stack, int reforge) {
 		var entity = Optional.ofNullable(stack.get(GolemItems.ENTITY));
 		if (entity.isPresent()) {
-			var tag = entity.get().getUnsafe();
-			tag.getCompound("NeoForgeData").putInt("GolemReforge", reforge);
-			for (var e : tag.getList("attributes", Tag.TAG_COMPOUND)) {
-				if (!(e instanceof CompoundTag t)) continue;
-				if (t.getString("id").equals("minecraft:generic.max_health")) {
-					t.getList("modifiers", Tag.TAG_COMPOUND).removeIf(x ->
-							x instanceof CompoundTag comp && comp.getString("id").equals(AbstractGolemEntity.REFORGE_ID.toString()));
+			entity.get().update(tag -> {
+				tag.getCompound("NeoForgeData").putInt("GolemReforge", reforge);
+				for (var e : tag.getList("attributes", Tag.TAG_COMPOUND)) {
+					if (!(e instanceof CompoundTag t)) continue;
+					if (t.getString("id").equals("minecraft:generic.max_health")) {
+						t.getList("modifiers", Tag.TAG_COMPOUND).removeIf(x ->
+								x instanceof CompoundTag comp && comp.getString("id").equals(AbstractGolemEntity.REFORGE_ID.toString()));
+					}
 				}
-			}
+			});
+
 		}
 	}
 

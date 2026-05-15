@@ -1,3 +1,7 @@
+3.1.36
+- Support newest version of Cataclysm
+- Fix dog golem ca be commanded to sit down by non-owner
+
 3.1.35
 - Fix config card reset after changing dimension
 - Hostile golem no longer destroy items
