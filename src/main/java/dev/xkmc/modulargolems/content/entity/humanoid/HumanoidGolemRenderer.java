@@ -158,11 +158,12 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 		if (!entity.swinging && stack.is(Items.CROSSBOW) && CrossbowItem.isCharged(stack))
 			return HumanoidModel.ArmPose.CROSSBOW_HOLD;
 
+		if (entity.isBlocking() && entity.shieldSlot() == hand) {
+			return HumanoidModel.ArmPose.BLOCK;
+		}
+
 		if (entity.getUsedItemHand() == hand && entity.getUseItemRemainingTicks() > 0) {
 
-			if (entity.isBlocking() && entity.shieldSlot() == hand) {
-				return HumanoidModel.ArmPose.BLOCK;
-			}
 
 			if (entity.isAggressive() && entity.isUsingItem() && WeaponRegistry.HOLD.get(entity, stack)
 					.orElse(null) instanceof ThrowableBehavior)
