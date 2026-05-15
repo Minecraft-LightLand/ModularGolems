@@ -893,7 +893,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	// ------ persistent anger
 
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-	private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
 	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	@Nullable
@@ -907,15 +906,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void startPersistentAngerTimer() {
-		this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
-	}
-
-	public int getRemainingPersistentAngerTime() {
-		return this.entityData.get(DATA_REMAINING_ANGER_TIME);
-	}
-
-	public void setRemainingPersistentAngerTime(int pTime) {
-		this.entityData.set(DATA_REMAINING_ANGER_TIME, pTime);
+		this.setTimeToRemainAngry(PERSISTENT_ANGER_TIME.sample(this.random));
 	}
 
 	@Override
