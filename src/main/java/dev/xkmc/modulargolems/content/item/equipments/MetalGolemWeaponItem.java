@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.item.equipments;
 
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -27,12 +26,12 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 	public static final Identifier SWEEP = ModularGolems.loc("weapon_sweep_range");
 
 	public MetalGolemWeaponItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep, int shieldBreak) {
-		this(properties.component(DataComponents.WEAPON, new Weapon(0, shieldBreak)), attackDamage, percentAttack, range, sweep, e -> {
+		this(properties, attackDamage, percentAttack, range, sweep, shieldBreak, e -> {
 		});
 	}
 
-	public MetalGolemWeaponItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep, Consumer<ItemAttributeModifiers.Builder> attr) {
-		super(properties.enchantable(15),
+	public MetalGolemWeaponItem(Properties properties, int attackDamage, double percentAttack, float range, float sweep, int shieldBreak, Consumer<ItemAttributeModifiers.Builder> attr) {
+		super(properties.component(DataComponents.WEAPON, new Weapon(0, shieldBreak)).enchantable(15),
 				EquipmentSlot.MAINHAND, GolemTypes.ENTITY_GOLEM::get, builder -> {
 					if (attackDamage > 0) {
 						builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATK, attackDamage,
@@ -56,7 +55,8 @@ public class MetalGolemWeaponItem extends GolemEquipmentItem {
 
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext level, TooltipDisplay disp, Consumer<Component> list, TooltipFlag flag) {
-		if (stack.is(MGTagGen.SHIELD_BREAKER_WEAPONS))
+		var weapon = stack.get(DataComponents.WEAPON);
+		if (weapon != null && weapon.disableBlockingForSeconds() > 0)
 			list.accept(MGLangData.SHIELD_BREAK.get());
 		super.appendHoverText(stack, level, disp, list, flag);
 	}

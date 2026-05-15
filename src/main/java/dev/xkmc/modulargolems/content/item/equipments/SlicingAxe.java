@@ -73,7 +73,7 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 				.model(() -> (ctx, pvd) ->
 						pvd.generateFlatItem(ctx.get(), ModelTemplates.createItem(GolemWeaponType.AXE.model, TextureSlot.LAYER0),
 								new Material(material.modLoc("item/equipments/" + ctx.getName()))))
-				.tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
+				.tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE)
 				.defaultLang().register();
 	}
 }

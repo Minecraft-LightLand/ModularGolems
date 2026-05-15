@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.init.material;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.resources.model.sprite.Material;
@@ -41,7 +40,7 @@ public enum GolemWeaponType {
 				.model(() -> (ctx, pvd) ->
 						pvd.generateFlatItem(ctx.get(), ModelTemplates.createItem(model, TextureSlot.LAYER0),
 								new Material(material.modLoc("item/equipments/" + ctx.getName()))))
-				.asOptional().tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
+				.asOptional().tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE)
 				.defaultLang().register();
 	}
 
