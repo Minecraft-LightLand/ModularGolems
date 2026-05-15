@@ -425,8 +425,7 @@ public class GolemItems {
 		}
 
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
-				.model(() -> (ctx, pvd) ->
-						MGSpecialModelGen.genFacadeItem(ctx, pvd, new GolemFacadeRenderer.Unbaked()))
+				.model(() -> MGSpecialModelGen::genFacadeItem)
 				.removeTab(GOLEMS.key())
 				.transform(e -> e.tab(ITEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
@@ -445,7 +444,7 @@ public class GolemItems {
 		return REGISTRATE.item(id, p ->
 						new GolemHolder<>(p.fireResistant(), type))
 				.model(() -> (ctx, pvd) ->
-						MGSpecialModelGen.genHolderItem(ctx, pvd, trans.get(), new GolemHolderRenderer.Unbaked(type.id())))
+						MGSpecialModelGen.genHolderItem(ctx, pvd, trans.get(), type.id()))
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
 				.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
@@ -456,7 +455,7 @@ public class GolemItems {
 		return REGISTRATE.item(id, p ->
 						new GolemPart<>(p.fireResistant(), type, part, count))
 				.model(() -> (ctx, pvd) ->
-						MGSpecialModelGen.genPartItem(ctx, pvd, trans.get(), new GolemPartRenderer.Unbaked(type.id())))
+						MGSpecialModelGen.genPartItem(ctx, pvd, trans.get(), type.id()))
 				.tab(ITEMS.key())
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))

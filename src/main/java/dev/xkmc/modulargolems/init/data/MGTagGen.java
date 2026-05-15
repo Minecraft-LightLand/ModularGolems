@@ -68,7 +68,7 @@ public class MGTagGen {
 		pvd.tag(L2ISTagGen.SELECTABLE).addTag(GOLEM_OMNI_WAND);
 		pvd.tag(MGTagGen.GOLEM_INTERACT).addTag(GOLEM_OMNI_WAND);
 		pvd.tag(MODIFYING_ITEM).add(Items.LEAD, Items.NAME_TAG);
-		pvd.rawBuilder(MODIFYING_ITEM).addElement(Identifier.fromNamespaceAndPath("nestle", "nestle_lead"));
+		pvd.rawBuilder(MODIFYING_ITEM).addOptionalElement(Identifier.fromNamespaceAndPath("nestle", "nestle_lead"));
 		pvd.tag(C_WOLF_ARMORS).add(Items.WOLF_ARMOR);
 		pvd.tag(SCULK_MATS).add(Items.ECHO_SHARD);
 		pvd.tag(SPECIAL_CRAFT);

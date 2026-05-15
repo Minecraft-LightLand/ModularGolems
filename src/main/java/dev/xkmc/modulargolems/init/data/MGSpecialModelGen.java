@@ -14,6 +14,9 @@ import dev.xkmc.modulargolems.content.entity.render.GolemTransformType;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.render.GolemFacadeRenderer;
+import dev.xkmc.modulargolems.content.item.render.GolemHolderRenderer;
+import dev.xkmc.modulargolems.content.item.render.GolemPartRenderer;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.renderer.item.ItemModel;
@@ -33,19 +36,21 @@ public class MGSpecialModelGen {
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void genPartItem(DataGenContext<Item, GolemPart<T, P>> ctx, RegistrateItemModelGenerator pvd,
-	                 Transformer<P> trans, SpecialModelRenderer.Unbaked<?> model) {
-		pvd.itemModelOutput.accept(ctx.get(), build(trans, ModelLocationUtils.getModelLocation(ctx.get()), model, ctx.get().getPart()));
+	                 Transformer<P> trans, Identifier golemType) {
+		pvd.itemModelOutput.accept(ctx.get(), build(trans, ModelLocationUtils.getModelLocation(ctx.get()),
+				new GolemPartRenderer.Unbaked(golemType), ctx.get().getPart()));
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void genHolderItem(DataGenContext<Item, GolemHolder<T, P>> ctx, RegistrateItemModelGenerator pvd,
-	                   Transformer<P> trans, SpecialModelRenderer.Unbaked<?> model) {
-		pvd.itemModelOutput.accept(ctx.get(), build(trans, ModelLocationUtils.getModelLocation(ctx.get()), model, null));
+	                   Transformer<P> trans, Identifier golemType) {
+		pvd.itemModelOutput.accept(ctx.get(), build(trans, ModelLocationUtils.getModelLocation(ctx.get()),
+				new GolemHolderRenderer.Unbaked(golemType), null));
 	}
 
-	public static void genFacadeItem(DataGenContext<Item, GolemFacade> ctx, RegistrateItemModelGenerator pvd, SpecialModelRenderer.Unbaked<?> model) {
+	public static void genFacadeItem(DataGenContext<Item, GolemFacade> ctx, RegistrateItemModelGenerator pvd) {
 		var id = ModelLocationUtils.getModelLocation(ctx.get());
-		pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(id, model));
+		pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(id, new GolemFacadeRenderer.Unbaked()));
 	}
 
 	private static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
