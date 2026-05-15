@@ -16,8 +16,7 @@ import net.minecraft.world.item.DyeColor;
 
 public class BeaconRenderer {
 
-	private static final Identifier BEACON_LOCATION = ModularGolems.loc("textures/equipments/beacon.png");
-	public static final Identifier BEAM_LOCATION = Identifier.withDefaultNamespace("textures/entity/beacon_beam.png");
+	public static final Identifier BEAM_LOCATION = Identifier.withDefaultNamespace("textures/entity/beacon/beacon_beam.png");
 
 	public static void renderGolemBeacon(MetalGolemRenderState state, PoseStack pose, SubmitNodeCollector col, CameraRenderState cam) {
 		var beacon = state.beacon;
@@ -42,7 +41,7 @@ public class BeaconRenderer {
 			pose.popPose();
 			pose.pushPose();
 			pose.translate(beaconX, beaconY, beaconZ);
-			float beamScale = 0.25f * entityScale;
+			float beamScale = 0.5f * entityScale;
 			submitBeaconBeam(pose, col, beamScale, totalTick + i * 10, 0, 1024, color);
 			pose.popPose();
 		}
@@ -71,7 +70,6 @@ public class BeaconRenderer {
 	) {
 		float beamEnd = beamStart + height;
 		poseStack.pushPose();
-		poseStack.translate(0.5, 0.0, 0.5);
 		float scroll = height < 0 ? animationTime : -animationTime;
 		float texVOff = Mth.frac(scroll * 0.2F - Mth.floor(scroll * 0.1F));
 		poseStack.pushPose();

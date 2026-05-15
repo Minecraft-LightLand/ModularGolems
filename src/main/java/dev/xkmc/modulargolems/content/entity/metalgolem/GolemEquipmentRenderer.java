@@ -69,10 +69,10 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemRenderState, M
 					null, false, false, -1, null, outline);
 			if (altType != null)
 				col.submitModelPart(part, pose, type, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY,
-						null, false, false, -1, null, -1);
+						null, false, false, -1, null, 0);
 			if (foil)
 				col.submitModelPart(part, pose, RenderTypes.armorEntityGlint(), light, OverlayTexture.NO_OVERLAY,
-						null, false, true, -1, null, -1);
+						null, false, true, -1, null, 0);
 		}
 
 	}
