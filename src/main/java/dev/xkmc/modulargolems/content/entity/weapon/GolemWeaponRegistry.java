@@ -8,6 +8,7 @@ import dev.xkmc.mob_weapon_api.example.goal.SmartInstantRangedAttackGoal;
 import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.mob_weapon_api.registry.WeaponStatus;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.entity.goals.SpearUseGoal;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.ranged.GolemMechaBowBehavior;
@@ -15,6 +16,7 @@ import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import dev.xkmc.modulargolems.content.item.ranged.SonicCannonBehavior;
 import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.core.component.DataComponents;
 
 public class GolemWeaponRegistry<T extends SweepGolemEntity<?, ?>> extends WeaponGoalRegistry<T> {
 
@@ -37,6 +39,10 @@ public class GolemWeaponRegistry<T extends SweepGolemEntity<?, ?>> extends Weapo
 		register(ModularGolems.loc("hold"),
 				(golem, stack, hand) -> WeaponRegistry.HOLD.getProperties(stack),
 				(golem, melee) -> new SmartHoldRangedAttackGoal<>(golem, melee, 1.0D)
+		);
+		register(ModularGolems.loc("spear"),
+				(golem, stack, hand) -> WeaponStatus.MELEE.of(stack.has(DataComponents.KINETIC_WEAPON)),
+				(golem, melee) -> new SpearUseGoal<>(golem)
 		);
 	}
 
