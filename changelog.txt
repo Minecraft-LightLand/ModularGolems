@@ -1,3 +1,7 @@
+2.6.42
+- Support newest version of Cataclysm
+- Fix dog golem ca be commanded to sit down by non-owner
+
 2.6.41
 - Hostile golem no longer destroy items
 - Reduce voice volume for humanoid and dog golem
