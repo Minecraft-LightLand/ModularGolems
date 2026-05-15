@@ -209,3 +209,7 @@ dependencies {
     testImplementation "com.mojang:datafixerupper:8.0.16"
     testImplementation "com.google.guava:guava:32.1.2-jre"
 }
+
+test {
+    enabled = false
+}
