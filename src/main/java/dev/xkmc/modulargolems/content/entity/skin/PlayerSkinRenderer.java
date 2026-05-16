@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.l2core.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -39,7 +40,7 @@ public class PlayerSkinRenderer extends HumanoidGolemRenderer {
 		var skin = ClientSkinDispatch.get(entity);
 		if (skin instanceof SpecialRenderProfile profile && profile.texture() != null)
 			return profile.texture();
-		AbstractClientPlayer player = Proxy.getClientPlayer();
+		AbstractClientPlayer player = Minecraft.getInstance().player;
 		assert player != null;
 		return player.getSkin().body().texturePath();
 	}

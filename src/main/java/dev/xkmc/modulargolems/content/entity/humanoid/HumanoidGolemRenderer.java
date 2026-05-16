@@ -1,13 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import dev.xkmc.mob_weapon_api.example.behavior.ThrowableBehavior;
 import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.compat.curio.ClientCuriosRenderHelper;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
-import dev.xkmc.modulargolems.content.entity.render.GolemTransformType;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -32,54 +30,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 		HumanoidGolemEntity, HumanoidGolemRenderState, HumanoidGolemPartType, HumanoidGolemModel> {
-
-	public static void transform(PoseStack stack, GolemTransformType transform, @Nullable HumanoidGolemPartType part) {
-		switch (transform) {
-			case FIRST:
-				break;
-			case THIRD: {
-				stack.translate(0.25, 0.4, 0.5);
-				float size = 0.625f;
-				stack.scale(size, size, size);
-				break;
-			}
-			case ENTITY: {
-				stack.translate(0.25, 0, 0.5);
-				float size = 0.625f;
-				stack.scale(size, size, size);
-				break;
-			}
-			case DEF: {
-				stack.translate(0.5, 0.5, 0.5);
-				float size = 0.5f;
-				stack.scale(size, -size, size);
-				stack.translate(0, -0.5, 0);
-				return;
-			}
-			case OTHER:
-				stack.translate(0, 0, 0.5);
-				break;
-		}
-		stack.mulPose(Axis.ZP.rotationDegrees(135));
-		stack.mulPose(Axis.YP.rotationDegrees(-155));
-		if (part == null) {
-			float size = 0.45f;
-			stack.scale(size, size, size);
-			stack.translate(0, -2, 0);
-		} else if (part == HumanoidGolemPartType.BODY) {
-			float size = 0.65f;
-			stack.scale(size, size, size);
-			stack.translate(0, -1.2, 0);
-		} else if (part == HumanoidGolemPartType.LEGS) {
-			float size = 0.8f;
-			stack.scale(size, size, size);
-			stack.translate(0, -2, 0);
-		} else if (part == HumanoidGolemPartType.ARMS) {
-			float size = 0.6f;
-			stack.scale(size, size, size);
-			stack.translate(0, -1.5, 0);
-		}
-	}
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx) {
 		this(ctx, false);

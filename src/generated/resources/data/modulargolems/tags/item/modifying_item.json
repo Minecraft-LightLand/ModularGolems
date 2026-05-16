@@ -2,6 +2,9 @@
   "values": [
     "minecraft:lead",
     "minecraft:name_tag",
-    "nestle:nestle_lead"
+    {
+      "id": "nestle:nestle_lead",
+      "required": false
+    }
   ]
 }

@@ -69,7 +69,7 @@ public abstract class AbstractGolemRenderer<
 
 	protected void renderAllParts(PoseStack pose, SubmitNodeCollector buffer, int light, S entity) {
 		if (delegated(entity)) return;
-		var player = Proxy.getClientPlayer();
+		var player = Proxy.getPlayer();
 		boolean visible = isBodyVisible(entity);
 		boolean ghost = !visible && player != null && !entity.isInvisibleToPlayer;
 		boolean glowing = entity.appearsGlowing();

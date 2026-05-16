@@ -63,7 +63,7 @@ public class ConfigCard extends Item implements GolemInteractItem {
 	}
 
 	private static boolean mayClientEdit(UUID id) {
-		LocalPlayer player = Proxy.getClientPlayer();
+		var player = Proxy.getPlayer();
 		return player != null && player.getUUID().equals(id);
 	}
 
