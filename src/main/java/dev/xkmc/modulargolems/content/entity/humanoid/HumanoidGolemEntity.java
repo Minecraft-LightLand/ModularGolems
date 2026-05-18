@@ -203,8 +203,23 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return getItemInHand(slot);
 	}
 
-	public float applyItemBlocking(ServerLevel level, DamageSource source, float damage) {
+	public boolean setupRendering = false;
 
+	@Override
+	public boolean isUsingItem() {
+		return super.isUsingItem() || setupRendering && getItemBlockingWith() != null;
+	}
+
+	@Override
+	public ItemStack getUseItem() {
+		var ans = super.getUseItem();
+		if (!ans.isEmpty()) return ans;
+		ans = getItemBlockingWith();
+		if (ans != null) return ans;
+		return ItemStack.EMPTY;
+	}
+
+	public float applyItemBlocking(ServerLevel level, DamageSource source, float damage) {
 		if (damage <= 0) return 0;
 		ItemStack stack = getItemBlockingWith();
 		if (stack == null)
