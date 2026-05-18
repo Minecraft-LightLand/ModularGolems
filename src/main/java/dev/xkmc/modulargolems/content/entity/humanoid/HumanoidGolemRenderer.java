@@ -56,11 +56,13 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 
 	@Override
 	public void extractRenderState(HumanoidGolemEntity entity, HumanoidGolemRenderState state, float pt) {
+		entity.setupRendering = true;
 		super.extractRenderState(entity, state, pt);
 		HumanoidMobRenderer.extractHumanoidRenderState(entity, state, pt, this.itemModelResolver);
 		state.leftArmPose = this.getArmPose(entity, HumanoidArm.LEFT);
 		state.rightArmPose = this.getArmPose(entity, HumanoidArm.RIGHT);
 		state.update(entity, pt, itemModelResolver);
+		entity.setupRendering = false;
 	}
 
 	@Override

@@ -203,6 +203,13 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return getItemInHand(slot);
 	}
 
+	public boolean setupRendering = false;
+
+	@Override
+	public boolean isUsingItem() {
+		return super.isUsingItem() || setupRendering && getItemBlockingWith() != null;
+	}
+
 	@Override
 	public ItemStack getUseItem() {
 		var ans = super.getUseItem();
