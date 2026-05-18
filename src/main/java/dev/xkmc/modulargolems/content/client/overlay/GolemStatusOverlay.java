@@ -85,7 +85,7 @@ public class GolemStatusOverlay implements GuiLayer {
 		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
 		new OverlayUtil(g, textPos, -1, -1).renderLongText(font, text);
 		OverlayUtil util = new OverlayUtil(g, (int) (screenWidth * 0.6), -1, -1);
-		util.bg = 0xffc6c6c6;
+		util.setTex(OverlayUtil.MENU);
 		List<ClientTooltipComponent> list = List.of(new GolemEquipmentTooltip(golem));
 		g.tooltip(font, list, (int) (screenWidth * 0.6), -1, util, null);
 	}
