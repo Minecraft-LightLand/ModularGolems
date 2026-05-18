@@ -87,8 +87,9 @@ public class SpearUseGoal<T extends PathfinderMob> extends Goal implements IWeap
 
 	@Override
 	public void tick() {
+		LivingEntity target = this.mob.getTarget();
+		if (target == null) return;
 		if (this.state != null) {
-			LivingEntity target = this.mob.getTarget();
 			double targetDistSqr = this.mob.distanceToSqr(target.getX(), target.getY(), target.getZ());
 			Entity mount = this.mob.getRootVehicle();
 			float speedModifier = 1.0F;
