@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.debug;
 
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.events.event.GolemInfoEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -16,7 +17,7 @@ public class DebugHandler {
 
 	@SubscribeEvent
 	public static void golemDebug(LivingEvent.LivingTickEvent event) {
-		if (event.getEntity() instanceof SweepGolemEntity<?, ?> golem && !golem.level().isClientSide()) {
+		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> golem && !golem.level().isClientSide()) {
 			ArrayList<String> list = new ArrayList<>();
 			DebugPacket.fill(golem, list);
 			ModularGolems.HANDLER.toTrackingPlayers(new DebugPacket(golem.getId(), list), golem);
