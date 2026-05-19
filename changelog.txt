@@ -3,6 +3,13 @@
 - Fix metal golem not displaying shoulder items in item form
 - Make golem spear also break shield
 - Fix equipment menu slot rendering
+
+- Fix dog golem not attacking while ridden
+- Fix dog golem reacting slowly after being hurt
+- Dog golem now has the same target as rider if ridden by golem
+- Make bell modifier less noisy
+- When dog is attacked, golem rider will revenge
+- Fix golem keep retreating when riding while having a jump attack
 - TODO generic fixes
 
 2.6.42
