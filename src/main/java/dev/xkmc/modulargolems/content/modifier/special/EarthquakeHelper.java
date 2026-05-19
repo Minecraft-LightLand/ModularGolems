@@ -56,6 +56,7 @@ public class EarthquakeHelper {
 	@Nullable
 	public static Instance findInstance(AbstractGolemEntity<?, ?> golem, LivingEntity target, double distSqr) {
 		if (golem.getVehicle() != null) return null;
+		if (!golem.getPassengers().isEmpty()) return null;
 		List<Instance> list = new ArrayList<>();
 		long time = golem.level().getGameTime();
 		for (var e : golem.getModifiersExtended().entrySet()) {
