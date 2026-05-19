@@ -6,8 +6,8 @@ import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 
 public class GolemWeaponManager<T extends SweepGolemEntity<?, ?>> extends AbstractWeaponManager<T> {
 
-	public GolemWeaponManager(GolemWeaponRegistry<T> reg, T golem) {
-		super(reg, golem, new GolemMeleeGoal(golem));
+	public GolemWeaponManager(GolemWeaponRegistry<T> reg, T golem, GolemMeleeGoal goal) {
+		super(reg, golem, goal);
 	}
 
 }

@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -44,6 +45,8 @@ public class TeleportToOwnerGoal extends Goal {
 		if (this.golem.isLeashed()) {
 			return false;
 		}
+		if (golem.getMode() == GolemModes.FREE_WANDER)
+			return false;
 		if (this.golem.getControllingPassenger() instanceof Player)
 			return false;
 		Vec3 target = this.golem.getTargetPos();
