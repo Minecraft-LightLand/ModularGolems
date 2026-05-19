@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +29,7 @@ public class GolemRiddenMeleeGoal extends Goal implements IMeleeGoal {
 	}
 
 	public boolean canUse() {
-		if (golem.getControllingPassenger() == null) return false;
+		if (!(golem.getControllingPassenger() instanceof Mob)) return false;
 		long i = golem.level().getGameTime();
 		if (i - this.lastCanUseCheck < 20L) {
 			return false;
@@ -46,7 +47,7 @@ public class GolemRiddenMeleeGoal extends Goal implements IMeleeGoal {
 	}
 
 	public boolean canContinueToUse() {
-		if (golem.getControllingPassenger() == null) return false;
+		if (!(golem.getControllingPassenger() instanceof Mob)) return false;
 		LivingEntity livingentity = golem.getTarget();
 		if (livingentity == null) {
 			return false;
