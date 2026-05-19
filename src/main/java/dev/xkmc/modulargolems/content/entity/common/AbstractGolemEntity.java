@@ -152,6 +152,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
+	protected final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this);
 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -341,6 +342,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (getControllingPassenger() instanceof AbstractGolemEntity<?, ?> golem) {
 			golem.setTargetOnHurt(le);
 		}
+		meleeGoal.clearDelay();
 	}
 
 	public double getMeleeAttackRangeSqr(LivingEntity e) {

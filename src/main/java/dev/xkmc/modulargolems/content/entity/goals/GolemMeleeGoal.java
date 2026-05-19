@@ -195,6 +195,11 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		}
 	}
 
+	public void clearDelay() {
+		repathDelay = 0;
+		failureDelay = 0;
+	}
+
 	protected void repath(LivingEntity target, double dist) {
 		if (this.pathedX == 0.0D && this.pathedY == 0.0D && this.pathedZ == 0.0D ||
 				target.distanceToSqr(this.pathedX, this.pathedY, this.pathedZ) >= 1.0D ||

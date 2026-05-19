@@ -62,7 +62,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 
 	protected SweepGolemEntity(GolemWeaponRegistry<T> reg, EntityType<T> type, Level level) {
 		super(type, level);
-		weaponManager = new GolemWeaponManager<>(reg, getThis());
+		weaponManager = new GolemWeaponManager<>(reg, getThis(), meleeGoal);
 		if (!this.level().isClientSide) {
 			weaponManager.reassessWeaponGoal();
 		}

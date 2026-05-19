@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
-import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.goals.GolemRiddenMeleeGoal;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -221,7 +220,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	// ------ vanilla golem behavior
 
 	protected void registerGoals() {
-		this.goalSelector.addGoal(2, new GolemMeleeGoal(this));
+		this.goalSelector.addGoal(2, meleeGoal);
 		this.goalSelector.addGoal(2, new GolemRiddenMeleeGoal(this));
 		super.registerGoals();
 	}
