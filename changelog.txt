@@ -10,6 +10,7 @@
 - Make bell modifier less noisy
 - When dog is attacked, golem rider will revenge
 - Fix golem keep retreating when riding while having a jump attack
+- Fix golem still following player when in free wander mode
 - TODO generic fixes
 
 2.6.42

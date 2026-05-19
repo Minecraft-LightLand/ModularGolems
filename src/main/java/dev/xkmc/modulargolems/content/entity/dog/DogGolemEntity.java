@@ -220,9 +220,9 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	// ------ vanilla golem behavior
 
 	protected void registerGoals() {
+		super.registerGoals();
 		this.goalSelector.addGoal(2, meleeGoal);
 		this.goalSelector.addGoal(2, new GolemRiddenMeleeGoal(this));
-		super.registerGoals();
 	}
 
 	@Override
