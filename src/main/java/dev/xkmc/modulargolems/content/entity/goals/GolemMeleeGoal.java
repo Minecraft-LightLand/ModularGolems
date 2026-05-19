@@ -67,7 +67,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	private EarthquakeHelper.Instance earthQuake = null;
 	private double wasFalling;
 	private int startJumpingTime = 0;
-	private int clearDelayFlag = 0;
+	private int activeRepathTime = 0;
 
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
 		golem = entity;
@@ -197,20 +197,21 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	}
 
 	public void clearDelay() {
-		clearDelayFlag = 5;
+		activeRepathTime = golem.tickCount + 10;
 	}
 
 	protected void repath(LivingEntity target, double dist) {
-		if ((golem.isInWaterOrBubble() || golem.onGround()) && clearDelayFlag > 0) {
-			clearDelayFlag--;
+		boolean shouldPath = false;
+		if (activeRepathTime > golem.tickCount && golem.getNavigation().isDone() && (golem.isInWaterOrBubble() || golem.onGround())) {
+			activeRepathTime--;
 			repathDelay = failureDelay = 0;
-			pathedX = pathedY = pathedZ = 0;
+			shouldPath = true;
 		}
 		if (repathDelay > 0) return;
-		if ((pathedX != 0.0D || pathedY != 0.0D || pathedZ != 0.0D) &&
-				!(target.distanceToSqr(pathedX, pathedY, pathedZ) >= 1.0D) &&
-				!(golem.getRandom().nextFloat() < 0.05F))
-			return;
+		shouldPath |= pathedX == 0 && pathedY == 0 && pathedZ == 0;
+		shouldPath |= target.distanceToSqr(pathedX, pathedY, pathedZ) >= 1.0D;
+		shouldPath |= golem.getRandom().nextFloat() < 0.05F;
+		if (!shouldPath) return;
 		this.pathedX = target.getX();
 		this.pathedY = target.getY();
 		this.pathedZ = target.getZ();
@@ -236,7 +237,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		if (!golem.getNavigation().moveTo(target, this.speedModifier)) {
 			this.repathDelay += 15;
 		}
-		if (clearDelayFlag > 0)
+		if (activeRepathTime > 0)
 			repathDelay = Math.min(repathDelay, 2);
 		this.repathDelay = this.adjustedTickDelay(this.repathDelay);
 	}
