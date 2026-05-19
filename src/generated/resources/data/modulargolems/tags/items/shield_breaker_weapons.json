@@ -2,6 +2,18 @@
   "values": [
     "modulargolems:golem_slicing_axe",
     {
+      "id": "modulargolems:iron_golem_spear",
+      "required": false
+    },
+    {
+      "id": "modulargolems:diamond_golem_spear",
+      "required": false
+    },
+    {
+      "id": "modulargolems:netherite_golem_spear",
+      "required": false
+    },
+    {
       "id": "modulargolems:iron_golem_axe",
       "required": false
     },
@@ -11,6 +23,22 @@
     },
     {
       "id": "modulargolems:netherite_golem_axe",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ironwood_golem_spear",
+      "required": false
+    },
+    {
+      "id": "modulargolems:steeleaf_golem_spear",
+      "required": false
+    },
+    {
+      "id": "modulargolems:knightmetal_golem_spear",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery_golem_spear",
       "required": false
     },
     {

@@ -38,7 +38,7 @@ public enum GolemWeaponType {
 						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
 						.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
-		if (this == AXE) {
+		if (this != SWORD) {
 			MGTagGen.OPTIONAL_ITEM.add(pvd -> pvd.addTag(MGTagGen.SHIELD_BREAKER_WEAPONS)
 					.addOptional(ans.getId()));
 		}

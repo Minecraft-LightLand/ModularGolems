@@ -327,13 +327,13 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	public ItemWrapper getLeftShoulder() {
-		if (level().isClientSide())
+		if (isAddedToWorld() && level().isClientSide())
 			return ItemWrapper.simple(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e));
 		return ItemWrapper.simple(() -> leftShoulder, e -> leftShoulder = e);
 	}
 
 	public ItemWrapper getRightShoulder() {
-		if (level().isClientSide())
+		if (isAddedToWorld() && level().isClientSide())
 			return ItemWrapper.simple(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e));
 		return ItemWrapper.simple(() -> rightShoulder, e -> rightShoulder = e);
 	}
