@@ -36,11 +36,13 @@ public class BellModifier extends GolemModifier {
 			// 如果生物是敌人且不是爬行者且可以攻击傀儡
 			if (e instanceof Enemy && !(e instanceof Creeper) && e.canAttack(golem)) {
 				// !e.hasEffect(MobEffects.GLOWING) 为 true），如果是，则将 sound 设置为 true
-				sound |= !e.hasEffect(MobEffects.GLOWING);
+				sound |= !e.getTags().contains("BellHit");
+				e.getTags().add("BellHit");
 				EffectUtil.addEffect(e, new MobEffectInstance(MobEffects.GLOWING, 200), EffectUtil.AddReason.NONE, golem);
-				if (!(e.getTarget() instanceof AbstractGolemEntity<?, ?>))
+				if (!(e.getTarget() instanceof AbstractGolemEntity<?, ?>)) {
 					// 将其目标设置为傀儡
 					e.setTarget(golem);
+				}
 			}
 		}
 		// 判断是否播放声音

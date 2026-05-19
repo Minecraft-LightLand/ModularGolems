@@ -4,7 +4,6 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
-import dev.xkmc.modulargolems.content.item.equipments.GolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -206,6 +205,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	public void setInSittingPose(boolean sit) {
+		if (isInSittingPose() == sit) return;
 		byte b0 = this.entityData.get(DATA_FLAGS_ID);
 		this.getNavigation().stop();
 		this.setTarget(null);
@@ -277,11 +277,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	@Override
-	public void setTarget(@Nullable LivingEntity target) {
+	public boolean setTargetRaw(@Nullable LivingEntity target) {
 		if (target != null && isInSittingPose()) {
-			return;
+			return false;
 		}
-		super.setTarget(target);
+		return super.setTargetRaw(target);
 	}
 
 	@Override

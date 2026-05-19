@@ -76,7 +76,10 @@ public class TargetManager {
 	private long prevTime;
 
 	public void onSetTarget(AbstractGolemEntity<?, ?> self, LivingEntity target) {
-		map.computeIfAbsent(target.getUUID(), k -> new TargetEntry()).put(self.level().getGameTime(), self);
+		if (self.getControllingPassenger() instanceof AbstractGolemEntity<?, ?>)
+			return;
+		map.computeIfAbsent(target.getUUID(), k -> new TargetEntry())
+				.put(self.level().getGameTime(), self);
 	}
 
 	public void tickTarget(AbstractGolemEntity<?, ?> self, LivingEntity target) {
