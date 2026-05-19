@@ -24,7 +24,8 @@ public class BellModifier extends GolemModifier {
 		boolean sound = false;
 		for (var e : list) {
 			if (e instanceof Enemy && !(e instanceof Creeper) && e.canAttack(golem)) {
-				sound |= !e.hasEffect(MobEffects.GLOWING);
+				sound |= !e.getTags().contains("BellHit");
+				e.getTags().add("BellHit");
 				EffectUtil.addEffect(e, new MobEffectInstance(MobEffects.GLOWING, 200), golem);
 				if (!(e.getTarget() instanceof AbstractGolemEntity<?, ?>))
 					e.setTarget(golem);

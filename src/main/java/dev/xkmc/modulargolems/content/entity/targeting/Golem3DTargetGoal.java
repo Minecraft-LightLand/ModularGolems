@@ -22,6 +22,10 @@ public class Golem3DTargetGoal extends NearestAttackableTargetGoal<LivingEntity>
 	}
 
 	public void findTarget() {
+		if (self.getControllingPassenger() instanceof AbstractGolemEntity<?, ?> rider) {
+			target = rider.getTarget();
+			return;
+		}
 		var entities = self.level().getEntitiesOfClass(this.targetType, this.getTargetSearchArea(this.getFollowDistance()));
 		var list = new ArrayList<TargetingStatus>();
 		var cen = self.getEyePosition();

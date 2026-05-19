@@ -1,3 +1,19 @@
+3.1.37
+- Metal golem will switch to melee weapon when approached while holding bow / sonic cannon
+- Fix metal golem not displaying shoulder items in item form
+- Make golem spear also break shield
+- Fix equipment menu slot rendering
+- Fix dog golem not attacking while ridden
+- Fix dog golem reacting slowly after being hurt
+- Dog golem now has the same target as rider if ridden by golem
+- Make bell modifier less noisy
+- When dog is attacked, golem rider will revenge
+- Fix golem keep retreating when riding while having a jump attack
+- TODO generic fixes
+- Fix golem having lower movement speed after using mace attack
+- Make heavy spear also a shield breaker
+- TODO 1.21.1-specific fixes
+
 3.1.36
 - Support newest version of Cataclysm
 - Fix dog golem ca be commanded to sit down by non-owner
