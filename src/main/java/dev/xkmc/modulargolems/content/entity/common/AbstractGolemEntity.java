@@ -145,7 +145,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
-	protected final GolemMeleeGoal meleeGoal = new GolemMeleeGoal(this);
+	protected GolemMeleeGoal meleeGoal;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -999,6 +999,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected void registerGoals() {
+		meleeGoal = new GolemMeleeGoal(this);
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
 		this.goalSelector.addGoal(4, new FollowOwnerGoal(this));
