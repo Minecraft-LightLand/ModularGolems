@@ -152,7 +152,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
-	protected GolemMeleeGoal meleeGoal;
+	public GolemMeleeGoal meleeGoal;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);

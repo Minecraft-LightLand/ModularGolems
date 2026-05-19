@@ -53,8 +53,8 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	private double pathedX;
 	private double pathedY;
 	private double pathedZ;
-	private int repathDelay;
-	private int ticksUntilNextAttack;
+	public int repathDelay;
+	public int ticksUntilNextAttack;
 	private long lastCanUseCheck;
 	private int failureDelay = 0;
 	private boolean canPenalize = false;
