@@ -32,6 +32,7 @@ public class DebugPacket extends SerialPacketBase {
 		list.add("Melee: " + running);
 		list.add("Attack Delay: " + goal.ticksUntilNextAttack);
 		list.add("Walk Delay: " + goal.repathDelay);
+		list.add("Pathing: " + !golem.getNavigation().isDone());
 	}
 
 	@Override
