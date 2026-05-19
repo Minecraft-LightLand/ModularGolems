@@ -67,7 +67,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	private EarthquakeHelper.Instance earthQuake = null;
 	private double wasFalling;
 	private int startJumpingTime = 0;
-	private boolean clearDelayFlag = false;
+	private int clearDelayFlag = 0;
 
 	public GolemMeleeGoal(AbstractGolemEntity<?, ?> entity) {
 		golem = entity;
@@ -192,19 +192,17 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 				golem.getNavigation().stop();
 			golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
 		} else if (dist > far) {
-			if ((golem.isInWaterOrBubble() || golem.onGround()) && clearDelayFlag) {
-				clearDelayFlag = false;
-				repathDelay = 0;
-				failureDelay = 0;
+			if ((golem.isInWaterOrBubble() || golem.onGround()) && clearDelayFlag > 0) {
+				clearDelayFlag--;
+				repathDelay = failureDelay = 0;
+				pathedX = pathedY = pathedZ = 0;
 			}
 			if (repathDelay == 0) repath(target, distSqr);
 		}
 	}
 
 	public void clearDelay() {
-		repathDelay = 0;
-		failureDelay = 0;
-		clearDelayFlag = true;
+		clearDelayFlag = 1;
 	}
 
 	protected void repath(LivingEntity target, double dist) {
