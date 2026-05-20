@@ -6,6 +6,9 @@ import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySelector;
@@ -14,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
@@ -330,6 +334,15 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 			if (!jump && canReachTarget(target, distSqr)) {
 				if (holdingMace()) {
 					golem.setDeltaMovement(Vec3.ZERO);
+					if (golem.level() instanceof ServerLevel sl) {
+						sl.levelEvent(LevelEvent.PARTICLES_SMASH_ATTACK, target.getOnPos(), 750);
+						if (target.onGround()) {
+							SoundEvent soundevent = golem.fallDistance > 5.0F ? SoundEvents.MACE_SMASH_GROUND_HEAVY : SoundEvents.MACE_SMASH_GROUND;
+							sl.playSound(null, golem.getX(), golem.getY(), golem.getZ(), soundevent, golem.getSoundSource(), 1.0F, 1.0F);
+						} else {
+							sl.playSound(null, golem.getX(), golem.getY(), golem.getZ(), SoundEvents.MACE_SMASH_AIR, golem.getSoundSource(), 1.0F, 1.0F);
+						}
+					}
 				}
 				this.resetAttackCooldown();
 				this.mob.swing(InteractionHand.MAIN_HAND);
