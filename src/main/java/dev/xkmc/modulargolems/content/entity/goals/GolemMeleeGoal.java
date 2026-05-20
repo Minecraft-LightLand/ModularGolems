@@ -205,7 +205,9 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 			this.repathDelay = Math.max(this.repathDelay - 1, 0);
 			boolean hasRange = golem.hasRangeAttack() ||
 					EarthquakeHelper.shouldRetreat(golem, target, dist, end);
-			if (dist < far && end > 2.4 || hasRange) {
+			boolean maceRetreat = holdingMace() &&
+					(canReachTarget(target, distSqr - 4) || !isTimeToAttack());
+			if (dist < far && end > 2.4 || hasRange || maceRetreat) {
 				if (!golem.getNavigation().isDone())
 					golem.getNavigation().stop();
 				golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
@@ -317,27 +319,37 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		}
 		if (earthQuake != null && !golem.onGround() && golem.tickCount - startJumpingTime < jumpMaxTime) return;
 		if (this.mob.hasLineOfSight(target)) {
-			boolean jump;
-			if (canReachTarget(target, distSqr)) {
+			boolean mayJump = !golem.isInFluidType() && golem.onGround();
+			boolean jump = false;
+			if (mayJump && canReachTarget(target, distSqr - 4)) {
+				if (holdingMace()) {
+					ticksUntilNextAttack += 10;
+					jump = true;
+				}
+			}
+			if (!jump && canReachTarget(target, distSqr)) {
+				if (holdingMace()) {
+					golem.setDeltaMovement(Vec3.ZERO);
+				}
 				this.resetAttackCooldown();
 				this.mob.swing(InteractionHand.MAIN_HAND);
 				this.mob.doHurtTarget(target);
-				if (golem.getDeltaMovement().length() > 2) {
-					golem.setDeltaMovement(golem.getDeltaMovement().normalize().scale(2));
-				}
-				jump = golem.getMainHandItem().is(ItemTags.MACE_ENCHANTABLE);
-			} else {
+			} else if (mayJump) {
 				var diff = target.position().subtract(golem.position());
-				jump = diff.horizontalDistanceSqr() < getAttackReachSqr(target) / 2 &&
+				jump |= diff.horizontalDistanceSqr() < getAttackReachSqr(target) / 2 &&
 						diff.y > 0 && diff.y < 3 + golem.getBbHeight();
 			}
-			if (jump && !golem.isInFluidType() && golem.onGround()) {
+			if (jump) {
 				maceJump = true;
 				var v = golem.getDeltaMovement();
 				golem.setDeltaMovement(new Vec3(v.x, Math.max(v.y, 0) + 1, v.z));
 				golem.hasImpulse = true;
 			}
 		}
+	}
+
+	protected boolean holdingMace() {
+		return golem.getMainHandItem().is(ItemTags.MACE_ENCHANTABLE);
 	}
 
 }
