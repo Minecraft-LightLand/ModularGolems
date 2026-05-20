@@ -174,42 +174,33 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 
 	@Override
 	public void tick() {
-		if (maceJump && golem.onGround()) {
-			maceJump = false;
-		}
+		if (maceJump && golem.onGround()) maceJump = false;
 		LivingEntity target = golem.getTarget();
-		if (target == null) {
-			return;
-		}
-		if (isTimeToAttack()) {
-			timeNoMovement++;
-		}
+		if (target == null) return;
+		if (isTimeToAttack()) timeNoMovement++;
 		golem.lookAt(target, 30.0F, 30.0F);
 		double dist = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
-		tickMove(target, dist);
+		if (maceJump) MaceHelper.doMaceAirMove(golem, target);
+		else tickMove(target, dist);
 		checkAndPerformAttack(target, dist);
 		wasFalling = earthQuake != null && !golem.isInFluidType() && !golem.onGround() ? Math.min(wasFalling, golem.getDeltaMovement().y) : 0;
 	}
 
 	protected void tickMove(LivingEntity target, double distSqr) {
-		if (maceJump) {
-			MaceHelper.doMaceAirMove(golem, target);
-		} else {
-			double dist = Math.sqrt(distSqr);
-			double end = Math.sqrt(getAttackReachSqr(target));
-			double far = end - 0.5;
-			this.repathDelay = Math.max(this.repathDelay - 1, 0);
-			boolean hasRange = golem.hasRangeAttack() ||
-					EarthquakeHelper.shouldRetreat(golem, target, dist, end);
-			boolean maceRetreat = holdingMace() &&
-					(canReachTarget(target, distSqr - 4) || !isTimeToAttack());
-			if (dist < far && end > 2.4 || hasRange || maceRetreat) {
-				if (!golem.getNavigation().isDone())
-					golem.getNavigation().stop();
-				golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
-			} else if (dist > far) {
-				repath(target, distSqr);
-			}
+		double dist = Math.sqrt(distSqr);
+		double end = Math.sqrt(getAttackReachSqr(target));
+		double far = end - 0.5;
+		this.repathDelay = Math.max(this.repathDelay - 1, 0);
+		boolean hasRange = golem.hasRangeAttack() ||
+				EarthquakeHelper.shouldRetreat(golem, target, dist, end);
+		boolean maceRetreat = holdingMace() &&
+				(canReachTarget(target, distSqr - 4) || !isTimeToAttack());
+		if (dist < far && end > 2.4 || hasRange || maceRetreat) {
+			if (!golem.getNavigation().isDone())
+				golem.getNavigation().stop();
+			golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
+		} else if (dist > far) {
+			repath(target, distSqr);
 		}
 	}
 
