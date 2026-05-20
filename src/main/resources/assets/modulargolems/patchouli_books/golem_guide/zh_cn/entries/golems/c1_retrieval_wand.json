@@ -6,7 +6,7 @@
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "右键傀儡把傀儡收回背包。$(br2)右键空中把半径20格内的全部傀儡收回背包。$(br2)Shift右键收回准星指向的最多64格远的傀儡。"
+	  "text": "右键傀儡把傀儡收回背包。$(br2)右键收回准星指向的最多64格远的傀儡。$(br2)Shift右键空中把半径20格内的全部傀儡收回背包。"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:retrieval_wand",
