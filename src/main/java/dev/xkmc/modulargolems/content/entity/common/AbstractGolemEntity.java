@@ -148,6 +148,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
+	protected GolemMeleeGoal meleeGoal;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -302,12 +303,22 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
 			this.discard();
 		}
-		if (isAlive() && source.getEntity() instanceof LivingEntity le && predicateTarget(le)) {
+		if (source.getEntity() instanceof LivingEntity le) {
+			setTargetOnHurt(le);
+		}
+	}
+
+	protected void setTargetOnHurt(LivingEntity le) {
+		if (isAlive() && predicateTarget(le)) {
 			if (isWithinMeleeAttackRange(le)) {
 				targeter.findTarget();
 				setTarget(targeter.getTarget());
 			}
 		}
+		if (getControllingPassenger() instanceof AbstractGolemEntity<?, ?> golem) {
+			golem.setTargetOnHurt(le);
+		}
+		meleeGoal.clearDelay();
 	}
 
 	public AABB getRawAttackBoundingBox() {
@@ -566,12 +577,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return !hasFlag(GolemFlags.PASSIVE) && super.canBeSeenAsEnemy();
 	}
 
-	@Override
-	public void setTarget(@Nullable LivingEntity target) {
+	protected boolean setTargetRaw(@Nullable LivingEntity target) {
 		if (target != null && !canAttack(target)) {
-			return;
+			return false;
 		}
 		super.setTarget(target);
+		return true;
+	}
+
+	@Override
+	public void setTarget(@Nullable LivingEntity target) {
+		if (!setTargetRaw(target)) return;
+		if (getVehicle() instanceof AbstractGolemEntity<?, ?> veh) {
+			veh.setTargetRaw(target);
+		}
 		if (target != null) {
 			TargetManager.get(this).onSetTarget(this, target);
 		}
@@ -996,6 +1015,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected void registerGoals() {
+		meleeGoal = new GolemMeleeGoal(this);
 		this.goalSelector.addGoal(0, new GolemFloatGoal(this));
 		this.goalSelector.addGoal(1, new TeleportToOwnerGoal(this));
 		this.goalSelector.addGoal(4, new FollowOwnerGoal(this));
@@ -1270,8 +1290,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected float getSoundVolume() {
 		return super.getSoundVolume() * (isHostile() ?
-				MGConfig.CLIENT.hostileGolemSoundVolumeFactor.get().floatValue() :
-				MGConfig.CLIENT.golemSoundVolumeFactor.get().floatValue()
+				MGConfig.COMMON.hostileGolemSoundVolumeFactor.get().floatValue() :
+				MGConfig.COMMON.golemSoundVolumeFactor.get().floatValue()
 		);
 	}
 
