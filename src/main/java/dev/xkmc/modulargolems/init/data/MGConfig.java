@@ -8,15 +8,9 @@ public class MGConfig {
 
 	public static class Client extends ConfigInit {
 
-		public final ModConfigSpec.DoubleValue golemSoundVolumeFactor;
-		public final ModConfigSpec.DoubleValue hostileGolemSoundVolumeFactor;
 
 		Client(Builder builder) {
 			markL2();
-			golemSoundVolumeFactor = builder.text("Player golem sound factor")
-					.defineInRange("golemSoundVolumeFactor", 1d, 0, 2);
-			hostileGolemSoundVolumeFactor = builder.text("Hostile golem sound factor")
-					.defineInRange("hostileGolemSoundVolumeFactor", 1d, 0, 2);
 		}
 
 	}
@@ -67,6 +61,8 @@ public class MGConfig {
 		public final ModConfigSpec.DoubleValue mechanicalArmSpeed;
 		public final ModConfigSpec.DoubleValue mechanicalArmPowerBonus;
 		public final ModConfigSpec.DoubleValue mechanicalArmMiscBonusFactor;
+		public final ModConfigSpec.DoubleValue golemSoundVolumeFactor;
+		public final ModConfigSpec.DoubleValue hostileGolemSoundVolumeFactor;
 
 
 		public final ModConfigSpec.IntValue summonDistance;
@@ -157,6 +153,10 @@ public class MGConfig {
 						.defineInRange("humanoidGolemSlot", 3, 0, 100);
 				dogGolemSlot = builder.text("Default slots for dog golem")
 						.defineInRange("dogGolemSlot", 2, 0, 100);
+				golemSoundVolumeFactor = builder.text("Player golem sound factor")
+						.defineInRange("golemSoundVolumeFactor", 1d, 0, 2);
+				hostileGolemSoundVolumeFactor = builder.text("Hostile golem sound factor")
+						.defineInRange("hostileGolemSoundVolumeFactor", 1d, 0, 2);
 			}
 			builder.pop();
 

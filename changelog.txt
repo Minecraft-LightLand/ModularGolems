@@ -9,10 +9,11 @@
 - Make bell modifier less noisy
 - When dog is attacked, golem rider will revenge
 - Fix golem keep retreating when riding while having a jump attack
-- TODO generic fixes
+- Fix crash with golem sound
 - Fix golem having lower movement speed after using mace attack
 - Make heavy spear also a shield breaker
-- TODO 1.21.1-specific fixes
+- Fix humanoid using mace
+- Add mace / heavy spear sound and particles
 
 3.1.36
 - Support newest version of Cataclysm
@@ -28,6 +29,7 @@
 - Fix golem curios screen not closing after golem death
 - Change golem beacon rendering
 - Change dog / humanoid golem hurt / death sound
+
 
 3.1.33
 - Fix the issue of golem rendering death animation after fixing dead gelems
