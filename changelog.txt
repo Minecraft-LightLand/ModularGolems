@@ -1,4 +1,5 @@
 3.1.37
+- Switch Retrieve wand click and shift-click actions
 - Metal golem will switch to melee weapon when approached while holding bow / sonic cannon
 - Fix metal golem not displaying shoulder items in item form
 - Make golem spear also break shield
