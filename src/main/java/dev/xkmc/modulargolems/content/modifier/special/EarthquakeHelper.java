@@ -58,6 +58,7 @@ public class EarthquakeHelper {
 
 	@Nullable
 	public static Instance findMountInstance(AbstractGolemEntity<?, ?> golem) {
+		if (golem.hasFlag(GolemFlags.PASSIVE)) return null;
 		List<Instance> list = new ArrayList<>();
 		long time = golem.level().getGameTime();
 		for (var e : golem.getModifiersExtended().entrySet()) {
@@ -91,7 +92,7 @@ public class EarthquakeHelper {
 				}
 			}
 		}
-		if (golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog) {
+		if (golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog && !dog.hasFlag(GolemFlags.PASSIVE)) {
 			for (var e : dog.getModifiersExtended().entrySet()) {
 				if (e.getKey() instanceof Modifier m) {
 					long last = dog.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
