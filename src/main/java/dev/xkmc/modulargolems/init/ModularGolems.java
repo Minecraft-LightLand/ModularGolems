@@ -15,6 +15,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.GuardedEntity;
 import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
+import dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
@@ -54,7 +55,7 @@ public class ModularGolems {
 	public static final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(ModularGolems.MODID, "main"), 3,
+			new ResourceLocation(ModularGolems.MODID, "main"), 4,
 			e -> e.create(ConfigSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(ConfigUpdateToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ConfigHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
@@ -66,7 +67,8 @@ public class ModularGolems {
 			e -> e.create(TrackerHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(TrackerDeleteToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ReforgeUpdatePacket.class, NetworkDirection.PLAY_TO_CLIENT),
-			e -> e.create(GuardedEntity.GuardedDataToClient.class, NetworkDirection.PLAY_TO_CLIENT)
+			e -> e.create(GuardedEntity.GuardedDataToClient.class, NetworkDirection.PLAY_TO_CLIENT),
+			e -> e.create(DogSkillToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =

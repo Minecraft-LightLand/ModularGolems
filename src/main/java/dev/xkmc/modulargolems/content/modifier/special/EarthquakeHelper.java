@@ -1,7 +1,9 @@
 package dev.xkmc.modulargolems.content.modifier.special;
 
+import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -53,6 +55,25 @@ public class EarthquakeHelper {
 		e.push(d0 / d2 * f, 0.375 * f, d1 / d2 * f);
 	}
 
+
+	@Nullable
+	public static Instance findMountInstance(AbstractGolemEntity<?, ?> golem) {
+		List<Instance> list = new ArrayList<>();
+		long time = golem.level().getGameTime();
+		for (var e : golem.getModifiersExtended().entrySet()) {
+			if (e.getKey() instanceof Modifier m) {
+				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
+				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {
+					list.add(new Instance(golem, m, e.getValue()));
+				}
+			}
+		}
+		if (!list.isEmpty()) {
+			return list.get(golem.getRandom().nextInt(list.size()));
+		}
+		return null;
+	}
+
 	@Nullable
 	public static Instance findInstance(AbstractGolemEntity<?, ?> golem, LivingEntity target, double distSqr) {
 		if (golem.getVehicle() != null && !(golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == golem))
@@ -95,6 +116,20 @@ public class EarthquakeHelper {
 
 	public record Instance(AbstractGolemEntity<?, ?> owner, Modifier modifier, int lv) {
 
+		public void performJump(AbstractGolemEntity<?, ?> mover) {
+			modifier().performJump(mover, lv());
+		}
+
+		public void addCD() {
+			owner().getPersistentData().putLong(modifier().self().getID() + ":timestamp", owner().level().getGameTime());
+		}
+
+		public boolean isValid() {
+			var time = owner().level().getGameTime();
+			long last = owner().getPersistentData().getLong(modifier().self().getID() + ":timestamp");
+			return last + modifier().getCoolDown(owner(), lv()) < time || last > time;
+		}
+
 	}
 
 	public interface Modifier {
@@ -112,6 +147,11 @@ public class EarthquakeHelper {
 		default int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
 			return 100;
 		}
+
+		default GolemModifier self() {
+			return Wrappers.cast(this);
+		}
+
 	}
 
 }

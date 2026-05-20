@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
-import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -51,8 +50,8 @@ public class JumpAttackHelper {
 			double d0 = goal.getAttackReachSqr(target);
 			ins = EarthquakeHelper.findInstance(golem, target, distSqr - d0);
 			if (ins != null) {
-				ins.owner().getPersistentData().putLong(((GolemModifier) ins.modifier()).getID() + ":timestamp", golem.level().getGameTime());
-				ins.modifier().performJump(mover, ins.lv());
+				ins.performJump(mover);
+				ins.addCD();
 				mover.hasImpulse = true;
 				startJumpingTime = golem.tickCount;
 				return true;
