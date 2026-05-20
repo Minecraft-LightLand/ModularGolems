@@ -332,7 +332,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 				}
 			}
 			if (!jump && canReachTarget(target, distSqr)) {
-				if (holdingMace()) {
+				if (holdingMace() && golem.fallDistance > 1) {
 					golem.setDeltaMovement(Vec3.ZERO);
 					if (golem.level() instanceof ServerLevel sl) {
 						sl.levelEvent(LevelEvent.PARTICLES_SMASH_ATTACK, target.getOnPos(), 750);
