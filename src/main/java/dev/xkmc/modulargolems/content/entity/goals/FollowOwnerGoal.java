@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +31,7 @@ public class FollowOwnerGoal extends Goal {
 	 * method as well.
 	 */
 	public boolean canUse() {
-		if (!this.golem.isMovable())
+		if (!this.golem.isMovable()|| golem.getMode() == GolemModes.FREE_WANDER)
 			return false;
 		if (this.golem.getControllingPassenger() instanceof Player)
 			return false;
