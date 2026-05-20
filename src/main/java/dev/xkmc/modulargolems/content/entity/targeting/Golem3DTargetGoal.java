@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.targeting;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,12 +22,36 @@ public class Golem3DTargetGoal extends NearestAttackableTargetGoal<LivingEntity>
 		return target;
 	}
 
+	@Override
+	public boolean canUse() {
+		if (self.getControllingPassenger() instanceof Player) {
+			if (self.tickCount % 2 == 0)
+				return true;
+			var prev = self.getTarget();
+			if (prev != null && !self.meleeGoal.canReachTarget(prev))
+				return true;
+		}
+		return super.canUse();
+	}
+
 	public void findTarget() {
 		if (self.getControllingPassenger() instanceof AbstractGolemEntity<?, ?> rider) {
 			target = rider.getTarget();
 			return;
 		}
 		var entities = self.level().getEntitiesOfClass(this.targetType, this.getTargetSearchArea(this.getFollowDistance()));
+		if (self.getControllingPassenger() instanceof Player) {
+			for (var e : entities) {
+				if (!targetConditions.test(self, e)) continue;
+				var reason = TargetManager.predicateTarget(self, e);
+				if (reason == null) continue;
+				if (self.meleeGoal.canReachTarget(e)) {
+					target = e;
+					return;
+				}
+			}
+			return;
+		}
 		var list = new ArrayList<TargetingStatus>();
 		var cen = self.getEyePosition();
 		var box = self.getBoundingBox();
