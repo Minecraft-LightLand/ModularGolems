@@ -11,18 +11,12 @@ public class MGConfig {
 	public static class Client {
 
 		public final ForgeConfigSpec.BooleanValue shieldUsePoseFixForModdedShields;
-		public final ForgeConfigSpec.DoubleValue golemSoundVolumeFactor;
-		public final ForgeConfigSpec.DoubleValue hostileGolemSoundVolumeFactor;
 
 		Client(ForgeConfigSpec.Builder builder) {
 			shieldUsePoseFixForModdedShields = builder
 					.comment("Replace isUsingItem with isBlocking for modded shield model predicate")
 					.comment("Fix shield rendering on humanoid golem but may break stuff")
 					.define("shieldUsePoseFixForModdedShields", false);
-			golemSoundVolumeFactor = builder.comment("Player golem sound factor")
-					.defineInRange("golemSoundVolumeFactor", 1d, 0, 2);
-			hostileGolemSoundVolumeFactor = builder.comment("Hostile golem sound factor")
-					.defineInRange("hostileGolemSoundVolumeFactor", 1d, 0, 2);
 		}
 
 	}
@@ -84,6 +78,8 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue maxWanderRadius;
 		public final ForgeConfigSpec.DoubleValue riddenSpeedFactor;
 		public final ForgeConfigSpec.BooleanValue sendForceRemovalMessage;
+		public final ForgeConfigSpec.DoubleValue golemSoundVolumeFactor;
+		public final ForgeConfigSpec.DoubleValue hostileGolemSoundVolumeFactor;
 
 		public final ForgeConfigSpec.IntValue targetResetTime;
 		public final ForgeConfigSpec.DoubleValue targetResetNoMovementRange;
@@ -190,6 +186,10 @@ public class MGConfig {
 						.defineInRange("humanoidGolemSlot", 3, 0, 100);
 				dogGolemSlot = builder.comment("Default slots for dog golem")
 						.defineInRange("dogGolemSlot", 2, 0, 100);
+				golemSoundVolumeFactor = builder.comment("Player golem sound factor")
+						.defineInRange("golemSoundVolumeFactor", 1d, 0, 2);
+				hostileGolemSoundVolumeFactor = builder.comment("Hostile golem sound factor")
+						.defineInRange("hostileGolemSoundVolumeFactor", 1d, 0, 2);
 			}
 
 			// modifiers

@@ -3,7 +3,6 @@
 - Fix metal golem not displaying shoulder items in item form
 - Make golem spear also break shield
 - Fix equipment menu slot rendering
-
 - Fix dog golem not attacking while ridden
 - Fix dog golem reacting slowly after being hurt
 - Dog golem now has the same target as rider if ridden by golem
@@ -11,7 +10,7 @@
 - When dog is attacked, golem rider will revenge
 - Fix golem keep retreating when riding while having a jump attack
 - Fix golem still following player when in free wander mode
-- TODO generic fixes
+- Fix crash with golem sound
 
 2.6.42
 - Support newest version of Cataclysm
@@ -26,6 +25,7 @@
 - Fix golem curios screen not closing after golem death
 - Change golem beacon rendering
 - Change dog / humanoid golem hurt / death sound
+
 
 2.6.39
 - Buff Goety Apostle upgrades

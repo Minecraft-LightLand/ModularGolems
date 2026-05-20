@@ -1335,8 +1335,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected float getSoundVolume() {
 		return super.getSoundVolume() * (isHostile() ?
-				MGConfig.CLIENT.hostileGolemSoundVolumeFactor.get().floatValue() :
-				MGConfig.CLIENT.golemSoundVolumeFactor.get().floatValue()
+				MGConfig.COMMON.hostileGolemSoundVolumeFactor.get().floatValue() :
+				MGConfig.COMMON.golemSoundVolumeFactor.get().floatValue()
 		);
 	}
 

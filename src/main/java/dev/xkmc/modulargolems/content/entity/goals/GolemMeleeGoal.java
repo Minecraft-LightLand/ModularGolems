@@ -203,7 +203,6 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	protected void repath(LivingEntity target, double dist) {
 		boolean shouldPath = false;
 		if (activeRepathTime > golem.tickCount && golem.getNavigation().isDone() && (golem.isInWaterOrBubble() || golem.onGround())) {
-			activeRepathTime--;
 			repathDelay = failureDelay = 0;
 			shouldPath = true;
 		}
