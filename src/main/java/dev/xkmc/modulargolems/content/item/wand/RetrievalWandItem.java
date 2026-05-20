@@ -28,11 +28,6 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 	public InteractionResultHolder<ItemStack> use(Level level, Player user, InteractionHand hand) {
 		ItemStack stack = user.getItemInHand(hand);
 		if (user.isShiftKeyDown()) {
-			var result = RayTraceUtil.rayTraceEntity(user, MGConfig.COMMON.retrieveDistance.get(), e -> (e instanceof AbstractGolemEntity<?, ?> golem) && golem.canWandModify(user));
-			if (result == null) return InteractionResultHolder.fail(stack);
-			var golem = result.getEntity();
-			return attemptRetrieve(level, user, Wrappers.cast(golem)) ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
-		} else {
 			var list = level.getEntities(EntityTypeTest.forClass(AbstractGolemEntity.class), user.getBoundingBox().inflate(MGConfig.COMMON.retrieveRange.get()), e -> true);
 			if (list.isEmpty()) {
 				return InteractionResultHolder.pass(stack);
@@ -42,6 +37,11 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 				success |= attemptRetrieve(level, user, golem);
 			}
 			return success ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
+		} else {
+			var result = RayTraceUtil.rayTraceEntity(user, MGConfig.COMMON.retrieveDistance.get(), e -> (e instanceof AbstractGolemEntity<?, ?> golem) && golem.canWandModify(user));
+			if (result == null) return InteractionResultHolder.fail(stack);
+			var golem = result.getEntity();
+			return attemptRetrieve(level, user, Wrappers.cast(golem)) ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
 		}
 	}
 
