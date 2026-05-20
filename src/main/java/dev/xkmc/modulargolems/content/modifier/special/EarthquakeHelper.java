@@ -55,7 +55,8 @@ public class EarthquakeHelper {
 
 	@Nullable
 	public static Instance findInstance(AbstractGolemEntity<?, ?> golem, LivingEntity target, double distSqr) {
-		if (golem.getVehicle() != null) return null;
+		if (golem.getVehicle() != null && !(golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == golem))
+			return null;
 		if (!golem.getPassengers().isEmpty()) return null;
 		List<Instance> list = new ArrayList<>();
 		long time = golem.level().getGameTime();
@@ -64,7 +65,19 @@ public class EarthquakeHelper {
 				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
 				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {
 					if (m.getEarthquakeRangeSqr(golem, target, e.getValue()) > distSqr) {
-						list.add(new Instance(m, e.getValue()));
+						list.add(new Instance(golem, m, e.getValue()));
+					}
+				}
+			}
+		}
+		if (golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog) {
+			for (var e : dog.getModifiersExtended().entrySet()) {
+				if (e.getKey() instanceof Modifier m) {
+					long last = dog.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
+					if (last + m.getCoolDown(dog, e.getValue()) < time || last > time) {
+						if (m.getEarthquakeRangeSqr(dog, target, e.getValue()) > distSqr) {
+							list.add(new Instance(dog, m, e.getValue()));
+						}
 					}
 				}
 			}
@@ -80,7 +93,7 @@ public class EarthquakeHelper {
 				EarthquakeHelper.findInstance(golem, target, dist * dist - reach * reach + 4) != null;
 	}
 
-	public record Instance(Modifier modifier, int lv) {
+	public record Instance(AbstractGolemEntity<?, ?> owner, Modifier modifier, int lv) {
 
 	}
 
