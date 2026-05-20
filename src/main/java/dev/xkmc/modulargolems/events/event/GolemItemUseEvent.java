@@ -1,15 +1,15 @@
 package dev.xkmc.modulargolems.events.event;
 
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
-public class GolemItemUseEvent extends HumanoidGolemEvent {
+public class GolemItemUseEvent extends GolemEvent {
 
 	private final ItemStack stack;
 	private final InteractionHand hand;
 
-	public GolemItemUseEvent(HumanoidGolemEntity golem, ItemStack stack, InteractionHand hand) {
+	public GolemItemUseEvent(AbstractGolemEntity<?, ?> golem, ItemStack stack, InteractionHand hand) {
 		super(golem);
 		this.stack = stack;
 		this.hand = hand;

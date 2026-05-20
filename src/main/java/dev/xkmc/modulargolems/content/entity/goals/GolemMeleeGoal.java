@@ -75,6 +75,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	private EarthquakeHelper.Instance earthQuake = null;
 	private double wasFalling;
 	private int startJumpingTime = 0;
+	private int activeRepathTime = 0;
 
 	private boolean maceJump = false;
 
@@ -186,79 +187,81 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 
 	@Override
 	public void tick() {
-		if (maceJump && golem.onGround()) {
-			maceJump = false;
-		}
+		if (maceJump && golem.onGround()) maceJump = false;
 		LivingEntity target = golem.getTarget();
-		if (target == null) {
-			return;
-		}
-		if (isTimeToAttack()) {
-			timeNoMovement++;
-		}
-		golem.getLookControl().setLookAt(target, 30.0F, 30.0F);
+		if (target == null) return;
+		if (isTimeToAttack()) timeNoMovement++;
+		golem.lookAt(target, 30.0F, 30.0F);
 		double dist = golem.getPerceivedTargetDistanceSquareForMeleeAttack(target);
-		tickMove(target, dist);
+		if (maceJump) MaceHelper.doMaceAirMove(golem, target);
+		else tickMove(target, dist);
 		checkAndPerformAttack(target, dist);
 		wasFalling = earthQuake != null && !isInFluidType() && !golem.onGround() ? Math.min(wasFalling, golem.getDeltaMovement().y) : 0;
 	}
 
 	protected void tickMove(LivingEntity target, double distSqr) {
-		if (maceJump) {
-			var v = golem.getDeltaMovement();
-			var diff = target.position().subtract(golem.position()).multiply(1, 0, 1);
-			if (v.multiply(1, 0, 1).length() < 0.3 && diff.length() > 1) {
-				golem.addDeltaMovement(diff.normalize().scale(0.01));
-			}
-		} else {
-			double dist = Math.sqrt(distSqr);
-			double end = Math.sqrt(getAttackReachSqr(target));
-			double far = end - 0.5;
-			this.repathDelay = Math.max(this.repathDelay - 1, 0);
-			boolean hasRange = golem.hasRangeAttack() ||
-					EarthquakeHelper.shouldRetreat(golem, target, dist, end);
-			if (dist < far && end > 2.4 || hasRange) {
-				if (!golem.getNavigation().isDone())
-					golem.getNavigation().stop();
-				golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
-			} else if (dist > far) {
-				if (repathDelay == 0) repath(target, distSqr);
-			}
+		double dist = Math.sqrt(distSqr);
+		double end = Math.sqrt(getAttackReachSqr(target));
+		double far = end - 0.5;
+		this.repathDelay = Math.max(this.repathDelay - 1, 0);
+		boolean hasRange = golem.hasRangeAttack() ||
+				EarthquakeHelper.shouldRetreat(golem, target, dist, end);
+		boolean maceRetreat = holdingMace() &&
+				(canReachTarget(target, distSqr - 4) || !isTimeToAttack());
+		if (dist < far && end > 2.4 || hasRange || maceRetreat) {
+			if (!golem.getNavigation().isDone())
+				golem.getNavigation().stop();
+			golem.getMoveControl().strafe(hasRange || dist < far - 1 ? -1f : -0.5F, 0);
+		} else if (dist > far) {
+			repath(target, distSqr);
 		}
 	}
 
+	public void clearDelay() {
+		activeRepathTime = golem.tickCount + 10;
+	}
+
 	protected void repath(LivingEntity target, double dist) {
-		if (this.pathedX == 0.0D && this.pathedY == 0.0D && this.pathedZ == 0.0D ||
-				target.distanceToSqr(this.pathedX, this.pathedY, this.pathedZ) >= 1.0D ||
-				golem.getRandom().nextFloat() < 0.05F) {
-			this.pathedX = target.getX();
-			this.pathedY = target.getY();
-			this.pathedZ = target.getZ();
-			this.repathDelay = 4 + golem.getRandom().nextInt(7);
-			if (this.canPenalize) {
-				this.repathDelay += failureDelay;
-				if (golem.getNavigation().getPath() != null) {
-					Node end = golem.getNavigation().getPath().getEndNode();
-					if (end != null && target.distanceToSqr(end.x, end.y, end.z) < 1)
-						failureDelay = 0;
-					else
-						failureDelay += 10;
-				} else {
-					failureDelay += 10;
-				}
-			}
-			if (dist > 1024.0D) {
-				this.repathDelay += 10;
-			} else if (dist > 256.0D) {
-				this.repathDelay += 5;
-			}
-
-			if (!golem.getNavigation().moveTo(target, this.speedModifier)) {
-				this.repathDelay += 15;
-			}
-
-			this.repathDelay = this.adjustedTickDelay(this.repathDelay);
+		boolean shouldPath = false;
+		if (activeRepathTime > golem.tickCount && golem.getNavigation().isDone() && (golem.isInWater() || golem.onGround())) {
+			repathDelay = failureDelay = 0;
+			shouldPath = true;
 		}
+		if (repathDelay > 0) return;
+		shouldPath |= pathedX == 0 && pathedY == 0 && pathedZ == 0;
+		shouldPath |= target.distanceToSqr(pathedX, pathedY, pathedZ) >= 1.0D;
+		shouldPath |= golem.getRandom().nextFloat() < 0.05F;
+		if (!shouldPath) return;
+		this.pathedX = target.getX();
+		this.pathedY = target.getY();
+		this.pathedZ = target.getZ();
+		this.repathDelay = 4 + golem.getRandom().nextInt(7);
+		if (this.canPenalize) {
+			this.repathDelay += failureDelay;
+			if (golem.getNavigation().getPath() != null) {
+				Node end = golem.getNavigation().getPath().getEndNode();
+				if (end != null && target.distanceToSqr(end.x, end.y, end.z) < 1)
+					failureDelay = 0;
+				else
+					failureDelay += 10;
+			} else {
+				failureDelay += 10;
+			}
+		}
+		if (dist > 1024.0D) {
+			this.repathDelay += 10;
+		} else if (dist > 256.0D) {
+			this.repathDelay += 5;
+		}
+
+		if (!golem.getNavigation().moveTo(target, this.speedModifier)) {
+			this.repathDelay += 15;
+		}
+
+		if (activeRepathTime > 0)
+			repathDelay = Math.min(repathDelay, 2);
+
+		this.repathDelay = this.adjustedTickDelay(this.repathDelay);
 	}
 
 	protected void checkAndPerformAttack(LivingEntity target, double distSqr) {
@@ -316,27 +319,35 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		}
 		if (earthQuake != null && !golem.onGround() && golem.tickCount - startJumpingTime < jumpMaxTime) return;
 		if (this.mob.hasLineOfSight(target)) {
-			boolean jump;
-			if (canReachTarget(target, distSqr)) {
+			boolean mayJump = !isInFluidType() && golem.onGround();
+			boolean jump = false;
+			if (mayJump && canReachTarget(target, distSqr - 4)) {
+				if (holdingMace()) {
+					nextAttackTick = Math.max(nextAttackTick, golem.tickCount) + 10;
+					jump = true;
+				}
+			}
+			if (!jump && canReachTarget(target, distSqr)) {
+				if (holdingMace()) MaceHelper.doMaceAttack(golem, target);
 				this.resetAttackCooldown();
 				this.mob.swing(InteractionHand.MAIN_HAND);
 				this.mob.doHurtTarget(sl, target);
-				if (golem.getDeltaMovement().length() > 2) {
-					golem.setDeltaMovement(golem.getDeltaMovement().normalize().scale(2));
-				}
-				jump = golem.getMainHandItem().is(ItemTags.MACE_ENCHANTABLE);
-			} else {
+			} else if (mayJump) {
 				var diff = target.position().subtract(golem.position());
-				jump = diff.horizontalDistanceSqr() < getAttackReachSqr(target) / 2 &&
+				jump |= diff.horizontalDistanceSqr() < getAttackReachSqr(target) / 2 &&
 						diff.y > 0 && diff.y < 3 + golem.getBbHeight();
 			}
-			if (jump && !isInFluidType() && golem.onGround()) {
+			if (jump) {
 				maceJump = true;
 				var v = golem.getDeltaMovement();
 				golem.setDeltaMovement(new Vec3(v.x, Math.max(v.y, 0) + 1, v.z));
 				golem.needsSync = true;
 			}
 		}
+	}
+
+	protected boolean holdingMace() {
+		return golem.getMainHandItem().is(ItemTags.MACE_ENCHANTABLE);
 	}
 
 }
