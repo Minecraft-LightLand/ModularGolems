@@ -29,12 +29,14 @@ public class FastGroundPathNavigation extends GroundPathNavigation {
 	}
 
 	private boolean shouldTargetNextNodeInDirection(Vec3 current) {
-		double speed = Math.max(0.5, mob.getAttributeValue(Attributes.MOVEMENT_SPEED) + 0.2);
+		double s0 = mob.getAttributeValue(Attributes.MOVEMENT_SPEED);
+		double s1 = Math.max(2, s0 * 2 + 1);
+		double s2 = s0 * 2 + 0.5;
 		if (this.path.getNextNodeIndex() + 1 >= this.path.getNodeCount()) {
 			return false;
 		} else {
 			Vec3 next = Vec3.atBottomCenterOf(this.path.getNextNodePos());
-			if (!current.closerThan(next, 2.0D)) {
+			if (!current.closerThan(next, s1)) {
 				return false;
 			} else if (this.canMoveDirectly(current, this.path.getNextEntityPos(this.mob))) {
 				return true;
@@ -45,7 +47,8 @@ public class FastGroundPathNavigation extends GroundPathNavigation {
 				double dsq1 = step1.lengthSqr();
 				double dsq2 = step2.lengthSqr();
 				boolean near = dsq2 < dsq1;
-				boolean close = dsq1 < speed;
+				if (dsq1 < s2 * s2) return true;
+				boolean close = dsq1 < 0.5;
 				if (!near && !close) {
 					return false;
 				} else {
