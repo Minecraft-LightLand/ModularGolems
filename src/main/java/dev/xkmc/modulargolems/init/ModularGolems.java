@@ -22,6 +22,7 @@ import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
+import dev.xkmc.modulargolems.content.menu.wheel.GolemSetModeToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -66,7 +67,8 @@ public class ModularGolems {
 			e -> e.create(TrackerHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(TrackerDeleteToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ReforgeUpdatePacket.class, NetworkDirection.PLAY_TO_CLIENT),
-			e -> e.create(GuardedEntity.GuardedDataToClient.class, NetworkDirection.PLAY_TO_CLIENT)
+			e -> e.create(GuardedEntity.GuardedDataToClient.class, NetworkDirection.PLAY_TO_CLIENT),
+			e -> e.create(GolemSetModeToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =

@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.client.overlay;
 
 import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
+import dev.xkmc.l2itemselector.wheel.WheelHandler;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
@@ -40,6 +41,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 	@Override
 	public void render(ForgeGui gui, GuiGraphics g, float partialTick, int screenWidth, int screenHeight) {
 		if (Minecraft.getInstance().screen != null) return;
+		if (WheelHandler.wheel != null) return;
 		boolean offset = ItemSelectionOverlay.INSTANCE.isRendering();
 		LocalPlayer player = Proxy.getClientPlayer();
 		if (player == null) return;

@@ -6,8 +6,8 @@ import net.minecraft.world.entity.Entity;
 
 public class PatrolMode extends GolemMode {
 
-	protected PatrolMode(boolean positioned, boolean movable, boolean wander, MGLangData lang, MGLangData name) {
-		super(positioned, movable, wander, lang, name);
+	protected PatrolMode(String key, boolean positioned, boolean movable, boolean wander, MGLangData lang, MGLangData name) {
+		super(key, positioned, movable, wander, lang, name);
 	}
 
 	@Override
