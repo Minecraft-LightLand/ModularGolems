@@ -118,7 +118,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
 		this.waterNavigation = new AmphibiousPathNavigation(this, level);
-		this.groundNavigation = new GroundPathNavigation(this, level);
+		this.groundNavigation = new FastGroundPathNavigation(this, level);
+		navigation = groundNavigation;
 	}
 
 	// ------ materials
