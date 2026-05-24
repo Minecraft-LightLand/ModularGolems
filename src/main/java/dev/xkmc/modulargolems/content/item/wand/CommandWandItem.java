@@ -54,6 +54,8 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 			if (target != null) {
 				interactLivingEntity(stack, player, target, hand);
 			}
+		} else if (RayTraceUtil.serverGetTarget(player) instanceof AbstractGolemEntity<?, ?> golem) {
+			return command(golem.level(), player, golem) ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
 		}
 		return InteractionResultHolder.success(stack);
 	}
