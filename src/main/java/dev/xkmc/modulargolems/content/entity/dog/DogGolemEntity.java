@@ -5,6 +5,9 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.goals.GolemRiddenMeleeGoal;
+import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -120,11 +123,31 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 				MGConfig.COMMON.riddenSpeedFactor.get());
 	}
 
+	EarthquakeHelper.Instance jumpAttack;
+	int jumpAttackDelay = 0;
+
+	@Override
+	protected void customServerAiStep() {
+		super.customServerAiStep();
+		if (jumpAttackDelay > 0) jumpAttackDelay--;
+		if (jumpAttackDelay <= 0 && jumpAttack != null && onGround()) {
+			jumpAttack.modifier().performEarthQuake(this, jumpAttack.lv());
+			jumpAttack = null;
+		}
+	}
+
 	protected void executeRidersJump(Vec3 action) {
 		Vec3 vec3 = this.getDeltaMovement();
 		float jump = getJumpStrength();
-		this.setDeltaMovement(vec3.x, jump, vec3.z);
 		this.hasImpulse = true;
+		var ins = EarthquakeHelper.findMountInstance(this);
+		if (ins != null) {
+			ins.modifier().performJump(this, ins.lv());
+			ins.addCD();
+			ModularGolems.HANDLER.toServer(DogSkillToServer.of(ins));
+			return;
+		}
+		this.setDeltaMovement(vec3.x, jump, vec3.z);
 		CommonHooks.onLivingJump(this);
 		if (action.z > 0.0D) {
 			float x0 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));

@@ -2,9 +2,6 @@ package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
-import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
@@ -66,9 +63,8 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	private double lastDist;
 	private double timeNoMovement;
 
-	private EarthquakeHelper.Instance earthQuake = null;
-	private double wasFalling;
-	private int startJumpingTime = 0;
+	private final JumpAttackHelper jump;
+
 	private int activeRepathTime = 0;
 	private boolean maceJump = false;
 
@@ -78,6 +74,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		golem = entity;
 		speedModifier = 1;
 		pathingTarget = true;
+		jump = new JumpAttackHelper(entity);
 		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
@@ -183,7 +180,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		if (maceJump) MaceHelper.doMaceAirMove(golem, target);
 		else tickMove(target, dist);
 		checkAndPerformAttack(target, dist);
-		wasFalling = earthQuake != null && !golem.isInFluidType() && !golem.onGround() ? Math.min(wasFalling, golem.getDeltaMovement().y) : 0;
+		jump.tick();
 	}
 
 	protected void tickMove(LivingEntity target, double distSqr) {
@@ -191,8 +188,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 		double end = Math.sqrt(getAttackReachSqr(target));
 		double far = end - 0.5;
 		this.repathDelay = Math.max(this.repathDelay - 1, 0);
-		boolean hasRange = golem.hasRangeAttack() ||
-				EarthquakeHelper.shouldRetreat(golem, target, dist, end);
+		boolean hasRange = golem.hasRangeAttack() || jump.shouldRetreat(target, dist, end);
 		boolean maceRetreat = holdingMace() &&
 				(canReachTarget(target, distSqr - 4) || !isTimeToAttack());
 		if (dist < far && end > 2.4 || hasRange || maceRetreat) {
@@ -272,39 +268,10 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	}
 
 	protected void doRealAttack(LivingEntity target, double distSqr) {
-		float impactSpeed = 0.05f;
-		float significantSpeed = 0.01f;
-		int jumpMaxTime = 60;
-
-		if (golem.hasFlag(GolemFlags.EARTH_QUAKE)) {
-			boolean wet = golem.isInFluidType();
-			boolean valid = !wet && golem.onGround();
-			boolean hit = wasFalling < -impactSpeed && (wet || golem.getDeltaMovement().y > impactSpeed) ||
-					golem.getBoundingBox().intersects(target.getBoundingBox());
-			boolean stop = !valid && !hit && (golem.tickCount - startJumpingTime > jumpMaxTime ||
-					wasFalling < -significantSpeed && (wet || golem.getDeltaMovement().y > -significantSpeed));
-			if (earthQuake != null && stop)
-				earthQuake = null;
-			if (earthQuake != null && (valid || hit)) {
-				resetAttackCooldown();
-				earthQuake.modifier().performEarthQuake(golem, earthQuake.lv());
-				golem.level().broadcastEntityEvent(golem, (byte) 83);
-				earthQuake = null;
-				return;
-			}
-			if (earthQuake == null && valid) {
-				double d0 = this.getAttackReachSqr(target);
-				earthQuake = EarthquakeHelper.findInstance(golem, target, distSqr - d0);
-				if (earthQuake != null) {
-					golem.getPersistentData().putLong(((GolemModifier) earthQuake.modifier()).getID() + ":timestamp", golem.level().getGameTime());
-					earthQuake.modifier().performJump(golem, earthQuake.lv());
-					golem.hasImpulse = true;
-					startJumpingTime = golem.tickCount;
-					return;
-				}
-			}
+		if (isTimeToAttack()) {
+			if (jump.tryJumpAttack(this, target, distSqr)) return;
 		}
-		if (earthQuake != null && !golem.onGround() && golem.tickCount - startJumpingTime < jumpMaxTime) return;
+		if (jump.preventAttack()) return;
 		if (this.mob.hasLineOfSight(target)) {
 			boolean mayJump = !golem.isInFluidType() && golem.onGround();
 			boolean jump = false;
