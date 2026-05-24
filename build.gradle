@@ -217,9 +217,9 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.20")) {
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.21")) {
         transitive = false
-        jarJar.ranged(it, "[0.2.20,)")
+        jarJar.ranged(it, "[0.2.21,)")
     }
 
     implementation fg.deobf(jarJar("dev.xkmc.cataclysm_mux:cataclysm_mux:0.0.6")) {
