@@ -1,14 +1,14 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
-import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
 public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogGolemRenderState, DogGolemPartType, DogGolemModel> {
 
 	public DogGolemRenderer(EntityRendererProvider.Context ctx) {
-		super(ctx, new DogGolemModel(ctx.bakeLayer(GolemEquipmentModels.DOGGOLEM)), 1F, DogGolemPartType::values);
+		super(ctx, GolemTypes.TYPE_DOG.get(), new DogGolemModel(ctx.getModelSet()), 1F);
 		addLayer(new DogArmorLayer(this, ctx.getModelSet(), ctx.getEquipmentRenderer()));
 		addLayer(new GolemBannerLayer<>(this));
 	}

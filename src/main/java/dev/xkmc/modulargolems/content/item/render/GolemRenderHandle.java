@@ -22,11 +22,11 @@ public record GolemRenderHandle(
 	public <P extends IGolemPart<P>, M extends EntityModel<?> & IGolemModel<?, ?, P, M>>
 	void renderPart(M model, Identifier id, P part) {
 		var normal = model.renderType(model.getTextureLocationInternal(id));
-		model.renderToBufferInternal(part, p -> render(normal, p));
+		model.iterateParts(part, p -> render(normal, p));
 		var etex = model.getTextureLocationInternal(id.withSuffix("_emissive"));
 		if (ModelOverrides.isValid(etex)) {
 			var emi = model.renderType(etex);
-			model.renderToBufferInternal(part, p -> render(emi, p));
+			model.iterateParts(part, p -> render(emi, p));
 		}
 	}
 

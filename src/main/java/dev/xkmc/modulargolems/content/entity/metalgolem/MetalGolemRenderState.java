@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.render.CommonGolemRenderState;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.item.ItemModelResolver;
@@ -14,6 +15,9 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MetalGolemRenderState extends HumanoidRenderState implements AbstractGolemRenderState<
 		MetalGolemEntity, MetalGolemRenderState, MetalGolemPartType> {
@@ -38,6 +42,8 @@ public class MetalGolemRenderState extends HumanoidRenderState implements Abstra
 	public MetalGolemShoulderModelState rightShoulderState, leftShoulderState;
 
 	public MetalGolemModelState model;
+
+	public Map<ModelLayerLocation, MetalGolemModelItemState> modelItemData = new LinkedHashMap<>();
 
 	@Override
 	public CommonGolemRenderState common() {
@@ -65,6 +71,10 @@ public class MetalGolemRenderState extends HumanoidRenderState implements Abstra
 		leftShoulderItem = entity.getLeftShoulder().getItem();
 		rightShoulderState = MetalGolemShoulderModelState.of(entity, rightShoulderItem, HumanoidArm.RIGHT, pt);
 		leftShoulderState = MetalGolemShoulderModelState.of(entity, leftShoulderItem, HumanoidArm.LEFT, pt);
+	}
+
+	public void put(ModelLayerLocation models, MetalGolemModelItemState data) {
+		modelItemData.put(models, data);
 	}
 
 }

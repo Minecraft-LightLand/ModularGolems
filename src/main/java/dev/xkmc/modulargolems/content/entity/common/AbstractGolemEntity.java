@@ -371,7 +371,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private double lastSize = 0;
 	private boolean sizeDirty = false;
 
-	private double getScaleImpl() {
+	public double getScaleImpl() {
 		int reforge = getReforgeBase();
 		double rate = Math.pow(1d * (reforge - getReforgeCount()) / reforge, 1d / 3);
 		return getAttributeValue(GolemTypes.GOLEM_SIZE) * rate;

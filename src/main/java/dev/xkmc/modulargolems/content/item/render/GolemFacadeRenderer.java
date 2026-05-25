@@ -22,7 +22,7 @@ public class GolemFacadeRenderer implements SpecialModelRenderer<Identifier> {
 	private final MetalGolemModel model;
 
 	public GolemFacadeRenderer(EntityModelSet set) {
-		this.model = new MetalGolemModel(set.bakeLayer(GolemEquipmentModels.METALGOLEM));
+		this.model = new MetalGolemModel(set);
 	}
 
 	public Identifier extractArgument(ItemStack stack) {

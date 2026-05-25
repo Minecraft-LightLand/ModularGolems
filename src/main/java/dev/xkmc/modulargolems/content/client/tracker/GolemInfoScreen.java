@@ -116,7 +116,7 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 				}
 			}
 			var del = Component.literal("X").withStyle(delLine == start + i ? ChatFormatting.RED : ChatFormatting.BLACK);
-			g.text(this.font, del, x + imageWidth - 20, y, 0, false);
+			g.text(this.font, del, x + imageWidth - 20, y, 0xffffffff, false);
 			y += 10;
 		}
 		if (focus != null) {

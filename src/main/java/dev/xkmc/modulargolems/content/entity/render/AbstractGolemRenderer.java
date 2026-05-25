@@ -6,6 +6,7 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
@@ -23,7 +24,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public abstract class AbstractGolemRenderer<
 		E extends AbstractGolemEntity<E, P>,
@@ -36,11 +36,18 @@ public abstract class AbstractGolemRenderer<
 
 	private static final Identifier GOLEM_LOCATION = Identifier.withDefaultNamespace("textures/entity/iron_golem/iron_golem.png");
 
-	private final Supplier<P[]> list;
+	private final P[] list;
+	private final M[] models;
 
-	public AbstractGolemRenderer(EntityRendererProvider.Context ctx, M model, float f, Supplier<P[]> list) {
+	public AbstractGolemRenderer(EntityRendererProvider.Context ctx, GolemType<E, P> type, M model, float f) {
 		super(ctx, model, f);
-		this.list = list;
+		this.list = type.values();
+		models = Wrappers.cast(new EntityModel[list.length]);
+		for (int i = 0; i < list.length; i++) {
+			models[i] = Wrappers.cast(GolemType.GOLEM_TYPE_TO_MODEL.get(type.getRegistryName()).get().generateModel(ctx.getModelSet()));
+			models[i].root().getAllParts().forEach(e -> e.skipDraw = true);
+			models[i].iterateParts(list[i], p -> p.getAllParts().forEach(e -> e.skipDraw = false));
+		}
 		addLayer(new GolemDefaultLayer<>(this));
 		LIST.forEach(e -> this.addLayer(Wrappers.cast(e.apply(this))));
 	}
@@ -80,7 +87,7 @@ public abstract class AbstractGolemRenderer<
 		if (opt.getItem() instanceof GolemFacade)
 			facade = GolemFacade.getMaterial(opt);
 		var materials = common.materials();
-		for (P part : list.get()) {
+		for (P part : list) {
 			Identifier rl = facade;
 			if (rl == null) {
 				int index = part.ordinal();
@@ -95,10 +102,8 @@ public abstract class AbstractGolemRenderer<
 
 	public void renderPartModel(S entity, P part, PoseStack pose, SubmitNodeCollector buffer, RenderType type, int light, boolean ghost) {
 		int overlay = getOverlayCoords(entity, this.getWhiteOverlayProgress(entity));
-		this.model.renderToBufferInternal(part, e -> buffer.submitModelPart(
-				e, pose, type, light, overlay,
-				null, false, false,
-				ghost ? 0x26FFFFFF : -1, null, entity.outlineColor));
+		buffer.submitModel(models[part.ordinal()], entity, pose, type, light, overlay,
+				ghost ? 0x26FFFFFF : -1, null, entity.outlineColor, null);
 	}
 
 }

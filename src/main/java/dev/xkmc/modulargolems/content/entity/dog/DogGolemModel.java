@@ -91,7 +91,7 @@ public class DogGolemModel extends EntityModel<DogGolemRenderState> implements I
 	}
 
 	@Override
-	public void renderToBufferInternal(DogGolemPartType type, Consumer<ModelPart> col) {
+	public void iterateParts(DogGolemPartType type, Consumer<ModelPart> col) {
 		if (type == DogGolemPartType.BODY) {
 			col.accept(body);
 			col.accept(head);

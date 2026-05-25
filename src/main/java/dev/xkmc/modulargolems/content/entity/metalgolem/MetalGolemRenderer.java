@@ -2,9 +2,9 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, MetalGolemRenderState, MetalGolemPartType, MetalGolemModel> {
 
 	public MetalGolemRenderer(EntityRendererProvider.Context ctx) {
-		super(ctx, new MetalGolemModel(ctx.bakeLayer(GolemEquipmentModels.METALGOLEM)), 0.7F, MetalGolemPartType::values);
+		super(ctx, GolemTypes.TYPE_GOLEM.get(), new MetalGolemModel(ctx.getModelSet()), 0.7F);
 		this.addLayer(new MetalGolemCrackinessLayer(this));
 		this.addLayer(new GolemEquipmentRenderer(this, ctx));
 		this.addLayer(new GolemBannerLayer<>(this));
