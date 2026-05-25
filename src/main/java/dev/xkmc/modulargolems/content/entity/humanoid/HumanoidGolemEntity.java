@@ -37,6 +37,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
 
+	public ItemStack[] maidAnimItemCache = {ItemStack.EMPTY, ItemStack.EMPTY};
+
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
 		if (!this.level().isClientSide) {

@@ -67,6 +67,15 @@ public class MaidSkinCompat {
 			return "";
 		}
 
+		/**
+		 * 物品使用缓存，应当创建 ItemStack[] 来缓存数据。
+		 * 如果实体会使用物品，理应Override这个方法，在实体中缓存。
+		 */
+		@Override
+		public ItemStack[] getHandItemsForAnimation() {
+			return mob.maidAnimItemCache;
+		}
+
 		@Override
 		public Mob asEntity() {
 			return mob;
