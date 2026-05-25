@@ -24,7 +24,8 @@ public class MaidSkinCompat {
 	@SubscribeEvent
 	public static void onMaidConvert(ConvertMaidEvent event) {
 		if (!(event.getEntity() instanceof HumanoidGolemEntity golem)) return;
-		event.setMaid(new MaidWrapper(golem));
+		MaidWrapper data = golem.renderCompatData instanceof MaidWrapper ans ? ans : new MaidWrapper(golem);
+		event.setMaid(data);
 	}
 
 	@SubscribeEvent
@@ -58,7 +59,21 @@ public class MaidSkinCompat {
 
 	}
 
-	private record MaidWrapper(HumanoidGolemEntity mob) implements IMaid {
+	private static final class MaidWrapper implements IMaid {
+
+		private final ItemStack[] maidAnimItemCache = {ItemStack.EMPTY, ItemStack.EMPTY};
+
+		private final HumanoidGolemEntity mob;
+
+		private MaidWrapper(HumanoidGolemEntity mob) {
+			this.mob = mob;
+			mob.renderCompatData = this;
+		}
+
+		@Override
+		public Mob asEntity() {
+			return mob;
+		}
 
 		@Override
 		public String getModelId() {
@@ -73,13 +88,9 @@ public class MaidSkinCompat {
 		 */
 		@Override
 		public ItemStack[] getHandItemsForAnimation() {
-			return mob.maidAnimItemCache;
+			return maidAnimItemCache;
 		}
 
-		@Override
-		public Mob asEntity() {
-			return mob;
-		}
 
 	}
 
