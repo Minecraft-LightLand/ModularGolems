@@ -61,9 +61,9 @@ public class MaidSkinCompat {
 
 	private static final class MaidWrapper implements IMaid {
 
-		private final ItemStack[] maidAnimItemCache = {ItemStack.EMPTY, ItemStack.EMPTY};
-
 		private final HumanoidGolemEntity mob;
+
+		private final ItemStack[] maidAnimItemCache = {ItemStack.EMPTY, ItemStack.EMPTY};
 
 		private MaidWrapper(HumanoidGolemEntity mob) {
 			this.mob = mob;
@@ -91,6 +91,13 @@ public class MaidSkinCompat {
 			return maidAnimItemCache;
 		}
 
+		/**
+		 * 女仆手臂是否举起：在攻击动画中使用
+		 */
+		@Override
+		public boolean isSwingingArms() {
+			return mob.isAggressive();
+		}
 
 	}
 
