@@ -61,7 +61,7 @@ public record GolemModeWheel(
 		var font = Minecraft.getInstance().font;
 		int y = (int) (y0 + s * 3);
 		for (var line : font.split(text, (int) r)) {
-			g.text(font, line, x0 - font.width(line) / 2, y, 0xffffff, true);
+			g.text(font, line, x0 - font.width(line) / 2, y, 0xffffffff, true);
 			y += font.lineHeight + 1;
 		}
 	}

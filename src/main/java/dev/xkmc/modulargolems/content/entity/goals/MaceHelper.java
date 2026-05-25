@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,6 +29,7 @@ public class MaceHelper {
 			sl.playSound(null, golem.getX(), golem.getY(), golem.getZ(), SoundEvents.MACE_SMASH_AIR, golem.getSoundSource(), 1.0F, 1.0F);
 		}
 		knockback(sl, golem, target);
+		golem.fallDistance += (float) Math.max(0, golem.getY() - target.getY());
 	}
 
 	private static void knockback(Level level, AbstractGolemEntity<?, ?> user, Entity target) {
@@ -59,6 +61,13 @@ public class MaceHelper {
 		if (v.multiply(1, 0, 1).length() < max && diff.length() > 1) {
 			golem.addDeltaMovement(diff.normalize().scale(acc));
 		}
+	}
+
+	public static void capGolemMovement(AbstractGolemEntity<?, ?> golem) {
+		var scale = Math.max(1, golem.getScaleImpl() / 2);
+		var delta = golem.getDeltaMovement();
+		var y = Math.min(scale * 1.5f, delta.y() / scale);
+		golem.setDeltaMovement(delta.with(Direction.Axis.Y, y));
 	}
 
 }

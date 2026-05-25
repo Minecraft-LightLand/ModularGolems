@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;
@@ -27,6 +28,7 @@ import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
 
+@SerialClass
 public abstract class ShieldUsingGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart<P>> extends SweepGolemEntity<T, P> {
 
 	private static final EntityDataAccessor<Boolean> MAY_BLOCK = SynchedEntityData.defineId(ShieldUsingGolemEntity.class, EntityDataSerializers.BOOLEAN);
