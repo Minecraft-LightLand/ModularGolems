@@ -286,6 +286,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 				this.resetAttackCooldown();
 				this.mob.swing(InteractionHand.MAIN_HAND);
 				this.mob.doHurtTarget(target);
+				MaceHelper.capGolemMovement(golem);
 			} else if (mayJump) {
 				var diff = target.position().subtract(golem.position());
 				jump |= diff.horizontalDistanceSqr() < getAttackReachSqr(target) / 2 &&
