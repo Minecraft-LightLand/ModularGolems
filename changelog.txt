@@ -1,3 +1,12 @@
+2.6.44
+- Command wand now use wheels for golem mode switch
+- Fix golem going in circles when speed is too high
+- Dog golems and humanoid golem can now use their jump skills when ridden/riding
+- Dog golem ridden by player can activate jump skill when instructed
+- humanoid stop charging weapon after killing target
+- Fix heavy spear wind burst enchant not working
+- adjust wind burst effects on golem: the larger the golem is, the less it will be affected
+
 3.1.37
 - Switch Retrieve wand click and shift-click actions
 - Metal golem will switch to melee weapon when approached while holding bow / sonic cannon
