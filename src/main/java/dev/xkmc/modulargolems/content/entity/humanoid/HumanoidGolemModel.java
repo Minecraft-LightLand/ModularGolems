@@ -24,7 +24,7 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> 
 	}
 
 	@Override
-	public void renderToBufferInternal(HumanoidGolemPartType type, Consumer<ModelPart> col) {
+	public void iterateParts(HumanoidGolemPartType type, Consumer<ModelPart> col) {
 		if (type == HumanoidGolemPartType.BODY) {
 			col.accept(body);
 			col.accept(head);

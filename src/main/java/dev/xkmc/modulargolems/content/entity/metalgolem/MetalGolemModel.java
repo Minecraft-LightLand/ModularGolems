@@ -11,12 +11,14 @@ import dev.xkmc.modulargolems.content.entity.render.IHeadedModel;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -34,11 +36,14 @@ public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implemen
 	public final ModelPart leftForeArm;
 	public final ModelPart rightForeArm;
 
+	@Nullable
+	public final ModelLayerLocation modelItem;
+
 	public MetalGolemModel(EntityModelSet set) {
-		this(set.bakeLayer(GolemEquipmentModels.METALGOLEM));
+		this(set.bakeLayer(GolemEquipmentModels.METALGOLEM), null);
 	}
 
-	public MetalGolemModel(ModelPart part) {
+	public MetalGolemModel(ModelPart part, @Nullable ModelLayerLocation modelItem) {
 		super(part);
 		this.root = part;
 		this.body = part.getChild("body");
@@ -49,11 +54,12 @@ public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implemen
 		this.leftLeg = part.getChild("left_leg");
 		this.leftForeArm = leftArm.getChild("left_forearm");
 		this.rightForeArm = rightArm.getChild("right_forearm");
+		this.modelItem = modelItem;
 	}
 
 	@Override
 	public void setupAnim(MetalGolemRenderState state) {
-		root.resetPose();
+		root().getAllParts().forEach(ModelPart::resetPose);
 
 		MetalGolemPose pose = MetalGolemPose.DEFAULT;
 		ItemStack stack = state.getMainHandItemStack();
@@ -93,9 +99,16 @@ public class MetalGolemModel extends EntityModel<MetalGolemRenderState> implemen
 			this.leftLeg.zRot = -0.07853982F;
 		}
 
+		if (modelItem != null) {
+			var data = state.modelItemData.get(modelItem);
+			if (data != null) {
+				data.setupAnim(this);
+			}
+		}
+
 	}
 
-	public void renderToBufferInternal(MetalGolemPartType type, Consumer<ModelPart> col) {
+	public void iterateParts(MetalGolemPartType type, Consumer<ModelPart> col) {
 		if (type == MetalGolemPartType.BODY) {
 			col.accept(body);
 			col.accept(head);

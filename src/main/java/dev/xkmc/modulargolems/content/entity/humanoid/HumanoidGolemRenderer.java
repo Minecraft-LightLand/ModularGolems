@@ -6,6 +6,7 @@ import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.compat.curio.ClientCuriosRenderHelper;
 import dev.xkmc.modulargolems.content.entity.render.AbstractGolemRenderer;
 import dev.xkmc.modulargolems.content.entity.render.GolemBannerLayer;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -36,7 +37,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 	}
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx, boolean slim) {
-		super(ctx, new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER)), 0.5f, HumanoidGolemPartType::values);
+		super(ctx, GolemTypes.TYPE_HUMANOID.get(), new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER)), 0.5f);
 		this.addLayer(new HumanoidArmorLayer<>(this, ArmorModelSet.bake(
 				slim ? ModelLayers.PLAYER_SLIM_ARMOR : ModelLayers.PLAYER_ARMOR,
 				ctx.getModelSet(), HumanoidGolemModel::new

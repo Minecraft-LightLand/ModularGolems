@@ -21,7 +21,7 @@ public interface IGolemModel<
 		return Wrappers.cast(this);
 	}
 
-	void renderToBufferInternal(P type, Consumer<ModelPart> col);
+	void iterateParts(P type, Consumer<ModelPart> col);
 
 	Identifier getTextureLocationInternal(Identifier rl);
 
