@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.goals;
 import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.server.level.ServerLevel;
+import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,9 +24,29 @@ public class GolemRiddenMeleeGoal extends Goal implements IMeleeGoal {
 
 	private double lastDist;
 	private double timeNoMovement;
+	private LivingEntity target;
+	private int targetDelay = 0;
 
 	public GolemRiddenMeleeGoal(AbstractGolemEntity<?, ?> entity) {
 		golem = entity;
+	}
+
+	private LivingEntity getTarget() {
+		if (targetDelay > golem.tickCount) return target;
+		if (golem.getControllingPassenger() instanceof Player) {
+			var box = golem.getBoundingBox().inflate(golem.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE) * 2 + 3);
+			var entities = golem.level().getEntitiesOfClass(LivingEntity.class, box);
+			for (var e : entities) {
+				var reason = TargetManager.predicateTarget(golem, e);
+				if (reason == null) continue;
+				if (canReachTarget(e)) {
+					target = e;
+					targetDelay = golem.tickCount + 3;
+					return target;
+				}
+			}
+		}
+		return target;
 	}
 
 	public boolean canUse() {
@@ -35,7 +56,7 @@ public class GolemRiddenMeleeGoal extends Goal implements IMeleeGoal {
 			return false;
 		} else {
 			this.lastCanUseCheck = i;
-			LivingEntity livingentity = golem.getTarget();
+			LivingEntity livingentity = getTarget();
 			if (livingentity == null) {
 				return false;
 			} else if (!livingentity.isAlive()) {
@@ -48,7 +69,7 @@ public class GolemRiddenMeleeGoal extends Goal implements IMeleeGoal {
 
 	public boolean canContinueToUse() {
 		if (!(golem.getControllingPassenger() instanceof Mob)) return false;
-		LivingEntity livingentity = golem.getTarget();
+		LivingEntity livingentity = getTarget();
 		if (livingentity == null) {
 			return false;
 		} else if (!livingentity.isAlive()) {
