@@ -29,6 +29,7 @@ import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
+import dev.xkmc.modulargolems.content.menu.wheel.GolemSetModeToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -77,7 +78,8 @@ public class ModularGolems {
 			e -> e.create(TrackerDeleteToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(ReforgeUpdatePacket.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
 			e -> e.create(GuardedEntity.GuardedDataToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
-			e -> e.create(DogSkillToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
+			e -> e.create(DogSkillToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(GolemSetModeToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
 
 	);
 

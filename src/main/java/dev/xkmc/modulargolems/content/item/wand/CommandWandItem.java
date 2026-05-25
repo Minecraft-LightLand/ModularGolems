@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenuPvd;
+import dev.xkmc.modulargolems.content.menu.wheel.GolemWheelHandler;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.core.BlockPos;
@@ -55,6 +56,8 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 			if (target != null) {
 				interactLivingEntity(stack, player, target, hand);
 			}
+		} else if (RayTraceUtil.serverGetTarget(player) instanceof AbstractGolemEntity<?, ?> golem) {
+			return command(golem.level(), player, golem) ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
 		}
 		return InteractionResultHolder.success(stack);
 	}
@@ -83,14 +86,14 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 	private static boolean command(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
 		if (!golem.canWandModify(user)) return false;
-		if (level.isClientSide()) return true;
+
 		if (user.isShiftKeyDown()) {
+			if (level.isClientSide()) return true;
 			new EquipmentsMenuPvd(golem).open((ServerPlayer) user);
 			return true;
 		}
-		GolemMode mode = GolemModes.nextMode(golem.getMode());
-		golem.setMode(mode.getID(), mode.hasPos() ? golem.blockPosition() : BlockPos.ZERO);
-		return true;
+		if (!level.isClientSide()) return true;
+		return GolemWheelHandler.enableWheel(user, golem);
 	}
 
 	@Override

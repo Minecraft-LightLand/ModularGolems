@@ -4,6 +4,7 @@ import dev.xkmc.l2core.base.menu.base.MenuLayoutConfig;
 import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import dev.xkmc.l2itemselector.overlay.OverlayUtil;
 import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
+import dev.xkmc.l2itemselector.wheel.WheelHandler;
 import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -41,6 +42,7 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 	@Override
 	public void render(GuiGraphics g, DeltaTracker delta) {
 		if (Minecraft.getInstance().screen != null) return;
+		if (WheelHandler.wheel != null) return;
 		boolean offset = ItemSelectionOverlay.INSTANCE.isRendering();
 		LocalPlayer player = Minecraft.getInstance().player;
 		if (player == null) return;

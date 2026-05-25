@@ -9,22 +9,22 @@ public class GolemModes {
 
 	public static final List<GolemMode> LIST = new ArrayList<>();
 
-	public static final GolemMode FOLLOW = new GolemMode(false, true, false,
+	public static final GolemMode FOLLOW = new GolemMode("follow", false, true, false,
 			MGLangData.MODE_FOLLOWING, MGLangData.MODE_FOLLOW);
 
-	public static final GolemMode GUARD = new GolemMode(true, true, true,
+	public static final GolemMode GUARD = new GolemMode("guard", true, true, true,
 			MGLangData.MODE_GUARDING, MGLangData.MODE_GUARD);
 
-	public static final GolemMode STAND = new GolemMode(true, false, false,
+	public static final GolemMode STAND = new GolemMode("stand", true, false, false,
 			MGLangData.MODE_STANDING, MGLangData.MODE_STAND);
 
-	public static final GolemMode FREE_WANDER = new GolemMode(false, true, true,
+	public static final GolemMode FREE_WANDER = new GolemMode("wander", false, true, true,
 			MGLangData.MODE_WANDERING, MGLangData.MODE_WANDER);
 
-	public static final GolemMode SQUAD = new GolemMode(false, true, false,
+	public static final GolemMode SQUAD = new GolemMode("squad", false, true, false,
 			MGLangData.MODE_TEAMING, MGLangData.MODE_SQUAD);
 
-	public static final GolemMode ROUTE = new PatrolMode(false, true, false,
+	public static final GolemMode ROUTE = new PatrolMode("patrol", false, true, false,
 			MGLangData.MODE_PATROLLING, MGLangData.MODE_PATROL);
 
 	public static GolemMode get(int i) {
