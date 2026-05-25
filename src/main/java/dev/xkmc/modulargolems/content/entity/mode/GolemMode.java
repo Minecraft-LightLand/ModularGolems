@@ -7,11 +7,13 @@ import net.minecraft.network.chat.Component;
 
 public class GolemMode {
 
+	public final String key;
 	private final int id;
 	private final boolean positioned, movable, wander;
 	private final MGLangData lang, name;
 
-	protected GolemMode(boolean positioned, boolean movable, boolean wander, MGLangData lang, MGLangData name) {
+	protected GolemMode(String key, boolean positioned, boolean movable, boolean wander, MGLangData lang, MGLangData name) {
+		this.key = key;
 		this.positioned = positioned;
 		this.movable = movable;
 		this.wander = wander;

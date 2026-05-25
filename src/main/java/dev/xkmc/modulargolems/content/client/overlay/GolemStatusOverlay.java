@@ -7,6 +7,7 @@ import dev.xkmc.l2core.content.raytrace.RayTraceUtil;
 import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2itemselector.overlay.OverlayUtil;
 import dev.xkmc.l2itemselector.select.item.ItemSelectionOverlay;
+import dev.xkmc.l2itemselector.wheel.WheelHandler;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
@@ -41,6 +42,7 @@ public class GolemStatusOverlay implements GuiLayer {
 	@Override
 	public void render(GuiGraphicsExtractor g, DeltaTracker delta) {
 		if (Minecraft.getInstance().screen != null) return;
+		if (WheelHandler.wheel != null) return;
 		boolean offset = ItemSelectionOverlay.INSTANCE.isRendering();
 		LocalPlayer player = Minecraft.getInstance().player;
 		if (player == null) return;

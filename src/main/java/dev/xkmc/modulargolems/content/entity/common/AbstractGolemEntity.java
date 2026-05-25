@@ -116,7 +116,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
 		this.waterNavigation = new AmphibiousPathNavigation(this, level);
-		this.groundNavigation = new GroundPathNavigation(this, level);
+		this.groundNavigation = new FastGroundPathNavigation(this, level);
+		navigation = groundNavigation;
 	}
 
 	// ------ materials
@@ -148,7 +149,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
-	protected GolemMeleeGoal meleeGoal;
+	public GolemMeleeGoal meleeGoal;
 
 	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -591,6 +592,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (getVehicle() instanceof AbstractGolemEntity<?, ?> veh) {
 			veh.setTargetRaw(target);
 		}
+		if (getControllingPassenger() != null) return;
 		if (target != null) {
 			TargetManager.get(this).onSetTarget(this, target);
 		}
@@ -758,9 +760,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				entry.getKey().onAiStep(this, entry.getValue());
 			}
 			this.updatePersistentAnger((ServerLevel) this.level(), true);
-			var target = getTarget();
-			if (target != null && target.isAlive()) {
-				TargetManager.get(this).tickTarget(this, target);
+			if (getControllingPassenger() == null) {
+				var target = getTarget();
+				if (target != null && target.isAlive()) {
+					TargetManager.get(this).tickTarget(this, target);
+				}
 			}
 		}
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
