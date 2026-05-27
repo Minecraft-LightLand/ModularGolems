@@ -34,7 +34,7 @@ public record GolemModeWheel(
 		if (!main && index != 0) {
 			if (index < 0) {
 				var entry = golem.getConfigEntry(MGLangData.LOADING.get());
-				if (entry == null) return null;
+				if (entry == null || !entry.getID().equals(player.getUUID())) return null;
 				return new GolemFakeWheel(GolemItems.CARD[entry.getColor()].asStack(), MGLangData.TAB_TOGGLE.get());
 			} else {
 				ItemStack armor;
