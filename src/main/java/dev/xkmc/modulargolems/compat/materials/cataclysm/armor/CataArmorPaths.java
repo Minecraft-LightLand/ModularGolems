@@ -20,4 +20,9 @@ public class CataArmorPaths {
 			IGNIS_CHESTPLATES = ModularGolems.loc("ignis/chestplate"),
 			IGNIS_LEGGINGS = ModularGolems.loc("ignis/shinguard");
 
+	public static final ResourceLocation
+			MALEDICTUS_HELMETS = ModularGolems.loc("maledictus/helmet"),
+			MALEDICTUS_CHESTPLATES = ModularGolems.loc("maledictus/chestplate"),
+			MALEDICTUS_LEGGINGS = ModularGolems.loc("maledictus/shinguard");
+
 }
