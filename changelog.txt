@@ -1,4 +1,4 @@
-2.6.44
+3.1.38
 - Command wand now use wheels for golem mode switch
 - Fix golem going in circles when speed is too high
 - Dog golems and humanoid golem can now use their jump skills when ridden/riding
