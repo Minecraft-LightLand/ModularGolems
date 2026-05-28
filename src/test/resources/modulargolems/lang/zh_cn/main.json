@@ -57,6 +57,7 @@
 			"flamethrower_flame": " · [烈焰粉]可发射小火球，每个弹药装填16发。支持无限魔咒",
 			"flamethrower_tnt": " · [TNT]可发射点燃的TNT，命中时产生爆炸",
 			"shield_break": "破盾武器",
+			"player_skin_button": "更改皮肤：玩家/贴图（右键点击重置）",
 			"target": {
 				"name": "重命名物品，然后拿在手中右键，把物品名字作为实体类型ID/实体类型标签ID加入过滤器",
 				"remove": "蹲下右键移除最后一行",
@@ -161,10 +162,19 @@
 			"dimensional": "回到空间背包",
 			"ender": "回到末影背包",
 			"inventory": "回到物品栏"
+		},
+		"gui": {
+			"player_skin": "玩家/贴图皮肤",
+			"player_skin.confirm": "确认",
+			"player_skin.cancel": "取消",
+			"player_skin.hint": "输入玩家名或资源包贴图文件路径"
 		}
 	},
 	"patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",
 	"patchouli.modulargolems.title": "傀儡装配",
 	"curios.identifier.golem_skin": "人形傀儡皮肤",
-	"curios.identifier.golem_route": "巡逻手册"
+	"curios.identifier.golem_route": "巡逻手册",
+	"config.jade.plugin_modulargolems.player_skin": "玩家/贴图皮肤",
+	"top.modulargolems.player_skin": "玩家皮肤: %s",
+	"top.modulargolems.file_skin": "贴图皮肤: %s"
 }

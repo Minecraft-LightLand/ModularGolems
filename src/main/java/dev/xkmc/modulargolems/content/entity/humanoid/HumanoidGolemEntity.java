@@ -1,6 +1,9 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
+import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
+import com.github.tartaricacid.touhoulittlemaid.network.message.PlayMaidSoundMessage;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
@@ -9,6 +12,10 @@ import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -39,10 +46,75 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public Object renderCompatData;
 
+	private static final EntityDataAccessor<String> DATA_MAID_MODEL_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA_SOUND_PACK_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA_PLAYER_SKIN = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+
+	public String getMaidModelId() {
+		return entityData.get(DATA_MAID_MODEL_ID);
+	}
+
+	public void setMaidModelId(String id) {
+		entityData.set(DATA_MAID_MODEL_ID, id);
+		if (!id.isEmpty()) {
+			entityData.set(DATA_PLAYER_SKIN, "");
+		}
+	}
+
+	public String getSoundPackId() {
+		return entityData.get(DATA_SOUND_PACK_ID);
+	}
+
+	public void setSoundPackId(String id) {
+		entityData.set(DATA_SOUND_PACK_ID, id);
+	}
+
+	public String getPlayerSkin() {
+		return entityData.get(DATA_PLAYER_SKIN);
+	}
+
+	public void setPlayerSkin(String skin) {
+		entityData.set(DATA_PLAYER_SKIN, skin);
+		if (!skin.isEmpty()) {
+			entityData.set(DATA_MAID_MODEL_ID, "");
+			entityData.set(DATA_SOUND_PACK_ID, "");
+		}
+	}
+
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
 		if (!this.level().isClientSide) {
 			this.groundNavigation.setCanOpenDoors(true);
+		}
+	}
+
+	@Override
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(DATA_MAID_MODEL_ID, "");
+		this.entityData.define(DATA_SOUND_PACK_ID, "");
+		this.entityData.define(DATA_PLAYER_SKIN, "");
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putString("maidModelId", getMaidModelId());
+		tag.putString("soundPackId", getSoundPackId());
+		tag.putString("playerSkin", getPlayerSkin());
+	}
+
+	@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		if (tag.contains("maidModelId")) {
+			setMaidModelId(tag.getString("maidModelId"));
+		}
+		if (tag.contains("soundPackId")) {
+			setSoundPackId(tag.getString("soundPackId"));
+		}
+		if (tag.contains("playerSkin")) {
+			setPlayerSkin(tag.getString("playerSkin"));
 		}
 	}
 
@@ -262,11 +334,35 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		shieldCooldown = Mth.clamp(shieldCooldown - 1, 0, 100);
 	}
 
-	protected SoundEvent getHurtSound(DamageSource p_28872_) {
+	private boolean useMaidSounds() {
+		return !getSoundPackId().isEmpty() || !getMaidModelId().isEmpty();
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		if (useMaidSounds()) {
+			return InitSounds.MAID_IDLE.get();
+		}
+		return null;
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
+		if (useMaidSounds()) {
+			if (source.is(DamageTypeTags.IS_FIRE)) {
+				return InitSounds.MAID_HURT_FIRE.get();
+			}
+			return InitSounds.MAID_HURT.get();
+		}
 		return SoundEvents.IRON_GOLEM_HURT;
 	}
 
+	@Override
 	protected SoundEvent getDeathSound() {
+		if (useMaidSounds()) {
+			return InitSounds.MAID_DEATH.get();
+		}
 		return SoundEvents.IRON_GOLEM_DEATH;
 	}
 
@@ -278,6 +374,15 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@Override
 	public float getVoicePitch() {
 		return super.getVoicePitch() * 1.25f;
+	}
+
+	@Override
+	public void playSound(SoundEvent soundEvent, float volume, float pitch) {
+		if (useMaidSounds() && soundEvent.getLocation().getPath().startsWith("maid") && !level().isClientSide) {
+			NetworkHandler.sendToNearby(this, new PlayMaidSoundMessage(soundEvent.getLocation(), getSoundPackId(), getId()), 16);
+		} else {
+			super.playSound(soundEvent, volume, pitch);
+		}
 	}
 
 }

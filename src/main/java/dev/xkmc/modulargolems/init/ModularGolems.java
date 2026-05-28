@@ -9,6 +9,8 @@ import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
 import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2screentracker.click.quickaccess.DefaultQuickAccessActions;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
+import dev.xkmc.modulargolems.compat.maid.SetMaidModelToServer;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -56,7 +58,7 @@ public class ModularGolems {
 	public static final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(ModularGolems.MODID, "main"), 4,
+			new ResourceLocation(ModularGolems.MODID, "main"), 5,
 			e -> e.create(ConfigSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(ConfigUpdateToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ConfigHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
@@ -70,7 +72,9 @@ public class ModularGolems {
 			e -> e.create(ReforgeUpdatePacket.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(GuardedEntity.GuardedDataToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(DogSkillToServer.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(GolemSetModeToServer.class, NetworkDirection.PLAY_TO_SERVER)
+			e -> e.create(GolemSetModeToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(SetMaidModelToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
