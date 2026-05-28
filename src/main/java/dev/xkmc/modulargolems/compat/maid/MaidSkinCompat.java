@@ -25,7 +25,8 @@ public class MaidSkinCompat {
 	@SubscribeEvent
 	public static void onMaidConvert(ConvertMaidEvent event) {
 		if (!(event.getEntity() instanceof HumanoidGolemEntity golem)) return;
-		event.setMaid(new MaidWrapper(golem));
+		MaidWrapper data = golem.renderCompatData instanceof MaidWrapper ans ? ans : new MaidWrapper(golem);
+		event.setMaid(data);
 	}
 
 	@SubscribeEvent
@@ -66,18 +67,44 @@ public class MaidSkinCompat {
 		}
 	}
 
-	private record MaidWrapper(HumanoidGolemEntity golem) implements IMaid {
+	private static final class MaidWrapper implements IMaid {
 
-		@Override
-		public String getModelId() {
-			if (ClientSkinDispatch.get(golem) instanceof MaidSkin skin)
-				return skin.id();
-			return "";
+		private final HumanoidGolemEntity mob;
+
+		private final ItemStack[] maidAnimItemCache = {ItemStack.EMPTY, ItemStack.EMPTY};
+
+		private MaidWrapper(HumanoidGolemEntity mob) {
+			this.mob = mob;
+			mob.renderCompatData = this;
 		}
 
 		@Override
 		public Mob asEntity() {
-			return golem;
+			return mob;
+		}
+
+		@Override
+		public String getModelId() {
+			if (ClientSkinDispatch.get(mob) instanceof MaidSkin skin)
+				return skin.id();
+			return "";
+		}
+
+		/**
+		 * 物品使用缓存，应当创建 ItemStack[] 来缓存数据。
+		 * 如果实体会使用物品，理应Override这个方法，在实体中缓存。
+		 */
+		@Override
+		public ItemStack[] getHandItemsForAnimation() {
+			return maidAnimItemCache;
+		}
+
+		/**
+		 * 女仆手臂是否举起：在攻击动画中使用
+		 */
+		@Override
+		public boolean isSwingingArms() {
+			return mob.isAggressive();
 		}
 
 	}

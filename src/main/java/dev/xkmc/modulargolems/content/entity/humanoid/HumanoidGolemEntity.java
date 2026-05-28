@@ -39,6 +39,8 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@SerialField
 	public int shieldCooldown = 0;
 
+	public Object renderCompatData;
+
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
 		if (!this.level().isClientSide) {
