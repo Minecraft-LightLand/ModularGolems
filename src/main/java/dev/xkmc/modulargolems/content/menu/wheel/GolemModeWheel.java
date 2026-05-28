@@ -1,14 +1,22 @@
 package dev.xkmc.modulargolems.content.menu.wheel;
 
 import dev.xkmc.l2itemselector.wheel.PersistentWheel;
+import dev.xkmc.l2itemselector.wheel.WheelAdaptor;
 import dev.xkmc.l2itemselector.wheel.WheelContext;
 import dev.xkmc.l2itemselector.wheel.WheelKeyHandler;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -19,6 +27,24 @@ public record GolemModeWheel(
 	@Override
 	public WheelKeyHandler getInputHandler() {
 		return new GolemWheelKeyHandler();
+	}
+
+	@Override
+	public @Nullable WheelAdaptor<?> getAtIndex(Player player, int index, boolean main) {
+		if (!main && index != 0) {
+			if (index < 0) {
+				var entry = golem.getConfigEntry(MGLangData.LOADING.get());
+				if (entry == null || !entry.getID().equals(player.getUUID())) return null;
+				return new GolemFakeWheel(GolemItems.CARD[entry.getColor()].asStack(), MGLangData.TAB_TOGGLE.get());
+			} else {
+				ItemStack armor;
+				if (golem instanceof MetalGolemEntity) armor = GolemItems.WINDSPIRIT_CHESTPLATE.asStack();
+				else if (golem instanceof DogGolemEntity) armor = Items.WOLF_ARMOR.getDefaultInstance();
+				else armor = Items.DIAMOND_CHESTPLATE.getDefaultInstance();
+				return new GolemFakeWheel(armor, MGLangData.TAB_EQUIPMENT.get());
+			}
+		}
+		return PersistentWheel.super.getAtIndex(player, index, main);
 	}
 
 	@Override
