@@ -6,6 +6,7 @@ import com.tterrag.registrate.providers.generators.RegistrateItemModelGenerator;
 import dev.xkmc.modulargolems.content.block.TableBlock;
 import dev.xkmc.modulargolems.content.item.render.IsInTag;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
@@ -33,14 +34,14 @@ public class MGModelGen {
 						ModelLocationUtils.getModelLocation(ctx.get(), "_blue"),
 						TextureMapping.layered(
 								new Material(Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id)),
-								new Material(pvd.modLoc("item/blue_arrow"))),
+								new Material(ModularGolems.loc("item/blue_arrow"))),
 						pvd.modelOutput)),
 				ItemModelUtils.conditional(new IsInTag(MGTagGen.POTION_UPGRADES),
 						ItemModelUtils.plainModel(ModelTemplates.TWO_LAYERED_ITEM.create(
 								ModelLocationUtils.getModelLocation(ctx.get(), "_purple"),
 								TextureMapping.layered(
 										new Material(Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id)),
-										new Material(pvd.modLoc("item/purple_arrow"))),
+										new Material(ModularGolems.loc("item/purple_arrow"))),
 								pvd.modelOutput)),
 						ItemModelUtils.plainModel(ModelTemplates.FLAT_ITEM.create(ctx.get(), TextureMapping.layer0(
 										new Material(Identifier.fromNamespaceAndPath(modid, "item/upgrades/" + id))),

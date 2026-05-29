@@ -62,7 +62,7 @@ public class BlockOutliner {
 			}
 			var p0 = v0.toVector3f();
 			var p1 = v1.toVector3f();
-			renderLine(pose, vc, p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, pos, color);
+			renderLine(pose.last(), vc, p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, pos, color);
 
 		}
 		if (time < 0.5) {
@@ -70,7 +70,7 @@ public class BlockOutliner {
 			Vec3 v0 = c0.lerp(c1, time + 0.5);
 			var p0 = v0.toVector3f();
 			var p1 = v1.toVector3f();
-			renderLine(pose, vc, p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, pos, color);
+			renderLine(pose.last(), vc, p0.x, p0.y, p0.z, p1.x, p1.y, p1.z, pos, color);
 		}
 	}
 
@@ -79,14 +79,14 @@ public class BlockOutliner {
 			Vector3f pos, int color
 	) {
 		float offset = 1f / 32;
-		renderCube(pose, vc,
+		renderCube(pose.last(), vc,
 				box.getX() + offset, box.getY() + offset, box.getZ() + offset,
 				box.getX() + 1 - offset, box.getY() + 1 - offset, box.getZ() + 1 - offset,
 				pos, color);
 	}
 
 	public static void renderCube(
-			PoseStack pose, VertexConsumer vc,
+			PoseStack.Pose pose, VertexConsumer vc,
 			float x0, float y0, float z0,
 			float x1, float y1, float z1,
 			Vector3f pos, int color) {
@@ -105,12 +105,11 @@ public class BlockOutliner {
 	}
 
 	private static void renderLine(
-			PoseStack pose, VertexConsumer vc,
+			PoseStack.Pose mat, VertexConsumer vc,
 			float x0, float y0, float z0,
 			float x1, float y1, float z1,
 			Vector3f pos, int color
 	) {
-		PoseStack.Pose mat = pose.last();
 		float rx = x1 - x0;
 		float ry = y1 - y0;
 		float rz = z1 - z0;
@@ -118,8 +117,8 @@ public class BlockOutliner {
 		rx /= len;
 		ry /= len;
 		rz /= len;
-		vc.addVertex(mat, x0 - pos.x, y0 - pos.y, z0 - pos.z).setColor(color).setNormal(mat, rx, ry, rz);
-		vc.addVertex(mat, x1 - pos.x, y1 - pos.y, z1 - pos.z).setColor(color).setNormal(mat, rx, ry, rz);
+		vc.addVertex(mat, x0 - pos.x, y0 - pos.y, z0 - pos.z).setColor(color).setNormal(mat, rx, ry, rz).setLineWidth(4);
+		vc.addVertex(mat, x1 - pos.x, y1 - pos.y, z1 - pos.z).setColor(color).setNormal(mat, rx, ry, rz).setLineWidth(4);
 	}
 
 }
