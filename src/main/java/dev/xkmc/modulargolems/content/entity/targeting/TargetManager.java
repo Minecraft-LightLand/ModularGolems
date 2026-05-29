@@ -35,7 +35,7 @@ public class TargetManager {
 		if (self.getLastHurtByMob() == e) return LAST_HURT;
 		if (isFriend(self, e.getLastHurtMob())) return HURT;
 		if (e instanceof Mob mob) {
-			if (isFriend(self, mob.getTarget())) return MALICE;
+			if (isFriend(self, mob.getTargetUnchecked())) return MALICE;
 		}
 		if (wantsToAttack(self, e)) return PREY;
 		if (isFriend(self, e.getLastHurtByMob())) return PREVIOUS;
