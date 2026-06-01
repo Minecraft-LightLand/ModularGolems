@@ -39,6 +39,7 @@ import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -695,7 +696,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void repair(float amount) {
-		setGuardedDataImpl(Math.min(getMaxHealth(), getGuardedDataImpl() + amount));
+		setGuardedDataImpl(Math.min(getMaxHealth(), getGuardedDataImpl() + amount), true, true);
 	}
 
 	public static final UUID REFORGE_ID = MathHelper.getUUIDFromString("GolemReforge");
@@ -1342,6 +1343,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				MGConfig.COMMON.hostileGolemSoundVolumeFactor.get().floatValue() :
 				MGConfig.COMMON.golemSoundVolumeFactor.get().floatValue()
 		);
+	}
+
+	@Override
+	protected float dynamicReductionRate() {
+		return getModifiersExtended().getOrDefault(GolemModifiers.DYNAMIC_REDUCTION.get(), 0) * 20;
 	}
 
 }

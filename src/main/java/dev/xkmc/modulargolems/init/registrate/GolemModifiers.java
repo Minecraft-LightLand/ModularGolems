@@ -53,6 +53,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<AttackBypassArmorModifier> ARMOR_BYPASS;
 	public static final RegistryEntry<AddSlotModifier> ADD_SLOT;
 	public static final RegistryEntry<AddSlotModifier> DIAMOND_ADD, NETHERITE_ADD;
+	public static final RegistryEntry<GolemModifier> DYNAMIC_REDUCTION;
 
 
 	static {
@@ -148,6 +149,9 @@ public class GolemModifiers {
 
 		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
 				"Armor Penetration", "Attack has %s%% chance to bypass armor and shields");
+		DYNAMIC_REDUCTION = reg("dynamic_reduction", () -> new GolemModifier(StatFilterType.HEALTH, 5),
+				"Dynamic Reduction","Golem can only take damage of 20% max health per second");
+
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {
@@ -169,7 +173,7 @@ public class GolemModifiers {
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> multilinereg(String id, NonNullSupplier<T> sup,
-																		  String name, String... def) {
+	                                                                      String name, String... def) {
 		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
 		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
 		ans.lang(NamedEntry::getDescriptionId, name);
