@@ -34,6 +34,7 @@ public class GRDispatch extends ModDispatch {
 	public static final String MODID = "goety_revelation";
 
 	public GRDispatch() {
+		super(() -> GRClient::new);
 		GRCompatRegistry.register();
 	}
 
