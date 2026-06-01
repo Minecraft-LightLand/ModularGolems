@@ -229,7 +229,10 @@ public class GuardedEntity extends AbstractGolem {
 	}
 
 	public void applyData(GuardedData data) {
-		setGuardedDataImpl(data.amount(), true, false);
+		guardedData = data;
+		loopingSetHealth = true;
+		super.setHealth(data.amount());
+		loopingSetHealth = false;
 	}
 
 	public float getGuardedDataImpl() {

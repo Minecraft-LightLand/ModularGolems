@@ -72,7 +72,7 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 			golem.getAttributes().load(tag.getList("Attributes", 10));
 		}
 		if (tag.contains("Health", Tag.TAG_FLOAT)) {
-			golem.setHealth(tag.getFloat("Health"));
+			golem.setGuardedDataImpl(tag.getFloat("Health"));
 		}
 		golem.yHeadRot = 0;
 		golem.yHeadRotO = 0;

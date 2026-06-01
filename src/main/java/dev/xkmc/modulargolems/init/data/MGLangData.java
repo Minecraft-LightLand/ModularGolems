@@ -217,6 +217,7 @@ public enum MGLangData {
 		pvd.add("attribute.name.golem_sweep", "Sweep Range");
 		pvd.add("attribute.name.golem_size", "Golem Size");
 		pvd.add("attribute.name.golem_jump", "Golem Jump Strength");
+		pvd.add("attribute.name.dynamic_reduction", "Dynamic Reduction Time");
 
 		pvd.add("golem_material." + ModularGolems.MODID + ".copper", "Copper");
 		pvd.add("golem_material." + ModularGolems.MODID + ".iron", "Iron");

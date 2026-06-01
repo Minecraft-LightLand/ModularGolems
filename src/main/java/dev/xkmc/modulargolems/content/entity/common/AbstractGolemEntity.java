@@ -39,7 +39,6 @@ import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
-import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -159,7 +158,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
 		if (!level().isClientSide())
-			this.setHealth(this.getMaxHealth());
+			this.setGuardedDataImpl(this.getMaxHealth());
 	}
 
 	public void updateAttributes(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
@@ -1347,7 +1346,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected float dynamicReductionRate() {
-		return getModifiersExtended().getOrDefault(GolemModifiers.DYNAMIC_REDUCTION.get(), 0) * 20;
+		if (!hasFlag(GolemFlags.DYNAMIC_REDUCTION)) return 0;
+		return (float) getAttributeValue(GolemTypes.DYNAMIC_REDUCTION.get()) * 20;
 	}
 
 }

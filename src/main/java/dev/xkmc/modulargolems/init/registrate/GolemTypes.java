@@ -46,6 +46,8 @@ public class GolemTypes {
 			() -> new RangedAttribute("attribute.name.golem_size", 1, 0, 1000).setSyncable(true));
 	public static RegistryEntry<Attribute> GOLEM_JUMP = REGISTRATE.simple("golem_jump", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
 			() -> new RangedAttribute("attribute.name.golem_jump", 0.5, 0, 1000).setSyncable(true));
+	public static RegistryEntry<Attribute> DYNAMIC_REDUCTION = REGISTRATE.simple("dynamic_reduction", ForgeRegistries.ATTRIBUTES.getRegistryKey(),
+			() -> new RangedAttribute("attribute.name.dynamic_reduction", 0, 0, 10).setSyncable(true));
 
 	public static final RegistryEntry<GolemStatType> STAT_HEALTH = regStat("max_health", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.BASE, StatFilterType.HEALTH);
 	public static final RegistryEntry<GolemStatType> STAT_ATTACK = regStat("attack", () -> Attributes.ATTACK_DAMAGE, GolemStatType.Kind.BASE, StatFilterType.ATTACK);
@@ -62,6 +64,7 @@ public class GolemTypes {
 	public static final RegistryEntry<GolemStatType> STAT_SIZE = regStat("max_size", GOLEM_SIZE, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
 	public static final RegistryEntry<GolemStatType> STAT_SIZE_P = regStat("max_size_percentage", GOLEM_SIZE, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
 	public static final RegistryEntry<GolemStatType> STAT_RANGE = regStat("range", ForgeMod.ENTITY_REACH, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
+	public static final RegistryEntry<GolemStatType> STAT_DR = regStat("dynamic_reduction", DYNAMIC_REDUCTION, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
 
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM;
 	public static final EntityEntry<HumanoidGolemEntity> ENTITY_HUMANOID;
@@ -87,6 +90,7 @@ public class GolemTypes {
 						.add(GOLEM_REGEN.get())
 						.add(GOLEM_SWEEP.get())
 						.add(GOLEM_SIZE.get(), 3)
+						.add(DYNAMIC_REDUCTION.get())
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_HUMANOID = REGISTRATE.entity("humanoid_golem", HumanoidGolemEntity::new, MobCategory.MISC)
@@ -104,6 +108,7 @@ public class GolemTypes {
 						.add(GOLEM_REGEN.get())
 						.add(GOLEM_SWEEP.get(), 2)
 						.add(GOLEM_SIZE.get(), 2.5)
+						.add(DYNAMIC_REDUCTION.get())
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		ENTITY_DOG = REGISTRATE.entity("dog_golem", DogGolemEntity::new, MobCategory.MISC)
@@ -121,6 +126,7 @@ public class GolemTypes {
 						.add(GOLEM_JUMP.get(), 0.5D)
 						.add(GOLEM_REGEN.get())
 						.add(GOLEM_SIZE.get(), 1)
+						.add(DYNAMIC_REDUCTION.get())
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		TYPE_GOLEM = REGISTRATE.generic(TYPES, "metal_golem",

@@ -66,7 +66,7 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 		switch (getSlot()) {
 			case HEAD -> builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid,
 					"Maledictus Armor", 1, AttributeModifier.Operation.ADDITION));
-			case CHEST -> builder.put(GolemTypes.GOLEM_SWEEP.get(), new AttributeModifier(uuid,
+			case CHEST -> builder.put(GolemTypes.DYNAMIC_REDUCTION.get(), new AttributeModifier(uuid,
 					"Maledictus Armor", 1, AttributeModifier.Operation.ADDITION));
 			case LEGS -> builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid,
 					"Maledictus Armor", 0.5, AttributeModifier.Operation.MULTIPLY_BASE));

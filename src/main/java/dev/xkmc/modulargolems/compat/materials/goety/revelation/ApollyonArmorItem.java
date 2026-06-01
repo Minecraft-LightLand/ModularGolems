@@ -40,6 +40,7 @@ public class ApollyonArmorItem extends MetalGolemArmorItem {
 		builder.put(L2DamageTracker.ABSORB.get(), new AttributeModifier(uuid, "Apollyon Armor", 1, AttributeModifier.Operation.ADDITION));
 		builder.put(L2DamageTracker.REDUCTION.get(), new AttributeModifier(uuid, "Apollyon Armor", -0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
 		builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid, "Apollyon Armor", 1, AttributeModifier.Operation.ADDITION));
+		builder.put(GolemTypes.DYNAMIC_REDUCTION.get(), new AttributeModifier(uuid, "Apollyon Armor", 1, AttributeModifier.Operation.ADDITION));
 	}
 
 }
