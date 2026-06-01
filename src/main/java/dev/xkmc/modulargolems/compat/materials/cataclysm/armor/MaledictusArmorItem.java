@@ -62,7 +62,7 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 	protected void addExtraModifiers(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
 		super.addExtraModifiers(builder);
 		UUID uuid = UUID.get(getSlot());
-		builder.put(L2DamageTracker.ABSORB.get(), new AttributeModifier(uuid, "Maledictus Armor", -1, AttributeModifier.Operation.ADDITION));
+		builder.put(L2DamageTracker.ABSORB.get(), new AttributeModifier(uuid, "Maledictus Armor", 1, AttributeModifier.Operation.ADDITION));
 		switch (getSlot()) {
 			case HEAD -> builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid,
 					"Maledictus Armor", 1, AttributeModifier.Operation.ADDITION));
