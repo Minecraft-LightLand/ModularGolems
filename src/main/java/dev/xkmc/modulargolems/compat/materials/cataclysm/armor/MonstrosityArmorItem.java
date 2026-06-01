@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -37,7 +38,7 @@ public class MonstrosityArmorItem extends MetalGolemArmorItem {
 	}
 
 	@Override
-	public boolean emissive() {
+	public boolean emissive(LivingEntity user, ItemStack stack) {
 		return true;
 	}
 

@@ -4,12 +4,10 @@ import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
-import dev.xkmc.modulargolems.init.data.MGConfig;
-import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -18,7 +16,6 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -34,6 +31,7 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
 		//TODO
+		/*
 		switch (getSlot()) {
 			case HEAD -> list.add(MGLangData.IGNIS_BOOST_FIREBALL
 					.get(Math.round(MGConfig.COMMON.fireballArmorBonus.get() * 100) + "%")
@@ -44,11 +42,15 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 					.get(Math.round(MGConfig.COMMON.flameStrikeArmorBonus.get() * 100) + "%")
 					.withStyle(ChatFormatting.GOLD));
 		}
+
+		 */
 	}
 
 	@Override
-	public boolean emissive() {
-		return true;
+	public boolean emissive(LivingEntity user, ItemStack stack) {
+		long prev = stack.getOrCreateTag().getLong("NextAvailableTime");
+		long time = user.level().getGameTime();
+		return getSlot() == EquipmentSlot.CHEST && prev <= time;
 	}
 
 	@Override

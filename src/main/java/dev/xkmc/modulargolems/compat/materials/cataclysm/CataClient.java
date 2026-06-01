@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.HarbingerArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.IgnisArmors;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MaledictusArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmors;
 import dev.xkmc.modulargolems.compat.materials.common.ClientModDispatch;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
@@ -33,6 +34,10 @@ public class CataClient extends ClientModDispatch {
 		regAndAdd(event, IgnisArmors.HELMET_LAYER, IgnisArmors::createHelmet);
 		regAndAdd(event, IgnisArmors.CHESTPLATE_LAYER, IgnisArmors::createChestplate);
 		regAndAdd(event, IgnisArmors.SHINGUARD_LAYER, IgnisArmors::createLeggings);
+
+		regAndAdd(event, MaledictusArmors.HELMET_LAYER, MaledictusArmors::createHelmet);
+		regAndAdd(event, MaledictusArmors.CHESTPLATE_LAYER, MaledictusArmors::createChestplate);
+		regAndAdd(event, MaledictusArmors.SHINGUARD_LAYER, MaledictusArmors::createLeggings);
 	}
 
 }

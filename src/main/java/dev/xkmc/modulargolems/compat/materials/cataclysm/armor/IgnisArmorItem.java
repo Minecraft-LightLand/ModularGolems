@@ -46,7 +46,7 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 	}
 
 	@Override
-	public boolean emissive() {
+	public boolean emissive(LivingEntity user, ItemStack stack) {
 		return true;
 	}
 
