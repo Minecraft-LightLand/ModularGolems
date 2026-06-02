@@ -286,11 +286,15 @@ public class GuardedEntity extends AbstractGolem {
 		return 0;
 	}
 
+	protected float dynamicReductionCap() {
+		return 0.2f;
+	}
+
 	public record GuardedData(float amount, float baseline) {
 
 		public static GuardedData start(GuardedEntity e, float amount) {
 			var rate = e.dynamicReductionRate();
-			float base = rate == 0 ? 0 : amount - e.getMaxHealth() * 0.2f;
+			float base = rate == 0 ? 0 : amount - e.getMaxHealth() * e.dynamicReductionCap();
 			return new GuardedData(amount, base);
 		}
 
@@ -298,7 +302,7 @@ public class GuardedEntity extends AbstractGolem {
 			var rate = e.dynamicReductionRate();
 			float ans = rate > 0 && !force ? Math.max(amount, baseline) : amount;
 			float base = rate > 0 && boostBase && ans > amount() ?
-					Math.max(baseline + ans - amount(), ans - e.getMaxHealth() * 0.2f) :
+					Math.max(baseline + ans - amount(), ans - e.getMaxHealth() * e.dynamicReductionCap()) :
 					Math.min(baseline, ans);
 			return new GuardedData(ans, base);
 		}
@@ -307,12 +311,12 @@ public class GuardedEntity extends AbstractGolem {
 			var rate = e.dynamicReductionRate();
 			if (rate == 0) return this;
 			var max = e.getMaxHealth();
-			var allowed = max * 0.2f;
+			var allowed = max * e.dynamicReductionCap();
 			var minBase = Math.max(0, amount - allowed);
 			if (baseline <= minBase) {
 				if (e.getTarget() != null)
 					return this;
-				var maxBase = Math.min(minBase, baseline + allowed / 100f);
+				var maxBase = Math.min(minBase, baseline + max / 1200f);
 				return new GuardedData(amount, maxBase);
 			}
 			return new GuardedData(amount, Math.max(minBase, baseline - allowed / rate));
