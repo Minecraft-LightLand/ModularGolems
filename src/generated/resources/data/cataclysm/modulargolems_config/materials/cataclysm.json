@@ -24,6 +24,7 @@
       "modulargolems:ancient_remnant_reformation": 1,
       "modulargolems:ancient_remnant_sandstorm": 1,
       "modulargolems:damage_cap": 1,
+      "modulargolems:dynamic_reduction": 1,
       "modulargolems:fire_immune": 1
     },
     "cataclysm:cursium": {
@@ -36,6 +37,7 @@
     },
     "cataclysm:ender_guardian": {
       "modulargolems:damage_cap": 3,
+      "modulargolems:dynamic_reduction": 1,
       "modulargolems:ender_guardian_void_rune": 2,
       "modulargolems:fire_immune": 1,
       "modulargolems:projectile_reject": 1
@@ -50,6 +52,7 @@
     },
     "cataclysm:storm": {
       "modulargolems:damage_cap": 2,
+      "modulargolems:dynamic_reduction": 1,
       "modulargolems:fire_immune": 1,
       "modulargolems:scylla_lightning": 1,
       "modulargolems:scylla_wave": 1,
@@ -58,6 +61,7 @@
     },
     "cataclysm:witherite": {
       "modulargolems:damage_cap": 2,
+      "modulargolems:dynamic_reduction": 1,
       "modulargolems:fire_immune": 1,
       "modulargolems:harbinger_death_beam": 1,
       "modulargolems:harbinger_missile": 1,
@@ -87,6 +91,7 @@
   "stats": {
     "cataclysm:ancient_metal": {
       "modulargolems:attack": 20.0,
+      "modulargolems:dynamic_reduction": 1.0,
       "modulargolems:max_health": 288.0,
       "modulargolems:sweep": 2.0
     },
@@ -99,6 +104,7 @@
     },
     "cataclysm:ender_guardian": {
       "modulargolems:attack": 20.0,
+      "modulargolems:dynamic_reduction": 2.0,
       "modulargolems:max_health": 333.0,
       "modulargolems:sweep": 2.0
     },
@@ -111,12 +117,14 @@
     },
     "cataclysm:storm": {
       "modulargolems:attack": 20.0,
+      "modulargolems:dynamic_reduction": 2.0,
       "modulargolems:max_health": 390.0,
       "modulargolems:regen": 2.0,
       "modulargolems:sweep": 2.0
     },
     "cataclysm:witherite": {
       "modulargolems:attack": 30.0,
+      "modulargolems:dynamic_reduction": 2.0,
       "modulargolems:max_health": 390.0,
       "modulargolems:regen": 2.0,
       "modulargolems:sweep": 2.0
