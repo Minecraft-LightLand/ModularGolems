@@ -2,10 +2,15 @@ package dev.xkmc.modulargolems.init.material;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 
 import java.util.Locale;
 
@@ -32,12 +37,26 @@ public enum GolemWeaponType {
 	}
 
 	public ItemEntry<MetalGolemWeaponItem> buildItem(IGolemWeaponMaterial material) {
-		var ans = REGISTRATE.item(material.getName() + "_" + getName(),
-						p -> factory.create(material.modify(p.stacksTo(1)), material.getDamage(), material.factory()))
-				.model((ctx, pvd) -> material.model(pvd.getBuilder(ctx.getName()))
-						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
-						.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())))
-				.defaultLang().register();
+		var builder = REGISTRATE.item(material.getName() + "_" + getName(),
+				p -> factory.create(material.modify(p.stacksTo(1)), material.getDamage(), material.factory()));
+		if (material.hasIcon(this)) {
+			builder.model((ctx, pvd) ->
+					pvd.getBuilder(ctx.getName())
+							.guiLight(BlockModel.GuiLight.FRONT)
+							.customLoader(SeparateTransformsModelBuilder::begin)
+							.base(material.model(new ItemModelBuilder(null, pvd.existingFileHelper)
+									.parent(new ModelFile.UncheckedModelFile(ModularGolems.loc(model)))
+									.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName()))))
+							.perspective(ItemDisplayContext.GUI, material.model(new ItemModelBuilder(null, pvd.existingFileHelper)
+									.parent(pvd.getExistingFile(pvd.mcLoc("item/generated")))
+									.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName() + "_icon")))));
+		} else {
+			builder.model((ctx, pvd) ->
+					material.model(pvd.getBuilder(ctx.getName()))
+							.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
+							.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())));
+		}
+		var ans = builder.defaultLang().register();
 		if (this != SWORD) {
 			MGTagGen.OPTIONAL_ITEM.add(pvd -> pvd.addTag(MGTagGen.SHIELD_BREAKER_WEAPONS)
 					.addOptional(ans.getId()));

@@ -1,6 +1,18 @@
 {
-  "parent": "modulargolems:item/sword",
-  "textures": {
-    "layer0": "modulargolems:item/equipments/netherite_golem_sword"
+  "base": {
+    "parent": "modulargolems:item/sword",
+    "textures": {
+      "layer0": "modulargolems:item/equipments/netherite_golem_sword"
+    }
+  },
+  "gui_light": "front",
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "modulargolems:item/equipments/netherite_golem_sword_icon"
+      }
+    }
   }
 }

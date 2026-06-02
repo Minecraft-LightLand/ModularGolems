@@ -39,4 +39,8 @@ public enum VanillaGolemWeaponMaterial implements IGolemWeaponMaterial {
 		return ingot;
 	}
 
+	public boolean hasIcon(GolemWeaponType type) {
+		return true;
+	}
+
 }
