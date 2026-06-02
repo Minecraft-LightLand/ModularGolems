@@ -1,6 +1,18 @@
 {
-  "parent": "modulargolems:item/long_weapon",
-  "textures": {
-    "layer0": "modulargolems:item/equipments/iron_golem_spear"
+  "base": {
+    "parent": "modulargolems:item/long_weapon",
+    "textures": {
+      "layer0": "modulargolems:item/equipments/iron_golem_spear"
+    }
+  },
+  "gui_light": "front",
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "modulargolems:item/equipments/iron_golem_spear_icon"
+      }
+    }
   }
 }
