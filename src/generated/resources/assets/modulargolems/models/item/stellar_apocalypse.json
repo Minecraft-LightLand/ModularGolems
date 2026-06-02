@@ -1,0 +1,18 @@
+{
+  "base": {
+    "parent": "modulargolems:custom/stellar_apocalypse",
+    "textures": {
+      "tex": "goety_revelation:item/equipments/stellar_apocalypse"
+    }
+  },
+  "gui_light": "front",
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "goety_revelation:item/equipments/stellar_apocalypse_icon"
+      }
+    }
+  }
+}
