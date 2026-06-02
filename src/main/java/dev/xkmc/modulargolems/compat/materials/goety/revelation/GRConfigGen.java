@@ -27,7 +27,7 @@ public class GRConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.66)
 				.addStat(GolemTypes.STAT_RANGE.get(), 1)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 3)
-				.addStat(GolemTypes.STAT_DR.get(), 1)
+				.addStat(GolemTypes.STAT_DR.get(), 2)
 				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)

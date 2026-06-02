@@ -248,6 +248,10 @@ public class GuardedEntity extends AbstractGolem {
 		return getGuardedDataImpl();
 	}
 
+	public float getDynamicBaseline() {
+		return dynamicReductionRate() == 0 || guardedData == null ? 0 : guardedData.baseline();
+	}
+
 	@Override
 	protected boolean isImmobile() {
 		return getGuardedDataImpl() <= 0;
@@ -288,7 +292,6 @@ public class GuardedEntity extends AbstractGolem {
 		}
 
 		public GuardedData update(GuardedEntity e) {
-			if (e.level().isClientSide()) return this;
 			var rate = e.dynamicReductionRate();
 			if (rate == 0) return this;
 			var max = e.getMaxHealth();
