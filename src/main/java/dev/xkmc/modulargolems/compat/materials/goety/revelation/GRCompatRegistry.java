@@ -14,7 +14,7 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 public class GRCompatRegistry {
 
 	public static final ItemEntry<ApollyonArmorItem> APOCALYPTIUM_HELMET, APOCALYPTIUM_CHESTPLATE, APOCALYPTIUM_SHINGUARD, APOCALYPTIUM_BOOTS;
-
+	public static final ItemEntry<ApollyonSword> STELLAR_APOCALYPSE;
 	public static final RegistryEntry<CooldownBypassModifier> CD_BYPASS;
 	public static final RegistryEntry<ReviveModifier> REVIVE;
 	public static final RegistryEntry<FastBowModifier> BOW;
@@ -41,6 +41,7 @@ public class GRCompatRegistry {
 				.model((ctx, pvd) -> pvd.generated(ctx, grLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
+		STELLAR_APOCALYPSE = ApollyonSword.buildItem("stellar_apocalypse");
 
 		CD_BYPASS = reg("the_abhorrent", CooldownBypassModifier::new, "The Abhorrent",
 				"Reduce target invulnerability frames on hit");
