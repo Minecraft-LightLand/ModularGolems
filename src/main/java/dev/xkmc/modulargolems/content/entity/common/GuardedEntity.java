@@ -178,6 +178,18 @@ public class GuardedEntity extends AbstractGolem {
 		}
 	}
 
+	@Override
+	public void kill() {
+		if (dynamicReductionRate() > 0 && !level().isClientSide()) {
+			guardedData = new GuardedData(0, 0);
+			super.setHealth(0);
+			die(damageSources().genericKill());
+			GuardedDataToClient.send(this);
+			return;
+		}
+		super.kill();
+	}
+
 	public void onRemove(RemovalReason reason) {
 	}
 
