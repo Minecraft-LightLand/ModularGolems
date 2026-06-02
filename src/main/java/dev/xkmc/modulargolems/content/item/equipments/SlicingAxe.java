@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
@@ -12,17 +13,21 @@ import dev.xkmc.modulargolems.init.data.RecipeGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -74,9 +79,16 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 	public static ItemEntry<SlicingAxe> buildItem(String id, VanillaGolemWeaponMaterial material) {
 		return REGISTRATE.item(id, p -> new SlicingAxe(material.modify(p.stacksTo(1)),
 						0, material.getDamage() * 0.05, 0, 2))
-				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName())
-						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(GolemWeaponType.AXE.model)))
-						.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
+				.model((ctx, pvd) ->
+						pvd.getBuilder(ctx.getName())
+								.guiLight(BlockModel.GuiLight.FRONT)
+								.customLoader(SeparateTransformsModelBuilder::begin)
+								.base(material.model(new ItemModelBuilder(null, pvd.existingFileHelper)
+										.parent(new ModelFile.UncheckedModelFile(ModularGolems.loc(GolemWeaponType.AXE.model)))
+										.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName()))))
+								.perspective(ItemDisplayContext.GUI, material.model(new ItemModelBuilder(null, pvd.existingFileHelper)
+										.parent(pvd.getExistingFile(pvd.mcLoc("item/generated")))
+										.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName() + "_icon")))))
 				.recipe((ctx, pvd) -> RecipeGen.unlock(pvd,
 						SmithingTransformRecipeBuilder.smithing(
 								Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE),
