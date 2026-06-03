@@ -1,6 +1,19 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "modulargolems:item/iron_golem_sword"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "modulargolems:item/iron_golem_sword_icon"
+        },
+        "when": "gui"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "modulargolems:item/iron_golem_sword"
+    },
+    "property": "minecraft:display_context"
   }
 }

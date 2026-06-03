@@ -7,12 +7,9 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.data.MGModelGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
-import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.data.models.model.TextureSlot;
-import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
@@ -71,8 +68,7 @@ public class SlicingAxe extends MetalGolemWeaponItem implements CustomDropGolemW
 		return REGISTRATE.item(id, p -> new SlicingAxe(material.modify(p.stacksTo(1)),
 						0, material.getDamage() * 0.05, 0, 2))
 				.model(() -> (ctx, pvd) ->
-						pvd.generateFlatItem(ctx.get(), ModelTemplates.createItem(GolemWeaponType.AXE.model, TextureSlot.LAYER0),
-								new Material(material.modLoc("item/equipments/" + ctx.getName()))))
+						MGModelGen.genWeapon(ctx, pvd, GolemWeaponType.AXE.model, true,null))
 				.tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE)
 				.defaultLang().register();
 	}

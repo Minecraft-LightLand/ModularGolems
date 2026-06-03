@@ -12,14 +12,16 @@ import net.minecraft.world.item.ItemStack;
 
 import static dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil.MAX_DEGREE;
 
-public record BeaconConnonPose(String id, float x, float y, float z) implements GolemShoulderPose {
+public record BeaconConnonPose(
+		CannonPoseUtil transform, String id, float x, float y, float z
+) implements GolemShoulderPose {
 
 	@Override
 	public void setup(MetalGolemAimState entity, MetalGolemModel model, ItemStack stack, HumanoidArm hand) {
 		if (entity.animState().getStartingAnim() < 5) return;
 		var part = model.root().getChild("body").getChild(id);
 
-		var angles = CannonPoseUtil.BEACON.getAngle(entity, hand);
+		var angles = transform.getAngle(entity, hand);
 		var diff = Mth.wrapDegrees(angles[0] * Mth.RAD_TO_DEG + entity.yBodyRot());
 		if (diff > MAX_DEGREE) {
 			angles[0] = (MAX_DEGREE - entity.yBodyRot()) * Mth.DEG_TO_RAD;

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "modulargolems:item/equipments/heavy_golem_spear_icon"
+  }
+}

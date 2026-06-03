@@ -53,9 +53,9 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 		if (e.tickCount % 40 != (hand == HumanoidArm.RIGHT ? 10 : 30)) return;
 		var target = e.getTarget();
 		if (target == null || !target.isAlive()) return;
-		if (CannonPoseUtil.BEACON.isOutOfRange(e, hand, 15)) return;
+		if (CannonPoseUtil.FLAME_THROWER.isOutOfRange(e, hand, 15)) return;
 		var ammo = e.getProjectile(stack);
-		var pos = CannonPoseUtil.BEACON.getOrigin(e, hand);
+		var pos = CannonPoseUtil.FLAME_THROWER.getOrigin(e, hand);
 		if (ammo.is(Items.TNT)) {
 			var tnt = TNTLauncher.getTNTEntity(e, pos, target);
 			if (tnt == null) return;

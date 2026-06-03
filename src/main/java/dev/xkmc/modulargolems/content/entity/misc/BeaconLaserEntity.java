@@ -69,8 +69,8 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 		var aim = e.getTargetAimPos();
 		if (aim.isEmpty()) return;
 		var hand = right ? HumanoidArm.RIGHT : HumanoidArm.LEFT;
-		var pos = CannonPoseUtil.BEACON.getOrigin(e, hand);
-		var rot = CannonPoseUtil.BEACON.getAngle(MetalGolemAimState.of(e, 1), hand);
+		var pos = CannonPoseUtil.BEACON_CANNON.getOrigin(e, hand);
+		var rot = CannonPoseUtil.BEACON_CANNON.getAngle(MetalGolemAimState.of(e, 1), hand);
 		var dst = aim.get().add(e.position()).subtract(pos).normalize().scale(35).add(pos);
 		var hit = e.level().clip(new ClipContext(pos, dst, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()));
 		len = (float) hit.getLocation().subtract(pos).length();
