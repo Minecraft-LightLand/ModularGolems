@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
@@ -19,6 +20,7 @@ import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 
+@SerialClass
 public abstract class GuardedEntity extends AbstractGolem {
 
 	private long antiHealDisableTimestamp;
