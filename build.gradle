@@ -222,7 +222,7 @@ tasks.register('publishCurseForge', net.darkhax.curseforgegradle.TaskPublishCurs
     def mainFile = upload(project.curseforge_project, new File("./build/libs/${mod_id}-${mod_version}.jar"))
     mainFile.changelog = new File('./changelog.txt').text.split("\n\n\n")[0]
     mainFile.addEnvironment("Client", "Server")
-    mainFile.addGameVersion("1.21.1")
+    mainFile.addGameVersion("26.1.2")
     mainFile.addModLoader("NeoForge")
     mainFile.addRequirement("l2library")
     mainFile.addOptional(
@@ -240,7 +240,7 @@ tasks.register('publishCurseForge', net.darkhax.curseforgegradle.TaskPublishCurs
             "the-twilight-forest",
             "touhou-little-maid",
             "allthemodium")
-    mainFile.releaseType = "release"
+    mainFile.releaseType = "beta"
     disableVersionDetection()
 }
 
@@ -249,9 +249,9 @@ modrinth {
     projectId = project.modrinth_project
     versionName = "Modular Golems ${project.mod_version}"
     versionNumber = project.mod_version
-    versionType = "release"
+    versionType = "beta"
     uploadFile = new File("./build/libs/${mod_id}-${mod_version}.jar")
-    gameVersions = ["1.21.1"]
+    gameVersions = ["26.1.2"]
     loaders = ["neoforge"]
     changelog = new File('./changelog.txt').text.split("\n\n")[0]
     dependencies {
