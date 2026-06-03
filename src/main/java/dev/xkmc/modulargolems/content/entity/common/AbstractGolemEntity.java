@@ -153,9 +153,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
-		if (!level().isClientSide()) {
-			applyData(GuardedData.start(this, getMaxHealth()));
-		}
+		applyData(GuardedData.start(this, getMaxHealth()));
 	}
 
 	public void updateAttributes(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
