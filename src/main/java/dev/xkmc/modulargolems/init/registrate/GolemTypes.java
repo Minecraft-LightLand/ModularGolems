@@ -48,6 +48,8 @@ public class GolemTypes {
 			() -> new RangedAttribute("attribute.name.golem_size", 1, 0, 1000).setSyncable(true)));
 	public static SimpleEntry<Attribute> GOLEM_JUMP = new SimpleEntry<>(REGISTRATE.simple("golem_jump", Registries.ATTRIBUTE,
 			() -> new RangedAttribute("attribute.name.golem_jump", 0.5, 0, 1000).setSyncable(true)));
+	public static SimpleEntry<Attribute> DYNAMIC_REDUCTION = new SimpleEntry<>(REGISTRATE.simple("dynamic_reduction", Registries.ATTRIBUTE,
+			() -> new RangedAttribute("attribute.name.dynamic_reduction", 0, 0, 10).setSyncable(true)));
 
 	public static final SimpleEntry<GolemStatType> STAT_HEALTH = regStat("max_health", () -> Attributes.MAX_HEALTH, GolemStatType.Kind.BASE, StatFilterType.HEALTH);
 	public static final SimpleEntry<GolemStatType> STAT_ATTACK = regStat("attack", () -> Attributes.ATTACK_DAMAGE, GolemStatType.Kind.BASE, StatFilterType.ATTACK);
@@ -64,6 +66,7 @@ public class GolemTypes {
 	public static final SimpleEntry<GolemStatType> STAT_SIZE = regStat("max_size", GOLEM_SIZE::holder, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
 	public static final SimpleEntry<GolemStatType> STAT_SIZE_P = regStat("max_size_percentage", GOLEM_SIZE::holder, GolemStatType.Kind.PERCENT, StatFilterType.HEALTH);
 	public static final SimpleEntry<GolemStatType> STAT_RANGE = regStat("range", () -> Attributes.ENTITY_INTERACTION_RANGE, GolemStatType.Kind.ADD, StatFilterType.ATTACK);
+	public static final SimpleEntry<GolemStatType> STAT_DR = regStat("dynamic_reduction", DYNAMIC_REDUCTION::holder, GolemStatType.Kind.ADD, StatFilterType.HEALTH);
 
 	public static final EntityEntry<MetalGolemEntity> ENTITY_GOLEM;
 	public static final EntityEntry<HumanoidGolemEntity> ENTITY_HUMANOID;
@@ -92,6 +95,7 @@ public class GolemTypes {
 						.add(GOLEM_REGEN.holder())
 						.add(GOLEM_SWEEP.holder())
 						.add(GOLEM_SIZE.holder(), 3)
+						.add(DYNAMIC_REDUCTION.holder())
 				).loot((pvd, e) -> pvd.add(e, LootTable.lootTable()))
 				.tag(MGTagGen.GOLEM_FRIENDLY).register();
 
@@ -115,6 +119,7 @@ public class GolemTypes {
 						.add(GOLEM_REGEN.holder())
 						.add(GOLEM_SWEEP.holder(), 1)
 						.add(GOLEM_SIZE.holder(), 2.5)
+						.add(DYNAMIC_REDUCTION.holder())
 				).loot((pvd, e) -> pvd.add(e, LootTable.lootTable()))
 				.tag(MGTagGen.GOLEM_FRIENDLY).register();
 
@@ -137,6 +142,7 @@ public class GolemTypes {
 						.add(GOLEM_JUMP.holder(), 0.5D)
 						.add(GOLEM_REGEN.holder())
 						.add(GOLEM_SIZE.holder(), 1)
+						.add(DYNAMIC_REDUCTION.holder())
 				).loot((pvd, e) -> pvd.add(e, LootTable.lootTable()))
 				.tag(MGTagGen.GOLEM_FRIENDLY).register();
 

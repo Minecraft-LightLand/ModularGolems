@@ -32,9 +32,6 @@ import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.ranged.*;
-import dev.xkmc.modulargolems.content.item.render.GolemFacadeRenderer;
-import dev.xkmc.modulargolems.content.item.render.GolemHolderRenderer;
-import dev.xkmc.modulargolems.content.item.render.GolemPartRenderer;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -47,7 +44,6 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.material.GolemWeaponType;
 import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
 import net.minecraft.client.data.models.model.ModelTemplates;
-import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
@@ -299,8 +295,7 @@ public class GolemItems {
 			HEAVY_SPEAR = REGISTRATE.item("heavy_golem_spear",
 							p -> new HeavySpearItem(p.stacksTo(1), 10, 0, 2, 2))
 					.model(() -> (ctx, pvd) ->
-							pvd.generateFlatItem(ctx.get(), ModelTemplates.createItem(pvd.modLoc("long_weapon").toString(), TextureSlot.LAYER0),
-									new Material(pvd.modLoc("item/equipments/" + ctx.getName()))))
+							MGModelGen.genWeapon(ctx, pvd, GolemWeaponType.SPEAR.model, true, null))
 					.tag(ItemTags.SWEEPING_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE)
 					.defaultLang()
 					.register();

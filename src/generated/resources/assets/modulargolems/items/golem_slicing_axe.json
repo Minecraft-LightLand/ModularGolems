@@ -1,6 +1,19 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "modulargolems:item/golem_slicing_axe"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "modulargolems:item/golem_slicing_axe_icon"
+        },
+        "when": "gui"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "modulargolems:item/golem_slicing_axe"
+    },
+    "property": "minecraft:display_context"
   }
 }

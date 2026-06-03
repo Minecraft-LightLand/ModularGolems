@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.client.pose.BeaconConnonPose;
 import dev.xkmc.modulargolems.content.client.pose.GolemShoulderPose;
+import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.PartPose;
@@ -24,8 +25,8 @@ public class FlameThrowerModel {
 		GolemModelPath.register(GolemModelPaths.FLAME_LEFT,
 				new GolemModelPath(FLAME_LEFT, List.of(List.of("body", "flamethrower2"))));
 
-		GolemShoulderPose.register(GolemModelPaths.FLAME_RIGHT, new BeaconConnonPose("flamethrower", -1, 0, 0));
-		GolemShoulderPose.register(GolemModelPaths.FLAME_LEFT, new BeaconConnonPose("flamethrower2", 1, 0, 0));
+		GolemShoulderPose.register(GolemModelPaths.FLAME_RIGHT, new BeaconConnonPose(CannonPoseUtil.FLAME_THROWER, "flamethrower", -1, 0, 0));
+		GolemShoulderPose.register(GolemModelPaths.FLAME_LEFT, new BeaconConnonPose(CannonPoseUtil.FLAME_THROWER, "flamethrower2", 1, 0, 0));
 	}
 
 

@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.client.pose.BeaconConnonPose;
 import dev.xkmc.modulargolems.content.client.pose.GolemShoulderPose;
+import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
@@ -95,8 +96,8 @@ public class BeaconCannonModel {
 		GolemModelAnimations.register(GolemModelPaths.BEACON_LEFT.withSuffix("_active"), LEFT_ACTIVE);
 		GolemModelAnimations.register(GolemModelPaths.BEACON_LEFT.withSuffix("_end"), LEFT_END);
 
-		GolemShoulderPose.register(GolemModelPaths.BEACON_RIGHT, new BeaconConnonPose("flamethrower", -1, 0, 0));
-		GolemShoulderPose.register(GolemModelPaths.BEACON_LEFT, new BeaconConnonPose("flamethrower2", 1, 0, 0));
+		GolemShoulderPose.register(GolemModelPaths.BEACON_RIGHT, new BeaconConnonPose(CannonPoseUtil.BEACON_CANNON, "flamethrower", -1, 0, 0));
+		GolemShoulderPose.register(GolemModelPaths.BEACON_LEFT, new BeaconConnonPose(CannonPoseUtil.BEACON_CANNON, "flamethrower2", 1, 0, 0));
 	}
 
 	public static LayerDefinition leftLayer() {

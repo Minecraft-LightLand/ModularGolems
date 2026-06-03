@@ -81,7 +81,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemRenderState, M
 		entity.put(gmpath.models(), MetalGolemModelItemState.ofArmor(gmpath.paths()));
 		RenderType rt = RenderTypes.armorCutoutNoCull(mgaitem.getModelTexture(entity.model));
 		RenderType alt = null;
-		if (mgaitem.emissive()) {
+		if (mgaitem.emissive(entity.model, stack)) {
 			alt = RenderTypes.armorCutoutNoCull(mgaitem.getEmissiveModelTexture(entity.model));
 		}
 		submitModel(entity, model, col, pose, rt, alt, light, stack.hasFoil(), entity.outlineColor);

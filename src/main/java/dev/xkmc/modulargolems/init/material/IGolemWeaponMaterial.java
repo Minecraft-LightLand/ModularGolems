@@ -34,4 +34,8 @@ public interface IGolemWeaponMaterial {
 		return model;
 	}
 
+	default boolean hasIcon(GolemWeaponType type) {
+		return false;
+	}
+
 }
