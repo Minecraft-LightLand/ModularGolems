@@ -111,6 +111,18 @@
     {
       "id": "modulargolems:ignis_shinguard",
       "required": false
+    },
+    {
+      "id": "modulargolems:maledictus_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:maledictus_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:maledictus_shinguard",
+      "required": false
     }
   ]
 }

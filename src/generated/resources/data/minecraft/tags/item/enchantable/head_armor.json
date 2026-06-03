@@ -30,6 +30,10 @@
     {
       "id": "modulargolems:ignis_helmet",
       "required": false
+    },
+    {
+      "id": "modulargolems:maledictus_helmet",
+      "required": false
     }
   ]
 }

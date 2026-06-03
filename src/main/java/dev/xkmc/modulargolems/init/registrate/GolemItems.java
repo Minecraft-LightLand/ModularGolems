@@ -45,13 +45,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 
 import java.util.List;
 import java.util.Set;
@@ -269,8 +268,16 @@ public class GolemItems {
 			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
 			HEAVY_SPEAR = REGISTRATE.item("heavy_golem_spear",
 							p -> new HeavySpearItem(p.stacksTo(1), 10, 0, 2, 2))
-					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile(pvd.modLoc("item/long_weapon")))
-							.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
+					.model((ctx, pvd) ->
+							pvd.getBuilder(ctx.getName())
+									.guiLight(BlockModel.GuiLight.FRONT)
+									.customLoader(SeparateTransformsModelBuilder::begin)
+									.base(new ItemModelBuilder(null, pvd.existingFileHelper)
+											.parent(new ModelFile.UncheckedModelFile(ModularGolems.loc(GolemWeaponType.SPEAR.model)))
+											.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName())))
+									.perspective(ItemDisplayContext.GUI,new ItemModelBuilder(null, pvd.existingFileHelper)
+											.parent(pvd.getExistingFile(pvd.mcLoc("item/generated")))
+											.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName() + "_icon"))))
 					.tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE, ItemTags.MACE_ENCHANTABLE, MGTagGen.SHIELD_BREAKER_WEAPONS)
 					.defaultLang()
 					.register();

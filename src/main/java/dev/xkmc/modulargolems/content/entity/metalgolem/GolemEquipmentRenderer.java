@@ -80,7 +80,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		model.copyFrom(getParentModel());
 		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getModelTexture(entity)));
 		renderModel(model, gmpath, pose, buffer, light);
-		if (mgaitem.emissive()) {
+		if (mgaitem.emissive(entity, stack)) {
 			buffer = source.getBuffer(RenderType.armorCutoutNoCull(mgaitem.getEmissiveModelTexture(entity)));
 			renderModel(model, gmpath, pose, buffer, LightTexture.FULL_BRIGHT);
 		}

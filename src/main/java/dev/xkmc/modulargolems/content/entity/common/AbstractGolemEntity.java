@@ -150,8 +150,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void onCreate(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
-		if (!level().isClientSide())
-			this.setHealth(this.getMaxHealth());
+		if (!level().isClientSide()) {
+			applyData(GuardedData.start(this, getMaxHealth()));
+		}
 	}
 
 	public void updateAttributes(ArrayList<GolemMaterial> materials, GolemUpgrade upgrades, @Nullable UUID owner) {
@@ -666,7 +667,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void repair(float amount) {
-		setGuardedDataImpl(Math.min(getMaxHealth(), getGuardedDataImpl() + amount));
+		setGuardedDataImpl(Math.min(getMaxHealth(), getGuardedDataImpl() + amount), true, true);
 	}
 
 	public static final ResourceLocation REFORGE_ID = ModularGolems.loc("golem_reforge");
@@ -1282,6 +1283,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				MGConfig.COMMON.hostileGolemSoundVolumeFactor.get().floatValue() :
 				MGConfig.COMMON.golemSoundVolumeFactor.get().floatValue()
 		);
+	}
+
+	@Override
+	protected float dynamicReductionRate() {
+		if (!hasFlag(GolemFlags.DYNAMIC_REDUCTION)) return 0;
+		return (float) getAttributeValue(GolemTypes.DYNAMIC_REDUCTION) * 20;
 	}
 
 }

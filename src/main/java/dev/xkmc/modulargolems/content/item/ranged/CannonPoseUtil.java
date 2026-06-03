@@ -7,6 +7,10 @@ import net.minecraft.world.phys.Vec3;
 
 public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 
+	public static final CannonPoseUtil BEACON_CANNON = new CannonPoseUtil(7f / 16f, 33 / 16f, 3 / 16f, 4.5f / 16f, 23f / 16f);
+	public static final CannonPoseUtil FLAME_THROWER = new CannonPoseUtil(7f / 16f, 33 / 16f, 3 / 16f, 4.5f / 16f, 17f / 16f);
+
+	@Deprecated
 	public static final CannonPoseUtil BEACON = new CannonPoseUtil(7f / 16f, 33 / 16f, 3 / 16f, 4.5f / 16f, 17f / 16f);
 
 	public static final float MAX_DEGREE = 15;

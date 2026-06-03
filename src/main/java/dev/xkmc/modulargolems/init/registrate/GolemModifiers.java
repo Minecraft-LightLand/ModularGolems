@@ -13,10 +13,7 @@ import dev.xkmc.modulargolems.content.modifier.common.BellModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
 import dev.xkmc.modulargolems.content.modifier.ride.RideUpgrade;
-import dev.xkmc.modulargolems.content.modifier.special.PickupModifier;
-import dev.xkmc.modulargolems.content.modifier.special.PotionMetaModifier;
-import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
-import dev.xkmc.modulargolems.content.modifier.special.TalentMetaModifier;
+import dev.xkmc.modulargolems.content.modifier.special.*;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -53,6 +50,7 @@ public class GolemModifiers {
 	public static final Val<AttackBypassArmorModifier> ARMOR_BYPASS;
 	public static final Val<AddSlotModifier> ADD_SLOT;
 	public static final Val<AddSlotModifier> DIAMOND_ADD, NETHERITE_ADD;
+	public static final Val<DynamicReductionModifier> DYNAMIC_REDUCTION;
 
 	static {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
@@ -144,6 +142,8 @@ public class GolemModifiers {
 		ADD_SLOT = reg("add_slot", () -> new AddSlotModifier(20), "Add %s golem upgrade slot");
 		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
 				"Armor Penetration", "Attack has %s%% chance to bypass armor and shields");
+		DYNAMIC_REDUCTION = reg("dynamic_reduction", DynamicReductionModifier::new,
+				"Dynamic Reduction", "Golem can only take damage of 20% max health per period of time");
 
 	}
 

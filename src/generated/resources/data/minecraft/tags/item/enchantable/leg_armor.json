@@ -30,6 +30,10 @@
     {
       "id": "modulargolems:ignis_shinguard",
       "required": false
+    },
+    {
+      "id": "modulargolems:maledictus_shinguard",
+      "required": false
     }
   ]
 }

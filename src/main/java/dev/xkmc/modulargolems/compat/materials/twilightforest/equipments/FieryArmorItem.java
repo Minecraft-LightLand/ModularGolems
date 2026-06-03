@@ -39,7 +39,7 @@ public class FieryArmorItem extends MetalGolemArmorItem implements IGolemModifie
 	}
 
 	@Override
-	public boolean emissive() {
+	public boolean emissive(LivingEntity user, ItemStack stack) {
 		return true;
 	}
 

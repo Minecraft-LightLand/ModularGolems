@@ -63,10 +63,10 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		text.add(golem.getName());
 		float health = golem.getGuardedDataImpl();
 		float max = golem.getMaxHealth();
-		float f = Mth.clamp(health / max, 0f, 1f);
-		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
-		MutableComponent hc = Component.literal("" + Math.round(health)).setStyle(Style.EMPTY.withColor(color));
-		text.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(health <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
+		MutableComponent hc = hsbText(health, max);
+		var baseline = golem.getDynamicBaseline();
+		if (baseline > 0) hc = hc.append("|").append(hsbText(baseline, max));
+		text.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(ChatFormatting.AQUA));
 		NeoForge.EVENT_BUS.post(new GolemInfoEvent(golem, text));
 		text.add(golem.getMode().getDesc(golem));
 		var config = golem.getConfigEntry(MGLangData.LOADING.get());
@@ -91,6 +91,12 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		util.bg = 0xffc6c6c6;
 		List<ClientTooltipComponent> list = List.of(new GolemEquipmentTooltip(golem));
 		util.renderTooltipInternal(font, list);
+	}
+
+	private static MutableComponent hsbText(float v, float max) {
+		float perc = Mth.clamp(v / max, 0f, 1f);
+		int col = Mth.hsvToRgb(perc / 3F, 1F, 1F);
+		return Component.literal("" + Math.round(v)).setStyle(Style.EMPTY.withColor(col));
 	}
 
 	private record GolemEquipmentTooltip(AbstractGolemEntity<?, ?> golem) implements ClientTooltipComponent {

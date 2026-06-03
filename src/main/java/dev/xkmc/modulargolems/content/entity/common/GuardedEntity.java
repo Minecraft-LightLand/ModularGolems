@@ -70,7 +70,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 				amount = Math.max(amount, Math.max(1, getMaxHealth() * 0.01f));
 		}
 		getCombatTracker().recordDamage(source, amount);
-		setGuardedDataImpl(getGuardedDataImpl() - amount);
+		setGuardedDataImpl(getGuardedDataImpl() - amount, false, false);
 		gameEvent(GameEvent.ENTITY_DAMAGE);
 		onDamageTaken(damageContainers.peek());
 		postHurt(source);
@@ -87,11 +87,11 @@ public abstract class GuardedEntity extends AbstractGolem {
 	public final void setHealth(float amount) {
 		if (!Float.isFinite(amount)) return;
 		if (level().isClientSide()) {
-			setGuardedDataImpl(amount);
+			setGuardedDataImpl(amount, false, false);
 		}
 		float health = getGuardedDataImpl();
 		if (tickCount > 5 && amount <= health) return;
-		setGuardedDataImpl(amount);
+		setGuardedDataImpl(amount, amount > health, false);
 	}
 
 	public void heal(float original) {
@@ -106,7 +106,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 		heal = Math.min(m - f, heal);
 		if (f > 0 && heal > 0) {
 			onHeal(heal);
-			setHealth(f + heal);
+			setGuardedDataImpl(f + heal, true, false);
 		}
 	}
 
@@ -155,10 +155,24 @@ public abstract class GuardedEntity extends AbstractGolem {
 		}
 		validateData();
 		super.tick();
+		if (guardedData != null)
+			guardedData = guardedData.update(this);
 		if (tickCount % 20 == 13 && isAddedToLevel() && !level().isClientSide()) {
 			validateGuardedData();
 			GuardedDataToClient.send(this);
 		}
+	}
+
+	@Override
+	public void kill() {
+		if (dynamicReductionRate() > 0 && !level().isClientSide()) {
+			guardedData = new GuardedData(0, 0);
+			super.setHealth(0);
+			die(damageSources().genericKill());
+			GuardedDataToClient.send(this);
+			return;
+		}
+		super.kill();
 	}
 
 	public void onRemove(RemovalReason reason) {
@@ -195,8 +209,13 @@ public abstract class GuardedEntity extends AbstractGolem {
 	private boolean loopingSetHealth = false;
 
 	public void setGuardedDataImpl(float amount) {
+		setGuardedDataImpl(amount, true, false);
+	}
+
+	public void setGuardedDataImpl(float amount, boolean force, boolean repair) {
 		boolean update = guardedData == null || amount != guardedData.amount();
-		guardedData = new GuardedData(amount);
+		if (guardedData == null) guardedData = GuardedData.start(this, amount);
+		else guardedData = guardedData.set(this, amount, force, repair);
 		if (!loopingSetHealth) {
 			loopingSetHealth = true;
 			super.setHealth(amount);
@@ -207,7 +226,10 @@ public abstract class GuardedEntity extends AbstractGolem {
 	}
 
 	public void applyData(GuardedData data) {
-		setGuardedDataImpl(data.amount());
+		guardedData = data;
+		loopingSetHealth = true;
+		super.setHealth(data.amount());
+		loopingSetHealth = false;
 	}
 
 	public float getGuardedDataImpl() {
@@ -223,6 +245,10 @@ public abstract class GuardedEntity extends AbstractGolem {
 		return getGuardedDataImpl();
 	}
 
+	public float getDynamicBaseline() {
+		return dynamicReductionRate() == 0 || guardedData == null ? 0 : guardedData.baseline();
+	}
+
 	@Override
 	protected boolean isImmobile() {
 		return getGuardedDataImpl() <= 0;
@@ -231,18 +257,55 @@ public abstract class GuardedEntity extends AbstractGolem {
 	public void validateGuardedData() {
 		if (loopingSetHealth) return;
 		if (guardedData == null) {
-			guardedData = new GuardedData(super.getHealth());
+			guardedData = GuardedData.start(this, super.getHealth());
 		} else {
 			if (super.getHealth() < guardedData.amount()) {
 				loopingSetHealth = true;
 				super.setHealth(guardedData.amount());
 				loopingSetHealth = false;
-			} else guardedData = new GuardedData(super.getHealth());
+			} else guardedData = guardedData.set(this, super.getHealth(), true, false);
 		}
 	}
 
-	public record GuardedData(float amount) {
+	protected float dynamicReductionRate() {
+		return 0;
+	}
 
+	protected float dynamicReductionCap() {
+		return 0.2f;
+	}
+
+	public record GuardedData(float amount, float baseline) {
+
+		public static GuardedData start(GuardedEntity e, float amount) {
+			var rate = e.dynamicReductionRate();
+			float base = rate == 0 ? 0 : amount - e.getMaxHealth() * e.dynamicReductionCap();
+			return new GuardedData(amount, base);
+		}
+
+		public GuardedData set(GuardedEntity e, float amount, boolean force, boolean boostBase) {
+			var rate = e.dynamicReductionRate();
+			float ans = rate > 0 && !force ? Math.max(amount, baseline) : amount;
+			float base = rate > 0 && boostBase && ans > amount() ?
+					Math.max(baseline + ans - amount(), ans - e.getMaxHealth() * e.dynamicReductionCap()) :
+					Math.min(baseline, ans);
+			return new GuardedData(ans, base);
+		}
+
+		public GuardedData update(GuardedEntity e) {
+			var rate = e.dynamicReductionRate();
+			if (rate == 0) return this;
+			var max = e.getMaxHealth();
+			var allowed = max * e.dynamicReductionCap();
+			var minBase = Math.max(0, amount - allowed);
+			if (baseline <= minBase) {
+				if (e.getTarget() != null)
+					return this;
+				var maxBase = Math.min(minBase, baseline + max / 1200f);
+				return new GuardedData(amount, maxBase);
+			}
+			return new GuardedData(amount, Math.max(minBase, baseline - allowed / rate));
+		}
 	}
 
 	public record GuardedDataToClient(int id, GuardedData data) implements SerialPacketBase<GuardedDataToClient> {

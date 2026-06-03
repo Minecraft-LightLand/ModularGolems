@@ -25,12 +25,17 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
 		if (e.tickCount % 60 == (hand == InteractionHand.MAIN_HAND ? 20 : 50) &&
 				!e.level().isClientSide() && e.getTarget() != null && e.getTarget().isAlive()) {
-			if (CannonPoseUtil.BEACON.isOutOfRange(e, hand)) return;
+			if (CannonPoseUtil.BEACON_CANNON.isOutOfRange(e, hand)) return;
 			var laser = new BeaconLaserEntity(GolemMiscEntities.LASER.get(), e.level(), e, 10, hand == InteractionHand.MAIN_HAND);
 			e.level().addFreshEntity(laser);
 			if (!e.isSilent())
 				e.level().playSound(null, e.blockPosition(), SoundEvents.BEACON_DEACTIVATE, SoundSource.NEUTRAL, 2, 1.5f);
 		}
+	}
+
+	@Override
+	public boolean emissive() {
+		return true;
 	}
 
 	@Override

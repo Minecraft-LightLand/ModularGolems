@@ -30,6 +30,10 @@
     {
       "id": "modulargolems:ignis_chestplate",
       "required": false
+    },
+    {
+      "id": "modulargolems:maledictus_chestplate",
+      "required": false
     }
   ]
 }

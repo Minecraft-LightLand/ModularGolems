@@ -2,11 +2,16 @@ package dev.xkmc.modulargolems.init.material;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 
 import java.util.Locale;
 
@@ -33,12 +38,25 @@ public enum GolemWeaponType {
 	}
 
 	public ItemEntry<MetalGolemWeaponItem> buildItem(IGolemWeaponMaterial material) {
-		var builder = REGISTRATE.item(material.getName() + "_" + getName(), p ->
-						factory.create(material.modify(p.stacksTo(1)), material.getDamage(), material.factory()))
-				.model((ctx, pvd) -> material.model(pvd.getBuilder(ctx.getName()))
-						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
-						.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())))
-				.asOptional().tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE);
+		var builder = REGISTRATE.item(material.getName() + "_" + getName(),
+				p -> factory.create(material.modify(p.stacksTo(1)), material.getDamage(), material.factory()));
+		if (material.hasIcon(this)) {
+			builder.model((ctx, pvd) ->
+					pvd.getBuilder(ctx.getName())
+							.guiLight(BlockModel.GuiLight.FRONT)
+							.customLoader(SeparateTransformsModelBuilder::begin)
+							.base(material.model(new ItemModelBuilder(null, pvd.existingFileHelper)
+									.parent(new ModelFile.UncheckedModelFile(ModularGolems.loc(model)))
+									.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName()))))
+							.perspective(ItemDisplayContext.GUI, material.model(new ItemModelBuilder(null, pvd.existingFileHelper)
+									.parent(pvd.getExistingFile(pvd.mcLoc("item/generated")))
+									.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName() + "_icon")))));
+		} else {
+			builder.model((ctx, pvd) ->
+					material.model(pvd.getBuilder(ctx.getName()))
+							.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
+							.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())));
+		}
 		if (this != SWORD) builder.tag(MGTagGen.SHIELD_BREAKER_WEAPONS);
 		return builder.defaultLang().register();
 	}
