@@ -1,11 +1,17 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
+import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -38,22 +44,34 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(stack, level, list, flag);
-		//TODO
-		/*
-		switch (getSlot()) {
-			case HEAD -> list.add(MGLangData.IGNIS_BOOST_FIREBALL
-					.get(Math.round(MGConfig.COMMON.fireballArmorBonus.get() * 100) + "%")
-					.withStyle(ChatFormatting.GOLD));
-			case CHEST -> list.add(MGLangData.IGNIS_BOOST_SOUL.get()
-					.withStyle(ChatFormatting.GOLD));
-			case LEGS -> list.add(MGLangData.IGNIS_BOOST_STRIKE
-					.get(Math.round(MGConfig.COMMON.flameStrikeArmorBonus.get() * 100) + "%")
-					.withStyle(ChatFormatting.GOLD));
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(stack, ctx, list, flag);
+		if (getSlot() == EquipmentSlot.HEAD) {
+			list.add(MGLangData.MALEDICTUS_BYPASS_CD.get());
+		} else if (getSlot() == EquipmentSlot.LEGS) {
+			list.add(MGLangData.MALEDICTUS_FAST_SKILL.get());
+		} else if (getSlot() == EquipmentSlot.CHEST) {
+			int cd = MGConfig.COMMON.maledictusReviveCD.get();
+			int red = MGConfig.COMMON.maledictusReviveCDPartReduction.get();
+			double php = MGConfig.COMMON.maledictusRevivePHP.get();
+			double bonus = MGConfig.COMMON.maledictusRevivePHPPartBonus.get();
+			list.add(MGLangData.MALEDICTUS_REVIVE.get((int) (php * 100), cd));
+			list.add(MGLangData.MALEDICTUS_REVIVE_CD.get(red, bonus * 100));
+			var level = ctx.level();
+			if (level != null && level.isClientSide()) {
+				long prev = GolemItems.DC_TIMESTAMP.getOrDefault(stack, 0L);
+				long time = level.getGameTime();
+				if (prev > time) {
+					list.add(MGLangData.MALEDICTUS_REVIVE_IN_CD.get((prev - time) / 20));
+				} else {
+					int count = ClientHandler.counter();
+					if (count > 0) {
+						list.add(MGLangData.MALEDICTUS_REVIVE_ACTUAL_CD.get(cd - red * count));
+					}
+				}
+			}
 		}
 
-		 */
 	}
 
 	@Override
@@ -66,6 +84,31 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 	@Override
 	protected String namespace(String def) {
 		return CataDispatch.MODID;
+	}
+
+	public static int getCount(MetalGolemEntity golem) {
+		int count = 0;
+		var mat = CataCompatRegistry.cataLoc("cursium");
+		for (var e : golem.getMaterials())
+			if (e.id().equals(mat)) count++;
+		if (golem.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MALEDICTUS_HELMET.get())) count++;
+		if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MALEDICTUS_SHINGUARD.get())) count++;
+		return count;
+	}
+
+	public static class ClientHandler {
+
+		public static int counter() {
+			var player = Minecraft.getInstance().player;
+			if (player == null) return -1;
+			if (player.containerMenu instanceof EquipmentsMenu menu) {
+				if (menu.golem instanceof MetalGolemEntity e) {
+					return getCount(e);
+				}
+			}
+			return -1;
+		}
+
 	}
 
 }

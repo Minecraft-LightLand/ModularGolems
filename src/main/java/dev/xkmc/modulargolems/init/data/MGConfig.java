@@ -94,6 +94,10 @@ public class MGConfig {
 		public final ModConfigSpec.DoubleValue sandCurseBonus;
 		public final ModConfigSpec.BooleanValue wandBypassConfig;
 		public final ModConfigSpec.BooleanValue sendForceRemovalMessage;
+		public final ModConfigSpec.IntValue maledictusReviveCD;
+		public final ModConfigSpec.IntValue maledictusReviveCDPartReduction;
+		public final ModConfigSpec.DoubleValue maledictusRevivePHP;
+		public final ModConfigSpec.DoubleValue maledictusRevivePHPPartBonus;
 
 		Common(Builder builder) {
 			markL2();
@@ -288,6 +292,14 @@ public class MGConfig {
 							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
 					sandCurseBonus = builder.text("Sandstorm Upgrade damage bonus per level")
 							.defineInRange("sandCurseBonus", 0.1d, 0, 10);
+					maledictusReviveCD = builder.text("Cursium Golem Chestplate: Revive Cooldown")
+							.defineInRange("maledictusReviveCD", 360, 10, 10000);
+					maledictusReviveCDPartReduction = builder.text("Cursium Golem Chestplate: Cursium Part/Armor reduction on revive cooldown")
+							.defineInRange("maledictusReviveCDPartReduction", 30, 10, 10000);
+					maledictusRevivePHP = builder.text("Cursium Golem Chestplate: Revived health percentage")
+							.defineInRange("maledictusRevivePHP", 0.25, 0.01, 1);
+					maledictusRevivePHPPartBonus = builder.text("Cursium Golem Chestplate: Cursium Part/Armor bonus on revived health")
+							.defineInRange("maledictusRevivePHPPartBonus", 0.125, 0, 1);
 				}
 				builder.pop();
 			}
