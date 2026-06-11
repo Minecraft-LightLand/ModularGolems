@@ -70,6 +70,8 @@
 		"speed_up": "移动速度提升",
 		"emerald": "袭击者杀手",
 		"emerald.desc": "对袭击者造成的伤害提升%s%%",
+		"dynamic_reduction": "动态减伤",
+		"dynamic_reduction.desc": "在一定时间内受到的伤害不会超过生命值上限的20%",
 		"slow": "药水升级：缓慢",
 		"weak": "药水升级：虚弱",
 		"wither": "药水升级：凋零",

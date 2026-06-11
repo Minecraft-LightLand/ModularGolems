@@ -3,7 +3,8 @@
 		"golem_regen": "生命回复",
 		"golem_sweep": "范围攻击",
 		"golem_size": "傀儡体型",
-		"golem_jump": "傀儡跳跃"
+		"golem_jump": "傀儡跳跃",
+		"dynamic_reduction": "动态减伤时间"
 	},
 	"modulargolems.title": "傀儡装配",
 	"itemGroup.l2core.golems": "傀儡装配 - 傀儡",
