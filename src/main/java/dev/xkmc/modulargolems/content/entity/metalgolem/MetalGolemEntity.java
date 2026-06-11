@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
+import dev.xkmc.modulargolems.content.item.equipments.IAttackListenerWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -132,7 +133,8 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		var left = getLeftShoulder().getItem();
 		if (!left.isEmpty() && left.getItem() instanceof IShoulderWeapon weapon)
 			weapon.onTick(this, left, InteractionHand.OFF_HAND);
-
+		if (getMainHandItem().getItem() instanceof IAttackListenerWeapon weapon)
+			weapon.onTick(this, getMainHandItem(), InteractionHand.MAIN_HAND);
 		if (this.attackAnimationTick > 0) {
 			--this.attackAnimationTick;
 		}

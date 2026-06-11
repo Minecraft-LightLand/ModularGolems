@@ -12,12 +12,14 @@ import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
@@ -34,15 +36,37 @@ public class ApollyonSword extends MetalGolemWeaponItem implements IAttackListen
 	}
 
 	@Override
+	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
+		long prevTime = stack.getOrCreateTag().getLong("DashAttackTimeStamp");
+		if (e.level().getGameTime() < prevTime) return;
+		var target = e.getTarget();
+		if (target == null) return;
+		if (!e.meleeGoal.canReachTarget(target) && e.meleeGoal.isTimeToAttack()) {
+			stack.getOrCreateTag().putLong("DashAttackTimeStamp", e.level().getGameTime() + 200);
+			Vec3 diff = target.position().subtract(e.position());
+			diff = diff.normalize().scale(2);
+			if (diff.y <= 0.2) {
+				diff = diff.add(0.0F, 0.2, 0.0F);
+			}
+			e.setDeltaMovement(diff);
+			e.hasImpulse = true;
+		}
+	}
+
+	@Override
 	public void onAttack(AttackCache cache, DamageSource source, MetalGolemEntity e, ItemStack stack) {
 		var target = cache.getAttackTarget();
 		target.invulnerableTime = 0;
 		float hp = target.getHealth();
+		var tag = stack.getOrCreateTag();
 		var id = target.getUUID();
-		var old = stack.getOrCreateTag().getUUID("TargetUUID");
-		if (old.equals(id))
-			hp = Math.min(hp, stack.getOrCreateTag().getFloat("TargetHealth"));
-		stack.getOrCreateTag().putFloat("TargetHealth", hp);
+		if (tag.hasUUID("TargetUUID")) {
+			var old = tag.getUUID("TargetUUID");
+			if (old.equals(id))
+				hp = Math.min(hp, tag.getFloat("TargetHealth"));
+		}
+		tag.putUUID("TargetUUID", id);
+		tag.putFloat("TargetHealth", hp);
 	}
 
 	@Override
