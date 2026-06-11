@@ -161,5 +161,29 @@ public class CataRecipGen {
 						RecipeCategory.COMBAT, CataCompatRegistry.IGNIS_SHINGUARD.get())::unlocks,
 				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())
 				.save(output, CataCompatRegistry.IGNIS_SHINGUARD.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ModItems.CURSIUM_UPGARDE_SMITHING_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_HELMET.get()),
+						Ingredient.of(ModItems.CURSIUM_BLOCK.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.MALEDICTUS_HELMET.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_HELMET.get())
+				.save(output, CataCompatRegistry.MALEDICTUS_HELMET.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ModItems.CURSIUM_UPGARDE_SMITHING_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get()),
+						Ingredient.of(ModItems.CURSIUM_BLOCK.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.MALEDICTUS_CHESTPLATE.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get())
+				.save(output, CataCompatRegistry.MALEDICTUS_CHESTPLATE.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ModItems.CURSIUM_UPGARDE_SMITHING_TEMPLATE.get()),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get()),
+						Ingredient.of(ModItems.CURSIUM_BLOCK.get()),
+						RecipeCategory.COMBAT, CataCompatRegistry.MALEDICTUS_SHINGUARD.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())
+				.save(output, CataCompatRegistry.MALEDICTUS_SHINGUARD.getId());
 	}
 }

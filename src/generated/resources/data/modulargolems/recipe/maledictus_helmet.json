@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "cataclysm:cursium_block"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_helmet"
+  },
+  "result": {
+    "count": 1,
+    "id": "modulargolems:maledictus_helmet"
+  },
+  "template": {
+    "item": "cataclysm:cursium_upgrade_smithing_template"
+  }
+}
