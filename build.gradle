@@ -197,7 +197,7 @@ dependencies {
     implementation jarJar("com.tterrag.registrate:Registrate:${registrate_ver}")
 
     implementation jarJar("dev.xkmc:golemdungeons:${golemdungeons_ver}")
-    implementation jarJar("dev.xkmc:better_creative_tab:${better_creative_tab_ver}")
+    implementation jarJar("dev.xkmc:better_creative_tabs:${better_creative_tabs_ver}")
 
     // JEI
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-api:${jei_version}"
