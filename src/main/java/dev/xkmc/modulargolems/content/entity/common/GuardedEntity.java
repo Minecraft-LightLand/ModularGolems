@@ -311,7 +311,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 			var allowed = max * e.dynamicReductionCap();
 			var minBase = Math.max(0, amount - allowed);
 			if (baseline <= minBase) {
-				if (e.getTarget() != null)
+				if (e.isAggressive())
 					return this;
 				var maxBase = Math.min(minBase, baseline + max / 1200f);
 				return new GuardedData(amount, maxBase);
