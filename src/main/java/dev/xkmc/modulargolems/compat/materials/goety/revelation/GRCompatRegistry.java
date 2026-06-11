@@ -4,9 +4,11 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.goety.title.*;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 
+import static dev.xkmc.modulargolems.compat.materials.goety.GoetyCompatRegistry.REV_ARMOR;
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
@@ -69,7 +71,12 @@ public class GRCompatRegistry {
 	}
 
 	public static void register() {
-
+		MGTagGen.OPTIONAL_ITEM.add(pvd -> pvd.addTag(REV_ARMOR)
+				.addOptional(APOCALYPTIUM_HELMET.getId())
+				.addOptional(APOCALYPTIUM_CHESTPLATE.getId())
+				.addOptional(APOCALYPTIUM_SHINGUARD.getId())
+				.addOptional(APOCALYPTIUM_BOOTS.getId())
+		);
 	}
 
 }

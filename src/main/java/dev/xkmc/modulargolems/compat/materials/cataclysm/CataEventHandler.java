@@ -1,8 +1,11 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.MaledictusArmorItem;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -33,15 +36,16 @@ public class CataEventHandler {
 		long time = golem.level().getGameTime();
 		if (prev > time) return;
 		event.setCanceled(true);
-		int count = 0;
-		var mat = new ResourceLocation(CataDispatch.MODID, "cursium");
-		for (var e : golem.getMaterials())
-			if (e.id().equals(mat)) count++;
-		if (golem.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MALEDICTUS_HELMET.get())) count++;
-		if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MALEDICTUS_SHINGUARD.get())) count++;
-		long next = time + 600L * (12 - count);
+		int count = MaledictusArmorItem.getCount(golem);
+		int cd = MGConfig.COMMON.maledictusReviveCD.get();
+		int red = MGConfig.COMMON.maledictusReviveCDPartReduction.get();
+		cd = (cd - red * count) * 20;
+		long next = time + cd;
 		stack.getOrCreateTag().putLong("NextAvailableTime", next);
-		golem.setGuardedDataImpl(golem.getMaxHealth() * (0.25f + count * 0.125f));
+		double php = MGConfig.COMMON.maledictusRevivePHP.get();
+		double bonus = MGConfig.COMMON.maledictusRevivePHPPartBonus.get();
+		php = php + bonus * count;
+		golem.setGuardedDataImpl(golem.getMaxHealth() * (float) php);
 		golem.level().playSound(null, golem.getX(), golem.getY(), golem.getZ(), SoundEvents.TOTEM_USE, golem.getSoundSource(), 1.25F, 1.0F);
 		golem.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0));
 		double d0 = golem.getX();

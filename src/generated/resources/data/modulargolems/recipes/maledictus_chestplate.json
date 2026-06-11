@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "cataclysm:cursium_block"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_chestplate"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:maledictus_chestplate"
+  },
+  "template": {
+    "item": "cataclysm:cursium_upgrade_smithing_template"
+  }
+}

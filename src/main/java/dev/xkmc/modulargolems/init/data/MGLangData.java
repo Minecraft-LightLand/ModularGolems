@@ -48,6 +48,13 @@ public enum MGLangData {
 	IGNIS_BOOST_FIREBALL("tooltip.cataclysm.ignis_armor_fireball", "+%s Fireball Damage", 1, ChatFormatting.GRAY),
 	IGNIS_BOOST_STRIKE("tooltip.cataclysm.ignis_armor_strike", "+%s Flame Strike Damage", 1, ChatFormatting.GRAY),
 	IGNIS_BOOST_SOUL("tooltip.cataclysm.ignis_armor_soul", "Permanent Soul Form", 0, ChatFormatting.GRAY),
+	MALEDICTUS_BYPASS_CD("tooltip.cataclysm.maledictus_bypass_cd", "Phantom Halberd spawned from Jump Attack will bypass enemy invulnerable frames", 0, ChatFormatting.GRAY),
+	MALEDICTUS_FAST_SKILL("tooltip.cataclysm.maledictus_fast_skill", "Halves Phantom Halberd Jump Attack cooldown.", 0, ChatFormatting.GRAY),
+	MALEDICTUS_REVIVE("tooltip.cataclysm.maledictus_revive", "Revive Golem at %s%% HP on fatal hit, with cool down of %s seconds", 2, ChatFormatting.GRAY),
+	MALEDICTUS_REVIVE_CD("tooltip.cataclysm.maledictus_revive_cd", " Each piece of other cursium armor or part reduce cooldown by %s seconds and increase revived HP by %s%%.", 2, ChatFormatting.GRAY),
+	MALEDICTUS_REVIVE_ACTUAL_CD("tooltip.cataclysm.maledictus_revive_actual_cd", "Actual Cooldown: %s seconds.", 1, ChatFormatting.GRAY),
+	MALEDICTUS_REVIVE_IN_CD("tooltip.cataclysm.maledictus_revive_in_cd", "On Cooldown: %s seconds remaining.", 1, ChatFormatting.GRAY),
+	APOCALYPTIUM_ARMOR("tooltip.revelation.soul_boost", "+%s%% Soul Repair Efficiency", 1, ChatFormatting.GRAY),
 
 	TARGET_UUID_ADD("tooltip.target.uuid_add", "Right click entity to add entity UUID to the list", 0, ChatFormatting.GRAY),
 	TARGET_UUID_REMOVE("tooltip.target.uuid_remove", "Sneak right click entity to remove entity UUID from the list", 0, ChatFormatting.GRAY),

@@ -33,17 +33,25 @@ public class ApollyonSword extends MetalGolemWeaponItem implements IAttackListen
 
 	@Override
 	public void onAttack(AttackCache cache, DamageSource source, MetalGolemEntity e, ItemStack stack) {
-		cache.getAttackTarget().invulnerableTime = 0;
+		var target = cache.getAttackTarget();
+		target.invulnerableTime = 0;
+		float hp = target.getHealth();
+		var id = target.getUUID();
+		var old = stack.getOrCreateTag().getUUID("TargetUUID");
+		if (old.equals(id))
+			hp = Math.min(hp, stack.getOrCreateTag().getFloat("TargetHealth"));
+		stack.getOrCreateTag().putFloat("TargetHealth", hp);
 	}
 
 	@Override
 	public void onDamage(AttackCache cache, DamageSource source, MetalGolemEntity e, ItemStack stack) {
+		float diff = cache.getAttackTarget().getHealth() - stack.getOrCreateTag().getFloat("TargetHealth");
 		var dmg = Math.max(
 				e.getAttributeValue(Attributes.ATTACK_DAMAGE),
 				Math.max(cache.getPreDamageOriginal(), cache.getPreDamage()));
 		var dmg2 = Math.max(dmg, Math.sqrt(dmg * cache.getAttackTarget().getMaxHealth()));
 		cache.addDealtModifier(DamageModifier.nonlinearMiddle(81,
-				x -> Math.max(x, (float) dmg2)));
+				x -> Math.max(x, (float) dmg2) + Math.max(diff, 0)));
 
 	}
 

@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.goety.modifier;
 
 import com.Polarice3.Goety.config.ItemConfig;
 import com.Polarice3.Goety.utils.SEHelper;
+import dev.xkmc.modulargolems.compat.materials.goety.GoetyCompatRegistry;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -20,9 +21,15 @@ public class SoulRepairModifier extends GolemModifier {
 	public double onInventoryHealTick(double heal, HealingContext ctx, int level) {
 		if (ctx.health() > ctx.maxHealth() * MGConfig.COMMON.soulHealingThreshold.get()) return heal;
 		Player player = null;
+		float factor = 1;
 		if (ctx.owner() instanceof Player pl) player = pl;
-		else if (ctx.owner() instanceof AbstractGolemEntity<?, ?> golem)
+		else if (ctx.owner() instanceof AbstractGolemEntity<?, ?> golem) {
+			for (EquipmentSlot slot : EquipmentSlot.values()) {
+				if (golem.getItemBySlot(slot).is(GoetyCompatRegistry.REV_ARMOR))
+					factor += MGConfig.COMMON.soulHealingArmorBonus.get().floatValue();
+			}
 			player = golem.getOwner();
+		}
 		if (player == null) return heal;
 		if (!SEHelper.getSoulsContainer(player)) return heal;
 		int rate = ItemConfig.ItemsRepairAmount.get() * MGConfig.COMMON.soulHealingCost.get();
@@ -30,7 +37,7 @@ public class SoulRepairModifier extends GolemModifier {
 		int max = Math.min(level * MGConfig.COMMON.soulHealingRate.get(), SEHelper.getSoulAmountInt(player) / rate);
 		if (max <= 0) return heal;
 		SEHelper.decreaseSouls(player, max * rate);
-		return heal + max;
+		return heal + max * factor;
 	}
 
 	@Override

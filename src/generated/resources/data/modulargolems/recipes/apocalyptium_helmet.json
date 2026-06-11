@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "modulargolems:revelation_ring"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_helmet"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "goety_revelation"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:apocalyptium_helmet"
+  },
+  "template": {
+    "tag": "modulargolems:revelation_doom"
+  }
+}

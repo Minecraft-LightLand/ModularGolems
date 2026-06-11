@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.modulargolems.events.event.GolemDeathEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.network.NetworkEvent;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
@@ -85,8 +87,15 @@ public class GuardedEntity extends AbstractGolem {
 			if (isInvulnerable())
 				amount = Math.max(amount, Math.max(1, getMaxHealth() * 0.01f));
 		}
-		setGuardedDataImpl(getGuardedDataImpl() - amount, false, false);
+		takeDamage(source, amount);
 		postHurt(source);
+	}
+
+	protected void takeDamage(DamageSource source, float amount) {
+		if (getGuardedDataImpl() < amount) {
+			if (MinecraftForge.EVENT_BUS.post(new GolemDeathEvent(this, source))) return;
+		}
+		setGuardedDataImpl(getGuardedDataImpl() - amount, false, false);
 	}
 
 	public final void validateData() {
@@ -314,7 +323,7 @@ public class GuardedEntity extends AbstractGolem {
 			var allowed = max * e.dynamicReductionCap();
 			var minBase = Math.max(0, amount - allowed);
 			if (baseline <= minBase) {
-				if (e.getTarget() != null)
+				if (e.isAggressive())
 					return this;
 				var maxBase = Math.min(minBase, baseline + max / 1200f);
 				return new GuardedData(amount, maxBase);

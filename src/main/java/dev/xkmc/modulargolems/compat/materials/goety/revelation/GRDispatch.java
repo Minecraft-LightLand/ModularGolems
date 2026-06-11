@@ -6,7 +6,9 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.compat.materials.create.CreateCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.goety.GoetyCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.goety.GoetyDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.title.ApollyonBowGoal;
@@ -18,12 +20,17 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
+
+import static dev.xkmc.modulargolems.init.data.RecipeGen.unlock;
 
 public class GRDispatch extends ModDispatch {
 
@@ -97,6 +104,38 @@ public class GRDispatch extends ModDispatch {
 				.define('F', ModItems.UNHOLY_FABRIC.get())
 				.define('B', ModItems.UNHOLY_BLOOD.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(GoetyCompatRegistry.REV_DOOM),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_HELMET.get()),
+						Ingredient.of(GoetyCompatRegistry.REV_RING),
+						RecipeCategory.COMBAT, GRCompatRegistry.APOCALYPTIUM_HELMET.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_HELMET.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), GRCompatRegistry.APOCALYPTIUM_HELMET.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(GoetyCompatRegistry.REV_DOOM),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get()),
+						Ingredient.of(GoetyCompatRegistry.REV_RING),
+						RecipeCategory.COMBAT, GRCompatRegistry.APOCALYPTIUM_CHESTPLATE.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), GRCompatRegistry.APOCALYPTIUM_CHESTPLATE.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(GoetyCompatRegistry.REV_DOOM),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get()),
+						Ingredient.of(GoetyCompatRegistry.REV_RING),
+						RecipeCategory.COMBAT, GRCompatRegistry.APOCALYPTIUM_SHINGUARD.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), GRCompatRegistry.APOCALYPTIUM_SHINGUARD.getId());
+
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(GoetyCompatRegistry.REV_DOOM),
+						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_BOOTS.get()),
+						Ingredient.of(GoetyCompatRegistry.REV_RING),
+						RecipeCategory.COMBAT, GRCompatRegistry.APOCALYPTIUM_BOOTS.get())::unlocks,
+				GolemItems.BARBARICFLAMEVANGUARD_BOOTS.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID), GRCompatRegistry.APOCALYPTIUM_BOOTS.getId());
 	}
 
 	@Override

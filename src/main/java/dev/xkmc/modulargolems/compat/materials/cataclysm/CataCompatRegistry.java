@@ -143,7 +143,7 @@ public class CataCompatRegistry {
 		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on landing");
 		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position. Attacks multiple targets. Increase damage to target inflicted with Curse of Desert");
 		ANCIENT_MELTDOWN = reg("ancient_remnant_reformation", AncientMeltdownModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
-		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new, "Jump and cause earthquake on landing, summoning halberds");
+		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new, "Phantom Halberd Jump Attack", "Jump and cause area damage on landing, summoning phantom halberds");
 		MALEDICTUS_ATTACK = reg("maledictus_attack", MaledictusAttackModifier::new,
 				"Golem melee damage bypass armor. Stack rage counter after dealing damage, up to %s layers");
 		SCYLLA_LIGHTNING = reg("scylla_lightning", ScyllaLightningAttackModifier::new,
@@ -189,7 +189,7 @@ public class CataCompatRegistry {
 		}
 	}
 
-	private static ResourceLocation cataLoc(String id) {
+	public static ResourceLocation cataLoc(String id) {
 		return new ResourceLocation(CataDispatch.MODID, id);
 	}
 
