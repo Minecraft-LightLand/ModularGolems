@@ -1,3 +1,7 @@
+3.1.39
+- Cursium Golem Armor
+- texture / model update
+
 3.1.38
 - Command wand now use wheels for golem mode switch
 - Fix golem going in circles when speed is too high
