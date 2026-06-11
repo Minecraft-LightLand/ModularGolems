@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.content.client.tracker;
 
 import com.mojang.datafixers.util.Pair;
-import dev.xkmc.l2core.util.GuiHelper;
 import dev.xkmc.l2tabs.tabs.contents.BaseTextScreen;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
@@ -97,7 +96,7 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 		int max = Math.min((page + 1) * linePerPage(), size);
 		int x = this.leftPos + 8;
 		int y = this.topPos + 6;
-		g.text(this.font, title, x, y, 0, false);
+		g.text(this.font, title, x, y, 0xff000000, false);
 		y += 15;
 		GolemTracker.TrackedData focus = null;
 		int delLine = -1;
@@ -105,7 +104,7 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 		for (int i = 0; i < max - start; i++) {
 			var ent = data.get(start + i);
 			Component comp = TrackerInfo.getDesc(ent.getSecond());
-			g.text(this.font, comp, x, y, 0, false);
+			g.text(this.font, comp, x, y, 0xff000000, false);
 			int w = Math.min(font.width(comp), imageWidth - 30);
 			if (my > y && my < y + 10) {
 				if (mx > x && mx < x + w) {
@@ -120,7 +119,7 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 			y += 10;
 		}
 		if (focus != null) {
-			GuiHelper.tooltip(g, TrackerInfo.getDetail(focus, player, time), mx, my);
+			g.setComponentTooltipForNextFrame(font, TrackerInfo.getDetail(focus, player, time), mx, my);
 		}
 	}
 
