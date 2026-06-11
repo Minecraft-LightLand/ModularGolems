@@ -689,6 +689,7 @@
   "modulargolems.tooltip.return_items": "Returns the following items on disassembly:",
   "modulargolems.tooltip.return_many": "Returns %s items on disassembly",
   "modulargolems.tooltip.revelation.soul_boost": "+%s%% Soul Repair Efficiency",
+  "modulargolems.tooltip.revelation.soul_reap": "Deal true damage. Gain soul on dealing damage",
   "modulargolems.tooltip.shield_break": "Shield Breaker",
   "modulargolems.tooltip.shift": "Press SHIFT to show modifier details",
   "modulargolems.tooltip.shoulder_weapon": "Mounts on Metal Golem Shoulders",

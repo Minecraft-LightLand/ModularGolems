@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.goety.revelation;
 
+import com.Polarice3.Goety.utils.SEHelper;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
@@ -7,6 +8,7 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.IAttackListenerWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.network.chat.Component;
@@ -50,14 +52,19 @@ public class ApollyonSword extends MetalGolemWeaponItem implements IAttackListen
 				e.getAttributeValue(Attributes.ATTACK_DAMAGE),
 				Math.max(cache.getPreDamageOriginal(), cache.getPreDamage()));
 		var dmg2 = Math.max(dmg, Math.sqrt(dmg * cache.getAttackTarget().getMaxHealth()));
-		cache.addDealtModifier(DamageModifier.nonlinearMiddle(81,
-				x -> Math.max(x, (float) dmg2) + Math.max(diff, 0)));
+		cache.addDealtModifier(DamageModifier.nonlinearMiddle(81, x -> {
+			var ans = Math.max(x, (float) dmg2) + Math.max(diff, 0);
+			if (e.getOwner() != null)
+				SEHelper.increaseSouls(e.getOwner(), (int) ans);
+			return ans;
+		}));
 
 	}
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
+		list.add(MGLangData.APOCALYPTIUM_SWORD.get());
 	}
 
 	public static ItemEntry<ApollyonSword> buildItem(String id) {
