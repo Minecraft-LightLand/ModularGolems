@@ -1,6 +1,5 @@
 3.1.40
 - Fix golem weapon enchantability
--
 
 3.1.39
 - Cursium Golem Armor
