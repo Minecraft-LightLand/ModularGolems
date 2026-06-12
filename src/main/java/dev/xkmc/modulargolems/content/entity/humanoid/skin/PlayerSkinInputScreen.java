@@ -68,26 +68,31 @@ public class PlayerSkinInputScreen extends Screen {
 
 	@Override
 	public void render(GuiGraphics g, int mx, int my, float ptick) {
-		renderBackground(g);
+		renderBackground(g, mx, my, ptick);
 		super.render(g, mx, my, ptick);
 		g.drawCenteredString(font, TITLE, width / 2, height / 2 - 40, 0xFFFFFF);
 		g.drawCenteredString(font, Component.translatable(ModularGolems.MODID + ".gui.player_skin.hint"), width / 2, height / 2 + 40, 0x808080);
 		renderPreview(g, mx, my);
 	}
 
+
 	private void renderPreview(GuiGraphics g, int mx, int my) {
+		if (golem == null) return;
 		int w = 40;
 		int h = 40;
 
 		int x = width / 2 - 120 - w / 2;
 		int y = height / 2 + h / 2;
 		double lx = x - mx;
-		double ly = y - h - my;
-		int scale = 24;
+		double ly = y - 40 - my;
+		float scale = 24;
 		float ax = (float) Math.atan(lx / 50.0);
 		float ay = (float) Math.atan(ly / 50.0);
-		scale = (int) (scale / golem.getScale());
-		InventoryScreen.renderEntityInInventoryFollowsAngle(g, x, y, scale, ax, ay, golem);
+		scale = scale / golem.getScale();
+		InventoryScreen.renderEntityInInventoryFollowsAngle(g,
+				x - 30, y - 70, x + 30, y + 20,
+				20, 1f / scale, ax, ay, golem);
+
 	}
 
 	public boolean keyPressed(int key, int p_97879_, int p_97880_) {

@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class DrownedOuterLayer extends RenderLayer<HumanoidGolemEntity, HumanoidGolemModel> {
 
-	private static final ResourceLocation DROWNED_OUTER_LAYER_LOCATION = new ResourceLocation("textures/entity/zombie/drowned_outer_layer.png");
+	private static final ResourceLocation DROWNED_OUTER_LAYER_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/zombie/drowned_outer_layer.png");
 	private final HumanoidGolemModel model;
 
 	public DrownedOuterLayer(RenderLayerParent<HumanoidGolemEntity, HumanoidGolemModel> parent, HumanoidGolemModel model) {
@@ -19,6 +19,6 @@ public class DrownedOuterLayer extends RenderLayer<HumanoidGolemEntity, Humanoid
 	}
 
 	public void render(PoseStack p_116924_, MultiBufferSource p_116925_, int p_116926_, HumanoidGolemEntity p_116927_, float p_116928_, float p_116929_, float p_116930_, float p_116931_, float p_116932_, float p_116933_) {
-		coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, DROWNED_OUTER_LAYER_LOCATION, p_116924_, p_116925_, p_116926_, p_116927_, p_116928_, p_116929_, p_116931_, p_116932_, p_116933_, p_116930_, 1.0F, 1.0F, 1.0F);
+		coloredCutoutModelCopyLayerRender(this.getParentModel(), this.model, DROWNED_OUTER_LAYER_LOCATION, p_116924_, p_116925_, p_116926_, p_116927_, p_116928_, p_116929_, p_116931_, p_116932_, p_116933_, p_116930_, -1);
 	}
 }

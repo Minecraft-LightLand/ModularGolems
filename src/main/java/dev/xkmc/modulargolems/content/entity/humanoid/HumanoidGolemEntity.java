@@ -34,9 +34,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.NeoForge;
-import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -93,11 +93,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(DATA_MAID_MODEL_ID, "");
-		this.entityData.define(DATA_SOUND_PACK_ID, "");
-		this.entityData.define(DATA_PLAYER_SKIN, "");
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_MAID_MODEL_ID, "");
+		builder.define(DATA_SOUND_PACK_ID, "");
+		builder.define(DATA_PLAYER_SKIN, "");
 	}
 
 	@Override

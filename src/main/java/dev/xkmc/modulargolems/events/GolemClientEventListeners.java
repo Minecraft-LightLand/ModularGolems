@@ -39,7 +39,7 @@ public class GolemClientEventListeners {
 
 	@SubscribeEvent
 	public static void onHumanoidSkin(HumanoidSkinEvent event) {
-		if (!event.getStack().hasTag()) {
+		if (event.getStack().isComponentsPatchEmpty()) {
 			if (event.getStack().is(Items.ZOMBIE_HEAD)) {
 				event.setSkin(MobSkinDispatch.of(EntityType.ZOMBIE));
 			}

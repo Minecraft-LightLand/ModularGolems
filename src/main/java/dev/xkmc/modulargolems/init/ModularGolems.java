@@ -14,7 +14,6 @@ import dev.xkmc.l2menustacker.click.quickaccess.DefaultQuickAccessActions;
 import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.maid.SetMaidModelToServer;
-import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.content.capability.*;
@@ -23,6 +22,7 @@ import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.GuardedEntity;
 import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
 import dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
@@ -68,7 +68,7 @@ public class ModularGolems {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			MODID, ,
+			MODID, 1,
 			e -> e.create(ConfigSyncToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
 			e -> e.create(ConfigUpdateToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(ConfigHeartBeatToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),

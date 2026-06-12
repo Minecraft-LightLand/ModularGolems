@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class PlayerSkinButton extends Button {
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(ModularGolems.MODID, "textures/gui/sprites/button/skin.png");
+	private static final ResourceLocation TEXTURE = ModularGolems.loc("textures/gui/sprites/button/skin.png");
 
 	private final HumanoidGolemEntity golem;
 

@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -40,15 +40,15 @@ public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation text
 		MAP.put(type, new MobSkinDispatch(ans, texture));
 	}
 
-	public static final ResourceLocation ZOMBIE = new ResourceLocation("textures/entity/zombie/zombie.png");
-	public static final ResourceLocation HUSK = new ResourceLocation("textures/entity/zombie/husk.png");
-	public static final ResourceLocation DROWNED = new ResourceLocation("textures/entity/zombie/drowned.png");
-	public static final ResourceLocation SKELETON = new ResourceLocation("textures/entity/skeleton/skeleton.png");
-	public static final ResourceLocation WITHER_SKELETON = new ResourceLocation("textures/entity/skeleton/wither_skeleton.png");
-	public static final ResourceLocation STRAY = new ResourceLocation("textures/entity/skeleton/stray.png");
-	public static final ResourceLocation PIGLIN = new ResourceLocation("textures/entity/piglin/piglin.png");
-	public static final ResourceLocation PIGLIN_BRUTE = new ResourceLocation("textures/entity/piglin/piglin_brute.png");
-	public static final ResourceLocation ZOMBIFIED_PIGLIN = new ResourceLocation("textures/entity/piglin/zombified_piglin.png");
+	public static final ResourceLocation ZOMBIE = ResourceLocation.withDefaultNamespace("textures/entity/zombie/zombie.png");
+	public static final ResourceLocation HUSK = ResourceLocation.withDefaultNamespace("textures/entity/zombie/husk.png");
+	public static final ResourceLocation DROWNED = ResourceLocation.withDefaultNamespace("textures/entity/zombie/drowned.png");
+	public static final ResourceLocation SKELETON = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/skeleton.png");
+	public static final ResourceLocation WITHER_SKELETON = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/wither_skeleton.png");
+	public static final ResourceLocation STRAY = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/stray.png");
+	public static final ResourceLocation PIGLIN = ResourceLocation.withDefaultNamespace("textures/entity/piglin/piglin.png");
+	public static final ResourceLocation PIGLIN_BRUTE = ResourceLocation.withDefaultNamespace("textures/entity/piglin/piglin_brute.png");
+	public static final ResourceLocation ZOMBIFIED_PIGLIN = ResourceLocation.withDefaultNamespace("textures/entity/piglin/zombified_piglin.png");
 
 	public static void setup(EntityRendererProvider.Context ctx) {
 		register(ctx, EntityType.ZOMBIE, ctx.bakeLayer(ModelLayers.ZOMBIE), ZOMBIE);

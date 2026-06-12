@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid.sound;
 
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
-import com.github.tartaricacid.touhoulittlemaid.network.message.PlayMaidSoundMessage;
+import com.github.tartaricacid.touhoulittlemaid.network.message.PlayMaidSoundPackage;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -41,7 +41,7 @@ public class MaidSoundManager extends SoundManager {
 
 	public boolean playSound(HumanoidGolemEntity e, SoundEvent soundEvent, float volume, float pitch) {
 		if (soundEvent.getLocation().getPath().startsWith("maid") && !e.level().isClientSide) {
-			NetworkHandler.sendToNearby(e, new PlayMaidSoundMessage(soundEvent.getLocation(), e.getSoundPackId(), e.getId()), 16);
+			NetworkHandler.sendToNearby(e, new PlayMaidSoundPackage(soundEvent.getLocation(), e.getSoundPackId(), e.getId()), 16);
 			return true;
 		}
 		return false;
