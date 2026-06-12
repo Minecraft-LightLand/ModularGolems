@@ -688,6 +688,7 @@
   "modulargolems.tooltip.repair_material": "Golem repair material",
   "modulargolems.tooltip.return_items": "Returns the following items on disassembly:",
   "modulargolems.tooltip.return_many": "Returns %s items on disassembly",
+  "modulargolems.tooltip.revelation.dash": "Golem can charge against target to perform dash attack",
   "modulargolems.tooltip.revelation.soul_boost": "+%s%% Soul Repair Efficiency",
   "modulargolems.tooltip.revelation.soul_reap": "Deal true damage. Gain soul on dealing damage",
   "modulargolems.tooltip.shield_break": "Shield Breaker",

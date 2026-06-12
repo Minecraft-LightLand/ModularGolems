@@ -40,6 +40,7 @@ public class GoetyCompatRegistry {
 	public static final TagKey<Item> REV_RING = ItemTags.create(ModularGolems.loc("revelation_ring"));
 	public static final TagKey<Item> REV_DOOM = ItemTags.create(ModularGolems.loc("revelation_doom"));
 	public static final TagKey<Item> REV_INGOT = ItemTags.create(ModularGolems.loc("revelation_ingot"));
+	public static final TagKey<Item> REV_TEMPLATE = ItemTags.create(ModularGolems.loc("revelation_template"));
 	public static final TagKey<Item> REV_BOW = ItemTags.create(ModularGolems.loc("revelation_bow"));
 	public static final TagKey<Item> REV_ARMOR = ItemTags.create(ModularGolems.loc("apocalyptium_armor"));
 
@@ -88,6 +89,7 @@ public class GoetyCompatRegistry {
 			pvd.addTag(REV_RING).addOptional(new ResourceLocation("goety_revelation", "ascension_halo"));
 			pvd.addTag(REV_DOOM).addOptional(new ResourceLocation("goety_revelation", "doom_medal"));
 			pvd.addTag(REV_INGOT).addOptional(new ResourceLocation("goety_revelation", "apocalyptium_ingot"));
+			pvd.addTag(REV_TEMPLATE).addOptional(new ResourceLocation("goety_revelation", "apocalyptium_upgrade_smithing_template"));
 			pvd.addTag(REV_BOW).add(Items.BOW).addOptional(new ResourceLocation("goety_revelation", "bow_of_revelation"));
 			pvd.addTag(REV_ARMOR);
 		});

@@ -4,7 +4,7 @@
     "tag": "modulargolems:revelation_ring"
   },
   "base": {
-    "item": "modulargolems:barbaric_vanguard_shinguard"
+    "item": "modulargolems:netherite_golem_sword"
   },
   "conditions": [
     {
@@ -13,7 +13,7 @@
     }
   ],
   "result": {
-    "item": "modulargolems:apocalyptium_shinguard"
+    "item": "modulargolems:stellar_apocalypse"
   },
   "template": {
     "tag": "modulargolems:revelation_template"

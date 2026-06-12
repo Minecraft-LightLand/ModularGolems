@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.goety.revelation;
 
+import com.Polarice3.Goety.common.effects.GoetyEffects;
 import com.Polarice3.Goety.utils.SEHelper;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -67,6 +69,7 @@ public class ApollyonSword extends MetalGolemWeaponItem implements IAttackListen
 		}
 		tag.putUUID("TargetUUID", id);
 		tag.putFloat("TargetHealth", hp);
+		target.addEffect(new MobEffectInstance(GoetyEffects.CURSED.get(), 60, 0), e);
 	}
 
 	@Override
@@ -89,6 +92,7 @@ public class ApollyonSword extends MetalGolemWeaponItem implements IAttackListen
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
 		list.add(MGLangData.APOCALYPTIUM_SWORD.get());
+		list.add(MGLangData.APOCALYPTIUM_DASH.get());
 	}
 
 	public static ItemEntry<ApollyonSword> buildItem(String id) {

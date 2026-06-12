@@ -56,6 +56,7 @@ public enum MGLangData {
 	MALEDICTUS_REVIVE_IN_CD("tooltip.cataclysm.maledictus_revive_in_cd", "On Cooldown: %s seconds remaining.", 1, ChatFormatting.GRAY),
 	APOCALYPTIUM_ARMOR("tooltip.revelation.soul_boost", "+%s%% Soul Repair Efficiency", 1, ChatFormatting.GRAY),
 	APOCALYPTIUM_SWORD("tooltip.revelation.soul_reap", "Deal true damage. Gain soul on dealing damage", 0, ChatFormatting.GRAY),
+	APOCALYPTIUM_DASH("tooltip.revelation.dash", "Golem can charge against target to perform dash attack", 0, ChatFormatting.GRAY),
 
 	TARGET_UUID_ADD("tooltip.target.uuid_add", "Right click entity to add entity UUID to the list", 0, ChatFormatting.GRAY),
 	TARGET_UUID_REMOVE("tooltip.target.uuid_remove", "Sneak right click entity to remove entity UUID from the list", 0, ChatFormatting.GRAY),
