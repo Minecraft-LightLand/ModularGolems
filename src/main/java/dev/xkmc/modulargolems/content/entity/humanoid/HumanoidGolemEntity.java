@@ -1,11 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
-import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
-import com.github.tartaricacid.touhoulittlemaid.network.message.PlayMaidSoundMessage;
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.l2serial.serialization.SerialClass;
-import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.sound.MaidSoundManager;
+import dev.xkmc.modulargolems.content.entity.humanoid.sound.SoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
@@ -34,6 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -41,14 +42,15 @@ import java.util.Arrays;
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> implements CrossbowAttackMob {
 
+	private static final EntityDataAccessor<String> DATA_MAID_MODEL_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA_SOUND_PACK_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA_PLAYER_SKIN = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+
 	@SerialClass.SerialField(toClient = true)
 	public int shieldCooldown = 0;
 
 	public Object renderCompatData;
 
-	private static final EntityDataAccessor<String> DATA_MAID_MODEL_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
-	private static final EntityDataAccessor<String> DATA_SOUND_PACK_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
-	private static final EntityDataAccessor<String> DATA_PLAYER_SKIN = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
 
 	public String getMaidModelId() {
 		return entityData.get(DATA_MAID_MODEL_ID);
@@ -338,51 +340,45 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return !getSoundPackId().isEmpty() || !getMaidModelId().isEmpty();
 	}
 
+	private SoundManager getSoundManager() {
+		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+			if (useMaidSounds()) {
+				return MaidSoundManager.INS;
+			}
+		}
+		return SoundManager.INS;
+	}
+
 	@Nullable
 	@Override
 	protected SoundEvent getAmbientSound() {
-		if (useMaidSounds()) {
-			return InitSounds.MAID_IDLE.get();
-		}
-		return null;
+		return getSoundManager().getAmbientSound();
 	}
 
 	@Override
 	protected SoundEvent getHurtSound(DamageSource source) {
-		if (useMaidSounds()) {
-			if (source.is(DamageTypeTags.IS_FIRE)) {
-				return InitSounds.MAID_HURT_FIRE.get();
-			}
-			return InitSounds.MAID_HURT.get();
-		}
-		return SoundEvents.IRON_GOLEM_HURT;
+		return getSoundManager().getHurtSound(source);
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() {
-		if (useMaidSounds()) {
-			return InitSounds.MAID_DEATH.get();
-		}
-		return SoundEvents.IRON_GOLEM_DEATH;
+		return getSoundManager().getDeathSound();
 	}
 
 	@Override
 	protected float getSoundVolume() {
-		return 0.6f * super.getSoundVolume();
+		return getSoundManager().getSoundVolume() * super.getSoundVolume();
 	}
 
 	@Override
 	public float getVoicePitch() {
-		return super.getVoicePitch() * 1.25f;
+		return getSoundManager().getVoicePitch() * super.getVoicePitch();
 	}
 
 	@Override
 	public void playSound(SoundEvent soundEvent, float volume, float pitch) {
-		if (useMaidSounds() && soundEvent.getLocation().getPath().startsWith("maid") && !level().isClientSide) {
-			NetworkHandler.sendToNearby(this, new PlayMaidSoundMessage(soundEvent.getLocation(), getSoundPackId(), getId()), 16);
-		} else {
-			super.playSound(soundEvent, volume, pitch);
-		}
+		if (getSoundManager().playSound(this, soundEvent, volume, pitch)) return;
+		super.playSound(soundEvent, volume, pitch);
 	}
 
 }
