@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.compat.maid;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.event.ConvertMaidEvent;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;
+import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
+import com.github.tartaricacid.touhoulittlemaid.item.ItemGarageKit;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
@@ -37,10 +39,16 @@ public class MaidSkinCompat {
 
 	@SubscribeEvent
 	public static void onHumanoidSkin(HumanoidSkinEvent event) {
-		HumanoidGolemEntity golem = event.getGolem();
-		String modelId = golem.getMaidModelId();
-		if (!modelId.isEmpty()) {
-			event.setSkin(new MaidSkin(modelId));
+		ItemStack stack = event.getStack();
+		if (stack.is(InitItems.GARAGE_KIT.get())) {
+			var id = ItemGarageKit.getMaidData(stack).getString("ModelId");
+			event.setSkin(new MaidSkin(id));
+		} else {
+			HumanoidGolemEntity golem = event.getGolem();
+			String modelId = golem.getMaidModelId();
+			if (!modelId.isEmpty()) {
+				event.setSkin(new MaidSkin(modelId));
+			}
 		}
 	}
 

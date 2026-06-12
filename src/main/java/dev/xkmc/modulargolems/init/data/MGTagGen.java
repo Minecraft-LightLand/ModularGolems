@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.init.data;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
@@ -46,6 +47,7 @@ public class MGTagGen {
 	public static final TagKey<Item> TOUGH_ITEM = createItemTag("tough_item");
 	public static final TagKey<Item> CURIO_SKIN = ItemTags.create(new ResourceLocation("curios", "golem_skin"));
 	public static final TagKey<Item> CURIO_PATH = ItemTags.create(new ResourceLocation("curios", "golem_route"));
+	public static final TagKey<Item> PLAYER_SKIN = createItemTag("player_skin");
 	public static final TagKey<Item> LARGE_GOLEM_WEAPONS = createItemTag("large_golem_weapons");
 	public static final TagKey<Item> SHIELD_BREAKER_WEAPONS = createItemTag("shield_breaker_weapons");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
@@ -95,6 +97,12 @@ public class MGTagGen {
 				GolemItems.SLOW.get(),
 				GolemItems.WITHER.get()
 		);
+		pvd.addTag(PLAYER_SKIN).add(Items.ZOMBIE_HEAD, Items.SKELETON_SKULL, Items.WITHER_SKELETON_SKULL);
+		var skin = pvd.addTag(CURIO_SKIN);
+		skin.addTag(PLAYER_SKIN).add(Items.PLAYER_HEAD, Items.PIGLIN_HEAD);
+		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+			skin.addOptional(new ResourceLocation(TouhouLittleMaid.MOD_ID, "garage_kit"));
+		}
 		if (ModList.get().isLoaded(Cataclysm.MODID)) {
 			pvd.addTag(LARGE_GOLEM_WEAPONS)
 					.addOptional(ModItems.THE_ANNIHILATOR.getId())

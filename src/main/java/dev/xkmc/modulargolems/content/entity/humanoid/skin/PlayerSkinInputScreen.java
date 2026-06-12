@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.skin;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.menu.equipment.EquipmentTab;
+import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -47,6 +49,11 @@ public class PlayerSkinInputScreen extends Screen {
 	}
 
 	@Override
+	public void onClose() {
+		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(golem.getUUID(), OpenEquipmentMenuToServer.Type.EQUIPMENT));
+	}
+
+	@Override
 	public void render(GuiGraphics g, int mx, int my, float ptick) {
 		renderBackground(g);
 		super.render(g, mx, my, ptick);
@@ -54,9 +61,12 @@ public class PlayerSkinInputScreen extends Screen {
 		g.drawCenteredString(font, Component.translatable(ModularGolems.MODID + ".gui.player_skin.hint"), width / 2, height / 2 + 40, 0x808080);
 	}
 
-	@Override
-	public boolean isPauseScreen() {
-		return false;
+	public boolean keyPressed(int p_97878_, int p_97879_, int p_97880_) {
+		if (p_97878_ == 256) {
+			onClose();
+		}
+		return !this.input.keyPressed(p_97878_, p_97879_, p_97880_) && !this.input.canConsumeInput() ?
+				super.keyPressed(p_97878_, p_97879_, p_97880_) : true;
 	}
 
 }
