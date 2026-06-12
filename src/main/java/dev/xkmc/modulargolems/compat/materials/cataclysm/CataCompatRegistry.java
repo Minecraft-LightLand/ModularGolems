@@ -5,10 +5,7 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorPaths;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.HarbingerArmorItem;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.IgnisArmorItem;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.MonstrosityArmorItem;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.*;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.*;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.CraftMaterialItem;
@@ -34,6 +31,7 @@ public class CataCompatRegistry {
 	public static final ItemEntry<HarbingerArmorItem> HARBINGER_HELMET, HARBINGER_CHESTPLATE, HARBINGER_SHINGUARD;
 	public static final ItemEntry<MonstrosityArmorItem> MONSTROSITY_HELMET, MONSTROSITY_CHESTPLATE, MONSTROSITY_SHINGUARD;
 	public static final ItemEntry<IgnisArmorItem> IGNIS_HELMET, IGNIS_CHESTPLATE, IGNIS_SHINGUARD;
+	public static final ItemEntry<MaledictusArmorItem> MALEDICTUS_HELMET, MALEDICTUS_CHESTPLATE, MALEDICTUS_SHINGUARD;
 
 	public static final RegistryEntry<IgnisFireballModifier> IGNIS_FIREBALL;
 	public static final RegistryEntry<IgnisJumpModifier> IGNIS_JUMP;
@@ -106,6 +104,19 @@ public class CataCompatRegistry {
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Ignitium Golem Shinguard").register();
 
+		MALEDICTUS_HELMET = REGISTRATE.item("maledictus_helmet", p -> new MaledictusArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.MALEDICTUS_HELMETS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.lang("Cursium Golem Helmet").register();
+		MALEDICTUS_CHESTPLATE = REGISTRATE.item("maledictus_chestplate", p -> new MaledictusArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.MALEDICTUS_CHESTPLATES))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.lang("Cursium Golem Chestplate").register();
+		MALEDICTUS_SHINGUARD = REGISTRATE.item("maledictus_shinguard", p -> new MaledictusArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.MALEDICTUS_LEGGINGS))
+				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
+				.lang("Cursium Golem Shinguard").register();
+
 		VOID_CUBE = GolemItems.item(CataDispatch.MODID, "void_cube", RepairMaterialItem::new);
 		VOID_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "void_construct", CraftMaterialItem::new);
 
@@ -132,7 +143,7 @@ public class CataCompatRegistry {
 		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on landing");
 		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position. Attacks multiple targets. Increase damage to target inflicted with Curse of Desert");
 		ANCIENT_MELTDOWN = reg("ancient_remnant_reformation", AncientMeltdownModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
-		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new, "Jump and cause earthquake on landing, summoning halberds");
+		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new, "Phantom Halberd Jump Attack", "Jump and cause area damage on landing, summoning phantom halberds");
 		MALEDICTUS_ATTACK = reg("maledictus_attack", MaledictusAttackModifier::new,
 				"Golem melee damage bypass armor. Stack rage counter after dealing damage, up to %s layers");
 		SCYLLA_LIGHTNING = reg("scylla_lightning", ScyllaLightningAttackModifier::new,
@@ -178,7 +189,7 @@ public class CataCompatRegistry {
 		}
 	}
 
-	private static ResourceLocation cataLoc(String id) {
+	public static ResourceLocation cataLoc(String id) {
 		return new ResourceLocation(CataDispatch.MODID, id);
 	}
 

@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "modulargolems:apocalyptium_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:apocalyptium_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:apocalyptium_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:apocalyptium_boots",
+      "required": false
+    }
+  ]
+}

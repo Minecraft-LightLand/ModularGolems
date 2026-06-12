@@ -2,15 +2,20 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.cataclysm_mux.MWCataProxy;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.util.GolemUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import java.util.function.Consumer;
 
@@ -29,6 +34,26 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 	public void handleEvent(AbstractGolemEntity<?, ?> golem, int value, byte event) {
 		if (event == EarthquakeHelper.FLAG) {
 			EarthquakeHelper.makeParticles(golem, 0, 0);
+		}
+	}
+
+	@Override
+	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
+		int cd = EarthquakeHelper.Modifier.super.getCoolDown(golem, lv);
+		if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MALEDICTUS_SHINGUARD.get()))
+			cd /= 2;
+		return cd;
+	}
+
+	@Override
+	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
+		var source = event.getSource();
+		var direct = source.getDirectEntity();
+		if (direct != null && direct.getType().builtInRegistryHolder().unwrapKey().orElseThrow().location()
+				.equals(new ResourceLocation(CataDispatch.MODID, "phantom_halberd"))) {
+			if (entity.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MALEDICTUS_HELMET.get())) {
+				event.getEntity().invulnerableTime = 0;
+			}
 		}
 	}
 

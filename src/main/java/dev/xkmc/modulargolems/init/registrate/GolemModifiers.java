@@ -14,10 +14,7 @@ import dev.xkmc.modulargolems.content.modifier.common.BellModifier;
 import dev.xkmc.modulargolems.content.modifier.common.ThornModifier;
 import dev.xkmc.modulargolems.content.modifier.immunes.*;
 import dev.xkmc.modulargolems.content.modifier.ride.RideUpgrade;
-import dev.xkmc.modulargolems.content.modifier.special.PickupModifier;
-import dev.xkmc.modulargolems.content.modifier.special.PotionMetaModifier;
-import dev.xkmc.modulargolems.content.modifier.special.SonicModifier;
-import dev.xkmc.modulargolems.content.modifier.special.TalentMetaModifier;
+import dev.xkmc.modulargolems.content.modifier.special.*;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -53,6 +50,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<AttackBypassArmorModifier> ARMOR_BYPASS;
 	public static final RegistryEntry<AddSlotModifier> ADD_SLOT;
 	public static final RegistryEntry<AddSlotModifier> DIAMOND_ADD, NETHERITE_ADD;
+	public static final RegistryEntry<DynamicReductionModifier> DYNAMIC_REDUCTION;
 
 
 	static {
@@ -148,6 +146,9 @@ public class GolemModifiers {
 
 		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
 				"Armor Penetration", "Attack has %s%% chance to bypass armor and shields");
+		DYNAMIC_REDUCTION = reg("dynamic_reduction", DynamicReductionModifier::new,
+				"Dynamic Reduction","Golem can only take damage of 20% max health per period of time");
+
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> reg(String id, NonNullSupplier<T> sup, String name, @Nullable String def) {
@@ -169,7 +170,7 @@ public class GolemModifiers {
 	}
 
 	public static <T extends GolemModifier> RegistryEntry<T> multilinereg(String id, NonNullSupplier<T> sup,
-																		  String name, String... def) {
+	                                                                      String name, String... def) {
 		Mutable<RegistryEntry<T>> holder = new MutableObject<>();
 		var ans = REGISTRATE.generic(GolemTypes.MODIFIERS, id, sup).defaultLang();
 		ans.lang(NamedEntry::getDescriptionId, name);

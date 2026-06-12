@@ -143,7 +143,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		this.ticksUntilNextAttack = getMeleeInterval();
 	}
 
-	protected boolean isTimeToAttack() {
+	public boolean isTimeToAttack() {
 		return this.ticksUntilNextAttack <= 0;
 	}
 

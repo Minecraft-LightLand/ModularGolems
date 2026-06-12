@@ -107,6 +107,7 @@ public class MGConfig {
 		public final ForgeConfigSpec.IntValue soulHealingRate;
 		public final ForgeConfigSpec.IntValue soulHealingCost;
 		public final ForgeConfigSpec.DoubleValue soulHealingThreshold;
+		public final ForgeConfigSpec.DoubleValue soulHealingArmorBonus;
 		public final ForgeConfigSpec.BooleanValue bossBreakShield;
 
 		public final ForgeConfigSpec.DoubleValue ignitiumHealRate;
@@ -117,6 +118,11 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue missileArmorBonus;
 		public final ForgeConfigSpec.DoubleValue earthquakeArmorBonus;
 		public final ForgeConfigSpec.DoubleValue sandCurseBonus;
+		public final ForgeConfigSpec.IntValue maledictusReviveCD;
+		public final ForgeConfigSpec.IntValue maledictusReviveCDPartReduction;
+		public final ForgeConfigSpec.DoubleValue maledictusRevivePHP;
+		public final ForgeConfigSpec.DoubleValue maledictusRevivePHPPartBonus;
+
 		public final ForgeConfigSpec.BooleanValue wandBypassConfig;
 
 		public final ForgeConfigSpec.DoubleValue dungeonMeleeHealFactor;
@@ -341,6 +347,8 @@ public class MGConfig {
 							.defineInRange("soulHealingRate", 2, 1, 100);
 					soulHealingThreshold = builder.comment("Soul Repair modifier healing only when golem health is below this percentage")
 							.defineInRange("soulHealingThreshold", 0.75, 0, 1);
+					soulHealingArmorBonus = builder.comment("Soul Repair bonus on armor items")
+							.defineInRange("soulHealingArmorBonus", 0.5, 0, 10);
 				}
 				builder.pop();
 
@@ -362,6 +370,14 @@ public class MGConfig {
 							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
 					sandCurseBonus = builder.comment("Sandstorm Upgrade damage bonus per level")
 							.defineInRange("sandCurseBonus", 0.1d, 0, 10);
+					maledictusReviveCD = builder.comment("Cursium Golem Chestplate: Revive Cooldown")
+							.defineInRange("maledictusReviveCD", 360, 10, 10000);
+					maledictusReviveCDPartReduction = builder.comment("Cursium Golem Chestplate: Cursium Part/Armor reduction on revive cooldown")
+							.defineInRange("maledictusReviveCDPartReduction", 30, 10, 10000);
+					maledictusRevivePHP = builder.comment("Cursium Golem Chestplate: Revived health percentage")
+							.defineInRange("maledictusRevivePHP", 0.25, 0.01, 1);
+					maledictusRevivePHPPartBonus = builder.comment("Cursium Golem Chestplate: Cursium Part/Armor bonus on revived health")
+							.defineInRange("maledictusRevivePHPPartBonus", 0.125, 0, 1);
 				}
 				builder.pop();
 
