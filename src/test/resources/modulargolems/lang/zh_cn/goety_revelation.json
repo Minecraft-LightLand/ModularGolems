@@ -1,5 +1,13 @@
 {
 	"golem_material.goety_revelation.apocalyptium": "神金",
+	"item.modulargolems.apocalyptium_helmet": "神金傀儡头盔",
+	"item.modulargolems.apocalyptium_chestplate": "神金傀儡胸甲",
+	"item.modulargolems.apocalyptium_shinguard": "神金傀儡护腿",
+	"item.modulargolems.apocalyptium_boots": "神金傀儡靴子",
+	"item.modulargolems.stellar_apocalypse": "星辰之怒",
+	"modulargolems.tooltip.revelation.dash": "可向目标发起冲锋，进行冲刺攻击",
+	"modulargolems.tooltip.revelation.soul_boost": "+%s%% 灵魂修补效率",
+	"modulargolems.tooltip.revelation.soul_reap": "近战造成真实伤害，造成伤害时获取灵魂",
 	"item.modulargolems.the_abhorrent": "使徒头衔: 憎恶本质",
 	"item.modulargolems.the_atrocious": "使徒头衔: 十恶不赦",
 	"item.modulargolems.the_profane": "使徒头衔: 天启饥荒",
