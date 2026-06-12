@@ -57,6 +57,7 @@ public enum GolemWeaponType {
 							.parent(new ModelFile.UncheckedModelFile(pvd.modLoc(model)))
 							.texture("layer0", material.modLoc("item/equipments/" + ctx.getName())));
 		}
+		builder.asOptional().tag(ItemTags.SWORD_ENCHANTABLE, ItemTags.SHARP_WEAPON_ENCHANTABLE);
 		if (this != SWORD) builder.tag(MGTagGen.SHIELD_BREAKER_WEAPONS);
 		return builder.defaultLang().register();
 	}
