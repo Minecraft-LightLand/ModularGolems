@@ -15,7 +15,7 @@
 	},
 	{
 	  "type": "patchouli:text",
-	  "text": "Use the $(l)Skin Button$() in the Humanoid Golem equipment screen to change its skin.$(br2)Supported input formats:$(br2)$(li)$(l)Player Name$() - Use the Minecraft skin of a premium player$(li)$(l)Resource Path$() - Use a custom texture from resource packs, e.g.:$(br)modulargolems:textures/iws2000.png$(br2)Right-click the button to reset to default skin."
+	  "text": "Use the $(l)Skin Button$() in the Humanoid Golem equipment screen to change its skin.$(br2)Supported input formats:$(br2)$(li)$(l)Player Name$() - Use the Minecraft skin of a player$(li)$(l)Resource Path$() - Use a custom texture from resource packs, e.g.:$(br)modulargolems:textures/iws2000.png$(li)$(l)Entity id() - Use texture from vanilla zombie / skeleton / piglin variants, e.g.:$(br)minecraft:drowned$(br2)Right-click the button to reset to default skin."
 	},
 	"If Touhou Little Maid is installed, use the $(l)Maid Skin Button$() in the equipment screen to switch to a maid model."
   ]
