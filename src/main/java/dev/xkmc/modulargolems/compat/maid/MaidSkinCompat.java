@@ -21,13 +21,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 public class MaidSkinCompat {
 
-	private static final ResourceLocation MAID_BUTTON = new ResourceLocation("touhou_little_maid", "textures/gui/maid_gui_button.png");
+	private static final ResourceLocation MAID_BUTTON = ResourceLocation.fromNamespaceAndPath("touhou_little_maid", "textures/gui/maid_gui_button.png");
 
 	private static EntityMaidRenderer RENDERER;
 
