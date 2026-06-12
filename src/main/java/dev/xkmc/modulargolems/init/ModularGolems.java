@@ -13,6 +13,8 @@ import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
 import dev.xkmc.l2menustacker.click.quickaccess.DefaultQuickAccessActions;
 import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
+import dev.xkmc.modulargolems.compat.maid.SetMaidModelToServer;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.content.capability.*;
@@ -66,7 +68,7 @@ public class ModularGolems {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			MODID, 1,
+			MODID, ,
 			e -> e.create(ConfigSyncToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
 			e -> e.create(ConfigUpdateToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(ConfigHeartBeatToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
@@ -80,7 +82,9 @@ public class ModularGolems {
 			e -> e.create(ReforgeUpdatePacket.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
 			e -> e.create(GuardedEntity.GuardedDataToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
 			e -> e.create(DogSkillToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
-			e -> e.create(GolemSetModeToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
+			e -> e.create(GolemSetModeToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(SetMaidModelToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(SetPlayerSkinToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
 
 	);
 

@@ -1,15 +1,22 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
+import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.sound.MaidSoundManager;
+import dev.xkmc.modulargolems.content.entity.humanoid.sound.SoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -29,6 +36,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -36,10 +44,46 @@ import java.util.Arrays;
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> {
 
+	private static final EntityDataAccessor<String> DATA_MAID_MODEL_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA_SOUND_PACK_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA_PLAYER_SKIN = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+
 	@SerialField
 	public int shieldCooldown = 0;
 
 	public Object renderCompatData;
+
+
+	public String getMaidModelId() {
+		return entityData.get(DATA_MAID_MODEL_ID);
+	}
+
+	public void setMaidModelId(String id) {
+		entityData.set(DATA_MAID_MODEL_ID, id);
+		if (!id.isEmpty()) {
+			entityData.set(DATA_PLAYER_SKIN, "");
+		}
+	}
+
+	public String getSoundPackId() {
+		return entityData.get(DATA_SOUND_PACK_ID);
+	}
+
+	public void setSoundPackId(String id) {
+		entityData.set(DATA_SOUND_PACK_ID, id);
+	}
+
+	public String getPlayerSkin() {
+		return entityData.get(DATA_PLAYER_SKIN);
+	}
+
+	public void setPlayerSkin(String skin) {
+		entityData.set(DATA_PLAYER_SKIN, skin);
+		if (!skin.isEmpty()) {
+			entityData.set(DATA_MAID_MODEL_ID, "");
+			entityData.set(DATA_SOUND_PACK_ID, "");
+		}
+	}
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
@@ -48,6 +92,35 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		}
 	}
 
+	@Override
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(DATA_MAID_MODEL_ID, "");
+		this.entityData.define(DATA_SOUND_PACK_ID, "");
+		this.entityData.define(DATA_PLAYER_SKIN, "");
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putString("maidModelId", getMaidModelId());
+		tag.putString("soundPackId", getSoundPackId());
+		tag.putString("playerSkin", getPlayerSkin());
+	}
+
+	@Override
+	public void readAdditionalSaveData(CompoundTag tag) {
+		super.readAdditionalSaveData(tag);
+		if (tag.contains("maidModelId")) {
+			setMaidModelId(tag.getString("maidModelId"));
+		}
+		if (tag.contains("soundPackId")) {
+			setSoundPackId(tag.getString("soundPackId"));
+		}
+		if (tag.contains("playerSkin")) {
+			setPlayerSkin(tag.getString("playerSkin"));
+		}
+	}
 
 	public InteractionHand getWeaponHand() {
 		ItemStack stack = this.getMainHandItem();
@@ -256,22 +329,49 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return event.getOffset();
 	}
 
-	protected SoundEvent getHurtSound(DamageSource p_28872_) {
-		return SoundEvents.IRON_GOLEM_HURT;
+	private boolean useMaidSounds() {
+		return !getSoundPackId().isEmpty() || !getMaidModelId().isEmpty();
 	}
 
+	private SoundManager getSoundManager() {
+		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+			if (useMaidSounds()) {
+				return MaidSoundManager.INS;
+			}
+		}
+		return SoundManager.INS;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return getSoundManager().getAmbientSound();
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
+		return getSoundManager().getHurtSound(source);
+	}
+
+	@Override
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.IRON_GOLEM_DEATH;
+		return getSoundManager().getDeathSound();
 	}
 
 	@Override
 	protected float getSoundVolume() {
-		return 0.6f * super.getSoundVolume();
+		return getSoundManager().getSoundVolume() * super.getSoundVolume();
 	}
 
 	@Override
 	public float getVoicePitch() {
-		return super.getVoicePitch() * 1.25f;
+		return getSoundManager().getVoicePitch() * super.getVoicePitch();
+	}
+
+	@Override
+	public void playSound(SoundEvent soundEvent, float volume, float pitch) {
+		if (getSoundManager().playSound(this, soundEvent, volume, pitch)) return;
+		super.playSound(soundEvent, volume, pitch);
 	}
 
 }

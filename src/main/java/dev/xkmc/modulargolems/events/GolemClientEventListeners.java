@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientProfileManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderProfile;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.mob.MobSkinDispatch;
 import dev.xkmc.modulargolems.content.menu.table.TableTab;
 import dev.xkmc.modulargolems.events.event.HumanoidSkinEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -15,6 +16,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -37,6 +39,21 @@ public class GolemClientEventListeners {
 
 	@SubscribeEvent
 	public static void onHumanoidSkin(HumanoidSkinEvent event) {
+		if (!event.getStack().hasTag()) {
+			if (event.getStack().is(Items.ZOMBIE_HEAD)) {
+				event.setSkin(MobSkinDispatch.of(EntityType.ZOMBIE));
+			}
+			if (event.getStack().is(Items.SKELETON_SKULL)) {
+				event.setSkin(MobSkinDispatch.of(EntityType.SKELETON));
+			}
+			if (event.getStack().is(Items.WITHER_SKELETON_SKULL)) {
+				event.setSkin(MobSkinDispatch.of(EntityType.WITHER_SKELETON));
+			}
+			if (event.getStack().is(Items.PIGLIN_HEAD)) {
+				event.setSkin(MobSkinDispatch.of(EntityType.PIGLIN));
+			}
+			return;
+		}
 		if (event.getStack().is(Items.PLAYER_HEAD)) {
 			String name = event.getStack().getHoverName().getString();
 			var rl = ResourceLocation.tryParse(name);
