@@ -36,10 +36,12 @@ public class GolemMaidModelGui extends AbstractModelGui<HumanoidGolemEntity, Mai
 	protected void drawLeftEntity(GuiGraphics graphics, int middleX, int middleY, float mouseX, float mouseY) {
 		String modelId = entity.getMaidModelId();
 		float renderItemScale = modelId.isEmpty() ? 1.0f : CustomPackLoader.MAID_MODELS.getModelRenderItemScale(modelId);
-		int x = (middleX - 256 / 2) / 2;
-		int y = middleY + 90;
-		int scale = (int) (45 * renderItemScale);
-		InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, x, y, scale, (middleX - 256 / 2f) / 2 - mouseX, middleY + 80 - 40 - mouseY, entity);
+		int centerX = (middleX - 128) / 2;
+		int yOffset = (int)(45.0F * (renderItemScale - 1.0F));
+		InventoryScreen.renderEntityInInventoryFollowsMouse(graphics,
+				centerX - 100, middleY - 100,
+				centerX + 100, middleY + 200 - yOffset,
+				(int)(45.0F * renderItemScale), 0.1F, mouseX, mouseY, this.entity);
 	}
 
 	@Override
@@ -124,7 +126,7 @@ public class GolemMaidModelGui extends AbstractModelGui<HumanoidGolemEntity, Mai
 		} else {
 			maid.setModelId(modelItem.getModelId().toString());
 		}
-		InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, posX, posY, (int) (12 * modelItem.getRenderItemScale()), -25, -20, maid);
+		InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, posX - 10, posY - 32, posX + 10, posY + 12, (int)(12.0F * modelItem.getRenderItemScale()), 0.1F, (float)(posX + 25), (float)(posY + 5), maid);
 	}
 
 	@Override

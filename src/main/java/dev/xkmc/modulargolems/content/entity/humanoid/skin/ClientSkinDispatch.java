@@ -24,8 +24,10 @@ public class ClientSkinDispatch {
 			return event.getSkin();
 		var playerSkin = entity.getPlayerSkin();
 		if (!playerSkin.isEmpty()) {
-			var profile = ClientProfileManager.get(playerSkin);
-			if (profile != null) return profile;
+			if (!playerSkin.contains(":")) {
+				var profile = ClientProfileManager.get(playerSkin);
+				if (profile != null) return profile;
+			}
 			var id = ResourceLocation.tryParse(playerSkin);
 			if (id != null) {
 				if (BuiltInRegistries.ENTITY_TYPE.containsKey(id)) {

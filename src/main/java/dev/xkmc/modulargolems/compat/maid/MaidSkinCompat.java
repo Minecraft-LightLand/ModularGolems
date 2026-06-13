@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.maid;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.event.ConvertMaidEvent;
+import com.github.tartaricacid.touhoulittlemaid.client.gui.widget.button.TouhouImageButton;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.CustomPackLoader;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
@@ -21,9 +22,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.event.ScreenEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
 
 public class MaidSkinCompat {
 
@@ -152,7 +153,7 @@ public class MaidSkinCompat {
 
 	}
 
-	private static final class MaidSkinButton extends ImageButton {
+	private static final class MaidSkinButton extends TouhouImageButton {
 
 		private final HumanoidGolemEntity golem;
 
