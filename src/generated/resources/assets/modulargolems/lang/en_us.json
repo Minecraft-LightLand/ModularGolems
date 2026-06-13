@@ -56,7 +56,7 @@
   "attribute.name.golem_sweep": "Sweep Range",
   "block.modulargolems.golem_workbench": "Golem Workbench",
   "config.jade.plugin_modulargolems.maid_model": "Maid Skin",
-  "config.jade.plugin_modulargolems.player_skin": "Player/File Skin",
+  "config.jade.plugin_modulargolems.player_skin": "Player/File/Entity Skin",
   "curios.identifier.golem_route": "Golem Patrol Path",
   "curios.identifier.golem_skin": "Humanoid Golem Skin",
   "effect.modulargolems.maledictus_rage": "Maledictus Rage",
@@ -802,6 +802,7 @@
   "task.modulargolems.summon_golems": "Golem Summoner",
   "task.modulargolems.summon_golems.condition.has_golem_wand": "Hold Omnipotent Wand",
   "task.modulargolems.summon_golems.desc": "Maid will summon golems to attack surrounding hostile mobs",
+  "top.modulargolems.entity_skin": "Entity Skin: %s",
   "top.modulargolems.file_skin": "File Skin: %s",
   "top.modulargolems.maid_model": "Maid Skin: %s",
   "top.modulargolems.player_skin": "Player Skin: %s"
