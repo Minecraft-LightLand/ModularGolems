@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.client.pose.GolemShoulderPose;
 import dev.xkmc.modulargolems.content.client.weapon.GolemModelAnimations;
 import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
+import dev.xkmc.modulargolems.content.item.equipments.GolemItemSpeicalRenderer;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.events.event.GolemRenderItemInHandEvent;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -37,7 +38,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 
 	public HashMap<ModelLayerLocation, MetalGolemModel> map = new HashMap<>();
 
-	private final ItemInHandRenderer itemInHandRenderer;
+	public final ItemInHandRenderer itemInHandRenderer;
 
 	public GolemEquipmentRenderer(RenderLayerParent<MetalGolemEntity, MetalGolemModel> r, EntityRendererProvider.Context e) {
 		super(r);
@@ -51,6 +52,13 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 	public void render(@NotNull PoseStack pose, MultiBufferSource source, int i, @NotNull MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5, float f6) {
 		for (var e : EquipmentSlot.values()) {
 			ItemStack stack = entity.getItemBySlot(e);
+			if (stack.getItem() instanceof GolemItemSpeicalRenderer.ProviderItem pvd) {
+				var opt = pvd.getSpecialRenderer();
+				if (opt.isPresent()){
+					opt.get().render(entity, stack, pose, source, i, f3, this);
+					continue;
+				}
+			}
 			if (stack.getItem() instanceof GolemModelItem mgaitem) {
 				renderArmor(entity, stack, mgaitem, pose, source, i);
 			} else {
@@ -61,7 +69,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		renderShoulderWeapon(entity, entity.getLeftShoulder().getItem(), InteractionHand.OFF_HAND, pose, source, i, f3);
 	}
 
-	protected void renderModel(MetalGolemModel model, GolemModelPath gmpath, PoseStack pose, VertexConsumer buffer, int light) {
+	public void renderModel(MetalGolemModel model, GolemModelPath gmpath, PoseStack pose, VertexConsumer buffer, int light) {
 		for (List<String> ls : gmpath.paths()) {
 			ModelPart gemr = model.root();
 			pose.pushPose();
@@ -74,7 +82,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		}
 	}
 
-	protected void renderArmor(MetalGolemEntity entity, ItemStack stack, GolemModelItem mgaitem, PoseStack pose, MultiBufferSource source, int light) {
+	public void renderArmor(MetalGolemEntity entity, ItemStack stack, GolemModelItem mgaitem, PoseStack pose, MultiBufferSource source, int light) {
 		GolemModelPath gmpath = GolemModelPath.get(mgaitem.getModelPath());
 		MetalGolemModel model = map.get(gmpath.models());
 		model.copyFrom(getParentModel());
@@ -90,7 +98,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		}
 	}
 
-	protected void renderShoulderWeapon(
+	public void renderShoulderWeapon(
 			MetalGolemEntity entity, ItemStack stack, InteractionHand hand,
 			PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		if (!(stack.getItem() instanceof IShoulderWeapon weapon)) return;
@@ -135,7 +143,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		}
 	}
 
-	protected boolean renderWeaponModel(
+	public boolean renderWeaponModel(
 			MetalGolemEntity entity, IEntityModelWeapon weapon, ItemStack stack, InteractionHand hand,
 			PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		var id = weapon.getModelForHand(hand);
@@ -167,8 +175,8 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 		return true;
 	}
 
-	protected void renderArmWithItem(MetalGolemEntity entity, ItemStack stack, EquipmentSlot slot,
-									 PoseStack pose, MultiBufferSource source, int light, float pTick) {
+	public void renderArmWithItem(MetalGolemEntity entity, ItemStack stack, EquipmentSlot slot,
+	                                 PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		if (stack.isEmpty()) return;
 		if (stack.getItem() instanceof IEntityModelWeapon weapon) {
 			InteractionHand hand = slot == EquipmentSlot.MAINHAND ? InteractionHand.MAIN_HAND :
