@@ -8,13 +8,13 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
 
-public interface GolemItemSpeicalRenderer {
+public interface GolemItemSpecialRenderer {
 
 	void render(MetalGolemEntity entity, ItemStack stack, PoseStack pose, MultiBufferSource source, int light, float pTick, GolemEquipmentRenderer renderer);
 
 	interface ProviderItem {
 
-		Optional<GolemItemSpeicalRenderer> getSpecialRenderer();
+		Optional<GolemItemSpecialRenderer> getSpecialRenderer();
 
 	}
 

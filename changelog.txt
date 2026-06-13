@@ -1,3 +1,7 @@
+2.7.0
+- Fix crash with some optimization mods
+- Add new golem armor render api for addons
+
 2.6.45
 - Cursium Golem Armor
 - Apocalyptium Golem Armor and Sword
