@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemModel;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderSkin;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
@@ -85,6 +86,9 @@ public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation text
 
 	private static void validateChild(ModelPart part, String child) {
 		if (part.hasChild(child)) return;
+		if (!(part.children instanceof Object2ObjectArrayMap)) {
+			part.children = new Object2ObjectArrayMap<>(part.children);
+		}
 		part.children.put(child, new ModelPart(List.of(), Map.of()));
 	}
 
