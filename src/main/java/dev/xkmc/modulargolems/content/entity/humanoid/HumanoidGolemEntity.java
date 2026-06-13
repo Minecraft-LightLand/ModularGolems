@@ -5,6 +5,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.sound.MaidSoundManager;
+import dev.xkmc.modulargolems.content.entity.humanoid.sound.MobSoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.sound.SoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -16,6 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -35,6 +37,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -344,6 +347,19 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
 			if (useMaidSounds()) {
 				return MaidSoundManager.INS;
+			}
+		}
+		var playerSkin = getPlayerSkin();
+		if (playerSkin.contains(":")) {
+			if (ResourceLocation.isValidResourceLocation(playerSkin)) {
+				var id = new ResourceLocation(playerSkin);
+				if (ForgeRegistries.ENTITY_TYPES.containsKey(id)) {
+					var type = ForgeRegistries.ENTITY_TYPES.getValue(id);
+					var mob = MobSoundManager.MAP.get(type);
+					if (mob != null) {
+						return mob;
+					}
+				}
 			}
 		}
 		return SoundManager.INS;
