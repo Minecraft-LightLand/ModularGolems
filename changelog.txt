@@ -1,6 +1,7 @@
 2.6.45
 - Cursium Golem Armor
 - Apocalyptium Golem Armor and Sword
+- golem skin rework
 - texture / model update
 
 2.6.44
