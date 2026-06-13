@@ -20,6 +20,7 @@ public class MobSoundManager extends SoundManager {
 		MAP.put(EntityType.SKELETON, new MobSoundManager(SoundEvents.SKELETON_AMBIENT, SoundEvents.SKELETON_HURT, SoundEvents.SKELETON_DEATH));
 		MAP.put(EntityType.WITHER_SKELETON, new MobSoundManager(SoundEvents.WITHER_SKELETON_AMBIENT, SoundEvents.WITHER_SKELETON_HURT, SoundEvents.WITHER_SKELETON_DEATH));
 		MAP.put(EntityType.STRAY, new MobSoundManager(SoundEvents.STRAY_AMBIENT, SoundEvents.STRAY_HURT, SoundEvents.STRAY_DEATH));
+		MAP.put(EntityType.BOGGED, new MobSoundManager(SoundEvents.BOGGED_AMBIENT, SoundEvents.BOGGED_HURT, SoundEvents.BOGGED_DEATH));
 		MAP.put(EntityType.PIGLIN, new MobSoundManager(SoundEvents.PIGLIN_AMBIENT, SoundEvents.PIGLIN_HURT, SoundEvents.PIGLIN_DEATH));
 		MAP.put(EntityType.PIGLIN_BRUTE, new MobSoundManager(SoundEvents.PIGLIN_BRUTE_AMBIENT, SoundEvents.PIGLIN_BRUTE_HURT, SoundEvents.PIGLIN_BRUTE_DEATH));
 		MAP.put(EntityType.ZOMBIFIED_PIGLIN, new MobSoundManager(SoundEvents.ZOMBIFIED_PIGLIN_AMBIENT, SoundEvents.ZOMBIFIED_PIGLIN_HURT, SoundEvents.ZOMBIFIED_PIGLIN_DEATH));

@@ -47,9 +47,14 @@ public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation text
 	public static final ResourceLocation SKELETON = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/skeleton.png");
 	public static final ResourceLocation WITHER_SKELETON = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/wither_skeleton.png");
 	public static final ResourceLocation STRAY = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/stray.png");
+	public static final ResourceLocation BOGGED = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/bogged.png");
 	public static final ResourceLocation PIGLIN = ResourceLocation.withDefaultNamespace("textures/entity/piglin/piglin.png");
 	public static final ResourceLocation PIGLIN_BRUTE = ResourceLocation.withDefaultNamespace("textures/entity/piglin/piglin_brute.png");
 	public static final ResourceLocation ZOMBIFIED_PIGLIN = ResourceLocation.withDefaultNamespace("textures/entity/piglin/zombified_piglin.png");
+
+	private static final ResourceLocation STRAY_CLOTH = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/stray_overlay.png");
+	private static final ResourceLocation BOGGED_CLOTH = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/bogged_overlay.png");
+
 
 	public static void setup(EntityRendererProvider.Context ctx) {
 		register(ctx, EntityType.ZOMBIE, ctx.bakeLayer(ModelLayers.ZOMBIE), ZOMBIE);
@@ -58,13 +63,16 @@ public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation text
 				new DrownedOuterLayer(r, make(ctx, ModelLayers.DROWNED_OUTER_LAYER)));
 
 		register(ctx, EntityType.SKELETON, ctx.bakeLayer(ModelLayers.SKELETON), SKELETON);
+		register(ctx, EntityType.BOGGED, ctx.bakeLayer(ModelLayers.BOGGED), BOGGED);
 		register(ctx, EntityType.WITHER_SKELETON, ctx.bakeLayer(ModelLayers.WITHER_SKELETON), WITHER_SKELETON);
 		register(ctx, EntityType.STRAY, ctx.bakeLayer(ModelLayers.STRAY), STRAY, r ->
-				new StrayClothingLayer(r, make(ctx, ModelLayers.STRAY_OUTER_LAYER)));
-
+				new SkeletonClothingLayer(r, make(ctx, ModelLayers.STRAY_OUTER_LAYER), STRAY_CLOTH));
+		register(ctx, EntityType.BOGGED, ctx.bakeLayer(ModelLayers.BOGGED), BOGGED, r ->
+				new SkeletonClothingLayer(r, make(ctx, ModelLayers.BOGGED_OUTER_LAYER), BOGGED_CLOTH));
 		register(ctx, EntityType.PIGLIN, ctx.bakeLayer(ModelLayers.PIGLIN), PIGLIN);
 		register(ctx, EntityType.PIGLIN_BRUTE, ctx.bakeLayer(ModelLayers.PIGLIN_BRUTE), PIGLIN_BRUTE);
 		register(ctx, EntityType.ZOMBIFIED_PIGLIN, ctx.bakeLayer(ModelLayers.ZOMBIFIED_PIGLIN), ZOMBIFIED_PIGLIN);
+
 
 	}
 
