@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.item.equipments.DogGolemArmorItem;
+import dev.xkmc.modulargolems.content.item.equipments.DogGolemArmorSpecialRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -25,6 +26,15 @@ public class DogArmorRenderer extends RenderLayer<DogGolemEntity, DogGolemModel>
 	@Override
 	public void render(@NotNull PoseStack pose, MultiBufferSource source, int i, @NotNull DogGolemEntity entity, float f1, float f2, float f3, float f4, float f5, float f6) {
 		ItemStack stack = entity.getItemBySlot(EquipmentSlot.CHEST);
+		if (stack.getItem() instanceof DogGolemArmorSpecialRenderer.ProviderItem pvd) {
+			var opt = pvd.getSpecialRenderer();
+			if (opt.isPresent()) {
+				getParentModel().copyPropertiesTo(model);
+				model.copyFrom(getParentModel());
+				opt.get().render(entity, stack, pose, source, i, f3, model);
+				return;
+			}
+		}
 		if (stack.getItem() instanceof DogGolemArmorItem item) {
 			getParentModel().copyPropertiesTo(model);
 			model.copyFrom(getParentModel());

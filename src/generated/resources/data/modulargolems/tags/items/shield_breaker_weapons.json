@@ -1,7 +1,6 @@
 {
   "values": [
     "modulargolems:golem_slicing_axe",
-    "modulargolems:stellar_apocalypse",
     {
       "id": "modulargolems:iron_golem_spear",
       "required": false
@@ -56,6 +55,10 @@
     },
     {
       "id": "modulargolems:fiery_golem_axe",
+      "required": false
+    },
+    {
+      "id": "modulargolems:stellar_apocalypse",
       "required": false
     }
   ]

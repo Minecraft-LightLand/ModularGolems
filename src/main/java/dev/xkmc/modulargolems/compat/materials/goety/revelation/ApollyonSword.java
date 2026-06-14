@@ -108,7 +108,6 @@ public class ApollyonSword extends MetalGolemWeaponItem implements IAttackListen
 								.perspective(ItemDisplayContext.GUI, new ItemModelBuilder(null, pvd.existingFileHelper)
 										.parent(pvd.getExistingFile(pvd.mcLoc("item/generated")))
 										.texture("layer0", GRCompatRegistry.grLoc("item/equipments/" + ctx.getName() + "_icon"))))
-				.tag(MGTagGen.SHIELD_BREAKER_WEAPONS)
 				.defaultLang().register();
 	}
 

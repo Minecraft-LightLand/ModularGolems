@@ -77,6 +77,8 @@ public class GRCompatRegistry {
 				.addOptional(APOCALYPTIUM_SHINGUARD.getId())
 				.addOptional(APOCALYPTIUM_BOOTS.getId())
 		);
+		MGTagGen.OPTIONAL_ITEM.add(pvd -> pvd.addTag(MGTagGen.SHIELD_BREAKER_WEAPONS)
+				.addOptional(STELLAR_APOCALYPSE.getId()));
 	}
 
 }
