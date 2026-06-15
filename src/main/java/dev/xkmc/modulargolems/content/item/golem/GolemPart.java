@@ -50,7 +50,9 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		this.type = type;
 		this.part = part;
 		this.count = count;
-		LIST.add(this);
+		synchronized (LIST) {
+			LIST.add(this);
+		}
 	}
 
 	@Override

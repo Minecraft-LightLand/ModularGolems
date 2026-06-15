@@ -292,7 +292,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
 		super(props.stacksTo(1));
 		this.type = type;
-		GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
+		synchronized (GolemType.class) {
+			GolemType.GOLEM_TYPE_TO_ITEM.put(type.getId(), this);
+		}
 	}
 
 	public float getInvHeal(ItemStack stack, Entity entity) {

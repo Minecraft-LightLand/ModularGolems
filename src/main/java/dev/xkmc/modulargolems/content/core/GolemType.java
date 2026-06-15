@@ -10,7 +10,6 @@ import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -49,8 +48,10 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		this.type = type;
 		this.list = list;
 		this.body = body;
-		ENTITY_TYPE_TO_GOLEM_TYPE.put(type.getId(), this);
-		GOLEM_TYPE_TO_MODEL.put(type.getId(), Wrappers.cast(model));
+		synchronized (ENTITY_TYPE_TO_GOLEM_TYPE) {
+			ENTITY_TYPE_TO_GOLEM_TYPE.put(type.getId(), this);
+			GOLEM_TYPE_TO_MODEL.put(type.getId(), Wrappers.cast(model));
+		}
 	}
 
 	public T create(Level level) {
