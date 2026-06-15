@@ -30,6 +30,7 @@
       "modulargolems:add_slot": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "tconstruct:amethyst_bronze": {
       "tag": "forge:ingots/amethyst_bronze"

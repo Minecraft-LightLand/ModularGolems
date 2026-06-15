@@ -10,6 +10,7 @@
       "modulargolems:fire_immune": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "blazegear:brimsteel": {
       "item": "blazegear:brimsteel_ingot"

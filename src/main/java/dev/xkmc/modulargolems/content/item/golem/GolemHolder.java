@@ -585,6 +585,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public void fillItemCategory(CreativeModeTabModifier tab) {
 		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			if (!GolemMaterialConfig.mayApply(this, rl)) continue;
 			ItemStack stack = new ItemStack(this);
 			for (P part : getEntityType().values()) {
 				addMaterial(stack, part.toItem(), rl);

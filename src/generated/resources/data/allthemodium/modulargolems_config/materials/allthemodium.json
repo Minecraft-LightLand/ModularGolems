@@ -38,6 +38,7 @@
       "modulargolems:recycle": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "allthemodium:allthemodium": {
       "item": "allthemodium:allthemodium_ingot"

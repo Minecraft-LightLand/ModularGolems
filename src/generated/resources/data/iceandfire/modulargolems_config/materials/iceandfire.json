@@ -24,6 +24,7 @@
       "modulargolems:thunder_immune": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "iceandfire:fire_dragonsteel": {
       "item": "iceandfire:dragonsteel_fire_ingot"

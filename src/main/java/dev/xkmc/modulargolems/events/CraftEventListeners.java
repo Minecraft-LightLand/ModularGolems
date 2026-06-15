@@ -34,6 +34,7 @@ public class CraftEventListeners {
 			if (part.count > block.getCount() || block.is(MGTagGen.SPECIAL_CRAFT)) return;
 			var mat = GolemMaterial.getMaterial(block);
 			if (mat.isEmpty()) return;
+			if (!GolemMaterialConfig.mayApply(part, mat.get())) return;
 			ItemStack new_stack = stack.copy();
 			GolemPart.setMaterial(new_stack, mat.get());
 			event.setOutput(new_stack);

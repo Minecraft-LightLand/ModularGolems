@@ -25,6 +25,7 @@
       "modulargolems:radiation": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "alexscaves:candy": {
       "item": "modulargolems:candy_mixture"

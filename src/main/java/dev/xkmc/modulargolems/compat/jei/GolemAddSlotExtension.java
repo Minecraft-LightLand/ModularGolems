@@ -25,6 +25,7 @@ public record GolemAddSlotExtension(
 		if (r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?> golem) {
 			List<ItemStack> list = new ArrayList<>();
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+				if (!GolemMaterialConfig.mayApply(golem, rl)) continue;
 				ItemStack stack = new ItemStack(golem);
 				for (var part : golem.getEntityType().values()) {
 					GolemHolder.addMaterial(stack, part.toItem(), rl);
@@ -40,9 +41,10 @@ public record GolemAddSlotExtension(
 
 	@Override
 	public <T extends IIngredientAcceptor<T>> void setAddition(GolemSmithAddSlotRecipe r, T t) {
-		if (r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?>) {
+		if (r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?> golem) {
 			List<ItemStack> list = new ArrayList<>();
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+				if (!GolemMaterialConfig.mayApply(golem, rl)) continue;
 				var mat = GolemMaterialConfig.get().ingredients.get(rl);
 				list.addAll(List.of(mat.getItems()));
 			}
@@ -56,6 +58,7 @@ public record GolemAddSlotExtension(
 				r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?> golem) {
 			List<ItemStack> list = new ArrayList<>();
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+				if (!GolemMaterialConfig.mayApply(golem, rl)) continue;
 				ItemStack stack = new ItemStack(golem);
 				for (var part : golem.getEntityType().values()) {
 					GolemHolder.addMaterial(stack, part.toItem(), rl);

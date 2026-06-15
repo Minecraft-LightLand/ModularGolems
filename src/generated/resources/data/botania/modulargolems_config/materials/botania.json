@@ -28,6 +28,7 @@
       "modulargolems:mana_production": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "botania:elementium": {
       "item": "botania:elementium_ingot"

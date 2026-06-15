@@ -113,7 +113,8 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		tab.accept(new ItemStack(this));
 		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
 			ItemStack stack = new ItemStack(this);
-			tab.accept(setMaterial(stack, rl));
+			if (GolemMaterialConfig.mayApply(this, rl))
+				tab.accept(setMaterial(stack, rl));
 		}
 
 	}

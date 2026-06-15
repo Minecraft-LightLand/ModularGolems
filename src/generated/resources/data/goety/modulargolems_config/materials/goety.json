@@ -22,6 +22,7 @@
       "modulargolems:soul_repair": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "goety:cursed_metal": {
       "item": "goety:cursed_ingot"

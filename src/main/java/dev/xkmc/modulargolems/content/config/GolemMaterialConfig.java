@@ -6,9 +6,12 @@ import dev.xkmc.l2library.serial.config.ConfigCollect;
 import dev.xkmc.l2library.util.annotation.DataGenOnly;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -24,21 +27,41 @@ public class GolemMaterialConfig extends BaseConfig {
 		return ModularGolems.MATERIALS.getMerged();
 	}
 
-	@ConfigCollect(CollectType.MAP_COLLECT)
-	@SerialClass.SerialField
-	public HashMap<ResourceLocation, HashMap<GolemStatType, Double>> stats = new HashMap<>();
+
+	public static boolean mayApply(GolemHolder<?, ?> holder, ResourceLocation rl) {
+		for (var part : holder.getEntityType().values()) {
+			if (!mayApply(part.toItem(), rl))
+				return false;
+		}
+		return true;
+	}
+
+	public static boolean mayApply(GolemPart<?, ?> part, ResourceLocation rl) {
+		var config = get();
+		var limit = config.partLimitation.get(rl);
+		if (limit == null) return part.getDefaultInstance().is(MGTagGen.GENERIC_PARTS);
+		return limit.test(part.getDefaultInstance());
+	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
 	@SerialClass.SerialField
-	public HashMap<ResourceLocation, HashMap<GolemModifier, Integer>> modifiers = new HashMap<>();
+	public HashMap<ResourceLocation, HashMap<GolemStatType, Double>> stats = new LinkedHashMap<>();
+
+	@ConfigCollect(CollectType.MAP_COLLECT)
+	@SerialClass.SerialField
+	public HashMap<ResourceLocation, HashMap<GolemModifier, Integer>> modifiers = new LinkedHashMap<>();
 
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialClass.SerialField
-	public HashMap<ResourceLocation, Ingredient> ingredients = new HashMap<>();
+	public HashMap<ResourceLocation, Ingredient> ingredients = new LinkedHashMap<>();
 
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialClass.SerialField
-	public HashMap<ResourceLocation, Ingredient> repairIngredients = new HashMap<>();
+	public HashMap<ResourceLocation, Ingredient> repairIngredients = new LinkedHashMap<>();
+
+	@ConfigCollect(CollectType.MAP_OVERWRITE)
+	@SerialClass.SerialField
+	public HashMap<ResourceLocation, Ingredient> partLimitation = new LinkedHashMap<>();
 
 	public List<ResourceLocation> getAllMaterials() {
 		TreeSet<ResourceLocation> set = new TreeSet<>(stats.keySet());

@@ -22,6 +22,7 @@
       "modulargolems:projectile_reject": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "legendary_monsters:cloud": {
       "item": "modulargolems:cloud_cube"
