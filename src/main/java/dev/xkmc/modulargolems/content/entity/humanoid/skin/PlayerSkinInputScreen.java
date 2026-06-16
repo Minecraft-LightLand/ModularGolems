@@ -16,7 +16,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
@@ -27,30 +26,11 @@ public class PlayerSkinInputScreen extends Screen {
 	private static final Component CONFIRM = Component.translatable(ModularGolems.MODID + ".gui.player_skin.confirm");
 	private static final Component CANCEL = Component.translatable(ModularGolems.MODID + ".gui.player_skin.cancel");
 
-	private static final List<List<Preset>> PRESET_GROUPS = List.of(
-			List.of(
-					new Preset(EntityType.ZOMBIE, new ItemStack(Items.ZOMBIE_HEAD)),
-					new Preset(EntityType.HUSK, new ItemStack(Items.ZOMBIE_HEAD)),
-					new Preset(EntityType.DROWNED, new ItemStack(Items.ZOMBIE_HEAD))
-			),
-			List.of(
-					new Preset(EntityType.SKELETON, new ItemStack(Items.SKELETON_SKULL)),
-					new Preset(EntityType.WITHER_SKELETON, new ItemStack(Items.WITHER_SKELETON_SKULL)),
-					new Preset(EntityType.STRAY, new ItemStack(Items.SKELETON_SKULL)),
-					new Preset(EntityType.BOGGED, new ItemStack(Items.SKELETON_SKULL))
-			),
-			List.of(
-					new Preset(EntityType.PIGLIN, new ItemStack(Items.PIGLIN_HEAD)),
-					new Preset(EntityType.PIGLIN_BRUTE, new ItemStack(Items.PIGLIN_HEAD)),
-					new Preset(EntityType.ZOMBIFIED_PIGLIN, new ItemStack(Items.PIGLIN_HEAD))
-			)
+	private static final List<List<EntityType<?>>> PRESET_GROUPS = List.of(
+			List.of(EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED),
+			List.of(EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.STRAY, EntityType.BOGGED),
+			List.of(EntityType.PIGLIN, EntityType.PIGLIN_BRUTE, EntityType.ZOMBIFIED_PIGLIN)
 	);
-
-	private record Preset(EntityType<?> type, ItemStack icon) {
-		String skinValue() {
-			return BuiltInRegistries.ENTITY_TYPE.getKey(type).toString();
-		}
-	}
 
 	private final HumanoidGolemEntity golem;
 	private final String prev;
@@ -92,11 +72,10 @@ public class PlayerSkinInputScreen extends Screen {
 		for (int g = 0; g < PRESET_GROUPS.size(); g++) {
 			var group = PRESET_GROUPS.get(g);
 			for (int i = 0; i < group.size(); i++) {
-				Preset preset = group.get(i);
+				var type = group.get(i);
 				int bx = x;
-				addRenderableWidget(new PresetButton(bx, presetY, btnSize, btnSize, preset, b -> {
-					String value = preset.skinValue();
-					input.setValue(value);
+				addRenderableWidget(new PresetButton(bx, presetY, btnSize, btnSize, type, b -> {
+					input.setValue(BuiltInRegistries.ENTITY_TYPE.getKey(type).toString());
 					apply();
 				}));
 				x += btnSize;
@@ -171,17 +150,17 @@ public class PlayerSkinInputScreen extends Screen {
 
 	private static final class PresetButton extends Button {
 
-		private final Preset preset;
+		private final EntityType<?> preset;
 
-		public PresetButton(int x, int y, int w, int h, Preset preset, OnPress onPress) {
+		public PresetButton(int x, int y, int w, int h, EntityType<?> preset, OnPress onPress) {
 			super(x, y, w, h, Component.empty(), onPress, DEFAULT_NARRATION);
 			this.preset = preset;
-			setTooltip(Tooltip.create(preset.type().getDescription()));
+			setTooltip(Tooltip.create(preset.getDescription()));
 		}
 
 		@Override
 		public MutableComponent createNarrationMessage() {
-			return Component.translatable("gui.narrate.button", preset.type().getDescription());
+			return Component.translatable("gui.narrate.button", preset.getDescription());
 		}
 
 		@Override
@@ -189,7 +168,7 @@ public class PlayerSkinInputScreen extends Screen {
 			super.renderWidget(g, mx, my, pt);
 			var level = Minecraft.getInstance().level;
 			if (level == null) return;
-			var e = MobSkinDispatch.of(preset.type);
+			var e = MobSkinDispatch.of(preset);
 			if (e == null) return;
 			g.pose().pushPose();
 			g.pose().translate(getX() + (getWidth() - 16) / 2, getY() + (getHeight() - 16) / 2, 0);
