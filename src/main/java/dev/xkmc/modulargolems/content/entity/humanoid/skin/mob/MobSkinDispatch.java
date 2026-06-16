@@ -7,25 +7,35 @@ import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderSkin;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 import net.neoforged.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-@SuppressWarnings("removal")
-public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation texture) implements SpecialRenderSkin {
+public record MobSkinDispatch(
+		PlayerSkinRenderer renderer, ResourceLocation texture,
+		List<IMobCloth> extra
+) implements SpecialRenderSkin {
 
 	public static final Map<EntityType<?>, MobSkinDispatch> MAP = new LinkedHashMap<>();
 
@@ -35,10 +45,14 @@ public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation text
 			Function<RenderLayerParent<HumanoidGolemEntity, HumanoidGolemModel>, RenderLayer<HumanoidGolemEntity, HumanoidGolemModel>>... layers) {
 		validatePart(part);
 		PlayerSkinRenderer ans = new PlayerSkinRenderer(ctx, part, false);
+		var clothes = new ArrayList<IMobCloth>();
 		for (var e : layers) {
-			ans.addLayer(e.apply(ans));
+			var layer = e.apply(ans);
+			ans.addLayer(layer);
+			if (layer instanceof IMobCloth cloth)
+				clothes.add(cloth);
 		}
-		MAP.put(type, new MobSkinDispatch(ans, texture));
+		MAP.put(type, new MobSkinDispatch(ans, texture, clothes));
 	}
 
 	public static final ResourceLocation ZOMBIE = ResourceLocation.withDefaultNamespace("textures/entity/zombie/zombie.png");
@@ -54,7 +68,6 @@ public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation text
 
 	private static final ResourceLocation STRAY_CLOTH = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/stray_overlay.png");
 	private static final ResourceLocation BOGGED_CLOTH = ResourceLocation.withDefaultNamespace("textures/entity/skeleton/bogged_overlay.png");
-
 
 	public static void setup(EntityRendererProvider.Context ctx) {
 		register(ctx, EntityType.ZOMBIE, ctx.bakeLayer(ModelLayers.ZOMBIE), ZOMBIE);
@@ -76,7 +89,7 @@ public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation text
 
 	}
 
-	public static @Nullable SpecialRenderSkin of(EntityType<?> type) {
+	public static @Nullable MobSkinDispatch of(EntityType<?> type) {
 		return MAP.get(type);
 	}
 
@@ -113,6 +126,29 @@ public record MobSkinDispatch(PlayerSkinRenderer renderer, ResourceLocation text
 				ModularGolems.LOGGER.throwing(e);
 			}
 		}
+	}
+
+	private static final ItemTransform SKULL = new ItemTransform(
+			new Vector3f(30, 45, 0),
+			new Vector3f(0, 3, 0),
+			new Vector3f(1, 1, 1)
+	);
+
+	public void renderSkullIcon(Level level, GuiGraphics g, float pt) {
+		var pose = g.pose();
+		pose.pushPose();
+		int r = 20;
+		pose.translate(8f, -48F, 16);
+		pose.scale(-r, r, -r);
+		SKULL.apply(false, pose);
+		var head = renderer().getModel().getHead();
+		head.resetPose();
+		var vc = g.bufferSource().getBuffer(RenderType.entityCutoutNoCull(texture()));
+		head.render(g.pose(), vc, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+		for (var e : extra) {
+			e.renderHead(g.pose(), g.bufferSource(), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+		}
+		pose.popPose();
 	}
 
 }

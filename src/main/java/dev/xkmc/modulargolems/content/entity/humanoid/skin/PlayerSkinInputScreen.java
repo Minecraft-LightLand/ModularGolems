@@ -1,8 +1,10 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.skin;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.mob.MobSkinDispatch;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -33,8 +35,9 @@ public class PlayerSkinInputScreen extends Screen {
 			),
 			List.of(
 					new Preset(EntityType.SKELETON, new ItemStack(Items.SKELETON_SKULL)),
+					new Preset(EntityType.WITHER_SKELETON, new ItemStack(Items.WITHER_SKELETON_SKULL)),
 					new Preset(EntityType.STRAY, new ItemStack(Items.SKELETON_SKULL)),
-					new Preset(EntityType.WITHER_SKELETON, new ItemStack(Items.WITHER_SKELETON_SKULL))
+					new Preset(EntityType.BOGGED, new ItemStack(Items.SKELETON_SKULL))
 			),
 			List.of(
 					new Preset(EntityType.PIGLIN, new ItemStack(Items.PIGLIN_HEAD)),
@@ -78,10 +81,13 @@ public class PlayerSkinInputScreen extends Screen {
 		int presetY = cy + 65;
 		int btnSize = 22;
 		int gap = 4;
-		int groupGap = 10;
-		int btnsPerGroup = 3;
-		int groupWidth = btnsPerGroup * btnSize + (btnsPerGroup - 1) * gap;
-		int totalWidth = PRESET_GROUPS.size() * groupWidth + (PRESET_GROUPS.size() - 1) * groupGap;
+		int groupGap = 6;
+
+		int groupCount = PRESET_GROUPS.size();
+		int tabCount = 0;
+		for (var e : PRESET_GROUPS) tabCount += e.size();
+
+		int totalWidth = (btnSize + gap) * tabCount + groupCount * groupGap - groupGap - gap;
 		int x = cx - totalWidth / 2;
 		for (int g = 0; g < PRESET_GROUPS.size(); g++) {
 			var group = PRESET_GROUPS.get(g);
@@ -91,7 +97,7 @@ public class PlayerSkinInputScreen extends Screen {
 				addRenderableWidget(new PresetButton(bx, presetY, btnSize, btnSize, preset, b -> {
 					String value = preset.skinValue();
 					input.setValue(value);
-					confirm();
+					apply();
 				}));
 				x += btnSize;
 				if (i < group.size() - 1) x += gap;
@@ -160,8 +166,7 @@ public class PlayerSkinInputScreen extends Screen {
 			apply();
 			return true;
 		}
-		return !this.input.keyPressed(key, p_97879_, p_97880_) && !this.input.canConsumeInput() ?
-				super.keyPressed(key, p_97879_, p_97880_) : true;
+		return this.input.keyPressed(key, p_97879_, p_97880_) || this.input.canConsumeInput() || super.keyPressed(key, p_97879_, p_97880_);
 	}
 
 	private static final class PresetButton extends Button {
@@ -182,7 +187,14 @@ public class PlayerSkinInputScreen extends Screen {
 		@Override
 		public void renderWidget(GuiGraphics g, int mx, int my, float pt) {
 			super.renderWidget(g, mx, my, pt);
-			g.renderItem(preset.icon(), getX() + (getWidth() - 16) / 2, getY() + (getHeight() - 16) / 2);
+			var level = Minecraft.getInstance().level;
+			if (level == null) return;
+			var e = MobSkinDispatch.of(preset.type);
+			if (e == null) return;
+			g.pose().pushPose();
+			g.pose().translate(getX() + (getWidth() - 16) / 2, getY() + (getHeight() - 16) / 2, 0);
+			e.renderSkullIcon(level, g, pt);
+			g.pose().popPose();
 		}
 
 	}

@@ -45,7 +45,7 @@ public class PlayerSkinRenderer extends HumanoidGolemRenderer {
 	@Override
 	public ResourceLocation getTextureLocation(HumanoidGolemEntity entity) {
 		var skin = ClientSkinDispatch.get(entity);
-		if ( skin.texture() != null)
+		if (skin.texture() != null)
 			return skin.texture();
 		AbstractClientPlayer player = Proxy.getClientPlayer();
 		assert player != null;
