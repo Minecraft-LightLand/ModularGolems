@@ -182,11 +182,11 @@ public enum MGLangData {
 	TRACKER_DIMENSIONAL("tracker.dimensional", "To Dimensional Backpack", 0, null),
 
 	MAID_SKIN_BUTTON("tooltip.maid_skin_button", "Change skin: Maid (Right-click to reset)", 0, null),
-	PLAYER_SKIN_BUTTON("tooltip.player_skin_button", "Change skin: Player/Texture (Right-click to reset)", 0, null),
-	PLAYER_SKIN_TITLE("gui.player_skin", "Player/Skin Texture", 0, null),
+	PLAYER_SKIN_BUTTON("tooltip.player_skin_button", "Change skin: Player/Entity/Texture (Right-click to reset)", 0, null),
+	PLAYER_SKIN_TITLE("gui.player_skin", "Player/Entity/Skin Texture", 0, null),
 	PLAYER_SKIN_CONFIRM("gui.player_skin.confirm", "Confirm", 0, null),
 	PLAYER_SKIN_CANCEL("gui.player_skin.cancel", "Cancel", 0, null),
-	PLAYER_SKIN_HINT("gui.player_skin.hint", "Enter player name or resource pack texture path", 0, null),
+	PLAYER_SKIN_HINT("gui.player_skin.hint", "Enter player name, entity type, or texture path", 0, null),
 	;
 
 	private final String key, def;
@@ -280,7 +280,8 @@ public enum MGLangData {
 
 		pvd.add("top." + ModularGolems.MODID + ".player_skin", "Player Skin: %s");
 		pvd.add("top." + ModularGolems.MODID + ".file_skin", "File Skin: %s");
-		pvd.add("config.jade.plugin_" + ModularGolems.MODID + ".player_skin", "Player/File Skin");
+		pvd.add("top." + ModularGolems.MODID + ".entity_skin", "Entity Skin: %s");
+		pvd.add("config.jade.plugin_" + ModularGolems.MODID + ".player_skin", "Player/File/Entity Skin");
 
 	}
 

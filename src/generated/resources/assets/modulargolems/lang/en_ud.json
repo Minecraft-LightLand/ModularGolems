@@ -56,7 +56,7 @@
   "attribute.name.golem_sweep": "ǝbuɐᴚ dǝǝʍS",
   "block.modulargolems.golem_workbench": "ɥɔuǝqʞɹoM ɯǝןo⅁",
   "config.jade.plugin_modulargolems.maid_model": "uıʞS pıɐW",
-  "config.jade.plugin_modulargolems.player_skin": "uıʞS ǝןıℲ/ɹǝʎɐןԀ",
+  "config.jade.plugin_modulargolems.player_skin": "uıʞS ʎʇıʇuƎ/ǝןıℲ/ɹǝʎɐןԀ",
   "curios.identifier.golem_route": "ɥʇɐԀ ןoɹʇɐԀ ɯǝןo⅁",
   "curios.identifier.golem_skin": "uıʞS ɯǝןo⅁ pıouɐɯnH",
   "effect.modulargolems.maledictus_rage": "ǝbɐᴚ snʇɔıpǝןɐW",
@@ -802,6 +802,7 @@
   "task.modulargolems.summon_golems": "ɹǝuoɯɯnS ɯǝןo⅁",
   "task.modulargolems.summon_golems.condition.has_golem_wand": "puɐM ʇuǝʇodıuɯO pןoH",
   "task.modulargolems.summon_golems.desc": "sqoɯ ǝןıʇsoɥ buıpunoɹɹns ʞɔɐʇʇɐ oʇ sɯǝןob uoɯɯns ןןıʍ pıɐW",
+  "top.modulargolems.entity_skin": "%s :uıʞS ʎʇıʇuƎ",
   "top.modulargolems.file_skin": "%s :uıʞS ǝןıℲ",
   "top.modulargolems.maid_model": "%s :uıʞS pıɐW",
   "top.modulargolems.player_skin": "%s :uıʞS ɹǝʎɐןԀ"

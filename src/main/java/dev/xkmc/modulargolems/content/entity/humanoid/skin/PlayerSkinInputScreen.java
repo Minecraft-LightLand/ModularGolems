@@ -6,16 +6,48 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.List;
 
 public class PlayerSkinInputScreen extends Screen {
 
 	private static final Component TITLE = Component.translatable(ModularGolems.MODID + ".gui.player_skin");
 	private static final Component CONFIRM = Component.translatable(ModularGolems.MODID + ".gui.player_skin.confirm");
 	private static final Component CANCEL = Component.translatable(ModularGolems.MODID + ".gui.player_skin.cancel");
+
+	private static final List<List<Preset>> PRESET_GROUPS = List.of(
+			List.of(
+					new Preset(EntityType.ZOMBIE, new ItemStack(Items.ZOMBIE_HEAD)),
+					new Preset(EntityType.HUSK, new ItemStack(Items.ZOMBIE_HEAD)),
+					new Preset(EntityType.DROWNED, new ItemStack(Items.ZOMBIE_HEAD))
+			),
+			List.of(
+					new Preset(EntityType.SKELETON, new ItemStack(Items.SKELETON_SKULL)),
+					new Preset(EntityType.STRAY, new ItemStack(Items.SKELETON_SKULL)),
+					new Preset(EntityType.WITHER_SKELETON, new ItemStack(Items.WITHER_SKELETON_SKULL))
+			),
+			List.of(
+					new Preset(EntityType.PIGLIN, new ItemStack(Items.PIGLIN_HEAD)),
+					new Preset(EntityType.PIGLIN_BRUTE, new ItemStack(Items.PIGLIN_HEAD)),
+					new Preset(EntityType.ZOMBIFIED_PIGLIN, new ItemStack(Items.PIGLIN_HEAD))
+			)
+	);
+
+	private record Preset(EntityType<?> type, ItemStack icon) {
+		String skinValue() {
+			return BuiltInRegistries.ENTITY_TYPE.getKey(type).toString();
+		}
+	}
 
 	private final HumanoidGolemEntity golem;
 	private final String prev;
@@ -42,6 +74,30 @@ public class PlayerSkinInputScreen extends Screen {
 				.bounds(cx - 120, cy + 10, 116, 20).build());
 		addRenderableWidget(Button.builder(CANCEL, e -> cancel())
 				.bounds(cx + 4, cy + 10, 116, 20).build());
+
+		int presetY = cy + 65;
+		int btnSize = 22;
+		int gap = 4;
+		int groupGap = 10;
+		int btnsPerGroup = 3;
+		int groupWidth = btnsPerGroup * btnSize + (btnsPerGroup - 1) * gap;
+		int totalWidth = PRESET_GROUPS.size() * groupWidth + (PRESET_GROUPS.size() - 1) * groupGap;
+		int x = cx - totalWidth / 2;
+		for (int g = 0; g < PRESET_GROUPS.size(); g++) {
+			var group = PRESET_GROUPS.get(g);
+			for (int i = 0; i < group.size(); i++) {
+				Preset preset = group.get(i);
+				int bx = x;
+				addRenderableWidget(new PresetButton(bx, presetY, btnSize, btnSize, preset, b -> {
+					String value = preset.skinValue();
+					input.setValue(value);
+					confirm();
+				}));
+				x += btnSize;
+				if (i < group.size() - 1) x += gap;
+				else if (g < PRESET_GROUPS.size() - 1) x += groupGap;
+			}
+		}
 	}
 
 	private void cancel() {
@@ -106,6 +162,29 @@ public class PlayerSkinInputScreen extends Screen {
 		}
 		return !this.input.keyPressed(key, p_97879_, p_97880_) && !this.input.canConsumeInput() ?
 				super.keyPressed(key, p_97879_, p_97880_) : true;
+	}
+
+	private static final class PresetButton extends Button {
+
+		private final Preset preset;
+
+		public PresetButton(int x, int y, int w, int h, Preset preset, OnPress onPress) {
+			super(x, y, w, h, Component.empty(), onPress, DEFAULT_NARRATION);
+			this.preset = preset;
+			setTooltip(Tooltip.create(preset.type().getDescription()));
+		}
+
+		@Override
+		public MutableComponent createNarrationMessage() {
+			return Component.translatable("gui.narrate.button", preset.type().getDescription());
+		}
+
+		@Override
+		public void renderWidget(GuiGraphics g, int mx, int my, float pt) {
+			super.renderWidget(g, mx, my, pt);
+			g.renderItem(preset.icon(), getX() + (getWidth() - 16) / 2, getY() + (getHeight() - 16) / 2);
+		}
+
 	}
 
 }
