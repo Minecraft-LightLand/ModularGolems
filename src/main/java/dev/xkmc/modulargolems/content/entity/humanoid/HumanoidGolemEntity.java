@@ -1,29 +1,25 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
-import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.entity.common.ShieldUsingGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.sound.MobSoundManager;
+import dev.xkmc.modulargolems.content.entity.humanoid.sound.SoundManager;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
-import dev.xkmc.modulargolems.events.event.GolemDisableShieldEvent;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import dev.xkmc.modulargolems.events.event.GolemRidingOffsetEvent;
 import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
-import dev.xkmc.modulargolems.init.data.MGTagGen;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,14 +29,14 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -50,11 +46,71 @@ import java.util.Arrays;
 @SerialClass
 public class HumanoidGolemEntity extends ShieldUsingGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> {
 
+	private static final EntityDataAccessor<String> DATA_MAID_MODEL_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA_SOUND_PACK_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<String> DATA_PLAYER_SKIN = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
+
+	public String getMaidModelId() {
+		return entityData.get(DATA_MAID_MODEL_ID);
+	}
+
+	public void setMaidModelId(String id) {
+		entityData.set(DATA_MAID_MODEL_ID, id);
+		if (!id.isEmpty()) {
+			entityData.set(DATA_PLAYER_SKIN, "");
+		}
+	}
+
+	public String getSoundPackId() {
+		return entityData.get(DATA_SOUND_PACK_ID);
+	}
+
+	public void setSoundPackId(String id) {
+		entityData.set(DATA_SOUND_PACK_ID, id);
+	}
+
+	public String getPlayerSkin() {
+		return entityData.get(DATA_PLAYER_SKIN);
+	}
+
+	public void setPlayerSkin(String skin) {
+		entityData.set(DATA_PLAYER_SKIN, skin);
+		if (!skin.isEmpty()) {
+			entityData.set(DATA_MAID_MODEL_ID, "");
+			entityData.set(DATA_SOUND_PACK_ID, "");
+		}
+	}
+
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
 		if (!this.level().isClientSide()) {
 			this.groundNavigation.setCanOpenDoors(true);
 		}
+	}
+
+
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(DATA_MAID_MODEL_ID, "");
+		builder.define(DATA_SOUND_PACK_ID, "");
+		builder.define(DATA_PLAYER_SKIN, "");
+	}
+
+	@Override
+	protected void addAdditionalSaveData(ValueOutput tag) {
+		super.addAdditionalSaveData(tag);
+		tag.putString("maidModelId", getMaidModelId());
+		tag.putString("soundPackId", getSoundPackId());
+		tag.putString("playerSkin", getPlayerSkin());
+	}
+
+	@Override
+	public void readAdditionalSaveData(ValueInput tag) {
+		super.readAdditionalSaveData(tag);
+		tag.getString("maidModelId").ifPresent(this::setMaidModelId);
+		tag.getString("soundPackId").ifPresent(this::setSoundPackId);
+		tag.getString("playerSkin").ifPresent(this::setPlayerSkin);
 	}
 
 	// ------ common golem behavior
@@ -186,22 +242,63 @@ public class HumanoidGolemEntity extends ShieldUsingGolemEntity<HumanoidGolemEnt
 		return event.getOffset();
 	}
 
-	protected SoundEvent getHurtSound(DamageSource p_28872_) {
-		return SoundEvents.IRON_GOLEM_HURT;
+	private boolean useMaidSounds() {
+		return !getSoundPackId().isEmpty() || !getMaidModelId().isEmpty();
 	}
 
+	private SoundManager getSoundManager() {
+		/*
+		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) {
+			if (useMaidSounds()) {
+				return MaidSoundManager.INS;
+			}
+		} */
+		var playerSkin = getPlayerSkin();
+		if (playerSkin.contains(":")) {
+			var id = Identifier.tryParse(playerSkin);
+			if (id != null) {
+				if (BuiltInRegistries.ENTITY_TYPE.containsKey(id)) {
+					var type = BuiltInRegistries.ENTITY_TYPE.getValue(id);
+					var mob = MobSoundManager.MAP.get(type);
+					if (mob != null) {
+						return mob;
+					}
+				}
+			}
+		}
+		return SoundManager.INS;
+	}
+
+	@Nullable
+	@Override
+	protected SoundEvent getAmbientSound() {
+		return getSoundManager().getAmbientSound();
+	}
+
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
+		return getSoundManager().getHurtSound(source);
+	}
+
+	@Override
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.IRON_GOLEM_DEATH;
+		return getSoundManager().getDeathSound();
 	}
 
 	@Override
 	protected float getSoundVolume() {
-		return 0.6f * super.getSoundVolume();
+		return getSoundManager().getSoundVolume() * super.getSoundVolume();
 	}
 
 	@Override
 	public float getVoicePitch() {
-		return super.getVoicePitch() * 1.25f;
+		return getSoundManager().getVoicePitch() * super.getVoicePitch();
+	}
+
+	@Override
+	public void playSound(SoundEvent soundEvent, float volume, float pitch) {
+		if (getSoundManager().playSound(this, soundEvent, volume, pitch)) return;
+		super.playSound(soundEvent, volume, pitch);
 	}
 
 }

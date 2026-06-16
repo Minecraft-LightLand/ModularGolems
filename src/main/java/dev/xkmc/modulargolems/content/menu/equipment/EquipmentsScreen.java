@@ -8,11 +8,17 @@ import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinButton;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinInputScreen;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -84,6 +90,10 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		if (menu.golem == null) return;
 		new TabManager<>(this, new EquipmentGroup(menu.golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT.get());
+		if (menu.golem instanceof HumanoidGolemEntity golem) {
+			addRenderableWidget(new PlayerSkinButton(leftPos + 137, topPos + 5, golem, b ->
+					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem))));
+		}
 	}
 
 	@Override
@@ -167,6 +177,10 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	@Override
 	public int screenHeight() {
 		return height;
+	}
+
+	public <T extends GuiEventListener & Renderable & NarratableEntry> T addSkinWidget(T pWidget) {
+		return addRenderableWidget(pWidget);
 	}
 
 }

@@ -44,6 +44,16 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> 
 
 	@Override
 	public void setupAnim(HumanoidGolemRenderState state) {
+		for (var e : allParts()) e.visible = true;
+		if (state.headOnly) {
+			resetPose();
+			body.visible = false;
+			leftArm.visible = false;
+			rightArm.visible = false;
+			leftLeg.visible = false;
+			rightLeg.visible = false;
+			return;
+		}
 		super.setupAnim(state);
 		if (state.common().aggressive() && state.attackTime == 0.0F) {
 			if (state.leftArmPose == ArmPose.ITEM) {
