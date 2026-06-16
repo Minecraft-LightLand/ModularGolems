@@ -13,6 +13,10 @@ import dev.xkmc.modulargolems.content.item.render.IsInTag;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.table.ItemListClientTooltip;
 import dev.xkmc.modulargolems.content.menu.table.ItemListTooltip;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.mob.MobSkinDispatch;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.util.EsterEggUtil;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -69,6 +73,7 @@ public class GolemClient {
 
 	@SubscribeEvent
 	public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
+		MobSkinDispatch.setup(event.getContext());
 		PlayerSkinRenderer.SLIM = new PlayerSkinRenderer(event.getContext(), true);
 		PlayerSkinRenderer.REGULAR = new PlayerSkinRenderer(event.getContext(), false);
 		// if (ENABLE_TLM && ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidSkinCompat.addLayers(event);
