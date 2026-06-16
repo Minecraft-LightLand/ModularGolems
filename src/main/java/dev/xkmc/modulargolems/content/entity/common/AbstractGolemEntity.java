@@ -1351,4 +1351,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return (float) getAttributeValue(GolemTypes.DYNAMIC_REDUCTION.get()) * 20;
 	}
 
+	public int getPreviewScale() {
+		return 18;
+	}
+
 }

@@ -397,4 +397,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		super.playSound(soundEvent, volume, pitch);
 	}
 
+	@Override
+	public int getPreviewScale() {
+		return 24;
+	}
+
 }

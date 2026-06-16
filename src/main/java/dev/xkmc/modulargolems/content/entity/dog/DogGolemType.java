@@ -1,0 +1,34 @@
+package dev.xkmc.modulargolems.content.entity.dog;
+
+import com.tterrag.registrate.util.entry.EntityEntry;
+import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.core.MenuControl;
+import dev.xkmc.modulargolems.content.core.ModelProvider;
+import dev.xkmc.modulargolems.content.core.OverlayControl;
+import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Supplier;
+
+public class DogGolemType extends GolemType<DogGolemEntity, DogGolemPartType> {
+
+	public DogGolemType(EntityEntry<DogGolemEntity> type, Supplier<ModelProvider<DogGolemEntity, DogGolemPartType>> model) {
+		super(type, DogGolemPartType::values, DogGolemPartType.BODY, model);
+	}
+
+	@Override
+	public MenuControl<DogGolemEntity> menuControl(EquipmentsMenu menu, DogGolemEntity golem) {
+		return new DogGolemMenuControl(menu, golem);
+	}
+
+	@Override
+	public Supplier<Supplier<OverlayControl<DogGolemEntity>>> overlayControl(DogGolemEntity golem) {
+		return () -> () -> new DogGolemOverlayControl(golem);
+	}
+
+	public ItemStack getMenuIcon(DogGolemEntity golem) {
+		return GolemItems.DOG_ARMOR_DIAMOND.asStack();
+	}
+
+}

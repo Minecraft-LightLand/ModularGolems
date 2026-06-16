@@ -64,6 +64,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+@SuppressWarnings("removal")
 public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
 	public static final String KEY_MATERIAL = "golem_materials",
@@ -287,9 +288,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return golem;
 	}
 
-	private final RegistryEntry<GolemType<T, P>> type;
+	private final RegistryEntry<? extends GolemType<T, P>> type;
 
-	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
+	public GolemHolder(Properties props, RegistryEntry<? extends GolemType<T, P>> type) {
 		super(props.stacksTo(1));
 		this.type = type;
 		synchronized (GolemType.class) {

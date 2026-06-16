@@ -340,4 +340,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return ItemWrapper.simple(() -> rightShoulder, e -> rightShoulder = e);
 	}
 
+	@Override
+	public int getPreviewScale() {
+		return 20;
+	}
+
 }

@@ -13,6 +13,8 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fml.loading.FMLLoader;
@@ -126,6 +128,11 @@ public class GolemMaterialConfig extends BaseConfig {
 			this.id = id;
 			this.ingredient = ingredient;
 			this.repairIngredient = repair;
+		}
+
+		public Builder onlyFor(TagKey<Item> part) {
+			parent.partLimitation.put(id, Ingredient.of(part));
+			return this;
 		}
 
 		public Builder addStat(GolemStatType type, double val) {

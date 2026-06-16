@@ -4,9 +4,9 @@ import dev.xkmc.l2itemselector.wheel.PersistentWheel;
 import dev.xkmc.l2itemselector.wheel.WheelAdaptor;
 import dev.xkmc.l2itemselector.wheel.WheelContext;
 import dev.xkmc.l2itemselector.wheel.WheelKeyHandler;
+import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -15,7 +15,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -37,10 +36,7 @@ public record GolemModeWheel(
 				if (entry == null || !entry.getID().equals(player.getUUID())) return null;
 				return new GolemFakeWheel(GolemItems.CARD[entry.getColor()].asStack(), MGLangData.TAB_TOGGLE.get());
 			} else {
-				ItemStack armor;
-				if (golem instanceof MetalGolemEntity) armor = GolemItems.WINDSPIRIT_CHESTPLATE.asStack();
-				else if (golem instanceof DogGolemEntity) armor = GolemItems.DOG_ARMOR_DIAMOND.asStack();
-				else armor = Items.DIAMOND_CHESTPLATE.getDefaultInstance();
+				ItemStack armor = GolemType.getGolemType(golem.getType()).getMenuIcon(Wrappers.cast(golem));
 				return new GolemFakeWheel(armor, MGLangData.TAB_EQUIPMENT.get());
 			}
 		}

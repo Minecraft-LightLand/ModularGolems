@@ -42,6 +42,7 @@ import java.util.function.Supplier;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
+@SuppressWarnings("removal")
 public class GolemItems {
 
 	public static final RegistryEntry<CreativeModeTab> ITEMS, UPGRADES, GOLEMS;

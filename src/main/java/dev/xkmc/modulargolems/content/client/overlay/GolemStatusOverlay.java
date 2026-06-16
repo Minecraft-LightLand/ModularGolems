@@ -7,6 +7,9 @@ import dev.xkmc.l2library.base.overlay.OverlayUtil;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
+import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.core.OverlayControl;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
@@ -94,49 +97,30 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		return Component.literal("" + Math.round(v)).setStyle(Style.EMPTY.withColor(col));
 	}
 
-	private record GolemEquipmentTooltip(AbstractGolemEntity<?, ?> golem) implements ClientTooltipComponent {
+	public record GolemEquipmentTooltip(AbstractGolemEntity<?, ?> golem) implements ClientTooltipComponent {
 
 		public static final SpriteManager SPRITE = new SpriteManager(ModularGolems.MODID, "equipments");
 
+		public OverlayControl<?> getCtrl() {
+			return GolemType.getGolemType(golem.getType()).overlayControl(Wrappers.cast(golem)).get().get();
+		}
+
 		@Override
 		public int getHeight() {
-			if (golem instanceof DogGolemEntity) return 38;
-			return 74;
+			return getCtrl().getHeight();
 		}
 
 		@Override
 		public int getWidth(Font pFont) {
-			if (golem instanceof DogGolemEntity) return 18;
-			return 54;
+			return getCtrl().getWidth(pFont);
 		}
 
 		@Override
 		public void renderImage(Font font, int mx, int my, GuiGraphics g) {
-			if (golem instanceof DogGolemEntity) {
-				renderSlot(g, mx, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");
-				renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.CHEST), "slotbg_dog_armor");
-				return;
-			}
-			renderSlot(g, mx + 18, my, golem.getItemBySlot(EquipmentSlot.HEAD), "altas_helmet");
-			renderSlot(g, mx + 18, my + 18, golem.getItemBySlot(EquipmentSlot.CHEST), "altas_chestplate");
-			renderSlot(g, mx + 18, my + 36, golem.getItemBySlot(EquipmentSlot.LEGS), "altas_leggings");
-			renderSlot(g, mx + 18, my + 54, golem.getItemBySlot(EquipmentSlot.FEET), "altas_boots");
-
-			renderSlot(g, mx, my + 18, golem.getItemBySlot(EquipmentSlot.MAINHAND), "slotbg_sword");
-			renderSlot(g, mx + 36, my + 18, golem.getItemBySlot(EquipmentSlot.OFFHAND), "altas_shield");
-
-			if (golem instanceof SweepGolemEntity<?, ?> h) {
-				renderSlot(g, mx, my + 36, h.getBackupHand().getItem(), "slotbg_bow");
-				renderSlot(g, mx + 36, my + 36, h.getArrowSlot().getItem(), "slotbg_arrow");
-			}
-
-			if (golem instanceof MetalGolemEntity e) {
-				renderSlot(g, mx, my, e.getRightShoulder().getItem(), "slotbg_shoulder");
-				renderSlot(g, mx + 36, my, e.getLeftShoulder().getItem(), "slotbg_shoulder");
-			}
+			getCtrl().renderImage(this, font, mx, my, g);
 		}
 
-		private void renderSlot(GuiGraphics g, int x, int y, ItemStack stack, String bgName) {
+		public void renderSlot(GuiGraphics g, int x, int y, ItemStack stack, String bgName) {
 			if (bgName.startsWith("altas_")) {
 				blitSlotBg(g, x, y, "slot");
 				if (stack.isEmpty())
@@ -152,7 +136,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 			g.renderItemDecorations(Minecraft.getInstance().font, stack, x + 1, y + 1);
 		}
 
-		private void blitSlotBg(GuiGraphics g, int x, int y, String bgName) {
+		public void blitSlotBg(GuiGraphics g, int x, int y, String bgName) {
 			var tex = SPRITE.get().getTexture();
 			var side = SPRITE.get().getSide(bgName);
 			g.blit(tex, x, y, side.x, side.y, side.w, side.h);

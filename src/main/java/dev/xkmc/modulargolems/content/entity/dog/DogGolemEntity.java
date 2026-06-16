@@ -325,5 +325,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 		return super.hasRangeAttack();
 	}
+
+	@Override
+	public int getPreviewScale() {
+		return 32;
+	}
+	
 }
 
