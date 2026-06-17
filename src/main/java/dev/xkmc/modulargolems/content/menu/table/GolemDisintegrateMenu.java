@@ -91,31 +91,30 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	public boolean clickMenuButton(Player player, int id) {
 		if (id == 1) {
 			var input = main.getItem();
-			if (input.getItem() instanceof GolemHolder<?, ?>) {
-				boolean mayBreak = !input.isEmpty();
-				for (var e : partSlots)
-					mayBreak &= e.getItem().isEmpty();
-				if (mayBreak) {
-					float max = GolemHolder.getMaxHealth(input);
-					float health = GolemHolder.getHealth(input);
-					int reforge = GolemHolder.getReforge(input);
-					if (max > 0 && health < max || reforge > 0)
-						mayBreak = false;
-				}
-				if (!mayBreak) return false;
-				if (!(inventory.player instanceof ServerPlayer sp))
-					return true;
-				changing = true;
-				for (var e : partSlots)
-					e.set(e.partShadow);
-				changing = false;
-				for (var e : main.dropList) {
-					returnToPlayer(e);
-				}
-				main.set(ItemStack.EMPTY);
-				return true;
+			if (!(input.getItem() instanceof GolemHolder<?, ?> holder)) return false;
+			if (!holder.getEntityType().mayEdit(input)) return false;
+			boolean mayBreak = !input.isEmpty();
+			for (var e : partSlots)
+				mayBreak &= e.getItem().isEmpty();
+			if (mayBreak) {
+				float max = GolemHolder.getMaxHealth(input);
+				float health = GolemHolder.getHealth(input);
+				int reforge = GolemHolder.getReforge(input);
+				if (max > 0 && health < max || reforge > 0)
+					mayBreak = false;
 			}
-			return false;
+			if (!mayBreak) return false;
+			if (!(inventory.player instanceof ServerPlayer sp))
+				return true;
+			changing = true;
+			for (var e : partSlots)
+				e.set(e.partShadow);
+			changing = false;
+			for (var e : main.dropList) {
+				returnToPlayer(e);
+			}
+			main.set(ItemStack.EMPTY);
+			return true;
 		}
 		return super.clickMenuButton(player, id);
 	}
@@ -332,6 +331,10 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			}
 			if (!(main.getItem().getItem() instanceof GolemHolder<?, ?> holder))
 				return;
+			if (!holder.getEntityType().mayEdit(main.getItem())) {
+				active = false;
+				return;
+			}
 			var part = of(holder);
 			active = !getItem().isEmpty() || part != null;
 			if (part == null) return;

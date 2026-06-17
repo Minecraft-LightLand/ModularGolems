@@ -75,7 +75,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		}
 		var input = menu.main.getItem();
 		buttonError = null;
-		boolean mayBreak = !input.isEmpty();
+		boolean mayBreak = !input.isEmpty() && input.getItem() instanceof GolemHolder<?, ?> holder && holder.getEntityType().mayEdit(input);
 		for (var e : menu.partSlots)
 			mayBreak &= e.getItem().isEmpty();
 		disintegrate.visible = mayBreak;
