@@ -115,7 +115,7 @@ public record MobSkinDispatch(
 	@Override
 	public void submit(HumanoidGolemRenderState entity, PoseStack pose, SubmitNodeCollector source, CameraRenderState cam) {
 		try {
-			if (true | entity.headOnly) {
+			if ( entity.headOnly) {
 				pose.pushPose();
 				pose.scale(-1.0F, -1.0F, 1.0F);
 				float diff = renderer.getModel().root().y + renderer.getModel().head.y;
