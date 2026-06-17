@@ -6,7 +6,7 @@ import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.core.MenuControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.FriendlyByteBuf;
@@ -37,7 +37,7 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	@Nullable
 	public final AbstractGolemEntity<?, ?> golem;
 	@Nullable
-	public final MenuControl<?> ctrl;
+	public final GolemMenuControl<?> ctrl;
 	protected final EquipmentSlot[] equipmentSlots;
 
 	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable AbstractGolemEntity<?, ?> golem) {

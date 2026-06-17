@@ -9,11 +9,8 @@ import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.core.OverlayControl;
+import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.events.event.GolemInfoEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -29,7 +26,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
@@ -101,7 +97,7 @@ public class GolemStatusOverlay implements IGuiOverlay {
 
 		public static final SpriteManager SPRITE = new SpriteManager(ModularGolems.MODID, "equipments");
 
-		public OverlayControl<?> getCtrl() {
+		public GolemOverlayControl<?> getCtrl() {
 			return GolemType.getGolemType(golem.getType()).overlayControl(Wrappers.cast(golem)).get().get();
 		}
 

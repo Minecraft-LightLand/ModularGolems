@@ -9,12 +9,12 @@ import net.minecraft.world.inventory.Slot;
 
 import java.util.List;
 
-public abstract class ScreenControl<T extends AbstractGolemEntity<T, ?>> {
+public abstract class GolemScreenControl<T extends AbstractGolemEntity<T, ?>> {
 
 	public final EquipmentsMenu menu;
-	public final MenuControl<T> ctrl;
+	public final GolemMenuControl<T> ctrl;
 
-	public ScreenControl(MenuControl<T> ctrl) {
+	public GolemScreenControl(GolemMenuControl<T> ctrl) {
 		this.ctrl = ctrl;
 		this.menu = ctrl.menu;
 	}

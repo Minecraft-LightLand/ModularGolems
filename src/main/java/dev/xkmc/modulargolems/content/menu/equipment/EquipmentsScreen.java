@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
-import dev.xkmc.modulargolems.content.core.MenuControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinButton;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinInputScreen;
@@ -33,7 +33,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
 		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(g);
-		Optional.ofNullable(menu.ctrl).flatMap(MenuControl::getScreenProvider)
+		Optional.ofNullable(menu.ctrl).flatMap(GolemMenuControl::getScreenProvider)
 				.ifPresent(screenControl -> screenControl.render(sr, g, pTick));
 		renderPreview(g, mx, my);
 	}
@@ -54,7 +54,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	protected void renderTooltip(GuiGraphics g, int mx, int my) {
 		super.renderTooltip(g, mx, my);
 		if (menu.getCarried().isEmpty() && hoveredSlot instanceof PredSlot && !hoveredSlot.hasItem()) {
-			List<Component> list = Optional.ofNullable(menu.ctrl).flatMap(MenuControl::getScreenProvider)
+			List<Component> list = Optional.ofNullable(menu.ctrl).flatMap(GolemMenuControl::getScreenProvider)
 					.map(ctrl -> ctrl.addSlotTooltip(hoveredSlot)).orElse(List.of());
 			if (!list.isEmpty()) {
 				g.renderTooltip(this.font, list, Optional.empty(), ItemStack.EMPTY, mx, my);

@@ -2,9 +2,9 @@ package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import com.tterrag.registrate.util.entry.EntityEntry;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.core.MenuControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.core.ModelProvider;
-import dev.xkmc.modulargolems.content.core.OverlayControl;
+import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -18,12 +18,12 @@ public class HumanoidGolemType extends GolemType<HumanoidGolemEntity, HumanoidGo
 	}
 
 	@Override
-	public MenuControl<HumanoidGolemEntity> menuControl(EquipmentsMenu menu, HumanoidGolemEntity golem) {
+	public GolemMenuControl<HumanoidGolemEntity> menuControl(EquipmentsMenu menu, HumanoidGolemEntity golem) {
 		return new HumanoidGolemMenuControl(menu, golem);
 	}
 
 	@Override
-	public Supplier<Supplier<OverlayControl<HumanoidGolemEntity>>> overlayControl(HumanoidGolemEntity golem) {
+	public Supplier<Supplier<GolemOverlayControl<HumanoidGolemEntity>>> overlayControl(HumanoidGolemEntity golem) {
 		return () -> () -> new HumanoidGolemOverlayControl(golem);
 	}
 

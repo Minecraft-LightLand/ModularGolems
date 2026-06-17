@@ -1,13 +1,13 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2library.base.menu.base.MenuLayoutConfig;
-import dev.xkmc.modulargolems.content.core.MenuControl;
-import dev.xkmc.modulargolems.content.core.ScreenControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
+import dev.xkmc.modulargolems.content.core.GolemScreenControl;
 import net.minecraft.client.gui.GuiGraphics;
 
-public class SweepGolemScreenControl<T extends SweepGolemEntity<T, ?>> extends ScreenControl<T> {
+public class SweepGolemScreenControl<T extends SweepGolemEntity<T, ?>> extends GolemScreenControl<T> {
 
-	public SweepGolemScreenControl(MenuControl<T> ctrl) {
+	public SweepGolemScreenControl(GolemMenuControl<T> ctrl) {
 		super(ctrl);
 	}
 

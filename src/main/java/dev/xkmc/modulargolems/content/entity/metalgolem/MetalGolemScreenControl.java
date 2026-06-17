@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2library.base.menu.base.MenuLayoutConfig;
-import dev.xkmc.modulargolems.content.core.MenuControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemScreenControl;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MetalGolemScreenControl extends SweepGolemScreenControl<MetalGolemEntity> {
 
-	public MetalGolemScreenControl(MenuControl<MetalGolemEntity> ctrl) {
+	public MetalGolemScreenControl(GolemMenuControl<MetalGolemEntity> ctrl) {
 		super(ctrl);
 	}
 

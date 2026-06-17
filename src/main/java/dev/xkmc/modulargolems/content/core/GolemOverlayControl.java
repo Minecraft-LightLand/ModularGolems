@@ -5,11 +5,11 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 
-public abstract class OverlayControl<T extends AbstractGolemEntity<T, ?>> {
+public abstract class GolemOverlayControl<T extends AbstractGolemEntity<T, ?>> {
 
 	public final T golem;
 
-	public OverlayControl(T golem) {
+	public GolemOverlayControl(T golem) {
 		this.golem = golem;
 	}
 

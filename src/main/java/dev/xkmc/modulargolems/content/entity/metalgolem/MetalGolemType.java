@@ -2,9 +2,9 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.tterrag.registrate.util.entry.EntityEntry;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.core.MenuControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.core.ModelProvider;
-import dev.xkmc.modulargolems.content.core.OverlayControl;
+import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.world.item.ItemStack;
@@ -18,12 +18,12 @@ public class MetalGolemType extends GolemType<MetalGolemEntity, MetalGolemPartTy
 	}
 
 	@Override
-	public MenuControl<MetalGolemEntity> menuControl(EquipmentsMenu menu, MetalGolemEntity golem) {
+	public GolemMenuControl<MetalGolemEntity> menuControl(EquipmentsMenu menu, MetalGolemEntity golem) {
 		return new MetalGolemMenuControl(menu, golem);
 	}
 
 	@Override
-	public Supplier<Supplier<OverlayControl<MetalGolemEntity>>> overlayControl(MetalGolemEntity golem) {
+	public Supplier<Supplier<GolemOverlayControl<MetalGolemEntity>>> overlayControl(MetalGolemEntity golem) {
 		return () -> () -> new MetalGolemOverlayControl(golem);
 	}
 

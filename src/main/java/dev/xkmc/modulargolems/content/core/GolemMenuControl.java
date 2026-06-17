@@ -11,12 +11,12 @@ import net.minecraftforge.common.MinecraftForge;
 import java.util.Optional;
 import java.util.Set;
 
-public abstract class MenuControl<T extends AbstractGolemEntity<T, ?>> {
+public abstract class GolemMenuControl<T extends AbstractGolemEntity<T, ?>> {
 
 	public final EquipmentsMenu menu;
 	public final T golem;
 
-	public MenuControl(EquipmentsMenu menu, T golem) {
+	public GolemMenuControl(EquipmentsMenu menu, T golem) {
 		this.menu = menu;
 		this.golem = golem;
 	}
@@ -47,6 +47,6 @@ public abstract class MenuControl<T extends AbstractGolemEntity<T, ?>> {
 
 	public abstract EquipmentSlot[] getSlotDefinition();
 
-	public abstract Optional<? extends ScreenControl<T>> getScreenProvider();
+	public abstract Optional<? extends GolemScreenControl<T>> getScreenProvider();
 
 }

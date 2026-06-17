@@ -2,9 +2,9 @@ package dev.xkmc.modulargolems.content.entity.dog;
 
 import com.tterrag.registrate.util.entry.EntityEntry;
 import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.core.MenuControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.core.ModelProvider;
-import dev.xkmc.modulargolems.content.core.OverlayControl;
+import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.world.item.ItemStack;
@@ -18,12 +18,12 @@ public class DogGolemType extends GolemType<DogGolemEntity, DogGolemPartType> {
 	}
 
 	@Override
-	public MenuControl<DogGolemEntity> menuControl(EquipmentsMenu menu, DogGolemEntity golem) {
+	public GolemMenuControl<DogGolemEntity> menuControl(EquipmentsMenu menu, DogGolemEntity golem) {
 		return new DogGolemMenuControl(menu, golem);
 	}
 
 	@Override
-	public Supplier<Supplier<OverlayControl<DogGolemEntity>>> overlayControl(DogGolemEntity golem) {
+	public Supplier<Supplier<GolemOverlayControl<DogGolemEntity>>> overlayControl(DogGolemEntity golem) {
 		return () -> () -> new DogGolemOverlayControl(golem);
 	}
 

@@ -1,12 +1,12 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
-import dev.xkmc.modulargolems.content.core.OverlayControl;
+import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.EquipmentSlot;
 
-public class SweepGolemOverlayControl<T extends SweepGolemEntity<T, ?>> extends OverlayControl<T> {
+public class SweepGolemOverlayControl<T extends SweepGolemEntity<T, ?>> extends GolemOverlayControl<T> {
 
 	public SweepGolemOverlayControl(T golem) {
 		super(golem);

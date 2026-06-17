@@ -1,12 +1,12 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
-import dev.xkmc.modulargolems.content.core.MenuControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 
-public abstract class SweepGolemMenuControl<T extends SweepGolemEntity<T, ?>> extends MenuControl<T> {
+public abstract class SweepGolemMenuControl<T extends SweepGolemEntity<T, ?>> extends GolemMenuControl<T> {
 
 	public SweepGolemMenuControl(EquipmentsMenu menu, T golem) {
 		super(menu, golem);

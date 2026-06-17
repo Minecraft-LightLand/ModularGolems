@@ -1,13 +1,13 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.l2library.base.menu.base.MenuLayoutConfig;
-import dev.xkmc.modulargolems.content.core.MenuControl;
-import dev.xkmc.modulargolems.content.core.ScreenControl;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
+import dev.xkmc.modulargolems.content.core.GolemScreenControl;
 import net.minecraft.client.gui.GuiGraphics;
 
-public class DogGolemScreenControl extends ScreenControl<DogGolemEntity> {
+public class DogGolemScreenControl extends GolemScreenControl<DogGolemEntity> {
 
-	public DogGolemScreenControl(MenuControl<DogGolemEntity> ctrl) {
+	public DogGolemScreenControl(GolemMenuControl<DogGolemEntity> ctrl) {
 		super(ctrl);
 	}
 

@@ -1,12 +1,12 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
-import dev.xkmc.modulargolems.content.core.OverlayControl;
+import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.EquipmentSlot;
 
-public class DogGolemOverlayControl extends OverlayControl<DogGolemEntity> {
+public class DogGolemOverlayControl extends GolemOverlayControl<DogGolemEntity> {
 
 	public DogGolemOverlayControl(DogGolemEntity golem) {
 		super(golem);
