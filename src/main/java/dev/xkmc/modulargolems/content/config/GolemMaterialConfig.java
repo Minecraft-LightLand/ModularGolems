@@ -12,8 +12,8 @@ import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -42,7 +42,7 @@ public class GolemMaterialConfig extends BaseConfig {
 		var config = get();
 		var limit = config.partLimitation.get(rl);
 		if (limit == null) return part.getDefaultInstance().is(MGTagGen.GENERIC_PARTS);
-		return limit.test(part.getDefaultInstance());
+		return limit.contains(part);
 	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
@@ -63,7 +63,7 @@ public class GolemMaterialConfig extends BaseConfig {
 
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialClass.SerialField
-	public HashMap<ResourceLocation, Ingredient> partLimitation = new LinkedHashMap<>();
+	public HashMap<ResourceLocation, LinkedHashSet<Item>> partLimitation = new LinkedHashMap<>();
 
 	public List<ResourceLocation> getAllMaterials() {
 		TreeSet<ResourceLocation> set = new TreeSet<>(stats.keySet());
@@ -105,6 +105,23 @@ public class GolemMaterialConfig extends BaseConfig {
 		return new Builder(this, id, ingredient, repair);
 	}
 
+	public GolemMaterialConfig supportsDefaultAnd(List<Item> part, ResourceLocation... ids) {
+		List<Item> list = new ArrayList<>();
+		list.addAll(List.of(GolemItems.GOLEM_BODY.get(), GolemItems.GOLEM_ARM.get(), GolemItems.GOLEM_LEGS.get(),
+				GolemItems.HUMANOID_BODY.get(), GolemItems.HUMANOID_ARMS.get(), GolemItems.HUMANOID_LEGS.get(),
+				GolemItems.DOG_BODY.get(), GolemItems.DOG_LEGS.get()));
+		list.addAll(part);
+		for (var id : ids)
+			partLimitation.put(id, new LinkedHashSet<>(list));
+		return this;
+	}
+
+	public GolemMaterialConfig supportsAlso(List<Item> part, ResourceLocation... ids) {
+		for (var id : ids)
+			partLimitation.put(id, new LinkedHashSet<>(part));
+		return this;
+	}
+
 	@DataGenOnly
 	public static class Builder {
 
@@ -130,8 +147,8 @@ public class GolemMaterialConfig extends BaseConfig {
 			this.repairIngredient = repair;
 		}
 
-		public Builder onlyFor(TagKey<Item> part) {
-			parent.partLimitation.put(id, Ingredient.of(part));
+		public Builder onlyFor(Item... part) {
+			parent.partLimitation.put(id, new LinkedHashSet<>(List.of(part)));
 			return this;
 		}
 

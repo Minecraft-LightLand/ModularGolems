@@ -51,6 +51,7 @@ public class MGTagGen {
 	public static final TagKey<Item> PLAYER_SKIN = createItemTag("player_skin");
 	public static final TagKey<Item> LARGE_GOLEM_WEAPONS = createItemTag("large_golem_weapons");
 	public static final TagKey<Item> SHIELD_BREAKER_WEAPONS = createItemTag("shield_breaker_weapons");
+	public static final TagKey<Item> GOLEM_DAMAGEABLE = createItemTag("golem_damageable");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<EntityType<?>> SHIELD_BREAKER = createEntityTag("shield_breaker");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
@@ -76,6 +77,7 @@ public class MGTagGen {
 		pvd.addTag(MGTagGen.GOLEM_INTERACT).addTag(GOLEM_OMNI_WAND);
 		pvd.addTag(SCULK_MATS).add(Items.ECHO_SHARD);
 		pvd.addTag(SPECIAL_CRAFT);
+		pvd.addTag(GOLEM_DAMAGEABLE);
 		pvd.addTag(GOLEM_PARTS).addTag(GENERIC_PARTS);
 		pvd.addTag(GOLEM_INTERACT).addTag(CONFIG_CARD).addTag(GOLEM_HOLDERS);
 		OPTIONAL_ITEM.forEach(e -> e.accept(pvd));

@@ -55,6 +55,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -78,6 +79,7 @@ import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -1353,6 +1355,27 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public int getPreviewScale() {
 		return 18;
+	}
+
+	@Override
+	protected void hurtArmor(DamageSource source, float damage) {
+		if (damage <= 0.0F) return;
+		damage /= 4.0F;
+		if (damage < 1.0F) {
+			damage = 1.0F;
+		}
+		for (EquipmentSlot slot : EquipmentSlot.values()) {
+			if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
+			ItemStack stack = this.getItemBySlot(slot);
+			if (!shouldHurtArmor(source, stack)) continue;
+			stack.hurtAndBreak((int) damage, this, (entity) -> entity.broadcastBreakEvent(slot));
+		}
+	}
+
+	protected boolean shouldHurtArmor(DamageSource source, ItemStack stack) {
+		if (!stack.isDamageableItem()) return false;
+		if (source.is(DamageTypeTags.IS_FIRE) && stack.getItem().isFireResistant()) return false;
+		return stack.getItem() instanceof ArmorItem || stack.is(MGTagGen.GOLEM_DAMAGEABLE);
 	}
 
 }
