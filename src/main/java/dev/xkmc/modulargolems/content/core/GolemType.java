@@ -7,6 +7,7 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -107,5 +108,9 @@ public abstract class GolemType<T extends AbstractGolemEntity<T, P>, P extends I
 	public abstract Supplier<Supplier<GolemOverlayControl<T>>> overlayControl(T golem);
 
 	public abstract ItemStack getMenuIcon(T golem);
+
+	public ResourceLocation defaultMaterial() {
+		return ModularGolems.loc("iron");
+	}
 
 }

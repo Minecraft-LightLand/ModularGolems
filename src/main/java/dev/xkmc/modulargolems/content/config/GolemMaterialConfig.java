@@ -29,13 +29,20 @@ public class GolemMaterialConfig extends BaseConfig {
 		return ModularGolems.MATERIALS.getMerged();
 	}
 
-
 	public static boolean mayApply(GolemHolder<?, ?> holder, ResourceLocation rl) {
 		for (var part : holder.getEntityType().values()) {
 			if (!mayApply(part.toItem(), rl))
 				return false;
 		}
 		return true;
+	}
+
+	public static boolean anyApplicable(GolemHolder<?, ?> holder, ResourceLocation rl) {
+		for (var part : holder.getEntityType().values()) {
+			if (mayApply(part.toItem(), rl))
+				return true;
+		}
+		return false;
 	}
 
 	public static boolean mayApply(GolemPart<?, ?> part, ResourceLocation rl) {
