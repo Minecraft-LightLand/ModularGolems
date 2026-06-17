@@ -124,6 +124,7 @@ public class GolemJEIPlugin implements IModPlugin {
 	private static void addPartCraftRecipes(List<IJeiAnvilRecipe> recipes, GolemMaterialConfig config, IVanillaRecipeFactory factory) {
 		for (var mat : config.getAllMaterials()) {
 			{
+				if (!GolemMaterialConfig.mayApply(GolemItems.GOLEM_BODY.get(), mat)) continue;
 				recipes.add(factory.createAnvilRecipe(new ItemStack(GolemItems.EMPTY_UPGRADE),
 						List.of(config.getRepairIngredient(mat).getItems()),
 						List.of(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat))));

@@ -52,6 +52,7 @@ public class CraftEventListeners {
 		if (stack.is(GolemItems.EMPTY_UPGRADE.get())) {
 			var mat = GolemMaterial.getRepairMaterial(block);
 			if (mat.isEmpty()) return;
+			if(!GolemMaterialConfig.mayApply(GolemItems.GOLEM_BODY.get(), mat.get())) return;
 			var ans = GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat.get());
 			ans.setCount(stack.getCount());
 			int consume = Math.min(stack.getCount(), block.getCount());
