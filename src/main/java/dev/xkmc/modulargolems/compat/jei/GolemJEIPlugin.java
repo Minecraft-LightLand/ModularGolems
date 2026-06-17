@@ -138,6 +138,7 @@ public class GolemJEIPlugin implements IModPlugin {
 			}
 			if (special) continue;
 			for (var item : GolemPart.LIST) {
+				if (!item.getDefaultInstance().is(MGTagGen.ANVIL_CRAFT)) continue;
 				if (!GolemMaterialConfig.mayApply(item, mat)) continue;
 				List<ItemStack> list = new ArrayList<>();
 				for (ItemStack stack : arr) {

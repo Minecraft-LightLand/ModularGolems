@@ -31,7 +31,7 @@ public class CraftEventListeners {
 		ItemStack stack = event.getLeft();
 		ItemStack block = event.getRight();
 		if (stack.getItem() instanceof GolemPart<?, ?> part) {
-			if (part.count > block.getCount() || block.is(MGTagGen.SPECIAL_CRAFT)) return;
+			if (part.count > block.getCount() || block.is(MGTagGen.SPECIAL_CRAFT) || !stack.is(MGTagGen.ANVIL_CRAFT)) return;
 			var mat = GolemMaterial.getMaterial(block);
 			if (mat.isEmpty()) return;
 			if (!GolemMaterialConfig.mayApply(part, mat.get())) return;
