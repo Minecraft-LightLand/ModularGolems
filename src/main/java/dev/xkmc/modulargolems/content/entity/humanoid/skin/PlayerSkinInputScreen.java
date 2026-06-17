@@ -1,21 +1,36 @@
 package dev.xkmc.modulargolems.content.entity.humanoid.skin;
 
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.mob.MobSkinDispatch;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.List;
 
 public class PlayerSkinInputScreen extends Screen {
 
 	private static final Component TITLE = Component.translatable(ModularGolems.MODID + ".gui.player_skin");
 	private static final Component CONFIRM = Component.translatable(ModularGolems.MODID + ".gui.player_skin.confirm");
 	private static final Component CANCEL = Component.translatable(ModularGolems.MODID + ".gui.player_skin.cancel");
+
+	private static final List<List<EntityType<?>>> PRESET_GROUPS = List.of(
+			List.of(EntityType.ZOMBIE, EntityType.HUSK, EntityType.DROWNED),
+			List.of(EntityType.SKELETON, EntityType.WITHER_SKELETON, EntityType.STRAY),
+			List.of(EntityType.PIGLIN, EntityType.PIGLIN_BRUTE, EntityType.ZOMBIFIED_PIGLIN)
+	);
 
 	private final HumanoidGolemEntity golem;
 	private final String prev;
@@ -42,6 +57,32 @@ public class PlayerSkinInputScreen extends Screen {
 				.bounds(cx - 120, cy + 10, 116, 20).build());
 		addRenderableWidget(Button.builder(CANCEL, e -> cancel())
 				.bounds(cx + 4, cy + 10, 116, 20).build());
+
+		int presetY = cy + 65;
+		int btnSize = 22;
+		int gap = 4;
+		int groupGap = 6;
+
+		int groupCount = PRESET_GROUPS.size();
+		int tabCount = 0;
+		for (var e : PRESET_GROUPS) tabCount += e.size();
+
+		int totalWidth = (btnSize + gap) * tabCount + groupCount * groupGap - groupGap - gap;
+		int x = cx - totalWidth / 2;
+		for (int g = 0; g < PRESET_GROUPS.size(); g++) {
+			var group = PRESET_GROUPS.get(g);
+			for (int i = 0; i < group.size(); i++) {
+				var type = group.get(i);
+				int bx = x;
+				addRenderableWidget(new PresetButton(bx, presetY, btnSize, btnSize, type, b -> {
+					input.setValue(ForgeRegistries.ENTITY_TYPES.getKey(type).toString());
+					apply();
+				}));
+				x += btnSize;
+				if (i < group.size() - 1) x += gap;
+				else if (g < PRESET_GROUPS.size() - 1) x += groupGap;
+			}
+		}
 	}
 
 	private void cancel() {
@@ -99,8 +140,37 @@ public class PlayerSkinInputScreen extends Screen {
 			apply();
 			return true;
 		}
-		return !this.input.keyPressed(key, p_97879_, p_97880_) && !this.input.canConsumeInput() ?
-				super.keyPressed(key, p_97879_, p_97880_) : true;
+		return this.input.keyPressed(key, p_97879_, p_97880_) || this.input.canConsumeInput() || super.keyPressed(key, p_97879_, p_97880_);
+	}
+
+	private static final class PresetButton extends Button {
+
+		private final EntityType<?> preset;
+
+		public PresetButton(int x, int y, int w, int h, EntityType<?> preset, OnPress onPress) {
+			super(x, y, w, h, Component.empty(), onPress, DEFAULT_NARRATION);
+			this.preset = preset;
+			setTooltip(Tooltip.create(preset.getDescription()));
+		}
+
+		@Override
+		public MutableComponent createNarrationMessage() {
+			return Component.translatable("gui.narrate.button", preset.getDescription());
+		}
+
+		@Override
+		public void renderWidget(GuiGraphics g, int mx, int my, float pt) {
+			super.renderWidget(g, mx, my, pt);
+			var level = Minecraft.getInstance().level;
+			if (level == null) return;
+			var e = MobSkinDispatch.of(preset);
+			if (e == null) return;
+			g.pose().pushPose();
+			g.pose().translate(getX() + (getWidth() - 16) / 2, getY() + (getHeight() - 16) / 2, 0);
+			e.renderSkullIcon(level, g, pt);
+			g.pose().popPose();
+		}
+
 	}
 
 }
