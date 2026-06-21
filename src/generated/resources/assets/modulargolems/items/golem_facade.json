@@ -1,7 +1,7 @@
 {
   "model": {
     "type": "minecraft:special",
-    "base": "modulargolems:item/golem_facade",
+    "base": "modulargolems:block/facade",
     "model": {
       "type": "modulargolems:facade"
     }

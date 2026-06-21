@@ -5,7 +5,7 @@
       {
         "model": {
           "type": "minecraft:special",
-          "base": "modulargolems:item/humanoid_golem_body_first",
+          "base": "modulargolems:block/clay",
           "model": {
             "type": "modulargolems:part",
             "golem_type": "modulargolems:humanoid_golem"
@@ -44,7 +44,7 @@
       {
         "model": {
           "type": "minecraft:special",
-          "base": "modulargolems:item/humanoid_golem_body_third",
+          "base": "modulargolems:block/clay",
           "model": {
             "type": "modulargolems:part",
             "golem_type": "modulargolems:humanoid_golem"
@@ -82,7 +82,7 @@
       {
         "model": {
           "type": "minecraft:special",
-          "base": "modulargolems:item/humanoid_golem_body_entity",
+          "base": "modulargolems:block/clay",
           "model": {
             "type": "modulargolems:part",
             "golem_type": "modulargolems:humanoid_golem"
@@ -117,7 +117,7 @@
       {
         "model": {
           "type": "minecraft:special",
-          "base": "modulargolems:item/humanoid_golem_body_def",
+          "base": "modulargolems:block/clay",
           "model": {
             "type": "modulargolems:part",
             "golem_type": "modulargolems:humanoid_golem"
@@ -156,7 +156,7 @@
     ],
     "fallback": {
       "type": "minecraft:special",
-      "base": "modulargolems:item/humanoid_golem_body_other",
+      "base": "modulargolems:block/clay",
       "model": {
         "type": "modulargolems:part",
         "golem_type": "modulargolems:humanoid_golem"

@@ -5,7 +5,7 @@
       {
         "model": {
           "type": "minecraft:special",
-          "base": "modulargolems:item/dog_golem_holder_first",
+          "base": "modulargolems:block/clay",
           "model": {
             "type": "modulargolems:holder",
             "golem_type": "modulargolems:dog_golem"
@@ -44,7 +44,7 @@
       {
         "model": {
           "type": "minecraft:special",
-          "base": "modulargolems:item/dog_golem_holder_third",
+          "base": "modulargolems:block/clay",
           "model": {
             "type": "modulargolems:holder",
             "golem_type": "modulargolems:dog_golem"
@@ -82,7 +82,7 @@
       {
         "model": {
           "type": "minecraft:special",
-          "base": "modulargolems:item/dog_golem_holder_entity",
+          "base": "modulargolems:block/clay",
           "model": {
             "type": "modulargolems:holder",
             "golem_type": "modulargolems:dog_golem"
@@ -117,7 +117,7 @@
       {
         "model": {
           "type": "minecraft:special",
-          "base": "modulargolems:item/dog_golem_holder_def",
+          "base": "modulargolems:block/clay",
           "model": {
             "type": "modulargolems:holder",
             "golem_type": "modulargolems:dog_golem"
@@ -156,7 +156,7 @@
     ],
     "fallback": {
       "type": "minecraft:special",
-      "base": "modulargolems:item/dog_golem_holder_other",
+      "base": "modulargolems:block/clay",
       "model": {
         "type": "modulargolems:holder",
         "golem_type": "modulargolems:dog_golem"

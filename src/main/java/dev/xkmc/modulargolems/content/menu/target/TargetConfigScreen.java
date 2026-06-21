@@ -39,7 +39,7 @@ public class TargetConfigScreen extends GhostItemScreen<TargetConfigMenu> {
 	private void drawLeft(GuiGraphicsExtractor g, Component comp, int y) {
 		int x = titleLabelX;
 		y += titleLabelY;
-		g.text(font, comp, x, y, 4210752, false);
+		g.text(font, comp, x, y, 0xFF404040, false);
 	}
 
 	private boolean drawRight(GuiGraphicsExtractor g, MutableComponent comp, int y, int mx, int my) {
@@ -51,7 +51,7 @@ public class TargetConfigScreen extends GhostItemScreen<TargetConfigMenu> {
 		if (ans) {
 			comp.withStyle(ChatFormatting.ITALIC);
 		}
-		g.text(font, comp, x, y, 4210752, false);
+		g.text(font, comp, x, y, 0xFF404040, false);
 		return ans;
 	}
 
