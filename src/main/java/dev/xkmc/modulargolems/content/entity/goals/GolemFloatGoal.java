@@ -16,11 +16,16 @@ public class GolemFloatGoal extends FloatGoal {
 
 	@Override
 	public boolean canUse() {
-		boolean canSwim = golem.getModifiers().getOrDefault(GolemModifiers.SWIM.get(), 0) > 0;
-		boolean canFloat = golem.getModifiers().getOrDefault(GolemModifiers.FLOAT.get(), 0) > 0;
-		boolean fireImmune = golem.hasFlag(GolemFlags.FIRE_IMMUNE);
+		AbstractGolemEntity<?, ?> vehGolem = golem.getVehicle() instanceof AbstractGolemEntity<?, ?> e ? e : null;
+		boolean canSwim = golem.getModifiers().getOrDefault(GolemModifiers.SWIM.get(), 0) > 0 ||
+				vehGolem != null && vehGolem.getModifiers().getOrDefault(GolemModifiers.SWIM.get(), 0) > 0;
+		boolean canFloat = golem.getModifiers().getOrDefault(GolemModifiers.FLOAT.get(), 0) > 0 ||
+				vehGolem != null && vehGolem.getModifiers().getOrDefault(GolemModifiers.FLOAT.get(), 0) > 0;
+		boolean fireImmune = golem.hasFlag(GolemFlags.FIRE_IMMUNE) || vehGolem != null && vehGolem.hasFlag(GolemFlags.FIRE_IMMUNE);
 
-		if (golem.isInWater() && canSwim) {
+		AbstractGolemEntity<?, ?> e = vehGolem != null ? vehGolem : golem;
+
+		if (e.isInWater() && canSwim) {
 			var target = golem.getTarget();
 			if (target != null && target.isInWater())
 				return false;
@@ -30,6 +35,6 @@ public class GolemFloatGoal extends FloatGoal {
 			if (golem.getDeltaMovement().y() > 0.01)
 				return false;
 		}
-		return (canSwim || canFloat || golem.isInLava() && fireImmune) && super.canUse();
+		return (canSwim || canFloat || e.isInLava() && fireImmune) && super.canUse();
 	}
 }
