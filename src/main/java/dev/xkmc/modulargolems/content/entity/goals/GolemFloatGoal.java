@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.goals;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 
 public class GolemFloatGoal extends FloatGoal {
@@ -35,6 +36,17 @@ public class GolemFloatGoal extends FloatGoal {
 			if (golem.getDeltaMovement().y() > 0.01)
 				return false;
 		}
-		return (canSwim || canFloat || e.isInLava() && fireImmune) && super.canUse();
+		if (e.isInLava()) return fireImmune;
+		return (canSwim || canFloat) && (e.isInWater() && e.getFluidHeight(FluidTags.WATER) > e.getFluidJumpThreshold() ||
+				e.isInFluidType((fluidType, height) -> e.canSwimInFluidType(fluidType) && height > e.getFluidJumpThreshold()));
+	}
+
+	@Override
+	public void tick() {
+		AbstractGolemEntity<?, ?> vehGolem = golem.getVehicle() instanceof AbstractGolemEntity<?, ?> e ? e : null;
+		AbstractGolemEntity<?, ?> e = vehGolem != null ? vehGolem : golem;
+		if (e.getRandom().nextFloat() < 0.8F) {
+			e.getJumpControl().jump();
+		}
 	}
 }
