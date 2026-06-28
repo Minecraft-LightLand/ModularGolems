@@ -11,7 +11,7 @@ import java.util.List;
 
 public record ItemListClientTooltip(List<ItemStack> inv) implements ClientTooltipComponent {
 
-	public static final Identifier TEXTURE_LOCATION = Identifier.withDefaultNamespace("textures/gui/container/bundle.png");
+	public static final Identifier TEXTURE_LOCATION = Identifier.withDefaultNamespace("container/slot");
 
 	public ItemListClientTooltip(ItemListTooltip comp) {
 		this(comp.inv());
@@ -41,7 +41,7 @@ public record ItemListClientTooltip(List<ItemStack> inv) implements ClientToolti
 	}
 
 	private void blit(GuiGraphicsExtractor g, int x, int y) {
-		g.blit(RenderPipelines.GUI_TEXTURED, TEXTURE_LOCATION, x, y, 0, 0, 18, 18, 128, 128);
+		g.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURE_LOCATION, x, y, 18, 18);
 	}
 
 }
