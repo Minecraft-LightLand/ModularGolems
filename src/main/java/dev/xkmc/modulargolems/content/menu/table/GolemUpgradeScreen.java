@@ -57,7 +57,7 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.hasItem()) {
 			ItemStack stack = hoveredSlot.getItem();
 			if (hoveredSlot instanceof UpgradeSlot) {
-				if (stack.getItem() instanceof IUpgradeItem && !(stack.getItem() instanceof UpgradeItem)) {
+				if (stack.getItem() instanceof IUpgradeItem item && !item.canBeRemoved()) {
 					g.renderTooltip(font, List.of(MGLangData.UI_REMOVE_TEMPLATE.get()), Optional.empty(), stack, x, y);
 					return;
 				}

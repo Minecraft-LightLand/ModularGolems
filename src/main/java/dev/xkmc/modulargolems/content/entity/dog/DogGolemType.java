@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.core.ModelProvider;
 import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.world.item.ItemStack;
 
@@ -29,6 +30,11 @@ public class DogGolemType extends GolemType<DogGolemEntity, DogGolemPartType> {
 
 	public ItemStack getMenuIcon(DogGolemEntity golem) {
 		return GolemItems.DOG_ARMOR_DIAMOND.asStack();
+	}
+
+	@Override
+	public int getUpgradeSlots() {
+		return MGConfig.COMMON.dogGolemSlot.get();
 	}
 
 }

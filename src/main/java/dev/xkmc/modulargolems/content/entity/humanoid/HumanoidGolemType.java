@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.core.ModelProvider;
 import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -29,6 +30,11 @@ public class HumanoidGolemType extends GolemType<HumanoidGolemEntity, HumanoidGo
 
 	public ItemStack getMenuIcon(HumanoidGolemEntity golem) {
 		return Items.DIAMOND_CHESTPLATE.getDefaultInstance();
+	}
+
+	@Override
+	public int getUpgradeSlots() {
+		return MGConfig.COMMON.humanoidGolemSlot.get();
 	}
 
 }

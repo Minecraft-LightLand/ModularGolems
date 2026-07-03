@@ -13,9 +13,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
-import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
@@ -605,16 +603,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public int getRemaining(ArrayList<GolemMaterial> mats, ArrayList<IUpgradeItem> upgrades) {
-		int base = getEntityType().values().length;
-		if (type.get() == GolemTypes.TYPE_GOLEM.get()) {
-			base = MGConfig.COMMON.largeGolemSlot.get();
-		} else if (type.get() == GolemTypes.TYPE_HUMANOID.get()) {
-			base = MGConfig.COMMON.humanoidGolemSlot.get();
-		} else if (type.get() == GolemTypes.TYPE_DOG.get()) {
-			base = MGConfig.COMMON.dogGolemSlot.get();
-		}
+		int base = type.get().getUpgradeSlots();
 		for (var e : upgrades) {
-			if (e instanceof UpgradeItem) {
+			if (e.consumesSlot()) {
 				base--;
 			}
 		}

@@ -113,4 +113,8 @@ public abstract class GolemType<T extends AbstractGolemEntity<T, P>, P extends I
 		return ModularGolems.loc("iron");
 	}
 
+	public int getUpgradeSlots() {
+		return values().length;
+	}
+
 }
