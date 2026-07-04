@@ -1,2 +1,8 @@
+26.1.2.2
+- Skin button / presets
+- Curios Slot fix
+- Fix Tracker Screen Rendering issue
+- Fix Advancement background
+
 26.1.2.1
 - Release
