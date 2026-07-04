@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.item.render;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.mojang.serialization.MapCodec;
@@ -10,6 +11,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
+import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3fc;

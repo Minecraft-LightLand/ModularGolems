@@ -11,16 +11,20 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.WingsLayer;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.*;
@@ -37,7 +41,11 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<
 	}
 
 	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx, boolean slim) {
-		super(ctx, GolemTypes.TYPE_HUMANOID.get(), new HumanoidGolemModel(ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER)), 0.5f);
+		this(ctx, ctx.bakeLayer(slim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER), slim);
+	}
+
+	public HumanoidGolemRenderer(EntityRendererProvider.Context ctx, ModelPart body, boolean slim) {
+		super(ctx, GolemTypes.TYPE_HUMANOID.get(), new HumanoidGolemModel(body), 0.5f);
 		this.addLayer(new HumanoidArmorLayer<>(this, ArmorModelSet.bake(
 				slim ? ModelLayers.PLAYER_SLIM_ARMOR : ModelLayers.PLAYER_ARMOR,
 				ctx.getModelSet(), HumanoidGolemModel::new

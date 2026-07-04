@@ -23,6 +23,8 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> 
 		super(modelPart);
 	}
 
+	private boolean headOnly;
+
 	@Override
 	public void iterateParts(HumanoidGolemPartType type, Consumer<ModelPart> col) {
 		if (type == HumanoidGolemPartType.BODY) {
@@ -44,6 +46,12 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> 
 
 	@Override
 	public void setupAnim(HumanoidGolemRenderState state) {
+		resetPose();
+		headOnly = false;
+		if (state.headOnly) {
+			headOnly = true;
+			return;
+		}
 		super.setupAnim(state);
 		if (state.common().aggressive() && state.attackTime == 0.0F) {
 			if (state.leftArmPose == ArmPose.ITEM) {

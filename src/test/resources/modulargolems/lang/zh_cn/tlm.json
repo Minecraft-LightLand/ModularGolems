@@ -1,5 +1,8 @@
 {
 	"task.modulargolems.summon_golems.condition.has_golem_wand": "主手持有万能手杖",
 	"task.modulargolems.summon_golems.desc": "女仆会主动召唤傀儡攻击附近的敌对目标",
-	"task.modulargolems.summon_golems": "傀儡师"
+	"task.modulargolems.summon_golems": "傀儡师",
+	"modulargolems.tooltip.maid_skin_button": "更改皮肤：女仆（右键点击重置）",
+	"config.jade.plugin_modulargolems.maid_model": "女仆皮肤",
+	"top.modulargolems.maid_model": "女仆皮肤: %s"
 }

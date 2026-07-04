@@ -5,29 +5,149 @@
     "modulargolems:dog_golem"
   ],
   "slots": [
-    "golem_route",
-    "golem_skin",
-    "curio",
-    "back",
-    "belt",
-    "body",
-    "boot",
-    "bracelet",
-    "charm",
-    "head",
-    "hands",
-    "necklace",
-    "ring",
-    "feet",
-    "spellbook",
-    "halo",
-    "heart_amulet",
-    "hostility_curse",
-    "accessory",
-    "artifact_head",
-    "artifact_necklace",
-    "artifact_bracelet",
-    "artifact_body",
-    "artifact_belt"
+    {
+      "create": false,
+      "slot": {
+        "id": "golem_route"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "golem_skin"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "curio"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "back"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "belt"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "body"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "boot"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "bracelet"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "charm"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "head"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "hands"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "necklace"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "ring"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "feet"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "spellbook"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "halo"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "heart_amulet"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "hostility_curse"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "accessory"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "artifact_head"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "artifact_necklace"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "artifact_bracelet"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "artifact_body"
+      }
+    },
+    {
+      "create": false,
+      "slot": {
+        "id": "artifact_belt"
+      }
+    }
   ]
 }

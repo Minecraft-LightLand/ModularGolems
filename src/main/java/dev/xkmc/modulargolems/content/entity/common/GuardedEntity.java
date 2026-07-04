@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.entity.common;
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
+import dev.xkmc.modulargolems.events.event.GolemDeathEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
@@ -73,10 +75,18 @@ public abstract class GuardedEntity extends AbstractGolem {
 				amount = Math.max(amount, Math.max(1, getMaxHealth() * 0.01f));
 		}
 		getCombatTracker().recordDamage(source, amount);
-		setGuardedDataImpl(getGuardedDataImpl() - amount, false, false);
+		takeDamage(source, amount);
 		gameEvent(GameEvent.ENTITY_DAMAGE);
 		onDamageTaken(damageContainers.peek());
 		postHurt(source);
+	}
+
+	protected void takeDamage(DamageSource source, float amount) {
+		if (getGuardedDataImpl() < amount) {
+			var event = NeoForge.EVENT_BUS.post(new GolemDeathEvent(this, source));
+			if (event.isCanceled()) return;
+		}
+		setGuardedDataImpl(getGuardedDataImpl() - amount, false, false);
 	}
 
 	public final void validateData() {
@@ -304,7 +314,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 			var allowed = max * e.dynamicReductionCap();
 			var minBase = Math.max(0, amount - allowed);
 			if (baseline <= minBase) {
-				if (e.getTarget() != null)
+				if (e.isAggressive())
 					return this;
 				var maxBase = Math.min(minBase, baseline + max / 1200f);
 				return new GuardedData(amount, maxBase);

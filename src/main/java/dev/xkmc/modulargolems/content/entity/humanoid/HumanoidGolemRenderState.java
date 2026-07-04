@@ -15,6 +15,8 @@ public class HumanoidGolemRenderState extends HumanoidRenderState implements Abs
 
 	public @Nullable SpecialRenderSkin skinProfile;
 
+	public boolean headOnly;
+
 	public CommonGolemRenderState common;
 
 	@Override
@@ -25,7 +27,7 @@ public class HumanoidGolemRenderState extends HumanoidRenderState implements Abs
 	@Override
 	public void update(HumanoidGolemEntity entity, float pt, ItemModelResolver imr) {
 		common = CommonGolemRenderState.of(entity, imr, pt);
-		skinProfile = ClientSkinDispatch.get(this);
+		skinProfile = ClientSkinDispatch.get(this, entity.getPlayerSkin());
 	}
 
 }

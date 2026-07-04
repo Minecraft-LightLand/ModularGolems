@@ -17,8 +17,8 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.render.GolemFacadeRenderer;
 import dev.xkmc.modulargolems.content.item.render.GolemHolderRenderer;
 import dev.xkmc.modulargolems.content.item.render.GolemPartRenderer;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.data.models.model.ItemModelUtils;
-import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.renderer.item.properties.select.DisplayContext;
@@ -30,38 +30,33 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MGSpecialModelGen {
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void genPartItem(DataGenContext<Item, GolemPart<T, P>> ctx, RegistrateItemModelGenerator pvd,
 	                 Transformer<P> trans, Identifier golemType) {
-		pvd.itemModelOutput.accept(ctx.get(), build(trans, ModelLocationUtils.getModelLocation(ctx.get()),
-				new GolemPartRenderer.Unbaked(golemType), ctx.get().getPart()));
+		pvd.itemModelOutput.accept(ctx.get(), build(trans, new GolemPartRenderer.Unbaked(golemType), ctx.get().getPart()));
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
 	void genHolderItem(DataGenContext<Item, GolemHolder<T, P>> ctx, RegistrateItemModelGenerator pvd,
 	                   Transformer<P> trans, Identifier golemType) {
-		pvd.itemModelOutput.accept(ctx.get(), build(trans, ModelLocationUtils.getModelLocation(ctx.get()),
-				new GolemHolderRenderer.Unbaked(golemType), null));
+		pvd.itemModelOutput.accept(ctx.get(), build(trans, new GolemHolderRenderer.Unbaked(golemType), null));
 	}
 
 	public static void genFacadeItem(DataGenContext<Item, GolemFacade> ctx, RegistrateItemModelGenerator pvd) {
-		var id = ModelLocationUtils.getModelLocation(ctx.get());
-		pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(id, new GolemFacadeRenderer.Unbaked()));
+		pvd.itemModelOutput.accept(ctx.get(), ItemModelUtils.specialModel(ModularGolems.loc("block/facade"), new GolemFacadeRenderer.Unbaked()));
 	}
 
 	private static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemModel.Unbaked build(Transformer<P> trans, Identifier id,
-	                        SpecialModelRenderer.Unbaked<?> model, @Nullable P part) {
+	ItemModel.Unbaked build(Transformer<P> trans, SpecialModelRenderer.Unbaked<?> model, @Nullable P part) {
 		List<SelectItemModel.SwitchCase<ItemDisplayContext>> list = new ArrayList<>();
 		ItemModel.Unbaked other = null;
 		for (var e : GolemTransformType.values()) {
 			var pose = new PoseStack();
 			trans.transform(pose, e, part);
-			var sid = id.withSuffix("_" + e.name().toLowerCase(Locale.ROOT));
+			var sid = ModularGolems.loc("block/clay");
 			var ans = ItemModelUtils.specialModel(sid, new Transformation(pose.last().pose()), model);
 			if (e == GolemTransformType.OTHER) other = ans;
 			else list.add(new SelectItemModel.SwitchCase<>(e.ctx, ans));
