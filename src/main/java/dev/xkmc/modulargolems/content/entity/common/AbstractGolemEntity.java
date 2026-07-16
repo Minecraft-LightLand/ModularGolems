@@ -69,6 +69,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -117,8 +118,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity::defineId);
 	private static final EntityDataAccessor<Optional<UUID>> OWNER_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), null);
 
+	protected MoveControl waterMoveControl;
+
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
+		waterMoveControl = new GolemSwimMoveControl(this);
 		this.waterNavigation = new AmphibiousPathNavigation(this, level);
 		this.groundNavigation = new FastGroundPathNavigation(this, level);
 		navigation = groundNavigation;
@@ -173,7 +177,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.setMaxUpStep(1);
 		getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
 		if (canSwim()) {
-			this.moveControl = new GolemSwimMoveControl(this);
+			this.moveControl = waterMoveControl;
 			this.navigation = waterNavigation;
 			this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
 			this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
@@ -1087,13 +1091,15 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public Vec3 getTargetPos() {
+		var dim = level().dimension().location();
 		if (getMode() == GolemModes.ROUTE) {
 			var list = PathConfig.getPath(this);
 			if (list != null) {
 				int target = getPatrolStage();
 				if (!list.isEmpty()) {
-					return list.get(Math.min(target, list.size() - 1))
-							.pos().getCenter();
+					var pos = list.get(Math.min(target, list.size() - 1));
+					if (pos.level().equals(dim))
+						return pos.pos().getCenter();
 				}
 			}
 			return position();

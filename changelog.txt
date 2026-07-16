@@ -1,3 +1,8 @@
+2.7.2
+- fix golem patrol not checking dimension
+- fix swim upgrade and rider behavior on lava
+- prepare for TinkerGolem
+
 2.7.1
 - fix shield breaker tag
 - golems with mob skin use mob sounds as well
