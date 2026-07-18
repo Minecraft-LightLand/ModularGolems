@@ -53,6 +53,7 @@ public class MGTagGen {
 	public static final TagKey<Item> LARGE_GOLEM_WEAPONS = createItemTag("large_golem_weapons");
 	public static final TagKey<Item> SHIELD_BREAKER_WEAPONS = createItemTag("shield_breaker_weapons");
 	public static final TagKey<Item> GOLEM_DAMAGEABLE = createItemTag("golem_damageable");
+	public static final TagKey<EntityType<?>> GOLEM = createEntityTag("golems");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<EntityType<?>> SHIELD_BREAKER = createEntityTag("shield_breaker");
 	public static final TagKey<Block> POTENTIAL_DST = createBlockTag("potential_destination");
@@ -140,9 +141,10 @@ public class MGTagGen {
 	}
 
 	public static void onEntityTagGen(RegistrateTagsProvider.IntrinsicImpl<EntityType<?>> pvd) {
-		pvd.addTag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
-		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).add(GolemTypes.ENTITY_GOLEM.get(),
+		pvd.addTag(GOLEM).add(GolemTypes.ENTITY_GOLEM.get(),
 				GolemTypes.ENTITY_HUMANOID.get(), GolemTypes.ENTITY_DOG.get());
+		pvd.addTag(GOLEM_FRIENDLY).add(EntityType.PLAYER, EntityType.SNOW_GOLEM);
+		pvd.addTag(EntityTypeTags.FALL_DAMAGE_IMMUNE).addTag(GOLEM);
 		pvd.addTag(SHIELD_BREAKER).addTag(Tags.EntityTypes.BOSSES);
 
 		pvd.addTag(TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(IronsSpellbooks.MODID, "cant_root")))
