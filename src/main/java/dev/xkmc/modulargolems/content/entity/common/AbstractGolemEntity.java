@@ -611,6 +611,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public void setTarget(@Nullable LivingEntity target) {
+		var prev = getTarget();
 		if (!setTargetRaw(target)) return;
 		if (getVehicle() instanceof AbstractGolemEntity<?, ?> veh) {
 			veh.setTargetRaw(target);
@@ -619,7 +620,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (target != null) {
 			TargetManager.get(this).onSetTarget(this, target);
 		}
-		if (target instanceof Mob mob) {
+		if (target != prev && target instanceof Mob mob) {
 			if (mob.getTarget() == null && mob.canAttack(this)) {
 				mob.setTarget(this);
 			}

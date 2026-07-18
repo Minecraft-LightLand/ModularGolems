@@ -1,5 +1,6 @@
 2.7.2
 - fix golem patrol not checking dimension
+- fic guardian attack every frame when fighting golem
 - fix swim upgrade and rider behavior on lava
 - prepare for TinkerGolem
 
