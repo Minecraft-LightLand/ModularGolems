@@ -1,3 +1,9 @@
+3.1.41
+- Fix lightning not happening when lightning rod is nearby
+- Fix dog golem shadow
+- Fix mace attack behavior
+- Fix golem swimming on lava behavior
+
 3.1.40
 - Fix golem weapon enchantability
 

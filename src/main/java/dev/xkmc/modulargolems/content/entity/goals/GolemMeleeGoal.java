@@ -277,7 +277,7 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 			boolean jump = false;
 			if (mayJump && canReachTarget(target, distSqr - 4)) {
 				if (holdingMace()) {
-					ticksUntilNextAttack += 10;
+					ticksUntilNextAttack += 20;
 					jump = true;
 				}
 			}
