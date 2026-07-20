@@ -2,6 +2,7 @@
 - fix golem patrol not checking dimension
 - fic guardian attack every frame when fighting golem
 - fix swim upgrade and rider behavior on lava
+- fix dog shadow being too large
 - prepare for TinkerGolem
 
 2.7.1
@@ -12,6 +13,7 @@
 2.7.0
 - Fix crash with some optimization mods
 - Add new golem armor render api for addons
+
 
 2.6.45
 - Cursium Golem Armor
