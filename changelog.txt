@@ -1,3 +1,7 @@
+3.1.42
+- Fix JEI Add Slot Smithing recipe display
+- Fix mob constantly switching to melee when using ranged weapon
+
 3.1.41
 - Fix lightning not happening when lightning rod is nearby
 - Fix dog golem shadow
