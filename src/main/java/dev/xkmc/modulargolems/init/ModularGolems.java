@@ -139,6 +139,15 @@ public class ModularGolems {
 		event.registerEntity(Capabilities.Item.ENTITY, GolemTypes.ENTITY_DOG.get(), (e, c) -> e.getItemHandler());
 	}
 
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public static void gatherDataFirst(GatherDataEvent.Client event) {
+		var gen = event.getGenerator();
+		var pvd = event.getLookupProvider();
+		gen.addProvider(true, new MGConfigGen(gen, pvd));
+		CompatManager.gatherData(event);
+	}
+
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void gatherData(GatherDataEvent.Client event) {
 
@@ -154,8 +163,6 @@ public class ModularGolems {
 		var gen = event.getGenerator();
 		var pvd = event.getLookupProvider();
 		new MGDamageTypes(REGISTRATE).generate();
-		gen.addProvider(true, new MGConfigGen(gen, pvd));
-		CompatManager.gatherData(event);
 		gen.addProvider(true, new SlotGen(gen.getPackOutput(), pvd));
 		gen.addProvider(true, new MGGLMGen(gen.getPackOutput(), pvd, MODID));
 		var init = REGISTRATE.getDataGenInitializer();
