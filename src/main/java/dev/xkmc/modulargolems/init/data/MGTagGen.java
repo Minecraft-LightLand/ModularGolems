@@ -33,6 +33,7 @@ public class MGTagGen {
 	public static final TagKey<Item> POTION_UPGRADES = createItemTag("potion_upgrades");
 	public static final TagKey<Item> CONFIG_CARD = createItemTag("config_card");
 	public static final TagKey<Item> SPECIAL_CRAFT = createItemTag("special_crafting_material");
+	public static final TagKey<Item> CRAFT_MAT = createItemTag("golem_crafting_material");
 	public static final TagKey<Item> GOLEM_INTERACT = createItemTag("golem_interact");
 	public static final TagKey<Item> GOLEM_OMNI_WAND = createItemTag("golem_omni_wand");
 	public static final TagKey<Item> TOUGH_ITEM = createItemTag("tough_item");

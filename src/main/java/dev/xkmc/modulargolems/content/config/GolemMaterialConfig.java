@@ -10,7 +10,10 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.core.HolderSet;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
@@ -114,6 +117,16 @@ public class GolemMaterialConfig extends BaseConfig {
 			parent.modifiers.put(id, modifiers);
 			parent.ingredients.put(id, ingredient);
 			parent.repairIngredients.put(id, repairIngredient);
+			MGTagGen.OPTIONAL_ITEM.add(e -> {
+				var hs = repairIngredient.getValues();
+				if (hs instanceof HolderSet.Named<Item> named) {
+					e.tag(named.key());
+					e.tag(MGTagGen.CRAFT_MAT).addTag(named.key());
+				} else {
+					var builder = e.tag(MGTagGen.CRAFT_MAT);
+					hs.stream().forEach(h -> builder.addOptional(h.value()));
+				}
+			});
 			return parent;
 		}
 
