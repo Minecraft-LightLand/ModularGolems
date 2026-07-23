@@ -1,6 +1,6 @@
 {
   "type": "modulargolems:golem_add_slot",
-  "addition": "minecraft:iron_ingot",
+  "addition": "#modulargolems:golem_crafting_material",
   "base": "modulargolems:dog_golem_holder",
   "result": {
     "id": "modulargolems:dog_golem_holder"
