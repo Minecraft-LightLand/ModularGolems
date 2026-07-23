@@ -1,3 +1,8 @@
+26.1.2.3
+- Fix smithing add slot recipe not taking echo shard
+- Fix JEI smithing add slot recipe not having proper display
+- Fix golem with ranged weapon constantly switching to melee
+
 26.1.2.2
 - Skin button / presets
 - Curios Slot fix
