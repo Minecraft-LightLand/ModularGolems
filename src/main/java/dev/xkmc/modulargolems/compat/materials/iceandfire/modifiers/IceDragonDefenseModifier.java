@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 public class IceDragonDefenseModifier extends GolemModifier {
 
 	public IceDragonDefenseModifier() {
-		super(StatFilterType.ATTACK, 5);
+		super(StatFilterType.HEALTH, 5);
 	}
 
 	@Override

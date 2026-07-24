@@ -1,3 +1,8 @@
+2.7.3
+- Fix add slot recipe JEI display
+- Fix the bug where golem with ranged weapon always doing melee for once before doing ranged attack
+- Fix ice dragon steel modifier allocation to arms only
+
 2.7.2
 - fix golem patrol not checking dimension
 - fic guardian attack every frame when fighting golem
