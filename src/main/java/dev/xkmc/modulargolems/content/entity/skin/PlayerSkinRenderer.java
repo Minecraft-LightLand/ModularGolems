@@ -5,9 +5,11 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemModel;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderState;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
@@ -24,6 +26,10 @@ public class PlayerSkinRenderer extends HumanoidGolemRenderer {
 
 	public PlayerSkinRenderer(EntityRendererProvider.Context ctx, ModelPart part, boolean slim) {
 		super(ctx, part, slim);
+	}
+
+	public PlayerSkinRenderer(EntityRendererProvider.Context ctx, ModelPart body, ArmorModelSet<ModelLayerLocation> armor) {
+		super(ctx, body, armor);
 	}
 
 	public void setModel(HumanoidGolemModel model) {

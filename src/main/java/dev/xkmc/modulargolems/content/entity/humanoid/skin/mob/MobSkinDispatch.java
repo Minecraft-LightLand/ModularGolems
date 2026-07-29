@@ -13,6 +13,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -43,10 +44,10 @@ public record MobSkinDispatch(
 
 	@SafeVarargs
 	public synchronized static void register(
-			EntityRendererProvider.Context ctx, EntityType<?> type, ModelPart part, Identifier texture,
+			EntityRendererProvider.Context ctx, EntityType<?> type, ModelPart part, ArmorModelSet<ModelLayerLocation> armor, Identifier texture,
 			Function<RenderLayerParent<HumanoidGolemRenderState, HumanoidGolemModel>, RenderLayer<HumanoidGolemRenderState, HumanoidGolemModel>>... layers) {
 		validatePart(part);
-		PlayerSkinRenderer ans = new PlayerSkinRenderer(ctx, part, false);
+		PlayerSkinRenderer ans = new PlayerSkinRenderer(ctx, part, armor);
 		var clothes = new ArrayList<IMobCloth>();
 		for (var e : layers) {
 			var layer = e.apply(ans);
@@ -72,21 +73,21 @@ public record MobSkinDispatch(
 	private static final Identifier BOGGED_CLOTH = Identifier.withDefaultNamespace("textures/entity/skeleton/bogged_overlay.png");
 
 	public static void setup(EntityRendererProvider.Context ctx) {
-		register(ctx, EntityType.ZOMBIE, ctx.bakeLayer(ModelLayers.ZOMBIE), ZOMBIE);
-		register(ctx, EntityType.HUSK, ctx.bakeLayer(ModelLayers.HUSK), HUSK);
-		register(ctx, EntityType.DROWNED, ctx.bakeLayer(ModelLayers.DROWNED), DROWNED, r ->
+		register(ctx, EntityType.ZOMBIE, ctx.bakeLayer(ModelLayers.ZOMBIE), ModelLayers.ZOMBIE_ARMOR, ZOMBIE);
+		register(ctx, EntityType.HUSK, ctx.bakeLayer(ModelLayers.HUSK), ModelLayers.HUSK_ARMOR, HUSK);
+		register(ctx, EntityType.DROWNED, ctx.bakeLayer(ModelLayers.DROWNED), ModelLayers.DROWNED_ARMOR, DROWNED, r ->
 				new DrownedOuterLayer(r, make(ctx, ModelLayers.DROWNED_OUTER_LAYER)));
 
-		register(ctx, EntityType.SKELETON, ctx.bakeLayer(ModelLayers.SKELETON), SKELETON);
-		register(ctx, EntityType.BOGGED, ctx.bakeLayer(ModelLayers.BOGGED), BOGGED);
-		register(ctx, EntityType.WITHER_SKELETON, ctx.bakeLayer(ModelLayers.WITHER_SKELETON), WITHER_SKELETON);
-		register(ctx, EntityType.STRAY, ctx.bakeLayer(ModelLayers.STRAY), STRAY, r ->
+		register(ctx, EntityType.SKELETON, ctx.bakeLayer(ModelLayers.SKELETON), ModelLayers.SKELETON_ARMOR, SKELETON);
+		register(ctx, EntityType.BOGGED, ctx.bakeLayer(ModelLayers.BOGGED), ModelLayers.BOGGED_ARMOR, BOGGED);
+		register(ctx, EntityType.WITHER_SKELETON, ctx.bakeLayer(ModelLayers.WITHER_SKELETON), ModelLayers.WITHER_SKELETON_ARMOR, WITHER_SKELETON);
+		register(ctx, EntityType.STRAY, ctx.bakeLayer(ModelLayers.STRAY), ModelLayers.STRAY_ARMOR, STRAY, r ->
 				new SkeletonClothingLayer(r, make(ctx, ModelLayers.STRAY_OUTER_LAYER), STRAY_CLOTH));
-		register(ctx, EntityType.BOGGED, ctx.bakeLayer(ModelLayers.BOGGED), BOGGED, r ->
+		register(ctx, EntityType.BOGGED, ctx.bakeLayer(ModelLayers.BOGGED), ModelLayers.BOGGED_ARMOR, BOGGED, r ->
 				new SkeletonClothingLayer(r, make(ctx, ModelLayers.BOGGED_OUTER_LAYER), BOGGED_CLOTH));
-		register(ctx, EntityType.PIGLIN, ctx.bakeLayer(ModelLayers.PIGLIN), PIGLIN);
-		register(ctx, EntityType.PIGLIN_BRUTE, ctx.bakeLayer(ModelLayers.PIGLIN_BRUTE), PIGLIN_BRUTE);
-		register(ctx, EntityType.ZOMBIFIED_PIGLIN, ctx.bakeLayer(ModelLayers.ZOMBIFIED_PIGLIN), ZOMBIFIED_PIGLIN);
+		register(ctx, EntityType.PIGLIN, ctx.bakeLayer(ModelLayers.PIGLIN), ModelLayers.PIGLIN_ARMOR, PIGLIN);
+		register(ctx, EntityType.PIGLIN_BRUTE, ctx.bakeLayer(ModelLayers.PIGLIN_BRUTE), ModelLayers.PIGLIN_BRUTE_ARMOR, PIGLIN_BRUTE);
+		register(ctx, EntityType.ZOMBIFIED_PIGLIN, ctx.bakeLayer(ModelLayers.ZOMBIFIED_PIGLIN), ModelLayers.ZOMBIFIED_PIGLIN_ARMOR, ZOMBIFIED_PIGLIN);
 
 
 	}
@@ -115,10 +116,12 @@ public record MobSkinDispatch(
 	@Override
 	public void submit(HumanoidGolemRenderState entity, PoseStack pose, SubmitNodeCollector source, CameraRenderState cam) {
 		try {
-			if ( entity.headOnly) {
+			if (entity.headOnly) {
 				pose.pushPose();
 				pose.scale(-1.0F, -1.0F, 1.0F);
-				float diff = renderer.getModel().root().y + renderer.getModel().head.y;
+				renderer.getModel().resetPose();
+				var root = renderer.getModel().root();
+				pose.scale(1 / root.xScale, 1 / root.yScale, 1 / root.zScale);
 				pose.translate(0.0F, -1.501F , 0.0F);
 				var rt = RenderTypes.entityCutout(texture());
 				source.submitModel(renderer.getModel(), entity, pose, rt,
