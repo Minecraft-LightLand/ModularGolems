@@ -50,8 +50,13 @@ public class HumanoidGolemModel extends HumanoidModel<HumanoidGolemRenderState> 
 		headOnly = false;
 		if (state.headOnly) {
 			headOnly = true;
+			body.visible = false;
+			leftArm.visible = false;
+			rightArm.visible = false;
+			leftLeg.visible = false;
+			rightLeg.visible = false;
 			return;
-		}
+		} else for (var e : root.getAllParts()) e.visible = true;
 		super.setupAnim(state);
 		if (state.common().aggressive() && state.attackTime == 0.0F) {
 			if (state.leftArmPose == ArmPose.ITEM) {
