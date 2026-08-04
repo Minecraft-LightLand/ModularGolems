@@ -3,10 +3,9 @@ package dev.xkmc.modulargolems.content.menu.table;
 import dev.xkmc.l2core.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2core.base.menu.base.PredSlot;
 import dev.xkmc.l2core.base.menu.base.SpriteManager;
+import dev.xkmc.modulargolems.content.core.GolemSlot;
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -15,6 +14,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.modulargolems.util.GolemUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -31,13 +31,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMenu> implements ITableMenu {
-
-	private record GolemSlots<P extends IGolemPart<P>>(String name, IGolemPart<P> part) {
-
-	}
 
 	public static GolemDisintegrateMenu fromNetwork(MenuType<GolemDisintegrateMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		return new GolemDisintegrateMenu(type, wid, plInv);
@@ -48,29 +46,6 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	}
 
 	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "disintegrate");
-
-	private static final String UP = "golem_up", LEFT = "golem_left", MIDDLE = "golem_middle", RIGHT = "golem_right", DOWN = "golem_down";
-
-	@SuppressWarnings("unchecked")
-	private static final GolemSlots<MetalGolemPartType>[] LARGE = new GolemSlots[]{
-			new GolemSlots<>(LEFT, MetalGolemPartType.RIGHT),
-			new GolemSlots<>(MIDDLE, MetalGolemPartType.BODY),
-			new GolemSlots<>(RIGHT, MetalGolemPartType.LEFT),
-			new GolemSlots<>(DOWN, MetalGolemPartType.LEG)
-	};
-
-	@SuppressWarnings("unchecked")
-	private static final GolemSlots<HumanoidGolemPartType>[] HUMANOID = new GolemSlots[]{
-			new GolemSlots<>(UP, HumanoidGolemPartType.BODY),
-			new GolemSlots<>(MIDDLE, HumanoidGolemPartType.ARMS),
-			new GolemSlots<>(DOWN, HumanoidGolemPartType.LEGS)
-	};
-
-	@SuppressWarnings("unchecked")
-	private static final GolemSlots<DogGolemPartType>[] DOG = new GolemSlots[]{
-			new GolemSlots<>(MIDDLE, DogGolemPartType.BODY),
-			new GolemSlots<>(DOWN, DogGolemPartType.LEGS)
-	};
 
 	protected MainSlot main;
 	protected ExtraMatSlot extra;
@@ -83,18 +58,15 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	public GolemDisintegrateMenu(MenuType<?> type, int wid, Inventory plInv) {
 		super(type, wid, plInv, MANAGER, e -> new BaseContainer<>(7, e), true);
 		getLayout().getSlot("golem", (x, y) -> new MainSlot(container, added++, x, y), this::addSlot);
-		addPartSlot(UP);
-		addPartSlot(LEFT);
-		addPartSlot(MIDDLE);
-		addPartSlot(RIGHT);
-		addPartSlot(DOWN);
+		for (var e : GolemSlot.values())
+			addPartSlot(e);
 		getLayout().getSlot("extra_mat", (x, y) -> new ExtraMatSlot(container, added++, x, y), this::addSlot);
 		getLayout().getSlot("result", ResultSlot::new, this::addSlot);
 		added++;
 	}
 
-	private void addPartSlot(String slot) {
-		getLayout().getSlot(slot, (x, y) -> new PartSlot(slot, container, added++, x, y), this::addSlot);
+	private void addPartSlot(GolemSlot slot) {
+		getLayout().getSlot(slot.slotName(), (x, y) -> new PartSlot(slot, container, added++, x, y), this::addSlot);
 	}
 
 	@Override
@@ -121,31 +93,30 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	public boolean clickMenuButton(Player player, int id) {
 		if (id == 1) {
 			var input = main.getItem();
-			if (input.getItem() instanceof GolemHolder<?, ?>) {
-				boolean mayBreak = !input.isEmpty();
-				for (var e : partSlots)
-					mayBreak &= e.getItem().isEmpty();
-				if (mayBreak) {
-					float max = GolemHolder.getMaxHealth(input);
-					float health = GolemHolder.getHealth(input);
-					int reforge = GolemHolder.getReforge(input);
-					if (max > 0 && health < max || reforge > 0)
-						mayBreak = false;
-				}
-				if (!mayBreak) return false;
-				if (!(inventory.player instanceof ServerPlayer sp))
-					return true;
-				changing = true;
-				for (var e : partSlots)
-					e.set(e.partShadow);
-				changing = false;
-				for (var e : main.dropList) {
-					returnToPlayer(e);
-				}
-				main.set(ItemStack.EMPTY);
-				return true;
+			if (!(input.getItem() instanceof GolemHolder<?, ?> holder)) return false;
+			if (!holder.getEntityType().mayEdit(input)) return false;
+			boolean mayBreak = !input.isEmpty();
+			for (var e : partSlots)
+				mayBreak &= e.getItem().isEmpty();
+			if (mayBreak) {
+				float max = GolemHolder.getMaxHealth(input);
+				float health = GolemHolder.getHealth(input);
+				int reforge = GolemHolder.getReforge(input);
+				if (max > 0 && health < max || reforge > 0)
+					mayBreak = false;
 			}
-			return false;
+			if (!mayBreak) return false;
+			if (!(inventory.player instanceof ServerPlayer sp))
+				return true;
+			changing = true;
+			for (var e : partSlots)
+				e.set(e.partShadow);
+			changing = false;
+			for (var e : main.dropList) {
+				returnToPlayer(e);
+			}
+			main.set(ItemStack.EMPTY);
+			return true;
 		}
 		return super.clickMenuButton(player, id);
 	}
@@ -311,32 +282,33 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 
 		public final String name;
 
-		@Nullable
-		private IGolemPart<?> large, humanoid, dog;
+		private Map<GolemType<?, ?>, IGolemPart<?>> map = new LinkedHashMap<>();
 
 		private boolean active = false;
 
 		public ItemStack partShadow = ItemStack.EMPTY;
 
-		public PartSlot(String name, Container container, int index, int x, int y) {
+		public PartSlot(GolemSlot slot, Container container, int index, int x, int y) {
 			super(container, index, x, y);
-			this.name = name;
+			this.name = slot.slotName();
 			partSlots.add(this);
-			for (var e : LARGE) if (e.name.equals(name)) large = e.part();
-			for (var e : HUMANOID) if (e.name.equals(name)) humanoid = e.part();
-			for (var e : DOG) if (e.name.equals(name)) dog = e.part();
+			for (var type : GolemTypes.TYPES.get()) {
+				for (var part : type.values()) {
+					if (part.getSlot() == slot)
+						map.put(type, part);
+				}
+			}
 		}
 
 		@Nullable
 		private IGolemPart<?> of(GolemHolder<?, ?> holder) {
-			return holder == GolemItems.HOLDER_GOLEM.get() ? large :
-					holder == GolemItems.HOLDER_HUMANOID.get() ? humanoid :
-							holder == GolemItems.HOLDER_DOG.get() ? dog : null;
+			return map.get(holder.getEntityType());
 		}
 
 		public boolean isValid(ItemStack golem, ItemStack item) {
 			if (item.isEmpty()) return true;
 			if (!(golem.getItem() instanceof GolemHolder<?, ?> holder)) return false;
+			if (!holder.getEntityType().mayEdit(golem)) return false;
 			if (!(item.getItem() instanceof GolemPart<?, ?> part)) return false;
 			if (GolemPart.getMaterial(item).isEmpty()) return false;
 			var type = of(holder);
@@ -361,6 +333,10 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			}
 			if (!(main.getItem().getItem() instanceof GolemHolder<?, ?> holder))
 				return;
+			if (!holder.getEntityType().mayEdit(main.getItem())) {
+				active = false;
+				return;
+			}
 			var part = of(holder);
 			active = !getItem().isEmpty() || part != null;
 			if (part == null) return;
