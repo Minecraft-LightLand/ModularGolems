@@ -16,7 +16,6 @@ import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.data.GolemIcon;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -416,15 +415,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public int getRemaining(ArrayList<GolemMaterial> mats, GolemUpgrade upgrades) {
-		int base = getEntityType().values().length;
-		if (type.get() == GolemTypes.TYPE_GOLEM.get()) {
-			base = MGConfig.COMMON.largeGolemSlot.get();
-		} else if (type.get() == GolemTypes.TYPE_HUMANOID.get()) {
-			base = MGConfig.COMMON.humanoidGolemSlot.get();
-		} else if (type.get() == GolemTypes.TYPE_DOG.get()) {
-			base = MGConfig.COMMON.dogGolemSlot.get();
+		int base = getEntityType().getUpgradeSlots();
+		base += upgrades.extraSlot();
+		for (var e : upgrades.upgradeItems()) {
+			if (e.consumesSlot()) {
+				base--;
+			}
 		}
-		base = base + upgrades.extraSlot() - upgrades.size();
 		var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 		var list = upgrades.upgradeItems();
 		for (var ent : modifiers.entrySet()) {
