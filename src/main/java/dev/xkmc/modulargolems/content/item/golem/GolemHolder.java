@@ -191,9 +191,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return golem;
 	}
 
-	private final Val<GolemType<T, P>> type;
+	private final Val<? extends GolemType<T, P>> type;
 
-	public GolemHolder(Properties props, Val<GolemType<T, P>> type) {
+	public GolemHolder(Properties props, Val<? extends GolemType<T, P>> type) {
 		super(props.stacksTo(1));
 		this.type = type;
 		GolemType.GOLEM_TYPE_TO_ITEM.put(type.id(), this);

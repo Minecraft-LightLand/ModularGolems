@@ -1294,6 +1294,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return (float) getAttributeValue(GolemTypes.DYNAMIC_REDUCTION) * 20;
 	}
 
+	public int getPreviewScale() {
+		return 18;
+	}
+
 	@Override
 	protected void hurtArmor(DamageSource source, float damage) {
 		if (damage <= 0.0F) return;

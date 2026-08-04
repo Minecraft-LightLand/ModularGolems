@@ -43,7 +43,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 
 @SerialClass
-public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> {
+public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> {
 
 	private static final EntityDataAccessor<String> DATA_MAID_MODEL_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<String> DATA_SOUND_PACK_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
@@ -368,6 +368,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void playSound(SoundEvent soundEvent, float volume, float pitch) {
 		if (getSoundManager().playSound(this, soundEvent, volume, pitch)) return;
 		super.playSound(soundEvent, volume, pitch);
+	}
+
+	@Override
+	public int getPreviewScale() {
+		return 24;
 	}
 
 }

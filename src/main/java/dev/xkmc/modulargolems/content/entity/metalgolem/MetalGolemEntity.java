@@ -351,4 +351,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return stack.isDamageableItem() && stack.is(MGTagGen.GOLEM_DAMAGEABLE);
 	}
 
+	@Override
+	public int getPreviewScale() {
+		return 20;
+	}
+
 }

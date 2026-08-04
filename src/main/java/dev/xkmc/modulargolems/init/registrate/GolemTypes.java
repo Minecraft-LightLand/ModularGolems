@@ -1,25 +1,15 @@
 package dev.xkmc.modulargolems.init.registrate;
 
 import com.tterrag.registrate.util.entry.EntityEntry;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemModel;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemRenderer;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemModel;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemRenderer;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemRenderer;
+import dev.xkmc.modulargolems.content.entity.dog.*;
+import dev.xkmc.modulargolems.content.entity.humanoid.*;
+import dev.xkmc.modulargolems.content.entity.metalgolem.*;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.core.Holder;
@@ -72,9 +62,9 @@ public class GolemTypes {
 	public static final EntityEntry<HumanoidGolemEntity> ENTITY_HUMANOID;
 	public static final EntityEntry<DogGolemEntity> ENTITY_DOG;
 
-	public static final Val<GolemType<MetalGolemEntity, MetalGolemPartType>> TYPE_GOLEM;
-	public static final Val<GolemType<HumanoidGolemEntity, HumaniodGolemPartType>> TYPE_HUMANOID;
-	public static final Val<GolemType<DogGolemEntity, DogGolemPartType>> TYPE_DOG;
+	public static final Val<MetalGolemType> TYPE_GOLEM;
+	public static final Val<HumanoidGolemType> TYPE_HUMANOID;
+	public static final Val<DogGolemType> TYPE_DOG;
 
 	static {
 		ENTITY_GOLEM = REGISTRATE.entity("metal_golem", MetalGolemEntity::new, MobCategory.MISC)
@@ -144,15 +134,15 @@ public class GolemTypes {
 				).tag(MGTagGen.GOLEM_FRIENDLY).register();
 
 		TYPE_GOLEM = new Val.Registrate<>(REGISTRATE.generic(TYPES, "metal_golem",
-						() -> new GolemType<>(ENTITY_GOLEM, MetalGolemPartType::values, MetalGolemPartType.BODY, () -> MetalGolemModel::new))
+						() -> new MetalGolemType(ENTITY_GOLEM, () -> MetalGolemModel::new))
 				.defaultLang().register());
 
 		TYPE_HUMANOID = new Val.Registrate<>(REGISTRATE.generic(TYPES, "humanoid_golem",
-						() -> new GolemType<>(ENTITY_HUMANOID, HumaniodGolemPartType::values, HumaniodGolemPartType.BODY, () -> HumanoidGolemModel::new))
+						() -> new HumanoidGolemType(ENTITY_HUMANOID, () -> HumanoidGolemModel::new))
 				.defaultLang().register());
 
 		TYPE_DOG = new Val.Registrate<>(REGISTRATE.generic(TYPES, "dog_golem",
-						() -> new GolemType<>(ENTITY_DOG, DogGolemPartType::values, DogGolemPartType.BODY, () -> DogGolemModel::new))
+						() -> new DogGolemType(ENTITY_DOG, () -> DogGolemModel::new))
 				.defaultLang().register());
 	}
 

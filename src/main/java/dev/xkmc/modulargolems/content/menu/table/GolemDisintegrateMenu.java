@@ -5,7 +5,7 @@ import dev.xkmc.l2core.base.menu.base.PredSlot;
 import dev.xkmc.l2core.base.menu.base.SpriteManager;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -60,10 +60,10 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	};
 
 	@SuppressWarnings("unchecked")
-	private static final GolemSlots<HumaniodGolemPartType>[] HUMANOID = new GolemSlots[]{
-			new GolemSlots<>(UP, HumaniodGolemPartType.BODY),
-			new GolemSlots<>(MIDDLE, HumaniodGolemPartType.ARMS),
-			new GolemSlots<>(DOWN, HumaniodGolemPartType.LEGS)
+	private static final GolemSlots<HumanoidGolemPartType>[] HUMANOID = new GolemSlots[]{
+			new GolemSlots<>(UP, HumanoidGolemPartType.BODY),
+			new GolemSlots<>(MIDDLE, HumanoidGolemPartType.ARMS),
+			new GolemSlots<>(DOWN, HumanoidGolemPartType.LEGS)
 	};
 
 	@SuppressWarnings("unchecked")

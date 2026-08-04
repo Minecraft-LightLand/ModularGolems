@@ -1,0 +1,40 @@
+package dev.xkmc.modulargolems.content.entity.metalgolem;
+
+import com.tterrag.registrate.util.entry.EntityEntry;
+import dev.xkmc.modulargolems.content.core.GolemMenuControl;
+import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
+import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.core.ModelProvider;
+import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Supplier;
+
+public class MetalGolemType extends GolemType<MetalGolemEntity, MetalGolemPartType> {
+
+	public MetalGolemType(EntityEntry<MetalGolemEntity> type, Supplier<ModelProvider<MetalGolemEntity, MetalGolemPartType>> model) {
+		super(type, MetalGolemPartType::values, MetalGolemPartType.BODY, model);
+	}
+
+	@Override
+	public GolemMenuControl<MetalGolemEntity> menuControl(EquipmentsMenu menu, MetalGolemEntity golem) {
+		return new MetalGolemMenuControl(menu, golem);
+	}
+
+	@Override
+	public Supplier<Supplier<GolemOverlayControl<MetalGolemEntity>>> overlayControl(MetalGolemEntity golem) {
+		return () -> () -> new MetalGolemOverlayControl(golem);
+	}
+
+	public ItemStack getMenuIcon(MetalGolemEntity golem) {
+		return GolemItems.WINDSPIRIT_CHESTPLATE.asStack();
+	}
+
+	@Override
+	public int getUpgradeSlots() {
+		return MGConfig.COMMON.largeGolemSlot.get();
+	}
+
+}
