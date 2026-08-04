@@ -395,10 +395,12 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public void fillItemCategory(CreativeModeTabModifier tab) {
 		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			if (!GolemMaterialConfig.anyApplicable(this, rl)) continue;
 			ItemStack stack = new ItemStack(this);
 			ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 			for (P part : getEntityType().values()) {
-				mats.add(new GolemHolderMaterial.Entry(part.toItem(), rl));
+				var mat = GolemMaterialConfig.mayApply(part.toItem(), rl) ? rl : getEntityType().defaultMaterial();
+				mats.add(new GolemHolderMaterial.Entry(part.toItem(), mat));
 			}
 			tab.accept(GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(mats)));
 		}

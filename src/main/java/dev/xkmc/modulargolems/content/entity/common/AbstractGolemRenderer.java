@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import net.minecraft.client.Minecraft;
@@ -83,6 +84,7 @@ public abstract class AbstractGolemRenderer<
 		var materials = entity.getMaterials();
 		for (P part : list.get()) {
 			ResourceLocation rl = facade;
+			if (rl != null && !GolemMaterialConfig.mayApply(part.toItem(), rl)) rl = null;
 			if (rl == null) {
 				int index = part.ordinal();
 				rl = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;

@@ -34,7 +34,9 @@ import java.util.function.Consumer;
 public class MGTagGen {
 
 	public static final TagKey<Item> SCULK_MATS = createItemTag("sculk_materials");
-	public static final TagKey<Item> GOLEM_PARTS = createItemTag("parts");
+	public static final TagKey<Item> GOLEM_PARTS = createItemTag("parts"); // golem parts
+	public static final TagKey<Item> GENERIC_PARTS = createItemTag("generic_parts"); // golem parts supporting default materials
+	public static final TagKey<Item> ANVIL_CRAFT = createItemTag("anvil_craft"); // golem parts supporting anvil material application
 	public static final TagKey<Item> GOLEM_HOLDERS = createItemTag("holders");
 	public static final TagKey<Item> GOLEM_UPGRADES = createItemTag("upgrades");
 	public static final TagKey<Item> BLUE_UPGRADES = createItemTag("blue_upgrades");
@@ -50,6 +52,7 @@ public class MGTagGen {
 	public static final TagKey<Item> PLAYER_SKIN = createItemTag("player_skin");
 	public static final TagKey<Item> LARGE_GOLEM_WEAPONS = createItemTag("large_golem_weapons");
 	public static final TagKey<Item> SHIELD_BREAKER_WEAPONS = createItemTag("shield_breaker_weapons");
+	public static final TagKey<Item> GOLEM_DAMAGEABLE = createItemTag("golem_damageable");
 	public static final TagKey<Item> C_WOLF_ARMORS = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "wolf_armor"));
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<EntityType<?>> GOLEM = createEntityTag("golems");
@@ -82,6 +85,9 @@ public class MGTagGen {
 		pvd.addTag(C_WOLF_ARMORS).add(Items.WOLF_ARMOR);
 		pvd.addTag(SCULK_MATS).add(Items.ECHO_SHARD);
 		pvd.addTag(SPECIAL_CRAFT);
+		pvd.addTag(GOLEM_DAMAGEABLE);
+		pvd.addTag(GOLEM_PARTS).addTag(GENERIC_PARTS);
+		pvd.addTag(ANVIL_CRAFT).addTag(GENERIC_PARTS);
 		pvd.addTag(GOLEM_INTERACT).addTag(CONFIG_CARD).addTag(GOLEM_HOLDERS);
 		OPTIONAL_ITEM.forEach(e -> e.accept(pvd));
 		pvd.addTag(BLUE_UPGRADES).add(

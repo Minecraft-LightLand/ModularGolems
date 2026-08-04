@@ -415,7 +415,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
@@ -423,7 +423,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
@@ -431,7 +431,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		// humanoid golem
@@ -443,7 +443,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
@@ -451,7 +451,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
@@ -459,7 +459,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		// dog golem
@@ -471,7 +471,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3))
@@ -480,7 +480,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
