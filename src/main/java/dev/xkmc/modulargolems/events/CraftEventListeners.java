@@ -31,9 +31,10 @@ public class CraftEventListeners {
 		ItemStack stack = event.getLeft();
 		ItemStack block = event.getRight();
 		if (stack.getItem() instanceof GolemPart<?, ?> part) {
-			if (part.count > block.getCount() || block.is(MGTagGen.SPECIAL_CRAFT)) return;
+			if (part.count > block.getCount() || block.is(MGTagGen.SPECIAL_CRAFT) || !stack.is(MGTagGen.ANVIL_CRAFT)) return;
 			var mat = GolemMaterial.getMaterial(block);
 			if (mat.isEmpty()) return;
+			if (!GolemMaterialConfig.mayApply(part, mat.get())) return;
 			ItemStack new_stack = stack.copy();
 			GolemPart.setMaterial(new_stack, mat.get());
 			event.setOutput(new_stack);
@@ -51,6 +52,7 @@ public class CraftEventListeners {
 		if (stack.is(GolemItems.EMPTY_UPGRADE.get())) {
 			var mat = GolemMaterial.getRepairMaterial(block);
 			if (mat.isEmpty()) return;
+			if(!GolemMaterialConfig.mayApply(GolemItems.GOLEM_BODY.get(), mat.get())) return;
 			var ans = GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat.get());
 			ans.setCount(stack.getCount());
 			int consume = Math.min(stack.getCount(), block.getCount());

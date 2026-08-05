@@ -41,6 +41,7 @@
       "modulargolems:coating": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "create:andesite_alloy": {
       "item": "create:andesite_alloy"

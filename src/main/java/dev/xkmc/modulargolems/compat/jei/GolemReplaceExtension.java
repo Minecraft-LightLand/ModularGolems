@@ -41,9 +41,11 @@ public record GolemReplaceExtension(GolemReplaceRecipe recipe) implements ICraft
 			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
 				List<ItemStack> list = new ArrayList<>();
 				for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
-					ItemStack stack = new ItemStack(part);
-					list.add(GolemPart.setMaterial(stack, rl));
-					outputs.add(recipe.assembleForJEI(rl));
+					if (GolemMaterialConfig.mayApply(part, rl)) {
+						ItemStack stack = new ItemStack(part);
+						list.add(GolemPart.setMaterial(stack, rl));
+						outputs.add(recipe.assembleForJEI(rl));
+					}
 				}
 				inputs.add(list);
 			} else {

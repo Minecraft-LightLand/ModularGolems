@@ -19,4 +19,6 @@ public interface IGolemPart<P extends IGolemPart<P>> {
 
 	GolemPart<?, P> toItem();
 
+	GolemSlot getSlot();
+
 }

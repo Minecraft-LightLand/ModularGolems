@@ -1,3 +1,15 @@
+2.7.3
+- Fix add slot recipe JEI display
+- Fix the bug where golem with ranged weapon always doing melee for once before doing ranged attack
+- Fix ice dragon steel modifier allocation to arms only
+
+2.7.2
+- fix golem patrol not checking dimension
+- fic guardian attack every frame when fighting golem
+- fix swim upgrade and rider behavior on lava
+- fix dog shadow being too large
+- prepare for TinkerGolem
+
 2.7.1
 - fix shield breaker tag
 - golems with mob skin use mob sounds as well
@@ -6,6 +18,7 @@
 2.7.0
 - Fix crash with some optimization mods
 - Add new golem armor render api for addons
+
 
 2.6.45
 - Cursium Golem Armor

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.item.golem;
 import com.tterrag.registrate.util.CreativeModeTabModifier;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -49,6 +50,7 @@ public class GolemFacade extends Item {
 
 	public void fillItemCategory(CreativeModeTabModifier tab) {
 		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			if (!GolemMaterialConfig.mayApply(GolemItems.GOLEM_BODY.get(), rl)) continue;
 			ItemStack stack = new ItemStack(this);
 			setMaterial(stack, rl);
 			tab.accept(stack);

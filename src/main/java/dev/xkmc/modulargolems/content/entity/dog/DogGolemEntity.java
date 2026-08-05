@@ -73,7 +73,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		this.setRot(vec2.y, vec2.x);
 		this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
 		if (this.isControlledByLocalInstance()) {
-			if (this.onGround() || this.isInWaterOrBubble()) {
+			if (this.onGround() || this.isInFluidType()) {
 				if (player.jumping) {
 					this.executeRidersJump(vec3);
 				}
@@ -325,5 +325,11 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 		return super.hasRangeAttack();
 	}
+
+	@Override
+	public int getPreviewScale() {
+		return 32;
+	}
+	
 }
 

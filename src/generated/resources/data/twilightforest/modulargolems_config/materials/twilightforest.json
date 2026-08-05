@@ -35,6 +35,7 @@
       "modulargolems:tf_healing": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "twilightforest:fiery": {
       "tag": "forge:ingots/fiery"

@@ -6,11 +6,14 @@ import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -21,7 +24,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends NamedEntry<GolemType<?, ?>> {
+public abstract class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends NamedEntry<GolemType<?, ?>> {
 
 	private static final HashMap<ResourceLocation, GolemType<?, ?>> ENTITY_TYPE_TO_GOLEM_TYPE = new HashMap<>();
 	public static final HashMap<ResourceLocation, GolemHolder<?, ?>> GOLEM_TYPE_TO_ITEM = new HashMap<>();
@@ -95,4 +98,23 @@ public class GolemType<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	public P getBodyPart() {
 		return body;
 	}
+
+	public boolean mayEdit(ItemStack stack) {
+		return true;
+	}
+
+	public abstract GolemMenuControl<T> menuControl(EquipmentsMenu menu, T golem);
+
+	public abstract Supplier<Supplier<GolemOverlayControl<T>>> overlayControl(T golem);
+
+	public abstract ItemStack getMenuIcon(T golem);
+
+	public ResourceLocation defaultMaterial() {
+		return ModularGolems.loc("iron");
+	}
+
+	public int getUpgradeSlots() {
+		return values().length;
+	}
+
 }

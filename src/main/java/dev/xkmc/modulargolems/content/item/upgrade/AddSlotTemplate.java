@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.item.upgrade;
 
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.ModifierInstance;
-import dev.xkmc.modulargolems.content.modifier.common.AddSlotModifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,11 +14,16 @@ import java.util.function.Supplier;
 
 public class AddSlotTemplate extends Item implements IUpgradeItem {
 
-	private final Supplier<AddSlotModifier> sup;
+	private final Supplier<? extends GolemModifier> sup;
 
-	public AddSlotTemplate(Properties p, Supplier<AddSlotModifier> sup) {
+	public AddSlotTemplate(Properties p, Supplier<? extends GolemModifier> sup) {
 		super(p);
 		this.sup = sup;
+	}
+
+	@Override
+	public boolean consumesSlot() {
+		return false;
 	}
 
 	@Override

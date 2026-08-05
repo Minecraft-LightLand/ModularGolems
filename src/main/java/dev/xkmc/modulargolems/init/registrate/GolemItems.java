@@ -42,6 +42,7 @@ import java.util.function.Supplier;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
+@SuppressWarnings("removal")
 public class GolemItems {
 
 	public static final RegistryEntry<CreativeModeTab> ITEMS, UPGRADES, GOLEMS;
@@ -342,21 +343,21 @@ public class GolemItems {
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
 					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
 					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
 					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		// humanoid golem
@@ -367,21 +368,21 @@ public class GolemItems {
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
 					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
 					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
 					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		// dog golem
@@ -392,7 +393,7 @@ public class GolemItems {
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
 					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3))
@@ -400,7 +401,7 @@ public class GolemItems {
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
 					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)

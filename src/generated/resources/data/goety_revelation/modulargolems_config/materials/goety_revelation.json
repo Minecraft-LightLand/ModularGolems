@@ -20,6 +20,7 @@
       "modulargolems:the_terrible": 2
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "goety_revelation:apocalyptium": {
       "tag": "modulargolems:revelation_ingot"

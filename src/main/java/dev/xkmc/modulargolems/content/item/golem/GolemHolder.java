@@ -13,9 +13,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
-import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
@@ -64,6 +62,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+@SuppressWarnings("removal")
 public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends Item {
 
 	public static final String KEY_MATERIAL = "golem_materials",
@@ -287,9 +286,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return golem;
 	}
 
-	private final RegistryEntry<GolemType<T, P>> type;
+	private final RegistryEntry<? extends GolemType<T, P>> type;
 
-	public GolemHolder(Properties props, RegistryEntry<GolemType<T, P>> type) {
+	public GolemHolder(Properties props, RegistryEntry<? extends GolemType<T, P>> type) {
 		super(props.stacksTo(1));
 		this.type = type;
 		synchronized (GolemType.class) {
@@ -585,9 +584,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public void fillItemCategory(CreativeModeTabModifier tab) {
 		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			if (!GolemMaterialConfig.anyApplicable(this, rl)) continue;
 			ItemStack stack = new ItemStack(this);
 			for (P part : getEntityType().values()) {
-				addMaterial(stack, part.toItem(), rl);
+				var mat = GolemMaterialConfig.mayApply(part.toItem(), rl) ? rl : getEntityType().defaultMaterial();
+				addMaterial(stack, part.toItem(), mat);
 			}
 			tab.accept(stack);
 		}
@@ -602,16 +603,9 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public int getRemaining(ArrayList<GolemMaterial> mats, ArrayList<IUpgradeItem> upgrades) {
-		int base = getEntityType().values().length;
-		if (type.get() == GolemTypes.TYPE_GOLEM.get()) {
-			base = MGConfig.COMMON.largeGolemSlot.get();
-		} else if (type.get() == GolemTypes.TYPE_HUMANOID.get()) {
-			base = MGConfig.COMMON.humanoidGolemSlot.get();
-		} else if (type.get() == GolemTypes.TYPE_DOG.get()) {
-			base = MGConfig.COMMON.dogGolemSlot.get();
-		}
+		int base = type.get().getUpgradeSlots();
 		for (var e : upgrades) {
-			if (e instanceof UpgradeItem) {
+			if (e.consumesSlot()) {
 				base--;
 			}
 		}

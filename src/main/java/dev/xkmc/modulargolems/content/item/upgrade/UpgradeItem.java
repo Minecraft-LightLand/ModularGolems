@@ -24,6 +24,11 @@ public abstract class UpgradeItem extends Item implements IUpgradeItem {
 		LIST.add(this);
 	}
 
+	@Override
+	public boolean canBeRemoved() {
+		return true;
+	}
+
 	public abstract List<ModifierInstance> get();
 
 	@Override

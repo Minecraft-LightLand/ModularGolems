@@ -37,6 +37,7 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 			if (stacks.length == 1 && stacks[0].getItem() instanceof GolemPart<?, ?> part) {
 				List<ItemStack> list = new ArrayList<>();
 				for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+					if (!GolemMaterialConfig.mayApply(part, rl)) continue;
 					ItemStack stack = new ItemStack(part);
 					list.add(GolemPart.setMaterial(stack, rl));
 				}
@@ -60,6 +61,7 @@ public record GolemAssemblyExtension(GolemAssembleRecipe recipe) implements ICra
 				}
 			}
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+				if (!GolemMaterialConfig.mayApply(holder, rl)) continue;
 				ItemStack stack = new ItemStack(holder);
 				for (var part : holder.getEntityType().values()) {
 					GolemPart<?, ?> partItem = part.toItem();

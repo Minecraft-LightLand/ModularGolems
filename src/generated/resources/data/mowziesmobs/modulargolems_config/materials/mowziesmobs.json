@@ -13,6 +13,7 @@
       "modulargolems:wroughtnaut": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "mowziesmobs:wroughtnaut": {
       "item": "modulargolems:wroughtnaut_ingot"

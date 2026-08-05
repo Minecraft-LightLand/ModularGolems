@@ -44,6 +44,7 @@
       "modulargolems:swim": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "composite_material:allay_steel": {
       "item": "composite_material:allay_steel_ingot"

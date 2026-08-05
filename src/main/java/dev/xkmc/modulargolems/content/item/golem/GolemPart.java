@@ -41,11 +41,11 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		return stack;
 	}
 
-	private final Supplier<GolemType<T, P>> type;
+	private final Supplier<? extends GolemType<T, P>> type;
 	private final P part;
 	public final int count;
 
-	public GolemPart(Properties props, Supplier<GolemType<T, P>> type, P part, int count) {
+	public GolemPart(Properties props, Supplier<? extends GolemType<T, P>> type, P part, int count) {
 		super(props.stacksTo(1));
 		this.type = type;
 		this.part = part;
@@ -113,7 +113,8 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		tab.accept(new ItemStack(this));
 		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
 			ItemStack stack = new ItemStack(this);
-			tab.accept(setMaterial(stack, rl));
+			if (GolemMaterialConfig.mayApply(this, rl))
+				tab.accept(setMaterial(stack, rl));
 		}
 
 	}

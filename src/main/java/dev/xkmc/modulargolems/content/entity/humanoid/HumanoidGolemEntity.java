@@ -260,24 +260,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP);
 	}
 
-	// ------ player equipment hurt
-
-	@Override
-	protected void hurtArmor(DamageSource source, float damage) {
-		if (damage <= 0.0F) return;
-		damage /= 4.0F;
-		if (damage < 1.0F) {
-			damage = 1.0F;
-		}
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
-			ItemStack itemstack = this.getItemBySlot(slot);
-			if ((!source.is(DamageTypeTags.IS_FIRE) || !itemstack.getItem().isFireResistant()) && itemstack.getItem() instanceof ArmorItem) {
-				itemstack.hurtAndBreak((int) damage, this, (entity) -> entity.broadcastBreakEvent(slot));
-			}
-		}
-	}
-
 	// shields
 
 	@Nullable
@@ -395,6 +377,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void playSound(SoundEvent soundEvent, float volume, float pitch) {
 		if (getSoundManager().playSound(this, soundEvent, volume, pitch)) return;
 		super.playSound(soundEvent, volume, pitch);
+	}
+
+	@Override
+	public int getPreviewScale() {
+		return 24;
 	}
 
 }

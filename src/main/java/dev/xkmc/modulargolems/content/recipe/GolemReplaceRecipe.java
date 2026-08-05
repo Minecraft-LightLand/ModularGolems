@@ -37,6 +37,7 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 		}
 		var stack = assemble(cont, level.registryAccess());
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
+			if (!holder.getEntityType().mayEdit(stack)) return false;
 			var mats = GolemHolder.getMaterial(stack);
 			var upgrades = GolemHolder.getUpgrades(stack);
 			int remain = holder.getRemaining(mats, upgrades);

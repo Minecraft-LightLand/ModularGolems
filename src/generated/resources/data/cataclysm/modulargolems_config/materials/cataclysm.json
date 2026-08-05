@@ -68,6 +68,7 @@
       "modulargolems:projectile_reject": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "cataclysm:ancient_metal": {
       "item": "cataclysm:ancient_metal_ingot"
