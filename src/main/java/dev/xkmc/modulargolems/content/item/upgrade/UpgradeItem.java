@@ -27,6 +27,11 @@ public abstract class UpgradeItem extends Item implements IUpgradeItem {
 	public abstract List<ModifierInstance> get();
 
 	@Override
+	public boolean canBeRemoved() {
+		return true;
+	}
+
+	@Override
 	public boolean isFoil(ItemStack stack) {
 		return foil;
 	}

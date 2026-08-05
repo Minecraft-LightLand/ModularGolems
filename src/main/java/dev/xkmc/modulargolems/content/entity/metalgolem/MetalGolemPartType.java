@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.core.GolemSlot;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.render.GolemTransformType;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -14,7 +15,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 
 public enum MetalGolemPartType implements IGolemPart<MetalGolemPartType> {
-	RIGHT, BODY, LEFT, LEG;
+	RIGHT(GolemSlot.LEFT),
+	BODY(GolemSlot.MIDDLE),
+	LEFT(GolemSlot.RIGHT),
+	LEG(GolemSlot.DOWN);
+
+	private final GolemSlot slot;
+
+	MetalGolemPartType(GolemSlot slot) {
+		this.slot = slot;
+	}
+
+	@Override
+	public GolemSlot getSlot() {
+		return slot;
+	}
 
 	@Override
 	public MutableComponent getDesc(MutableComponent desc) {

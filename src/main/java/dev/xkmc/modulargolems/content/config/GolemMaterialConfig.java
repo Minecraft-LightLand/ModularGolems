@@ -7,10 +7,13 @@ import dev.xkmc.l2core.util.DataGenOnly;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
@@ -26,13 +29,36 @@ public class GolemMaterialConfig extends BaseConfig {
 		return ModularGolems.MATERIALS.getMerged();
 	}
 
-	@ConfigCollect(CollectType.MAP_COLLECT)
-	@SerialField
-	public HashMap<Identifier, HashMap<GolemStatType, Double>> stats = new HashMap<>();
+	public static boolean mayApply(GolemHolder<?, ?> holder, Identifier rl) {
+		for (var part : holder.getEntityType().values()) {
+			if (!mayApply(part.toItem(), rl))
+				return false;
+		}
+		return true;
+	}
+
+	public static boolean anyApplicable(GolemHolder<?, ?> holder, Identifier rl) {
+		for (var part : holder.getEntityType().values()) {
+			if (mayApply(part.toItem(), rl))
+				return true;
+		}
+		return false;
+	}
+
+	public static boolean mayApply(GolemPart<?, ?> part, Identifier rl) {
+		var config = get();
+		var limit = config.partLimitation.get(rl);
+		if (limit == null) return part.getDefaultInstance().is(MGTagGen.GENERIC_PARTS);
+		return limit.contains(part);
+	}
 
 	@ConfigCollect(CollectType.MAP_COLLECT)
 	@SerialField
-	public HashMap<Identifier, HashMap<GolemModifier, Integer>> modifiers = new HashMap<>();
+	public HashMap<Identifier, HashMap<GolemStatType, Double>> stats = new LinkedHashMap<>();
+
+	@ConfigCollect(CollectType.MAP_COLLECT)
+	@SerialField
+	public HashMap<Identifier, HashMap<GolemModifier, Integer>> modifiers = new LinkedHashMap<>();
 
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialField
@@ -41,6 +67,10 @@ public class GolemMaterialConfig extends BaseConfig {
 	@ConfigCollect(CollectType.MAP_OVERWRITE)
 	@SerialField
 	public HashMap<Identifier, Ingredient> repairIngredients = new HashMap<>();
+
+	@ConfigCollect(CollectType.MAP_OVERWRITE)
+	@SerialField
+	public LinkedHashMap<Identifier, LinkedHashSet<Item>> partLimitation = new LinkedHashMap<>();
 
 	public List<Identifier> getAllMaterials() {
 		TreeSet<Identifier> set = new TreeSet<>(stats.keySet());
@@ -75,6 +105,23 @@ public class GolemMaterialConfig extends BaseConfig {
 		return new Builder(this, id, ingredient, repair);
 	}
 
+	public GolemMaterialConfig supportsDefaultAnd(List<Item> part, Identifier... ids) {
+		List<Item> list = new ArrayList<>();
+		list.addAll(List.of(GolemItems.GOLEM_BODY.get(), GolemItems.GOLEM_ARM.get(), GolemItems.GOLEM_LEGS.get(),
+				GolemItems.HUMANOID_BODY.get(), GolemItems.HUMANOID_ARMS.get(), GolemItems.HUMANOID_LEGS.get(),
+				GolemItems.DOG_BODY.get(), GolemItems.DOG_LEGS.get()));
+		list.addAll(part);
+		for (var id : ids)
+			partLimitation.put(id, new LinkedHashSet<>(list));
+		return this;
+	}
+
+	public GolemMaterialConfig supportsAlso(List<Item> part, Identifier... ids) {
+		for (var id : ids)
+			partLimitation.put(id, new LinkedHashSet<>(part));
+		return this;
+	}
+
 	@DataGenOnly
 	public static class Builder {
 
@@ -98,6 +145,11 @@ public class GolemMaterialConfig extends BaseConfig {
 			this.id = id;
 			this.ingredient = ingredient;
 			this.repairIngredient = repair;
+		}
+
+		public Builder onlyFor(Item... part) {
+			parent.partLimitation.put(id, new LinkedHashSet<>(List.of(part)));
+			return this;
 		}
 
 		public Builder addStat(GolemStatType type, double val) {
