@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.editor.base.EditorFile;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -35,6 +36,13 @@ public class EditorData {
 	public static final String PACK_FOLDER = "modulargolems_editor";
 
 	public static boolean savedFlag;
+
+	public static boolean canEdit() {
+		Minecraft mc = Minecraft.getInstance();
+		return mc.getSingleplayerServer() != null
+				&& mc.getSingleplayerServer().getWorldData().getAllowCommands()
+				&& mc.player != null && mc.player.isCreative();
+	}
 
 	private static <T> Comparator<T> byId(java.util.function.Function<T, String> name) {
 		return Comparator.comparing(name);

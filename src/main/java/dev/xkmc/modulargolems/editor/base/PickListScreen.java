@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.editor.base;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -42,8 +43,10 @@ public class PickListScreen<T> extends Screen {
 		search.setFocused(true);
 		addRenderableWidget(search);
 		setInitialFocus(search);
-		list = new EditorList(minecraft, width, height - 44, 34, height - 10);
+		list = new EditorList(minecraft, width, height - 60, 34, height - 44);
 		addRenderableWidget(list);
+		addRenderableWidget(Button.builder(EditorText.CANCEL.get(), b -> onClose())
+				.bounds(width / 2 - 50, height - 30, 100, 20).build());
 		refresh();
 	}
 

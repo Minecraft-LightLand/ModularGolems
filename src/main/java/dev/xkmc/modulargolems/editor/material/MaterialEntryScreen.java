@@ -7,11 +7,11 @@ import dev.xkmc.modulargolems.editor.base.DoubleMapScreen;
 import dev.xkmc.modulargolems.editor.base.EditorList;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
 import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.base.ItemListScreen;
+import dev.xkmc.modulargolems.editor.base.ModifierMapScreen;
 import dev.xkmc.modulargolems.editor.util.EditorData;
 import dev.xkmc.modulargolems.editor.util.EditorLang;
 import dev.xkmc.modulargolems.editor.util.IngredientScreen;
-import dev.xkmc.modulargolems.editor.util.ItemListScreen;
-import dev.xkmc.modulargolems.editor.util.ModifierMapScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -67,11 +67,13 @@ public class MaterialEntryScreen extends Screen {
 				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.STATS.get(statsMap().size()),
 						statsMap(), EditorData.listStats(), statLabel(), t -> null, GolemStatType::percentDisplay, MaterialEntryScreen.this, session))));
 		entries.add(row(EditorLang.MODIFIERS.get(modMap().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new ModifierMapScreen(EditorLang.MODIFIERS.get(modMap().size()),
-						modMap(), EditorData.listModifiers(), MaterialEntryScreen.this, session))));
+				() -> Minecraft.getInstance().setScreen(new ModifierMapScreen<>(EditorLang.MODIFIERS.get(modMap().size()),
+						modMap(), EditorData.listModifiers(), m -> m.getDesc(), GolemModifier.MAX_LEVEL,
+						EditorLang.SELECT_MODIFIER.get(GolemModifier.MAX_LEVEL), MaterialEntryScreen.this, session))));
 		entries.add(row(EditorLang.LIMITATION.get(limitSet().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new ItemListScreen(EditorLang.LIMITATION.get(limitSet().size()),
-						limitSet(), EditorData.listItems(), MaterialEntryScreen.this, session))));
+				() -> Minecraft.getInstance().setScreen(new ItemListScreen<>(EditorLang.LIMITATION.get(limitSet().size()),
+						limitSet(), EditorData.listItems(), EditorData::itemName, ItemStack::new,
+						EditorLang.SELECT_ITEM.get(), MaterialEntryScreen.this, session))));
 		list.setData(entries);
 	}
 

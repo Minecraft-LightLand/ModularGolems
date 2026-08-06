@@ -10,11 +10,8 @@ import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
-import dev.xkmc.modulargolems.editor.material.MaterialHomeScreen;
-import dev.xkmc.modulargolems.editor.util.EditorLang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -47,22 +44,10 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		if (menu.golem == null) return;
 		new GolemTabManager<>(this, new EquipmentGroup(menu.golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
-		if (canEditDatapacks()) {
-			addRenderableWidget(Button.builder(EditorLang.OPEN.get(), b ->
-							Minecraft.getInstance().setScreen(new MaterialHomeScreen(this)))
-					.bounds(width - 112, height - 30, 102, 20).build());
-		}
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
 			addRenderableWidget(new PlayerSkinButton(leftPos + 137, topPos + 5, golem, b ->
 					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem))));
 		}
-	}
-
-	private static boolean canEditDatapacks() {
-		Minecraft mc = Minecraft.getInstance();
-		return mc.getSingleplayerServer() != null
-				&& mc.getSingleplayerServer().getWorldData().getAllowCommands()
-				&& mc.player != null && mc.player.isCreative();
 	}
 
 	@Override

@@ -1,38 +1,40 @@
-package dev.xkmc.modulargolems.editor.util;
+package dev.xkmc.modulargolems.editor.base;
 
-import dev.xkmc.modulargolems.editor.base.EditorList;
-import dev.xkmc.modulargolems.editor.base.EditorSession;
-import dev.xkmc.modulargolems.editor.base.EditorText;
-import dev.xkmc.modulargolems.editor.base.EditorToast;
-import dev.xkmc.modulargolems.editor.base.PickListScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
-public class ItemListScreen extends Screen {
+public class ItemListScreen<T> extends Screen {
 
-	private final Set<Item> set;
-	private final List<Item> candidates;
+	private final Set<T> set;
+	private final List<T> candidates;
+	private final Function<T, Component> label;
+	private final Function<T, ItemStack> icon;
+	private final Component pickTitle;
 	private final Screen parent;
 	private final EditorSession session;
 
 	private EditorList list;
-	private final List<Item> order = new ArrayList<>();
+	private final List<T> order = new ArrayList<>();
 
-	public ItemListScreen(Component title, Set<Item> set, List<Item> candidates,
-						  Screen parent, EditorSession session) {
+	public ItemListScreen(Component title, Set<T> set, List<T> candidates,
+						  Function<T, Component> label, Function<T, ItemStack> icon,
+						  Component pickTitle, Screen parent, EditorSession session) {
 		super(title);
 		this.set = set;
 		this.candidates = candidates;
+		this.label = label;
+		this.icon = icon;
+		this.pickTitle = pickTitle;
 		this.parent = parent;
 		this.session = session;
 	}
@@ -54,17 +56,17 @@ public class ItemListScreen extends Screen {
 	private void rebuild() {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
-		List<Item> keys = new ArrayList<>(set);
-		keys.sort((a, b) -> EditorData.itemName(a).getString().compareToIgnoreCase(EditorData.itemName(b).getString()));
-		for (Item k : keys) {
+		List<T> keys = new ArrayList<>(set);
+		keys.sort((a, b) -> label.apply(a).getString().compareToIgnoreCase(label.apply(b).getString()));
+		for (T k : keys) {
 			order.add(k);
-			entries.add(new EditorList.Entry(EditorData.itemName(k), new ItemStack(k), null));
+			entries.add(new EditorList.Entry(label.apply(k), icon.apply(k), null));
 		}
 		list.setData(entries);
 	}
 
 	@Nullable
-	private Item selectedItem() {
+	private T selected() {
 		EditorList.Entry sel = list.getSelected();
 		if (sel == null) return null;
 		int i = list.children().indexOf(sel);
@@ -73,8 +75,8 @@ public class ItemListScreen extends Screen {
 	}
 
 	private void addItem() {
-		List<Item> remaining = new ArrayList<>();
-		for (Item t : candidates) {
+		List<T> remaining = new ArrayList<>();
+		for (T t : candidates) {
 			if (!set.contains(t)) {
 				remaining.add(t);
 			}
@@ -83,8 +85,8 @@ public class ItemListScreen extends Screen {
 			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;
 		}
-		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_ITEM.get(), remaining,
-				EditorData::itemName, ItemStack::new, item -> {
+		Minecraft.getInstance().setScreen(new PickListScreen<>(pickTitle, remaining,
+				label, icon, item -> {
 					set.add(item);
 					session.dirty = true;
 					Minecraft.getInstance().setScreen(ItemListScreen.this);
@@ -92,7 +94,7 @@ public class ItemListScreen extends Screen {
 	}
 
 	private void removeItem() {
-		Item item = selectedItem();
+		T item = selected();
 		if (item == null) {
 			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
 			return;

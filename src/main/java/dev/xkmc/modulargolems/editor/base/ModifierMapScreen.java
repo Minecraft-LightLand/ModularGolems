@@ -1,12 +1,5 @@
-package dev.xkmc.modulargolems.editor.util;
+package dev.xkmc.modulargolems.editor.base;
 
-import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.editor.base.EditorList;
-import dev.xkmc.modulargolems.editor.base.EditorSession;
-import dev.xkmc.modulargolems.editor.base.EditorText;
-import dev.xkmc.modulargolems.editor.base.EditorToast;
-import dev.xkmc.modulargolems.editor.base.PickListScreen;
-import dev.xkmc.modulargolems.editor.base.PromptScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -19,21 +12,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class ModifierMapScreen extends Screen {
+public class ModifierMapScreen<M> extends Screen {
 
-	private final Map<GolemModifier, Integer> map;
-	private final List<GolemModifier> candidates;
+	private final Map<M, Integer> map;
+	private final List<M> candidates;
+	private final Function<M, Component> label;
+	private final int maxLevel;
+	private final Component pickTitle;
 	private final Screen parent;
 	private final EditorSession session;
 
 	private EditorList list;
-	private final List<GolemModifier> order = new ArrayList<>();
+	private final List<M> order = new ArrayList<>();
 
-	public ModifierMapScreen(Component title, Map<GolemModifier, Integer> map, List<GolemModifier> candidates,
+	public ModifierMapScreen(Component title, Map<M, Integer> map, List<M> candidates,
+							 Function<M, Component> label, int maxLevel, Component pickTitle,
 							 Screen parent, EditorSession session) {
 		super(title);
 		this.map = map;
 		this.candidates = candidates;
+		this.label = label;
+		this.maxLevel = maxLevel;
+		this.pickTitle = pickTitle;
 		this.parent = parent;
 		this.session = session;
 	}
@@ -57,22 +57,18 @@ public class ModifierMapScreen extends Screen {
 	private void rebuild() {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
-		List<GolemModifier> keys = new ArrayList<>(map.keySet());
-		keys.sort((a, b) -> a.getRegistryName().toString().compareTo(b.getRegistryName().toString()));
-		for (GolemModifier k : keys) {
+		List<M> keys = new ArrayList<>(map.keySet());
+		keys.sort((a, b) -> label.apply(a).getString().compareToIgnoreCase(label.apply(b).getString()));
+		for (M k : keys) {
 			order.add(k);
 			entries.add(new EditorList.Entry(
-					label(k).copy().append(Component.literal("   ")).append(EditorLang.LEVEL_SHORT.get(map.get(k))), null, null));
+					label.apply(k).copy().append(Component.literal("   ")).append(EditorText.LEVEL_FULL.get(map.get(k), maxLevel)), null, null));
 		}
 		list.setData(entries);
 	}
 
-	private static Component label(GolemModifier mod) {
-		return mod.getDesc();
-	}
-
 	@Nullable
-	private GolemModifier selectedKey() {
+	private M selectedKey() {
 		EditorList.Entry sel = list.getSelected();
 		if (sel == null) return null;
 		int i = list.children().indexOf(sel);
@@ -81,8 +77,8 @@ public class ModifierMapScreen extends Screen {
 	}
 
 	private void addModifier() {
-		List<GolemModifier> remaining = new ArrayList<>();
-		for (GolemModifier t : candidates) {
+		List<M> remaining = new ArrayList<>();
+		for (M t : candidates) {
 			if (!map.containsKey(t)) {
 				remaining.add(t);
 			}
@@ -91,23 +87,22 @@ public class ModifierMapScreen extends Screen {
 			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;
 		}
-		Function<GolemModifier, Component> lab = ModifierMapScreen::label;
-		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.PICK_TARGET.get(), remaining, lab, t -> null, t -> {
+		Minecraft.getInstance().setScreen(new PickListScreen<>(pickTitle, remaining, label, t -> null, t -> {
 			promptLevel(t);
 		}, this));
 	}
 
-	private void promptLevel(GolemModifier key) {
+	private void promptLevel(M key) {
 		int cur = map.getOrDefault(key, 1);
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorLang.LEVEL.get(), label(key), "" + cur, s -> {
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.LEVEL_RANGE.get(maxLevel), label.apply(key), "" + cur, s -> {
 			try {
 				int v = Integer.parseInt(s.trim());
-				if (v < 1 || v > GolemModifier.MAX_LEVEL) {
-					return EditorLang.INVALID_INT.get(s);
+				if (v < 1 || v > maxLevel) {
+					return EditorText.INVALID_INT.get(maxLevel, s);
 				}
 				return null;
 			} catch (NumberFormatException e) {
-				return EditorLang.INVALID_INT.get(s);
+				return EditorText.INVALID_INT.get(maxLevel, s);
 			}
 		}, s -> {
 			map.put(key, Integer.parseInt(s.trim()));
@@ -117,7 +112,7 @@ public class ModifierMapScreen extends Screen {
 	}
 
 	private void editModifier() {
-		GolemModifier key = selectedKey();
+		M key = selectedKey();
 		if (key == null) {
 			EditorToast.show(EditorText.EDIT.get(), EditorText.NO_FILE.get());
 			return;
@@ -126,7 +121,7 @@ public class ModifierMapScreen extends Screen {
 	}
 
 	private void removeModifier() {
-		GolemModifier key = selectedKey();
+		M key = selectedKey();
 		if (key == null) {
 			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
 			return;

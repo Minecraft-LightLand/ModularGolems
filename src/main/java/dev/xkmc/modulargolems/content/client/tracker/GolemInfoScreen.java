@@ -8,6 +8,9 @@ import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.capability.TrackerDeleteToServer;
 import dev.xkmc.modulargolems.content.capability.TrackerHeartBeatToServer;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
+import dev.xkmc.modulargolems.editor.material.MaterialHomeScreen;
+import dev.xkmc.modulargolems.editor.util.EditorData;
+import dev.xkmc.modulargolems.editor.util.EditorLang;
 import dev.xkmc.modulargolems.init.GolemClient;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
@@ -68,6 +71,11 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 				(e) -> this.click(1)).pos(x, y).size(w, h).build();
 
 		new TabManager(this).init(this::addRenderableWidget, GolemClient.TAB);
+		if (EditorData.canEdit()) {
+			addRenderableWidget(Button.builder(EditorLang.OPEN.get(), b ->
+							Minecraft.getInstance().setScreen(new MaterialHomeScreen(this)))
+					.bounds(width - 112, height - 30, 102, 20).build());
+		}
 	}
 
 	private void click(int offset) {
