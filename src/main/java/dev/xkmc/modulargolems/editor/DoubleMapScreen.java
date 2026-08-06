@@ -21,14 +21,15 @@ public class DoubleMapScreen<T> extends Screen {
 	private final Function<T, Component> label;
 	private final Function<T, ItemStack> icon;
 	private final Function<T, Boolean> percent;
-	private final net.minecraft.client.gui.screens.Screen parent;
+	private final Screen parent;
+	private final EditorSession session;
 
 	private EditorList list;
 	private final List<T> order = new ArrayList<>();
 
 	public DoubleMapScreen(Component title, Map<T, Double> map, List<T> candidates,
 						   Function<T, Component> label, Function<T, ItemStack> icon,
-						   Function<T, Boolean> percent, net.minecraft.client.gui.screens.Screen parent) {
+						   Function<T, Boolean> percent, Screen parent, EditorSession session) {
 		super(title);
 		this.map = map;
 		this.candidates = candidates;
@@ -36,6 +37,7 @@ public class DoubleMapScreen<T> extends Screen {
 		this.icon = icon;
 		this.percent = percent;
 		this.parent = parent;
+		this.session = session;
 	}
 
 	@Override
@@ -89,7 +91,7 @@ public class DoubleMapScreen<T> extends Screen {
 		}
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.PICK_TARGET.get(), remaining, label, icon, t -> {
 			promptValue(t);
-		}));
+		}, this));
 	}
 
 	private void promptValue(T key) {
@@ -103,8 +105,9 @@ public class DoubleMapScreen<T> extends Screen {
 			}
 		}, s -> {
 			map.put(key, Double.parseDouble(s.trim()));
+			session.dirty = true;
 			Minecraft.getInstance().setScreen(DoubleMapScreen.this);
-		}));
+		}, this));
 	}
 
 	private void editValue() {
@@ -123,6 +126,7 @@ public class DoubleMapScreen<T> extends Screen {
 			return;
 		}
 		map.remove(key);
+		session.dirty = true;
 		rebuild();
 	}
 
@@ -146,6 +150,11 @@ public class DoubleMapScreen<T> extends Screen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, this.title, width / 2, 10, 0xFFFFFF);
+	}
+
+	@Override
+	public void onClose() {
+		Minecraft.getInstance().setScreen(parent);
 	}
 
 }

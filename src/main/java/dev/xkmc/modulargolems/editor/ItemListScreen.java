@@ -18,17 +18,19 @@ public class ItemListScreen extends Screen {
 
 	private final Set<Item> set;
 	private final List<Item> candidates;
-	private final net.minecraft.client.gui.screens.Screen parent;
+	private final Screen parent;
+	private final EditorSession session;
 
 	private EditorList list;
 	private final List<Item> order = new ArrayList<>();
 
 	public ItemListScreen(Component title, Set<Item> set, List<Item> candidates,
-						  net.minecraft.client.gui.screens.Screen parent) {
+						  Screen parent, EditorSession session) {
 		super(title);
 		this.set = set;
 		this.candidates = candidates;
 		this.parent = parent;
+		this.session = session;
 	}
 
 	@Override
@@ -80,8 +82,9 @@ public class ItemListScreen extends Screen {
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_ITEM.get(), remaining,
 				EditorData::itemName, ItemStack::new, item -> {
 					set.add(item);
+					session.dirty = true;
 					Minecraft.getInstance().setScreen(ItemListScreen.this);
-				}));
+				}, this));
 	}
 
 	private void removeItem() {
@@ -91,6 +94,7 @@ public class ItemListScreen extends Screen {
 			return;
 		}
 		set.remove(item);
+		session.dirty = true;
 		rebuild();
 	}
 
@@ -99,6 +103,11 @@ public class ItemListScreen extends Screen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, this.title, width / 2, 10, 0xFFFFFF);
+	}
+
+	@Override
+	public void onClose() {
+		Minecraft.getInstance().setScreen(parent);
 	}
 
 }

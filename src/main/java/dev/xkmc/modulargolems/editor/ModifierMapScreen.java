@@ -17,17 +17,19 @@ public class ModifierMapScreen extends Screen {
 
 	private final Map<GolemModifier, Integer> map;
 	private final List<GolemModifier> candidates;
-	private final net.minecraft.client.gui.screens.Screen parent;
+	private final Screen parent;
+	private final EditorSession session;
 
 	private EditorList list;
 	private final List<GolemModifier> order = new ArrayList<>();
 
 	public ModifierMapScreen(Component title, Map<GolemModifier, Integer> map, List<GolemModifier> candidates,
-							 net.minecraft.client.gui.screens.Screen parent) {
+							 Screen parent, EditorSession session) {
 		super(title);
 		this.map = map;
 		this.candidates = candidates;
 		this.parent = parent;
+		this.session = session;
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class ModifierMapScreen extends Screen {
 		Function<GolemModifier, Component> lab = ModifierMapScreen::label;
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.PICK_TARGET.get(), remaining, lab, t -> null, t -> {
 			promptLevel(t);
-		}));
+		}, this));
 	}
 
 	private void promptLevel(GolemModifier key) {
@@ -103,8 +105,9 @@ public class ModifierMapScreen extends Screen {
 			}
 		}, s -> {
 			map.put(key, Integer.parseInt(s.trim()));
+			session.dirty = true;
 			Minecraft.getInstance().setScreen(ModifierMapScreen.this);
-		}));
+		}, this));
 	}
 
 	private void editModifier() {
@@ -123,6 +126,7 @@ public class ModifierMapScreen extends Screen {
 			return;
 		}
 		map.remove(key);
+		session.dirty = true;
 		rebuild();
 	}
 
@@ -131,6 +135,11 @@ public class ModifierMapScreen extends Screen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, this.title, width / 2, 10, 0xFFFFFF);
+	}
+
+	@Override
+	public void onClose() {
+		Minecraft.getInstance().setScreen(parent);
 	}
 
 }

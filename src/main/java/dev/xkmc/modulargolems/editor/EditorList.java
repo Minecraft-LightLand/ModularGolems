@@ -36,11 +36,21 @@ public class EditorList extends ObjectSelectionList<EditorList.Entry> {
 		private final ItemStack icon;
 		@Nullable
 		private final Runnable onClick;
+		private final boolean header;
 
 		public Entry(Component text, @Nullable ItemStack icon, @Nullable Runnable onClick) {
+			this(text, icon, onClick, false);
+		}
+
+		public Entry(Component text, boolean header) {
+			this(text, null, null, header);
+		}
+
+		private Entry(Component text, @Nullable ItemStack icon, @Nullable Runnable onClick, boolean header) {
 			this.text = text;
 			this.icon = icon;
 			this.onClick = onClick;
+			this.header = header;
 		}
 
 		@Override
@@ -50,6 +60,11 @@ public class EditorList extends ObjectSelectionList<EditorList.Entry> {
 
 		@Override
 		public void render(GuiGraphics g, int index, int top, int left, int rowWidth, int itemHeight, int mx, int my, boolean hovered, float partialTick) {
+			if (header) {
+				g.fill(left, top - 2, left + rowWidth, top + itemHeight + 2, 0x20AAAAAA);
+				g.drawString(Minecraft.getInstance().font, text, left + 2, top + 5, 0xAAAAAA);
+				return;
+			}
 			if (hovered) {
 				g.fill(left, top - 2, left + rowWidth, top + itemHeight + 2, 0x20FFFFFF);
 			}
@@ -69,7 +84,7 @@ public class EditorList extends ObjectSelectionList<EditorList.Entry> {
 
 		@Override
 		public boolean mouseClicked(double mx, double my, int button) {
-			if (button == 0) {
+			if (button == 0 && !header) {
 				this.list.setSelected(this);
 				activate();
 				return true;

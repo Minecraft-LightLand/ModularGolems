@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.editor;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,17 +19,19 @@ public class PickListScreen<T> extends Screen {
 	private final Function<T, Component> label;
 	private final Function<T, ItemStack> icon;
 	private final Consumer<T> callback;
+	private final Screen parent;
 
 	private EditBox search;
 	private EditorList list;
 
 	public PickListScreen(Component title, List<T> candidates, Function<T, Component> label,
-						  Function<T, ItemStack> icon, Consumer<T> callback) {
+						  Function<T, ItemStack> icon, Consumer<T> callback, Screen parent) {
 		super(title);
 		this.candidates = candidates;
 		this.label = label;
 		this.icon = icon;
 		this.callback = callback;
+		this.parent = parent;
 	}
 
 	@Override
@@ -80,6 +83,11 @@ public class PickListScreen<T> extends Screen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, this.title, width / 2, 2, 0xFFFFFF);
+	}
+
+	@Override
+	public void onClose() {
+		Minecraft.getInstance().setScreen(parent);
 	}
 
 }

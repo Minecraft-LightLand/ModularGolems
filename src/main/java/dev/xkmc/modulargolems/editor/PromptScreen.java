@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.editor;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -16,18 +17,20 @@ public class PromptScreen extends Screen {
 	private final String initial;
 	private final Function<String, Component> validate;
 	private final Consumer<String> callback;
+	private final Screen parent;
 
 	private EditBox box;
 	@Nullable
 	private Component error;
 
 	public PromptScreen(Component title, Component label, String initial,
-						Function<String, Component> validate, Consumer<String> callback) {
+						Function<String, Component> validate, Consumer<String> callback, Screen parent) {
 		super(title);
 		this.label = label;
 		this.initial = initial;
 		this.validate = validate;
 		this.callback = callback;
+		this.parent = parent;
 	}
 
 	@Override
@@ -37,11 +40,16 @@ public class PromptScreen extends Screen {
 		box.setMaxLength(256);
 		box.setResponder(s -> error = null);
 		addRenderableWidget(box);
-		addRenderableWidget(Button.builder(EditorLang.CANCEL.get(), b -> onClose())
+		addRenderableWidget(Button.builder(EditorLang.CANCEL.get(), b -> Minecraft.getInstance().setScreen(parent))
 				.bounds(width / 2 - 104, height / 2 + 18, 100, 20).build());
 		addRenderableWidget(Button.builder(EditorLang.CONFIRM.get(), b -> submit())
 				.bounds(width / 2 + 4, height / 2 + 18, 100, 20).build());
 		setInitialFocus(box);
+	}
+
+	@Override
+	public void onClose() {
+		Minecraft.getInstance().setScreen(parent);
 	}
 
 	private void submit() {

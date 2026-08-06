@@ -15,12 +15,14 @@ public class IngredientScreen extends Screen {
 	private final Ingredient current;
 	private final Consumer<Ingredient> onSet;
 	private final Screen parent;
+	private final EditorSession session;
 
-	public IngredientScreen(Component title, Ingredient current, Consumer<Ingredient> onSet, Screen parent) {
+	public IngredientScreen(Component title, Ingredient current, Consumer<Ingredient> onSet, Screen parent, EditorSession session) {
 		super(title);
 		this.current = current;
 		this.onSet = onSet;
 		this.parent = parent;
+		this.session = session;
 	}
 
 	@Override
@@ -38,17 +40,18 @@ public class IngredientScreen extends Screen {
 
 	private void apply(Ingredient ing) {
 		onSet.accept(ing);
+		session.dirty = true;
 		Minecraft.getInstance().setScreen(this);
 	}
 
 	private void pickItem() {
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_ITEM.get(),
-				EditorData.listItems(), EditorData::itemName, ItemStack::new, item -> apply(EditorData.itemIngredient(item))));
+				EditorData.listItems(), EditorData::itemName, ItemStack::new, item -> apply(EditorData.itemIngredient(item)), this));
 	}
 
 	private void pickTag() {
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_TAG.get(),
-				EditorData.listTags(), EditorData::tagName, t -> null, tag -> apply(EditorData.tagIngredient(tag))));
+				EditorData.listTags(), EditorData::tagName, t -> null, tag -> apply(EditorData.tagIngredient(tag)), this));
 	}
 
 	@Override
@@ -61,6 +64,11 @@ public class IngredientScreen extends Screen {
 			g.renderItem(icon, width / 2 - 8, height / 2 - 30);
 		}
 		g.drawCenteredString(font, EditorData.ingredientText(current), width / 2, height / 2, 0xFFFFFF);
+	}
+
+	@Override
+	public void onClose() {
+		Minecraft.getInstance().setScreen(parent);
 	}
 
 }

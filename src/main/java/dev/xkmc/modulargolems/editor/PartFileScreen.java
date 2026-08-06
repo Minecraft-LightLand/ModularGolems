@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.editor;
 
+import com.google.gson.JsonElement;
+import dev.xkmc.l2serial.serialization.codec.JsonCodec;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
@@ -21,34 +23,45 @@ import java.util.List;
 
 public class PartFileScreen extends Screen {
 
-	private final GolemPartConfig config;
+	private final EditorSession session = new EditorSession();
+	private final Screen parent;
+	private GolemPartConfig config;
 	private ResourceLocation fileId;
+	private JsonElement lastSaved;
 
 	private EditorList list;
 	private final List<Item> partOrder = new ArrayList<>();
 	private final List<ResourceLocation> entOrder = new ArrayList<>();
+	private Button saveBtn, reloadBtn;
 
-	public PartFileScreen(GolemPartConfig config, ResourceLocation fileId) {
+	public PartFileScreen(GolemPartConfig config, ResourceLocation fileId, Screen parent) {
 		super(EditorLang.PARTS_FILE.get());
 		this.config = config;
 		this.fileId = fileId;
+		this.parent = parent;
 	}
 
 	@Override
 	protected void init() {
-		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
+		list = new EditorList(minecraft, width, height - 90, 30, height - 64);
 		addRenderableWidget(list);
 		int c = width / 2;
 		addRenderableWidget(Button.builder(EditorLang.ADD_PART.get(), b -> addPart())
-				.bounds(c - 160, height - 30, 80, 20).build());
+				.bounds(c - 160, height - 56, 80, 20).build());
 		addRenderableWidget(Button.builder(EditorLang.ADD_MAGNIFIER.get(), b -> addEntity())
-				.bounds(c - 75, height - 30, 80, 20).build());
+				.bounds(c - 75, height - 56, 80, 20).build());
 		addRenderableWidget(Button.builder(EditorLang.REMOVE.get(), b -> removeEntry())
-				.bounds(c + 10, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.SAVE.get(), b -> save())
-				.bounds(c + 75, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> onClose())
-				.bounds(c + 140, height - 30, 60, 20).build());
+				.bounds(c + 10, height - 56, 60, 20).build());
+		saveBtn = Button.builder(EditorLang.SAVE.get(), b -> save())
+				.bounds(c - 115, height - 30, 60, 20).build();
+		reloadBtn = Button.builder(EditorLang.RELOAD.get(), b -> reload())
+				.bounds(c - 50, height - 30, 60, 20).build();
+		saveBtn.active = session.dirty;
+		reloadBtn.active = session.saved;
+		addRenderableWidget(saveBtn);
+		addRenderableWidget(reloadBtn);
+		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> exitFile())
+				.bounds(c + 15, height - 30, 60, 20).build());
 		rebuild();
 	}
 
@@ -88,13 +101,13 @@ public class PartFileScreen extends Screen {
 		var map = config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
 		List<StatFilterType> cand = List.of(StatFilterType.values());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.FILTERS.get(map.size()), map, cand,
-				t -> Component.literal(t.name()), t -> null, t -> false, PartFileScreen.this));
+				t -> Component.literal(t.name()), t -> null, t -> false, PartFileScreen.this, session));
 	}
 
 	private void editEntity(ResourceLocation id) {
 		var map = config.magnifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.MAGNIFIERS.get(map.size()), map,
-				EditorData.listStats(), EditorData::statName, t -> null, GolemStatType::percentDisplay, PartFileScreen.this));
+				EditorData.listStats(), EditorData::statName, t -> null, GolemStatType::percentDisplay, PartFileScreen.this, session));
 	}
 
 	private void addPart() {
@@ -111,8 +124,9 @@ public class PartFileScreen extends Screen {
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_PART.get(), remaining,
 				EditorData::itemName, ItemStack::new, part -> {
 					config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
+					session.dirty = true;
 					editPart(part);
-				}));
+				}, this));
 	}
 
 	private void addEntity() {
@@ -132,8 +146,9 @@ public class PartFileScreen extends Screen {
 					return holder == null ? null : new ItemStack(holder);
 				}, t -> {
 					config.magnifiers.computeIfAbsent(t.getRegistryName(), k -> new java.util.LinkedHashMap<>());
+					session.dirty = true;
 					editEntity(t.getRegistryName());
-				}));
+				}, this));
 	}
 
 	private void removeEntry() {
@@ -149,6 +164,7 @@ public class PartFileScreen extends Screen {
 		} else if (i < partOrder.size() + entOrder.size()) {
 			config.magnifiers.remove(entOrder.get(i - partOrder.size()));
 		}
+		session.dirty = true;
 		rebuild();
 	}
 
@@ -158,16 +174,44 @@ public class PartFileScreen extends Screen {
 					ResourceLocation id = EditorData.parseId(s);
 					if (id == null) return;
 					fileId = id;
-					try {
-						java.nio.file.Path file = EditorData.save(ModularGolems.PARTS, id, config);
-						EditorToast.show(EditorLang.SAVE.get(), EditorLang.SAVE_DONE.get(file));
-						EditorToast.show(EditorLang.SAVE.get(), EditorLang.SAVE_NOTE.get());
-						Minecraft.getInstance().setScreen(new EditorHomeScreen());
-					} catch (Exception e) {
-						EditorToast.show(EditorLang.SAVE_FAIL.get(e.getMessage()), EditorLang.NOT_IN_WORLD.get());
+					if (doSave()) {
 						Minecraft.getInstance().setScreen(PartFileScreen.this);
 					}
-				}));
+				}, this));
+	}
+
+	private boolean doSave() {
+		try {
+			lastSaved = JsonCodec.toJson(config, GolemPartConfig.class);
+			EditorData.save(ModularGolems.PARTS, fileId, config);
+			session.dirty = false;
+			session.saved = true;
+			EditorToast.show(EditorLang.SAVE.get(), EditorLang.SAVE_DONE.get(fileId));
+			EditorToast.show(EditorLang.SAVE.get(), EditorLang.SAVE_NOTE.get());
+			return true;
+		} catch (Exception e) {
+			EditorToast.show(EditorLang.SAVE_FAIL.get(e.getMessage()), EditorLang.NOT_IN_WORLD.get());
+			return false;
+		}
+	}
+
+	private void reload() {
+		if (lastSaved == null) return;
+		config = JsonCodec.from(lastSaved, GolemPartConfig.class, null);
+		session.dirty = false;
+		Minecraft.getInstance().setScreen(this);
+	}
+
+	private void exitFile() {
+		if (session.dirty) {
+			Minecraft.getInstance().setScreen(new ExitConfirmScreen(this, () -> {
+				if (doSave()) {
+					Minecraft.getInstance().setScreen(parent);
+				}
+			}, () -> Minecraft.getInstance().setScreen(parent)));
+		} else {
+			Minecraft.getInstance().setScreen(parent);
+		}
 	}
 
 	@Override
@@ -175,6 +219,11 @@ public class PartFileScreen extends Screen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, EditorLang.FILE.get(fileId), width / 2, 10, 0xFFFFFF);
+	}
+
+	@Override
+	public void onClose() {
+		exitFile();
 	}
 
 }

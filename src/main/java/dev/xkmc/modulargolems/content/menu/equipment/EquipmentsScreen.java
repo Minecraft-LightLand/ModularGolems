@@ -49,7 +49,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
 		if (canEditDatapacks()) {
 			addRenderableWidget(Button.builder(EditorLang.OPEN.get(), b ->
-							Minecraft.getInstance().setScreen(new EditorHomeScreen()))
+							Minecraft.getInstance().setScreen(new EditorHomeScreen(this)))
 					.bounds(width - 112, height - 30, 102, 20).build());
 		}
 		if (menu.golem instanceof HumanoidGolemEntity golem) {

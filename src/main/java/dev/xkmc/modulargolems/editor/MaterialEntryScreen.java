@@ -22,14 +22,16 @@ public class MaterialEntryScreen extends Screen {
 	private final GolemMaterialConfig config;
 	private final ResourceLocation id;
 	private final Screen parent;
+	private final EditorSession session;
 
 	private EditorList list;
 
-	public MaterialEntryScreen(GolemMaterialConfig config, ResourceLocation id, Screen parent) {
+	public MaterialEntryScreen(GolemMaterialConfig config, ResourceLocation id, Screen parent, EditorSession session) {
 		super(EditorLang.MATERIAL.get());
 		this.config = config;
 		this.id = id;
 		this.parent = parent;
+		this.session = session;
 	}
 
 	@Override
@@ -54,13 +56,13 @@ public class MaterialEntryScreen extends Screen {
 				() -> openIngredient(EditorLang.REPAIR.get(), rep, x -> config.repairIngredients.put(id, x))));
 		entries.add(row(EditorLang.STATS.get(statsMap().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.STATS.get(statsMap().size()),
-						statsMap(), EditorData.listStats(), statLabel(), t -> null, GolemStatType::percentDisplay, MaterialEntryScreen.this))));
+						statsMap(), EditorData.listStats(), statLabel(), t -> null, GolemStatType::percentDisplay, MaterialEntryScreen.this, session))));
 		entries.add(row(EditorLang.MODIFIERS.get(modMap().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new ModifierMapScreen(EditorLang.MODIFIERS.get(modMap().size()),
-						modMap(), EditorData.listModifiers(), MaterialEntryScreen.this))));
+						modMap(), EditorData.listModifiers(), MaterialEntryScreen.this, session))));
 		entries.add(row(EditorLang.LIMITATION.get(limitSet().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new ItemListScreen(EditorLang.LIMITATION.get(limitSet().size()),
-						limitSet(), EditorData.listItems(), MaterialEntryScreen.this))));
+						limitSet(), EditorData.listItems(), MaterialEntryScreen.this, session))));
 		list.setData(entries);
 	}
 
@@ -87,7 +89,7 @@ public class MaterialEntryScreen extends Screen {
 
 	private void openIngredient(Component title, Ingredient current, java.util.function.Consumer<Ingredient> onSet) {
 		Minecraft.getInstance().setScreen(new IngredientScreen(title, current,
-				onSet, MaterialEntryScreen.this));
+				onSet, MaterialEntryScreen.this, session));
 	}
 
 	@Override
@@ -95,6 +97,11 @@ public class MaterialEntryScreen extends Screen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, EditorLang.FILE.get(id), width / 2, 10, 0xFFFFFF);
+	}
+
+	@Override
+	public void onClose() {
+		Minecraft.getInstance().setScreen(parent);
 	}
 
 }

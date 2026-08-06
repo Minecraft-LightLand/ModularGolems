@@ -9,20 +9,25 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class EditorHomeScreen extends Screen {
+	public class EditorHomeScreen extends Screen {
 
+	private final Screen parent;
 	private boolean part;
 	private EditorList list;
 	private final List<ResourceLocation> order = new ArrayList<>();
 	private Button matBtn, partBtn;
 
-	public EditorHomeScreen() {
+	public EditorHomeScreen(Screen parent) {
 		super(EditorLang.TITLE.get());
+		this.parent = parent;
 	}
 
 	@Override
@@ -46,6 +51,11 @@ public class EditorHomeScreen extends Screen {
 		rebuild();
 	}
 
+	@Override
+	public void onClose() {
+		Minecraft.getInstance().setScreen(parent);
+	}
+
 	private void setMode(boolean p) {
 		if (part != p) {
 			part = p;
@@ -62,32 +72,65 @@ public class EditorHomeScreen extends Screen {
 	private void rebuild() {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
+		List<ResourceLocation> ids = new ArrayList<>();
 		if (part) {
 			for (var cfg : ModularGolems.PARTS.getAll()) {
 				ResourceLocation id = cfg.getID();
-				if (id == null) continue;
-				order.add(id);
-				entries.add(new EditorList.Entry(Component.literal(id.toString()).copy()
-						.append(Component.literal("   (" + (cfg.filters.size() + cfg.magnifiers.size()) + ")"))
-						, null, null));
-			}
-			if (entries.isEmpty()) {
-				entries.add(new EditorList.Entry(EditorLang.NO_MATERIALS.get(), null, null));
+				if (id != null) ids.add(id);
 			}
 		} else {
 			for (var cfg : ModularGolems.MATERIALS.getAll()) {
 				ResourceLocation id = cfg.getID();
-				if (id == null) continue;
-				order.add(id);
-				entries.add(new EditorList.Entry(Component.literal(id.toString()).copy()
-						.append(Component.literal("   (" + cfg.getAllMaterials().size() + ")"))
-						, null, null));
+				if (id != null) ids.add(id);
 			}
-			if (entries.isEmpty()) {
-				entries.add(new EditorList.Entry(EditorLang.NO_MATERIALS.get(), null, null));
+		}
+		if (ids.isEmpty()) {
+			entries.add(new EditorList.Entry(EditorLang.NO_MATERIALS.get(), null, null));
+			list.setData(entries);
+			return;
+		}
+		Map<String, List<ResourceLocation>> groups = new TreeMap<>();
+		for (ResourceLocation id : ids) {
+			groups.computeIfAbsent(id.getNamespace(), k -> new ArrayList<>()).add(id);
+		}
+		for (var ent : groups.entrySet()) {
+			String ns = ent.getKey();
+			List<ResourceLocation> files = ent.getValue();
+			files.sort(ResourceLocation::compareTo);
+			entries.add(new EditorList.Entry(Component.literal(modName(ns)), true));
+			if (files.size() == 1) {
+				ResourceLocation f = files.get(0);
+				order.add(f);
+				entries.add(new EditorList.Entry(Component.literal(ns).copy()
+						.append(Component.literal("   (" + fileCount(f) + ")"))
+						, null, null));
+			} else {
+				for (ResourceLocation f : files) {
+					order.add(f);
+					entries.add(new EditorList.Entry(Component.literal(f.getPath()).copy()
+							.append(Component.literal("   (" + fileCount(f) + ")"))
+							, null, null));
+				}
 			}
 		}
 		list.setData(entries);
+	}
+
+	private int fileCount(ResourceLocation id) {
+		if (part) {
+			var cfg = ModularGolems.PARTS.getEntry(id);
+			return cfg == null ? 0 : cfg.filters.size() + cfg.magnifiers.size();
+		}
+		var cfg = ModularGolems.MATERIALS.getEntry(id);
+		return cfg == null ? 0 : cfg.getAllMaterials().size();
+	}
+
+	private static String modName(String ns) {
+		var opt = ModList.get().getModContainerById(ns);
+		if (opt.isPresent()) {
+			return opt.get().getModInfo().getDisplayName();
+		}
+		return ns;
 	}
 
 	@Nullable
@@ -108,11 +151,11 @@ public class EditorHomeScreen extends Screen {
 		if (part) {
 			GolemPartConfig cfg = ModularGolems.PARTS.getEntry(id);
 			if (cfg == null) return;
-			Minecraft.getInstance().setScreen(new PartFileScreen(EditorData.copy(ModularGolems.PARTS, cfg), id));
+			Minecraft.getInstance().setScreen(new PartFileScreen(EditorData.copy(ModularGolems.PARTS, cfg), id, this));
 		} else {
 			GolemMaterialConfig cfg = ModularGolems.MATERIALS.getEntry(id);
 			if (cfg == null) return;
-			Minecraft.getInstance().setScreen(new MaterialFileScreen(EditorData.copy(ModularGolems.MATERIALS, cfg), id));
+			Minecraft.getInstance().setScreen(new MaterialFileScreen(EditorData.copy(ModularGolems.MATERIALS, cfg), id, this));
 		}
 	}
 
@@ -122,11 +165,11 @@ public class EditorHomeScreen extends Screen {
 			ResourceLocation id = EditorData.parseId(s);
 			if (id == null) return;
 			if (part) {
-				Minecraft.getInstance().setScreen(new PartFileScreen(new GolemPartConfig(), id));
+				Minecraft.getInstance().setScreen(new PartFileScreen(new GolemPartConfig(), id, this));
 			} else {
-				Minecraft.getInstance().setScreen(new MaterialFileScreen(EditorData.newMaterial(), id));
+				Minecraft.getInstance().setScreen(new MaterialFileScreen(EditorData.newMaterial(), id, this));
 			}
-		}));
+		}, this));
 	}
 
 	@Override
