@@ -82,7 +82,7 @@ public class MaterialEntryScreen extends Screen {
 	}
 
 	private static Function<GolemStatType, Component> statLabel() {
-		return GolemStatType::getDesc;
+		return EditorData::statName;
 	}
 
 	private void openIngredient(Component title, Ingredient current, java.util.function.Consumer<Ingredient> onSet) {

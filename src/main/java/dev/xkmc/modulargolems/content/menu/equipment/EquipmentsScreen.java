@@ -47,13 +47,22 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		if (menu.golem == null) return;
 		new GolemTabManager<>(this, new EquipmentGroup(menu.golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
-		addRenderableWidget(Button.builder(EditorLang.OPEN.get(), b ->
-						Minecraft.getInstance().setScreen(new EditorHomeScreen()))
-				.bounds(width - 112, height - 30, 102, 20).build());
+		if (canEditDatapacks()) {
+			addRenderableWidget(Button.builder(EditorLang.OPEN.get(), b ->
+							Minecraft.getInstance().setScreen(new EditorHomeScreen()))
+					.bounds(width - 112, height - 30, 102, 20).build());
+		}
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
 			addRenderableWidget(new PlayerSkinButton(leftPos + 137, topPos + 5, golem, b ->
 					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem))));
 		}
+	}
+
+	private static boolean canEditDatapacks() {
+		Minecraft mc = Minecraft.getInstance();
+		return mc.getSingleplayerServer() != null
+				&& mc.getSingleplayerServer().getWorldData().getAllowCommands()
+				&& mc.player != null && mc.player.isCreative();
 	}
 
 	@Override

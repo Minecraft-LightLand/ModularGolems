@@ -17,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.TagKey;
@@ -103,6 +104,14 @@ public class EditorData {
 
 	public static Ingredient tagIngredient(TagKey<Item> tag) {
 		return Ingredient.of(tag);
+	}
+
+	public static Component statName(GolemStatType stat) {
+		MutableComponent ans = Component.translatable(stat.getAttribute().getDescriptionId());
+		if (stat.percentDisplay()) {
+			ans = ans.append("%");
+		}
+		return ans;
 	}
 
 	@Nullable
