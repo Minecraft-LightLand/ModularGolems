@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class PickListScreen<T> extends Screen {
+public class PickListScreen<T> extends EditorScreen {
 
 	public interface Handler<T> {
 

@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.editor.base.EditorFile;
 import dev.xkmc.modulargolems.editor.base.EditorList;
 import dev.xkmc.modulargolems.editor.base.EditorLayout;
 import dev.xkmc.modulargolems.editor.base.EditorSaveState;
+import dev.xkmc.modulargolems.editor.base.EditorScreen;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
 import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.base.EditorToast;
@@ -33,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartFileScreen extends Screen {
+public class PartFileScreen extends EditorScreen {
 
 	private final EditorSession session = new EditorSession();
 	private final Screen parent;

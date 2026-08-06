@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class PromptScreen extends Screen {
+public class PromptScreen extends EditorScreen {
 
 	private final Component label;
 	@Nullable

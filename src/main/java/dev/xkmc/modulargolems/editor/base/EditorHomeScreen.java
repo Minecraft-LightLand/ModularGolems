@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 
-public abstract class EditorHomeScreen extends Screen {
+public abstract class EditorHomeScreen extends EditorScreen {
 
 	protected final Screen parent;
 	private EditorList list;

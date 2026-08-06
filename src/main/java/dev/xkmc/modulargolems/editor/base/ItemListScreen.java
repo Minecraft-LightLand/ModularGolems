@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ItemListScreen<T> extends Screen {
+public class ItemListScreen<T> extends EditorScreen {
 
 	public interface Handler<T> {
 

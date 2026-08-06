@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Obj2IntMapScreen<M> extends Screen {
+public class Obj2IntMapScreen<M> extends EditorScreen {
 
 	public interface Handler<M> {
 

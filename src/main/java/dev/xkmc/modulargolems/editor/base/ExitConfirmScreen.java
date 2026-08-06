@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 
-public class ExitConfirmScreen extends Screen {
+public class ExitConfirmScreen extends EditorScreen {
 
 	private final Screen parent;
 	private final Runnable onSave;

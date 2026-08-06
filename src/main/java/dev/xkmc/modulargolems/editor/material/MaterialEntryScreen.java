@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.editor.base.DoubleMapScreen;
 import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorScreen;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
 import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.base.EditorUtil;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MaterialEntryScreen extends Screen {
+public class MaterialEntryScreen extends EditorScreen {
 
 	private final GolemMaterialConfig config;
 	private final ResourceLocation id;

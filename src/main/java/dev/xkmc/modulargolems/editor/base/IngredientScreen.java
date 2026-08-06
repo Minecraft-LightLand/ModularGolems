@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class IngredientScreen extends Screen {
+public class IngredientScreen extends EditorScreen {
 
 	private final Ingredient current;
 	private final Consumer<Ingredient> onSet;

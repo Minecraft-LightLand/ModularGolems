@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.editor.base.EditorList;
 import dev.xkmc.modulargolems.editor.base.EditorLayout;
 import dev.xkmc.modulargolems.editor.base.EditorSaveState;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
+import dev.xkmc.modulargolems.editor.base.EditorScreen;
 import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.base.EditorToast;
 import dev.xkmc.modulargolems.editor.base.ExitConfirmScreen;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-public class MaterialFileScreen extends Screen {
+public class MaterialFileScreen extends EditorScreen {
 
 	private final EditorSession session = new EditorSession();
 	private final Screen parent;

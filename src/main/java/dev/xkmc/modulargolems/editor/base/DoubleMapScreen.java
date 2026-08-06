@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class DoubleMapScreen<T> extends Screen {
+public class DoubleMapScreen<T> extends EditorScreen {
 
 	public interface Handler<T> {
 
