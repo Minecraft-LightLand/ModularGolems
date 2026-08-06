@@ -43,6 +43,8 @@ public class EditorData {
 	public static final String PACK_FOLDER = "modulargolems_editor";
 	public static final int PACK_FORMAT = 15;
 
+	public static boolean savedFlag;
+
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
 	private static <T> Comparator<T> byId(java.util.function.Function<T, String> name) {

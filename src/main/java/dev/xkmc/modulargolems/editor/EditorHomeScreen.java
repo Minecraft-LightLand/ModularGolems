@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.editor;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,6 +19,7 @@ public abstract class EditorHomeScreen extends Screen {
 
 	protected final Screen parent;
 	private EditorList list;
+	private Button reloadBtn;
 
 	protected EditorHomeScreen(Component title, Screen parent) {
 		super(title);
@@ -32,17 +34,40 @@ public abstract class EditorHomeScreen extends Screen {
 		list = new EditorList(minecraft, width, height - 70, 34, height - 40);
 		addRenderableWidget(list);
 		addRenderableWidget(Button.builder(EditorLang.NEW.get(), b -> newFile())
-				.bounds(c - 95, height - 30, 60, 20).build());
+				.bounds(c - 155, height - 30, 60, 20).build());
 		addRenderableWidget(Button.builder(EditorLang.EDIT.get(), b -> editFile())
-				.bounds(c - 30, height - 30, 60, 20).build());
+				.bounds(c - 90, height - 30, 60, 20).build());
+		reloadBtn = Button.builder(EditorLang.RELOAD.get(), b -> reload())
+				.bounds(c - 25, height - 30, 60, 20).build();
+		reloadBtn.active = EditorData.savedFlag;
+		addRenderableWidget(reloadBtn);
 		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> onClose())
-				.bounds(c + 35, height - 30, 60, 20).build());
+				.bounds(c + 40, height - 30, 60, 20).build());
 		rebuild();
 	}
 
 	@Override
 	public void onClose() {
+		EditorData.savedFlag = false;
 		Minecraft.getInstance().setScreen(parent);
+	}
+
+	private void reload() {
+		if (!EditorData.savedFlag) return;
+		Minecraft.getInstance().setScreen(new ReloadConfirmScreen(this, this::reloadNow, () -> {
+			EditorData.savedFlag = false;
+			Minecraft.getInstance().setScreen(this);
+		}));
+	}
+
+	private void reloadNow() {
+		EditorData.savedFlag = false;
+		IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
+		if (server != null) {
+			server.execute(() -> server.reloadResources(server.getPackRepository().getSelectedIds()));
+			EditorToast.show(EditorLang.RELOAD.get(), EditorLang.RELOAD_DONE.get());
+		}
+		Minecraft.getInstance().setScreen(this);
 	}
 
 	private void rebuild() {

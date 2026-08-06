@@ -1,7 +1,5 @@
 package dev.xkmc.modulargolems.editor;
 
-import com.google.gson.JsonElement;
-import dev.xkmc.l2serial.serialization.codec.JsonCodec;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -26,11 +24,10 @@ public class MaterialFileScreen extends Screen {
 	private final Screen parent;
 	private GolemMaterialConfig config;
 	private ResourceLocation fileId;
-	private JsonElement lastSaved;
 
 	private EditorList list;
 	private final List<ResourceLocation> order = new ArrayList<>();
-	private Button saveBtn, reloadBtn;
+	private Button saveBtn;
 
 	public MaterialFileScreen(GolemMaterialConfig config, ResourceLocation fileId, Screen parent) {
 		super(EditorLang.MATERIALS_FILE.get());
@@ -51,15 +48,11 @@ public class MaterialFileScreen extends Screen {
 		addRenderableWidget(Button.builder(EditorLang.REMOVE.get(), b -> removeEntry())
 				.bounds(c - 15, height - 56, 60, 20).build());
 		saveBtn = Button.builder(EditorLang.SAVE.get(), b -> save())
-				.bounds(c - 115, height - 30, 60, 20).build();
-		reloadBtn = Button.builder(EditorLang.RELOAD.get(), b -> reload())
-				.bounds(c - 50, height - 30, 60, 20).build();
+				.bounds(c - 65, height - 30, 60, 20).build();
 		saveBtn.active = session.dirty;
-		reloadBtn.active = session.saved;
 		addRenderableWidget(saveBtn);
-		addRenderableWidget(reloadBtn);
 		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> exitFile())
-				.bounds(c + 15, height - 30, 60, 20).build());
+				.bounds(c + 5, height - 30, 60, 20).build());
 		rebuild();
 	}
 
@@ -164,10 +157,9 @@ public class MaterialFileScreen extends Screen {
 
 	private boolean doSave() {
 		try {
-			lastSaved = JsonCodec.toJson(config, GolemMaterialConfig.class);
 			EditorData.save(ModularGolems.MATERIALS, fileId, config);
+			EditorData.savedFlag = true;
 			session.dirty = false;
-			session.saved = true;
 			EditorToast.show(EditorLang.SAVE.get(), EditorLang.SAVE_DONE.get(fileId));
 			EditorToast.show(EditorLang.SAVE.get(), EditorLang.SAVE_NOTE.get());
 			return true;
@@ -175,13 +167,6 @@ public class MaterialFileScreen extends Screen {
 			EditorToast.show(EditorLang.SAVE_FAIL.get(e.getMessage()), EditorLang.NOT_IN_WORLD.get());
 			return false;
 		}
-	}
-
-	private void reload() {
-		if (lastSaved == null) return;
-		config = JsonCodec.from(lastSaved, GolemMaterialConfig.class, null);
-		session.dirty = false;
-		Minecraft.getInstance().setScreen(this);
 	}
 
 	private void exitFile() {
