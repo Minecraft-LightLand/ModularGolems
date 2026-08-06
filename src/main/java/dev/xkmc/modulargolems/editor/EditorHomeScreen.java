@@ -29,45 +29,44 @@ public abstract class EditorHomeScreen extends Screen {
 	@Override
 	protected void init() {
 		int c = width / 2;
-		addRenderableWidget(Button.builder(siblingLabel(), b -> openSibling())
-				.bounds(width - 100, 4, 90, 20).build());
+		addRenderableWidget(new LinkButton(width - 100, 4, 90, 20, siblingLabel(), b -> openSibling()));
 		list = new EditorList(minecraft, width, height - 70, 34, height - 40);
 		addRenderableWidget(list);
 		addRenderableWidget(Button.builder(EditorLang.NEW.get(), b -> newFile())
 				.bounds(c - 155, height - 30, 60, 20).build());
 		addRenderableWidget(Button.builder(EditorLang.EDIT.get(), b -> editFile())
 				.bounds(c - 90, height - 30, 60, 20).build());
-		reloadBtn = Button.builder(EditorLang.RELOAD.get(), b -> reload())
+		reloadBtn = Button.builder(EditorLang.RELOAD.get(), b -> reloadNow(false))
 				.bounds(c - 25, height - 30, 60, 20).build();
 		reloadBtn.active = EditorData.savedFlag;
 		addRenderableWidget(reloadBtn);
-		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> onClose())
+		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> exit())
 				.bounds(c + 40, height - 30, 60, 20).build());
 		rebuild();
 	}
 
 	@Override
 	public void onClose() {
-		EditorData.savedFlag = false;
-		Minecraft.getInstance().setScreen(parent);
+		exit();
 	}
 
-	private void reload() {
-		if (!EditorData.savedFlag) return;
-		Minecraft.getInstance().setScreen(new ReloadConfirmScreen(this, this::reloadNow, () -> {
-			EditorData.savedFlag = false;
-			Minecraft.getInstance().setScreen(this);
-		}));
+	private void exit() {
+		if (EditorData.savedFlag) {
+			Minecraft.getInstance().setScreen(new ReloadConfirmScreen(this, () -> reloadNow(true), () ->
+					Minecraft.getInstance().setScreen(parent)));
+		} else {
+			Minecraft.getInstance().setScreen(parent);
+		}
 	}
 
-	private void reloadNow() {
+	private void reloadNow(boolean exit) {
 		EditorData.savedFlag = false;
 		IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 		if (server != null) {
 			server.execute(() -> server.reloadResources(server.getPackRepository().getSelectedIds()));
 			EditorToast.show(EditorLang.RELOAD.get(), EditorLang.RELOAD_DONE.get());
 		}
-		Minecraft.getInstance().setScreen(this);
+		Minecraft.getInstance().setScreen(exit ? parent : this);
 	}
 
 	private void rebuild() {
