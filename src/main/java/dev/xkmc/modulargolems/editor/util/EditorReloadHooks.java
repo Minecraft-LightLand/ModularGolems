@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.editor.util;
 
+import dev.xkmc.modulargolems.editor.base.EditorSaveState;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TagsUpdatedEvent;
@@ -12,7 +13,7 @@ public class EditorReloadHooks {
 	@SubscribeEvent
 	public static void onTagsUpdated(TagsUpdatedEvent event) {
 		if (event.getUpdateCause() == TagsUpdatedEvent.UpdateCause.CLIENT_PACKET_RECEIVED) {
-			EditorData.savedFlag = false;
+			EditorSaveState.savedFlag = false;
 		}
 	}
 

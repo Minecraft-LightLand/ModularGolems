@@ -7,11 +7,12 @@ import dev.xkmc.modulargolems.editor.base.DoubleMapScreen;
 import dev.xkmc.modulargolems.editor.base.EditorList;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
 import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.base.EditorUtil;
+import dev.xkmc.modulargolems.editor.base.IngredientScreen;
 import dev.xkmc.modulargolems.editor.base.ItemListScreen;
-import dev.xkmc.modulargolems.editor.base.ModifierMapScreen;
-import dev.xkmc.modulargolems.editor.util.EditorData;
+import dev.xkmc.modulargolems.editor.base.Obj2IntMapScreen;
 import dev.xkmc.modulargolems.editor.util.EditorLang;
-import dev.xkmc.modulargolems.editor.util.IngredientScreen;
+import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -56,23 +57,23 @@ public class MaterialEntryScreen extends Screen {
 		Ingredient ing = config.ingredients.get(id);
 		Ingredient rep = config.repairIngredients.containsKey(id) ? config.repairIngredients.get(id) : ing;
 		List<EditorList.Entry> entries = new ArrayList<>();
-		ItemStack ingIcon = EditorData.ingredientIcon(ing);
-		ItemStack repIcon = EditorData.ingredientIcon(rep);
+		ItemStack ingIcon = EditorUtil.ingredientIcon(ing);
+		ItemStack repIcon = EditorUtil.ingredientIcon(rep);
 
-		entries.add(row(EditorLang.INGREDIENT.get(), EditorData.ingredientText(ing), ingIcon,
+		entries.add(row(EditorLang.INGREDIENT.get(), EditorUtil.ingredientText(ing), ingIcon,
 				() -> openIngredient(EditorLang.INGREDIENT.get(), ing, x -> config.ingredients.put(id, x))));
-		entries.add(row(EditorLang.REPAIR.get(), EditorData.ingredientText(rep), repIcon,
+		entries.add(row(EditorLang.REPAIR.get(), EditorUtil.ingredientText(rep), repIcon,
 				() -> openIngredient(EditorLang.REPAIR.get(), rep, x -> config.repairIngredients.put(id, x))));
 		entries.add(row(EditorLang.STATS.get(statsMap().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.STATS.get(statsMap().size()),
-						statsMap(), EditorData.listStats(), statLabel(), t -> null, GolemStatType::percentDisplay, MaterialEntryScreen.this, session))));
+						statsMap(), GolemEditorUtil.listStats(), statLabel(), t -> null, GolemStatType::percentDisplay, MaterialEntryScreen.this, session))));
 		entries.add(row(EditorLang.MODIFIERS.get(modMap().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new ModifierMapScreen<>(EditorLang.MODIFIERS.get(modMap().size()),
-						modMap(), EditorData.listModifiers(), m -> m.getDesc(), GolemModifier.MAX_LEVEL,
+				() -> Minecraft.getInstance().setScreen(new Obj2IntMapScreen<>(EditorLang.MODIFIERS.get(modMap().size()),
+						modMap(), GolemEditorUtil.listModifiers(), m -> m.getDesc(), GolemModifier.MAX_LEVEL,
 						EditorLang.SELECT_MODIFIER.get(GolemModifier.MAX_LEVEL), MaterialEntryScreen.this, session))));
 		entries.add(row(EditorLang.LIMITATION.get(limitSet().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new ItemListScreen<>(EditorLang.LIMITATION.get(limitSet().size()),
-						limitSet(), EditorData.listItems(), EditorData::itemName, ItemStack::new,
+						limitSet(), EditorUtil.listItems(), EditorUtil::itemName, ItemStack::new,
 						EditorLang.SELECT_ITEM.get(), MaterialEntryScreen.this, session))));
 		list.setData(entries);
 	}
@@ -95,12 +96,12 @@ public class MaterialEntryScreen extends Screen {
 	}
 
 	private static Function<GolemStatType, Component> statLabel() {
-		return EditorData::statName;
+		return GolemEditorUtil::statName;
 	}
 
 	private void openIngredient(Component title, Ingredient current, java.util.function.Consumer<Ingredient> onSet) {
 		Minecraft.getInstance().setScreen(new IngredientScreen(title, current,
-				onSet, MaterialEntryScreen.this, session));
+				onSet, MaterialEntryScreen.this, session, GolemEditorUtil.INSTANCE));
 	}
 
 	@Override

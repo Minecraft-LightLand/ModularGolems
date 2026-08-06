@@ -1,12 +1,5 @@
-package dev.xkmc.modulargolems.editor.util;
+package dev.xkmc.modulargolems.editor.base;
 
-import dev.xkmc.modulargolems.editor.base.EditorFile;
-import dev.xkmc.modulargolems.editor.base.EditorList;
-import dev.xkmc.modulargolems.editor.base.EditorText;
-import dev.xkmc.modulargolems.editor.base.EditorToast;
-import dev.xkmc.modulargolems.editor.base.LinkButton;
-import dev.xkmc.modulargolems.editor.base.PromptScreen;
-import dev.xkmc.modulargolems.editor.base.ReloadConfirmScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
 
 public abstract class EditorHomeScreen extends Screen {
 
@@ -45,7 +39,7 @@ public abstract class EditorHomeScreen extends Screen {
 				.bounds(c - 90, height - 30, 60, 20).build());
 		reloadBtn = Button.builder(EditorText.RELOAD.get(), b -> reloadNow(false))
 				.bounds(c - 25, height - 30, 60, 20).build();
-		reloadBtn.active = EditorData.savedFlag;
+		reloadBtn.active = hasPendingReload();
 		addRenderableWidget(reloadBtn);
 		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> exit())
 				.bounds(c + 40, height - 30, 60, 20).build());
@@ -58,7 +52,7 @@ public abstract class EditorHomeScreen extends Screen {
 	}
 
 	private void exit() {
-		if (EditorData.savedFlag) {
+		if (hasPendingReload()) {
 			Minecraft.getInstance().setScreen(new ReloadConfirmScreen(this, () -> reloadNow(true), () ->
 					Minecraft.getInstance().setScreen(parent)));
 		} else {
@@ -67,7 +61,7 @@ public abstract class EditorHomeScreen extends Screen {
 	}
 
 	private void reloadNow(boolean exit) {
-		EditorData.savedFlag = false;
+		setReloaded();
 		IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 		if (server != null) {
 			server.execute(() -> server.reloadResources(server.getPackRepository().getSelectedIds()));
@@ -126,8 +120,8 @@ public abstract class EditorHomeScreen extends Screen {
 	}
 
 	private void newFile() {
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.NEW.get(), EditorLang.FILE_ID.get(),
-				newFileDefault(), EditorData::validateFileId, s -> {
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.NEW.get(), fileIdLabel(),
+				newFileDefault(), validateId(), s -> {
 					ResourceLocation id = EditorFile.parseId(s);
 					if (id == null) return;
 					openNew(id);
@@ -158,6 +152,14 @@ public abstract class EditorHomeScreen extends Screen {
 	protected abstract Component siblingLabel();
 
 	protected abstract void openSibling();
+
+	protected abstract Component fileIdLabel();
+
+	protected abstract Function<String, Component> validateId();
+
+	protected abstract boolean hasPendingReload();
+
+	protected abstract void setReloaded();
 
 	@Override
 	public void render(GuiGraphics g, int mx, int my, float pTick) {

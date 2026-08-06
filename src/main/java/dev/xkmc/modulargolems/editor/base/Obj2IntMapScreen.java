@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class ModifierMapScreen<M> extends Screen {
+public class Obj2IntMapScreen<M> extends Screen {
 
 	private final Map<M, Integer> map;
 	private final List<M> candidates;
@@ -25,7 +25,7 @@ public class ModifierMapScreen<M> extends Screen {
 	private EditorList list;
 	private final List<M> order = new ArrayList<>();
 
-	public ModifierMapScreen(Component title, Map<M, Integer> map, List<M> candidates,
+	public Obj2IntMapScreen(Component title, Map<M, Integer> map, List<M> candidates,
 							 Function<M, Component> label, int maxLevel, Component pickTitle,
 							 Screen parent, EditorSession session) {
 		super(title);
@@ -107,7 +107,7 @@ public class ModifierMapScreen<M> extends Screen {
 		}, s -> {
 			map.put(key, Integer.parseInt(s.trim()));
 			session.dirty = true;
-			Minecraft.getInstance().setScreen(ModifierMapScreen.this);
+			Minecraft.getInstance().setScreen(Obj2IntMapScreen.this);
 		}, this));
 	}
 

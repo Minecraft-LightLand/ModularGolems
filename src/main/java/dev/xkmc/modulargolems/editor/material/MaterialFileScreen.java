@@ -4,14 +4,15 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.editor.base.EditorFile;
 import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorSaveState;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
 import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.base.EditorToast;
 import dev.xkmc.modulargolems.editor.base.ExitConfirmScreen;
 import dev.xkmc.modulargolems.editor.base.PickListScreen;
 import dev.xkmc.modulargolems.editor.base.PromptScreen;
-import dev.xkmc.modulargolems.editor.util.EditorData;
 import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.Minecraft;
@@ -158,7 +159,7 @@ public class MaterialFileScreen extends Screen {
 
 	private void save() {
 		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.SAVE.get(), EditorLang.FILE_ID.get(),
-				fileId.toString(), EditorData::validateFileId, s -> {
+				fileId.toString(), GolemEditorUtil::validateFileId, s -> {
 					ResourceLocation id = EditorFile.parseId(s);
 					if (id == null) return;
 					fileId = id;
@@ -170,8 +171,8 @@ public class MaterialFileScreen extends Screen {
 
 	private boolean doSave() {
 		try {
-			EditorData.save(ModularGolems.MATERIALS, fileId, config);
-			EditorData.savedFlag = true;
+			GolemEditorUtil.save(ModularGolems.MATERIALS, fileId, config);
+			EditorSaveState.savedFlag = true;
 			session.dirty = false;
 			EditorToast.show(EditorText.SAVE.get(), EditorLang.SAVE_DONE.get(fileId));
 			EditorToast.show(EditorText.SAVE.get(), EditorLang.SAVE_NOTE.get());

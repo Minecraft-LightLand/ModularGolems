@@ -7,14 +7,16 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.editor.base.DoubleMapScreen;
 import dev.xkmc.modulargolems.editor.base.EditorFile;
 import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorSaveState;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
 import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.base.EditorToast;
+import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.base.ExitConfirmScreen;
 import dev.xkmc.modulargolems.editor.base.PickListScreen;
 import dev.xkmc.modulargolems.editor.base.PromptScreen;
-import dev.xkmc.modulargolems.editor.util.EditorData;
 import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.Minecraft;
@@ -74,11 +76,11 @@ public class PartFileScreen extends Screen {
 		entOrder.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
 		List<Item> parts = new ArrayList<>(config.filters.keySet());
-		parts.sort((a, b) -> EditorData.itemName(a).getString().compareToIgnoreCase(EditorData.itemName(b).getString()));
+		parts.sort((a, b) -> EditorUtil.itemName(a).getString().compareToIgnoreCase(EditorUtil.itemName(b).getString()));
 		for (Item part : parts) {
 			partOrder.add(part);
 			int n = config.filters.get(part).size();
-			entries.add(new EditorList.Entry(EditorData.itemName(part).copy()
+			entries.add(new EditorList.Entry(EditorUtil.itemName(part).copy()
 					.append(Component.literal("   ")).append(EditorLang.FILTERS.get(n))
 					, new ItemStack(part), () -> editPart(part)));
 		}
@@ -105,18 +107,18 @@ public class PartFileScreen extends Screen {
 		var map = config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
 		List<StatFilterType> cand = List.of(StatFilterType.values());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.FILTERS.get(map.size()), map, cand,
-				EditorData::statFilterName, t -> null, t -> false, PartFileScreen.this, session));
+				GolemEditorUtil::statFilterName, t -> null, t -> false, PartFileScreen.this, session));
 	}
 
 	private void editEntity(ResourceLocation id) {
 		var map = config.magnifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.MAGNIFIERS.get(map.size()), map,
-				EditorData.listStats(), EditorData::statName, t -> null, GolemStatType::percentDisplay, PartFileScreen.this, session));
+				GolemEditorUtil.listStats(), GolemEditorUtil::statName, t -> null, GolemStatType::percentDisplay, PartFileScreen.this, session));
 	}
 
 	private void addPart() {
 		List<Item> remaining = new ArrayList<>();
-		for (Item t : EditorData.listParts()) {
+		for (Item t : GolemEditorUtil.listParts()) {
 			if (!config.filters.containsKey(t)) {
 				remaining.add(t);
 			}
@@ -126,7 +128,7 @@ public class PartFileScreen extends Screen {
 			return;
 		}
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_PART.get(), remaining,
-				EditorData::itemName, ItemStack::new, part -> {
+				EditorUtil::itemName, ItemStack::new, part -> {
 					config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
 					session.dirty = true;
 					editPart(part);
@@ -135,7 +137,7 @@ public class PartFileScreen extends Screen {
 
 	private void addEntity() {
 		List<GolemType<?, ?>> remaining = new ArrayList<>();
-		for (GolemType<?, ?> t : EditorData.listGolemTypes()) {
+		for (GolemType<?, ?> t : GolemEditorUtil.listGolemTypes()) {
 			if (!config.magnifiers.containsKey(t.getRegistryName())) {
 				remaining.add(t);
 			}
@@ -174,7 +176,7 @@ public class PartFileScreen extends Screen {
 
 	private void save() {
 		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.SAVE.get(), EditorLang.FILE_ID.get(),
-				fileId.toString(), EditorData::validateFileId, s -> {
+				fileId.toString(), GolemEditorUtil::validateFileId, s -> {
 					ResourceLocation id = EditorFile.parseId(s);
 					if (id == null) return;
 					fileId = id;
@@ -186,8 +188,8 @@ public class PartFileScreen extends Screen {
 
 	private boolean doSave() {
 		try {
-			EditorData.save(ModularGolems.PARTS, fileId, config);
-			EditorData.savedFlag = true;
+			GolemEditorUtil.save(ModularGolems.PARTS, fileId, config);
+			EditorSaveState.savedFlag = true;
 			session.dirty = false;
 			EditorToast.show(EditorText.SAVE.get(), EditorLang.SAVE_DONE.get(fileId));
 			EditorToast.show(EditorText.SAVE.get(), EditorLang.SAVE_NOTE.get());

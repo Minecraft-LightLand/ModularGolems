@@ -1,10 +1,12 @@
 package dev.xkmc.modulargolems.editor.material;
 
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.editor.base.EditorHomeScreen;
+import dev.xkmc.modulargolems.editor.base.EditorSaveState;
+import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.part.PartHomeScreen;
-import dev.xkmc.modulargolems.editor.util.EditorData;
-import dev.xkmc.modulargolems.editor.util.EditorHomeScreen;
 import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class MaterialHomeScreen extends EditorHomeScreen {
 
@@ -48,14 +51,14 @@ public class MaterialHomeScreen extends EditorHomeScreen {
 
 	@Override
 	protected void openNew(ResourceLocation id) {
-		Minecraft.getInstance().setScreen(new MaterialFileScreen(EditorData.newMaterial(), id, this));
+		Minecraft.getInstance().setScreen(new MaterialFileScreen(GolemEditorUtil.newMaterial(), id, this));
 	}
 
 	@Override
 	protected void openEdit(ResourceLocation id) {
 		GolemMaterialConfig cfg = ModularGolems.MATERIALS.getEntry(id);
 		if (cfg == null) return;
-		Minecraft.getInstance().setScreen(new MaterialFileScreen(EditorData.copy(ModularGolems.MATERIALS, cfg), id, this));
+		Minecraft.getInstance().setScreen(new MaterialFileScreen(EditorUtil.copy(ModularGolems.MATERIALS, cfg), id, this));
 	}
 
 	@Override
@@ -66,6 +69,26 @@ public class MaterialHomeScreen extends EditorHomeScreen {
 	@Override
 	protected void openSibling() {
 		Minecraft.getInstance().setScreen(new PartHomeScreen(parent, this));
+	}
+
+	@Override
+	protected Component fileIdLabel() {
+		return EditorLang.FILE_ID.get();
+	}
+
+	@Override
+	protected Function<String, Component> validateId() {
+		return GolemEditorUtil::validateFileId;
+	}
+
+	@Override
+	protected boolean hasPendingReload() {
+		return EditorSaveState.savedFlag;
+	}
+
+	@Override
+	protected void setReloaded() {
+		EditorSaveState.savedFlag = false;
 	}
 
 }
