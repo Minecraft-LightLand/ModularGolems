@@ -36,21 +36,33 @@ public class EditorList extends ObjectSelectionList<EditorList.Entry> {
 		private final ItemStack icon;
 		@Nullable
 		private final Runnable onClick;
+		@Nullable
+		private final Object data;
 		private final boolean header;
 
 		public Entry(Component text, @Nullable ItemStack icon, @Nullable Runnable onClick) {
-			this(text, icon, onClick, false);
+			this(text, icon, onClick, false, null);
+		}
+
+		public Entry(Component text, @Nullable ItemStack icon, @Nullable Runnable onClick, @Nullable Object data) {
+			this(text, icon, onClick, false, data);
 		}
 
 		public Entry(Component text, boolean header) {
-			this(text, null, null, header);
+			this(text, null, null, header, null);
 		}
 
-		private Entry(Component text, @Nullable ItemStack icon, @Nullable Runnable onClick, boolean header) {
+		private Entry(Component text, @Nullable ItemStack icon, @Nullable Runnable onClick, boolean header, @Nullable Object data) {
 			this.text = text;
 			this.icon = icon;
 			this.onClick = onClick;
 			this.header = header;
+			this.data = data;
+		}
+
+		@Nullable
+		public Object getData() {
+			return data;
 		}
 
 		@Override

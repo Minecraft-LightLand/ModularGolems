@@ -284,7 +284,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:architectury-api-419699:5137938")
     compileOnly fg.deobf("curse.maven:uranus-1010827:6914449")
     compileOnly fg.deobf("curse.maven:jupiter-1072905:7592838")
-    compileOnly fg.deobf("curse.maven:iceandfire-ce-1040076:7545797")
+    compileOnly fg.deobf("curse.maven:iceandfire-ce-1040076:8457172")
 
     implementation fg.deobf("curse.maven:mowzies-mobs-250498:6224182")
     implementation fg.deobf("curse.maven:ato-405593:5348605")

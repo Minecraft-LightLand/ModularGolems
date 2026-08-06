@@ -10,8 +10,8 @@ import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
-import dev.xkmc.modulargolems.editor.EditorHomeScreen;
 import dev.xkmc.modulargolems.editor.EditorLang;
+import dev.xkmc.modulargolems.editor.MaterialHomeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -49,7 +49,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
 		if (canEditDatapacks()) {
 			addRenderableWidget(Button.builder(EditorLang.OPEN.get(), b ->
-							Minecraft.getInstance().setScreen(new EditorHomeScreen(this)))
+							Minecraft.getInstance().setScreen(new MaterialHomeScreen(this)))
 					.bounds(width - 112, height - 30, 102, 20).build());
 		}
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
