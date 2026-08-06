@@ -15,7 +15,7 @@ import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.base.ExitConfirmScreen;
 import dev.xkmc.modulargolems.editor.base.PickListScreen;
 import dev.xkmc.modulargolems.editor.base.PromptScreen;
-import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -45,7 +45,7 @@ public class PartFileScreen extends Screen {
 	private Button saveBtn;
 
 	public PartFileScreen(GolemPartConfig config, ResourceLocation fileId, Screen parent) {
-		super(EditorLang.PARTS_FILE.get());
+		super(GolemEditorLang.PARTS_FILE.get());
 		this.config = config;
 		this.fileId = fileId;
 		this.parent = parent;
@@ -56,9 +56,9 @@ public class PartFileScreen extends Screen {
 		list = new EditorList(minecraft, width, height - 90, 30, height - 64);
 		addRenderableWidget(list);
 		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorLang.ADD_PART.get(), b -> addPart())
+		addRenderableWidget(Button.builder(GolemEditorLang.ADD_PART.get(), b -> addPart())
 				.bounds(c - 160, height - 56, 80, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.ADD_MAGNIFIER.get(), b -> addEntity())
+		addRenderableWidget(Button.builder(GolemEditorLang.ADD_MAGNIFIER.get(), b -> addEntity())
 				.bounds(c - 75, height - 56, 80, 20).build());
 		addRenderableWidget(Button.builder(EditorText.REMOVE.get(), b -> removeEntry())
 				.bounds(c + 10, height - 56, 60, 20).build());
@@ -81,7 +81,7 @@ public class PartFileScreen extends Screen {
 			partOrder.add(part);
 			int n = config.filters.get(part).size();
 			entries.add(new EditorList.Entry(EditorUtil.itemName(part).copy()
-					.append(Component.literal("   ")).append(EditorLang.FILTERS.get(n))
+					.append(Component.literal("   ")).append(GolemEditorLang.FILTERS.get(n))
 					, new ItemStack(part), () -> editPart(part)));
 		}
 		List<ResourceLocation> ents = new ArrayList<>(config.magnifiers.keySet());
@@ -94,11 +94,11 @@ public class PartFileScreen extends Screen {
 			var holder = t == null ? null : GolemType.GOLEM_TYPE_TO_ITEM.get(id);
 			if (holder != null) icon = new ItemStack(holder);
 			entries.add(new EditorList.Entry(Component.literal(id.toString()).copy()
-					.append(Component.literal("   ")).append(EditorLang.MAGNIFIERS.get(n))
+					.append(Component.literal("   ")).append(GolemEditorLang.MAGNIFIERS.get(n))
 					, icon, () -> editEntity(id)));
 		}
 		if (entries.isEmpty()) {
-			entries.add(new EditorList.Entry(EditorLang.EMPTY_FILE.get(), null, null));
+			entries.add(new EditorList.Entry(EditorText.EMPTY_FILE.get(), null, null));
 		}
 		list.setData(entries);
 	}
@@ -106,13 +106,13 @@ public class PartFileScreen extends Screen {
 	private void editPart(Item part) {
 		var map = config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
 		List<StatFilterType> cand = List.of(StatFilterType.values());
-		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.FILTERS.get(map.size()), map, cand,
+		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.FILTERS.get(map.size()), map, cand,
 				GolemEditorUtil::statFilterName, t -> null, t -> false, PartFileScreen.this, session));
 	}
 
 	private void editEntity(ResourceLocation id) {
 		var map = config.magnifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
-		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.MAGNIFIERS.get(map.size()), map,
+		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.MAGNIFIERS.get(map.size()), map,
 				GolemEditorUtil.listStats(), GolemEditorUtil::statName, t -> null, GolemStatType::percentDisplay, PartFileScreen.this, session));
 	}
 
@@ -124,10 +124,10 @@ public class PartFileScreen extends Screen {
 			}
 		}
 		if (remaining.isEmpty()) {
-			EditorToast.show(EditorLang.ADD_PART.get(), EditorText.NO_FILE.get());
+			EditorToast.show(GolemEditorLang.ADD_PART.get(), EditorText.NO_FILE.get());
 			return;
 		}
-		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_PART.get(), remaining,
+		Minecraft.getInstance().setScreen(new PickListScreen<>(GolemEditorLang.SELECT_PART.get(), remaining,
 				EditorUtil::itemName, ItemStack::new, part -> {
 					config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
 					session.dirty = true;
@@ -143,10 +143,10 @@ public class PartFileScreen extends Screen {
 			}
 		}
 		if (remaining.isEmpty()) {
-			EditorToast.show(EditorLang.ADD_MAGNIFIER.get(), EditorText.NO_FILE.get());
+			EditorToast.show(GolemEditorLang.ADD_MAGNIFIER.get(), EditorText.NO_FILE.get());
 			return;
 		}
-		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_ENTITY.get(), remaining,
+		Minecraft.getInstance().setScreen(new PickListScreen<>(GolemEditorLang.SELECT_ENTITY.get(), remaining,
 				t -> t.getDesc(), t -> {
 					var holder = GolemType.GOLEM_TYPE_TO_ITEM.get(t.getRegistryName());
 					return holder == null ? null : new ItemStack(holder);
@@ -175,7 +175,7 @@ public class PartFileScreen extends Screen {
 	}
 
 	private void save() {
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.SAVE.get(), EditorLang.FILE_ID.get(),
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.SAVE.get(), EditorText.FILE_ID.get(),
 				fileId.toString(), GolemEditorUtil::validateFileId, s -> {
 					ResourceLocation id = EditorFile.parseId(s);
 					if (id == null) return;
@@ -191,11 +191,11 @@ public class PartFileScreen extends Screen {
 			GolemEditorUtil.save(ModularGolems.PARTS, fileId, config);
 			EditorSaveState.savedFlag = true;
 			session.dirty = false;
-			EditorToast.show(EditorText.SAVE.get(), EditorLang.SAVE_DONE.get(fileId));
-			EditorToast.show(EditorText.SAVE.get(), EditorLang.SAVE_NOTE.get());
+			EditorToast.show(EditorText.SAVE.get(), EditorText.SAVE_DONE.get(fileId));
+			EditorToast.show(EditorText.SAVE.get(), EditorText.SAVE_NOTE.get());
 			return true;
 		} catch (Exception e) {
-			EditorToast.show(EditorLang.SAVE_FAIL.get(e.getMessage()), EditorLang.NOT_IN_WORLD.get());
+			EditorToast.show(EditorText.SAVE_FAIL.get(e.getMessage()), EditorText.NOT_IN_WORLD.get());
 			return false;
 		}
 	}
@@ -216,7 +216,7 @@ public class PartFileScreen extends Screen {
 	public void render(GuiGraphics g, int mx, int my, float pTick) {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
-		g.drawCenteredString(font, EditorLang.FILE.get(fileId), width / 2, 10, 0xFFFFFF);
+		g.drawCenteredString(font, EditorText.FILE.get(fileId), width / 2, 10, 0xFFFFFF);
 	}
 
 	@Override

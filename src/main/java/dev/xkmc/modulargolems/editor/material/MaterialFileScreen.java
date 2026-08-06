@@ -11,7 +11,7 @@ import dev.xkmc.modulargolems.editor.base.EditorToast;
 import dev.xkmc.modulargolems.editor.base.ExitConfirmScreen;
 import dev.xkmc.modulargolems.editor.base.PickListScreen;
 import dev.xkmc.modulargolems.editor.base.PromptScreen;
-import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -41,7 +41,7 @@ public class MaterialFileScreen extends Screen {
 	private Button saveBtn;
 
 	public MaterialFileScreen(GolemMaterialConfig config, ResourceLocation fileId, Screen parent) {
-		super(EditorLang.MATERIALS_FILE.get());
+		super(GolemEditorLang.MATERIALS_FILE.get());
 		this.config = config;
 		this.fileId = fileId;
 		this.parent = parent;
@@ -86,14 +86,14 @@ public class MaterialFileScreen extends Screen {
 			int mods = config.modifiers.getOrDefault(id, new java.util.HashMap<>()).size();
 			entries.add(new EditorList.Entry(Component.literal(id.toString()).copy()
 					.append(Component.literal("   ["))
-					.append(EditorLang.STATS.get(stats))
+					.append(GolemEditorLang.STATS.get(stats))
 					.append(Component.literal("  "))
-					.append(EditorLang.MODIFIERS.get(mods))
+					.append(GolemEditorLang.MODIFIERS.get(mods))
 					.append(Component.literal("]"))
 					, null, null));
 		}
 		if (entries.isEmpty()) {
-			entries.add(new EditorList.Entry(EditorLang.EMPTY_FILE.get(), null, null));
+			entries.add(new EditorList.Entry(EditorText.EMPTY_FILE.get(), null, null));
 		}
 		list.setData(entries);
 	}
@@ -122,7 +122,7 @@ public class MaterialFileScreen extends Screen {
 			var holder = GolemType.GOLEM_TYPE_TO_ITEM.get(t.getRegistryName());
 			return holder == null ? null : new ItemStack(holder);
 		};
-		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_TYPE.get(), remaining,
+		Minecraft.getInstance().setScreen(new PickListScreen<>(GolemEditorLang.SELECT_TYPE.get(), remaining,
 				t -> t.getDesc(), icon, t -> {
 					ResourceLocation id = t.getRegistryName();
 					config.stats.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
@@ -158,7 +158,7 @@ public class MaterialFileScreen extends Screen {
 	}
 
 	private void save() {
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.SAVE.get(), EditorLang.FILE_ID.get(),
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.SAVE.get(), EditorText.FILE_ID.get(),
 				fileId.toString(), GolemEditorUtil::validateFileId, s -> {
 					ResourceLocation id = EditorFile.parseId(s);
 					if (id == null) return;
@@ -174,11 +174,11 @@ public class MaterialFileScreen extends Screen {
 			GolemEditorUtil.save(ModularGolems.MATERIALS, fileId, config);
 			EditorSaveState.savedFlag = true;
 			session.dirty = false;
-			EditorToast.show(EditorText.SAVE.get(), EditorLang.SAVE_DONE.get(fileId));
-			EditorToast.show(EditorText.SAVE.get(), EditorLang.SAVE_NOTE.get());
+			EditorToast.show(EditorText.SAVE.get(), EditorText.SAVE_DONE.get(fileId));
+			EditorToast.show(EditorText.SAVE.get(), EditorText.SAVE_NOTE.get());
 			return true;
 		} catch (Exception e) {
-			EditorToast.show(EditorLang.SAVE_FAIL.get(e.getMessage()), EditorLang.NOT_IN_WORLD.get());
+			EditorToast.show(EditorText.SAVE_FAIL.get(e.getMessage()), EditorText.NOT_IN_WORLD.get());
 			return false;
 		}
 	}
@@ -199,7 +199,7 @@ public class MaterialFileScreen extends Screen {
 	public void render(GuiGraphics g, int mx, int my, float pTick) {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
-		g.drawCenteredString(font, EditorLang.FILE.get(fileId), width / 2, 10, 0xFFFFFF);
+		g.drawCenteredString(font, EditorText.FILE.get(fileId), width / 2, 10, 0xFFFFFF);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class Obj2IntMapScreen<M> extends Screen {
 	private final Map<M, Integer> map;
 	private final List<M> candidates;
 	private final Function<M, Component> label;
-	private final int maxLevel;
+	private final Function<M, Integer> maxLevel;
 	private final Component pickTitle;
 	private final Screen parent;
 	private final EditorSession session;
@@ -26,7 +26,7 @@ public class Obj2IntMapScreen<M> extends Screen {
 	private final List<M> order = new ArrayList<>();
 
 	public Obj2IntMapScreen(Component title, Map<M, Integer> map, List<M> candidates,
-							 Function<M, Component> label, int maxLevel, Component pickTitle,
+							 Function<M, Component> label, Function<M, Integer> maxLevel, Component pickTitle,
 							 Screen parent, EditorSession session) {
 		super(title);
 		this.map = map;
@@ -62,7 +62,7 @@ public class Obj2IntMapScreen<M> extends Screen {
 		for (M k : keys) {
 			order.add(k);
 			entries.add(new EditorList.Entry(
-					label.apply(k).copy().append(Component.literal("   ")).append(EditorText.LEVEL_FULL.get(map.get(k), maxLevel)), null, null));
+					label.apply(k).copy().append(Component.literal("   ")).append(EditorText.LEVEL_FULL.get(map.get(k), maxLevel.apply(k))), null, null));
 		}
 		list.setData(entries);
 	}
@@ -87,22 +87,24 @@ public class Obj2IntMapScreen<M> extends Screen {
 			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;
 		}
-		Minecraft.getInstance().setScreen(new PickListScreen<>(pickTitle, remaining, label, t -> null, t -> {
-			promptLevel(t);
-		}, this));
+		Minecraft.getInstance().setScreen(new PickListScreen<>(pickTitle, remaining,
+				m -> label.apply(m).copy().append(Component.literal("  ")).append(EditorText.MAX_SHORT.get(maxLevel.apply(m))), t -> null, t -> {
+					promptLevel(t);
+				}, this));
 	}
 
 	private void promptLevel(M key) {
+		int max = maxLevel.apply(key);
 		int cur = map.getOrDefault(key, 1);
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.LEVEL_RANGE.get(maxLevel), label.apply(key), "" + cur, s -> {
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.LEVEL_RANGE.get(max), label.apply(key), "" + cur, s -> {
 			try {
 				int v = Integer.parseInt(s.trim());
-				if (v < 1 || v > maxLevel) {
-					return EditorText.INVALID_INT.get(maxLevel, s);
+				if (v < 1 || v > max) {
+					return EditorText.INVALID_INT.get(max, s);
 				}
 				return null;
 			} catch (NumberFormatException e) {
-				return EditorText.INVALID_INT.get(maxLevel, s);
+				return EditorText.INVALID_INT.get(max, s);
 			}
 		}, s -> {
 			map.put(key, Integer.parseInt(s.trim()));

@@ -11,7 +11,7 @@ import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.base.IngredientScreen;
 import dev.xkmc.modulargolems.editor.base.ItemListScreen;
 import dev.xkmc.modulargolems.editor.base.Obj2IntMapScreen;
-import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -37,7 +37,7 @@ public class MaterialEntryScreen extends Screen {
 	private EditorList list;
 
 	public MaterialEntryScreen(GolemMaterialConfig config, ResourceLocation id, Screen parent, EditorSession session) {
-		super(EditorLang.MATERIAL.get());
+		super(GolemEditorLang.MATERIAL.get());
 		this.config = config;
 		this.id = id;
 		this.parent = parent;
@@ -60,21 +60,21 @@ public class MaterialEntryScreen extends Screen {
 		ItemStack ingIcon = EditorUtil.ingredientIcon(ing);
 		ItemStack repIcon = EditorUtil.ingredientIcon(rep);
 
-		entries.add(row(EditorLang.INGREDIENT.get(), EditorUtil.ingredientText(ing), ingIcon,
-				() -> openIngredient(EditorLang.INGREDIENT.get(), ing, x -> config.ingredients.put(id, x))));
-		entries.add(row(EditorLang.REPAIR.get(), EditorUtil.ingredientText(rep), repIcon,
-				() -> openIngredient(EditorLang.REPAIR.get(), rep, x -> config.repairIngredients.put(id, x))));
-		entries.add(row(EditorLang.STATS.get(statsMap().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.STATS.get(statsMap().size()),
+		entries.add(row(GolemEditorLang.INGREDIENT.get(), EditorUtil.ingredientText(ing), ingIcon,
+				() -> openIngredient(GolemEditorLang.INGREDIENT.get(), ing, x -> config.ingredients.put(id, x))));
+		entries.add(row(GolemEditorLang.REPAIR.get(), EditorUtil.ingredientText(rep), repIcon,
+				() -> openIngredient(GolemEditorLang.REPAIR.get(), rep, x -> config.repairIngredients.put(id, x))));
+		entries.add(row(GolemEditorLang.STATS.get(statsMap().size()), null, null,
+				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.STATS.get(statsMap().size()),
 						statsMap(), GolemEditorUtil.listStats(), statLabel(), t -> null, GolemStatType::percentDisplay, MaterialEntryScreen.this, session))));
-		entries.add(row(EditorLang.MODIFIERS.get(modMap().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new Obj2IntMapScreen<>(EditorLang.MODIFIERS.get(modMap().size()),
-						modMap(), GolemEditorUtil.listModifiers(), m -> m.getDesc(), GolemModifier.MAX_LEVEL,
-						EditorLang.SELECT_MODIFIER.get(GolemModifier.MAX_LEVEL), MaterialEntryScreen.this, session))));
-		entries.add(row(EditorLang.LIMITATION.get(limitSet().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new ItemListScreen<>(EditorLang.LIMITATION.get(limitSet().size()),
+		entries.add(row(GolemEditorLang.MODIFIERS.get(modMap().size()), null, null,
+				() -> Minecraft.getInstance().setScreen(new Obj2IntMapScreen<>(GolemEditorLang.MODIFIERS.get(modMap().size()),
+						modMap(), GolemEditorUtil.listModifiers(), m -> m.getDesc(), m -> m.maxLevel,
+						GolemEditorLang.SELECT_MODIFIER.get(), MaterialEntryScreen.this, session))));
+		entries.add(row(GolemEditorLang.LIMITATION.get(limitSet().size()), null, null,
+				() -> Minecraft.getInstance().setScreen(new ItemListScreen<>(GolemEditorLang.LIMITATION.get(limitSet().size()),
 						limitSet(), EditorUtil.listItems(), EditorUtil::itemName, ItemStack::new,
-						EditorLang.SELECT_ITEM.get(), MaterialEntryScreen.this, session))));
+						EditorText.SELECT_ITEM.get(), MaterialEntryScreen.this, session))));
 		list.setData(entries);
 	}
 
@@ -101,14 +101,14 @@ public class MaterialEntryScreen extends Screen {
 
 	private void openIngredient(Component title, Ingredient current, java.util.function.Consumer<Ingredient> onSet) {
 		Minecraft.getInstance().setScreen(new IngredientScreen(title, current,
-				onSet, MaterialEntryScreen.this, session, GolemEditorUtil.INSTANCE));
+				onSet, MaterialEntryScreen.this, session));
 	}
 
 	@Override
 	public void render(GuiGraphics g, int mx, int my, float pTick) {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
-		g.drawCenteredString(font, EditorLang.FILE.get(id), width / 2, 10, 0xFFFFFF);
+		g.drawCenteredString(font, EditorText.FILE.get(id), width / 2, 10, 0xFFFFFF);
 	}
 
 	@Override

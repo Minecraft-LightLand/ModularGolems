@@ -16,7 +16,7 @@ import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.editor.base.EditorText;
-import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.content.entity.common.GuardedEntity;
 import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
 import dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer;
@@ -124,7 +124,7 @@ public class ModularGolems {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void gatherData(GatherDataEvent event) {
 		REGISTRATE.addDataGenerator(ProviderType.LANG, MGLangData::genLang);
-		REGISTRATE.addDataGenerator(ProviderType.LANG, EditorLang::genLang);
+		REGISTRATE.addDataGenerator(ProviderType.LANG, GolemEditorLang::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.LANG, EditorText::genLang);
 		REGISTRATE.addDataGenerator(ProviderType.RECIPE, RecipeGen::genRecipe);
 		REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, MGTagGen::onBlockTagGen);

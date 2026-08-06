@@ -5,51 +5,24 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class IngredientScreen extends Screen {
-
-	public interface Source {
-		List<Item> items();
-
-		List<TagKey<Item>> tags();
-
-		Component itemName(Item item);
-
-		Component tagName(TagKey<Item> tag);
-
-		Ingredient itemIngredient(Item item);
-
-		Ingredient tagIngredient(TagKey<Item> tag);
-
-		ItemStack ingredientIcon(Ingredient ing);
-
-		Component ingredientText(Ingredient ing);
-
-		Component itemTitle();
-
-		Component tagTitle();
-	}
 
 	private final Ingredient current;
 	private final Consumer<Ingredient> onSet;
 	private final Screen parent;
 	private final EditorSession session;
-	private final Source source;
 
-	public IngredientScreen(Component title, Ingredient current, Consumer<Ingredient> onSet, Screen parent, EditorSession session, Source source) {
+	public IngredientScreen(Component title, Ingredient current, Consumer<Ingredient> onSet, Screen parent, EditorSession session) {
 		super(title);
 		this.current = current;
 		this.onSet = onSet;
 		this.parent = parent;
 		this.session = session;
-		this.source = source;
 	}
 
 	@Override
@@ -72,13 +45,13 @@ public class IngredientScreen extends Screen {
 	}
 
 	private void pickItem() {
-		Minecraft.getInstance().setScreen(new PickListScreen<>(source.itemTitle(),
-				source.items(), source::itemName, ItemStack::new, item -> apply(source.itemIngredient(item)), this));
+		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.SELECT_ITEM.get(),
+				EditorUtil.listItems(), EditorUtil::itemName, ItemStack::new, item -> apply(EditorUtil.itemIngredient(item)), this));
 	}
 
 	private void pickTag() {
-		Minecraft.getInstance().setScreen(new PickListScreen<>(source.tagTitle(),
-				source.tags(), source::tagName, t -> null, tag -> apply(source.tagIngredient(tag)), this));
+		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.SELECT_TAG.get(),
+				EditorUtil.listTags(), EditorUtil::tagName, t -> null, tag -> apply(EditorUtil.tagIngredient(tag)), this));
 	}
 
 	@Override
@@ -86,11 +59,11 @@ public class IngredientScreen extends Screen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, this.title, width / 2, 10, 0xFFFFFF);
-		ItemStack icon = source.ingredientIcon(current);
+		ItemStack icon = EditorUtil.ingredientIcon(current);
 		if (icon != null) {
 			g.renderItem(icon, width / 2 - 8, height / 2 - 30);
 		}
-		g.drawCenteredString(font, source.ingredientText(current), width / 2, height / 2, 0xFFFFFF);
+		g.drawCenteredString(font, EditorUtil.ingredientText(current), width / 2, height / 2, 0xFFFFFF);
 	}
 
 	@Override

@@ -3,9 +3,10 @@ package dev.xkmc.modulargolems.editor.material;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.editor.base.EditorHomeScreen;
 import dev.xkmc.modulargolems.editor.base.EditorSaveState;
+import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.part.PartHomeScreen;
-import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
@@ -20,7 +21,7 @@ import java.util.function.Function;
 public class MaterialHomeScreen extends EditorHomeScreen {
 
 	public MaterialHomeScreen(Screen parent) {
-		super(EditorLang.MATERIALS.get(), parent);
+		super(GolemEditorLang.MATERIALS.get(), parent);
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class MaterialHomeScreen extends EditorHomeScreen {
 
 	@Override
 	protected Component emptyMessage() {
-		return EditorLang.NO_MATERIALS.get();
+		return GolemEditorLang.NO_MATERIALS.get();
 	}
 
 	@Override
@@ -63,7 +64,7 @@ public class MaterialHomeScreen extends EditorHomeScreen {
 
 	@Override
 	protected Component siblingLabel() {
-		return EditorLang.PARTS.get();
+		return GolemEditorLang.PARTS.get();
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class MaterialHomeScreen extends EditorHomeScreen {
 
 	@Override
 	protected Component fileIdLabel() {
-		return EditorLang.FILE_ID.get();
+		return EditorText.FILE_ID.get();
 	}
 
 	@Override

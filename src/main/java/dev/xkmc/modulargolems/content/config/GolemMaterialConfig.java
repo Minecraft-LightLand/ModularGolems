@@ -48,7 +48,8 @@ public class GolemMaterialConfig extends BaseConfig {
 	public static boolean mayApply(GolemPart<?, ?> part, ResourceLocation rl) {
 		var config = get();
 		var limit = config.partLimitation.get(rl);
-		if (limit == null) return part.getDefaultInstance().is(MGTagGen.GENERIC_PARTS);
+		if (limit == null || limit.isEmpty())
+			return part.getDefaultInstance().is(MGTagGen.GENERIC_PARTS);
 		return limit.contains(part);
 	}
 
