@@ -59,7 +59,9 @@ public class MaterialHomeScreen extends EditorHomeScreen {
 	protected void openEdit(ResourceLocation id) {
 		GolemMaterialConfig cfg = ModularGolems.MATERIALS.getEntry(id);
 		if (cfg == null) return;
-		Minecraft.getInstance().setScreen(new MaterialFileScreen(EditorUtil.copy(ModularGolems.MATERIALS, cfg), id, this));
+		GolemMaterialConfig copy = EditorUtil.copy(ModularGolems.MATERIALS, cfg);
+		if (copy == null) return;
+		Minecraft.getInstance().setScreen(new MaterialFileScreen(copy, id, this));
 	}
 
 	@Override

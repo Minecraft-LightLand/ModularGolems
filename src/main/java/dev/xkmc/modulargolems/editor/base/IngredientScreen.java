@@ -5,9 +5,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class IngredientScreen extends Screen {
@@ -46,12 +49,51 @@ public class IngredientScreen extends Screen {
 
 	private void pickItem() {
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.SELECT_ITEM.get(),
-				EditorUtil.listItems(), EditorUtil::itemName, ItemStack::new, item -> apply(EditorUtil.itemIngredient(item)), this));
+				EditorUtil.listItems(), new PickItemHandler(this), this));
 	}
 
 	private void pickTag() {
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.SELECT_TAG.get(),
-				EditorUtil.listTags(), EditorUtil::tagName, t -> null, tag -> apply(EditorUtil.tagIngredient(tag)), this));
+				EditorUtil.listTags(), new PickTagHandler(this), this));
+	}
+
+	private record PickItemHandler(IngredientScreen screen) implements PickListScreen.Handler<Item> {
+
+		@Override
+		public Component label(Item t) {
+			return EditorUtil.itemName(t);
+		}
+
+		@Override
+		public ItemStack icon(Item t) {
+			return new ItemStack(t);
+		}
+
+		@Override
+		public void onSelect(Item t) {
+			screen.apply(EditorUtil.itemIngredient(t));
+		}
+
+	}
+
+	private record PickTagHandler(IngredientScreen screen) implements PickListScreen.Handler<TagKey<Item>> {
+
+		@Override
+		public Component label(TagKey<Item> t) {
+			return EditorUtil.tagName(t);
+		}
+
+		@Override
+		@Nullable
+		public ItemStack icon(TagKey<Item> t) {
+			return null;
+		}
+
+		@Override
+		public void onSelect(TagKey<Item> t) {
+			screen.apply(EditorUtil.tagIngredient(t));
+		}
+
 	}
 
 	@Override

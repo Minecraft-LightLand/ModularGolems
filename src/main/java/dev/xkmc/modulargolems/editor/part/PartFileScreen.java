@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.editor.part;
 
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
-import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.editor.base.DoubleMapScreen;
@@ -15,6 +14,7 @@ import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.base.ExitConfirmScreen;
 import dev.xkmc.modulargolems.editor.base.PickListScreen;
 import dev.xkmc.modulargolems.editor.base.PromptScreen;
+import dev.xkmc.modulargolems.editor.util.GolemEditorHandlers;
 import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -107,13 +107,13 @@ public class PartFileScreen extends Screen {
 		var map = config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
 		List<StatFilterType> cand = List.of(StatFilterType.values());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.FILTERS.get(map.size()), map, cand,
-				GolemEditorUtil::statFilterName, t -> null, t -> false, PartFileScreen.this, session));
+				GolemEditorHandlers.FILTER, PartFileScreen.this, session));
 	}
 
 	private void editEntity(ResourceLocation id) {
 		var map = config.magnifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.MAGNIFIERS.get(map.size()), map,
-				GolemEditorUtil.listStats(), GolemEditorUtil::statName, t -> null, GolemStatType::percentDisplay, PartFileScreen.this, session));
+				GolemEditorUtil.listStats(), GolemEditorHandlers.STAT, PartFileScreen.this, session));
 	}
 
 	private void addPart() {
@@ -128,11 +128,7 @@ public class PartFileScreen extends Screen {
 			return;
 		}
 		Minecraft.getInstance().setScreen(new PickListScreen<>(GolemEditorLang.SELECT_PART.get(), remaining,
-				EditorUtil::itemName, ItemStack::new, part -> {
-					config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
-					session.dirty = true;
-					editPart(part);
-				}, this));
+				new AddPartHandler(this), this));
 	}
 
 	private void addEntity() {
@@ -147,14 +143,51 @@ public class PartFileScreen extends Screen {
 			return;
 		}
 		Minecraft.getInstance().setScreen(new PickListScreen<>(GolemEditorLang.SELECT_ENTITY.get(), remaining,
-				t -> t.getDesc(), t -> {
-					var holder = GolemType.GOLEM_TYPE_TO_ITEM.get(t.getRegistryName());
-					return holder == null ? null : new ItemStack(holder);
-				}, t -> {
-					config.magnifiers.computeIfAbsent(t.getRegistryName(), k -> new java.util.LinkedHashMap<>());
-					session.dirty = true;
-					editEntity(t.getRegistryName());
-				}, this));
+				new AddEntityHandler(this), this));
+	}
+
+	private record AddPartHandler(PartFileScreen screen) implements PickListScreen.Handler<Item> {
+
+		@Override
+		public Component label(Item t) {
+			return GolemEditorHandlers.ITEM.label(t);
+		}
+
+		@Override
+		public ItemStack icon(Item t) {
+			return GolemEditorHandlers.ITEM.icon(t);
+		}
+
+		@Override
+		public void onSelect(Item t) {
+			screen.config.filters.computeIfAbsent(t, k -> new java.util.LinkedHashMap<>());
+			screen.session.dirty = true;
+			screen.editPart(t);
+		}
+
+	}
+
+	private record AddEntityHandler(PartFileScreen screen) implements PickListScreen.Handler<GolemType<?, ?>> {
+
+		@Override
+		public Component label(GolemType<?, ?> t) {
+			return t.getDesc();
+		}
+
+		@Override
+		@Nullable
+		public ItemStack icon(GolemType<?, ?> t) {
+			var holder = GolemType.GOLEM_TYPE_TO_ITEM.get(t.getRegistryName());
+			return holder == null ? null : new ItemStack(holder);
+		}
+
+		@Override
+		public void onSelect(GolemType<?, ?> t) {
+			screen.config.magnifiers.computeIfAbsent(t.getRegistryName(), k -> new java.util.LinkedHashMap<>());
+			screen.session.dirty = true;
+			screen.editEntity(t.getRegistryName());
+		}
+
 	}
 
 	private void removeEntry() {

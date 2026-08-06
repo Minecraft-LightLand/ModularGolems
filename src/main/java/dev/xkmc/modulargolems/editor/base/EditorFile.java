@@ -76,6 +76,7 @@ public class EditorFile {
 		}
 	}
 
+	@Nullable
 	public static <T extends BaseConfig> T copy(ConfigTypeEntry<T> type, T orig) {
 		return JsonCodec.from(JsonCodec.toJson(orig, type.cls()), type.cls(), null);
 	}

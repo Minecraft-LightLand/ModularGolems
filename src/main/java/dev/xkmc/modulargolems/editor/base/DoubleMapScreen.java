@@ -12,15 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Function;
 
 public class DoubleMapScreen<T> extends Screen {
 
+	public interface Handler<T> {
+
+		Component label(T t);
+
+		@Nullable
+		ItemStack icon(T t);
+
+		boolean percent(T t);
+
+	}
+
 	private final Map<T, Double> map;
 	private final List<T> candidates;
-	private final Function<T, Component> label;
-	private final Function<T, ItemStack> icon;
-	private final Function<T, Boolean> percent;
+	private final Handler<T> handler;
 	private final Screen parent;
 	private final EditorSession session;
 
@@ -28,14 +36,11 @@ public class DoubleMapScreen<T> extends Screen {
 	private final List<T> order = new ArrayList<>();
 
 	public DoubleMapScreen(Component title, Map<T, Double> map, List<T> candidates,
-						   Function<T, Component> label, Function<T, ItemStack> icon,
-						   Function<T, Boolean> percent, Screen parent, EditorSession session) {
+						   Handler<T> handler, Screen parent, EditorSession session) {
 		super(title);
 		this.map = map;
 		this.candidates = candidates;
-		this.label = label;
-		this.icon = icon;
-		this.percent = percent;
+		this.handler = handler;
 		this.parent = parent;
 		this.session = session;
 	}
@@ -60,11 +65,11 @@ public class DoubleMapScreen<T> extends Screen {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
 		List<T> keys = new ArrayList<>(map.keySet());
-		keys.sort((a, b) -> label.apply(a).getString().compareToIgnoreCase(label.apply(b).getString()));
+		keys.sort((a, b) -> handler.label(a).getString().compareToIgnoreCase(handler.label(b).getString()));
 		for (T k : keys) {
 			order.add(k);
 			entries.add(new EditorList.Entry(
-					label.apply(k).copy().append(Component.literal("   " + display(k, map.get(k)))), icon.apply(k), null));
+					handler.label(k).copy().append(Component.literal("   " + display(k, map.get(k)))), handler.icon(k), null));
 		}
 		list.setData(entries);
 	}
@@ -89,14 +94,13 @@ public class DoubleMapScreen<T> extends Screen {
 			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;
 		}
-		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.PICK_TARGET.get(), remaining, label, icon, t -> {
-			promptValue(t);
-		}, this));
+		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.PICK_TARGET.get(), remaining,
+				new AddValueHandler<>(this, handler), this));
 	}
 
 	private void promptValue(T key) {
 		double cur = map.getOrDefault(key, 0.0);
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.VALUE.get(), label.apply(key), format(cur), s -> {
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.VALUE.get(), handler.label(key), format(cur), s -> {
 			try {
 				Double.parseDouble(s.trim());
 				return null;
@@ -142,7 +146,7 @@ public class DoubleMapScreen<T> extends Screen {
 	}
 
 	private String display(T key, double v) {
-		return Boolean.TRUE.equals(percent.apply(key)) ? format(v * 100) + "%" : format(v);
+		return handler.percent(key) ? format(v * 100) + "%" : format(v);
 	}
 
 	@Override
@@ -155,6 +159,26 @@ public class DoubleMapScreen<T> extends Screen {
 	@Override
 	public void onClose() {
 		Minecraft.getInstance().setScreen(parent);
+	}
+
+	private record AddValueHandler<T>(DoubleMapScreen<T> screen, Handler<T> handler) implements PickListScreen.Handler<T> {
+
+		@Override
+		public Component label(T t) {
+			return handler.label(t);
+		}
+
+		@Override
+		@Nullable
+		public ItemStack icon(T t) {
+			return handler.icon(t);
+		}
+
+		@Override
+		public void onSelect(T t) {
+			screen.promptValue(t);
+		}
+
 	}
 
 }

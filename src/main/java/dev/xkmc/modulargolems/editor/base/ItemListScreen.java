@@ -11,14 +11,21 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 
 public class ItemListScreen<T> extends Screen {
 
+	public interface Handler<T> {
+
+		Component label(T t);
+
+		@Nullable
+		ItemStack icon(T t);
+
+	}
+
 	private final Set<T> set;
 	private final List<T> candidates;
-	private final Function<T, Component> label;
-	private final Function<T, ItemStack> icon;
+	private final Handler<T> handler;
 	private final Component pickTitle;
 	private final Screen parent;
 	private final EditorSession session;
@@ -27,13 +34,11 @@ public class ItemListScreen<T> extends Screen {
 	private final List<T> order = new ArrayList<>();
 
 	public ItemListScreen(Component title, Set<T> set, List<T> candidates,
-						  Function<T, Component> label, Function<T, ItemStack> icon,
-						  Component pickTitle, Screen parent, EditorSession session) {
+						  Handler<T> handler, Component pickTitle, Screen parent, EditorSession session) {
 		super(title);
 		this.set = set;
 		this.candidates = candidates;
-		this.label = label;
-		this.icon = icon;
+		this.handler = handler;
 		this.pickTitle = pickTitle;
 		this.parent = parent;
 		this.session = session;
@@ -57,10 +62,10 @@ public class ItemListScreen<T> extends Screen {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
 		List<T> keys = new ArrayList<>(set);
-		keys.sort((a, b) -> label.apply(a).getString().compareToIgnoreCase(label.apply(b).getString()));
+		keys.sort((a, b) -> handler.label(a).getString().compareToIgnoreCase(handler.label(b).getString()));
 		for (T k : keys) {
 			order.add(k);
-			entries.add(new EditorList.Entry(label.apply(k), icon.apply(k), null));
+			entries.add(new EditorList.Entry(handler.label(k), handler.icon(k), null));
 		}
 		list.setData(entries);
 	}
@@ -86,11 +91,29 @@ public class ItemListScreen<T> extends Screen {
 			return;
 		}
 		Minecraft.getInstance().setScreen(new PickListScreen<>(pickTitle, remaining,
-				label, icon, item -> {
-					set.add(item);
-					session.dirty = true;
-					Minecraft.getInstance().setScreen(ItemListScreen.this);
-				}, this));
+				new AddItemHandler<>(this, handler), this));
+	}
+
+	private record AddItemHandler<T>(ItemListScreen<T> screen, Handler<T> handler) implements PickListScreen.Handler<T> {
+
+		@Override
+		public Component label(T t) {
+			return handler.label(t);
+		}
+
+		@Override
+		@Nullable
+		public ItemStack icon(T t) {
+			return handler.icon(t);
+		}
+
+		@Override
+		public void onSelect(T t) {
+			screen.set.add(t);
+			screen.session.dirty = true;
+			Minecraft.getInstance().setScreen(screen);
+		}
+
 	}
 
 	private void removeItem() {

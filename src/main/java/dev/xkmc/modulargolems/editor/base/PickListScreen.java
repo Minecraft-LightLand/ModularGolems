@@ -8,30 +8,35 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class PickListScreen<T> extends Screen {
 
+	public interface Handler<T> {
+
+		Component label(T t);
+
+		@Nullable
+		ItemStack icon(T t);
+
+		void onSelect(T t);
+
+	}
+
 	private final List<T> candidates;
-	private final Function<T, Component> label;
-	private final Function<T, ItemStack> icon;
-	private final Consumer<T> callback;
+	private final Handler<T> handler;
 	private final Screen parent;
 
 	private EditBox search;
 	private EditorList list;
 
-	public PickListScreen(Component title, List<T> candidates, Function<T, Component> label,
-						  Function<T, ItemStack> icon, Consumer<T> callback, Screen parent) {
+	public PickListScreen(Component title, List<T> candidates, Handler<T> handler, Screen parent) {
 		super(title);
 		this.candidates = candidates;
-		this.label = label;
-		this.icon = icon;
-		this.callback = callback;
+		this.handler = handler;
 		this.parent = parent;
 	}
 
@@ -54,10 +59,10 @@ public class PickListScreen<T> extends Screen {
 		String q = search.getValue().toLowerCase(Locale.ROOT);
 		List<EditorList.Entry> entries = new ArrayList<>();
 		for (T t : candidates) {
-			String name = label.apply(t).getString().toLowerCase(Locale.ROOT);
+			String name = handler.label(t).getString().toLowerCase(Locale.ROOT);
 			if (q.isEmpty() || name.contains(q)) {
-				ItemStack ic = icon.apply(t);
-				entries.add(new EditorList.Entry(label.apply(t), ic, () -> callback.accept(t)));
+				ItemStack ic = handler.icon(t);
+				entries.add(new EditorList.Entry(handler.label(t), ic, () -> handler.onSelect(t)));
 			}
 		}
 		list.setData(entries);

@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.base.IngredientScreen;
 import dev.xkmc.modulargolems.editor.base.ItemListScreen;
 import dev.xkmc.modulargolems.editor.base.Obj2IntMapScreen;
+import dev.xkmc.modulargolems.editor.util.GolemEditorHandlers;
 import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.editor.util.GolemEditorUtil;
 import net.minecraft.client.Minecraft;
@@ -25,7 +26,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class MaterialEntryScreen extends Screen {
 
@@ -66,14 +66,14 @@ public class MaterialEntryScreen extends Screen {
 				() -> openIngredient(GolemEditorLang.REPAIR.get(), rep, x -> config.repairIngredients.put(id, x))));
 		entries.add(row(GolemEditorLang.STATS.get(statsMap().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.STATS.get(statsMap().size()),
-						statsMap(), GolemEditorUtil.listStats(), statLabel(), t -> null, GolemStatType::percentDisplay, MaterialEntryScreen.this, session))));
+						statsMap(), GolemEditorUtil.listStats(), GolemEditorHandlers.STAT, MaterialEntryScreen.this, session))));
 		entries.add(row(GolemEditorLang.MODIFIERS.get(modMap().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new Obj2IntMapScreen<>(GolemEditorLang.MODIFIERS.get(modMap().size()),
-						modMap(), GolemEditorUtil.listModifiers(), m -> m.getDesc(), m -> m.maxLevel,
+						modMap(), GolemEditorUtil.listModifiers(), GolemEditorHandlers.MODIFIER,
 						GolemEditorLang.SELECT_MODIFIER.get(), MaterialEntryScreen.this, session))));
 		entries.add(row(GolemEditorLang.LIMITATION.get(limitSet().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new ItemListScreen<>(GolemEditorLang.LIMITATION.get(limitSet().size()),
-						limitSet(), EditorUtil.listItems(), EditorUtil::itemName, ItemStack::new,
+						limitSet(), EditorUtil.listItems(), GolemEditorHandlers.ITEM,
 						EditorText.SELECT_ITEM.get(), MaterialEntryScreen.this, session))));
 		list.setData(entries);
 	}
@@ -93,10 +93,6 @@ public class MaterialEntryScreen extends Screen {
 
 	private java.util.Set<net.minecraft.world.item.Item> limitSet() {
 		return config.partLimitation.computeIfAbsent(id, k -> new java.util.LinkedHashSet<>());
-	}
-
-	private static Function<GolemStatType, Component> statLabel() {
-		return GolemEditorUtil::statName;
 	}
 
 	private void openIngredient(Component title, Ingredient current, java.util.function.Consumer<Ingredient> onSet) {

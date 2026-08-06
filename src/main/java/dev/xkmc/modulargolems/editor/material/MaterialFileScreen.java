@@ -27,7 +27,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
-import java.util.function.Function;
 
 public class MaterialFileScreen extends Screen {
 
@@ -118,19 +117,34 @@ public class MaterialFileScreen extends Screen {
 			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;
 		}
-		Function<GolemType<?, ?>, ItemStack> icon = t -> {
+		Minecraft.getInstance().setScreen(new PickListScreen<>(GolemEditorLang.SELECT_TYPE.get(), remaining,
+				new AddTypeHandler(this), this));
+	}
+
+	private record AddTypeHandler(MaterialFileScreen screen) implements PickListScreen.Handler<GolemType<?, ?>> {
+
+		@Override
+		public Component label(GolemType<?, ?> t) {
+			return t.getDesc();
+		}
+
+		@Override
+		@Nullable
+		public ItemStack icon(GolemType<?, ?> t) {
 			var holder = GolemType.GOLEM_TYPE_TO_ITEM.get(t.getRegistryName());
 			return holder == null ? null : new ItemStack(holder);
-		};
-		Minecraft.getInstance().setScreen(new PickListScreen<>(GolemEditorLang.SELECT_TYPE.get(), remaining,
-				t -> t.getDesc(), icon, t -> {
-					ResourceLocation id = t.getRegistryName();
-					config.stats.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
-					config.modifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
-					config.ingredients.computeIfAbsent(id, k -> net.minecraft.world.item.crafting.Ingredient.EMPTY);
-					session.dirty = true;
-					Minecraft.getInstance().setScreen(new MaterialEntryScreen(config, id, MaterialFileScreen.this, session));
-				}, this));
+		}
+
+		@Override
+		public void onSelect(GolemType<?, ?> t) {
+			ResourceLocation id = t.getRegistryName();
+			screen.config.stats.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
+			screen.config.modifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
+			screen.config.ingredients.computeIfAbsent(id, k -> net.minecraft.world.item.crafting.Ingredient.EMPTY);
+			screen.session.dirty = true;
+			Minecraft.getInstance().setScreen(new MaterialEntryScreen(screen.config, id, screen, screen.session));
+		}
+
 	}
 
 	private void editEntry() {

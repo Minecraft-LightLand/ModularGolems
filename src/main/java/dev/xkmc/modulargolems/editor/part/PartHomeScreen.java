@@ -62,7 +62,9 @@ public class PartHomeScreen extends EditorHomeScreen {
 	protected void openEdit(ResourceLocation id) {
 		GolemPartConfig cfg = ModularGolems.PARTS.getEntry(id);
 		if (cfg == null) return;
-		Minecraft.getInstance().setScreen(new PartFileScreen(EditorUtil.copy(ModularGolems.PARTS, cfg), id, this));
+		GolemPartConfig copy = EditorUtil.copy(ModularGolems.PARTS, cfg);
+		if (copy == null) return;
+		Minecraft.getInstance().setScreen(new PartFileScreen(copy, id, this));
 	}
 
 	@Override

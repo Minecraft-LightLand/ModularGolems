@@ -89,6 +89,7 @@ public class EditorUtil {
 		return EditorFile.save(type, id, config, packFolder);
 	}
 
+	@Nullable
 	public static <T extends BaseConfig> T copy(ConfigTypeEntry<T> type, T orig) {
 		return EditorFile.copy(type, orig);
 	}

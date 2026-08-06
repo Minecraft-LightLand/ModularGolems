@@ -36,6 +36,7 @@ public enum GolemEditorLang {
 
 	private final String key, def;
 	private final int arg;
+	@Nullable
 	private final ChatFormatting format;
 
 	GolemEditorLang(String key, String def, int arg, @Nullable ChatFormatting format) {

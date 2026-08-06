@@ -52,6 +52,7 @@ public enum EditorText {
 
 	private final String key, def;
 	private final int arg;
+	@Nullable
 	private final ChatFormatting format;
 
 	EditorText(String key, String def, int arg, @Nullable ChatFormatting format) {

@@ -14,6 +14,7 @@ import java.util.function.Function;
 public class PromptScreen extends Screen {
 
 	private final Component label;
+	@Nullable
 	private final String initial;
 	private final Function<String, Component> validate;
 	private final Consumer<String> callback;
@@ -23,7 +24,7 @@ public class PromptScreen extends Screen {
 	@Nullable
 	private Component error;
 
-	public PromptScreen(Component title, Component label, String initial,
+	public PromptScreen(Component title, Component label, @Nullable String initial,
 						Function<String, Component> validate, Consumer<String> callback, Screen parent) {
 		super(title);
 		this.label = label;

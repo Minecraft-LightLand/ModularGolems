@@ -5,19 +5,26 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class Obj2IntMapScreen<M> extends Screen {
 
+	public interface Handler<M> {
+
+		Component label(M m);
+
+		int maxLevel(M m);
+
+	}
+
 	private final Map<M, Integer> map;
 	private final List<M> candidates;
-	private final Function<M, Component> label;
-	private final Function<M, Integer> maxLevel;
+	private final Handler<M> handler;
 	private final Component pickTitle;
 	private final Screen parent;
 	private final EditorSession session;
@@ -26,13 +33,12 @@ public class Obj2IntMapScreen<M> extends Screen {
 	private final List<M> order = new ArrayList<>();
 
 	public Obj2IntMapScreen(Component title, Map<M, Integer> map, List<M> candidates,
-							 Function<M, Component> label, Function<M, Integer> maxLevel, Component pickTitle,
+							 Handler<M> handler, Component pickTitle,
 							 Screen parent, EditorSession session) {
 		super(title);
 		this.map = map;
 		this.candidates = candidates;
-		this.label = label;
-		this.maxLevel = maxLevel;
+		this.handler = handler;
 		this.pickTitle = pickTitle;
 		this.parent = parent;
 		this.session = session;
@@ -58,11 +64,11 @@ public class Obj2IntMapScreen<M> extends Screen {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
 		List<M> keys = new ArrayList<>(map.keySet());
-		keys.sort((a, b) -> label.apply(a).getString().compareToIgnoreCase(label.apply(b).getString()));
+		keys.sort((a, b) -> handler.label(a).getString().compareToIgnoreCase(handler.label(b).getString()));
 		for (M k : keys) {
 			order.add(k);
 			entries.add(new EditorList.Entry(
-					label.apply(k).copy().append(Component.literal("   ")).append(EditorText.LEVEL_FULL.get(map.get(k), maxLevel.apply(k))), null, null));
+					handler.label(k).copy().append(Component.literal("   ")).append(EditorText.LEVEL_FULL.get(map.get(k), handler.maxLevel(k))), null, null));
 		}
 		list.setData(entries);
 	}
@@ -88,15 +94,13 @@ public class Obj2IntMapScreen<M> extends Screen {
 			return;
 		}
 		Minecraft.getInstance().setScreen(new PickListScreen<>(pickTitle, remaining,
-				m -> label.apply(m).copy().append(Component.literal("  ")).append(EditorText.MAX_SHORT.get(maxLevel.apply(m))), t -> null, t -> {
-					promptLevel(t);
-				}, this));
+				new AddModifierHandler<>(this, handler), this));
 	}
 
 	private void promptLevel(M key) {
-		int max = maxLevel.apply(key);
+		int max = handler.maxLevel(key);
 		int cur = map.getOrDefault(key, 1);
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.LEVEL_RANGE.get(max), label.apply(key), "" + cur, s -> {
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.LEVEL_RANGE.get(max), handler.label(key), "" + cur, s -> {
 			try {
 				int v = Integer.parseInt(s.trim());
 				if (v < 1 || v > max) {
@@ -143,6 +147,26 @@ public class Obj2IntMapScreen<M> extends Screen {
 	@Override
 	public void onClose() {
 		Minecraft.getInstance().setScreen(parent);
+	}
+
+	private record AddModifierHandler<M>(Obj2IntMapScreen<M> screen, Handler<M> handler) implements PickListScreen.Handler<M> {
+
+		@Override
+		public Component label(M m) {
+			return handler.label(m).copy().append(Component.literal("  ")).append(EditorText.MAX_SHORT.get(handler.maxLevel(m)));
+		}
+
+		@Override
+		@Nullable
+		public ItemStack icon(M m) {
+			return null;
+		}
+
+		@Override
+		public void onSelect(M m) {
+			screen.promptLevel(m);
+		}
+
 	}
 
 }
