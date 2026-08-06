@@ -4,28 +4,50 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class TabButton extends Button {
 
-	private final boolean active;
+	private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/tab_button.png");
+	private static final int TEXTURE_WIDTH = 130;
+	private static final int TEXTURE_HEIGHT = 24;
+	private static final int TEXTURE_BORDER = 2;
+	private static final int TEXTURE_BORDER_BOTTOM = 0;
+	private static final int SELECTED_OFFSET = 3;
 
-	public TabButton(int x, int y, int width, int height, Component message, boolean active, OnPress onPress) {
+	private final boolean selected;
+
+	public TabButton(int x, int y, int width, int height, Component message, boolean selected, OnPress onPress) {
 		super(x, y, width, height, message, onPress, DEFAULT_NARRATION);
-		this.active = active;
+		this.selected = selected;
 	}
 
 	@Override
 	protected void renderWidget(GuiGraphics g, int mx, int my, float partialTick) {
-		int bg = active ? 0xFF9A9A9A : (isHoveredOrFocused() ? 0xFF6A6A6A : 0xFF4A4A4A);
-		g.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), bg);
-		g.fill(getX(), getY(), getX() + getWidth(), getY() + 1, 0xFF202020);
-		g.fill(getX(), getY(), getX() + 1, getY() + getHeight(), 0xFF202020);
-		g.fill(getX() + getWidth() - 1, getY(), getX() + getWidth(), getY() + getHeight(), 0xFF202020);
-		g.fill(getX(), getY() + getHeight() - 1, getX() + getWidth(), getY() + getHeight(),
-				active ? bg : 0xFF202020);
-		int fg = active ? 0xFF000000 : (isHoveredOrFocused() ? 0xFFFFFFFF : 0xFFAAAAAA);
-		g.drawCenteredString(Minecraft.getInstance().font, getMessage(),
-				getX() + getWidth() / 2, getY() + (getHeight() - 8) / 2, fg);
+		g.blitNineSliced(TEXTURE_LOCATION, getX(), getY(), getWidth(), getHeight(), TEXTURE_BORDER, TEXTURE_BORDER, TEXTURE_BORDER, TEXTURE_BORDER_BOTTOM, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, getTextureY());
+		var font = Minecraft.getInstance().font;
+		int color = selected ? 0xFFFFFFFF : 0xFFA0A0A0;
+		int top = getY() + (selected ? 0 : SELECTED_OFFSET);
+		g.drawCenteredString(font, getMessage(), getX() + getWidth() / 2,
+				top + (getY() + getHeight() - top - font.lineHeight) / 2, color);
+		if (selected) {
+			int w = Math.min(font.width(getMessage()), getWidth() - 4);
+			int x = getX() + (getWidth() - w) / 2;
+			int y = getY() + getHeight() - 2;
+			g.fill(x, y, x + w, y + 1, color);
+		}
+	}
+
+	private int getTextureY() {
+		int i = 2;
+		if (selected && isHoveredOrFocused()) {
+			i = 1;
+		} else if (selected) {
+			i = 0;
+		} else if (isHoveredOrFocused()) {
+			i = 3;
+		}
+		return i * TEXTURE_HEIGHT;
 	}
 
 }

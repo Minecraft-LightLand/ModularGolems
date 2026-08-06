@@ -30,9 +30,9 @@ public abstract class EditorHomeScreen extends Screen {
 
 	@Override
 	protected void init() {
-		initTabs();
 		list = new EditorList(minecraft, width, height - 70, 34, height - 40);
 		addRenderableWidget(list);
+		initTabs();
 		List<Button> row = new ArrayList<>();
 		row.add(Button.builder(EditorText.NEW.get(), b -> newFile()).bounds(0, 0, 60, 20).build());
 		editBtn = Button.builder(EditorText.EDIT.get(), b -> editFile()).bounds(0, 0, 60, 20).build();
@@ -52,7 +52,7 @@ public abstract class EditorHomeScreen extends Screen {
 		List<EditorTab> tabs = tabs();
 		int active = activeTab();
 		int gap = 6;
-		int h = 20;
+		int h = 24;
 		int total = 0;
 		List<Integer> widths = new ArrayList<>();
 		for (EditorTab t : tabs) {
