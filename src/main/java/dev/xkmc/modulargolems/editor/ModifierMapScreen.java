@@ -56,7 +56,7 @@ public class ModifierMapScreen extends Screen {
 		for (GolemModifier k : keys) {
 			order.add(k);
 			entries.add(new EditorList.Entry(
-					label(k).copy().append(Component.literal("   Lv " + map.get(k))), null, null));
+					label(k).copy().append(Component.literal("   ")).append(EditorLang.LEVEL_SHORT.get(map.get(k))), null, null));
 		}
 		list.setData(entries);
 	}

@@ -74,8 +74,11 @@ public class MaterialFileScreen extends Screen {
 			int stats = config.stats.getOrDefault(id, new java.util.HashMap<>()).size();
 			int mods = config.modifiers.getOrDefault(id, new java.util.HashMap<>()).size();
 			entries.add(new EditorList.Entry(Component.literal(id.toString()).copy()
-					.append(Component.literal("   [" + EditorLang.STATS.get(stats).getString()
-							+ "  " + EditorLang.MODIFIERS.get(mods).getString() + "]"))
+					.append(Component.literal("   ["))
+					.append(EditorLang.STATS.get(stats))
+					.append(Component.literal("  "))
+					.append(EditorLang.MODIFIERS.get(mods))
+					.append(Component.literal("]"))
 					, null, null));
 		}
 		if (entries.isEmpty()) {

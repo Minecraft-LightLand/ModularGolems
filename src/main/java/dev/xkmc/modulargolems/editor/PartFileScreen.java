@@ -68,7 +68,7 @@ public class PartFileScreen extends Screen {
 			partOrder.add(part);
 			int n = config.filters.get(part).size();
 			entries.add(new EditorList.Entry(EditorData.itemName(part).copy()
-					.append(Component.literal("   " + EditorLang.FILTERS.get(n).getString()))
+					.append(Component.literal("   ")).append(EditorLang.FILTERS.get(n))
 					, new ItemStack(part), () -> editPart(part)));
 		}
 		List<ResourceLocation> ents = new ArrayList<>(config.magnifiers.keySet());
@@ -81,7 +81,7 @@ public class PartFileScreen extends Screen {
 			var holder = t == null ? null : GolemType.GOLEM_TYPE_TO_ITEM.get(id);
 			if (holder != null) icon = new ItemStack(holder);
 			entries.add(new EditorList.Entry(Component.literal(id.toString()).copy()
-					.append(Component.literal("   " + EditorLang.MAGNIFIERS.get(n).getString()))
+					.append(Component.literal("   ")).append(EditorLang.MAGNIFIERS.get(n))
 					, icon, () -> editEntity(id)));
 		}
 		if (entries.isEmpty()) {
@@ -94,7 +94,7 @@ public class PartFileScreen extends Screen {
 		var map = config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
 		List<StatFilterType> cand = List.of(StatFilterType.values());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.FILTERS.get(map.size()), map, cand,
-				t -> Component.literal(t.name()), t -> null, t -> false, PartFileScreen.this, session));
+				EditorData::statFilterName, t -> null, t -> false, PartFileScreen.this, session));
 	}
 
 	private void editEntity(ResourceLocation id) {

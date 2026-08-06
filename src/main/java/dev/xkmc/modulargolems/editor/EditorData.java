@@ -9,8 +9,10 @@ import dev.xkmc.l2serial.serialization.codec.JsonCodec;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.client.Minecraft;
@@ -114,6 +116,10 @@ public class EditorData {
 			ans = ans.append("%");
 		}
 		return ans;
+	}
+
+	public static Component statFilterName(StatFilterType type) {
+		return Component.translatable(ModularGolems.MODID + ".editor.stat_filter." + type.name());
 	}
 
 	@Nullable
