@@ -43,6 +43,8 @@ public class PartFileScreen extends Screen {
 	private EditorList list;
 	private final List<Item> partOrder = new ArrayList<>();
 	private final List<ResourceLocation> entOrder = new ArrayList<>();
+	private Button addPartBtn;
+	private Button addEntityBtn;
 	private Button saveBtn;
 	private Button removeBtn;
 
@@ -58,8 +60,10 @@ public class PartFileScreen extends Screen {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
 		List<Button> row = new ArrayList<>();
-		row.add(Button.builder(GolemEditorLang.ADD_PART.get(), b -> addPart()).bounds(0, 0, 80, 20).build());
-		row.add(Button.builder(GolemEditorLang.ADD_MAGNIFIER.get(), b -> addEntity()).bounds(0, 0, 80, 20).build());
+		addPartBtn = Button.builder(GolemEditorLang.ADD_PART.get(), b -> addPart()).bounds(0, 0, 80, 20).build();
+		row.add(addPartBtn);
+		addEntityBtn = Button.builder(GolemEditorLang.ADD_MAGNIFIER.get(), b -> addEntity()).bounds(0, 0, 80, 20).build();
+		row.add(addEntityBtn);
 		removeBtn = Button.builder(EditorText.REMOVE.get(), b -> removeEntry()).bounds(0, 0, 60, 20).build();
 		row.add(removeBtn);
 		saveBtn = Button.builder(EditorText.SAVE.get(), b -> save()).bounds(0, 0, 60, 20).build();
@@ -103,6 +107,14 @@ public class PartFileScreen extends Screen {
 			entries.add(new EditorList.Entry(EditorText.EMPTY_FILE.get(), null, null));
 		}
 		list.setData(entries);
+		updateAddButtons();
+	}
+
+	private void updateAddButtons() {
+		addPartBtn.active = GolemEditorUtil.listParts().stream()
+				.anyMatch(t -> !config.filters.containsKey(t));
+		addEntityBtn.active = GolemEditorUtil.listGolemTypes().stream()
+				.anyMatch(t -> !config.magnifiers.containsKey(t.getRegistryName()));
 	}
 
 	private void editPart(Item part) {

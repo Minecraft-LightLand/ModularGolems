@@ -34,6 +34,7 @@ public class DoubleMapScreen<T> extends Screen {
 
 	private EditorList list;
 	private final List<T> order = new ArrayList<>();
+	private Button addBtn;
 	private Button editBtn;
 	private Button removeBtn;
 
@@ -52,7 +53,8 @@ public class DoubleMapScreen<T> extends Screen {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
 		List<Button> row = new ArrayList<>();
-		row.add(Button.builder(EditorText.ADD.get(), b -> addValue()).bounds(0, 0, 60, 20).build());
+		addBtn = Button.builder(EditorText.ADD.get(), b -> addValue()).bounds(0, 0, 60, 20).build();
+		row.add(addBtn);
 		editBtn = Button.builder(EditorText.EDIT.get(), b -> editValue()).bounds(0, 0, 60, 20).build();
 		row.add(editBtn);
 		removeBtn = Button.builder(EditorText.REMOVE.get(), b -> removeValue()).bounds(0, 0, 60, 20).build();
@@ -80,6 +82,21 @@ public class DoubleMapScreen<T> extends Screen {
 					handler.label(k).copy().append(Component.literal("   " + display(k, map.get(k)))), handler.icon(k), null));
 		}
 		list.setData(entries);
+		updateAddBtn();
+	}
+
+	private List<T> remaining() {
+		List<T> remaining = new ArrayList<>();
+		for (T t : candidates) {
+			if (!map.containsKey(t)) {
+				remaining.add(t);
+			}
+		}
+		return remaining;
+	}
+
+	private void updateAddBtn() {
+		addBtn.active = !remaining().isEmpty();
 	}
 
 	@Nullable
@@ -92,12 +109,7 @@ public class DoubleMapScreen<T> extends Screen {
 	}
 
 	private void addValue() {
-		List<T> remaining = new ArrayList<>();
-		for (T t : candidates) {
-			if (!map.containsKey(t)) {
-				remaining.add(t);
-			}
-		}
+		List<T> remaining = remaining();
 		if (remaining.isEmpty()) {
 			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;

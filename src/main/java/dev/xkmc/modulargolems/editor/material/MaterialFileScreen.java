@@ -38,6 +38,7 @@ public class MaterialFileScreen extends Screen {
 
 	private EditorList list;
 	private final List<ResourceLocation> order = new ArrayList<>();
+	private Button addBtn;
 	private Button saveBtn;
 	private Button editBtn;
 	private Button removeBtn;
@@ -54,7 +55,8 @@ public class MaterialFileScreen extends Screen {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
 		List<Button> row = new ArrayList<>();
-		row.add(Button.builder(EditorText.ADD.get(), b -> addType()).bounds(0, 0, 60, 20).build());
+		addBtn = Button.builder(EditorText.ADD.get(), b -> addType()).bounds(0, 0, 60, 20).build();
+		row.add(addBtn);
 		editBtn = Button.builder(EditorText.EDIT.get(), b -> editEntry()).bounds(0, 0, 60, 20).build();
 		row.add(editBtn);
 		removeBtn = Button.builder(EditorText.REMOVE.get(), b -> removeEntry()).bounds(0, 0, 60, 20).build();
@@ -103,6 +105,12 @@ public class MaterialFileScreen extends Screen {
 			entries.add(new EditorList.Entry(EditorText.EMPTY_FILE.get(), null, null));
 		}
 		list.setData(entries);
+		updateAddBtn();
+	}
+
+	private void updateAddBtn() {
+		addBtn.active = GolemTypes.TYPES.get().getValues().stream()
+				.anyMatch(t -> !config.stats.containsKey(t.getRegistryName()));
 	}
 
 	@Nullable

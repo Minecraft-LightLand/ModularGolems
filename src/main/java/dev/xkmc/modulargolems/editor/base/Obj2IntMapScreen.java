@@ -31,6 +31,7 @@ public class Obj2IntMapScreen<M> extends Screen {
 
 	private EditorList list;
 	private final List<M> order = new ArrayList<>();
+	private Button addBtn;
 	private Button editBtn;
 	private Button removeBtn;
 
@@ -51,7 +52,8 @@ public class Obj2IntMapScreen<M> extends Screen {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
 		List<Button> row = new ArrayList<>();
-		row.add(Button.builder(EditorText.ADD.get(), b -> addModifier()).bounds(0, 0, 60, 20).build());
+		addBtn = Button.builder(EditorText.ADD.get(), b -> addModifier()).bounds(0, 0, 60, 20).build();
+		row.add(addBtn);
 		editBtn = Button.builder(EditorText.EDIT.get(), b -> editModifier()).bounds(0, 0, 60, 20).build();
 		row.add(editBtn);
 		removeBtn = Button.builder(EditorText.REMOVE.get(), b -> removeModifier()).bounds(0, 0, 60, 20).build();
@@ -79,6 +81,21 @@ public class Obj2IntMapScreen<M> extends Screen {
 					handler.label(k).copy().append(Component.literal("   ")).append(EditorText.LEVEL_FULL.get(map.get(k), handler.maxLevel(k))), null, null));
 		}
 		list.setData(entries);
+		updateAddBtn();
+	}
+
+	private List<M> remaining() {
+		List<M> remaining = new ArrayList<>();
+		for (M t : candidates) {
+			if (!map.containsKey(t)) {
+				remaining.add(t);
+			}
+		}
+		return remaining;
+	}
+
+	private void updateAddBtn() {
+		addBtn.active = !remaining().isEmpty();
 	}
 
 	@Nullable
@@ -91,12 +108,7 @@ public class Obj2IntMapScreen<M> extends Screen {
 	}
 
 	private void addModifier() {
-		List<M> remaining = new ArrayList<>();
-		for (M t : candidates) {
-			if (!map.containsKey(t)) {
-				remaining.add(t);
-			}
-		}
+		List<M> remaining = remaining();
 		if (remaining.isEmpty()) {
 			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;

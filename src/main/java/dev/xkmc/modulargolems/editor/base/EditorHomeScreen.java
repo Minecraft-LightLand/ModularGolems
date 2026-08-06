@@ -30,7 +30,8 @@ public abstract class EditorHomeScreen extends Screen {
 
 	@Override
 	protected void init() {
-		list = new EditorList(minecraft, width, height - 70, 34, height - 40);
+		list = new EditorList(minecraft, width, height, 34, height - 40);
+		//list.setRenderTopAndBottom(false);
 		addRenderableWidget(list);
 		initTabs();
 		List<Button> row = new ArrayList<>();
@@ -64,7 +65,7 @@ public abstract class EditorHomeScreen extends Screen {
 		int x = (width - total) / 2;
 		for (int i = 0; i < tabs.size(); i++) {
 			int idx = i;
-			addRenderableWidget(new TabButton(x, 4, widths.get(i), h, tabs.get(i).label(), i == active,
+			addRenderableWidget(new TabButton(x, 10, widths.get(i), h, tabs.get(i).label(), i == active,
 					b -> openTab(idx)));
 			x += widths.get(i) + gap;
 		}
