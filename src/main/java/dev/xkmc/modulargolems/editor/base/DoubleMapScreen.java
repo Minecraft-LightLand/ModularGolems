@@ -34,6 +34,8 @@ public class DoubleMapScreen<T> extends Screen {
 
 	private EditorList list;
 	private final List<T> order = new ArrayList<>();
+	private Button editBtn;
+	private Button removeBtn;
 
 	public DoubleMapScreen(Component title, Map<T, Double> map, List<T> candidates,
 						   Handler<T> handler, Screen parent, EditorSession session) {
@@ -49,15 +51,21 @@ public class DoubleMapScreen<T> extends Screen {
 	protected void init() {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
-		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorText.ADD.get(), b -> addValue())
-				.bounds(c - 130, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.EDIT.get(), b -> editValue())
-				.bounds(c - 65, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.REMOVE.get(), b -> removeValue())
-				.bounds(c, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
-				.bounds(c + 65, height - 30, 60, 20).build());
+		List<Button> row = new ArrayList<>();
+		row.add(Button.builder(EditorText.ADD.get(), b -> addValue()).bounds(0, 0, 60, 20).build());
+		editBtn = Button.builder(EditorText.EDIT.get(), b -> editValue()).bounds(0, 0, 60, 20).build();
+		row.add(editBtn);
+		removeBtn = Button.builder(EditorText.REMOVE.get(), b -> removeValue()).bounds(0, 0, 60, 20).build();
+		row.add(removeBtn);
+		row.add(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent)).bounds(0, 0, 60, 20).build());
+		row.forEach(this::addRenderableWidget);
+		EditorLayout.centerRow(row, width / 2, height - 30, 5);
+		editBtn.active = false;
+		removeBtn.active = false;
+		list.setOnSelect(() -> {
+			editBtn.active = selectedKey() != null;
+			removeBtn.active = selectedKey() != null;
+		});
 		rebuild();
 	}
 
@@ -116,19 +124,13 @@ public class DoubleMapScreen<T> extends Screen {
 
 	private void editValue() {
 		T key = selectedKey();
-		if (key == null) {
-			EditorToast.show(EditorText.EDIT.get(), EditorText.NO_FILE.get());
-			return;
-		}
+		if (key == null) return;
 		promptValue(key);
 	}
 
 	private void removeValue() {
 		T key = selectedKey();
-		if (key == null) {
-			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
-			return;
-		}
+		if (key == null) return;
 		map.remove(key);
 		session.dirty = true;
 		rebuild();

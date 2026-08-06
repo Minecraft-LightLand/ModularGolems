@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class IngredientScreen extends Screen {
@@ -30,15 +32,13 @@ public class IngredientScreen extends Screen {
 
 	@Override
 	protected void init() {
-		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorText.PICK_ITEM.get(), b -> pickItem())
-				.bounds(c - 155, height - 30, 70, 20).build());
-		addRenderableWidget(Button.builder(EditorText.PICK_TAG.get(), b -> pickTag())
-				.bounds(c - 75, height - 30, 70, 20).build());
-		addRenderableWidget(Button.builder(EditorText.CLEAR.get(), b -> apply(Ingredient.EMPTY))
-				.bounds(c + 5, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
-				.bounds(c + 75, height - 30, 60, 20).build());
+		List<Button> row = new ArrayList<>();
+		row.add(Button.builder(EditorText.PICK_ITEM.get(), b -> pickItem()).bounds(0, 0, 70, 20).build());
+		row.add(Button.builder(EditorText.PICK_TAG.get(), b -> pickTag()).bounds(0, 0, 70, 20).build());
+		row.add(Button.builder(EditorText.CLEAR.get(), b -> apply(Ingredient.EMPTY)).bounds(0, 0, 60, 20).build());
+		row.add(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent)).bounds(0, 0, 60, 20).build());
+		row.forEach(this::addRenderableWidget);
+		EditorLayout.centerRow(row, width / 2, height - 30, 5);
 	}
 
 	private void apply(Ingredient ing) {

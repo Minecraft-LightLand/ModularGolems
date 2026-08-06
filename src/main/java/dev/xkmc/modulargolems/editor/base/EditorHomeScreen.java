@@ -21,6 +21,7 @@ public abstract class EditorHomeScreen extends Screen {
 	protected final Screen parent;
 	private EditorList list;
 	private Button reloadBtn;
+	private Button editBtn;
 
 	protected EditorHomeScreen(Component title, Screen parent) {
 		super(title);
@@ -29,21 +30,51 @@ public abstract class EditorHomeScreen extends Screen {
 
 	@Override
 	protected void init() {
-		int c = width / 2;
-		addRenderableWidget(new LinkButton(width - 100, 4, 90, 20, siblingLabel(), b -> openSibling()));
+		initTabs();
 		list = new EditorList(minecraft, width, height - 70, 34, height - 40);
 		addRenderableWidget(list);
-		addRenderableWidget(Button.builder(EditorText.NEW.get(), b -> newFile())
-				.bounds(c - 155, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.EDIT.get(), b -> editFile())
-				.bounds(c - 90, height - 30, 60, 20).build());
-		reloadBtn = Button.builder(EditorText.RELOAD.get(), b -> reloadNow(false))
-				.bounds(c - 25, height - 30, 60, 20).build();
+		List<Button> row = new ArrayList<>();
+		row.add(Button.builder(EditorText.NEW.get(), b -> newFile()).bounds(0, 0, 60, 20).build());
+		editBtn = Button.builder(EditorText.EDIT.get(), b -> editFile()).bounds(0, 0, 60, 20).build();
+		row.add(editBtn);
+		reloadBtn = Button.builder(EditorText.RELOAD.get(), b -> reloadNow(false)).bounds(0, 0, 60, 20).build();
+		row.add(reloadBtn);
+		row.add(Button.builder(EditorText.BACK.get(), b -> exit()).bounds(0, 0, 60, 20).build());
+		row.forEach(this::addRenderableWidget);
+		EditorLayout.centerRow(row, width / 2, height - 30, 5);
 		reloadBtn.active = hasPendingReload();
-		addRenderableWidget(reloadBtn);
-		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> exit())
-				.bounds(c + 40, height - 30, 60, 20).build());
+		editBtn.active = false;
+		list.setOnSelect(() -> editBtn.active = selected() != null);
 		rebuild();
+	}
+
+	private void initTabs() {
+		List<EditorTab> tabs = tabs();
+		int active = activeTab();
+		int gap = 6;
+		int h = 20;
+		int total = 0;
+		List<Integer> widths = new ArrayList<>();
+		for (EditorTab t : tabs) {
+			int w = Math.max(60, font.width(t.label()) + 24);
+			widths.add(w);
+			total += w;
+		}
+		total += gap * Math.max(0, tabs.size() - 1);
+		int x = (width - total) / 2;
+		for (int i = 0; i < tabs.size(); i++) {
+			int idx = i;
+			addRenderableWidget(new TabButton(x, 4, widths.get(i), h, tabs.get(i).label(), i == active,
+					b -> openTab(idx)));
+			x += widths.get(i) + gap;
+		}
+	}
+
+	private void openTab(int idx) {
+		if (idx == activeTab()) return;
+		List<EditorTab> tabs = tabs();
+		if (idx < 0 || idx >= tabs.size()) return;
+		tabs.get(idx).onSelect().run();
 	}
 
 	@Override
@@ -130,10 +161,7 @@ public abstract class EditorHomeScreen extends Screen {
 
 	private void editFile() {
 		ResourceLocation id = selected();
-		if (id == null) {
-			EditorToast.show(EditorText.EDIT.get(), EditorText.NO_FILE.get());
-			return;
-		}
+		if (id == null) return;
 		openEdit(id);
 	}
 
@@ -149,9 +177,9 @@ public abstract class EditorHomeScreen extends Screen {
 
 	protected abstract void openEdit(ResourceLocation id);
 
-	protected abstract Component siblingLabel();
+	protected abstract List<EditorTab> tabs();
 
-	protected abstract void openSibling();
+	protected abstract int activeTab();
 
 	protected abstract Component fileIdLabel();
 
@@ -165,7 +193,6 @@ public abstract class EditorHomeScreen extends Screen {
 	public void render(GuiGraphics g, int mx, int my, float pTick) {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
-		g.drawCenteredString(font, this.title, width / 2, 2, 0xFFFFFF);
 	}
 
 }

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.editor.part;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.editor.base.EditorHomeScreen;
 import dev.xkmc.modulargolems.editor.base.EditorSaveState;
+import dev.xkmc.modulargolems.editor.base.EditorTab;
 import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.material.MaterialHomeScreen;
@@ -68,13 +69,17 @@ public class PartHomeScreen extends EditorHomeScreen {
 	}
 
 	@Override
-	protected Component siblingLabel() {
-		return GolemEditorLang.MATERIALS.get();
+	protected List<EditorTab> tabs() {
+		return List.of(
+				new EditorTab(GolemEditorLang.MATERIALS.get(),
+						() -> Minecraft.getInstance().setScreen(materialHome)),
+				new EditorTab(GolemEditorLang.PARTS.get(), () -> {
+				}));
 	}
 
 	@Override
-	protected void openSibling() {
-		Minecraft.getInstance().setScreen(materialHome);
+	protected int activeTab() {
+		return 1;
 	}
 
 	@Override

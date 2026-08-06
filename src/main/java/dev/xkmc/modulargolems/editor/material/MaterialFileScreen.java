@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.editor.base.EditorFile;
 import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorLayout;
 import dev.xkmc.modulargolems.editor.base.EditorSaveState;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
 import dev.xkmc.modulargolems.editor.base.EditorText;
@@ -38,6 +39,8 @@ public class MaterialFileScreen extends Screen {
 	private EditorList list;
 	private final List<ResourceLocation> order = new ArrayList<>();
 	private Button saveBtn;
+	private Button editBtn;
+	private Button removeBtn;
 
 	public MaterialFileScreen(GolemMaterialConfig config, ResourceLocation fileId, Screen parent) {
 		super(GolemEditorLang.MATERIALS_FILE.get());
@@ -48,21 +51,26 @@ public class MaterialFileScreen extends Screen {
 
 	@Override
 	protected void init() {
-		list = new EditorList(minecraft, width, height - 90, 30, height - 64);
+		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
-		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorText.ADD.get(), b -> addType())
-				.bounds(c - 145, height - 56, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.EDIT.get(), b -> editEntry())
-				.bounds(c - 80, height - 56, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.REMOVE.get(), b -> removeEntry())
-				.bounds(c - 15, height - 56, 60, 20).build());
-		saveBtn = Button.builder(EditorText.SAVE.get(), b -> save())
-				.bounds(c - 65, height - 30, 60, 20).build();
+		List<Button> row = new ArrayList<>();
+		row.add(Button.builder(EditorText.ADD.get(), b -> addType()).bounds(0, 0, 60, 20).build());
+		editBtn = Button.builder(EditorText.EDIT.get(), b -> editEntry()).bounds(0, 0, 60, 20).build();
+		row.add(editBtn);
+		removeBtn = Button.builder(EditorText.REMOVE.get(), b -> removeEntry()).bounds(0, 0, 60, 20).build();
+		row.add(removeBtn);
+		saveBtn = Button.builder(EditorText.SAVE.get(), b -> save()).bounds(0, 0, 60, 20).build();
 		saveBtn.active = session.dirty;
-		addRenderableWidget(saveBtn);
-		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> exitFile())
-				.bounds(c + 5, height - 30, 60, 20).build());
+		row.add(saveBtn);
+		row.add(Button.builder(EditorText.BACK.get(), b -> exitFile()).bounds(0, 0, 60, 20).build());
+		row.forEach(this::addRenderableWidget);
+		EditorLayout.centerRow(row, width / 2, height - 30, 5);
+		editBtn.active = false;
+		removeBtn.active = false;
+		list.setOnSelect(() -> {
+			editBtn.active = selected() != null;
+			removeBtn.active = selected() != null;
+		});
 		rebuild();
 	}
 
@@ -149,19 +157,13 @@ public class MaterialFileScreen extends Screen {
 
 	private void editEntry() {
 		ResourceLocation id = selected();
-		if (id == null) {
-			EditorToast.show(EditorText.EDIT.get(), EditorText.NO_FILE.get());
-			return;
-		}
+		if (id == null) return;
 		Minecraft.getInstance().setScreen(new MaterialEntryScreen(config, id, MaterialFileScreen.this, session));
 	}
 
 	private void removeEntry() {
 		ResourceLocation id = selected();
-		if (id == null) {
-			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
-			return;
-		}
+		if (id == null) return;
 		config.stats.remove(id);
 		config.modifiers.remove(id);
 		config.ingredients.remove(id);

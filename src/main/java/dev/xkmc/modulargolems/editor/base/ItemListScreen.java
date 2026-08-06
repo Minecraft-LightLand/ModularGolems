@@ -32,6 +32,7 @@ public class ItemListScreen<T> extends Screen {
 
 	private EditorList list;
 	private final List<T> order = new ArrayList<>();
+	private Button removeBtn;
 
 	public ItemListScreen(Component title, Set<T> set, List<T> candidates,
 						  Handler<T> handler, Component pickTitle, Screen parent, EditorSession session) {
@@ -48,13 +49,15 @@ public class ItemListScreen<T> extends Screen {
 	protected void init() {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
-		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorText.ADD.get(), b -> addItem())
-				.bounds(c - 100, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.REMOVE.get(), b -> removeItem())
-				.bounds(c - 30, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
-				.bounds(c + 40, height - 30, 60, 20).build());
+		List<Button> row = new ArrayList<>();
+		row.add(Button.builder(EditorText.ADD.get(), b -> addItem()).bounds(0, 0, 60, 20).build());
+		removeBtn = Button.builder(EditorText.REMOVE.get(), b -> removeItem()).bounds(0, 0, 60, 20).build();
+		row.add(removeBtn);
+		row.add(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent)).bounds(0, 0, 60, 20).build());
+		row.forEach(this::addRenderableWidget);
+		EditorLayout.centerRow(row, width / 2, height - 30, 5);
+		removeBtn.active = false;
+		list.setOnSelect(() -> removeBtn.active = selected() != null);
 		rebuild();
 	}
 
@@ -118,10 +121,7 @@ public class ItemListScreen<T> extends Screen {
 
 	private void removeItem() {
 		T item = selected();
-		if (item == null) {
-			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
-			return;
-		}
+		if (item == null) return;
 		set.remove(item);
 		session.dirty = true;
 		rebuild();

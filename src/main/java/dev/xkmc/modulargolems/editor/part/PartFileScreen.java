@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.editor.base.DoubleMapScreen;
 import dev.xkmc.modulargolems.editor.base.EditorFile;
 import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorLayout;
 import dev.xkmc.modulargolems.editor.base.EditorSaveState;
 import dev.xkmc.modulargolems.editor.base.EditorSession;
 import dev.xkmc.modulargolems.editor.base.EditorText;
@@ -43,6 +44,7 @@ public class PartFileScreen extends Screen {
 	private final List<Item> partOrder = new ArrayList<>();
 	private final List<ResourceLocation> entOrder = new ArrayList<>();
 	private Button saveBtn;
+	private Button removeBtn;
 
 	public PartFileScreen(GolemPartConfig config, ResourceLocation fileId, Screen parent) {
 		super(GolemEditorLang.PARTS_FILE.get());
@@ -53,21 +55,21 @@ public class PartFileScreen extends Screen {
 
 	@Override
 	protected void init() {
-		list = new EditorList(minecraft, width, height - 90, 30, height - 64);
+		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
-		int c = width / 2;
-		addRenderableWidget(Button.builder(GolemEditorLang.ADD_PART.get(), b -> addPart())
-				.bounds(c - 160, height - 56, 80, 20).build());
-		addRenderableWidget(Button.builder(GolemEditorLang.ADD_MAGNIFIER.get(), b -> addEntity())
-				.bounds(c - 75, height - 56, 80, 20).build());
-		addRenderableWidget(Button.builder(EditorText.REMOVE.get(), b -> removeEntry())
-				.bounds(c + 10, height - 56, 60, 20).build());
-		saveBtn = Button.builder(EditorText.SAVE.get(), b -> save())
-				.bounds(c - 65, height - 30, 60, 20).build();
+		List<Button> row = new ArrayList<>();
+		row.add(Button.builder(GolemEditorLang.ADD_PART.get(), b -> addPart()).bounds(0, 0, 80, 20).build());
+		row.add(Button.builder(GolemEditorLang.ADD_MAGNIFIER.get(), b -> addEntity()).bounds(0, 0, 80, 20).build());
+		removeBtn = Button.builder(EditorText.REMOVE.get(), b -> removeEntry()).bounds(0, 0, 60, 20).build();
+		row.add(removeBtn);
+		saveBtn = Button.builder(EditorText.SAVE.get(), b -> save()).bounds(0, 0, 60, 20).build();
 		saveBtn.active = session.dirty;
-		addRenderableWidget(saveBtn);
-		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> exitFile())
-				.bounds(c + 5, height - 30, 60, 20).build());
+		row.add(saveBtn);
+		row.add(Button.builder(EditorText.BACK.get(), b -> exitFile()).bounds(0, 0, 60, 20).build());
+		row.forEach(this::addRenderableWidget);
+		EditorLayout.centerRow(row, width / 2, height - 30, 5);
+		removeBtn.active = false;
+		list.setOnSelect(() -> removeBtn.active = list.getSelected() != null);
 		rebuild();
 	}
 
@@ -192,10 +194,7 @@ public class PartFileScreen extends Screen {
 
 	private void removeEntry() {
 		EditorList.Entry sel = list.getSelected();
-		if (sel == null) {
-			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
-			return;
-		}
+		if (sel == null) return;
 		int i = list.children().indexOf(sel);
 		if (i < 0) return;
 		if (i < partOrder.size()) {

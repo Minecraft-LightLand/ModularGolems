@@ -10,8 +10,21 @@ import javax.annotation.Nullable;
 
 public class EditorList extends ObjectSelectionList<EditorList.Entry> {
 
+	@Nullable
+	private Runnable onSelect;
+
 	public EditorList(Minecraft mc, int width, int height, int y0, int y1) {
 		super(mc, width, height, y0, y1, 20);
+	}
+
+	public void setOnSelect(Runnable onSelect) {
+		this.onSelect = onSelect;
+	}
+
+	@Override
+	public void setSelected(@Nullable Entry entry) {
+		super.setSelected(entry);
+		if (onSelect != null) onSelect.run();
 	}
 
 	@Override
@@ -27,6 +40,8 @@ public class EditorList extends ObjectSelectionList<EditorList.Entry> {
 	public void setData(java.util.List<Entry> entries) {
 		clearEntries();
 		entries.forEach(this::addEntry);
+		setSelected(null);
+		if (onSelect != null) onSelect.run();
 	}
 
 	public static class Entry extends ObjectSelectionList.Entry<Entry> {
