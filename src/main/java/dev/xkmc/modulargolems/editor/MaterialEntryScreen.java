@@ -54,7 +54,7 @@ public class MaterialEntryScreen extends Screen {
 				() -> openIngredient(EditorLang.REPAIR.get(), rep, x -> config.repairIngredients.put(id, x))));
 		entries.add(row(EditorLang.STATS.get(statsMap().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.STATS.get(statsMap().size()),
-						statsMap(), EditorData.listStats(), statLabel(), t -> null, MaterialEntryScreen.this))));
+						statsMap(), EditorData.listStats(), statLabel(), t -> null, GolemStatType::percentDisplay, MaterialEntryScreen.this))));
 		entries.add(row(EditorLang.MODIFIERS.get(modMap().size()), null, null,
 				() -> Minecraft.getInstance().setScreen(new ModifierMapScreen(EditorLang.MODIFIERS.get(modMap().size()),
 						modMap(), EditorData.listModifiers(), MaterialEntryScreen.this))));

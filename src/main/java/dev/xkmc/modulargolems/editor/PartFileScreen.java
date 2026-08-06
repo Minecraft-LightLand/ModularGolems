@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.editor;
 
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
+import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -87,13 +88,13 @@ public class PartFileScreen extends Screen {
 		var map = config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
 		List<StatFilterType> cand = List.of(StatFilterType.values());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.FILTERS.get(map.size()), map, cand,
-				t -> Component.literal(t.name()), t -> null, PartFileScreen.this));
+				t -> Component.literal(t.name()), t -> null, t -> false, PartFileScreen.this));
 	}
 
 	private void editEntity(ResourceLocation id) {
 		var map = config.magnifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(EditorLang.MAGNIFIERS.get(map.size()), map,
-				EditorData.listStats(), EditorData::statName, t -> null, PartFileScreen.this));
+				EditorData.listStats(), EditorData::statName, t -> null, GolemStatType::percentDisplay, PartFileScreen.this));
 	}
 
 	private void addPart() {

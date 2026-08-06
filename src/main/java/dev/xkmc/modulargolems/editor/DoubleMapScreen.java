@@ -20,6 +20,7 @@ public class DoubleMapScreen<T> extends Screen {
 	private final List<T> candidates;
 	private final Function<T, Component> label;
 	private final Function<T, ItemStack> icon;
+	private final Function<T, Boolean> percent;
 	private final net.minecraft.client.gui.screens.Screen parent;
 
 	private EditorList list;
@@ -27,12 +28,13 @@ public class DoubleMapScreen<T> extends Screen {
 
 	public DoubleMapScreen(Component title, Map<T, Double> map, List<T> candidates,
 						   Function<T, Component> label, Function<T, ItemStack> icon,
-						   net.minecraft.client.gui.screens.Screen parent) {
+						   Function<T, Boolean> percent, net.minecraft.client.gui.screens.Screen parent) {
 		super(title);
 		this.map = map;
 		this.candidates = candidates;
 		this.label = label;
 		this.icon = icon;
+		this.percent = percent;
 		this.parent = parent;
 	}
 
@@ -60,7 +62,7 @@ public class DoubleMapScreen<T> extends Screen {
 		for (T k : keys) {
 			order.add(k);
 			entries.add(new EditorList.Entry(
-					label.apply(k).copy().append(Component.literal("   " + format(map.get(k)))), icon.apply(k), null));
+					label.apply(k).copy().append(Component.literal("   " + display(k, map.get(k)))), icon.apply(k), null));
 		}
 		list.setData(entries);
 	}
@@ -133,6 +135,10 @@ public class DoubleMapScreen<T> extends Screen {
 			s = s.substring(0, s.length() - 1);
 		}
 		return s;
+	}
+
+	private String display(T key, double v) {
+		return Boolean.TRUE.equals(percent.apply(key)) ? format(v * 100) + "%" : format(v);
 	}
 
 	@Override
