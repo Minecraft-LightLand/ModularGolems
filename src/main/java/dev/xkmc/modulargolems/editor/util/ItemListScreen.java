@@ -1,6 +1,10 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.util;
 
-import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorSession;
+import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.base.EditorToast;
+import dev.xkmc.modulargolems.editor.base.PickListScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -38,11 +42,11 @@ public class ItemListScreen extends Screen {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
 		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorLang.ADD.get(), b -> addItem())
+		addRenderableWidget(Button.builder(EditorText.ADD.get(), b -> addItem())
 				.bounds(c - 100, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.REMOVE.get(), b -> removeItem())
+		addRenderableWidget(Button.builder(EditorText.REMOVE.get(), b -> removeItem())
 				.bounds(c - 30, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
+		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
 				.bounds(c + 40, height - 30, 60, 20).build());
 		rebuild();
 	}
@@ -76,7 +80,7 @@ public class ItemListScreen extends Screen {
 			}
 		}
 		if (remaining.isEmpty()) {
-			EditorToast.show(EditorLang.ADD.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;
 		}
 		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.SELECT_ITEM.get(), remaining,
@@ -90,7 +94,7 @@ public class ItemListScreen extends Screen {
 	private void removeItem() {
 		Item item = selectedItem();
 		if (item == null) {
-			EditorToast.show(EditorLang.REMOVE.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
 			return;
 		}
 		set.remove(item);

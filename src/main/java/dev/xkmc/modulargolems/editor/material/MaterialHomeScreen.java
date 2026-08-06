@@ -1,6 +1,10 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.material;
 
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.editor.part.PartHomeScreen;
+import dev.xkmc.modulargolems.editor.util.EditorData;
+import dev.xkmc.modulargolems.editor.util.EditorHomeScreen;
+import dev.xkmc.modulargolems.editor.util.EditorLang;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;

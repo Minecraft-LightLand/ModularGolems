@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.base;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -36,7 +36,7 @@ public class PickListScreen<T> extends Screen {
 
 	@Override
 	protected void init() {
-		search = new EditBox(this.font, width / 2 - 100, 10, 200, 18, EditorLang.SEARCH.get());
+		search = new EditBox(this.font, width / 2 - 100, 10, 200, 18, EditorText.SEARCH.get());
 		search.setMaxLength(64);
 		search.setResponder(s -> refresh());
 		search.setFocused(true);

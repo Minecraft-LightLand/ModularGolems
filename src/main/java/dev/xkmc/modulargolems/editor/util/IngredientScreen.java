@@ -1,5 +1,8 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.util;
 
+import dev.xkmc.modulargolems.editor.base.EditorSession;
+import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.base.PickListScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -34,7 +37,7 @@ public class IngredientScreen extends Screen {
 				.bounds(c - 75, height - 30, 70, 20).build());
 		addRenderableWidget(Button.builder(EditorLang.CLEAR.get(), b -> apply(Ingredient.EMPTY))
 				.bounds(c + 5, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
+		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
 				.bounds(c + 75, height - 30, 60, 20).build());
 	}
 

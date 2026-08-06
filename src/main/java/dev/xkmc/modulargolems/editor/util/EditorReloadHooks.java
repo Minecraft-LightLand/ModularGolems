@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.util;
 
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraftforge.api.distmarker.Dist;

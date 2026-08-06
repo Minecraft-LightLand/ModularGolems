@@ -1,5 +1,12 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.util;
 
+import dev.xkmc.modulargolems.editor.base.EditorFile;
+import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.base.EditorToast;
+import dev.xkmc.modulargolems.editor.base.LinkButton;
+import dev.xkmc.modulargolems.editor.base.PromptScreen;
+import dev.xkmc.modulargolems.editor.base.ReloadConfirmScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,15 +39,15 @@ public abstract class EditorHomeScreen extends Screen {
 		addRenderableWidget(new LinkButton(width - 100, 4, 90, 20, siblingLabel(), b -> openSibling()));
 		list = new EditorList(minecraft, width, height - 70, 34, height - 40);
 		addRenderableWidget(list);
-		addRenderableWidget(Button.builder(EditorLang.NEW.get(), b -> newFile())
+		addRenderableWidget(Button.builder(EditorText.NEW.get(), b -> newFile())
 				.bounds(c - 155, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.EDIT.get(), b -> editFile())
+		addRenderableWidget(Button.builder(EditorText.EDIT.get(), b -> editFile())
 				.bounds(c - 90, height - 30, 60, 20).build());
-		reloadBtn = Button.builder(EditorLang.RELOAD.get(), b -> reloadNow(false))
+		reloadBtn = Button.builder(EditorText.RELOAD.get(), b -> reloadNow(false))
 				.bounds(c - 25, height - 30, 60, 20).build();
 		reloadBtn.active = EditorData.savedFlag;
 		addRenderableWidget(reloadBtn);
-		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> exit())
+		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> exit())
 				.bounds(c + 40, height - 30, 60, 20).build());
 		rebuild();
 	}
@@ -64,7 +71,7 @@ public abstract class EditorHomeScreen extends Screen {
 		IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
 		if (server != null) {
 			server.execute(() -> server.reloadResources(server.getPackRepository().getSelectedIds()));
-			EditorToast.show(EditorLang.RELOAD.get(), EditorLang.RELOAD_DONE.get());
+			EditorToast.show(EditorText.RELOAD.get(), EditorText.RELOAD_DONE.get());
 		}
 		Minecraft.getInstance().setScreen(exit ? parent : this);
 	}
@@ -119,9 +126,9 @@ public abstract class EditorHomeScreen extends Screen {
 	}
 
 	private void newFile() {
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorLang.NEW.get(), EditorLang.FILE_ID.get(),
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.NEW.get(), EditorLang.FILE_ID.get(),
 				newFileDefault(), EditorData::validateFileId, s -> {
-					ResourceLocation id = EditorData.parseId(s);
+					ResourceLocation id = EditorFile.parseId(s);
 					if (id == null) return;
 					openNew(id);
 				}, this));
@@ -130,7 +137,7 @@ public abstract class EditorHomeScreen extends Screen {
 	private void editFile() {
 		ResourceLocation id = selected();
 		if (id == null) {
-			EditorToast.show(EditorLang.EDIT.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.EDIT.get(), EditorText.NO_FILE.get());
 			return;
 		}
 		openEdit(id);

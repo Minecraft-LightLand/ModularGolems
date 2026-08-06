@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.base;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,7 +12,7 @@ public class ExitConfirmScreen extends Screen {
 	private final Runnable onDiscard;
 
 	public ExitConfirmScreen(Screen parent, Runnable onSave, Runnable onDiscard) {
-		super(EditorLang.UNSAVED_TITLE.get());
+		super(EditorText.UNSAVED_TITLE.get());
 		this.parent = parent;
 		this.onSave = onSave;
 		this.onDiscard = onDiscard;
@@ -21,11 +21,11 @@ public class ExitConfirmScreen extends Screen {
 	@Override
 	protected void init() {
 		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorLang.SAVE.get(), b -> onSave.run())
+		addRenderableWidget(Button.builder(EditorText.SAVE.get(), b -> onSave.run())
 				.bounds(c - 160, height / 2 + 20, 100, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.DISCARD.get(), b -> onDiscard.run())
+		addRenderableWidget(Button.builder(EditorText.DISCARD.get(), b -> onDiscard.run())
 				.bounds(c - 50, height / 2 + 20, 100, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.CANCEL.get(), b -> Minecraft.getInstance().setScreen(parent))
+		addRenderableWidget(Button.builder(EditorText.CANCEL.get(), b -> Minecraft.getInstance().setScreen(parent))
 				.bounds(c + 60, height / 2 + 20, 100, 20).build());
 	}
 
@@ -34,7 +34,7 @@ public class ExitConfirmScreen extends Screen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, this.title, width / 2, height / 2 - 24, 0xFFFFFF);
-		g.drawCenteredString(font, EditorLang.UNSAVED_NOTE.get(), width / 2, height / 2 - 6, 0xAAAAAA);
+		g.drawCenteredString(font, EditorText.UNSAVED_NOTE.get(), width / 2, height / 2 - 6, 0xAAAAAA);
 	}
 
 	@Override

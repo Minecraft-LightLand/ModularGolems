@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.base;
 
 public class EditorSession {
 

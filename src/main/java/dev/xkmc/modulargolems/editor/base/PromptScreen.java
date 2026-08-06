@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.base;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -40,9 +40,9 @@ public class PromptScreen extends Screen {
 		box.setMaxLength(256);
 		box.setResponder(s -> error = null);
 		addRenderableWidget(box);
-		addRenderableWidget(Button.builder(EditorLang.CANCEL.get(), b -> Minecraft.getInstance().setScreen(parent))
+		addRenderableWidget(Button.builder(EditorText.CANCEL.get(), b -> Minecraft.getInstance().setScreen(parent))
 				.bounds(width / 2 - 104, height / 2 + 18, 100, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.CONFIRM.get(), b -> submit())
+		addRenderableWidget(Button.builder(EditorText.CONFIRM.get(), b -> submit())
 				.bounds(width / 2 + 4, height / 2 + 18, 100, 20).build());
 		setInitialFocus(box);
 	}

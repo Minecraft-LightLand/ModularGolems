@@ -1,8 +1,17 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.material;
 
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemStatType;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.editor.base.DoubleMapScreen;
+import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorSession;
+import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.util.EditorData;
+import dev.xkmc.modulargolems.editor.util.EditorLang;
+import dev.xkmc.modulargolems.editor.util.IngredientScreen;
+import dev.xkmc.modulargolems.editor.util.ItemListScreen;
+import dev.xkmc.modulargolems.editor.util.ModifierMapScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -38,7 +47,7 @@ public class MaterialEntryScreen extends Screen {
 	protected void init() {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
-		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
+		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
 				.bounds(width / 2 - 30, height - 30, 60, 20).build());
 		rebuild();
 	}

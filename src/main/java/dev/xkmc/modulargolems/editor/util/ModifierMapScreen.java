@@ -1,6 +1,12 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.util;
 
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.editor.base.EditorList;
+import dev.xkmc.modulargolems.editor.base.EditorSession;
+import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.base.EditorToast;
+import dev.xkmc.modulargolems.editor.base.PickListScreen;
+import dev.xkmc.modulargolems.editor.base.PromptScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -37,13 +43,13 @@ public class ModifierMapScreen extends Screen {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
 		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorLang.ADD.get(), b -> addModifier())
+		addRenderableWidget(Button.builder(EditorText.ADD.get(), b -> addModifier())
 				.bounds(c - 130, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.EDIT.get(), b -> editModifier())
+		addRenderableWidget(Button.builder(EditorText.EDIT.get(), b -> editModifier())
 				.bounds(c - 65, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.REMOVE.get(), b -> removeModifier())
+		addRenderableWidget(Button.builder(EditorText.REMOVE.get(), b -> removeModifier())
 				.bounds(c, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
+		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
 				.bounds(c + 65, height - 30, 60, 20).build());
 		rebuild();
 	}
@@ -82,11 +88,11 @@ public class ModifierMapScreen extends Screen {
 			}
 		}
 		if (remaining.isEmpty()) {
-			EditorToast.show(EditorLang.ADD.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;
 		}
 		Function<GolemModifier, Component> lab = ModifierMapScreen::label;
-		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.PICK_TARGET.get(), remaining, lab, t -> null, t -> {
+		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.PICK_TARGET.get(), remaining, lab, t -> null, t -> {
 			promptLevel(t);
 		}, this));
 	}
@@ -113,7 +119,7 @@ public class ModifierMapScreen extends Screen {
 	private void editModifier() {
 		GolemModifier key = selectedKey();
 		if (key == null) {
-			EditorToast.show(EditorLang.EDIT.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.EDIT.get(), EditorText.NO_FILE.get());
 			return;
 		}
 		promptLevel(key);
@@ -122,7 +128,7 @@ public class ModifierMapScreen extends Screen {
 	private void removeModifier() {
 		GolemModifier key = selectedKey();
 		if (key == null) {
-			EditorToast.show(EditorLang.REMOVE.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
 			return;
 		}
 		map.remove(key);

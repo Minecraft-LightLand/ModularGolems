@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.editor;
+package dev.xkmc.modulargolems.editor.base;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -45,13 +45,13 @@ public class DoubleMapScreen<T> extends Screen {
 		list = new EditorList(minecraft, width, height - 70, 30, height - 40);
 		addRenderableWidget(list);
 		int c = width / 2;
-		addRenderableWidget(Button.builder(EditorLang.ADD.get(), b -> addValue())
+		addRenderableWidget(Button.builder(EditorText.ADD.get(), b -> addValue())
 				.bounds(c - 130, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.EDIT.get(), b -> editValue())
+		addRenderableWidget(Button.builder(EditorText.EDIT.get(), b -> editValue())
 				.bounds(c - 65, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.REMOVE.get(), b -> removeValue())
+		addRenderableWidget(Button.builder(EditorText.REMOVE.get(), b -> removeValue())
 				.bounds(c, height - 30, 60, 20).build());
-		addRenderableWidget(Button.builder(EditorLang.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
+		addRenderableWidget(Button.builder(EditorText.BACK.get(), b -> Minecraft.getInstance().setScreen(parent))
 				.bounds(c + 65, height - 30, 60, 20).build());
 		rebuild();
 	}
@@ -86,22 +86,22 @@ public class DoubleMapScreen<T> extends Screen {
 			}
 		}
 		if (remaining.isEmpty()) {
-			EditorToast.show(EditorLang.ADD.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.ADD.get(), EditorText.NO_FILE.get());
 			return;
 		}
-		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorLang.PICK_TARGET.get(), remaining, label, icon, t -> {
+		Minecraft.getInstance().setScreen(new PickListScreen<>(EditorText.PICK_TARGET.get(), remaining, label, icon, t -> {
 			promptValue(t);
 		}, this));
 	}
 
 	private void promptValue(T key) {
 		double cur = map.getOrDefault(key, 0.0);
-		Minecraft.getInstance().setScreen(new PromptScreen(EditorLang.VALUE.get(), label.apply(key), format(cur), s -> {
+		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.VALUE.get(), label.apply(key), format(cur), s -> {
 			try {
 				Double.parseDouble(s.trim());
 				return null;
 			} catch (NumberFormatException e) {
-				return EditorLang.INVALID_NUMBER.get(s);
+				return EditorText.INVALID_NUMBER.get(s);
 			}
 		}, s -> {
 			map.put(key, Double.parseDouble(s.trim()));
@@ -113,7 +113,7 @@ public class DoubleMapScreen<T> extends Screen {
 	private void editValue() {
 		T key = selectedKey();
 		if (key == null) {
-			EditorToast.show(EditorLang.EDIT.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.EDIT.get(), EditorText.NO_FILE.get());
 			return;
 		}
 		promptValue(key);
@@ -122,7 +122,7 @@ public class DoubleMapScreen<T> extends Screen {
 	private void removeValue() {
 		T key = selectedKey();
 		if (key == null) {
-			EditorToast.show(EditorLang.REMOVE.get(), EditorLang.NO_FILE.get());
+			EditorToast.show(EditorText.REMOVE.get(), EditorText.NO_FILE.get());
 			return;
 		}
 		map.remove(key);
