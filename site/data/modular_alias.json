@@ -1,0 +1,13 @@
+{
+ "modulargolems:azure_cube": "cataclysm:azure_cube",
+ "modulargolems:candy_construct": "alexscaves:candy_construct",
+ "modulargolems:candy_mixture": "alexscaves:candy_mixture",
+ "modulargolems:cloud_cube": "legendary_monsters:cloud_cube",
+ "modulargolems:magnetic_alloy": "alexscaves:magnetic_alloy",
+ "modulargolems:magnetic_construct": "alexscaves:magnetic_construct",
+ "modulargolems:nuclear_construct": "alexscaves:nuclear_construct",
+ "modulargolems:storm_construct": "cataclysm:storm_construct",
+ "modulargolems:void_construct": "cataclysm:void_construct",
+ "modulargolems:void_cube": "cataclysm:void_cube",
+ "modulargolems:wroughtnaut_ingot": "mowziesmobs:wroughtnaut_ingot"
+}

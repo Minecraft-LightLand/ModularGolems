@@ -1,0 +1,19 @@
+{
+ "site_titles": {
+  "en": "Modular Golems",
+  "zh": "模块化傀儡"
+ },
+ "nav_labels": {
+  "en": {
+   "guide": "Guide",
+   "materials": "Materials",
+   "items": "Items"
+  },
+  "zh": {
+   "guide": "指南",
+   "materials": "材料",
+   "items": "物品"
+  }
+ },
+ "footer": "Generated from the ModularGolems source. Not affiliated with Mojang. View on GitHub — Minecraft-LightLand/ModularGolems"
+}

@@ -1,0 +1,122 @@
+{
+ "allthemodium:allthemodium_ingot": {
+  "en": "Allthemodium Ingot",
+  "zh": "ATM锭"
+ },
+ "allthemodium:unobtainium_ingot": {
+  "en": "Unobtainium Ingot",
+  "zh": "难得素锭"
+ },
+ "allthemodium:vibranium_ingot": {
+  "en": "Vibranium Ingot",
+  "zh": "振金锭"
+ },
+ "blazegear:brimsteel_ingot": {
+  "en": "Brimsteel Ingot",
+  "zh": "烈焰钢锭"
+ },
+ "botania:elementium_ingot": {
+  "en": "Elementium Ingot",
+  "zh": "源质钢锭"
+ },
+ "botania:manasteel_ingot": {
+  "en": "Manasteel Ingot",
+  "zh": "魔力钢锭"
+ },
+ "botania:terrasteel_ingot": {
+  "en": "Terrasteel Ingot",
+  "zh": "泰拉钢锭"
+ },
+ "cataclysm:ancient_metal_ingot": {
+  "en": "Ancient Metal Ingot",
+  "zh": "远古金属锭"
+ },
+ "cataclysm:cursium_ingot": {
+  "en": "Cursium Ingot",
+  "zh": "咒魂锭"
+ },
+ "cataclysm:ignitium_ingot": {
+  "en": "Ignitium Ingot",
+  "zh": "腾炎锭"
+ },
+ "cataclysm:witherite_ingot": {
+  "en": "Witherite Ingot",
+  "zh": "凋灵合金锭"
+ },
+ "composite_material:allay_steel_ingot": {
+  "en": "Allay Steel Ingot",
+  "zh": "悦灵钢锭"
+ },
+ "composite_material:dungeon_steel_ingot": {
+  "en": "Dungeon Steel Ingot",
+  "zh": "地牢钢锭"
+ },
+ "composite_material:etherite_ingot": {
+  "en": "Etherite Ingot",
+  "zh": "以太合金锭"
+ },
+ "composite_material:obsidian_steel_ingot": {
+  "en": "Obsidian Steel Ingot",
+  "zh": "黑曜石钢锭"
+ },
+ "composite_material:primitive_tenacity": {
+  "en": "Primitive Tenacity",
+  "zh": "荒古坚材"
+ },
+ "create:andesite_alloy": {
+  "en": "Andesite Alloy",
+  "zh": "安山合金"
+ },
+ "create:railway_casing": {
+  "en": "Train Casing",
+  "zh": "列车机壳"
+ },
+ "goety:cursed_ingot": {
+  "en": "Cursed Metal Ingot",
+  "zh": "诅咒金属锭"
+ },
+ "goety:dark_ingot": {
+  "en": "Dark Metal Ingot",
+  "zh": "黑暗金属锭"
+ },
+ "iceandfire:dragonsteel_fire_ingot": {
+  "en": "Fire Dragonsteel Ingot",
+  "zh": "龙炎钢锭"
+ },
+ "iceandfire:dragonsteel_ice_ingot": {
+  "en": "Ice Dragonsteel Ingot",
+  "zh": "龙霜钢锭"
+ },
+ "iceandfire:dragonsteel_lightning_ingot": {
+  "en": "Lightning Dragonsteel Ingot",
+  "zh": "龙霆钢锭"
+ },
+ "l2complements:eternium_ingot": {
+  "en": "Eternium Ingot",
+  "zh": "永恒锭"
+ },
+ "l2complements:poseidite_ingot": {
+  "en": "Poseidite Ingot",
+  "zh": "海神锭"
+ },
+ "l2complements:shulkerate_ingot": {
+  "en": "Shulkerate Ingot",
+  "zh": "潜影锭"
+ },
+ "l2complements:totemic_gold_ingot": {
+  "en": "Totemic Gold Ingot",
+  "zh": "生命锭"
+ },
+ "l2hostility:chaos_ingot": {
+  "en": "Chaos Ingot",
+  "zh": "混沌锭"
+ },
+ "l2hostility:miracle_ingot": {
+  "en": "Miracle Ingot",
+  "zh": "奇迹锭"
+ },
+ "legendary_monsters:molten_metal_ingot": {
+  "en": "Molten Metal Ingot",
+  "zh": "熔融金属锭"
+ }
+}

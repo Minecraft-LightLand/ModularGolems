@@ -1,0 +1,34 @@
+{
+ "en": {
+  "forge:ingots/brass": "Brass Ingot",
+  "forge:ingots/zinc": "Zinc Ingot",
+  "forge:ingots/cobalt": "Cobalt Ingot",
+  "forge:ingots/hepatizon": "Hepatizon Ingot",
+  "forge:ingots/manyullyn": "Manyullyn Ingot",
+  "forge:ingots/rose_gold": "Rose Gold Ingot",
+  "forge:ingots/amethyst_bronze": "Amethyst Bronze Ingot",
+  "forge:ingots/fiery": "Fiery Ingot",
+  "forge:ingots/ironwood": "Ironwood Ingot",
+  "forge:ingots/knightmetal": "Knightmetal Ingot",
+  "forge:ingots/steeleaf": "Steeleaf Ingot",
+  "modulargolems:cardboard": "Cardboard",
+  "modulargolems:revelation_ingot": "Revelation Ingot",
+  "modulargolems:sculk_materials": "Sculk Materials"
+ },
+ "zh": {
+  "forge:ingots/brass": "黄铜锭",
+  "forge:ingots/zinc": "锌锭",
+  "forge:ingots/cobalt": "钴锭",
+  "forge:ingots/hepatizon": "赫帕铁锭",
+  "forge:ingots/manyullyn": "玛玉灵锭",
+  "forge:ingots/rose_gold": "玫瑰金锭",
+  "forge:ingots/amethyst_bronze": "紫晶青铜锭",
+  "forge:ingots/fiery": "炽焰锭",
+  "forge:ingots/ironwood": "铁木锭",
+  "forge:ingots/knightmetal": "骑士金属锭",
+  "forge:ingots/steeleaf": "钢叶锭",
+  "modulargolems:cardboard": "纸板",
+  "modulargolems:revelation_ingot": "启示锭",
+  "modulargolems:sculk_materials": "幽匿材料"
+ }
+}

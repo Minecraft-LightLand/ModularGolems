@@ -1,0 +1,18 @@
+{
+ "BotDispatch": "botania",
+ "TFDispatch": "twilightforest",
+ "CreateDispatch": "create",
+ "LCDispatch": "l2complements",
+ "BGDispatch": "blazegear",
+ "LHDispatch": "l2hostility",
+ "CataDispatch": "cataclysm",
+ "ACDispatch": "alexscaves",
+ "IAFDispatch": "iceandfire",
+ "TCDispatch": "tconstruct",
+ "GoetyDispatch": "goety",
+ "GRDispatch": "goety_revelation",
+ "MowzieDispatch": "mowziesmobs",
+ "LMDispatch": "legendary_monsters",
+ "ATMDispatch": "allthemodium",
+ "CMDispatch": "composite_material"
+}

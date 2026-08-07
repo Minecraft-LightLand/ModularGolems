@@ -1,0 +1,82 @@
+{
+ "max_health": {
+  "en": "Max Health",
+  "zh": "最大生命值",
+  "kind": "BASE"
+ },
+ "attack": {
+  "en": "Attack Damage",
+  "zh": "攻击伤害",
+  "kind": "BASE"
+ },
+ "armor": {
+  "en": "Armor",
+  "zh": "护甲",
+  "kind": "ADD"
+ },
+ "tough": {
+  "en": "Armor Toughness",
+  "zh": "护甲韧性",
+  "kind": "ADD"
+ },
+ "knockback_resistance": {
+  "en": "Knockback Resistance",
+  "zh": "击退抗性",
+  "kind": "ADD"
+ },
+ "attack_knockback": {
+  "en": "Attack Knockback",
+  "zh": "攻击击退",
+  "kind": "ADD"
+ },
+ "regen": {
+  "en": "Regeneration",
+  "zh": "生命回复",
+  "kind": "ADD"
+ },
+ "sweep": {
+  "en": "Sweep Range",
+  "zh": "范围攻击",
+  "kind": "ADD"
+ },
+ "speed": {
+  "en": "Movement Speed",
+  "zh": "移动速度",
+  "kind": "PERCENT"
+ },
+ "weight": {
+  "en": "Speed",
+  "zh": "速度",
+  "kind": "PERCENT"
+ },
+ "jump_strength": {
+  "en": "Jump Strength",
+  "zh": "跳跃强度",
+  "kind": "PERCENT"
+ },
+ "max_health_percent": {
+  "en": "Max Health",
+  "zh": "最大生命值",
+  "kind": "PERCENT"
+ },
+ "max_size": {
+  "en": "Golem Size",
+  "zh": "傀儡体型",
+  "kind": "ADD"
+ },
+ "max_size_percentage": {
+  "en": "Golem Size",
+  "zh": "傀儡体型",
+  "kind": "PERCENT"
+ },
+ "range": {
+  "en": "Attack Range",
+  "zh": "攻击范围",
+  "kind": "ADD"
+ },
+ "dynamic_reduction": {
+  "en": "Dynamic Reduction",
+  "zh": "动态减伤",
+  "kind": "ADD"
+ }
+}

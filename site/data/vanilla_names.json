@@ -1,0 +1,20 @@
+{
+ "en": {
+  "minecraft:iron_ingot": "Iron Ingot",
+  "minecraft:gold_ingot": "Gold Ingot",
+  "minecraft:copper_ingot": "Copper Ingot",
+  "minecraft:netherite_ingot": "Netherite Ingot",
+  "minecraft:echo_shard": "Echo Shard",
+  "minecraft:stick": "Stick",
+  "minecraft:white_banner": "White Banner"
+ },
+ "zh": {
+  "minecraft:iron_ingot": "铁锭",
+  "minecraft:gold_ingot": "金锭",
+  "minecraft:copper_ingot": "铜锭",
+  "minecraft:netherite_ingot": "下界合金锭",
+  "minecraft:echo_shard": "回响碎片",
+  "minecraft:stick": "木棍",
+  "minecraft:white_banner": "白色旗帜"
+ }
+}

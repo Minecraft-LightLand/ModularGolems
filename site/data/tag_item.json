@@ -1,0 +1,15 @@
+{
+ "forge:ingots/brass": "create:brass_ingot",
+ "forge:ingots/zinc": "create:zinc_ingot",
+ "forge:ingots/cobalt": "tconstruct:cobalt_ingot",
+ "forge:ingots/hepatizon": "tconstruct:hepatizon_ingot",
+ "forge:ingots/manyullyn": "tconstruct:manyullyn_ingot",
+ "forge:ingots/rose_gold": "tconstruct:rose_gold_ingot",
+ "forge:ingots/amethyst_bronze": "tconstruct:amethyst_bronze_ingot",
+ "forge:ingots/fiery": "twilightforest:fiery_ingot",
+ "forge:ingots/ironwood": "twilightforest:ironwood_ingot",
+ "forge:ingots/knightmetal": "twilightforest:knightmetal_ingot",
+ "forge:ingots/steeleaf": "twilightforest:steeleaf_ingot",
+ "modulargolems:cardboard": "create:cardboard",
+ "modulargolems:sculk_materials": "minecraft:echo_shard"
+}
