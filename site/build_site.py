@@ -521,6 +521,26 @@ def composite_textures(srcs, dest):
     return True
 
 
+def resize_png_nearest(src_bytes, size):
+    """Nearest-neighbor downscale of a square RGBA PNG to `size`x`size`.
+    Returns the PNG bytes, or None if the source can't be decoded."""
+    img = _png_rgba(src_bytes)
+    if img is None:
+        return None
+    w, h, rows = img
+    if w != h or w == 0:
+        return None
+    out_rows = []
+    for y in range(size):
+        sy = min(h - 1, y * h // size)
+        row = bytearray()
+        for x in range(size):
+            sx = min(w - 1, x * w // size)
+            row += rows[sy][sx * 4:sx * 4 + 4]
+        out_rows.append(bytes(row))
+    return _write_png_rgba(size, size, out_rows)
+
+
 def dog_armor_composite(path):
     """Dog golem armor renders two layered textures (layer0 = collar, layer1 =
     wolf armor). Composite them into a single icon texture."""
@@ -1515,6 +1535,11 @@ def main():
                 dest = OUT / "assets/tex" / rel
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 copy_texture(f, dest)
+
+    favicon_src = VENDOR_TEX / "modulargolems/item/metal_golem_holder.png"
+    favicon = resize_png_nearest(favicon_src.read_bytes(), 64) if favicon_src.is_file() else None
+    if favicon is not None:
+        (OUT / "favicon.png").write_bytes(favicon)
 
     RECIPE_BY_ID, RECIPE_BY_RESULT = load_recipe_index()
 
