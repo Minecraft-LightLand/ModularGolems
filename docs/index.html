@@ -7,12 +7,12 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<nav class="topnav"><a class="" href="index.html">Modular Golems</a><a class="" href="book/en/index.html">Guide</a><a class="" href="materials/en/index.html">Materials</a><a class="" href="items/en/index.html">Items</a><span class="spacer"></span><a class="lang" href="index.html" title="Switch language / 切换语言">中文</a></nav>
+<nav class="topnav"><a class="" href="index.html">Modular Golems</a><a class="" href="book/en/index.html">Guide</a><a class="" href="materials/en/index.html">Materials</a><a class="" href="items/en/index.html">Items</a><span class="spacer"></span><label class="vswitch"><span class="vsr">Version</span><select class="vselect" data-current="1.20.1" aria-label="Mod version"><option value="1.19.2">MC 1.19.2</option><option value="1.19.4">MC 1.19.4</option><option value="1.20.1" selected>MC 1.20.1</option><option value="1.21.1">MC 1.21.1</option><option value="26.1.2">MC 26.1.2</option></select></label><a class="lang" data-lang="zh" href="zh.html" title="Switch language / 切换语言">中文</a></nav>
 
 <div class="hero">
   <img class="bookhero" src="assets/tex/item/book.png" alt="">
-  <h1>Modular Golems</h1>
-  <p class="lead">Welcome to a Tinker-like golem assembly and upgrade mod for Minecraft 1.20.1 (Forge).</p>
+  <h1>Welcome to Modular Golems</h1>
+  <p class="lead">A Tinker-like golem assembly and upgrade mod for Minecraft 1.20.1 (Forge): craft golems from materials, give them upgrades, equipment and personalities.</p>
   <div class="statline">
     <span><b>55</b> materials</span>
     <span><b>128</b> guide entries</span>
@@ -40,5 +40,46 @@
   </div>
   <p class="hint">This site is generated from the mod's own data — <code>site/build_site.py</code> writes <code>docs/</code>. Regenerate it after changing the book, materials or items.</p>
 </div>
+<script>
+(function(){
+  var pref=null;
+  try{ pref=localStorage.getItem('mg_lang'); }catch(e){}
+  if (pref === 'zh') { location.replace('zh.html'); return; }
+  if (pref === 'en') return;
+  var l=(navigator.language||'').toLowerCase();
+  if (l.indexOf('zh')===0) location.replace('zh.html');
+})();
+</script>
 <footer class="pagefoot"><div class="wrap">Generated from the ModularGolems source. Not affiliated with Mojang. View on GitHub — Minecraft-LightLand/ModularGolems</div></footer>
+<script>
+(function(){
+  var sel=document.querySelector('.vselect');
+  var DATA_CURRENT='1.20.1';
+  var langEls=document.querySelectorAll('a.lang');
+  for (var i=0;i<langEls.length;i++){
+    langEls[i].addEventListener('click',function(){
+      try{ localStorage.setItem('mg_lang', this.getAttribute('data-lang')); }catch(e){}
+    });
+  }
+  function setV(v){
+    var prev=window.MG_VERSION;
+    window.MG_VERSION=v;
+    if(prev!==v) window.dispatchEvent(new CustomEvent('mg-version',{detail:v}));
+  }
+  var m=location.search.match(/[?&]v=([^&]+)/);
+  var v=m?decodeURIComponent(m[1]):null;
+  if(!v){ try{ var s=localStorage.getItem('mg_version'); if(s) v=s; }catch(e){} }
+  if(!v || (sel && !sel.querySelector('option[value="'+v+'"]'))) v=DATA_CURRENT;
+  if(sel){
+    sel.value=v;
+    sel.addEventListener('change',function(){
+      var nv=sel.value;
+      try{ localStorage.setItem('mg_version',nv); }catch(e){}
+      if(history.replaceState) history.replaceState(null,'','?v='+encodeURIComponent(nv));
+      setV(nv);
+    });
+  }
+  setV(v);
+})();
+</script>
 </body></html>

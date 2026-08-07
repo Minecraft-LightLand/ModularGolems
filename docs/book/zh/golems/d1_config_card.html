@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,38 @@
 <link rel="stylesheet" href="../../../css/style.css">
 </head>
 <body>
-<nav class="topnav"><a class="" href="../../../index.html">模块化傀儡</a><a class="active" href="../../../book/zh/index.html">指南</a><a class="" href="../../../materials/zh/index.html">材料</a><a class="" href="../../../items/zh/index.html">物品</a><span class="spacer"></span><a class="lang" href="../../../book/en/golems/d1_config_card.html" title="Switch language / 切换语言">EN</a></nav>
+<nav class="topnav"><a class="" href="../../../zh.html">模块化傀儡</a><a class="active" href="../../../book/zh/index.html">指南</a><a class="" href="../../../materials/zh/index.html">材料</a><a class="" href="../../../items/zh/index.html">物品</a><span class="spacer"></span><label class="vswitch"><span class="vsr">Version</span><select class="vselect" data-current="1.20.1" aria-label="Mod version"><option value="1.19.2">MC 1.19.2</option><option value="1.19.4">MC 1.19.4</option><option value="1.20.1" selected>MC 1.20.1</option><option value="1.21.1">MC 1.21.1</option><option value="26.1.2">MC 26.1.2</option></select></label><a class="lang" data-lang="en" href="../../../book/en/golems/d1_config_card.html" title="Switch language / 切换语言">EN</a></nav>
 <div class="wrap"><nav class="breadcrumb"><a href="../../../book/zh/index.html">Guide</a> / <a href="../../../book/zh/index.html#golems">golems</a> / 配置卡</nav><header class="bookhead"><img class="itemimg" width="40" height="40" loading="lazy" src="../../../assets/tex/modulargolems/item/card/white.png" alt="配置卡片白色" title="配置卡片白色"><h1>配置卡</h1></header><div class="pages"><section class="page"><div class="spotlight"><div class="pageicon"><span class="slot named" title="modulargolems:white_config_card"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/white.png" alt="配置卡片白色" title="配置卡片白色"><span class="slotname">配置卡片白色</span></span></div>右键傀儡设置配置卡，再次右键移除。副手持有时，手杖只对持有相同配置卡的傀儡生效。<br><br>重命名物品并右键可以把配置名字设为物品名字。相同所有者且相同颜色的配置卡共享其中的配置。</div></section><section class="page">在配置界面中，放入傀儡可以让傀儡绑定此配置。你可以选择傀儡被召唤时的行动模式，也可以选择傀儡将会被召唤到指向地点还是上次收回的地点。<br><br>注意如果收回的地点在64格以外则不会生效，且如果默认模式是跟随，则还是会在指向地点召唤。</section><section class="page">你也可以锁定傀儡交互，以避免不小心把傀儡拾起或者换掉装备。这时副手拿卡片也没用。如果卡片不小心弄丢了，可以做个同色的来解锁傀儡。<br><br>你也可以配置拾取升级的物品过滤器，以避免傀儡拾取不想要的物品或者不小心销毁重要物品。</section><section class="page"><div class="spotlight"><div class="pageicon"><span class="slot named" title="modulargolems:target_filter_type"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/type.png" alt="生物过滤器: 实体类型" title="生物过滤器: 实体类型"><span class="slotname">生物过滤器: 实体类型</span></span><span class="slot named" title="modulargolems:target_filter_uuid"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/uuid.png" alt="生物过滤器: 实体ID" title="生物过滤器: 实体ID"><span class="slotname">生物过滤器: 实体ID</span></span><span class="slot named" title="modulargolems:target_filter_name"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/name.png" alt="生物过滤器: 数据包格式" title="生物过滤器: 数据包格式"><span class="slotname">生物过滤器: 数据包格式</span></span><span class="slot named" title="modulargolems:target_filter_default"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/default.png" alt="生物过滤器: 默认攻击目标" title="生物过滤器: 默认攻击目标"><span class="slotname">生物过滤器: 默认攻击目标</span></span></div>你可以配置傀儡的主动攻击目标和友好列表。友好列表内的生物不会被攻击，也不会被误伤，主动攻击目标内的生物会被主动攻击，其他生物只有试图攻击傀儡和玩家的时候才会被攻击。<br><br>初始配置中存在默认攻击配置。你可以移除它们并放入你自己的配置，以允许傀儡攻击其他傀儡和其他玩家</div></section><section class="page"><div class="spotlight"><div class="pageicon"><span class="slot named" title="modulargolems:patrol_path_recorder"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/path.png" alt="巡逻手册" title="巡逻手册"><span class="slotname">巡逻手册</span></span></div>你可以配置傀儡在固定移动路线模式下的移动路径。手持巡逻手册右键方块记录路径。<br><br>路径点之间的距离不能超过16，超过的路径会标红，且傀儡可能会直接传送到终点。<br><br>固定移动路径模式下的傀儡发现攻击目标的时候会偏移路径进行战斗。</div></section></div><nav class="pager"><a class="prev" href="../../../book/zh/golems/c5_squad_wand.html">← 编队手杖</a><a class="next" href="../../../book/zh/golems/d2_golem_facade.html">→ 傀儡皮肤</a></nav></div>
 <footer class="pagefoot"><div class="wrap">Generated from the ModularGolems source. Not affiliated with Mojang. View on GitHub — Minecraft-LightLand/ModularGolems</div></footer>
+<script>
+(function(){
+  var sel=document.querySelector('.vselect');
+  var DATA_CURRENT='1.20.1';
+  var langEls=document.querySelectorAll('a.lang');
+  for (var i=0;i<langEls.length;i++){
+    langEls[i].addEventListener('click',function(){
+      try{ localStorage.setItem('mg_lang', this.getAttribute('data-lang')); }catch(e){}
+    });
+  }
+  function setV(v){
+    var prev=window.MG_VERSION;
+    window.MG_VERSION=v;
+    if(prev!==v) window.dispatchEvent(new CustomEvent('mg-version',{detail:v}));
+  }
+  var m=location.search.match(/[?&]v=([^&]+)/);
+  var v=m?decodeURIComponent(m[1]):null;
+  if(!v){ try{ var s=localStorage.getItem('mg_version'); if(s) v=s; }catch(e){} }
+  if(!v || (sel && !sel.querySelector('option[value="'+v+'"]'))) v=DATA_CURRENT;
+  if(sel){
+    sel.value=v;
+    sel.addEventListener('change',function(){
+      var nv=sel.value;
+      try{ localStorage.setItem('mg_version',nv); }catch(e){}
+      if(history.replaceState) history.replaceState(null,'','?v='+encodeURIComponent(nv));
+      setV(nv);
+    });
+  }
+  setV(v);
+})();
+</script>
 </body></html>

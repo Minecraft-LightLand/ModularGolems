@@ -7,7 +7,38 @@
 <link rel="stylesheet" href="../../../css/style.css">
 </head>
 <body>
-<nav class="topnav"><a class="" href="../../../index.html">Modular Golems</a><a class="active" href="../../../book/en/index.html">Guide</a><a class="" href="../../../materials/en/index.html">Materials</a><a class="" href="../../../items/en/index.html">Items</a><span class="spacer"></span><a class="lang" href="../../../book/zh/golems/d1_config_card.html" title="Switch language / 切换语言">中文</a></nav>
+<nav class="topnav"><a class="" href="../../../index.html">Modular Golems</a><a class="active" href="../../../book/en/index.html">Guide</a><a class="" href="../../../materials/en/index.html">Materials</a><a class="" href="../../../items/en/index.html">Items</a><span class="spacer"></span><label class="vswitch"><span class="vsr">Version</span><select class="vselect" data-current="1.20.1" aria-label="Mod version"><option value="1.19.2">MC 1.19.2</option><option value="1.19.4">MC 1.19.4</option><option value="1.20.1" selected>MC 1.20.1</option><option value="1.21.1">MC 1.21.1</option><option value="26.1.2">MC 26.1.2</option></select></label><a class="lang" data-lang="zh" href="../../../book/zh/golems/d1_config_card.html" title="Switch language / 切换语言">中文</a></nav>
 <div class="wrap"><nav class="breadcrumb"><a href="../../../book/en/index.html">Guide</a> / <a href="../../../book/en/index.html#golems">golems</a> / Config Card</nav><header class="bookhead"><img class="itemimg" width="40" height="40" loading="lazy" src="../../../assets/tex/modulargolems/item/card/white.png" alt="White Config Card" title="White Config Card"><h1>Config Card</h1></header><div class="pages"><section class="page"><div class="spotlight"><div class="pageicon"><span class="slot named" title="modulargolems:white_config_card"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/white.png" alt="White Config Card" title="White Config Card"><span class="slotname">White Config Card</span></span></div>Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.<br><br>Rename the item and right click to set the item name as config name. All card from the same owner and same color are in fact the same config.</div></section><section class="page">In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.<br><br>Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode.</section><section class="page">You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. <br><br>You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables.</section><section class="page"><div class="spotlight"><div class="pageicon"><span class="slot named" title="modulargolems:target_filter_type"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/type.png" alt="Target Filter: Entity Type" title="Target Filter: Entity Type"><span class="slotname">Target Filter: Entity Type</span></span><span class="slot named" title="modulargolems:target_filter_uuid"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/uuid.png" alt="Target Filter: Entity UUID" title="Target Filter: Entity UUID"><span class="slotname">Target Filter: Entity UUID</span></span><span class="slot named" title="modulargolems:target_filter_name"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/name.png" alt="Target Filter: Datapack" title="Target Filter: Datapack"><span class="slotname">Target Filter: Datapack</span></span><span class="slot named" title="modulargolems:target_filter_default"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/default.png" alt="Target Filter: Default Target" title="Target Filter: Default Target"><span class="slotname">Target Filter: Default Target</span></span></div>You can configure golem attack targets. The hostile target list contains targets golems will actively attack. The friendly target list containers targets golems will never attack.<br><br>There are default cards but you can remove them and insert your own, so that you can use golems to fight other golems or other players.</div></section><section class="page"><div class="spotlight"><div class="pageicon"><span class="slot named" title="modulargolems:patrol_path_recorder"><img class="itemimg" width="32" height="32" loading="lazy" src="../../../assets/tex/modulargolems/item/card/path.png" alt="Patrol Path Recorder" title="Patrol Path Recorder"><span class="slotname">Patrol Path Recorder</span></span></div>You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking blocks with it.<br><br>Blocks have to be less than 16 blocks apart. Longer paths is marked in red and may result in golems teleporting to destination. <br><br>The path is for guidance only. Golem will not always step on the exact block.</div></section></div><nav class="pager"><a class="prev" href="../../../book/en/golems/c5_squad_wand.html">← Squad Wand</a><a class="next" href="../../../book/en/golems/d2_golem_facade.html">→ Golem Facade</a></nav></div>
 <footer class="pagefoot"><div class="wrap">Generated from the ModularGolems source. Not affiliated with Mojang. View on GitHub — Minecraft-LightLand/ModularGolems</div></footer>
+<script>
+(function(){
+  var sel=document.querySelector('.vselect');
+  var DATA_CURRENT='1.20.1';
+  var langEls=document.querySelectorAll('a.lang');
+  for (var i=0;i<langEls.length;i++){
+    langEls[i].addEventListener('click',function(){
+      try{ localStorage.setItem('mg_lang', this.getAttribute('data-lang')); }catch(e){}
+    });
+  }
+  function setV(v){
+    var prev=window.MG_VERSION;
+    window.MG_VERSION=v;
+    if(prev!==v) window.dispatchEvent(new CustomEvent('mg-version',{detail:v}));
+  }
+  var m=location.search.match(/[?&]v=([^&]+)/);
+  var v=m?decodeURIComponent(m[1]):null;
+  if(!v){ try{ var s=localStorage.getItem('mg_version'); if(s) v=s; }catch(e){} }
+  if(!v || (sel && !sel.querySelector('option[value="'+v+'"]'))) v=DATA_CURRENT;
+  if(sel){
+    sel.value=v;
+    sel.addEventListener('change',function(){
+      var nv=sel.value;
+      try{ localStorage.setItem('mg_version',nv); }catch(e){}
+      if(history.replaceState) history.replaceState(null,'','?v='+encodeURIComponent(nv));
+      setV(nv);
+    });
+  }
+  setV(v);
+})();
+</script>
 </body></html>

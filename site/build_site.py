@@ -148,6 +148,82 @@ SOURCE_NAMES = {
     },
 }
 
+# Version this build is generated for. The list mirrors the repo's version
+# branches. Per-version supported compat mods are parsed from each branch's
+# CompatManager.register() (see compat_mods_for), not hardcoded here.
+BUILD_VERSION = "1.20.1"
+PAGES_ROOT = "https://minecraft-lightland.github.io/ModularGolems/"
+VERSIONS = [
+    {"label": "1.19.2", "branch": "1.19"},
+    {"label": "1.19.4", "branch": "1.19.4"},
+    {"label": "1.20.1", "branch": "1.20"},
+    {"label": "1.21.1", "branch": "1.21"},
+    {"label": "26.1.2", "branch": "26.1"},
+]
+
+
+def current_version():
+    for v in VERSIONS:
+        if v["label"] == BUILD_VERSION:
+            return v
+    raise ValueError(f"unknown BUILD_VERSION {BUILD_VERSION}")
+
+
+# dispatch class -> material config namespace, mirrored from each *Dispatch.java
+DISPATCH_MODID = {
+    "BotDispatch": "botania",
+    "TFDispatch": "twilightforest",
+    "CreateDispatch": "create",
+    "LCDispatch": "l2complements",
+    "BGDispatch": "blazegear",
+    "LHDispatch": "l2hostility",
+    "CataDispatch": "cataclysm",
+    "ACDispatch": "alexscaves",
+    "IAFDispatch": "iceandfire",
+    "TCDispatch": "tconstruct",
+    "GoetyDispatch": "goety",
+    "GRDispatch": "goety_revelation",
+    "MowzieDispatch": "mowziesmobs",
+    "LMDispatch": "legendary_monsters",
+    "ATMDispatch": "allthemodium",
+    "CMDispatch": "composite_material",
+}
+COMPAT_FILE = "src/main/java/dev/xkmc/modulargolems/compat/materials/common/CompatManager.java"
+UNIVERSAL_NS = {"modulargolems", "minecraft"}
+
+
+def branch_compat_text(branch):
+    """CompatManager.java content for a version branch (working tree for current)."""
+    if branch == current_version()["branch"]:
+        p = ROOT / COMPAT_FILE
+        if p.is_file():
+            return p.read_text(encoding="utf-8")
+    import subprocess
+    for ref in (f"origin/{branch}", branch):
+        r = subprocess.run(["git", "show", f"{ref}:{COMPAT_FILE}"],
+                           capture_output=True, text=True)
+        if r.returncode == 0 and r.stdout.strip():
+            return r.stdout
+    return None
+
+
+def compat_mods_for(branch):
+    """Supported compat namespaces, from active (non-commented) dispatches in
+    the branch's CompatManager.register(). Commented-out calls are ignored, so
+    e.g. 26.1 (all commented) yields no compat mods."""
+    text = branch_compat_text(branch)
+    if text is None:
+        return []
+    mods = set()
+    for ln in text.splitlines():
+        if "//" in ln:
+            ln = ln.split("//", 1)[0]
+        m = re.search(r"new\s+(\w+Dispatch)\s*\(", ln)
+        if m and m.group(1) in DISPATCH_MODID:
+            mods.add(DISPATCH_MODID[m.group(1)])
+    return sorted(mods)
+
+
 STAT_INFO = {
     "max_health": {"en": "Max Health", "zh": "最大生命值", "kind": "BASE"},
     "attack": {"en": "Attack Damage", "zh": "攻击伤害", "kind": "BASE"},
@@ -192,14 +268,16 @@ def fmt_stat(stat_id, val, lang):
 
 assets_root = lambda: ""
 book_root = lambda: ""
+data_root = lambda: ""
 
 
 def _set_roots(page_rel):
-    global assets_root, book_root
+    global assets_root, book_root, data_root
     depth = len(Path(page_rel).parts) - 1
     prefix = "../" * depth
     assets_root = lambda: prefix + "assets/"
     book_root = lambda: prefix + "book/"
+    data_root = lambda: prefix + "data/"
 
 
 # ---------------------------------------------------------------------------
@@ -607,8 +685,9 @@ FOOTER = ("Generated from the ModularGolems source. Not affiliated with Mojang. 
 
 def nav_html(root, lang, active, page_rel):
     lbl = NAV_LABELS[lang]
+    brand_href = "index.html" if lang == "en" else "zh.html"
     links = [
-        ("index.html", SITE_TITLES[lang], "brand"),
+        (brand_href, SITE_TITLES[lang], "brand"),
         (f"book/{lang}/index.html", lbl["guide"], "guide"),
         (f"materials/{lang}/index.html", lbl["materials"], "materials"),
         (f"items/{lang}/index.html", lbl["items"], "items"),
@@ -618,22 +697,38 @@ def nav_html(root, lang, active, page_rel):
         cls = "active" if key == active else ""
         buf.append(f'<a class="{cls}" href="{root}{href}">{esc(txt)}</a>')
     buf.append('<span class="spacer"></span>')
+    buf.append(version_switch_html())
     buf.append(lang_switch_html(root, lang, page_rel))
     buf.append("</nav>")
     return "".join(buf)
 
 
+def version_switch_html():
+    opts = []
+    for v in VERSIONS:
+        sel = " selected" if v["label"] == BUILD_VERSION else ""
+        opts.append(f'<option value="{esc(v["label"])}"{sel}>MC {esc(v["label"])}</option>')
+    return ('<label class="vswitch"><span class="vsr">Version</span>'
+            f'<select class="vselect" data-current="{esc(BUILD_VERSION)}" aria-label="Mod version">'
+            + "".join(opts) + "</select></label>")
+
+
 def lang_switch_html(root, lang, page_rel):
-    other = "zh" if lang == "en" else "en"
-    other_rel = page_rel.replace(f"/{lang}/", f"/{other}/", 1)
+    if page_rel in ("index.html", "zh.html"):
+        other = "zh" if lang == "en" else "en"
+        other_rel = "zh.html" if lang == "en" else "index.html"
+    else:
+        other = "zh" if lang == "en" else "en"
+        other_rel = page_rel.replace(f"/{lang}/", f"/{other}/", 1)
     label = "中文" if lang == "en" else "EN"
-    return f'<a class="lang" href="{root}{other_rel}" title="Switch language / 切换语言">{esc(label)}</a>'
+    return (f'<a class="lang" data-lang="{other}" href="{root}{other_rel}" '
+            f'title="Switch language / 切换语言">{esc(label)}</a>')
 
 
 def render_page(page_rel, title, lang, active, body):
     root = "../" * (len(Path(page_rel).parts) - 1)
     return f"""<!doctype html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -644,6 +739,37 @@ def render_page(page_rel, title, lang, active, body):
 {nav_html(root, lang, active, page_rel)}
 {body}
 <footer class="pagefoot"><div class="wrap">{esc(FOOTER)}</div></footer>
+<script>
+(function(){{
+  var sel=document.querySelector('.vselect');
+  var DATA_CURRENT='{BUILD_VERSION}';
+  var langEls=document.querySelectorAll('a.lang');
+  for (var i=0;i<langEls.length;i++){{
+    langEls[i].addEventListener('click',function(){{
+      try{{ localStorage.setItem('mg_lang', this.getAttribute('data-lang')); }}catch(e){{}}
+    }});
+  }}
+  function setV(v){{
+    var prev=window.MG_VERSION;
+    window.MG_VERSION=v;
+    if(prev!==v) window.dispatchEvent(new CustomEvent('mg-version',{{detail:v}}));
+  }}
+  var m=location.search.match(/[?&]v=([^&]+)/);
+  var v=m?decodeURIComponent(m[1]):null;
+  if(!v){{ try{{ var s=localStorage.getItem('mg_version'); if(s) v=s; }}catch(e){{}} }}
+  if(!v || (sel && !sel.querySelector('option[value="'+v+'"]'))) v=DATA_CURRENT;
+  if(sel){{
+    sel.value=v;
+    sel.addEventListener('change',function(){{
+      var nv=sel.value;
+      try{{ localStorage.setItem('mg_version',nv); }}catch(e){{}}
+      if(history.replaceState) history.replaceState(null,'','?v='+encodeURIComponent(nv));
+      setV(nv);
+    }});
+  }}
+  setV(v);
+}})();
+</script>
 </body></html>"""
 
 
@@ -673,6 +799,10 @@ a:hover{color:var(--accent2)}
 .topnav a.active{color:#fff;background:var(--panel2)}
 .topnav .spacer{flex:1}
 .topnav a.lang{border:1px solid var(--line);font-size:13px}
+.topnav .vswitch{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:4px 8px}
+.topnav .vsr{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.topnav .vselect{background:transparent;border:none;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;outline:none}
+.topnav .vselect option{background:var(--panel2);color:var(--text)}
 .pagefoot{padding:28px 20px;margin-top:48px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}
 
 h1{font-size:34px;margin:8px 0 6px}
@@ -741,9 +871,12 @@ h2{font-size:22px;margin:26px 0 10px;color:var(--accent2)}
 .entries img{width:24px;height:24px;image-rendering:pixelated}
 .entries .en{color:var(--muted);font-size:11px;margin-left:auto}
 
-.matnav{position:sticky;top:52px;display:flex;gap:8px;flex-wrap:wrap;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);z-index:40}
-.matnav a{font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:5px 12px;border-radius:999px}
-.matnav a:hover{color:var(--accent);border-color:var(--accent)}
+.matnav{position:sticky;top:52px;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);z-index:40}
+.matnav summary{cursor:pointer;font-size:13px;color:var(--muted);display:inline-block;background:var(--panel);border:1px solid var(--line);padding:6px 14px;border-radius:999px;user-select:none}
+.matnav summary:hover{color:var(--accent);border-color:var(--accent)}
+.matnavpills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.matnavpills a{font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:5px 12px;border-radius:999px}
+.matnavpills a:hover{color:var(--accent);border-color:var(--accent)}
 .matsource{margin:28px 0 6px;scroll-margin-top:120px}
 .matsource h2{display:flex;align-items:center;gap:12px;margin:0 0 4px}
 .matgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin:14px 0}
@@ -769,14 +902,16 @@ code{background:rgba(255,255,255,.07);border-radius:5px;padding:1px 6px;font-siz
 .searchbar:focus{outline:none;border-color:var(--accent)}
 .itemcat{margin:26px 0}
 .itemcat h2{border-bottom:1px solid var(--line);padding-bottom:8px}
-.itemgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:12px 0}
+.itemgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:12px 0}
 .itemcell{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
 .itemcell:hover{border-color:var(--accent)}
-.itemcell .slot{width:56px;height:56px;margin:0 auto;background:#0a0e14}
+.itemcell .slot{width:56px;height:56px;margin:0 auto;background:#0a0e14;position:relative}
 .itemcell .itemimg{width:40px;height:40px}
+.itemcell .arrow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:40px;height:40px;image-rendering:pixelated}
 .itemcell figcaption{margin-top:8px;font-size:12px;line-height:1.3;color:var(--text);word-break:break-word}
 .itemcell figcaption small{display:block;color:var(--muted);font-size:10px}
 .itemcell figure{margin:0}
+.upgradesub{grid-column:1/-1;font-size:13px;color:var(--accent);font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px;margin-top:8px}
 """
 
 
@@ -812,6 +947,83 @@ def material_display_name(mid, lang):
     return LANG[lang].get(f"golem_material.{ns}.{path}") or path
 
 
+# ---------------------------------------------------------------------------
+# version-aware filtering (materials/items only valid for the current version)
+# ---------------------------------------------------------------------------
+
+def supported_mods():
+    """Namespaces backed by actual material configs in this build."""
+    return {d["ns"] for d in load_materials().values()}
+
+
+def is_supported(ns):
+    return ns == "modulargolems" or ns in supported_mods()
+
+
+def load_tag_items(tag_name):
+    f = SRC_GEN_DATA / "modulargolems/tags/items" / f"{tag_name}.json"
+    if not f.is_file():
+        return set()
+    out = set()
+    for v in load_json(f).get("values", []):
+        out.add(v["id"] if isinstance(v, dict) else v)
+    return out
+
+
+BLUE_UPGRADE_ITEMS = load_tag_items("blue_upgrades")
+PURPLE_UPGRADE_ITEMS = load_tag_items("potion_upgrades")
+
+
+def is_upgrade(pid):
+    """Upgrade items all ship a '_blue' variant model (see regUpgradeImpl)."""
+    return (MODEL_DIR / f"{pid}_blue.json").is_file()
+
+
+def upgrade_arrow(pid):
+    reg = f"modulargolems:{pid}"
+    if reg in BLUE_UPGRADE_ITEMS:
+        return "blue"
+    if reg in PURPLE_UPGRADE_ITEMS:
+        return "purple"
+    return None
+
+
+_SRC_MOD = {}
+
+
+def item_source_mod(pid):
+    """Namespace that owns an item's texture (from its model layer0)."""
+    if pid not in _SRC_MOD:
+        mt = model_layer0(pid)
+        _SRC_MOD[pid] = mt.split(":", 1)[0] if mt else "modulargolems"
+    return _SRC_MOD[pid]
+
+
+def all_item_pids():
+    return sorted({k.split(".")[-1] for k in LANG["en"] if k.startswith("item.modulargolems.")})
+
+
+def build_versions_json():
+    return {
+        "current": BUILD_VERSION,
+        "versions": [
+            {"label": v["label"], "branch": v["branch"], "mods": compat_mods_for(v["branch"])}
+            for v in VERSIONS
+        ],
+    }
+
+
+def build_items_json():
+    """Per-version item lists. An item exists in a version when its source mod
+    is supported there (CompatManager) or is a universal namespace."""
+    items = all_item_pids()
+    out = {"current": BUILD_VERSION}
+    for v in VERSIONS:
+        mods = set(compat_mods_for(v["branch"])) | UNIVERSAL_NS
+        out[v["label"]] = sorted(p for p in items if item_source_mod(p) in mods)
+    return out
+
+
 def modifier_info(mod_id, lang):
     ns, path = mod_id.split(":", 1)
     base = f"modifier.{ns}.{path}"
@@ -834,44 +1046,78 @@ def modifier_info(mod_id, lang):
 # page bodies
 # ---------------------------------------------------------------------------
 
-def build_index():
-    _set_roots("index.html")
+def build_index(lang="en"):
+    page_rel = "index.html" if lang == "en" else "zh.html"
+    _set_roots(page_rel)
     mats = len(load_materials())
     _, entries = load_book("en")
     items = len([k for k in LANG["en"] if k.startswith("item.modulargolems.")])
+    if lang == "en":
+        title = "Welcome to Modular Golems"
+        lead = ("A Tinker-like golem assembly and upgrade mod for Minecraft 1.20.1 (Forge): "
+                "craft golems from materials, give them upgrades, equipment and personalities.")
+        card_guide = ("Read the Guide", "Browse the in-game Patchouli guide on the web: golem types, tools, upgrades and every material entry.")
+        card_mats = ("Golem Materials", "Every material's stats, innate modifiers and craft/repair ingredient, grouped by source mod.")
+        card_items = ("Item List", "A searchable catalog of all items added by the mod. Items without a simple 2D sprite use a placeholder tile.")
+        hint = ("This site is generated from the mod's own data — <code>site/build_site.py</code> writes <code>docs/</code>. "
+                "Regenerate it after changing the book, materials or items.")
+        lang_label = "中文"
+        other_home = "zh.html"
+    else:
+        title = "欢迎来到模块化傀儡"
+        lead = ("一款类匠魂的傀儡组装与升级模组，适用于 Minecraft 1.20.1（Forge）："
+                "用材料组装傀儡，为它们装备升级、装备与个性。")
+        card_guide = ("阅读指南", "在线阅读游戏内 Patchouli 指南：傀儡类型、工具、升级与全部材料条目。")
+        card_mats = ("傀儡材料", "每种材料的属性、固有词条与合成/修复材料，按来源模组分组。")
+        card_items = ("物品列表", "模组注册的全部物品的可检索目录。没有简单 2D 贴图的物品使用占位图。")
+        hint = ("本站由模组自身数据生成——<code>site/build_site.py</code> 写入 <code>docs/</code>。"
+                "修改指南、材料或物品后请重新生成。")
+        lang_label = "EN"
+        other_home = "index.html"
     body = f"""
 <div class="hero">
   <img class="bookhero" src="assets/tex/item/book.png" alt="">
-  <h1>Modular Golems</h1>
-  <p class="lead">Welcome to a Tinker-like golem assembly and upgrade mod for Minecraft 1.20.1 (Forge).</p>
+  <h1>{title}</h1>
+  <p class="lead">{lead}</p>
   <div class="statline">
-    <span><b>{mats}</b> materials</span>
-    <span><b>{len(entries)}</b> guide entries</span>
-    <span><b>{items}</b> items</span>
-    <span><b>2</b> languages</span>
+    <span><b>{mats}</b> {"materials" if lang == "en" else "种材料"}</span>
+    <span><b>{len(entries)}</b> {"guide entries" if lang == "en" else "条指南条目"}</span>
+    <span><b>{items}</b> {"items" if lang == "en" else "个物品"}</span>
+    <span><b>2</b> {"languages" if lang == "en" else "种语言"}</span>
   </div>
 </div>
 <div class="wrap">
   <div class="cards">
-    <a class="card" href="book/en/index.html">
+    <a class="card" href="book/{lang}/index.html">
       <img class="icon" src="assets/tex/item/book.png" alt="">
-      <h3>Read the Guide</h3>
-      <p>Browse the in-game Patchouli guide on the web: golem types, tools, upgrades and every material entry.</p>
+      <h3>{card_guide[0]}</h3>
+      <p>{card_guide[1]}</p>
     </a>
-    <a class="card" href="materials/en/index.html">
+    <a class="card" href="materials/{lang}/index.html">
       <img class="icon" src="assets/tex/item/metal_golem_template.png" alt="">
-      <h3>Golem Materials</h3>
-      <p>Every material's stats, innate modifiers and craft/repair ingredient, grouped by source mod.</p>
+      <h3>{card_mats[0]}</h3>
+      <p>{card_mats[1]}</p>
     </a>
-    <a class="card" href="items/en/index.html">
+    <a class="card" href="items/{lang}/index.html">
       <img class="icon" src="assets/tex/item/summon_wand.png" alt="">
-      <h3>Item List</h3>
-      <p>A searchable catalog of all items added by the mod. Items without a simple 2D sprite use a placeholder tile.</p>
+      <h3>{card_items[0]}</h3>
+      <p>{card_items[1]}</p>
     </a>
   </div>
-  <p class="hint">This site is generated from the mod's own data — <code>site/build_site.py</code> writes <code>docs/</code>. Regenerate it after changing the book, materials or items.</p>
-</div>"""
-    return render_page("index.html", "Modular Golems", "en", "", body)
+  <p class="hint">{hint}</p>
+</div>
+<script>
+(function(){{
+  var pref=null;
+  try{{ pref=localStorage.getItem('mg_lang'); }}catch(e){{}}
+  if (pref === '{"zh" if lang == "en" else "en"}') {{ location.replace('{other_home}'); return; }}
+  if (pref === '{"en" if lang == "en" else "zh"}') return;
+  var l=(navigator.language||'').toLowerCase();
+  if (l.indexOf('{"zh" if lang == "en" else "en"}')===0) location.replace('{other_home}');
+}})();
+</script>"""
+    return render_page(page_rel, "Modular Golems" if lang == "en" else "模块化傀儡",
+                       lang, "", body)
 
 
 def build_book(lang):
@@ -995,7 +1241,7 @@ def build_book_all(lang, write_page):
 def build_materials(lang):
     page_rel = f"materials/{lang}/index.html"
     _set_roots(page_rel)
-    mats = load_materials()
+    mats = {mid: d for mid, d in load_materials().items() if d["ns"] in supported_mods()}
     by_ns = {}
     for mid, d in mats.items():
         by_ns.setdefault(d["ns"], []).append((mid, d))
@@ -1005,12 +1251,14 @@ def build_materials(lang):
     lead = ("Stats and innate modifiers for every golem material, as loaded from the mod's material configs."
             if lang == "en" else "每种傀儡材料的属性和固有词条，数据来自模组的材料配置。")
     parts = ['<div class="wrap">', "<h1>Golem Materials</h1>", f'<p class="lead">{lead}</p>']
-    parts.append('<nav class="matnav">')
+    ns_label = "Sources" if lang == "en" else "来源模组"
+    parts.append(f'<details class="matnav"><summary>{esc(ns_label)} ({len(ns_order)})</summary>')
+    parts.append('<div class="matnavpills">')
     for ns in ns_order:
-        parts.append(f'<a href="#ns-{esc(ns)}">{esc(SOURCE_NAMES[lang].get(ns, ns))}</a>')
-    parts.append("</nav>")
+        parts.append(f'<a href="#ns-{esc(ns)}" data-ns="{esc(ns)}">{esc(SOURCE_NAMES[lang].get(ns, ns))}</a>')
+    parts.append("</div></details>")
     for ns in ns_order:
-        parts.append(f'<section class="matsource" id="ns-{esc(ns)}"><h2>{esc(SOURCE_NAMES[lang].get(ns, ns))} <span class="misc">({len(by_ns[ns])})</span></h2></section>')
+        parts.append(f'<section class="matsource" data-ns="{esc(ns)}" id="ns-{esc(ns)}"><h2>{esc(SOURCE_NAMES[lang].get(ns, ns))} <span class="misc">({len(by_ns[ns])})</span></h2></section>')
         parts.append('<div class="matgrid">')
         for mid, d in by_ns[ns]:
             name = material_display_name(mid, lang)
@@ -1065,6 +1313,34 @@ def build_materials(lang):
                 f'</article>')
         parts.append("</div>")
     parts.append("</div>")
+    parts.append(f"""<script>
+(function(){{
+  var data=null, universal=['modulargolems','minecraft'];
+  function modsFor(v){{
+    if(!data)return null;
+    for(var i=0;i<data.versions.length;i++)
+      if(data.versions[i].label===v) return data.versions[i].mods;
+    return null;
+  }}
+  function apply(){{
+    var v=window.MG_VERSION||(data&&data.current)||'';
+    var mods=modsFor(v);
+    if(!mods)return;
+    document.querySelectorAll('.matsource').forEach(function(sec){{
+      var ns=sec.getAttribute('data-ns');
+      sec.style.display=(universal.indexOf(ns)>=0||mods.indexOf(ns)>=0)?'':'none';
+    }});
+    document.querySelectorAll('.matnavpills a').forEach(function(a){{
+      var ns=a.getAttribute('data-ns');
+      a.style.display=(universal.indexOf(ns)>=0||mods.indexOf(ns)>=0)?'':'none';
+    }});
+  }}
+  fetch('{data_root()}versions.json')
+    .then(function(r){{return r.json();}})
+    .then(function(j){{data=j;apply();}}).catch(function(){{}});
+  window.addEventListener('mg-version',apply);
+}})();
+</script>""")
     return render_page(page_rel, "Materials — Modular Golems", lang, "materials", "".join(parts))
 
 
@@ -1095,11 +1371,7 @@ def build_items(lang):
                    "magnetic_alloy", "magnetic_construct", "nuclear_construct", "storm_construct",
                    "void_construct", "wroughtnaut_ingot"):
             return "ingredients"
-        if pid in ("recycle", "diamond", "netherite", "quartz", "gold", "enchanted_gold", "float",
-                   "sponge", "swim", "player", "ender_sight", "bell", "speed", "slow", "weak", "wither",
-                   "emerald", "pickup", "pickup_mending", "pickup_no_destroy", "talented", "cauldron",
-                   "mount_upgrade", "size_upgrade", "fire_immune", "thunder_immune",
-                   "attack_high", "speed_high") or pid.endswith("_upgrade"):
+        if is_upgrade(pid) or pid.endswith("_upgrade"):
             return "upgrades"
         return "misc"
 
@@ -1115,7 +1387,29 @@ def build_items(lang):
     }
     grouped = {c: [] for c in CATS}
     for pid in item_ids:
+        if not is_supported(item_source_mod(pid)):
+            continue
         grouped[category(pid)].append(pid)
+
+    def item_cell(pid):
+        reg = f"modulargolems:{pid}"
+        rel, slug = resolve_icon(reg)
+        if rel:
+            src = f"{assets_root()}tex/{rel}"
+        else:
+            ensure_placeholder(slug)
+            src = f"{assets_root()}img/ph-{slug}.svg"
+        name = item_name(reg, lang)
+        hay = (name + " " + pid + " modulargolems").lower()
+        arrow = ""
+        a = upgrade_arrow(pid)
+        if a:
+            arrow = (f'<img class="arrow" src="{assets_root()}tex/item/{a}_arrow.png" '
+                     f'alt="" width="40" height="40">')
+        return (f'<figure class="itemcell" data-pid="{esc(pid)}" data-search="{esc(hay)}">'
+                f'<span class="slot">{arrow}<img class="itemimg" width="40" height="40" loading="lazy" src="{src}" '
+                f'alt="{esc(name)}" title="{esc(reg)}"></span>'
+                f'<figcaption>{esc(name)}<small>{esc(reg)}</small></figcaption></figure>')
     parts = ['<div class="wrap">', "<h1>Items</h1>",
              f'<p class="lead">{"All items registered by Modular Golems. Items whose in-game model is a 3D entity (holders, parts, facades) have no simple 2D sprite and are shown with a placeholder tile." if lang == "en" else "模块化傀儡注册的全部物品。游戏内使用 3D 实体模型的物品（傀儡持有物、部件、伪装）没有简单的 2D 贴图，使用占位贴图显示。"}</p>']
     parts.append('<input class="searchbar" id="q" type="search" placeholder="'
@@ -1124,42 +1418,62 @@ def build_items(lang):
         lst = grouped[c]
         if not lst:
             continue
-        lst.sort()
         label = CAT_LABEL[c][0 if lang == "en" else 1]
-        parts.append(f'<section class="itemcat"><h2>{esc(label)} <span class="misc">({len(lst)})</span></h2><div class="itemgrid">')
-        for pid in lst:
-            reg = f"modulargolems:{pid}"
-            rel, slug = resolve_icon(reg)
-            if rel:
-                src = f"{assets_root()}tex/{rel}"
-            else:
-                ensure_placeholder(slug)
-                src = f"{assets_root()}img/ph-{slug}.svg"
-            name = item_name(reg, lang)
-            hay = (name + " " + pid + " modulargolems").lower()
-            parts.append(
-                f'<figure class="itemcell" data-search="{esc(hay)}">'
-                f'<span class="slot"><img class="itemimg" width="40" height="40" loading="lazy" src="{src}" '
-                f'alt="{esc(name)}" title="{esc(reg)}"></span>'
-                f'<figcaption>{esc(name)}<small>{esc(reg)}</small></figcaption></figure>')
-        parts.append("</div></section>")
+        parts.append(f'<section class="itemcat"><h2>{esc(label)} <span class="misc">({len(lst)})</span></h2>')
+        if c == "upgrades":
+            by_mod = {}
+            for pid in lst:
+                by_mod.setdefault(item_source_mod(pid), []).append(pid)
+            order = sorted(by_mod.keys(), key=lambda ns: (ns != "modulargolems", SOURCE_NAMES[lang].get(ns, ns)))
+            for mns in order:
+                plist = sorted(by_mod[mns])
+                mlabel = SOURCE_NAMES[lang].get(mns, mns)
+                parts.append(f'<div class="itemgrid"><div class="upgradesub">'
+                             f'{esc(mlabel)} <span class="misc">({len(plist)})</span></div>')
+                for pid in plist:
+                    parts.append(item_cell(pid))
+                parts.append("</div>")
+        else:
+            lst.sort()
+            parts.append('<div class="itemgrid">')
+            for pid in lst:
+                parts.append(item_cell(pid))
+            parts.append("</div>")
+        parts.append("</section>")
     parts.append("</div>")
-    parts.append("""<script>
-(function(){
+    parts.append(f"""<script>
+(function(){{
   var q=document.getElementById('q');
-  if(!q)return;
-  q.addEventListener('input',function(){
-    var s=q.value.toLowerCase();
-    document.querySelectorAll('.itemcell').forEach(function(c){
-      c.style.display = c.getAttribute('data-search').indexOf(s) >= 0 ? '' : 'none';
-    });
-    document.querySelectorAll('.itemcat').forEach(function(g){
+  var data=null;
+  function apply(){{
+    var s=q?q.value.toLowerCase():'';
+    var v=window.MG_VERSION||(data&&data.current)||'';
+    var list=data?data[v]:null;
+    if(!list&&data)list=data[data.current];
+    var filtered=v&&data&&v!==data.current;
+    document.querySelectorAll('.itemcell').forEach(function(c){{
+      var show=true;
+      if(filtered&&list)show=list.indexOf(c.getAttribute('data-pid'))>=0;
+      if(show&&s)show=c.getAttribute('data-search').indexOf(s)>=0;
+      c.style.display=show?'':'none';
+    }});
+    document.querySelectorAll('.itemcat').forEach(function(g){{
       var any=false;
-      g.querySelectorAll('.itemcell').forEach(function(c){ if(c.style.display!=='none') any=true; });
-      g.style.display = any ? '' : 'none';
-    });
-  });
-})();
+      g.querySelectorAll('.itemgrid').forEach(function(gr){{
+        var anyIn=false;
+        gr.querySelectorAll('.itemcell').forEach(function(c){{ if(c.style.display!=='none')anyIn=true; }});
+        gr.style.display=anyIn?'':'none';
+        if(anyIn)any=true;
+      }});
+      g.style.display=any?'':'none';
+    }});
+  }}
+  fetch('{data_root()}items.json')
+    .then(function(r){{return r.json();}})
+    .then(function(j){{data=j;apply();}}).catch(function(){{apply();}});
+  window.addEventListener('mg-version',apply);
+  if(q)q.addEventListener('input',apply);
+}})();
 </script>""")
     return render_page(page_rel, "Items — Modular Golems", lang, "items", "".join(parts))
 
@@ -1196,12 +1510,19 @@ def main():
 
     RECIPE_BY_ID, RECIPE_BY_RESULT = load_recipe_index()
 
+    (OUT / "data").mkdir(parents=True, exist_ok=True)
+    (OUT / "data/versions.json").write_text(
+        json.dumps(build_versions_json(), indent=1), encoding="utf-8")
+    (OUT / "data/items.json").write_text(
+        json.dumps(build_items_json(), indent=1), encoding="utf-8")
+
     def write_page(page_rel, html):
         dest = OUT / page_rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_text(html, encoding="utf-8")
 
-    write_page("index.html", build_index())
+    write_page("index.html", build_index("en"))
+    write_page("zh.html", build_index("zh"))
     for lang in LANGS:
         write_page(f"book/{lang}/index.html", build_book(lang))
         build_book_all(lang, write_page)
