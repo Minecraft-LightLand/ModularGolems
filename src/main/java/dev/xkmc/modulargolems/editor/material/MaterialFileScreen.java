@@ -155,10 +155,6 @@ public class MaterialFileScreen extends EditorScreen {
 		@Override
 		public void onSelect(GolemType<?, ?> t) {
 			ResourceLocation id = t.getRegistryName();
-			screen.config.stats.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
-			screen.config.modifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
-			screen.config.ingredients.computeIfAbsent(id, k -> net.minecraft.world.item.crafting.Ingredient.EMPTY);
-			screen.session.dirty = true;
 			Minecraft.getInstance().setScreen(new MaterialEntryScreen(screen.config, id, screen, screen.session));
 		}
 

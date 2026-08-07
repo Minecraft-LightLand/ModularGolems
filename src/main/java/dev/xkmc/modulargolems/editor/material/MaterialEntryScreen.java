@@ -1,8 +1,6 @@
 package dev.xkmc.modulargolems.editor.material;
 
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
-import dev.xkmc.modulargolems.content.core.GolemStatType;
-import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.editor.base.DoubleMapScreen;
 import dev.xkmc.modulargolems.editor.base.EditorList;
 import dev.xkmc.modulargolems.editor.base.EditorScreen;
@@ -24,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,41 +61,57 @@ public class MaterialEntryScreen extends EditorScreen {
 		ItemStack repIcon = EditorUtil.ingredientIcon(rep);
 
 		entries.add(row(GolemEditorLang.INGREDIENT.get(), EditorUtil.ingredientText(ing), ingIcon,
-				() -> openIngredient(GolemEditorLang.INGREDIENT.get(), ing, x -> config.ingredients.put(id, x))));
+				() -> openIngredient(GolemEditorLang.INGREDIENT.get(), ing,
+						x -> setIngredient(config.ingredients, x))));
 		entries.add(row(GolemEditorLang.REPAIR.get(), EditorUtil.ingredientText(rep), repIcon,
-				() -> openIngredient(GolemEditorLang.REPAIR.get(), rep, x -> config.repairIngredients.put(id, x))));
-		entries.add(row(GolemEditorLang.STATS.get(statsMap().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.STATS.get(statsMap().size()),
-						statsMap(), GolemEditorUtil.listStats(), GolemEditorHandlers.STAT, MaterialEntryScreen.this, session))));
-		entries.add(row(GolemEditorLang.MODIFIERS.get(modMap().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new Obj2IntMapScreen<>(GolemEditorLang.MODIFIERS.get(modMap().size()),
-						modMap(), GolemEditorUtil.listModifiers(), GolemEditorHandlers.MODIFIER,
+				() -> openIngredient(GolemEditorLang.REPAIR.get(), rep,
+						x -> setIngredient(config.repairIngredients, x))));
+		entries.add(row(GolemEditorLang.STATS.get(statsCount()), null, null,
+				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.STATS.get(statsCount()),
+						config.stats.get(id), () -> config.stats.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>()),
+						GolemEditorUtil.listStats(), GolemEditorHandlers.STAT, MaterialEntryScreen.this, session))));
+		entries.add(row(GolemEditorLang.MODIFIERS.get(modCount()), null, null,
+				() -> Minecraft.getInstance().setScreen(new Obj2IntMapScreen<>(GolemEditorLang.MODIFIERS.get(modCount()),
+						config.modifiers.get(id), () -> config.modifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>()),
+						GolemEditorUtil.listModifiers(), GolemEditorHandlers.MODIFIER,
 						GolemEditorLang.SELECT_MODIFIER.get(), MaterialEntryScreen.this, session))));
-		entries.add(row(GolemEditorLang.LIMITATION.get(limitSet().size()), null, null,
-				() -> Minecraft.getInstance().setScreen(new ItemListScreen<>(GolemEditorLang.LIMITATION.get(limitSet().size()),
-						limitSet(), EditorUtil.listItems(), GolemEditorHandlers.ITEM,
+		entries.add(row(GolemEditorLang.LIMITATION.get(limitCount()), null, null,
+				() -> Minecraft.getInstance().setScreen(new ItemListScreen<>(GolemEditorLang.LIMITATION.get(limitCount()),
+						config.partLimitation.get(id), () -> config.partLimitation.computeIfAbsent(id, k -> new java.util.LinkedHashSet<>()),
+						EditorUtil.listItems(), GolemEditorHandlers.ITEM,
 						EditorText.SELECT_ITEM.get(), MaterialEntryScreen.this, session))));
 		list.setData(entries);
 	}
 
-	private static EditorList.Entry row(Component label, Component desc, ItemStack icon, Runnable onClick) {
+	private static EditorList.Entry row(Component label, @Nullable Component desc, @Nullable ItemStack icon, Runnable onClick) {
 		Component text = desc == null ? label : label.copy().append(Component.literal(":  ")).append(desc);
 		return new EditorList.Entry(text, icon, onClick);
 	}
 
-	private Map<GolemStatType, Double> statsMap() {
-		return config.stats.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
+	private int statsCount() {
+		var map = config.stats.get(id);
+		return map == null ? 0 : map.size();
 	}
 
-	private Map<GolemModifier, Integer> modMap() {
-		return config.modifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
+	private int modCount() {
+		var map = config.modifiers.get(id);
+		return map == null ? 0 : map.size();
 	}
 
-	private java.util.Set<net.minecraft.world.item.Item> limitSet() {
-		return config.partLimitation.computeIfAbsent(id, k -> new java.util.LinkedHashSet<>());
+	private int limitCount() {
+		var set = config.partLimitation.get(id);
+		return set == null ? 0 : set.size();
 	}
 
-	private void openIngredient(Component title, Ingredient current, java.util.function.Consumer<Ingredient> onSet) {
+	private void setIngredient(Map<ResourceLocation, Ingredient> map, Ingredient ing) {
+		if (ing.isEmpty()) {
+			map.remove(id);
+		} else {
+			map.put(id, ing);
+		}
+	}
+
+	private void openIngredient(Component title, @Nullable Ingredient current, java.util.function.Consumer<Ingredient> onSet) {
 		Minecraft.getInstance().setScreen(new IngredientScreen(title, current,
 				onSet, MaterialEntryScreen.this, session));
 	}

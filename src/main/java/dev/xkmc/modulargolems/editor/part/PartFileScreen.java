@@ -119,15 +119,17 @@ public class PartFileScreen extends EditorScreen {
 	}
 
 	private void editPart(Item part) {
-		var map = config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>());
+		var map = config.filters.get(part);
 		List<StatFilterType> cand = List.of(StatFilterType.values());
-		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.FILTERS.get(map.size()), map, cand,
-				GolemEditorHandlers.FILTER, PartFileScreen.this, session));
+		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.FILTERS.get(map == null ? 0 : map.size()),
+				map, () -> config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>()),
+				cand, GolemEditorHandlers.FILTER, PartFileScreen.this, session));
 	}
 
 	private void editEntity(ResourceLocation id) {
-		var map = config.magnifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>());
-		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.MAGNIFIERS.get(map.size()), map,
+		var map = config.magnifiers.get(id);
+		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.MAGNIFIERS.get(map == null ? 0 : map.size()),
+				map, () -> config.magnifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>()),
 				GolemEditorUtil.listStats(), GolemEditorHandlers.STAT, PartFileScreen.this, session));
 	}
 
@@ -175,8 +177,6 @@ public class PartFileScreen extends EditorScreen {
 
 		@Override
 		public void onSelect(Item t) {
-			screen.config.filters.computeIfAbsent(t, k -> new java.util.LinkedHashMap<>());
-			screen.session.dirty = true;
 			screen.editPart(t);
 		}
 
@@ -198,8 +198,6 @@ public class PartFileScreen extends EditorScreen {
 
 		@Override
 		public void onSelect(GolemType<?, ?> t) {
-			screen.config.magnifiers.computeIfAbsent(t.getRegistryName(), k -> new java.util.LinkedHashMap<>());
-			screen.session.dirty = true;
 			screen.editEntity(t.getRegistryName());
 		}
 

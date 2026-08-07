@@ -17,12 +17,13 @@ import java.util.function.Consumer;
 
 public class IngredientScreen extends EditorScreen {
 
+	@Nullable
 	private final Ingredient current;
 	private final Consumer<Ingredient> onSet;
 	private final Screen parent;
 	private final EditorSession session;
 
-	public IngredientScreen(Component title, Ingredient current, Consumer<Ingredient> onSet, Screen parent, EditorSession session) {
+	public IngredientScreen(Component title, @Nullable Ingredient current, Consumer<Ingredient> onSet, Screen parent, EditorSession session) {
 		super(title);
 		this.current = current;
 		this.onSet = onSet;

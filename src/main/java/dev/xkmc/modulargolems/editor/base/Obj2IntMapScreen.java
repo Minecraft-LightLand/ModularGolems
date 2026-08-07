@@ -9,8 +9,10 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class Obj2IntMapScreen<M> extends EditorScreen {
 
@@ -22,7 +24,9 @@ public class Obj2IntMapScreen<M> extends EditorScreen {
 
 	}
 
-	private final Map<M, Integer> map;
+	@Nullable
+	private Map<M, Integer> map;
+	private final Supplier<Map<M, Integer>> create;
 	private final List<M> candidates;
 	private final Handler<M> handler;
 	private final Component pickTitle;
@@ -35,16 +39,21 @@ public class Obj2IntMapScreen<M> extends EditorScreen {
 	private Button editBtn;
 	private Button removeBtn;
 
-	public Obj2IntMapScreen(Component title, Map<M, Integer> map, List<M> candidates,
-							 Handler<M> handler, Component pickTitle,
-							 Screen parent, EditorSession session) {
+	public Obj2IntMapScreen(Component title, @Nullable Map<M, Integer> map, Supplier<Map<M, Integer>> create,
+							List<M> candidates, Handler<M> handler, Component pickTitle,
+							Screen parent, EditorSession session) {
 		super(title);
 		this.map = map;
+		this.create = create;
 		this.candidates = candidates;
 		this.handler = handler;
 		this.pickTitle = pickTitle;
 		this.parent = parent;
 		this.session = session;
+	}
+
+	private Map<M, Integer> view() {
+		return map == null ? Collections.emptyMap() : map;
 	}
 
 	@Override
@@ -73,7 +82,7 @@ public class Obj2IntMapScreen<M> extends EditorScreen {
 	private void rebuild() {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
-		List<M> keys = new ArrayList<>(map.keySet());
+		List<M> keys = new ArrayList<>(view().keySet());
 		keys.sort((a, b) -> handler.label(a).getString().compareToIgnoreCase(handler.label(b).getString()));
 		for (M k : keys) {
 			order.add(k);
@@ -87,7 +96,7 @@ public class Obj2IntMapScreen<M> extends EditorScreen {
 	private List<M> remaining() {
 		List<M> remaining = new ArrayList<>();
 		for (M t : candidates) {
-			if (!map.containsKey(t)) {
+			if (!view().containsKey(t)) {
 				remaining.add(t);
 			}
 		}
@@ -119,7 +128,7 @@ public class Obj2IntMapScreen<M> extends EditorScreen {
 
 	private void promptLevel(M key) {
 		int max = handler.maxLevel(key);
-		int cur = map.getOrDefault(key, 1);
+		int cur = view().getOrDefault(key, 1);
 		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.LEVEL_RANGE.get(max), handler.label(key), "" + cur, s -> {
 			try {
 				int v = Integer.parseInt(s.trim());
@@ -131,6 +140,7 @@ public class Obj2IntMapScreen<M> extends EditorScreen {
 				return EditorText.INVALID_INT.get(max, s);
 			}
 		}, s -> {
+			if (map == null) map = create.get();
 			map.put(key, Integer.parseInt(s.trim()));
 			session.dirty = true;
 			Minecraft.getInstance().setScreen(Obj2IntMapScreen.this);
@@ -146,7 +156,7 @@ public class Obj2IntMapScreen<M> extends EditorScreen {
 	private void removeModifier() {
 		M key = selectedKey();
 		if (key == null) return;
-		map.remove(key);
+		if (map != null) map.remove(key);
 		session.dirty = true;
 		rebuild();
 	}

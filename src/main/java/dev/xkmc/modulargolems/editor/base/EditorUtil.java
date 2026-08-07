@@ -56,13 +56,13 @@ public class EditorUtil {
 	}
 
 	@Nullable
-	public static ItemStack ingredientIcon(Ingredient ing) {
+	public static ItemStack ingredientIcon(@Nullable Ingredient ing) {
 		if (ing == null || ing.isEmpty()) return null;
 		ItemStack[] items = ing.getItems();
 		return items.length == 0 ? null : items[0];
 	}
 
-	public static Component ingredientText(Ingredient ing) {
+	public static Component ingredientText(@Nullable Ingredient ing) {
 		if (ing == null || ing.isEmpty()) return Component.literal("-");
 		JsonElement elem = ing.toJson();
 		if (elem.isJsonObject()) {

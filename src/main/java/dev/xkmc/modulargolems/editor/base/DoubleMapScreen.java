@@ -9,9 +9,11 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class DoubleMapScreen<T> extends EditorScreen {
 
@@ -26,7 +28,9 @@ public class DoubleMapScreen<T> extends EditorScreen {
 
 	}
 
-	private final Map<T, Double> map;
+	@Nullable
+	private Map<T, Double> map;
+	private final Supplier<Map<T, Double>> create;
 	private final List<T> candidates;
 	private final Handler<T> handler;
 	private final Screen parent;
@@ -38,14 +42,19 @@ public class DoubleMapScreen<T> extends EditorScreen {
 	private Button editBtn;
 	private Button removeBtn;
 
-	public DoubleMapScreen(Component title, Map<T, Double> map, List<T> candidates,
-						   Handler<T> handler, Screen parent, EditorSession session) {
+	public DoubleMapScreen(Component title, @Nullable Map<T, Double> map, Supplier<Map<T, Double>> create,
+						   List<T> candidates, Handler<T> handler, Screen parent, EditorSession session) {
 		super(title);
 		this.map = map;
+		this.create = create;
 		this.candidates = candidates;
 		this.handler = handler;
 		this.parent = parent;
 		this.session = session;
+	}
+
+	private Map<T, Double> view() {
+		return map == null ? Collections.emptyMap() : map;
 	}
 
 	@Override
@@ -74,7 +83,7 @@ public class DoubleMapScreen<T> extends EditorScreen {
 	private void rebuild() {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
-		List<T> keys = new ArrayList<>(map.keySet());
+		List<T> keys = new ArrayList<>(view().keySet());
 		keys.sort((a, b) -> handler.label(a).getString().compareToIgnoreCase(handler.label(b).getString()));
 		for (T k : keys) {
 			order.add(k);
@@ -88,7 +97,7 @@ public class DoubleMapScreen<T> extends EditorScreen {
 	private List<T> remaining() {
 		List<T> remaining = new ArrayList<>();
 		for (T t : candidates) {
-			if (!map.containsKey(t)) {
+			if (!view().containsKey(t)) {
 				remaining.add(t);
 			}
 		}
@@ -119,7 +128,7 @@ public class DoubleMapScreen<T> extends EditorScreen {
 	}
 
 	private void promptValue(T key) {
-		double cur = map.getOrDefault(key, 0.0);
+		double cur = view().getOrDefault(key, 0.0);
 		Minecraft.getInstance().setScreen(new PromptScreen(EditorText.VALUE.get(), handler.label(key), format(cur), s -> {
 			try {
 				Double.parseDouble(s.trim());
@@ -128,6 +137,7 @@ public class DoubleMapScreen<T> extends EditorScreen {
 				return EditorText.INVALID_NUMBER.get(s);
 			}
 		}, s -> {
+			if (map == null) map = create.get();
 			map.put(key, Double.parseDouble(s.trim()));
 			session.dirty = true;
 			Minecraft.getInstance().setScreen(DoubleMapScreen.this);
@@ -143,7 +153,7 @@ public class DoubleMapScreen<T> extends EditorScreen {
 	private void removeValue() {
 		T key = selectedKey();
 		if (key == null) return;
-		map.remove(key);
+		if (map != null) map.remove(key);
 		session.dirty = true;
 		rebuild();
 	}

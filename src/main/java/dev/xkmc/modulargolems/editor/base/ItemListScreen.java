@@ -9,8 +9,10 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class ItemListScreen<T> extends EditorScreen {
 
@@ -23,7 +25,9 @@ public class ItemListScreen<T> extends EditorScreen {
 
 	}
 
-	private final Set<T> set;
+	@Nullable
+	private Set<T> set;
+	private final Supplier<Set<T>> create;
 	private final List<T> candidates;
 	private final Handler<T> handler;
 	private final Component pickTitle;
@@ -35,15 +39,20 @@ public class ItemListScreen<T> extends EditorScreen {
 	private Button addBtn;
 	private Button removeBtn;
 
-	public ItemListScreen(Component title, Set<T> set, List<T> candidates,
+	public ItemListScreen(Component title, @Nullable Set<T> set, Supplier<Set<T>> create, List<T> candidates,
 						  Handler<T> handler, Component pickTitle, Screen parent, EditorSession session) {
 		super(title);
 		this.set = set;
+		this.create = create;
 		this.candidates = candidates;
 		this.handler = handler;
 		this.pickTitle = pickTitle;
 		this.parent = parent;
 		this.session = session;
+	}
+
+	private Set<T> view() {
+		return set == null ? Collections.emptySet() : set;
 	}
 
 	@Override
@@ -66,7 +75,7 @@ public class ItemListScreen<T> extends EditorScreen {
 	private void rebuild() {
 		order.clear();
 		List<EditorList.Entry> entries = new ArrayList<>();
-		List<T> keys = new ArrayList<>(set);
+		List<T> keys = new ArrayList<>(view());
 		keys.sort((a, b) -> handler.label(a).getString().compareToIgnoreCase(handler.label(b).getString()));
 		for (T k : keys) {
 			order.add(k);
@@ -79,7 +88,7 @@ public class ItemListScreen<T> extends EditorScreen {
 	private List<T> remaining() {
 		List<T> remaining = new ArrayList<>();
 		for (T t : candidates) {
-			if (!set.contains(t)) {
+			if (!view().contains(t)) {
 				remaining.add(t);
 			}
 		}
@@ -124,6 +133,7 @@ public class ItemListScreen<T> extends EditorScreen {
 
 		@Override
 		public void onSelect(T t) {
+			if (screen.set == null) screen.set = screen.create.get();
 			screen.set.add(t);
 			screen.session.dirty = true;
 			Minecraft.getInstance().setScreen(screen);
@@ -134,7 +144,7 @@ public class ItemListScreen<T> extends EditorScreen {
 	private void removeItem() {
 		T item = selected();
 		if (item == null) return;
-		set.remove(item);
+		if (set != null) set.remove(item);
 		session.dirty = true;
 		rebuild();
 	}
