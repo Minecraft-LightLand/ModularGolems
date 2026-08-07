@@ -262,13 +262,20 @@ _MODEL_TEX = {}
 
 
 def model_layer0(path):
-    """Resolve an item's model layer0 texture id, e.g. 'twilightforest:item/equipments/...'."""
+    """Resolve an item's model layer0 texture id, e.g. 'twilightforest:item/equipments/...'.
+
+    For forge:separate_transforms models the inventory icon lives in the nested
+    gui perspective (perspectives.gui.textures.layer0), which is what the site
+    should show."""
     if path not in _MODEL_TEX:
         m = MODEL_DIR / f"{path}.json"
         tex = None
         if m.is_file():
             try:
-                tex = load_json(m).get("textures", {}).get("layer0")
+                d = load_json(m)
+                tex = d.get("textures", {}).get("layer0")
+                if tex is None:
+                    tex = d.get("perspectives", {}).get("gui", {}).get("textures", {}).get("layer0")
             except Exception:
                 tex = None
         _MODEL_TEX[path] = tex
@@ -998,6 +1005,12 @@ def all_item_pids():
     return sorted({k.split(".")[-1] for k in LANG["en"] if k.startswith("item.modulargolems.")})
 
 
+def is_hidden_item(pid):
+    """Items kept out of the public listing: dev/test dummy items and WIP
+    incomplete parts."""
+    return pid.startswith("dummy_") or pid.startswith("incomplete_")
+
+
 def build_versions_json():
     return {
         "current": BUILD_VERSION,
@@ -1011,7 +1024,7 @@ def build_versions_json():
 def build_items_json():
     """Per-version item lists, keyed off whether the item model file exists on
     that version branch (git ls-tree), not off texture attribution."""
-    items = all_item_pids()
+    items = [p for p in all_item_pids() if not is_hidden_item(p)]
     out = {"current": BUILD_VERSION}
     for v in VERSIONS:
         models = branch_item_models(v["branch"])
@@ -1127,7 +1140,7 @@ def build_index(lang="en"):
     _set_roots(page_rel)
     mats = len(load_materials())
     _, entries = load_book("en")
-    items = len([k for k in LANG["en"] if k.startswith("item.modulargolems.")])
+    items = len([p for p in all_item_pids() if not is_hidden_item(p)])
     title = tr("index_title", lang)
     lead = tr("index_lead", lang)
     card_guide = (tr("card_guide_title", lang), tr("card_guide_desc", lang))
@@ -1368,6 +1381,7 @@ def build_items(lang):
     page_rel = f"items/{lang}/index.html"
     _set_roots(page_rel)
     item_ids = sorted({k.split(".")[-1] for k in LANG["en"] if k.startswith("item.modulargolems.")})
+    item_ids = [p for p in item_ids if not is_hidden_item(p)]
 
     def category(pid):
         if pid.endswith("_config_card") or pid.startswith("target_filter_") or pid == "patrol_path_recorder":

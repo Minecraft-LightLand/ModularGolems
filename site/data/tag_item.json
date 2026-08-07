@@ -11,5 +11,6 @@
  "forge:ingots/knightmetal": "twilightforest:knightmetal_ingot",
  "forge:ingots/steeleaf": "twilightforest:steeleaf_ingot",
  "modulargolems:cardboard": "create:cardboard",
+ "modulargolems:revelation_ingot": "goety_revelation:apocalyptium_ingot",
  "modulargolems:sculk_materials": "minecraft:echo_shard"
 }
