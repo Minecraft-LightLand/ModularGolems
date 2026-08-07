@@ -12,6 +12,8 @@ import html
 import json
 import re
 import shutil
+import struct
+import zlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -383,6 +385,99 @@ def src_texture(ns, tpath):
     if v.is_file():
         return v
     return None
+
+
+def crop_png_first_frame(data):
+    """If `data` is a Minecraft animation strip (a vertical stack of square
+    frames, i.e. height is a whole multiple of width and height > width),
+    return a new PNG containing only the first frame (the top `width` rows).
+    Return None for PNGs that cannot be cropped safely."""
+    if data[:8] != b"\x89PNG\r\n\x1a\n":
+        return None
+    pos = 8
+    w = h = depth = ctype = interlace = None
+    idat = bytearray()
+    pre_idat = []
+    seen_idat = False
+    while pos < len(data):
+        ln = struct.unpack(">I", data[pos:pos + 4])[0]
+        tag = data[pos + 4:pos + 8]
+        chunk = data[pos + 8:pos + 8 + ln]
+        if tag == b"IHDR":
+            w, h, depth, ctype, _, _, interlace = struct.unpack(">IIBBBBB", chunk)
+        elif tag == b"IDAT":
+            idat += chunk
+            seen_idat = True
+        elif not seen_idat and tag != b"IEND":
+            pre_idat.append((tag, chunk))
+        pos += 12 + ln
+    if None in (w, h, depth, ctype, interlace):
+        return None
+    if interlace != 0 or h <= w or h % w != 0 or depth == 16:
+        return None
+    if ctype not in (0, 2, 3, 4, 6):
+        return None
+    try:
+        raw = zlib.decompress(bytes(idat))
+    except zlib.error:
+        return None
+    bits = {0: depth, 2: 3 * depth, 3: depth, 4: 2 * depth, 6: 4 * depth}[ctype]
+    fbpp = max(1, bits // 8)
+    row_px = (w * bits + 7) // 8
+    full_row = 1 + row_px
+    prev = bytes(row_px)
+    rows = []
+    for r in range(w):
+        seg = raw[r * full_row:(r + 1) * full_row]
+        if len(seg) < full_row:
+            return None
+        ft = seg[0]
+        if ft > 4:
+            return None
+        data_row = seg[1:]
+        out = bytearray(row_px)
+        for i, x in enumerate(data_row):
+            a = out[i - fbpp] if i >= fbpp else 0
+            b = prev[i] if prev else 0
+            c = prev[i - fbpp] if prev and i >= fbpp else 0
+            if ft == 0:
+                rv = x
+            elif ft == 1:
+                rv = x + a
+            elif ft == 2:
+                rv = x + b
+            elif ft == 3:
+                rv = x + (a + b) // 2
+            else:
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                pr = a if (pa <= pb and pa <= pc) else (b if pb <= pc else c)
+                rv = x + pr
+            out[i] = rv & 0xFF
+        rows.append(bytes(out))
+        prev = bytes(out)
+    out = bytearray(b"\x89PNG\r\n\x1a\n")
+
+    def chunk(tag, cdata):
+        nonlocal out
+        out += struct.pack(">I", len(cdata)) + tag + cdata
+        out += struct.pack(">I", zlib.crc32(tag + cdata) & 0xFFFFFFFF)
+
+    chunk(b"IHDR", struct.pack(">IIBBBBB", w, w, depth, ctype, 0, 0, 0))
+    for tag, cdata in pre_idat:
+        chunk(tag, cdata)
+    chunk(b"IDAT", zlib.compress(b"".join(b"\x00" + row for row in rows), 9))
+    chunk(b"IEND", b"")
+    return bytes(out)
+
+
+def copy_texture(src, dest):
+    """Copy a texture into the output tree, cropping animated strips to their
+    first frame so they render as a single static sprite instead of the whole
+    vertical animation strip."""
+    data = src.read_bytes()
+    cropped = crop_png_first_frame(data)
+    dest.write_bytes(cropped if cropped is not None else data)
 
 
 # configs reference the compat construct/cube items under the modulargolems
@@ -979,6 +1074,7 @@ code{background:rgba(255,255,255,.07);border-radius:5px;padding:1px 6px;font-siz
 .itemcell figure{margin:0}
 .upgradesub{grid-column:1/-1;font-size:13px;color:var(--accent);font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px;margin-top:8px}
 .itemoverlay{position:fixed;inset:0;background:rgba(4,8,14,.72);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.itemoverlay[hidden]{display:none}
 .itempanel{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:520px;width:100%;padding:22px 24px;position:relative;box-shadow:0 18px 50px rgba(0,0,0,.5)}
 .itempanel .close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);font-size:22px;line-height:1;cursor:pointer}
 .itempanel .close:hover{color:var(--text)}
@@ -1384,7 +1480,7 @@ def build_materials(lang):
         parts.append(f'<a href="#ns-{esc(ns)}" data-ns="{esc(ns)}">{esc(SOURCE_NAMES[lang].get(ns, ns))}</a>')
     parts.append("</div></details>")
     for ns in ns_order:
-        parts.append(f'<section class="matsource" data-ns="{esc(ns)}" id="ns-{esc(ns)}"><h2>{esc(SOURCE_NAMES[lang].get(ns, ns))} <span class="misc">({len(by_ns[ns])})</span></h2></section>')
+        parts.append(f'<section class="matsource" data-ns="{esc(ns)}" id="ns-{esc(ns)}"><h2>{esc(SOURCE_NAMES[lang].get(ns, ns))} <span class="misc">({len(by_ns[ns])})</span></h2>')
         parts.append('<div class="matgrid">')
         for mid, d in by_ns[ns]:
             name = material_display_name(mid, lang)
@@ -1404,17 +1500,20 @@ def build_materials(lang):
                 ing_html, ing_label = "", ""
             rep = d.get("repair", {})
             rep_html = ""
-            if "item" in rep:
-                rep_html = (f'<span class="slot" title="{esc(rep["item"])}">{icon_markup(rep["item"], lang, size=22)}</span>'
-                            f' <span>{esc(item_name(rep["item"], lang))}</span>')
-            elif "tag" in rep:
-                tname = TAG_NAMES[lang].get(rep["tag"], rep["tag"])
-                ti = TAG_ITEM.get(rep["tag"])
-                if ti:
-                    rep_html = (f'<span class="slot" title="{esc(rep["tag"])}">{icon_markup(ti, lang, size=22)}</span>'
-                                f' <span>{esc(tname)}</span>')
-                else:
-                    rep_html = placeholder_img("rep-" + rep["tag"], tname) + f" <span>{esc(tname)}</span>"
+            same_as_ing = (("item" in rep and rep["item"] == ing.get("item"))
+                           or ("tag" in rep and rep["tag"] == ing.get("tag")))
+            if not same_as_ing:
+                if "item" in rep:
+                    rep_html = (f'<span class="slot" title="{esc(rep["item"])}">{icon_markup(rep["item"], lang, size=22)}</span>'
+                                f' <span>{esc(item_name(rep["item"], lang))}</span>')
+                elif "tag" in rep:
+                    tname = TAG_NAMES[lang].get(rep["tag"], rep["tag"])
+                    ti = TAG_ITEM.get(rep["tag"])
+                    if ti:
+                        rep_html = (f'<span class="slot" title="{esc(rep["tag"])}">{icon_markup(ti, lang, size=22)}</span>'
+                                    f' <span>{esc(tname)}</span>')
+                    else:
+                        rep_html = placeholder_img("rep-" + rep["tag"], tname) + f" <span>{esc(tname)}</span>"
             stat_html = ""
             for sid, val in (d.get("stats") or {}).items():
                 stat_html += f"<li>{esc(fmt_stat(sid.split(':')[-1], val, lang))}</li>"
@@ -1437,7 +1536,7 @@ def build_materials(lang):
                 f'<ul class="mods">{mod_html}</ul>'
                 f'{rep_section}'
                 f'</article>')
-        parts.append("</div>")
+        parts.append("</div></section>")
     parts.append("</div>")
     parts.append(f"""<script>
 (function(){{
@@ -1665,7 +1764,7 @@ def main():
                 rel = f.relative_to(TEX_DIR)
                 dest = OUT / "assets/tex/item" / rel
                 dest.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(f, dest)
+                copy_texture(f, dest)
 
     if VENDOR_TEX.is_dir():
         for f in VENDOR_TEX.rglob("*"):
@@ -1673,22 +1772,23 @@ def main():
                 rel = f.relative_to(VENDOR_TEX)
                 dest = OUT / "assets/tex" / rel
                 dest.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(f, dest)
+                copy_texture(f, dest)
 
     RECIPE_BY_ID, RECIPE_BY_RESULT = load_recipe_index()
 
     (OUT / "data").mkdir(parents=True, exist_ok=True)
     (OUT / "data/versions.json").write_text(
-        json.dumps(build_versions_json(), indent=1), encoding="utf-8")
+        json.dumps(build_versions_json(), indent=1, ensure_ascii=False), encoding="utf-8")
     (OUT / "data/items.json").write_text(
-        json.dumps(build_items_json(), indent=1), encoding="utf-8")
+        json.dumps(build_items_json(), indent=1, ensure_ascii=False), encoding="utf-8")
     (OUT / "data/mod_names.json").write_text(
-        json.dumps(build_mod_names_json(), indent=1), encoding="utf-8")
+        json.dumps(build_mod_names_json(), indent=1, ensure_ascii=False), encoding="utf-8")
     (OUT / "data/compat_items.json").write_text(
-        json.dumps(build_compat_items_json(), indent=1), encoding="utf-8")
+        json.dumps(build_compat_items_json(), indent=1, ensure_ascii=False), encoding="utf-8")
     for lang in LANGS:
         (OUT / f"data/item_descs_{lang}.json").write_text(
-            json.dumps(build_item_descs(lang, prefix="../../book/"), indent=1), encoding="utf-8")
+            json.dumps(build_item_descs(lang, prefix="../../book/"), indent=1, ensure_ascii=False),
+            encoding="utf-8")
 
     def write_page(page_rel, html):
         dest = OUT / page_rel
@@ -1706,7 +1806,7 @@ def main():
     for rel, src in REFERENCED_TEX.items():
         dest = OUT / "assets/tex" / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(src, dest)
+        copy_texture(src, dest)
 
     n_tex = sum(1 for _ in (OUT / "assets/tex").rglob("*.png"))
     n_ph = len(list((OUT / "assets/img").glob("ph-*.svg")))

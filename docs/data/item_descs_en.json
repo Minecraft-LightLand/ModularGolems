@@ -69,7 +69,7 @@
  },
  "modulargolems:golem_slicing_axe": {
   "name": "Golem Slicing Axe",
-  "text": "When a metal golem kills other players\u2018 golems without recycle upgrade with this axe, all parts will be dropped and there is a chance for each of the upgrades to drop.<br><br>Edit the target filter in config card to allow golems to attack other golems. Note that golems cannot attack golems you own. When a metal golem kills certain mobs with this axe, one random metal golem part with matching material will drop:<ul class=\"bullets\"><li></ul>Vanilla: Iron Golem, Warden<ul class=\"bullets\"><li></ul>Cataclysm: Netherite Monstrosity, Ignis, Harbinger, Maledictus, Scylla, Ancient Remnant<ul class=\"bullets\"><li></ul>Mowzie&#x27;s Mobs: Ferrous Wroughtnaut<ul class=\"bullets\"><li></ul>Legendary Monsters: Ancient Guardian, Cloud Golem"
+  "text": "When a metal golem kills other players‘ golems without recycle upgrade with this axe, all parts will be dropped and there is a chance for each of the upgrades to drop.<br><br>Edit the target filter in config card to allow golems to attack other golems. Note that golems cannot attack golems you own. When a metal golem kills certain mobs with this axe, one random metal golem part with matching material will drop:<ul class=\"bullets\"><li></ul>Vanilla: Iron Golem, Warden<ul class=\"bullets\"><li></ul>Cataclysm: Netherite Monstrosity, Ignis, Harbinger, Maledictus, Scylla, Ancient Remnant<ul class=\"bullets\"><li></ul>Mowzie&#x27;s Mobs: Ferrous Wroughtnaut<ul class=\"bullets\"><li></ul>Legendary Monsters: Ancient Guardian, Cloud Golem"
  },
  "modulargolems:candy_construct": {
   "name": "Candy",
@@ -413,7 +413,7 @@
  },
  "modulargolems:thunderstorm": {
   "name": "Thunderstorm Upgrade",
-  "text": "Summon thunderstorm to attack multiple targets. When being attacked, summon electric bursts around the golem.Max:4 <ul class=\"bullets\"><li></ul>thunderstorm damage\uff1a7/10/13/16 <ul class=\"bullets\"><li></ul>thunderstorm count\uff1a16/24/32/40 <ul class=\"bullets\"><li></ul>electric bursts damage\uff1a40%/60%/80%/100%melee damage"
+  "text": "Summon thunderstorm to attack multiple targets. When being attacked, summon electric bursts around the golem.Max:4 <ul class=\"bullets\"><li></ul>thunderstorm damage：7/10/13/16 <ul class=\"bullets\"><li></ul>thunderstorm count：16/24/32/40 <ul class=\"bullets\"><li></ul>electric bursts damage：40%/60%/80%/100%melee damage"
  },
  "modulargolems:wroughtnaut": {
   "name": "Wroughtnaut Slamming Upgrade",

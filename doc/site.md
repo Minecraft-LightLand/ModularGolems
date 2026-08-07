@@ -16,12 +16,19 @@ and no hand-edited HTML: the script writes `docs/`, and GitHub Pages serves
 ```
 site/build_site.py          generator (single-file, stdlib-only Python 3)
 docs/                       generated output, committed and served by GitHub Pages
-├── index.html              landing page (en only)
+├── index.html              landing page (en)
+├── zh.html                 landing page (zh)
 ├── .nojekyll               tells Pages not to run Jekyll
 ├── css/style.css           single shared stylesheet (embedded in the script)
 ├── assets/
-│   ├── tex/item/           copy of src/main/resources/.../textures/item/
+│   ├── tex/                copies of item + vendor textures (see §3.4)
 │   └── img/ph-*.svg        generated placeholder tiles (see §3.4)
+├── data/
+│   ├── versions.json       per-version compat mods, parsed from each branch's CompatManager
+│   ├── items.json          per-version item lists, from model-file existence per branch
+│   ├── mod_names.json      source mod -> {en, zh} display name
+│   ├── compat_items.json   compat ingredient item -> {en, zh} display name
+│   └── item_descs_{en,zh}.json  item -> guide description (for the items overlay)
 ├── book/
 │   ├── en/  ├── index.html       guide TOC
 │   │        ├── golems/<entry>.html
@@ -32,9 +39,15 @@ docs/                       generated output, committed and served by GitHub Pag
 │   ├── en/index.html              material catalog (grouped by source mod)
 │   └── zh/index.html
 └── items/
-    ├── en/index.html              searchable item list
+    ├── en/index.html              searchable, collapsible item list
     └── zh/index.html
 ```
+
+Every page shares the same nav: brand, section links, a **version switcher**
+(`<select class="vselect">`, §3.6) and a **language switch** (`a.lang`). A small
+script embedded by `render_page()` (site/build_site.py:789) persists the chosen
+version in `localStorage`, honors a `?v=<label>` query param, and fires a
+`mg-version` custom event that the section pages listen to for filtering.
 
 ### 1.1 Data sources read by the generator
 
@@ -46,36 +59,47 @@ docs/                       generated output, committed and served by GitHub Pag
 | Chinese lang | `src/main/resources/assets/modulargolems/lang/zh_cn.json` |
 | Recipes | `src/generated/resources/data/modulargolems/recipes/**/*.json` |
 | Item textures | `src/main/resources/assets/modulargolems/textures/item/` (incl. `equipments/`, `upgrades/`, `card/`, `dog_armor/`) |
+| Item models | `src/generated/resources/assets/modulargolems/models/item/*.json` (per branch, via `git ls-tree`) |
+| CompatManager | `src/main/java/.../compat/materials/common/CompatManager.java` (per branch, via `git show`) |
+| Compat item lang | external mod jars from the Gradle cache (names baked into `COMPAT_ITEM_NAMES`, §3.1) |
 
 ### 1.2 Generator pipeline
 
-`main()` (site/build_site.py:1078):
+`main()` (site/build_site.py:1652):
 
 1. Deletes `docs/`, recreates the directory skeleton, writes `.nojekyll` and `css/style.css`.
-2. Copies the entire item texture tree into `docs/assets/tex/item/`.
+2. Copies the item texture tree into `docs/assets/tex/`.
 3. Loads the recipe index into `RECIPE_BY_ID` / `RECIPE_BY_RESULT`.
-4. Builds and writes every page (see §2), then prints a summary line with page/texture/placeholder counts.
+4. Writes the `docs/data/` JSON files (versions, items, mod names, compat item
+   names, per-language item descriptions) — these back the client-side
+   version filtering and the item description overlay. The JSON is emitted with
+   `ensure_ascii=False`, so Chinese translations are stored as real UTF-8 text
+   rather than `\uXXXX` escapes.
+5. Builds and writes every page (see §2), then prints a summary line with page/texture/placeholder counts.
 
 The script has no third-party dependencies — only the Python 3 stdlib
-(`hashlib`, `html`, `json`, `re`, `shutil`, `pathlib`).
+(`hashlib`, `html`, `json`, `re`, `shutil`, `struct`, `subprocess`, `zlib`,
+`pathlib`).
+`subprocess` is used to inspect other version branches (`git show`, `git ls-tree`).
 
 ---
 
 ## 2. Pages
 
-### 2.1 Landing page — `index.html`
-`build_index()` (site/build_site.py:753). Hero with the book icon, current
+### 2.1 Landing page — `index.html` / `zh.html`
+`build_index(lang)` (site/build_site.py:1175). Hero with the book icon, current
 material/entry/item counts (computed live from the data), and cards linking to
-the three sections. English only.
+the three sections. Generated once per language (`index.html` en, `zh.html` zh).
 
 ### 2.2 Guide — `book/{lang}/index.html`
-`build_book()` (site/build_site.py:793). TOC listing the three categories
+`build_book()` (site/build_site.py:1249). TOC listing the three categories
 (`golems`, `materials`, `upgrades`) sorted by `sortnum`, each with its icon,
-description, and linked entries.
+description, and linked entries. Category names/descriptions come from the
+`patchouli.modulargolems.title` / `.landing` lang keys and the category files.
 
 ### 2.3 Guide entries — `book/{lang}/{category}/{entry}.html`
-`build_book_entry()` (site/build_site.py:827), dispatched from
-`build_book_all()` (site/build_site.py:888). Renders:
+`build_book_entry()` (site/build_site.py:1283), dispatched from
+`build_book_all()` (site/build_site.py:1344). Renders:
 
 - header icon + name, breadcrumb to the category,
 - each page of the entry, converting Patchouli page types:
@@ -88,16 +112,32 @@ Cross-entry links in the book text are resolved by `book_link()` against the
 actual entry files, so `$(l:...)` links point at the corresponding HTML page.
 
 ### 2.4 Materials — `materials/{lang}/index.html`
-`build_materials()` (site/build_site.py:911). Groups all materials by their
+`build_materials()` (site/build_site.py:1367). Groups all materials by their
 source namespace (Vanilla, Create, Twilight Forest, …) with an anchor nav. Each
 material card shows: craft ingredient, stat lines, innate modifier names +
-descriptions, and the repair ingredient.
+descriptions, and the repair ingredient (omitted when it is the same as the
+craft ingredient). Each group is wrapped in its own `<section class="matsource">`
+so the version switcher's filtering hides the whole group (title + cards), not
+just the title.
+
+Note on stats: the material configs' `modulargolems:weight` stat is really a
+movement-speed multiplier (`STAT_WEIGHT` in `GolemTypes.java` is backed by
+`Attributes.MOVEMENT_SPEED`), so it is labeled **Speed** (`STAT_INFO["weight"]`,
+site/build_site.py:284) rather than "Weight".
 
 ### 2.5 Items — `items/{lang}/index.html`
-`build_items()` (site/build_site.py:978). Lists every `item.modulargolems.*`
+`build_items()` (site/build_site.py:1473). Lists every `item.modulargolems.*`
 lang key in seven heuristic categories (tools, parts, upgrades, equipment,
-config, ingredients, misc) with a client-side live search filter
-(`#q` input + a small vanilla JS snippet at the bottom of the page).
+config, ingredients, misc):
+
+- categories are **collapsible** (`<details class="itemcat" open>` with a
+  `▸/▾` chevron);
+- a client-side live search filters cells by name/registry id (`#q` input);
+- **clicking a cell opens an overlay** (`.itemoverlay`) showing the item's
+  icon, name, registry id and a description from `data/item_descs_{lang}.json`
+  (built from the Patchouli entries that spotlight the item); items without an
+  entry fall back to a "No description available." placeholder;
+- version filtering is driven by `data/items.json` (see §3.6).
 
 ---
 
@@ -106,27 +146,38 @@ config, ingredients, misc) with a client-side live search filter
 ### 3.1 Localization
 Both languages are generated from the same builders — only the loaded lang
 table and `LANG_CODE` mapping differ (`en` → `en_us`, `zh` → `zh_cn`). Every
-page carries a **language switch** (`lang_switch_html()`) that rewrites the
-`/{lang}/` path segment; the landing page is en-only. Navigation labels and page
-titles come from `NAV_LABELS` / `SITE_TITLES`.
+page carries a **language switch** (`lang_switch_html()`, site/build_site.py:777)
+that rewrites the `/{lang}/` path segment. Navigation labels and page titles
+come from `NAV_LABELS` / `SITE_TITLES`.
 
 Names not present in the mod's lang files fall back through several maps defined
 at the top of the script, then to the raw id:
 
-- `VANILLA_NAMES` — vanilla items referenced by recipes/spotlights,
-- `TAG_NAMES` — common item tags (`#forge:ingots/...`),
-- `SOURCE_NAMES` — compat mod display names,
-- `STAT_INFO` — stat labels + formatting kind (`BASE` / `ADD` / `PERCENT`).
+- `VANILLA_NAMES` (site/build_site.py:54) — vanilla items referenced by recipes/spotlights,
+- `TAG_NAMES` (site/build_site.py:75) — common item tags (`#forge:ingots/...`),
+- `SOURCE_NAMES` (site/build_site.py:110) — compat mod display names; also
+  emitted as `data/mod_names.json` (`build_mod_names_json`, site/build_site.py:1104)
+  so pages/JS can localize mod names,
+- `COMPAT_ITEM_NAMES` (site/build_site.py:153) — bilingual names for the compat
+  ingredient items used in material configs. These names are taken from each
+  mod's own `en_us`/`zh_cn` lang files (blazegear has no zh, so its name is
+  aligned with the mod's own `golem_material.blazegear.brimsteel` = 烈焰钢);
+  the map is emitted as `data/compat_items.json` (`build_compat_items_json`,
+  site/build_site.py:1110). `item_name()` (site/build_site.py:458) consults it
+  so material cards and book spotlights show e.g. "ATM锭" instead of
+  `allthemodium:allthemodium_ingot`,
+- `STAT_INFO` (site/build_site.py:284) — stat labels + formatting kind
+  (`BASE` / `ADD` / `PERCENT`).
 
 ### 3.2 Styling
-A single inline `CSS` string (site/build_site.py:570) with a dark, Minecraft-adjacent
+A single inline `CSS` string (site/build_site.py:841) with a dark, Minecraft-adjacent
 theme (CSS custom properties: `--bg`, `--panel`, `--accent`, parchment `--parch`
 variants, etc.). Sticky top nav, card grids, recipe grids, and a parchment
 "book page" treatment for guide entries. Chinese-friendly font stack
 (`PingFang SC`, `Microsoft YaHei`).
 
 ### 3.3 Recipe grids
-`render_recipe()` (site/build_site.py:423) renders the mod's custom recipe types
+`render_recipe()` (site/build_site.py:645) renders the mod's custom recipe types
 (`modulargolems:golem_assemble`, `modulargolems:golem_replace_part`, …). Because
 the recipe id referenced by the book (`modulargolems:metal_golem_holder`) rarely
 matches the file path (e.g. `metal_golem/assemble_holder.json`), the generator
@@ -134,7 +185,7 @@ builds a **result-item index** (`RECIPE_BY_RESULT`); when several recipes produc
 the same item it prefers a shaped one (`pattern` + `key`).
 
 ### 3.4 Icons and placeholders
-`resolve_icon()` (site/build_site.py:216) tries a list of candidate texture
+`resolve_icon()` (site/build_site.py:422) tries a list of candidate texture
 paths for a registry id (exact name, `_icon`, then `equipments/`, `upgrades/`,
 `card/`, `dog_armor/`). If nothing matches, the item has no simple 2D sprite
 and gets a deterministic placeholder tile:
@@ -148,6 +199,42 @@ and gets a deterministic placeholder tile:
 
 Items that use in-game 3D entity models — holders, parts, facades — are expected
 to end up as placeholders; that is the intended behavior.
+
+Animated item textures (Minecraft animation strips — a vertical stack of square
+frames) are cropped to their **first frame** when copied into `docs/assets/tex/`
+by `copy_texture()` (site/build_site.py:469), so they render as a single static
+sprite instead of the whole stretched strip. Cropping is stdlib-only
+(`struct` + `zlib`, filters 0–4, non-interlaced 8-bit RGBA/RGB/grayscale/palette
+and 4-bit palette); anything it can't handle is copied unchanged.
+
+### 3.5 Version-aware data
+The site covers five version branches (1.19.2 → `1.19`, 1.19.4 → `1.19.4`,
+1.20.1 → `1.20`, 1.21.1 → `1.21`, 26.1.2 → `26.1`). Two generated JSON files
+describe what each version contains:
+
+- `data/versions.json` — per-version **compat mods**, parsed from each branch's
+  `CompatManager.register()` via `git show` (`compat_mods_for()`, commented-out
+  dispatches are ignored, so 26.1.2 has none). This filters the **materials**
+  page: sections whose namespace isn't supported in the selected version are
+  hidden.
+- `data/items.json` — per-version **item lists**, keyed off **model-file
+  existence**: `branch_item_models()` (site/build_site.py:265) lists
+  `src/generated/resources/assets/modulargolems/models/item/*.json` on each
+  branch via `git ls-tree` (the current version reads the working tree), then
+  intersects with the known `item.modulargolems.*` ids. The **items** page
+  filters cells by this list when a non-current version is selected.
+
+Both pages listen for the shared `mg-version` event (set by the nav switcher)
+and re-apply filtering client-side.
+
+### 3.6 Version switcher
+`version_switch_html()` (site/build_site.py:767) renders the `<select class="vselect">`
+in the nav with one option per version. The script embedded by `render_page()`
+persists the choice in `localStorage["mg_version"]`, syncs the `?v=` query
+param via `history.replaceState`, and dispatches `mg-version`. The section
+pages (materials/items) use it with the JSON above to hide content that does
+not exist in the selected version; book pages do not filter (the guide is
+current-version content).
 
 ---
 
@@ -171,8 +258,13 @@ check after `runData` (see AGENTS.md) is the way to validate it:
 
 ```sh
 OK: site written to .../docs
-  html pages: 263  textures: 111  placeholders: 209
+  html pages: 264  textures: 338  placeholders: 29
 ```
+
+The version-aware JSONs (`data/versions.json`, `data/items.json`) depend on the
+other branches' `CompatManager.java` and item models. New branches must be
+fetched locally and added to `VERSIONS` (and `BUILD_VERSION`) in the script
+before they can appear in the switcher.
 
 A rough link-integrity check (every local `href`/`src` resolves):
 
@@ -197,17 +289,27 @@ Category behavior lives in `build_items()` (the `category(pid)` heuristic and
 `build_book()`/`build_book_all()` pick it up automatically; only the entry sort
 order and the `cat_dir` breadcrumb anchor rely on category ids.
 
+### 4.2 Item descriptions
+`data/item_descs_{lang}.json` is built by `build_item_descs()` (site/build_site.py:1115)
+from the Patchouli guide entries: an entry is mapped to every item it spotlights
+(top-level `icon` or `patchouli:spotlight` pages), with the entry's page text
+formatted via `patchouli_text()`. Guide links inside those descriptions are
+resolved relative to the consuming items page (`prefix="../../book/"`, so the
+overlay's links reach the actual entry pages). Regenerating after editing the
+book updates the descriptions automatically.
+
 ---
 
 ## 5. Publishing (GitHub Pages)
 
-The site is published from the `docs/` folder of the `lcy0x1/page` branch.
+The site is published from the `docs/` folder of the `gh-pages` branch of the
+`Minecraft-LightLand/ModularGolems` repository.
 
 1. Commit the generator and the generated output:
 
    ```sh
    git add site/build_site.py docs/
-   git commit -m "Add generated docs site and site generator"
+   git commit -m "Update generated docs site"
    ```
 
    Keep `doc/site.md` and `doc/todo.md` up to date in the same commit if touched.
@@ -215,17 +317,17 @@ The site is published from the `docs/` folder of the `lcy0x1/page` branch.
 2. Push the branch:
 
    ```sh
-   git push origin lcy0x1/page
+   git push origin gh-pages
    ```
 
 3. Enable Pages (one-time, repo settings, GitHub web UI):
-   **Settings → Pages → Source → Deploy from a branch** → branch `lcy0x1/page`
+   **Settings → Pages → Source → Deploy from a branch** → branch `gh-pages`
    → folder `/docs`. (`docs/.nojekyll` is already generated so Jekyll never runs.)
 
 4. The site is served at:
 
    ```
-   https://<owner>.github.io/ModularGolems/
+   https://minecraft-lightland.github.io/ModularGolems/
    ```
 
 5. Republish after every regeneration by repeating steps 1–2. There is no CI;

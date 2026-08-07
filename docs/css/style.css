@@ -138,6 +138,7 @@ code{background:rgba(255,255,255,.07);border-radius:5px;padding:1px 6px;font-siz
 .itemcell figure{margin:0}
 .upgradesub{grid-column:1/-1;font-size:13px;color:var(--accent);font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px;margin-top:8px}
 .itemoverlay{position:fixed;inset:0;background:rgba(4,8,14,.72);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.itemoverlay[hidden]{display:none}
 .itempanel{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:520px;width:100%;padding:22px 24px;position:relative;box-shadow:0 18px 50px rgba(0,0,0,.5)}
 .itempanel .close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);font-size:22px;line-height:1;cursor:pointer}
 .itempanel .close:hover{color:var(--text)}
