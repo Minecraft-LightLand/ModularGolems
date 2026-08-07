@@ -843,6 +843,15 @@ def load_book(lang):
     return cat_meta, entries
 
 
+def category_name(lang, ckey):
+    """Localized display name of a guide category (from its patchouli json)."""
+    f = BOOK_DIR / LANG_CODE[lang] / "categories" / f"{ckey}.json"
+    try:
+        return load_json(f).get("name", ckey)
+    except Exception:
+        return ckey
+
+
 def book_link(target, lang, prefix=None):
     target = target.split("#")[0]
     if target.startswith("http"):
@@ -1268,7 +1277,7 @@ def build_book_entry(lang, cat_dir, eid, d, prev, next_):
     body = (
         f'<div class="wrap">'
         f'<nav class="breadcrumb"><a href="{book_root()}{lang}/index.html">{tr("guide_label", lang)}</a> / '
-        f'<a href="{book_root()}{lang}/index.html#{esc(cat_dir)}">{esc(cat_dir)}</a> / {esc(name)}</nav>'
+        f'<a href="{book_root()}{lang}/index.html#{esc(cat_dir)}">{esc(category_name(lang, cat_dir))}</a> / {esc(name)}</nav>'
         f'<header class="bookhead">{icon_html}<h1>{esc(name)}</h1></header>'
         f'<div class="pages">{"".join(pages_html)}</div>{pager}'
         "</div>")
