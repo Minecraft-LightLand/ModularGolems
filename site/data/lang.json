@@ -1,0 +1,166 @@
+{
+ "index_title": {
+  "en": "Welcome to Modular Golems",
+  "zh": "欢迎来到模块化傀儡"
+ },
+ "index_lead": {
+  "en": "A Tinker-like golem assembly and upgrade mod: craft golems from materials, give them upgrades, equipment and personalities.",
+  "zh": "一款类匠魂的傀儡组装与升级模组：用材料组装傀儡，为它们装备升级、装备与个性。"
+ },
+ "card_guide_title": {
+  "en": "Read the Guide",
+  "zh": "阅读指南"
+ },
+ "card_guide_desc": {
+  "en": "Browse the in-game Patchouli guide on the web: golem types, tools, upgrades and every material entry.",
+  "zh": "在线阅读游戏内帕秋莉指南：傀儡类型、工具、升级与全部材料条目。"
+ },
+ "card_mats_title": {
+  "en": "Golem Materials",
+  "zh": "傀儡材料"
+ },
+ "card_mats_desc": {
+  "en": "Every material's stats, innate modifiers and craft/repair ingredient, grouped by source mod.",
+  "zh": "每种材料的属性、固有词条与合成/修复材料，按来源模组分组。"
+ },
+ "card_items_title": {
+  "en": "Item List",
+  "zh": "物品列表"
+ },
+ "card_items_desc": {
+  "en": "A searchable catalog of all items added by the mod. Items without a simple 2D sprite use a placeholder tile.",
+  "zh": "模组注册的全部物品的可检索目录。"
+ },
+ "index_hint": {
+  "en": "This site is generated from the mod's own data — <code>site/build_site.py</code> writes <code>docs/</code>. Regenerate it after changing the book, materials or items.",
+  "zh": "本站由模组自身数据生成——<code>site/build_site.py</code> 写入 <code>docs/</code>。修改指南、材料或物品后请重新生成。"
+ },
+ "lang_switch_label": {
+  "en": "中文",
+  "zh": "EN"
+ },
+ "lang_switch_title": {
+  "en": "Switch language / 切换语言",
+  "zh": "Switch language / 切换语言"
+ },
+ "version_label": {
+  "en": "Version",
+  "zh": "版本"
+ },
+ "stat_materials": {
+  "en": "materials",
+  "zh": "种材料"
+ },
+ "stat_entries": {
+  "en": "guide entries",
+  "zh": "条指南条目"
+ },
+ "stat_items": {
+  "en": "items",
+  "zh": "个物品"
+ },
+ "stat_languages": {
+  "en": "languages",
+  "zh": "种语言"
+ },
+ "materials_h1": {
+  "en": "Golem Materials",
+  "zh": "傀儡材料"
+ },
+ "materials_lead": {
+  "en": "Stats and innate modifiers for every golem material, as loaded from the mod's material configs.",
+  "zh": "每种傀儡材料的属性和固有词条，数据来自模组的材料配置。"
+ },
+ "materials_sources": {
+  "en": "Sources",
+  "zh": "来源模组"
+ },
+ "repair_label": {
+  "en": "Repair",
+  "zh": "修复"
+ },
+ "ingredient_label": {
+  "en": "Ingredient",
+  "zh": "材料"
+ },
+ "modifiers_label": {
+  "en": "Modifiers",
+  "zh": "词条"
+ },
+ "none_label": {
+  "en": "None",
+  "zh": "无"
+ },
+ "materials_page_title": {
+  "en": "Materials — Modular Golems",
+  "zh": "傀儡材料"
+ },
+ "items_h1": {
+  "en": "Items",
+  "zh": "物品"
+ },
+ "items_lead": {
+  "en": "All items registered by Modular Golems. Items whose in-game model is a 3D entity (holders, parts, facades) have no simple 2D sprite and are shown with a placeholder tile.",
+  "zh": "模块化傀儡注册的全部物品。游戏内使用 3D 实体模型的物品（傀儡持有物、部件、伪装）没有简单的 2D 贴图，使用占位贴图显示。"
+ },
+ "filter_placeholder": {
+  "en": "Filter items…",
+  "zh": "筛选物品…"
+ },
+ "cat_tools": {
+  "en": "Tools & Templates",
+  "zh": "工具与模板"
+ },
+ "cat_parts": {
+  "en": "Golem Parts",
+  "zh": "傀儡部件"
+ },
+ "cat_upgrades": {
+  "en": "Upgrades",
+  "zh": "升级"
+ },
+ "cat_equipment": {
+  "en": "Equipment & Weapons",
+  "zh": "装备与武器"
+ },
+ "cat_config": {
+  "en": "Config Cards & Filters",
+  "zh": "配置卡与筛选器"
+ },
+ "cat_ingredients": {
+  "en": "Materials & Ingredients",
+  "zh": "材料与物品"
+ },
+ "cat_misc": {
+  "en": "Miscellaneous",
+  "zh": "其他"
+ },
+ "no_desc": {
+  "en": "No description available.",
+  "zh": "暂无描述。"
+ },
+ "items_page_title": {
+  "en": "Items — Modular Golems",
+  "zh": "物品"
+ },
+ "book_title": {
+  "en": "Golem Guide",
+  "zh": "傀儡指南"
+ },
+ "guide_label": {
+  "en": "Guide",
+  "zh": "指南"
+ },
+ "page_title_suffix": {
+  "en": " — Modular Golems",
+  "zh": " — 模块化傀儡"
+ },
+ "recipe_unavailable": {
+  "en": "Recipe <code>{rid}</code> is not available.",
+  "zh": "<code>{rid}</code> 配方缺失"
+ },
+ "unknown_page_type": {
+  "en": "(Unknown page type: {type})",
+  "zh": "(不可用页面类型: {type})"
+ }
+}

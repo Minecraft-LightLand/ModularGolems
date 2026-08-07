@@ -103,6 +103,14 @@ VANILLA_NAMES = load_data("vanilla_names")
 TAG_NAMES = load_data("tag_names")
 COMPAT_ITEM_NAMES = load_data("compat_item_names")
 
+# page-builder UI strings (site/data/lang.json)
+L10N = load_data("lang")
+
+
+def tr(key, lang):
+    """Translatable UI string lookup, keyed per language."""
+    return L10N[key][lang]
+
 # site metadata (version this build is generated for + supported version branches)
 SITE_CONFIG = load_data("site_config")
 BUILD_VERSION = SITE_CONFIG["build_version"]
@@ -856,18 +864,18 @@ def nav_html(root, lang, active, page_rel):
         cls = "active" if key == active else ""
         buf.append(f'<a class="{cls}" href="{root}{href}">{esc(txt)}</a>')
     buf.append('<span class="spacer"></span>')
-    buf.append(version_switch_html())
+    buf.append(version_switch_html(lang))
     buf.append(lang_switch_html(root, lang, page_rel))
     buf.append("</nav>")
     return "".join(buf)
 
 
-def version_switch_html():
+def version_switch_html(lang):
     opts = []
     for v in VERSIONS:
         sel = " selected" if v["label"] == BUILD_VERSION else ""
         opts.append(f'<option value="{esc(v["label"])}"{sel}>MC {esc(v["label"])}</option>')
-    return ('<label class="vswitch"><span class="vsr">Version</span>'
+    return (f'<label class="vswitch"><span class="vsr">{tr("version_label", lang)}</span>'
             f'<select class="vselect" data-current="{esc(BUILD_VERSION)}" aria-label="Mod version">'
             + "".join(opts) + "</select></label>")
 
@@ -879,9 +887,9 @@ def lang_switch_html(root, lang, page_rel):
     else:
         other = "zh" if lang == "en" else "en"
         other_rel = page_rel.replace(f"/{lang}/", f"/{other}/", 1)
-    label = "中文" if lang == "en" else "EN"
+    label = tr("lang_switch_label", lang)
     return (f'<a class="lang" data-lang="{other}" href="{root}{other_rel}" '
-            f'title="Switch language / 切换语言">{esc(label)}</a>')
+            f'title="{esc(tr("lang_switch_title", lang))}">{esc(label)}</a>')
 
 
 def render_page(page_rel, title, lang, active, body):
@@ -1120,38 +1128,24 @@ def build_index(lang="en"):
     mats = len(load_materials())
     _, entries = load_book("en")
     items = len([k for k in LANG["en"] if k.startswith("item.modulargolems.")])
-    if lang == "en":
-        title = "Welcome to Modular Golems"
-        lead = ("A Tinker-like golem assembly and upgrade mod for Minecraft 1.20.1 (Forge): "
-                "craft golems from materials, give them upgrades, equipment and personalities.")
-        card_guide = ("Read the Guide", "Browse the in-game Patchouli guide on the web: golem types, tools, upgrades and every material entry.")
-        card_mats = ("Golem Materials", "Every material's stats, innate modifiers and craft/repair ingredient, grouped by source mod.")
-        card_items = ("Item List", "A searchable catalog of all items added by the mod. Items without a simple 2D sprite use a placeholder tile.")
-        hint = ("This site is generated from the mod's own data — <code>site/build_site.py</code> writes <code>docs/</code>. "
-                "Regenerate it after changing the book, materials or items.")
-        lang_label = "中文"
-        other_home = "zh.html"
-    else:
-        title = "欢迎来到模块化傀儡"
-        lead = ("一款类匠魂的傀儡组装与升级模组，适用于 Minecraft 1.20.1（Forge）："
-                "用材料组装傀儡，为它们装备升级、装备与个性。")
-        card_guide = ("阅读指南", "在线阅读游戏内 Patchouli 指南：傀儡类型、工具、升级与全部材料条目。")
-        card_mats = ("傀儡材料", "每种材料的属性、固有词条与合成/修复材料，按来源模组分组。")
-        card_items = ("物品列表", "模组注册的全部物品的可检索目录。没有简单 2D 贴图的物品使用占位图。")
-        hint = ("本站由模组自身数据生成——<code>site/build_site.py</code> 写入 <code>docs/</code>。"
-                "修改指南、材料或物品后请重新生成。")
-        lang_label = "EN"
-        other_home = "index.html"
+    title = tr("index_title", lang)
+    lead = tr("index_lead", lang)
+    card_guide = (tr("card_guide_title", lang), tr("card_guide_desc", lang))
+    card_mats = (tr("card_mats_title", lang), tr("card_mats_desc", lang))
+    card_items = (tr("card_items_title", lang), tr("card_items_desc", lang))
+    hint = tr("index_hint", lang)
+    lang_label = tr("lang_switch_label", lang)
+    other_home = "zh.html" if lang == "en" else "index.html"
     body = INDEX_BODY_TEMPLATE.substitute(
         title=title,
         lead=lead,
         mats_count=mats,
-        mats_label="materials" if lang == "en" else "种材料",
+        mats_label=tr("stat_materials", lang),
         entries_count=len(entries),
-        entries_label="guide entries" if lang == "en" else "条指南条目",
+        entries_label=tr("stat_entries", lang),
         items_count=items,
-        items_label="items" if lang == "en" else "个物品",
-        langs_label="languages" if lang == "en" else "种语言",
+        items_label=tr("stat_items", lang),
+        langs_label=tr("stat_languages", lang),
         lang=lang,
         card_guide_title=card_guide[0],
         card_guide_desc=card_guide[1],
@@ -1165,8 +1159,7 @@ def build_index(lang="en"):
         nav_lang="zh" if lang == "en" else "en",
         other_home=other_home,
     )
-    return render_page(page_rel, "Modular Golems" if lang == "en" else "模块化傀儡",
-                       lang, "", body)
+    return render_page(page_rel, SITE_TITLES[lang], lang, "", body)
 
 
 def build_book(lang):
@@ -1180,7 +1173,7 @@ def build_book(lang):
                        key=lambda c: (cat_meta.get(c, {}).get("sortnum", 100), c))
     for lst in by_cat.values():
         lst.sort(key=lambda d: (d.get("sortnum", 100), d["_id"]))
-    title = LANG[lang].get("patchouli.modulargolems.title") or "Golem Guide"
+    title = LANG[lang].get("patchouli.modulargolems.title") or tr("book_title", lang)
     landing = LANG[lang].get("patchouli.modulargolems.landing") or ""
     parts = ['<div class="wrap">', f"<h1>{esc(title)}</h1>", f'<p class="lead">{esc(landing)}</p>']
     parts.append('<div class="cats">')
@@ -1200,7 +1193,7 @@ def build_book(lang):
                          f'<span class="en">{esc(eid)}</span></a></li>')
         parts.append("</ul></section>")
     parts.append("</div></div>")
-    return render_page(page_rel, f"{title} — Modular Golems", lang, "guide", "".join(parts))
+    return render_page(page_rel, f"{title}{tr('page_title_suffix', lang)}", lang, "guide", "".join(parts))
 
 
 def build_book_entry(lang, cat_dir, eid, d, prev, next_):
@@ -1239,13 +1232,13 @@ def build_book_entry(lang, cat_dir, eid, d, prev, next_):
                     else:
                         _, recipe = matches[0]
             if recipe is None:
-                pages_html.append(f'<section class="page"><p>Recipe <code>{esc(rid)}</code> is not available.</p></section>')
+                pages_html.append(f'<section class="page"><p>{tr("recipe_unavailable", lang).format(rid=esc(rid))}</p></section>')
             else:
                 grid = render_recipe(recipe, lang)
                 text_html = patchouli_text(p.get("text", ""), link_resolver)
                 pages_html.append(f'<section class="page">{grid}{text_html}</section>')
         else:
-            pages_html.append(f'<section class="page"><p class="misc">(Unknown page type: {esc(ptype)})</p></section>')
+            pages_html.append(f'<section class="page"><p class="misc">{tr("unknown_page_type", lang).format(type=esc(ptype))}</p></section>')
     icon_html = icon_markup(d.get("icon"), lang, size=40) if d.get("icon") else ""
     name = d.get("name", eid)
     pager = ""
@@ -1259,12 +1252,12 @@ def build_book_entry(lang, cat_dir, eid, d, prev, next_):
         pager = "".join(bits)
     body = (
         f'<div class="wrap">'
-        f'<nav class="breadcrumb"><a href="{book_root()}{lang}/index.html">Guide</a> / '
+        f'<nav class="breadcrumb"><a href="{book_root()}{lang}/index.html">{tr("guide_label", lang)}</a> / '
         f'<a href="{book_root()}{lang}/index.html#{esc(cat_dir)}">{esc(cat_dir)}</a> / {esc(name)}</nav>'
         f'<header class="bookhead">{icon_html}<h1>{esc(name)}</h1></header>'
         f'<div class="pages">{"".join(pages_html)}</div>{pager}'
         "</div>")
-    return render_page(page_rel, f"{name} — Modular Golems", lang, "guide", body)
+    return render_page(page_rel, f"{name}{tr('page_title_suffix', lang)}", lang, "guide", body)
 
 
 def build_book_all(lang, write_page):
@@ -1300,10 +1293,9 @@ def build_materials(lang):
     for ns, lst in by_ns.items():
         lst.sort(key=lambda t: material_display_name(t[0], lang))
     ns_order = sorted(by_ns.keys())
-    lead = ("Stats and innate modifiers for every golem material, as loaded from the mod's material configs."
-            if lang == "en" else "每种傀儡材料的属性和固有词条，数据来自模组的材料配置。")
-    parts = ['<div class="wrap">', "<h1>Golem Materials</h1>", f'<p class="lead">{lead}</p>']
-    ns_label = "Sources" if lang == "en" else "来源模组"
+    lead = tr("materials_lead", lang)
+    parts = ['<div class="wrap">', f"<h1>{esc(tr('materials_h1', lang))}</h1>", f'<p class="lead">{lead}</p>']
+    ns_label = tr("materials_sources", lang)
     parts.append(f'<details class="matnav"><summary>{esc(ns_label)} (<span id="matsrccount">{len(ns_order)}</span>)</summary>')
     parts.append('<div class="matnavpills">')
     for ns in ns_order:
@@ -1354,22 +1346,22 @@ def build_materials(lang):
                 desc_html = f" — {mdesc}" if mdesc else ""
                 mod_html += f"<li><b>{esc(mname)}</b>{lvl_html}{desc_html}</li>"
             if not mod_html:
-                mod_html = '<li class="misc">None</li>'
-            rep_section = (f'<div class="ing" style="margin-top:12px">{"Repair" if lang == "en" else "修复"}: {rep_html}</div>'
+                mod_html = f'<li class="misc">{esc(tr("none_label", lang))}</li>'
+            rep_section = (f'<div class="ing" style="margin-top:12px">{tr("repair_label", lang)}: {rep_html}</div>'
                            if rep_html else "")
             parts.append(
                 f'<article class="matcard">'
                 f'<h3>{ing_html}<span>{esc(name)}</span></h3>'
-                f'<div class="ing">{"Ingredient" if lang == "en" else "材料"}: {ing_label}</div>'
+                f'<div class="ing">{tr("ingredient_label", lang)}: {ing_label}</div>'
                 f'<ul class="kv">{stat_html}</ul>'
-                f'<div class="hint">{"Modifiers" if lang == "en" else "词条"}</div>'
+                f'<div class="hint">{tr("modifiers_label", lang)}</div>'
                 f'<ul class="mods">{mod_html}</ul>'
                 f'{rep_section}'
                 f'</article>')
         parts.append("</div></section>")
     parts.append("</div>")
     parts.append(MATERIALS_JS.substitute(versions_url=f"{data_root()}versions.json"))
-    return render_page(page_rel, "Materials — Modular Golems", lang, "materials", "".join(parts))
+    return render_page(page_rel, tr("materials_page_title", lang), lang, "materials", "".join(parts))
 
 
 def build_items(lang):
@@ -1404,15 +1396,6 @@ def build_items(lang):
         return "misc"
 
     CATS = ["tools", "parts", "upgrades", "equipment", "config", "ingredients", "misc"]
-    CAT_LABEL = {
-        "tools": ("Tools & Templates", "工具与模板"),
-        "parts": ("Golem Parts", "傀儡部件"),
-        "upgrades": ("Upgrades", "升级"),
-        "equipment": ("Equipment & Weapons", "装备与武器"),
-        "config": ("Config Cards & Filters", "配置卡与筛选器"),
-        "ingredients": ("Materials & Ingredients", "材料与物品"),
-        "misc": ("Miscellaneous", "其他"),
-    }
     grouped = {c: [] for c in CATS}
     for pid in item_ids:
         if not is_supported(item_source_mod(pid)):
@@ -1438,15 +1421,14 @@ def build_items(lang):
                 f'<span class="slot">{arrow}<img class="itemimg" width="40" height="40" loading="lazy" src="{src}" '
                 f'alt="{esc(name)}" title="{esc(reg)}"></span>'
                 f'<figcaption>{esc(name)}<small>{esc(reg)}</small></figcaption></figure>')
-    parts = ['<div class="wrap">', "<h1>Items</h1>",
-             f'<p class="lead">{"All items registered by Modular Golems. Items whose in-game model is a 3D entity (holders, parts, facades) have no simple 2D sprite and are shown with a placeholder tile." if lang == "en" else "模块化傀儡注册的全部物品。游戏内使用 3D 实体模型的物品（傀儡持有物、部件、伪装）没有简单的 2D 贴图，使用占位贴图显示。"}</p>']
-    parts.append('<input class="searchbar" id="q" type="search" placeholder="'
-                 + ('Filter items…' if lang == "en" else "筛选物品…") + '">')
+    parts = ['<div class="wrap">', f"<h1>{esc(tr('items_h1', lang))}</h1>",
+             f'<p class="lead">{esc(tr("items_lead", lang))}</p>']
+    parts.append(f'<input class="searchbar" id="q" type="search" placeholder="{esc(tr("filter_placeholder", lang))}">')
     for c in CATS:
         lst = grouped[c]
         if not lst:
             continue
-        label = CAT_LABEL[c][0 if lang == "en" else 1]
+        label = tr(f"cat_{c}", lang)
         parts.append(f'<details class="itemcat" open><summary><h2>{esc(label)} <span class="misc">({len(lst)})</span></h2></summary>')
         if c == "upgrades":
             by_mod = {}
@@ -1469,14 +1451,14 @@ def build_items(lang):
             parts.append("</div>")
         parts.append("</details>")
     parts.append("</div>")
-    no_desc = "No description available." if lang == "en" else "暂无描述。"
+    no_desc = tr("no_desc", lang)
     parts.append(ITEMS_OVERLAY)
     parts.append(ITEMS_JS.substitute(
         no_desc=json.dumps(no_desc),
         items_url=f"{data_root()}items.json",
         descs_url=f"{data_root()}item_descs_{lang}.json",
     ))
-    return render_page(page_rel, "Items — Modular Golems", lang, "items", "".join(parts))
+    return render_page(page_rel, tr("items_page_title", lang), lang, "items", "".join(parts))
 
 
 # ---------------------------------------------------------------------------
