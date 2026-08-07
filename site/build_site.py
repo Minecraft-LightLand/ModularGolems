@@ -54,6 +54,16 @@ LANG = {code: load_lang(code) for code in LANGS}
 # the modifier config values or level scaling change.
 MODIFIER_VALUES = load_json(ROOT / "site/modifier_values.json")
 
+# Source mod namespace -> {en, zh} display name. Maintained manually in
+# site/mod_names.json; used to label material-source groups and upgrade items,
+# and emitted as data/mod_names.json so pages/JS can localize mod names.
+MOD_NAMES = load_json(ROOT / "site/mod_names.json")
+
+
+def mod_name(ns, lang):
+    """Localized display name for a source-mod namespace, falling back to the raw id."""
+    return MOD_NAMES.get(ns, {}).get(lang, ns)
+
 # ---------------------------------------------------------------------------
 # display-name maps for things not in the mod's own lang files
 # ---------------------------------------------------------------------------
@@ -111,47 +121,6 @@ TAG_NAMES = {
         "modulargolems:cardboard": "纸板",
         "modulargolems:revelation_ingot": "启示锭",
         "modulargolems:sculk_materials": "幽匿材料",
-    },
-}
-
-SOURCE_NAMES = {
-    "en": {
-        "modulargolems": "Vanilla",
-        "alexscaves": "Alex's Caves",
-        "allthemodium": "Allthemodium",
-        "blazegear": "Blaze Gear",
-        "botania": "Botania",
-        "cataclysm": "L_Ender's Cataclysm",
-        "composite_material": "Composite Material",
-        "create": "Create",
-        "goety": "Goety",
-        "goety_revelation": "Goety Revelation",
-        "iceandfire": "Ice and Fire",
-        "l2complements": "L2 Complements",
-        "l2hostility": "L2 Hostility",
-        "legendary_monsters": "Legendary Monsters",
-        "mowziesmobs": "Mowzie's Mobs",
-        "tconstruct": "Tinkers' Construct",
-        "twilightforest": "Twilight Forest",
-    },
-    "zh": {
-        "modulargolems": "原版",
-        "alexscaves": "Alex's Caves",
-        "allthemodium": "Allthemodium",
-        "blazegear": "Blaze Gear",
-        "botania": "Botania",
-        "cataclysm": "灾变",
-        "composite_material": "Composite Material",
-        "create": "机械动力",
-        "goety": "Goety",
-        "goety_revelation": "Goety Revelation",
-        "iceandfire": "冰与火之歌",
-        "l2complements": "L2 补全",
-        "l2hostility": "L2 敌意",
-        "legendary_monsters": "传奇生物",
-        "mowziesmobs": "Mowzie's Mobs",
-        "tconstruct": "匠魂",
-        "twilightforest": "暮色森林",
     },
 }
 
@@ -1364,8 +1333,8 @@ def build_items_json():
 
 def build_mod_names_json():
     """Source mod -> {en, zh} display name, so pages/JS can localize mod names."""
-    return {ns: {lang: SOURCE_NAMES[lang][ns] for lang in LANGS}
-            for ns in SOURCE_NAMES["en"]}
+    return {ns: {lang: MOD_NAMES[ns][lang] for lang in LANGS}
+            for ns in MOD_NAMES}
 
 
 def build_compat_items_json():
@@ -1677,10 +1646,10 @@ def build_materials(lang):
     parts.append(f'<details class="matnav"><summary>{esc(ns_label)} (<span id="matsrccount">{len(ns_order)}</span>)</summary>')
     parts.append('<div class="matnavpills">')
     for ns in ns_order:
-        parts.append(f'<a href="#ns-{esc(ns)}" data-ns="{esc(ns)}">{esc(SOURCE_NAMES[lang].get(ns, ns))}</a>')
+        parts.append(f'<a href="#ns-{esc(ns)}" data-ns="{esc(ns)}">{esc(mod_name(ns, lang))}</a>')
     parts.append("</div></details>")
     for ns in ns_order:
-        parts.append(f'<section class="matsource" data-ns="{esc(ns)}" id="ns-{esc(ns)}"><h2>{esc(SOURCE_NAMES[lang].get(ns, ns))} <span class="misc">({len(by_ns[ns])})</span></h2>')
+        parts.append(f'<section class="matsource" data-ns="{esc(ns)}" id="ns-{esc(ns)}"><h2>{esc(mod_name(ns, lang))} <span class="misc">({len(by_ns[ns])})</span></h2>')
         parts.append('<div class="matgrid">')
         for mid, d in by_ns[ns]:
             name = material_display_name(mid, lang)
@@ -1854,10 +1823,10 @@ def build_items(lang):
             by_mod = {}
             for pid in lst:
                 by_mod.setdefault(item_source_mod(pid), []).append(pid)
-            order = sorted(by_mod.keys(), key=lambda ns: (ns != "modulargolems", SOURCE_NAMES[lang].get(ns, ns)))
+            order = sorted(by_mod.keys(), key=lambda ns: (ns != "modulargolems", mod_name(ns, lang)))
             for mns in order:
                 plist = sorted(by_mod[mns])
-                mlabel = SOURCE_NAMES[lang].get(mns, mns)
+                mlabel = mod_name(mns, lang)
                 parts.append(f'<div class="itemgrid"><div class="upgradesub">'
                              f'{esc(mlabel)} <span class="misc">({len(plist)})</span></div>')
                 for pid in plist:

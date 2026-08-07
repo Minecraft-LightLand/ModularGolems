@@ -15,7 +15,8 @@ and no hand-edited HTML: the script writes `docs/`, and GitHub Pages serves
 
 ```
 site/build_site.py          generator (single-file, stdlib-only Python 3)
-site/modifier_values.json   per-modifier, per-level %s values (see §3.7)
+site/mod_names.json         source mod -> {en, zh} display name (manual, see §3.7)
+site/modifier_values.json   per-modifier, per-level %s values (see §3.8)
 docs/                       generated output, committed and served by GitHub Pages
 ├── index.html              landing page (en)
 ├── zh.html                 landing page (zh)
@@ -27,7 +28,7 @@ docs/                       generated output, committed and served by GitHub Pag
 ├── data/
 │   ├── versions.json       per-version compat mods, parsed from each branch's CompatManager
 │   ├── items.json          per-version item lists, from model-file existence per branch
-│   ├── mod_names.json      source mod -> {en, zh} display name
+│   ├── mod_names.json      source mod -> {en, zh} display name, from site/mod_names.json
 │   ├── compat_items.json   compat ingredient item -> {en, zh} display name
 │   └── item_descs_{en,zh}.json  item -> guide description (for the items overlay)
 ├── book/
@@ -126,7 +127,7 @@ just the title. The nav's source count also updates when the version changes.
 
 The `%s` placeholders in modifier descriptions are filled with the values for
 the material's modifier level, looked up from `site/modifier_values.json`
-(a manually maintained per-modifier, per-level value table — see §3.7).
+(a manually maintained per-modifier, per-level value table — see §3.8).
 
 Note on stats: the material configs' `modulargolems:weight` stat is really a
 movement-speed multiplier (`STAT_WEIGHT` in `GolemTypes.java` is backed by
@@ -163,9 +164,10 @@ at the top of the script, then to the raw id:
 
 - `VANILLA_NAMES` (site/build_site.py:54) — vanilla items referenced by recipes/spotlights,
 - `TAG_NAMES` (site/build_site.py:75) — common item tags (`#forge:ingots/...`),
-- `SOURCE_NAMES` (site/build_site.py:110) — compat mod display names; also
-  emitted as `data/mod_names.json` (`build_mod_names_json`, site/build_site.py:1104)
-  so pages/JS can localize mod names,
+- `MOD_NAMES` (site/build_site.py:60) — compat mod display names, loaded from
+  `site/mod_names.json`; also emitted as `data/mod_names.json`
+  (`build_mod_names_json`, site/build_site.py:1334) so pages/JS can localize mod
+  names,
 - `COMPAT_ITEM_NAMES` (site/build_site.py:153) — bilingual names for the compat
   ingredient items used in material configs. These names are taken from each
   mod's own `en_us`/`zh_cn` lang files (blazegear has no zh, so its name is
@@ -244,7 +246,15 @@ pages (materials/items) use it with the JSON above to hide content that does
 not exist in the selected version; book pages do not filter (the guide is
 current-version content).
 
-### 3.7 Modifier values
+### 3.7 Mod names
+`site/mod_names.json` maps each source-mod namespace to `{en, zh}` display names
+(e.g. `alexscaves` → `Alex's Caves` / `艾利克斯的洞穴`). It is **maintained
+manually** — add a key when a new compat mod is supported. Pages read it through
+`mod_name(ns, lang)` (site/build_site.py:63) for the materials page's source
+groups and the items page's upgrade subgroups, and the same data is emitted as
+`data/mod_names.json` for pages/JS to localize on the fly.
+
+### 3.8 Modifier values
 `site/modifier_values.json` maps each modifier id to per-level arrays of values
 for the `%s` placeholders in its description (e.g. `add_slot` → level 2 → `[2]`).
 `fill_modifier_desc()` (site/build_site.py) substitutes them on the materials
@@ -252,7 +262,7 @@ page, handling both `%s` and positional `%N$s` (used by some zh_cn strings) and
 converting `%%` to a literal `%`. The JSON is **maintained manually** — update it
 when a modifier's config value or level scaling changes.
 
-### 3.8 Multi-layer item icons
+### 3.9 Multi-layer item icons
 Items whose model renders several texture layers — dog golem armor (collar +
 wolf armor) — are blended into a single icon by `composite_textures()`
 (site/build_site.py:566) at build time, using alpha-over compositing
