@@ -1,0 +1,122 @@
+{
+ "allthemodium:allthemodium_ingot": {
+  "en": "Allthemodium Ingot",
+  "zh": "ATM\u952d"
+ },
+ "allthemodium:unobtainium_ingot": {
+  "en": "Unobtainium Ingot",
+  "zh": "\u96be\u5f97\u7d20\u952d"
+ },
+ "allthemodium:vibranium_ingot": {
+  "en": "Vibranium Ingot",
+  "zh": "\u632f\u91d1\u952d"
+ },
+ "blazegear:brimsteel_ingot": {
+  "en": "Brimsteel Ingot",
+  "zh": "\u70c8\u7130\u94a2\u952d"
+ },
+ "botania:elementium_ingot": {
+  "en": "Elementium Ingot",
+  "zh": "\u6e90\u8d28\u94a2\u952d"
+ },
+ "botania:manasteel_ingot": {
+  "en": "Manasteel Ingot",
+  "zh": "\u9b54\u529b\u94a2\u952d"
+ },
+ "botania:terrasteel_ingot": {
+  "en": "Terrasteel Ingot",
+  "zh": "\u6cf0\u62c9\u94a2\u952d"
+ },
+ "cataclysm:ancient_metal_ingot": {
+  "en": "Ancient Metal Ingot",
+  "zh": "\u8fdc\u53e4\u91d1\u5c5e\u952d"
+ },
+ "cataclysm:cursium_ingot": {
+  "en": "Cursium Ingot",
+  "zh": "\u5492\u9b42\u952d"
+ },
+ "cataclysm:ignitium_ingot": {
+  "en": "Ignitium Ingot",
+  "zh": "\u817e\u708e\u952d"
+ },
+ "cataclysm:witherite_ingot": {
+  "en": "Witherite Ingot",
+  "zh": "\u51cb\u7075\u5408\u91d1\u952d"
+ },
+ "composite_material:allay_steel_ingot": {
+  "en": "Allay Steel Ingot",
+  "zh": "\u60a6\u7075\u94a2\u952d"
+ },
+ "composite_material:dungeon_steel_ingot": {
+  "en": "Dungeon Steel Ingot",
+  "zh": "\u5730\u7262\u94a2\u952d"
+ },
+ "composite_material:etherite_ingot": {
+  "en": "Etherite Ingot",
+  "zh": "\u4ee5\u592a\u5408\u91d1\u952d"
+ },
+ "composite_material:obsidian_steel_ingot": {
+  "en": "Obsidian Steel Ingot",
+  "zh": "\u9ed1\u66dc\u77f3\u94a2\u952d"
+ },
+ "composite_material:primitive_tenacity": {
+  "en": "Primitive Tenacity",
+  "zh": "\u8352\u53e4\u575a\u6750"
+ },
+ "create:andesite_alloy": {
+  "en": "Andesite Alloy",
+  "zh": "\u5b89\u5c71\u5408\u91d1"
+ },
+ "create:railway_casing": {
+  "en": "Train Casing",
+  "zh": "\u5217\u8f66\u673a\u58f3"
+ },
+ "goety:cursed_ingot": {
+  "en": "Cursed Metal Ingot",
+  "zh": "\u8bc5\u5492\u91d1\u5c5e\u952d"
+ },
+ "goety:dark_ingot": {
+  "en": "Dark Metal Ingot",
+  "zh": "\u9ed1\u6697\u91d1\u5c5e\u952d"
+ },
+ "iceandfire:dragonsteel_fire_ingot": {
+  "en": "Fire Dragonsteel Ingot",
+  "zh": "\u9f99\u708e\u94a2\u952d"
+ },
+ "iceandfire:dragonsteel_ice_ingot": {
+  "en": "Ice Dragonsteel Ingot",
+  "zh": "\u9f99\u971c\u94a2\u952d"
+ },
+ "iceandfire:dragonsteel_lightning_ingot": {
+  "en": "Lightning Dragonsteel Ingot",
+  "zh": "\u9f99\u9706\u94a2\u952d"
+ },
+ "l2complements:eternium_ingot": {
+  "en": "Eternium Ingot",
+  "zh": "\u6c38\u6052\u952d"
+ },
+ "l2complements:poseidite_ingot": {
+  "en": "Poseidite Ingot",
+  "zh": "\u6d77\u795e\u952d"
+ },
+ "l2complements:shulkerate_ingot": {
+  "en": "Shulkerate Ingot",
+  "zh": "\u6f5c\u5f71\u952d"
+ },
+ "l2complements:totemic_gold_ingot": {
+  "en": "Totemic Gold Ingot",
+  "zh": "\u751f\u547d\u952d"
+ },
+ "l2hostility:chaos_ingot": {
+  "en": "Chaos Ingot",
+  "zh": "\u6df7\u6c8c\u952d"
+ },
+ "l2hostility:miracle_ingot": {
+  "en": "Miracle Ingot",
+  "zh": "\u5947\u8ff9\u952d"
+ },
+ "legendary_monsters:molten_metal_ingot": {
+  "en": "Molten Metal Ingot",
+  "zh": "\u7194\u878d\u91d1\u5c5e\u952d"
+ }
+}

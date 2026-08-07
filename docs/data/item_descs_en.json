@@ -1,0 +1,546 @@
+{
+ "modulargolems:metal_golem_template": {
+  "name": "Crafting the golem",
+  "text": "To craft a golem, use stone cutter to cut metal golem template into required parts. Then use anvil to apply metal ingots onto the parts. Then assemble the parts into a golem holder in crafting table. You can use parts of different materials to get better golems.<br><br>To summon golem, right click it on a block. You can retrieve the golem by right clicking it with empty hand. You can fix the damaged golem with ingots matching the body material of the golem in anvil. Each ingot heals 1/4 of the max health. Thus, you can use cheap body material and expensive material for other parts to have high health while make it cheap to fix.<br><br>When the golem dies, it will only drop 1 ingot from each part. You can use the <a href=\"../../book/en/upgrades/vanilla_recycle.html\">Recycle Upgrade</a> to let the golem drop repairable holder on death. You can change golem parts by combining new part with golem holder in crafting table in specific orientation. You will lose the old part in this process but keep everything else."
+ },
+ "modulargolems:recycle": {
+  "name": "Upgrading the golem",
+  "text": "To upgrade the golem, craft the upgrades and apply them in anvil. Upgrade can provide modifiers to golems, which adds special abilities or improve stats. Golem can only have limited upgrades, and each modifier has its own max level.<br><br>Use grindstone to remove all golem upgrades. Blast golem holder item with explosion to retrieve upgrades. If you have Create installed, you can use deployer to automatically apply upgrades without experience cost."
+ },
+ "modulargolems:metal_golem_holder": {
+  "name": "Metal Golem",
+  "text": "Metal Golem is similar to vanilla iron golem. Other than being fixed in anvil, it can also be healed directly by using ingots matching body material on the golem directly.<br><br>Metal golem can be equipped with special armors using command wand."
+ },
+ "modulargolems:humanoid_golem_holder": {
+  "name": "Humanoid Golem",
+  "text": "Humanoid golem is a player-like golem. It can use armor, meelee weapons, bows, crossbows, trident, and shield. Right click the golem with equipments to equip, and shift-right click the golem to un-equip all. If you shift-right click with empty hand, the golem will be retrieved naked as well. Right click the golem with empty hand to retrieve the golem with equipments stored within. Humanoid golem can perform area attack if and only if it holds a sword-like item.<br><br>Humanoid golem can use shield, trident, bow, and crossbow. Use the Skin Button in the Humanoid Golem equipment screen to change its skin.<br><br>Supported input formats:<br><br><ul class=\"bullets\"><li></ul>Player Name - Use the Minecraft skin of a player<ul class=\"bullets\"><li></ul>Resource Path - Use a custom texture from resource packs, e.g.:<br>modulargolems:textures/iws2000.png<ul class=\"bullets\"><li></ul>Entity id() - Use texture from vanilla zombie / skeleton / piglin variants, e.g.:<br>minecraft:drowned<br><br>Right-click the button to reset to default skin. If Touhou Little Maid is installed, use the Maid Skin Button in the equipment screen to switch to a maid model."
+ },
+ "modulargolems:dog_golem_holder": {
+  "name": "Dog Golem",
+  "text": "Dog golem is a wolf-like golem. It runs fast and has high attack. Right click the golem with an item or shift click it to sit it down. Right click the golem with empty hand to retrieve the golem.<br><br>You can ride it using <a href=\"../../book/en/golems/c4_rider_wand.html\">Rider Wand</a>, or right click dog with humanoid golem to add passenger. Use <a href=\"../../book/en/upgrades/vanilla_size.html\">Size Upgrade</a> to allow more passengers. Lv.2 Size Upgrade allows a Metal Golem as passenger. Dog golem is relatively cheap to make, but also has low health. 2 parts of the golem have uneven cost and stats."
+ },
+ "modulargolems:retrieval_wand": {
+  "name": "Retrieval Wand",
+  "text": "Right click golems to retrieve golem back into inventory, as if the player right clicks it by empty hand.<br><br>Right click to retrieve golems the player points to, up to 64 blocks far.<br><br>Shift right click in air to retrieve all golems in a radious of 20 blocks. When L2Backpack is present:<br><br>When player has Ender Backpack equipped, golems will be retrieved to ender backpack.<br><br>When player has their own dimensional backpack in inventory or ender backpack, golem with respective config color will be retrieved to dimensional backpack."
+ },
+ "modulargolems:command_wand": {
+  "name": "Command Wand",
+  "text": "Shift right click golem to configure equipments, view golem attributes, and configure curios.<br><br>Attack entity with this wand, or right click faraway entity with this wand to call all your surrounding golems to attack that entity. Right click to switch between 6 modes for the golems.<ul class=\"bullets\"><li></ul>Following Mode: the default mode. Golem follows player.<ul class=\"bullets\"><li></ul>Guarding mode: Golems will wander around the point when it&#x27;s set to this mode. Golems in this mode cannot change dimension.<ul class=\"bullets\"><li></ul>Standing Mode: Golems will not move. Golems in this mode cannot change dimension.<ul class=\"bullets\"><li></ul>Wandering Mode: Golems will wander around freely. <ul class=\"bullets\"><li></ul>Squad Mode: Golems will follow its captain (with the same config), and when itself is the captain or when no captain is present, it will wander freely.<ul class=\"bullets\"><li></ul>Patrol Mode: Golems will follow the path specified in its config card. They will deviate from their path if they find attack target."
+ },
+ "modulargolems:summon_wand": {
+  "name": "Summon Wand",
+  "text": "Right click to summon a golem on target block, from your off hand or inventory.<br><br>Shift right click to summon all golems from your inventory around you. When L2Backpack is present:<br><br>This wand can also summon golems from Ender Backpack equipped.<br><br> If player has their own dimensional backpacks in inventory or ender backpack, this wand can also summon golems with same config color as the dimensional backpack those golems are in."
+ },
+ "modulargolems:rider_wand": {
+  "name": "Rider Wand",
+  "text": "Right click dog golem to ride it. If golem is in water, shift will make golem sink faster. Thus, you cannot use shift to dismount. Instead, you need to right click with rider wand."
+ },
+ "modulargolems:squad_wand": {
+  "name": "Squad Wand",
+  "text": "Right click golem to set it as captain. Golems must have config card in order to be a captain. Each config card may only have one captain.<br><br>When a non-captain golem is set to Squad mode, it will follow the captain of the same config card. Captain should not have be in squad mode, as it needs to lead the team."
+ },
+ "modulargolems:white_config_card": {
+  "name": "Config Card",
+  "text": "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.<br><br>Rename the item and right click to set the item name as config name. All card from the same owner and same color are in fact the same config. In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.<br><br>Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode. You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. <br><br>You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables. You can configure golem attack targets. The hostile target list contains targets golems will actively attack. The friendly target list containers targets golems will never attack.<br><br>There are default cards but you can remove them and insert your own, so that you can use golems to fight other golems or other players. You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking blocks with it.<br><br>Blocks have to be less than 16 blocks apart. Longer paths is marked in red and may result in golems teleporting to destination. <br><br>The path is for guidance only. Golem will not always step on the exact block."
+ },
+ "modulargolems:target_filter_type": {
+  "name": "Config Card",
+  "text": "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.<br><br>Rename the item and right click to set the item name as config name. All card from the same owner and same color are in fact the same config. In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.<br><br>Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode. You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. <br><br>You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables. You can configure golem attack targets. The hostile target list contains targets golems will actively attack. The friendly target list containers targets golems will never attack.<br><br>There are default cards but you can remove them and insert your own, so that you can use golems to fight other golems or other players. You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking blocks with it.<br><br>Blocks have to be less than 16 blocks apart. Longer paths is marked in red and may result in golems teleporting to destination. <br><br>The path is for guidance only. Golem will not always step on the exact block."
+ },
+ "modulargolems:target_filter_uuid": {
+  "name": "Config Card",
+  "text": "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.<br><br>Rename the item and right click to set the item name as config name. All card from the same owner and same color are in fact the same config. In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.<br><br>Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode. You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. <br><br>You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables. You can configure golem attack targets. The hostile target list contains targets golems will actively attack. The friendly target list containers targets golems will never attack.<br><br>There are default cards but you can remove them and insert your own, so that you can use golems to fight other golems or other players. You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking blocks with it.<br><br>Blocks have to be less than 16 blocks apart. Longer paths is marked in red and may result in golems teleporting to destination. <br><br>The path is for guidance only. Golem will not always step on the exact block."
+ },
+ "modulargolems:target_filter_name": {
+  "name": "Config Card",
+  "text": "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.<br><br>Rename the item and right click to set the item name as config name. All card from the same owner and same color are in fact the same config. In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.<br><br>Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode. You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. <br><br>You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables. You can configure golem attack targets. The hostile target list contains targets golems will actively attack. The friendly target list containers targets golems will never attack.<br><br>There are default cards but you can remove them and insert your own, so that you can use golems to fight other golems or other players. You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking blocks with it.<br><br>Blocks have to be less than 16 blocks apart. Longer paths is marked in red and may result in golems teleporting to destination. <br><br>The path is for guidance only. Golem will not always step on the exact block."
+ },
+ "modulargolems:target_filter_default": {
+  "name": "Config Card",
+  "text": "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.<br><br>Rename the item and right click to set the item name as config name. All card from the same owner and same color are in fact the same config. In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.<br><br>Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode. You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. <br><br>You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables. You can configure golem attack targets. The hostile target list contains targets golems will actively attack. The friendly target list containers targets golems will never attack.<br><br>There are default cards but you can remove them and insert your own, so that you can use golems to fight other golems or other players. You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking blocks with it.<br><br>Blocks have to be less than 16 blocks apart. Longer paths is marked in red and may result in golems teleporting to destination. <br><br>The path is for guidance only. Golem will not always step on the exact block."
+ },
+ "modulargolems:patrol_path_recorder": {
+  "name": "Config Card",
+  "text": "Right click golem to set config. Right click again to remove. When in offhand, wands would only target golems having this config.<br><br>Rename the item and right click to set the item name as config name. All card from the same owner and same color are in fact the same config. In config menu, put golem in to set golem to have this config. You can choose the default mode for golem when golems are summoned. And you can set whether golems should spawn at old location or current location when they were retrieved.<br><br>Note that golem will only be summoned in previous location if that location is within 64 blocks and golem is not in following mode. You can also lock golem interaction, so that you would not accidentally pick them up, or change their weapons, even when you have the card in offhand. If you lost the card, you can make a new one of the same color to unlock golems. <br><br>You can also configure item filters for pickup upgrade. This is helpful to not accidentally pickup unwanted items or destroy valuables. You can configure golem attack targets. The hostile target list contains targets golems will actively attack. The friendly target list containers targets golems will never attack.<br><br>There are default cards but you can remove them and insert your own, so that you can use golems to fight other golems or other players. You can configure golem patrol path in config. Craft Patrol Path Recorder and record a circular path by clicking blocks with it.<br><br>Blocks have to be less than 16 blocks apart. Longer paths is marked in red and may result in golems teleporting to destination. <br><br>The path is for guidance only. Golem will not always step on the exact block."
+ },
+ "modulargolems:golem_facade": {
+  "name": "Golem Facade",
+  "text": "You can use a Golem Facade to make a golem look like if it&#x27;s made with another material.<br><br>Craft with empty upgrade template and an ingot of desired material in anvil, then put it on golem skin curios slot."
+ },
+ "modulargolems:golem_slicing_axe": {
+  "name": "Golem Slicing Axe",
+  "text": "When a metal golem kills other players\u2018 golems without recycle upgrade with this axe, all parts will be dropped and there is a chance for each of the upgrades to drop.<br><br>Edit the target filter in config card to allow golems to attack other golems. Note that golems cannot attack golems you own. When a metal golem kills certain mobs with this axe, one random metal golem part with matching material will drop:<ul class=\"bullets\"><li></ul>Vanilla: Iron Golem, Warden<ul class=\"bullets\"><li></ul>Cataclysm: Netherite Monstrosity, Ignis, Harbinger, Maledictus, Scylla, Ancient Remnant<ul class=\"bullets\"><li></ul>Mowzie&#x27;s Mobs: Ferrous Wroughtnaut<ul class=\"bullets\"><li></ul>Legendary Monsters: Ancient Guardian, Cloud Golem"
+ },
+ "modulargolems:candy_construct": {
+  "name": "Candy",
+  "text": "Main material to craft Candy golem parts. Shoots candy and cheap to fix. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "modulargolems:magnetic_construct": {
+  "name": "Magnetic",
+  "text": "Main material to craft Magnetic golem parts. Pull targets in melee mode and push targets in ranged mode. Consume iron to protect itself. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "modulargolems:nuclear_construct": {
+  "name": "Nuclear",
+  "text": "Main material to craft Nuclear golem parts. Inflict radiation and consumes uranium to heal and boost stats Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "allthemodium:allthemodium_ingot": {
+  "name": "Allthemodium",
+  "text": "Main material to craft Allthemodium golem parts. Insane stats, more slots, and builtin utility Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "allthemodium:unobtainium_ingot": {
+  "name": "Unobtainium",
+  "text": "Main material to craft Unobtainium golem parts. Insane stats, more slots, and builtin utility Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "allthemodium:vibranium_ingot": {
+  "name": "Vibranium",
+  "text": "Main material to craft Vibranium golem parts. Insane stats, more slots, and builtin utility Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "blazegear:brimsteel_ingot": {
+  "name": "Brimsteel",
+  "text": "Main material to craft Brimsteel golem parts. It is fire resistant and can shoot fireballs when enemy is far away. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "botania:elementium_ingot": {
+  "name": "Elementium",
+  "text": "Main material to craft elementium golem parts. elementium golem parts feature decent attack and health, as well as traits of manasteel. It has a chance to summon a pixie to attack the target when attacking or being attacked Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "botania:manasteel_ingot": {
+  "name": "Manasteel",
+  "text": "Main material to craft manasteel golem parts. manasteel golem parts feature balanced attack and health. It&#x27;s is capable of boosting damage and repairing itself at a faster speed when there is mana available in curios slots. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "botania:terrasteel_ingot": {
+  "name": "Terrasteel",
+  "text": "Main material to craft terrasteel golem parts. terrasteel golem parts feature high attack and health, as well as higher level of manasteel traits. It is also capable of passively producting mana and shoot mana burst toward faraway targets. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "create:andesite_alloy": {
+  "name": "Andesite Alloy",
+  "text": "Main material to craft Andesite Alloy golem parts. It is cheap to fix and provides magic damage resistance. Boosts speed and damage when consuming fuels.<br><br>Fuels can be automatically consumed from Dimensional Backpack (from L2Backpack) equipped on the golem or the captain of the team. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "create:brass_ingot": {
+  "name": "Brass",
+  "text": "Main material to craft Brass golem parts. It provides high magic damage resistance. Boosts speed and damage when consuming fuels.<br><br>Fuels can be automatically consumed from Dimensional Backpack (from L2Backpack) equipped on the golem or the captain of the team. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "create:cardboard": {
+  "name": "Cardboard",
+  "text": "Main material to craft Cardboard golem parts. It&#x27;s the cheapest golem you can find. Cardboard golems have low health and attack, yet has high movement speed and attack knockback. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "create:railway_casing": {
+  "name": "Railway",
+  "text": "Main material to craft Railway golem parts. It provides high magic damage resistance, fire resistance, range attack, and high knock back. Boosts speed and damage significantly when consuming fuels. It attacks as if it is a train running into mobs.<br><br>Fuels can be automatically consumed from Dimensional Backpack (from L2Backpack) equipped on the golem or the captain of the team. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "create:zinc_ingot": {
+  "name": "Zinc",
+  "text": "Main material to craft Zinc golem parts. Reduce damage taken by golem, but has very low stats. Useful only when dealing with mobs that has low attack. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "cataclysm:ancient_metal_ingot": {
+  "name": "Ancient Metal",
+  "text": "Main material to craft Ancient Metal golem parts. Summon sandstorm to attack.<br><br>Reforge: When health is low, it will consume max health to repair itself up to 8/5/5 times. Can be replenished by repair materials. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "cataclysm:cursium_ingot": {
+  "name": "Cursium",
+  "text": "Main material to craft Cursium golem parts. Body part provides the ability to perform jump attack summoning halberds, and arm parts allows golem to bypass armor and increase attack damage after consecutive attack. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "modulargolems:void_construct": {
+  "name": "Ender Guardian",
+  "text": "Main material to craft Ender Guardian golem parts. Summon vortex and void runes to attack. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "cataclysm:ignitium_ingot": {
+  "name": "Ignitium",
+  "text": "Main material to craft Ignitium golem parts. Body part provides the ability to shoot Ignis fireballs, and arm parts allows golem to inflict branding blaze and heal from attack. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "modulargolems:storm_construct": {
+  "name": "Storm",
+  "text": "Main material to craft Storm golem parts. Shoot lighting spear to attack multiple targets, and summon waves to push away attackers. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "cataclysm:witherite_ingot": {
+  "name": "Witherite",
+  "text": "Main material to craft Witherite golem parts. Body part provides the ability to fire laser beam, and arm parts allows golem to shoot homing missiles. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "goety_revelation:apocalyptium_ingot": {
+  "name": "Apocalyptium",
+  "text": "Main material to craft Apocalyptium golem parts. Apocalyptium golem is the resemblance of godhood and a container for higher spirits. It will revive itself on death once it enters your inventory. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "goety:cursed_ingot": {
+  "name": "Cursed Metal",
+  "text": "Main material to craft Cursed Metal golem parts. Curse Metal golem parts feature fire immunity and armor penetration. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "goety:dark_ingot": {
+  "name": "Dark Metal",
+  "text": "Main material to craft Dark Metal golem parts. Dark Metal golem is resistant to fire, explosion, magic damage, has high regeneration, can heal and repair itself and its equipments with owner&#x27;s soul energy, and can convert defeated enemies into haunted armor servants. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "iceandfire:dragonsteel_fire_ingot": {
+  "name": "Fire Dragonsteel",
+  "text": "Main material to craft Fire Dragonsteel golem parts. Fire Dragonsteel golem has high health and attack, immune to fire, and ignites target. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "iceandfire:dragonsteel_ice_ingot": {
+  "name": "Ice Dragonsteel",
+  "text": "Main material to craft Ice Dragonsteel golem parts. Ice Dragonsteel golem has high health and attack, also freeze targets and attackers. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "iceandfire:dragonsteel_lightning_ingot": {
+  "name": "Lightning Dragonsteel",
+  "text": "Main material to craft Lightning Dragonsteel golem parts. Lightning Dragonsteel golem has high health and attack, immune to lightning, and summon lightning when attacking targets Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "l2complements:eternium_ingot": {
+  "name": "Eternium",
+  "text": "Main material to craft Eternium golem parts. Eternium golem is invincible. It is immune to all damage except void damage. Note that this golem won&#x27;t be targeted by mobs, even with bell upgrade. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "l2complements:poseidite_ingot": {
+  "name": "Poseidite",
+  "text": "Main material to craft Poseidite golem parts. Poseidite golem can swim, and is stronger when in water. Bring it to ocean monument! Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "l2complements:shulkerate_ingot": {
+  "name": "Shulkerate",
+  "text": "Main material to craft Shulkerate golem parts. Shulkerate golem parts feature absurdly high health with a damage cap that further increase survivability against boss monsters. It is recommended for body parts. Make your golem invincible! Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "l2complements:totemic_gold_ingot": {
+  "name": "Totemic Gold",
+  "text": "Main material to craft totemic golem parts. Totemic golem parts feature absurdly high regeneration with decent health. It is recommended for body parts. Make your golem invincible! Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "l2hostility:chaos_ingot": {
+  "name": "Chaotic",
+  "text": "Main material to craft Chaotic golem parts. Chaotic golem has high stats and a lot of useful builtin modifiers. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "l2hostility:hostility/miracle": {
+  "name": "Miraculous",
+  "text": "Main material to craft Miraculous golem parts. Miraculous golem gains the power of Adpative and Dispell trait, making it effective against high level hostility enemies. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "l2hostility:miracle_ingot": {
+  "name": "Miraculous",
+  "text": "Main material to craft Miraculous golem parts. Miraculous golem gains the power of Adpative and Dispell trait, making it effective against high level hostility enemies. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "modulargolems:cloud_cube": {
+  "name": "Cloud",
+  "text": "Main material to craft Cloud golem parts. Cloud golem can summon lightning strikes against multiple targets, and can create electric shockwaves when attacked. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "legendary_monsters:molten_metal_ingot": {
+  "name": "Molten Metal",
+  "text": "Main material to craft Molten Metal golem parts. Molten Metal golem is immune to fire and projectiles, and can create shockwaves that stun enemies Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "modulargolems:wroughtnaut_ingot": {
+  "name": "Wroughtnaut",
+  "text": "Main material to craft Wroughtnaut golem parts. Wroughtnaut golem has high resistance to magic, has a chance to penetrate armor, and can create shockwaves Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "twilightforest:fiery_ingot": {
+  "name": "Fiery",
+  "text": "Main material to craft fiery golem parts. Fiery golem parts feature thorn, fire immune, fiery attack, and high stats. It is recommended for arms for fiery attacks.<br><br>Twilight Forest golems will gain healing and damage bonus while in the Twilight Forest. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "twilightforest:ironwood_ingot": {
+  "name": "Ironwood",
+  "text": "Main material to craft ironwood golem parts. ironwood golem parts feature high health and regeneration, but have very low attack. It is recommended for body or legs parts.<br><br>Twilight Forest golems will gain healing and damage bonus while in the Twilight Forest. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "twilightforest:knightmetal_ingot": {
+  "name": "Knightmetal",
+  "text": "Main material to craft knightmetal golem parts. knightmetal golem parts feature significant thorns and high stats. It&#x27;s recommended for body or leg parts.<br><br>Twilight Forest golems will gain healing and damage bonus while in the Twilight Forest. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "twilightforest:steeleaf_ingot": {
+  "name": "Steeleaf",
+  "text": "Main material to craft steeleaf golem parts. steeleaf golem parts feature high attack but low health. It&#x27;s recommended for arm parts.<br><br>Twilight Forest golems will gain healing and damage bonus while in the Twilight Forest. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "tconstruct:amethyst_bronze_ingot": {
+  "name": "Amethyst Bronze",
+  "text": "Main material to craft amethyst bronze golem parts. Amethyst bronze golem parts feature cheap material yet very high stats for price. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "tconstruct:cobalt_ingot": {
+  "name": "Cobalt",
+  "text": "Main material to craft Cobalt golem parts. Cobalt golem parts feature high stats and movement speed. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "tconstruct:hepatizon_ingot": {
+  "name": "Hepatizon",
+  "text": "Main material to craft Hepatizon golem parts. Hepatizon golem parts feature high stats, and allows golem to gain temporary damage resistance after taking damage. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "tconstruct:manyullyn_ingot": {
+  "name": "Manyullyn",
+  "text": "Main material to craft Manyullyn golem parts. Manyullyn golem parts feature high stats, and allows golem to increase attack during combat. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "tconstruct:rose_gold_ingot": {
+  "name": "Rose Gold",
+  "text": "Main material to craft Rose Gold golem parts. Rose Gold golem parts have very low stats, but provide one extra upgrade slot. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "minecraft:copper_ingot": {
+  "name": "Copper",
+  "text": "Main material to craft copper golem parts. Copper golem parts feature very cheap price while maintain sufficient stats. Thunder immunity also works as a lightning rod.<br><br>You can use copper golem as a dispensable guard. It is also very cheap to fix if you use copper body. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "minecraft:gold_ingot": {
+  "name": "Gold",
+  "text": "Main material to craft gold golem parts. Gold golem parts feature health regeneration, while having very low stats for all attributes.<br><br>It is recommended for body or legs if you want regeneration, and the other body or legs component should be some other material to get decent health for the golem. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "minecraft:iron_ingot": {
+  "name": "Iron",
+  "text": "Main material to craft iron golem parts. Iron golem parts feature cheap repair cost and relatively high stats for price.<br><br>It is recommended for body part, to make the golem cheap to heal and repair. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "minecraft:netherite_ingot": {
+  "name": "Netherite",
+  "text": "Main material to craft netherite golem parts. Netherite golem parts feature high health, fire immune, high damage, and most importantly, area attack. But netherite is heavy, which reduce golem speed.<br><br>This is strongly recommended for arms, and could be used for body and legs for high stats. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "minecraft:echo_shard": {
+  "name": "Sculk",
+  "text": "Main material to craft sculk golem parts. Sculk golem parts feature high health, fast movement, fire immune, and high damage. This is the reward of expensive material.<br><br>It is strongly recommended for legs to get very fast moving speed and high health. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material. Use JEI (press R) to check part stats of each part made of this material."
+ },
+ "modulargolems:coating": {
+  "name": "Zinc Upgrade",
+  "text": "Damage taken will be reduced by a fixed amount. Max: 5"
+ },
+ "modulargolems:push": {
+  "name": "Extendo Upgrade",
+  "text": "Attacks will have higher knockback. Max: 1"
+ },
+ "modulargolems:ancient_remnant_sandstorm": {
+  "name": "Ancient Remnant Upgrade",
+  "text": "Summon sandstorm at target position. Attacks [level x 3] targets at a time. Increase damage to targets with Curse of Desert effect. Max: 3"
+ },
+ "modulargolems:ender_guardian_void_rune": {
+  "name": "Ender Guardian Upgrade",
+  "text": "Summon vortex and void rune toward Level*2 targets. Max: 5"
+ },
+ "modulargolems:leviathan_blast_portal": {
+  "name": "Leviathan Upgrade",
+  "text": "Create blast portal at target position. Attacks [level x 3] targets at a time. Max: 3"
+ },
+ "modulargolems:netherite_monstrosity_earthquake": {
+  "name": "Netherite Monstrosity Upgrade",
+  "text": "Jump and cause earthquake on land. Max: 1"
+ },
+ "modulargolems:scylla_lightning_upgrade": {
+  "name": "Scylla Upgrade",
+  "text": "Launch lightning spear toward Level*3 targets. Max: 3"
+ },
+ "modulargolems:apostle": {
+  "name": "Apostle Ascension Upgrade",
+  "text": "Apostle Upgrades now no longer consume upgrade slot"
+ },
+ "modulargolems:fire_blast": {
+  "name": "Apostle Upgrade: Fire Blast",
+  "text": "Summon Fire Blast Trap every 10 seconds. Higher level increase radius of the trap. Max: 3<ul class=\"bullets\"><li></ul>Diameter: 4 - 6 blocks <ul class=\"bullets\"><li></ul>Damage: same as golem attack damage <ul class=\"bullets\"><li></ul>Targeting: 1 - 3"
+ },
+ "modulargolems:fire_tornado": {
+  "name": "Apostle Upgrade: Fire Tornado",
+  "text": "Summon Fire Tornado Trap toward target position every 10 seconds. Higher level increase damage and duration. Max: 5<ul class=\"bullets\"><li></ul>Duration: 8 - 12 seconds <ul class=\"bullets\"><li></ul>Damage: 12 - 24  <ul class=\"bullets\"><li></ul>Targeting: 3 - 7"
+ },
+ "modulargolems:hell_blast": {
+  "name": "Apostle Upgrade: Hell Blast",
+  "text": "Shoot Hell Blast toward targets every 10 seconds. Targets multiple enemies at the same time in range of 16 blocks. Higher level increase damage and maximum target count. Can target 2 enemies per level. Max: 3<ul class=\"bullets\"><li></ul>Damage: 20 - 40"
+ },
+ "modulargolems:hell_bolt": {
+  "name": "Apostle Upgrade: Hell Bolt",
+  "text": "Shoot Hell Bolts toward targets every 10 seconds. Targets multiple enemies at the same time in range of 35 blocks. Higher level increase damage and maximum target count. Can target 4 enemies per level. Max: 3<ul class=\"bullets\"><li></ul>Damage: 10 - 20"
+ },
+ "modulargolems:hell_cloud": {
+  "name": "Apostle Upgrade: Hell Cloud",
+  "text": "Summon Hell Cloud on target position every 10 seconds. Higher level increase radius, duration, and damage. Max: 5<ul class=\"bullets\"><li></ul>Radius: 4 - 6 blocks <ul class=\"bullets\"><li></ul>Duration: 6 - 10 seconds <ul class=\"bullets\"><li></ul>Damage: 4 - 8 <ul class=\"bullets\"><li></ul>Targeting: 3 - 7"
+ },
+ "modulargolems:soul_collection": {
+  "name": "Soul Collection Upgrade",
+  "text": "Give owner soul energy when golem kills enemies. Amplifies the soul energy gained by modifier level. Max level: 4"
+ },
+ "modulargolems:the_abhorrent": {
+  "name": "Title: The Abhorrent",
+  "text": "Golem will reduce target invulnerability frames on hit. Each level reduces 5 ticks of invul frames.<br><br>Max level: 4"
+ },
+ "modulargolems:the_atrocious": {
+  "name": "Title: The Atrocious",
+  "text": "Reduce skill cooldown from apostle upgrades by half.<br><br>Max level: 1"
+ },
+ "modulargolems:the_profane": {
+  "name": "Title: The Profane",
+  "text": "When golem damaged target, golem will remove 1 positive effects on target per level. <br><br>Max level: 4"
+ },
+ "modulargolems:the_terrible": {
+  "name": "Title: The Terrible",
+  "text": "Increase Golem bow draw speed by 100% per level. Does not affect half seconds shooting cooldown.<br><br>Golem can target at most 4 x level + 4 enemies when shooting with bows.<br><br>If golem is using vanilla bow, golem can shoot 2 + level arrows at each targets.<br><br>Max level: 4"
+ },
+ "modulargolems:attack_high": {
+  "name": "Attack Upgrade V",
+  "text": "Increase golem attack by a lot. Same as 5 quartz upgrades."
+ },
+ "modulargolems:soul_flame": {
+  "name": "Potion Upgrade: Soul Flame",
+  "text": "Golems will apply soul flame effect to target when attacking, and to attacker when attacked. Golem will also immune to soul flame damage. Max: 3"
+ },
+ "modulargolems:force_field": {
+  "name": "Wither Armor Upgrade",
+  "text": "Golems will be immune to projectiles and repel them. There will be also a swirling wither armor effect on golems. Max: 1"
+ },
+ "modulargolems:freezing": {
+  "name": "Potion Upgrade: Freezing",
+  "text": "Golems will apply freezing effect to target when attacking, and to attacker when attacked. Golem will also immune to freezing damage. Max: 3"
+ },
+ "modulargolems:cleanse": {
+  "name": "Potion Upgrade: Cleanse",
+  "text": "Golem will gain cleanse effect, which actively removes any other effects. Useful against enemies that inflict annoying effects. Max: 1"
+ },
+ "modulargolems:curse": {
+  "name": "Potion Upgrade: Curse",
+  "text": "Inflict curse effect to mobs attacking the golem or attacked by the golem. The duration will be 3 seconds per level. Max: 3<br><br>This effect will prevent enemy from healing."
+ },
+ "modulargolems:incarcerate": {
+  "name": "Potion Upgrade: Incarceration",
+  "text": "Inflict incarceration effect to mobs attacking the golem or attacked by the golem. The duration will be 1 second per level. Max: 3<br><br>This effect will prevent enemy from moving."
+ },
+ "modulargolems:speed_high": {
+  "name": "Speed Upgrade V",
+  "text": "Increase golem movement speed by a lot. Same as 5 speed upgrades."
+ },
+ "modulargolems:teleport": {
+  "name": "Teleport Upgrade",
+  "text": "Golem will teleport to target if target is too far away When attacked, golem will attempt to teleport away to avoid damage. Max: 1"
+ },
+ "modulargolems:hostility_core": {
+  "name": "Hostility Core",
+  "text": "All other hostility upgrades would not consume slots. Enables the golem to be really strong."
+ },
+ "modulargolems:hostility_potion": {
+  "name": "Hostility Upgrade: Potion",
+  "text": "First level of potion upgrades do not consume slot. When used with Cauldron upgrade, all potion upgrades do no consume slots."
+ },
+ "modulargolems:hostility_protection": {
+  "name": "Hostility Upgrade: Protection",
+  "text": "Same effect as Protection trait on mobs. Max level: 4"
+ },
+ "modulargolems:hostility_reflect": {
+  "name": "Hostility Upgrade: Reflective",
+  "text": "Same effect as Reflective trait on mobs. Max level: 5"
+ },
+ "modulargolems:hostility_regen": {
+  "name": "Hostility Upgrade: Regeneration",
+  "text": "Same effect as Regeneration trait on mobs. Max level: 5"
+ },
+ "modulargolems:hostility_speed": {
+  "name": "Hostility Upgrade: Speedy",
+  "text": "Same effect as Speedy trait on mobs. Max level: 5"
+ },
+ "modulargolems:hostility_tank": {
+  "name": "Hostility Upgrade: Tanky",
+  "text": "Same effect as Tanky trait on mobs. Max level: 5"
+ },
+ "modulargolems:thunderstorm": {
+  "name": "Thunderstorm Upgrade",
+  "text": "Summon thunderstorm to attack multiple targets. When being attacked, summon electric bursts around the golem.Max:4 <ul class=\"bullets\"><li></ul>thunderstorm damage\uff1a7/10/13/16 <ul class=\"bullets\"><li></ul>thunderstorm count\uff1a16/24/32/40 <ul class=\"bullets\"><li></ul>electric bursts damage\uff1a40%/60%/80%/100%melee damage"
+ },
+ "modulargolems:wroughtnaut": {
+  "name": "Wroughtnaut Slamming Upgrade",
+  "text": "Perform falling attack and create shockwave"
+ },
+ "modulargolems:carminite": {
+  "name": "Carminite Upgrade",
+  "text": "Golem will turn invisible and invincible for a short time after being hurt, similar to Reappearing Block. Max: 5"
+ },
+ "modulargolems:fiery": {
+  "name": "Fiery Upgrade",
+  "text": "Deal more damage to those who are not immune to fire. Max: 5"
+ },
+ "modulargolems:ironwood": {
+  "name": "Ironwood Upgrade",
+  "text": "More healing bonus in twilight forest. Max: 5"
+ },
+ "modulargolems:knightmetal": {
+  "name": "Knight Metal Upgrade",
+  "text": "Deal thorn damage to those who attack this golem. Max: 5"
+ },
+ "modulargolems:naga": {
+  "name": "Naga Upgrade",
+  "text": "Holistic stats boost for golem, from the power of Naga. Max: 2"
+ },
+ "modulargolems:steeleaf": {
+  "name": "Steeleaf Upgrade",
+  "text": "More damage bonus in twilight forest. Max: 5"
+ },
+ "modulargolems:bell": {
+  "name": "Bell Upgrade",
+  "text": "When golem set or switch attack target, it will ring its bell, attract all enemies within 48 blocks, and apply glow effect to them."
+ },
+ "modulargolems:diamond": {
+  "name": "Diamond Upgrade",
+  "text": "Adds armor value to golems. Improve golem survivability by a bit. Max: 2"
+ },
+ "modulargolems:emerald": {
+  "name": "Emerald Upgrade",
+  "text": "Damage dealt to illagers will increase by a lot. Max: 2"
+ },
+ "modulargolems:ender_sight": {
+  "name": "Ender Sight Upgrade",
+  "text": "Golem can see through wall and ceilings. It can see all mobs within range that is under the sky, within 5 blocks, or above the golem."
+ },
+ "modulargolems:fire_immune": {
+  "name": "Fire Immune",
+  "text": "Make golem immune to fire damages. Also make golem float on lava."
+ },
+ "modulargolems:float": {
+  "name": "Float Upgrade",
+  "text": "Golem floats in water."
+ },
+ "modulargolems:gold": {
+  "name": "Golden Apple Upgrade",
+  "text": "Increase golem health regeneration by 1 level. Max level: 5 Increase golem health regeneration by 2 level. Max level: 5"
+ },
+ "modulargolems:enchanted_gold": {
+  "name": "Golden Apple Upgrade",
+  "text": "Increase golem health regeneration by 1 level. Max level: 5 Increase golem health regeneration by 2 level. Max level: 5"
+ },
+ "modulargolems:cauldron": {
+  "name": "Meta Upgrade: Cauldron",
+  "text": "Repeated potion upgrades will not consume upgrade slot. One kind of potion upgrade will consume one slot regardless of its level."
+ },
+ "modulargolems:talented": {
+  "name": "Meta Upgrade: Talented",
+  "text": "First of each kind of upgrades with blue arrows will no longer consume upgrade slots (up to 4). Already consumed slots will be returned. New blue upgrades can be applied even when there are no slots left. Multiple blue arrow upgrades of the same kind would still consume slots."
+ },
+ "modulargolems:netherite": {
+  "name": "Netherite Upgrade",
+  "text": "Adds armor value and toughness to golems. Improve golem survivability by a lot. Max: 2"
+ },
+ "modulargolems:pickup": {
+  "name": "Pickup Upgrade",
+  "text": "Allow golems to pick up items and experiences. The pickup radius increase with upgrade level. Max: 3<br><br>There are 2 Augments available, also it supports L2Backpack and Create Enchantment Industry as destination to receive items and experiences.<br><br>Note that golem will not actively find items and experiences. The golem will attempt to teleport the item to player. If it&#x27;s in standing mode, it will first try to put the items into the closest container within 1 blocks. If neither container nor the player is present, it will destroy the item to prevent lag. If the golem has No Destroy Augment, it will not destroy the item. The golem will first try to use the experiences to fix its mending equipments. Then if the golem has Mending Augment, it will try to heal itself with the experiences. Then, if the player is present, it will give the experiences to player. Otherwise, it will destroy the experiences. If you installed L2Backpack, golem can use Dimensional Backpack and will try to insert items into its Dimensional Backpack before searching for containers.<br><br>If you installed Create Enchantment Industry, golem will try to insert experiences into the disenchanter if it stands on one, before trying to teleport the items to player."
+ },
+ "modulargolems:pickup_no_destroy": {
+  "name": "Pickup Upgrade",
+  "text": "Allow golems to pick up items and experiences. The pickup radius increase with upgrade level. Max: 3<br><br>There are 2 Augments available, also it supports L2Backpack and Create Enchantment Industry as destination to receive items and experiences.<br><br>Note that golem will not actively find items and experiences. The golem will attempt to teleport the item to player. If it&#x27;s in standing mode, it will first try to put the items into the closest container within 1 blocks. If neither container nor the player is present, it will destroy the item to prevent lag. If the golem has No Destroy Augment, it will not destroy the item. The golem will first try to use the experiences to fix its mending equipments. Then if the golem has Mending Augment, it will try to heal itself with the experiences. Then, if the player is present, it will give the experiences to player. Otherwise, it will destroy the experiences. If you installed L2Backpack, golem can use Dimensional Backpack and will try to insert items into its Dimensional Backpack before searching for containers.<br><br>If you installed Create Enchantment Industry, golem will try to insert experiences into the disenchanter if it stands on one, before trying to teleport the items to player."
+ },
+ "modulargolems:pickup_mending": {
+  "name": "Pickup Upgrade",
+  "text": "Allow golems to pick up items and experiences. The pickup radius increase with upgrade level. Max: 3<br><br>There are 2 Augments available, also it supports L2Backpack and Create Enchantment Industry as destination to receive items and experiences.<br><br>Note that golem will not actively find items and experiences. The golem will attempt to teleport the item to player. If it&#x27;s in standing mode, it will first try to put the items into the closest container within 1 blocks. If neither container nor the player is present, it will destroy the item to prevent lag. If the golem has No Destroy Augment, it will not destroy the item. The golem will first try to use the experiences to fix its mending equipments. Then if the golem has Mending Augment, it will try to heal itself with the experiences. Then, if the player is present, it will give the experiences to player. Otherwise, it will destroy the experiences. If you installed L2Backpack, golem can use Dimensional Backpack and will try to insert items into its Dimensional Backpack before searching for containers.<br><br>If you installed Create Enchantment Industry, golem will try to insert experiences into the disenchanter if it stands on one, before trying to teleport the items to player."
+ },
+ "modulargolems:player": {
+  "name": "Player Immune Upgrade",
+  "text": "Golem will be immune to friendly fire (damage caused by those who golems won&#x27;t attack). Max: 1"
+ },
+ "modulargolems:slow": {
+  "name": "Potion Upgrade: Slowness",
+  "text": "Inflict 3 seconds of slowness to mobs attacking the golem or attacked by the golem. The potion level will be the same as the upgrade level. Max: 3"
+ },
+ "modulargolems:weak": {
+  "name": "Potion Upgrade: Weakness",
+  "text": "Inflict 3 seconds of weakness to mobs attacking the golem or attacked by the golem. The potion level will be the same as the upgrade level. Max: 3"
+ },
+ "modulargolems:wither": {
+  "name": "Potion Upgrade: Wither",
+  "text": "Inflict 3 seconds of wither to mobs attacking the golem or attacked by the golem. The potion level will be the same as the upgrade level. Max: 3"
+ },
+ "modulargolems:quartz": {
+  "name": "Quartz Upgrade",
+  "text": "Increase golem attack damage by a bit. Max: 5"
+ },
+ "modulargolems:mount_upgrade": {
+  "name": "Ride Upgrade",
+  "text": "For dog golem only. Make golem unable to attack or targeted for attack. Immune to mob attack that is not targeting it. Increase health, speed, and jump strength."
+ },
+ "modulargolems:size_upgrade": {
+  "name": "Size Upgrade",
+  "text": "Increase Golem size, speed, health, and attack range. Size bonus differs by golem types. Max: 2<br><br>For dog golems, increase 1 maximum passenger capacity, max 3 passengers."
+ },
+ "modulargolems:speed": {
+  "name": "Speed Upgrade",
+  "text": "Increase golem movement speed by a bit. Max: 5"
+ },
+ "modulargolems:sponge": {
+  "name": "Sponge Upgrade",
+  "text": "Golem takes less explosion damage, and any explosions hurting the golem will not break blocks."
+ },
+ "modulargolems:swim": {
+  "name": "Swim Upgrade",
+  "text": "Golem can swim in water."
+ },
+ "modulargolems:thunder_immune": {
+  "name": "Thunder Immune",
+  "text": "Make golem immune to thunder damages, and attract lightning. When struck, gain fire resistance and heal a bit."
+ }
+}

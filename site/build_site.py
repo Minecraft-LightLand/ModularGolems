@@ -148,6 +148,41 @@ SOURCE_NAMES = {
     },
 }
 
+# Display names for compat-mod ingredient items (material configs). Names are
+# taken from each mod's own lang files; emitted as data/compat_items.json.
+COMPAT_ITEM_NAMES = {
+    "allthemodium:allthemodium_ingot": {"en": "Allthemodium Ingot", "zh": "ATM锭"},
+    "allthemodium:unobtainium_ingot": {"en": "Unobtainium Ingot", "zh": "难得素锭"},
+    "allthemodium:vibranium_ingot": {"en": "Vibranium Ingot", "zh": "振金锭"},
+    "blazegear:brimsteel_ingot": {"en": "Brimsteel Ingot", "zh": "烈焰钢锭"},
+    "botania:elementium_ingot": {"en": "Elementium Ingot", "zh": "源质钢锭"},
+    "botania:manasteel_ingot": {"en": "Manasteel Ingot", "zh": "魔力钢锭"},
+    "botania:terrasteel_ingot": {"en": "Terrasteel Ingot", "zh": "泰拉钢锭"},
+    "cataclysm:ancient_metal_ingot": {"en": "Ancient Metal Ingot", "zh": "远古金属锭"},
+    "cataclysm:cursium_ingot": {"en": "Cursium Ingot", "zh": "咒魂锭"},
+    "cataclysm:ignitium_ingot": {"en": "Ignitium Ingot", "zh": "腾炎锭"},
+    "cataclysm:witherite_ingot": {"en": "Witherite Ingot", "zh": "凋灵合金锭"},
+    "composite_material:allay_steel_ingot": {"en": "Allay Steel Ingot", "zh": "悦灵钢锭"},
+    "composite_material:dungeon_steel_ingot": {"en": "Dungeon Steel Ingot", "zh": "地牢钢锭"},
+    "composite_material:etherite_ingot": {"en": "Etherite Ingot", "zh": "以太合金锭"},
+    "composite_material:obsidian_steel_ingot": {"en": "Obsidian Steel Ingot", "zh": "黑曜石钢锭"},
+    "composite_material:primitive_tenacity": {"en": "Primitive Tenacity", "zh": "荒古坚材"},
+    "create:andesite_alloy": {"en": "Andesite Alloy", "zh": "安山合金"},
+    "create:railway_casing": {"en": "Train Casing", "zh": "列车机壳"},
+    "goety:cursed_ingot": {"en": "Cursed Metal Ingot", "zh": "诅咒金属锭"},
+    "goety:dark_ingot": {"en": "Dark Metal Ingot", "zh": "黑暗金属锭"},
+    "iceandfire:dragonsteel_fire_ingot": {"en": "Fire Dragonsteel Ingot", "zh": "龙炎钢锭"},
+    "iceandfire:dragonsteel_ice_ingot": {"en": "Ice Dragonsteel Ingot", "zh": "龙霜钢锭"},
+    "iceandfire:dragonsteel_lightning_ingot": {"en": "Lightning Dragonsteel Ingot", "zh": "龙霆钢锭"},
+    "l2complements:eternium_ingot": {"en": "Eternium Ingot", "zh": "永恒锭"},
+    "l2complements:poseidite_ingot": {"en": "Poseidite Ingot", "zh": "海神锭"},
+    "l2complements:shulkerate_ingot": {"en": "Shulkerate Ingot", "zh": "潜影锭"},
+    "l2complements:totemic_gold_ingot": {"en": "Totemic Gold Ingot", "zh": "生命锭"},
+    "l2hostility:chaos_ingot": {"en": "Chaos Ingot", "zh": "混沌锭"},
+    "l2hostility:miracle_ingot": {"en": "Miracle Ingot", "zh": "奇迹锭"},
+    "legendary_monsters:molten_metal_ingot": {"en": "Molten Metal Ingot", "zh": "熔融金属锭"},
+}
+
 # Version this build is generated for. The list mirrors the repo's version
 # branches. Per-version supported compat mods are parsed from each branch's
 # CompatManager.register() (see compat_mods_for), not hardcoded here.
@@ -224,6 +259,28 @@ def compat_mods_for(branch):
     return sorted(mods)
 
 
+MODEL_SUBDIR = "src/generated/resources/assets/modulargolems/models/item"
+
+
+def branch_item_models(branch):
+    """Item model files (basename stem) present on a version branch.
+
+    The current version reads the working tree; other branches are inspected
+    via git ls-tree, so the version lists reflect the models that actually
+    exist in each version rather than any texture attribution."""
+    if branch == current_version()["branch"]:
+        if MODEL_DIR.is_dir():
+            return {p.stem for p in MODEL_DIR.glob("*.json")}
+        return set()
+    import subprocess
+    for ref in (branch, f"origin/{branch}"):
+        r = subprocess.run(["git", "ls-tree", "-r", "--name-only", ref, "--", MODEL_SUBDIR],
+                           capture_output=True, text=True)
+        if r.returncode == 0 and r.stdout.strip():
+            return {Path(ln).stem for ln in r.stdout.splitlines() if ln}
+    return set()
+
+
 STAT_INFO = {
     "max_health": {"en": "Max Health", "zh": "最大生命值", "kind": "BASE"},
     "attack": {"en": "Attack Damage", "zh": "攻击伤害", "kind": "BASE"},
@@ -234,7 +291,7 @@ STAT_INFO = {
     "regen": {"en": "Regeneration", "zh": "生命回复", "kind": "ADD"},
     "sweep": {"en": "Sweep Range", "zh": "范围攻击", "kind": "ADD"},
     "speed": {"en": "Movement Speed", "zh": "移动速度", "kind": "PERCENT"},
-    "weight": {"en": "Weight", "zh": "负重", "kind": "PERCENT"},
+    "weight": {"en": "Speed", "zh": "速度", "kind": "PERCENT"},
     "jump_strength": {"en": "Jump Strength", "zh": "跳跃强度", "kind": "PERCENT"},
     "max_health_percent": {"en": "Max Health", "zh": "最大生命值", "kind": "PERCENT"},
     "max_size": {"en": "Golem Size", "zh": "傀儡体型", "kind": "ADD"},
@@ -403,6 +460,9 @@ def item_name(reg_id, lang):
     if ns == "modulargolems":
         return (LANG[lang].get(f"item.modulargolems.{path}")
                 or LANG["en"].get(f"item.modulargolems.{path}") or path)
+    compat = COMPAT_ITEM_NAMES.get(reg_id)
+    if compat:
+        return compat[lang]
     return VANILLA_NAMES[lang].get(reg_id, TAG_NAMES[lang].get(reg_id, reg_id))
 
 
@@ -659,14 +719,15 @@ def load_book(lang):
     return cat_meta, entries
 
 
-def book_link(target, lang):
+def book_link(target, lang, prefix=None):
     target = target.split("#")[0]
     if target.startswith("http"):
         return target
     for cand in [target.strip("/"), target.strip("/").split("/")[-1]]:
         p = BOOK_DIR / LANG_CODE[lang] / "entries" / f"{cand}.json"
         if p.exists():
-            return f"{book_root()}{lang}/{cand}.html"
+            root = prefix if prefix is not None else book_root()
+            return f"{root}{lang}/{cand}.html"
     return None
 
 
@@ -901,7 +962,12 @@ code{background:rgba(255,255,255,.07);border-radius:5px;padding:1px 6px;font-siz
 .searchbar{width:100%;max-width:440px;padding:10px 14px;margin:16px 0;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:15px}
 .searchbar:focus{outline:none;border-color:var(--accent)}
 .itemcat{margin:26px 0}
-.itemcat h2{border-bottom:1px solid var(--line);padding-bottom:8px}
+.itemcat h2{border-bottom:1px solid var(--line);padding-bottom:8px;display:inline-block}
+.itemcat>summary{cursor:pointer;user-select:none;list-style:none}
+.itemcat>summary::-webkit-details-marker{display:none}
+.itemcat>summary::before{content:"▸ ";color:var(--muted);font-size:14px;margin-right:4px}
+.itemcat[open]>summary::before{content:"▾ "}
+.itemcell{cursor:pointer}
 .itemgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:12px 0}
 .itemcell{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
 .itemcell:hover{border-color:var(--accent)}
@@ -912,6 +978,17 @@ code{background:rgba(255,255,255,.07);border-radius:5px;padding:1px 6px;font-siz
 .itemcell figcaption small{display:block;color:var(--muted);font-size:10px}
 .itemcell figure{margin:0}
 .upgradesub{grid-column:1/-1;font-size:13px;color:var(--accent);font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px;margin-top:8px}
+.itemoverlay{position:fixed;inset:0;background:rgba(4,8,14,.72);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.itempanel{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:520px;width:100%;padding:22px 24px;position:relative;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.itempanel .close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);font-size:22px;line-height:1;cursor:pointer}
+.itempanel .close:hover{color:var(--text)}
+.ovhead{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.ovhead .slot{width:64px;height:64px;flex:none;background:#0a0e14}
+.ovhead h3{margin:0 0 2px;font-size:17px}
+.ovhead code{font-size:11px}
+.ovbody{color:var(--text);line-height:1.6;font-size:14px;max-height:46vh;overflow:auto}
+.ovbody ul.bullets{padding-left:20px}
+.ovbody .misc{color:var(--muted)}
 """
 
 
@@ -1014,14 +1091,63 @@ def build_versions_json():
 
 
 def build_items_json():
-    """Per-version item lists. An item exists in a version when its source mod
-    is supported there (CompatManager) or is a universal namespace."""
+    """Per-version item lists, keyed off whether the item model file exists on
+    that version branch (git ls-tree), not off texture attribution."""
     items = all_item_pids()
     out = {"current": BUILD_VERSION}
     for v in VERSIONS:
-        mods = set(compat_mods_for(v["branch"])) | UNIVERSAL_NS
-        out[v["label"]] = sorted(p for p in items if item_source_mod(p) in mods)
+        models = branch_item_models(v["branch"])
+        out[v["label"]] = sorted(p for p in items if p in models)
     return out
+
+
+def build_mod_names_json():
+    """Source mod -> {en, zh} display name, so pages/JS can localize mod names."""
+    return {ns: {lang: SOURCE_NAMES[lang][ns] for lang in LANGS}
+            for ns in SOURCE_NAMES["en"]}
+
+
+def build_compat_items_json():
+    """Compat ingredient item -> {en, zh} display name."""
+    return dict(COMPAT_ITEM_NAMES)
+
+
+def build_item_descs(lang, prefix=None):
+    """Item -> description, pulled from the Patchouli guide entries that
+    spotlight the item (entry name + page text), formatted as HTML. `prefix`
+    is the URL prefix (relative to the consuming page) used to resolve links
+    into the guide."""
+    _, entries = load_book(lang)
+    descs = {}
+    for eid, d in entries.items():
+        refs = []
+        if d.get("icon"):
+            refs.append(d["icon"].split("{")[0].strip())
+        for p in d.get("pages", []):
+            if isinstance(p, dict) and p.get("type") == "patchouli:spotlight":
+                item_str = p.get("item", "") or ""
+                if "{" not in item_str and "," in item_str:
+                    for x in item_str.split(","):
+                        if x.strip():
+                            refs.append(x.strip())
+                elif item_str.strip():
+                    refs.append(item_str.split("{")[0].strip())
+        if not refs:
+            continue
+        texts = []
+        for p in d.get("pages", []):
+            if isinstance(p, str):
+                texts.append(p)
+            elif isinstance(p, dict) and p.get("text"):
+                texts.append(p["text"])
+        text = patchouli_text(" ".join(texts), lambda t: book_link(t, lang, prefix) or t)
+        if not text:
+            continue
+        entry = {"name": d.get("name", eid), "text": text}
+        for ref in refs:
+            if ref not in descs:
+                descs[ref] = entry
+    return descs
 
 
 def modifier_info(mod_id, lang):
@@ -1419,7 +1545,7 @@ def build_items(lang):
         if not lst:
             continue
         label = CAT_LABEL[c][0 if lang == "en" else 1]
-        parts.append(f'<section class="itemcat"><h2>{esc(label)} <span class="misc">({len(lst)})</span></h2>')
+        parts.append(f'<details class="itemcat" open><summary><h2>{esc(label)} <span class="misc">({len(lst)})</span></h2></summary>')
         if c == "upgrades":
             by_mod = {}
             for pid in lst:
@@ -1439,12 +1565,25 @@ def build_items(lang):
             for pid in lst:
                 parts.append(item_cell(pid))
             parts.append("</div>")
-        parts.append("</section>")
+        parts.append("</details>")
     parts.append("</div>")
+    no_desc = "No description available." if lang == "en" else "暂无描述。"
+    parts.append(f"""<div class="itemoverlay" id="ov" hidden>
+  <div class="itempanel" role="dialog" aria-modal="true">
+    <button class="close" id="ovclose" aria-label="Close">×</button>
+    <div class="ovhead">
+      <span class="slot" id="ovslot"></span>
+      <div><h3 id="ovname"></h3><code id="ovid" class="misc"></code></div>
+    </div>
+    <div class="ovbody" id="ovdesc"></div>
+  </div>
+</div>""")
     parts.append(f"""<script>
 (function(){{
   var q=document.getElementById('q');
   var data=null;
+  var descs={{}};
+  var noDesc={json.dumps(no_desc)};
   function apply(){{
     var s=q?q.value.toLowerCase():'';
     var v=window.MG_VERSION||(data&&data.current)||'';
@@ -1468,9 +1607,37 @@ def build_items(lang):
       g.style.display=any?'':'none';
     }});
   }}
+  var ov=document.getElementById('ov');
+  var ovslot=document.getElementById('ovslot');
+  var ovname=document.getElementById('ovname');
+  var ovid=document.getElementById('ovid');
+  var ovdesc=document.getElementById('ovdesc');
+  function showDesc(pid,name,img){{
+    var d=descs['modulargolems:'+pid];
+    ovslot.innerHTML='<img class="itemimg" width="48" height="48" src="'+img+'" alt="">';
+    ovname.textContent=name;
+    ovid.textContent='modulargolems:'+pid;
+    ovdesc.innerHTML=d&&d.text?d.text:'<span class="misc">'+noDesc+'</span>';
+    ov.hidden=false;
+  }}
+  document.querySelectorAll('.itemcell').forEach(function(c){{
+    c.addEventListener('click',function(){{
+      var img=c.querySelector('img.itemimg');
+      var nm=c.querySelector('figcaption').childNodes[0];
+      showDesc(c.getAttribute('data-pid'),
+               nm?nm.textContent.trim():c.getAttribute('data-pid'),
+               img?img.src:'');
+    }});
+  }});
+  document.getElementById('ovclose').addEventListener('click',function(){{ov.hidden=true;}});
+  ov.addEventListener('click',function(e){{ if(e.target===ov)ov.hidden=true; }});
+  document.addEventListener('keydown',function(e){{ if(e.key==='Escape')ov.hidden=true; }});
   fetch('{data_root()}items.json')
     .then(function(r){{return r.json();}})
     .then(function(j){{data=j;apply();}}).catch(function(){{apply();}});
+  fetch('{data_root()}item_descs_{lang}.json')
+    .then(function(r){{return r.json();}})
+    .then(function(j){{descs=j;}}).catch(function(){{}});
   window.addEventListener('mg-version',apply);
   if(q)q.addEventListener('input',apply);
 }})();
@@ -1515,6 +1682,13 @@ def main():
         json.dumps(build_versions_json(), indent=1), encoding="utf-8")
     (OUT / "data/items.json").write_text(
         json.dumps(build_items_json(), indent=1), encoding="utf-8")
+    (OUT / "data/mod_names.json").write_text(
+        json.dumps(build_mod_names_json(), indent=1), encoding="utf-8")
+    (OUT / "data/compat_items.json").write_text(
+        json.dumps(build_compat_items_json(), indent=1), encoding="utf-8")
+    for lang in LANGS:
+        (OUT / f"data/item_descs_{lang}.json").write_text(
+            json.dumps(build_item_descs(lang, prefix="../../book/"), indent=1), encoding="utf-8")
 
     def write_page(page_rel, html):
         dest = OUT / page_rel
