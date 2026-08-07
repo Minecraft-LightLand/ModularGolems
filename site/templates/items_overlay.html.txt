@@ -1,0 +1,10 @@
+<div class="itemoverlay" id="ov" hidden>
+  <div class="itempanel" role="dialog" aria-modal="true">
+    <button class="close" id="ovclose" aria-label="Close">×</button>
+    <div class="ovhead">
+      <span class="slot" id="ovslot"></span>
+      <div><h3 id="ovname"></h3><code id="ovid" class="misc"></code></div>
+    </div>
+    <div class="ovbody" id="ovdesc"></div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<script>
+(function(){
+  var q=document.getElementById('q');
+  var data=null;
+  var descs={};
+  var noDesc=$no_desc;
+  function apply(){
+    var s=q?q.value.toLowerCase():'';
+    var v=window.MG_VERSION||(data&&data.current)||'';
+    var list=data?data[v]:null;
+    if(!list&&data)list=data[data.current];
+    var filtered=v&&data&&v!==data.current;
+    document.querySelectorAll('.itemcell').forEach(function(c){
+      var show=true;
+      if(filtered&&list)show=list.indexOf(c.getAttribute('data-pid'))>=0;
+      if(show&&s)show=c.getAttribute('data-search').indexOf(s)>=0;
+      c.style.display=show?'':'none';
+    });
+    document.querySelectorAll('.itemcat').forEach(function(g){
+      var any=false;
+      g.querySelectorAll('.itemgrid').forEach(function(gr){
+        var anyIn=false;
+        gr.querySelectorAll('.itemcell').forEach(function(c){ if(c.style.display!=='none')anyIn=true; });
+        gr.style.display=anyIn?'':'none';
+        if(anyIn)any=true;
+      });
+      g.style.display=any?'':'none';
+    });
+  }
+  var ov=document.getElementById('ov');
+  var ovslot=document.getElementById('ovslot');
+  var ovname=document.getElementById('ovname');
+  var ovid=document.getElementById('ovid');
+  var ovdesc=document.getElementById('ovdesc');
+  function showDesc(pid,name,img){
+    var d=descs['modulargolems:'+pid];
+    ovslot.innerHTML='<img class="itemimg" width="48" height="48" src="'+img+'" alt="">';
+    ovname.textContent=name;
+    ovid.textContent='modulargolems:'+pid;
+    ovdesc.innerHTML=d&&d.text?d.text:'<span class="misc">'+noDesc+'</span>';
+    ov.hidden=false;
+  }
+  document.querySelectorAll('.itemcell').forEach(function(c){
+    c.addEventListener('click',function(){
+      var img=c.querySelector('img.itemimg');
+      var nm=c.querySelector('figcaption').childNodes[0];
+      showDesc(c.getAttribute('data-pid'),
+               nm?nm.textContent.trim():c.getAttribute('data-pid'),
+               img?img.src:'');
+    });
+  });
+  document.getElementById('ovclose').addEventListener('click',function(){ov.hidden=true;});
+  ov.addEventListener('click',function(e){ if(e.target===ov)ov.hidden=true; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape')ov.hidden=true; });
+  fetch('$items_url')
+    .then(function(r){return r.json();})
+    .then(function(j){data=j;apply();}).catch(function(){apply();});
+  fetch('$descs_url')
+    .then(function(r){return r.json();})
+    .then(function(j){descs=j;}).catch(function(){});
+  window.addEventListener('mg-version',apply);
+  if(q)q.addEventListener('input',apply);
+})();
+</script>

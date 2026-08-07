@@ -1,0 +1,33 @@
+<script>
+(function(){
+  var data=null, universal=['modulargolems','minecraft'];
+  function modsFor(v){
+    if(!data)return null;
+    for(var i=0;i<data.versions.length;i++)
+      if(data.versions[i].label===v) return data.versions[i].mods;
+    return null;
+  }
+  function apply(){
+    var v=window.MG_VERSION||(data&&data.current)||'';
+    var mods=modsFor(v);
+    if(!mods)return;
+    var cnt=0;
+    document.querySelectorAll('.matsource').forEach(function(sec){
+      var ns=sec.getAttribute('data-ns');
+      var show=universal.indexOf(ns)>=0||mods.indexOf(ns)>=0;
+      sec.style.display=show?'':'none';
+      if(show)cnt++;
+    });
+    document.querySelectorAll('.matnavpills a').forEach(function(a){
+      var ns=a.getAttribute('data-ns');
+      a.style.display=(universal.indexOf(ns)>=0||mods.indexOf(ns)>=0)?'':'none';
+    });
+    var cntEl=document.getElementById('matsrccount');
+    if(cntEl)cntEl.textContent=cnt;
+  }
+  fetch('$versions_url')
+    .then(function(r){return r.json();})
+    .then(function(j){data=j;apply();}).catch(function(){});
+  window.addEventListener('mg-version',apply);
+})();
+</script>

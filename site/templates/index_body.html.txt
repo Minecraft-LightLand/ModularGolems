@@ -1,0 +1,42 @@
+
+<div class="hero">
+  <img class="bookhero" src="assets/tex/item/book.png" alt="">
+  <h1>$title</h1>
+  <p class="lead">$lead</p>
+  <div class="statline">
+    <span><b>$mats_count</b> $mats_label</span>
+    <span><b>$entries_count</b> $entries_label</span>
+    <span><b>$items_count</b> $items_label</span>
+    <span><b>2</b> $langs_label</span>
+  </div>
+</div>
+<div class="wrap">
+  <div class="cards">
+    <a class="card" href="book/$lang/index.html">
+      <img class="icon" src="assets/tex/item/book.png" alt="">
+      <h3>$card_guide_title</h3>
+      <p>$card_guide_desc</p>
+    </a>
+    <a class="card" href="materials/$lang/index.html">
+      <img class="icon" src="assets/tex/item/metal_golem_template.png" alt="">
+      <h3>$card_mats_title</h3>
+      <p>$card_mats_desc</p>
+    </a>
+    <a class="card" href="items/$lang/index.html">
+      <img class="icon" src="assets/tex/item/summon_wand.png" alt="">
+      <h3>$card_items_title</h3>
+      <p>$card_items_desc</p>
+    </a>
+  </div>
+  <p class="hint">$hint</p>
+</div>
+<script>
+(function(){
+  var pref=null;
+  try{ pref=localStorage.getItem('mg_lang'); }catch(e){}
+  if (pref === '$pref_other') { location.replace('$other_home'); return; }
+  if (pref === '$pref_self') return;
+  var l=(navigator.language||'').toLowerCase();
+  if (l.indexOf('$nav_lang')===0) location.replace('$other_home');
+})();
+</script>

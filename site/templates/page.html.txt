@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="$lang">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$title</title>
+<link rel="stylesheet" href="${root}css/style.css">
+</head>
+<body>
+$nav
+$body
+<footer class="pagefoot"><div class="wrap">$footer</div></footer>
+<script>
+(function(){
+  var sel=document.querySelector('.vselect');
+  var DATA_CURRENT='$build_version';
+  var langEls=document.querySelectorAll('a.lang');
+  for (var i=0;i<langEls.length;i++){
+    langEls[i].addEventListener('click',function(){
+      try{ localStorage.setItem('mg_lang', this.getAttribute('data-lang')); }catch(e){}
+    });
+  }
+  function setV(v){
+    var prev=window.MG_VERSION;
+    window.MG_VERSION=v;
+    if(prev!==v) window.dispatchEvent(new CustomEvent('mg-version',{detail:v}));
+  }
+  var m=location.search.match(/[?&]v=([^&]+)/);
+  var v=m?decodeURIComponent(m[1]):null;
+  if(!v){ try{ var s=localStorage.getItem('mg_version'); if(s) v=s; }catch(e){} }
+  if(!v || (sel && !sel.querySelector('option[value="'+v+'"]'))) v=DATA_CURRENT;
+  if(sel){
+    sel.value=v;
+    sel.addEventListener('change',function(){
+      var nv=sel.value;
+      try{ localStorage.setItem('mg_version',nv); }catch(e){}
+      if(history.replaceState) history.replaceState(null,'','?v='+encodeURIComponent(nv));
+      setV(nv);
+    });
+  }
+  setV(v);
+})();
+</script>
+</body></html>
