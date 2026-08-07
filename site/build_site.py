@@ -50,11 +50,6 @@ def load_lang(code):
 
 LANG = {code: load_lang(code) for code in LANGS}
 
-# Per-modifier %s values for each level, used to fill the %s placeholders in
-# modifier descriptions (see modifier_info). Maintained manually: update when
-# the modifier config values or level scaling change.
-MODIFIER_VALUES = load_json(ROOT / "site/modifier_values.json")
-
 # Source mod namespace -> {en, zh} display name. Maintained manually in
 # site/mod_names.json; used to label material-source groups and upgrade items,
 # and emitted as data/mod_names.json so pages/JS can localize mod names.
@@ -87,112 +82,54 @@ ITEMS_JS = load_template("items.js.txt")
 CSS = (TEMPLATES / "style.css.txt").read_text(encoding="utf-8")
 
 # ---------------------------------------------------------------------------
-# display-name maps for things not in the mod's own lang files
+# External data (site/data/*.json). Data tables are kept out of the script and
+# loaded at startup; JSON keys match the Python constants they populate.
 # ---------------------------------------------------------------------------
 
-VANILLA_NAMES = {
-    "en": {
-        "minecraft:iron_ingot": "Iron Ingot",
-        "minecraft:gold_ingot": "Gold Ingot",
-        "minecraft:copper_ingot": "Copper Ingot",
-        "minecraft:netherite_ingot": "Netherite Ingot",
-        "minecraft:echo_shard": "Echo Shard",
-        "minecraft:stick": "Stick",
-        "minecraft:white_banner": "White Banner",
-    },
-    "zh": {
-        "minecraft:iron_ingot": "铁锭",
-        "minecraft:gold_ingot": "金锭",
-        "minecraft:copper_ingot": "铜锭",
-        "minecraft:netherite_ingot": "下界合金锭",
-        "minecraft:echo_shard": "回响碎片",
-        "minecraft:stick": "木棍",
-        "minecraft:white_banner": "白色旗帜",
-    },
-}
+DATA_DIR = ROOT / "site/data"
 
-TAG_NAMES = {
-    "en": {
-        "forge:ingots/brass": "Brass Ingot",
-        "forge:ingots/zinc": "Zinc Ingot",
-        "forge:ingots/cobalt": "Cobalt Ingot",
-        "forge:ingots/hepatizon": "Hepatizon Ingot",
-        "forge:ingots/manyullyn": "Manyullyn Ingot",
-        "forge:ingots/rose_gold": "Rose Gold Ingot",
-        "forge:ingots/amethyst_bronze": "Amethyst Bronze Ingot",
-        "forge:ingots/fiery": "Fiery Ingot",
-        "forge:ingots/ironwood": "Ironwood Ingot",
-        "forge:ingots/knightmetal": "Knightmetal Ingot",
-        "forge:ingots/steeleaf": "Steeleaf Ingot",
-        "modulargolems:cardboard": "Cardboard",
-        "modulargolems:revelation_ingot": "Revelation Ingot",
-        "modulargolems:sculk_materials": "Sculk Materials",
-    },
-    "zh": {
-        "forge:ingots/brass": "黄铜锭",
-        "forge:ingots/zinc": "锌锭",
-        "forge:ingots/cobalt": "钴锭",
-        "forge:ingots/hepatizon": "赫帕铁锭",
-        "forge:ingots/manyullyn": "玛玉灵锭",
-        "forge:ingots/rose_gold": "玫瑰金锭",
-        "forge:ingots/amethyst_bronze": "紫晶青铜锭",
-        "forge:ingots/fiery": "炽焰锭",
-        "forge:ingots/ironwood": "铁木锭",
-        "forge:ingots/knightmetal": "骑士金属锭",
-        "forge:ingots/steeleaf": "钢叶锭",
-        "modulargolems:cardboard": "纸板",
-        "modulargolems:revelation_ingot": "启示锭",
-        "modulargolems:sculk_materials": "幽匿材料",
-    },
-}
 
-# Display names for compat-mod ingredient items (material configs). Names are
-# taken from each mod's own lang files; emitted as data/compat_items.json.
-COMPAT_ITEM_NAMES = {
-    "allthemodium:allthemodium_ingot": {"en": "Allthemodium Ingot", "zh": "ATM锭"},
-    "allthemodium:unobtainium_ingot": {"en": "Unobtainium Ingot", "zh": "难得素锭"},
-    "allthemodium:vibranium_ingot": {"en": "Vibranium Ingot", "zh": "振金锭"},
-    "blazegear:brimsteel_ingot": {"en": "Brimsteel Ingot", "zh": "烈焰钢锭"},
-    "botania:elementium_ingot": {"en": "Elementium Ingot", "zh": "源质钢锭"},
-    "botania:manasteel_ingot": {"en": "Manasteel Ingot", "zh": "魔力钢锭"},
-    "botania:terrasteel_ingot": {"en": "Terrasteel Ingot", "zh": "泰拉钢锭"},
-    "cataclysm:ancient_metal_ingot": {"en": "Ancient Metal Ingot", "zh": "远古金属锭"},
-    "cataclysm:cursium_ingot": {"en": "Cursium Ingot", "zh": "咒魂锭"},
-    "cataclysm:ignitium_ingot": {"en": "Ignitium Ingot", "zh": "腾炎锭"},
-    "cataclysm:witherite_ingot": {"en": "Witherite Ingot", "zh": "凋灵合金锭"},
-    "composite_material:allay_steel_ingot": {"en": "Allay Steel Ingot", "zh": "悦灵钢锭"},
-    "composite_material:dungeon_steel_ingot": {"en": "Dungeon Steel Ingot", "zh": "地牢钢锭"},
-    "composite_material:etherite_ingot": {"en": "Etherite Ingot", "zh": "以太合金锭"},
-    "composite_material:obsidian_steel_ingot": {"en": "Obsidian Steel Ingot", "zh": "黑曜石钢锭"},
-    "composite_material:primitive_tenacity": {"en": "Primitive Tenacity", "zh": "荒古坚材"},
-    "create:andesite_alloy": {"en": "Andesite Alloy", "zh": "安山合金"},
-    "create:railway_casing": {"en": "Train Casing", "zh": "列车机壳"},
-    "goety:cursed_ingot": {"en": "Cursed Metal Ingot", "zh": "诅咒金属锭"},
-    "goety:dark_ingot": {"en": "Dark Metal Ingot", "zh": "黑暗金属锭"},
-    "iceandfire:dragonsteel_fire_ingot": {"en": "Fire Dragonsteel Ingot", "zh": "龙炎钢锭"},
-    "iceandfire:dragonsteel_ice_ingot": {"en": "Ice Dragonsteel Ingot", "zh": "龙霜钢锭"},
-    "iceandfire:dragonsteel_lightning_ingot": {"en": "Lightning Dragonsteel Ingot", "zh": "龙霆钢锭"},
-    "l2complements:eternium_ingot": {"en": "Eternium Ingot", "zh": "永恒锭"},
-    "l2complements:poseidite_ingot": {"en": "Poseidite Ingot", "zh": "海神锭"},
-    "l2complements:shulkerate_ingot": {"en": "Shulkerate Ingot", "zh": "潜影锭"},
-    "l2complements:totemic_gold_ingot": {"en": "Totemic Gold Ingot", "zh": "生命锭"},
-    "l2hostility:chaos_ingot": {"en": "Chaos Ingot", "zh": "混沌锭"},
-    "l2hostility:miracle_ingot": {"en": "Miracle Ingot", "zh": "奇迹锭"},
-    "legendary_monsters:molten_metal_ingot": {"en": "Molten Metal Ingot", "zh": "熔融金属锭"},
-}
+def load_data(name):
+    return load_json(DATA_DIR / f"{name}.json")
 
-# Version this build is generated for. The list mirrors the repo's version
-# branches. Per-version supported compat mods are parsed from each branch's
-# CompatManager.register() (see compat_mods_for), not hardcoded here.
-BUILD_VERSION = "1.20.1"
-PAGES_ROOT = "https://minecraft-lightland.github.io/ModularGolems/"
-VERSIONS = [
-    {"label": "1.19.2", "branch": "1.19"},
-    {"label": "1.19.4", "branch": "1.19.4"},
-    {"label": "1.20.1", "branch": "1.20"},
-    {"label": "1.21.1", "branch": "1.21"},
-    {"label": "26.1.2", "branch": "26.1"},
-]
+
+# per-modifier %s values for each level, used to fill the %s placeholders in
+# modifier descriptions (see modifier_info). Maintained manually: update when
+# the modifier config values or level scaling change.
+MODIFIER_VALUES = load_json(ROOT / "site/modifier_values.json")
+
+# display names for things not in the mod's own lang files
+VANILLA_NAMES = load_data("vanilla_names")
+TAG_NAMES = load_data("tag_names")
+COMPAT_ITEM_NAMES = load_data("compat_item_names")
+
+# site metadata (version this build is generated for + supported version branches)
+SITE_CONFIG = load_data("site_config")
+BUILD_VERSION = SITE_CONFIG["build_version"]
+PAGES_ROOT = SITE_CONFIG["pages_root"]
+VERSIONS = SITE_CONFIG["versions"]
+
+# dispatch class -> material config namespace, mirrored from each *Dispatch.java
+DISPATCH_MODID = load_data("dispatch_modid")
+
+# stat labels + formatting kind (BASE / ADD / PERCENT)
+STAT_INFO = load_data("stat_info")
+
+# compat construct/cube items referenced under the modulargolems namespace
+# whose textures ship under the compat mod's own namespace
+MODULAR_ALIAS = load_data("modular_alias")
+
+# forge/mod tag ingredients -> representative item for the icon
+TAG_ITEM = load_data("tag_item")
+
+# Minecraft text-formatting color codes
+MC_COLORS = load_data("mc_colors")
+
+# page chrome strings
+CHROME = load_data("chrome")
+SITE_TITLES = CHROME["site_titles"]
+NAV_LABELS = CHROME["nav_labels"]
+FOOTER = CHROME["footer"]
 
 
 def current_version():
@@ -202,25 +139,6 @@ def current_version():
     raise ValueError(f"unknown BUILD_VERSION {BUILD_VERSION}")
 
 
-# dispatch class -> material config namespace, mirrored from each *Dispatch.java
-DISPATCH_MODID = {
-    "BotDispatch": "botania",
-    "TFDispatch": "twilightforest",
-    "CreateDispatch": "create",
-    "LCDispatch": "l2complements",
-    "BGDispatch": "blazegear",
-    "LHDispatch": "l2hostility",
-    "CataDispatch": "cataclysm",
-    "ACDispatch": "alexscaves",
-    "IAFDispatch": "iceandfire",
-    "TCDispatch": "tconstruct",
-    "GoetyDispatch": "goety",
-    "GRDispatch": "goety_revelation",
-    "MowzieDispatch": "mowziesmobs",
-    "LMDispatch": "legendary_monsters",
-    "ATMDispatch": "allthemodium",
-    "CMDispatch": "composite_material",
-}
 COMPAT_FILE = "src/main/java/dev/xkmc/modulargolems/compat/materials/common/CompatManager.java"
 UNIVERSAL_NS = {"modulargolems", "minecraft"}
 
@@ -277,26 +195,6 @@ def branch_item_models(branch):
         if r.returncode == 0 and r.stdout.strip():
             return {Path(ln).stem for ln in r.stdout.splitlines() if ln}
     return set()
-
-
-STAT_INFO = {
-    "max_health": {"en": "Max Health", "zh": "最大生命值", "kind": "BASE"},
-    "attack": {"en": "Attack Damage", "zh": "攻击伤害", "kind": "BASE"},
-    "armor": {"en": "Armor", "zh": "护甲", "kind": "ADD"},
-    "tough": {"en": "Armor Toughness", "zh": "护甲韧性", "kind": "ADD"},
-    "knockback_resistance": {"en": "Knockback Resistance", "zh": "击退抗性", "kind": "ADD"},
-    "attack_knockback": {"en": "Attack Knockback", "zh": "攻击击退", "kind": "ADD"},
-    "regen": {"en": "Regeneration", "zh": "生命回复", "kind": "ADD"},
-    "sweep": {"en": "Sweep Range", "zh": "范围攻击", "kind": "ADD"},
-    "speed": {"en": "Movement Speed", "zh": "移动速度", "kind": "PERCENT"},
-    "weight": {"en": "Speed", "zh": "速度", "kind": "PERCENT"},
-    "jump_strength": {"en": "Jump Strength", "zh": "跳跃强度", "kind": "PERCENT"},
-    "max_health_percent": {"en": "Max Health", "zh": "最大生命值", "kind": "PERCENT"},
-    "max_size": {"en": "Golem Size", "zh": "傀儡体型", "kind": "ADD"},
-    "max_size_percentage": {"en": "Golem Size", "zh": "傀儡体型", "kind": "PERCENT"},
-    "range": {"en": "Attack Range", "zh": "攻击范围", "kind": "ADD"},
-    "dynamic_reduction": {"en": "Dynamic Reduction", "zh": "动态减伤", "kind": "ADD"},
-}
 
 
 def fmt_num(v):
@@ -608,40 +506,6 @@ def composite_textures(srcs, dest):
     return True
 
 
-# configs reference the compat construct/cube items under the modulargolems
-# namespace, but their textures ship under the compat mod's own namespace
-MODULAR_ALIAS = {
-    "modulargolems:azure_cube": "cataclysm:azure_cube",
-    "modulargolems:candy_construct": "alexscaves:candy_construct",
-    "modulargolems:candy_mixture": "alexscaves:candy_mixture",
-    "modulargolems:cloud_cube": "legendary_monsters:cloud_cube",
-    "modulargolems:magnetic_alloy": "alexscaves:magnetic_alloy",
-    "modulargolems:magnetic_construct": "alexscaves:magnetic_construct",
-    "modulargolems:nuclear_construct": "alexscaves:nuclear_construct",
-    "modulargolems:storm_construct": "cataclysm:storm_construct",
-    "modulargolems:void_construct": "cataclysm:void_construct",
-    "modulargolems:void_cube": "cataclysm:void_cube",
-    "modulargolems:wroughtnaut_ingot": "mowziesmobs:wroughtnaut_ingot",
-}
-
-# material ingredients that are forge/mod tags -> representative item for the icon
-TAG_ITEM = {
-    "forge:ingots/brass": "create:brass_ingot",
-    "forge:ingots/zinc": "create:zinc_ingot",
-    "forge:ingots/cobalt": "tconstruct:cobalt_ingot",
-    "forge:ingots/hepatizon": "tconstruct:hepatizon_ingot",
-    "forge:ingots/manyullyn": "tconstruct:manyullyn_ingot",
-    "forge:ingots/rose_gold": "tconstruct:rose_gold_ingot",
-    "forge:ingots/amethyst_bronze": "tconstruct:amethyst_bronze_ingot",
-    "forge:ingots/fiery": "twilightforest:fiery_ingot",
-    "forge:ingots/ironwood": "twilightforest:ironwood_ingot",
-    "forge:ingots/knightmetal": "twilightforest:knightmetal_ingot",
-    "forge:ingots/steeleaf": "twilightforest:steeleaf_ingot",
-    "modulargolems:cardboard": "create:cardboard",
-    "modulargolems:sculk_materials": "minecraft:echo_shard",
-}
-
-
 def dog_armor_composite(path):
     """Dog golem armor renders two layered textures (layer0 = collar, layer1 =
     wolf armor). Composite them into a single icon texture."""
@@ -776,14 +640,6 @@ def ensure_placeholder(slug):
 # ---------------------------------------------------------------------------
 # patchouli text format -> html
 # ---------------------------------------------------------------------------
-
-MC_COLORS = {
-    "0": "#000000", "1": "#0000AA", "2": "#00AA00", "3": "#00AAAA",
-    "4": "#AA0000", "5": "#AA00AA", "6": "#FFAA00", "7": "#AAAAAA",
-    "8": "#555555", "9": "#5555FF", "a": "#55FF55", "b": "#55FFFF",
-    "c": "#FF5555", "d": "#FF55FF", "e": "#FFFF55", "f": "#FFFFFF",
-}
-
 
 def patchouli_text(text, link_resolver=None):
     if not text:
@@ -985,15 +841,6 @@ def book_link(target, lang, prefix=None):
 # ---------------------------------------------------------------------------
 # page chrome
 # ---------------------------------------------------------------------------
-
-SITE_TITLES = {"en": "Modular Golems", "zh": "模块化傀儡"}
-NAV_LABELS = {
-    "en": {"guide": "Guide", "materials": "Materials", "items": "Items"},
-    "zh": {"guide": "指南", "materials": "材料", "items": "物品"},
-}
-FOOTER = ("Generated from the ModularGolems source. Not affiliated with Mojang. "
-          "View on GitHub — Minecraft-LightLand/ModularGolems")
-
 
 def nav_html(root, lang, active, page_rel):
     lbl = NAV_LABELS[lang]
