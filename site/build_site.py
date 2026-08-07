@@ -669,16 +669,22 @@ def patchouli_text(text, link_resolver=None):
             out.append("</ul>")
             in_list = False
 
-    def pop_all():
+    def pop_inline():
+        """Close all open inline tags ($(), the patchouli reset) without
+        ending a list: $() after $(li)text must not pull the text out of the
+        current list item."""
         while stack:
-            close_ul()
+            out.append(stack.pop())
+
+    def pop_all():
+        close_ul()
+        while stack:
             out.append(stack.pop())
 
     def handle_code(tok):
         nonlocal in_list
         inner = tok[2:-1]
         if inner == "br":
-            close_ul()
             out.append("<br>")
         elif inner == "br2":
             close_ul()
@@ -689,7 +695,6 @@ def patchouli_text(text, link_resolver=None):
                 in_list = True
             out.append("<li>")
         elif inner.startswith("l:"):
-            close_ul()
             target = inner[2:]
             url = target
             if link_resolver is not None:
@@ -699,14 +704,13 @@ def patchouli_text(text, link_resolver=None):
             out.append(f'<a href="{esc(url)}">')
             stack.append("</a>")
         elif inner == "/l":
-            close_ul()
             for i in range(len(stack) - 1, -1, -1):
                 if stack[i] == "</a>":
                     out.append("</a>")
                     del stack[i]
                     break
         elif inner == "":
-            pop_all()
+            pop_inline()
         elif inner in ("b", "i", "m", "u"):
             out.append(f"<{inner}>")
             stack.append(f"</{inner}>")
@@ -731,8 +735,6 @@ def patchouli_text(text, link_resolver=None):
         if tok.startswith("$("):
             handle_code(tok)
         else:
-            if tok.strip():
-                close_ul()
             out.append(esc(tok))
     pop_all()
     return "".join(out)
