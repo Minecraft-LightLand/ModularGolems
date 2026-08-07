@@ -21,6 +21,8 @@ SRC_GEN = ROOT / "src/generated/resources/assets/modulargolems"
 SRC_GEN_DATA = ROOT / "src/generated/resources/data"
 BOOK_DIR = SRC_ASSETS / "patchouli_books/golem_guide"
 TEX_DIR = SRC_ASSETS / "textures/item"
+VENDOR_TEX = ROOT / "site/textures"
+MODEL_DIR = SRC_GEN / "models/item"
 
 LANGS = ["en", "zh"]
 LANG_CODE = {"en": "en_us", "zh": "zh_cn"}
@@ -207,32 +209,114 @@ def _set_roots(page_rel):
 _EXISTING_TEX = {}
 
 
-def tex_exists(rel):
-    if rel not in _EXISTING_TEX:
-        _EXISTING_TEX[rel] = (TEX_DIR / rel).is_file()
-    return _EXISTING_TEX[rel]
+def find_tex(rel):
+    """rel is relative to assets/tex/ root. Check vendored textures first,
+    then the mod's own item texture dir (which is mounted at assets/tex/item/)."""
+    if (VENDOR_TEX / rel).is_file():
+        return True
+    if rel.startswith("item/"):
+        return (TEX_DIR / rel[len("item/"):]).is_file()
+    return False
+
+
+_MODEL_TEX = {}
+
+
+def model_layer0(path):
+    """Resolve an item's model layer0 texture id, e.g. 'twilightforest:item/equipments/...'."""
+    if path not in _MODEL_TEX:
+        m = MODEL_DIR / f"{path}.json"
+        tex = None
+        if m.is_file():
+            try:
+                tex = load_json(m).get("textures", {}).get("layer0")
+            except Exception:
+                tex = None
+        _MODEL_TEX[path] = tex
+    return _MODEL_TEX[path]
+
+
+REFERENCED_TEX = {}
+
+
+def src_texture(ns, tpath):
+    """Locate a texture file referenced as '<ns>:<tpath>' in the repo or vendor dir."""
+    p = ROOT / f"src/main/resources/assets/{ns}/textures/{tpath}.png"
+    if p.is_file():
+        return p
+    v = VENDOR_TEX / f"{ns}/{tpath}.png"
+    if v.is_file():
+        return v
+    return None
+
+
+# configs reference the compat construct/cube items under the modulargolems
+# namespace, but their textures ship under the compat mod's own namespace
+MODULAR_ALIAS = {
+    "modulargolems:azure_cube": "cataclysm:azure_cube",
+    "modulargolems:candy_construct": "alexscaves:candy_construct",
+    "modulargolems:candy_mixture": "alexscaves:candy_mixture",
+    "modulargolems:cloud_cube": "legendary_monsters:cloud_cube",
+    "modulargolems:magnetic_alloy": "alexscaves:magnetic_alloy",
+    "modulargolems:magnetic_construct": "alexscaves:magnetic_construct",
+    "modulargolems:nuclear_construct": "alexscaves:nuclear_construct",
+    "modulargolems:storm_construct": "cataclysm:storm_construct",
+    "modulargolems:void_construct": "cataclysm:void_construct",
+    "modulargolems:void_cube": "cataclysm:void_cube",
+    "modulargolems:wroughtnaut_ingot": "mowziesmobs:wroughtnaut_ingot",
+}
+
+# material ingredients that are forge/mod tags -> representative item for the icon
+TAG_ITEM = {
+    "forge:ingots/brass": "create:brass_ingot",
+    "forge:ingots/zinc": "create:zinc_ingot",
+    "forge:ingots/cobalt": "tconstruct:cobalt_ingot",
+    "forge:ingots/hepatizon": "tconstruct:hepatizon_ingot",
+    "forge:ingots/manyullyn": "tconstruct:manyullyn_ingot",
+    "forge:ingots/rose_gold": "tconstruct:rose_gold_ingot",
+    "forge:ingots/amethyst_bronze": "tconstruct:amethyst_bronze_ingot",
+    "forge:ingots/fiery": "twilightforest:fiery_ingot",
+    "forge:ingots/ironwood": "twilightforest:ironwood_ingot",
+    "forge:ingots/knightmetal": "twilightforest:knightmetal_ingot",
+    "forge:ingots/steeleaf": "twilightforest:steeleaf_ingot",
+    "modulargolems:cardboard": "create:cardboard",
+    "modulargolems:sculk_materials": "minecraft:echo_shard",
+}
 
 
 def resolve_icon(reg_id):
+    reg_id = MODULAR_ALIAS.get(reg_id, reg_id)
     ns, path = reg_id.split(":", 1)
-    if ns != "modulargolems":
+    vend = f"{ns}/item/{path}.png"
+    if find_tex(vend):
+        return vend, None
+    if ns == "modulargolems":
+        mt = model_layer0(path)
+        if mt:
+            tns, tpath = mt.split(":", 1)
+            src = src_texture(tns, tpath)
+            if src:
+                rel = f"{tns}/{tpath}.png"
+                REFERENCED_TEX[rel] = src
+                return rel, None
+        cands = [f"{path}.png"]
+        if path.endswith("_config_card"):
+            cands.append(f"card/{path[:-len('_config_card')]}.png")
+        if path.endswith("_dog_golem_armor"):
+            cands.append(f"dog_armor/{path[:-len('_dog_golem_armor')]}_wolf_armor.png")
+        if path.startswith("omnipotent_wand_"):
+            cands.append("omnipotent_wand.png")
+        cands += [f"equipments/{path}.png", f"equipments/{path}_icon.png",
+                  f"upgrades/{path}.png", f"card/{path}.png", f"dog_armor/{path}.png"]
+        seen = set()
+        for c in cands:
+            if c in seen:
+                continue
+            seen.add(c)
+            rel = f"item/{c}"
+            if find_tex(rel):
+                return rel, None
         return None, slugify(f"{ns}-{path}")
-    cands = [f"{path}.png"]
-    if path.endswith("_config_card"):
-        cands.append(f"card/{path[:-len('_config_card')]}.png")
-    if path.endswith("_dog_golem_armor"):
-        cands.append(f"dog_armor/{path[:-len('_dog_golem_armor')]}_wolf_armor.png")
-    if path.startswith("omnipotent_wand_"):
-        cands.append("omnipotent_wand.png")
-    cands += [f"equipments/{path}.png", f"equipments/{path}_icon.png",
-              f"upgrades/{path}.png", f"card/{path}.png", f"dog_armor/{path}.png"]
-    seen = set()
-    for c in cands:
-        if c in seen:
-            continue
-        seen.add(c)
-        if tex_exists(c):
-            return f"item/{c}", None
     return None, slugify(f"{ns}-{path}")
 
 
@@ -936,7 +1020,11 @@ def build_materials(lang):
                 ing_label = f'{item_name(ing["item"], lang)} <small class="misc">({esc(ing["item"])})</small>'
             elif "tag" in ing:
                 tname = TAG_NAMES[lang].get(ing["tag"], ing["tag"])
-                ing_html = placeholder_img("ing-" + ing["tag"], tname)
+                ti = TAG_ITEM.get(ing["tag"])
+                if ti:
+                    ing_html = icon_markup(ti, lang, size=22)
+                else:
+                    ing_html = placeholder_img("ing-" + ing["tag"], tname)
                 ing_label = f'{tname} <small class="misc">(#{esc(ing["tag"])})</small>'
             else:
                 ing_html, ing_label = "", ""
@@ -947,7 +1035,12 @@ def build_materials(lang):
                             f' <span>{esc(item_name(rep["item"], lang))}</span>')
             elif "tag" in rep:
                 tname = TAG_NAMES[lang].get(rep["tag"], rep["tag"])
-                rep_html = placeholder_img("rep-" + rep["tag"], tname) + f" <span>{esc(tname)}</span>"
+                ti = TAG_ITEM.get(rep["tag"])
+                if ti:
+                    rep_html = (f'<span class="slot" title="{esc(rep["tag"])}">{icon_markup(ti, lang, size=22)}</span>'
+                                f' <span>{esc(tname)}</span>')
+                else:
+                    rep_html = placeholder_img("rep-" + rep["tag"], tname) + f" <span>{esc(tname)}</span>"
             stat_html = ""
             for sid, val in (d.get("stats") or {}).items():
                 stat_html += f"<li>{esc(fmt_stat(sid.split(':')[-1], val, lang))}</li>"
@@ -1093,6 +1186,14 @@ def main():
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(f, dest)
 
+    if VENDOR_TEX.is_dir():
+        for f in VENDOR_TEX.rglob("*"):
+            if f.is_file():
+                rel = f.relative_to(VENDOR_TEX)
+                dest = OUT / "assets/tex" / rel
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(f, dest)
+
     RECIPE_BY_ID, RECIPE_BY_RESULT = load_recipe_index()
 
     def write_page(page_rel, html):
@@ -1107,7 +1208,12 @@ def main():
         write_page(f"materials/{lang}/index.html", build_materials(lang))
         write_page(f"items/{lang}/index.html", build_items(lang))
 
-    n_tex = sum(1 for _ in (OUT / "assets/tex/item").rglob("*.png"))
+    for rel, src in REFERENCED_TEX.items():
+        dest = OUT / "assets/tex" / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(src, dest)
+
+    n_tex = sum(1 for _ in (OUT / "assets/tex").rglob("*.png"))
     n_ph = len(list((OUT / "assets/img").glob("ph-*.svg")))
     n_html = len(list(OUT.rglob("*.html")))
     print(f"OK: site written to {OUT}")
