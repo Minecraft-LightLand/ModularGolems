@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.function.Function;
 
 public class MaterialHomeScreen extends EditorHomeScreen {
@@ -38,7 +39,13 @@ public class MaterialHomeScreen extends EditorHomeScreen {
 	@Override
 	protected int fileCount(ResourceLocation id) {
 		GolemMaterialConfig cfg = ModularGolems.MATERIALS.getEntry(id);
-		return cfg == null ? 0 : cfg.getAllMaterials().size();
+		if (cfg == null) return 0;
+		TreeSet<ResourceLocation> set = new TreeSet<>(cfg.stats.keySet());
+		set.addAll(cfg.modifiers.keySet());
+		set.addAll(cfg.ingredients.keySet());
+		set.addAll(cfg.repairIngredients.keySet());
+		set.addAll(cfg.partLimitation.keySet());
+		return set.size();
 	}
 
 	@Override
