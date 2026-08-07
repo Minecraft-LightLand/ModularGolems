@@ -49,6 +49,11 @@ def load_lang(code):
 
 LANG = {code: load_lang(code) for code in LANGS}
 
+# Per-modifier %s values for each level, used to fill the %s placeholders in
+# modifier descriptions (see modifier_info). Maintained manually: update when
+# the modifier config values or level scaling change.
+MODIFIER_VALUES = load_json(ROOT / "site/modifier_values.json")
+
 # ---------------------------------------------------------------------------
 # display-name maps for things not in the mod's own lang files
 # ---------------------------------------------------------------------------
@@ -480,6 +485,138 @@ def copy_texture(src, dest):
     dest.write_bytes(cropped if cropped is not None else data)
 
 
+# rel -> [src0, src1, ...] textures to blend into a single icon at build time
+# (used for items whose model renders several texture layers, e.g. dog armor).
+COMPOSITE_TEX = {}
+
+
+def _png_rgba(data):
+    """Decode a non-interlaced 8-bit PNG into (w, h, list of RGBA row bytes).
+    Supports color types 6 (RGBA), 2 (RGB) and 4 (grayscale+alpha). Returns
+    None for anything else."""
+    if data[:8] != b"\x89PNG\r\n\x1a\n":
+        return None
+    pos = 8
+    w = h = depth = ctype = interlace = None
+    idat = bytearray()
+    while pos < len(data):
+        ln = struct.unpack(">I", data[pos:pos + 4])[0]
+        tag = data[pos + 4:pos + 8]
+        chunk = data[pos + 8:pos + 8 + ln]
+        if tag == b"IHDR":
+            w, h, depth, ctype, _, _, interlace = struct.unpack(">IIBBBBB", chunk)
+        elif tag == b"IDAT":
+            idat += chunk
+        pos += 12 + ln
+    if None in (w, h, depth, ctype, interlace) or interlace != 0 or depth != 8:
+        return None
+    if ctype not in (2, 4, 6):
+        return None
+    bits = {0: depth, 2: 3 * depth, 3: depth, 4: 2 * depth, 6: 4 * depth}[ctype]
+    fbpp = max(1, bits // 8)
+    row_px = (w * bits + 7) // 8
+    full_row = 1 + row_px
+    try:
+        raw = zlib.decompress(bytes(idat))
+    except zlib.error:
+        return None
+    prev = bytearray(row_px)
+    rows = []
+    for r in range(h):
+        seg = raw[r * full_row:(r + 1) * full_row]
+        if len(seg) < full_row:
+            return None
+        ft = seg[0]
+        if ft > 4:
+            return None
+        dd = seg[1:]
+        out = bytearray(row_px)
+        for i, x in enumerate(dd):
+            a = out[i - fbpp] if i >= fbpp else 0
+            b = prev[i] if prev else 0
+            c = prev[i - fbpp] if prev and i >= fbpp else 0
+            if ft == 0:
+                rv = x
+            elif ft == 1:
+                rv = x + a
+            elif ft == 2:
+                rv = x + b
+            elif ft == 3:
+                rv = x + (a + b) // 2
+            else:
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                pr = a if (pa <= pb and pa <= pc) else (b if pb <= pc else c)
+                rv = x + pr
+            out[i] = rv & 0xFF
+        rows.append(bytes(out))
+        prev = out
+    rgba = []
+    for row in rows:
+        if ctype == 6:
+            rgba.append(row)
+        elif ctype == 2:
+            buf = bytearray()
+            for i in range(0, len(row), 3):
+                buf += row[i:i + 3] + b"\xff"
+            rgba.append(bytes(buf))
+        else:
+            buf = bytearray()
+            for i in range(0, len(row), 2):
+                g, al = row[i], row[i + 1]
+                buf += bytes((g, g, g, al))
+            rgba.append(bytes(buf))
+    return w, h, rgba
+
+
+def _write_png_rgba(w, h, rows):
+    out = bytearray(b"\x89PNG\r\n\x1a\n")
+
+    def chunk(tag, cdata):
+        nonlocal out
+        out += struct.pack(">I", len(cdata)) + tag + cdata
+        out += struct.pack(">I", zlib.crc32(tag + cdata) & 0xFFFFFFFF)
+
+    chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 6, 0, 0, 0))
+    chunk(b"IDAT", zlib.compress(b"".join(b"\x00" + row for row in rows), 9))
+    chunk(b"IEND", b"")
+    return bytes(out)
+
+
+def composite_textures(srcs, dest):
+    """Blend several RGBA textures (bottom to top) into a single PNG, using
+    standard alpha-over compositing. Returns False if any source can't be
+    decoded; otherwise writes dest and returns True."""
+    imgs = [_png_rgba(p.read_bytes()) for p in srcs]
+    if any(i is None for i in imgs):
+        return False
+    w, h, rows = imgs[0]
+    for wi, hi, _ in imgs[1:]:
+        if wi != w or hi != h:
+            return False
+    out_rows = []
+    for y in range(h):
+        row = bytearray()
+        for x in range(w):
+            o = x * 4
+            ar, ag, ab, aa = imgs[0][2][y][o:o + 4]
+            for _, _, layer in imgs[1:]:
+                br, bg, bb, ba = layer[y][o:o + 4]
+                a0, a1 = aa / 255.0, ba / 255.0
+                oa = a1 + a0 * (1 - a1)
+                if oa <= 0:
+                    ar = ag = ab = aa = 0
+                else:
+                    ar = round((br * a1 + ar * a0 * (1 - a1)) / oa)
+                    ag = round((bg * a1 + ag * a0 * (1 - a1)) / oa)
+                    ab = round((bb * a1 + ab * a0 * (1 - a1)) / oa)
+                    aa = round(oa * 255)
+            row += bytes((ar, ag, ab, aa))
+        out_rows.append(bytes(row))
+    dest.write_bytes(_write_png_rgba(w, h, out_rows))
+    return True
+
+
 # configs reference the compat construct/cube items under the modulargolems
 # namespace, but their textures ship under the compat mod's own namespace
 MODULAR_ALIAS = {
@@ -514,6 +651,30 @@ TAG_ITEM = {
 }
 
 
+def dog_armor_composite(path):
+    """Dog golem armor renders two layered textures (layer0 = collar, layer1 =
+    wolf armor). Composite them into a single icon texture."""
+    m = MODEL_DIR / f"{path}.json"
+    if not m.is_file():
+        return None
+    try:
+        layers = load_json(m).get("textures", {})
+    except Exception:
+        return None
+    srcs = []
+    for t in (layers.get("layer0"), layers.get("layer1")):
+        if not t:
+            return None
+        tns, tpath = t.split(":", 1)
+        src = src_texture(tns, tpath)
+        if src is None:
+            return None
+        srcs.append(src)
+    rel = f"item/{path}.png"
+    COMPOSITE_TEX[rel] = srcs
+    return rel, None
+
+
 def resolve_icon(reg_id):
     reg_id = MODULAR_ALIAS.get(reg_id, reg_id)
     ns, path = reg_id.split(":", 1)
@@ -521,6 +682,10 @@ def resolve_icon(reg_id):
     if find_tex(vend):
         return vend, None
     if ns == "modulargolems":
+        if path.endswith("_dog_golem_armor"):
+            comp = dog_armor_composite(path)
+            if comp:
+                return comp
         mt = model_layer0(path)
         if mt:
             tns, tpath = mt.split(":", 1)
@@ -1246,7 +1411,36 @@ def build_item_descs(lang, prefix=None):
     return descs
 
 
-def modifier_info(mod_id, lang):
+def fill_modifier_desc(desc, vals):
+    """Replace %s and %N$s placeholders in a modifier description with the given
+    values (%% becomes a literal %). Unmatched placeholders are kept as-is."""
+    out = []
+    i = 0
+    n = 0
+    while i < len(desc):
+        ch = desc[i]
+        if ch == '%':
+            m = re.match(r"%(\d+)\$s", desc[i:])
+            if m:
+                idx = int(m.group(1)) - 1
+                out.append(str(vals[idx]) if 0 <= idx < len(vals) else desc[i:i + m.end()])
+                i += m.end()
+                continue
+            if i + 1 < len(desc) and desc[i + 1] == '%':
+                out.append('%')
+                i += 2
+                continue
+            if i + 1 < len(desc) and desc[i + 1] == 's':
+                out.append(str(vals[n]) if n < len(vals) else '%s')
+                n += 1
+                i += 2
+                continue
+        out.append(ch)
+        i += 1
+    return ''.join(out)
+
+
+def modifier_info(mod_id, lang, lvl=1):
     ns, path = mod_id.split(":", 1)
     base = f"modifier.{ns}.{path}"
     name = LANG[lang].get(base) or LANG["en"].get(base) or path
@@ -1261,6 +1455,9 @@ def modifier_info(mod_id, lang):
             desc = "<br>".join(esc(p) for p in parts)
     if desc is None:
         desc = LANG["en"].get(f"{base}.desc")
+    vals = MODIFIER_VALUES.get(mod_id, {}).get(str(lvl))
+    if desc and vals:
+        desc = fill_modifier_desc(desc, vals)
     return name, desc
 
 
@@ -1381,7 +1578,10 @@ def build_book_entry(lang, cat_dir, eid, d, prev, next_):
     _set_roots(page_rel)
     link_resolver = lambda t: book_link(t, lang)
     pages_html = []
-    for p in d.get("pages", []):
+    pages = d.get("pages", [])
+    if cat_dir == "materials":
+        pages = pages[:1]
+    for p in pages:
         if isinstance(p, str):
             pages_html.append(f'<section class="page">{patchouli_text(p, link_resolver)}</section>')
             continue
@@ -1394,7 +1594,7 @@ def build_book_entry(lang, cat_dir, eid, d, prev, next_):
                 items = [x.strip() for x in item_str.split(",") if x.strip()]
             else:
                 items = [item_str.split("{")[0].strip()]
-            icons = "".join(icon_markup(it, lang, size=32, show_name=True) for it in items if it)
+            icons = "".join(icon_markup(it, lang, size=32) for it in items if it)
             text_html = patchouli_text(p.get("text", ""), link_resolver)
             pages_html.append(f'<section class="page"><div class="spotlight"><div class="pageicon">{icons}</div>{text_html}</div></section>')
         elif ptype == "patchouli:crafting":
@@ -1474,7 +1674,7 @@ def build_materials(lang):
             if lang == "en" else "每种傀儡材料的属性和固有词条，数据来自模组的材料配置。")
     parts = ['<div class="wrap">', "<h1>Golem Materials</h1>", f'<p class="lead">{lead}</p>']
     ns_label = "Sources" if lang == "en" else "来源模组"
-    parts.append(f'<details class="matnav"><summary>{esc(ns_label)} ({len(ns_order)})</summary>')
+    parts.append(f'<details class="matnav"><summary>{esc(ns_label)} (<span id="matsrccount">{len(ns_order)}</span>)</summary>')
     parts.append('<div class="matnavpills">')
     for ns in ns_order:
         parts.append(f'<a href="#ns-{esc(ns)}" data-ns="{esc(ns)}">{esc(SOURCE_NAMES[lang].get(ns, ns))}</a>')
@@ -1519,7 +1719,7 @@ def build_materials(lang):
                 stat_html += f"<li>{esc(fmt_stat(sid.split(':')[-1], val, lang))}</li>"
             mod_html = ""
             for mid2, lvl in (d.get("modifiers") or {}).items():
-                mname, mdesc = modifier_info(mid2, lang)
+                mname, mdesc = modifier_info(mid2, lang, lvl)
                 lvl_html = f'<span class="modlvl">{lvl}</span>' if lvl > 1 else ""
                 desc_html = f" — {mdesc}" if mdesc else ""
                 mod_html += f"<li><b>{esc(mname)}</b>{lvl_html}{desc_html}</li>"
@@ -1551,14 +1751,19 @@ def build_materials(lang):
     var v=window.MG_VERSION||(data&&data.current)||'';
     var mods=modsFor(v);
     if(!mods)return;
+    var cnt=0;
     document.querySelectorAll('.matsource').forEach(function(sec){{
       var ns=sec.getAttribute('data-ns');
-      sec.style.display=(universal.indexOf(ns)>=0||mods.indexOf(ns)>=0)?'':'none';
+      var show=universal.indexOf(ns)>=0||mods.indexOf(ns)>=0;
+      sec.style.display=show?'':'none';
+      if(show)cnt++;
     }});
     document.querySelectorAll('.matnavpills a').forEach(function(a){{
       var ns=a.getAttribute('data-ns');
       a.style.display=(universal.indexOf(ns)>=0||mods.indexOf(ns)>=0)?'':'none';
     }});
+    var cntEl=document.getElementById('matsrccount');
+    if(cntEl)cntEl.textContent=cnt;
   }}
   fetch('{data_root()}versions.json')
     .then(function(r){{return r.json();}})
@@ -1807,6 +2012,11 @@ def main():
         dest = OUT / "assets/tex" / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         copy_texture(src, dest)
+
+    for rel, srcs in COMPOSITE_TEX.items():
+        dest = OUT / "assets/tex" / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        composite_textures(srcs, dest)
 
     n_tex = sum(1 for _ in (OUT / "assets/tex").rglob("*.png"))
     n_ph = len(list((OUT / "assets/img").glob("ph-*.svg")))

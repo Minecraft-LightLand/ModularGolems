@@ -15,6 +15,7 @@ and no hand-edited HTML: the script writes `docs/`, and GitHub Pages serves
 
 ```
 site/build_site.py          generator (single-file, stdlib-only Python 3)
+site/modifier_values.json   per-modifier, per-level %s values (see §3.7)
 docs/                       generated output, committed and served by GitHub Pages
 ├── index.html              landing page (en)
 ├── zh.html                 landing page (zh)
@@ -104,9 +105,12 @@ description, and linked entries. Category names/descriptions come from the
 - header icon + name, breadcrumb to the category,
 - each page of the entry, converting Patchouli page types:
   - `patchouli:text` → formatted text,
-  - `patchouli:spotlight` → item icon(s) + text,
+  - `patchouli:spotlight` → item icon(s) + text (no item name shown below the icon),
   - `patchouli:crafting` → recipe grid (see §3.3),
 - prev/next pager within the category.
+
+Material guide entries (`materials` category) show only their **first page** —
+the rest are part stats that don't render usefully on the web.
 
 Cross-entry links in the book text are resolved by `book_link()` against the
 actual entry files, so `$(l:...)` links point at the corresponding HTML page.
@@ -118,7 +122,11 @@ material card shows: craft ingredient, stat lines, innate modifier names +
 descriptions, and the repair ingredient (omitted when it is the same as the
 craft ingredient). Each group is wrapped in its own `<section class="matsource">`
 so the version switcher's filtering hides the whole group (title + cards), not
-just the title.
+just the title. The nav's source count also updates when the version changes.
+
+The `%s` placeholders in modifier descriptions are filled with the values for
+the material's modifier level, looked up from `site/modifier_values.json`
+(a manually maintained per-modifier, per-level value table — see §3.7).
 
 Note on stats: the material configs' `modulargolems:weight` stat is really a
 movement-speed multiplier (`STAT_WEIGHT` in `GolemTypes.java` is backed by
@@ -235,6 +243,20 @@ param via `history.replaceState`, and dispatches `mg-version`. The section
 pages (materials/items) use it with the JSON above to hide content that does
 not exist in the selected version; book pages do not filter (the guide is
 current-version content).
+
+### 3.7 Modifier values
+`site/modifier_values.json` maps each modifier id to per-level arrays of values
+for the `%s` placeholders in its description (e.g. `add_slot` → level 2 → `[2]`).
+`fill_modifier_desc()` (site/build_site.py) substitutes them on the materials
+page, handling both `%s` and positional `%N$s` (used by some zh_cn strings) and
+converting `%%` to a literal `%`. The JSON is **maintained manually** — update it
+when a modifier's config value or level scaling changes.
+
+### 3.8 Multi-layer item icons
+Items whose model renders several texture layers — dog golem armor (collar +
+wolf armor) — are blended into a single icon by `composite_textures()`
+(site/build_site.py:566) at build time, using alpha-over compositing
+(`COMPOSITE_TEX` collects the sources during icon resolution).
 
 ---
 
