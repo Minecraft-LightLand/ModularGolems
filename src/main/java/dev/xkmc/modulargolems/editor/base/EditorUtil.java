@@ -34,7 +34,7 @@ public class EditorUtil {
 	}
 
 	public static List<TagKey<Item>> listTags() {
-		List<TagKey<Item>> ans = BuiltInRegistries.ITEM.getTagNames().toList();
+		List<TagKey<Item>> ans = new ArrayList<>(BuiltInRegistries.ITEM.getTagNames().toList());
 		ans.sort(byId(e -> e.location().toString()));
 		return ans;
 	}

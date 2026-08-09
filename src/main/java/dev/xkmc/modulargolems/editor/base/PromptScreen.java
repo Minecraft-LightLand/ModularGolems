@@ -76,7 +76,7 @@ public class PromptScreen extends EditorScreen {
 		super.renderBackground(g);
 		super.render(g, mx, my, pTick);
 		g.drawCenteredString(font, this.title, width / 2, height / 2 - 40, 0xFFFFFF);
-		g.drawCenteredString(font, label, width / 2, height / 2 - 26, 0xAAAAAA);
+		g.drawString(font, label, width / 2 - 220, height / 2 - 5, 0xAAAAAA);
 		if (error != null) {
 			g.drawCenteredString(font, error, width / 2, height / 2 + 42, 0xFF5555);
 		}

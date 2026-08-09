@@ -48,7 +48,9 @@ public enum EditorText {
 	LATER("editor.later", "Later", 0, null),
 	DISCARD("editor.discard", "Discard", 0, null),
 	UNSAVED_TITLE("editor.unsaved_title", "Unsaved changes", 0, null),
-	UNSAVED_NOTE("editor.unsaved_note", "You have unsaved changes. Save them before leaving?", 0, ChatFormatting.GRAY);
+	UNSAVED_NOTE("editor.unsaved_note", "You have unsaved changes. Save them before leaving?", 0, ChatFormatting.GRAY),
+	RESET("editor.reset", "Reset", 0, null),
+	RESET_DONE("editor.reset_done", "Config reset to default values.", 0, null);
 
 	private final String key, def;
 	private final int arg;

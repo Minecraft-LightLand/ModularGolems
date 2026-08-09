@@ -90,6 +90,8 @@
   "editor.reload_now": "Reload now",
   "editor.reload_title": "Reload datapacks?",
   "editor.remove": "Remove",
+  "editor.reset": "Reset",
+  "editor.reset_done": "Config reset to default values.",
   "editor.save": "Save",
   "editor.save_done": "Saved to %s",
   "editor.save_fail": "Failed to save: %s",
