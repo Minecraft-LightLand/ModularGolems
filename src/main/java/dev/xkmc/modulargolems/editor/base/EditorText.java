@@ -23,7 +23,7 @@ public enum EditorText {
 	NAMESPACE_HINT("editor.namespace_hint", "Namespace must be a loaded mod or start with '_'", 0, ChatFormatting.YELLOW),
 	SAVE_DONE("editor.save_done", "Saved to %s", 1, null),
 	SAVE_FAIL("editor.save_fail", "Failed to save: %s", 1, ChatFormatting.RED),
-	SAVE_NOTE("editor.save_note", "Save to active world datapacks. Restart the world (or enable the pack in Datapack Selection) to apply.", 0, ChatFormatting.GRAY),
+	SAVE_NOTE("editor.save_note", "Changes are saved to the active world datapacks and apply after the next datapack reload or world restart.", 0, ChatFormatting.GRAY),
 	NOT_IN_WORLD("editor.not_in_world", "Must be in a world to save", 0, ChatFormatting.RED),
 	INVALID_ID("editor.invalid_id", "Invalid ResourceLocation: %s", 1, ChatFormatting.RED),
 	EMPTY_FILE("editor.empty_file", "Empty (no entries)", 0, ChatFormatting.GRAY),

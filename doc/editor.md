@@ -4,6 +4,12 @@ Client-side datapack editor for the two `modulargolems_config` datapack types (m
 It writes a new datapack into the active singleplayer world's `datapacks/` folder and offers a
 datapack reload. Built for Forge 1.20.1 / official (Mojang) mappings, Java 17.
 
+The `base/` layer is **mod-independent and shared with L2Hostility's editor** (which was copied
+from here and then improved). Improvements made there are ported back to keep the two copies in
+sync: searchable home lists, foldable group headers, double-click-to-open/edit, per-row tooltips /
+grey rows, `searchKey` registry-name matching in pickers, `EditorTab` tooltips, a configurable save
+root, and double-value rounding.
+
 ---
 
 ## Package layout
@@ -20,26 +26,26 @@ dev.xkmc.modulargolems.editor
 
 | Class | Purpose |
 |---|---|
-| `EditorFile` | generic config file machinery: `save(type,id,config,packFolder)`, `copy`, `parseId`, `validNamespace`, `worldDatapacks`/`currentWorldDir`, writes `pack.mcmeta` |
+| `EditorFile` | generic config file machinery: `save(type,id,config,packFolder)`, `copy`, `parseId`, `validNamespace`, `worldDatapacks`/`currentWorldDir`, `configRoot` (honors the pluggable `saveRootOverride` supplier before falling back to the current world's datapacks folder), writes `pack.mcmeta` |
 | `EditorUtil` | generic pickers/labels: `listItems`, `listTags`, `itemName`, `tagName`, `itemIngredient`, `tagIngredient`, `ingredientIcon`, `ingredientText`, `save`, `copy`, `byId` |
 | `EditorSaveState` | static `savedFlag` (a save is pending a datapack reload) + `canEdit()` (singleplayer + cheats + creative) |
 | `EditorText` | generic lang enum, keys under `editor.*` (neutral namespace, shared by any mod using base) |
 | `EditorSession` | `{boolean dirty}` shared across a file's edit tree |
-| `EditorList` | `ObjectSelectionList` wrapper; `Entry` supports icon + `data` payload + non-selectable group header; `setOnSelect(Runnable)` fires on every selection change (used to enable/disable Edit/Remove) |
+| `EditorList` | `ObjectSelectionList` wrapper; `Entry` supports icon / `data` payload / group header / `grey` rows / hover tooltip / rotating `iconSupplier`; headers may carry an `onClick` + `collapsed` marker; `setOnSelect(Runnable)` + `setOnDoubleClick(Runnable)`; `setData` keeps scroll position; `renderRowTooltip` draws the hovered row's tooltip after the list |
 | `LinkButton` | button that underlines its label on hover (replaced by `TabButton` for home-screen switching) |
-| `EditorTab` | record `(Component label, Runnable onSelect)` describing one switchable config kind in a home screen's tab bar |
+| `EditorTab` | record `(label, onSelect)` (plus a `(label, tooltip, onSelect)` variant) describing one switchable config kind in a home screen's tab bar |
 | `TabButton` | tab-styled button (highlighted when active, continuous bottom edge) used by `EditorHomeScreen`'s tab bar |
 | `EditorLayout` | static `centerRow(List<Button>, centerX, y, gap)` helper that centers a row of buttons on the screen |
 | `EditorToast` | `SystemToast` wrapper |
-| `PickListScreen<T>` | searchable picker (EditBox + list), Cancel button, Esc/parent navigation |
+| `PickListScreen<T>` | searchable picker (EditBox + list), Cancel button, Esc/parent navigation. The search box matches both the row label (translated display name) and the handler's `searchKey` (registry name) |
 | `PromptScreen` | modal labeled EditBox with validator + Cancel/Confirm; returns to parent |
-| `DoubleMapScreen<T>` | value-map editor (Add/Edit/Remove), optional per-entry percent display |
-| `Obj2IntMapScreen<M>` | int-map editor with **per-object max level** (`Function<M,Integer>`), shows `Lv x/y`, validates `1..max` |
-| `ItemListScreen<T>` | set editor over candidates with icon+label |
+| `DoubleMapScreen<T>` | value-map editor (Add/Edit/Remove), optional per-entry percent display, double-click a row to edit; `format` rounds to 4 decimals to avoid float artifacts |
+| `Obj2IntMapScreen<M>` | int-map editor with **per-object max level** (`Function<M,Integer>`), shows `Lv x/y`, validates `1..max`, double-click a row to edit |
+| `ItemListScreen<T>` | set editor over candidates with icon+label; its `Handler` also provides the pick `searchKey` (registry name) |
 | `IngredientScreen` | item/tag/clear picker for an `Ingredient`; uses `EditorUtil` + `EditorText` directly (no Source/provider arg) |
 | `ExitConfirmScreen` | Save / Discard / Cancel dialog for leaving a dirty file |
 | `ReloadConfirmScreen` | "Reload now / Later" dialog shown on editor exit when a save is pending |
-| `EditorHomeScreen` | abstract shared home: grouped file list (by namespace, mod-name headers), a top tab bar of config kinds, New/Edit/Reload/Back bottom row; abstract hooks (`listFiles`, `fileCount`, `emptyMessage`, `newFileDefault`, `openNew`, `openEdit`, `tabs`, `activeTab`, `fileIdLabel`, `validateId`, `hasPendingReload`, `setReloaded`). Edit is disabled while no file is selected; the bottom row is centered |
+| `EditorHomeScreen` | abstract shared home: grouped file list (by namespace, mod-name headers), a top tab bar of config kinds, New/Edit/Reload/Back bottom row; abstract hooks (`listFiles`, `fileCount`, `emptyMessage`, `newFileDefault`, `openNew`, `openEdit`, `tabs`, `activeTab`, `fileIdLabel`, `validateId`, `hasPendingReload`, `setReloaded`) plus overridable hooks: `hasSearch()` (default `false`, shows an EditBox search bar that filters rows by `namespace path label`), `canCreate()` (default `true`, drives the New button's `active`), `hasNew()` (default `true`), `hasReload()` (default `true`), `extraButtons()`, `groupName(ns)`, `fileLabel(id)`, `rowSuffix(id)`, `isDisabled(id)` (rows drawn light gray), `fileTooltip(id)` (hover tooltip). Group headers are **foldable** (click toggles collapse, `[+]/[-]` marker; collapsed groups auto-expand on a search match). Edit is disabled while no file is selected; double-clicking a row opens it; the bottom row is centered |
 
 All `base` package classes are annotated `@MethodsReturnNonnullByDefault` + `@ParametersAreNonnullByDefault`
 (`package-info.java`), matching the L2 convention.
@@ -56,6 +62,8 @@ All `base` package classes are annotated `@MethodsReturnNonnullByDefault` + `@Pa
 
 - `material`: `MaterialHomeScreen`, `MaterialFileScreen`, `MaterialEntryScreen`
 - `part`: `PartHomeScreen`, `PartFileScreen`
+
+Both home screens enable `hasSearch()` (search bar over the file list).
 
 ---
 
@@ -83,8 +91,10 @@ instance they were created with.
 ## File editing lifecycle
 
 - Home list groups files by namespace; group header = mod display name
-  (`ModList.getModContainerById(ns).getModInfo().getDisplayName()`, namespace fallback). A group
-  with one file shows only the namespace; multi-file groups show each path.
+  (`ModList.getModContainerById(ns).getModInfo().getDisplayName()`, namespace fallback). Every file
+  row shows the path + `(count)` (file's entry count). Group headers are **foldable** (click toggles
+  collapse). Both home tabs show a **search box** (`hasSearch()`): it filters rows by
+  `namespace path label` and auto-expands a collapsed group when its namespace matches.
 - **Edit** = deep copy of the in-memory config (`EditorUtil.copy` → `JsonCodec` round-trip),
   **New** = fresh `GolemMaterialConfig`/`GolemPartConfig` with a default id.
 - **Dirty tracking**: a shared `EditorSession` is passed down the whole edit tree; every real
@@ -107,6 +117,14 @@ instance they were created with.
 (`PACK_FOLDER = "modulargolems_editor"`, `ConfigTypeEntry.asPath` formula). `pack.mcmeta`
 (`pack_format: 15`) is written once. Serialization uses
 `JsonCodec.toJson(config, type.cls())` + pretty GSON.
+
+**Configurable save root**: every save goes through `EditorFile.configRoot()`. The base layer keeps
+a `saveRootOverride` supplier (null by default); `GolemEditorUtil`'s static init wires it to the
+client config `MGConfig.CLIENT.editorSavePath` (`modulargolems-client.toml`, default `""`). When set
+to an absolute path of a datapacks folder, saves go there instead of the current world's
+`datapacks/` folder — e.g. OpenLoader's datapacks folder or a modpack's global data folder. The
+editor pack folder name (`modulargolems_editor`) is still resolved underneath the chosen root;
+defaulting to the world path keeps existing saves working unchanged.
 
 ## Reload handling
 

@@ -93,7 +93,7 @@
   "editor.save": "Save",
   "editor.save_done": "Saved to %s",
   "editor.save_fail": "Failed to save: %s",
-  "editor.save_note": "Save to active world datapacks. Restart the world (or enable the pack in Datapack Selection) to apply.",
+  "editor.save_note": "Changes are saved to the active world datapacks and apply after the next datapack reload or world restart.",
   "editor.search": "Search...",
   "editor.select_item": "Select item",
   "editor.select_tag": "Select tag",

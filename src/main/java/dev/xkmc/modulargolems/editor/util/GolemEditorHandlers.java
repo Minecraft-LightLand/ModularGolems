@@ -8,8 +8,10 @@ import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.editor.base.ItemListScreen;
 import dev.xkmc.modulargolems.editor.base.Obj2IntMapScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -84,6 +86,12 @@ public final class GolemEditorHandlers {
 		@Override
 		public ItemStack icon(Item t) {
 			return new ItemStack(t);
+		}
+
+		@Override
+		public String searchKey(Item t) {
+			ResourceLocation id = ForgeRegistries.ITEMS.getKey(t);
+			return id == null ? "" : id.toString();
 		}
 
 	}

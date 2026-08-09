@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Supplier;
 
 public class EditorFile {
 
@@ -39,6 +40,26 @@ public class EditorFile {
 		return server.getWorldPath(LevelResource.ROOT);
 	}
 
+	/**
+	 * Root folder that contains datapack pack folders. Uses the configurable save path
+	 * if set, otherwise the current world's datapacks folder.
+	 */
+	@Nullable
+	public static Path configRoot() {
+		if (saveRootOverride != null) {
+			Path p = saveRootOverride.get();
+			if (p != null) return p;
+		}
+		return worldDatapacks();
+	}
+
+	/**
+	 * Optional override for the save root (a datapacks folder), supplied by the mod that embeds
+	 * this base layer. Returning null falls back to the current world's datapacks folder.
+	 */
+	@Nullable
+	public static Supplier<Path> saveRootOverride;
+
 	public static boolean validNamespace(String ns) {
 		return ns != null && (ns.startsWith("_") || ModList.get().isLoaded(ns));
 	}
@@ -54,7 +75,7 @@ public class EditorFile {
 	}
 
 	public static <T extends BaseConfig> Path save(ConfigTypeEntry<T> type, ResourceLocation id, T config, String packFolder) throws IOException {
-		Path root = worldDatapacks();
+		Path root = configRoot();
 		if (root == null) {
 			throw new IOException("no active world");
 		}

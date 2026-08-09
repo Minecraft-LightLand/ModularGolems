@@ -23,6 +23,13 @@ public class ItemListScreen<T> extends EditorScreen {
 		@Nullable
 		ItemStack icon(T t);
 
+		/**
+		 * Extra text matched by the pick search box in addition to {@link #label}, or empty for none.
+		 */
+		default String searchKey(T t) {
+			return "";
+		}
+
 	}
 
 	@Nullable
@@ -129,6 +136,11 @@ public class ItemListScreen<T> extends EditorScreen {
 		@Nullable
 		public ItemStack icon(T t) {
 			return handler.icon(t);
+		}
+
+		@Override
+		public String searchKey(T t) {
+			return handler.searchKey(t);
 		}
 
 		@Override

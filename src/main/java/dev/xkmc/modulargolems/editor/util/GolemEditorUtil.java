@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.editor.base.EditorFile;
 import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.base.EditorUtil;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,6 +31,13 @@ import java.util.List;
 public class GolemEditorUtil {
 
 	public static final String PACK_FOLDER = "modulargolems_editor";
+
+	static {
+		EditorFile.saveRootOverride = () -> {
+			String s = MGConfig.CLIENT.editorSavePath.get();
+			return s == null || s.isBlank() ? null : Path.of(s.trim());
+		};
+	}
 
 	public static List<GolemStatType> listStats() {
 		List<GolemStatType> ans = new ArrayList<>(GolemTypes.STAT_TYPES.get().getValues());

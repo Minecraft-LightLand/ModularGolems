@@ -10,9 +10,16 @@ public class MGConfig {
 
 	public static class Client {
 
+		public final ForgeConfigSpec.ConfigValue<String> editorSavePath;
 		public final ForgeConfigSpec.BooleanValue shieldUsePoseFixForModdedShields;
 
 		Client(ForgeConfigSpec.Builder builder) {
+			editorSavePath = builder.comment("Save path override for the in-game editor.",
+							"Leave empty to save into the current world's datapacks folder.",
+							"Set to an absolute path of a datapacks folder (the folder containing datapack pack folders)",
+							"to save into a global datapack loader location instead, e.g. the folder used by",
+							"OpenLoader's 'datapacks' or a modpack's global data folder.")
+					.define("editorSavePath", "");
 			shieldUsePoseFixForModdedShields = builder
 					.comment("Replace isUsingItem with isBlocking for modded shield model predicate")
 					.comment("Fix shield rendering on humanoid golem but may break stuff")

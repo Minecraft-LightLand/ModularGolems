@@ -50,6 +50,11 @@ public class PartHomeScreen extends EditorHomeScreen {
 	}
 
 	@Override
+	protected boolean hasSearch() {
+		return true;
+	}
+
+	@Override
 	protected String newFileDefault() {
 		return "modulargolems:custom_parts";
 	}
