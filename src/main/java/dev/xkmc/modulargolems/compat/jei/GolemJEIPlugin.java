@@ -103,6 +103,7 @@ public class GolemJEIPlugin implements IModPlugin {
 			var craft = config.getCraftIngredient(mat);
 			if (repair == null || craft == null) continue;
 			{
+				if (!GolemMaterialConfig.mayApply(GolemItems.GOLEM_BODY.get(), mat)) continue;
 				var id = mat.withSuffix("_facade");
 				recipes.add(factory.createAnvilRecipe(List.of(GolemItems.EMPTY_UPGRADE.asStack()),
 						ContextHelper.resolve(repair),
@@ -118,6 +119,8 @@ public class GolemJEIPlugin implements IModPlugin {
 			}
 			if (special) continue;
 			for (var item : GolemPart.LIST) {
+				if (!item.getDefaultInstance().is(MGTagGen.ANVIL_CRAFT)) continue;
+				if (!GolemMaterialConfig.mayApply(item, mat)) continue;
 				List<ItemStack> list = new ArrayList<>();
 				for (ItemStack stack : arr) {
 					list.add(new ItemStack(stack.getItem(), item.count));
@@ -137,6 +140,7 @@ public class GolemJEIPlugin implements IModPlugin {
 			for (var mat : config.getAllMaterials()) {
 				var repair = config.getRepairIngredient(mat);
 				if (repair == null) continue;
+				if (!GolemMaterialConfig.mayApply(types, mat)) continue;
 				ItemStack golem = new ItemStack(types);
 				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 				for (IGolemPart<?> part : types.getEntityType().values()) {
