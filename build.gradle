@@ -198,6 +198,7 @@ dependencies {
     implementation jarJar("dev.xkmc:mob_weapon_api:${mob_weapon_api_ver}")
 
     implementation "com.tterrag.registrate:Registrate:${registrate_ver}"
+    implementation "dev.xkmc:golemdungeons:${golemdungeons_ver}"
 
     // JEI
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-api:${jei_version}"
