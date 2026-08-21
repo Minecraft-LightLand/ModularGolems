@@ -19,6 +19,11 @@ public class TargetManager {
 	private static final Map<ServerLevel, Map<UUID, TargetManager>> MAP = new ConcurrentHashMap<>();
 	private static final TargetManager DUMMY = new TargetManager();
 
+	public static void clear() {
+		MAP.clear();
+		DUMMY.map.clear();
+	}
+
 	public static TargetManager get(AbstractGolemEntity<?, ?> golem) {
 		var level = golem.level();
 		if (!(level instanceof ServerLevel sl)) return DUMMY;

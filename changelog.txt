@@ -1,3 +1,6 @@
+3.1.43
+- Fix memory leak
+
 3.1.42
 - Fix JEI Add Slot Smithing recipe display
 - Fix mob constantly switching to melee when using ranged weapon
