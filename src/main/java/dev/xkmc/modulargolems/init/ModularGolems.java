@@ -19,6 +19,7 @@ import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
 import dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.entity.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
@@ -44,6 +45,8 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -130,6 +133,18 @@ public class ModularGolems {
 					GolemItems.TABLE.asItem(),
 					GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
 		});
+	}
+
+	@SubscribeEvent
+	public static void leaveLevel(ServerStoppedEvent event) {
+		TargetManager.clear();
+	}
+
+	@SubscribeEvent
+	public static void leaveLevel(ServerTickEvent.Post event) {
+		var server = event.getServer();
+		if (server.overworld().getGameTime() % 100 == 0)
+			TargetManager.prune();
 	}
 
 	@SubscribeEvent
