@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.events;
 import dev.xkmc.modulargolems.content.capability.GolemConfigCapability;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -21,11 +22,13 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,6 +36,19 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModifierEventListeners {
+
+	@SubscribeEvent
+	public static void leaveLevel(ServerStoppedEvent event) {
+		TargetManager.clear();
+	}
+
+	@SubscribeEvent
+	public static void tickLevel(TickEvent.ServerTickEvent event) {
+		if (event.phase != TickEvent.Phase.END) return;
+		var server = event.getServer();
+		if (server.overworld().getGameTime() % 100 == 0)
+			TargetManager.prune();
+	}
 
 	@SubscribeEvent
 	public static void onGolemSpawn(EntityJoinLevelEvent event) {

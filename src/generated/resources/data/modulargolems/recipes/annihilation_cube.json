@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "key": {
+    "G": {
+      "item": "legendary_monsters:eye_crystal"
+    },
+    "I": {
+      "item": "legendary_monsters:portal_shard"
+    },
+    "R": {
+      "item": "legendary_monsters:enderitium_gem"
+    },
+    "X": {
+      "item": "modulargolems:metal_golem_template"
+    }
+  },
+  "pattern": [
+    "RIR",
+    "GXG",
+    "RIR"
+  ],
+  "result": {
+    "count": 9,
+    "item": "modulargolems:annihilation_cube"
+  },
+  "show_notification": true
+}

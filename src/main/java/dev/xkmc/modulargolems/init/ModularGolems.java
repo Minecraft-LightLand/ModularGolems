@@ -124,18 +124,6 @@ public class ModularGolems {
 		});
 	}
 
-	@SubscribeEvent
-	public static void leaveLevel(ServerStoppedEvent event) {
-		TargetManager.clear();
-	}
-
-	@SubscribeEvent
-	public static void leaveLevel(TickEvent.ServerTickEvent event) {
-		if (event.phase != TickEvent.Phase.END) return;
-		var server = event.getServer();
-		if (server.overworld().getGameTime() % 100 == 0)
-			TargetManager.prune();
-	}
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void gatherData(GatherDataEvent event) {

@@ -43,6 +43,30 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(LMCompatRegistry.THUNDER.get(), 1)
 				.addModifier(LMCompatRegistry.PERC.get(), 1)
 				.end()
+
+				.addMaterial(new ResourceLocation(LMDispatch.MODID, "obliterator"),
+						Ingredient.of(LMCompatRegistry.ANNIHILATION_CUBE.get()))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
+				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
+				.addStat(GolemTypes.STAT_DR.get(), 2)
+				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
+				.end()
+
+				.addMaterial(new ResourceLocation(LMDispatch.MODID, "paladin"),
+						Ingredient.of(LMCompatRegistry.POSESSED_SOUL_CUBE.get()))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
+				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
+				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
+				.addStat(GolemTypes.STAT_DR.get(), 2)
+				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
+				.end()
 		);
 	}
 

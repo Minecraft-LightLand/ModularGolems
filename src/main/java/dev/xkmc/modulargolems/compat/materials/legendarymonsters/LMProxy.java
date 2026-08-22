@@ -63,6 +63,23 @@ public class LMProxy {
 				.define('X', Ingredient.of(ModItems.AIR_RUNE.get(), ModItems.ATMOSPHERIC_BOOTS.get()))
 				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
 
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.ANNIHILATION_CUBE, 9)::unlockedBy,
+						ModItems.PORTAL_SHARD.get())
+				.pattern("RIR").pattern("GXG").pattern("RIR")
+				.define('X', GolemItems.GOLEM_TEMPLATE)
+				.define('R', ModItems.ENDIRITIUM_GEM.get())
+				.define('I', ModItems.PORTAL_SHARD.get())
+				.define('G', ModItems.EYE_CRYSTAL.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.POSESSED_SOUL_CUBE, 9)::unlockedBy,
+						ModItems.CORRUPTED_SOUL.get())
+				.pattern("RIR").pattern("IXI").pattern("RIR")
+				.define('I', GolemItems.GOLEM_TEMPLATE)
+				.define('R', ModItems.METAL_DEBRIS.get())
+				.define('X', ModItems.CORRUPTED_SOUL.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.UPGRADE_THUNDER.get())::unlockedBy,
 						ModItems.AIR_RUNE.get())
 				.pattern(" X ").pattern("ROR").pattern(" R ")

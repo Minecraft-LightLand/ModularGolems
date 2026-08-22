@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:recipes/root",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "criteria": {
+    "has_corrupted_soul": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "legendary_monsters:corrupted_soul"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:posessed_soul_cube"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_corrupted_soul",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:posessed_soul_cube"
+    ]
+  },
+  "sends_telemetry_event": false
+}

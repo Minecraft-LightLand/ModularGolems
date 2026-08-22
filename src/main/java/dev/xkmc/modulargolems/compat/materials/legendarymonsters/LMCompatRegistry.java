@@ -15,7 +15,7 @@ public class LMCompatRegistry {
 	public static final RegistryEntry<AncientAnchorModifier> ANCHOR;
 	public static final RegistryEntry<ThunderAttackModifier> THUNDER;
 	public static final RegistryEntry<RootPercAttackModifier> PERC;
-	public static final ItemEntry<Item> CLOUD_CUBE;
+	public static final ItemEntry<Item> CLOUD_CUBE, ANNIHILATION_CUBE, POSESSED_SOUL_CUBE;
 	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER;
 
 	static {
@@ -32,6 +32,8 @@ public class LMCompatRegistry {
 				.lang("Thunderstorm Upgrade").register();
 
 		CLOUD_CUBE = GolemItems.item(LMDispatch.MODID, "cloud_cube", Item::new);
+		ANNIHILATION_CUBE = GolemItems.item(LMDispatch.MODID, "annihilation_cube", Item::new);
+		POSESSED_SOUL_CUBE = GolemItems.item(LMDispatch.MODID, "posessed_soul_cube", Item::new);
 	}
 
 	public static void register() {
