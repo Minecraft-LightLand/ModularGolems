@@ -22,6 +22,8 @@ public class LMDispatch extends ModDispatch {
 	protected void genLang(RegistrateLangProvider pvd) {
 		pvd.add("golem_material." + MODID + ".molten_metal", "Molten Metal");
 		pvd.add("golem_material." + MODID + ".cloud", "Cloud");
+		pvd.add("golem_material." + MODID + ".obliterator", "Obliterator");
+		pvd.add("golem_material." + MODID + ".paladin", "Paladin");
 	}
 
 	@Override
