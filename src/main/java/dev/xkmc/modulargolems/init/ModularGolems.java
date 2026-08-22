@@ -10,24 +10,25 @@ import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2screentracker.click.quickaccess.DefaultQuickAccessActions;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.maid.SetMaidModelToServer;
-import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
-import dev.xkmc.modulargolems.editor.base.EditorText;
-import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.content.entity.common.GuardedEntity;
 import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
 import dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer;
+import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
 import dev.xkmc.modulargolems.content.menu.wheel.GolemSetModeToServer;
+import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
 import dev.xkmc.modulargolems.events.WeaponAttackListener;
@@ -37,7 +38,9 @@ import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import dev.xkmc.modulargolems.init.registrate.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -119,6 +122,19 @@ public class ModularGolems {
 					GolemItems.TABLE.asItem(),
 					GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
 		});
+	}
+
+	@SubscribeEvent
+	public static void leaveLevel(ServerStoppedEvent event) {
+		TargetManager.clear();
+	}
+
+	@SubscribeEvent
+	public static void leaveLevel(TickEvent.ServerTickEvent event) {
+		if (event.phase != TickEvent.Phase.END) return;
+		var server = event.getServer();
+		if (server.overworld().getGameTime() % 100 == 0)
+			TargetManager.prune();
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGH)
