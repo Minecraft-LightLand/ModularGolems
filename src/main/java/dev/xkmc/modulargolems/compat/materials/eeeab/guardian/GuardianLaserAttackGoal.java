@@ -1,11 +1,10 @@
 package dev.xkmc.modulargolems.compat.materials.eeeab.guardian;
 
-import com.eeeab.eeeabsmobs.sever.entity.effect.EntityGuardianLaser;
+import dev.xkmc.modulargolems.compat.materials.eeeab.EEEABProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 
 /**
  * Ranged goal for {@link GuardianLaserModifier}.
@@ -56,16 +55,7 @@ public class GuardianLaserAttackGoal extends BaseRangedAttackGoal {
 	@Override
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
-		double px = golem.getX();
-		double py = golem.getY() + 1.4;
-		double pz = golem.getZ();
-		// duration 70 matches original GuardianShootLaserGoal; could scale with lv if desired
-		int duration = 70;
-		EntityGuardianLaser laser = new EntityGuardianLaser(golem.level(), golem, px, py, pz, duration);
-		// damage = attackDamage / 3, as in original; scale slightly with lv
-		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
-		laser.setDamage(base / 3.0F * (1 + 0.2F * (lv - 1)));
-		golem.level().addFreshEntity(laser);
+		Entity laser = EEEABProxy.spawnGuardianLaser(golem, lv);
 		beam = laser;
 		golem.getNavigation().stop();
 		golem.specialAttackCoolDown = 20;

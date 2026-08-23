@@ -1,7 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.eeeab.annihilator;
 
-import com.eeeab.eeeabsmobs.sever.entity.effect.EntityGuardianLaser;
-import com.eeeab.eeeabsmobs.sever.entity.effect.EntityInfraredRay;
+import dev.xkmc.modulargolems.compat.materials.eeeab.EEEABProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.world.entity.Entity;
@@ -48,20 +47,7 @@ public class AnnihilatorLaserAttackGoal extends BaseRangedAttackGoal {
 	@Override
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
-		// spawn infrared ray as telegraph (29 ticks like original tick9)
-		double x = golem.getX();
-		double y = golem.getEyeY() - 0.3; // approx scope offset 0.24*height
-		double z = golem.getZ();
-		EntityInfraredRay ray = new EntityInfraredRay(golem.level(), golem, x, y, z, 29);
-		golem.level().addFreshEntity(ray);
-
-		// spawn guardian laser (RELIC_ANNIHILATOR type) original tick49
-		EntityGuardianLaser laser = new EntityGuardianLaser(golem.level(), golem,
-				golem.getX(), golem.getY(), golem.getZ(), 20);
-		laser.setCountDown(1);
-		EntityGuardianLaser.UserType type = EntityGuardianLaser.UserType.RELIC_ANNIHILATOR;
-		laser.updateWithEntity(golem, type.wOffset, type.hOffset);
-		golem.level().addFreshEntity(laser);
+		Entity laser = EEEABProxy.spawnAnnihilatorLaser(golem);
 		beam = laser;
 		golem.getNavigation().stop();
 		golem.specialAttackCoolDown = 20;

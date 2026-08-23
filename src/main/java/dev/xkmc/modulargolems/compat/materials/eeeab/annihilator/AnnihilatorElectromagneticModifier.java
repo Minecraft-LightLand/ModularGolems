@@ -1,14 +1,12 @@
 package dev.xkmc.modulargolems.compat.materials.eeeab.annihilator;
 
-import com.eeeab.eeeabsmobs.sever.entity.effect.EntityElectromagnetic;
+import dev.xkmc.modulargolems.compat.materials.eeeab.EEEABProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Consumer;
 
@@ -58,33 +56,8 @@ public class AnnihilatorElectromagneticModifier extends GolemModifier implements
 	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int lv) {
 		if (golem.level().isClientSide) return;
-		// frontal pound position mirrors getPosOffset(false,2.25,0.2,0)
-		Vec3 look = golem.getForward().normalize();
-		Vec3 poundPos = golem.position().add(look.scale(2.25)).add(0, 0.2, 0);
-		// optional ground effect already handled via handleEvent FLAG
 		golem.level().broadcastEntityEvent(golem, EarthquakeHelper.FLAG);
-
-		// always spawn 6 electromagnetics (original only if health<=0.5)
-		// scale count slightly with lv if desired, keep 6 for fidelity
-		int count = 6 + Math.max(0, lv - 1); // 6..8
-		float offset = (float) Math.toRadians(golem.getRandom().nextFloat() * 360.0F - 180.0F);
-		for (int i = 0; i < 6; i++) {
-			float f1 = (float) (golem.getYRot() + (i + offset) * Math.PI * 0.3333333333333333);
-			// original uses ModEntityUtils.checkSummonEntityPoint to find ground; simplify to poundPos
-			// use same Vec3 for all (EntityElectromagnetic will be placed there and move by yaw)
-			Vec3 spawnPos = new Vec3(poundPos.x, poundPos.y, poundPos.z);
-			float yawDeg = f1 * Mth.RAD_TO_DEG - 90.0F;
-			EntityElectromagnetic.shoot(golem.level(), golem, spawnPos, 2.0F, 10, 5, yawDeg, false);
-		}
-		// slight extra for lv scaling: spawn additional 2 if lv==3 near center
-		if (lv >= 3) {
-			for (int i = 0; i < 2; i++) {
-				float f1 = (float) (golem.getYRot() + (i + offset + 3) * Math.PI * 0.3333333333333333);
-				Vec3 spawnPos = new Vec3(poundPos.x, poundPos.y, poundPos.z);
-				float yawDeg = f1 * Mth.RAD_TO_DEG - 90.0F;
-				EntityElectromagnetic.shoot(golem.level(), golem, spawnPos, 1.5F, 8, 6, yawDeg, false);
-			}
-		}
+		EEEABProxy.spawnElectromagneticBurst(golem, lv);
 	}
 
 	@Override
