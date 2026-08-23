@@ -34,6 +34,7 @@ public class CreateCompatRegistry {
 	public static final RegistryEntry<MechBodyModifier> BODY;
 	public static final RegistryEntry<MechMobileModifier> MOBILE;
 	public static final RegistryEntry<MechForceModifier> FORCE;
+	public static final RegistryEntry<ChocoModifier> CHOCO;
 
 	public static final RegistryEntry<MechMobileEffect> EFF_MOBILE;
 	public static final RegistryEntry<MechForceEffect> EFF_FORCE;
@@ -49,6 +50,7 @@ public class CreateCompatRegistry {
 		PUSH = reg("push", () -> new AttributeGolemModifier(1,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, () -> 2)
 		)).register();
+		CHOCO = reg("choco_body", ChocoModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
 		BODY = reg("mechanical_engine", MechBodyModifier::new, "Consumes fuels to power the golem up.");
 		MOBILE = reg("mechanical_mobility", MechMobileModifier::new, "When burning fuels, increase speed by %s%%");
 		FORCE = reg("mechanical_force", MechForceModifier::new, "When burning fuels, increase attack damage by %s%%");
@@ -80,6 +82,7 @@ public class CreateCompatRegistry {
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.SPECIAL_CRAFT)
 				.addOptional(new ResourceLocation("create", "cardboard"))
 				.addOptional(AllItems.ANDESITE_ALLOY.getId())
+				.addOptional(AllItems.BAR_OF_CHOCOLATE.getId())
 				.addOptionalTag(new ResourceLocation("forge", "ingots/brass"))
 				.addOptional(AllBlocks.RAILWAY_CASING.getId()));
 		if (ModList.get().isLoaded(L2Complements.MODID)) {

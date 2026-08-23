@@ -1,0 +1,29 @@
+{
+  "flag": "mod:create",
+  "name": "Chocolate",
+  "icon": "create:bar_of_chocolate",
+  "category": "modulargolems:materials",
+  "sortnum": 306,
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "create:bar_of_chocolate",
+	  "text": "Main material to craft Chocolate golem parts. Consume itself to restore health. Can be repaired with bar of chocolate. Boosts speed and damage when consuming fuels.$(br2)Fuels can be automatically consumed from Dimensional Backpack (from L2Backpack) equipped on the golem or the captain of the team."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"create:chocolate\"},{part:\"modulargolems:metal_golem_body\",material:\"create:chocolate\"},{part:\"modulargolems:metal_golem_arm\",material:\"create:chocolate\"},{part:\"modulargolems:metal_golem_legs\",material:\"create:chocolate\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"create:chocolate\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"create:chocolate\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"create:chocolate\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	},
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"create:chocolate\"},{part:\"modulargolems:dog_golem_legs\",material:\"create:chocolate\"}]}",
+	  "text": "Use JEI (press R) to check part stats of each part made of this material."
+	}
+  ]
+}

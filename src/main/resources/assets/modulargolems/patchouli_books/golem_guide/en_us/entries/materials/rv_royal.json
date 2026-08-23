@@ -1,0 +1,29 @@
+{
+	"flag": "mod:royalvariations",
+	"name": "Royal",
+	"icon": "royalvariations:spiritual_crown_shard",
+	"category": "modulargolems:materials",
+	"sortnum": 1501,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "royalvariations:spiritual_crown_shard",
+			"text": "Main material to craft Royal golem parts. Royal golem applies Royal Blessing to allies on hurt, and inflict Marked when attacking enemies"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"royalvariations:royal\"},{part:\"modulargolems:metal_golem_body\",material:\"royalvariations:royal\"},{part:\"modulargolems:metal_golem_arm\",material:\"royalvariations:royal\"},{part:\"modulargolems:metal_golem_legs\",material:\"royalvariations:royal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"royalvariations:royal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"royalvariations:royal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"royalvariations:royal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"royalvariations:royal\"},{part:\"modulargolems:dog_golem_legs\",material:\"royalvariations:royal\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

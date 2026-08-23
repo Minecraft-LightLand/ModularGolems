@@ -4,7 +4,8 @@
 		"zinc": "锌",
 		"andesite_alloy": "安山合金",
 		"brass": "黄铜",
-		"railway": "火车"
+		"railway": "火车",
+		"chocolate": "巧克力"
 	},
 	"modifier.modulargolems": {
 		"coating": "镀层升级",
@@ -15,7 +16,9 @@
 		"mechanical_force": "工业长路",
 		"mechanical_force.desc": "消耗燃料时提升%s%%攻击伤害",
 		"mechanical_mobility": "汽鸣铁道",
-		"mechanical_mobility.desc": "消耗燃料时提升%s%%移动速度"
+		"mechanical_mobility.desc": "消耗燃料时提升%s%%移动速度",
+		"choco_body": "可口身躯",
+		"choco_body.desc": "熔锻：可消耗自身材料回复生命值，但会减少生命值上限并缩小体型。可通过修复材料复原"
 	},
 	"item.modulargolems": {
 		"coating": "镀层升级",

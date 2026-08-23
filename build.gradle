@@ -300,6 +300,9 @@ dependencies {
     implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}")
     implementation fg.deobf("dev.shadowsoffire:Apotheosis:${minecraft_version}-${apotheosis_version}")
 
+    implementation fg.deobf("curse.maven:eeeabs-mobs-921600:8073814")
+    implementation fg.deobf("curse.maven:royal-variations-989611:7168087")
+
 }
 
 tasks.register('publishCurseForge', TaskPublishCurseForge) {

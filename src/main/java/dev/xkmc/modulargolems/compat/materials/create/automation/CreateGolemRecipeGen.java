@@ -4,10 +4,13 @@ import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.api.data.recipe.MechanicalCraftingRecipeBuilder;
+import com.simibubi.create.content.fluids.transfer.FillingRecipe;
 import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
 import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
@@ -32,11 +35,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 
 public class CreateGolemRecipeGen {
 
-	private static final Set<String> SPECIAL = Set.of("andesite_alloy", "brass", "railway");
+	private static final Set<String> SPECIAL = Set.of("andesite_alloy", "brass", "railway", "chocolate");
 
 	public static void genAllUpgradeRecipes(RegistrateRecipeProvider pvd) {
 		var ing = CompatManager.gatherConfig();
@@ -267,9 +273,18 @@ public class CreateGolemRecipeGen {
 
 	public static void genSpecialRecipes(RegistrateRecipeProvider pvd) {
 		for (var part : GolemPart.LIST) {
-			genAssembly(pvd, part, new ResourceLocation(CreateDispatch.MODID, "andesite_alloy"), AllItems.ANDESITE_ALLOY, AllBlocks.COGWHEEL);
-			genAssembly(pvd, part, new ResourceLocation(CreateDispatch.MODID, "brass"), Ingredient.of(AllTags.forgeItemTag("ingots/brass")), AllItems.PRECISION_MECHANISM);
-			genAssembly(pvd, part, new ResourceLocation(CreateDispatch.MODID, "railway"), Ingredient.of(AllTags.forgeItemTag("plates/brass")), AllItems.PRECISION_MECHANISM, AllItems.ELECTRON_TUBE, AllItems.STURDY_SHEET);
+			genAssembly(pvd, part, loc("andesite_alloy"), AllItems.ANDESITE_ALLOY, AllBlocks.COGWHEEL);
+			genAssembly(pvd, part, loc("brass"), Ingredient.of(AllTags.forgeItemTag("ingots/brass")), AllItems.PRECISION_MECHANISM);
+			genAssembly(pvd, part, loc("railway"), Ingredient.of(AllTags.forgeItemTag("plates/brass")), AllItems.PRECISION_MECHANISM, AllItems.ELECTRON_TUBE, AllItems.STURDY_SHEET);
+
+			genAssembly(pvd, part, part.count / 3, loc("chocolate"), List.of(
+					Step.of(FluidIngredient.fromTag(AllTags.AllFluidTags.CHOCOLATE.tag, 250)),
+					Step.of(AllItems.PRECISION_MECHANISM),
+					Step.of(FluidIngredient.fromTag(AllTags.AllFluidTags.CHOCOLATE.tag, 250)),
+					Step.of(AllBlocks.COGWHEEL),
+					Step.of(FluidIngredient.fromTag(AllTags.AllFluidTags.CHOCOLATE.tag, 250)),
+					Step.PRESS
+			));
 		}
 	}
 
@@ -278,6 +293,22 @@ public class CreateGolemRecipeGen {
 	}
 
 	private static void genAssembly(RegistrateRecipeProvider pvd, GolemPart<?, ?> part, ResourceLocation id, Ingredient ingredient, ItemLike... parts) {
+		ArrayList<Step<?>> steps = new ArrayList<>();
+		steps.add(Step.of(ingredient));
+		if (parts.length == 0) {
+			for (int i = 0; i < 3; i++)
+				steps.add(Step.PRESS);
+		} else {
+			steps.add(Step.PRESS);
+			for (var item : parts) {
+				steps.add(Step.of(item));
+			}
+			steps.add(new Step<>(DeployerApplicationRecipe::new, e -> e.require(AllItems.WRENCH).toolNotConsumed()));
+		}
+		genAssembly(pvd, part, part.count, id, steps);
+	}
+
+	private static void genAssembly(RegistrateRecipeProvider pvd, GolemPart<?, ?> part, int loop, ResourceLocation id, List<Step<?>> steps) {
 		var part_rl = ForgeRegistries.ITEMS.getKey(part);
 		assert part_rl != null;
 		String item_name = part_rl.getPath();
@@ -285,19 +316,10 @@ public class CreateGolemRecipeGen {
 				id.getPath() + "_assemble_" + item_name));
 		var incomplete = ForgeRegistries.ITEMS.getValue(part_rl.withPrefix("incomplete_"));
 		recipe.require(part).transitionTo(incomplete);
-		recipe.addStep(DeployerApplicationRecipe::new, e -> e.require(ingredient));
-		if (parts.length == 0) {
-			for (int i = 0; i < 3; i++) {
-				recipe.addStep(PressingRecipe::new, e -> e);
-			}
-		} else {
-			recipe.addStep(PressingRecipe::new, e -> e);
-			for (var p : parts) {
-				recipe.addStep(DeployerApplicationRecipe::new, e -> e.require(p));
-			}
-			recipe.addStep(DeployerApplicationRecipe::new, e -> e.require(AllItems.WRENCH).toolNotConsumed());
+		for (var step : steps) {
+			step.apply(recipe);
 		}
-		recipe.loops(part.count);
+		recipe.loops(loop);
 		String modid = id.getNamespace();
 		recipe.withCondition(new ModLoadedCondition(CreateDispatch.MODID));
 		if (!modid.equals(ModularGolems.MODID) && !modid.equals(CreateDispatch.MODID)) {
@@ -305,6 +327,33 @@ public class CreateGolemRecipeGen {
 		}
 		recipe.addOutput(GolemPart.setMaterial(part.getDefaultInstance(), id), 1);
 		recipe.build(pvd);
+	}
+
+	private static ResourceLocation loc(String id) {
+		return new ResourceLocation(CreateDispatch.MODID, id);
+	}
+
+	private record Step<T extends ProcessingRecipe<?>>(ProcessingRecipeBuilder.ProcessingRecipeFactory<T> factory,
+	                                                   UnaryOperator<ProcessingRecipeBuilder<T>> builder) {
+
+		public static final Step<?> PRESS = new Step<>(PressingRecipe::new, e -> e);
+
+		public static Step<?> of(Ingredient item) {
+			return new Step<>(DeployerApplicationRecipe::new, e -> e.require(item));
+		}
+
+		public static Step<?> of(ItemLike item) {
+			return new Step<>(DeployerApplicationRecipe::new, e -> e.require(item));
+		}
+
+		public static Step<?> of(FluidIngredient item) {
+			return new Step<>(FillingRecipe::new, e -> e.require(item));
+		}
+
+		public void apply(ConditionalSARecipeBuilder recipe) {
+			recipe.addStep(factory, builder);
+		}
+
 	}
 
 }

@@ -1,0 +1,7 @@
+{
+  "golem_material.royalvariations.royal": "皇家",
+  "modifier.modulargolems.calvary": "召集",
+  "modifier.modulargolems.calvary.desc": "受到伤害时，对周围的队友施加皇家祝福",
+  "modifier.modulargolems.marking": "标记",
+  "modifier.modulargolems.marking.desc": "攻击目标时，对目标施加标记效果"
+}

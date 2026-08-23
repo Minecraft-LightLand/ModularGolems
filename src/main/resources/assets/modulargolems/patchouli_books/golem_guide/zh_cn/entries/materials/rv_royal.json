@@ -1,0 +1,29 @@
+{
+	"flag": "mod:royalvariations",
+	"name": "皇家",
+	"icon": "royalvariations:spiritual_crown_shard",
+	"category": "modulargolems:materials",
+	"sortnum": 1501,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "royalvariations:spiritual_crown_shard",
+			"text": "制作皇家傀儡的主要材料。受伤时给队友施加皇家祝福。攻击对目标施加标记"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"royalvariations:royal\"},{part:\"modulargolems:metal_golem_body\",material:\"royalvariations:royal\"},{part:\"modulargolems:metal_golem_arm\",material:\"royalvariations:royal\"},{part:\"modulargolems:metal_golem_legs\",material:\"royalvariations:royal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"royalvariations:royal\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"royalvariations:royal\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"royalvariations:royal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"royalvariations:royal\"},{part:\"modulargolems:dog_golem_legs\",material:\"royalvariations:royal\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

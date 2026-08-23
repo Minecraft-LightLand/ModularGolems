@@ -85,6 +85,7 @@ public class CreateDispatch extends ModDispatch {
 		pvd.add("golem_material." + MODID + ".andesite_alloy", "Andesite Alloy");
 		pvd.add("golem_material." + MODID + ".brass", "Brass");
 		pvd.add("golem_material." + MODID + ".railway", "Railway");
+		pvd.add("golem_material." + MODID + ".chocolate", "Chocolate");
 	}
 
 	@Override

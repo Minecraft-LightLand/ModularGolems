@@ -9,6 +9,10 @@
       "required": false
     },
     {
+      "id": "create:bar_of_chocolate",
+      "required": false
+    },
+    {
       "id": "#forge:ingots/brass",
       "required": false
     },

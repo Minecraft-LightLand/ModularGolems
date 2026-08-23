@@ -60,6 +60,16 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addModifier(CreateCompatRegistry.FORCE.get(), 1)
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 2).end()
 
+				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "chocolate"),
+						Ingredient.of(AllItems.BAR_OF_CHOCOLATE))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 100)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
+				.addModifier(CreateCompatRegistry.BODY.get(), 1)
+				.addModifier(CreateCompatRegistry.MOBILE.get(), 1)
+				.addModifier(CreateCompatRegistry.FORCE.get(), 1)
+				.addModifier(CreateCompatRegistry.CHOCO.get(), 1)
+				.end()
+
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "railway"),
 						Ingredient.of(AllBlocks.RAILWAY_CASING.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)

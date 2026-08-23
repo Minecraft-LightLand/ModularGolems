@@ -21,6 +21,7 @@ import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMDispatch;
 import dev.xkmc.modulargolems.compat.materials.mowziesmobs.MowzieDispatch;
+import dev.xkmc.modulargolems.compat.materials.royalvariation.RVDispatch;
 import dev.xkmc.modulargolems.compat.materials.tinker.TCDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
@@ -64,6 +65,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(EnchantmentIndustry.ID)) CEICompat.register();
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
 		if (ModList.get().isLoaded(CMDispatch.MODID)) LIST.add(new CMDispatch());
+		if (ModList.get().isLoaded(RVDispatch.MODID)) LIST.add(new RVDispatch());
 		if (ModList.get().isLoaded(L2Backpack.MODID))
 			MinecraftForge.EVENT_BUS.register(L2BCompat.class);
 	}

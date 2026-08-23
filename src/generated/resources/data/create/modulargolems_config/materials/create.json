@@ -9,6 +9,9 @@
     "create:cardboard": {
       "tag": "modulargolems:cardboard"
     },
+    "create:chocolate": {
+      "item": "create:bar_of_chocolate"
+    },
     "create:railway": {
       "item": "create:railway_casing"
     },
@@ -30,6 +33,12 @@
       "modulargolems:mechanical_mobility": 1
     },
     "create:cardboard": {},
+    "create:chocolate": {
+      "modulargolems:choco_body": 1,
+      "modulargolems:mechanical_engine": 1,
+      "modulargolems:mechanical_force": 1,
+      "modulargolems:mechanical_mobility": 1
+    },
     "create:railway": {
       "modulargolems:fire_immune": 1,
       "modulargolems:magic_resistant": 2,
@@ -51,6 +60,9 @@
     },
     "create:cardboard": {
       "tag": "modulargolems:cardboard"
+    },
+    "create:chocolate": {
+      "item": "create:bar_of_chocolate"
     },
     "create:railway": {
       "item": "create:railway_casing"
@@ -74,6 +86,10 @@
       "modulargolems:attack_knockback": 2.0,
       "modulargolems:max_health": 2.0,
       "modulargolems:weight": 0.4
+    },
+    "create:chocolate": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 100.0
     },
     "create:railway": {
       "modulargolems:attack": 15.0,
