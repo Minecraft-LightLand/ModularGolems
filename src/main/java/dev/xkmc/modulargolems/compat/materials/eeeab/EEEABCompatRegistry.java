@@ -7,13 +7,12 @@ import net.minecraft.world.item.Item;
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
-public class E3ABCompatRegistry {
+public class EEEABCompatRegistry {
 
-	public static final ItemEntry<Item> CLOUD_CUBE;
+	public static final ItemEntry<Item> REALM_CUBE;
 
 	static {
-
-		CLOUD_CUBE = GolemItems.item(E3ABDispatch.MODID, "cloud_cube", Item::new);
+		REALM_CUBE = GolemItems.item(EEEABDispatch.MODID, "realm_cube", Item::new);
 	}
 
 	public static void register() {

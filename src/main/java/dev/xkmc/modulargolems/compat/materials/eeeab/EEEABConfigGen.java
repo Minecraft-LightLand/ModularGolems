@@ -5,22 +5,21 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.miauczel.legendary_monsters.item.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public class E3ABConfigGen extends ConfigDataProvider {
+public class EEEABConfigGen extends ConfigDataProvider {
 
-	public E3ABConfigGen(DataGenerator generator) {
+	public EEEABConfigGen(DataGenerator generator) {
 		super(generator, "Golem Config for Legendary Monsters");
 	}
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(E3ABDispatch.MODID, E3ABDispatch.MODID), new GolemMaterialConfig()
-				.addMaterial(new ResourceLocation(E3ABDispatch.MODID, "molten_metal"),
-						Ingredient.of(ModItems.MOLTEN_METAL_INGOT.get()))
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(EEEABDispatch.MODID, EEEABDispatch.MODID), new GolemMaterialConfig()
+				.addMaterial(new ResourceLocation(EEEABDispatch.MODID, "realm"),
+						Ingredient.of(EEEABCompatRegistry.REALM_CUBE.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
