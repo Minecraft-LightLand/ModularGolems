@@ -69,11 +69,6 @@ public class EEEABProxyImpl {
 	@Nullable
 	public static Entity spawnAnnihilatorLaser(LivingEntity golem) {
 		if (golem.level().isClientSide) return null;
-		double x = golem.getX();
-		double y = golem.getEyeY() - 0.3;
-		double z = golem.getZ();
-		EntityInfraredRay ray = new EntityInfraredRay(golem.level(), golem, x, y, z, 29);
-		golem.level().addFreshEntity(ray);
 		EntityGuardianLaser laser = new EntityGuardianLaser(golem.level(), golem,
 				golem.getX(), golem.getY(), golem.getZ(), 20);
 		laser.setCountDown(1);

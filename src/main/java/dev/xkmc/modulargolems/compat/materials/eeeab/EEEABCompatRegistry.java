@@ -5,6 +5,8 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.eeeab.annihilator.AnnihilatorElectromagneticModifier;
 import dev.xkmc.modulargolems.compat.materials.eeeab.annihilator.AnnihilatorLaserModifier;
 import dev.xkmc.modulargolems.compat.materials.eeeab.annihilator.AnnihilatorMissileModifier;
+import dev.xkmc.modulargolems.content.item.upgrade.CraftMaterialItem;
+import dev.xkmc.modulargolems.content.item.upgrade.RepairMaterialItem;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.world.item.Item;
 
@@ -12,7 +14,8 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class EEEABCompatRegistry {
 
-	public static final ItemEntry<Item> REALM_CUBE;
+	public static final ItemEntry<RepairMaterialItem> REALM_CUBE;
+	public static final ItemEntry<CraftMaterialItem> REALM_CONSTRUCT;
 
 	public static final RegistryEntry<AnnihilatorMissileModifier> ANNIHILATOR_MISSILE;
 	public static final RegistryEntry<AnnihilatorLaserModifier> ANNIHILATOR_LASER;
@@ -26,7 +29,8 @@ public class EEEABCompatRegistry {
 	 */
 
 	static {
-		REALM_CUBE = GolemItems.item(EEEABDispatch.MODID, "realm_cube", Item::new);
+		REALM_CUBE = GolemItems.item(EEEABDispatch.MODID, "realm_cube", RepairMaterialItem::new);
+		REALM_CONSTRUCT = GolemItems.item(EEEABDispatch.MODID, "realm_construct", CraftMaterialItem::new);
 
 		ANNIHILATOR_MISSILE = reg("annihilator_missile", AnnihilatorMissileModifier::new,
 				"Annihilator Missile", "Shoot homing missiles at multiple targets. Missiles track and apply electrified effect; low health has chance to become sparkferno");

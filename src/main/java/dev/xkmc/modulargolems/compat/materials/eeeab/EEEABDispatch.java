@@ -25,6 +25,7 @@ public class EEEABDispatch extends ModDispatch {
 
 	@Override
 	public void genRecipe(RegistrateRecipeProvider pvd) {
+		EEEABProxy.genRecipe(pvd);
 	}
 
 	@Override

@@ -1,5 +1,11 @@
 package dev.xkmc.modulargolems.compat.materials.eeeab;
 
+import com.eeeab.eeeabsmobs.sever.init.ItemInit;
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
+import dev.xkmc.modulargolems.init.data.RecipeGen;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -49,6 +55,25 @@ public class EEEABProxy {
 			EEEABProxyImpl.spawnElectromagneticBurst(golem, lv);
 		} catch (Throwable ignored) {
 		}
+	}
+
+	public static void genRecipe(RegistrateRecipeProvider pvd) {
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, EEEABCompatRegistry.REALM_CUBE, 9)::unlockedBy,
+						ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
+				.pattern("XXX").pattern("AAA").pattern("XXX")
+				.define('A', ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
+				.define('X', ItemInit.BOUNDARY_BRICK.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, EEEABDispatch.MODID));
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, EEEABCompatRegistry.REALM_CONSTRUCT, 9)::unlockedBy,
+						ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
+				.pattern("XXX").pattern("1A2").pattern("XXX")
+				.define('1', ItemInit.GUARDIAN_CUBE.get())
+				.define('2', ItemInit.CHAIN_GEAR.get())
+				.define('A', ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
+				.define('X', EEEABCompatRegistry.REALM_CUBE.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, EEEABDispatch.MODID));
 	}
 
 }
