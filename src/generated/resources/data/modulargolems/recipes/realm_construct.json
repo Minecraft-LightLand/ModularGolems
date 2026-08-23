@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "eeeabsmobs"
+    }
+  ],
+  "key": {
+    "1": {
+      "item": "eeeabsmobs:guardian_cube"
+    },
+    "2": {
+      "item": "eeeabsmobs:chain_gear"
+    },
+    "A": {
+      "item": "eeeabsmobs:ancient_drive_crystal"
+    },
+    "X": {
+      "item": "modulargolems:realm_cube"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "1A2",
+    "XXX"
+  ],
+  "result": {
+    "count": 9,
+    "item": "modulargolems:realm_construct"
+  },
+  "show_notification": true
+}

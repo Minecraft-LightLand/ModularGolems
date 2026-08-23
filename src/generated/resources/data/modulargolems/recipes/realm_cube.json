@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "eeeabsmobs"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "eeeabsmobs:ancient_drive_crystal"
+    },
+    "X": {
+      "item": "eeeabsmobs:boundary_brick"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "AAA",
+    "XXX"
+  ],
+  "result": {
+    "count": 9,
+    "item": "modulargolems:realm_cube"
+  },
+  "show_notification": true
+}
