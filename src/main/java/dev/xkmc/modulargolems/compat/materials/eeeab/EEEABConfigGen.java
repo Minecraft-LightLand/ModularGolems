@@ -12,7 +12,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 public class EEEABConfigGen extends ConfigDataProvider {
 
 	public EEEABConfigGen(DataGenerator generator) {
-		super(generator, "Golem Config for Legendary Monsters");
+		super(generator, "Golem Config for EEEAB");
 	}
 
 	@Override
@@ -24,9 +24,9 @@ public class EEEABConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
-				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
-				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
-				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 2)
+				.addModifier(EEEABCompatRegistry.ANNIHILATOR_MISSILE.get(), 1)
+				.addModifier(EEEABCompatRegistry.ANNIHILATOR_LASER.get(), 1)
+				.addModifier(EEEABCompatRegistry.ANNIHILATOR_ELECTROMAGNETIC.get(), 1)
 				.end()
 
 		);

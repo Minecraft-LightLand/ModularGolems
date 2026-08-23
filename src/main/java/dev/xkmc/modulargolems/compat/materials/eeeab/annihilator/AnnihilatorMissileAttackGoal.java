@@ -12,8 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class AnnihilatorMissileAttackGoal extends MultiTargetRangedGoal {
 
 	public AnnihilatorMissileAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		// wait 40, search 32, cd between targets 5, mirrors EnderGuardianVoidRune (100,0,15) but faster volley
-		super(40, 0, 32, golem, lv);
+		super(100, 0, 32, golem, lv);
 	}
 
 	@Override

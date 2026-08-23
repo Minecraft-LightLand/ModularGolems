@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 public class AnnihilatorElectromagneticModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
 	public AnnihilatorElectromagneticModifier() {
-		super(StatFilterType.ATTACK, 3);
+		super(StatFilterType.MOVEMENT, 3);
 	}
 
 	@Override

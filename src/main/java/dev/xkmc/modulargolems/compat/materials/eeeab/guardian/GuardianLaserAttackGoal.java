@@ -56,6 +56,7 @@ public class GuardianLaserAttackGoal extends BaseRangedAttackGoal {
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
 		Entity laser = EEEABProxy.spawnGuardianLaser(golem, lv);
+		if (laser == null) return true;
 		beam = laser;
 		golem.getNavigation().stop();
 		golem.specialAttackCoolDown = 20;

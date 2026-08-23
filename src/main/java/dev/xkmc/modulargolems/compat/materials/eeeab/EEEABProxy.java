@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.compat.materials.eeeab;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
+import javax.annotation.Nullable;
+
 /**
  * Proxy wrapping all EEEAB calls with try-catch.
  * Golem modifiers should only call this class, never {@code com.eeeab.*} directly.
@@ -17,6 +19,7 @@ public class EEEABProxy {
 		}
 	}
 
+	@Nullable
 	public static Entity spawnGuardianLaser(LivingEntity golem, int lv) {
 		try {
 			return EEEABProxyImpl.spawnGuardianLaser(golem, lv);
@@ -32,6 +35,7 @@ public class EEEABProxy {
 		}
 	}
 
+	@Nullable
 	public static Entity spawnAnnihilatorLaser(LivingEntity golem) {
 		try {
 			return EEEABProxyImpl.spawnAnnihilatorLaser(golem);

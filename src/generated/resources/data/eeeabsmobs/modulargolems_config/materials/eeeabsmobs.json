@@ -1,0 +1,28 @@
+{
+  "ingredients": {
+    "eeeabsmobs:realm": {
+      "item": "modulargolems:realm_cube"
+    }
+  },
+  "modifiers": {
+    "eeeabsmobs:realm": {
+      "modulargolems:annihilator_electromagnetic": 1,
+      "modulargolems:annihilator_laser": 1,
+      "modulargolems:annihilator_missile": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "eeeabsmobs:realm": {
+      "item": "modulargolems:realm_cube"
+    }
+  },
+  "stats": {
+    "eeeabsmobs:realm": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:attack_knockback": 1.0,
+      "modulargolems:max_health": 200.0,
+      "modulargolems:sweep": 2.0
+    }
+  }
+}

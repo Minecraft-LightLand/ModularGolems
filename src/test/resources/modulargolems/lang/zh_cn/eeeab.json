@@ -1,0 +1,13 @@
+{
+  "golem_material.eeeabsmobs.realm": "界域",
+  "item.modulargolems.realm_cube": "界域机块",
+  "item.modulargolems.annihilator_missile": "湮灭导弹升级",
+  "item.modulargolems.annihilator_laser": "湮灭激光升级",
+  "item.modulargolems.annihilator_electromagnetic": "湮灭电磁升级",
+  "modifier.modulargolems.annihilator_missile": "湮灭导弹",
+  "modifier.modulargolems.annihilator_missile.desc": "向多个目标发射追踪导弹。导弹附带爆炸与感电效果",
+  "modifier.modulargolems.annihilator_laser": "湮灭激光",
+  "modifier.modulargolems.annihilator_laser.desc": "向单个目标发射红外制导激光，造成持续光束伤害",
+  "modifier.modulargolems.annihilator_electromagnetic": "电磁爆发",
+  "modifier.modulargolems.annihilator_electromagnetic.desc": "砸地产生6个追踪目标的电磁场，电击周围实体。无视原版生命值条件必定触发"
+}

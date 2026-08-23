@@ -1,0 +1,85 @@
+{
+  "type": "create:sequenced_assembly",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "eeeabsmobs"
+    }
+  ],
+  "ingredient": {
+    "item": "modulargolems:dog_golem_body"
+  },
+  "loops": 6,
+  "results": [
+    {
+      "item": "modulargolems:dog_golem_body",
+      "nbt": {
+        "golem_material": "eeeabsmobs:realm"
+      }
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        },
+        {
+          "item": "modulargolems:realm_cube"
+        }
+      ],
+      "results": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "modulargolems:incomplete_dog_golem_body"
+  }
+}

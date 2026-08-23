@@ -17,9 +17,7 @@ public class AnnihilatorLaserAttackGoal extends BaseRangedAttackGoal {
 	private Entity beam;
 
 	public AnnihilatorLaserAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		// original LASER condition: distance 9..24, healthBelow 0.8, random 0.4, hasLineOfSight
-		// use wait 90 (laser animation 90), range 9..24
-		super(90, 9, 24, golem, lv);
+		super(200, 2, 24, golem, lv);
 	}
 
 	@Override
@@ -48,6 +46,7 @@ public class AnnihilatorLaserAttackGoal extends BaseRangedAttackGoal {
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
 		Entity laser = EEEABProxy.spawnAnnihilatorLaser(golem);
+		if (laser == null) return true;
 		beam = laser;
 		golem.getNavigation().stop();
 		golem.specialAttackCoolDown = 20;

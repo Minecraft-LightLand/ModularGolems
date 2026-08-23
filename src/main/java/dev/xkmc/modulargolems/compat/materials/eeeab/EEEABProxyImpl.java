@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.compat.materials.eeeab;
 
 import com.eeeab.eeeabsmobs.sever.entity.effect.EntityElectromagnetic;
+import com.eeeab.eeeabsmobs.sever.entity.effect.EntityGuardianBlade;
 import com.eeeab.eeeabsmobs.sever.entity.effect.EntityGuardianLaser;
 import com.eeeab.eeeabsmobs.sever.entity.effect.EntityInfraredRay;
-import com.eeeab.eeeabsmobs.sever.entity.effect.EntityGuardianBlade;
 import com.eeeab.eeeabsmobs.sever.entity.effect.projectile.EntityAnnihilatorMissile;
 import com.eeeab.eeeabsmobs.sever.init.EffectInit;
 import net.minecraft.util.Mth;
@@ -11,6 +11,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 /**
  * Actual EEEAB implementations. All direct references to {@code com.eeeab.*} must stay here.
@@ -32,6 +34,7 @@ public class EEEABProxyImpl {
 		}
 	}
 
+	@Nullable
 	public static Entity spawnGuardianLaser(LivingEntity golem, int lv) {
 		if (golem.level().isClientSide) return null;
 		double px = golem.getX();
@@ -63,6 +66,7 @@ public class EEEABProxyImpl {
 		golem.level().addFreshEntity(missile);
 	}
 
+	@Nullable
 	public static Entity spawnAnnihilatorLaser(LivingEntity golem) {
 		if (golem.level().isClientSide) return null;
 		double x = golem.getX();
@@ -84,19 +88,12 @@ public class EEEABProxyImpl {
 		Vec3 look = golem.getForward().normalize();
 		Vec3 poundPos = golem.position().add(look.scale(2.25)).add(0, 0.2, 0);
 		float offset = (float) Math.toRadians(golem.getRandom().nextFloat() * 360.0F - 180.0F);
-		for (int i = 0; i < 6; i++) {
-			float f1 = (float) (golem.getYRot() + (i + offset) * Math.PI * 0.3333333333333333);
+		int n = 4 + lv * 2;
+		for (int i = 0; i < n; i++) {
+			float f1 = (float) (golem.getYRot() + (i + offset) * Math.PI * 2 / n);
 			Vec3 spawnPos = new Vec3(poundPos.x, poundPos.y, poundPos.z);
 			float yawDeg = f1 * Mth.RAD_TO_DEG - 90.0F;
 			EntityElectromagnetic.shoot(golem.level(), golem, spawnPos, 2.0F, 10, 5, yawDeg, false);
-		}
-		if (lv >= 3) {
-			for (int i = 0; i < 2; i++) {
-				float f1 = (float) (golem.getYRot() + (i + offset + 3) * Math.PI * 0.3333333333333333);
-				Vec3 spawnPos = new Vec3(poundPos.x, poundPos.y, poundPos.z);
-				float yawDeg = f1 * Mth.RAD_TO_DEG - 90.0F;
-				EntityElectromagnetic.shoot(golem.level(), golem, spawnPos, 1.5F, 8, 6, yawDeg, false);
-			}
 		}
 	}
 

@@ -14,6 +14,7 @@ import dev.xkmc.modulargolems.compat.materials.botania.BotDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.compositematerial.CMDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
+import dev.xkmc.modulargolems.compat.materials.eeeab.EEEABDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.GoetyDispatch;
 import dev.xkmc.modulargolems.compat.materials.goety.revelation.GRDispatch;
 import dev.xkmc.modulargolems.compat.materials.iceandfire.IAFDispatch;
@@ -66,6 +67,7 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
 		if (ModList.get().isLoaded(CMDispatch.MODID)) LIST.add(new CMDispatch());
 		if (ModList.get().isLoaded(RVDispatch.MODID)) LIST.add(new RVDispatch());
+		if (ModList.get().isLoaded(EEEABDispatch.MODID)) LIST.add(new EEEABDispatch());
 		if (ModList.get().isLoaded(L2Backpack.MODID))
 			MinecraftForge.EVENT_BUS.register(L2BCompat.class);
 	}
