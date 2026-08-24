@@ -24,6 +24,14 @@ public class TargetManager {
 		DUMMY.map.clear();
 	}
 
+	public static void prune() {
+		for (var e : MAP.entrySet()) {
+			var sl = e.getKey();
+			long time = sl.getGameTime();
+			e.getValue().values().removeIf(m -> m.prevTime < time - 20 || m.prevTime > time + 20);
+		}
+	}
+
 	public static TargetManager get(AbstractGolemEntity<?, ?> golem) {
 		var level = golem.level();
 		if (!(level instanceof ServerLevel sl)) return DUMMY;

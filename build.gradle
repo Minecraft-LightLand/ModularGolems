@@ -141,11 +141,6 @@ repositories {
             includeGroup "curse.maven"
         }
     }
-    maven {
-        // Location of the maven that hosts JEI files (and TiC)
-        name 'Progwml6 maven'
-        url 'https://dvs1.progwml6.com/files/maven'
-    }
     maven { url "https://maven.shadowsoffire.dev/releases" }
     maven { url = "https://maven.createmod.net" }
     mavenLocal();
@@ -196,7 +191,7 @@ dependencies {
 
     implementation "curse.maven:jupiter-1072905:7592856"
     implementation "curse.maven:uranus-1010827:6979353"
-    implementation "curse.maven:iceandfire-ce-1040076:8457180"
+    implementation "curse.maven:iceandfire-ce-1040076:8683031"
     implementation "curse.maven:jade-324717:6667790"
     implementation "curse.maven:architectury-api-419699:5786327"
     implementation "curse.maven:geckolib-388172:6304958"
@@ -205,6 +200,7 @@ dependencies {
     implementation "curse.maven:cloth-config-348521:5729127"
     implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
     implementation "curse.maven:mowzies-mobs-250498:6700443"
+    implementation "curse.maven:legendary-monsters-944035:8657274"
 
     testImplementation "com.mojang:datafixerupper:8.0.16"
     testImplementation "com.google.guava:guava:32.1.2-jre"
