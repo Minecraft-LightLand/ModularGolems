@@ -19,6 +19,7 @@ import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNullableByDefault;
 import java.util.ArrayList;
 
@@ -73,8 +74,11 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 	}
 
 	public ItemStack assembleForJEI(Identifier mat) {
+		return assembleForJEI(mat, null);
+	}
+
+	public ItemStack assembleForJEI(Identifier mat, @Nullable ItemStack holder) {
 		boolean holderFirst = false;
-		ItemStack holder = null;
 		IGolemPart<?>[] parts = null;
 		IGolemPart<?> sel = null;
 		for (var ing : getIngredients()) {
@@ -83,7 +87,7 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 			var input = ing.get().items().toList();
 			if (input.isEmpty()) continue;
 			if (input.getFirst().value() instanceof GolemHolder<?, ?> h) {
-				holder = h.getDefaultInstance();
+				if (holder == null) holder = h.getDefaultInstance();
 				parts = h.getEntityType().values();
 				if (sel == null) holderFirst = true;
 			}
