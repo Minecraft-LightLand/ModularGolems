@@ -2,8 +2,13 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 
 import net.miauczel.legendary_monsters.effect.ModEffects;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Effect.CameraShakeEntity;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.AnnihilationBeamEntity;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.AnnihilationBombEntity;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.ElectricityEntity;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.LightningBoltEntity;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.PlasmaOrbEntity;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.SmallAnnihilationBombEntity;
+import net.miauczel.legendary_monsters.entity.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,6 +18,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -128,6 +134,95 @@ public class LMProxyImpl {
 
 	private static Entity createElectricity(LivingEntity entity, Vec3 vec, float angle, float damage) {
 		return new ElectricityEntity(entity, vec.x, vec.y, vec.z, entity.level(), damage, angle, 20.0F);
+	}
+
+	// Obliterator: large bomb (single-target) - AnnihilationBombEntity - single proxy
+	public static void spawnObliteratorLargeBomb(LivingEntity golem, LivingEntity target, int lv) {
+		if (golem.level().isClientSide) return;
+		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float damage = base * (0.9f + lv * 0.25f);
+		@SuppressWarnings("unchecked")
+		EntityType<AnnihilationBombEntity> type = (EntityType<AnnihilationBombEntity>) (EntityType<?>) ModEntities.ANNIHILATION_BOMB_ENTITY.get();
+		AnnihilationBombEntity bomb = new AnnihilationBombEntity(type, golem.level(), golem, damage, 16, false);
+		bomb.moveTo(golem.getX(), golem.getEyeY(), golem.getZ(), golem.getYRot(), golem.getXRot());
+		double d0 = target.getX() - bomb.getX();
+		double d1 = target.getY() + target.getBbHeight() * 0.5 - bomb.getY();
+		double d2 = target.getZ() - bomb.getZ();
+		double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+		float velocity = 1.0f;
+		float inaccuracy = (float) (14 - golem.level().getDifficulty().getId() * 4) * 0.0f;
+		bomb.shoot(d0, d1 + d3 * 0.2, d2, velocity, inaccuracy);
+		bomb.setOwner(golem);
+		golem.level().addFreshEntity(bomb);
+	}
+
+	// Obliterator: small bomb (multi-target) - SmallAnnihilationBombEntity - single per target, multi overall
+	public static void spawnObliteratorSmallBomb(LivingEntity golem, LivingEntity target, int lv) {
+		if (golem.level().isClientSide) return;
+		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float damage = base * (0.5f + lv * 0.15f);
+		@SuppressWarnings("unchecked")
+		EntityType<SmallAnnihilationBombEntity> type = (EntityType<SmallAnnihilationBombEntity>) (EntityType<?>) ModEntities.SMALL_ANNIHILATION_BOMB_ENTITY.get();
+		SmallAnnihilationBombEntity bomb = new SmallAnnihilationBombEntity(type, golem.level(), golem, damage);
+		bomb.setTurnRate(0.0f);
+		bomb.moveTo(golem.getX(), golem.getEyeY(), golem.getZ(), golem.getYRot(), golem.getXRot());
+		double d0 = target.getX() - bomb.getX();
+		double d1 = target.getY() + target.getBbHeight() * 0.5 - bomb.getY();
+		double d2 = target.getZ() - bomb.getZ();
+		double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+		bomb.shoot(d0, d1 + d3 * 0.2, d2, 1.2f, 0.0f);
+		bomb.setOwner(golem);
+		golem.level().addFreshEntity(bomb);
+	}
+
+	// Obliterator: plasma orb (multi-target) - PlasmaOrbEntity
+	public static void spawnObliteratorPlasmaOrb(LivingEntity golem, LivingEntity target, int lv) {
+		if (golem.level().isClientSide) return;
+		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float damage = base * (0.6f + lv * 0.15f);
+		double dxRaw = target.getX() - golem.getX();
+		double dzRaw = target.getZ() - golem.getZ();
+		double len = Math.sqrt(dxRaw * dxRaw + dzRaw * dzRaw);
+		if (len < 1e-4) {
+			dxRaw = 1;
+			dzRaw = 0;
+			len = 1;
+		}
+		dxRaw /= len;
+		dzRaw /= len;
+		float angle = (float) (Math.atan2(-dxRaw, dzRaw) * Mth.RAD_TO_DEG);
+		PlasmaOrbEntity orb = new PlasmaOrbEntity(golem, dxRaw, 0.0, dzRaw, golem.level(), damage, angle, 20.0f);
+		double spawnX = golem.getX();
+		double spawnY = golem.getEyeY() - 0.2;
+		double spawnZ = golem.getZ();
+		orb.setPos(spawnX, spawnY, spawnZ);
+		orb.setTurnLeft(golem.getRandom().nextBoolean());
+		orb.setTurnStrength(1.0f);
+		golem.level().addFreshEntity(orb);
+	}
+
+	// Obliterator: laser (single-target) - AnnihilationBeamEntity - single proxy
+	public static void spawnObliteratorLaser(LivingEntity golem, LivingEntity target, int lv) {
+		if (golem.level().isClientSide) return;
+		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float damage = base * (1.0f + lv * 0.25f);
+		int duration = 20;
+		float yRot = golem.getYRot() + 90.0f;
+		float xRot = -golem.getXRot();
+		float f = Mth.cos(golem.getYRot() * Mth.DEG_TO_RAD);
+		float f1 = Mth.sin(golem.getYRot() * Mth.DEG_TO_RAD);
+		double theta = Math.toRadians(golem.getYRot());
+		double vecX = Math.cos(theta + Math.PI / 2);
+		double vecZ = Math.sin(theta + Math.PI / 2);
+		float vec = 2.0f;
+		float offset = 0.0f;
+		double spawnX = golem.getX() + vec * vecX + f * offset;
+		double spawnZ = golem.getZ() + vec * vecZ + f1 * offset;
+		double spawnY = golem.getY() + 2.0;
+		@SuppressWarnings("unchecked")
+		EntityType<AnnihilationBeamEntity> type = (EntityType<AnnihilationBeamEntity>) (EntityType<?>) ModEntities.ANNIHILATION_BEAM.get();
+		AnnihilationBeamEntity beam = new AnnihilationBeamEntity(type, golem.level(), golem, spawnX, spawnY, spawnZ, yRot, xRot, duration, damage, 5.0f, 1, false, 0.0f, 0.0f, 0.0f, false, 30.0f);
+		golem.level().addFreshEntity(beam);
 	}
 
 }

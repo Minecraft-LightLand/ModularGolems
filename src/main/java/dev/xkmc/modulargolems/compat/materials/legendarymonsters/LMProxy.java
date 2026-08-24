@@ -53,6 +53,34 @@ public class LMProxy {
 		}
 	}
 
+	public static void spawnObliteratorLargeBomb(LivingEntity golem, LivingEntity target, int lv) {
+		try {
+			LMProxyImpl.spawnObliteratorLargeBomb(golem, target, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
+	public static void spawnObliteratorSmallBomb(LivingEntity golem, LivingEntity target, int lv) {
+		try {
+			LMProxyImpl.spawnObliteratorSmallBomb(golem, target, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
+	public static void spawnObliteratorPlasmaOrb(LivingEntity golem, LivingEntity target, int lv) {
+		try {
+			LMProxyImpl.spawnObliteratorPlasmaOrb(golem, target, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
+	public static void spawnObliteratorLaser(LivingEntity golem, LivingEntity target, int lv) {
+		try {
+			LMProxyImpl.spawnObliteratorLaser(golem, target, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
 
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.CLOUD_CUBE, 9)::unlockedBy,
