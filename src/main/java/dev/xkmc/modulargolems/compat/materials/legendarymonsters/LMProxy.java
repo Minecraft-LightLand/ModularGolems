@@ -74,9 +74,25 @@ public class LMProxy {
 		}
 	}
 
-	public static void spawnObliteratorLaser(LivingEntity golem, LivingEntity target, int lv) {
+	@javax.annotation.Nullable
+	public static net.minecraft.world.entity.Entity spawnObliteratorLaser(LivingEntity golem, LivingEntity target, int lv) {
 		try {
-			LMProxyImpl.spawnObliteratorLaser(golem, target, lv);
+			return LMProxyImpl.spawnObliteratorLaser(golem, target, lv);
+		} catch (Throwable ignored) {
+			return null;
+		}
+	}
+
+	public static void spawnObliteratorJumpGroundChargeQuake(LivingEntity golem, int lv) {
+		try {
+			LMProxyImpl.spawnObliteratorJumpGroundChargeQuake(golem, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
+	public static void spawnObliteratorUltimateQuake(LivingEntity golem, int lv) {
+		try {
+			LMProxyImpl.spawnObliteratorUltimateQuake(golem, lv);
 		} catch (Throwable ignored) {
 		}
 	}
