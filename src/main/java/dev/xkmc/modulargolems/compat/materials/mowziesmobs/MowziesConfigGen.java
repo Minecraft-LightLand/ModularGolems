@@ -17,7 +17,7 @@ public class MowziesConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(MowzieDispatch.MODID, MowzieDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(MowzieDispatch.MODID, "wroughtnaut"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(MowzieDispatch.MODID, "wroughtnaut"),
 						Ingredient.of(MowzieCompatRegistry.WROUGHTNAUT_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 360)

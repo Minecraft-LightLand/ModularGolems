@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "twilightforest:steeleaf": {
+      "tag": "forge:ingots/steeleaf"
+    }
+  },
+  "modifiers": {
+    "twilightforest:steeleaf": {
+      "modulargolems:tf_damage": 1,
+      "modulargolems:tf_healing": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "twilightforest:steeleaf": {
+      "tag": "forge:ingots/steeleaf"
+    }
+  },
+  "stats": {
+    "twilightforest:steeleaf": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 60.0,
+      "modulargolems:regen": 4.0,
+      "modulargolems:weight": 0.2
+    }
+  }
+}

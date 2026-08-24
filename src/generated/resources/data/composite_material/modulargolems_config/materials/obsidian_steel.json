@@ -1,0 +1,26 @@
+{
+  "ingredients": {
+    "composite_material:obsidian_steel": {
+      "item": "composite_material:obsidian_steel_ingot"
+    }
+  },
+  "modifiers": {
+    "composite_material:obsidian_steel": {
+      "modulargolems:explosion_resistant": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:obsidian": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "composite_material:obsidian_steel": {
+      "item": "composite_material:obsidian_steel_ingot"
+    }
+  },
+  "stats": {
+    "composite_material:obsidian_steel": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 150.0
+    }
+  }
+}

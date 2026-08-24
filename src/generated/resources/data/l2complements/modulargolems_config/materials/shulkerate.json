@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "l2complements:shulkerate": {
+      "item": "l2complements:shulkerate_ingot"
+    }
+  },
+  "modifiers": {
+    "l2complements:shulkerate": {
+      "modulargolems:damage_cap": 2,
+      "modulargolems:projectile_reject": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "l2complements:shulkerate": {
+      "item": "l2complements:shulkerate_ingot"
+    }
+  },
+  "stats": {
+    "l2complements:shulkerate": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:knockback_resistance": 1.0,
+      "modulargolems:max_health": 1000.0,
+      "modulargolems:weight": -0.4
+    }
+  }
+}

@@ -18,7 +18,7 @@ public class BGConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector collector) {
-		collector.add(ModularGolems.MATERIALS, new ResourceLocation(BGDispatch.MODID, BGDispatch.MODID), new GolemMaterialConfig()
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(BGDispatch.MODID, "brimsteel"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(BGDispatch.MODID, "brimsteel"), Ingredient.of(BGItems.BRIMSTEEL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 100)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 15)

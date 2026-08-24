@@ -1,0 +1,30 @@
+{
+  "ingredients": {
+    "composite_material:etherite": {
+      "item": "composite_material:etherite_ingot"
+    }
+  },
+  "modifiers": {
+    "composite_material:etherite": {
+      "modulargolems:armor_penetration": 1,
+      "modulargolems:etherite_plating": 1,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:recycle": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "composite_material:etherite": {
+      "item": "composite_material:etherite_ingot"
+    }
+  },
+  "stats": {
+    "composite_material:etherite": {
+      "modulargolems:attack": 35.0,
+      "modulargolems:max_health": 500.0,
+      "modulargolems:regen": 4.0,
+      "modulargolems:sweep": 1.0,
+      "modulargolems:weight": 0.2
+    }
+  }
+}

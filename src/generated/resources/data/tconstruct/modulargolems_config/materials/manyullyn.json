@@ -1,0 +1,25 @@
+{
+  "ingredients": {
+    "tconstruct:manyullyn": {
+      "tag": "forge:ingots/manyullyn"
+    }
+  },
+  "modifiers": {
+    "tconstruct:manyullyn": {
+      "modulargolems:manyullyn_attack": 1,
+      "modulargolems:manyullyn_defense": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "tconstruct:manyullyn": {
+      "tag": "forge:ingots/manyullyn"
+    }
+  },
+  "stats": {
+    "tconstruct:manyullyn": {
+      "modulargolems:attack": 35.0,
+      "modulargolems:max_health": 300.0
+    }
+  }
+}

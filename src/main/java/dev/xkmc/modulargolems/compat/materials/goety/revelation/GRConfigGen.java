@@ -18,7 +18,7 @@ public class GRConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(GRDispatch.MODID, GRDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(GRDispatch.MODID, "apocalyptium"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(GRDispatch.MODID, "apocalyptium"),
 						Ingredient.of(GoetyCompatRegistry.REV_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 666)

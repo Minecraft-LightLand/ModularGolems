@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "modulargolems:sculk": {
+      "tag": "modulargolems:sculk_materials"
+    }
+  },
+  "modifiers": {
+    "modulargolems:sculk": {
+      "modulargolems:fire_immune": 1,
+      "modulargolems:sonic_boom": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "modulargolems:sculk": {
+      "tag": "modulargolems:sculk_materials"
+    }
+  },
+  "stats": {
+    "modulargolems:sculk": {
+      "modulargolems:attack": 30.0,
+      "modulargolems:knockback_resistance": 1.0,
+      "modulargolems:max_health": 500.0,
+      "modulargolems:speed": 0.5
+    }
+  }
+}

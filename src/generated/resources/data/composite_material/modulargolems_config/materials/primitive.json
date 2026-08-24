@@ -1,0 +1,29 @@
+{
+  "ingredients": {
+    "composite_material:primitive": {
+      "item": "composite_material:primitive_tenacity"
+    }
+  },
+  "modifiers": {
+    "composite_material:primitive": {
+      "modulargolems:damage_cap": 1,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:primitive_blast": 1,
+      "modulargolems:primitive_curse": 1,
+      "modulargolems:swim": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "composite_material:primitive": {
+      "item": "composite_material:primitive_tenacity"
+    }
+  },
+  "stats": {
+    "composite_material:primitive": {
+      "modulargolems:attack": 5.0,
+      "modulargolems:max_health": 500.0,
+      "modulargolems:weight": -0.2
+    }
+  }
+}

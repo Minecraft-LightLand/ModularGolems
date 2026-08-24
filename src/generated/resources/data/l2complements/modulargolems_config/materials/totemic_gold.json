@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "l2complements:totemic_gold": {
+      "item": "l2complements:totemic_gold_ingot"
+    }
+  },
+  "modifiers": {
+    "l2complements:totemic_gold": {
+      "modulargolems:recycle": 1,
+      "modulargolems:totemic_gold": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "l2complements:totemic_gold": {
+      "item": "l2complements:totemic_gold_ingot"
+    }
+  },
+  "stats": {
+    "l2complements:totemic_gold": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 100.0,
+      "modulargolems:regen": 10.0,
+      "modulargolems:weight": -0.4
+    }
+  }
+}

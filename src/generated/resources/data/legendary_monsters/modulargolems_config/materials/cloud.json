@@ -1,0 +1,30 @@
+{
+  "ingredients": {
+    "legendary_monsters:cloud": {
+      "item": "modulargolems:cloud_cube"
+    }
+  },
+  "modifiers": {
+    "legendary_monsters:cloud": {
+      "modulargolems:add_slot": 1,
+      "modulargolems:cloud_forming": 1,
+      "modulargolems:damage_cap": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:thunderstorm": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "legendary_monsters:cloud": {
+      "item": "modulargolems:cloud_cube"
+    }
+  },
+  "stats": {
+    "legendary_monsters:cloud": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:attack_knockback": 1.0,
+      "modulargolems:max_health": 600.0,
+      "modulargolems:sweep": 2.0
+    }
+  }
+}

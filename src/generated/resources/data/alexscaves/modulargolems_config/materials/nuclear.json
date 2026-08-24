@@ -1,0 +1,26 @@
+{
+  "ingredients": {
+    "alexscaves:nuclear": {
+      "item": "modulargolems:nuclear_construct"
+    }
+  },
+  "modifiers": {
+    "alexscaves:nuclear": {
+      "modulargolems:atomic_fueling": 1,
+      "modulargolems:radiation": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "alexscaves:nuclear": {
+      "item": "modulargolems:nuclear_construct"
+    }
+  },
+  "stats": {
+    "alexscaves:nuclear": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 120.0,
+      "modulargolems:weight": -0.4
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "ingredients": {
+    "cataclysm:ender_guardian": {
+      "item": "modulargolems:void_construct"
+    }
+  },
+  "modifiers": {
+    "cataclysm:ender_guardian": {
+      "modulargolems:damage_cap": 3,
+      "modulargolems:dynamic_reduction": 1,
+      "modulargolems:ender_guardian_void_rune": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:projectile_reject": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "cataclysm:ender_guardian": {
+      "item": "modulargolems:void_cube"
+    }
+  },
+  "stats": {
+    "cataclysm:ender_guardian": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:dynamic_reduction": 2.0,
+      "modulargolems:max_health": 333.0,
+      "modulargolems:sweep": 2.0
+    }
+  }
+}

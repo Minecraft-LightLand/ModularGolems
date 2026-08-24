@@ -1,0 +1,29 @@
+{
+  "ingredients": {
+    "l2hostility:chaotic": {
+      "item": "l2hostility:chaos_ingot"
+    }
+  },
+  "modifiers": {
+    "l2hostility:chaotic": {
+      "modulargolems:add_slot": 1,
+      "modulargolems:armor_penetration": 1,
+      "modulargolems:hostility_core": 1,
+      "modulargolems:player_immune": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "l2hostility:chaotic": {
+      "item": "l2hostility:chaos_ingot"
+    }
+  },
+  "stats": {
+    "l2hostility:chaotic": {
+      "modulargolems:attack": 25.0,
+      "modulargolems:max_health": 400.0,
+      "modulargolems:regen": 5.0,
+      "modulargolems:sweep": 2.0
+    }
+  }
+}

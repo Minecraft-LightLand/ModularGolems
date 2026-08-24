@@ -1,0 +1,24 @@
+{
+  "ingredients": {
+    "tconstruct:rose_gold": {
+      "tag": "forge:ingots/rose_gold"
+    }
+  },
+  "modifiers": {
+    "tconstruct:rose_gold": {
+      "modulargolems:add_slot": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "tconstruct:rose_gold": {
+      "tag": "forge:ingots/rose_gold"
+    }
+  },
+  "stats": {
+    "tconstruct:rose_gold": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 40.0
+    }
+  }
+}

@@ -17,7 +17,7 @@ public class RVConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(RVDispatch.MODID, RVDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(RVDispatch.MODID, "royal"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(RVDispatch.MODID, "royal"),
 						Ingredient.of(RVItems.SPIRITUAL_CROWN_SHARD.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)

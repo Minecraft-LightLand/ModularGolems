@@ -18,7 +18,7 @@ public class CMConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(ConfigDataProvider.Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(CMDispatch.MODID, CMDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(CMDispatch.MODID, "allay_steel"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "allay_steel"),
 						Ingredient.of(ItemRegistry.ALLAY_STEEL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 240)
@@ -28,7 +28,8 @@ public class CMConfigGen extends ConfigDataProvider {
                 .addModifier(CMCompatRegistry.RESONANT_ATTACK.get(), 1)
                 .addModifier(CMCompatRegistry.RESONANT_HEAL.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(CMDispatch.MODID, "dungeon_steel"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "dungeon_steel"),
 						Ingredient.of(ItemRegistry.DUNGEON_STEEL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
@@ -36,7 +37,8 @@ public class CMConfigGen extends ConfigDataProvider {
                 .addModifier(CMCompatRegistry.DUNGEON_ABSORPTION.get(), 1)
                 .addModifier(CMCompatRegistry.DUNGEON_LINK.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(CMDispatch.MODID, "etherite"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "etherite"),
 						Ingredient.of(ItemRegistry.ETHERITE_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
@@ -49,7 +51,8 @@ public class CMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.RECYCLE.get(), 1)
 				.addModifier(CMCompatRegistry.ETHERTITE_PLATING.get(),1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(CMDispatch.MODID, "primitive"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CMDispatch.MODID, "primitive"),
 						Ingredient.of(ItemRegistry.PRIMITIVE_TENACITY.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
@@ -61,7 +64,8 @@ public class CMConfigGen extends ConfigDataProvider {
 				.addModifier(CMCompatRegistry.PRIMITIVE_BLAST.get(), 1)
                 .addModifier(CMCompatRegistry.PRIMITIVE_CURSE.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(CMDispatch.MODID, "obsidian_steel"), new GolemMaterialConfig()
                 .addMaterial(new ResourceLocation(CMDispatch.MODID, "obsidian_steel"),
                         Ingredient.of(ItemRegistry.OBSIDIAN_STEEL_INGOT.get()))
                 .addStat(GolemTypes.STAT_HEALTH.get(), 150)
@@ -70,7 +74,6 @@ public class CMConfigGen extends ConfigDataProvider {
                 .addModifier(GolemModifiers.EXPLOSION_RES.get(), 2)
                 .addModifier(CMCompatRegistry.OBSIDIAN.get(), 1)
                 .end()
-
 		);
 	}
 }

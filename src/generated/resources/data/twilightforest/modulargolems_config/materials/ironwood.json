@@ -1,0 +1,26 @@
+{
+  "ingredients": {
+    "twilightforest:ironwood": {
+      "tag": "forge:ingots/ironwood"
+    }
+  },
+  "modifiers": {
+    "twilightforest:ironwood": {
+      "modulargolems:tf_damage": 1,
+      "modulargolems:tf_healing": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "twilightforest:ironwood": {
+      "tag": "forge:ingots/ironwood"
+    }
+  },
+  "stats": {
+    "twilightforest:ironwood": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 200.0,
+      "modulargolems:regen": 2.0
+    }
+  }
+}

@@ -18,7 +18,7 @@ public class ATMConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(ATMDispatch.MODID, ATMDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ATMDispatch.MODID, "allthemodium"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ATMDispatch.MODID, "allthemodium"),
 						Ingredient.of(ModRegistry.ALLTHEMODIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
@@ -32,7 +32,8 @@ public class ATMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 1)
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ATMDispatch.MODID, "vibranium"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ATMDispatch.MODID, "vibranium"),
 						Ingredient.of(ModRegistry.VIBRANIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 800)
@@ -48,7 +49,8 @@ public class ATMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 2)
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 2)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ATMDispatch.MODID, "unobtainium"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ATMDispatch.MODID, "unobtainium"),
 						Ingredient.of(ModRegistry.UNOBTAINIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
@@ -66,7 +68,6 @@ public class ATMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 3)
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 3)
 				.end()
-
 		);
 	}
 

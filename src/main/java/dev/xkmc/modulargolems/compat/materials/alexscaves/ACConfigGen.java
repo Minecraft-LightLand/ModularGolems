@@ -15,7 +15,7 @@ public class ACConfigGen extends ConfigDataProvider {
 	}
 
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(ACDispatch.MODID, ACDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ACDispatch.MODID, "candy"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ACDispatch.MODID, "candy"),
 						Ingredient.of(ACCompatRegistry.CRAFT_CANDY.get()),
 						Ingredient.of(ACCompatRegistry.REPAIR_CANDY.get()))
@@ -26,7 +26,8 @@ public class ACConfigGen extends ConfigDataProvider {
 				.addModifier(ACCompatRegistry.SHOOT.get(), 1)
 				.addModifier(ACCompatRegistry.FREE.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ACDispatch.MODID, "magnetic"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ACDispatch.MODID, "magnetic"),
 						Ingredient.of(ACCompatRegistry.CRAFT_MAGNETIC.get()),
 						Ingredient.of(ACCompatRegistry.REPAIR_MAGNETIC.get()))
@@ -36,7 +37,8 @@ public class ACConfigGen extends ConfigDataProvider {
 				.addModifier(ACCompatRegistry.POLARIZE.get(), 1)
 				.addModifier(ACCompatRegistry.REFORMATION.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ACDispatch.MODID, "nuclear"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ACDispatch.MODID, "nuclear"),
 						Ingredient.of(ACCompatRegistry.CRAFT_NUCLEAR.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 120)
@@ -45,7 +47,6 @@ public class ACConfigGen extends ConfigDataProvider {
 				.addModifier(ACCompatRegistry.RADIATION.get(), 1)
 				.addModifier(ACCompatRegistry.ATOMIC.get(), 1)
 				.end()
-
 		);
 	}
 

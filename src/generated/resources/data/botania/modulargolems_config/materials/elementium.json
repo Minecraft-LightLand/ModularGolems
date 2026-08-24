@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "botania:elementium": {
+      "item": "botania:elementium_ingot"
+    }
+  },
+  "modifiers": {
+    "botania:elementium": {
+      "modulargolems:mana_boosting": 1,
+      "modulargolems:mana_mending": 1,
+      "modulargolems:pixie_attack": 1,
+      "modulargolems:pixie_counterattack": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "botania:elementium": {
+      "item": "botania:elementium_ingot"
+    }
+  },
+  "stats": {
+    "botania:elementium": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 200.0
+    }
+  }
+}

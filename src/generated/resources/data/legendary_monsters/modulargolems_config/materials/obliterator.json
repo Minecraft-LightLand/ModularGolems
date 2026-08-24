@@ -1,0 +1,29 @@
+{
+  "ingredients": {
+    "legendary_monsters:obliterator": {
+      "item": "modulargolems:annihilation_cube"
+    }
+  },
+  "modifiers": {
+    "legendary_monsters:obliterator": {
+      "modulargolems:damage_cap": 2,
+      "modulargolems:dynamic_reduction": 1,
+      "modulargolems:fire_immune": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "legendary_monsters:obliterator": {
+      "item": "modulargolems:annihilation_cube"
+    }
+  },
+  "stats": {
+    "legendary_monsters:obliterator": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:attack_knockback": 1.0,
+      "modulargolems:dynamic_reduction": 2.0,
+      "modulargolems:max_health": 600.0,
+      "modulargolems:sweep": 2.0
+    }
+  }
+}

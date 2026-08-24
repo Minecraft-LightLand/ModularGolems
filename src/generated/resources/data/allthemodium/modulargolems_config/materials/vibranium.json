@@ -1,0 +1,33 @@
+{
+  "ingredients": {
+    "allthemodium:vibranium": {
+      "item": "allthemodium:vibranium_ingot"
+    }
+  },
+  "modifiers": {
+    "allthemodium:vibranium": {
+      "modulargolems:add_slot": 2,
+      "modulargolems:armor_penetration": 2,
+      "modulargolems:explosion_resistant": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:player_immune": 1,
+      "modulargolems:projectile_reject": 1,
+      "modulargolems:recycle": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "allthemodium:vibranium": {
+      "item": "allthemodium:vibranium_ingot"
+    }
+  },
+  "stats": {
+    "allthemodium:vibranium": {
+      "modulargolems:attack": 80.0,
+      "modulargolems:max_health": 800.0,
+      "modulargolems:regen": 8.0,
+      "modulargolems:sweep": 3.0,
+      "modulargolems:weight": 0.4
+    }
+  }
+}

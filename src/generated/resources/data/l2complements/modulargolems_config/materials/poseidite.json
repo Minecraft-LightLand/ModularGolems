@@ -1,0 +1,26 @@
+{
+  "ingredients": {
+    "l2complements:poseidite": {
+      "item": "l2complements:poseidite_ingot"
+    }
+  },
+  "modifiers": {
+    "l2complements:poseidite": {
+      "modulargolems:conduit": 1,
+      "modulargolems:poseidite": 1,
+      "modulargolems:swim": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "l2complements:poseidite": {
+      "item": "l2complements:poseidite_ingot"
+    }
+  },
+  "stats": {
+    "l2complements:poseidite": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 200.0
+    }
+  }
+}

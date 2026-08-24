@@ -31,22 +31,25 @@ public class MGConfigGen extends ConfigDataProvider {
 						GolemItems.OMNI_SQUAD.get())
 		);
 
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "vanilla"), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "copper"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "copper"), Ingredient.of(Items.COPPER_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 50)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
 				.addModifier(GolemModifiers.THUNDER_IMMUNE.get(), 1).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "iron"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "iron"), Ingredient.of(Items.IRON_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 100)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 15).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "gold"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "gold"), Ingredient.of(Items.GOLD_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 20)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 5)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
 				.addStat(GolemTypes.STAT_REGEN.get(), 4).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "netherite"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "netherite"), Ingredient.of(Items.NETHERITE_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
@@ -54,7 +57,8 @@ public class MGConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(ModularGolems.MODID, "sculk"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(ModularGolems.MODID, "sculk"), Ingredient.of(MGTagGen.SCULK_MATS))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)

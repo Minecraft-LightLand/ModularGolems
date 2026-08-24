@@ -1,0 +1,25 @@
+{
+  "ingredients": {
+    "composite_material:dungeon_steel": {
+      "item": "composite_material:dungeon_steel_ingot"
+    }
+  },
+  "modifiers": {
+    "composite_material:dungeon_steel": {
+      "modulargolems:dungeon_absorption": 1,
+      "modulargolems:dungeon_link": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "composite_material:dungeon_steel": {
+      "item": "composite_material:dungeon_steel_ingot"
+    }
+  },
+  "stats": {
+    "composite_material:dungeon_steel": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 200.0
+    }
+  }
+}

@@ -17,14 +17,15 @@ public class TFConfigGen extends ConfigDataProvider {
 	}
 
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(TFDispatch.MODID, TFDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(TFDispatch.MODID, "ironwood"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(TFDispatch.MODID, "ironwood"), Ingredient.of(ItemTagGenerator.IRONWOOD_INGOTS))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
 				.addStat(GolemTypes.STAT_REGEN.get(), 2)
 				.addModifier(TFCompatRegistry.TF_DAMAGE.get(), 1)
 				.addModifier(TFCompatRegistry.TF_HEALING.get(), 1).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(TFDispatch.MODID, "steeleaf"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(TFDispatch.MODID, "steeleaf"), Ingredient.of(ItemTagGenerator.STEELEAF_INGOTS))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 60)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
@@ -32,7 +33,8 @@ public class TFConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_REGEN.get(), 4)
 				.addModifier(TFCompatRegistry.TF_DAMAGE.get(), 1)
 				.addModifier(TFCompatRegistry.TF_HEALING.get(), 1).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(TFDispatch.MODID, "knightmetal"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(TFDispatch.MODID, "knightmetal"), Ingredient.of(ItemTagGenerator.KNIGHTMETAL_INGOTS))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
@@ -42,7 +44,8 @@ public class TFConfigGen extends ConfigDataProvider {
 				.addModifier(TFCompatRegistry.TF_DAMAGE.get(), 1)
 				.addModifier(TFCompatRegistry.TF_HEALING.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(TFDispatch.MODID, "fiery"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(TFDispatch.MODID, "fiery"), Ingredient.of(ItemTagGenerator.FIERY_INGOTS))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)

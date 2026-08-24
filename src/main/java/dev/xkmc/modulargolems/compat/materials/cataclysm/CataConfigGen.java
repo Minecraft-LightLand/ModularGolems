@@ -18,7 +18,7 @@ public class CataConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector collector) {
-		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, CataDispatch.MODID), new GolemMaterialConfig()
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, "ignitium"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "ignitium"), Ingredient.of(ModItems.IGNITIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 450)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
@@ -32,7 +32,8 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.IGNIS_JUMP.get(), 1)
 				.addModifier(CataCompatRegistry.IGNIS_ATTACK.get(), 1)
 				.end()
-
+		);
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, "witherite"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "witherite"), Ingredient.of(ModItems.WITHERITE_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 390)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 30)
@@ -46,7 +47,8 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.HARBINGER_BEAM.get(), 1)
 				.addModifier(CataCompatRegistry.HARBINGER_MISSILE.get(), 1)
 				.end()
-
+		);
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, "cursium"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "cursium"), Ingredient.of(ModItems.CURSIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 390)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
@@ -60,7 +62,8 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.EARTHQUAKE_SPEAR.get(), 1)
 				.addModifier(CataCompatRegistry.MALEDICTUS_ATTACK.get(), 1)
 				.end()
-
+		);
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, "ender_guardian"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "ender_guardian"),
 						Ingredient.of(CataCompatRegistry.VOID_CONSTRUCT.get()),
 						Ingredient.of(CataCompatRegistry.VOID_CUBE.get()))
@@ -74,7 +77,8 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 3)
 				.addModifier(CataCompatRegistry.RUNE.get(), 2)
 				.end()
-
+		);
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, "storm"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "storm"),
 						Ingredient.of(CataCompatRegistry.STORM_CONSTRUCT.get()),
 						Ingredient.of(CataCompatRegistry.AZURE_CUBE.get()))
@@ -91,8 +95,8 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.SCYLLA_LIGHTNING.get(), 1)
 				.addModifier(CataCompatRegistry.SCYLLA_WAVE.get(), 1)
 				.end()
-
-
+		);
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, "ancient_metal"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "ancient_metal"), Ingredient.of(ModItems.ANCIENT_METAL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 288)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)

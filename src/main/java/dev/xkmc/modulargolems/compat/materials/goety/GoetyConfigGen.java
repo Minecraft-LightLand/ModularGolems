@@ -18,7 +18,7 @@ public class GoetyConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(GoetyDispatch.MODID, GoetyDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(GoetyDispatch.MODID, "cursed_metal"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(GoetyDispatch.MODID, "cursed_metal"),
 						Ingredient.of(ModItems.CURSED_METAL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 100)
@@ -27,7 +27,8 @@ public class GoetyConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 1)
 				.addModifier(GoetyCompatRegistry.BUSTED.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(GoetyDispatch.MODID, "dark_metal"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(GoetyDispatch.MODID, "dark_metal"),
 						Ingredient.of(ModItems.DARK_METAL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 160)
@@ -40,7 +41,6 @@ public class GoetyConfigGen extends ConfigDataProvider {
 				.addModifier(GoetyCompatRegistry.SOUL_REPAIR.get(), 1)
 				.addModifier(GoetyCompatRegistry.SOUL.get(), 1)
 				.end()
-
 		);
 	}
 

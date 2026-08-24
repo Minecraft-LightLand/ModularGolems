@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "composite_material:allay_steel": {
+      "item": "composite_material:allay_steel_ingot"
+    }
+  },
+  "modifiers": {
+    "composite_material:allay_steel": {
+      "modulargolems:resonant_attack": 1,
+      "modulargolems:resonant_heal": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "composite_material:allay_steel": {
+      "item": "composite_material:allay_steel_ingot"
+    }
+  },
+  "stats": {
+    "composite_material:allay_steel": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 240.0,
+      "modulargolems:regen": 2.0,
+      "modulargolems:weight": 0.4
+    }
+  }
+}

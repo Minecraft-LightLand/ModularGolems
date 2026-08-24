@@ -1,0 +1,26 @@
+{
+  "ingredients": {
+    "alexscaves:magnetic": {
+      "item": "modulargolems:magnetic_construct"
+    }
+  },
+  "modifiers": {
+    "alexscaves:magnetic": {
+      "modulargolems:polarize": 1,
+      "modulargolems:reformation": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "alexscaves:magnetic": {
+      "item": "modulargolems:magnetic_alloy"
+    }
+  },
+  "stats": {
+    "alexscaves:magnetic": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 200.0,
+      "modulargolems:weight": -0.2
+    }
+  }
+}

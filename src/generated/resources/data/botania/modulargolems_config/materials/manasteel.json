@@ -1,0 +1,25 @@
+{
+  "ingredients": {
+    "botania:manasteel": {
+      "item": "botania:manasteel_ingot"
+    }
+  },
+  "modifiers": {
+    "botania:manasteel": {
+      "modulargolems:mana_boosting": 1,
+      "modulargolems:mana_mending": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "botania:manasteel": {
+      "item": "botania:manasteel_ingot"
+    }
+  },
+  "stats": {
+    "botania:manasteel": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 150.0
+    }
+  }
+}

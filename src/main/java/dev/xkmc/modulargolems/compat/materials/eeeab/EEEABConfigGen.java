@@ -17,11 +17,11 @@ public class EEEABConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(EEEABDispatch.MODID, EEEABDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(EEEABDispatch.MODID, "realm"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(EEEABDispatch.MODID, "realm"),
 						Ingredient.of(EEEABCompatRegistry.REALM_CONSTRUCT.get()),
 						Ingredient.of(EEEABCompatRegistry.REALM_CUBE.get()))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
+				.addStat(GolemTypes.STAT_HEALTH.get(), 400)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)

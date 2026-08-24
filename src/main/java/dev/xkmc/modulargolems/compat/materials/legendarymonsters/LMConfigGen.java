@@ -18,7 +18,7 @@ public class LMConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, LMDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, "molten_metal"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LMDispatch.MODID, "molten_metal"),
 						Ingredient.of(ModItems.MOLTEN_METAL_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 200)
@@ -30,7 +30,8 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 2)
 				.addModifier(LMCompatRegistry.ANCHOR.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, "cloud"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LMDispatch.MODID, "cloud"),
 						Ingredient.of(LMCompatRegistry.CLOUD_CUBE.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
@@ -43,7 +44,8 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(LMCompatRegistry.THUNDER.get(), 1)
 				.addModifier(LMCompatRegistry.PERC.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, "obliterator"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LMDispatch.MODID, "obliterator"),
 						Ingredient.of(LMCompatRegistry.ANNIHILATION_CUBE.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
@@ -55,7 +57,8 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, "paladin"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LMDispatch.MODID, "paladin"),
 						Ingredient.of(LMCompatRegistry.POSESSED_SOUL_CUBE.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 600)

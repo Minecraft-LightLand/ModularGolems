@@ -1,0 +1,24 @@
+{
+  "ingredients": {
+    "tconstruct:hepatizon": {
+      "tag": "forge:ingots/hepatizon"
+    }
+  },
+  "modifiers": {
+    "tconstruct:hepatizon": {
+      "modulargolems:hepatizon_defense": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "tconstruct:hepatizon": {
+      "tag": "forge:ingots/hepatizon"
+    }
+  },
+  "stats": {
+    "tconstruct:hepatizon": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 250.0
+    }
+  }
+}

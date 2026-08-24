@@ -23,7 +23,7 @@ import java.util.function.BiConsumer;
 public class AnnihilatorLaserModifier extends GolemModifier {
 
 	public AnnihilatorLaserModifier() {
-		super(StatFilterType.HEAD, 3);
+		super(StatFilterType.HEAD, 1);
 	}
 
 	@Override

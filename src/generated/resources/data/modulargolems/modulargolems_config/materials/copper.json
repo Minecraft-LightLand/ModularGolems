@@ -1,0 +1,24 @@
+{
+  "ingredients": {
+    "modulargolems:copper": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "modifiers": {
+    "modulargolems:copper": {
+      "modulargolems:thunder_immune": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "modulargolems:copper": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "stats": {
+    "modulargolems:copper": {
+      "modulargolems:attack": 10.0,
+      "modulargolems:max_health": 50.0
+    }
+  }
+}

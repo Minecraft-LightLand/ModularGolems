@@ -1,0 +1,35 @@
+{
+  "ingredients": {
+    "allthemodium:unobtainium": {
+      "item": "allthemodium:unobtainium_ingot"
+    }
+  },
+  "modifiers": {
+    "allthemodium:unobtainium": {
+      "modulargolems:add_slot": 3,
+      "modulargolems:armor_penetration": 3,
+      "modulargolems:explosion_resistant": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:magic_immune": 1,
+      "modulargolems:player_immune": 1,
+      "modulargolems:projectile_reject": 1,
+      "modulargolems:recycle": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "allthemodium:unobtainium": {
+      "item": "allthemodium:unobtainium_ingot"
+    }
+  },
+  "stats": {
+    "allthemodium:unobtainium": {
+      "modulargolems:attack": 100.0,
+      "modulargolems:max_health": 1000.0,
+      "modulargolems:range": 1.0,
+      "modulargolems:regen": 10.0,
+      "modulargolems:sweep": 4.0,
+      "modulargolems:weight": 0.6
+    }
+  }
+}

@@ -19,7 +19,7 @@ public class LHConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector collector) {
-		collector.add(ModularGolems.MATERIALS, new ResourceLocation(LHDispatch.MODID, LHDispatch.MODID), new GolemMaterialConfig()
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(LHDispatch.MODID, "chaotic"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LHDispatch.MODID, "chaotic"), Ingredient.of(LHItems.CHAOS_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 400)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 25)
@@ -30,7 +30,8 @@ public class LHConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 1)
 				.addModifier(LHCompatRegistry.LH_CORE.get(), 1)
 				.end()
-
+		);
+		collector.add(ModularGolems.MATERIALS, new ResourceLocation(LHDispatch.MODID, "miraculous"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LHDispatch.MODID, "miraculous"), Ingredient.of(LHItems.MIRACLE_INGOT))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 35)
@@ -43,7 +44,6 @@ public class LHConfigGen extends ConfigDataProvider {
 				.addModifier(LHCompatRegistry.LH_ADAPTIVE.get(), 1)
 				.addModifier(LHCompatRegistry.LH_DISPELL.get(), 1)
 				.end()
-
 		);
 	}
 

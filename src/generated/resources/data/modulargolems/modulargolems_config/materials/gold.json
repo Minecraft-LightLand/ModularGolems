@@ -1,0 +1,24 @@
+{
+  "ingredients": {
+    "modulargolems:gold": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "modifiers": {
+    "modulargolems:gold": {}
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "modulargolems:gold": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "stats": {
+    "modulargolems:gold": {
+      "modulargolems:attack": 5.0,
+      "modulargolems:max_health": 20.0,
+      "modulargolems:regen": 4.0,
+      "modulargolems:weight": -0.4
+    }
+  }
+}

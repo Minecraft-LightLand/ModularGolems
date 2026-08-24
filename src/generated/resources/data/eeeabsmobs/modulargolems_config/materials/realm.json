@@ -21,7 +21,7 @@
     "eeeabsmobs:realm": {
       "modulargolems:attack": 20.0,
       "modulargolems:attack_knockback": 1.0,
-      "modulargolems:max_health": 200.0,
+      "modulargolems:max_health": 400.0,
       "modulargolems:sweep": 2.0
     }
   }

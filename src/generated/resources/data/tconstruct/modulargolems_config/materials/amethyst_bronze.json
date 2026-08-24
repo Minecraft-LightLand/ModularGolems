@@ -1,0 +1,22 @@
+{
+  "ingredients": {
+    "tconstruct:amethyst_bronze": {
+      "tag": "forge:ingots/amethyst_bronze"
+    }
+  },
+  "modifiers": {
+    "tconstruct:amethyst_bronze": {}
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "tconstruct:amethyst_bronze": {
+      "tag": "forge:ingots/amethyst_bronze"
+    }
+  },
+  "stats": {
+    "tconstruct:amethyst_bronze": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 200.0
+    }
+  }
+}

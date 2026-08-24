@@ -1,0 +1,28 @@
+{
+  "ingredients": {
+    "twilightforest:fiery": {
+      "tag": "forge:ingots/fiery"
+    }
+  },
+  "modifiers": {
+    "twilightforest:fiery": {
+      "modulargolems:fiery": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:tf_damage": 1,
+      "modulargolems:tf_healing": 1,
+      "modulargolems:thorn": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "twilightforest:fiery": {
+      "tag": "forge:ingots/fiery"
+    }
+  },
+  "stats": {
+    "twilightforest:fiery": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:max_health": 200.0
+    }
+  }
+}
