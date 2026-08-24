@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public class ObliteratorJumpGroundChargeModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
 	public ObliteratorJumpGroundChargeModifier() {
-		super(StatFilterType.MASS, 3);
+		super(StatFilterType.MOVEMENT, 1);
 	}
 
 	@Override
@@ -30,7 +30,6 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 
 	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
-		LMProxy.shake(golem, golem.position());
 		// replicate visuals + proxies: 6 flames circular, 1 armed clone, 5 plasma orbs, CameraShake, RingData, doSmashEffects
 		LMProxy.spawnObliteratorJumpGroundChargeQuake(golem, level);
 		if (golem.level() instanceof ServerLevel sl) {

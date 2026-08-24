@@ -8,7 +8,13 @@
     "legendary_monsters:obliterator": {
       "modulargolems:damage_cap": 2,
       "modulargolems:dynamic_reduction": 1,
-      "modulargolems:fire_immune": 1
+      "modulargolems:fire_immune": 1,
+      "modulargolems:obliterator_jump": 1,
+      "modulargolems:obliterator_large_bomb": 1,
+      "modulargolems:obliterator_laser": 1,
+      "modulargolems:obliterator_plasma_orb": 1,
+      "modulargolems:obliterator_small_bomb": 1,
+      "modulargolems:obliterator_ultimate": 1
     }
   },
   "partLimitation": {},

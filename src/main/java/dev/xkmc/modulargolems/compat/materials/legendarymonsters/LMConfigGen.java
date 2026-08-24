@@ -56,6 +56,12 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
+				.addModifier(LMCompatRegistry.OBLITERATOR_LASER.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_PLASMA_ORB.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_LARGE_BOMB.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_SMALL_BOMB.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_JUMP.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_ULTIMATE.get(), 1)
 				.end()
 		);
 		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, "paladin"), new GolemMaterialConfig()

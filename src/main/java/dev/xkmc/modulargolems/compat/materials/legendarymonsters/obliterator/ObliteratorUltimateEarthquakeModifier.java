@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public class ObliteratorUltimateEarthquakeModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
 	public ObliteratorUltimateEarthquakeModifier() {
-		super(StatFilterType.MASS, 1);
+		super(StatFilterType.MOVEMENT, 1);
 	}
 
 	@Override
@@ -30,7 +30,6 @@ public class ObliteratorUltimateEarthquakeModifier extends GolemModifier impleme
 
 	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
-		LMProxy.shake(golem, golem.position());
 		// replicate visuals + proxies: central portal + 10 outer portals, 6 flames, Sphereparticle, shockwave flames, CameraShake, RingData
 		LMProxy.spawnObliteratorUltimateQuake(golem, level);
 		if (golem.level() instanceof ServerLevel sl) {

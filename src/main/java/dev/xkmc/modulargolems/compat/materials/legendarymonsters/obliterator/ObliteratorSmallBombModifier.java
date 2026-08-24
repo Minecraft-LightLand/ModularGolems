@@ -15,7 +15,7 @@ import java.util.function.BiConsumer;
 public class ObliteratorSmallBombModifier extends GolemModifier {
 
 	public ObliteratorSmallBombModifier() {
-		super(StatFilterType.HEAD, 3);
+		super(StatFilterType.ATTACK, 3);
 	}
 
 	@Override

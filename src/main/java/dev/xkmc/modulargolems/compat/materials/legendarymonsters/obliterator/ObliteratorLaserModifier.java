@@ -15,7 +15,7 @@ import java.util.function.BiConsumer;
 public class ObliteratorLaserModifier extends GolemModifier {
 
 	public ObliteratorLaserModifier() {
-		super(StatFilterType.HEAD, 2);
+		super(StatFilterType.HEAD, 1);
 	}
 
 	@Override

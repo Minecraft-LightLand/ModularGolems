@@ -25,7 +25,7 @@ public class GuardianBladeAttackGoal extends BaseRangedAttackGoal {
 
 	public GuardianBladeAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		// wait 80 ticks, attack within 3..16 blocks (close-mid range, matches original smash range 25 sqr)
-		super(80, 3, 16, golem, lv);
+		super(160, 3, 16, golem, lv);
 	}
 
 	@Override

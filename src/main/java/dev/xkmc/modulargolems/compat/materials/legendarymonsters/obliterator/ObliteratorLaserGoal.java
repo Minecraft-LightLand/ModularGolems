@@ -16,7 +16,7 @@ public class ObliteratorLaserGoal extends BaseRangedAttackGoal {
 	private net.minecraft.world.entity.Entity beam;
 
 	public ObliteratorLaserGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 2, 32, golem, lv);
+		super(200, 2, 32, golem, lv);
 	}
 
 	@Override

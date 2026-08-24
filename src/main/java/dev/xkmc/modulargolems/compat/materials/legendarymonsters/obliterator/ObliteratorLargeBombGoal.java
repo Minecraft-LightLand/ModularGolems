@@ -13,7 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class ObliteratorLargeBombGoal extends BaseRangedAttackGoal {
 
 	public ObliteratorLargeBombGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(80, 0, 24, golem, lv);
+		super(200, 0, 24, golem, lv);
 	}
 
 	@Override
