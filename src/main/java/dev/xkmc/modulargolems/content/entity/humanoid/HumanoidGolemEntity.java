@@ -208,11 +208,6 @@ public class HumanoidGolemEntity extends ShieldUsingGolemEntity<HumanoidGolemEnt
 	// ------ player equipment hurt
 
 	@Override
-	protected void hurtArmor(DamageSource damageSource, float damage) {
-		this.doHurtEquipment(damageSource, damage, EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD);
-	}
-
-	@Override
 	protected void hurtHelmet(DamageSource damageSource, float damage) {
 		this.doHurtEquipment(damageSource, damage, EquipmentSlot.HEAD);
 	}
@@ -299,6 +294,11 @@ public class HumanoidGolemEntity extends ShieldUsingGolemEntity<HumanoidGolemEnt
 	public void playSound(SoundEvent soundEvent, float volume, float pitch) {
 		if (getSoundManager().playSound(this, soundEvent, volume, pitch)) return;
 		super.playSound(soundEvent, volume, pitch);
+	}
+
+	@Override
+	public int getPreviewScale() {
+		return 24;
 	}
 
 }

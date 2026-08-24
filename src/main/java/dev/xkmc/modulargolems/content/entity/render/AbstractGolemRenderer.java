@@ -6,6 +6,7 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -89,6 +90,7 @@ public abstract class AbstractGolemRenderer<
 		var materials = common.materials();
 		for (P part : list) {
 			Identifier rl = facade;
+			if (rl != null && !GolemMaterialConfig.mayApply(part.toItem(), rl)) rl = null;
 			if (rl == null) {
 				int index = part.ordinal();
 				rl = materials.size() > index ? materials.get(index).id() : GolemMaterial.EMPTY;

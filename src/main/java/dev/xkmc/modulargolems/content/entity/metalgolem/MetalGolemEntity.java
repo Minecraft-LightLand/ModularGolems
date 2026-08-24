@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.events.event.GolemRidingOffsetEvent;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -161,6 +162,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 		boolean flag = performRangedDamage(target, damage, kb);
 		this.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+		if (flag && shouldHurtWeapon(getMainHandItem())) {
+			getMainHandItem().hurtAndBreak(1, this, EquipmentSlot.MAINHAND);
+		}
 		return flag;
 	}
 
@@ -332,6 +336,15 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		if (isAddedToLevel() && level().isClientSide())
 			return ItemWrapper.simple(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e));
 		return ItemWrapper.simple(() -> rightShoulder, e -> rightShoulder = e);
+	}
+
+	public boolean shouldHurtWeapon(ItemStack stack) {
+		return stack.isDamageableItem() && stack.is(MGTagGen.GOLEM_DAMAGEABLE);
+	}
+
+	@Override
+	public int getPreviewScale() {
+		return 20;
 	}
 
 }

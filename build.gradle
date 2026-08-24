@@ -196,6 +196,7 @@ dependencies {
     implementation "dev.xkmc:l2itemselector:${l2itemselector_ver}"
     implementation "dev.xkmc:l2modularblock:${l2modularblock_ver}"
     implementation "com.tterrag.registrate:Registrate:${registrate_ver}"
+    implementation "dev.xkmc:golemdungeons:${golemdungeons_ver}"
 
     implementation jarJar("dev.xkmc:mob_weapon_api:${mob_weapon_api_ver}")
 

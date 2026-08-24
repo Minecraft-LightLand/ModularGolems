@@ -38,11 +38,11 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 		return GolemItems.DC_PART_MAT.set(stack, material);
 	}
 
-	private final Supplier<GolemType<T, P>> type;
+	private final Supplier<? extends GolemType<T, P>> type;
 	private final P part;
 	public final int count;
 
-	public GolemPart(Properties props, Supplier<GolemType<T, P>> type, P part, int count) {
+	public GolemPart(Properties props, Supplier<? extends GolemType<T, P>> type, P part, int count) {
 		super(props.stacksTo(1));
 		this.type = type;
 		this.part = part;

@@ -13,7 +13,7 @@
   },
   "display": {
     "announce_to_chat": false,
-    "background": "modulargolems:gui/advancements/backgrounds/golems.png",
+    "background": "modulargolems:gui/advancements/backgrounds/golems",
     "description": {
       "translate": "advancements.modulargolems.golems.root.description"
     },

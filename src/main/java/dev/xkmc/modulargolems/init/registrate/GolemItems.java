@@ -435,7 +435,7 @@ public class GolemItems {
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemEntry<GolemHolder<T, P>> regHolder(String id, Val<GolemType<T, P>> type, Supplier<MGSpecialModelGen.Transformer<P>> trans) {
+	ItemEntry<GolemHolder<T, P>> regHolder(String id, Val<? extends GolemType<T, P>> type, Supplier<MGSpecialModelGen.Transformer<P>> trans) {
 		return REGISTRATE.item(id, p ->
 						new GolemHolder<>(p.fireResistant(), type))
 				.model(() -> (ctx, pvd) ->
@@ -446,7 +446,7 @@ public class GolemItems {
 	}
 
 	public static <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>>
-	ItemEntry<GolemPart<T, P>> regPart(String id, Val<GolemType<T, P>> type, P part, int count, Supplier<MGSpecialModelGen.Transformer<P>> trans) {
+	ItemEntry<GolemPart<T, P>> regPart(String id, Val<? extends GolemType<T, P>> type, P part, int count, Supplier<MGSpecialModelGen.Transformer<P>> trans) {
 		return REGISTRATE.item(id, p ->
 						new GolemPart<>(p.fireResistant(), type, part, count))
 				.model(() -> (ctx, pvd) ->
@@ -454,7 +454,7 @@ public class GolemItems {
 				.tab(ITEMS.key())
 				.transform(e -> e.tab(GOLEMS.key(),
 						(x, m) -> e.getEntry().fillItemCategory(m)))
-				.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+				.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 	}
 
 	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regModUpgrade(String id, Supplier<Val<? extends GolemModifier>> mod, int lv, boolean foil, String modid) {

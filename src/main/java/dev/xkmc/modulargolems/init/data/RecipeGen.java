@@ -3,7 +3,10 @@ package dev.xkmc.modulargolems.init.data;
 import com.tterrag.registrate.providers.generators.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import dev.xkmc.golemdungeons.init.GolemDungeons;
+import dev.xkmc.golemdungeons.init.reg.GDItems;
 import dev.xkmc.l2core.serial.ingredients.EnchantmentIngredient;
+import dev.xkmc.l2core.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -32,6 +35,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.fml.ModList;
 
 import java.util.function.BiFunction;
 
@@ -439,7 +443,7 @@ public class RecipeGen {
 						.define('D', LCItems.RESONANT_FEATHER)
 						.define('B', LCItems.SONIC_SHOOTER)
 						.save(ConditionalRecipeWrapper.mod(pvd, L2Complements.MODID), "sonic_cannon_complements");
-			}
+			}*/
 
 			if (ModList.get().isLoaded(GolemDungeons.MODID)) {
 
@@ -450,7 +454,7 @@ public class RecipeGen {
 						.define('B', Items.SCULK_CATALYST)
 						.define('D', Items.SCULK_SHRIEKER)
 						.save(ConditionalRecipeWrapper.mod(pvd, GolemDungeons.MODID), "sonic_cannon_dungeon");
-			}*/
+			}
 		}
 
 		// upgrades
