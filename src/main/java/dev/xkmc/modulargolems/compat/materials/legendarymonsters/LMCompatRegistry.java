@@ -49,9 +49,9 @@ public class LMCompatRegistry {
 		OBLITERATOR_LASER = reg("obliterator_laser", ObliteratorLaserModifier::new,
 				"Obliterator Laser", "Fire an annihilation beam at a single target, following golem rotation");
 		OBLITERATOR_JUMP = reg("obliterator_jump", ObliteratorJumpGroundChargeModifier::new,
-				"Obliterator Jump", "Cause earthquake with jump ground charge visuals and proxies");
+				"Obliterator Jump", "Performs jump attack with plasma orbs");
 		OBLITERATOR_ULTIMATE = reg("obliterator_ultimate", ObliteratorUltimateEarthquakeModifier::new,
-				"Obliterator Ultimate", "Cause ultimate earthquake with portal and flame visuals");
+				"Obliterator Ultimate", "Performs jump attack with plasma portals and plasma flames");
 
 		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
 				.lang("Thunderstorm Upgrade").register();

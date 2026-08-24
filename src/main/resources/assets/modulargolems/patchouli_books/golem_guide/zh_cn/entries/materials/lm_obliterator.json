@@ -1,0 +1,30 @@
+{
+	"flag": "mod:legendary_monsters",
+	"advancement": "legendary_monsters:defeat_the_obliterator",
+	"name": "湮灭构造体",
+	"icon": "modulargolems:annihilation_cube",
+	"category": "modulargolems:materials",
+	"sortnum": 1203,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:annihilation_cube",
+			"text": "制造湮灭构造体傀儡的主要材料。湮灭构造体傀儡拥有很高的攻击和生命，可以使用等离子球、湮灭炸弹、激光和跳跃攻击。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:metal_golem_body\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:metal_golem_legs\",material:\"legendary_monsters:obliterator\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"legendary_monsters:obliterator\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:dog_golem_legs\",material:\"legendary_monsters:obliterator\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"flag": "mod:eeeabsmobs",
+	"name": "Realm",
+	"icon": "modulargolems:realm_construct",
+	"category": "modulargolems:materials",
+	"sortnum": 1601,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:realm_construct",
+			"text": "Main material to craft Realm golem parts. Realm golem can launch homing missiles, fire a tracking laser, and create electromagnetic fields that chase enemies."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:metal_golem_body\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:metal_golem_arm\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:metal_golem_legs\",material:\"eeeabsmobs:realm\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"eeeabsmobs:realm\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:dog_golem_legs\",material:\"eeeabsmobs:realm\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

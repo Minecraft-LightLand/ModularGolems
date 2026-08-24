@@ -1,0 +1,30 @@
+{
+	"flag": "mod:legendary_monsters",
+	"advancement": "legendary_monsters:defeat_the_obliterator",
+	"name": "Obliterator",
+	"icon": "modulargolems:annihilation_cube",
+	"category": "modulargolems:materials",
+	"sortnum": 1203,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:annihilation_cube",
+			"text": "Main material to craft Obliterator golem parts. Obliterator golem has high attack and health, and can use plasma orbs, annihilation bombs, laser and jump attacks."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:metal_golem_body\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:metal_golem_legs\",material:\"legendary_monsters:obliterator\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"legendary_monsters:obliterator\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"legendary_monsters:obliterator\"},{part:\"modulargolems:dog_golem_legs\",material:\"legendary_monsters:obliterator\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

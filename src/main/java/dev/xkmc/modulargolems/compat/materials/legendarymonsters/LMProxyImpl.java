@@ -274,7 +274,6 @@ public class LMProxyImpl {
 			dx = mob.getTarget().getX();
 			dz = mob.getTarget().getZ();
 		}
-		spawnObliteratorArmedClone(golem, cx, cz, floorY, golem.getY() + 2.0, 1.0f, 0, dx, golem.getY(), dz, right ? 3 : 1, 45);
 		// proxies: 5 plasma orbs 2+2+1 (3079-3083)
 		spawnPlasmaSpread(golem, 2, 20.0f, true, 1.0f, plasmaDamage);
 		spawnPlasmaSpread(golem, 2, 20.0f, false, 1.0f, plasmaDamage);
@@ -345,32 +344,6 @@ public class LMProxyImpl {
 		} while (pos.getY() >= Mth.floor(minY) - 1);
 		if (flag) {
 			level.addFreshEntity(new AnnihilationFlameStrike(level, x, pos.getY() + d0, z, rotation, delay, golem, 20, damage + 2.0f));
-		}
-	}
-
-	private static void spawnObliteratorArmedClone(LivingEntity golem, double x, double z, double minY, double maxY, float rotation, int delay, double destX, double destY, double destZ, int animation, int life) {
-		Level level = golem.level();
-		BlockPos pos = new BlockPos((int) x, (int) maxY, (int) z);
-		boolean flag = false;
-		double d0 = 0;
-		do {
-			BlockPos low = pos.below();
-			BlockState state = level.getBlockState(low);
-			if (state.isFaceSturdy(level, low, Direction.UP)) {
-				if (!level.isEmptyBlock(pos)) {
-					BlockState topState = level.getBlockState(pos);
-					VoxelShape topShape = topState.getCollisionShape(level, pos);
-					if (!topShape.isEmpty()) d0 = topShape.max(Direction.Axis.Y);
-				}
-				flag = true;
-				break;
-			}
-			pos = pos.below();
-		} while (pos.getY() >= Mth.floor(minY) - 1);
-		if (!flag) {
-			level.addFreshEntity(new TheObliteratorCloneWithArmsEntity(level, x, golem.getY(), z, rotation, delay, golem, 16.0f, (float) destX, (float) destY, (float) destZ, animation, life));
-		} else {
-			level.addFreshEntity(new TheObliteratorCloneWithArmsEntity(level, x, pos.getY() + d0, z, rotation, delay, golem, 16.0f, (float) destX, (float) destY, (float) destZ, animation, life));
 		}
 	}
 

@@ -1,0 +1,29 @@
+{
+	"flag": "mod:eeeabsmobs",
+	"name": "界域",
+	"icon": "modulargolems:realm_construct",
+	"category": "modulargolems:materials",
+	"sortnum": 1601,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:realm_construct",
+			"text": "制造界域傀儡的主要材料。界域傀儡可以发射追踪导弹、发射激光束，并生成追踪敌人的电磁力场。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:metal_golem_body\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:metal_golem_arm\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:metal_golem_legs\",material:\"eeeabsmobs:realm\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"eeeabsmobs:realm\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"eeeabsmobs:realm\"},{part:\"modulargolems:dog_golem_legs\",material:\"eeeabsmobs:realm\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}
