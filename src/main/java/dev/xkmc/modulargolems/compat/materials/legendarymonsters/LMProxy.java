@@ -29,6 +29,14 @@ public class LMProxy {
 		}
 	}
 
+	public static void anchorParticle(ServerLevel level, double x, double y, double z, float reach) {
+		try {
+			LMProxyImpl.anchorParticle(level, x, y, z, reach);
+		} catch (Throwable ignored) {
+
+		}
+	}
+
 	public static List<LivingEntity> stun(ServerLevel level, double x, double y, double z, LivingEntity golem, float reach, int lv) {
 		try {
 			return LMProxyImpl.stun(level, x, y, z, golem, reach, lv);

@@ -25,6 +25,7 @@ public class AncientAnchorModifier extends GolemModifier implements EarthquakeHe
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
 		LMProxy.shake(golem, golem.position());
 		if (golem.level() instanceof ServerLevel sl) {
+			LMProxy.anchorParticle(sl, golem.getX(), golem.getY(), golem.getZ(), 5f);
 			var list = LMProxy.stun(sl, golem.getX(), golem.getY(), golem.getZ(), golem, 5f, level);
 			for (var e : list) {
 				EarthquakeHelper.launch(golem, e, 1);

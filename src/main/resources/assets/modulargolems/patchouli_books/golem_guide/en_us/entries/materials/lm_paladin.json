@@ -1,0 +1,30 @@
+{
+	"flag": "mod:legendary_monsters",
+	"advancement": "legendary_monsters:defeat_posessed_paladin",
+	"name": "Paladin",
+	"icon": "modulargolems:posessed_soul_cube",
+	"category": "modulargolems:materials",
+	"sortnum": 1204,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:posessed_soul_cube",
+			"text": "Main material to craft Paladin golem parts. Paladin golem can throw three homing phantom daggers tracking a single target, and summon soul spikes in front that damage enemies and heal the golem. Appearance shifts to the possessed $(l)red-soul$(/l) variant below 65% health."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:metal_golem_body\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:metal_golem_legs\",material:\"legendary_monsters:paladin\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"legendary_monsters:paladin\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:dog_golem_legs\",material:\"legendary_monsters:paladin\"}]}",
+			"text": "Use JEI (press R) to check part stats of each part made of this material."
+		}
+	]
+}

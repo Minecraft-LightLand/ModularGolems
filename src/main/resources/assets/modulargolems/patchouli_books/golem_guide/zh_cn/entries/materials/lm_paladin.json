@@ -1,0 +1,30 @@
+{
+	"flag": "mod:legendary_monsters",
+	"advancement": "legendary_monsters:defeat_posessed_paladin",
+	"name": "附魂圣骑",
+	"icon": "modulargolems:posessed_soul_cube",
+	"category": "modulargolems:materials",
+	"sortnum": 1204,
+	"pages": [
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:posessed_soul_cube",
+			"text": "制造附魂圣骑傀儡的主要材料。附魂圣骑傀儡可投掷3枚追踪单个目标的$(l)幻影匕首$()，并在前方召唤$(l)灵魂尖刺$()对敌人造成伤害并为自身回血。生命值低于65%时外观会切换为附魂（红魂）形态。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:metal_golem_holder{golem_materials:[{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:metal_golem_body\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:metal_golem_arm\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:metal_golem_legs\",material:\"legendary_monsters:paladin\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:humanoid_golem_holder{golem_materials:[{part:\"modulargolems:humanoid_golem_body\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:humanoid_golem_arms\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:humanoid_golem_legs\",material:\"legendary_monsters:paladin\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "modulargolems:dog_golem_holder{golem_materials:[{part:\"modulargolems:dog_golem_body\",material:\"legendary_monsters:paladin\"},{part:\"modulargolems:dog_golem_legs\",material:\"legendary_monsters:paladin\"}]}",
+			"text": "使用JEI物品管理器 (R键默认)来查看以此为原料的傀儡部件的详细属性。"
+		}
+	]
+}

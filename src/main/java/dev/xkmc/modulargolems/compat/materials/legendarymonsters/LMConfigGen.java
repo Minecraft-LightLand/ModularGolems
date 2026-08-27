@@ -38,6 +38,8 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
+				.addStat(GolemTypes.STAT_DR.get(), 2)
+				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)

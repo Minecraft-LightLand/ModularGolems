@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 import net.miauczel.legendary_monsters.Particle.ModParticles;
 import net.miauczel.legendary_monsters.Particle.custom.Circle;
 import net.miauczel.legendary_monsters.effect.ModEffects;
-import net.miauczel.legendary_monsters.entity.AnimatedMonster.AnimatedEntity.TheObliteratorCloneWithArmsEntity;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Effect.CameraShakeEntity;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.*;
 import net.miauczel.legendary_monsters.entity.ModEntities;
@@ -36,6 +35,20 @@ public class LMProxyImpl {
 
 	public static void shake(LivingEntity user, Vec3 pos) {
 		CameraShakeEntity.cameraShake(user.level(), pos, 15.0F, 0.3F, 0, 15);
+	}
+
+	public static void anchorParticle(ServerLevel level, double x, double y, double z,  float reach) {
+		int n = 128;
+		for (double i = 0; i < n; ++i) {
+			var a = (Math.PI * 2D) / n * i;
+			level.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE,
+					x + 0.5F + Math.cos(a) * reach,
+					y,
+					z + 0.5F + Math.sin(a) * reach,
+					0, 0.0F, 0.05, 0.0F, 1);
+		}
+
+		level.playSound(null, BlockPos.containing(x, y, z), SoundEvents.IRON_GOLEM_REPAIR, SoundSource.NEUTRAL, 1.0F, 1.0F);
 	}
 
 	public static List<LivingEntity> stun(ServerLevel level, double x, double y, double z, LivingEntity golem, float reach, int lv) {

@@ -58,11 +58,12 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 		return List.of(Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.GREEN));
 	}
 
+	/** Whether a golem part should have this modifier as part of material modifier */
 	public boolean canExistOn(GolemPart<?, ?> part) {
-		// 通过 GolemPartConfig 获取配置，并判断该零件是否允许当前修饰符类型
 		return GolemPartConfig.get().getFilter(part).getOrDefault(type, 0d) > 0;
 	}
 
+	/** Whether a modifier can be applied to a golem via upgrade item */
 	public boolean fitsOn(GolemType<?, ?> type) {
 		return true;
 	}
