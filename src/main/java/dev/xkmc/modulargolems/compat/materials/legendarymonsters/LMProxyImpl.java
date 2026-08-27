@@ -323,6 +323,63 @@ public class LMProxyImpl {
 		flameRadagonShockwave(golem, 2.0f, 15, 1.0f, 2, 0.0f, 2.0f, flameDamage, false);
 	}
 
+	// Paladin: phantom daggers (single-target homing) - ThrownPhantomDaggerEntity
+	// mirrors PosessedPaladinEntity::throwPhantomDaggers: 3 daggers, all home to the SAME target.
+	// Homing is governed by the dagger's own defaults (constructor sets interia=1.0, defineSynchedData
+	// sets RETURN_TICK=20): it flies straight briefly, then steers toward returnEntity; if it cannot
+	// reach the target it despawns after its lifetime (tickCount > 100 - lessLifeTicks + RETURN_TICK).
+	public static void spawnPhantomDaggers(LivingEntity golem, LivingEntity target, int lv) {
+		if (golem.level().isClientSide) return;
+		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float damage = base * (0.5f + lv * 0.15f);
+		int count = 3;
+		float speed = 0.7f;
+		// matches the paladin texture swap rule (LMClient): red soul daggers below 65% health
+		boolean red = golem.getHealth() < golem.getMaxHealth() * 0.65f;
+		double spawnX = golem.getX();
+		double spawnY = golem.getEyeY() - 0.2;
+		double spawnZ = golem.getZ();
+		float baseYaw = (float) Math.toDegrees(Mth.atan2(-(target.getX() - golem.getX()), target.getZ() - golem.getZ()));
+		for (int i = 0; i < count; i++) {
+			float yaw = baseYaw + (i - 1) * 0.45f * Mth.RAD_TO_DEG;
+			@SuppressWarnings("unchecked")
+			EntityType<ThrownPhantomDaggerEntity> type = (EntityType<ThrownPhantomDaggerEntity>) (EntityType<?>) ModEntities.THROWN_PHANTOM_DAGGER.get();
+			ThrownPhantomDaggerEntity dagger = new ThrownPhantomDaggerEntity(type, golem.level());
+			dagger.setOwner(golem);
+			dagger.setReturnEntity(target);
+			dagger.setYRot(yaw);
+			dagger.setPos(spawnX, spawnY, spawnZ);
+			dagger.shootFromRotation(golem, 0.0f, yaw, 0.0f, speed, 0.0f);
+			dagger.setDamage(damage);
+			dagger.setRed(red);
+			golem.level().addFreshEntity(dagger);
+		}
+	}
+
+	// Paladin: soul spikes (arm attack) - SoulPillarEntity
+	// mirrors PossessedPaladinEntity::spawnSoulPillar(float,float,int): a forward line of soul pillars,
+	// count 5 at level 2 (matching the boss volley). Red variant when below 65% health (same rule as daggers).
+	// The pillar heals its caster automatically on hit (SoulPillarEntity.damage -> getCaster().heal).
+	public static void spawnSoulSpikes(LivingEntity golem, LivingEntity target, int lv) {
+		if (golem.level().isClientSide) return;
+		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float damage = base * 0.4f;
+		boolean red = golem.getHealth() < golem.getMaxHealth() * 0.65f;
+		int count = lv >= 2 ? 5 : 3;
+		float yaw = golem.getYRot();
+		double fwdX = -Math.sin(Math.toRadians(yaw));
+		double fwdZ = Math.cos(Math.toRadians(yaw));
+		double baseOffset = 0.5;
+		for (int i = 0; i < count; i++) {
+			double dist = baseOffset + 1.25 * i;
+			double px = golem.getX() + fwdX * dist;
+			double pz = golem.getZ() + fwdZ * dist;
+			double py = golem.getY();
+			SoulPillarEntity pillar = new SoulPillarEntity(golem.level(), px, py, pz, yaw + 90f, i, golem, 20, damage, red);
+			golem.level().addFreshEntity(pillar);
+		}
+	}
+
 	private static void spawnObliteratorFlame(LivingEntity golem, double x, double z, double minY, double maxY, float rotation, int delay, float damage) {
 		Level level = golem.level();
 		BlockPos pos = new BlockPos((int) x, (int) maxY, (int) z);

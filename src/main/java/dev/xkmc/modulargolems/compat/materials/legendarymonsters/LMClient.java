@@ -11,6 +11,8 @@ public class LMClient extends ClientModDispatch {
 	public void dispatchClientSetup() {
 		ModelOverrides.registerOverride(new ResourceLocation(LMDispatch.MODID, "cloud"),
 				ModelOverride.texturePredicate((e) -> e.getHealth() <= e.getMaxHealth() / 2 ? "_dark" : ""));
+		ModelOverrides.registerOverride(new ResourceLocation(LMDispatch.MODID, "paladin"),
+				ModelOverride.texturePredicate((e) -> e.getHealth() < e.getMaxHealth() * 0.65 ? "_posessed" : ""));
 	}
 
 }

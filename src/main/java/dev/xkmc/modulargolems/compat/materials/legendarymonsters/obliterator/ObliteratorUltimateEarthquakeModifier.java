@@ -1,17 +1,22 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.function.Consumer;
 
 /**
+ *
  * Earthquake modifier for Obliterator Ultimate (state 53:3976).
  * Original: SideAreaAttack(6.0f,4.0f,380) + spawnFlames GroundNuke + AnnihilationPortalEntity doPortalEffect 5+7.
  * Large full-circle quake (6.0f 380° overfull) with huge radius.
@@ -50,5 +55,10 @@ public class ObliteratorUltimateEarthquakeModifier extends GolemModifier impleme
 	@Override
 	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
 		return 200;
+	}
+
+	@Override
+	public boolean canExistOn(GolemPart<?, ?> part) {
+		return part == GolemItems.GOLEM_LEGS.get();
 	}
 }

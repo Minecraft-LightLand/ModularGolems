@@ -8,6 +8,8 @@ import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.Obl
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorPlasmaOrbModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorSmallBombModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorUltimateEarthquakeModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PhantomDaggerModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.SoulSpikeModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
@@ -27,6 +29,8 @@ public class LMCompatRegistry {
 	public static final RegistryEntry<ObliteratorLaserModifier> OBLITERATOR_LASER;
 	public static final RegistryEntry<ObliteratorJumpGroundChargeModifier> OBLITERATOR_JUMP;
 	public static final RegistryEntry<ObliteratorUltimateEarthquakeModifier> OBLITERATOR_ULTIMATE;
+	public static final RegistryEntry<PhantomDaggerModifier> PHANTOM_DAGGER;
+	public static final RegistryEntry<SoulSpikeModifier> SOUL_SPIKE;
 	public static final ItemEntry<Item> CLOUD_CUBE, ANNIHILATION_CUBE, POSESSED_SOUL_CUBE;
 	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER;
 
@@ -52,6 +56,12 @@ public class LMCompatRegistry {
 				"Obliterator Jump", "Performs jump attack with plasma orbs");
 		OBLITERATOR_ULTIMATE = reg("obliterator_ultimate", ObliteratorUltimateEarthquakeModifier::new,
 				"Obliterator Ultimate", "Performs jump attack with plasma portals and plasma flames");
+
+		PHANTOM_DAGGER = reg("phantom_dagger", PhantomDaggerModifier::new,
+				"Phantom Dagger", "Throw three homing phantom daggers that track a single target");
+
+		SOUL_SPIKE = reg("soul_spike", SoulSpikeModifier::new,
+				"Soul Spike", "Summon soul spikes in front that damage enemies and heal the golem");
 
 		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
 				.lang("Thunderstorm Upgrade").register();

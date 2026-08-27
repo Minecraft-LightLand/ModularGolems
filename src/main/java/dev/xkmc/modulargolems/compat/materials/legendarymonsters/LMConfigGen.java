@@ -67,7 +67,7 @@ public class LMConfigGen extends ConfigDataProvider {
 		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, "paladin"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LMDispatch.MODID, "paladin"),
 						Ingredient.of(LMCompatRegistry.POSESSED_SOUL_CUBE.get()))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
+				.addStat(GolemTypes.STAT_HEALTH.get(), 400)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
@@ -75,6 +75,8 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
+				.addModifier(LMCompatRegistry.PHANTOM_DAGGER.get(), 1)
+				.addModifier(LMCompatRegistry.SOUL_SPIKE.get(), 1)
 				.end()
 		);
 	}

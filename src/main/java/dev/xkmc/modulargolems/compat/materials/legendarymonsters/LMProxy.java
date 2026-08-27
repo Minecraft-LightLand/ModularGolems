@@ -97,6 +97,20 @@ public class LMProxy {
 		}
 	}
 
+	public static void spawnPhantomDaggers(LivingEntity golem, LivingEntity target, int lv) {
+		try {
+			LMProxyImpl.spawnPhantomDaggers(golem, target, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
+	public static void spawnSoulSpikes(LivingEntity golem, LivingEntity target, int lv) {
+		try {
+			LMProxyImpl.spawnSoulSpikes(golem, target, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
 
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.CLOUD_CUBE, 9)::unlockedBy,
