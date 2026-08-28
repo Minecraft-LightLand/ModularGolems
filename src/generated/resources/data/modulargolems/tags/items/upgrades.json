@@ -195,6 +195,14 @@
       "required": false
     },
     {
+      "id": "modulargolems:annihilation_bomb",
+      "required": false
+    },
+    {
+      "id": "modulargolems:annihilation_plasma",
+      "required": false
+    },
+    {
       "id": "modulargolems:etherite",
       "required": false
     }

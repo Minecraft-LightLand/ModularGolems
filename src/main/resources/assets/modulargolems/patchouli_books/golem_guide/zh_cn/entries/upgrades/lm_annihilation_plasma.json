@@ -1,0 +1,13 @@
+{
+  "flag": "mod:legendary_monsters",
+  "name": "湮灭等离子炮升级",
+  "icon": "modulargolems:annihilation_plasma",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:annihilation_plasma",
+	  "text": "向多个目标发射等离子球，每个等离子球会轻微追踪并在命中时爆炸。这是湮灭构造体的多目标等离子攻击。"
+	}
+  ]
+}

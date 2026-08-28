@@ -618,6 +618,8 @@
   "golem_material.legendary_monsters.cloud": "浮云",
   "item.modulargolems.cloud_cube": "浮云立方",
   "item.modulargolems.thunderstorm": "雷暴升级",
+  "item.modulargolems.annihilation_bomb": "湮灭炸弹升级",
+  "item.modulargolems.annihilation_plasma": "湮灭等离子升级",
   "modifier.modulargolems.thunderstorm": "雷暴",
   "modifier.modulargolems.thunderstorm.desc": "可召唤雷暴攻击多个目标。受到伤害时向周围释放电磁脉冲",
   "modifier.modulargolems.cloud_forming": "聚云",

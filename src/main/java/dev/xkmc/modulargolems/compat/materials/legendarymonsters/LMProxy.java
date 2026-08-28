@@ -153,6 +153,22 @@ public class LMProxy {
 				.define('X', ModItems.AIR_RUNE.get())
 				.define('O', GolemItems.EMPTY_UPGRADE)
 				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.UPGRADE_ANNIHILATION_BOMB.get())::unlockedBy,
+						ModItems.BOTTLE_OF_ANNIHILATION.get())
+				.pattern(" X ").pattern("ROR").pattern(" R ")
+				.define('R', ModItems.PORTAL_SHARD.get())
+				.define('X', ModItems.BOTTLE_OF_ANNIHILATION.get())
+				.define('O', GolemItems.EMPTY_UPGRADE)
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.UPGRADE_ANNIHILATION_PLASMA.get())::unlockedBy,
+						ModItems.EYE_CRYSTAL.get())
+				.pattern(" X ").pattern("ROR").pattern(" R ")
+				.define('R', ModItems.ENDIRITIUM_GEM.get())
+				.define('X', ModItems.EYE_CRYSTAL.get())
+				.define('O', GolemItems.EMPTY_UPGRADE)
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
 	}
 
 	public static void genLootModifier(MGGLMGen pvd) {

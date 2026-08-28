@@ -32,7 +32,7 @@ public class LMCompatRegistry {
 	public static final RegistryEntry<PhantomDaggerModifier> PHANTOM_DAGGER;
 	public static final RegistryEntry<SoulSpikeModifier> SOUL_SPIKE;
 	public static final ItemEntry<Item> CLOUD_CUBE, ANNIHILATION_CUBE, POSESSED_SOUL_CUBE;
-	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER;
+	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER, UPGRADE_ANNIHILATION_BOMB, UPGRADE_ANNIHILATION_PLASMA;
 
 	static {
 		ANCHOR = reg("ancient_anchor", () -> new AncientAnchorModifier(StatFilterType.MASS, 4),
@@ -65,6 +65,12 @@ public class LMCompatRegistry {
 
 		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
 				.lang("Thunderstorm Upgrade").register();
+
+		UPGRADE_ANNIHILATION_BOMB = regModUpgrade("annihilation_bomb", () -> OBLITERATOR_SMALL_BOMB, LMDispatch.MODID)
+				.lang("Annihilation Bomb Upgrade").register();
+
+		UPGRADE_ANNIHILATION_PLASMA = regModUpgrade("annihilation_plasma", () -> OBLITERATOR_PLASMA_ORB, LMDispatch.MODID)
+				.lang("Annihilation Plasma Upgrade").register();
 
 		CLOUD_CUBE = GolemItems.item(LMDispatch.MODID, "cloud_cube", Item::new);
 		ANNIHILATION_CUBE = GolemItems.item(LMDispatch.MODID, "annihilation_cube", Item::new);
