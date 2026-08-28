@@ -45,9 +45,9 @@ public class LMCompatRegistry {
 				"Cloud Forming", "Deal more damage to targets with higher health");
 
 		OBLITERATOR_LARGE_BOMB = reg("obliterator_large_bomb", ObliteratorLargeBombModifier::new,
-				"Obliterator Large Bomb", "Launch a large annihilation bomb at a single target");
+				"Obliterator Cluster Bomb", "Launch a annihilation cluster bomb at a single target");
 		OBLITERATOR_SMALL_BOMB = reg("obliterator_small_bomb", ObliteratorSmallBombModifier::new,
-				"Obliterator Small Bomb", "Launch small annihilation bombs at multiple targets");
+				"Obliterator Bomb", "Launch annihilation bombs at multiple targets");
 		OBLITERATOR_PLASMA_ORB = reg("obliterator_plasma_orb", ObliteratorPlasmaOrbModifier::new,
 				"Obliterator Plasma Orb", "Launch plasma orbs at multiple targets");
 		OBLITERATOR_LASER = reg("obliterator_laser", ObliteratorLaserModifier::new,

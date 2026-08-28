@@ -19,16 +19,17 @@ import java.util.function.BiConsumer;
 public class ObliteratorSmallBombModifier extends GolemModifier {
 
 	public ObliteratorSmallBombModifier() {
-		super(StatFilterType.MASS, 3);
+		super(StatFilterType.ATTACK, 3);
 	}
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
 		addGoal.accept(5, new ObliteratorSmallBombGoal(entity, lv));
 	}
-//
-//	@Override
-//	public boolean canExistOn(GolemPart<?, ?> part) {
-//		return part == GolemItems.HUMANOID_ARMS.get();
-//	}
+
+	@Override
+	public boolean canExistOn(GolemPart<?, ?> part) {
+		return part.getEntityType() != GolemTypes.TYPE_GOLEM.get() && super.canExistOn(part);
+	}
+
 }

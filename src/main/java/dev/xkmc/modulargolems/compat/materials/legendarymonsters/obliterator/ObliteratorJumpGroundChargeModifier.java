@@ -7,7 +7,7 @@ import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -50,6 +50,7 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 
 	@Override
 	public boolean canExistOn(GolemPart<?, ?> part) {
-		return part == GolemItems.HUMANOID_LEGS.get() || part == GolemItems.DOG_LEGS.get();
+		return part.getEntityType() != GolemTypes.TYPE_GOLEM.get() && super.canExistOn(part);
 	}
+
 }

@@ -59,6 +59,7 @@ public class ObliteratorUltimateEarthquakeModifier extends GolemModifier impleme
 
 	@Override
 	public boolean canExistOn(GolemPart<?, ?> part) {
-		return part == GolemItems.GOLEM_LEGS.get();
+		return part.getEntityType() == GolemTypes.TYPE_GOLEM.get() && super.canExistOn(part);
 	}
+
 }
