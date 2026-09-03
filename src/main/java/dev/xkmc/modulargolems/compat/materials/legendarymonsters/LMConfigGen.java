@@ -79,6 +79,7 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
 				.addModifier(LMCompatRegistry.PHANTOM_DAGGER.get(), 1)
 				.addModifier(LMCompatRegistry.SOUL_SPIKE.get(), 1)
+				.addModifier(LMCompatRegistry.PALADIN_SOUL_BLADE_LEAP.get(), 1)
 				.end()
 		);
 	}

@@ -119,6 +119,13 @@ public class LMProxy {
 		}
 	}
 
+	public static void spawnPaladinLeapBlades(LivingEntity golem,int lv) {
+		try {
+			LMProxyImpl.spawnPaladinLeapBlades(golem, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
 
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.CLOUD_CUBE, 9)::unlockedBy,

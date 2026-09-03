@@ -2,6 +2,8 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.RootPercAttackModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.ThunderAttackModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorJumpGroundChargeModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorLargeBombModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorLaserModifier;
@@ -9,6 +11,7 @@ import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.Obl
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorSmallBombModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorUltimateEarthquakeModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PhantomDaggerModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulBladeLeapModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.SoulSpikeModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -31,6 +34,7 @@ public class LMCompatRegistry {
 	public static final RegistryEntry<ObliteratorUltimateEarthquakeModifier> OBLITERATOR_ULTIMATE;
 	public static final RegistryEntry<PhantomDaggerModifier> PHANTOM_DAGGER;
 	public static final RegistryEntry<SoulSpikeModifier> SOUL_SPIKE;
+	public static final RegistryEntry<PaladinSoulBladeLeapModifier> PALADIN_SOUL_BLADE_LEAP;
 	public static final ItemEntry<Item> CLOUD_CUBE, ANNIHILATION_CUBE, POSESSED_SOUL_CUBE;
 	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER, UPGRADE_ANNIHILATION_BOMB, UPGRADE_ANNIHILATION_PLASMA;
 
@@ -62,6 +66,9 @@ public class LMCompatRegistry {
 
 		SOUL_SPIKE = reg("soul_spike", SoulSpikeModifier::new,
 				"Soul Spike", "Summon soul spikes in front that damage enemies and heal the golem");
+
+		PALADIN_SOUL_BLADE_LEAP = reg("paladin_soul_blade_leap", PaladinSoulBladeLeapModifier::new,
+				"Paladin Soul Blade Leap", "Leap toward target and summon fallen soul blades that damage enemies and heal the golem");
 
 		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
 				.lang("Thunderstorm Upgrade").register();

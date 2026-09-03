@@ -591,6 +591,8 @@
   "modifier.modulargolems.obliterator_ultimate.desc": "Performs jump attack with plasma portals and plasma flames",
   "modifier.modulargolems.obsidian": "Obsidian",
   "modifier.modulargolems.obsidian.desc": "Reduces final damage taken by %s",
+  "modifier.modulargolems.paladin_leap": "Paladin Leap",
+  "modifier.modulargolems.paladin_leap.desc": "Leap toward target and summon fallen soul blades that damage enemies and heal the golem",
   "modifier.modulargolems.phantom_dagger": "Phantom Dagger",
   "modifier.modulargolems.phantom_dagger.desc": "Throw three homing phantom daggers that track a single target",
   "modifier.modulargolems.pickup": "Pickup",

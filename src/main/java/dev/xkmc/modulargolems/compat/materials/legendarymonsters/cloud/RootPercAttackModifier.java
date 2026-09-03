@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
+package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;

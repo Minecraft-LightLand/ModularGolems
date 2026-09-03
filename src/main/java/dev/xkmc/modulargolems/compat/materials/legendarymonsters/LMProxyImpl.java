@@ -4,6 +4,7 @@ import net.miauczel.legendary_monsters.Particle.ModParticles;
 import net.miauczel.legendary_monsters.Particle.custom.Circle;
 import net.miauczel.legendary_monsters.effect.ModEffects;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Effect.CameraShakeEntity;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.AnimatedEntity.FallingSoulBladeEntity;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.*;
 import net.miauczel.legendary_monsters.entity.ModEntities;
 import net.miauczel.legendary_monsters.sound.ModSounds;
@@ -390,6 +391,43 @@ public class LMProxyImpl {
 			double py = golem.getY();
 			SoulPillarEntity pillar = new SoulPillarEntity(golem.level(), px, py, pz, yaw + 90f, i, golem, 20, damage, red);
 			golem.level().addFreshEntity(pillar);
+		}
+	}
+
+// Paladin: leap sword array (扑跃剑阵) - FallingSoulBladeEntity
+	// mirrors PossessedPaladinEntity's leap attack: summons several FallingSoulBladeEntity
+	// in a circle around the golem, with ground ring effects. Red variant when below 65% health.
+	public static void spawnPaladinLeapBlades(LivingEntity golem, int lv) {
+		if (golem.level().isClientSide) return;
+		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float damage = base * (0.3f + lv * 0.1f);
+		boolean red = golem.getHealth() < golem.getMaxHealth() * 0.65f;
+		int count = 8; // number of blades in the ring
+		Level level = golem.level();
+		double gX = golem.getX();
+		double gZ = golem.getZ();
+		// visuals: CameraShake + ground ring
+		CameraShakeEntity.cameraShake(level, golem.position(), 15.0F, 0.2F, 0, 15);
+		if (level instanceof ServerLevel sl) {
+			float g = (float) Math.toRadians(-golem.getXRot() + 180.0F);
+			ParticleOptions ring = new Circle.RingData(g, 0.0f, 30, 0.0f, 1.0f, 0.0f, 1.0f, 60.0f, true, Circle.EnumRingBehavior.GROW_THEN_SHRINK);
+			sl.sendParticles(ring, gX, golem.getY() - 0.1, gZ, 1, 0, 0, 0, 0);
+			// additional ring at 88 ticks
+			ParticleOptions ring2 = new Circle.RingData(0.0f, 1.5707964f, 20, 0.0f, 1.0f, 0.0f, 1.0f, 100.0f, false, Circle.EnumRingBehavior.GROW);
+			sl.sendParticles(ring2, gX, golem.getY() + 0.1, gZ, 1, 0, 0, 0, 0);
+		}
+		level.playSound(null, BlockPos.containing(golem.getX(), golem.getY(), golem.getZ()), ModSounds.HUGE_ENERGY_EXPLOSION.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+		if (level.isClientSide) return;
+		// proxies: spawn FallingSoulBladeEntity in a circle around the golem
+		double multiplier = 2.0;
+		for (int k = 0; k < count; ++k) {
+			float f33 = (float) k * (float) Math.PI * 2.0f / (float) count + (float) Math.PI * 2.0f / 10.0f;
+			double fx = gX + Math.cos(f33) * multiplier;
+			double fz = gZ + Math.sin(f33) * multiplier;
+			double py = golem.getY();
+			FallingSoulBladeEntity blade = new FallingSoulBladeEntity(level, fx, py, fz, golem.getYRot(), k, golem, damage, red);
+			blade.setActivate(true);
+level.addFreshEntity(blade);
 		}
 	}
 

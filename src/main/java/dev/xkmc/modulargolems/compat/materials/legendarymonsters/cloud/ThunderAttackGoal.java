@@ -1,6 +1,7 @@
-package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
+package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
 import dev.xkmc.modulargolems.compat.materials.goety.multi.MultiTargetRangedGoal;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 

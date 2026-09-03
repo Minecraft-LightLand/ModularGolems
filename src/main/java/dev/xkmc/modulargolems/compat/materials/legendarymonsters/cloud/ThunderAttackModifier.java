@@ -1,5 +1,6 @@
-package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
+package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
