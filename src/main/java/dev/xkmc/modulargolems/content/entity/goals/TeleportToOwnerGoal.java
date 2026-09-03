@@ -16,7 +16,10 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class TeleportToOwnerGoal extends Goal {
 	private final AbstractGolemEntity<?, ?> golem;
@@ -102,7 +105,14 @@ public class TeleportToOwnerGoal extends Goal {
 			while (e.getControlledVehicle() instanceof LivingEntity le) {
 				e = le;
 			}
-			e.snapTo((double) pX + 0.5D, pY, (double) pZ + 0.5D, this.golem.getYRot(), this.golem.getXRot());
+
+
+			var pos = new Vec3(pX + 0.5, pY + e.getBbHeight() / 2, pZ + 0.5);
+			VoxelShape allowedCenters = Shapes.create(AABB.ofSize(pos, e.getBbWidth(), e.getBbHeight(), e.getBbWidth()));
+			var opt = e.level().findFreePosition(e, allowedCenters, pos, e.getBbWidth(), e.getBbHeight(), e.getBbWidth());
+			if (opt.isPresent()) pos = opt.get();
+
+			e.snapTo(pos.x, pos.y - e.getBbHeight() / 2, pos.z, this.golem.getYRot(), this.golem.getXRot());
 			this.navigation.stop();
 			if (fly) {
 				e.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60));
