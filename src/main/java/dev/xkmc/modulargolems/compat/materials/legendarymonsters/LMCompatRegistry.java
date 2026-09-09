@@ -10,8 +10,9 @@ import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.Obl
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorPlasmaOrbModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorSmallBombModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorUltimateEarthquakeModifier;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PhantomDaggerModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulBladeLeapModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulShieldModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PhantomDaggerModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.SoulSpikeModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
@@ -35,8 +36,11 @@ public class LMCompatRegistry {
 	public static final RegistryEntry<PhantomDaggerModifier> PHANTOM_DAGGER;
 	public static final RegistryEntry<SoulSpikeModifier> SOUL_SPIKE;
 	public static final RegistryEntry<PaladinSoulBladeLeapModifier> PALADIN_SOUL_BLADE_LEAP;
+	public static final RegistryEntry<PaladinSoulShieldModifier> PALADIN_SOUL_SHIELD;
 	public static final ItemEntry<Item> CLOUD_CUBE, ANNIHILATION_CUBE, POSESSED_SOUL_CUBE;
-	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER, UPGRADE_ANNIHILATION_BOMB, UPGRADE_ANNIHILATION_PLASMA;
+	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER,
+			UPGRADE_ANNIHILATION_BOMB, UPGRADE_ANNIHILATION_PLASMA,
+			UPGRADE_PALADIN_SOUL_BLADE,UPGRADE_PALADIN_SOUL_SHIELD;
 
 	static {
 		ANCHOR = reg("ancient_anchor", () -> new AncientAnchorModifier(StatFilterType.MASS, 4),
@@ -70,6 +74,9 @@ public class LMCompatRegistry {
 		PALADIN_SOUL_BLADE_LEAP = reg("paladin_soul_blade_leap", PaladinSoulBladeLeapModifier::new,
 				"Paladin Soul Blade Leap", "Leap toward target and summon fallen soul blades that damage enemies and heal the golem");
 
+		PALADIN_SOUL_SHIELD = reg("paladin_soul_shield", PaladinSoulShieldModifier::new,
+				"Paladin Soul Shield", "Summon soul shield around golem on landing, damage enemies and heal golem");
+
 		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
 				.lang("Thunderstorm Upgrade").register();
 
@@ -78,6 +85,12 @@ public class LMCompatRegistry {
 
 		UPGRADE_ANNIHILATION_PLASMA = regModUpgrade("annihilation_plasma", () -> OBLITERATOR_PLASMA_ORB, LMDispatch.MODID)
 				.lang("Annihilation Plasma Upgrade").register();
+
+		UPGRADE_PALADIN_SOUL_BLADE = regModUpgrade("soul_blade",() -> PALADIN_SOUL_BLADE_LEAP,LMDispatch.MODID)
+				.lang("Paladin Soul Blade Upgrade").register();
+
+		UPGRADE_PALADIN_SOUL_SHIELD = regModUpgrade("soul_shield",() -> PALADIN_SOUL_SHIELD,LMDispatch.MODID)
+				.lang("Paladin Soul Shield Upgrade").register();
 
 		CLOUD_CUBE = GolemItems.item(LMDispatch.MODID, "cloud_cube", Item::new);
 		ANNIHILATION_CUBE = GolemItems.item(LMDispatch.MODID, "annihilation_cube", Item::new);

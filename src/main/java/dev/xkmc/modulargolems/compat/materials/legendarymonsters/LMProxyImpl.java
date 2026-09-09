@@ -5,6 +5,7 @@ import net.miauczel.legendary_monsters.Particle.custom.Circle;
 import net.miauczel.legendary_monsters.effect.ModEffects;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Effect.CameraShakeEntity;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.AnimatedEntity.FallingSoulBladeEntity;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.AnimatedEntity.SoulShieldEntity;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.*;
 import net.miauczel.legendary_monsters.entity.ModEntities;
 import net.miauczel.legendary_monsters.sound.ModSounds;
@@ -428,6 +429,43 @@ public class LMProxyImpl {
 			FallingSoulBladeEntity blade = new FallingSoulBladeEntity(level, fx, py, fz, golem.getYRot(), k, golem, damage, red);
 			blade.setActivate(true);
 level.addFreshEntity(blade);
+		}
+	}
+
+public static void spawnPaladinSoulShield(LivingEntity golem,int lv){
+
+		if (golem.level().isClientSide) return;
+		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		float damage = base * (0.3f + lv * 0.1f);
+		boolean red = golem.getHealth() < golem.getMaxHealth() * 0.65f;
+		int count = 8; // 8 shields in a horizontal circle
+		Level level = golem.level();
+		double gX = golem.getX();
+		double gZ = golem.getZ();
+		// visuals: CameraShake + ground ring
+		CameraShakeEntity.cameraShake(level, golem.position(), 15.0F, 0.2F, 0, 15);
+		if (level instanceof ServerLevel sl) {
+			float g = (float) Math.toRadians(-golem.getXRot() + 180.0F);
+			ParticleOptions ring = new Circle.RingData(g, 0.0f, 30, 0.0f, 1.0f, 0.0f, 1.0f, 60.0f, true, Circle.EnumRingBehavior.GROW_THEN_SHRINK);
+			sl.sendParticles(ring, gX, golem.getY() - 0.1, gZ, 1, 0, 0, 0, 0);
+			// additional ring at 88 ticks
+			ParticleOptions ring2 = new Circle.RingData(0.0f, 1.5707964f, 20, 0.0f, 1.0f, 0.0f, 1.0f, 100.0f, false, Circle.EnumRingBehavior.GROW);
+			sl.sendParticles(ring2, gX, golem.getY() + 0.1, gZ, 1, 0, 0, 0, 0);
+		}
+		level.playSound(null, BlockPos.containing(golem.getX(), golem.getY(), golem.getZ()), ModSounds.HUGE_ENERGY_EXPLOSION.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+		if (level.isClientSide) return;
+		// shields: spawn SoulShieldEntity in a horizontal circle around the golem
+		// texture: soul_shield from Legendary Monsters
+for (int i = 0; i < count; ++i) {
+			float angle = (float) (i * Math.PI * 2.0 / count);
+			double fx = gX + Math.cos(angle) * 2.0;
+			double fz = gZ + Math.sin(angle) * 2.0;
+			double fy = golem.getY();
+			// destX/destY/destZ = golem position (shields anchor at center)
+			// isOuter = true for "push out" behavior: shields fly outward from center
+			float yRot = (float) Math.toDegrees(angle);
+			SoulShieldEntity shield = new SoulShieldEntity(level, fx, fy, fz, yRot, i, golem, damage, 0.0F, yRot,1.0F,true,red);
+			level.addFreshEntity(shield);
 		}
 	}
 

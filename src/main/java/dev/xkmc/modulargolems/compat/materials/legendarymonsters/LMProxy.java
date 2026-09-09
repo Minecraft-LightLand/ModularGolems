@@ -126,6 +126,13 @@ public class LMProxy {
 		}
 	}
 
+	public static void spawnPaladinSoulShield(LivingEntity golem,int lv) {
+		try {
+			LMProxyImpl.spawnPaladinSoulShield(golem, lv);
+		} catch (Throwable ignored) {
+		}
+	}
+
 	public static void genRecipe(RegistrateRecipeProvider pvd) {
 
 		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.CLOUD_CUBE, 9)::unlockedBy,

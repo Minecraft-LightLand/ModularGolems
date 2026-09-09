@@ -11,18 +11,17 @@ import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
-
 import java.util.function.Consumer;
 
 /**
- * 堕落魂刃阵：跃向目标并召唤数根堕落魂刃（FallingSoulBladeEntity）。
- * 使用 LMProxy.spawnPaladinLeapBlades 调用 Legendary Monsters 的技能。
+ * 堕落魂盾阵：跃落后以自身为中心召唤护盾。
+ * 参考 PossessedPaladinEntity 的护盾技能。
  * 红色变色：当 golem 血量低于最大值 65% 时变红。
  * 推荐大型傀儡 (TYPE_GOLEM) 与下肢 (MOVEMENT) 部件。
  */
-public class PaladinSoulBladeLeapModifier extends GolemModifier implements EarthquakeHelper.Modifier {
+public class PaladinSoulShieldModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
-	public PaladinSoulBladeLeapModifier() {
+	public PaladinSoulShieldModifier() {
 		super(StatFilterType.MOVEMENT, 1);
 	}
 
@@ -30,11 +29,6 @@ public class PaladinSoulBladeLeapModifier extends GolemModifier implements Earth
 	public void onRegisterFlag(Consumer<GolemFlags> addFlag) {
 		addFlag.accept(GolemFlags.EARTH_QUAKE);
 	}
-
-//	@Override
-//	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-//		addGoal.accept(5, new PaladinLeapGoal(entity, lv));
-//	}
 
 //	@Override
 //	public boolean fitsOn(GolemType<?, ?> type) {
@@ -48,7 +42,7 @@ public class PaladinSoulBladeLeapModifier extends GolemModifier implements Earth
 
 	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
-		LMProxy.spawnPaladinLeapBlades(golem,level);
+		LMProxy.spawnPaladinSoulShield(golem,level);
 		if (golem.level() instanceof ServerLevel sl) {
 			var list = LMProxy.stun(sl, golem.getX(), golem.getY(), golem.getZ(), golem, 5.0f, level * 2);
 			for (var e : list) {
@@ -59,16 +53,11 @@ public class PaladinSoulBladeLeapModifier extends GolemModifier implements Earth
 
 	@Override
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
-		return 25.0;
+		return 36.0; // 6 block range for shield
 	}
 
 	@Override
 	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
 		return 200;
 	}
-
-	//	@Override
-//	public void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
-//		EarthquakeHelper.Modifier.super.performJump(golem, lv);
-//	}
 }

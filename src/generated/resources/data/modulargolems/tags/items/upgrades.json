@@ -203,6 +203,14 @@
       "required": false
     },
     {
+      "id": "modulargolems:soul_blade",
+      "required": false
+    },
+    {
+      "id": "modulargolems:soul_shield",
+      "required": false
+    },
+    {
       "id": "modulargolems:etherite",
       "required": false
     }
