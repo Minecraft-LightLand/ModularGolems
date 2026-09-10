@@ -31,16 +31,6 @@ public class PaladinSoulBladeLeapModifier extends GolemModifier implements Earth
 		addFlag.accept(GolemFlags.EARTH_QUAKE);
 	}
 
-//	@Override
-//	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-//		addGoal.accept(5, new PaladinLeapGoal(entity, lv));
-//	}
-
-//	@Override
-//	public boolean fitsOn(GolemType<?, ?> type) {
-//		return type == GolemTypes.TYPE_GOLEM.get();
-//	}
-
 	@Override
 	public boolean canExistOn(GolemPart<?, ?> part) {
 		return part.getEntityType() == GolemTypes.TYPE_GOLEM.get() && super.canExistOn(part);
@@ -67,8 +57,4 @@ public class PaladinSoulBladeLeapModifier extends GolemModifier implements Earth
 		return 200;
 	}
 
-	//	@Override
-//	public void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
-//		EarthquakeHelper.Modifier.super.performJump(golem, lv);
-//	}
 }
