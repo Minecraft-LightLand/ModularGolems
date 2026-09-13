@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "legendary_monsters:item/upgrades/annihilation_plasma",
+    "layer1": "modulargolems:item/purple_arrow"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_air_rune": {
+      "conditions": {
+        "items": [
+          {
+            "items": "legendary_monsters:air_rune"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:cloud_cube"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_air_rune"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:cloud_cube"
+    ]
+  }
+}

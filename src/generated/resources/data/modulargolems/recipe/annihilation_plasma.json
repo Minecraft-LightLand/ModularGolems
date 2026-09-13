@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "O": {
+      "item": "modulargolems:empty_upgrade"
+    },
+    "R": {
+      "item": "legendary_monsters:enderitium_gem"
+    },
+    "X": {
+      "item": "legendary_monsters:eye_crystal"
+    }
+  },
+  "pattern": [
+    " X ",
+    "ROR",
+    " R "
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:annihilation_plasma"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "R": {
+      "item": "legendary_monsters:metal_debris"
+    },
+    "X": {
+      "item": "legendary_monsters:corrupted_soul"
+    }
+  },
+  "pattern": [
+    "RIR",
+    "IXI",
+    "RIR"
+  ],
+  "result": {
+    "count": 9,
+    "id": "modulargolems:posessed_soul_cube"
+  }
+}
