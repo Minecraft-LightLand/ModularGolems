@@ -647,6 +647,7 @@
   "modifier.modulargolems.phantom_dagger.desc": "扔出三个追踪单个目标的幻影匕首",
   "modifier.modulargolems.soul_spike": "灵魂尖刺",
   "modifier.modulargolems.soul_spike.desc": "在前方召唤灵魂尖刺",
+  "item.modulargolems.posessed_soul_cube": "堕落之魂立方",
   "item.modulargolems.soul_blade": "魂刃升级",
   "item.modulargolems.soul_shield": "魂盾升级",
   "attribute.name.golem_regen": "生命回复",

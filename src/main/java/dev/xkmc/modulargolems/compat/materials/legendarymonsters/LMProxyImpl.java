@@ -56,16 +56,6 @@ public class LMProxyImpl {
 	public static List<LivingEntity> stun(ServerLevel level, double x, double y, double z, LivingEntity golem, float reach, int lv) {
 		List<LivingEntity> affected = new ArrayList<>();
 
-		int n = 128;
-		for (double i = 0; i < n; ++i) {
-			var a = (Math.PI * 2D) / n * i;
-			level.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE,
-					x + 0.5F + Math.cos(a) * reach,
-					y,
-					z + 0.5F + Math.sin(a) * reach,
-					0, 0.0F, 0.05, 0.0F, 1);
-		}
-
 		level.playSound(null, BlockPos.containing(x, y, z), SoundEvents.IRON_GOLEM_REPAIR, SoundSource.NEUTRAL, 1.0F, 1.0F);
 		Vec3 cen = new Vec3(x, y, z);
 		for (LivingEntity le : level.getEntitiesOfClass(LivingEntity.class, (new AABB(cen, cen)).inflate(reach), e -> e != golem)
@@ -403,7 +393,6 @@ public class LMProxyImpl {
 		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		float damage = base * (0.3f + lv * 0.1f);
 		boolean red = golem.getHealth() < golem.getMaxHealth() * 0.65f;
-		int count = 8; // number of blades in the ring
 		Level level = golem.level();
 		double gX = golem.getX();
 		double gZ = golem.getZ();
@@ -419,16 +408,22 @@ public class LMProxyImpl {
 		}
 		level.playSound(null, BlockPos.containing(golem.getX(), golem.getY(), golem.getZ()), ModSounds.HUGE_ENERGY_EXPLOSION.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
 		if (level.isClientSide) return;
-		// proxies: spawn FallingSoulBladeEntity in a circle around the golem
-		double multiplier = 2.0;
-		for (int k = 0; k < count; ++k) {
-			float f33 = (float) k * (float) Math.PI * 2.0f / (float) count + (float) Math.PI * 2.0f / 10.0f;
-			double fx = gX + Math.cos(f33) * multiplier;
-			double fz = gZ + Math.sin(f33) * multiplier;
-			double py = golem.getY();
-			FallingSoulBladeEntity blade = new FallingSoulBladeEntity(level, fx, py, fz, golem.getYRot(), k, golem, damage, red);
-			blade.setActivate(true);
-level.addFreshEntity(blade);
+// proxies: spawn FallingSoulBladeEntity evenly around the golem, landing unevenly
+		// full-circle zigzag (12 sectors x 8 blades = 96 blades) in a 1.25-10 circular range
+		int sectors = 12;
+		for (int sec = 0; sec < sectors; ++sec) {
+			float f12 = (float) sec * (float) Math.PI * 2.0f / sectors;
+			float sinf = Mth.sin(f12);
+			float cosf = Mth.cos(f12);
+			for (int i = 0; i < 8; ++i) {
+				double r = 1.25 * (i + 1);
+				double zig = ((i % 2 == 0) ? 1 : -1) * 2.0;
+				double fx = gX + cosf * r - sinf * zig;
+				double fz = gZ + sinf * r + cosf * zig;
+				FallingSoulBladeEntity blade = new FallingSoulBladeEntity(level, fx, golem.getY(), fz, f12, i + 1, golem, damage, red);
+				blade.setActivate(true);
+				level.addFreshEntity(blade);
+			}
 		}
 	}
 
