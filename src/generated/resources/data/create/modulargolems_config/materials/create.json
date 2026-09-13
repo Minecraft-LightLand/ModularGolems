@@ -9,9 +9,6 @@
     "create:cardboard": {
       "item": "create:cardboard"
     },
-    "create:railway": {
-      "item": "create:railway_casing"
-    },
     "create:zinc": {
       "tag": "c:ingots/zinc"
     }
@@ -30,13 +27,6 @@
       "modulargolems:mechanical_mobility": 1
     },
     "create:cardboard": {},
-    "create:railway": {
-      "modulargolems:fire_immune": 1,
-      "modulargolems:magic_resistant": 2,
-      "modulargolems:mechanical_engine": 1,
-      "modulargolems:mechanical_force": 2,
-      "modulargolems:mechanical_mobility": 2
-    },
     "create:zinc": {
       "modulargolems:coating": 1
     }
@@ -51,9 +41,6 @@
     },
     "create:cardboard": {
       "item": "create:cardboard"
-    },
-    "create:railway": {
-      "item": "create:railway_casing"
     },
     "create:zinc": {
       "tag": "c:ingots/zinc"
@@ -74,14 +61,6 @@
       "modulargolems:attack_knockback": 2.0,
       "modulargolems:max_health": 2.0,
       "modulargolems:weight": 0.4
-    },
-    "create:railway": {
-      "modulargolems:attack": 15.0,
-      "modulargolems:attack_knockback": 1.0,
-      "modulargolems:knockback_resistance": 1.0,
-      "modulargolems:max_health": 300.0,
-      "modulargolems:sweep": 1.0,
-      "modulargolems:weight": -0.2
     },
     "create:zinc": {
       "modulargolems:attack": 10.0,

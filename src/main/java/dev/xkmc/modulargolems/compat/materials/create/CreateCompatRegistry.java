@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.compat.materials.create;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.LCTagGen;
@@ -32,6 +33,7 @@ public class CreateCompatRegistry {
 	public static final Val<MechBodyModifier> BODY;
 	public static final Val<MechMobileModifier> MOBILE;
 	public static final Val<MechForceModifier> FORCE;
+	public static final Val<ChocoModifier> CHOCO;
 
 	public static final SimpleEntry<MobEffect> EFF_MOBILE;
 	public static final SimpleEntry<MobEffect> EFF_FORCE;
@@ -45,6 +47,7 @@ public class CreateCompatRegistry {
 		PUSH = reg("push", () -> new AttributeGolemModifier(1,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, () -> 2)
 		));
+		CHOCO = reg("choco_body", ChocoModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
 		BODY = reg("mechanical_engine", MechBodyModifier::new, "Consumes fuels to power the golem up.");
 		MOBILE = reg("mechanical_mobility", MechMobileModifier::new, "When burning fuels, increase speed by %s%%");
 		FORCE = reg("mechanical_force", MechForceModifier::new, "When burning fuels, increase attack damage by %s%%");
@@ -74,6 +77,7 @@ public class CreateCompatRegistry {
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.SPECIAL_CRAFT)
 				.addOptional(AllItems.CARDBOARD.getId())
 				.addOptional(AllItems.ANDESITE_ALLOY.getId())
+				.addOptional(AllItems.BAR_OF_CHOCOLATE.getId())
 				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "ingots/brass"))
 				.addOptional(AllBlocks.RAILWAY_CASING.getId()));
 		if (ModList.get().isLoaded(L2Complements.MODID)) {

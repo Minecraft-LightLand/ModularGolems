@@ -15,6 +15,7 @@ import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2hostility.LHDispatch;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMDispatch;
 import dev.xkmc.modulargolems.compat.materials.mowziesmobs.MowzieDispatch;
+import dev.xkmc.modulargolems.compat.materials.royalvariation.RVDispatch;
 import dev.xkmc.modulargolems.compat.materials.twilightforest.TFDispatch;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.compat.musket.GolemMusketCompat;
@@ -54,6 +55,7 @@ public abstract class CompatManager {
 		//if (GRDispatch.isLoaded()) LIST.add(new GRDispatch());
 		if (ModList.get().isLoaded(MowzieDispatch.MODID)) LIST.add(new MowzieDispatch());
 		if (ModList.get().isLoaded(LMDispatch.MODID)) LIST.add(new LMDispatch());
+		if (ModList.get().isLoaded(RVDispatch.MODID)) LIST.add(new RVDispatch());
 		if (ModList.get().isLoaded(CEICommon.ID)) CEICompat.register();
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
 		if (ModList.get().isLoaded(L2Backpack.MODID))
