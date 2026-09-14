@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_eye_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "legendary_monsters:eye_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "modulargolems:soul_blade"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_eye_crystal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "modulargolems:soul_blade"
+    ]
+  }
+}
