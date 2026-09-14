@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.phys.Vec3;
 
@@ -181,6 +182,24 @@ public class LMProxy {
 				.pattern(" X ").pattern("ROR").pattern(" R ")
 				.define('R', ModItems.ENDIRITIUM_GEM.get())
 				.define('X', ModItems.EYE_CRYSTAL.get())
+				.define('O', GolemItems.EMPTY_UPGRADE)
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.UPGRADE_PALADIN_SOUL_BLADE.get())::unlockedBy,
+						ModItems.EYE_CRYSTAL.get())
+				.pattern(" X ").pattern("TOT").pattern(" R ")
+				.define('R', ModItems.METAL_DEBRIS.get())
+				.define('T',ModItems.KNIGHTS_SWORD_BLADE_HALF.get())
+				.define('X', ModItems.SOUL_GREAT_SWORD.get())
+				.define('O', GolemItems.EMPTY_UPGRADE)
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.UPGRADE_PALADIN_SOUL_SHIELD.get())::unlockedBy,
+						ModItems.EYE_CRYSTAL.get())
+				.pattern("STS").pattern("TOT").pattern("SRS")
+				.define('R', ModItems.METAL_DEBRIS.get())
+				.define('T',ModItems.KNIGHTS_SWORD_BLADE_HALF.get())
+				.define('S', Items.SHIELD)
 				.define('O', GolemItems.EMPTY_UPGRADE)
 				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
 	}
