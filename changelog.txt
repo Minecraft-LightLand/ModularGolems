@@ -1,3 +1,11 @@
+2.7.4
+- Fix lightning rod not working
+- improve JEI display
+- Add royal variation compat material
+- Add chocolate golem for create
+- Add realm golem material for EEEAB mobs
+- Add obliterator and paladin golem material for legendary monsters
+
 2.7.3
 - Fix add slot recipe JEI display
 - Fix the bug where golem with ranged weapon always doing melee for once before doing ranged attack

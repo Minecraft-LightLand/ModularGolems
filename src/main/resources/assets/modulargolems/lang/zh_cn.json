@@ -875,5 +875,22 @@
   "item.modulargolems.naga_chestplate": "娜迦傀儡胸甲",
   "item.modulargolems.naga_helmet": "娜迦傀儡头盔",
   "item.modulargolems.naga_shinguard": "娜迦傀儡护腿",
-  "item.modulargolems.naga_boots": "娜迦傀儡靴子"
+  "item.modulargolems.naga_boots": "娜迦傀儡靴子",
+  "editor.clear": "Clear",
+  "editor.pick_item": "Pick item",
+  "editor.pick_tag": "Pick tag",
+  "editor.reset": "Reset",
+  "editor.reset_done": "Config reset to default values.",
+  "editor.select_item": "Select item",
+  "editor.select_tag": "Select tag",
+  "item.modulargolems.dummy_furnace": "Dummy Furnace",
+  "item.modulargolems.dummy_iron_consumer": "Dummy Iron Consumer",
+  "item.modulargolems.dummy_uranium_consumer": "Dummy Uranium Consumer",
+  "potion.potency.10": "XI",
+  "potion.potency.11": "XII",
+  "potion.potency.5": "VI",
+  "potion.potency.6": "VII",
+  "potion.potency.7": "VIII",
+  "potion.potency.8": "IX",
+  "potion.potency.9": "X"
 }
