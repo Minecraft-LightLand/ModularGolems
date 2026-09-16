@@ -35,7 +35,14 @@
 		"later": "稍后",
 		"discard": "放弃",
 		"unsaved_title": "未保存的更改",
-		"unsaved_note": "您有未保存的更改。离开前要保存吗？"
+		"unsaved_note": "您有未保存的更改。离开前要保存吗？",
+		"clear": "清除",
+		"pick_item": "选取物品",
+		"pick_tag": "选取标签",
+		"reset": "重置",
+		"reset_done": "配置已重置为默认值。",
+		"select_item": "选择物品",
+		"select_tag": "选择标签"
 	},
 	"modulargolems": {
 		"editor": {

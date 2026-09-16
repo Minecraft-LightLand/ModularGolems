@@ -198,6 +198,18 @@
 		"w": 18,
 		"h": 18
 	},
+	"slot_button": {
+		"ids": [
+			"_on",
+			"_on_hover",
+			"_down",
+			"_down_hover",
+			"_ban",
+			"_ban_hover"
+		],
+		"w": 20,
+		"h": 20
+	},
 	"dissembly": {
 		"ids": [
 			"_on",

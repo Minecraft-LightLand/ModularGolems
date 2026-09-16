@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeSort;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -374,11 +375,15 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				}
 			}
 			list.add(MGLangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
+			var sorted = new ArrayList<IUpgradeItem>(upgrades);
+			sorted.sort(UpgradeSort.upgradeComparator());
 			var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 			if (modifiers.size() > 8) {
 				list.add(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.size()));
 			} else {
-				modifiers.forEach((k, v) -> list.add(k.getTooltip(v)));
+				var modEntries = new ArrayList<>(modifiers.entrySet());
+				modEntries.sort(UpgradeSort.entryComparator(sorted));
+				modEntries.forEach(e -> list.add(e.getKey().getTooltip(e.getValue())));
 			}
 			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> {
 				if (Math.abs(v.getSecond()) > 1e-3) {
@@ -389,10 +394,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		} else {
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
+			var sorted = new ArrayList<IUpgradeItem>(upgrades);
+			sorted.sort(UpgradeSort.upgradeComparator());
 			var map = GolemMaterial.collectModifiers(mats, upgrades);
-			int size = map.size();
+			var modEntries = new ArrayList<>(map.entrySet());
+			modEntries.sort(UpgradeSort.entryComparator(sorted));
+			int size = modEntries.size();
 			int index = 0;
-			for (var entry : map.entrySet()) {
+			for (var entry : modEntries) {
 				index++;
 				var k = entry.getKey();
 				var v = entry.getValue();

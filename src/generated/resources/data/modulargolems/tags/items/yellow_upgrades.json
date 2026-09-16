@@ -1,0 +1,15 @@
+{
+  "values": [
+    {
+      "id": "modulargolems:teleport",
+      "required": false
+    },
+    {
+      "id": "modulargolems:speed_high",
+      "required": false
+    },
+    "modulargolems:speed",
+    "modulargolems:talented",
+    "modulargolems:cauldron"
+  ]
+}

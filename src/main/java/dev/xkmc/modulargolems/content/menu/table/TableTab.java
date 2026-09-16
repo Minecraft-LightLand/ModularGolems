@@ -26,8 +26,14 @@ public class TableTab extends GolemTabBase<TableGroup, TableTab> {
 
 	public static void initScreen(TableTabType type, AbstractContainerScreen<?> screen, Consumer<AbstractWidget> cons) {
 		ITabScreen tab = screen instanceof ITabScreen e ? e : new DelegateTabScreen(screen);
-		new GolemTabManager<>(tab, new TableGroup(), GolemTabType.ABOVE, 2)
-				.init(cons, GolemTabRegistry.LIST_TABLE.get(type.ordinal()));
+		GolemTabToken<TableGroup, ?> top = type.ordinal() < TableTabType.CRAFT.ordinal()
+				? GolemTabRegistry.LIST_TABLE_TOP.get(type.ordinal()) : null;
+		new GolemTabManager<>(tab, new TableGroup(GolemTabRegistry.LIST_TABLE_TOP), GolemTabType.ABOVE, 3)
+				.init(cons, top);
+		GolemTabToken<TableGroup, ?> right = type.ordinal() >= TableTabType.CRAFT.ordinal()
+				? GolemTabRegistry.LIST_TABLE_RIGHT.get(type.ordinal() - TableTabType.CRAFT.ordinal()) : null;
+		new GolemTabManager<>(tab, new TableGroup(GolemTabRegistry.LIST_TABLE_RIGHT), GolemTabType.RIGHT, -1)
+				.init(cons, right);
 	}
 
 	private final TableTabType tab;
@@ -41,7 +47,7 @@ public class TableTab extends GolemTabBase<TableGroup, TableTab> {
 	public void onTabClicked() {
 		level = Minecraft.getInstance().level;
 		if (level == null) return;
-		if (tab.ordinal() > 1) {
+		if (tab.ordinal() >= TableTabType.CRAFT.ordinal()) {
 			lastOpened = tab;
 			time = level.getGameTime();
 		}

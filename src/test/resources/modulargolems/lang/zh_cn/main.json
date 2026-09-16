@@ -36,13 +36,17 @@
 			"slicing_enemy": "大型傀儡持此斧击杀特定目标时随机掉落一个对应材料的大型傀儡部件",
 			"slicing_golem": "大型傀儡持此斧击杀非所有者的傀儡时掉落所有部件，且每个升级有%s概率掉落",
 			"beacon_boots": "对周围的友方施加%s, %s并治疗",
+			"sub_template": "傀儡胚料数量不足",
+			"sub_material": "材料数量不足",
+			"batch_on": "批量制作：开启（Shift点击持续制作直到材料耗尽）",
+			"batch_off": "批量制作：关闭（Shift点击每次只制作一个）",
 			"no_slot": "移除这个升级会导致傀儡升级槽为负",
-			"remove_template": "扩充模版不可移除",
+			"remove_template": "扩充模板不可移除",
 			"disintegrate": "分解傀儡",
 			"return_items": "分解傀儡并返还下列物品:",
 			"return_many": "分解傀儡并返还%s个物品",
 			"fix_first": "分解前请先修复傀儡!",
-			"sub_ingot": "替换身体时，傀儡的每个扩充模版都需要额外消耗一个身体材料。当前需要:",
+			"sub_ingot": "替换身体时，傀儡的每个扩充模板都需要额外消耗一个身体材料。当前需要:",
 			"sub_slot": "替换后升级槽为负",
 			"diff_stat": "属性/技能差异",
 			"bow_stiffness": "弓强度: %s",
@@ -134,7 +138,8 @@
 			"tracker_dead": "傀儡死亡记录",
 			"tracker_retrieve": "返回玩家记录",
 			"upgrades": "傀儡升级",
-			"disintegrate": "置换/分解"
+			"disintegrate": "置换和分解",
+			"assemble": "制作和组装"
 		},
 		"slot": {
 			"main": "主手槽",
@@ -168,7 +173,29 @@
 			"player_skin": "玩家/生物/贴图皮肤",
 			"player_skin.confirm": "确认",
 			"player_skin.cancel": "取消",
-			"player_skin.hint": "输入玩家名、生物ID或资源包贴图文件路径"
+			"player_skin.hint": "输入玩家名、生物ID或资源包贴图文件路径",
+			"hint.put_golem": "放入傀儡",
+			"hint.put_template": "放入傀儡胚料",
+			"hint.put_part_mat": "放入傀儡部件或材料",
+			"hint.put_upgrade": "放入升级模板",
+			"no_upgrade": "该傀儡没有技能",
+			"skill_title": "傀儡技能/升级"
+		}
+	},
+	"item.modulargolems": {
+		"dummy_furnace": "假人熔炉",
+		"dummy_iron_consumer": "假人铁消耗器",
+		"dummy_uranium_consumer": "假人铀消耗器"
+	},
+	"potion": {
+		"potency": {
+			"10": "XI",
+			"11": "XII",
+			"5": "VI",
+			"6": "VII",
+			"7": "VIII",
+			"8": "IX",
+			"9": "X"
 		}
 	},
 	"patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",

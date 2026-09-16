@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeSort;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +13,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.function.Supplier;
 
@@ -31,6 +33,8 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	private final LinkedHashMap<IUpgradeItem, ItemStack> upgradeMap = new LinkedHashMap<>();
 	private ArrayList<ItemStack> upgradeList = new ArrayList<>();
 	private Item lastForbidTest = Items.AIR;
+
+	private static final Comparator<ItemStack> UPGRADE_SORT = UpgradeSort.itemComparator();
 
 	public GolemUpgradeItemHandler(Supplier<Slot> slot, boolean client) {
 		this.client = client;
@@ -64,6 +68,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 			else upgradeMap.get(e).grow(1);
 		}
 		upgradeList = new ArrayList<>(upgradeMap.values());
+		upgradeList.sort(UPGRADE_SORT);
 		if (!client) {
 			data[1] = upgradeList.size() / SIZE + 1;
 		}

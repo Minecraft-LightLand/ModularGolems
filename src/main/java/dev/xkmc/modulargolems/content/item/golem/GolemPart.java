@@ -46,7 +46,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	public final int count;
 
 	public GolemPart(Properties props, Supplier<? extends GolemType<T, P>> type, P part, int count) {
-		super(props.stacksTo(1));
+		super(props.stacksTo(16));
 		this.type = type;
 		this.part = part;
 		this.count = count;

@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.table;
 
+import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -39,7 +40,12 @@ public class OpenTableMenuToServer extends SerialPacketBase {
 		menu.setCarried(stack);
 		if (!golem.isEmpty()) {
 			if (menu instanceof ITableMenu table) {
-				table.getMainSlot().set(golem);
+				var target = table.getMainSlot();
+				if (target instanceof PredSlot ps && !ps.mayPlace(golem)) {
+					player.getInventory().placeItemBackInInventory(golem);
+				} else {
+					table.getMainSlot().set(golem);
+				}
 			} else {
 				player.getInventory().placeItemBackInInventory(golem);
 			}

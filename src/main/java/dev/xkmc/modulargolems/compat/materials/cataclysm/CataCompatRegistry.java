@@ -186,6 +186,12 @@ public class CataCompatRegistry {
 					.addOptional(MONSTROSITY_CHESTPLATE.getId())
 					.addOptional(MONSTROSITY_SHINGUARD.getId())
 			);
+			MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+					.addOptional(LEVIATHAN.getId())
+					.addOptional(ENDER_GUARDIAN.getId())
+					.addOptional(MONSTROSITY.getId())
+					.addOptional(ANCIENT_REMNANT.getId())
+					.addOptional(SCYLLA.getId()));
 		}
 	}
 

@@ -23,6 +23,8 @@ public class GolemTabRegistry {
 	public static final List<GolemTabToken<EquipmentGroup, ?>> LIST_EQUIPMENT = new ArrayList<>();
 	public static final List<GolemTabToken<TrackerGroup, ?>> LIST_TRACKER = new ArrayList<>();
 	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE = new ArrayList<>();
+	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE_TOP = new ArrayList<>();
+	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE_RIGHT = new ArrayList<>();
 
 	public static final GolemTabToken<ConfigGroup, ConfigToggleTab> CONFIG_TOGGLE =
 			new GolemTabToken<>(ConfigToggleTab::new, GolemItems.CARD[0]::get, MGLangData.TAB_TOGGLE.get());
@@ -49,6 +51,8 @@ public class GolemTabRegistry {
 	public static final GolemTabToken<TrackerGroup, TrackerTab> TRACKER_RETRIEVE =
 			new GolemTabToken<>(TrackerTab.Type.RETRIEVE::create, GolemItems.RETRIEVAL_WAND::get, MGLangData.TAB_RETRIEVE.get());
 
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_ASSEMBLE =
+			new GolemTabToken<>(TableTab.from(TableTabType.ASSEMBLE), GolemItems.GOLEM_TEMPLATE::get, TableTabType.ASSEMBLE.getDisplayName());
 	public static final GolemTabToken<TableGroup, TableTab> TABLE_UPGRADE =
 			new GolemTabToken<>(TableTab.from(TableTabType.UPGRADE), GolemItems.EMPTY_UPGRADE, TableTabType.UPGRADE.getDisplayName());
 	public static final GolemTabToken<TableGroup, TableTab> TABLE_DISINTEGRATE =
@@ -74,6 +78,7 @@ public class GolemTabRegistry {
 		LIST_TRACKER.add(TRACKER_ALIVE);
 		LIST_TRACKER.add(TRACKER_DEAD);
 		LIST_TRACKER.add(TRACKER_RETRIEVE);
+		LIST_TABLE.add(TABLE_ASSEMBLE);
 		LIST_TABLE.add(TABLE_DISINTEGRATE);
 		LIST_TABLE.add(TABLE_UPGRADE);
 		LIST_TABLE.add(TABLE_CRAFT);
@@ -81,6 +86,14 @@ public class GolemTabRegistry {
 		LIST_TABLE.add(TABLE_ANVIL);
 		LIST_TABLE.add(TABLE_SMITHING);
 		LIST_TABLE.add(TABLE_GRINDSTONE);
+		LIST_TABLE_TOP.add(TABLE_ASSEMBLE);
+		LIST_TABLE_TOP.add(TABLE_DISINTEGRATE);
+		LIST_TABLE_TOP.add(TABLE_UPGRADE);
+		LIST_TABLE_RIGHT.add(TABLE_CRAFT);
+		LIST_TABLE_RIGHT.add(TABLE_STONECUTTER);
+		LIST_TABLE_RIGHT.add(TABLE_ANVIL);
+		LIST_TABLE_RIGHT.add(TABLE_SMITHING);
+		LIST_TABLE_RIGHT.add(TABLE_GRINDSTONE);
 	}
 
 }

@@ -13,6 +13,8 @@ import dev.xkmc.modulargolems.content.menu.filter.ItemConfigMenu;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigMenu;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
+import dev.xkmc.modulargolems.content.menu.table.GolemAssembleMenu;
+import dev.xkmc.modulargolems.content.menu.table.GolemAssembleScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
@@ -65,6 +67,10 @@ public class GolemMiscs {
 
 	public static final MenuEntry<GolemDisintegrateMenu> DISINTEGRATE =
 			REGISTRATE.menu("disintegrate", GolemDisintegrateMenu::fromNetwork, () -> GolemDisinegrateScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemAssembleMenu> ASSEMBLE_MENU =
+			REGISTRATE.menu("assemble", GolemAssembleMenu::fromNetwork, () -> GolemAssembleScreen::new)
 					.register();
 
 	private static <A extends RecipeSerializer<?>> RegistryEntry<A> reg(String id, NonNullSupplier<A> sup) {

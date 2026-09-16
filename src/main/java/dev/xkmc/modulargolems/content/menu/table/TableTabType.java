@@ -20,6 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 public enum TableTabType implements MenuProvider {
+	ASSEMBLE(MGLangData.TAB_ASSEMBLE, GolemMiscs.ASSEMBLE_MENU),
 	DISINTEGRATE(MGLangData.TAB_DISINTEGRATE, GolemMiscs.DISINTEGRATE),
 	UPGRADE(MGLangData.TAB_UPGRADES, GolemMiscs.UPGRADES),
 	CRAFT(MenuType.CRAFTING, Items.CRAFTING_TABLE, CraftingMenu::new, "container.crafting"),

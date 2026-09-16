@@ -84,12 +84,9 @@ public class GolemUpgradeMenu extends BaseContainerMenu<GolemUpgradeMenu> implem
 		} else {
 			if (!moveItemStackTo(stack, 36, 37, false)) {
 				for (int i = 37; i < slots.size(); i++) {
-					var slotStack = slots.get(i).getItem();
-					if (slotStack.isEmpty() || ItemStack.isSameItemSameTags(slotStack, stack)) {
-						if (handler.insertItem(i - 37, stack.copyWithCount(1), false).isEmpty()) {
-							stack.shrink(1);
-							break;
-						}
+					if (handler.insertItem(i - 37, stack.copyWithCount(1), false).isEmpty()) {
+						stack.shrink(1);
+						break;
 					}
 				}
 			}

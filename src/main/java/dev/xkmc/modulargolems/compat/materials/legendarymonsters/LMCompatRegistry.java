@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 
+import com.bobmowzie.mowziesmobs.server.item.ItemHandler;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.RootPercAttackModifier;
@@ -16,10 +17,12 @@ import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.Phantom
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.SoulSpikeModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.world.item.Item;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
+import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.THUNDER_IMMUNE;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class LMCompatRegistry {
@@ -98,6 +101,12 @@ public class LMCompatRegistry {
 	}
 
 	public static void register() {
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+				.addOptional(UPGRADE_THUNDER.getId())
+				.addOptional(UPGRADE_ANNIHILATION_BOMB.getId())
+				.addOptional(UPGRADE_ANNIHILATION_PLASMA.getId())
+				.addOptional(UPGRADE_PALADIN_SOUL_BLADE.getId())
+				.addOptional(UPGRADE_PALADIN_SOUL_SHIELD.getId()));
 	}
 
 }
