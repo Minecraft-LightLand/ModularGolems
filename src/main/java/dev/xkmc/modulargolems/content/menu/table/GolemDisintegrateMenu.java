@@ -53,6 +53,8 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 
 	private boolean changing = false;
 
+	protected boolean simpleMode = false;
+
 	public GolemDisintegrateMenu(MenuType<?> type, int wid, Inventory plInv) {
 		super(type, wid, plInv, MANAGER, e -> new BaseContainer<>(7, e), true);
 		sprite.get().getSlot("golem", (x, y) -> new MainSlot(container, added++, x, y), this::addSlot);
@@ -90,6 +92,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	@Override
 	public boolean clickMenuButton(Player player, int id) {
 		if (id == 1) {
+			if (simpleMode) return false;
 			var input = main.getItem();
 			if (!(input.getItem() instanceof GolemHolder<?, ?> holder)) return false;
 			if (!holder.getEntityType().mayEdit(input)) return false;
@@ -196,7 +199,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			changing = true;
 			for (var e : partSlots) {
 				if (!e.getItem().isEmpty())
-					e.set(e.partShadow);
+					e.set(simpleMode ? ItemStack.EMPTY : e.partShadow);
 			}
 			if (!extra.getItem().isEmpty()) {
 				extra.getItem().shrink(extra.count);

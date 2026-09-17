@@ -151,6 +151,7 @@ public enum MGLangData {
 
 	TAB_UPGRADES("tab.upgrades", "Golem Upgrades", 0, null),
 	TAB_DISINTEGRATE("tab.disintegrate", "Substitute & Disassemble", 0, null),
+	TAB_DISINTEGRATE_SIMPLE("tab.disintegrate_simple", "Part Substitute", 0, null),
 	TAB_ASSEMBLE("tab.assemble", "Craft & Assemble", 0, null),
 	UI_BATCH_ON("tooltip.batch_on", "Batch Craft: ON (Shift-click crafts until materials are used up)", 0, null),
 	UI_BATCH_OFF("tooltip.batch_off", "Batch Craft: OFF (Shift-click crafts one at a time)", 0, null),
@@ -164,6 +165,7 @@ public enum MGLangData {
 	UI_SUB_TEMPLATE("tooltip.sub_template", "Insufficient golem templates", 0, ChatFormatting.RED),
 	UI_SUB_MAT("tooltip.sub_material", "Insufficient material", 0, ChatFormatting.RED),
 	UI_NO_SLOT("tooltip.no_slot", "Removing this upgrade will result in insufficient slot", 0, ChatFormatting.RED),
+	UI_SIMPLE_NO_TAKE("tooltip.no_take_upgrade", "This table does not allow removing upgrades", 0, ChatFormatting.RED),
 	UI_REMOVE_TEMPLATE("tooltip.remove_template", "Upgrade Template cannot be removed here", 0, ChatFormatting.RED),
 	UI_DISINTEGRATE("tooltip.disintegrate", "Disassemble the Golem", 0, null),
 	UI_RETURN_ITEMS("tooltip.return_items", "Returns the following items on disassembly:", 0, null),

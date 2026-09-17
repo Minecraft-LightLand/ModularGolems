@@ -13,6 +13,9 @@ import dev.xkmc.modulargolems.content.menu.filter.ItemConfigMenu;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigMenu;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
+import dev.xkmc.modulargolems.content.menu.table.SimpleAssembleMenu;
+import dev.xkmc.modulargolems.content.menu.table.SimpleDisintegrateMenu;
+import dev.xkmc.modulargolems.content.menu.table.SimpleUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.GolemAssembleMenu;
 import dev.xkmc.modulargolems.content.menu.table.GolemAssembleScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
@@ -71,6 +74,24 @@ public class GolemMiscs {
 
 	public static final MenuEntry<GolemAssembleMenu> ASSEMBLE_MENU =
 			REGISTRATE.menu("assemble", GolemAssembleMenu::fromNetwork, () -> GolemAssembleScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemUpgradeMenu> SIMPLE_UPGRADE =
+			REGISTRATE.menu("simple_upgrade",
+					(type, wid, inv, buf) -> new SimpleUpgradeMenu(type, wid, inv),
+					() -> GolemUpgradeScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemDisintegrateMenu> SIMPLE_DISINTEGRATE =
+			REGISTRATE.menu("simple_disintegrate",
+					(type, wid, inv, buf) -> new SimpleDisintegrateMenu(type, wid, inv),
+					() -> GolemDisinegrateScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemAssembleMenu> SIMPLE_ASSEMBLE =
+			REGISTRATE.menu("simple_assemble",
+					(type, wid, inv, buf) -> new SimpleAssembleMenu(type, wid, inv),
+					() -> GolemAssembleScreen::new)
 					.register();
 
 	private static <A extends RecipeSerializer<?>> RegistryEntry<A> reg(String id, NonNullSupplier<A> sup) {

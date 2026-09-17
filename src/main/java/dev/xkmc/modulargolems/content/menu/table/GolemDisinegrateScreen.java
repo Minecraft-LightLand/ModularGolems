@@ -91,8 +91,9 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		boolean mayBreak = !input.isEmpty() && input.getItem() instanceof GolemHolder<?, ?> holder && holder.getEntityType().mayEdit(input);
 		for (var e : menu.partSlots)
 			mayBreak &= e.getItem().isEmpty();
-		disintegrate.visible = mayBreak;
-		if (mayBreak) {
+		boolean showDisassemble = mayBreak && !(menu instanceof SimpleDisintegrateMenu);
+		disintegrate.visible = showDisassemble;
+		if (showDisassemble) {
 			float max = GolemHolder.getMaxHealth(input);
 			float health = GolemHolder.getHealth(input);
 			int reforge = GolemHolder.getReforge(input);
@@ -101,7 +102,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 				buttonError = MGLangData.UI_FIX_FIRST.get();
 			}
 		}
-		disintegrate.active = mayBreak;
+		disintegrate.active = showDisassemble;
 		var result = menu.result.getItem();
 		if (result.isEmpty())
 			result = menu.result.output;

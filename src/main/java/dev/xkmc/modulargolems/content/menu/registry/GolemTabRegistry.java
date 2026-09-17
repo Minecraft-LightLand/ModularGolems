@@ -24,7 +24,9 @@ public class GolemTabRegistry {
 	public static final List<GolemTabToken<TrackerGroup, ?>> LIST_TRACKER = new ArrayList<>();
 	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE = new ArrayList<>();
 	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE_TOP = new ArrayList<>();
+	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE_TOP_SIMPLE = new ArrayList<>();
 	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE_RIGHT = new ArrayList<>();
+	public static final List<GolemTabToken<TableGroup, ?>> LIST_TABLE_SIMPLE_RIGHT = new ArrayList<>();
 
 	public static final GolemTabToken<ConfigGroup, ConfigToggleTab> CONFIG_TOGGLE =
 			new GolemTabToken<>(ConfigToggleTab::new, GolemItems.CARD[0]::get, MGLangData.TAB_TOGGLE.get());
@@ -57,6 +59,8 @@ public class GolemTabRegistry {
 			new GolemTabToken<>(TableTab.from(TableTabType.UPGRADE), GolemItems.EMPTY_UPGRADE, TableTabType.UPGRADE.getDisplayName());
 	public static final GolemTabToken<TableGroup, TableTab> TABLE_DISINTEGRATE =
 			new GolemTabToken<>(TableTab.from(TableTabType.DISINTEGRATE), GolemItems.SLICING_AXE::get, TableTabType.DISINTEGRATE.getDisplayName());
+	public static final GolemTabToken<TableGroup, TableTab> TABLE_DISINTEGRATE_SIMPLE =
+			new GolemTabToken<>(TableTab.fromSimple(TableTabType.DISINTEGRATE), GolemItems.SLICING_AXE::get, MGLangData.TAB_DISINTEGRATE_SIMPLE.get());
 	public static final GolemTabToken<TableGroup, TableTab> TABLE_CRAFT =
 			new GolemTabToken<>(TableTab.from(TableTabType.CRAFT), () -> Items.CRAFTING_TABLE, TableTabType.CRAFT.getDisplayName());
 	public static final GolemTabToken<TableGroup, TableTab> TABLE_STONECUTTER =
@@ -89,11 +93,18 @@ public class GolemTabRegistry {
 		LIST_TABLE_TOP.add(TABLE_ASSEMBLE);
 		LIST_TABLE_TOP.add(TABLE_DISINTEGRATE);
 		LIST_TABLE_TOP.add(TABLE_UPGRADE);
+		LIST_TABLE_TOP_SIMPLE.add(TABLE_ASSEMBLE);
+		LIST_TABLE_TOP_SIMPLE.add(TABLE_DISINTEGRATE_SIMPLE);
+		LIST_TABLE_TOP_SIMPLE.add(TABLE_UPGRADE);
 		LIST_TABLE_RIGHT.add(TABLE_CRAFT);
 		LIST_TABLE_RIGHT.add(TABLE_STONECUTTER);
 		LIST_TABLE_RIGHT.add(TABLE_ANVIL);
 		LIST_TABLE_RIGHT.add(TABLE_SMITHING);
 		LIST_TABLE_RIGHT.add(TABLE_GRINDSTONE);
+		LIST_TABLE_SIMPLE_RIGHT.add(TABLE_CRAFT);
+		LIST_TABLE_SIMPLE_RIGHT.add(TABLE_STONECUTTER);
+		LIST_TABLE_SIMPLE_RIGHT.add(TABLE_SMITHING);
+		LIST_TABLE_SIMPLE_RIGHT.add(TABLE_GRINDSTONE);
 	}
 
 }

@@ -236,7 +236,10 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 					return;
 				}
 				if (!hoveredSlot.mayPickup(menu.inventory.player)) {
-					g.renderTooltip(font, List.of(MGLangData.UI_NO_SLOT.get()), Optional.empty(), stack, x, y);
+					var msg = menu instanceof SimpleUpgradeMenu
+							? MGLangData.UI_SIMPLE_NO_TAKE.get()
+							: MGLangData.UI_NO_SLOT.get();
+					g.renderTooltip(font, List.of(msg), Optional.empty(), stack, x, y);
 					return;
 				}
 			}

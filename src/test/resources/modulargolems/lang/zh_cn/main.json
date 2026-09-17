@@ -41,6 +41,7 @@
 			"batch_on": "批量制作：开启（Shift点击持续制作直到材料耗尽）",
 			"batch_off": "批量制作：关闭（Shift点击每次只制作一个）",
 			"no_slot": "移除这个升级会导致傀儡升级槽为负",
+			"no_take_upgrade": "此装配台无法取出升级",
 			"remove_template": "扩充模板不可移除",
 			"disintegrate": "分解傀儡",
 			"return_items": "分解傀儡并返还下列物品:",
@@ -139,6 +140,7 @@
 			"tracker_retrieve": "返回玩家记录",
 			"upgrades": "傀儡升级",
 			"disintegrate": "置换和分解",
+			"disintegrate_simple": "部件替换",
 			"assemble": "制作和组装"
 		},
 		"slot": {

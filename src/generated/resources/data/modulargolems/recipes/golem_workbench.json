@@ -18,7 +18,7 @@
       "item": "minecraft:redstone"
     },
     "T": {
-      "item": "minecraft:smithing_table"
+      "item": "modulargolems:golem_workbench_simple"
     }
   },
   "pattern": [

@@ -24,6 +24,8 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	private final boolean client;
 	private final Supplier<Slot> parent;
 
+	public boolean allowExtract = true;
+
 	public ItemStack golem = ItemStack.EMPTY;
 	public int[] data = new int[]{0, 1};
 	public int modification = 0;
@@ -144,7 +146,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
 	@Override
 	public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-		if (holderItem == null) return ItemStack.EMPTY;
+		if (!allowExtract || holderItem == null) return ItemStack.EMPTY;
 		var stack = getStackInSlot(slot);
 		if (stack.isEmpty() || !(stack.getItem() instanceof UpgradeItem item)) return ItemStack.EMPTY;
 		var ans = removeUpgrade(item);
