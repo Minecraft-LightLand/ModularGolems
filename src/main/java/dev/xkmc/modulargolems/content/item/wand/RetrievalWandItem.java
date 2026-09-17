@@ -51,7 +51,7 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 		return attemptRetrieve(target.level(), user, Wrappers.cast(golem)) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 	}
 
-	private static boolean attemptRetrieve(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
+	public static boolean attemptRetrieve(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
 		if (!golem.canWandModify(user)) return false;
 		if (!(user instanceof ServerPlayer sp)) return true;

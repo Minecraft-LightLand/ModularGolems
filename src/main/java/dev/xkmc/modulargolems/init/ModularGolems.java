@@ -75,6 +75,7 @@ public class ModularGolems {
 			e -> e.create(TrackerSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(TrackerHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(TrackerDeleteToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(TrackerRecallToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ReforgeUpdatePacket.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(GuardedEntity.GuardedDataToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(DogSkillToServer.class, NetworkDirection.PLAY_TO_SERVER),

@@ -30,6 +30,7 @@
 			"team_up": "傀儡会跟随队长",
 			"wander": "自由行动",
 			"wandering": "傀儡会自由随机移动",
+			"recall": "回收傀儡",
 			"modifier": "总计%s个技能，%s个升级",
 			"craft_material": "傀儡制作材料",
 			"repair_material": "傀儡修补材料",
@@ -100,6 +101,7 @@
 			"call_attack": "%s个傀儡将会攻击%s",
 			"summon_failed": "召唤%s失败，因为目标地点太远",
 			"summon_far": "将%s召唤于(%s,%s,%s)",
+			"recall_fail": "找不到该傀儡，无法召回",
 			"add_target": "已将%s加入过滤器",
 			"remove_target": "已将%s移除过滤器"
 		},
