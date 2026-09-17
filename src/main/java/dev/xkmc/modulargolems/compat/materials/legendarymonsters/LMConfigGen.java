@@ -80,6 +80,7 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(LMCompatRegistry.PHANTOM_DAGGER.get(), 1)
 				.addModifier(LMCompatRegistry.SOUL_SPIKE.get(), 1)
 				.addModifier(LMCompatRegistry.PALADIN_SOUL_BLADE_LEAP.get(),1)
+				.addModifier(LMCompatRegistry.PALADIN_SOUL_SHIELD.get(),1)
 				.end()
 		);
 	}

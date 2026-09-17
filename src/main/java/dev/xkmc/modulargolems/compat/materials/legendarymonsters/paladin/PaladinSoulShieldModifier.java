@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin;
 
+import dev.xkmc.cataclysm_mux.MWCataProxy;
+import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.core.GolemType;
@@ -11,6 +13,8 @@ import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+
 import java.util.function.Consumer;
 
 /**
@@ -19,10 +23,10 @@ import java.util.function.Consumer;
  * 红色变色：当 golem 血量低于最大值 65% 时变红。
  * 推荐大型傀儡 (TYPE_GOLEM) 与下肢 (MOVEMENT) 部件。
  */
-public class PaladinSoulShieldModifier extends GolemModifier implements EarthquakeHelper.Modifier {
+public class PaladinSoulShieldModifier extends GolemModifier {
 
 	public PaladinSoulShieldModifier() {
-		super(StatFilterType.MOVEMENT, 1);
+		super(StatFilterType.HEALTH, 1);
 	}
 
 	@Override
@@ -30,34 +34,21 @@ public class PaladinSoulShieldModifier extends GolemModifier implements Earthqua
 		addFlag.accept(GolemFlags.EARTH_QUAKE);
 	}
 
-//	@Override
-//	public boolean fitsOn(GolemType<?, ?> type) {
-//		return type == GolemTypes.TYPE_GOLEM.get();
-//	}
+	@Override
+	public void onDamaged(AbstractGolemEntity<?, ?> golem, LivingDamageEvent event, int level) {
+		var attacker = event.getSource().getEntity();
+		if (!(attacker instanceof LivingEntity le)) return;
+		// 此处仿ScyllaWaveAttackModifier
+		long time = golem.level().getGameTime();
+		var last = golem.getPersistentData().getLong("SoulShieldTime");
+		if (last < time && last > time - 40) return;
+		golem.getPersistentData().putLong("SoulShieldTime", time);
+		LMProxy.spawnPaladinSoulShield(golem,level);
+	}
 
 	@Override
 	public boolean canExistOn(GolemPart<?, ?> part) {
 		return part.getEntityType() == GolemTypes.TYPE_GOLEM.get() && super.canExistOn(part);
-	}
+    }
 
-	@Override
-	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
-		LMProxy.spawnPaladinSoulShield(golem,level);
-		if (golem.level() instanceof ServerLevel sl) {
-			var list = LMProxy.stun(sl, golem.getX(), golem.getY(), golem.getZ(), golem, 5.0f, level * 2);
-			for (var e : list) {
-				EarthquakeHelper.launch(golem, e, 1.5f);
-			}
-		}
-	}
-
-	@Override
-	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
-		return 36.0; // 6 block range for shield
-	}
-
-	@Override
-	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
-		return 200;
-	}
 }
