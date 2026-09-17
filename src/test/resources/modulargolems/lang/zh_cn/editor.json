@@ -70,7 +70,7 @@
 			"select_part": "选择部件",
 			"select_entity": "选择实体类型",
 			"filters": "过滤器 (%s)",
-			"magnifiers": "放大属性 (%s)",
+			"magnifiers": "属性倍率 (%s)",
 			"no_materials": "未加载材料。请先打开世界",
 			"material": "材料"
 		}

@@ -124,7 +124,7 @@ public class CataCompatRegistry {
 		STORM_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "storm_construct", CraftMaterialItem::new);
 
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
-				"When target is faraway, shoot Ignis fireballs toward target.");
+				"Shoot Ignis fireballs toward target.");
 
 		IGNIS_JUMP = reg("ignis_jump", () -> new IgnisJumpModifier(StatFilterType.MOVEMENT, 1),
 				"Flame Strike", "Jump toward target. On landing, perform flame strike on all nearby targets.");
@@ -133,10 +133,10 @@ public class CataCompatRegistry {
 				"Blazing Brand", "Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");
 
 		HARBINGER_BEAM = reg("harbinger_death_beam", () -> new HarbingerDeathBeamModifier(StatFilterType.HEAD, 1),
-				"When target is faraway, shoot Death Beam toward target.");
+				"Shoot Death Beam toward target.");
 
 		HARBINGER_MISSILE = reg("harbinger_missile", () -> new HarbingerHomingMissileModifier(StatFilterType.ATTACK, 2),
-				"When target is faraway, shoot Homing Missile toward target.");
+				"Shoot Homing Missile toward target.");
 
 		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "Ccreate blast portal at target position. Attacks multiple targets");
 		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon vortex and void rune toward multiple targets");
