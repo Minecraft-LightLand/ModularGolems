@@ -37,5 +37,7 @@ public class MowzieCompatRegistry {
 						.addOptional(ItemHandler.WROUGHT_AXE.getId())
 						.addOptional(ItemHandler.WROUGHT_HELMET.getId())
 		);
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+				.addOptional(UPGRADE_SLAM.getId()));
 	}
 }

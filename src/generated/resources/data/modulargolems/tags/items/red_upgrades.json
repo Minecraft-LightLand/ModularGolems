@@ -1,0 +1,66 @@
+{
+  "values": [
+    {
+      "id": "modulargolems:steeleaf",
+      "required": false
+    },
+    {
+      "id": "modulargolems:fiery",
+      "required": false
+    },
+    {
+      "id": "modulargolems:push",
+      "required": false
+    },
+    {
+      "id": "modulargolems:attack_high",
+      "required": false
+    },
+    {
+      "id": "modulargolems:leviathan_blast_portal",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ender_guardian_void_rune",
+      "required": false
+    },
+    {
+      "id": "modulargolems:netherite_monstrosity_earthquake",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ancient_remnant_sandstorm",
+      "required": false
+    },
+    {
+      "id": "modulargolems:scylla_lightning_upgrade",
+      "required": false
+    },
+    {
+      "id": "modulargolems:wroughtnaut",
+      "required": false
+    },
+    {
+      "id": "modulargolems:thunderstorm",
+      "required": false
+    },
+    {
+      "id": "modulargolems:annihilation_bomb",
+      "required": false
+    },
+    {
+      "id": "modulargolems:annihilation_plasma",
+      "required": false
+    },
+    {
+      "id": "modulargolems:soul_blade",
+      "required": false
+    },
+    {
+      "id": "modulargolems:soul_shield",
+      "required": false
+    },
+    "modulargolems:quartz",
+    "modulargolems:emerald"
+  ]
+}

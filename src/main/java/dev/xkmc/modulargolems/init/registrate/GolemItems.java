@@ -9,6 +9,7 @@ import com.tterrag.registrate.util.nullness.NonNullFunction;
 import dev.xkmc.l2library.base.L2Registrate;
 import dev.xkmc.l2screentracker.init.L2STTagGen;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.block.SimpleTableBlock;
 import dev.xkmc.modulargolems.content.block.TableBlock;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
@@ -36,6 +37,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import java.util.function.Supplier;
@@ -56,6 +58,7 @@ public class GolemItems {
 	}
 
 	public static final BlockEntry<TableBlock> TABLE;
+	public static final BlockEntry<SimpleTableBlock> SIMPLE_TABLE;
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
 
@@ -114,6 +117,20 @@ public class GolemItems {
 						.texture("middle", pvd.modLoc("block/table_middle"))
 						.texture("bottom", pvd.modLoc("block/table_bottom"))
 						.texture("particle", pvd.modLoc("block/table_particle"))
+				)).tag(BlockTags.MINEABLE_WITH_PICKAXE)
+				.item().tag(L2STTagGen.QUICK_ACCESS_VANILLA).build()
+				.register();
+
+		SIMPLE_TABLE = REGISTRATE.block("golem_workbench_simple", SimpleTableBlock::new)
+				.initialProperties(() -> Blocks.ANVIL)
+				.properties(p -> p.sound(SoundType.STONE))
+				.blockstate((ctx, pvd) -> pvd.simpleBlock(ctx.get(), pvd.models()
+						.getBuilder("block/" + ctx.getName())
+						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc("custom/table")))
+						.texture("top", pvd.modLoc("block/simple_table_top"))
+						.texture("middle", pvd.modLoc("block/simple_table_middle"))
+						.texture("bottom", pvd.modLoc("block/simple_table_bottom"))
+						.texture("particle", pvd.modLoc("block/simple_table_particle"))
 				)).tag(BlockTags.MINEABLE_WITH_PICKAXE)
 				.item().tag(L2STTagGen.QUICK_ACCESS_VANILLA).build()
 				.register();

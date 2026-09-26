@@ -89,6 +89,10 @@ public class CreateCompatRegistry {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(TagGen.SKILL_EFFECT)
 					.addOptional(EFF_MOBILE.getId()).addOptional(EFF_FORCE.getId()));
 		}
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+				.addOptional(UP_PUSH.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.GREEN_UPGRADES)
+				.addOptional(UP_COATING.getId()));
 	}
 
 	public static ResourceLocation loc(String id) {

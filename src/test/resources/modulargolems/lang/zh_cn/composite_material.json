@@ -15,7 +15,7 @@
     "primitive_blast": "荒古之力",
     "primitive_blast.desc": "提升生命值上限%s%%的攻击伤害",
     "primitive_curse": "荒古诅咒",
-    "primitive_curse.desc": "受到的伤害减少%1$s%%，但升级槽%2$s",
+    "primitive_curse.desc": "受到的伤害减少%1$s%%，但减少%2$s个升级槽",
     "resonant_attack": "共鸣震慑",
     "resonant_attack.desc": "造成伤害后，对%1$s格内的同种目标追加造成原伤害%2$s%%的魔法伤害",
     "resonant_heal": "生声不息",
