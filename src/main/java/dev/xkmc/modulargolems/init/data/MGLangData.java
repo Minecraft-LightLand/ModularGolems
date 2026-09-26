@@ -112,6 +112,8 @@ public enum MGLangData {
 	NO_CONFIG("config.no", "No config card assigned", 0, ChatFormatting.GRAY),
 	SUMMON_FAILED("msg.summon_failed", "Failed to summon %s, as target position is too far", 1, ChatFormatting.RED),
 	SUMMON_FAR("msg.summon_far", "Summoned %s, at (%s,%s,%s)", 4, ChatFormatting.GOLD),
+	RECALL_FAIL("msg.recall_fail", "Golem not found or cannot be recalled now", 0, ChatFormatting.RED),
+	RECALL("tooltip.recall", "Recall Golem", 0, null),
 
 	SLOT_MAIN("slot.main", "Main Hand Slot", 0, ChatFormatting.YELLOW),
 	SLOT_OFF("slot.off", "Off Hand Slot", 0, ChatFormatting.YELLOW),
