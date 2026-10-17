@@ -32,9 +32,15 @@ public class MonstrosityArmorItem extends MetalGolemArmorItem {
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
-		list.add(MGLangData.MONSTROSITY_BOOST
-				.get(Math.round(MGConfig.COMMON.earthquakeArmorBonus.get() * 100) + "%")
-				.withStyle(ChatFormatting.GOLD));
+		// 胸甲加成所有冲锋技能，头盔与护腿仍加成地震
+		switch (getSlot()) {
+			case CHEST -> list.add(MGLangData.MONSTROSITY_BOOST_CHARGE
+					.get(Math.round(MGConfig.COMMON.monstrosityChargeBonus.get() * 100) + "%")
+					.withStyle(ChatFormatting.GOLD));
+			case HEAD, LEGS -> list.add(MGLangData.MONSTROSITY_BOOST
+					.get(Math.round(MGConfig.COMMON.earthquakeArmorBonus.get() * 100) + "%")
+					.withStyle(ChatFormatting.GOLD));
+		}
 	}
 
 	@Override

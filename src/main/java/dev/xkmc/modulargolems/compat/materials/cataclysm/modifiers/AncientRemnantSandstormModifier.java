@@ -8,7 +8,6 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import java.util.function.BiConsumer;
 
@@ -20,14 +19,8 @@ public class AncientRemnantSandstormModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new AncientRemnantSandstormAttackGoal(entity, lv));
-	}
-
-	@Override
-	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
-		if (GolemCataProxy.isSandstorm(event.getSource())) {
-			event.getEntity().invulnerableTime = 0;
-		}
+		addGoal.accept(5, new AncientRemnantSandstormAttackGoal(entity, lv).withName(this.getDescriptionId()));
+		addGoal.accept(6, new AncientRemnantSandstormTrackGoal(entity));
 	}
 
 	@Override

@@ -42,6 +42,7 @@
 			"batch_on": "批量制作：开启（Shift点击持续制作直到材料耗尽）",
 			"batch_off": "批量制作：关闭（Shift点击每次只制作一个）",
 			"no_slot": "移除这个升级会导致傀儡升级槽为负",
+			"skill_ignore_health": "%s无视生命值要求",
 			"no_take_upgrade": "此装配台无法取出升级",
 			"remove_template": "扩充模板不可移除",
 			"disintegrate": "分解傀儡",
@@ -108,7 +109,13 @@
 			"summon_far": "将%s召唤于(%s,%s,%s)",
 			"recall_fail": "找不到该傀儡，无法召回",
 			"add_target": "已将%s加入过滤器",
-			"remove_target": "已将%s移除过滤器"
+			"remove_target": "已将%s移除过滤器",
+			"skill_cd": "技能冷却:",
+			"skill_cd_line": "- %s: %s秒",
+			"ride.jump_cd": "跳跃: %s秒",
+			"ride.jump_ready": "跳跃技能就绪！",
+			"ride.charge_cd": "冲锋: %s秒",
+			"ride.charge_ready": "冲锋技能就绪！"
 		},
 		"config": {
 			"loading": "加载中...",

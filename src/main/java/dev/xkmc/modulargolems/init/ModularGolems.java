@@ -14,6 +14,8 @@ import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.*;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
+import dev.xkmc.modulargolems.content.entity.common.GolemSkillCDRequest;
+import dev.xkmc.modulargolems.content.entity.common.GolemSkillCDToClient;
 import dev.xkmc.modulargolems.content.entity.common.GuardedEntity;
 import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
 import dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer;
@@ -65,7 +67,7 @@ public class ModularGolems {
 	public static final IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
 
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(ModularGolems.MODID, "main"), 5,
+			new ResourceLocation(ModularGolems.MODID, "main"), 6,
 			e -> e.create(ConfigSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(ConfigUpdateToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ConfigHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
@@ -82,7 +84,9 @@ public class ModularGolems {
 			e -> e.create(DogSkillToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(GolemSetModeToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(SetMaidModelToServer.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER)
+			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(GolemSkillCDToClient.class, NetworkDirection.PLAY_TO_CLIENT),
+			e -> e.create(GolemSkillCDRequest.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
@@ -92,6 +96,7 @@ public class ModularGolems {
 
 	private static void registerRegistrates() {
 		GolemItems.register();
+		GolemParticles.register();
 		GolemTypes.register();
 		GolemMiscs.register();
 		GolemMiscEntities.register();

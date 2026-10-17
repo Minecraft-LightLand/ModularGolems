@@ -92,7 +92,7 @@ jar {
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "xkmc",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'MixinConfigs'            : "${modid}.mixins.json"
+                'MixinConfigs'            : ["${modid}.mixins.json"]
         ])
     }
 }
@@ -217,14 +217,14 @@ dependencies {
         jarJar.ranged(it, "[0.3.7,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.23")) {
+    implementation fg.deobf(jarJar("dev.xkmc.mob_weapon_api:mob_weapon_api:0.2.24")) {
         transitive = false
-        jarJar.ranged(it, "[0.2.23,)")
+        jarJar.ranged(it, "[0.2.24,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.cataclysm_mux:cataclysm_mux:0.0.6")) {
+    implementation fg.deobf(jarJar("dev.xkmc.cataclysm_mux:cataclysm_mux:0.0.7")) {
         transitive = false
-        jarJar.ranged(it, "[0.0.6,)")
+        jarJar.ranged(it, "[0.0.7,)")
     }
 
     implementation fg.deobf("dev.xkmc.l2backpack:l2backpack:2.5.7-slim")
@@ -295,6 +295,13 @@ dependencies {
     implementation fg.deobf("curse.maven:composite-material-982540:6310307")
     //compileOnly fg.deobf("local.zip:RevelationFix:1.20.1")
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
+    runtimeOnly fg.deobf("curse.maven:powerful-dummy-1276893:8876874")
+    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
+    runtimeOnly fg.deobf("curse.maven:ixeris-1285307:8939527")
+//    runtimeOnly fg.deobf("curse.maven:ferritecore-429235:4810975")
+    runtimeOnly fg.deobf("curse.maven:config-menus-forge-544048:4672356")
+    runtimeOnly fg.deobf("curse.maven:catalogue-459701:4766090")
+//    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:5729105")
 
     implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
     implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}")

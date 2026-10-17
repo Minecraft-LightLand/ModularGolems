@@ -30,11 +30,22 @@ import dev.xkmc.modulargolems.content.recipe.GolemSmithAddSlotRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.loot.DropPartModifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemMiscs {
+
+	public static final RegistryEntry<SoundEvent> MAN = regSound("man");
+	public static final RegistryEntry<SoundEvent> MANBA = regSound("manba");
+	public static final RegistryEntry<SoundEvent> WHATCANISAY = regSound("whatcanisay");
+	public static final RegistryEntry<SoundEvent> CRASH = regSound("crash");
+
+	private static RegistryEntry<SoundEvent> regSound(String id) {
+		return REGISTRATE.simple(id, ForgeRegistries.SOUND_EVENTS.getRegistryKey(),
+				() -> SoundEvent.createVariableRangeEvent(ModularGolems.loc(id)));
+	}
 
 	public static final RegistryEntry<AbstractShapedRecipe.Serializer<GolemAssembleRecipe>> ASSEMBLE =
 			reg("golem_assemble", () -> new AbstractShapedRecipe.Serializer<>(GolemAssembleRecipe::new));

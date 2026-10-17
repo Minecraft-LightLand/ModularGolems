@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.init.registrate;
 
+import java.util.List;
+
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -478,6 +480,33 @@ public class GolemItems {
 								.texture("layer1", new ResourceLocation(ModularGolems.MODID, "item/blue_arrow")))
 						.end())
 				.removeTab(ITEMS.getKey()).tab(UPGRADES.getKey());
+	}
+
+	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgradeImpl(String id, NonNullFunction<Item.Properties, SimpleUpgradeItem> factory, String modid) {
+		return REGISTRATE.item(id, factory)
+				.model((ctx, pvd) -> pvd.generated(ctx, new ResourceLocation(modid, "item/upgrades/" + id))
+						.override().predicate(new ResourceLocation(ModularGolems.MODID, "blue_arrow"), 0.5f)
+						.model(pvd.getBuilder(pvd.name(ctx) + "_purple")
+								.parent(new ModelFile.UncheckedModelFile("item/generated"))
+								.texture("layer0", new ResourceLocation(modid, "item/upgrades/" + id))
+								.texture("layer1", new ResourceLocation(ModularGolems.MODID, "item/purple_arrow")))
+						.end().override().predicate(new ResourceLocation(ModularGolems.MODID, "blue_arrow"), 1)
+						.model(pvd.getBuilder(pvd.name(ctx) + "_blue")
+								.parent(new ModelFile.UncheckedModelFile("item/generated"))
+								.texture("layer0", new ResourceLocation(modid, "item/upgrades/" + id))
+								.texture("layer1", new ResourceLocation(ModularGolems.MODID, "item/blue_arrow")))
+						.end())
+				.removeTab(ITEMS.getKey()).tab(UPGRADES.getKey());
+	}
+
+	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regMultiModUpgrade(String id, List<Supplier<RegistryEntry<? extends GolemModifier>>> mods, int lv, boolean foil, String modid) {
+		var reg = regUpgradeImpl(id, p -> new SimpleUpgradeItem(p, mods.stream().map(m -> (Supplier<GolemModifier>) m.get()::get).toList(), lv, foil), modid);
+		reg.setData(ProviderType.ITEM_TAGS, (a, b) -> b.addTag(MGTagGen.GOLEM_UPGRADES).addOptional(reg.get().getId()));
+		return reg;
+	}
+
+	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regMultiModUpgrade(String id, List<Supplier<RegistryEntry<? extends GolemModifier>>> mods, String modid) {
+		return regMultiModUpgrade(id, mods, 1, false, modid);
 	}
 
 	public static <T extends Item> ItemEntry<T> item(String modid, String id, NonNullFunction<Item.Properties, T> func) {

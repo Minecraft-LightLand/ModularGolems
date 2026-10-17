@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -38,25 +39,29 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
 		if (getSlot() == EquipmentSlot.HEAD) {
-			list.add(MGLangData.MALEDICTUS_BYPASS_CD.get());
+			list.add(MGLangData.MALEDICTUS_BYPASS_CD.get().withStyle(ChatFormatting.GOLD));
 		} else if (getSlot() == EquipmentSlot.LEGS) {
-			list.add(MGLangData.MALEDICTUS_FAST_SKILL.get());
+			list.add(MGLangData.MALEDICTUS_FAST_SKILL.get().withStyle(ChatFormatting.GOLD));
+			// %s 不带颜色，跟随整行统一的 GOLD
+			list.add(MGLangData.SKILL_IGNORE_HEALTH.get(
+					Component.translatable(CataCompatRegistry.MALEDICTUS_CHARGE.get().getDescriptionId()))
+					.withStyle(ChatFormatting.GOLD));
 		} else if (getSlot() == EquipmentSlot.CHEST) {
 			int cd = MGConfig.COMMON.maledictusReviveCD.get();
 			int red = MGConfig.COMMON.maledictusReviveCDPartReduction.get();
 			double php = MGConfig.COMMON.maledictusRevivePHP.get();
 			double bonus = MGConfig.COMMON.maledictusRevivePHPPartBonus.get();
-			list.add(MGLangData.MALEDICTUS_REVIVE.get((int) (php * 100), cd));
-			list.add(MGLangData.MALEDICTUS_REVIVE_CD.get(red, bonus * 100));
+			list.add(MGLangData.MALEDICTUS_REVIVE.get((int) (php * 100), cd).withStyle(ChatFormatting.GOLD));
+			list.add(MGLangData.MALEDICTUS_REVIVE_CD.get(red, bonus * 100).withStyle(ChatFormatting.GOLD));
 			if (level != null && level.isClientSide()) {
 				long prev = stack.getOrCreateTag().getLong("NextAvailableTime");
 				long time = level.getGameTime();
 				if (prev > time) {
-					list.add(MGLangData.MALEDICTUS_REVIVE_IN_CD.get((prev - time) / 20));
+					list.add(MGLangData.MALEDICTUS_REVIVE_IN_CD.get((prev - time) / 20).withStyle(ChatFormatting.GOLD));
 				} else {
 					int count = ClientHandler.counter();
 					if (count > 0) {
-						list.add(MGLangData.MALEDICTUS_REVIVE_ACTUAL_CD.get(cd - red * count));
+						list.add(MGLangData.MALEDICTUS_REVIVE_ACTUAL_CD.get(cd - red * count).withStyle(ChatFormatting.GOLD));
 					}
 				}
 			}

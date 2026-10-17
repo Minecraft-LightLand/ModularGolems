@@ -29,6 +29,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.api.distmarker.Dist;
+import dev.xkmc.modulargolems.content.client.particle.GolemAfterimageParticle;
+import dev.xkmc.modulargolems.init.GolemParticles;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
@@ -111,6 +114,11 @@ public class GolemClient {
 	@SubscribeEvent
 	public static void registerClientTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
 		event.register(ItemListTooltip.class, ItemListClientTooltip::new);
+	}
+
+	@SubscribeEvent
+	public static void registerParticles(RegisterParticleProvidersEvent event) {
+		event.registerSpecial(GolemParticles.AFTERIMAGE.get(), new GolemAfterimageParticle.Factory());
 	}
 
 

@@ -132,6 +132,11 @@ public class MetalGolemModel extends HierarchicalModel<MetalGolemEntity> impleme
 		return new ResourceLocation(id, "textures/entity/metal_golem/" + mat + ".png");
 	}
 
+	@Override
+	public boolean isTranslucent() {
+		return true;
+	}
+
 	public void transformToHand(EquipmentSlot slot, PoseStack pose) {
 		if (slot == EquipmentSlot.MAINHAND) {
 			rightArm.translateAndRotate(pose);

@@ -2,6 +2,12 @@ package dev.xkmc.modulargolems.content.modifier.special;
 
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.util.SkillSound;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.player.Player;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.core.BlockPos;
@@ -20,6 +26,39 @@ import java.util.List;
 public class EarthquakeHelper {
 
 	public static final byte FLAG = 83;
+
+	public static final String SKILL_BUSY_KEY = "skill_busy";
+
+	/**
+	 * Whether the golem is currently airborne from a jump attack, used to gate other skills.
+	 */
+	public static boolean isLeaping(AbstractGolemEntity<?, ?> golem) {
+		return !golem.onGround();
+	}
+
+	public static boolean isBusy(AbstractGolemEntity<?, ?> golem) {
+		return golem.isTransientFlag(SKILL_BUSY_KEY);
+	}
+
+	/** 傀儡是否离地。离地技能据此区分「还在空中」与「已经落地」。 */
+
+	public static void setBusy(AbstractGolemEntity<?, ?> golem, boolean on) {
+		golem.setTransientFlag(SKILL_BUSY_KEY, on);
+	}
+
+	/** 离地技能期间保留的伤害比例，共享常量，保证 tooltip 与实际减伤不会各说各话。 */
+	public static final float LEAP_DAMAGE_MULT = 0.2F;
+
+	/** tooltip 里显示的离地减伤，如 {@code 80%}。 */
+	public static MutableComponent leapReduction() {
+		return Component.literal(Math.round((1 - LEAP_DAMAGE_MULT) * 100) + "%")
+				.withStyle(ChatFormatting.AQUA);
+	}
+
+	/** 跳跃技能共用的彩蛋，避免每个技能各写一遍。 */
+	public static void playQuakeEasterEgg(AbstractGolemEntity<?, ?> golem) {
+		SkillSound.playQuakeEasterEgg(golem, 1.0F, 1.0F);
+	}
 
 	public static void makeParticles(LivingEntity le, float vec, float math) {
 		if (le.level().isClientSide) {
@@ -80,6 +119,9 @@ public class EarthquakeHelper {
 		if (golem.getVehicle() != null && !(golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == golem))
 			return null;
 		if (!golem.getPassengers().isEmpty()) return null;
+		if (golem.getMode() == GolemModes.STAND) return null;
+		// 空中已有冲锋或跳跃时傀儡归它所有，此时再选跳跃会叠加
+		if (isBusy(golem) || golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog && isBusy(dog)) return null;
 		List<Instance> list = new ArrayList<>();
 		long time = golem.level().getGameTime();
 		for (var e : golem.getModifiersExtended().entrySet()) {
@@ -141,8 +183,26 @@ public class EarthquakeHelper {
 			return 25;
 		}
 
+		/** 技能落地时调用，让共用彩蛋每次只播一次。技能只在非标准落点覆写。 */
+		default void onEarthQuakeLanded(AbstractGolemEntity<?, ?> golem, int level) {
+			playQuakeEasterEgg(golem);
+		}
+
+		/** 玩家骑乘时垂直起跳；AI 骑乘则朝目标斜跳，避免落空后还需重选目标。 */
 		default void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
-			golem.addDeltaMovement(new Vec3(0, 1, 0));
+			var target = golem.getTarget();
+			if (target == null || golem.getControllingPassenger() instanceof Player)
+				golem.addDeltaMovement(new Vec3(0, 1.3, 0));
+			else golem.setDeltaMovement(
+					(target.getX() - golem.getX()) * 0.15,
+					1.3,
+					(target.getZ() - golem.getZ()) * 0.15
+			);
+		}
+
+		/** 技能自行处理起跳（服务端执行），默认由客户端本地预测负责。 */
+		default boolean useServerJump() {
+			return false;
 		}
 
 		default int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
