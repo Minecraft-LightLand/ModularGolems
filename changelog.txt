@@ -1,3 +1,6 @@
+2.7.5
+- improve legendary monsters compat
+
 2.7.4
 - Fix lightning rod not working
 - improve JEI display
