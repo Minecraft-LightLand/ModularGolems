@@ -1,12 +1,12 @@
 {
-  "name": "大型金属傀儡",
+  "name": "大型傀儡",
   "icon": "modulargolems:metal_golem_holder",
   "category": "modulargolems:golems",
   "sortnum": 10,
   "pages": [
 	{
 	  "type": "patchouli:text",
-	  "text": "大型金属傀儡和原版铁傀儡十分相似。可以在铁砧上或直接使用对应金属锭修复。$(br2)使用命令手杖可以给大型傀儡装备特殊盔甲与武器。"
+	  "text": "大型傀儡和原版铁傀儡十分相似。可以在铁砧上或直接使用对应金属锭修复。$(br2)使用命令手杖可以给大型傀儡装备特殊盔甲与武器。"
 	},{
 	  "type": "patchouli:crafting",
 	  "recipe": "modulargolems:metal_golem_holder"

@@ -41,6 +41,11 @@ public enum MetalGolemPartType implements IGolemPart<MetalGolemPartType> {
 	}
 
 	@Override
+	public MutableComponent getName() {
+		return Component.translatable("golem_part_name.metal_golem." + name().toLowerCase(Locale.ROOT));
+	}
+
+	@Override
 	public GolemPart<?, MetalGolemPartType> toItem() {
 		return switch (this) {
 			case BODY -> GolemItems.GOLEM_BODY.get();

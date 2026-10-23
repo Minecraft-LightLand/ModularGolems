@@ -297,6 +297,20 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 	}
 
+	/**
+	 * Names the item after the material of the golem's body part, so it reads as "犬形腾炎傀儡" no matter
+	 * how the item was obtained. A name the player gave always wins, and this only fills the default rather
+	 * than baking a name into the stack, so re-forging the materials updates it.
+	 */
+	@Override
+	public Component getName(ItemStack stack) {
+		if (stack.hasCustomHoverName()) return super.getName(stack);
+		var golemType = type.get();
+		if (golemType == null) return super.getName(stack);
+		var auto = golemType.describeByMaterial(getMaterial(stack));
+		return auto != null ? auto : super.getName(stack);
+	}
+
 	public float getInvHeal(ItemStack stack, Entity entity) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return 0;
