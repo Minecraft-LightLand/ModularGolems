@@ -151,6 +151,14 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 		return Component.translatable("golem_material." + id.getNamespace() + "." + id.getPath()).withStyle(ChatFormatting.GOLD);
 	}
 
+	/**
+	 * Same name without the tooltip colouring, so it can be embedded in a golem's name where the gold
+	 * highlight would look out of place.
+	 */
+	public MutableComponent getName() {
+		return Component.translatable("golem_material." + id.getNamespace() + "." + id.getPath());
+	}
+
 	public GolemPart<?, ?> getPart() {
 		return Wrappers.cast(part());
 	}

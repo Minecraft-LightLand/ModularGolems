@@ -33,6 +33,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -147,6 +148,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public final GolemInvManager invManager = new GolemInvManager(this);
 	public final TransientStateContainer transientManager = new TransientStateContainer();
 
+	@Nullable
+	private transient Component autoName;
+	private transient int autoNameTick = -1;
+
 	// marks opened inventory
 	public int inventoryTick = 0;
 	public int specialAttackCoolDown = 0;
@@ -223,6 +228,29 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public ArrayList<GolemMaterial> getMaterials() {
 		return materials;
+	}
+
+	/**
+	 * Names the golem after the material of its body part, matching what the holder item shows so both
+	 * read the same. A name the player gave always wins, which also keeps name tags working.
+	 * <p>
+	 * Overrides getName rather than getDisplayName: Entity#getDisplayName delegates to getName, so hooking
+	 * getDisplayName alone left every caller of getName (the command wand overlay, Jade's ObjectNameProvider)
+	 * showing the raw entity type name.
+	 * <p>
+	 * The result is cached per tick because every nameplate, tab list entry and Jade query calls this
+	 * each frame, and building the component walks the material list and allocates.
+	 */
+	@Override
+	public Component getName() {
+		if (getCustomName() != null) return super.getName();
+		if (autoNameTick != tickCount) {
+			autoName = null;
+			var type = GolemType.getGolemType(getType());
+			if (type != null) autoName = type.describeByMaterial(materials);
+			autoNameTick = tickCount;
+		}
+		return autoName != null ? autoName : super.getName();
 	}
 
 	public ArrayList<Item> getUpgrades() {

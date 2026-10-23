@@ -281,6 +281,13 @@ public enum MGLangData {
 		pvd.add("golem_material." + ModularGolems.MODID + ".netherite", "Netherite");
 		pvd.add("golem_material." + ModularGolems.MODID + ".sculk", "Sculk");
 
+		// unprefixed on purpose: GolemType#describeByMaterial builds "golem_type.<ns>.<path>.named"
+		// without the modid, same as the golem_type entries above. The enum constructor prepends
+		// the modid to every key, so these must stay out of the enum or they end up doubled.
+		pvd.add("golem_type." + ModularGolems.MODID + ".metal_golem.named", "%s Golem");
+		pvd.add("golem_type." + ModularGolems.MODID + ".humanoid_golem.named", "%s Humanoid Golem");
+		pvd.add("golem_type." + ModularGolems.MODID + ".dog_golem.named", "%s Dog Golem");
+
 		pvd.add("curios.identifier.golem_skin", "Humanoid Golem Skin");
 		pvd.add("curios.identifier.golem_route", "Golem Patrol Path");
 
@@ -297,14 +304,20 @@ public enum MGLangData {
 		for (var type : MetalGolemPartType.values()) {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.metal_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
+			String text = RegistrateLangProvider.toEnglishName(name);
+			if (type == MetalGolemPartType.LEFT || type == MetalGolemPartType.RIGHT)
+				text = "Arm";
+			pvd.add("golem_part_name.metal_golem." + name, " " + text);
 		}
 		for (var type : HumanoidGolemPartType.values()) {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.humanoid_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
+			pvd.add("golem_part_name.humanoid_golem." + name, " " + RegistrateLangProvider.toEnglishName(name));
 		}
 		for (var type : DogGolemPartType.values()) {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.dog_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
+			pvd.add("golem_part_name.dog_golem." + name, " " + RegistrateLangProvider.toEnglishName(name));
 		}
 
 		PatchouliLang.genLang(pvd);

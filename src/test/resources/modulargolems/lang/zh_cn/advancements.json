@@ -1,6 +1,6 @@
 {
   "advancements.modulargolems.advancements.golems": {
-	"anvil_fix.description": "在铁砧中用锭修复金属傀儡",
+	"anvil_fix.description": "在铁砧中用原料修复傀儡",
 	"anvil_fix.title": "完好如初",
 	"apply.description": "在铁砧中为傀儡零件镀上金属",
 	"apply.title": "呼~好重！",
@@ -8,7 +8,7 @@
 	"apply_sculk.title": "可怕的回忆",
 	"command.description": "制作命令手杖",
 	"command.title": "保卫家园",
-	"craft.description": "用金属傀儡零件制作一个傀儡",
+	"craft.description": "用傀儡零件制作一个傀儡",
 	"craft.title": "崭新出炉！",
 	"dog.description": "创造一个犬形傀儡",
 	"dog.title": "高贵的冷血动物",
