@@ -33,12 +33,15 @@ public enum GolemTabType {
 
 	public void draw(GuiGraphics g, int x, int y, boolean selected, int index) {
 		index = index % max;
+		// the top strip is centered instead of hugging the gui edge, so its end caps would no
+		// longer line up with anything and every tab just uses the plain middle sprite
+		boolean plain = this == ABOVE;
 		int tx = this.textureX;
-		if (index > 0) {
+		if (plain || index > 0) {
 			tx += this.width;
 		}
 
-		if (index == max - 1) {
+		if (!plain && index == max - 1) {
 			tx += this.width;
 		}
 
@@ -58,27 +61,32 @@ public enum GolemTabType {
 				i += 6;
 				j += 6;
 			}
-			case LEFT -> {
-				i += 10;
-				j += 5;
-			}
-			case RIGHT -> {
+			case LEFT, RIGHT -> {
 				i += 6;
 				j += 4;
 			}
-		}
+        }
 		g.renderFakeItem(stack, i, j);
 		g.renderItemDecorations(Minecraft.getInstance().font, stack, i, j);
 	}
 
-	public int getX(int w, int h, int index, int split) {
+public int getX(int w, int h, int index, int split, int count) {
 		int space = split < 0 ? 0 : w - (width + 1) * max + 1;
 		return switch (this) {
-			case ABOVE, BELOW -> (width + 1) * index + (index >= split ? space : 0);
-			case LEFT -> -width + 4;
-			case RIGHT -> w - 4;
+		case ABOVE, BELOW -> center(w, count) + (width + 1) * index + (index >= split ? space : 0);
+		case LEFT -> -width + 4;
+		case RIGHT -> w - 4;
 		};
 	}
+
+/**
+ * Offset that centers the whole tab strip. Tabs are laid out one after another, so the strip is as
+ * wide as the tabs shown on a page, not as wide as a single tab.
+ */
+private int center(int w, int count) {
+	int perPage = Math.min(count, max);
+	return (w - ((width + 1) * perPage - 1)) / 2;
+}
 
 	public int getY(int w, int h, int index, int split) {
 		int space = split < 0 ? 0 : h - (height + 1) * max + 1;

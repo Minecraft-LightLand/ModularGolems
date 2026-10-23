@@ -321,6 +321,15 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			return super.mayPlace(stack) && isValid(main.getItem(), stack);
 		}
 
+		/**
+		 * One replacement slot consumes its whole stack, so it only ever holds a single part. Without this a
+		 * stack of parts would all be eaten even though only the stack's material is read.
+		 */
+		@Override
+		public int getMaxStackSize() {
+			return 1;
+		}
+
 		@Override
 		public boolean isActive() {
 			return !getItem().isEmpty() || active;

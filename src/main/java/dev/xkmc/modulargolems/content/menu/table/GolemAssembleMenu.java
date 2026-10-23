@@ -52,6 +52,28 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 
 	public final List<GolemType<?, ?>> typeList = new ArrayList<>();
 
+	/**
+	 * Name typed into the golem screen, applied to the built golem item. Kept as a plain field rather than a
+	 * slot because {@code BaseContainerMenu} hardcodes the player inventory to slots [0, 36) in
+	 * {@code quickMoveStack}, so an extra slot would shift every container slot out of range.
+	 */
+	private String golemName = "";
+
+	public void setGolemName(String name) {
+		this.golemName = name == null ? "" : name.trim();
+		if (result != null) result.update();
+	}
+
+	/**
+	 * Stamps the name the player typed onto the finished item. Leaving the box empty leaves the item to its
+	 * own default, which {@code GolemHolder} derives from the body part material.
+	 */
+	private ItemStack applyName(ItemStack stack) {
+		if (!golemName.isEmpty() && !stack.isEmpty())
+			stack.setHoverName(Component.literal(golemName));
+		return stack;
+	}
+
 	private final int[] data = new int[2];
 	public final DataSlot selectedType, batchMode;
 
@@ -354,10 +376,10 @@ for (var type : candidates) {
 					GolemPart.setMaterial(ans, mat);
 					currentType = type;
 					currentPart = targetPart;
-					templateCount = 1;
-					output = ans;
-					set(valid ? ans : ItemStack.EMPTY);
-					return;
+templateCount = 1;
+				output = applyName(ans);
+				set(valid ? ans : ItemStack.EMPTY);
+				return;
 				}
 				var typeSlots = new HashSet<GolemSlot>();
 				var parts = type.values();
@@ -394,11 +416,11 @@ for (var type : candidates) {
 				}
 				if (ingotCount > 0 && (!hasTemplate || input.getCount() < ingotCount))
 					error = MGLangData.UI_SUB_TEMPLATE.get();
-				currentType = type;
-				templateCount = ingotCount;
-				output = ans;
-				set(valid && error == null ? ans : ItemStack.EMPTY);
-				return;
+currentType = type;
+			templateCount = ingotCount;
+			output = applyName(ans);
+			set(valid && error == null ? ans : ItemStack.EMPTY);
+			return;
 			}
 			set(ItemStack.EMPTY);
 		}

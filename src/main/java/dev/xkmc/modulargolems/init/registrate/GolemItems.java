@@ -47,7 +47,7 @@ import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 @SuppressWarnings("removal")
 public class GolemItems {
 
-	public static final RegistryEntry<CreativeModeTab> ITEMS, UPGRADES, GOLEMS;
+	public static final RegistryEntry<CreativeModeTab> ITEMS, UPGRADES, GOLEMS, PARTS;
 
 	static {
 		ITEMS = REGISTRATE.buildL2CreativeTab("golem_items", "Modular Golems - Items", b -> b
@@ -108,19 +108,6 @@ public class GolemItems {
 
 	static {
 
-		TABLE = REGISTRATE.block("golem_workbench", TableBlock::new)
-				.initialProperties(() -> Blocks.ANVIL)
-				.blockstate((ctx, pvd) -> pvd.simpleBlock(ctx.get(), pvd.models()
-						.getBuilder("block/" + ctx.getName())
-						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc("custom/table")))
-						.texture("top", pvd.modLoc("block/table_top"))
-						.texture("middle", pvd.modLoc("block/table_middle"))
-						.texture("bottom", pvd.modLoc("block/table_bottom"))
-						.texture("particle", pvd.modLoc("block/table_particle"))
-				)).tag(BlockTags.MINEABLE_WITH_PICKAXE)
-				.item().tag(L2STTagGen.QUICK_ACCESS_VANILLA).build()
-				.register();
-
 		SIMPLE_TABLE = REGISTRATE.block("golem_workbench_simple", SimpleTableBlock::new)
 				.initialProperties(() -> Blocks.ANVIL)
 				.properties(p -> p.sound(SoundType.STONE))
@@ -131,6 +118,18 @@ public class GolemItems {
 						.texture("middle", pvd.modLoc("block/simple_table_middle"))
 						.texture("bottom", pvd.modLoc("block/simple_table_bottom"))
 						.texture("particle", pvd.modLoc("block/simple_table_particle"))
+				)).tag(BlockTags.MINEABLE_WITH_PICKAXE)
+				.item().tag(L2STTagGen.QUICK_ACCESS_VANILLA).build()
+				.register();
+		TABLE = REGISTRATE.block("golem_workbench", TableBlock::new)
+				.initialProperties(() -> Blocks.ANVIL)
+				.blockstate((ctx, pvd) -> pvd.simpleBlock(ctx.get(), pvd.models()
+						.getBuilder("block/" + ctx.getName())
+						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc("custom/table")))
+						.texture("top", pvd.modLoc("block/table_top"))
+						.texture("middle", pvd.modLoc("block/table_middle"))
+						.texture("bottom", pvd.modLoc("block/table_bottom"))
+						.texture("particle", pvd.modLoc("block/table_particle"))
 				)).tag(BlockTags.MINEABLE_WITH_PICKAXE)
 				.item().tag(L2STTagGen.QUICK_ACCESS_VANILLA).build()
 				.register();
@@ -325,8 +324,13 @@ public class GolemItems {
 		}
 		CompatManager.register();
 
-		GOLEMS = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems - Golems & Parts", b -> b
+		GOLEMS = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems - Golems", b -> b
 				.icon(GolemItems.HOLDER_GOLEM::asStack));
+		PARTS = REGISTRATE.buildL2CreativeTab("golems_parts", "Modular Golems - Parts", b -> b
+				.icon(GolemItems.GOLEM_BODY::asStack));
+		// buildL2CreativeTab 会把新建的 tab 设成 registrate 默认项，这里把 GOLEMS 设回去，
+		// 否则之后注册的 holder 会被默认塞进 PARTS
+		REGISTRATE.defaultCreativeTab(GOLEMS.getKey());
 
 		// holders
 		{
@@ -352,6 +356,9 @@ public class GolemItems {
 					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 		}
 
+		// 部件只显式进 ITEMS 和 PARTS，不能回落到 GOLEMS
+		REGISTRATE.defaultCreativeTab(PARTS.getKey());
+
 		// metal golem
 		{
 			GOLEM_BODY = REGISTRATE.item("metal_golem_body", p ->
@@ -359,21 +366,21 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
-					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
-					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
-					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
@@ -384,21 +391,21 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
-					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
-					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
-					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
@@ -409,7 +416,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
-					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
@@ -417,9 +424,10 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.getKey())
-					.transform(e -> e.tab(GOLEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.getKey(), x -> e.getEntry().fillItemCategory(x)))
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
+		REGISTRATE.defaultCreativeTab(GOLEMS.getKey());
 
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
 				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
