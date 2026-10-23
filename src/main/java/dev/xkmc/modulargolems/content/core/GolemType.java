@@ -4,6 +4,7 @@ import com.tterrag.registrate.util.entry.EntityEntry;
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
@@ -11,6 +12,8 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +24,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -97,6 +101,33 @@ public abstract class GolemType<T extends AbstractGolemEntity<T, P>, P extends I
 
 	public P getBodyPart() {
 		return body;
+	}
+
+	/**
+	 * Names a golem after the material of its body part, e.g. a dog whose core is made of embers reads as
+	 * "犬形腾炎傀儡". Shared by the holder item and the entity so both show the same name, and returns null
+	 * when the materials carry no body part to read.
+	 */
+	@Nullable
+	public MutableComponent describeByMaterial(List<GolemMaterial> mats) {
+		var id = getRegistryName();
+		if (id == null || mats == null) return null;
+		var parts = values();
+		for (int i = 0; i < parts.length && i < mats.size(); i++) {
+			if (!parts[i].equals(body)) continue;
+			var mat = mats.get(i);
+			if (mat == null) return null;
+			return describeByMaterial(mat);
+		}
+		return null;
+	}
+
+	@Nullable
+	public MutableComponent describeByMaterial(@Nullable GolemMaterial mat) {
+		var id = getRegistryName();
+		if (id == null || mat == null) return null;
+		return Component.translatable("golem_type." + id.getNamespace() + "." + id.getPath() + ".named",
+				mat.getName());
 	}
 
 	public boolean mayEdit(ItemStack stack) {

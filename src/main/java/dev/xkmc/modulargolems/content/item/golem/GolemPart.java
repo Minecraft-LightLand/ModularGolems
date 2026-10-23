@@ -97,6 +97,18 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	}
 
 	@Override
+	public Component getName(ItemStack stack) {
+		if (stack.hasCustomHoverName()) return super.getName(stack);
+		var mat = getMaterial(stack);
+		if (mat.isEmpty()) return super.getName(stack);
+		var golemType = type.get();
+		if (golemType == null) return super.getName(stack);
+		var named = golemType.describeByMaterial(parseMaterial(mat.get()));
+		if (named == null) return super.getName(stack);
+		return named.append("-").append(part.getName());
+	}
+
+	@Override
 	public GolemPart<?, ?> asPart() {
 		return this;
 	}
