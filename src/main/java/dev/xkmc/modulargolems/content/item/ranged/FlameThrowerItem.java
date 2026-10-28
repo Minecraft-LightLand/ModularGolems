@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
+import dev.xkmc.modulargolems.content.client.weapon.ShoulderAnimData;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -25,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderCannonAnimated {
+public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderCannonAnimated, IGenericShoulderWeapon {
 
 	public static void setCharge(ItemStack stack, int charge) {
 		stack.getOrCreateTag().putInt("BlazeCharge", charge);
@@ -43,12 +45,19 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 
 	@Override
 	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
+		onTick(e, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1);
+	}
+
+	@Override
+	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, int slot) {
+		var hand = slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
 		if (e.tickCount % 40 != (hand == InteractionHand.MAIN_HAND ? 10 : 30)) return;
 		var target = e.getTarget();
 		if (target == null || !target.isAlive()) return;
-		if (CannonPoseUtil.FLAME_THROWER.isOutOfRange(e, hand, 15)) return;
+		var pose = CannonPoseUtil.forEntity(e, CannonPoseUtil.FLAME_THROWER);
+		if (pose.isOutOfRange(e, hand, 15)) return;
 		var ammo = e.getProjectile(stack);
-		var pos = CannonPoseUtil.FLAME_THROWER.getOrigin(e, hand);
+		var pos = pose.getOrigin(e, hand);
 		if (ammo.is(Items.TNT)) {
 			var tnt = TNTLauncher.getTNTEntity(e, pos, target);
 			if (tnt == null) return;
@@ -89,6 +98,38 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 		e.level().addFreshEntity(proj);
 		if (!e.isSilent())
 			e.playSound(SoundEvents.BLAZE_SHOOT);
+	}
+
+	@Override
+	public List<ShoulderAnimData> getAnimationData(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
+		return IShoulderCannonAnimated.super.getAnimationData(user, stack, hand);
+	}
+
+	@Override
+	public List<ShoulderAnimData> getAnimationData(AbstractGolemEntity<?, ?> user, ItemStack stack, int slot) {
+		if (user instanceof MetalGolemEntity metal)
+			return getAnimationData(metal, stack, slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+		// the dog carries the cannon flat on its back and plays no deploy animation
+		return List.of();
+	}
+
+	@Override
+	public @Nullable ResourceLocation getModel(int slot) {
+		return getModelForHand(slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+	}
+
+	@Override
+	public ResourceLocation getModelTexture(AbstractGolemEntity<?, ?> entity, ItemStack stack, int slot) {
+		var id = ForgeRegistries.ITEMS.getKey(this);
+		assert id != null;
+		return id.withPath(e -> "textures/equipments/" + e + ".png");
+	}
+
+	@Override
+	public ResourceLocation getEmissiveTexture(AbstractGolemEntity<?, ?> entity, ItemStack stack, int slot) {
+		var id = ForgeRegistries.ITEMS.getKey(this);
+		assert id != null;
+		return id.withPath(e -> "textures/equipments/" + e + "_emissive.png");
 	}
 
 	@Override

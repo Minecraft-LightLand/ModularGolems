@@ -249,15 +249,20 @@ public class GolemInvManager {
 
 	public ItemStack getProjectile(ItemStack pShootable) {
 		ItemStack ans;
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
-			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(owner, predicate);
+		if (pShootable.getItem() instanceof ProjectileWeaponItem weapon) {
+			// The arrow slots are this golem's own ammo, so they are consulted with everything the
+			// weapon supports rather than the vanilla held set, which would reject fuel items such
+			// as blaze powder.
+			Predicate<ItemStack> held = weapon.getSupportedHeldProjectiles();
+			Predicate<ItemStack> ammo = weapon.getAllSupportedProjectiles();
+			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(owner, held);
+			if (stack.isEmpty()) stack = ProjectileWeaponItem.getHeldProjectile(owner, ammo);
 			ItemStack arrow = getArrowSlot().getItem();
-			if (stack.isEmpty() && !arrow.isEmpty() && predicate.test(arrow)) {
+			if (stack.isEmpty() && !arrow.isEmpty() && ammo.test(arrow)) {
 				stack = arrow;
 			}
 			ItemStack arrow2 = getArrowSlot2().getItem();
-			if (stack.isEmpty() && !arrow2.isEmpty() && predicate.test(arrow2)) {
+			if (stack.isEmpty() && !arrow2.isEmpty() && ammo.test(arrow2)) {
 				stack = arrow2;
 			}
 			ans = ForgeHooks.getProjectile(owner, pShootable, stack);

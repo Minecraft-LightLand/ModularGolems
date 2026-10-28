@@ -4,9 +4,12 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.TargetingAnimState;
 import dev.xkmc.modulargolems.content.entity.goals.GolemRiddenMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.ranged.IDogBackWeapon;
+import dev.xkmc.modulargolems.content.item.ranged.IGenericShoulderWeapon;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -37,8 +40,10 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType>
@@ -144,6 +149,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	@Override
 	protected void customServerAiStep() {
 		super.customServerAiStep();
+		var target = getTarget();
+		if (target == null) this.entityData.set(SHOULDER_TARGET, new Vector3f(0, 0, 0));
+		else this.entityData.set(SHOULDER_TARGET, target.position().add(0, target.getBbHeight() / 2, 0).subtract(position()).toVector3f());
+		syncShoulderItem();
+		tickShoulderWeapon();
+		dismountRidersWithShoulderWeapon();
 		if (jumpAttackDelay > 0) jumpAttackDelay--;
 		if (jumpAttackDelay <= 0 && jumpAttack != null && onGround()) {
 			jumpAttack.modifier().performEarthQuake(this, jumpAttack.lv());
@@ -154,6 +165,84 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 			jumpAttack = null;
 		}
 		tickCharge();
+	}
+
+	/**
+	 * Runs on both sides, so the client mirrors the deploy state the server drives. The aim point
+	 * itself comes from synced data, since the client cannot see the server side target.
+	 */
+	@Override
+	public void aiStep() {
+		super.aiStep();
+		shoulderAnimState.tick(this);
+	}
+
+	private static final EntityDataAccessor<Vector3f> SHOULDER_TARGET = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.VECTOR3);
+	private static final EntityDataAccessor<ItemStack> SHOULDER_ITEM = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+
+	public final TargetingAnimState shoulderAnimState = new TargetingAnimState();
+
+	/**
+	 * Mirrors the metal golem: the shoulder slot lives in a plain field while the client reads it
+	 * back from synced data, and the field is mirrored into that data every tick.
+	 */
+	private void syncShoulderItem() {
+		var stack = getShoulderSlot().getItem();
+		if (!ItemStack.matches(this.entityData.get(SHOULDER_ITEM), stack)) {
+			this.entityData.set(SHOULDER_ITEM, stack.copy());
+		}
+	}
+
+	/**
+	 * The client copy of the shoulder weapon, read from synced data the same way the metal golem
+	 * reads its shoulders, so tags written server side during an action reach the renderer. An item
+	 * form is not in the world, so it has no synced data to read and falls back to the field.
+	 */
+	public ItemStack getShoulderSlotForRender() {
+		if (!this.level().isClientSide) return getShoulderSlot().getItem();
+		if (!isAddedToWorld()) return getShoulderSlot().getItem();
+		return this.entityData.get(SHOULDER_ITEM);
+	}
+
+	/**
+	 * The aim point is kept in synced data rather than read from the target directly, because the
+	 * client has no access to the server side target and the shoulder pose has to run over there.
+	 */
+	@Override
+	public Vec3 getTargetAimPos() {
+		return new Vec3(this.entityData.get(SHOULDER_TARGET));
+	}
+
+	@Override
+	public int getShoulderAnimStarting() {
+		return shoulderAnimState.getStartingAnim();
+	}
+
+	@Override
+	public int getShoulderAnimEnding() {
+		return shoulderAnimState.getEndingAnim();
+	}
+
+	/**
+	 * Shoulder weapons fire on their own, independently of the melee goal. The dog uses the generic
+	 * shoulder weapon view so that weapons written against {@code IShoulderWeapon} alone keep working
+	 * on the two legged golems without having to change.
+	 */
+	private void tickShoulderWeapon() {
+		var stack = getShoulderSlot().getItem();
+		if (!stack.isEmpty() && stack.getItem() instanceof IGenericShoulderWeapon weapon) {
+			IDogBackWeapon.of(weapon).onTick(this, stack);
+		}
+	}
+
+	/**
+	 * A shoulder mounted weapon blocks riding, so anyone already on board is dropped off.
+	 */
+	private void dismountRidersWithShoulderWeapon() {
+		if (getShoulderSlot().getItem().isEmpty()) return;
+		for (var rider : List.copyOf(getPassengers())) {
+			rider.stopRiding();
+		}
 	}
 
 	protected void executeRidersJump(Vec3 action) {
@@ -212,6 +301,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected boolean canAddPassenger(Entity entity) {
+		// a shoulder mounted weapon takes up the back, so it cannot be ridden
+		if (!getShoulderSlot().getItem().isEmpty()) return false;
 		float total = 0;
 		int count = 0;
 		var list = new ArrayList<>(getPassengers());
@@ -249,6 +340,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		this.entityData.define(DATA_CHARGE_DIR_X, 0.0F);
 		this.entityData.define(DATA_CHARGE_DIR_Z, 0.0F);
 		this.entityData.define(DATA_CHARGE_CD, -1);
+		this.entityData.define(SHOULDER_TARGET, new Vector3f(0, 0, 0));
+		this.entityData.define(SHOULDER_ITEM, ItemStack.EMPTY);
 	}
 
 	public void addAdditionalSaveData(CompoundTag p_21819_) {

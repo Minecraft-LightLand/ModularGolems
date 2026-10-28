@@ -2,8 +2,9 @@ package dev.xkmc.modulargolems.compat.materials.create.arm;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.client.pose.GolemShoulderPose;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
@@ -17,16 +18,28 @@ import net.minecraft.world.phys.Vec3;
 public class ArmPose implements GolemShoulderPose {
 
 	@Override
-	public void setup(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, float pTick) {
+	public void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, float pTick) {
 
 	}
 
+	/**
+	 * Mount point of the arm, in model pixels. The bipedal numbers are the metal golem shoulder; the
+	 * dog golem mounts it flat on its back instead.
+	 */
+	private static final float BIPEDAL_X = 7f / 16f;
+	private static final float BIPEDAL_Y = 31f / 16f;
+	private static final float DOG_X = 6f / 16f;
+	private static final float DOG_Y = 26f / 16f;
+	private static final float DOG_Z = 0f / 16f;
+
 	@Override
-	public void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
+	public void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		pose.pushPose();
 		try {
 			int s0 = hand == InteractionHand.MAIN_HAND ? 1 : -1;
-			var src = new Vec3(s0 * 7f / 16, 31f / 16, 0);
+			Vec3 src = entity instanceof DogGolemEntity
+					? new Vec3(DOG_X, DOG_Y, DOG_Z)
+					: new Vec3(s0 * BIPEDAL_X, BIPEDAL_Y, 0);
 			var def = ArmAngleTarget.NO_TARGET;
 			ArmState state;
 			var tag = stack.getOrCreateTag();

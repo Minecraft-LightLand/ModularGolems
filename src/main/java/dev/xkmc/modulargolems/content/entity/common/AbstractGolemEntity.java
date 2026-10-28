@@ -717,6 +717,32 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
+	/**
+	 * Where a shoulder mounted weapon should aim at, as an offset from this entity. Golem types
+	 * tracking their own aim point override this, otherwise it falls back to the current target.
+	 */
+	public Vec3 getTargetAimPos() {
+		LivingEntity target = getTarget();
+		if (target == null) return Vec3.ZERO;
+		return target.position().add(0, target.getBbHeight() * 0.5, 0).subtract(position());
+	}
+
+	/**
+	 * Tick count of the shoulder weapon deploy animation, or a negative value when it is not
+	 * deploying. Golem types with a shoulder weapon drive this from their own anim state.
+	 */
+	public int getShoulderAnimStarting() {
+		return -1;
+	}
+
+	/**
+	 * Tick count of the shoulder weapon retract animation, or a negative value when it is not
+	 * retracting.
+	 */
+	public int getShoulderAnimEnding() {
+		return -1;
+	}
+
 	@Override
 	public boolean isInvulnerable() {
 		return hasFlag(GolemFlags.IMMUNITY);

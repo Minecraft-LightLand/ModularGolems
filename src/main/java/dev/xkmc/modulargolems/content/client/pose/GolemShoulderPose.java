@@ -30,14 +30,22 @@ public interface GolemShoulderPose {
 
 	}
 
+	default void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, float pTick) {
+		setup(entity, model, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1, pTick);
+	}
+
+	default void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
+		render(entity, model, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1, pose, source, light, pTick);
+	}
+
 	@Deprecated
 	default void setup(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, float pTick) {
-		setup(entity, model, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1, pTick);
+		setup((AbstractGolemEntity<?, ?>) entity, model, stack, hand, pTick);
 	}
 
 	@Deprecated
 	default void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
-		render(entity, model, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1, pose, source, light, pTick);
+		render((AbstractGolemEntity<?, ?>) entity, model, stack, hand, pose, source, light, pTick);
 	}
 
 }

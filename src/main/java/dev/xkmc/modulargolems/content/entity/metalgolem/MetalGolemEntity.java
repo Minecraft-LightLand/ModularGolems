@@ -260,8 +260,19 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		}
 	}
 
+	@Override
 	public Vec3 getTargetAimPos() {
 		return new Vec3(entityData.get(TARGET));
+	}
+
+	@Override
+	public int getShoulderAnimStarting() {
+		return animState.getStartingAnim();
+	}
+
+	@Override
+	public int getShoulderAnimEnding() {
+		return animState.getEndingAnim();
 	}
 
 	@Deprecated(forRemoval = true)

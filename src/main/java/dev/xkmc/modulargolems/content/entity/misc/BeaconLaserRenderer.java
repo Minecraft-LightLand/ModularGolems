@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.entity.misc;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.xkmc.modulargolems.content.entity.metalgolem.BeaconRenderer;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -24,7 +24,7 @@ public class BeaconLaserRenderer extends EntityRenderer<BeaconLaserEntity> {
 
 	@Override
 	public void render(BeaconLaserEntity e, float yrot, float pTick, PoseStack pose, MultiBufferSource source, int light) {
-		if (!(e.getOwner() instanceof MetalGolemEntity golem)) return;
+		if (!(e.getOwner() instanceof AbstractGolemEntity<?, ?> golem)) return;
 		pose.pushPose();
 		pose.mulPose(Axis.YP.rotationDegrees(e.getYRot()));
 		pose.mulPose(Axis.XP.rotationDegrees(e.getXRot() + 90));

@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
-import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
+import dev.xkmc.modulargolems.content.item.ranged.IGenericShoulderWeapon;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -27,7 +27,7 @@ public void fillMenu() {
 		addSlot("feet", golem::getRouteSlot, true, e -> e.is(MGTagGen.CURIO_PATH));
 		addSlot("arrow_1", golem::getArrowSlot, false, e -> true);
 		addSlot("chest", golem::getShoulderSlot, true,
-				e -> e.getItem() instanceof IShoulderWeapon);
+				e -> e.getItem() instanceof IGenericShoulderWeapon);
 	}
 
 	public Optional<DogGolemScreenControl> getScreenProvider() {

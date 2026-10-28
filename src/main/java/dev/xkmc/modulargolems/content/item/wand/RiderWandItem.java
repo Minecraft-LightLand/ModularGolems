@@ -47,6 +47,8 @@ public class RiderWandItem extends BaseWandItem implements GolemInteractItem {
 		if (!golem.canWandModify(user) && !(golem.getControllingPassenger() instanceof Player)) return false;
 		if (level.isClientSide()) return true;
 		if (golem instanceof DogGolemEntity e) {
+			// a shoulder mounted weapon occupies the back, so the dog cannot be ridden
+			if (!e.getShoulderSlot().getItem().isEmpty()) return false;
 			user.startRiding(e, false);
 			return true;
 		}
