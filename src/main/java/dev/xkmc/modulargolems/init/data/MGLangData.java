@@ -320,6 +320,13 @@ public enum MGLangData {
 		pvd.add("top." + ModularGolems.MODID + ".file_skin", "File Skin: %s");
 		pvd.add("config.jade.plugin_" + ModularGolems.MODID + ".player_skin", "Player/File Skin");
 
+		pvd.add("key.categories.modulargolems", "Modular Golems");
+		pvd.add("key.modulargolems.omni_wand_key.command", "Omnipotent Wand: Command");
+		pvd.add("key.modulargolems.omni_wand_key.retrieval", "Omnipotent Wand: Retrieval");
+		pvd.add("key.modulargolems.omni_wand_key.summon", "Omnipotent Wand: Summon");
+		pvd.add("key.modulargolems.omni_wand_key.rider", "Omnipotent Wand: Rider");
+		pvd.add("key.modulargolems.omni_wand_key.squad", "Omnipotent Wand: Squad");
+
 	}
 
 }

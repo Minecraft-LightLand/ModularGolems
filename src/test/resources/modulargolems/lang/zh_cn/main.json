@@ -232,5 +232,11 @@
 	"config.jade.plugin_modulargolems.player_skin": "玩家/贴图/生物皮肤",
 	"top.modulargolems.player_skin": "玩家皮肤: %s",
 	"top.modulargolems.file_skin": "贴图皮肤: %s",
-	"top.modulargolems.entity_skin": "生物皮肤: %s"
+	"top.modulargolems.entity_skin": "生物皮肤: %s",
+	"key.categories.modulargolems": "傀儡装配",
+	"key.modulargolems.omni_wand_key.command": "万能手杖：命令",
+	"key.modulargolems.omni_wand_key.retrieval": "万能手杖：回收",
+	"key.modulargolems.omni_wand_key.summon": "万能手杖：召唤",
+	"key.modulargolems.omni_wand_key.rider": "万能手杖：骑乘",
+	"key.modulargolems.omni_wand_key.squad": "万能手杖：编队"
 }
