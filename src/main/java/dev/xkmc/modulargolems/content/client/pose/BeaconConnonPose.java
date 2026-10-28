@@ -3,8 +3,8 @@ package dev.xkmc.modulargolems.content.client.pose;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,11 +25,13 @@ public record BeaconConnonPose(
 	}
 
 	@Override
-	public void setup(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, float pTick) {
-		if (entity.animState.getStartingAnim() < 5) return;
+	public void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, float pTick) {
+		if (entity.getShoulderAnimStarting() < 5) return;
 		var part = model.root().getChild("body").getChild(id);
 
-		var angles = transform.getAngle(entity, hand);
+		// the registered transform is the bipedal one, so pick the matching numbers for this golem
+		var pose = CannonPoseUtil.forEntity(entity, transform);
+		var angles = pose.getAngle(entity, hand);
 		var diff = Mth.wrapDegrees(angles[0] * Mth.RAD_TO_DEG + entity.yBodyRot);
 		if (diff > MAX_DEGREE) {
 			angles[0] = (MAX_DEGREE - entity.yBodyRot) * Mth.DEG_TO_RAD;
@@ -37,13 +39,13 @@ public record BeaconConnonPose(
 		if (diff < -MAX_DEGREE) {
 			angles[0] = (-MAX_DEGREE - entity.yBodyRot) * Mth.DEG_TO_RAD;
 		}
+
 		part.yRot -= angles[0] + entity.yBodyRot * Mth.DEG_TO_RAD;
 		part.xRot += angles[1];
-
 	}
 
 	@Override
-	public void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
+	public void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
 	}
 
 }

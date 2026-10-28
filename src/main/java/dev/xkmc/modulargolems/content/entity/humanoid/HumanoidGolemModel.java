@@ -22,12 +22,15 @@ import net.minecraftforge.common.ToolActions;
 public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> implements
 		IGolemModel<HumanoidGolemEntity, HumanoidGolemPartType, HumanoidGolemModel>, IHeadedModel {
 
+	private final ModelPart golemRoot;
+
 	public HumanoidGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(GolemEquipmentModels.HUMANOID), false);
 	}
 
 	public HumanoidGolemModel(ModelPart modelPart, boolean slim) {
 		super(modelPart, slim);
+		this.golemRoot = modelPart;
 	}
 
 	@Override
@@ -43,6 +46,11 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 			this.leftLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
 			this.rightLeg.render(stack, consumer, i, j, f1, f2, f3, f4);
 		}
+	}
+
+	@Override
+	public ModelPart root() {
+		return this.golemRoot;
 	}
 
 	@Override

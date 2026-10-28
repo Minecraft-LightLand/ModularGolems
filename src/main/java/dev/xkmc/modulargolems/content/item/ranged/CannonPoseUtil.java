@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.item.ranged;
 
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
@@ -8,14 +9,33 @@ import net.minecraft.world.phys.Vec3;
 public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 
 	public static final float MAX_DEGREE = 15;
+	private static final float MAX_PITCH = (float) (Math.PI / 2 - 1.0E-3F);
 
-	public static final CannonPoseUtil BEACON_CANNON = new CannonPoseUtil(7f / 16f, 33 / 16f, 3 / 16f, 4.5f / 16f, 23f / 16f);
-	public static final CannonPoseUtil FLAME_THROWER = new CannonPoseUtil(7f / 16f, 33 / 16f, 3 / 16f, 4.5f / 16f, 17f / 16f);
+	/**
+	 * Muzzle numbers in model pixels, sixteen to a block: the sideways and depth offsets and the height
+	 * of the mount, then how far the barrel sits above the mount line and how long it is.
+	 */
+	public static final CannonPoseUtil BEACON_CANNON = new CannonPoseUtil(7f, 33f, 3f, 5f, 22.5f);
+	public static final CannonPoseUtil FLAME_THROWER = new CannonPoseUtil(7f, 33f, 3f, 3.5f, 22.5f);
+
+	public static final CannonPoseUtil DOG_BEACON_CANNON = new CannonPoseUtil(0f, 13f, 3f, 5f, 22.5f);
+	public static final CannonPoseUtil DOG_FLAME_THROWER = new CannonPoseUtil(0f, 13f, 3f, 3.5f, 22.5f);
 
 	@Deprecated
-	public static final CannonPoseUtil BEACON = new CannonPoseUtil(7f / 16f, 33 / 16f, 3 / 16f, 4.5f / 16f, 17f / 16f);
+	public static final CannonPoseUtil BEACON = FLAME_THROWER;
 
-	public float[] getAngle(MetalGolemEntity e, InteractionHand hand) {
+	/**
+	 * Picks the aiming parameters matching the golem type carrying the weapon. The dog hangs its weapon
+	 * on a back far lower than a bipedal shoulder and mounts it centred rather than off to one side.
+	 */
+	public static CannonPoseUtil forEntity(AbstractGolemEntity<?, ?> e, CannonPoseUtil bipedal) {
+		var flame = bipedal == FLAME_THROWER || bipedal == BEACON;
+		var dog = e instanceof DogGolemEntity;
+		var src = dog ? (flame ? DOG_FLAME_THROWER : DOG_BEACON_CANNON) : bipedal;
+		return new CannonPoseUtil(src.x0() / 16F, src.y0() / 16F, src.z0() / 16F, src.y1() / 16F, src.z1() / 16F);
+	}
+
+	public float[] getAngle(AbstractGolemEntity<?, ?> e, InteractionHand hand) {
 		var ans = new float[2];
 		var dst = e.getTargetAimPos();
 		if (dst.length() == 0) return ans;
@@ -29,12 +49,16 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 				.add(forward.scale(z0)).scale(scale));
 
 		ans[0] = (float) Math.atan2(diff.x, diff.z);
-		ans[1] = (float) Math.asin(y1 * scale / diff.length())
-				- (float) Math.atan2(diff.y, diff.horizontalDistance());
+		// a target straight below collapses the horizontal distance, which pushes the pitch to the
+		// limit and made the aim look out of range, so aim straight down once there is no sideways room
+		var flat = diff.horizontalDistance();
+		ans[1] = flat < 1.0E-4F ? (diff.y < 0 ? -MAX_PITCH : MAX_PITCH)
+				: (float) Math.asin(Math.min(1.0F, y1 * scale / diff.length()))
+				- (float) Math.atan2(diff.y, flat);
 		return ans;
 	}
 
-	public Vec3 getOrigin(MetalGolemEntity e, InteractionHand hand) {
+	public Vec3 getOrigin(AbstractGolemEntity<?, ?> e, InteractionHand hand) {
 		var dst = e.getTargetAimPos();
 		if (dst.length() == 0) return e.position();
 		int x = hand == InteractionHand.MAIN_HAND ? -1 : 1;
@@ -66,11 +90,11 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 		return e.position().add(origin.add(af).add(av));
 	}
 
-	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand) {
+	public boolean isOutOfRange(AbstractGolemEntity<?, ?> e, InteractionHand hand) {
 		return isOutOfRange(e, hand, 5);
 	}
 
-	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand, float allowance) {
+	public boolean isOutOfRange(AbstractGolemEntity<?, ?> e, InteractionHand hand, float allowance) {
 		var rot = getAngle(e, hand);
 		var f0 = Vec3.directionFromRotation(rot[1] * Mth.RAD_TO_DEG, rot[0] * Mth.RAD_TO_DEG);
 		var diff = Mth.wrapDegrees(rot[0] * Mth.RAD_TO_DEG + e.yBodyRot);

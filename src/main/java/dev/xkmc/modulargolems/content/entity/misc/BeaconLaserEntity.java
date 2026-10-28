@@ -2,7 +2,9 @@ package dev.xkmc.modulargolems.content.entity.misc;
 
 import dev.xkmc.l2library.base.BaseEntity;
 import dev.xkmc.l2serial.serialization.SerialClass;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGDamageTypes;
@@ -62,10 +64,11 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 	}
 
 	public void setup(LivingEntity le) {
-		if (!(le instanceof MetalGolemEntity e)) return;
+		if (!(le instanceof AbstractGolemEntity<?, ?> e)) return;
 		var hand = right ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-		var pos = CannonPoseUtil.BEACON_CANNON.getOrigin(e, hand);
-		var rot = CannonPoseUtil.BEACON_CANNON.getAngle(e, hand);
+		var pose = CannonPoseUtil.forEntity(e, CannonPoseUtil.BEACON_CANNON);
+		var pos = pose.getOrigin(e, hand);
+		var rot = pose.getAngle(e, hand);
 		var dst = e.getTargetAimPos().add(e.position()).subtract(pos).normalize().scale(35).add(pos);
 		var hit = e.level().clip(new ClipContext(pos, dst, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, null));
 		len = (float) hit.getLocation().subtract(pos).length();
@@ -89,7 +92,7 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 		}
 		if (owner != null && tickCount == 0) setup(owner);
 		super.tick();
-		if (!level().isClientSide() && owner instanceof MetalGolemEntity e) {
+		if (!level().isClientSide() && owner instanceof AbstractGolemEntity<?, ?> e) {
 			var pos = position();
 			var dst = lastTarget;
 			var list = getEntityHitResult(level(), e, pos, dst, e.getScale() * 0.2f);
@@ -103,7 +106,7 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 		}
 	}
 
-	public List<LivingEntity> getEntityHitResult(Level level, MetalGolemEntity owner, Vec3 start, Vec3 end, float radius) {
+	public List<LivingEntity> getEntityHitResult(Level level, AbstractGolemEntity<?, ?> owner, Vec3 start, Vec3 end, float radius) {
 		var list = level.getEntities(EntityTypeTest.forClass(LivingEntity.class),
 				new AABB(start, end).inflate(radius), x -> !hit.contains(x) && owner.canAttack(x) && owner.predicateTarget(x));
 		var ans = new ArrayList<LivingEntity>();

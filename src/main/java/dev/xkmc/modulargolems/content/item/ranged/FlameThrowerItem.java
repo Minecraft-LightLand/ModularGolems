@@ -1,11 +1,9 @@
 package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.modulargolems.util.TNTLauncher;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -42,13 +40,13 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
+	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, InteractionHand hand) {
 		if (e.tickCount % 40 != (hand == InteractionHand.MAIN_HAND ? 10 : 30)) return;
 		var target = e.getTarget();
 		if (target == null || !target.isAlive()) return;
-		if (CannonPoseUtil.FLAME_THROWER.isOutOfRange(e, hand, 15)) return;
+		if (CannonPoseUtil.forEntity(e, CannonPoseUtil.FLAME_THROWER).isOutOfRange(e, hand, 15)) return;
 		var ammo = e.getProjectile(stack);
-		var pos = CannonPoseUtil.FLAME_THROWER.getOrigin(e, hand);
+		var pos = CannonPoseUtil.forEntity(e, CannonPoseUtil.FLAME_THROWER).getOrigin(e, hand);
 		if (ammo.is(Items.TNT)) {
 			var tnt = TNTLauncher.getTNTEntity(e, pos, target);
 			if (tnt == null) return;
@@ -97,8 +95,6 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 		list.add(MGLangData.FLAMETHROWER_TNT.get());
 		list.add(MGLangData.FLAMETHROWER_FIRECHARGE.get());
 		list.add(MGLangData.FLAMETHROWER_FLAME.get());
-		list.add(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
-				.withStyle(ChatFormatting.UNDERLINE));
 		list.add(MGLangData.SHOULDER_WEAPON.get());
 	}
 
@@ -127,7 +123,7 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public @Nullable ResourceLocation getAnimBaseId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
+	public @Nullable ResourceLocation getAnimBaseId(AbstractGolemEntity<?, ?> user, ItemStack stack, InteractionHand hand) {
 		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BEACON_RIGHT : GolemModelPaths.BEACON_LEFT;
 	}
 
@@ -137,14 +133,14 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public ResourceLocation getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public ResourceLocation getEmissiveTexture(AbstractGolemEntity<?, ?> entity, ItemStack stack, InteractionHand hand) {
 		var id = ForgeRegistries.ITEMS.getKey(this);
 		assert id != null;
 		return id.withPath(e -> "textures/equipments/" + e + "_emissive.png");
 	}
 
 	@Override
-	public ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public ResourceLocation getModelTexture(AbstractGolemEntity<?, ?> entity, ItemStack stack, InteractionHand hand) {
 		var id = ForgeRegistries.ITEMS.getKey(this);
 		assert id != null;
 		return id.withPath(e -> "textures/equipments/" + e + ".png");

@@ -125,6 +125,7 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity>
 	}
 
 
+
 	protected Iterable<ModelPart> headParts() {
 		return ImmutableList.of(this.head);
 	}

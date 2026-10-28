@@ -84,14 +84,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
+import java.util.function.Predicate;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -1156,6 +1159,55 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		this.targetSelector.addGoal(3, targeter = new Golem3DTargetGoal(this, 5));
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
+	}
+
+	/**
+	 * Where a shoulder mounted weapon should aim at, as an offset from this entity. Golem types
+	 * tracking their own aim point override this, otherwise it falls back to the current target.
+	 */
+	public Vec3 getTargetAimPos() {
+		LivingEntity target = getTarget();
+		if (target == null) return Vec3.ZERO;
+		return target.position().add(0, target.getBbHeight() * 0.5, 0).subtract(position());
+	}
+
+	/**
+	 * Tick count of the shoulder weapon deploy animation, or a negative value when it is not
+	 * deploying. Golem types with a shoulder weapon drive this from their own anim state.
+	 */
+	public int getShoulderAnimStarting() {
+		return -1;
+	}
+
+	/**
+	 * Tick count of the shoulder weapon retract animation, or a negative value when it is not
+	 * retracting.
+	 */
+	public int getShoulderAnimEnding() {
+		return -1;
+	}
+
+	/**
+	 * Resolves the projectile a ranged weapon should fire. The arrow slots are this golem's own ammo,
+	 * so they are consulted with everything the weapon supports rather than the vanilla held set,
+	 * which would reject fuel items such as blaze powder.
+	 */
+	@Override
+	public ItemStack getProjectile(ItemStack shootable) {
+		if (!(shootable.getItem() instanceof ProjectileWeaponItem weapon)) {
+			return ForgeHooks.getProjectile(this, shootable, ItemStack.EMPTY);
+		}
+		Predicate<ItemStack> held = weapon.getSupportedHeldProjectiles();
+		Predicate<ItemStack> ammo = weapon.getAllSupportedProjectiles();
+		ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, held);
+		if (stack.isEmpty()) stack = ProjectileWeaponItem.getHeldProjectile(this, ammo);
+		var arrows = getArrowSlot().getItem();
+		if (arrows.isEmpty()) arrows = getArrowSlot2().getItem();
+		if (stack.isEmpty() && !arrows.isEmpty() && ammo.test(arrows)) {
+			stack = arrows;
+		}
+		var ans = ForgeHooks.getProjectile(this, shootable, stack);
+		return isHostile() ? ans.copy() : ans;
 	}
 
 	public boolean predicateTarget(LivingEntity e) {

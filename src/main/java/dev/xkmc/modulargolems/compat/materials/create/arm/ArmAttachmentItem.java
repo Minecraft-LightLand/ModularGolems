@@ -3,8 +3,9 @@ package dev.xkmc.modulargolems.compat.materials.create.arm;
 import dev.xkmc.modulargolems.compat.materials.create.CreateCompatRegistry;
 import dev.xkmc.modulargolems.content.client.weapon.ShoulderAnimData;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.ranged.ShouldWeaponItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -36,7 +37,7 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 	}
 
 	@Override
-	public List<ShoulderAnimData> getAnimationData(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
+	public List<ShoulderAnimData> getAnimationData(AbstractGolemEntity<?, ?> user, ItemStack stack, InteractionHand hand) {
 		return List.of();
 	}
 
@@ -47,7 +48,7 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 	}
 
 	@Override
-	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
+	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, InteractionHand hand) {
 		if (e.level().isClientSide()) return;
 		var time = e.level().getGameTime();
 		var tag = stack.getOrCreateTag();
@@ -55,7 +56,10 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 		int takingItem = tag.getInt("TakingItem");
 		var speed = Mth.clamp(tag.getFloat("FixSpeed"), 0.25f, 4f);
 		if (last > time || last < time - (int) (100 / speed)) {
-			ItemStack other = hand == InteractionHand.MAIN_HAND ? e.getLeftShoulder().getItem() : e.getRightShoulder().getItem();
+			ItemStack other = ItemStack.EMPTY;
+			// only the two shouldered golem type has an opposite shoulder to trade with
+			if (e instanceof MetalGolemEntity metal)
+				other = hand == InteractionHand.MAIN_HAND ? metal.getLeftShoulder().getItem() : metal.getRightShoulder().getItem();
 			if (other.getItem() instanceof ArmAttachmentItem) {
 				long prev = other.getOrCreateTag().getLong("FixAction");
 				if (prev <= time && prev > time - 20) return;
@@ -85,9 +89,9 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 		}
 	}
 
-	public static float getSpeed(MetalGolemEntity e) {
+	public static float getSpeed(AbstractGolemEntity<?, ?> e) {
 		float ans = MGConfig.COMMON.mechanicalArmSpeed.get().floatValue();
-		if (e.getPersistentData().getLong("MechEngineLastPoweredUp") > e.level().getGameTime()) {
+		if (e.getEffect(CreateCompatRegistry.EFF_MOBILE.get()) != null || e.getEffect(CreateCompatRegistry.EFF_FORCE.get()) != null) {
 			ans += MGConfig.COMMON.mechanicalArmPowerBonus.get().floatValue();
 		}
 		float bonus = 0;
@@ -101,7 +105,7 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 		return Mth.clamp(ans, 0.5f, 4f);
 	}
 
-	private static ItemStack fetch(MetalGolemEntity e, boolean simulate) {
+	private static ItemStack fetch(AbstractGolemEntity<?, ?> e, boolean simulate) {
 		var opt = e.getCapability(ForgeCapabilities.ITEM_HANDLER).resolve();
 		if (opt.isEmpty()) return ItemStack.EMPTY;
 		var mat = e.getMaterials().get(MetalGolemPartType.BODY.ordinal());

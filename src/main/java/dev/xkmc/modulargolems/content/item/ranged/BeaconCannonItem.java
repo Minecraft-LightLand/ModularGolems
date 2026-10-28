@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.misc.BeaconLaserEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscEntities;
@@ -25,10 +25,10 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 	}
 
 	@Override
-	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
+	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, InteractionHand hand) {
 		if (e.tickCount % 60 == (hand == InteractionHand.MAIN_HAND ? 20 : 50) &&
 				!e.level().isClientSide() && e.getTarget() != null && e.getTarget().isAlive()) {
-			if (CannonPoseUtil.BEACON_CANNON.isOutOfRange(e, hand)) return;
+			if (CannonPoseUtil.forEntity(e, CannonPoseUtil.BEACON_CANNON).isOutOfRange(e, hand)) return;
 			var laser = new BeaconLaserEntity(GolemMiscEntities.LASER.get(), e.level(), e, 10, hand == InteractionHand.MAIN_HAND);
 			e.level().addFreshEntity(laser);
 			if (!e.isSilent())
