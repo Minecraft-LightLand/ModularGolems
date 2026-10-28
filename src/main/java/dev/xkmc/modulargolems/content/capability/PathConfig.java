@@ -1,12 +1,10 @@
 package dev.xkmc.modulargolems.content.capability;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
-import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -22,11 +20,8 @@ public class PathConfig {
 	public static List<PathRecordCard.Pos> getPath(AbstractGolemEntity<?, ?> e) {
 		var faction = HostileGolemRegistry.tryGetFaction(e);
 		if (faction.isPresent()) return faction.get().getPath(e, e.getConfigColor());
-		if (ModList.get().isLoaded("curios")) {
-			var opt = CurioCompatRegistry.getItem(e, "golem_route")
-					.map(PathRecordCard::getList);
-			if (opt.isPresent()) return opt.get();
-		}
+		var route = e.getRouteSlot().getItem();
+		if (route.getItem() instanceof PathRecordCard) return PathRecordCard.getList(route);
 		var config = e.getConfigEntry(null);
 		if (config != null) {
 			return config.pathConfig.getList();

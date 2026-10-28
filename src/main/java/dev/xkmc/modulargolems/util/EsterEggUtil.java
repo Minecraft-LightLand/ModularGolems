@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.util;
 
-import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -8,7 +7,6 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.ModList;
 
 import java.util.Locale;
 
@@ -22,7 +20,7 @@ public class EsterEggUtil {
 
 	}
 
-	private static boolean isKobe(AbstractGolemEntity<?, ?> e) {
+	public static boolean isKobe(AbstractGolemEntity<?, ?> e) {
 		if (!hasFacadeWithMaterial(e, ModularGolems.loc("netherite"))) {
 			return false;
 		}
@@ -31,11 +29,9 @@ public class EsterEggUtil {
 	}
 
 	private static boolean hasFacadeWithMaterial(AbstractGolemEntity<?, ?> e, ResourceLocation material) {
-		if (ModList.get().isLoaded("curios")) {
-			var opt = CurioCompatRegistry.getItem(e, "golem_skin");
-			if (opt.isPresent() && opt.get().getItem() instanceof GolemFacade) {
-				return GolemFacade.getMaterial(opt.get()).equals(material);
-			}
+		var skin = e.getSkinSlot().getItem();
+		if (skin.getItem() instanceof GolemFacade) {
+			return GolemFacade.getMaterial(skin).equals(material);
 		}
 		if (e instanceof MetalGolemEntity) {
 			for (var tex : e.getMaterials()) {

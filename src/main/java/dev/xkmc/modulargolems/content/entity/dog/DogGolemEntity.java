@@ -39,6 +39,12 @@ import java.util.ArrayList;
 
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getArrowSlot() { return super.getArrowSlot(); }
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getArrowSlot2() { return super.getArrowSlot2(); }
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getBannerSlot() { return super.getBannerSlot(); }
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getSkinSlot() { return super.getSkinSlot(); }
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getRouteSlot() { return super.getRouteSlot(); }
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getShoulderSlot() { return super.getShoulderSlot(); }
 
 	public float getJumpStrength() {
 		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());

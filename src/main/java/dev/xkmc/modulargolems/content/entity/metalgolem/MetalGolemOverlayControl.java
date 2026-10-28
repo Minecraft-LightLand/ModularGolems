@@ -13,8 +13,17 @@ public class MetalGolemOverlayControl extends SweepGolemOverlayControl<MetalGole
 
 	public void renderImage(GolemStatusOverlay.GolemEquipmentTooltip tooltip, Font font, int mx, int my, GuiGraphics g) {
 		super.renderImage(tooltip, font, mx, my, g);
-		tooltip.renderSlot(g, mx, my, golem.getRightShoulder().getItem(), "slotbg_shoulder");
-		tooltip.renderSlot(g, mx + 36, my, golem.getLeftShoulder().getItem(), "slotbg_shoulder");
+		tooltip.renderSlot(g, mx, my + 18, golem.getRightShoulder().getItem(), "slotbg_shoulder");
+		tooltip.renderSlot(g, mx + 36, my + 18, golem.getLeftShoulder().getItem(), "slotbg_shoulder");
 	}
+
+	public int getHeight() {
+		return 92;
+	}
+
+	public int getWidth(Font pFont) {
+		return 54;
+	}
+
 
 }

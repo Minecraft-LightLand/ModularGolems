@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
-import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
@@ -21,7 +20,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -88,11 +86,8 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		boolean glowing = Minecraft.getInstance().shouldEntityAppearGlowing(entity);
 		pose.pushPose();
 		ResourceLocation facade = null;
-		if (ModList.get().isLoaded("curios")) {
-			var opt = CurioCompatRegistry.getItem(entity, "golem_skin");
-			if (opt.isPresent() && opt.get().getItem() instanceof GolemFacade)
-				facade = GolemFacade.getMaterial(opt.get());
-		}
+		var skin = entity.getSkinSlot().getItem();
+		if (skin.getItem() instanceof GolemFacade) facade = GolemFacade.getMaterial(skin);
 		var materials = entity.getMaterials();
 		for (P part : list.get()) {
 			ResourceLocation rl = facade;

@@ -17,6 +17,7 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
+import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
@@ -84,6 +85,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -145,6 +147,46 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private Vec3 recordedPosition = Vec3.ZERO;
 	@SerialClass.SerialField
 	private BlockPos recordedGuardPos = BlockPos.ZERO;
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack skinSlot = ItemStack.EMPTY;
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack routeSlot = ItemStack.EMPTY;
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack bannerSlot = ItemStack.EMPTY;
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack arrowSlot = ItemStack.EMPTY;
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack arrowSlot2 = ItemStack.EMPTY;
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack shoulderSlot = ItemStack.EMPTY;
+
+	public ItemWrapper getSkinSlot() {
+		return ItemWrapper.simple(() -> this.skinSlot, e -> this.skinSlot = e);
+	}
+
+	public ItemWrapper getRouteSlot() {
+		return ItemWrapper.simple(() -> this.routeSlot, e -> this.routeSlot = e);
+	}
+
+	public ItemWrapper getBannerSlot() {
+		return ItemWrapper.simple(() -> this.bannerSlot, e -> this.bannerSlot = e);
+	}
+
+	public ItemWrapper getArrowSlot() {
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(ARROW_SLOT), e -> entityData.set(ARROW_SLOT, e));
+		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
+	}
+
+	public ItemWrapper getArrowSlot2() {
+		if (level().isClientSide())
+			return ItemWrapper.simple(() -> entityData.get(ARROW_SLOT_2), e -> entityData.set(ARROW_SLOT_2, e));
+		return ItemWrapper.simple(() -> this.arrowSlot2, e -> this.arrowSlot2 = e);
+	}
+
+	public ItemWrapper getShoulderSlot() {
+		return ItemWrapper.simple(() -> this.shoulderSlot, e -> this.shoulderSlot = e);
+	}
 
 	@Nullable
 	private transient Component autoName;
@@ -405,7 +447,27 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				dropSlot(slot, true);
 			}
 		}
+		dropExtraSlot();
 		super.dropCustomDeathLoot(source, i, b);
+	}
+
+	/**
+	 * Drops the banner, skin and route slots, which are not part of the vanilla equipment slots.
+	 */
+	protected void dropExtraSlot() {
+		skinSlot = dropStack(skinSlot);
+		routeSlot = dropStack(routeSlot);
+		bannerSlot = dropStack(bannerSlot);
+		arrowSlot = dropStack(arrowSlot);
+		arrowSlot2 = dropStack(arrowSlot2);
+		shoulderSlot = dropStack(shoulderSlot);
+	}
+
+	private ItemStack dropStack(ItemStack stack) {
+		if (!stack.isEmpty() && stack.getEnchantmentLevel(Enchantments.VANISHING_CURSE) <= 0) {
+			spawnAtLocation(stack);
+		}
+		return ItemStack.EMPTY;
 	}
 
 	protected void dropSlot(EquipmentSlot slot, boolean isDeath) {
@@ -713,6 +775,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.specialAttackCoolDown--;
 		}
 		checkSize();
+		// 弹药会在使用中被消耗，而箭槽字段只在实体生成时随 spawn 包同步一次；
+		// 不在每 tick 推回客户端，命令手杖的预览界面就会显示旧弹药，直到重开装备界面。
+		if (!this.level().isClientSide) {
+			if (!ItemStack.matches(entityData.get(ARROW_SLOT), arrowSlot)) {
+				entityData.set(ARROW_SLOT, arrowSlot.copy());
+			}
+			if (!ItemStack.matches(entityData.get(ARROW_SLOT_2), arrowSlot2)) {
+				entityData.set(ARROW_SLOT_2, arrowSlot2.copy());
+			}
+		}
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
@@ -983,6 +1055,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.defineSynchedData();
 		GOLEM_DATA.register(this.entityData);
 		entityData.define(IS_IN_RANGE_ATTACK, false);
+		entityData.define(ARROW_SLOT, ItemStack.EMPTY);
+		entityData.define(ARROW_SLOT_2, ItemStack.EMPTY);
 	}
 
 	public void startPersistentAngerTimer() {
@@ -1184,6 +1258,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<ItemStack> ARROW_SLOT_2 = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
 	public boolean isInRangedMode() {
 		return getMode() == GolemModes.STAND || getEntityData().get(IS_IN_RANGE_ATTACK);
@@ -1322,6 +1398,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		var ans = new ArrayList<IItemHandlerModifiable>();
 		ans.add(new EntityHandsInvWrapper(this));
 		ans.add(new EntityArmorInvWrapper(this));
+		ans.add(new SlotWrapper(() -> skinSlot, e -> skinSlot = e));
+		ans.add(new SlotWrapper(() -> routeSlot, e -> routeSlot = e));
+		ans.add(new SlotWrapper(() -> bannerSlot, e -> bannerSlot = e));
+		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
+		ans.add(new SlotWrapper(() -> arrowSlot2, e -> arrowSlot2 = e));
+		ans.add(new SlotWrapper(() -> shoulderSlot, e -> shoulderSlot = e));
 		MinecraftForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
 		return ans;
 	}

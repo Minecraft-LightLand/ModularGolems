@@ -1,8 +1,12 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
+import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
+import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
+import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.BannerItem;
 
 import java.util.Optional;
 
@@ -12,13 +16,20 @@ public class DogGolemMenuControl extends GolemMenuControl<DogGolemEntity> {
 		super(menu, golem);
 	}
 
-	public void fillMenu() {
-		menu.addSlot("chest", e -> isValid(EquipmentSlot.HEAD, e));
-		menu.addSlot("legs", e -> isValid(EquipmentSlot.CHEST, e));
-	}
-
-	public EquipmentSlot[] getSlotDefinition() {
-		return EquipmentsMenu.DOG_SLOTS;
+	/**
+	 * The dog golem has no head equipment, so its first slot is repurposed as the banner slot. The
+	 * patrol path takes the dedicated route position, leaving the arrow slot free for consumables.
+	 */
+public void fillMenu() {
+		addSlot("right_hand", golem::getBannerSlot, true, e -> e.getItem() instanceof BannerItem, 1);
+		addSlot("legs", () -> golem.getWrapperOfHand(EquipmentSlot.CHEST), true,
+				e -> isValid(EquipmentSlot.CHEST, e));
+		addSlot("backup", golem::getSkinSlot, true, e -> e.getItem() instanceof GolemFacade, 1);
+		addSlot("feet", golem::getRouteSlot, true, e -> e.getItem() instanceof PathRecordCard);
+		addSlot("arrow_1", golem::getArrowSlot, false, e -> true);
+		addSlot("arrow_2", golem::getArrowSlot2, false, e -> true);
+		addSlot("chest", golem::getShoulderSlot, true,
+				e -> e.getItem() instanceof IShoulderWeapon);
 	}
 
 	public Optional<DogGolemScreenControl> getScreenProvider() {

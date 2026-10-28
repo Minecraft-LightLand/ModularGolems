@@ -44,6 +44,10 @@ import java.util.Arrays;
 
 @SerialClass
 public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> implements CrossbowAttackMob {
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getArrowSlot2() { return super.getArrowSlot2(); }
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getBannerSlot() { return super.getBannerSlot(); }
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getSkinSlot() { return super.getSkinSlot(); }
+	public dev.xkmc.mob_weapon_api.api.ai.ItemWrapper getRouteSlot() { return super.getRouteSlot(); }
 
 	private static final EntityDataAccessor<String> DATA_MAID_MODEL_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<String> DATA_SOUND_PACK_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);

@@ -16,7 +16,7 @@ public class PlayerSkinButton extends Button {
 	private final HumanoidGolemEntity golem;
 
 	public PlayerSkinButton(int x, int y, HumanoidGolemEntity golem, OnPress onPress) {
-		super(x + 2, y, 9, 9, Component.empty(), onPress, DEFAULT_NARRATION);
+		super(x, y, 9, 9, Component.empty(), onPress, DEFAULT_NARRATION);
 		this.golem = golem;
 		setTooltip(Tooltip.create(Component.translatable(ModularGolems.MODID + ".tooltip.player_skin_button")));
 	}
