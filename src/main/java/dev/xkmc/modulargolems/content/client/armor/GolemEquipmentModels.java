@@ -189,6 +189,7 @@ public class GolemEquipmentModels {
 		regAndAdd(event, CHESTPLATE_LAYER, GolemEquipmentModels::createChestplateLayer);
 		regAndAdd(event, SHINGUARD_LAYER, GolemEquipmentModels::createShinGuard);
 
+		regAndAdd(event, GolemBoots.IRON_BOOTS_LAYER, GolemBoots::createIronBoots);
 		regAndAdd(event, GolemBoots.DIAMOND_BOOTS_LAYER, GolemBoots::createDiamondBoots);
 		regAndAdd(event, GolemBoots.BEACON_BOOTS_LAYER, GolemBoots::createBeaconBoots);
 		regAndAdd(event, GolemBoots.NETHERITE_BOOTS_LAYER, GolemBoots::createNetheriteBoots);

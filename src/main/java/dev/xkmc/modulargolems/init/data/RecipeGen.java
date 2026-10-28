@@ -326,6 +326,13 @@ public class RecipeGen {
 					.define('B', Items.REDSTONE)
 					.save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_BOOTS.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("I I").pattern("BAB")
+					.define('I', Items.IRON_BOOTS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.WINDSPIRIT_HELMET.get())::unlockedBy, Items.DIAMOND)
 					.pattern(" B ").pattern("III").pattern("IAI")
 					.define('I', Items.DIAMOND_HELMET)

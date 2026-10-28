@@ -66,54 +66,54 @@ public class CataCompatRegistry {
 				.register();
 
 		HARBINGER_HELMET = REGISTRATE.item("harbinger_helmet", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.WITHERITE_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, 0.2F, CataArmorPaths.WITHERITE_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		HARBINGER_CHESTPLATE = REGISTRATE.item("harbinger_chestplate", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.WITHERITE_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.2F, CataArmorPaths.WITHERITE_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		HARBINGER_SHINGUARD = REGISTRATE.item("harbinger_shinguard", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.WITHERITE_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.2F, CataArmorPaths.WITHERITE_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
 		MONSTROSITY_HELMET = REGISTRATE.item("monstrosity_helmet", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.MONSTROSITY_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, 0.3F, CataArmorPaths.MONSTROSITY_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		MONSTROSITY_CHESTPLATE = REGISTRATE.item("monstrosity_chestplate", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.MONSTROSITY_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.3F, CataArmorPaths.MONSTROSITY_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 		MONSTROSITY_SHINGUARD = REGISTRATE.item("monstrosity_shinguard", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.MONSTROSITY_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.3F, CataArmorPaths.MONSTROSITY_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.defaultLang().register();
 
 		IGNIS_HELMET = REGISTRATE.item("ignis_helmet", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.IGNIS_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, 0.3F, CataArmorPaths.IGNIS_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Ignitium Golem Helmet").register();
 		IGNIS_CHESTPLATE = REGISTRATE.item("ignis_chestplate", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.IGNIS_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.3F, CataArmorPaths.IGNIS_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Ignitium Golem Chestplate").register();
 		IGNIS_SHINGUARD = REGISTRATE.item("ignis_shinguard", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.IGNIS_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.3F, CataArmorPaths.IGNIS_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Ignitium Golem Shinguard").register();
 
 		MALEDICTUS_HELMET = REGISTRATE.item("maledictus_helmet", p -> new MaledictusArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.MALEDICTUS_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, 0.1F, CataArmorPaths.MALEDICTUS_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Cursium Golem Helmet").register();
 		MALEDICTUS_CHESTPLATE = REGISTRATE.item("maledictus_chestplate", p -> new MaledictusArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.MALEDICTUS_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.1F, CataArmorPaths.MALEDICTUS_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Cursium Golem Chestplate").register();
 		MALEDICTUS_SHINGUARD = REGISTRATE.item("maledictus_shinguard", p -> new MaledictusArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.MALEDICTUS_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.1F, CataArmorPaths.MALEDICTUS_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.lang("Cursium Golem Shinguard").register();
 

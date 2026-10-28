@@ -13,11 +13,18 @@ import static dev.xkmc.modulargolems.content.client.armor.GolemModelPaths.*;
 
 public class GolemBoots {
 
+	public static final ModelLayerLocation IRON_BOOTS_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "roman_guard_boots"), "main");
 	public static final ModelLayerLocation DIAMOND_BOOTS_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "wind_spirit_boots"), "main");
 	public static final ModelLayerLocation BEACON_BOOTS_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "beacon_boots"), "main");
 	public static final ModelLayerLocation NETHERITE_BOOTS_LAYER = new ModelLayerLocation(new ResourceLocation(ModularGolems.MODID, "barbaric_vanguard_boots"), "main");
 
 	static {
+		GolemModelPath.register(BOOTS_IRON,
+				new GolemModelPath(IRON_BOOTS_LAYER, List.of(
+						List.of("right_leg", "boot1"),
+						List.of("left_leg", "boot2")
+				)));
+
 		GolemModelPath.register(BOOTS_DIAMOND,
 				new GolemModelPath(DIAMOND_BOOTS_LAYER, List.of(
 						List.of("right_leg", "boots1"),
@@ -36,6 +43,26 @@ public class GolemBoots {
 						List.of("left_leg", "boots2")
 				)));
 
+	}
+
+
+	public static LayerDefinition createIronBoots() {
+		MeshDefinition mesh = buildGolemBaseLayers();
+		PartDefinition partdefinition = mesh.getRoot();
+
+		PartDefinition right_leg = partdefinition.getChild("right_leg");
+
+		PartDefinition boot1 = right_leg.addOrReplaceChild("boot1", CubeListBuilder.create().texOffs(28, 11).addBox(-8.0F, -5.0F, -3.5F, 7.0F, 1.0F, 6.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 11).addBox(-8.0F, -1.0F, -4.5F, 7.0F, 2.0F, 7.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 0).addBox(-8.0F, -5.0F, -3.5F, 7.0F, 5.0F, 6.0F, new CubeDeformation(-0.2F)), PartPose.offset(4.0F, 13.0F, 0.0F));
+
+		PartDefinition left_leg = partdefinition.getChild("left_leg");
+
+		PartDefinition boot2 = left_leg.addOrReplaceChild("boot2", CubeListBuilder.create().texOffs(28, 18).addBox(-8.0F, -5.0F, -3.5F, 7.0F, 1.0F, 6.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 20).addBox(-8.0F, -1.0F, -4.5F, 7.0F, 2.0F, 7.0F, new CubeDeformation(0.0F))
+				.texOffs(26, 0).addBox(-8.0F, -5.0F, -3.5F, 7.0F, 5.0F, 6.0F, new CubeDeformation(-0.2F)), PartPose.offset(4.0F, 13.0F, 0.0F));
+
+		return LayerDefinition.create(mesh, 64, 64);
 	}
 
 

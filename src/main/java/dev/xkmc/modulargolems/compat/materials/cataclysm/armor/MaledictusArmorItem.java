@@ -31,7 +31,12 @@ import java.util.UUID;
 public class MaledictusArmorItem extends MetalGolemArmorItem {
 
 	public MaledictusArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
-		super(properties, type, defense, toughness, model);
+		this(properties, type, defense, toughness, 0, model);
+	}
+
+	public MaledictusArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness,
+			float knockbackResistance, ResourceLocation model) {
+		super(properties, type, defense, toughness, knockbackResistance, model);
 	}
 
 	@Override
