@@ -21,6 +21,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
+import dev.xkmc.modulargolems.content.item.wand.OmniWandKeyToServer;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
@@ -82,7 +83,8 @@ public class ModularGolems {
 			e -> e.create(DogSkillToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(GolemSetModeToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(SetMaidModelToServer.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER)
+			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(OmniWandKeyToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
