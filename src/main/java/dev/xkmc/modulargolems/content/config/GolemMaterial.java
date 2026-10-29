@@ -34,7 +34,11 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 			appendStat(values, type, 0);
 		}
 		for (GolemMaterial stats : list) {
-			stats.stats.forEach((k, v) -> appendStat(values, k, v));
+			if (stats == null || stats.stats() == null) continue;
+			stats.stats().forEach((k, v) -> {
+				if (k == null) return;
+				appendStat(values, k, v);
+			});
 		}
 		for (var entry : collectModifiers(list, upgrades).entrySet()) {
 			if (entry.getKey() instanceof AttributeGolemModifier attr) {
@@ -96,10 +100,20 @@ public record GolemMaterial(HashMap<GolemStatType, Double> stats, HashMap<GolemM
 
 	public static HashMap<GolemModifier, Integer> collectModifiers(Collection<GolemMaterial> list, Collection<IUpgradeItem> upgrades) {
 		HashMap<GolemModifier, Integer> values = new LinkedHashMap<>();
-		for (GolemMaterial stats : list) {
-			stats.modifiers.forEach((k, v) -> values.compute(k, (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + v)));
+		if (list != null) for (GolemMaterial stats : list) {
+			if (stats == null || stats.modifiers() == null) continue;
+			stats.modifiers().forEach((k, v) -> {
+				if (k == null) return;
+				values.compute(k, (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + v));
+			});
 		}
-		upgrades.stream().flatMap(e -> e.get().stream()).forEach(e -> values.compute(e.mod(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + e.level())));
+		if (upgrades != null) for (Object e : upgrades) {
+			if (e instanceof IUpgradeItem item) {
+				for (var inst : item.get()) {
+					values.compute(inst.mod(), (a, old) -> Math.min(a.maxLevel, (old == null ? 0 : old) + inst.level()));
+				}
+			}
+		}
 		return values;
 	}
 
