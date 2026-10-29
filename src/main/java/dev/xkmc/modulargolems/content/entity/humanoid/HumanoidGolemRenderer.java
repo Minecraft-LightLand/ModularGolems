@@ -36,7 +36,7 @@ public class HumanoidGolemRenderer extends AbstractGolemRenderer<HumanoidGolemEn
 				break;
 			}
 			case GROUND: {
-				stack.translate(0.25, 0, 0.5);
+				stack.translate(0.25, 0.25, 0.5);
 				float size = 0.625f;
 				stack.scale(size, size, size);
 				break;
