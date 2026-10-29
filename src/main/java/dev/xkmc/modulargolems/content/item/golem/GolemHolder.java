@@ -456,8 +456,13 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		return true;
 	}
 
+	/**
+	 * Runs after the block's own use, so any interactive block the player clicks wins and only blocks
+	 * that ignore the click summon the golem. Sneaking skips the block use, forcing the summon.
+	 */
 	@Override
-	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+	public InteractionResult useOn(UseOnContext context) {
+		ItemStack stack = context.getItemInHand();
 		CompoundTag root = stack.getTag();
 		if (root == null) {
 			return InteractionResult.PASS;
