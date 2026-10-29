@@ -30,6 +30,7 @@ import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -640,6 +641,25 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		updateAttributes(materials, Wrappers.cast(getUpgrades()), owner);
 		GOLEM_DATA.read(tag, entityData);
 
+	}
+
+	@SerialClass.OnInject
+	public void cleanInvalidEntries() {
+		GolemType<?, ?> type = GolemType.getGolemType(getType());
+		if (materials != null) {
+			IGolemPart<?>[] parts = type == null ? null : type.values();
+			for (int i = 0; i < materials.size(); i++) {
+				GolemMaterial mat = materials.get(i);
+				if (mat != null && mat.part() instanceof GolemPart<?, ?>) continue;
+				if (parts == null || i >= parts.length) {
+					materials.remove(i--);
+					continue;
+				}
+				materials.set(i, parts[i].toItem().parseMaterial(type.defaultMaterial()));
+			}
+		}
+		if (upgrades != null) upgrades.removeIf(Objects::isNull);
+		if (modifiers != null) modifiers.keySet().removeIf(Objects::isNull);
 	}
 
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
