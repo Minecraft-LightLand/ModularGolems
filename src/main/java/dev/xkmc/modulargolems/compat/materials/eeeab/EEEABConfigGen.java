@@ -31,7 +31,7 @@ public class EEEABConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
 				.addModifier(EEEABCompatRegistry.ANNIHILATOR_MISSILE.get(), 1)
 				.addModifier(EEEABCompatRegistry.ANNIHILATOR_LASER.get(), 1)
-				.addModifier(EEEABCompatRegistry.ANNIHILATOR_ELECTROMAGNETIC.get(), 1)
+				.addModifier(EEEABCompatRegistry.REALM_WARDEN_JUMP_SMASH.get(), 1)
 				.end()
 
 		);

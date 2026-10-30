@@ -21,7 +21,7 @@ public class GuardianLaserModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new GuardianLaserAttackGoal(entity, lv));
+		addGoal.accept(5, new GuardianLaserAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }

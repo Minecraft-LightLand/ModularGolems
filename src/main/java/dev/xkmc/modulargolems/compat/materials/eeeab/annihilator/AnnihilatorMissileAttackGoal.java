@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.compat.materials.eeeab.EEEABProxy;
 import dev.xkmc.modulargolems.compat.materials.goety.multi.MultiTargetRangedGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 /**
  * Multi-target goal for {@link AnnihilatorMissileModifier}.
@@ -34,7 +35,16 @@ public class AnnihilatorMissileAttackGoal extends MultiTargetRangedGoal {
 	protected void performAttackImpl(LivingEntity target) {
 		if (golem.level().isClientSide) return;
 		EEEABProxy.shootAnnihilatorMissile(golem, target);
-		golem.getNavigation().stop();
 	}
 
+	@Override
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
+
+
+	@Override
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
+	}
 }

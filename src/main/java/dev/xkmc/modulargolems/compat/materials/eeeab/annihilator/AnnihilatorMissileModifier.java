@@ -1,9 +1,15 @@
 package dev.xkmc.modulargolems.compat.materials.eeeab.annihilator;
 
+import dev.xkmc.modulargolems.compat.materials.eeeab.EEEABDispatch;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 
 import java.util.function.BiConsumer;
 
@@ -29,13 +35,28 @@ import java.util.function.BiConsumer;
  */
 public class AnnihilatorMissileModifier extends GolemModifier {
 
+	/**
+	 * EEEAB {@code EntityOverloadExplode} 的伤害类型。感电效果到期时爆炸，
+	 * 由于 {@code EntityOverloadExplode} 只给 caster 赋值而没有给 {@code EntityExplode.owner} 赋值，
+	 * 爆炸不会排除任何实体，近身命中的施加者自己也会吃到伤害。界域傀儡免疫此伤害。
+	 */
+	private static final ResourceKey<DamageType> OVERLOAD_EXPLODE =
+			ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(EEEABDispatch.MODID, "overload_explode"));
+
 	public AnnihilatorMissileModifier() {
 		super(StatFilterType.ATTACK, 3);
 	}
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new AnnihilatorMissileAttackGoal(entity, lv));
+		addGoal.accept(5, new AnnihilatorMissileAttackGoal(entity, lv).withName(this.getDescriptionId()));
+	}
+
+	@Override
+	public void onAttacked(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
+		if (event.getSource().is(OVERLOAD_EXPLODE)) {
+			event.setCanceled(true);
+		}
 	}
 
 }
