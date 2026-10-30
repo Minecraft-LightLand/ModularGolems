@@ -14,6 +14,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
 import java.util.List;
+import dev.xkmc.modulargolems.util.GolemTargetUtil;
 
 public class PolarizeModifier extends GolemModifier {
 
@@ -67,7 +68,7 @@ public class PolarizeModifier extends GolemModifier {
 		boolean ranged = golem.isInRangedMode() || golem.hasRangeAttack();
 		var aabb = golem.getBoundingBox().inflate(r);
 		List<LivingEntity> list = golem.level().getEntities(EntityTypeTest.forClass(LivingEntity.class), aabb,
-				e -> e != golem && golem.canAttack(e));
+				e -> e != golem && GolemTargetUtil.canTarget(golem, e));
 		Vec3 pos = golem.position().add(0, golem.getBbHeight() / 2, 0);
 		Vec3 forward = target.position().add(0, target.getBbHeight() / 2, 0).subtract(pos);
 		forward = forward.length() < 1 ? golem.getForward().normalize() : forward.normalize();

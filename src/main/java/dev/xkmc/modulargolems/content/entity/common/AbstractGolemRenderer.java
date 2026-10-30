@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.alexscaves.client.AtomicBeamRenderer;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
@@ -64,6 +65,7 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		entity.validateData();
 		if (model instanceof IHeadedModel headed) headed.getHead().visible = true;
 		super.render(entity, f1, f2, stack, source, i);
+		if (entity.isBeamActive()) AtomicBeamRenderer.render(entity, stack, source, f2);
 	}
 
 	@Nullable

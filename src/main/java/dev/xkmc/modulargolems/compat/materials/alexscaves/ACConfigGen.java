@@ -24,6 +24,7 @@ public class ACConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SPEED.get(), 0.3)
 				.addModifier(ACCompatRegistry.STICKY.get(), 1)
 				.addModifier(ACCompatRegistry.SHOOT.get(), 1)
+				.addModifier(ACCompatRegistry.DASH.get(), 1)
 				.addModifier(ACCompatRegistry.FREE.get(), 1)
 				.end()
 		);

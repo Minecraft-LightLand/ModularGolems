@@ -6,6 +6,7 @@
   },
   "modifiers": {
     "alexscaves:candy": {
+      "modulargolems:candy_dash": 1,
       "modulargolems:free_movement": 1,
       "modulargolems:gum_shooter": 1,
       "modulargolems:sticky_caramel": 1

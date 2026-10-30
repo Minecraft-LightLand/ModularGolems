@@ -20,7 +20,7 @@ public class CandyShootModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(2, new GumShootAttackGoal(20, 2, 16, entity, lv));
+		addGoal.accept(2, new GumShootAttackGoal(20, 0, 24, entity, lv).withName(this.getDescriptionId()));
 	}
 
 	@Override

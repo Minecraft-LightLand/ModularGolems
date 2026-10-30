@@ -37,6 +37,10 @@
       "required": false
     },
     {
+      "id": "modulargolems:atomic_breath",
+      "required": false
+    },
+    {
       "id": "modulargolems:wroughtnaut",
       "required": false
     },

@@ -87,6 +87,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -113,7 +114,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
-		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
+		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob, GolemBeamSource {
 	/**
 	 * Lightweight boolean flags shared by skills that need a global busy lock across golem types
 	 * (for example the leap / breath skills). Not serialised, so never saved or synced.
@@ -1030,6 +1031,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.defineSynchedData();
 		GOLEM_DATA.register(this.entityData);
 		entityData.define(IS_IN_RANGE_ATTACK, false);
+		entityData.define(BREATH_ATTACK, false);
+		entityData.define(DASH_YAW, Float.NaN);
 	}
 
 	public void startPersistentAngerTimer() {
@@ -1231,6 +1234,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Boolean> BREATH_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Float> DASH_YAW = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.FLOAT);
 
 	public boolean isInRangedMode() {
 		return getMode() == GolemModes.STAND || getEntityData().get(IS_IN_RANGE_ATTACK) || hasRangeAttack();
@@ -1238,6 +1243,47 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void setInRangeAttack(boolean flag) {
 		getEntityData().set(IS_IN_RANGE_ATTACK, flag);
+	}
+
+	public boolean isBreathAttack() {
+		return getEntityData().get(BREATH_ATTACK);
+	}
+
+	public void setBreathAttack(boolean flag) {
+		getEntityData().set(BREATH_ATTACK, flag);
+	}
+
+	@Override
+	public boolean isBeamActive() {
+		return isBreathAttack();
+	}
+
+	@Override
+	public Vec3 getBeamMouth(float partialTicks) {
+		return getBeamOrigin();
+	}
+
+	@Override
+	public Vec3 getBeamEnd(float partialTicks) {
+		Vec3 from = getBeamMouth(partialTicks);
+		Vec3 to = from.add(GolemBeamSource.lookVector(this, partialTicks).normalize().scale(MGConfig.COMMON.atomicBeamRange.get()));
+		return level().clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getLocation();
+	}
+
+	/**
+	 * 冲刺期间把身体锁定在固定偏航角，让一切依据傀儡姿态绘制的效果
+	 * 都跟随冲锋线，而不是实时视线。
+	 */
+	public void setDashYaw(float yaw) {
+		getEntityData().set(DASH_YAW, yaw);
+	}
+
+	public boolean isDashing() {
+		return !Float.isNaN(getEntityData().get(DASH_YAW));
+	}
+
+	public float getDashYaw() {
+		return getEntityData().get(DASH_YAW);
 	}
 
 	public boolean canSweep() {

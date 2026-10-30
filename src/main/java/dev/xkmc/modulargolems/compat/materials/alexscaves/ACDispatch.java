@@ -8,10 +8,12 @@ import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -98,6 +100,14 @@ public class ACDispatch extends ModDispatch {
 				.define('B', ACItemRegistry.CHARRED_REMNANT.get())
 				.define('C', ACBlockRegistry.URANIUM_ROD.get())
 				.define('D', ACItemRegistry.FISSILE_CORE.get())
+				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
+
+		safeUpgrade(pvd, new ShapelessRecipeBuilder(RecipeCategory.MISC,
+						ACCompatRegistry.UPGRADE_ATOMIC_BREATH.get(), 1)::unlockedBy,
+						ACBlockRegistry.NUCLEAR_BOMB.get().asItem())
+				.requires(GolemItems.EMPTY_UPGRADE.get())
+				.requires(ACBlockRegistry.TREMORZILLA_EGG.get().asItem())
+				.requires(ACBlockRegistry.NUCLEAR_BOMB.get().asItem())
 				.save(ConditionalRecipeWrapper.mod(pvd, MODID));
 	}
 
