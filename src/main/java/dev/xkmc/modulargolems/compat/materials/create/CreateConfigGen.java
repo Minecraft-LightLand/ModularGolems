@@ -78,7 +78,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addMaterial(new ResourceLocation(CreateDispatch.MODID, "railway"),
 						Ingredient.of(AllBlocks.RAILWAY_CASING.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 1)
 				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
@@ -87,8 +87,9 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addModifier(CreateCompatRegistry.MOBILE.get(), 2)
 				.addModifier(CreateCompatRegistry.FORCE.get(), 2)
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 2)
-				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
-		);
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(CreateCompatRegistry.BIG_RIG_CHARGE.get(), 1).end()
+			);
 	}
 
 }

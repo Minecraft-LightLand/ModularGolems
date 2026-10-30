@@ -10,6 +10,7 @@ import dev.xkmc.l2complements.init.data.TagGen;
 import dev.xkmc.modulargolems.compat.materials.create.arm.ArmAttachmentItem;
 import dev.xkmc.modulargolems.compat.materials.create.automation.DummyFurnace;
 import dev.xkmc.modulargolems.compat.materials.create.modifier.*;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -35,6 +36,7 @@ public class CreateCompatRegistry {
 	public static final RegistryEntry<MechMobileModifier> MOBILE;
 	public static final RegistryEntry<MechForceModifier> FORCE;
 	public static final RegistryEntry<ChocoModifier> CHOCO;
+	public static final RegistryEntry<BigRigChargeModifier> BIG_RIG_CHARGE;
 
 	public static final RegistryEntry<MechMobileEffect> EFF_MOBILE;
 	public static final RegistryEntry<MechForceEffect> EFF_FORCE;
@@ -52,8 +54,10 @@ public class CreateCompatRegistry {
 		)).register();
 		CHOCO = reg("choco_body", ChocoModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
 		BODY = reg("mechanical_engine", MechBodyModifier::new, "Consumes fuels to power the golem up.");
-		MOBILE = reg("mechanical_mobility", MechMobileModifier::new, "When burning fuels, increase speed by %s%%");
-		FORCE = reg("mechanical_force", MechForceModifier::new, "When burning fuels, increase attack damage by %s%%");
+		MOBILE = reg("mechanical_mobility", MechMobileModifier::new, "When burning fuels, increase speed by %s");
+		FORCE = reg("mechanical_force", MechForceModifier::new, "When burning fuels, increase attack damage by %s");
+		BIG_RIG_CHARGE = reg("big_rig_charge", () -> new BigRigChargeModifier(StatFilterType.HEAD, 1),
+				"Big Rig Rider", "Charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging. Damage scales with the golem's attack, size and speed. When burning fuels, skill cooldown is halved.");
 		UP_COATING = regModUpgrade("coating", () -> COATING, CreateDispatch.MODID).lang("Zinc Upgrade").register();
 		UP_PUSH = regModUpgrade("push", () -> PUSH, CreateDispatch.MODID).lang("Extendo Upgrade").register();
 

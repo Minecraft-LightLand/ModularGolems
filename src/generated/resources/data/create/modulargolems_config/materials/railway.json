@@ -6,6 +6,7 @@
   },
   "modifiers": {
     "create:railway": {
+      "modulargolems:big_rig_charge": 1,
       "modulargolems:fire_immune": 1,
       "modulargolems:magic_resistant": 2,
       "modulargolems:mechanical_engine": 1,
@@ -21,7 +22,7 @@
   },
   "stats": {
     "create:railway": {
-      "modulargolems:attack": 15.0,
+      "modulargolems:attack": 20.0,
       "modulargolems:attack_knockback": 1.0,
       "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 300.0,

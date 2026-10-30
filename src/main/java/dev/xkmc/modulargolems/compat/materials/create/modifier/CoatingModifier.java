@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 import java.util.List;
@@ -19,7 +20,10 @@ public class CoatingModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		double reduce = v * MGConfig.COMMON.coating.get();
-		return List.of(Component.translatable(getDescriptionId() + ".desc", reduce).withStyle(ChatFormatting.GREEN));
+		// coating is a DoubleValue, so the raw double would render a bare "1.0"; the attribute format
+		// drops trailing zeros while keeping real fractions like "0.5"
+		var val = Component.literal(ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(reduce)).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override

@@ -17,7 +17,8 @@ public class MechForceModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		int reduce = (int) Math.round(v * MGConfig.COMMON.mechAttack.get() * 100);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", reduce).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal(reduce + "%").withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 
 }
