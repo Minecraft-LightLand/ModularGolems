@@ -6,12 +6,12 @@
   },
   "modifiers": {
     "eeeabsmobs:realm": {
-      "modulargolems:annihilator_electromagnetic": 1,
       "modulargolems:annihilator_laser": 1,
       "modulargolems:annihilator_missile": 1,
       "modulargolems:damage_cap": 2,
       "modulargolems:dynamic_reduction": 1,
-      "modulargolems:fire_immune": 1
+      "modulargolems:fire_immune": 1,
+      "modulargolems:realm_warden_jump_smash": 1
     }
   },
   "partLimitation": {},

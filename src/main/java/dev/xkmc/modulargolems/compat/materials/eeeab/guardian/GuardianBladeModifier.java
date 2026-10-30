@@ -21,7 +21,7 @@ public class GuardianBladeModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new GuardianBladeAttackGoal(entity, lv));
+		addGoal.accept(5, new GuardianBladeAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }

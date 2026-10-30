@@ -28,7 +28,7 @@ public class AnnihilatorLaserModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new AnnihilatorLaserAttackGoal(entity, lv));
+		addGoal.accept(5, new AnnihilatorLaserAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }
