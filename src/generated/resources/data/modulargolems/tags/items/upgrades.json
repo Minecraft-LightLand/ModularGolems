@@ -143,6 +143,10 @@
       "required": false
     },
     {
+      "id": "modulargolems:atomic_breath",
+      "required": false
+    },
+    {
       "id": "modulargolems:soul_collection",
       "required": false
     },

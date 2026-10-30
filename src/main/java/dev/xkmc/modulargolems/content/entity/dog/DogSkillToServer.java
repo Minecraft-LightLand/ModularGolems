@@ -41,7 +41,7 @@ public class DogSkillToServer extends SerialPacketBase {
 			if (dog.isInRangedMode()) return;
 			var ins = new ChargeHelper.Instance(dog, charge, lv);
 			if (ins.isValid() && charge.canCharge(dog, lv)) {
-				dog.startMountCharge(ins);
+				dog.chargeManager().startMountCharge(ins);
 				ins.addCD();
 			}
 			return;

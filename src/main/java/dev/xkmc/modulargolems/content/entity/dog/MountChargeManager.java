@@ -234,11 +234,11 @@ public class MountChargeManager {
 
 	public interface View extends GolemImplBase {
 
-		MountChargeManager manager();
+		MountChargeManager chargeManager();
 
 		default void chargeDataSync() {
-			setJumpCd(manager().calcJumpCd());
-			setChargeCd(manager().calcChargeCd());
+			setJumpCd(chargeManager().calcJumpCd());
+			setChargeCd(chargeManager().calcChargeCd());
 		}
 
 		default Vec3 getChargeDirClient() {
@@ -249,7 +249,7 @@ public class MountChargeManager {
 
 		default void controlledChargeTick(Player player) {
 			var self = asGolem();
-			manager().updateRideIndicators(player);
+			chargeManager().updateRideIndicators(player);
 			// 骑乘冲锋由客户端权威：服务端不回推位置，本地实例必须跑同样的位移，
 			// 否则骑乘者眼前傀儡会站着不动
 			if (entityData().get(DogGolemEntity.DATA_CHARGE_ACTIVE)) {
@@ -264,25 +264,25 @@ public class MountChargeManager {
 				}
 			}
 			boolean sprint = player.isSprinting() || DogRideClient.isSprintKeyDown();
-			if (sprint && !manager().wasSprinting) {
+			if (sprint && !chargeManager().wasSprinting) {
 				this.executeRidersCharge();
 			}
-			manager().wasSprinting = sprint;
+			chargeManager().wasSprinting = sprint;
 		}
 
 
 		default boolean isMountCharging() {
-			return manager().chargeRider != null || manager().chargeMount != null;
+			return chargeManager().chargeRider != null || chargeManager().chargeMount != null;
 		}
 
 		@Nullable
 		default ChargeHelper.Instance getChargeRider() {
-			return manager().chargeRider;
+			return chargeManager().chargeRider;
 		}
 
 		@Nullable
 		default ChargeHelper.Instance getChargeMount() {
-			return manager().chargeMount;
+			return chargeManager().chargeMount;
 		}
 
 		default void executeRidersCharge() {

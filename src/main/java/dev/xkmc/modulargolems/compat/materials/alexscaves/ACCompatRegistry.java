@@ -6,8 +6,10 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.data.TagGen;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.modifier.*;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.CraftMaterialItem;
 import dev.xkmc.modulargolems.content.item.upgrade.RepairMaterialItem;
+import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
@@ -19,21 +21,25 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.fml.ModList;
 
+import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class ACCompatRegistry {
 
 	public static final RegistryEntry<CandyStickModifier> STICKY;
 	public static final RegistryEntry<CandyShootModifier> SHOOT;
+	public static final RegistryEntry<CandyDashModifier> DASH;
 	public static final RegistryEntry<FreeMoveModifier> FREE;
 	public static final RegistryEntry<PolarizeModifier> POLARIZE;
 	public static final RegistryEntry<ReformationModifier> REFORMATION;
 	public static final RegistryEntry<RadiationModifier> RADIATION;
 	public static final RegistryEntry<AtomicFuelingModifier> ATOMIC;
+	public static final RegistryEntry<AtomicBreathModifier> ATOMIC_BREATH;
 
 	public static final ItemEntry<RepairMaterialItem> REPAIR_CANDY, REPAIR_MAGNETIC;
 	public static final ItemEntry<CraftMaterialItem> CRAFT_CANDY, CRAFT_MAGNETIC;
 	public static final ItemEntry<Item> CRAFT_NUCLEAR;
+	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_ATOMIC_BREATH;
 
 	public static final RegistryEntry<AtomicBoostedEffect> EFF_ATOMIC;
 	public static final ItemEntry<DummyConsumer> DUMMY_IRON, DUMMY_URANIUM;
@@ -42,7 +48,9 @@ public class ACCompatRegistry {
 		STICKY = reg("sticky_caramel", CandyStickModifier::new,
 				"Put molten caramel on attack targets");
 		SHOOT = reg("gum_shooter", CandyShootModifier::new,
-				"Shoot gumballs at targets dealing %s damage");
+				"Shoot gumballs at targets dealing %s damage. Each gumball may randomly gain Shotgum enchantment effects");
+		DASH = reg("candy_dash", () -> new CandyDashModifier(StatFilterType.HEAD, 1),
+				"Candy Dash", "Charge toward a distant target, damaging and knocking back all targets at the front of the path. Damage taken is reduced by %s while charging.");
 		FREE = reg("free_movement", FreeMoveModifier::new,
 				"Golem will not be stuck by blocks or caramel");
 		POLARIZE = reg("polarize", PolarizeModifier::new,
@@ -53,12 +61,16 @@ public class ACCompatRegistry {
 				"Inflict %s to attack targets. Damage to radiated target increase by %s per radiation level.");
 		ATOMIC = reg("atomic_fueling", AtomicFuelingModifier::new,
 				"Consume [%s] to heal %s HP, and boost attack and speed by %s for %s seconds. Makes golem immune to irradiated effect.");
+		ATOMIC_BREATH = reg("atomic_breath", AtomicBreathModifier::new,
+				"Atomic Breath Upgrade", "Continuously fire a beam hitting everything along it, and apply %s to hit targets.");
 
 		REPAIR_CANDY = GolemItems.item(ACDispatch.MODID, "candy_mixture", RepairMaterialItem::new);
 		CRAFT_CANDY = GolemItems.item(ACDispatch.MODID, "candy_construct", CraftMaterialItem::new);
 		REPAIR_MAGNETIC = GolemItems.item(ACDispatch.MODID, "magnetic_alloy", RepairMaterialItem::new);
 		CRAFT_MAGNETIC = GolemItems.item(ACDispatch.MODID, "magnetic_construct", CraftMaterialItem::new);
 		CRAFT_NUCLEAR = GolemItems.item(ACDispatch.MODID, "nuclear_construct", Item::new);
+		UPGRADE_ATOMIC_BREATH = regModUpgrade("atomic_breath", () -> ATOMIC_BREATH, ACDispatch.MODID)
+				.lang("Tremorzilla Upgrade").register();
 
 		EFF_ATOMIC = genEffect("atomic_boost", () -> new AtomicBoostedEffect(MobEffectCategory.BENEFICIAL, 0xffffffff),
 				"Increase golem attack damage and movement speed");
@@ -83,6 +95,8 @@ public class ACCompatRegistry {
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(TagGen.SKILL_EFFECT)
 					.addOptional(EFF_ATOMIC.getId()));
+			MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+					.addOptional(UPGRADE_ATOMIC_BREATH.getId()));
 		}
 	}
 

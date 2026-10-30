@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "alexscaves"
+    }
+  ],
+  "ingredients": [
+    {
+      "item": "modulargolems:empty_upgrade"
+    },
+    {
+      "item": "alexscaves:tremorzilla_egg"
+    },
+    {
+      "item": "alexscaves:nuclear_bomb"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:atomic_breath"
+  }
+}

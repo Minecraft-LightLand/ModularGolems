@@ -109,6 +109,12 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue radiationDamage;
 		public final ForgeConfigSpec.DoubleValue atomicHeal;
 		public final ForgeConfigSpec.IntValue atomicDuration;
+		public final ForgeConfigSpec.DoubleValue atomicBeamDamage;
+		public final ForgeConfigSpec.DoubleValue atomicBeamRadius;
+		public final ForgeConfigSpec.DoubleValue atomicBeamRange;
+		public final ForgeConfigSpec.DoubleValue atomicBeamForce;
+		public final ForgeConfigSpec.IntValue atomicBeamDuration;
+		public final ForgeConfigSpec.IntValue atomicBeamCooldown;
 
 		public final ForgeConfigSpec.DoubleValue hauntedBaseChance;
 		public final ForgeConfigSpec.IntValue soulHealingRate;
@@ -342,6 +348,18 @@ public class MGConfig {
 							.defineInRange("atomicHeal", 0.1, 0, 1);
 					atomicDuration = builder.comment("Atomic Fueling modifier: boost duration per uranium nugget used")
 							.defineInRange("atomicDuration", 200, 20, 20000);
+		atomicBeamDamage = builder.comment("Atomic Breath modifier: base damage of each beam hit")
+				.defineInRange("atomicBeamDamage", 20d, 0, 200);
+		atomicBeamRadius = builder.comment("Atomic Breath modifier: base radius of each beam hit")
+				.defineInRange("atomicBeamRadius", 6d, 0.5, 32);
+		atomicBeamRange = builder.comment("Atomic Breath modifier: how far the beam reaches")
+				.defineInRange("atomicBeamRange", 100d, 1, 256);
+		atomicBeamForce = builder.comment("Atomic Breath modifier: base knockback of each beam hit")
+				.defineInRange("atomicBeamForce", 1d, 0, 10);
+		atomicBeamDuration = builder.comment("Atomic Breath modifier: beam duration in ticks")
+				.defineInRange("atomicBeamDuration", 200, 1, 20000);
+		atomicBeamCooldown = builder.comment("Atomic Breath modifier: cooldown in ticks between beams")
+				.defineInRange("atomicBeamCooldown", 500, 0, 20000);
 
 				}
 				builder.pop();

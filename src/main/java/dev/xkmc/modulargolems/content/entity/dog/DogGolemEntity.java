@@ -61,7 +61,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	@Override
-	public MountChargeManager manager() {
+	public MountChargeManager chargeManager() {
 		return chargeManager;
 	}
 

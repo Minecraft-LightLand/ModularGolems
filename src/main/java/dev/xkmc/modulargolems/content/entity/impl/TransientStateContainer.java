@@ -37,17 +37,6 @@ public class TransientStateContainer {
 			}
 		}
 
-		@org.jetbrains.annotations.Nullable
-		default AbstractGolemEntity<?, ?> getGolemController() {
-			var p = asGolem().getControllingPassenger();
-			return p instanceof AbstractGolemEntity<?, ?> g ? g : null;
-		}
-
-		default boolean isRidingGolemCombo() {
-			if (getGolemController() != null) return true;
-			return asGolem().getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == asGolem();
-		}
-
 		@SuppressWarnings("unchecked")
 		default <T> T getTransientState(String key) {
 			return (T) container().transientState.get(key);

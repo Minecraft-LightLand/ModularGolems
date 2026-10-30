@@ -675,6 +675,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.defineSynchedData();
 		GOLEM_DATA.register(this.entityData);
 		entityData.define(IS_IN_RANGE_ATTACK, false);
+		entityData.define(BREATH_ATTACK, false);
+		entityData.define(DASH_YAW, Float.NaN);
 	}
 
 	// ------ tamable
@@ -759,8 +761,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.changeDimension(level, teleporter);
 	}
 
+	public static final EntityDataAccessor<Boolean> BREATH_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Float> DASH_YAW = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.FLOAT);
+
 	public boolean isInRangedMode() {
-		return asGolem().getMode() == GolemModes.STAND || entityData().get(AbstractGolemEntity.IS_IN_RANGE_ATTACK) || hasRangeAttack();
+		return getMode() == GolemModes.STAND || entityData().get(AbstractGolemEntity.IS_IN_RANGE_ATTACK) || hasRangeAttack();
 	}
 
 	public void setInRangeAttack(boolean flag) {
