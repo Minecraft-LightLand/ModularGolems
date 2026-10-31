@@ -15,14 +15,14 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(EntityAxeAttack.class)
 public class EntityAxeAttackMixin {
 
-	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lcom/bobmowzie/mowziesmobs/server/entity/effects/EntityAxeAttack;dealDamage(FFFF)V"))
+	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lcom/bobmowzie/mowziesmobs/server/entity/effects/EntityAxeAttack;dealDamage(FFFF)V"), require = 0)
 	public void modulargolems$dealDamage(EntityAxeAttack self, float damage, float range, float arc, float applyKnockback, Operation<Void> original) {
 		if (self.getCaster() instanceof AbstractGolemEntity<?, ?> golem)
 			damage = Math.max(damage, (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE));
 		original.call(self, damage, range, arc, applyKnockback);
 	}
 
-	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
+	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), require = 0)
 	public boolean modulargolems$hurt(Entity instance, DamageSource source, float amount, Operation<Boolean> original) {
 		EntityAxeAttack self = (EntityAxeAttack) (Object) this;
 		if (self.getCaster() instanceof AbstractGolemEntity<?, ?> golem)

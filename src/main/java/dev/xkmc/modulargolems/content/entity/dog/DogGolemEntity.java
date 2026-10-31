@@ -166,7 +166,12 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 		// 骑乘冲锋由服务端权威推进（伤害/结束判定都在这里），漏掉这个调用会让
 		// DATA_CHARGE_ACTIVE 永远清不掉 → 客户端一直向前冲且没有伤害。
-		if (isMountCharging()) tickMountCharge();
+		// chargeRider 是身上那只傀儡的技能，chargeMount 是自身的；玩家直接操控时走 tickRiddenCharge。
+		if (chargeRider != null || chargeMount != null) {
+			tickMountCharge();
+		} else if (getGolemController() != null) {
+			tickRiddenCharge();
+		}
 	}
 
 	// 骑乘冲锋状态。chargeRider 是身上那只傀儡的技能，chargeMount 是自身的，

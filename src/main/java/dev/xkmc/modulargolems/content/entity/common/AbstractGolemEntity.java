@@ -138,11 +138,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.setLivingEntityFlag(LIVING_ENTITY_FLAG_SPIN_ATTACK, spinning);
 	}
 
+	/**
+	 * 骑在本傀儡身上的另一只傀儡（骑乘者是傀儡而非玩家时）。双傀儡叠罗汉时由坐骑身上
+	 * 运行骑乘者的技能，所以技能问的是控制者，而不是假设鞍座上是玩家。
+	 */
 	public AbstractGolemEntity<?, ?> getGolemController() {
 		var p = getControllingPassenger();
 		return p instanceof AbstractGolemEntity<?, ?> g ? g : null;
 	}
 
+	/**
+	 * 本傀儡是否处于双傀儡叠罗汉中的任一端。直接驱动位移的技能在连接期间必须让位，
+	 * 因为位移由坐骑负责，骑乘者会争抢同一个位置槽。
+	 */
 	public boolean isRidingGolemCombo() {
 		if (getGolemController() != null) return true;
 		return getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == this;
@@ -206,8 +214,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		navigation = groundNavigation;
 	}
 
-	// ------ materials
-
 	@SerialClass.SerialField(toClient = true)
 	private ArrayList<GolemMaterial> materials = new ArrayList<>();
 	@SerialClass.SerialField(toClient = true)
@@ -224,7 +230,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@SerialClass.SerialField
 	private BlockPos recordedGuardPos = BlockPos.ZERO;
 
-	// marks opened inventory
+	// 标记背包已打开
 	public int inventoryTick = 0;
 	public int specialAttackCoolDown = 0;
 
@@ -391,6 +397,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		if (level().isClientSide()) return false;
+		if (source.getEntity() == this) return false;
 		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
 			unRide();
 			playDeathSound();
@@ -407,7 +414,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	protected void postHurt(DamageSource source) {
-		if (getGuardedDataImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
+		if (getGuardedDataImpl() <= DEAD_HEALTH && hasFlag(GolemFlags.RECYCLE)) {
 			unRide();
 			playDeathSound();
 			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
@@ -512,8 +519,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.updateWalkAnimation(f / getScale());
 	}
 
-	// ------ swim
-
 	public boolean canSwim() {
 		return hasFlag(GolemFlags.SWIM);
 	}
@@ -554,8 +559,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean isPushedByFluid() {
 		return !this.isSwimming() && isMovable();
 	}
-
-	// ------ ownable entity
 
 	public void setOwnerUUID(@Nullable UUID id) {
 		owner = id;
@@ -608,8 +611,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return HostileGolemRegistry.isHostile(getOwnerUUID());
 	}
 
-	// ------ addition golem behavior
-
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		this.addPersistentAngerSaveData(tag);
@@ -650,8 +651,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public T getThis() {
 		return Wrappers.cast(this);
 	}
-
-	// ------ common golem behavior
 
 	@Override
 	public boolean hasLineOfSight(Entity target) {
@@ -786,9 +785,15 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		setGuardedDataImpl(Math.min(getMaxHealth(), getGuardedDataImpl() + amount), true, true);
 	}
 
+	/**
+	 * Health at which a golem counts as dead. A holder dropped by the {@code RECYCLE} / {@code REVIVE}
+	 * flags therefore carries this much health, which is what their tooltips render.
+	 */
+	public static final float DEAD_HEALTH = 0;
+
 	public static final UUID REFORGE_ID = MathHelper.getUUIDFromString("GolemReforge");
 
-	protected int getMaxReforge() {
+	public int getMaxReforge() {
 		return GolemType.getGolemType(getType()).getBodyPart().toItem().count - 1;
 	}
 
@@ -1366,7 +1371,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				cause = getLastHurtByMob();
 			}
 		}
-		if (getGuardedDataImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
+		if (getGuardedDataImpl() <= DEAD_HEALTH && hasFlag(GolemFlags.RECYCLE)) {
 			tracker.untrack(this, GolemTracker.Status.DEATH_RECYCLE, cause);
 			returnToInventory();
 			level().broadcastEntityEvent(this, EntityEvent.POOF);

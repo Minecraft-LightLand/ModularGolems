@@ -23,7 +23,8 @@ public class AttackBypassArmorModifier extends GolemModifier {
 	@Override
 	public List<MutableComponent> getDetail(int v) {
 		int perc = Math.round(MGConfig.COMMON.armorBypassChance.get().floatValue() * v * 100);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", perc).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal(perc + "%").withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override

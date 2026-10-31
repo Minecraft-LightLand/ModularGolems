@@ -16,7 +16,7 @@ public class HellBlastModifier extends GolemModifier implements IApostleModifier
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(3, new HellBlastGoal(entity, lv));
+		addGoal.accept(3, new HellBlastGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }

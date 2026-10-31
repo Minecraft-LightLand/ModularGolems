@@ -200,13 +200,13 @@
 	},
 	"potion": {
 		"potency": {
-			"10": "XI",
-			"11": "XII",
 			"5": "VI",
 			"6": "VII",
 			"7": "VIII",
 			"8": "IX",
-			"9": "X"
+			"9": "X",
+			"10": "XI",
+			"11": "XII"
 		}
 	},
 	"patchouli.modulargolems.landing": "金属傀儡的组装和升级手册",

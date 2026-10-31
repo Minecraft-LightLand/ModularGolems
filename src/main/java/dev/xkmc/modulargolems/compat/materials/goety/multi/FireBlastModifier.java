@@ -16,7 +16,7 @@ public class FireBlastModifier extends GolemModifier implements IApostleModifier
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new FireBlastGoal(entity, lv));
+		addGoal.accept(5, new FireBlastGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }

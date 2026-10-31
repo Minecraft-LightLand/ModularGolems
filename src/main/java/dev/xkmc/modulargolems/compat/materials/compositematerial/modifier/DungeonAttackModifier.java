@@ -31,6 +31,7 @@ public class DungeonAttackModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		float factor = (float) (v * MGConfig.COMMON.dungeonMeleeHealFactor.get());
 		int perc = Math.round(100 * factor);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", perc).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal(perc + "%").withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 }

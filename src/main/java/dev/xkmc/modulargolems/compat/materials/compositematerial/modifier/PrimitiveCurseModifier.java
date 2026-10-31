@@ -33,6 +33,9 @@ public class PrimitiveCurseModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		float multiplier = (float) Math.pow(MGConfig.COMMON.primitiveDamageMultiplier.get(), v);
 		int perc = Math.round(100 * (1 - multiplier));
-		return List.of(Component.translatable(getDescriptionId() + ".desc", perc, v).withStyle(ChatFormatting.GREEN));
+		// the desc uses positional specifiers: %1$s is the percentage, %2$s the slot count
+		var cperc = Component.literal(perc + "%").withStyle(ChatFormatting.AQUA);
+		var cv = Component.literal("" + v).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", cperc, cv).withStyle(ChatFormatting.GREEN));
 	}
 }

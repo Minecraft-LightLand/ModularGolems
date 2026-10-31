@@ -35,7 +35,8 @@ public class CurseModifier extends GolemModifier {
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		return List.of(Component.translatable(getDescriptionId() + ".desc", v).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal("" + v).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 
 }

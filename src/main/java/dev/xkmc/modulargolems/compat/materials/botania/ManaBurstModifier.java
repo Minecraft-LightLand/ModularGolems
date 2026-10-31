@@ -19,13 +19,15 @@ public class ManaBurstModifier extends ManaModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new ManaBurstAttackGoal(entity, lv));
+		addGoal.accept(5, new ManaBurstAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 	public List<MutableComponent> getDetail(int v) {
 		int prob = (int) Math.round((MGConfig.COMMON.manaBurstDamage.get() * v) * 100);
 		int manaCost = MGConfig.COMMON.manaBurstCost.get() * v;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", prob, manaCost).withStyle(ChatFormatting.GREEN));
+		var cprob = Component.literal(prob + "%").withStyle(ChatFormatting.AQUA);
+		var ccost = Component.literal("" + manaCost).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", cprob, ccost).withStyle(ChatFormatting.GREEN));
 	}
 
 }

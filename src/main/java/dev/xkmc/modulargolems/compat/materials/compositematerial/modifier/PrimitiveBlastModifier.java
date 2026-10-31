@@ -33,6 +33,7 @@ public class PrimitiveBlastModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		float ratio = (float) (v * MGConfig.COMMON.primitiveHealthRatio.get());
 		int perc = Math.round(100 * ratio);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", perc).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal(perc + "%").withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 }

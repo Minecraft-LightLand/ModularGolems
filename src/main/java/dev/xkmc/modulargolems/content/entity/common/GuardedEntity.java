@@ -302,12 +302,19 @@ public class GuardedEntity extends AbstractGolem {
 		}
 	}
 
+	/**
+	 * Fraction of max health a golem with dynamic reduction may still lose inside one period.
+	 * Shared by the mitigation itself and {@code DynamicReductionModifier}'s tooltip so the two
+	 * cannot drift apart.
+	 */
+	public static final float DYNAMIC_REDUCTION_CAP = 0.2f;
+
 	protected float dynamicReductionRate() {
 		return 0;
 	}
 
 	protected float dynamicReductionCap() {
-		return 0.2f;
+		return DYNAMIC_REDUCTION_CAP;
 	}
 
 	public record GuardedData(float amount, float baseline) {

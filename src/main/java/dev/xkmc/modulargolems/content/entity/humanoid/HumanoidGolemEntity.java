@@ -54,7 +54,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public Object renderCompatData;
 
-
 	public String getMaidModelId() {
 		return entityData.get(DATA_MAID_MODEL_ID);
 	}
@@ -153,8 +152,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return ans;
 	}
 
-	// ------ common golem behavior
-
 	@Override
 	public void broadcastBreakEvent(EquipmentSlot pSlot) {
 		super.broadcastBreakEvent(pSlot);
@@ -173,7 +170,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 				return true;
 			}
 		} else {
-			if (performRangedDamage(target, 0, 0)) {// trigger vanilla attack code, ignore values
+			if (performRangedDamage(target, 0, 0)) {
 				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
 				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 				return true;
@@ -238,8 +235,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return InteractionResult.FAIL;
 	}
 
-	// ride
-
 	@Override
 	public double getMyRidingOffset() {
 		var event = new GolemRidingOffsetEvent(this);
@@ -259,8 +254,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public boolean canSweep() {
 		return getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP);
 	}
-
-	// shields
 
 	@Nullable
 	public InteractionHand shieldSlot() {

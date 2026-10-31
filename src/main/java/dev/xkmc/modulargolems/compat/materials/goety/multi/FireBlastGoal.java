@@ -4,6 +4,7 @@ import com.Polarice3.Goety.common.entities.util.FireBlastTrap;
 import dev.xkmc.modulargolems.compat.materials.goety.modifier.IApostleGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 public class FireBlastGoal extends MultiTargetRangedGoal implements IApostleGoal {
 
@@ -33,5 +34,15 @@ public class FireBlastGoal extends MultiTargetRangedGoal implements IApostleGoal
 		e.setOwner(golem);
 		e.setAreaOfEffect(lv + 3);
 		level.addFreshEntity(e);
+	}
+	@Override
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
+
+
+	@Override
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
 	}
 }

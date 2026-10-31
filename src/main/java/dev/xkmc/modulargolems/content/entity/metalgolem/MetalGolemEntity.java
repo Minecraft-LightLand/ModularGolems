@@ -122,8 +122,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return succeed;
 	}
 
-	// ------ vanilla golem behavior
-
 	private int attackAnimationTick;
 
 	public void aiStep() {
@@ -324,7 +322,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		// Legacy
+
 		if (tag.contains("left_shoulder", Tag.TAG_COMPOUND)) {
 			leftShoulder = ItemStack.of(tag.getCompound("left_shoulder"));
 		}

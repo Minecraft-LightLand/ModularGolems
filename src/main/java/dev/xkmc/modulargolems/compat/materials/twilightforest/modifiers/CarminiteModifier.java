@@ -10,6 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
@@ -30,7 +31,8 @@ public class CarminiteModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int level) {
 		double time = MGConfig.COMMON.carminiteTime.get() * level / 20d;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", time).withStyle(ChatFormatting.GREEN));
+		var ctime = Component.literal(ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(time)).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", ctime).withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override

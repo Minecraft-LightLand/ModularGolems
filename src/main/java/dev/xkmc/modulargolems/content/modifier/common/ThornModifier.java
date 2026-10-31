@@ -43,7 +43,7 @@ public class ThornModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		int reflect = Math.round(getPercent() * v * 100);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", reflect).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal(reflect + "%").withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
-
 }

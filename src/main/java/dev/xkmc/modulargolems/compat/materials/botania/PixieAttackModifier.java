@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import vazkii.botania.common.entity.PixieEntity;
@@ -37,7 +38,9 @@ public class PixieAttackModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		int prob = (int) Math.round((MGConfig.COMMON.pixieAttackProb.get() * v) * 100);
 		double extraDmg = 2 * v;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", prob, extraDmg).withStyle(ChatFormatting.GREEN));
+		var cprob = Component.literal(prob + "%").withStyle(ChatFormatting.AQUA);
+		var cdmg = Component.literal(ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(extraDmg)).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", cprob, cdmg).withStyle(ChatFormatting.GREEN));
 	}
 
 }
