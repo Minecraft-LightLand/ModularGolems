@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
@@ -11,6 +12,7 @@ import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -43,6 +45,7 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 		super(ctx, model, f);
 		this.list = list;
 		addLayer(new GolemDefaultLayer<>(this));
+		addLayer(new RiptideEffectLayer<>(this, ctx));
 		LIST.forEach(e -> this.addLayer(Wrappers.cast(e.apply(this))));
 	}
 
@@ -77,9 +80,27 @@ public abstract class AbstractGolemRenderer<T extends AbstractGolemEntity<T, P>,
 	}
 
 	@Override
-	protected void setupRotations(T e, PoseStack p_115318_, float p_115319_, float p_115320_, float p_115321_) {
+	protected void setupRotations(T e, PoseStack pose, float yaw, float bodyYaw, float partialTick) {
 		e.validateData();
-		super.setupRotations(e, p_115318_, p_115319_, p_115320_, p_115321_);
+		if (!e.isAutoSpinAttack()) {
+			super.setupRotations(e, pose, yaw, bodyYaw, partialTick);
+			return;
+		}
+		// 波塞冬激流旋身：不调 super（否则与原版 SPIN_ATTACK 旋转叠加成双重），自写一份。
+		pose.mulPose(Axis.YP.rotationDegrees(180.0F - bodyYaw));
+		pose.translate(0.0F, e.getBbHeight() * 0.5F, 0.0F);
+		if (e instanceof DogGolemEntity) {
+			// 犬形是四足水平身体：不做 -90° 放平，保持四足姿态，绕前进轴(前后轴) roll → 像钻头。
+			// 去掉 XP -90 后 roll 轴会落在模型 pivot(脚底)，先平移到身体中心再转、转完平移回来，
+			// 让旋转中心落在身体正中而不是脚下。
+			pose.translate(0.0F, e.getBbHeight() * 0.7F, 0.0F);
+			pose.mulPose(Axis.ZP.rotationDegrees((e.tickCount + partialTick) * 75.0F));
+			pose.translate(0.0F, -e.getBbHeight() * 0.7F, 0.0F);
+		} else {
+			// 人形/大型：原版放平成横躺再绕长轴旋转
+			pose.mulPose(Axis.XP.rotationDegrees(-90.0F - e.getXRot()));
+			pose.mulPose(Axis.YP.rotationDegrees((e.tickCount + partialTick) * -75.0F));
+		}
 	}
 
 	protected void renderAllParts(PoseStack pose, MultiBufferSource buffer, int light, T entity, float pTick) {

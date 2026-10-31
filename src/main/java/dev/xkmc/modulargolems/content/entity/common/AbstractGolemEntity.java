@@ -87,6 +87,11 @@ import java.util.*;
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
 		implements IEntityAdditionalSpawnData, GolemImpls {
 
+	/** 进入/退出原版三叉戟激流旋身姿态（SPIN_ATTACK），供海神激流冲锋使用。 */
+	public void setRiptideSpin(boolean spinning) {
+		this.setLivingEntityFlag(LIVING_ENTITY_FLAG_SPIN_ATTACK, spinning);
+	}
+
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
 	}
@@ -110,6 +115,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.groundNavigation = new FastGroundPathNavigation(this, level);
 		navigation = groundNavigation;
 	}
+
 
 	// ------ materials
 

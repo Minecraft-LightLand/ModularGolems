@@ -19,6 +19,7 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 public class LCCompatRegistry {
 
 	public static final RegistryEntry<ConduitModifier> CONDUIT;
+	public static final RegistryEntry<PoseidonRiptideModifier> RIPTIDE;
 	public static final RegistryEntry<FreezingModifier> FREEZE;
 	public static final RegistryEntry<SoulFlameModifier> FLAME;
 	public static final RegistryEntry<EnderTeleportModifier> TELEPORT;
@@ -30,7 +31,9 @@ public class LCCompatRegistry {
 			UPGRADE_CURSE, UPGRADE_INCARCERATE, UPGRADE_CLEANSE;
 
 	static {
-		CONDUIT = reg("conduit", ConduitModifier::new, "When in water: Reduce damage taken to %s%%. Every %s seconds, deal %s conduit damage to target in water/rain remotely. Boost following stats:");
+		CONDUIT = reg("conduit", ConduitModifier::new, "When in water: Reduce damage taken to %s. Every %s seconds, deal %s conduit damage to target in water/rain remotely. Boost following stats:");
+		RIPTIDE = reg("poseidon_riptide", PoseidonRiptideModifier::new, "Poseidon Riptide",
+				"When in water or in rain, charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging.");
 		FREEZE = reg("freezing", FreezingModifier::new, "Potion Upgrade: Freezing", "Get Ice Blade and Ice Thorn enchantment effects. Immune to freezing damage.");
 		FLAME = reg("soul_flame", SoulFlameModifier::new, "Potion Upgrade: Soul Flame", "Get Soul Flame Blade and Soul Flame Thorn enchantment effects. Immune to soul flame damage.");
 		TELEPORT = reg("teleport", EnderTeleportModifier::new, "Teleport randomly to avoid physical damage. Teleport toward target when attacking. Teleport has %ss cool down.");
@@ -41,9 +44,9 @@ public class LCCompatRegistry {
 				i -> new MobEffectInstance(LCEffects.STONE_CAGE.get(), 20 * i)), "Potion Upgrade: Incarceration", null);
 
 		POSEIDITE = reg("poseidite", () -> new TargetBonusModifier(e -> e.isSensitiveToWater() || e.getMobType() == MobType.WATER),
-				"Deal %s%% more damage to mobs sensitive to water or water based mobs");
+				"Deal %s more damage to mobs sensitive to water or water based mobs");
 		TOTEMIC_GOLD = reg("totemic_gold", () -> new TargetBonusModifier(e -> e.getMobType() == MobType.UNDEAD),
-				"Deal %s%% more damage to undead mobs");
+				"Deal %s more damage to undead mobs");
 		CLEANSE = reg("cleanse", CleanseModifier::new, "Potion Upgrade: Cleanse", null);
 
 		FORCE_FIELD = regModUpgrade("force_field", () -> GolemModifiers.PROJECTILE_REJECT, LCDispatch.MODID).lang("Wither Armor Upgrade").register();
