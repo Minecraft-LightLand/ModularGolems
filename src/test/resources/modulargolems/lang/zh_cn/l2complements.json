@@ -13,7 +13,7 @@
   },
   "modifier.modulargolems": {
 	"conduit": "潮涌之力",
-	"conduit.desc": "当自身在水中/雨中时：受到的伤害减少至%s%%，每%s秒对附近水中/雨中的单个目标造成%s点潮涌伤害，提升以下属性：",
+	"conduit.desc": "当自身在水中/雨中时：受到的伤害减少至%s，每%s秒对附近水中/雨中的单个目标造成%s点潮涌伤害，提升以下属性：",
 	"freezing": "药水升级：寒流",
 	"freezing.desc": "攻击/被攻击时，对目标/攻击者施加寒流效果。免疫冰冻伤害",
 	"soul_flame": "药水升级：魂火",
@@ -23,9 +23,11 @@
 	"cleanse": "净化升级",
 	"curse": "药水升级：诅咒",
 	"incarcerate": "药水升级：禁锢",
-	"poseidite": "海神",
-	"poseidite.desc": "对怕水生物和水生生物造成的伤害提升%s%%",
-	"totemic_gold": "生命",
-	"totemic_gold.desc": "对亡灵生物造成的伤害提升%s%%"
+	"poseidite": "海神之触",
+	"poseidite.desc": "对怕水生物和水生生物造成的伤害提升%s",
+	"totemic_gold": "生命之触",
+	"totemic_gold.desc": "对亡灵生物造成的伤害提升%s",
+	"poseidon_riptide": "激流勇进",
+	"poseidon_riptide.desc": "当自身在水中/雨中时，可向较远目标发起冲锋，对路径上的所有目标造成伤害，冲锋期间受到的伤害降低%s。"
   }
 }

@@ -16,7 +16,6 @@ public class LCConfigGen extends ConfigDataProvider {
 		super(generator, "Golem Config for L2Complements");
 	}
 
-
 	@Override
 	public void add(Collector collector) {
 		collector.add(ModularGolems.MATERIALS, new ResourceLocation(LCDispatch.MODID, "totemic_gold"), new GolemMaterialConfig()
@@ -34,21 +33,23 @@ public class LCConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addModifier(GolemModifiers.SWIM.get(), 1)
 				.addModifier(LCCompatRegistry.CONDUIT.get(), 1)
-				.addModifier(LCCompatRegistry.POSEIDITE.get(), 1).end()
-		);
+				.addModifier(LCCompatRegistry.POSEIDITE.get(), 1)
+				.addModifier(LCCompatRegistry.RIPTIDE.get(), 1).end()
+			);
 		collector.add(ModularGolems.MATERIALS, new ResourceLocation(LCDispatch.MODID, "shulkerate"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LCDispatch.MODID, "shulkerate"), Ingredient.of(LCMats.SHULKERATE.getIngot()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
-				.addStat(GolemTypes.STAT_WEIGHT.get(), -0.4)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypes.STAT_KBRES.get(), 1)
+				.addStat(GolemTypes.STAT_RANGE.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
-				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1).end()
+				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
+				.addModifier(LCCompatRegistry.TELEPORT.get(), 1).end()
 		);
 		collector.add(ModularGolems.MATERIALS, new ResourceLocation(LCDispatch.MODID, "eternium"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(LCDispatch.MODID, "eternium"), Ingredient.of(LCMats.ETERNIUM.getIngot()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
 				.addStat(GolemTypes.STAT_REGEN.get(), 1000)
 				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addModifier(GolemModifiers.IMMUNITY.get(), 1).end()

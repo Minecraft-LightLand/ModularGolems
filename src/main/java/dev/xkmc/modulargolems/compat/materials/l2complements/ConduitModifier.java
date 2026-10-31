@@ -54,11 +54,18 @@ public class ConduitModifier extends GolemModifier {
 		int tough = MGConfig.COMMON.conduitBoostToughness.get() * level;
 		int damage = MGConfig.COMMON.conduitDamage.get() * level;
 		int freq = MGConfig.COMMON.conduitCooldown.get() / 20;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", red, freq, damage).withStyle(ChatFormatting.GREEN),
-				Component.translatable(Attributes.ATTACK_DAMAGE.getDescriptionId()).append(": +" + atk + "%").withStyle(ChatFormatting.BLUE),
-				Component.translatable(Attributes.MOVEMENT_SPEED.getDescriptionId()).append(": +" + spe + "%").withStyle(ChatFormatting.BLUE),
-				Component.translatable(Attributes.ARMOR.getDescriptionId()).append(": +" + armor).withStyle(ChatFormatting.BLUE),
-				Component.translatable(Attributes.ARMOR_TOUGHNESS.getDescriptionId()).append(": +" + tough).withStyle(ChatFormatting.BLUE));
+		var cred = Component.literal(red + "%").withStyle(ChatFormatting.AQUA);
+		var cfreq = Component.literal("" + freq).withStyle(ChatFormatting.AQUA);
+		var cdmg = Component.literal("" + damage).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", cred, cfreq, cdmg).withStyle(ChatFormatting.GREEN),
+				Component.translatable(Attributes.ATTACK_DAMAGE.getDescriptionId()).append(": ")
+						.append(Component.literal("+" + atk + "%").withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.BLUE),
+				Component.translatable(Attributes.MOVEMENT_SPEED.getDescriptionId()).append(": ")
+						.append(Component.literal("+" + spe + "%").withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.BLUE),
+				Component.translatable(Attributes.ARMOR.getDescriptionId()).append(": ")
+						.append(Component.literal("+" + armor).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.BLUE),
+				Component.translatable(Attributes.ARMOR_TOUGHNESS.getDescriptionId()).append(": ")
+						.append(Component.literal("+" + tough).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.BLUE));
 	}
 
 	@Override

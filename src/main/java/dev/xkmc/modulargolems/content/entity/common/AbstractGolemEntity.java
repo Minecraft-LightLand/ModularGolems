@@ -133,6 +133,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 	}
 
+	/** 进入/退出原版三叉戟激流旋身姿态（SPIN_ATTACK），供海神激流冲锋使用。 */
+	public void setRiptideSpin(boolean spinning) {
+		this.setLivingEntityFlag(LIVING_ENTITY_FLAG_SPIN_ATTACK, spinning);
+	}
+
 	public AbstractGolemEntity<?, ?> getGolemController() {
 		var p = getControllingPassenger();
 		return p instanceof AbstractGolemEntity<?, ?> g ? g : null;

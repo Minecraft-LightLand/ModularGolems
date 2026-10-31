@@ -1,8 +1,10 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
+import dev.xkmc.modulargolems.content.modifier.special.ICooldownSkill;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+
 import dev.xkmc.l2damagetracker.init.data.L2DamageTypes;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
-import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
@@ -25,7 +27,14 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class EnderTeleportModifier extends GolemModifier {
+public class EnderTeleportModifier extends GolemModifier implements ICooldownSkill {
+	@Override
+	public int getRemainingCooldown(AbstractGolemEntity<?, ?> golem) {
+		long time = golem.level().getGameTime();
+		long last = golem.getPersistentData().getLong(KEY);
+		return (int) Math.max(0, last + MGConfig.COMMON.teleportCooldown.get() - time);
+	}
+
 
 	private static final String KEY = "modulargolems:teleport";
 
@@ -36,7 +45,8 @@ public class EnderTeleportModifier extends GolemModifier {
 	@Override
 	public List<MutableComponent> getDetail(int v) {
 		int seconds = MGConfig.COMMON.teleportCooldown.get() / 20;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", seconds).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal("" + seconds).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override
