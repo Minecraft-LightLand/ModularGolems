@@ -116,7 +116,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		navigation = groundNavigation;
 	}
 
-
 	// ------ materials
 
 	@SerialClass.SerialField(toClient = true)
@@ -308,6 +307,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		if (level().isClientSide()) return false;
+		if (source.getEntity() == this) return false;
 		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
 			markDead();
 			return true;
@@ -392,8 +392,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.updateWalkAnimation(f / getScale());
 	}
 
-	// ------ swim
-
 	public boolean canSwim() {
 		return hasFlag(GolemFlags.SWIM);
 	}
@@ -435,8 +433,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return !this.isSwimming() && isMovable();
 	}
 
-	// ------ ownable entity
-
 	public void setOwnerUUID(@Nullable UUID id) {
 		owner = id;
 		entityData.set(OWNER_ID, Optional.ofNullable(owner));
@@ -462,8 +458,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public final boolean isHostile() {
 		return HostileGolemRegistry.isHostile(getOwnerUUID());
 	}
-
-	// ------ addition golem behavior
 
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);

@@ -24,6 +24,7 @@ public class ManaProductionModifier extends ManaModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		var prod = MGConfig.COMMON.manaProductionVal.get() * v;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", prod).withStyle(ChatFormatting.GREEN));
+		var cprod = Component.literal("" + prod).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", cprod).withStyle(ChatFormatting.GREEN));
 	}
 }

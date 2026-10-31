@@ -1,9 +1,11 @@
 package dev.xkmc.modulargolems.compat.materials.compositematerial.modifier;
 
+import dev.xkmc.modulargolems.content.modifier.special.ICooldownSkill;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2library.init.events.GeneralEventHandler;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
-import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -14,7 +16,14 @@ import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
 
-public class ResonantAttackModifier extends GolemModifier {
+public class ResonantAttackModifier extends GolemModifier implements ICooldownSkill {
+	@Override
+	public int getRemainingCooldown(AbstractGolemEntity<?, ?> golem) {
+		long time = golem.level().getGameTime();
+		long last = golem.getPersistentData().getLong(KEY);
+		return (int) Math.max(0, last + MGConfig.COMMON.resonanceAttackCooldown.get() - time);
+	}
+
 
 	private static final String KEY = "ResonantAttackTimeStamp";
 
@@ -54,6 +63,9 @@ public class ResonantAttackModifier extends GolemModifier {
 		float factor = (float)(MGConfig.COMMON.resonanceAttackDamageFactor.get() * v);
 		int perc = Math.round(100 * factor);
 		int range = MGConfig.COMMON.resonanceAttackRange.get();
-		return List.of(Component.translatable(getDescriptionId() + ".desc", range, perc).withStyle(ChatFormatting.GREEN));
+		// the desc uses positional specifiers: %1$s is the range, %2$s the percentage
+		var crange = Component.literal("" + range).withStyle(ChatFormatting.AQUA);
+		var cperc = Component.literal(perc + "%").withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", crange, cperc).withStyle(ChatFormatting.GREEN));
 	}
 }

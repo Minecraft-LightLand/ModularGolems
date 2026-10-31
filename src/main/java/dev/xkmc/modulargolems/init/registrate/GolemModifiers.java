@@ -58,13 +58,13 @@ public class GolemModifiers {
 		FIRE_IMMUNE = reg("fire_immune", FireImmuneModifier::new,
 				"Immune to fire damage. Floats in Lava.");
 		THUNDER_IMMUNE = reg("thunder_immune", ThunderImmuneModifier::new,
-				"Immune to lightning bolt damage. Attract Lightning. When struck, gain fire resistance for 10 seconds, and heal %s health.");
+				"Immune to lightning bolt damage. Attract Lightning. When struck, gain fire resistance for %s seconds, and heal %s health.");
 		MAGIC_IMMUNE = reg("magic_immune", MagicImmuneModifier::new,
 				"Immune to magic damage");
 		MAGIC_RES = reg("magic_resistant", MagicResistanceModifier::new,
-				"Magic damage taken reduced to %s%% of original");
+				"Magic damage taken reduced to %s of original");
 		RECYCLE = reg("recycle", () -> new SimpleFlagModifier(StatFilterType.HEALTH, GolemFlags.RECYCLE),
-				"Drop golem holder of 0 health when killed. Holder will return to inventory is player is present.");
+				"Drop golem holder of %s health when killed. Holder will return to inventory is player is present.");
 		ARMOR = reg("armor_up", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, () -> 10)
 		)).register();
@@ -86,13 +86,13 @@ public class GolemModifiers {
 		NETHERITE_ADD = reg("add_slot_netherite", () -> new AddSlotModifier(1), "Netherite Expansion", "Add 1 upgrade slot. Only once per golem.");
 
 		THORN = reg("thorn", ThornModifier::new,
-				"Reflect %s%% damage");
+				"Reflect %s damage");
 		FLOAT = reg("float", () -> new SimpleFlagModifier(StatFilterType.HEALTH, GolemFlags.FLOAT),
 				"Golem floats in water and lava instead of sinking");
 		EXPLOSION_RES = reg("explosion_resistant", ExplosionResistanceModifier::new,
-				"Explosion damage taken reduced to %s%% of original, and will not break blocks.");
+				"Explosion damage taken reduced to %s of original, and will not break blocks.");
 		DAMAGE_CAP = reg("damage_cap", DamageCapModifier::new,
-				"Damage taken are limited within %s%% of max health.");
+				"Damage taken are limited within %s of max health.");
 		PROJECTILE_REJECT = reg("projectile_reject", ProjectileRejectModifier::new,
 				"Deflect projectiles. Takes no projectile damage.");
 		IMMUNITY = reg("immunity", ImmunityModifier::new,
@@ -117,7 +117,7 @@ public class GolemModifiers {
 						i -> new MobEffectInstance(MobEffects.WITHER, 60, i - 1)),
 				"Potion Upgrade: Wither", null);
 		EMERALD = reg("emerald", () -> new TargetBonusModifier(e -> e.getType().is(EntityTypeTags.RAIDERS)),
-				"Deal %s%% more damage to illagers");
+				"Deal %s more damage to illagers");
 		PICKUP = reg("pickup", PickupModifier::new, "Pickup",
 				"Golems will pickup items and experiences within %s blocks and give them to you. See Patchouli for full documentation. The golem may destroy items if it find nowhere to store them");
 		PICKUP_NODESTROY = reg("pickup_no_destroy", () -> new SimpleFlagModifier(StatFilterType.MASS, GolemFlags.NO_DESTROY),
@@ -125,7 +125,7 @@ public class GolemModifiers {
 		PICKUP_MENDING = reg("pickup_mending", () -> new SimpleFlagModifier(StatFilterType.MASS, GolemFlags.MENDING),
 				"Pickup Augment: Mending", "When a golem picks up experiences, it will try to heal itself with the experience.");
 		TALENTED = reg("talented", TalentMetaModifier::new, "Talented",
-				"First of every kind of upgrades with blue arrow will no longer consume upgrade slots (up to 4)");
+				"First of every kind of upgrades with blue arrow will no longer consume upgrade slots (up to %s)");
 		CAULDRON = reg("cauldron", PotionMetaModifier::new, "Cauldron",
 				"Repeated potion upgrades will no longer consume upgrade slots.");
 
@@ -145,9 +145,9 @@ public class GolemModifiers {
 		ADD_SLOT = reg("add_slot", () -> new AddSlotModifier(20), "Add %s golem upgrade slot");
 
 		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
-				"Armor Penetration", "Attack has %s%% chance to bypass armor and shields");
+				"Armor Penetration", "Attack has %s chance to bypass armor and shields");
 		DYNAMIC_REDUCTION = reg("dynamic_reduction", DynamicReductionModifier::new,
-				"Dynamic Reduction","Golem can only take damage of 20% max health per period of time");
+				"Dynamic Reduction","Golem can only take damage of %s max health per period of time");
 
 	}
 

@@ -54,7 +54,7 @@ public class GRCompatRegistry {
 		FAST = reg("the_atrocious", FastSkillModifier::new, "The Atrocious",
 				"Reduce Apostle modifier skill cooldown");
 		REVIVE = reg("the_risen", ReviveModifier::new, "The Risen",
-				"Golem drops holder item with 0 health on death. Golem holder item can still heal when it has no health");
+				"Golem drops holder item with %s health on death. Golem holder item can still heal when it has no health");
 
 		UPGRADE_CD = regModUpgrade("the_abhorrent", () -> CD_BYPASS, GRDispatch.MODID)
 				.lang("Apostle Title: The Abhorrent").register();

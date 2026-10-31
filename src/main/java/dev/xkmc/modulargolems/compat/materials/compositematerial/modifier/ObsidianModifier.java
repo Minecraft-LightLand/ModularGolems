@@ -24,7 +24,9 @@ public class ObsidianModifier extends GolemModifier {
 	}
 
 	public List<MutableComponent> getDetail(int v) {
+		// flat damage reduction in points, not a percentage
 		int factor = v * MGConfig.COMMON.obsidianDamageReduction.get();
-		return List.of(Component.translatable(getDescriptionId() + ".desc", factor).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal("" + factor).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 }

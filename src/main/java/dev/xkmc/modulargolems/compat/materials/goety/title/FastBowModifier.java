@@ -32,6 +32,8 @@ public class FastBowModifier extends GolemModifier {
 	}
 
 	public List<MutableComponent> getDetail(int v) {
-		return List.of(Component.translatable(getDescriptionId() + ".desc", 2 + v, 4 + 4 * v).withStyle(ChatFormatting.GREEN));
+		var shots = Component.literal("" + (2 + v)).withStyle(ChatFormatting.AQUA);
+		var speed = Component.literal("" + (4 + 4 * v)).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", shots, speed).withStyle(ChatFormatting.GREEN));
 	}
 }

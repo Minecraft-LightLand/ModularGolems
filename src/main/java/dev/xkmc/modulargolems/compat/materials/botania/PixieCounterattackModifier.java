@@ -39,7 +39,8 @@ public class PixieCounterattackModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		int prob = (int) Math.round((MGConfig.COMMON.pixieCounterattackProb.get() * v) * 100);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", prob).withStyle(ChatFormatting.GREEN));
+		var cprob = Component.literal(prob + "%").withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", cprob).withStyle(ChatFormatting.GREEN));
 	}
 
 }

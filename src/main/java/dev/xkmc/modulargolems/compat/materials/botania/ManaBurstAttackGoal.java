@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
 import vazkii.botania.common.entity.ManaBurstEntity;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 public class ManaBurstAttackGoal extends BaseRangedAttackGoal {
 
@@ -56,5 +57,15 @@ public class ManaBurstAttackGoal extends BaseRangedAttackGoal {
 		return burst;
 	}
 
+	@Override
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
+
+
+	@Override
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
+	}
 }
 

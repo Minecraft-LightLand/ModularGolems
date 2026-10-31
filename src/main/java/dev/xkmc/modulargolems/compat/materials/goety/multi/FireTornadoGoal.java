@@ -4,6 +4,7 @@ import com.Polarice3.Goety.common.entities.projectiles.FireTornado;
 import dev.xkmc.modulargolems.compat.materials.goety.modifier.IApostleGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 public class FireTornadoGoal extends MultiTargetRangedGoal implements IApostleGoal {
 
@@ -38,5 +39,15 @@ public class FireTornadoGoal extends MultiTargetRangedGoal implements IApostleGo
 		e.setPos(golem.getX(), golem.getY(), golem.getZ());
 		e.setDamage(9 + 3 * lv);
 		level.addFreshEntity(e);
+	}
+	@Override
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
+
+
+	@Override
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
 	}
 }

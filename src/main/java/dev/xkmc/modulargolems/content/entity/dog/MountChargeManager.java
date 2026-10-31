@@ -96,7 +96,7 @@ public class MountChargeManager {
 		ins.modifier().onChargeStart(ins.owner());
 	}
 
-	public void tickMountCharge() {
+	private void tickMountCharge() {
 		this.chargeTicks++;
 		if (chargeTicks > ChargeHelper.MAX_TICKS || chargeBlocked) {
 			endMountCharge();
@@ -146,6 +146,17 @@ public class MountChargeManager {
 		}
 	}
 
+	public void tickCharge(){
+		// 骑乘冲锋由服务端权威推进（伤害/结束判定都在这里），漏掉这个调用会让
+		// DATA_CHARGE_ACTIVE 永远清不掉 → 客户端一直向前冲且没有伤害。
+		// chargeRider 是身上那只傀儡的技能，chargeMount 是自身的；玩家直接操控时走 tickRiddenCharge。
+		if (chargeRider != null || chargeMount != null) {
+			tickMountCharge();
+		} else if (golem.getGolemController() != null) {
+			tickRiddenCharge();
+		}
+	}
+
 	private void endMountCharge() {
 		if (chargeRider != null) chargeRider.modifier().endCharge(chargeRider);
 		if (chargeMount != null) chargeMount.modifier().endCharge(chargeMount);
@@ -187,7 +198,6 @@ public class MountChargeManager {
 		}
 		return ans;
 	}
-
 
 	/**
 	 * AI 骑乘冲锋：AI 傀儡先从自身、再从坐骑的修饰符里挑一个冲锋技能，用坐骑的身体跑。
@@ -231,14 +241,14 @@ public class MountChargeManager {
 		RideCooldownIndicator.render(player, rideIndicators);
 	}
 
-
 	public interface View extends GolemImplBase {
 
 		MountChargeManager chargeManager();
 
-		default void chargeDataSync() {
+		default void tickCharge() {
 			setJumpCd(chargeManager().calcJumpCd());
 			setChargeCd(chargeManager().calcChargeCd());
+			chargeManager().tickCharge();
 		}
 
 		default Vec3 getChargeDirClient() {
@@ -269,7 +279,6 @@ public class MountChargeManager {
 			}
 			chargeManager().wasSprinting = sprint;
 		}
-
 
 		default boolean isMountCharging() {
 			return chargeManager().chargeRider != null || chargeManager().chargeMount != null;

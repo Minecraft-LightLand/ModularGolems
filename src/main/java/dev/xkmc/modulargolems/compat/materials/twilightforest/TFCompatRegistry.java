@@ -108,9 +108,9 @@ public class TFCompatRegistry {
 
 		TF_GOLEM_WEAPON = GolemWeaponType.build(TFGolemWeaponMaterial.values());
 
-		FIERY = reg("fiery", FieryModifier::new, "Deal +%s%% damage to mobs not immune to fire");
-		TF_DAMAGE = reg("tf_damage", TFDamageModifier::new, "TF Damage Bonus", "Deal %s%% extra damage in twilight forest");
-		TF_HEALING = reg("tf_healing", TFHealingModifier::new, "TF Healing Bonus", "Healing becomes %s%% more in twilight forest");
+		FIERY = reg("fiery", FieryModifier::new, "Deal +%s damage to mobs not immune to fire");
+		TF_DAMAGE = reg("tf_damage", TFDamageModifier::new, "TF Damage Bonus", "Deal %s extra damage in twilight forest");
+		TF_HEALING = reg("tf_healing", TFHealingModifier::new, "TF Healing Bonus", "Healing becomes %s more in twilight forest");
 		CARMINITE = reg("carminite", CarminiteModifier::new, "After being hurt, turn invisible and invinsible for %s seconds");
 		NAGA = reg("naga", () -> new AttributeGolemModifier(2,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ARMOR, () -> 10),

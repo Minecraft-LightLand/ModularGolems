@@ -40,6 +40,9 @@ public class ResonantHealModifier extends GolemModifier {
 		float factor = (float)(MGConfig.COMMON.resonanceHealFactor.get() * v);
 		int perc = Math.round(factor * 100);
 		int range = MGConfig.COMMON.resonanceHealRange.get();
-		return List.of(Component.translatable(getDescriptionId() + ".desc", perc, range).withStyle(ChatFormatting.GREEN));
+		// the desc uses positional specifiers: %1$s is the percentage, %2$s the range
+		var cperc = Component.literal(perc + "%").withStyle(ChatFormatting.AQUA);
+		var crange = Component.literal("" + range).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", cperc, crange).withStyle(ChatFormatting.GREEN));
 	}
 }

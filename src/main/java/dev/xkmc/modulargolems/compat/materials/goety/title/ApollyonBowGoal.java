@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Optional;
+import dev.xkmc.modulargolems.util.GolemTargetUtil;
 
 public class ApollyonBowGoal<E extends SweepGolemEntity<?, ?>> extends SmartBowAttackGoal<E> {
 
@@ -34,7 +35,7 @@ public class ApollyonBowGoal<E extends SweepGolemEntity<?, ?>> extends SmartBowA
 		var list = mob.level().getEntities(
 				EntityTypeTest.forClass(LivingEntity.class),
 				mob.getBoundingBox().inflate(range),
-				e -> mob.canAttack(e) && mob.hasLineOfSight(e));
+				e -> GolemTargetUtil.canTarget(mob, e) && mob.hasLineOfSight(e));
 		list.sort(Comparator.comparing(ke -> Optional.ofNullable(
 				TargetManager.predicateTarget(mob, ke)
 		).map(Enum::ordinal).orElse(100)));

@@ -133,7 +133,6 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	@Override
 	protected void customServerAiStep() {
 		super.customServerAiStep();
-		chargeDataSync();
 		if (jumpAttackDelay > 0) jumpAttackDelay--;
 		if (jumpAttackDelay <= 0 && jumpAttack != null && onGround()) {
 			jumpAttack.modifier().performEarthQuake(this, jumpAttack.lv());
@@ -143,9 +142,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 			this.level().broadcastEntityEvent(this, EarthquakeHelper.FLAG);
 			jumpAttack = null;
 		}
-		// 骑乘冲锋由服务端权威推进（伤害/结束判定都在这里），漏掉这个调用会让
-		// DATA_CHARGE_ACTIVE 永远清不掉 → 客户端一直向前冲且没有伤害。
-		if (isMountCharging()) chargeManager.tickMountCharge();
+		tickCharge();
 	}
 
 	protected void executeRidersJump(Vec3 action) {

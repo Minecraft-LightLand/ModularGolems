@@ -26,7 +26,7 @@ public class MowzieCompatRegistry {
 	static {
 		WROUGHTNAUT_INGOT = GolemItems.item(MowzieDispatch.MODID, "wroughtnaut_ingot", Item::new);
 		AXE_SLAM = reg("wroughtnaut", () -> new SlamModifier(StatFilterType.HEAD, 1),
-				"Wroughtnaut Slamming", "Perform falling attack and create shockwave");
+				"Wroughtnaut Slamming", "Perform falling attack and create shockwave. Damage taken is reduced by %s while leaping.");
 		UPGRADE_SLAM = regModUpgrade("wroughtnaut", () -> AXE_SLAM, MowzieDispatch.MODID)
 				.lang("Wroughtnaut Slamming Upgrade").register();
 	}

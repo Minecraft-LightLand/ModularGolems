@@ -31,7 +31,9 @@ public class ManaBoostModifier extends ManaModifier {
 	public List<MutableComponent> getDetail(int v) {
 		int bonus = (int) Math.round((MGConfig.COMMON.manaBoostingDamage.get() * v) * 100);
 		int manaCost = MGConfig.COMMON.manaBoostingCost.get() * v;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", bonus, manaCost).withStyle(ChatFormatting.GREEN));
+		var cbonus = Component.literal(bonus + "%").withStyle(ChatFormatting.AQUA);
+		var ccost = Component.literal("" + manaCost).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", cbonus, ccost).withStyle(ChatFormatting.GREEN));
 	}
 
 }
