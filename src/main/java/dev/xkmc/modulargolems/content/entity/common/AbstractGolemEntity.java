@@ -86,6 +86,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -318,6 +319,26 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			}
 		}
 		return mobInteractImpl(player, hand);
+	}
+
+	@Nullable
+	protected InteractionResult tryRepairWithBodyMaterial(Player player, InteractionHand hand, GolemMaterial mat) {
+		ItemStack itemstack = player.getItemInHand(hand);
+		if (itemstack.isEmpty()) return null;
+		Ingredient ing = GolemMaterialConfig.get().getRepairIngredient(mat.id());
+		if (!ing.test(itemstack)) return null;
+		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
+		if (getGuardedDataImpl() >= getMaxHealth() && !isReforged()) {
+			return InteractionResult.PASS;
+		}
+		repairWithItem();
+		if (!player.getAbilities().instabuild) {
+			itemstack.shrink(1);
+		}
+		if (!this.level().isClientSide()) {
+			GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
+		}
+		return InteractionResult.sidedSuccess(this.level().isClientSide);
 	}
 
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {

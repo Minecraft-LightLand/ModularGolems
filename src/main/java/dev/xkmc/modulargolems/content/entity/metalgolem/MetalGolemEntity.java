@@ -2,7 +2,6 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
@@ -11,7 +10,6 @@ import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.IAttackListenerWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
-import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.core.BlockPos;
@@ -22,7 +20,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -37,7 +34,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -233,28 +229,13 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
-		ItemStack itemstack = player.getItemInHand(hand);
 		if (getMaterials().size() != MetalGolemPartType.values().length)
 			return super.mobInteractImpl(player, hand);
-		var mat = getMaterials().get(MetalGolemPartType.BODY.ordinal());
-		Ingredient ing = GolemMaterialConfig.get().getRepairIngredient(mat.id());
-		if (!ing.test(itemstack)) {
-			if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
-				return InteractionResult.PASS;
-			return super.mobInteractImpl(player, hand);
-		}
-		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
-		if (getGuardedDataImpl() >= getMaxHealth() && !isReforged()) {
+		var result = tryRepairWithBodyMaterial(player, hand, getMaterials().get(MetalGolemPartType.BODY.ordinal()));
+		if (result != null) return result;
+		if (MGConfig.COMMON.strictInteract.get() && !player.getItemInHand(hand).isEmpty())
 			return InteractionResult.PASS;
-		}
-		repairWithItem();
-		if (!player.getAbilities().instabuild) {
-			itemstack.shrink(1);
-		}
-		if (!this.level().isClientSide()) {
-			GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
-		}
-		return InteractionResult.sidedSuccess(this.level().isClientSide);
+		return super.mobInteractImpl(player, hand);
 	}
 
 	@Override

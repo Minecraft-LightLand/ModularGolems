@@ -200,6 +200,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
+		if (getMaterials().size() == HumanoidGolemPartType.values().length) {
+			var result = tryRepairWithBodyMaterial(player, hand, getMaterials().get(HumanoidGolemPartType.BODY.ordinal()));
+			if (result != null) return result;
+		}
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 			return InteractionResult.PASS;
