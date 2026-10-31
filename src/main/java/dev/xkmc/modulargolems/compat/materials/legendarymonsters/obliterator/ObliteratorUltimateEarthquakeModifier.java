@@ -10,9 +10,14 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import java.util.List;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import java.util.function.Consumer;
 
 /**
@@ -34,6 +39,11 @@ public class ObliteratorUltimateEarthquakeModifier extends GolemModifier impleme
 	}
 
 	@Override
+	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
+		if (EarthquakeHelper.isLeaping(entity)) event.setAmount(event.getAmount() * EarthquakeHelper.LEAP_DAMAGE_MULT);
+	}
+
+	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
 		// replicate visuals + proxies: central portal + 10 outer portals, 6 flames, Sphereparticle, shockwave flames, CameraShake, RingData
 		LMProxy.spawnObliteratorUltimateQuake(golem, level);
@@ -48,8 +58,7 @@ public class ObliteratorUltimateEarthquakeModifier extends GolemModifier impleme
 
 	@Override
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
-		// 6.0f range -> 36, ultimate larger than jump (5.0 -> 25)
-		return 36.0;
+		return 25 * 25;
 	}
 
 	@Override
@@ -60,6 +69,12 @@ public class ObliteratorUltimateEarthquakeModifier extends GolemModifier impleme
 	@Override
 	public boolean canExistOn(GolemPart<?, ?> part) {
 		return part.getEntityType() == GolemTypes.TYPE_GOLEM.get() && super.canExistOn(part);
+	}
+
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc", EarthquakeHelper.leapReduction()).withStyle(ChatFormatting.GREEN));
 	}
 
 }

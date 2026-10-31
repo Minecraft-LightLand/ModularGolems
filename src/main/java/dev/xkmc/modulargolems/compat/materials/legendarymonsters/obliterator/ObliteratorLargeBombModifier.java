@@ -22,7 +22,7 @@ public class ObliteratorLargeBombModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new ObliteratorLargeBombGoal(entity, lv));
+		addGoal.accept(5, new ObliteratorLargeBombGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 	@Override

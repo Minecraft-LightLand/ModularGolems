@@ -20,6 +20,6 @@ public class ObliteratorLaserModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new ObliteratorLaserGoal(entity, lv));
+		addGoal.accept(5, new ObliteratorLaserGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 }

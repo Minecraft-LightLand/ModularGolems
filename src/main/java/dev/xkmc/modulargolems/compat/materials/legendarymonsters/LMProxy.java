@@ -208,5 +208,7 @@ public class LMProxy {
 	public static void genLootModifier(MGGLMGen pvd) {
 		pvd.drop(LMDispatch.MODID, ModEntities.Ancient_Guardian.get(), "molten_metal");
 		pvd.drop(LMDispatch.MODID, ModEntities.Cloud_golem.get(), "cloud");
+		pvd.drop(LMDispatch.MODID, ModEntities.THE_OBLITERATOR.get(), "obliterator");
+		pvd.drop(LMDispatch.MODID, ModEntities.Posessed_Paladin.get(), "paladin");
 	}
 }

@@ -7,6 +7,7 @@
   "modifiers": {
     "legendary_monsters:cloud": {
       "modulargolems:add_slot": 1,
+      "modulargolems:cloud_charge": 1,
       "modulargolems:cloud_forming": 1,
       "modulargolems:damage_cap": 2,
       "modulargolems:dynamic_reduction": 1,

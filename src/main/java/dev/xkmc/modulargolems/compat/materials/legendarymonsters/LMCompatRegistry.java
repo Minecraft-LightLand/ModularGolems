@@ -5,6 +5,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.RootPercAttackModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.ThunderAttackModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.CloudChargeModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorJumpGroundChargeModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorLargeBombModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorLaserModifier;
@@ -30,6 +31,7 @@ public class LMCompatRegistry {
 	public static final RegistryEntry<AncientAnchorModifier> ANCHOR;
 	public static final RegistryEntry<ThunderAttackModifier> THUNDER;
 	public static final RegistryEntry<RootPercAttackModifier> PERC;
+	public static final RegistryEntry<CloudChargeModifier> CLOUD_CHARGE;
 	public static final RegistryEntry<ObliteratorLargeBombModifier> OBLITERATOR_LARGE_BOMB;
 	public static final RegistryEntry<ObliteratorSmallBombModifier> OBLITERATOR_SMALL_BOMB;
 	public static final RegistryEntry<ObliteratorPlasmaOrbModifier> OBLITERATOR_PLASMA_ORB;
@@ -47,13 +49,16 @@ public class LMCompatRegistry {
 
 	static {
 		ANCHOR = reg("ancient_anchor", () -> new AncientAnchorModifier(StatFilterType.MASS, 4),
-				"Ancient Anchor", "Deal fall attack, cause shockwaves, and stun targets");
+				"Ancient Anchor", "Deal fall attack, cause shockwaves, and stun targets Damage taken is reduced by %s while leaping.");
 
 		THUNDER = reg("thunderstorm", () -> new ThunderAttackModifier(StatFilterType.MASS, 4),
 				"Thunderstorm", "Summon thunderstorm to attack multiple targets. When attacked, summon electric bursts around the golem.");
 
 		PERC = reg("cloud_forming", RootPercAttackModifier::new,
 				"Cloud Forming", "Deal more damage to targets with higher health");
+
+		CLOUD_CHARGE = reg("cloud_charge", CloudChargeModifier::new,
+				"Cloud Charge", "Charge at the target, dealing 22 damage plus 3% of its max health and disabling shields. Can chain twice.");
 
 		OBLITERATOR_LARGE_BOMB = reg("obliterator_large_bomb", ObliteratorLargeBombModifier::new,
 				"Obliterator Cluster Bomb", "Launch a annihilation cluster bomb at a single target");
@@ -64,9 +69,9 @@ public class LMCompatRegistry {
 		OBLITERATOR_LASER = reg("obliterator_laser", ObliteratorLaserModifier::new,
 				"Obliterator Laser", "Fire an annihilation beam at a single target, following golem rotation");
 		OBLITERATOR_JUMP = reg("obliterator_jump", ObliteratorJumpGroundChargeModifier::new,
-				"Obliterator Jump", "Performs jump attack with plasma orbs");
+				"Obliterator Jump", "Performs jump attack with plasma orbs Damage taken is reduced by %s while leaping.");
 		OBLITERATOR_ULTIMATE = reg("obliterator_ultimate", ObliteratorUltimateEarthquakeModifier::new,
-				"Obliterator Ultimate", "Performs jump attack with plasma portals and plasma flames");
+				"Obliterator Ultimate", "Performs jump attack with plasma portals and plasma flames Damage taken is reduced by %s while leaping.");
 
 		PHANTOM_DAGGER = reg("phantom_dagger", PhantomDaggerModifier::new,
 				"Phantom Dagger", "Throw three homing phantom daggers that track a single target");
@@ -75,10 +80,10 @@ public class LMCompatRegistry {
 				"Soul Spike", "Summon soul spikes in front that damage enemies and heal the golem");
 
 		PALADIN_SOUL_BLADE_LEAP = reg("paladin_soul_blade_leap", PaladinSoulBladeLeapModifier::new,
-				"Paladin Soul Blade Leap", "Leap toward target and summon fallen soul blades that damage enemies and heal the golem");
+				"Paladin Soul Blade Leap", "Leap toward target and summon fallen soul blades that damage enemies and heal the golem Damage taken is reduced by %s while leaping.");
 
 		PALADIN_SOUL_SHIELD = reg("paladin_soul_shield", PaladinSoulShieldModifier::new,
-				"Paladin Soul Shield", "Summon soul shield around golem on landing, damage enemies and heal golem");
+				"Paladin Soul Shield", "Summon soul shield around golem on landing, damage enemies and heal golem Damage taken is reduced by %s while leaping.");
 
 		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
 				.lang("Thunderstorm Upgrade").register();

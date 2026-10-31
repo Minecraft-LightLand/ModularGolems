@@ -19,7 +19,7 @@ public class PhantomDaggerModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new PhantomDaggerGoal(entity, lv));
+		addGoal.accept(5, new PhantomDaggerGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }
