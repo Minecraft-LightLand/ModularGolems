@@ -45,6 +45,7 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
 				.addModifier(LMCompatRegistry.THUNDER.get(), 1)
 				.addModifier(LMCompatRegistry.PERC.get(), 1)
+				.addModifier(LMCompatRegistry.CLOUD_CHARGE.get(), 1)
 				.end()
 		);
 		map.add(ModularGolems.MATERIALS, new ResourceLocation(LMDispatch.MODID, "obliterator"), new GolemMaterialConfig()

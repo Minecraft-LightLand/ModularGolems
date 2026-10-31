@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.compat.materials.goety.multi.MultiTargetRangedGoal
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 /**
  * Multi-target ranged: plasma orb (PlasmaOrbEntity)
@@ -34,5 +35,15 @@ public class ObliteratorPlasmaOrbGoal extends MultiTargetRangedGoal {
 	@Override
 	protected void performAttackImpl(LivingEntity target) {
 		LMProxy.spawnObliteratorPlasmaOrb(golem, target, lv);
+	}
+	@Override
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
+
+
+	@Override
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
 	}
 }
