@@ -285,6 +285,10 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
+		if (getMaterials().size() == DogGolemPartType.values().length) {
+			var result = tryRepairWithBodyMaterial(player, hand, getMaterials().get(DogGolemPartType.BODY.ordinal()));
+			if (result != null) return result;
+		}
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 			return InteractionResult.PASS;
