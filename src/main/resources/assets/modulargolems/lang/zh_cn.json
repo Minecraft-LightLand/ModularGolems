@@ -758,6 +758,8 @@
   "modulargolems.msg.recall_fail": "找不到该傀儡，无法召回",
   "modulargolems.msg.add_target": "已将%s加入过滤器",
   "modulargolems.msg.remove_target": "已将%s移除过滤器",
+  "modulargolems.msg.skill_cd": "技能冷却:",
+  "modulargolems.msg.skill_cd_line": "- %s: %s秒",
   "modulargolems.config.loading": "加载中...",
   "modulargolems.config.mode": "默认傀儡模式",
   "modulargolems.config.mode_tooltip": "傀儡的被召唤时的默认模式。不影响已经在世界中的傀儡。傀儡被召唤时采用这个模式，而非被回收时的模式",

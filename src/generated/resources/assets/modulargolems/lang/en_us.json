@@ -749,6 +749,8 @@
   "modulargolems.msg.destroy_item": "Golem %s destroyed %s items because it finds no place to store.",
   "modulargolems.msg.recall_fail": "Golem not found or cannot be recalled now",
   "modulargolems.msg.remove_target": "Remove %s from filter",
+  "modulargolems.msg.skill_cd": "Skill Cooldowns:",
+  "modulargolems.msg.skill_cd_line": "- %s: %ss",
   "modulargolems.msg.summon_failed": "Failed to summon %s, as target position is too far",
   "modulargolems.msg.summon_far": "Summoned %s, at (%s,%s,%s)",
   "modulargolems.slot.arrow": "Arrow Slot",

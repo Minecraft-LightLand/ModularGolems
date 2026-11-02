@@ -50,6 +50,8 @@ public enum MGLangData {
 	IGNIS_BOOST_SOUL("tooltip.cataclysm.ignis_armor_soul", "Permanent Soul Form", 0, ChatFormatting.GRAY),
 	MALEDICTUS_BYPASS_CD("tooltip.cataclysm.maledictus_bypass_cd", "Phantom Halberd spawned from Jump Attack will bypass enemy invulnerable frames", 0, ChatFormatting.GRAY),
 	MALEDICTUS_FAST_SKILL("tooltip.cataclysm.maledictus_fast_skill", "Halves Phantom Halberd Jump Attack cooldown.", 0, ChatFormatting.GRAY),
+	SKILL_CD("msg.skill_cd", "Skill Cooldowns:", 0, ChatFormatting.GRAY),
+	SKILL_CD_LINE("msg.skill_cd_line", "- %s: %ss", 2, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE("tooltip.cataclysm.maledictus_revive", "Revive Golem at %s%% HP on fatal hit, with cool down of %s seconds", 2, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE_CD("tooltip.cataclysm.maledictus_revive_cd", " Each piece of other cursium armor or part reduce cooldown by %s seconds and increase revived HP by %s%%.", 2, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE_ACTUAL_CD("tooltip.cataclysm.maledictus_revive_actual_cd", "Actual Cooldown: %s seconds.", 1, ChatFormatting.GRAY),
