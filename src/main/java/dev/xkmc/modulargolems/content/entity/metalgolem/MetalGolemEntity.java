@@ -283,7 +283,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	@Override
-	protected List<IItemHandlerModifiable> aggregateInventories() {
+	public List<IItemHandlerModifiable> aggregateInventories() {
 		var ans = super.aggregateInventories();
 		ans.add(new SlotWrapper(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e)));
 		ans.add(new SlotWrapper(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e)));

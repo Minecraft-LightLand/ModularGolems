@@ -265,7 +265,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	}
 
 	@Override
-	protected List<IItemHandlerModifiable> aggregateInventories() {
+	public List<IItemHandlerModifiable> aggregateInventories() {
 		var ans = new ArrayList<IItemHandlerModifiable>();
 		ans.add(new EntityHandsInvWrapper(this));
 		ans.add(new EntityArmorInvWrapper(this));

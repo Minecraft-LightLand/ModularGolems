@@ -1,52 +1,37 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.l2library.util.annotation.ServerOnly;
-import dev.xkmc.l2library.util.math.MathHelper;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
-import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
-import dev.xkmc.modulargolems.content.capability.PathConfig;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
-import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.impl.*;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
-import dev.xkmc.modulargolems.content.item.card.ConfigCard;
-import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
-import dev.xkmc.modulargolems.content.item.equipments.CustomDropGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
-import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
-import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
-import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
-import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -55,8 +40,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -67,7 +50,6 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -81,29 +63,21 @@ import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import net.minecraftforge.items.wrapper.EntityArmorInvWrapper;
-import net.minecraftforge.items.wrapper.EntityHandsInvWrapper;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -112,7 +86,8 @@ import java.util.*;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
-		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
+		implements IEntityAdditionalSpawnData, NeutralMob, PowerableMob,
+		GolemReforgeImpl, GolemConfigImpl, GolemTrackerImpl, GolemInvImpl, GolemPermissionImpl, GolemTargetImpl {
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
@@ -120,6 +95,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity::defineId);
 	private static final EntityDataAccessor<Optional<UUID>> OWNER_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), null);
+
+	private static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
+	private static final EntityDataAccessor<BlockPos> GUARD_POS = GOLEM_DATA.define(SyncedData.BLOCK_POS, BlockPos.ZERO, "guard_pos");
+
+	public static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
+	public static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
+	public static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
+
+	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+	private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
+
+	public static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	protected MoveControl waterMoveControl;
 
@@ -163,6 +150,30 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
 	public GolemMeleeGoal meleeGoal;
+
+	@Override
+	public SynchedEntityData entityData() {
+		return entityData;
+	}
+
+	@SerialClass.OnInject
+	public void cleanInvalidEntries() {
+		GolemType<?, ?> type = GolemType.getGolemType(getType());
+		if (materials != null) {
+			IGolemPart<?>[] parts = type == null ? null : type.values();
+			for (int i = 0; i < materials.size(); i++) {
+				GolemMaterial mat = materials.get(i);
+				if (mat != null && mat.part() instanceof GolemPart<?, ?>) continue;
+				if (parts == null || i >= parts.length) {
+					materials.remove(i--);
+					continue;
+				}
+				materials.set(i, parts[i].toItem().parseMaterial(type.defaultMaterial()));
+			}
+		}
+		if (upgrades != null) upgrades.removeIf(Objects::isNull);
+		if (modifiers != null) modifiers.keySet().removeIf(Objects::isNull);
+	}
 
 	public void onCreate(ArrayList<GolemMaterial> materials, ArrayList<IUpgradeItem> upgrades, @Nullable UUID owner) {
 		updateAttributes(materials, upgrades, owner);
@@ -250,26 +261,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return mobInteractImpl(player, hand);
 	}
 
-	@Nullable
-	protected InteractionResult tryRepairWithBodyMaterial(Player player, InteractionHand hand, GolemMaterial mat) {
-		ItemStack itemstack = player.getItemInHand(hand);
-		if (itemstack.isEmpty()) return null;
-		Ingredient ing = GolemMaterialConfig.get().getRepairIngredient(mat.id());
-		if (!ing.test(itemstack)) return null;
-		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
-		if (getGuardedDataImpl() >= getMaxHealth() && !isReforged()) {
-			return InteractionResult.PASS;
-		}
-		repairWithItem();
-		if (!player.getAbilities().instabuild) {
-			itemstack.shrink(1);
-		}
-		if (!this.level().isClientSide()) {
-			GolemTriggers.HOT_FIX.trigger((ServerPlayer) player);
-		}
-		return InteractionResult.sidedSuccess(this.level().isClientSide);
-	}
-
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
 		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.canModify(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
@@ -294,27 +285,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return InteractionResult.PASS;
 	}
 
-	@Nullable
-	public GolemTracker getTracker() {
-		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return null;
-		if (getOwner() instanceof FakePlayer) return null;
-		return GolemConfigStorage.get(level()).getTracker(id);
-	}
-
-	public void setRetrivedTo(GolemTracker.RetrieveTarget target) {
-		var tracker = getTracker();
-		if (tracker == null) return;
-		var data = tracker.data.get(getUUID());
-		if (data == null) return;
-		data.target = target;
-	}
-
-	public void untrack(GolemTracker.Status type, @Nullable Entity cause) {
-		var tracker = getTracker();
-		if (tracker != null) tracker.untrack(this, type, cause);
-	}
-
 	@ServerOnly
 	public ItemStack toItem(LivingEntity player) {
 		recordedPosition = position();
@@ -337,14 +307,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean hurt(DamageSource source, float amount) {
 		if (level().isClientSide()) return false;
 		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
-			unRide();
-			if (hasFlag(GolemFlags.RECYCLE)) {
-				untrack(GolemTracker.Status.DEATH_RECYCLE, null);
-				returnToInventory();
-			} else {
-				untrack(GolemTracker.Status.DEATH, null);
-			}
-			this.discard();
+			markDead();
 			return true;
 		}
 		return super.hurt(source, amount);
@@ -352,18 +315,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	protected void postHurt(DamageSource source) {
 		if (getGuardedDataImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
-			unRide();
-			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
-			returnToInventory();
-			level().broadcastEntityEvent(this, EntityEvent.POOF);
-			this.discard();
+			markDead();
 		}
 		if (source.getEntity() instanceof LivingEntity le) {
 			setTargetOnHurt(le);
 		}
 	}
 
-	protected void setTargetOnHurt(LivingEntity le) {
+	public void setTargetOnHurt(LivingEntity le) {
 		if (isAlive() && predicateTarget(le)) {
 			if (isWithinMeleeAttackRange(le)) {
 				targeter.findTarget();
@@ -383,38 +342,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
-		boolean skip = false;
-		if (source.getDirectEntity() instanceof MetalGolemEntity golem &&
-				golem.getMainHandItem().getItem() instanceof CustomDropGolemWeapon item) {
-			skip = item.dropCustomDeathLoot(this, golem, golem.getMainHandItem(), source);
-		}
-		if (!skip) {
-			Map<Item, Integer> drop = new HashMap<>();
-			for (GolemMaterial mat : getMaterials()) {
-				Item item = GolemMaterialConfig.get().getCraftIngredient(mat.id()).getItems()[0].getItem();
-				drop.compute(item, (e, old) -> (old == null ? 0 : old) + 1);
-			}
-			drop.forEach((k, v) -> spawnAtLocation(new ItemStack(k, v)));
-		}
-		if (!isHostile()) {
-			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				dropSlot(slot, true);
-			}
-		}
+		dropGolemLoot(source);
 		super.dropCustomDeathLoot(source, i, b);
-	}
-
-	protected void dropSlot(EquipmentSlot slot, boolean isDeath) {
-		ItemStack itemstack = this.getItemBySlot(slot);
-		if (itemstack.isEmpty()) return;
-		if (!isDeath && EnchantmentHelper.hasBindingCurse(itemstack)) return;
-		if (isDeath && EnchantmentHelper.hasVanishingCurse(itemstack)) return;
-		this.spawnAtLocation(itemstack);
-		this.setItemSlot(slot, ItemStack.EMPTY);
 	}
 
 	private double lastSize = 0;
 	private boolean sizeDirty = false;
+
+	public void markSizeDirty() {
+		sizeDirty = true;
+	}
 
 	private double getScaleImpl() {
 		int reforge = getReforgeBase();
@@ -503,7 +440,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public void setOwnerUUID(@Nullable UUID id) {
 		owner = id;
 		entityData.set(OWNER_ID, Optional.ofNullable(owner));
-
 	}
 
 	@Nullable
@@ -512,30 +448,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return entityData.get(OWNER_ID).orElse(null);
 		}
 		return owner;
-	}
-
-	@Nullable
-	public Player getOwner() {
-		try {
-			UUID uuid = this.getOwnerUUID();
-			return uuid == null ? null : this.level().getPlayerByUUID(uuid);
-		} catch (IllegalArgumentException ignored) {
-			return null;
-		}
-	}
-
-	@Nullable
-	public LivingEntity getLeader() {
-		try {
-			UUID uuid = this.getLeaderUUID();
-			if (uuid == null) return null;
-			if (!(level() instanceof ServerLevel sl)) return null;
-			var e = sl.getEntity(uuid);
-			if (!(e instanceof LivingEntity le)) return null;
-			return le;
-		} catch (IllegalArgumentException ignored) {
-			return null;
-		}
 	}
 
 	@Nullable
@@ -573,25 +485,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	}
 
-	@SerialClass.OnInject
-	public void cleanInvalidEntries() {
-		GolemType<?, ?> type = GolemType.getGolemType(getType());
-		if (materials != null) {
-			IGolemPart<?>[] parts = type == null ? null : type.values();
-			for (int i = 0; i < materials.size(); i++) {
-				GolemMaterial mat = materials.get(i);
-				if (mat != null && mat.part() instanceof GolemPart<?, ?>) continue;
-				if (parts == null || i >= parts.length) {
-					materials.remove(i--);
-					continue;
-				}
-				materials.set(i, parts[i].toItem().parseMaterial(type.defaultMaterial()));
-			}
-		}
-		if (upgrades != null) upgrades.removeIf(Objects::isNull);
-		if (modifiers != null) modifiers.keySet().removeIf(Objects::isNull);
-	}
-
 	public Packet<ClientGamePacketListener> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
@@ -613,23 +506,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return Wrappers.cast(this);
 	}
 
+	public ItemStack getAsStack() {
+		return GolemHolder.setEntity(getThis());
+	}
+
 	// ------ common golem behavior
 
 	@Override
 	public boolean hasLineOfSight(Entity target) {
-		if (target.level() == this.level() && hasFlag(GolemFlags.SEE_THROUGH)) {
-			Vec3 self = new Vec3(this.getX(), this.getEyeY(), this.getZ());
-			Vec3 tarp = new Vec3(target.getX(), target.getEyeY(), target.getZ());
-			double dist = tarp.distanceTo(self);
-			if (dist <= 128.0D) {
-				if (target.level().canSeeSky(target.blockPosition()))
-					return true;
-				if (dist < 5)
-					return true;
-				if (self.y() < tarp.y())
-					return true;
-			}
-		}
+		if (target.level() == this.level() && hasFlag(GolemFlags.SEE_THROUGH) && validSeeThroughTarget(target))
+			return true;
 		return super.hasLineOfSight(target);
 	}
 
@@ -659,17 +545,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			veh.setTargetRaw(target);
 		}
 		if (getControllingPassenger() != null) return;
-		if (target != null) {
-			TargetManager.get(this).onSetTarget(this, target);
-		}
-		if (target != prev && target instanceof Mob mob) {
-			if (mob.getTarget() == null && mob.canAttack(this)) {
-				mob.setTarget(this);
-			}
-			for (var entry : getModifiers().entrySet()) {
-				entry.getKey().onSetTarget(this, mob, entry.getValue());
-			}
-		}
+		postSetTarget(prev, target);
 	}
 
 	@Override
@@ -679,39 +555,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public boolean canAttack(LivingEntity target) {
-		var owner = getOwner();
-		var leader = getLeader();
-		if (target == owner || target == leader)
-			return false;
-		if (target instanceof OwnableEntity own) {
-			var parent = own.getOwner();
-			if (parent != null && (owner == parent || leader == parent)) {
-				return false;
-			}
-		}
-		if (!target.canBeSeenAsEnemy()) return false;
-		if (!target.isAlive()) return false;
-		if (target instanceof AbstractGolemEntity<?, ?> other) {
-			if (isHostile() != other.isHostile()) return true;
-			if (isHostile() && other.isHostile() && getOwnerUUID() == other.getOwnerUUID()) {
-				return false;
-			}
-		}
-		var faction = HostileGolemRegistry.tryGetFaction(this);
-		if (faction.isPresent() && faction.get().hostileGolemAttacks(this, target)) {
-			return true;
-		}
-		var config = getConfigEntry(null);
-		if (config == null) {
-			if (target.getType().is(MGTagGen.GOLEM_FRIENDLY)) {
-				return false;
-			}
-		} else {
-			if (config.targetFilter.friendlyToward(target)) {
-				return false;
-			}
-		}
-		return !this.isAlliedTo(target) && canAttackType(target.getType()) && super.canAttack(target);
+		return canAttackImpl(target, super.canAttack(target));
 	}
 
 	protected float getAttackDamage() {
@@ -733,81 +577,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				entry.getKey().onClientTick(this, entry.getValue());
 			}
 		}
-		for (var slot : EquipmentSlot.values()) {
-			var stack = this.getItemBySlot(slot);
-			if (stack.getItem() instanceof TickEquipmentItem tickItem) {
-				tickItem.tick(stack, this.level(), this);
-			}
-		}
-		var tracker = getTracker();
-		if (tracker != null)
-			tracker.track(this);
-	}
-
-	public void repair(float amount) {
-		setGuardedDataImpl(Math.min(getMaxHealth(), getGuardedDataImpl() + amount), true, true);
-	}
-
-	public static final UUID REFORGE_ID = MathHelper.getUUIDFromString("GolemReforge");
-
-	protected int getMaxReforge() {
-		return GolemType.getGolemType(getType()).getBodyPart().toItem().count - 1;
-	}
-
-	protected int getReforgeBase() {
-		int total = 0;
-		for (var e : GolemType.getGolemType(getType()).values()) {
-			total += e.toItem().count;
-		}
-		return total;
-	}
-
-	public void updateReforge(int reforge) {
-		getPersistentData().putInt("GolemReforge", reforge);
-		if (!level().isClientSide()) {
-			var ins = getAttribute(Attributes.MAX_HEALTH);
-			assert ins != null;
-			ins.removeModifier(REFORGE_ID);
-			ins.addPermanentModifier(new AttributeModifier(
-					REFORGE_ID, "Golem Reforge " + reforge,
-					-1d * reforge / getReforgeBase(),
-					AttributeModifier.Operation.MULTIPLY_TOTAL
-			));
-		}
-		sizeDirty = true;
-		checkSize();
-		if (!level().isClientSide()) {
-			ModularGolems.HANDLER.toTrackingPlayers(ReforgeUpdatePacket.of(this, reforge), this);
-		}
-	}
-
-	public void checkReforge() {
-		if (isAlive() && getGuardedDataImpl() <= getMaxHealth() / 2) {
-			int reforge = getPersistentData().getInt("GolemReforge");
-			if (reforge < getMaxReforge()) {
-				reforge++;
-				updateReforge(reforge);
-				repair(getMaxHealth() / 4);
-			}
-		}
-	}
-
-	public boolean isReforged() {
-		return getPersistentData().getInt("GolemReforge") > 0;
-	}
-
-	public int getReforgeCount() {
-		return getPersistentData().getInt("GolemReforge");
-	}
-
-	public void repairWithItem() {
-		int reforge = getPersistentData().getInt("GolemReforge");
-		if (getGuardedDataImpl() > 0.75 * getMaxHealth() && reforge > 0)
-			updateReforge(reforge - 1);
-		else repair(getMaxHealth() / 4);
-
-		float f1 = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
-		this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, f1);
+		tickInventory();
+		tickTracker();
 	}
 
 	@Override
@@ -838,18 +609,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				}
 			}
 		}
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			ItemStack stack = getItemBySlot(slot);
-			if (!stack.isEmpty()) {
-				try {
-					stack.inventoryTick(level(), this, slot.ordinal(), slot == EquipmentSlot.MAINHAND);
-				} catch (Exception e) {
-					ModularGolems.LOGGER.warn("Golem cannot use item " + stack, e);
-					spawnAtLocation(stack);
-					setItemSlot(slot, ItemStack.EMPTY);
-				}
-			}
-		}
 	}
 
 	protected int decreaseAirSupply(int air) {
@@ -876,9 +635,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	// mode
-
-	private static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
-	private static final EntityDataAccessor<BlockPos> GUARD_POS = GOLEM_DATA.define(SyncedData.BLOCK_POS, BlockPos.ZERO, "guard_pos");
 
 	public GolemMode getMode() {
 		return GolemModes.get(this.entityData.get(DATA_MODE));
@@ -923,73 +679,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return getMode().canChangeDimensions() && super.canChangeDimensions();
 	}
 
-	private static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
-	private static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
-	private static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
-
-	public int getConfigColor() {
-		return entityData.get(CONFIG_COLOR);
-	}
-
-	@Nullable
-	public GolemConfigEntry getConfigEntry(@Nullable Component dummy) {
-		int configColor = getConfigColor();
-		var opt = HostileGolemRegistry.tryGetFaction(this);
-		if (opt.isPresent()) {
-			return opt.get().getConfig(this, configColor);
-		}
-		UUID configOwner = entityData.get(CONFIG_ID).orElse(null);
-		if (configColor < 0 || configOwner == null) return null;
-		var storage = GolemConfigStorage.get(level());
-		if (dummy == null) {
-			return storage.getStorage(configOwner, configColor);
-		} else {
-			return storage.getOrCreateStorage(configOwner, configColor, dummy);
-		}
-	}
-
-	public void setConfigCard(@Nullable UUID owner, int color) {
-		entityData.set(CONFIG_ID, Optional.ofNullable(owner));
-		entityData.set(CONFIG_COLOR, color);
-	}
-
-	public void setPatrolStage(int stage) {
-		entityData.set(PATROL_STAGE, stage);
-	}
-
-	public int getPatrolStage() {
-		return entityData.get(PATROL_STAGE);
-	}
-
-	public void advancePatrolStage() {
-		var list = PathConfig.getPath(this);
-		if (list == null) return;
-		int stage = getPatrolStage();
-		stage++;
-		if (stage >= list.size()) {
-			stage = 0;
-		}
-		setPatrolStage(stage);
-	}
-
-	public List<PathRecordCard.Pos> getPatrolList() {
-		var list = PathConfig.getPath(this);
-		if (list == null) return List.of();
-		int stage = getPatrolStage();
-		if (stage > 0 && stage < list.size()) {
-			var first = list.subList(stage, list.size());
-			var second = list.subList(0, stage);
-			var ans = new ArrayList<>(first);
-			ans.addAll(second);
-			return ans;
-		}
-		return list;
-	}
 
 	// ------ persistent anger
-
-	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-	private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
 
 	@Nullable
 	private UUID persistentAngerTarget;
@@ -1032,45 +723,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.getTeam();
 	}
 
-	public boolean canModify(Player player) {
-		return canModify(player, true);
-	}
-
-	public boolean canWandModify(Player player) {
-		boolean bypass = MGConfig.COMMON.wandBypassConfig.get() || ConfigCard.filterMatch(player, this);
-		return canModify(player, !bypass);
-	}
-
-	public boolean canModify(Player player, boolean checkLock) {
-		var entry = getConfigEntry(null);
-		if (checkLock && entry != null && entry.locked)
-			return false;
-		LivingEntity owner = this.getOwner();
-		if (player == owner) {
-			return true;
-		}
-		if (player.getAbilities().instabuild || getOwnerUUID() == null && !predicateTarget(player))
-			return true;
-		if (MGConfig.COMMON.ownerPickupOnly.get()) {
-			return false;
-		}
-		return isAlliedTo(player);
-	}
-
 	public boolean isAlliedTo(Entity other) {
-		if (other == this) return true;
-		LivingEntity owner = this.getOwner();
-		if (other == owner) {
-			return true;
-		}
-		if (owner != null) {
-			return owner.isAlliedTo(other) || other.isAlliedTo(owner);
-		}
-		var opt = HostileGolemRegistry.tryGetFaction(this);
-		if (opt.isPresent() && opt.get().isAlliedTo(this, other)) {
-			return true;
-		}
-		return super.isAlliedTo(other);
+		return isAlliedToImpl(other, super.isAlliedTo(other));
 	}
 
 	@Override
@@ -1099,61 +753,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	public boolean predicateTarget(LivingEntity e) {
-		return TargetManager.predicateTarget(this, e) != null;
-	}
-
 	public boolean isInSittingPose() {
 		return false;
-	}
-
-	@Nullable
-	public LivingEntity getFollowTarget() {
-		if (getMode() == GolemModes.SQUAD) {
-			return getCaptain();
-		}
-		var leader = getLeader();
-		if (leader != null) return leader;
-		return getOwner();
-	}
-
-	@Nullable
-	public LivingEntity getCaptain() {
-		if (level() instanceof ServerLevel sl) {
-			var config = getConfigEntry(null);
-			if (config == null) return null;
-			var uuid = config.squadConfig.getCaptainId();
-			if (uuid == null) return null;
-			var captain = sl.getEntity(uuid);
-			if (captain == null) return null;
-			if (!captain.isAlive() || captain.level() != sl) return null;
-			if (captain instanceof LivingEntity le) {
-				return le;
-			} else return null;
-		} else return null;
-	}
-
-	public Vec3 getTargetPos() {
-		var dim = level().dimension().location();
-		if (getMode() == GolemModes.ROUTE) {
-			var list = PathConfig.getPath(this);
-			if (list != null) {
-				int target = getPatrolStage();
-				if (!list.isEmpty()) {
-					var pos = list.get(Math.min(target, list.size() - 1));
-					if (pos.level().equals(dim))
-						return pos.pos().getCenter();
-				}
-			}
-			return position();
-		}
-		if (getMode().hasPos()) {
-			BlockPos pos = getGuardPos();
-			return new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
-		}
-		LivingEntity owner = getFollowTarget();
-		if (owner == null) return getPosition(1);
-		return owner.getPosition(1);
 	}
 
 	@Override
@@ -1198,14 +799,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.changeDimension(level, teleporter);
 	}
 
-	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
-
 	public boolean isInRangedMode() {
-		return getMode() == GolemModes.STAND || getEntityData().get(IS_IN_RANGE_ATTACK);
+		return asGolem().getMode() == GolemModes.STAND || entityData().get(AbstractGolemEntity.IS_IN_RANGE_ATTACK);
 	}
 
 	public void setInRangeAttack(boolean flag) {
-		getEntityData().set(IS_IN_RANGE_ATTACK, flag);
+		entityData().set(AbstractGolemEntity.IS_IN_RANGE_ATTACK, flag);
+	}
+
+	public boolean hasRangeAttack() {
+		return false;
 	}
 
 	public boolean canSweep() {
@@ -1260,39 +863,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.tickDeath();
 	}
 
-	private boolean untrackRemoved(@Nullable DamageSource source) {
-		if (level().isClientSide()) return false;
-		var tracker = getTracker();
-		if (tracker == null || tracker.isUntracked(this)) return false;
-		Player owner = getOwner();
-		Entity cause = null;
-		boolean sendMessages = MGConfig.COMMON.sendForceRemovalMessage.get();
-		if (source != null) {
-			ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
-			if (owner != null && sendMessages) {
-				owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
-			}
-			cause = source.getEntity();
-		} else {
-			ModularGolems.LOGGER.info("Golem {} is forcefully removed ", this);
-			if (owner != null && sendMessages) {
-				owner.sendSystemMessage(Component.literal("Golem " + this + " is forcefully removed"));
-			}
-			if (getLastHurtByMobTimestamp() == tickCount) {
-				cause = getLastHurtByMob();
-			}
-		}
-		if (getGuardedDataImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
-			tracker.untrack(this, GolemTracker.Status.DEATH_RECYCLE, cause);
-			returnToInventory();
-			level().broadcastEntityEvent(this, EntityEvent.POOF);
-			return true;
-		} else {
-			tracker.untrack(this, GolemTracker.Status.DEATH, cause);
-			return false;
-		}
-	}
-
 	public void speedUpUseItem(int tick) {
 		if (useItemRemaining > 0) {
 			useItemRemaining -= tick;
@@ -1305,52 +875,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.setPosRaw(x, y, z);
 	}
 
-	public void trackPos(double x, double y, double z) {
-		if (level().isClientSide() || !isAddedToWorld()) return;
-		var tracker = getTracker();
-		if (tracker != null)
-			tracker.trackPos(getUUID(), x, y, z);
-	}
-
-	public void returnToInventory() {
-		var leader = getLeader();
-		unRide();
-		ItemStack stack = GolemHolder.setEntity(getThis());
-		if (leader != null && leader.isAlive()) {
-			if (MinecraftForge.EVENT_BUS.post(new GolemToOwnerEvent(leader, stack))) {
-				return;
-			}
-		}
-		Player player = getOwner();
-		if (player != null && player.isAlive()) {
-			if (MinecraftForge.EVENT_BUS.post(new GolemToOwnerEvent(player, stack))) {
-				return;
-			}
-			if (player instanceof ServerPlayer sp)
-				GolemTransportHandler.addGolemToPlayer(sp, stack, this);
-		} else {
-			spawnAtLocation(stack);
-		}
-	}
-
-	protected List<IItemHandlerModifiable> aggregateInventories() {
-		var ans = new ArrayList<IItemHandlerModifiable>();
-		ans.add(new EntityHandsInvWrapper(this));
-		ans.add(new EntityArmorInvWrapper(this));
-		MinecraftForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
-		return ans;
-	}
-
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
 		if (capability == ForgeCapabilities.ITEM_HANDLER) {
 			return LazyOptional.of(() -> new CombinedInvWrapper(aggregateInventories().toArray(new IItemHandlerModifiable[0]))).cast();
 		}
 		return super.getCapability(capability, facing);
-	}
-
-	public boolean hasRangeAttack() {
-		return false;
 	}
 
 	@Override
@@ -1366,14 +896,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			heal = entry.getKey().onHealPre(heal, this, entry.getValue());
 		}
 		super.heal(heal);
-	}
-
-	public void addItemsToList(List<ItemStack> list) {
-		for (var e : EquipmentSlot.values()) {
-			var item = getItemBySlot(e);
-			if (!item.isEmpty())
-				list.add(item);
-		}
 	}
 
 	@Override
@@ -1408,23 +930,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	protected void hurtArmor(DamageSource source, float damage) {
-		if (damage <= 0.0F) return;
-		damage /= 4.0F;
-		if (damage < 1.0F) {
-			damage = 1.0F;
-		}
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() != EquipmentSlot.Type.ARMOR) continue;
-			ItemStack stack = this.getItemBySlot(slot);
-			if (!shouldHurtArmor(source, stack)) continue;
-			stack.hurtAndBreak((int) damage, this, (entity) -> entity.broadcastBreakEvent(slot));
-		}
-	}
-
-	protected boolean shouldHurtArmor(DamageSource source, ItemStack stack) {
-		if (!stack.isDamageableItem()) return false;
-		if (source.is(DamageTypeTags.IS_FIRE) && stack.getItem().isFireResistant()) return false;
-		return stack.getItem() instanceof ArmorItem || stack.is(MGTagGen.GOLEM_DAMAGEABLE);
+		hurtArmorImpl(source, damage);
 	}
 
 }
