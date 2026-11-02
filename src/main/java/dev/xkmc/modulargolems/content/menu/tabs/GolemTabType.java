@@ -12,8 +12,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public enum GolemTabType {
 	ABOVE(0, 120, 24, 28, 7),
 	BELOW(72, 120, 24, 28, 7),
-	LEFT(0, 176, 28, 24, 5),
-	RIGHT(84, 176, 28, 24, 5);
+	LEFT(0, 176, 28, 24, 7),
+	RIGHT(84, 176, 28, 24, 7);
 
 	private final static ResourceLocation TEXTURE = new ResourceLocation(ModularGolems.MODID, "textures/gui/tabs.png");
 

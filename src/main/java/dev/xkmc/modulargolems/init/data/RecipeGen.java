@@ -104,12 +104,20 @@ public class RecipeGen {
 					.define('A', Items.AMETHYST_SHARD).define('B', Items.IRON_INGOT)
 					.define('C', Items.CLAY_BALL).save(pvd);
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.SIMPLE_TABLE.get(), 1)::unlockedBy,
+					Items.ECHO_SHARD).pattern(" G ").pattern("CMT").pattern(" S ")
+					.define('G', Items.GRINDSTONE)
+					.define('C', Items.CRAFTING_TABLE)
+					.define('M', GolemItems.GOLEM_TEMPLATE)
+					.define('T', Items.SMITHING_TABLE)
+					.define('S', Items.STONECUTTER).save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.TABLE.get(), 1)::unlockedBy,
 					Items.ECHO_SHARD).pattern("AGA").pattern("RTR").pattern("EIE")
 					.define('A', Items.AMETHYST_SHARD)
 					.define('G', GolemItems.SLICING_AXE)
 					.define('R', Items.REDSTONE)
-					.define('T', Items.SMITHING_TABLE)
+					.define('T', GolemItems.SIMPLE_TABLE)
 					.define('E', Items.ECHO_SHARD)
 					.define('I', Items.ANVIL).save(pvd);
 

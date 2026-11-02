@@ -19,6 +19,10 @@ public class SpriteButton extends Button {
 		this.inactive = inactive;
 	}
 
+	protected boolean getBan() {
+		return !isActive();
+	}
+
 	@Override
 	public void onPress() {
 		pressed = true;
@@ -35,10 +39,10 @@ public class SpriteButton extends Button {
 
 	public void renderWidget(GuiGraphics g, int mx, int my, float pt) {
 		if (pressed & !clicked(mx, my)) pressed = false;
-		var side = config.getSide(isActive() ? pressed ?
-				isHoveredOrFocused() ? down + "_hover" : down :
-				isHoveredOrFocused() ? normal + "_hover" : normal :
-				inactive);
+		var side = config.getSide(getBan() ?
+				isHovered() ? inactive + "_hover" : inactive :
+				pressed ? (isHovered() ? down + "_hover" : down) :
+				(isHovered() ? normal + "_hover" : normal));
 		this.renderTexture(g, config.getTexture(), this.getX(), this.getY(),
 				side.x, side.y, 0, this.width, this.height, 256, 256);
 	}

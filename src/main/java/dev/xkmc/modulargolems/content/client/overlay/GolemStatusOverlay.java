@@ -12,6 +12,8 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
+import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeSort;
 import dev.xkmc.modulargolems.events.event.GolemInfoEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -76,7 +78,14 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		if (golem.getModifiers().size() > 8) {
 			text.add(MGLangData.UPGRADE_COUNT.get(golem.getModifiers().size(), golem.getUpgrades().size()));
 		} else {
-			golem.getModifiers().forEach((k, v) -> text.add(k.getTooltip(v)));
+			var ups = new ArrayList<IUpgradeItem>();
+			for (var e : golem.getUpgrades()) {
+				if (e instanceof IUpgradeItem u) ups.add(u);
+			}
+			ups.sort(UpgradeSort.upgradeComparator());
+			var entries = new ArrayList<>(golem.getModifiers().entrySet());
+			entries.sort(UpgradeSort.entryComparator(ups));
+			entries.forEach(e -> text.add(e.getKey().getTooltip(e.getValue())));
 		}
 		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
 		new OverlayUtil(g, textPos, -1, -1)

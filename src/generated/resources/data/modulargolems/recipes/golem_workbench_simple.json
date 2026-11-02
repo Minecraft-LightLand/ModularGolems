@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "G": {
+      "item": "minecraft:grindstone"
+    },
+    "M": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "S": {
+      "item": "minecraft:stonecutter"
+    },
+    "T": {
+      "item": "minecraft:smithing_table"
+    }
+  },
+  "pattern": [
+    " G ",
+    "CMT",
+    " S "
+  ],
+  "result": {
+    "item": "modulargolems:golem_workbench_simple"
+  },
+  "show_notification": true
+}

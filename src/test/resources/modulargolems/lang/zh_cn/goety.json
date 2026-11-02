@@ -21,9 +21,9 @@
 	"modifier.modulargolems.apostle": "使徒",
 	"modifier.modulargolems.apostle.desc": "使徒升级不再消耗升级槽",
 	"modifier.modulargolems.hell_blast": "狱火爆弹",
-	"modifier.modulargolems.hell_blast.desc": "可对多个目标发射狱火爆弹",
+	"modifier.modulargolems.hell_blast.desc": "可向多个目标发射狱火爆弹",
 	"modifier.modulargolems.hell_bolt": "狱火束",
-	"modifier.modulargolems.hell_bolt.desc": "可对多个目标发射狱火束",
+	"modifier.modulargolems.hell_bolt.desc": "可向多个目标发射狱火束",
 	"item.modulargolems.soul_collection": "灵魂收割升级",
 	"modifier.modulargolems.soul_collection": "灵魂收割",
 	"modifier.modulargolems.soul_collection.desc": "击杀目标时为所有者提供灵魂能量"

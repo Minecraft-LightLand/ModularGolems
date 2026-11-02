@@ -1,5 +1,6 @@
 {
   "values": [
-    "modulargolems:golem_workbench"
+    "modulargolems:golem_workbench",
+    "modulargolems:golem_workbench_simple"
   ]
 }

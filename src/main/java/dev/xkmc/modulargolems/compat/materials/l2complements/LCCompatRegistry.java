@@ -63,8 +63,15 @@ public class LCCompatRegistry {
 				.addOptional(FREEZE_UP.getId())
 				.addOptional(UPGRADE_CURSE.getId())
 				.addOptional(UPGRADE_INCARCERATE.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+				.addOptional(ATK_UP.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.YELLOW_UPGRADES)
+				.addOptional(TELEPORT_UP.getId())
+				.addOptional(SPEED_UP.getId()));
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.BLUE_UPGRADES)
 				.addOptional(UPGRADE_CLEANSE.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.GREEN_UPGRADES)
+				.addOptional(FORCE_FIELD.getId()));
 	}
 
 }

@@ -33,6 +33,6 @@ public class PrimitiveCurseModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		float multiplier = (float) Math.pow(MGConfig.COMMON.primitiveDamageMultiplier.get(), v);
 		int perc = Math.round(100 * (1 - multiplier));
-		return List.of(Component.translatable(getDescriptionId() + ".desc", -perc, -v).withStyle(ChatFormatting.GREEN));
+		return List.of(Component.translatable(getDescriptionId() + ".desc", perc, v).withStyle(ChatFormatting.GREEN));
 	}
 }

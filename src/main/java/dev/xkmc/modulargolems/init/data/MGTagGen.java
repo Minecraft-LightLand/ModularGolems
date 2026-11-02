@@ -40,7 +40,10 @@ public class MGTagGen {
 	public static final TagKey<Item> ANVIL_CRAFT = createItemTag("anvil_craft"); //golem parts supporting anvil material application
 	public static final TagKey<Item> GOLEM_HOLDERS = createItemTag("holders");
 	public static final TagKey<Item> GOLEM_UPGRADES = createItemTag("upgrades");
+	public static final TagKey<Item> RED_UPGRADES = createItemTag("red_upgrades");
+	public static final TagKey<Item> YELLOW_UPGRADES = createItemTag("yellow_upgrades");
 	public static final TagKey<Item> BLUE_UPGRADES = createItemTag("blue_upgrades");
+	public static final TagKey<Item> GREEN_UPGRADES = createItemTag("green_upgrades");
 	public static final TagKey<Item> POTION_UPGRADES = createItemTag("potion_upgrades");
 	public static final TagKey<Item> CONFIG_CARD = createItemTag("config_card");
 	public static final TagKey<Item> SPECIAL_CRAFT = createItemTag("special_crafting_material");
@@ -84,6 +87,15 @@ public class MGTagGen {
 		pvd.addTag(ANVIL_CRAFT).addTag(GENERIC_PARTS);
 		pvd.addTag(GOLEM_INTERACT).addTag(CONFIG_CARD).addTag(GOLEM_HOLDERS);
 		OPTIONAL_ITEM.forEach(e -> e.accept(pvd));
+		pvd.addTag(RED_UPGRADES).add(
+				GolemItems.QUARTZ.get(),
+				GolemItems.EMERALD.get()
+		);
+		pvd.addTag(YELLOW_UPGRADES).add(
+				GolemItems.SPEED.get(),
+				GolemItems.TALENTED.get(),
+				GolemItems.CAULDRON.get()
+		);
 		pvd.addTag(BLUE_UPGRADES).add(
 				GolemItems.BELL.get(),
 				GolemItems.ENDER_SIGHT.get(),
@@ -98,6 +110,13 @@ public class MGTagGen {
 				GolemItems.PLAYER_IMMUNE.get(),
 				GolemItems.MOUNT_UPGRADE.get(),
 				GolemItems.SIZE_UPGRADE.get()
+		);
+		pvd.addTag(GREEN_UPGRADES).add(
+				GolemItems.DIAMOND.get(),
+				GolemItems.NETHERITE.get(),
+				GolemItems.GOLD.get(),
+				GolemItems.ENCHANTED_GOLD.get(),
+				GolemItems.SPONGE.get()
 		);
 		pvd.addTag(POTION_UPGRADES).add(
 				GolemItems.WEAK.get(),

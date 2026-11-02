@@ -1,0 +1,9 @@
+{
+  "parent": "modulargolems:custom/table",
+  "textures": {
+    "bottom": "modulargolems:block/simple_table_bottom",
+    "middle": "modulargolems:block/simple_table_middle",
+    "particle": "modulargolems:block/simple_table_particle",
+    "top": "modulargolems:block/simple_table_top"
+  }
+}

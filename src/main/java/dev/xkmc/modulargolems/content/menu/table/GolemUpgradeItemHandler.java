@@ -4,6 +4,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeSort;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +13,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.function.Supplier;
 
@@ -22,6 +24,8 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	private final boolean client;
 	private final Supplier<Slot> parent;
 
+	public boolean allowExtract = true;
+
 	public ItemStack golem = ItemStack.EMPTY;
 	public int[] data = new int[]{0, 1};
 	public int modification = 0;
@@ -31,6 +35,8 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	private final LinkedHashMap<IUpgradeItem, ItemStack> upgradeMap = new LinkedHashMap<>();
 	private ArrayList<ItemStack> upgradeList = new ArrayList<>();
 	private Item lastForbidTest = Items.AIR;
+
+	private static final Comparator<ItemStack> UPGRADE_SORT = UpgradeSort.itemComparator();
 
 	public GolemUpgradeItemHandler(Supplier<Slot> slot, boolean client) {
 		this.client = client;
@@ -64,6 +70,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 			else upgradeMap.get(e).grow(1);
 		}
 		upgradeList = new ArrayList<>(upgradeMap.values());
+		upgradeList.sort(UPGRADE_SORT);
 		if (!client) {
 			data[1] = upgradeList.size() / SIZE + 1;
 		}
@@ -139,7 +146,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
 	@Override
 	public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-		if (holderItem == null) return ItemStack.EMPTY;
+		if (!allowExtract || holderItem == null) return ItemStack.EMPTY;
 		var stack = getStackInSlot(slot);
 		if (stack.isEmpty() || !(stack.getItem() instanceof UpgradeItem item)) return ItemStack.EMPTY;
 		var ans = removeUpgrade(item);

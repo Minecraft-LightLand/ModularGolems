@@ -133,8 +133,15 @@ public class TFCompatRegistry {
 				.addOptional(FIERY_HELMET.getId())
 				.addOptional(FIERY_CHESTPLATE.getId())
 				.addOptional(FIERY_SHINGUARD.getId())
-				.addOptional(FIERY_BOOTS.getId())
-		);
+				.addOptional(FIERY_BOOTS.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+				.addOptional(UP_STEELEAF.getId())
+				.addOptional(UP_FIERY.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.GREEN_UPGRADES)
+				.addOptional(UP_CARMINITE.getId())
+				.addOptional(UP_IRONWOOD.getId())
+				.addOptional(UP_KNIGHTMETAL.getId())
+				.addOptional(UP_NAGA.getId()));
 	}
 
 	private static void fiery(Object obj) {

@@ -26,6 +26,7 @@ import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
+import dev.xkmc.modulargolems.content.menu.table.SimpleUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.wheel.GolemSetModeToServer;
 import dev.xkmc.modulargolems.editor.base.EditorText;
 import dev.xkmc.modulargolems.editor.util.GolemEditorLang;
@@ -75,6 +76,7 @@ public class ModularGolems {
 			e -> e.create(TrackerSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(TrackerHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(TrackerDeleteToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(TrackerRecallToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(ReforgeUpdatePacket.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(GuardedEntity.GuardedDataToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(DogSkillToServer.class, NetworkDirection.PLAY_TO_SERVER),
@@ -118,9 +120,13 @@ public class ModularGolems {
 			GolemDispenserBehaviors.registerDispenseBehaviors();
 			CompatManager.commonSetup();
 			GolemWeaponRegistry.init();
-			DefaultQuickAccessActions.quickAccess(GolemMiscs.DISINTEGRATE.get(),
-					GolemItems.TABLE.asItem(),
-					GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
+DefaultQuickAccessActions.quickAccess(GolemMiscs.DISINTEGRATE.get(),
+				GolemItems.TABLE.asItem(),
+				GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
+			DefaultQuickAccessActions.quickAccess(GolemMiscs.SIMPLE_UPGRADE.get(),
+					GolemItems.SIMPLE_TABLE.asItem(),
+					(wid, inv, access) -> new SimpleUpgradeMenu(GolemMiscs.SIMPLE_UPGRADE.get(), wid, inv),
+					MGLangData.TAB_UPGRADES.key());
 		});
 	}
 

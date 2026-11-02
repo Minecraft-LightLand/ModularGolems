@@ -92,6 +92,7 @@ public class ClientHolderManager {
 		}
 		if (ans == null) return null;
 		ans.hurtTime = 0;
+		ans.setGuardedDataImpl(ans.getMaxHealth());
 		return ans;
 	}
 
