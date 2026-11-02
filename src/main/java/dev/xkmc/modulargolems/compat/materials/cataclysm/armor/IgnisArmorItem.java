@@ -26,8 +26,9 @@ import java.util.UUID;
 
 public class IgnisArmorItem extends MetalGolemArmorItem {
 
-	public IgnisArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
-		super(properties, type, defense, toughness, model);
+	public IgnisArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness,
+			float knockbackResistance, ResourceLocation model) {
+		super(properties, type, defense, toughness, knockbackResistance, model);
 	}
 
 	@Override

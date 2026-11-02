@@ -19,10 +19,17 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 	private final ResourceLocation model;
 
 	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+		this(properties, type, defense, toughness, 0, model);
+	}
+
+	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness,
+							  float knockbackResistance, ResourceLocation model) {
 		super(properties, type.getSlot(), GolemTypes.ENTITY_GOLEM::get, builder -> {
 			UUID uuid = UUID.get(type.getSlot());
 			builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", defense, AttributeModifier.Operation.ADDITION));
 			builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", toughness, AttributeModifier.Operation.ADDITION));
+			if (knockbackResistance > 0) builder.put(Attributes.KNOCKBACK_RESISTANCE,
+					new AttributeModifier(uuid, "Armor knockback resistance", knockbackResistance, AttributeModifier.Operation.ADDITION));
 		});
 		this.model = model;
 	}

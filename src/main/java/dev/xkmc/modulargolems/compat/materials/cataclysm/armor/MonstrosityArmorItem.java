@@ -25,8 +25,9 @@ import java.util.UUID;
 
 public class MonstrosityArmorItem extends MetalGolemArmorItem {
 
-	public MonstrosityArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
-		super(properties, type, defense, toughness, model);
+	public MonstrosityArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness,
+			float knockbackResistance, ResourceLocation model) {
+		super(properties, type, defense, toughness, knockbackResistance, model);
 	}
 
 	@Override
