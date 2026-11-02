@@ -25,10 +25,6 @@ import java.util.UUID;
 
 public class HarbingerArmorItem extends MetalGolemArmorItem {
 
-	public HarbingerArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
-		this(properties, type, defense, toughness, 0, model);
-	}
-
 	public HarbingerArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness,
 			float knockbackResistance, ResourceLocation model) {
 		super(properties, type, defense, toughness, knockbackResistance, model);
