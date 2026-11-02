@@ -66,6 +66,15 @@ public class GolemStatusOverlay implements IGuiOverlay {
 		if (baseline > 0) hc = hc.append("|").append(hsbText(baseline, max));
 		text.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(ChatFormatting.AQUA));
 		MinecraftForge.EVENT_BUS.post(new GolemInfoEvent(golem, text));
+		ClientSkillCD.request(golem);
+		var cds = ClientSkillCD.get(golem.getId());
+		if (!cds.isEmpty()) {
+			text.add(MGLangData.SKILL_CD.get());
+			for (var cd : cds) {
+				var name = cd.translate() ? Component.translatable(cd.name()) : Component.literal(cd.name());
+				text.add(MGLangData.SKILL_CD_LINE.get(name, (cd.cd() + 19) / 20));
+			}
+		}
 		text.add(golem.getMode().getDesc(golem));
 		var config = golem.getConfigEntry(MGLangData.LOADING.get());
 		if (config != null) {

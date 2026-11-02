@@ -5,7 +5,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 // 基于 Minecraft 的 Goal 类，并且用于实现一个通用的远程攻击机制
-public abstract class BaseRangedAttackGoal extends Goal {
+public abstract class BaseRangedAttackGoal extends Goal implements ICooldownSkill {
+
+	protected String cooldownNameKey;
 
 	// 冷却\内限\外限
 	private final int waitTime, near, far;
@@ -81,6 +83,34 @@ public abstract class BaseRangedAttackGoal extends Goal {
 
 	public void setInitialDelay(int delay) {
 		attackTime = delay;
+	}
+
+	/** Ticks until this skill can fire again; zero when ready. */
+	public int getCooldownRemaining() {
+		return (int) Math.max(0, this.attackTime - golem.level().getGameTime());
+	}
+
+	@Override
+	public int getRemainingCooldown(AbstractGolemEntity<?, ?> golem) {
+		return getCooldownRemaining();
+	}
+
+	public BaseRangedAttackGoal withName(String key) {
+		this.cooldownNameKey = key;
+		return this;
+	}
+
+	@Override
+	public String getCooldownNameKey() {
+		return cooldownNameKey;
+	}
+
+	/** Human readable skill name derived from the goal class (e.g. Harbinger Death Beam). */
+	public String getSkillName() {
+		String name = getClass().getSimpleName();
+		if (name.endsWith("AttackGoal")) name = name.substring(0, name.length() - "AttackGoal".length());
+		else if (name.endsWith("Goal")) name = name.substring(0, name.length() - "Goal".length());
+		return name.replaceAll("([a-z])([A-Z])", "$1 $2");
 	}
 
 	protected abstract boolean performAttack(LivingEntity target);
