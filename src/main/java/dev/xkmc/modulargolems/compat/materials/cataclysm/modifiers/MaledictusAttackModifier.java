@@ -28,7 +28,8 @@ public class MaledictusAttackModifier extends GolemModifier {
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		return List.of(Component.translatable(getDescriptionId() + ".desc", v == 1 ? 1 : 5).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal("" + (v == 1 ? 1 : 5)).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override

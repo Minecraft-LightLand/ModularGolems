@@ -5,6 +5,7 @@ import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
@@ -39,6 +40,15 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 			case CHEST -> list.add(MGLangData.HARBINGER_BOOST_MISSILE
 					.get(Math.round(MGConfig.COMMON.missileArmorBonus.get() * 100) + "%")
 					.withStyle(ChatFormatting.GOLD));
+			case LEGS -> {
+				list.add(MGLangData.HARBINGER_BOOST_CHARGE
+						.get(Math.round(MGConfig.COMMON.chargeArmorBonus.get() * 100) + "%")
+						.withStyle(ChatFormatting.GOLD));
+				// %s 不带颜色，跟随整行统一的 GOLD
+				list.add(MGLangData.SKILL_IGNORE_HEALTH.get(
+						Component.translatable(CataCompatRegistry.HARBINGER_CHARGE.get().getDescriptionId()))
+						.withStyle(ChatFormatting.GOLD));
+			}
 		}
 	}
 

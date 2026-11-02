@@ -1,34 +1,34 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import dev.xkmc.cataclysm_mux.GolemCataProxy;
-import dev.xkmc.modulargolems.compat.materials.goety.multi.MultiTargetRangedGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
+import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.world.entity.LivingEntity;
 
-public class AncientRemnantSandstormAttackGoal extends MultiTargetRangedGoal {
+public class AncientRemnantSandstormAttackGoal extends BaseRangedAttackGoal {
+
+	private static final int WAIT_TIME = 100;
 
 	public AncientRemnantSandstormAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 0, 35, golem, lv);
+		super(WAIT_TIME, 0, 35, golem, lv);
 	}
 
 	@Override
-	protected int searchRange() {
-		return 35;
+	protected boolean performAttack(LivingEntity target) {
+		var group = SandstormGroup.of(golem);
+		group.maintain(golem, lv);
+		group.assign(golem);
+		return true;
 	}
 
 	@Override
-	protected int getMaxTarget() {
-		return lv * 3;
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
 	}
 
 	@Override
-	protected int cd() {
-		return 10;
-	}
-
-	@Override
-	protected void performAttackImpl(LivingEntity target) {
-		GolemCataProxy.sandstormAttack(golem, target, 100);
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
 	}
 
 }

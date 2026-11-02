@@ -11,28 +11,97 @@ import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
+import dev.xkmc.modulargolems.util.GolemTargetUtil;
 
 public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
+	private static final String KEY_QUAKE_RADIUS = "IgnisQuakeRadius";
+	private static final String KEY_QUAKE_TICK = "IgnisQuakeTimer";
+	private static final String KEY_QUAKE_CENTER = "IgnisQuakeCenter";
+
+	/**
+	 * Radius of the {@code Flame_Strike_Entity} runes dropped under the nearby targets.
+	 */
+	private static final float RUNE_RADIUS = 2.0F;
+
+	/**
+	 * The landing point gets its own, noticeably wider rune so the centre of the quake reads as the boss
+	 * slamming down rather than as one more target marker. Both spreads below are derived from these two,
+	 * so changing a radius here moves the spacing with it.
+	 */
+	private static final float LANDING_RUNE_RADIUS = 5.0F;
+
+	/**
+	 * Runes closer than this to one another overlap into mush, so the candidates are spaced apart. Two
+	 * ordinary runes just touch at this distance, since each is {@link #RUNE_RADIUS} wide.
+	 */
+	private static final double RUNE_SPREAD = RUNE_RADIUS * 2;
+
 	public IgnisJumpModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
+	}
+
+	/**
+	 * The quake wave counts down over several ticks, so its radius and parity need to survive between
+	 * ticks. It is scratch state, not something the world should remember: keeping it in the persistent
+	 * data dirties the NBT every other tick and writes it to the save file for no reason.
+	 */
+	private static int quakeRadius(AbstractGolemEntity<?, ?> golem) {
+		Integer v = golem.getTransientState(KEY_QUAKE_RADIUS);
+		return v == null ? 0 : v;
+	}
+
+	private static int quakeTick(AbstractGolemEntity<?, ?> golem) {
+		Integer v = golem.getTransientState(KEY_QUAKE_TICK);
+		return v == null ? 0 : v;
+	}
+
+	/**
+	 * The point the collapsing wave pulls in on, recorded when the golem touched down. The wave runs for
+	 * well after the landing, by which point the golem has already resumed pathing, so leaving the centre
+	 * on the golem would drag the whole ring across the map behind it.
+	 */
+	private static Vec3 quakeCenter(AbstractGolemEntity<?, ?> golem) {
+		return golem.getTransientState(KEY_QUAKE_CENTER);
+	}
+
+	@Override
+	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
+		if (golem.level().isClientSide()) return;
+		int radius = quakeRadius(golem);
+		if (radius <= 0) return;
+		int timer = quakeTick(golem) + 1;
+		if (timer < 2) {
+			golem.setTransientState(KEY_QUAKE_TICK, timer);
+			return;
+		}
+		golem.setTransientState(KEY_QUAKE_TICK, 0);
+		boolean soul = CataDispatch.ignisBlue(golem);
+		// forward offset is zero: that argument is how far the original swings its greatsword ahead of its
+		// body, and these golems smash with their own legs instead, so there is nothing to reach past. Keeping
+		// it at the original 2 would also shift the collapsing ring off the landing rune it belongs to.
+		GolemCataProxy.ignisQuakeWaveAt(golem, quakeCenter(golem), radius, 2.5f, 0.0f, true, 1.1f, 0.06f, 0.075f, soul);
+		golem.setTransientState(KEY_QUAKE_RADIUS, radius <= 6 ? null : radius - 1);
 	}
 
 	@Override
@@ -41,34 +110,44 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 	}
 
 	@Override
+	public void onHurt(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
+		if (EarthquakeHelper.isLeaping(entity)) event.setAmount(event.getAmount() * EarthquakeHelper.LEAP_DAMAGE_MULT);
+	}
+
+	@Override
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
 		return 25 * 25;
 	}
 
 	@Override
-	public void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
-		var target = golem.getTarget();
-		if (target == null || golem.getControllingPassenger() instanceof Player)
-			golem.addDeltaMovement(new Vec3(0, 1.3, 0));
-		else golem.setDeltaMovement(
-				(target.getX() - golem.getX()) * 0.15,
-				1.3,
-				(target.getZ() - golem.getZ()) * 0.15
-		);
-	}
-
-	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int lv) {
 		var level = golem.level();
+		boolean soul = CataDispatch.ignisBlue(golem);
+		GolemCataProxy.ignisEarthquakeFX(golem, 20);
+		GolemCataProxy.ignisAreaPunch(golem, 4.85f);
+		golem.setTransientState(KEY_QUAKE_RADIUS, 16);
+		golem.setTransientState(KEY_QUAKE_TICK, 2);
 		var aabb = golem.getBoundingBox().inflate(16, 6, 16);
+		var self = golem.position();
 		List<Vec3> list = new ArrayList<>();
+		// the landing point goes in first so every candidate is measured against it and yields if the two
+		// would overlap, which leaves the big centre rune unobstructed instead of just adding one more mark
+		Vec3 landing = findFloor(level, self, 4);
+		if (landing != null) list.add(landing);
+		// the wave keeps running for several dozen ticks, so pin its centre here while the golem is still
+		// standing on the spot; without this it would slide along with the golem as it walks off
+		golem.setTransientState(KEY_QUAKE_CENTER, landing != null ? landing : self);
 		for (var e : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
-			if (!golem.predicateTarget(e)) continue;
+			if (!GolemTargetUtil.canTarget(golem, e)) continue;
 			var ans = findFloor(level, e.position(), 4);
 			if (ans == null) continue;
 			boolean tooClose = false;
 			for (var other : list) {
-				if (other.distanceTo(ans) < 6) {
+				// spacing has to be the sum of the two radii, so the wider landing rune claims a wider gap
+				// than the ordinary ones would; reusing the small-to-small distance would leave their edges
+				// overlapping
+				double spread = other == landing ? LANDING_RUNE_RADIUS + RUNE_RADIUS : RUNE_SPREAD;
+				if (other.distanceTo(ans) < spread) {
 					tooClose = true;
 					break;
 				}
@@ -77,13 +156,15 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 				list.add(ans);
 			}
 		}
-		boolean soul = CataDispatch.ignisBlue(golem);
 		float atk = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		if (soul) atk *= 4f / 3;
-		var self = golem.position();
 		list.sort(Comparator.comparingDouble(self::distanceToSqr));
 		for (int i = 0; i < list.size(); i++) {
-			GolemCataProxy.createBlast(golem, list.get(i), 40, i * 2, 3, atk, soul);
+			// the landing point is the nearest candidate by construction, but compare by identity rather than
+			// assume, so a missing ground does not hand its larger radius to an ordinary target rune
+			boolean isLanding = list.get(i) == landing;
+			GolemCataProxy.createBlast(golem, list.get(i), 40, i * 2,
+					isLanding ? LANDING_RUNE_RADIUS : RUNE_RADIUS, atk, soul);
 		}
 	}
 
@@ -151,6 +232,12 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 			pos = pos.below();
 		} while (pos.getY() >= minY);
 		return null;
+	}
+
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc", EarthquakeHelper.leapReduction()).withStyle(ChatFormatting.GREEN));
 	}
 
 }

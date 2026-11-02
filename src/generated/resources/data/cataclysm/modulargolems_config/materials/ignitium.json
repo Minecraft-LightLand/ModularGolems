@@ -10,6 +10,7 @@
       "modulargolems:dynamic_reduction": 1,
       "modulargolems:fire_immune": 1,
       "modulargolems:ignis_attack": 1,
+      "modulargolems:ignis_charge": 1,
       "modulargolems:ignis_fireball": 2,
       "modulargolems:ignis_jump": 1
     }
@@ -24,6 +25,7 @@
     "cataclysm:ignitium": {
       "modulargolems:attack": 30.0,
       "modulargolems:dynamic_reduction": 2.0,
+      "modulargolems:knockback_resistance": 1.5,
       "modulargolems:max_health": 450.0,
       "modulargolems:range": 1.0,
       "modulargolems:sweep": 2.0

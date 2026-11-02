@@ -5,6 +5,7 @@ import dev.xkmc.cataclysm_mux.MWCataProxy;
 import dev.xkmc.modulargolems.compat.materials.goety.multi.MultiTargetRangedGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 public class EnderGuardianVoidRuneAttackGoal extends MultiTargetRangedGoal {
 
@@ -29,9 +30,18 @@ public class EnderGuardianVoidRuneAttackGoal extends MultiTargetRangedGoal {
 
 	@Override
 	protected void performAttackImpl(LivingEntity target) {
-		GolemCataProxy.addRune(golem, target);
+		GolemCataProxy.guardianStompFangs(golem, target);
 		MWCataProxy.spawnVortex(golem, target.position());
 	}
 
-}
+	@Override
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
 
+
+	@Override
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
+	}
+}
