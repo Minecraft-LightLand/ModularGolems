@@ -77,7 +77,9 @@ public class EnderGuardianRocketPunchGoal extends BaseChargeGoal {
 		this.start = golem.position();
 		this.dir = new Vec3(target.getX() - golem.getX(), 0, target.getZ() - golem.getZ()).normalize();
 		this.total = golem.distanceTo(target) + 2;
-		GolemCataProxy.guardianExplosionSound(golem);	}
+		GolemCataProxy.guardianExplosionSound(golem);
+		ChargeHelper.playChargeEasterEgg(golem);
+	}
 
 	@Override
 	public boolean canContinueToUse() {

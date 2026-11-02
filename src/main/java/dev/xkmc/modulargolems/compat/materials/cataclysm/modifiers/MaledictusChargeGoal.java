@@ -110,7 +110,9 @@ public class MaledictusChargeGoal extends BaseChargeGoal {
 		ChargeHelper.spawnChargeParticles(golem, dir, ParticleTypes.SOUL);
 		GolemCataProxy.summonSoulRing(golem);
 		GolemCataProxy.maledictusShortRoar(golem);
-		GolemCataProxy.maledictusChargeSound(golem);	}
+		GolemCataProxy.maledictusChargeSound(golem);
+		ChargeHelper.playChargeEasterEgg(golem);
+	}
 
 	private void setFacing() {
 		float yaw = (float) (Mth.atan2(-dir.x, dir.z) * Mth.RAD_TO_DEG);

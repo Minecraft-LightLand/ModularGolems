@@ -67,6 +67,7 @@ public interface GolemTrackerImpl extends GolemImplBase {
 		} else {
 			untrack(GolemTracker.Status.DEATH, null);
 		}
+		self.playDeathSound();
 		self.level().broadcastEntityEvent(self, EntityEvent.POOF);
 		self.discard();
 	}

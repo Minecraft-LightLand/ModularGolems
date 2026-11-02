@@ -17,7 +17,6 @@ import dev.xkmc.modulargolems.content.entity.impl.TransientStateContainer;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
-import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
@@ -29,6 +28,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import dev.xkmc.modulargolems.util.EsterEggUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -760,7 +760,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public boolean isInRangedMode() {
-		return asGolem().getMode() == GolemModes.STAND || entityData().get(AbstractGolemEntity.IS_IN_RANGE_ATTACK);
+		return asGolem().getMode() == GolemModes.STAND || entityData().get(AbstractGolemEntity.IS_IN_RANGE_ATTACK) || hasRangeAttack();
 	}
 
 	public void setInRangeAttack(boolean flag) {
@@ -807,6 +807,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public boolean specialDeath(DamageSource source) {
 		if (untrackRemoved(source)) {
+			playDeathSound();
 			dead = true;
 			discard();
 			return true;
@@ -891,6 +892,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected void hurtArmor(DamageSource source, float damage) {
 		hurtArmorImpl(source, damage);
+	}
+
+	@Override
+	public void playDeathSound() {
+		EsterEggUtil.playDeathSound(this);
 	}
 
 }
