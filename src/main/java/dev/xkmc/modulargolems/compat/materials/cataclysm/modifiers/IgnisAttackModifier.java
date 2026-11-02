@@ -9,12 +9,29 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
+
+import java.util.List;
 
 public class IgnisAttackModifier extends GolemModifier {
 
+	/**
+	 * Health fraction at or below which the blade damage bypasses armor.
+	 */
+	public static final float ARMOR_BYPASS_HEALTH = 0.5F;
+
 	public IgnisAttackModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
+	}
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		var threshold = Component.literal(Math.round(ARMOR_BYPASS_HEALTH * 100) + "%")
+				.withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", threshold).withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override

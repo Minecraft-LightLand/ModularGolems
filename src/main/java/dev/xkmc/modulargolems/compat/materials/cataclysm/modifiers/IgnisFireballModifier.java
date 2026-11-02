@@ -22,6 +22,8 @@ import java.util.function.BiConsumer;
 public class IgnisFireballModifier extends GolemModifier {
 
 	private static final int[] ANGLE = {-5, -2, 0, 2, 5};
+	private static final int[] TIMER_3 = {28, 41, 54};
+	private static final int[] TIMER_5 = {45, 61, 77, 93, 109};
 
 	public IgnisFireballModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -29,7 +31,7 @@ public class IgnisFireballModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new IgnisFireballAttackGoal(entity, lv));
+		addGoal.accept(5, new IgnisFireballAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 	public static void addFireball(LivingEntity user, int lv) {
@@ -37,8 +39,17 @@ public class IgnisFireballModifier extends GolemModifier {
 				user.getSoundSource(), 5.0F, 1.4F + user.getRandom().nextFloat() * 0.1F, false);
 		int index = user.getRandom().nextInt(5);
 		lv = Mth.clamp(lv, 0, 2);
-		for (int i = 2 - lv; i < 3 + lv; i++) {
-			GolemCataProxy.shootFireball(user, new Vec3(ANGLE[i], 3.0D, 0.0D), 15 + i * 10, index == i, CataDispatch.ignisBlue(user));
+		int from = 2 - lv;
+		int count = 1 + lv * 2;
+		int[] timers = count >= 4 ? TIMER_5 : TIMER_3;
+		boolean blue = CataDispatch.ignisBlue(user);
+		int order = 0;
+		for (int i = from; i < from + count; i++) {
+			if (i == index) continue;
+			GolemCataProxy.shootFireball(user, new Vec3(ANGLE[i], 3.0D, 0.0D), timers[order++], false, blue);
+		}
+		if (index >= from && index < from + count) {
+			GolemCataProxy.shootFireball(user, new Vec3(ANGLE[index], 3.0D, 0.0D), timers[order], true, blue);
 		}
 	}
 

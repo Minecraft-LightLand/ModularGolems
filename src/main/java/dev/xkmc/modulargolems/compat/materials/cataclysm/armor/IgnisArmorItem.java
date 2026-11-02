@@ -60,7 +60,7 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
 		assert rl != null;
 		var str = "textures/equipments/" + rl.getPath();
-		if (user.getHealth() < 0.5 * user.getMaxHealth())
+		if (CataDispatch.ignisBlue(user))
 			str += "_soul";
 		return new ResourceLocation(namespace(rl.getNamespace()), str + ".png");
 	}
@@ -69,7 +69,7 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
 		assert rl != null;
 		var str = "textures/equipments/" + rl.getPath();
-		if (user.getHealth() < 0.5 * user.getMaxHealth())
+		if (CataDispatch.ignisBlue(user))
 			str += "_soul";
 		return new ResourceLocation(namespace(rl.getNamespace()), str + "_emissive.png");
 	}

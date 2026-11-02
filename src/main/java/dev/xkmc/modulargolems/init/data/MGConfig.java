@@ -124,6 +124,8 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue laserArmorBonus;
 		public final ForgeConfigSpec.DoubleValue missileArmorBonus;
 		public final ForgeConfigSpec.DoubleValue earthquakeArmorBonus;
+		public final ForgeConfigSpec.DoubleValue chargeArmorBonus;
+		public final ForgeConfigSpec.DoubleValue monstrosityChargeBonus;
 		public final ForgeConfigSpec.DoubleValue sandCurseBonus;
 		public final ForgeConfigSpec.IntValue maledictusReviveCD;
 		public final ForgeConfigSpec.IntValue maledictusReviveCDPartReduction;
@@ -375,6 +377,10 @@ public class MGConfig {
 							.defineInRange("missileArmorBonus", 1d, 0, 10);
 					earthquakeArmorBonus = builder.comment("Monstrosity Armor Bonus: Monstrosity Earthquake Modifier damage boost")
 							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
+					chargeArmorBonus = builder.comment("Harbinger Shinguard Bonus: Harbinger Charge damage boost")
+							.defineInRange("chargeArmorBonus", 1d, 0, 10);
+					monstrosityChargeBonus = builder.comment("Monstrosity Chestplate Bonus: charge damage boost for all charge skills")
+							.defineInRange("monstrosityChargeBonus", 0.5d, 0, 10);
 					sandCurseBonus = builder.comment("Sandstorm Upgrade damage bonus per level")
 							.defineInRange("sandCurseBonus", 0.1d, 0, 10);
 					maledictusReviveCD = builder.comment("Cursium Golem Chestplate: Revive Cooldown")

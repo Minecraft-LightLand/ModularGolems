@@ -5,6 +5,8 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 
@@ -31,7 +33,8 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 					golem.getLookControl().setLookAt(target, 30, 90);
 				}
 				GolemCataProxy.updateLaser(golem, beam);
-				beam.setPosRaw(golem.getX(), golem.getEyeY(), golem.getZ());
+				Vec3 origin = golem.getBeamOrigin();
+				beam.setPosRaw(origin.x, origin.y, origin.z);
 			}
 		}
 		super.tick();
@@ -44,5 +47,15 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 		return true;
 	}
 
+	@Override
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
+
+
+	@Override
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
+	}
 }
 
