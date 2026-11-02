@@ -124,6 +124,11 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity>
 		return new ResourceLocation(id, "textures/entity/dog_golem/" + mat + ".png");
 	}
 
+	@Override
+	public boolean isTranslucent() {
+		return true;
+	}
+
 
 	protected Iterable<ModelPart> headParts() {
 		return ImmutableList.of(this.head);

@@ -9,17 +9,21 @@ import java.util.function.Supplier;
 
 public class SimpleUpgradeItem extends UpgradeItem {
 
-	private final Supplier<GolemModifier> modifier;
+	private final List<Supplier<GolemModifier>> modifiers;
 	private final int level;
 
 	public SimpleUpgradeItem(Item.Properties props, Supplier<GolemModifier> modifier, int level, boolean foil) {
+		this(props, List.of(modifier), level, foil);
+	}
+
+	public SimpleUpgradeItem(Item.Properties props, List<Supplier<GolemModifier>> modifiers, int level, boolean foil) {
 		super(props, foil);
-		this.modifier = modifier;
+		this.modifiers = modifiers;
 		this.level = level;
 	}
 
 	public List<ModifierInstance> get() {
-		return List.of(new ModifierInstance(modifier.get(), level));
+		return modifiers.stream().map(m -> new ModifierInstance(m.get(), level)).toList();
 	}
 
 }

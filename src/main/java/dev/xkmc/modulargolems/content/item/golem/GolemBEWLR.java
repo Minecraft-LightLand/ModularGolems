@@ -13,7 +13,6 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -124,7 +123,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		handle.poseStack().translate(0.5f, -0.375f, 0.5f);
 		handle.poseStack().mulPose(Axis.YP.rotationDegrees(180));
 		handle.poseStack().scale(1, -1, 1);
-		RenderType render = model.renderType(MetalGolemPartType.BODY, model.getTextureLocationInternal(id));
+		RenderType render = RenderType.entityTranslucent(model.getTextureLocationInternal(id));
 		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), render, false, handle.stack().hasFoil());
 		model.getHead().render(handle.poseStack(), vc, handle.light(), handle.overlay(), 1.0F, 1.0F, 1.0F, 1.0F);
 	}

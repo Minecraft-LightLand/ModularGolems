@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.client.override;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.client.particle.GolemAfterimageParticle;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemRenderer;
@@ -65,6 +66,10 @@ public class ModelOverride {
 			M model, P part, ResourceLocation tex, boolean visible, boolean ghost, boolean glowing
 	) {
 		if (ghost) return RenderType.itemEntityTranslucentCull(tex);
+
+		// 绘制残影时整个傀儡会再渲染一份半透明副本，
+		// 所以每个部件都要用半透明类型而非自身的不透明类型
+		if (GolemAfterimageParticle.isRendering()) return RenderType.entityTranslucent(tex);
 		if (visible) return model.renderType(part, tex);
 		return glowing ? RenderType.outline(tex) : null;
 	}

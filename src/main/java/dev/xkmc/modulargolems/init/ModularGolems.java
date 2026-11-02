@@ -92,6 +92,7 @@ public class ModularGolems {
 
 	private static void registerRegistrates() {
 		GolemItems.register();
+		GolemParticles.register();
 		GolemTypes.register();
 		GolemMiscs.register();
 		GolemMiscEntities.register();

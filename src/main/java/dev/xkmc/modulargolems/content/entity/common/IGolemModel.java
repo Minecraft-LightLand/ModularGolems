@@ -14,7 +14,12 @@ public interface IGolemModel<T extends AbstractGolemEntity<T, P>, P extends IGol
 		return Wrappers.cast(this);
 	}
 
+	default boolean isTranslucent() {
+		return false;
+	}
+
 	default RenderType renderType(P part, ResourceLocation texture) {
+		if (isTranslucent()) return RenderType.entityTranslucent(texture);
 		return getThis().renderType(texture);
 	}
 
