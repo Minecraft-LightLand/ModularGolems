@@ -81,7 +81,9 @@ public class AncientRemnantChargeGoal extends BaseChargeGoal {
 		this.dir = new Vec3(target.getX() - golem.getX(), 0, target.getZ() - golem.getZ()).normalize();
 		this.total = golem.distanceTo(target) + 2;
 		GolemCataProxy.remnantRoarParticle(golem, 1.0F, 0.0F, 1.3F);
-		GolemCataProxy.remnantChargeSound(golem);	}
+		GolemCataProxy.remnantChargeSound(golem);
+		ChargeHelper.playChargeEasterEgg(golem);
+	}
 
 	@Override
 	public boolean canContinueToUse() {

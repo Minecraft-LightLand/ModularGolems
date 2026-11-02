@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.util.GolemTargetUtil;
 import dev.xkmc.modulargolems.util.GolemUtils;
+import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.util.GolemCombatHelper;
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -82,6 +83,7 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 
 	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
+		SkillSound.playQuakeOnly(golem, SoundEvents.GENERIC_EXPLODE, 1.5F, 1.0F + golem.getRandom().nextFloat() * 0.1F);
 		for (LivingEntity entity : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(7.0))) {
 			if (GolemTargetUtil.canTarget(golem, entity)) {
 				float damage = GolemUtils.adjustedDamage(

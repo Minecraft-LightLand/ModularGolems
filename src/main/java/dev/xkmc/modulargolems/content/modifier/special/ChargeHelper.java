@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.util.GolemCombatHelper;
 import dev.xkmc.modulargolems.util.GolemTargetUtil;
+import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -51,6 +52,13 @@ public class ChargeHelper {
 	public static MutableComponent chargeReduction() {
 		return Component.literal(Math.round((1 - CHARGE_DAMAGE_MULT) * 100) + "%")
 				.withStyle(ChatFormatting.AQUA);
+	}
+
+	/**
+	 * 冲锋技能共用的彩蛋，避免每个技能各写一遍。在冲锋开始处调用一次；多段冲锋按段数调用。
+	 */
+	public static void playChargeEasterEgg(AbstractGolemEntity<?, ?> golem) {
+		SkillSound.playChargeEasterEgg(golem, 1.0F, 1.0F);
 	}
 
 	@Nullable
@@ -292,22 +300,23 @@ public class ChargeHelper {
 		}
 
 		/**
-		 * 冲锋开始时调用。
+		 * 冲锋开始时调用，让共用彩蛋每段只播一次。
 		 */
 		default void onChargeStart(AbstractGolemEntity<?, ?> golem) {
+			playChargeEasterEgg(golem);
 		}
 
-	default void setCharging(Instance ins, boolean on) {
-	}
+		default void setCharging(Instance ins, boolean on) {
+		}
 
-	default void tickCharge(Instance ins) {
-	}
+		default void tickCharge(Instance ins) {
+		}
 
-	default void onChargeTouch(Instance ins, LivingEntity target) {
-	}
+		default void onChargeTouch(Instance ins, LivingEntity target) {
+		}
 
-	default void endCharge(Instance ins) {
-	}
+		default void endCharge(Instance ins) {
+		}
 
 		default boolean canCharge(AbstractGolemEntity<?, ?> golem, int lv) {
 			return true;
@@ -343,15 +352,15 @@ public class ChargeHelper {
 			return 200;
 		}
 
-	default int getCooldown(Instance ins) {
+		default int getCooldown(Instance ins) {
 			return getCooldown(ins.owner(), ins.lv());
 		}
 
-	default double getChargeDistance(AbstractGolemEntity<?, ?> golem, int lv) {
+		default double getChargeDistance(AbstractGolemEntity<?, ?> golem, int lv) {
 			return 8;
 		}
 
-	default double getChargeDistance(Instance ins) {
+		default double getChargeDistance(Instance ins) {
 			return getChargeDistance(ins.owner(), ins.lv());
 		}
 

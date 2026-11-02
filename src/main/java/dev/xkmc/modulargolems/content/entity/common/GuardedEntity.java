@@ -150,6 +150,7 @@ public class GuardedEntity extends AbstractGolem {
 			this.stopSleeping();
 		}
 
+		playDeathSound();
 		this.dead = true;
 		this.getCombatTracker().recheckStatus();
 		Level level = this.level();
@@ -168,6 +169,16 @@ public class GuardedEntity extends AbstractGolem {
 
 	public boolean specialDeath(DamageSource source) {
 		return false;
+	}
+
+	/**
+	 * Whether the golem is airborne when it dies, which picks between the two easter egg sounds.
+	 */
+	public boolean isAirborne() {
+		return false;
+	}
+
+	protected void playDeathSound() {
 	}
 
 	@MustBeInvokedByOverriders

@@ -137,7 +137,9 @@ public class HarbingerChargeGoal extends BaseChargeGoal {
 	private void launch() {
 		ChargeHelper.spawnChargeParticles(golem, dir, ParticleTypes.SMOKE);
 		GolemCataProxy.harbingerChargePrepare(golem);
-		GolemCataProxy.harbingerChargeSound(golem);	}
+		GolemCataProxy.harbingerChargeSound(golem);
+		ChargeHelper.playChargeEasterEgg(golem);
+	}
 
 	private void setFacing() {
 		float yaw = (float) (Mth.atan2(-dir.x, dir.z) * Mth.RAD_TO_DEG);

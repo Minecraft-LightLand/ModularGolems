@@ -90,7 +90,9 @@ public class ScyllaSpinChargeGoal extends BaseChargeGoal {
 		this.dir = new Vec3(target.getX() - golem.getX(), 0, target.getZ() - golem.getZ()).normalize();
 		this.total = golem.distanceTo(target) + 2;
 		GolemCataProxy.scyllaStormParticles(golem);
-		GolemCataProxy.scyllaSpinSound(golem);	}
+		GolemCataProxy.scyllaSpinSound(golem);
+		ChargeHelper.playChargeEasterEgg(golem);
+	}
 
 	@Override
 	public boolean canContinueToUse() {

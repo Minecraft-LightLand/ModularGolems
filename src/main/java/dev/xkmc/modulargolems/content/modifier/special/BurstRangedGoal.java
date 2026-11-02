@@ -22,7 +22,7 @@ public abstract class BurstRangedGoal extends BaseRangedAttackGoal {
 	private static final float[] LATERALS = {0.0F, -0.5F, 0.5F};
 
 	private final int farRange;
-private int delay = -1;
+	private int delay = -1;
 	private int shot;
 	private final List<Pair<LivingEntity, Float>> volley = new ArrayList<>();
 	private final List<LivingEntity> targets = new ArrayList<>();
@@ -46,7 +46,7 @@ private int delay = -1;
 		return BURST_DELAY;
 	}
 
-@Override
+	@Override
 	protected boolean performAttack(LivingEntity target) {
 		if (delay < 0) {
 			volley.clear();
@@ -114,7 +114,7 @@ private int delay = -1;
 
 	protected abstract void fire(LivingEntity target, float lateral);
 
-@Override
+	@Override
 	public void stop() {
 		delay = -1;
 		shot = 0;

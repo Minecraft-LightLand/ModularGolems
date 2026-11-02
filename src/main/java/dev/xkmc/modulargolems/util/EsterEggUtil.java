@@ -22,7 +22,7 @@ public class EsterEggUtil {
 
 	}
 
-	private static boolean isKobe(AbstractGolemEntity<?, ?> e) {
+	public static boolean isKobe(AbstractGolemEntity<?, ?> e) {
 		if (!hasFacadeWithMaterial(e, ModularGolems.loc("netherite"))) {
 			return false;
 		}

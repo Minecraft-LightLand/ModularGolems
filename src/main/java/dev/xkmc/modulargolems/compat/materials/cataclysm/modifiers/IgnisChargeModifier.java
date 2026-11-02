@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
+import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.util.GolemCombatHelper;
 import java.util.List;
 import net.minecraft.ChatFormatting;
@@ -58,6 +59,7 @@ public class IgnisChargeModifier extends GolemModifier implements ChargeHelper.M
 	@Override
 	public void onChargeTouch(ChargeHelper.Instance ins, LivingEntity target) {
 		var golem = ins.owner();
+		SkillSound.playChargeOnly(golem, SoundEvents.ANVIL_LAND, 1.5F, 0.8F + golem.getRandom().nextFloat() * 0.1F);
 		GolemCataProxy.inflictStun(golem, target, 60);
 	}
 

@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.util.GolemTargetUtil;
+import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.util.GolemCombatHelper;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -85,7 +86,9 @@ public class IgnisChargeGoal extends BaseChargeGoal {
 		this.start = golem.position();
 		this.dir = new Vec3(target.getX() - golem.getX(), 0, target.getZ() - golem.getZ()).normalize();
 		this.total = golem.distanceTo(target) + 2;
-		ChargeHelper.spawnChargeParticles(golem, dir, particle());	}
+		ChargeHelper.spawnChargeParticles(golem, dir, particle());
+		ChargeHelper.playChargeEasterEgg(golem);
+	}
 
 	@Override
 	public boolean canContinueToUse() {
@@ -133,9 +136,13 @@ public class IgnisChargeGoal extends BaseChargeGoal {
 			if (golem.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.MONSTROSITY_CHESTPLATE.get()))
 				bonus += MGConfig.COMMON.monstrosityChargeBonus.get().floatValue();
 			var src = golem.damageSources().mobAttack(golem);
-			e.hurt(src, dmg * bonus);
+			boolean hit = e.hurt(src, dmg * bonus);
 			GolemCombatHelper.breakShield(golem, e, src);
 			GolemCataProxy.inflictStun(golem, e, 60);
+			// AI 冲锋不经过 onChargeTouch（那只在骑乘冲锋路径里调用），所以音效要在这里播。
+			if (hit) {
+				SkillSound.playChargeOnly(golem, SoundEvents.ANVIL_LAND, 1.5F, 0.8F + golem.getRandom().nextFloat() * 0.1F);
+			}
 		}
 	}
 

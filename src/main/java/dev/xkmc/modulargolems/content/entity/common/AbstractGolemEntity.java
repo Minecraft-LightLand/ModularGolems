@@ -32,6 +32,9 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.util.EsterEggUtil;
+import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -384,6 +387,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (level().isClientSide()) return false;
 		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
 			unRide();
+			playDeathSound();
 			if (hasFlag(GolemFlags.RECYCLE)) {
 				untrack(GolemTracker.Status.DEATH_RECYCLE, null);
 				returnToInventory();
@@ -399,6 +403,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void postHurt(DamageSource source) {
 		if (getGuardedDataImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
 			unRide();
+			playDeathSound();
 			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
 			returnToInventory();
 			level().broadcastEntityEvent(this, EntityEvent.POOF);
@@ -1228,7 +1233,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	public boolean isInRangedMode() {
-		return getMode() == GolemModes.STAND || getEntityData().get(IS_IN_RANGE_ATTACK);
+		return getMode() == GolemModes.STAND || getEntityData().get(IS_IN_RANGE_ATTACK) || hasRangeAttack();
 	}
 
 	public void setInRangeAttack(boolean flag) {
@@ -1271,6 +1276,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public boolean specialDeath(DamageSource source) {
 		if (untrackRemoved(source)) {
+			playDeathSound();
 			dead = true;
 			discard();
 			return true;
@@ -1452,6 +1458,21 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!stack.isDamageableItem()) return false;
 		if (source.is(DamageTypeTags.IS_FIRE) && stack.getItem().isFireResistant()) return false;
 		return stack.getItem() instanceof ArmorItem || stack.is(MGTagGen.GOLEM_DAMAGEABLE);
+	}
+
+	@Override
+	public boolean isAirborne() {
+		return EarthquakeHelper.isLeaping(this);
+	}
+
+	@Override
+	protected void playDeathSound() {
+		if (!EsterEggUtil.isKobe(this)) return;
+		if (isAirborne()) {
+			SkillSound.playCrashEasterEgg(this);
+		} else {
+			SkillSound.playWhatCanISayEasterEgg(this);
+		}
 	}
 
 }

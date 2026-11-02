@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.modifier.special;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -52,6 +53,11 @@ public class EarthquakeHelper {
 	public static MutableComponent leapReduction() {
 		return Component.literal(Math.round((1 - LEAP_DAMAGE_MULT) * 100) + "%")
 				.withStyle(ChatFormatting.AQUA);
+	}
+
+	/** 跳跃技能共用的彩蛋，避免每个技能各写一遍。 */
+	public static void playQuakeEasterEgg(AbstractGolemEntity<?, ?> golem) {
+		SkillSound.playQuakeEasterEgg(golem, 1.0F, 1.0F);
 	}
 
 	public static void makeParticles(LivingEntity le, float vec, float math) {
@@ -177,8 +183,9 @@ public class EarthquakeHelper {
 			return 25;
 		}
 
-		/** 技能落地时调用。技能只在非标准落点覆写。 */
+		/** 技能落地时调用，让共用彩蛋每次只播一次。技能只在非标准落点覆写。 */
 		default void onEarthQuakeLanded(AbstractGolemEntity<?, ?> golem, int level) {
+			playQuakeEasterEgg(golem);
 		}
 
 		/** 玩家骑乘时垂直起跳；AI 骑乘则朝目标斜跳，避免落空后还需重选目标。 */
