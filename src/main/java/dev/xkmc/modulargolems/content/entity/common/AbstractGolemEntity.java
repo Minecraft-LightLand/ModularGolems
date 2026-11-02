@@ -136,10 +136,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@SerialClass.SerialField
 	private BlockPos recordedGuardPos = BlockPos.ZERO;
 
-	// marks opened inventory
-	public int inventoryTick = 0;
-	public int specialAttackCoolDown = 0;
-
 	protected final PathNavigation waterNavigation;
 	protected final GroundPathNavigation groundNavigation;
 
@@ -150,6 +146,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
 	public GolemMeleeGoal meleeGoal;
+
+	// marks opened inventory
+	public int inventoryTick = 0;
+	public int specialAttackCoolDown = 0;
+	private double lastSize = 0;
+	private boolean sizeDirty = false;
+	@Nullable
+	private UUID persistentAngerTarget;
 
 	@Override
 	public SynchedEntityData entityData() {
@@ -346,8 +350,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.dropCustomDeathLoot(source, i, b);
 	}
 
-	private double lastSize = 0;
-	private boolean sizeDirty = false;
 
 	public void markSizeDirty() {
 		sizeDirty = true;
@@ -681,9 +683,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 
 	// ------ persistent anger
-
-	@Nullable
-	private UUID persistentAngerTarget;
 
 	protected void defineSynchedData() {
 		super.defineSynchedData();
