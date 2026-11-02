@@ -106,10 +106,79 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
 		implements IEntityAdditionalSpawnData, NeutralMob, OwnableEntity, PowerableMob {
+	/**
+	 * Lightweight boolean flags shared by skills that need a global busy lock across golem types
+	 * (for example the leap / breath skills). Not serialised, so never saved or synced.
+	 */
+	private final java.util.Set<String> transientFlags = ConcurrentHashMap.newKeySet();
+
+	public boolean isTransientFlag(String key) {
+		return transientFlags.contains(key);
+	}
+
+	public void setTransientFlag(String key, boolean on) {
+		if (on) {
+			transientFlags.add(key);
+		} else {
+			transientFlags.remove(key);
+		}
+	}
+
+	public AbstractGolemEntity<?, ?> getGolemController() {
+		var p = getControllingPassenger();
+		return p instanceof AbstractGolemEntity<?, ?> g ? g : null;
+	}
+
+	public boolean isRidingGolemCombo() {
+		if (getGolemController() != null) return true;
+		return getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == this;
+	}
+
+	private final ConcurrentHashMap<String, Object> transientState = new ConcurrentHashMap<>();
+
+	@SuppressWarnings("unchecked")
+	public <T> T getTransientState(String key) {
+		return (T) transientState.get(key);
+	}
+
+	public void setTransientState(String key, @Nullable Object value) {
+		if (value == null) {
+			transientState.remove(key);
+		} else {
+			transientState.put(key, value);
+		}
+	}
+
+	public Vec3 getBeamOrigin() {
+		var mount = getHeadMount().scaled(getScale());
+		double body = Math.toRadians(yBodyRot);
+		var forward = new Vec3(-Math.sin(body), 0, Math.cos(body));
+		var pivot = new Vec3(getX(), getY(), getZ())
+				.add(0, mount.pivotY(), 0)
+				.add(forward.scale(mount.pivotZ()));
+		double yaw = Math.toRadians(yHeadRot);
+		double pitch = Math.toRadians(getXRot());
+		double cosPitch = Math.cos(pitch), sinPitch = Math.sin(pitch);
+		var headForward = new Vec3(-Math.sin(yaw) * cosPitch, -sinPitch, Math.cos(yaw) * cosPitch);
+		var headUp = new Vec3(-Math.sin(yaw) * sinPitch, cosPitch, Math.cos(yaw) * sinPitch);
+		return pivot.add(GolemBeamSource.muzzleOffset(headForward, headUp, mount));
+	}
+
+	private GolemBeamSource.HeadMount getHeadMount() {
+		var type = GolemType.getGolemType(getType());
+		var id = type == null ? null : type.getRegistryName();
+		if (id == null) return GolemBeamSource.HeadMount.METAL;
+		return switch (id.getPath()) {
+			case "dog_golem" -> GolemBeamSource.HeadMount.DOG;
+			case "humanoid_golem" -> GolemBeamSource.HeadMount.HUMANOID;
+			default -> GolemBeamSource.HeadMount.METAL;
+		};
+	}
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
