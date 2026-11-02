@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
@@ -13,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
  */
 public class ObliteratorLaserGoal extends BaseRangedAttackGoal {
 
-	private net.minecraft.world.entity.Entity beam;
+	private Entity beam;
 
 	public ObliteratorLaserGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(200, 2, 32, golem, lv);
@@ -45,7 +46,7 @@ public class ObliteratorLaserGoal extends BaseRangedAttackGoal {
 	@Override
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
-		net.minecraft.world.entity.Entity laser = LMProxy.spawnObliteratorLaser(golem, target, lv);
+		Entity laser = LMProxy.spawnObliteratorLaser(golem, target, lv);
 		if (laser == null) return true;
 		beam = laser;
 		golem.getNavigation().stop();

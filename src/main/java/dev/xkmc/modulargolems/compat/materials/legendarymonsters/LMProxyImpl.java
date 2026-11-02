@@ -29,6 +29,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -208,7 +209,7 @@ public class LMProxyImpl {
 	}
 
 	// Obliterator: laser (single-target) - AnnihilationBeamEntity - single proxy
-	@javax.annotation.Nullable
+	@Nullable
 	public static Entity spawnObliteratorLaser(LivingEntity golem, LivingEntity target, int lv) {
 		if (golem.level().isClientSide) return null;
 		float base = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);

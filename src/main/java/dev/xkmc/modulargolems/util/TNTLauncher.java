@@ -34,7 +34,7 @@ public class TNTLauncher {
 		return Estimator.EstiType.FAIL;
 	}
 
-	public static void setDire(float xRot, float yRot, float velo, net.minecraft.world.entity.Entity ent) {
+	public static void setDire(float xRot, float yRot, float velo, Entity ent) {
 		float f = -Mth.sin(yRot * ((float) Math.PI / 180F)) * Mth.cos(xRot * ((float) Math.PI / 180F));
 		float f1 = -Mth.sin(xRot * ((float) Math.PI / 180F));
 		float f2 = Mth.cos(yRot * ((float) Math.PI / 180F)) * Mth.cos(xRot * ((float) Math.PI / 180F));

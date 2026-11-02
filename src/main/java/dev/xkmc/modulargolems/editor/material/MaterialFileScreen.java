@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -92,8 +93,8 @@ public class MaterialFileScreen extends EditorScreen {
 		List<EditorList.Entry> entries = new ArrayList<>();
 		for (ResourceLocation id : allKeys()) {
 			order.add(id);
-			int stats = config.stats.getOrDefault(id, new java.util.HashMap<>()).size();
-			int mods = config.modifiers.getOrDefault(id, new java.util.HashMap<>()).size();
+			int stats = config.stats.getOrDefault(id, new HashMap<>()).size();
+			int mods = config.modifiers.getOrDefault(id, new HashMap<>()).size();
 			entries.add(new EditorList.Entry(Component.literal(id.toString()).copy()
 					.append(Component.literal("   ["))
 					.append(GolemEditorLang.STATS.get(stats))

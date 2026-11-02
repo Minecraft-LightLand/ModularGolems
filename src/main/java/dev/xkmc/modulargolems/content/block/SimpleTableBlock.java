@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 
@@ -17,7 +18,7 @@ public class SimpleTableBlock extends TableBlock {
 	}
 
 	@Override
-	public MenuProvider getMenuProvider(BlockState state, net.minecraft.world.level.Level level, BlockPos pos) {
+	public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
 		return new SimpleMenuProvider((wid, inv, player) ->
 				new SimpleUpgradeMenu(GolemMiscs.SIMPLE_UPGRADE.get(), wid, inv), MGLangData.TAB_UPGRADES.get());
 	}

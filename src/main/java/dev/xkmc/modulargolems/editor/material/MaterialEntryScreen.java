@@ -24,8 +24,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class MaterialEntryScreen extends EditorScreen {
 
@@ -68,16 +71,16 @@ public class MaterialEntryScreen extends EditorScreen {
 						x -> setIngredient(config.repairIngredients, x))));
 		entries.add(row(GolemEditorLang.STATS.get(statsCount()), null, null,
 				() -> Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.STATS.get(statsCount()),
-						config.stats.get(id), () -> config.stats.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>()),
+						config.stats.get(id), () -> config.stats.computeIfAbsent(id, k -> new LinkedHashMap<>()),
 						GolemEditorUtil.listStats(), GolemEditorHandlers.STAT, MaterialEntryScreen.this, session))));
 		entries.add(row(GolemEditorLang.MODIFIERS.get(modCount()), null, null,
 				() -> Minecraft.getInstance().setScreen(new Obj2IntMapScreen<>(GolemEditorLang.MODIFIERS.get(modCount()),
-						config.modifiers.get(id), () -> config.modifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>()),
+						config.modifiers.get(id), () -> config.modifiers.computeIfAbsent(id, k -> new LinkedHashMap<>()),
 						GolemEditorUtil.listModifiers(), GolemEditorHandlers.MODIFIER,
 						GolemEditorLang.SELECT_MODIFIER.get(), MaterialEntryScreen.this, session))));
 		entries.add(row(GolemEditorLang.LIMITATION.get(limitCount()), null, null,
 				() -> Minecraft.getInstance().setScreen(new ItemListScreen<>(GolemEditorLang.LIMITATION.get(limitCount()),
-						config.partLimitation.get(id), () -> config.partLimitation.computeIfAbsent(id, k -> new java.util.LinkedHashSet<>()),
+						config.partLimitation.get(id), () -> config.partLimitation.computeIfAbsent(id, k -> new LinkedHashSet<>()),
 						EditorUtil.listItems(), GolemEditorHandlers.ITEM,
 						EditorText.SELECT_ITEM.get(), MaterialEntryScreen.this, session))));
 		list.setData(entries);
@@ -111,7 +114,7 @@ public class MaterialEntryScreen extends EditorScreen {
 		}
 	}
 
-	private void openIngredient(Component title, @Nullable Ingredient current, java.util.function.Consumer<Ingredient> onSet) {
+	private void openIngredient(Component title, @Nullable Ingredient current, Consumer<Ingredient> onSet) {
 		Minecraft.getInstance().setScreen(new IngredientScreen(title, current,
 				onSet, MaterialEntryScreen.this, session));
 	}

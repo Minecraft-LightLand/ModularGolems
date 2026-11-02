@@ -138,7 +138,7 @@ public class GuardedEntity extends AbstractGolem {
 	@Override
 	public void die(DamageSource source) {
 		if (getGuardedDataImpl() > 0) return;
-		if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, source)) return;
+		if (ForgeHooks.onLivingDeath(this, source)) return;
 		if (specialDeath(source)) return;
 		if (isRemoved() || dead) return;
 		Entity entity = source.getEntity();

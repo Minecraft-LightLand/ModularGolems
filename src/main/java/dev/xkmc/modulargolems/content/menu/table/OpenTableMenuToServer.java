@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
@@ -72,7 +73,7 @@ boolean simple = this.simple || menu instanceof SimpleAssembleMenu
 		}
 	}
 
-	private MenuProvider provider(net.minecraft.world.inventory.MenuType<?> mt) {
+	private MenuProvider provider(MenuType<?> mt) {
 		return new SimpleMenuProvider((wid, inv, p) -> {
 			if (mt == GolemMiscs.SIMPLE_ASSEMBLE.get())
 				return new SimpleAssembleMenu(mt, wid, inv);

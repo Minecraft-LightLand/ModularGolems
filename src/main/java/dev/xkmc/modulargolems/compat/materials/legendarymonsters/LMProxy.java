@@ -17,6 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,8 +84,8 @@ public class LMProxy {
 		}
 	}
 
-	@javax.annotation.Nullable
-	public static net.minecraft.world.entity.Entity spawnObliteratorLaser(LivingEntity golem, LivingEntity target, int lv) {
+	@Nullable
+	public static Entity spawnObliteratorLaser(LivingEntity golem, LivingEntity target, int lv) {
 		try {
 			return LMProxyImpl.spawnObliteratorLaser(golem, target, lv);
 		} catch (Throwable ignored) {

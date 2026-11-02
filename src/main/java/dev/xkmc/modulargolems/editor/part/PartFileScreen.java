@@ -32,6 +32,7 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class PartFileScreen extends EditorScreen {
@@ -122,14 +123,14 @@ public class PartFileScreen extends EditorScreen {
 		var map = config.filters.get(part);
 		List<StatFilterType> cand = List.of(StatFilterType.values());
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.FILTERS.get(map == null ? 0 : map.size()),
-				map, () -> config.filters.computeIfAbsent(part, k -> new java.util.LinkedHashMap<>()),
+				map, () -> config.filters.computeIfAbsent(part, k -> new LinkedHashMap<>()),
 				cand, GolemEditorHandlers.FILTER, PartFileScreen.this, session));
 	}
 
 	private void editEntity(ResourceLocation id) {
 		var map = config.magnifiers.get(id);
 		Minecraft.getInstance().setScreen(new DoubleMapScreen<>(GolemEditorLang.MAGNIFIERS.get(map == null ? 0 : map.size()),
-				map, () -> config.magnifiers.computeIfAbsent(id, k -> new java.util.LinkedHashMap<>()),
+				map, () -> config.magnifiers.computeIfAbsent(id, k -> new LinkedHashMap<>()),
 				GolemEditorUtil.listStats(), GolemEditorHandlers.STAT, PartFileScreen.this, session));
 	}
 
