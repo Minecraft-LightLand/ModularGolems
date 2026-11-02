@@ -3,7 +3,9 @@ package dev.xkmc.modulargolems.events;
 import dev.xkmc.modulargolems.content.capability.GolemConfigCapability;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
+import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -17,6 +19,7 @@ import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
@@ -98,6 +101,25 @@ public class ModifierEventListeners {
 	public static void onDamaged(LivingDamageEvent event) {
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
 			entity.getModifiersExtended().forEach((k, v) -> k.onDamaged(entity, event, v));
+
+			// 冲锋中的傀儡由技能自己减伤，但技能只认自己的拥有者：
+			// 同乘的另一只傀儡和骑乘者仍要在这里减伤
+			DogGolemEntity mount = entity instanceof DogGolemEntity self ? self
+					: entity.getVehicle() instanceof DogGolemEntity ride ? ride : null;
+			if (mount != null && mount.isMountCharging()) {
+				ChargeHelper.Instance rider = mount.getChargeRider();
+				ChargeHelper.Instance own = mount.getChargeMount();
+				boolean covered = entity == mount
+						? own != null && own.owner() == mount
+						: rider != null && rider.owner() == entity;
+				if (!covered) {
+					event.setAmount(event.getAmount() * ChargeHelper.CHARGE_DAMAGE_MULT);
+				}
+			}
+		} else if (event.getEntity() instanceof Player player
+				&& player.getVehicle() instanceof DogGolemEntity mount && mount.isMountCharging()) {
+			// 骑乘者算作其所驾身体的一部分
+			event.setAmount(event.getAmount() * ChargeHelper.CHARGE_DAMAGE_MULT);
 		}
 	}
 

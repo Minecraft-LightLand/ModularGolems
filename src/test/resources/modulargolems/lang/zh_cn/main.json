@@ -110,7 +110,11 @@
 			"add_target": "已将%s加入过滤器",
 			"remove_target": "已将%s移除过滤器",
 			"skill_cd": "技能冷却:",
-			"skill_cd_line": "- %s: %s秒"
+			"skill_cd_line": "- %s: %s秒",
+			"ride.jump_cd": "跳跃: %s秒",
+			"ride.jump_ready": "跳跃技能就绪！",
+			"ride.charge_cd": "冲锋: %s秒",
+			"ride.charge_ready": "冲锋技能就绪！"
 		},
 		"config": {
 			"loading": "加载中...",
