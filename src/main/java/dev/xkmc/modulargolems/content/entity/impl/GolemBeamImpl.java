@@ -1,7 +1,5 @@
 package dev.xkmc.modulargolems.content.entity.impl;
 
-import dev.xkmc.modulargolems.content.core.GolemType;
-import dev.xkmc.modulargolems.content.entity.common.GolemBeamSource;
 import net.minecraft.world.phys.Vec3;
 
 public interface GolemBeamImpl extends GolemImplBase {

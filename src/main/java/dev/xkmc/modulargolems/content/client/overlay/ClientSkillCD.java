@@ -1,8 +1,6 @@
 package dev.xkmc.modulargolems.content.client.overlay;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.common.GolemSkillCDRequest;
-import dev.xkmc.modulargolems.content.entity.common.GolemSkillCDToClient;
 import dev.xkmc.modulargolems.init.ModularGolems;
 
 import java.util.HashMap;

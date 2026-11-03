@@ -1,6 +1,6 @@
-package dev.xkmc.modulargolems.content.entity.common;
+package dev.xkmc.modulargolems.content.client.overlay;
 
-import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.ICooldownSkill;
 

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.content.entity.common;
+package dev.xkmc.modulargolems.content.entity.impl;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;

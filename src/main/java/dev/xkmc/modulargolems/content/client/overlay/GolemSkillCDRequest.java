@@ -1,7 +1,8 @@
-package dev.xkmc.modulargolems.content.entity.common;
+package dev.xkmc.modulargolems.content.client.overlay;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraftforge.network.NetworkEvent;
 
