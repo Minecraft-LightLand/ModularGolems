@@ -81,5 +81,4 @@ public interface GolemPermissionImpl extends GolemImplBase, OwnableEntity {
 		return def;
 	}
 
-
 }

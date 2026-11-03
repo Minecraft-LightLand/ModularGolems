@@ -4,14 +4,16 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.TimeUtil;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public interface GolemTargetImpl extends GolemImplBase {
+import java.util.UUID;
+
+public interface GolemTargetImpl extends GolemImplBase, NeutralMob {
 
 	default boolean predicateTarget(LivingEntity e) {
 		return TargetManager.predicateTarget(asGolem(), e) != null;
@@ -82,6 +84,40 @@ public interface GolemTargetImpl extends GolemImplBase {
 				return true;
 		}
 		return false;
+	}
+
+	UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
+
+	default void startPersistentAngerTimer() {
+		setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(asGolem().getRandom()));
+	}
+
+	default int getRemainingPersistentAngerTime() {
+		return entityData().get(AbstractGolemEntity.DATA_REMAINING_ANGER_TIME);
+	}
+
+	default void setRemainingPersistentAngerTime(int pTime) {
+		entityData().set(AbstractGolemEntity.DATA_REMAINING_ANGER_TIME, pTime);
+	}
+
+	default void setPersistentAngerTarget(@Nullable UUID target) {
+		asGolem().transientManager.persistentAngerTarget = target;
+	}
+
+	@Nullable
+	default UUID getPersistentAngerTarget() {
+		return asGolem().transientManager.persistentAngerTarget;
+	}
+
+	default void tickTarget() {
+		var self = asGolem();
+		this.updatePersistentAnger((ServerLevel) self.level(), true);
+		if (self.getControllingPassenger() == null) {
+			var target = getTarget();
+			if (target != null && target.isAlive()) {
+				TargetManager.get(self).tickTarget(self, target);
+			}
+		}
 	}
 
 }

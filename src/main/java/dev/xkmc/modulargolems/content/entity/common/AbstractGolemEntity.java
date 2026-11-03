@@ -12,7 +12,8 @@ import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
-import dev.xkmc.modulargolems.content.entity.impl.*;
+import dev.xkmc.modulargolems.content.entity.impl.GolemImpls;
+import dev.xkmc.modulargolems.content.entity.impl.TransientStateContainer;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
@@ -41,8 +42,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.util.TimeUtil;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -83,80 +82,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
-		implements IEntityAdditionalSpawnData, NeutralMob, PowerableMob,
-		GolemReforgeImpl, GolemConfigImpl, GolemTrackerImpl, GolemInvImpl, GolemPermissionImpl, GolemTargetImpl {
-	/**
-	 * Lightweight boolean flags shared by skills that need a global busy lock across golem types
-	 * (for example the leap / breath skills). Not serialised, so never saved or synced.
-	 */
-	private final java.util.Set<String> transientFlags = ConcurrentHashMap.newKeySet();
-
-	public boolean isTransientFlag(String key) {
-		return transientFlags.contains(key);
-	}
-
-	public void setTransientFlag(String key, boolean on) {
-		if (on) {
-			transientFlags.add(key);
-		} else {
-			transientFlags.remove(key);
-		}
-	}
-
-	public AbstractGolemEntity<?, ?> getGolemController() {
-		var p = getControllingPassenger();
-		return p instanceof AbstractGolemEntity<?, ?> g ? g : null;
-	}
-
-	public boolean isRidingGolemCombo() {
-		if (getGolemController() != null) return true;
-		return getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == this;
-	}
-
-	private final ConcurrentHashMap<String, Object> transientState = new ConcurrentHashMap<>();
-
-	@SuppressWarnings("unchecked")
-	public <T> T getTransientState(String key) {
-		return (T) transientState.get(key);
-	}
-
-	public void setTransientState(String key, @Nullable Object value) {
-		if (value == null) {
-			transientState.remove(key);
-		} else {
-			transientState.put(key, value);
-		}
-	}
-
-	public Vec3 getBeamOrigin() {
-		var mount = getHeadMount().scaled(getScale());
-		double body = Math.toRadians(yBodyRot);
-		var forward = new Vec3(-Math.sin(body), 0, Math.cos(body));
-		var pivot = new Vec3(getX(), getY(), getZ())
-				.add(0, mount.pivotY(), 0)
-				.add(forward.scale(mount.pivotZ()));
-		double yaw = Math.toRadians(yHeadRot);
-		double pitch = Math.toRadians(getXRot());
-		double cosPitch = Math.cos(pitch), sinPitch = Math.sin(pitch);
-		var headForward = new Vec3(-Math.sin(yaw) * cosPitch, -sinPitch, Math.cos(yaw) * cosPitch);
-		var headUp = new Vec3(-Math.sin(yaw) * sinPitch, cosPitch, Math.cos(yaw) * sinPitch);
-		return pivot.add(GolemBeamSource.muzzleOffset(headForward, headUp, mount));
-	}
-
-	private GolemBeamSource.HeadMount getHeadMount() {
-		var type = GolemType.getGolemType(getType());
-		var id = type == null ? null : type.getRegistryName();
-		if (id == null) return GolemBeamSource.HeadMount.METAL;
-		return switch (id.getPath()) {
-			case "dog_golem" -> GolemBeamSource.HeadMount.DOG;
-			case "humanoid_golem" -> GolemBeamSource.HeadMount.HUMANOID;
-			default -> GolemBeamSource.HeadMount.METAL;
-		};
-	}
+		implements IEntityAdditionalSpawnData, GolemImpls {
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
@@ -164,17 +93,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity::defineId);
 	private static final EntityDataAccessor<Optional<UUID>> OWNER_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), null);
-
 	private static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
 	private static final EntityDataAccessor<BlockPos> GUARD_POS = GOLEM_DATA.define(SyncedData.BLOCK_POS, BlockPos.ZERO, "guard_pos");
-
 	public static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
 	public static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
 	public static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
-
-	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-	private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
-
+	public static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
 	public static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	protected MoveControl waterMoveControl;
@@ -215,14 +139,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
 	public GolemMeleeGoal meleeGoal;
+	public final TransientStateContainer transientManager = new TransientStateContainer();
 
 	// marks opened inventory
 	public int inventoryTick = 0;
 	public int specialAttackCoolDown = 0;
 	private double lastSize = 0;
 	private boolean sizeDirty = false;
-	@Nullable
-	private UUID persistentAngerTarget;
 
 	@Override
 	public SynchedEntityData entityData() {
@@ -672,13 +595,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			for (var entry : getModifiersExtended().entrySet()) {
 				entry.getKey().onAiStep(this, entry.getValue());
 			}
-			this.updatePersistentAnger((ServerLevel) this.level(), true);
-			if (getControllingPassenger() == null) {
-				var target = getTarget();
-				if (target != null && target.isAlive()) {
-					TargetManager.get(this).tickTarget(this, target);
-				}
-			}
+			tickTarget();
+			tickTransient();
 		}
 	}
 
@@ -759,27 +677,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		entityData.define(IS_IN_RANGE_ATTACK, false);
 	}
 
-	public void startPersistentAngerTimer() {
-		this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
-	}
-
-	public int getRemainingPersistentAngerTime() {
-		return this.entityData.get(DATA_REMAINING_ANGER_TIME);
-	}
-
-	public void setRemainingPersistentAngerTime(int pTime) {
-		this.entityData.set(DATA_REMAINING_ANGER_TIME, pTime);
-	}
-
-	public void setPersistentAngerTarget(@Nullable UUID target) {
-		this.persistentAngerTarget = target;
-	}
-
-	@Nullable
-	public UUID getPersistentAngerTarget() {
-		return this.persistentAngerTarget;
-	}
-
 	// ------ tamable
 
 	@Nullable
@@ -823,11 +720,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public boolean isInSittingPose() {
 		return false;
-	}
-
-	@Override
-	public boolean isPowered() {
-		return true;
 	}
 
 	@Override
