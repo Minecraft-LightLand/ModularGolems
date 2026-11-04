@@ -10,12 +10,12 @@ import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
+import dev.xkmc.modulargolems.util.GolemPreviewUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -45,7 +45,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		new GolemTabManager<>(this, new EquipmentGroup(menu.golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
-			addRenderableWidget(new PlayerSkinButton(leftPos + 137, topPos + 5, golem, b ->
+			addRenderableWidget(new PlayerSkinButton(leftPos + 160, topPos + 6, golem, b ->
 					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem))));
 		}
 	}
@@ -62,18 +62,18 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		}
 	}
 
+	/**
+	 * Override to nudge this screen's preview. Defaults to the shared values, where a zero in every
+	 * field means nothing is overridden.
+	 */
+	protected GolemPreviewUtil.Adjustment previewAdjustment() {
+		return GolemPreviewUtil.Adjustment.none();
+	}
+
 	private void renderPreview(GuiGraphics g, int mx, int my) {
 		if (menu.golem == null) return;
-		int x = leftPos + 30;
-		int y = topPos + 80;
-		double lx = x - mx;
-		double ly = y - 40 - my;
-		int scale = menu.golem.getPreviewScale();
-		float ax = (float) Math.atan(lx / 50.0);
-		float ay = (float) Math.atan(ly / 50.0);
-		scale = (int) (scale / menu.golem.getScale());
-		InventoryScreen.renderEntityInInventoryFollowsAngle(g, x, y, scale, ax, ay, menu.golem);
-
+		GolemPreviewUtil.render(g, leftPos, topPos, menu.golem, menu.golem.getPreviewScale(),
+				previewAdjustment(), mx, my);
 	}
 
 	@Override

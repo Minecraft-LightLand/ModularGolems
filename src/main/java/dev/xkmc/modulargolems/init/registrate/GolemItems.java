@@ -294,7 +294,7 @@ public class GolemItems {
 					.lang("Target Filter: Default Target").register();
 			CARD_PATH = REGISTRATE.item("patrol_path_recorder", p -> new PathRecordCard(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/card/path")))
-					.tag(MGTagGen.GOLEM_INTERACT, MGTagGen.CURIO_PATH)
+					.tag(MGTagGen.GOLEM_INTERACT)
 					.lang("Patrol Path Recorder").register();
 		}
 
@@ -434,7 +434,7 @@ public class GolemItems {
 						.texture("particle", "minecraft:block/clay").guiLight(BlockModel.GuiLight.FRONT))
 				.removeTab(GOLEMS.getKey())
 				.transform(e -> e.tab(ITEMS.getKey(), x -> e.getEntry().fillItemCategory(x)))
-				.tag(MGTagGen.CURIO_SKIN).register();
+				.register();
 
 		CompatManager.lateRegister();
 

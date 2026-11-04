@@ -41,6 +41,7 @@ public interface GolemInvImpl extends GolemImplBase {
 		var ans = new ArrayList<IItemHandlerModifiable>();
 		ans.add(new EntityHandsInvWrapper(self));
 		ans.add(new EntityArmorInvWrapper(self));
+		self.aggregateExtraSlots(ans);
 		MinecraftForge.EVENT_BUS.post(new GolemCollectInventoryEvent(self, ans));
 		return ans;
 	}
@@ -82,6 +83,7 @@ public interface GolemInvImpl extends GolemImplBase {
 				dropSlot(slot, true);
 			}
 		}
+		self.dropExtraSlot();
 	}
 
 	default void dropSlot(EquipmentSlot slot, boolean isDeath) {

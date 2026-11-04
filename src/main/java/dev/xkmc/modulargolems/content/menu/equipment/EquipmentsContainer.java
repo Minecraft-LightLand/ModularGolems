@@ -2,9 +2,7 @@ package dev.xkmc.modulargolems.content.menu.equipment;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import net.minecraft.world.item.ItemStack;
 
 public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<EquipmentsMenu> {
@@ -14,23 +12,7 @@ public class EquipmentsContainer extends BaseContainerMenu.BaseContainer<Equipme
 	}
 
 	private ItemWrapper getWrapper(int index) {
-		if (parent.golem == null || index < 0) return ItemWrapper.EMPTY;
-		if (index < 6) {
-			return parent.golem.getWrapperOfHand(parent.equipmentSlots[index]);
-		}
-		if (parent.golem instanceof SweepGolemEntity<?,?> e) {
-			if (index == 6)
-				return e.getBackupHand();
-			if (index == 7)
-				return e.getArrowSlot();
-		}
-		if (parent.golem instanceof MetalGolemEntity metal) {
-			if (index == 8)
-				return metal.getRightShoulder();
-			if (index == 9)
-				return metal.getLeftShoulder();
-		}
-		return ItemWrapper.EMPTY;
+		return parent.golem == null ? ItemWrapper.EMPTY : parent.getWrapperAt(index);
 	}
 
 	@Override

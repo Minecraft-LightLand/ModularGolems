@@ -2,8 +2,6 @@ package dev.xkmc.modulargolems.content.entity.common;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -12,7 +10,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -55,18 +52,13 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 	}
 
 	public ItemStack getBanner(T entity) {
-		ItemStack stack = entity.getItemBySlot(EquipmentSlot.HEAD);
-		if (entity instanceof HumanoidGolemEntity && renders(stack)) {
-			return ItemStack.EMPTY;
-		}
+		// the banner has its own slot, the head slot no longer takes one
+		ItemStack stack = entity.getBannerSlot().getItem();
 		var selfFact = HostileGolemRegistry.tryGetFaction(entity);
 		if (selfFact.isPresent()) {
 			if (entity.hasPassenger(e -> e instanceof AbstractGolemEntity<?, ?>))
 				return ItemStack.EMPTY;
 			return selfFact.get().getBanner(entity, entity.getConfigColor());
-		}
-		if (entity instanceof MetalGolemEntity && !renders(stack)) {
-			stack = entity.getItemBySlot(EquipmentSlot.FEET);
 		}
 		if (renders(stack)) return stack;
 		var entry = entity.getConfigEntry(MGLangData.LOADING.get());

@@ -9,7 +9,6 @@ import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.ModList;
 
 import java.util.Locale;
 
@@ -32,11 +31,9 @@ public class EsterEggUtil {
 	}
 
 	private static boolean hasFacadeWithMaterial(AbstractGolemEntity<?, ?> e, ResourceLocation material) {
-		if (ModList.get().isLoaded("curios")) {
-			var opt = CurioCompatRegistry.getItem(e, "golem_skin");
-			if (opt.isPresent() && opt.get().getItem() instanceof GolemFacade) {
-				return GolemFacade.getMaterial(opt.get()).equals(material);
-			}
+		var skin = e.getSkinSlot().getItem();
+		if (skin.getItem() instanceof GolemFacade) {
+			return GolemFacade.getMaterial(skin).equals(material);
 		}
 		if (e instanceof MetalGolemEntity) {
 			for (var tex : e.getMaterials()) {
