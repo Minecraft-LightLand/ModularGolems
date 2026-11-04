@@ -20,9 +20,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 public enum TableTabType implements MenuProvider {
+	// order matters: the first three are the table screens and are looked up by ordinal in
+	// GolemTabRegistry.LIST_TABLE_TOP, so keep this order in sync with that list
 	ASSEMBLE(MGLangData.TAB_ASSEMBLE, GolemMiscs.ASSEMBLE_MENU),
-	DISINTEGRATE(MGLangData.TAB_DISINTEGRATE, GolemMiscs.DISINTEGRATE),
 	UPGRADE(MGLangData.TAB_UPGRADES, GolemMiscs.UPGRADES),
+	DISINTEGRATE(MGLangData.TAB_DISINTEGRATE, GolemMiscs.DISINTEGRATE),
 	CRAFT(MenuType.CRAFTING, Items.CRAFTING_TABLE, CraftingMenu::new, "container.crafting"),
 	STONECUTTER(MenuType.STONECUTTER, Items.STONECUTTER, StonecutterMenuArclight::new, "container.stonecutter"),
 	ANVIL(MenuType.ANVIL, Items.ANVIL, AnvilMenuArclight::new, "container.repair"),

@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import java.util.Locale;
 
 public enum MGLangData {
+	UI_GOLEM_NAME("ui.golem_name", "Name", 0, null),
 	HEALTH("tooltip.health", "Health: %s/%s", 2, null),
 	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null),
 	SHIFT("tooltip.shift", "Press SHIFT to show modifier details", 0, ChatFormatting.GRAY),

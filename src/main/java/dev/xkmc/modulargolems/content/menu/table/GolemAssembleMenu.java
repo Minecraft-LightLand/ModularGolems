@@ -14,7 +14,6 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -51,6 +50,28 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 	protected ResultSlot result;
 
 	public final List<GolemType<?, ?>> typeList = new ArrayList<>();
+
+	/**
+	 * Name typed into the golem screen, applied to the built golem item. Kept as a plain field rather than a
+	 * slot because {@code BaseContainerMenu} hardcodes the player inventory to slots [0, 36) in
+	 * {@code quickMoveStack}, so an extra slot would shift every container slot out of range.
+	 */
+	private String golemName = "";
+
+	public void setGolemName(String name) {
+		this.golemName = name == null ? "" : name.trim();
+		if (result != null) result.update();
+	}
+
+	/**
+	 * Stamps the name the player typed onto the finished item. Leaving the box empty leaves the item to its
+	 * own default, which {@code GolemHolder} derives from the body part material.
+	 */
+	private ItemStack applyName(ItemStack stack) {
+		if (!golemName.isEmpty() && !stack.isEmpty())
+			stack.setHoverName(Component.literal(golemName));
+		return stack;
+	}
 
 	private final int[] data = new int[2];
 	public final DataSlot selectedType, batchMode;
@@ -119,6 +140,18 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 		return super.clickMenuButton(player, id);
 	}
 
+	/**
+	 * 该物品是否是某个已注册傀儡类型的胚料。用于胚料槽的准入判定。
+	 * 胚料归属从切石机配方反查，因此附属只需提供「新胚料 → 部件」配方即可。
+	 */
+	public boolean isAnyTemplate(ItemStack stack) {
+		if (stack.isEmpty()) return false;
+		var level = inventory.player.level();
+		for (var type : GolemTypes.TYPES.get())
+			if (type.isTemplate(stack, level)) return true;
+		return false;
+	}
+
 	private static boolean isArmPart(IGolemPart<?> part) {
 		return part instanceof MetalGolemPartType mt && mt != MetalGolemPartType.BODY && mt != MetalGolemPartType.LEG;
 	}
@@ -171,7 +204,8 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 	public class MainSlot extends PredSlot {
 
 		public MainSlot(Container container, int index, int x, int y) {
-			super(container, index, x, y, e -> e.is(GolemItems.GOLEM_TEMPLATE.get()));
+			// 接受任意已注册傀儡类型的胚料：附属用新胚料注册新类型时也能放进来
+			super(container, index, x, y, GolemAssembleMenu.this::isAnyTemplate);
 			main = this;
 		}
 
@@ -299,7 +333,6 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 			error = null;
 			templateCount = 0;
 			var input = main.getItem();
-			boolean hasTemplate = !input.isEmpty() && input.is(GolemItems.GOLEM_TEMPLATE.get());
 			var filled = new HashSet<GolemSlot>();
 			for (var e : partMatSlots) {
 				if (e != null && !e.getItem().isEmpty())
@@ -346,7 +379,7 @@ for (var type : candidates) {
 						error = MGLangData.UI_SUB_MAT.get();
 						valid = false;
 					}
-					if (!hasTemplate || input.getCount() < 1) {
+					if (!type.isTemplate(input, inventory.player.level()) || input.getCount() < 1) {
 						error = MGLangData.UI_SUB_TEMPLATE.get();
 						valid = false;
 					}
@@ -354,10 +387,10 @@ for (var type : candidates) {
 					GolemPart.setMaterial(ans, mat);
 					currentType = type;
 					currentPart = targetPart;
-					templateCount = 1;
-					output = ans;
-					set(valid ? ans : ItemStack.EMPTY);
-					return;
+templateCount = 1;
+				output = applyName(ans);
+				set(valid ? ans : ItemStack.EMPTY);
+				return;
 				}
 				var typeSlots = new HashSet<GolemSlot>();
 				var parts = type.values();
@@ -392,13 +425,13 @@ for (var type : candidates) {
 						valid = false;
 					GolemHolder.addMaterial(ans, part.toItem(), mat == null ? type.defaultMaterial() : mat);
 				}
-				if (ingotCount > 0 && (!hasTemplate || input.getCount() < ingotCount))
+				if (ingotCount > 0 && (!type.isTemplate(input, inventory.player.level()) || input.getCount() < ingotCount))
 					error = MGLangData.UI_SUB_TEMPLATE.get();
-				currentType = type;
-				templateCount = ingotCount;
-				output = ans;
-				set(valid && error == null ? ans : ItemStack.EMPTY);
-				return;
+currentType = type;
+			templateCount = ingotCount;
+			output = applyName(ans);
+			set(valid && error == null ? ans : ItemStack.EMPTY);
+			return;
 			}
 			set(ItemStack.EMPTY);
 		}

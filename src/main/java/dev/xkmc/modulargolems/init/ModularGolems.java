@@ -27,6 +27,7 @@ import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
+import dev.xkmc.modulargolems.content.menu.table.SetGolemNameToServer;
 import dev.xkmc.modulargolems.content.menu.table.SimpleUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.wheel.GolemSetModeToServer;
 import dev.xkmc.modulargolems.editor.base.EditorText;
@@ -83,7 +84,8 @@ public class ModularGolems {
 			e -> e.create(SetMaidModelToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(GolemSkillCDToClient.class, NetworkDirection.PLAY_TO_CLIENT),
-			e -> e.create(GolemSkillCDRequest.class, NetworkDirection.PLAY_TO_SERVER)
+			e -> e.create(GolemSkillCDRequest.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(SetGolemNameToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
