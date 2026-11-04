@@ -16,8 +16,8 @@ public class MetalGolemMenuControl extends SweepGolemMenuControl<MetalGolemEntit
 
 	public void fillMenu() {
 		super.fillMenu();
-		menu.addSlot("right_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
-		menu.addSlot("left_shoulder", e -> e.getItem() instanceof IShoulderWeapon);
+		addSlot("right_shoulder", golem::getRightShoulder, true, e -> e.getItem() instanceof IShoulderWeapon);
+		addSlot("left_shoulder", golem::getLeftShoulder, true, e -> e.getItem() instanceof IShoulderWeapon);
 	}
 
 	public boolean isValid(EquipmentSlot slot, ItemStack stack) {
@@ -27,14 +27,6 @@ public class MetalGolemMenuControl extends SweepGolemMenuControl<MetalGolemEntit
 				return true;
 		}
 		return valids.contains(slot);
-	}
-
-	@Override
-	public void handleQuickMove(ItemStack stack) {
-		super.handleQuickMove(stack);
-		if (stack.getItem() instanceof IShoulderWeapon) {
-			menu.moveItemStackTo(stack, 36 + 8, 37 + 9, false);
-		}
 	}
 
 	public Optional<MetalGolemScreenControl> getScreenProvider() {

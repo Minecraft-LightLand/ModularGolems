@@ -12,7 +12,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ArrowItem;
-import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -39,10 +38,6 @@ public class GolemEventListeners {
 			if (stack.getItem() instanceof BowItem) {
 				event.setSlot(1, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND);
 			}
-			// 旗帜,头部
-			if (stack.getItem() instanceof BannerItem) {
-				event.setSlot(1, EquipmentSlot.HEAD);
-			}
 
 			var slot = getEquipmentSlotForItem(stack);
 			if (stack.canEquip(slot, golem)) {
@@ -58,8 +53,6 @@ public class GolemEventListeners {
 				event.setSlot(1, item.getSlot());
 			} else if (stack.is(MGTagGen.LARGE_GOLEM_WEAPONS)) {
 				event.setSlot(1, EquipmentSlot.MAINHAND);
-			} else if (stack.getItem() instanceof BannerItem) {
-				event.setSlot(1, EquipmentSlot.HEAD, EquipmentSlot.FEET);
 			} else if (stack.getItem() instanceof ArrowItem) {
 				event.setSlot(stack.getCount(), EquipmentSlot.OFFHAND);
 			}
@@ -69,10 +62,7 @@ public class GolemEventListeners {
 		if (golem instanceof DogGolemEntity) {
 			if (stack.getItem() instanceof IGolemEquipmentItem item && item.isFor(golem.getType())) {
 				event.setSlot(1, item.getSlot());
-			} else if (stack.getItem() instanceof BannerItem) {
-				event.setSlot(1, EquipmentSlot.HEAD);
 			}
-
 		}
 	}
 

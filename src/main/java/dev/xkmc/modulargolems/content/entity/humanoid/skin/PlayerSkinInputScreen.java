@@ -4,14 +4,13 @@ import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.mob.MobSkinDispatch;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.util.GolemPreviewUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.EntityType;
@@ -117,18 +116,10 @@ public class PlayerSkinInputScreen extends Screen {
 	}
 
 	private void renderPreview(GuiGraphics g, int mx, int my) {
-		int w = 40;
-		int h = 40;
-
-		int x = width / 2 - 120 - w / 2;
-		int y = height / 2 + h / 2;
-		double lx = x - mx;
-		double ly = y - h - my;
-		int scale = 24;
-		float ax = (float) Math.atan(lx / 50.0);
-		float ay = (float) Math.atan(ly / 50.0);
-		scale = (int) (scale / golem.getScale());
-		InventoryScreen.renderEntityInInventoryFollowsAngle(g, x, y, scale, ax, ay, golem);
+		// anchored to the screen rather than a container, and has no preview area to stay inside
+		int x = width / 2 - 140;
+		int y = height / 2 + 20;
+		GolemPreviewUtil.renderAtUnclipped(g, x, y, golem, 24F, mx, my);
 	}
 
 	public boolean keyPressed(int key, int p_97879_, int p_97880_) {

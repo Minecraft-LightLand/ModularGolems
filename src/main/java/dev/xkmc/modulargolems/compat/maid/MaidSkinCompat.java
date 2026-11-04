@@ -57,7 +57,7 @@ public class MaidSkinCompat {
 		if (!(event.getScreen() instanceof EquipmentsScreen screen)) return;
 		if (!(screen.getMenu().golem instanceof HumanoidGolemEntity golem)) return;
 		int x = screen.getGuiLeft() + 150;
-		int y = screen.getGuiTop() + 5;
+		int y = screen.getGuiTop() + 6;
 		screen.addSkinWidget(new MaidSkinButton(x, y, golem, b -> {
 			var mc = Minecraft.getInstance();
 			if (mc.player != null) {
