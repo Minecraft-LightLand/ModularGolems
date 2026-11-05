@@ -10,58 +10,86 @@
 		"slotbg_sword",
 		"slotbg_shoulder",
 		"slotbg_dog_armor",
+		"slotbg_banner",
+		"slotbg_skin",
+		"slotbg_route",
 		"slot"
 	],
 	"comp": {
 		"left_shoulder": {
 			"sprite": "empty",
-			"x": 115,
+			"x": 106,
 			"y": 0
 		},
 		"right_shoulder": {
 			"sprite": "empty",
-			"x": 79,
+			"x": 70,
 			"y": 0
 		},
 		"left_hand": {
 			"sprite": "empty",
-			"x": 115,
+			"x": 106,
 			"y": 18
 		},
 		"right_hand": {
 			"sprite": "empty",
-			"x": 79,
+			"x": 70,
 			"y": 18
 		},
 		"head": {
 			"sprite": "empty",
-			"x": 97,
+			"x": 88,
 			"y": 0
 		},
 		"chest": {
 			"sprite": "empty",
-			"x": 97,
+			"x": 88,
 			"y": 18
 		},
 		"legs": {
 			"sprite": "empty",
-			"x": 97,
+			"x": 88,
 			"y": 36
 		},
 		"feet": {
 			"sprite": "empty",
-			"x": 97,
+			"x": 88,
 			"y": 54
 		},
 		"backup": {
 			"sprite": "empty",
-			"x": 79,
+			"x": 70,
 			"y": 36
 		},
-		"arrow": {
+		"arrow_1": {
 			"sprite": "empty",
-			"x": 115,
+			"x": 106,
 			"y": 36
+		},
+		"arrow_2": {
+			"sprite": "empty",
+			"x": 106,
+			"y": 54
+		},
+		"banner": {
+			"sprite": "empty",
+			"x": 124,
+			"y": 0
+		},
+		"skin": {
+			"sprite": "empty",
+			"x": 124,
+			"y": 18
+		},
+		"route": {
+			"sprite": "empty",
+			"x": 124,
+			"y": 36
+		},
+		"test": {
+			"sprite": "empty",
+			"x": 70,
+			"y": 54
 		}
 	},
 	"isContainer": true

@@ -248,15 +248,7 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 
 	}
 
-	@Override
-	public int getRightExpansion() {
-		return 0;
-	}
 
-	@Override
-	public int getLeftExpansion() {
-		return menu.getAsPredSlot("golem").getItem().isEmpty() ? 0 : leftPos;
-	}
 
 	@Override
 	public int screenWidth() {

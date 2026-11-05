@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import java.util.Locale;
 
 public enum MGLangData {
+	UI_GOLEM_NAME("ui.golem_name", "Name", 0, null),
 	HEALTH("tooltip.health", "Health: %s/%s", 2, null),
 	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null),
 	SHIFT("tooltip.shift", "Press SHIFT to show modifier details", 0, ChatFormatting.GRAY),
@@ -134,6 +135,20 @@ public enum MGLangData {
 	SLOT_BACKUP_DESC("slot.backup_desc", "Place secondary weapons here.", 0, ChatFormatting.GRAY),
 	SLOT_BACKUP_INFO("slot.backup_info", "If you have bow and sword, one in main hand and one in backup slot, your golem can switch between them depending on distance to enemies.", 0, ChatFormatting.GRAY),
 	SLOT_ARROW_DESC("slot.arrow_desc", "Place arrows here to free up off hand for shields", 0, ChatFormatting.GRAY),
+	SLOT_ARMOR("slot.armor", "Armor Slot", 0, ChatFormatting.YELLOW),
+	SLOT_SHOULDER_DESC("slot.shoulder_desc", "Place golem shoulder equipment here for a chance to attack on its own.", 0, ChatFormatting.GRAY),
+	SLOT_BANNER("slot.banner", "Banner Slot", 0, ChatFormatting.YELLOW),
+	SLOT_BANNER_DESC("slot.banner_desc", "Place a banner here to display it on the golem.", 0, ChatFormatting.GRAY),
+	SLOT_SKIN("slot.skin", "Skin Slot", 0, ChatFormatting.YELLOW),
+	SLOT_SKIN_DESC("slot.skin_desc", "Place a golem skin here to change how the golem looks.", 0, ChatFormatting.GRAY),
+	SLOT_ROUTE("slot.route", "Patrol Path Slot", 0, ChatFormatting.YELLOW),
+	SLOT_ROUTE_DESC("slot.route_desc", "Place a patrol recorder here to make the golem follow a fixed route.", 0, ChatFormatting.GRAY),
+	SLOT_DOG_ARMOR("slot.dog_armor", "Dog Armor Slot", 0, ChatFormatting.YELLOW),
+	SLOT_DOG_ARMOR_DESC("slot.dog_armor_desc", "Place dog armor here.", 0, ChatFormatting.GRAY),
+	SLOT_ARMOR_DESC("slot.armor_desc", "Place armor here.", 0, ChatFormatting.GRAY),
+	SLOT_ARMOR_DESC_METAL("slot.armor_desc_metal", "Place metal golem armor here.", 0, ChatFormatting.GRAY),
+	SLOT_OFF_DESC("slot.off_desc", "Place shields or other items here. Also used when dual wielding.", 0, ChatFormatting.GRAY),
+	SLOT_OFF_DESC_METAL("slot.off_desc_metal", "Place shields or other items here. Shields are also effective when dual wielding.", 0, ChatFormatting.GRAY),
 
 	CONFIG_SET("config.set", "Insert to set config", 0, null),
 	CONFIG_MODE("config.mode", "Default Mode", 0, null),

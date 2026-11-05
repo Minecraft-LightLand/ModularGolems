@@ -13,11 +13,11 @@ import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import dev.xkmc.modulargolems.util.GolemPreviewUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -132,20 +132,20 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 
 	}
 
+	/**
+	 * Override to nudge this screen's preview. This one sits slightly lower and left of the shared
+	 * position to line up with the result slot.
+	 */
+	protected GolemPreviewUtil.Adjustment previewAdjustment() {
+		return new GolemPreviewUtil.Adjustment(-1, 8, -1, 8, 3);
+	}
+
 	private void renderPreview(GuiGraphics g, int mx, int my, ItemStack preview) {
 		if (preview.getItem() instanceof GolemHolder<?, ?> holder) {
 			AbstractGolemEntity<?, ?> golem = ClientHolderManager.getEntityForDisplay(holder, preview);
 			if (golem != null) {
-				int x = leftPos + 30;
-				int y = topPos + 80;
-				double lx = x - mx;
-				double ly = y - 40 - my;
-
-				int scale = golem.getPreviewScale();
-				float ax = (float) Math.atan(lx / 50.0);
-				float ay = (float) Math.atan(ly / 50.0);
-				InventoryScreen.renderEntityInInventoryFollowsAngle(g,
-						x, y, scale, ax, ay, golem);
+				GolemPreviewUtil.render(g, leftPos, topPos, golem, golem.getPreviewScale(),
+						previewAdjustment(), mx, my);
 			}
 		}
 	}
@@ -309,15 +309,7 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		super.renderTooltip(g, x, y);
 	}
 
-	@Override
-	public int getLeftExpansion() {
-		return menu.result.getItem().isEmpty() && menu.result.output.isEmpty() ? 0 : leftPos;
-	}
 
-	@Override
-	public int getRightExpansion() {
-		return 0;
-	}
 
 	@Override
 	public int screenWidth() {

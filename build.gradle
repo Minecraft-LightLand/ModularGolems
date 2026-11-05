@@ -273,8 +273,8 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:playeranimator-658587:4587214")
     compileOnly fg.deobf("curse.maven:irons-spells-n-spellbooks-855414:6488484")
     compileOnly fg.deobf("curse.maven:ars-nouveau-401955:4751471")
-    implementation fg.deobf("curse.maven:mantle-74924:6105891")
-    implementation fg.deobf("curse.maven:tinkers-construct-74072:6111032")
+    implementation fg.deobf("curse.maven:mantle-74924:8809819")
+    implementation fg.deobf("curse.maven:tinkers-construct-74072:8944121")
     //implementation fg.deobf("curse.maven:mutil-351914:4824501")
     //implementation fg.deobf("curse.maven:tetra-289712:6096160")
 
@@ -302,6 +302,9 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:config-menus-forge-544048:4672356")
     runtimeOnly fg.deobf("curse.maven:catalogue-459701:4766090")
 //    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:5729105")
+
+//    runtimeOnly fg.deobf("curse.maven:tinkers-golem-1617711:8475399")
+//    runtimeOnly fg.deobf("curse.maven:dragon-golems-1730334:9351255")
 
     implementation fg.deobf("dev.shadowsoffire:Placebo:${minecraft_version}-${placebo_version}")
     implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${minecraft_version}-${attributeslib_version}")

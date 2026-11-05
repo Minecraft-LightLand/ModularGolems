@@ -14,8 +14,10 @@ import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
+import dev.xkmc.modulargolems.content.menu.table.GolemAssembleScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeScreen;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
@@ -27,6 +29,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.gui.handlers.IGlobalGuiHandler;
 import mezz.jei.api.gui.handlers.IGuiProperties;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
@@ -42,7 +45,12 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 
 import javax.annotation.Nullable;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.Rect2i;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @JeiPlugin
@@ -83,6 +91,7 @@ public class GolemJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+		registration.addGlobalGuiHandler(GolemTabExtraAreas.INSTANCE);
 		registration.addGhostIngredientHandler(ItemConfigScreen.class, new ItemFilterHandler());
 
 		registration.addGuiScreenHandler(EquipmentsScreen.class, GolemJEIPlugin::create);
@@ -90,6 +99,7 @@ public class GolemJEIPlugin implements IModPlugin {
 		registration.addGuiScreenHandler(ItemConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(TargetConfigScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(PathConfigScreen.class, GolemJEIPlugin::create);
+		registration.addGuiScreenHandler(GolemAssembleScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(GolemUpgradeScreen.class, GolemJEIPlugin::create);
 		registration.addGuiScreenHandler(GolemDisinegrateScreen.class, GolemJEIPlugin::create);
 		CurioCompatRegistry.onJEIRegistry(e -> registration.addGuiScreenHandler(Wrappers.cast(e), GolemJEIPlugin::create));
@@ -100,9 +110,12 @@ public class GolemJEIPlugin implements IModPlugin {
 		if (screen.screenWidth() <= 0 || screen.screenHeight() <= 0) {
 			return null;
 		}
-		int x = screen.getGuiLeft() - screen.getLeftExpansion();
+		int x = screen.getGuiLeft();
 		int y = screen.getGuiTop();
-		int width = screen.getXSize() + screen.getLeftExpansion() + screen.getRightExpansion();
+		// Only the container itself. Reserving the tab strips here as well would shrink JEI's area a
+		// second time, on top of the tab areas already reported as exclusion areas, and at high gui
+		// scales that leaves too little room for the ingredient grid.
+		int width = screen.getXSize();
 		int height = screen.getYSize();
 		if (width <= 0 || height <= 0) {
 			return null;
@@ -111,6 +124,22 @@ public class GolemJEIPlugin implements IModPlugin {
 				x, y, width, height,
 				screen.screenWidth(), screen.screenHeight()
 		);
+	}
+
+	/**
+	 * Tells JEI which screen areas the golem tabs occupy, so its item list is placed out of the way
+	 * instead of covering them. The tab strips stick out of the container rectangle, which is all
+	 * {@link #create} reserves.
+	 */
+	private enum GolemTabExtraAreas implements IGlobalGuiHandler {
+		INSTANCE;
+
+		@Override
+		public Collection<Rect2i> getGuiExtraAreas() {
+			Screen screen = Minecraft.getInstance().screen;
+			if (screen == null) return List.of();
+			return GolemTabManager.getExtraAreas(screen);
+		}
 	}
 
 	private static String partSubtype(ItemStack stack, UidContext ctx) {

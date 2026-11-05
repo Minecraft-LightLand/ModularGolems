@@ -30,7 +30,7 @@ public class GuiProperties implements IGuiProperties {
 		int width = screenHelper.getXSize(containerScreen);
 		int height = screenHelper.getYSize(containerScreen);
 		if (containerScreen instanceof RecipeUpdateListener r) {
-			ImmutableRect2i bookArea = screenHelper.getBookArea(r);
+			ImmutableRect2i bookArea = screenHelper.getBookArea(r.getRecipeBookComponent());
 			if (!bookArea.isEmpty()) {
 				width += (x - bookArea.getX());
 				x = bookArea.getX();
