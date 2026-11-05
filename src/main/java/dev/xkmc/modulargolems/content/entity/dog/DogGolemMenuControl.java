@@ -26,7 +26,6 @@ public void fillMenu() {
 		addSlot("backup", golem::getSkinSlot, true, e -> e.is(MGTagGen.CURIO_SKIN), 1);
 		addSlot("feet", golem::getRouteSlot, true, e -> e.is(MGTagGen.CURIO_PATH));
 		addSlot("arrow_1", golem::getArrowSlot, false, e -> true);
-		addSlot("arrow_2", golem::getArrowSlot2, false, e -> true);
 		addSlot("chest", golem::getShoulderSlot, true,
 				e -> e.getItem() instanceof IShoulderWeapon);
 	}

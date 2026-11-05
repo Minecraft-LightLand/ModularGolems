@@ -25,7 +25,6 @@ public class DogGolemOverlayControl extends GolemOverlayControl<DogGolemEntity> 
 		tooltip.renderSlot(g, mx, my + 18, golem.getSkinSlot().getItem(), "slotbg_skin");
 		tooltip.renderSlot(g, mx + 36, my + 18, golem.getArrowSlot().getItem(), "slotbg_arrow");
 
-		tooltip.renderSlot(g, mx + 36, my + 36, golem.getArrowSlot2().getItem(), "slotbg_arrow");
 		tooltip.renderSlot(g, mx + 18, my + 36, golem.getRouteSlot().getItem(), "slotbg_route");
 	}
 

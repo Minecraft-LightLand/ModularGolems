@@ -88,6 +88,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
+		registerArrowSlot(true);
 		if (!this.level().isClientSide) {
 			this.groundNavigation.setCanOpenDoors(true);
 		}

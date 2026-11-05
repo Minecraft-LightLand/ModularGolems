@@ -6,17 +6,14 @@ import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
-import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
-import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.impl.GolemImpls;
+import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager;
 import dev.xkmc.modulargolems.content.entity.impl.TransientStateContainer;
-import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
@@ -51,7 +48,6 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -66,7 +62,6 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -80,7 +75,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -91,24 +85,21 @@ import java.util.*;
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
 		implements IEntityAdditionalSpawnData, GolemImpls {
 
-	/** 进入/退出原版三叉戟激流旋身姿态（SPIN_ATTACK），供海神激流冲锋使用。 */
-	public void setRiptideSpin(boolean spinning) {
-		this.setLivingEntityFlag(LIVING_ENTITY_FLAG_SPIN_ATTACK, spinning);
-	}
-
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
 	}
 
 	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity::defineId);
 	private static final EntityDataAccessor<Optional<UUID>> OWNER_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), null);
-	private static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
-	private static final EntityDataAccessor<BlockPos> GUARD_POS = GOLEM_DATA.define(SyncedData.BLOCK_POS, BlockPos.ZERO, "guard_pos");
+	public static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
+	public static final EntityDataAccessor<BlockPos> GUARD_POS = GOLEM_DATA.define(SyncedData.BLOCK_POS, BlockPos.ZERO, "guard_pos");
 	public static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
 	public static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
 	public static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
 	public static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
-	public static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = GOLEM_DATA.define(SyncedData.BOOL, false, null);
+	public static final EntityDataAccessor<Boolean> BREATH_ATTACK = GOLEM_DATA.define(SyncedData.BOOL, false, null);
+	public static final EntityDataAccessor<Float> DASH_YAW = GOLEM_DATA.define(SyncedData.FLOAT, Float.NaN, null);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT_2 = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
@@ -116,6 +107,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
+		registerBannerSlot(() -> bannerSlot, e -> bannerSlot = e);
 		waterMoveControl = new GolemSwimMoveControl(this);
 		this.waterNavigation = new AmphibiousPathNavigation(this, level);
 		this.groundNavigation = new FastGroundPathNavigation(this, level);
@@ -140,73 +132,18 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@SerialClass.SerialField
 	private BlockPos recordedGuardPos = BlockPos.ZERO;
 	@SerialClass.SerialField(toClient = true)
-	private ItemStack bannerSlot = ItemStack.EMPTY;
-	@SerialClass.SerialField(toClient = true)
-	private ItemStack arrowSlot = ItemStack.EMPTY;
-	@SerialClass.SerialField(toClient = true)
-	private ItemStack arrowSlot2 = ItemStack.EMPTY;
-
-	/**
-	 * Skins and patrol paths live in curios slots, so old saves that equipped them as curios keep
-	 * working. The equipment menu reads and writes them through this wrapper.
-	 */
-	public ItemWrapper getSkinSlot() {
-		return ModList.get().isLoaded("curios") ? CurioCompatRegistry.getSlotWrapper(this, "golem_skin") : ItemWrapper.EMPTY;
-	}
-
-	public ItemWrapper getRouteSlot() {
-		return ModList.get().isLoaded("curios") ? CurioCompatRegistry.getSlotWrapper(this, "golem_route") : ItemWrapper.EMPTY;
-	}
-
-	public ItemWrapper getBannerSlot() {
-		return ItemWrapper.simple(() -> this.bannerSlot, e -> this.bannerSlot = e);
-	}
-
-	public ItemWrapper getArrowSlot() {
-		if (level().isClientSide())
-			return ItemWrapper.simple(() -> entityData.get(ARROW_SLOT), e -> entityData.set(ARROW_SLOT, e));
-		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
-	}
-
-	public ItemWrapper getArrowSlot2() {
-		if (level().isClientSide())
-			return ItemWrapper.simple(() -> entityData.get(ARROW_SLOT_2), e -> entityData.set(ARROW_SLOT_2, e));
-		return ItemWrapper.simple(() -> this.arrowSlot2, e -> this.arrowSlot2 = e);
-	}
-
-	/**
-	 * Drops the banner and arrow slots, which are not part of the vanilla equipment slots. Curios
-	 * drop themselves on death, so skins and patrol paths are not handled here.
-	 */
-	public void dropExtraSlot() {
-		bannerSlot = dropStack(bannerSlot);
-		arrowSlot = dropStack(arrowSlot);
-		arrowSlot2 = dropStack(arrowSlot2);
-	}
-
-	protected ItemStack dropStack(ItemStack stack) {
-		if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack)) {
-			spawnAtLocation(stack);
-		}
-		return ItemStack.EMPTY;
-	}
-
-	public void aggregateExtraSlots(List<IItemHandlerModifiable> ans) {
-		ans.add(new SlotWrapper(() -> bannerSlot, e -> bannerSlot = e));
-		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
-		ans.add(new SlotWrapper(() -> arrowSlot2, e -> arrowSlot2 = e));
-	}
+	private ItemStack bannerSlot = ItemStack.EMPTY,
+			arrowSlot = ItemStack.EMPTY,
+			arrowSlot2 = ItemStack.EMPTY;
 
 	protected final PathNavigation waterNavigation;
 	protected final GroundPathNavigation groundNavigation;
-
 	public final Set<MobEffect> effectImmunity = new HashSet<>();
-
 	private final List<Goal> modifierGoals = new ArrayList<>();
-
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
 	public GolemMeleeGoal meleeGoal;
+	public final GolemInvManager invManager = new GolemInvManager(this);
 	public final TransientStateContainer transientManager = new TransientStateContainer();
 
 	// marks opened inventory
@@ -360,6 +297,21 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		level().broadcastEntityEvent(this, EntityEvent.POOF);
 		this.discard();
 		return ans;
+	}
+
+	/**
+	 * Registers arrow slots as extra slots. Dog golems have one; metal and humanoid golems have
+	 * two. Golems that never call this expose empty wrappers instead.
+	 */
+	protected final void registerArrowSlot(boolean two) {
+		invManager.registerArrowSlot(() -> arrowSlot, e -> arrowSlot = e);
+		if (two) {
+			invManager.registerArrowSlot2(() -> arrowSlot2, e -> arrowSlot2 = e);
+		}
+	}
+
+	public ItemStack getProjectile(ItemStack pShootable) {
+		return invManager.getProjectile(pShootable);
 	}
 
 	@Override
@@ -518,9 +470,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		leader = le.getUUID();
 	}
 
-	public final boolean isHostile() {
-		return HostileGolemRegistry.isHostile(getOwnerUUID());
-	}
 
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
@@ -615,10 +564,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return canAttackImpl(target, super.canAttack(target));
 	}
 
-	protected float getAttackDamage() {
-		return (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
-	}
-
 	@Override
 	public void tick() {
 		super.tick();
@@ -629,16 +574,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.specialAttackCoolDown--;
 		}
 		checkSize();
-		// 弹药会在使用中被消耗，而箭槽字段只在实体生成时随 spawn 包同步一次；
-		// 不在每 tick 推回客户端，命令手杖的预览界面就会显示旧弹药，直到重开装备界面。
-		if (!this.level().isClientSide) {
-			if (!ItemStack.matches(entityData.get(ARROW_SLOT), arrowSlot)) {
-				entityData.set(ARROW_SLOT, arrowSlot.copy());
-			}
-			if (!ItemStack.matches(entityData.get(ARROW_SLOT_2), arrowSlot2)) {
-				entityData.set(ARROW_SLOT_2, arrowSlot2.copy());
-			}
-		}
+		// Some extra slots change while in use (e.g. ammo), but their serialized fields only reach
+		// the client once at spawn. Push synced slots back every tick so previews stay current.
+		tickExtraSlots();
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
@@ -698,19 +636,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// mode
 
-	public GolemMode getMode() {
-		return GolemModes.get(this.entityData.get(DATA_MODE));
-	}
-
-	public BlockPos getGuardPos() {
-		return this.entityData.get(GUARD_POS);
-	}
-
-	public void setMode(int mode, BlockPos pos) {
-		this.entityData.set(DATA_MODE, mode);
-		this.entityData.set(GUARD_POS, pos);
-	}
-
 	public boolean initMode(@Nullable Player player) {
 		var config = getConfigEntry(null);
 		int mode = config == null ? 0 : config.defaultMode;
@@ -747,9 +672,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		GOLEM_DATA.register(this.entityData);
-		entityData.define(IS_IN_RANGE_ATTACK, false);
-		entityData.define(BREATH_ATTACK, false);
-		entityData.define(DASH_YAW, Float.NaN);
 		entityData.define(ARROW_SLOT, ItemStack.EMPTY);
 		entityData.define(ARROW_SLOT_2, ItemStack.EMPTY);
 	}
@@ -795,10 +717,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.targetSelector.addGoal(6, new ResetUniversalAngerTargetGoal<>(this, false));
 	}
 
-	public boolean isInSittingPose() {
-		return false;
-	}
-
 	@Override
 	public boolean isInvulnerable() {
 		return hasFlag(GolemFlags.IMMUNITY);
@@ -806,9 +724,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public double getPerceivedTargetDistanceSquareForMeleeAttack(LivingEntity target) {
 		return GolemMeleeGoal.calculateDistSqr(this, target);
-	}
-
-	public void checkRide(LivingEntity target) {
 	}
 
 	public void resetTarget(@Nullable LivingEntity le) {
@@ -836,23 +751,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return super.changeDimension(level, teleporter);
 	}
 
-	public static final EntityDataAccessor<Boolean> BREATH_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
-	public static final EntityDataAccessor<Float> DASH_YAW = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.FLOAT);
-
 	public boolean isInRangedMode() {
 		return getMode() == GolemModes.STAND || entityData().get(AbstractGolemEntity.IS_IN_RANGE_ATTACK) || hasRangeAttack();
 	}
 
 	public void setInRangeAttack(boolean flag) {
 		entityData().set(AbstractGolemEntity.IS_IN_RANGE_ATTACK, flag);
-	}
-
-	public boolean hasRangeAttack() {
-		return false;
-	}
-
-	public boolean canSweep() {
-		return false;
 	}
 
 	@Override
@@ -965,8 +869,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return (float) getAttributeValue(GolemTypes.DYNAMIC_REDUCTION.get()) * 20;
 	}
 
-	public int getPreviewScale() {
-		return 18;
+	/** 进入/退出原版三叉戟激流旋身姿态（SPIN_ATTACK），供海神激流冲锋使用。 */
+	public void setRiptideSpin(boolean spinning) {
+		this.setLivingEntityFlag(LIVING_ENTITY_FLAG_SPIN_ATTACK, spinning);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.capability.PathConfig;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
+import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
 import net.minecraft.core.BlockPos;
@@ -131,5 +132,19 @@ public interface GolemConfigImpl extends GolemImplBase {
 		if (owner == null) return self.getPosition(1);
 		return owner.getPosition(1);
 	}
+
+	default GolemMode getMode() {
+		return GolemModes.get(entityData().get(AbstractGolemEntity.DATA_MODE));
+	}
+
+	default BlockPos getGuardPos() {
+		return entityData().get(AbstractGolemEntity.GUARD_POS);
+	}
+
+	default void setMode(int mode, BlockPos pos) {
+		entityData().set(AbstractGolemEntity.DATA_MODE, mode);
+		entityData().set(AbstractGolemEntity.GUARD_POS, pos);
+	}
+
 
 }

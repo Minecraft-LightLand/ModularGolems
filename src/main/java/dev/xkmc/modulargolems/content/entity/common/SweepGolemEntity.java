@@ -6,10 +6,10 @@ import dev.xkmc.mob_weapon_api.api.ai.IWeaponHolder;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
-import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemUser;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -17,7 +17,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -29,13 +28,10 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
-import java.util.List;
 import java.util.function.Predicate;
 
 @SerialClass
@@ -51,6 +47,8 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 
 	@SerialClass.SerialField
 	private ItemStack backupHand = ItemStack.EMPTY;
+
+	private final ExtraSlot backupSlotHandler = registerExtraSlot(BACKUP_SLOT, () -> backupHand, e -> backupHand = e);
 
 	protected SweepGolemEntity(GolemWeaponRegistry<T> reg, EntityType<T> type, Level level) {
 		super(type, level);
@@ -162,31 +160,6 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 				weaponManager.isRangedModeAvailable(getAltWeaponHand().getItem());
 	}
 
-	public ItemStack getProjectile(ItemStack pShootable) {
-		ItemStack ans;
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles();
-			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-			ItemStack arrow = getArrowSlot().getItem();
-			if (stack.isEmpty() && !arrow.isEmpty() && predicate.test(arrow)) {
-				stack = arrow;
-			}
-			ans = ForgeHooks.getProjectile(this, pShootable, stack);
-		} else {
-			ans = ForgeHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
-		}
-		if (isHostile()) ans = ans.copy();
-		return ans;
-	}
-
-	@Override
-	protected void customServerAiStep() {
-		super.customServerAiStep();
-		if (!ItemStack.matches(entityData.get(BACKUP_SLOT), backupHand)) {
-			entityData.set(BACKUP_SLOT, backupHand.copy());
-		}
-	}
-
 	// weapon switch
 
 	protected ItemWrapper getAltWeaponHand() {
@@ -195,9 +168,7 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	}
 
 	public ItemWrapper getBackupHand() {
-		if (level().isClientSide())
-			return ItemWrapper.simple(() -> entityData.get(BACKUP_SLOT), e -> entityData.set(BACKUP_SLOT, e));
-		return ItemWrapper.simple(() -> this.backupHand, e -> this.backupHand = e);
+		return backupSlotHandler.wrapper();
 	}
 
 	// bow and crossbow
@@ -232,30 +203,6 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 			CrossbowItem.performShooting(pUser.level(), pUser, interactionhand, itemstack, pVelocity, 0);
 		}
 		onCrossbowAttackPerformed();
-	}
-
-	// extra drops
-
-	@Override
-	protected void dropCustomDeathLoot(DamageSource source, int i, boolean b) {
-		super.dropCustomDeathLoot(source, i, b);
-		if (!backupHand.isEmpty() && backupHand.getEnchantmentLevel(Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(backupHand);
-		backupHand = ItemStack.EMPTY;
-	}
-
-	@Override
-	public List<IItemHandlerModifiable> aggregateInventories() {
-		// 父类已含双手/护甲/装备槽并广播 GolemCollectInventoryEvent，这里只补自己的备用武器槽
-		List<IItemHandlerModifiable> ans = super.aggregateInventories();
-		ans.add(new SlotWrapper(() -> backupHand, e -> backupHand = e));
-		return ans;
-	}
-
-	@Override
-	public void addItemsToList(List<ItemStack> list) {
-		super.addItemsToList(list);
-		if (!backupHand.isEmpty()) list.add(backupHand);
 	}
 
 }
