@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -69,7 +68,7 @@ public class DogShoulderRenderer extends RenderLayer<DogGolemEntity, DogGolemMod
 			if (shoulderPose != null) {
 				pose.pushPose();
 				pose.translate(MOUNT_X / 16F, MOUNT_Y / 16F, MOUNT_Z / 16F);
-				shoulderPose.render(entity, getParentModel(), stack, InteractionHand.MAIN_HAND, pose, source, light, f3);
+				shoulderPose.render(entity, getParentModel(), stack, 0, pose, source, light, f3);
 				pose.popPose();
 			}
 			return;
@@ -91,8 +90,8 @@ public class DogShoulderRenderer extends RenderLayer<DogGolemEntity, DogGolemMod
 		pose.mulPose(Axis.XP.rotationDegrees(MOUNT_PITCH));
 		pose.mulPose(Axis.YP.rotationDegrees(MOUNT_YAW));
 		if (shoulderPose != null) {
-			shoulderPose.setup(entity, model, stack, InteractionHand.MAIN_HAND, f3);
-			shoulderPose.render(entity, model, stack, InteractionHand.MAIN_HAND, pose, source, light, f3);
+			shoulderPose.setup(entity, model, stack, 0, f3);
+			shoulderPose.render(entity, model, stack, 0, pose, source, light, f3);
 		}
 		var buffer = source.getBuffer(RenderType.armorCutoutNoCull(weapon.getModelTexture(entity, stack)));
 		renderModel(model, gmpath, pose, buffer, light);

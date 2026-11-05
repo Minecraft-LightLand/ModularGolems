@@ -50,14 +50,13 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 
 	@Override
 	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, int slot) {
-		var hand = slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
-		if (e.tickCount % 40 != (hand == InteractionHand.MAIN_HAND ? 10 : 30)) return;
+		if (e.tickCount % 40 != (slot < 0 ? 30 : 10)) return;
 		var target = e.getTarget();
 		if (target == null || !target.isAlive()) return;
-		var pose = CannonPoseUtil.forEntity(e, CannonPoseUtil.FLAME_THROWER);
-		if (pose.isOutOfRange(e, hand, 15)) return;
+		var pose = e.getCannonPose(CannonPoseUtil.FLAME_THROWER);
+		if (pose.isOutOfRange(e, slot, 15)) return;
 		var ammo = e.getProjectile(stack);
-		var pos = pose.getOrigin(e, hand);
+		var pos = pose.getOrigin(e, slot);
 		if (ammo.is(Items.TNT)) {
 			var tnt = TNTLauncher.getTNTEntity(e, pos, target);
 			if (tnt == null) return;
@@ -107,15 +106,16 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 
 	@Override
 	public List<ShoulderAnimData> getAnimationData(AbstractGolemEntity<?, ?> user, ItemStack stack, int slot) {
-		if (user instanceof MetalGolemEntity metal)
-			return getAnimationData(metal, stack, slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-		// the dog carries the cannon flat on its back and plays no deploy animation
-		return List.of();
+		// the center mount carries the cannon flat on the back and plays no deploy animation
+		if (slot == 0) return List.of();
+		// deploy animations reuse the beacon cannon models on both shoulders
+		var model = slot < 0 ? GolemModelPaths.BEACON_LEFT : GolemModelPaths.BEACON_RIGHT;
+		return IGenericShoulderWeapon.cannonAnimationData(user, model);
 	}
 
 	@Override
 	public @Nullable ResourceLocation getModel(int slot) {
-		return getModelForHand(slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+		return slot < 0 ? GolemModelPaths.FLAME_LEFT : GolemModelPaths.FLAME_RIGHT;
 	}
 
 	@Override

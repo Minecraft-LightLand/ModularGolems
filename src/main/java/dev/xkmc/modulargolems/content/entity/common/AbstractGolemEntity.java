@@ -20,6 +20,7 @@ import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
+import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -741,6 +742,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	 */
 	public int getShoulderAnimEnding() {
 		return -1;
+	}
+
+	/**
+	 * Aim pose for a shoulder cannon using the given base pose. Golem types that mount the weapon
+	 * differently override this with their own pose.
+	 */
+	public CannonPoseUtil getCannonPose(CannonPoseUtil base) {
+		return base;
 	}
 
 	@Override

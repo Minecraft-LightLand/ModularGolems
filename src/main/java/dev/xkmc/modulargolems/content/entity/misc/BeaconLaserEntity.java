@@ -11,7 +11,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -63,10 +62,10 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 
 	public void setup(LivingEntity le) {
 		if (!(le instanceof AbstractGolemEntity<?, ?> e)) return;
-		var hand = right ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-		var pose = CannonPoseUtil.forEntity(e, CannonPoseUtil.BEACON_CANNON);
-		var pos = pose.getOrigin(e, hand);
-		var rot = pose.getAngle(e, hand);
+		var slot = right ? 1 : -1;
+		var pose = e.getCannonPose(CannonPoseUtil.BEACON_CANNON);
+		var pos = pose.getOrigin(e, slot);
+		var rot = pose.getAngle(e, slot);
 		var dst = e.getTargetAimPos().add(e.position()).subtract(pos).normalize().scale(35).add(pos);
 		var hit = e.level().clip(new ClipContext(pos, dst, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, null));
 		len = (float) hit.getLocation().subtract(pos).length();

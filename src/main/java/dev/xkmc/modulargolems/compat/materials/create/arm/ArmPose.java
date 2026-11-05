@@ -4,13 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.client.pose.GolemShoulderPose;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
-import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
@@ -18,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 public class ArmPose implements GolemShoulderPose {
 
 	@Override
-	public void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, float pTick) {
+	public void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, float pTick) {
 
 	}
 
@@ -33,11 +31,12 @@ public class ArmPose implements GolemShoulderPose {
 	private static final float DOG_Z = 0f / 16f;
 
 	@Override
-	public void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
+	public void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		pose.pushPose();
 		try {
-			int s0 = hand == InteractionHand.MAIN_HAND ? 1 : -1;
-			Vec3 src = entity instanceof DogGolemEntity
+			int s0 = slot < 0 ? -1 : 1;
+			// slot zero is the center mount used by back carried weapons
+			Vec3 src = slot == 0
 					? new Vec3(DOG_X, DOG_Y, DOG_Z)
 					: new Vec3(s0 * BIPEDAL_X, BIPEDAL_Y, 0);
 			var def = ArmAngleTarget.NO_TARGET;

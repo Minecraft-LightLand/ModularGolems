@@ -73,7 +73,6 @@ public class ArmAttachmentItem extends ShouldWeaponItem implements IGenericShoul
 
 	@Override
 	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, int slot) {
-		var hand = slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
 		if (e.level().isClientSide()) return;
 		var time = e.level().getGameTime();
 		var tag = stack.getOrCreateTag();
@@ -84,7 +83,7 @@ public class ArmAttachmentItem extends ShouldWeaponItem implements IGenericShoul
 			ItemStack other = ItemStack.EMPTY;
 			// only the two shouldered golem type has an opposite shoulder to trade with
 			if (e instanceof MetalGolemEntity metal)
-				other = hand == InteractionHand.MAIN_HAND ? metal.getLeftShoulder().getItem() : metal.getRightShoulder().getItem();
+				other = slot < 0 ? metal.getRightShoulder().getItem() : metal.getLeftShoulder().getItem();
 			if (other.getItem() instanceof ArmAttachmentItem) {
 				long prev = other.getOrCreateTag().getLong("FixAction");
 				if (prev <= time && prev > time - 20) return;

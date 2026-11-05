@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
+import dev.xkmc.modulargolems.content.entity.common.IShoulderWeaponSupportEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
@@ -45,7 +46,8 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 @SerialClass
-public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
+public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType>
+		implements IShoulderWeaponSupportEntity {
 
 	private static final EntityDataAccessor<Vector3f> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.VECTOR3);
 	private static final EntityDataAccessor<ItemStack> LEFT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
@@ -273,6 +275,11 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	public int getShoulderAnimEnding() {
 		return animState.getEndingAnim();
+	}
+
+	@Override
+	public int[] shoulderSlotIndexes() {
+		return new int[]{-1, 1};
 	}
 
 	@Deprecated(forRemoval = true)

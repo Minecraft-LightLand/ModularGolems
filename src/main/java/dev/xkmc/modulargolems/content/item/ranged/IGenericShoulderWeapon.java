@@ -16,6 +16,21 @@ import java.util.List;
  */
 public interface IGenericShoulderWeapon extends IShoulderWeapon {
 
+	/**
+	 * Deploy and retract animation for a cannon, driven by the golem's shoulder animation state.
+	 */
+	static List<ShoulderAnimData> cannonAnimationData(AbstractGolemEntity<?, ?> user, ResourceLocation model) {
+		int starting = user.getShoulderAnimStarting();
+		int ending = user.getShoulderAnimEnding();
+		if (starting >= 0 && starting <= 5)
+			return List.of(new ShoulderAnimData(model.withSuffix("_start"), 1, starting));
+		else if (ending >= 0 && ending <= 5)
+			return List.of(new ShoulderAnimData(model.withSuffix("_end"), 1, ending));
+		else if (starting > 0)
+			return List.of(new ShoulderAnimData(model.withSuffix("_active"), 1, 0));
+		return List.of();
+	}
+
 	@Nullable ResourceLocation getModel(int slot);
 
 	@Override

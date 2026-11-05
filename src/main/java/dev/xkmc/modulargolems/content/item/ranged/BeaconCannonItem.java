@@ -33,11 +33,10 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 
 	@Override
 	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, int slot) {
-		var hand = slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
-		if (e.tickCount % 60 == (hand == InteractionHand.MAIN_HAND ? 20 : 50) &&
+		if (e.tickCount % 60 == (slot < 0 ? 50 : 20) &&
 				!e.level().isClientSide() && e.getTarget() != null && e.getTarget().isAlive()) {
-			if (CannonPoseUtil.forEntity(e, CannonPoseUtil.BEACON_CANNON).isOutOfRange(e, hand)) return;
-			var laser = new BeaconLaserEntity(GolemMiscEntities.LASER.get(), e.level(), e, 10, hand == InteractionHand.MAIN_HAND);
+			if (e.getCannonPose(CannonPoseUtil.BEACON_CANNON).isOutOfRange(e, slot)) return;
+			var laser = new BeaconLaserEntity(GolemMiscEntities.LASER.get(), e.level(), e, 10, slot >= 0);
 			e.level().addFreshEntity(laser);
 			if (!e.isSilent())
 				e.level().playSound(null, e.blockPosition(), SoundEvents.BEACON_DEACTIVATE, SoundSource.NEUTRAL, 2, 1.5f);
@@ -51,15 +50,16 @@ public class BeaconCannonItem extends ShouldWeaponItem implements IShoulderCanno
 
 	@Override
 	public List<ShoulderAnimData> getAnimationData(AbstractGolemEntity<?, ?> user, ItemStack stack, int slot) {
-		if (user instanceof MetalGolemEntity metal)
-			return getAnimationData(metal, stack, slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-		// the dog carries the cannon flat on its back and plays no deploy animation
-		return List.of();
+		// the center mount carries the cannon flat on the back and plays no deploy animation
+		if (slot == 0) return List.of();
+		var model = getModel(slot);
+		if (model == null) return List.of();
+		return IGenericShoulderWeapon.cannonAnimationData(user, model);
 	}
 
 	@Override
 	public @Nullable ResourceLocation getModel(int slot) {
-		return getModelForHand(slot < 0 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+		return slot < 0 ? GolemModelPaths.BEACON_LEFT : GolemModelPaths.BEACON_RIGHT;
 	}
 
 	@Override

@@ -3,11 +3,13 @@ package dev.xkmc.modulargolems.content.entity.dog;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.IShoulderWeaponSupportEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.TargetingAnimState;
 import dev.xkmc.modulargolems.content.entity.goals.GolemRiddenMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.content.item.ranged.IDogBackWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.IGenericShoulderWeapon;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
@@ -47,7 +49,7 @@ import java.util.List;
 
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType>
-		implements MountChargeManager.View {
+		implements MountChargeManager.View, IShoulderWeaponSupportEntity {
 
 	public float getJumpStrength() {
 		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
@@ -221,6 +223,18 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	@Override
 	public int getShoulderAnimEnding() {
 		return shoulderAnimState.getEndingAnim();
+	}
+
+	@Override
+	public int[] shoulderSlotIndexes() {
+		return new int[]{0};
+	}
+
+	@Override
+	public CannonPoseUtil getCannonPose(CannonPoseUtil base) {
+		if (base == CannonPoseUtil.FLAME_THROWER || base == CannonPoseUtil.BEACON)
+			return CannonPoseUtil.DOG_FLAME_THROWER;
+		return CannonPoseUtil.DOG_BEACON_CANNON;
 	}
 
 	/**

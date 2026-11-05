@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
 import static dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil.MAX_DEGREE;
@@ -25,13 +24,16 @@ public record BeaconConnonPose(
 	}
 
 	@Override
-	public void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, float pTick) {
+	public void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, float pTick) {
 		if (entity.getShoulderAnimStarting() < 5) return;
-		var part = model.root().getChild("body").getChild(id);
+		var root = model.root();
+		// models without a hierarchy cannot be aimed by moving a body part
+		if (root == null) return;
+		var part = root.getChild("body").getChild(id);
 
 		// the registered transform is the bipedal one, so pick the matching numbers for this golem
-		var pose = CannonPoseUtil.forEntity(entity, transform);
-		var angles = pose.getAngle(entity, hand);
+		var pose = entity.getCannonPose(transform);
+		var angles = pose.getAngle(entity, slot);
 		var diff = Mth.wrapDegrees(angles[0] * Mth.RAD_TO_DEG + entity.yBodyRot);
 		if (diff > MAX_DEGREE) {
 			angles[0] = (MAX_DEGREE - entity.yBodyRot) * Mth.DEG_TO_RAD;
@@ -45,7 +47,7 @@ public record BeaconConnonPose(
 	}
 
 	@Override
-	public void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
+	public void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, PoseStack pose, MultiBufferSource source, int light, float pTick) {
 	}
 
 }

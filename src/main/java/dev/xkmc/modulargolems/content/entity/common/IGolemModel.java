@@ -8,6 +8,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public interface IGolemModel<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends EntityModel<T> & IGolemModel<T, P, M>> {
 
@@ -26,7 +27,10 @@ public interface IGolemModel<T extends AbstractGolemEntity<T, P>, P extends IGol
 
 	void renderToBufferInternal(P type, PoseStack stack, VertexConsumer consumer, int i, int j, float f1, float f2, float f3, float f4);
 
-	ModelPart root();
+	@Nullable
+	default ModelPart root() {
+		return null;
+	}
 
 	ResourceLocation getTextureLocationInternal(ResourceLocation rl);
 
