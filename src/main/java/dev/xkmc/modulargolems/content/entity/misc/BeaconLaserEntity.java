@@ -104,12 +104,20 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 	}
 
 	public List<LivingEntity> getEntityHitResult(Level level, MetalGolemEntity owner, Vec3 start, Vec3 end, float radius) {
+		// 粗筛范围也要按线段包出来，不能直接用 new AABB(start, end)：那是把两端点当对角，
+		// 斜光束会得到一个远超实际光束的盒子
+		var mid = start.add(end).scale(0.5);
+		var reach = start.distanceTo(end) * 0.5 + radius;
 		var list = level.getEntities(EntityTypeTest.forClass(LivingEntity.class),
-				new AABB(start, end).inflate(radius), x -> !hit.contains(x) && owner.canAttack(x) && owner.predicateTarget(x));
+				AABB.ofSize(mid, reach * 2, reach * 2, reach * 2),
+				x -> !hit.contains(x) && owner.canAttack(x) && owner.predicateTarget(x));
 		var ans = new ArrayList<LivingEntity>();
 		for (var e : list) {
 			AABB aabb = e.getBoundingBox().inflate(radius);
-			if (aabb.intersects(start, end) || aabb.contains(start) || aabb.contains(end)) {
+			// 必须用 clip 做真正的线段求交：AABB.intersects(Vec3, Vec3) 是把两个端点当成
+			// 轴对齐包围盒的两个角，光束一旦不沿单轴，这个盒子会被斜线撑得很大，
+			// 整条光束外接的矩形范围都会算命中，表现为"角度偏一点范围就爆炸"。
+			if (aabb.clip(start, end).isPresent()) {
 				ans.add(e);
 			}
 		}
