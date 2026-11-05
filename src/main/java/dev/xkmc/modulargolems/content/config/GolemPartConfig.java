@@ -12,8 +12,10 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 @SerialClass
 public class GolemPartConfig extends BaseConfig {
@@ -30,12 +32,32 @@ public class GolemPartConfig extends BaseConfig {
 	@SerialClass.SerialField
 	public HashMap<ResourceLocation, HashMap<GolemStatType, Double>> magnifiers = new HashMap<>();
 
+	/**
+	 * Template ingredient used to craft each golem type. Datapack authors that add or change a
+	 * golem type's parts and stonecutting recipes should also provide the matching template here,
+	 * so the assembly table does not have to infer the template from recipes.
+	 */
+	@ConfigCollect(CollectType.MAP_OVERWRITE)
+	@SerialClass.SerialField
+	public LinkedHashMap<ResourceLocation, Ingredient> templates = new LinkedHashMap<>();
+
 	public HashMap<StatFilterType, Double> getFilter(GolemPart<?, ?> part) {
 		return filters.get(part);
 	}
 
 	public HashMap<GolemStatType, Double> getMagnifier(GolemType<?, ?> part) {
 		return magnifiers.get(part.getRegistryName());
+	}
+
+	public Ingredient getTemplate(GolemType<?, ?> type) {
+		var ans = templates.get(type.getRegistryName());
+		return ans == null ? Ingredient.EMPTY : ans;
+	}
+
+	@DataGenOnly
+	public GolemPartConfig addTemplate(GolemType<?, ?> type, Ingredient ingredient) {
+		templates.put(type.getRegistryName(), ingredient);
+		return this;
 	}
 
 	@DataGenOnly

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.init.data;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import dev.xkmc.l2library.compat.curios.CurioEntityBuilder;
+import dev.xkmc.l2library.compat.curios.CurioSlotBuilder;
 import dev.xkmc.l2library.compat.curios.SlotCondition;
 import dev.xkmc.l2library.serial.config.RecordDataProvider;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -23,6 +24,12 @@ public class SlotGen extends RecordDataProvider {
 	@Override
 	public void add(BiConsumer<String, Record> map) {
 
+		map.accept(ModularGolems.MODID + "/curios/slots/golem_skin", new CurioSlotBuilder(1000,
+				new ResourceLocation(ModularGolems.MODID, "slot/empty_skin_slot").toString()));
+
+		map.accept(ModularGolems.MODID + "/curios/slots/golem_route", new CurioSlotBuilder(1100,
+				new ResourceLocation(ModularGolems.MODID, "slot/empty_route_slot").toString()));
+
 		ArrayList<ResourceLocation> entities = new ArrayList<>(List.of(
 				GolemTypes.TYPE_GOLEM.getId(),
 				GolemTypes.TYPE_HUMANOID.getId(),
@@ -30,7 +37,7 @@ public class SlotGen extends RecordDataProvider {
 		));
 
 		map.accept(ModularGolems.MODID + "/curios/entities/golem_curios", new CurioEntityBuilder(entities,
-				new ArrayList<>(List.of(
+				new ArrayList<>(List.of("golem_route", "golem_skin",
 						"curio", "back", "belt", "body", "boot", "bracelet", "charm", "head",
 						"hands", "necklace", "ring", "feet",
 						"halo", "spellbook", "heart_amulet", "hostility_curse", "accessory",

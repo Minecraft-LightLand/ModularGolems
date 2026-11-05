@@ -70,5 +70,16 @@
       "modulargolems:regen": 0.5
     },
     "modulargolems:metal_golem": {}
+  },
+  "templates": {
+    "modulargolems:dog_golem": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "modulargolems:humanoid_golem": {
+      "item": "modulargolems:metal_golem_template"
+    },
+    "modulargolems:metal_golem": {
+      "item": "modulargolems:metal_golem_template"
+    }
   }
 }

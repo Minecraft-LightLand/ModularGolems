@@ -1,9 +1,11 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemRiddenMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
@@ -34,9 +36,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SerialClass
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType>
@@ -54,6 +58,13 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	private final MountChargeManager chargeManager = new MountChargeManager(this);
+
+	@SerialClass.SerialField(toClient = true)
+	private ItemStack shoulderSlot = ItemStack.EMPTY;
+
+	public ItemWrapper getShoulderSlot() {
+		return ItemWrapper.simple(() -> this.shoulderSlot, e -> this.shoulderSlot = e);
+	}
 
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
@@ -329,6 +340,24 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 			}
 			return InteractionResult.SUCCESS;
 		}
+	}
+
+	@Override
+	public void dropExtraSlot() {
+		super.dropExtraSlot();
+		shoulderSlot = dropStack(shoulderSlot);
+	}
+
+	@Override
+	public void aggregateExtraSlots(List<IItemHandlerModifiable> ans) {
+		super.aggregateExtraSlots(ans);
+		ans.add(new SlotWrapper(() -> shoulderSlot, e -> shoulderSlot = e));
+	}
+
+	@Override
+	public void addItemsToList(List<ItemStack> list) {
+		super.addItemsToList(list);
+		if (!shoulderSlot.isEmpty()) list.add(shoulderSlot);
 	}
 
 	@Override

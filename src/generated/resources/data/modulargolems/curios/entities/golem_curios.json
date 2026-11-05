@@ -6,6 +6,8 @@
     "modulargolems:dog_golem"
   ],
   "slots": [
+    "golem_route",
+    "golem_skin",
     "curio",
     "back",
     "belt",

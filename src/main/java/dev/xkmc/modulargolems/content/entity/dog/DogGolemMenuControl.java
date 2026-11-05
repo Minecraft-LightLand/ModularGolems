@@ -1,10 +1,9 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
-import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
-import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BannerItem;
 
@@ -24,8 +23,8 @@ public void fillMenu() {
 		addSlot("right_hand", golem::getBannerSlot, true, e -> e.getItem() instanceof BannerItem, 1);
 		addSlot("legs", () -> golem.getWrapperOfHand(EquipmentSlot.CHEST), true,
 				e -> isValid(EquipmentSlot.CHEST, e));
-		addSlot("backup", golem::getSkinSlot, true, e -> e.getItem() instanceof GolemFacade, 1);
-		addSlot("feet", golem::getRouteSlot, true, e -> e.getItem() instanceof PathRecordCard);
+		addSlot("backup", golem::getSkinSlot, true, e -> e.is(MGTagGen.CURIO_SKIN), 1);
+		addSlot("feet", golem::getRouteSlot, true, e -> e.is(MGTagGen.CURIO_PATH));
 		addSlot("arrow_1", golem::getArrowSlot, false, e -> true);
 		addSlot("arrow_2", golem::getArrowSlot2, false, e -> true);
 		addSlot("chest", golem::getShoulderSlot, true,

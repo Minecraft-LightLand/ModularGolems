@@ -142,13 +142,12 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 
 	/**
 	 * 该物品是否是某个已注册傀儡类型的胚料。用于胚料槽的准入判定。
-	 * 胚料归属从切石机配方反查，因此附属只需提供「新胚料 → 部件」配方即可。
+	 * 胚料归属由 {@code modulargolems_config/parts} 数据包配置指定，附属新增类型时需同步提供配置。
 	 */
 	public boolean isAnyTemplate(ItemStack stack) {
 		if (stack.isEmpty()) return false;
-		var level = inventory.player.level();
 		for (var type : GolemTypes.TYPES.get())
-			if (type.isTemplate(stack, level)) return true;
+			if (type.isTemplate(stack)) return true;
 		return false;
 	}
 
@@ -379,7 +378,7 @@ for (var type : candidates) {
 						error = MGLangData.UI_SUB_MAT.get();
 						valid = false;
 					}
-					if (!type.isTemplate(input, inventory.player.level()) || input.getCount() < 1) {
+					if (!type.isTemplate(input) || input.getCount() < 1) {
 						error = MGLangData.UI_SUB_TEMPLATE.get();
 						valid = false;
 					}
@@ -425,7 +424,7 @@ templateCount = 1;
 						valid = false;
 					GolemHolder.addMaterial(ans, part.toItem(), mat == null ? type.defaultMaterial() : mat);
 				}
-				if (ingotCount > 0 && (!type.isTemplate(input, inventory.player.level()) || input.getCount() < ingotCount))
+				if (ingotCount > 0 && (!type.isTemplate(input) || input.getCount() < ingotCount))
 					error = MGLangData.UI_SUB_TEMPLATE.get();
 currentType = type;
 			templateCount = ingotCount;

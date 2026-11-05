@@ -1,10 +1,9 @@
 package dev.xkmc.modulargolems.content.entity.humanoid;
 
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemMenuControl;
-import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
-import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
 import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -45,8 +44,8 @@ public class HumanoidGolemMenuControl extends SweepGolemMenuControl<HumanoidGole
 		addSlot("arrow_1", golem::getArrowSlot, false, e -> true);
 		addSlot("arrow_2", golem::getArrowSlot2, false, e -> true);
 		addSlot("left_shoulder", golem::getBannerSlot, true, e -> e.getItem() instanceof BannerItem, 1);
-		addSlot("right_shoulder", golem::getSkinSlot, true, e -> e.getItem() instanceof GolemFacade, 1);
-		addSlot("test", golem::getRouteSlot, true, e -> e.getItem() instanceof PathRecordCard);
+		addSlot("right_shoulder", golem::getSkinSlot, true, e -> e.is(MGTagGen.CURIO_SKIN), 1);
+		addSlot("test", golem::getRouteSlot, true, e -> e.is(MGTagGen.CURIO_PATH));
 		// right_hand / left_hand / backup take any item, so shift click must offer them last, after the
 		// armour, banner, skin and patrol slots have had a chance to take what actually fits them.
 		lowPriority("right_hand");

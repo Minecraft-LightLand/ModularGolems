@@ -92,6 +92,11 @@ public abstract class GolemMenuControl<T extends AbstractGolemEntity<T, ?>> {
 		}
 	}
 
+	@Deprecated
+	public EquipmentSlot[] getSlotDefinition(){
+		return EquipmentsMenu.SLOTS;
+	}
+
 	public abstract Optional<? extends GolemScreenControl<T>> getScreenProvider();
 
 }

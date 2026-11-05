@@ -138,8 +138,7 @@ public class GolemAssembleScreen extends BaseContainerScreen<GolemAssembleMenu> 
 		sr.draw(g, "golem", "slot", -1, -1);
 		if (menu.main.getItem().isEmpty()) {
 			var selected = menu.getSelectedType();
-			var level = menu.inventory.player.level();
-			var template = selected == null ? GolemItems.GOLEM_TEMPLATE.get() : selected.getTemplate(level);
+			var template = selected == null ? GolemItems.GOLEM_TEMPLATE.get() : selected.getTemplate();
 			drawShadow(g, menu.main, new ItemStack(template));
 		}
 		boolean any = false;

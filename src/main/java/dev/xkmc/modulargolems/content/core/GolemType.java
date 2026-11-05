@@ -4,21 +4,20 @@ import com.tterrag.registrate.util.entry.EntityEntry;
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -50,19 +49,6 @@ public abstract class GolemType<T extends AbstractGolemEntity<T, P>, P extends I
 	private final EntityEntry<T> type;
 	private final Supplier<P[]> list;
 	private final P body;
-	/**
-	 * 该傀儡类型专用的胚料物品。附属注册新傀儡类型时可用 {@link #setTemplate} 指定自己的胚料；
-	 * 未指定则回退到本体的 metal_golem_template。
-	 */
-	@Nullable
-	private Supplier<? extends Item> template;
-	/**
-	 * 从切石机配方反查到的胚料缓存。配方管理器实例变化（数据包重载）时失效重算。
-	 */
-	@Nullable
-	private Item recipeTemplate;
-	@Nullable
-	private RecipeManager recipeTemplateFrom;
 
 	public GolemType(EntityEntry<T> type, Supplier<P[]> list, P body, Supplier<ModelProvider<T, P>> model) {
 		super(GolemTypes.TYPES);
@@ -106,54 +92,26 @@ public abstract class GolemType<T extends AbstractGolemEntity<T, P>, P extends I
 	}
 
 	/**
-	 * 指定该类型专属的胚料物品。返回 this 以便链式调用。
+	 * Template ingredient used by the assembly table. Supplied by datapack config so addon golem
+	 * types do not have to be inferred from their stonecutting recipes.
 	 */
-	public GolemType<T, P> setTemplate(Supplier<? extends Item> item) {
-		this.template = item;
-		return this;
+	public Ingredient getTemplateIngredient() {
+		return GolemPartConfig.get().getTemplate(this);
 	}
 
 	/**
-	 * 该类型制作时需要的胚料。显式设置优先；否则从切石机配方反查（附属只要加了
-	 * 「新胚料 → 部件」的切石机配方就能自动识别，不需要调用 {@link #setTemplate}）；
-	 * 都查不到时回退到本体的 metal_golem_template。
+	 * Representative item for the template, used to draw the empty template slot.
 	 */
-	public Item getTemplate(@Nullable Level level) {
-		if (template != null) return template.get();
-		if (level != null) {
-			var rm = level.getRecipeManager();
-			if (rm != recipeTemplateFrom) {
-				recipeTemplateFrom = rm;
-				recipeTemplate = findTemplateFromRecipes(rm, level.registryAccess());
-			}
-			if (recipeTemplate != null) return recipeTemplate;
-		}
-		return GolemItems.GOLEM_TEMPLATE.get();
+	public Item getTemplate() {
+		var items = getTemplateIngredient().getItems();
+		return items.length == 0 ? GolemItems.GOLEM_TEMPLATE.get() : items[0].getItem();
 	}
 
-	/**
-	 * 遍历切石机配方，找出能切出本类型任一部件物品的输入物品，即该类型的胚料。
-	 */
-	@Nullable
-	private Item findTemplateFromRecipes(RecipeManager rm, RegistryAccess access) {
-		for (var part : values()) {
-			Item partItem = part.toItem();
-			for (var single : rm.getAllRecipesFor(RecipeType.STONECUTTING)) {
-				if (!single.getResultItem(access).is(partItem)) continue;
-				var ingredients = single.getIngredients();
-				if (ingredients.isEmpty()) continue;
-				var items = ingredients.get(0).getItems();
-				if (items.length > 0) return items[0].getItem();
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * 这个物品是不是该类型的胚料。
-	 */
-	public boolean isTemplate(ItemStack stack, @Nullable Level level) {
-		return !stack.isEmpty() && stack.is(getTemplate(level));
+	public boolean isTemplate(ItemStack stack) {
+		if (stack.isEmpty()) return false;
+		var ingredient = getTemplateIngredient();
+		if (ingredient.getItems().length == 0) return stack.is(GolemItems.GOLEM_TEMPLATE.get());
+		return ingredient.test(stack);
 	}
 
 	public EntityType<?> type() {

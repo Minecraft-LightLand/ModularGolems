@@ -6,24 +6,20 @@ import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
-import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
+import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -37,7 +33,10 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 		return new EquipmentsMenu(type, wid, plInv, entity instanceof AbstractGolemEntity<?, ?> golem ? golem : null);
 	}
 
-public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "equipments");
+	public static EquipmentSlot[] SLOTS = {EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+	public static EquipmentSlot[] DOG_SLOTS = {EquipmentSlot.HEAD, EquipmentSlot.CHEST};
+
+	public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODID, "equipments");
 
 	private final List<String> slotNames = new ArrayList<>();
 	private final Map<String, Supplier<ItemWrapper>> slotWrappers = new HashMap<>();
@@ -69,6 +68,11 @@ public static final SpriteManager MANAGER = new SpriteManager(ModularGolems.MODI
 		if (golem == null || !player.isAlive()) return false;
 		golem.inventoryTick = 5;
 		return !golem.isRemoved() && golem.getGuardedDataImpl() > 0;
+	}
+
+	@Override
+	public PredSlot getAsPredSlot(String name, int i, int j) {
+		return super.getAsPredSlot(name, i, j);
 	}
 
 	/**

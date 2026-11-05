@@ -6,6 +6,7 @@ import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
+import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.core.GolemType;
@@ -79,6 +80,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -138,24 +140,22 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@SerialClass.SerialField
 	private BlockPos recordedGuardPos = BlockPos.ZERO;
 	@SerialClass.SerialField(toClient = true)
-	private ItemStack skinSlot = ItemStack.EMPTY;
-	@SerialClass.SerialField(toClient = true)
-	private ItemStack routeSlot = ItemStack.EMPTY;
-	@SerialClass.SerialField(toClient = true)
 	private ItemStack bannerSlot = ItemStack.EMPTY;
 	@SerialClass.SerialField(toClient = true)
 	private ItemStack arrowSlot = ItemStack.EMPTY;
 	@SerialClass.SerialField(toClient = true)
 	private ItemStack arrowSlot2 = ItemStack.EMPTY;
-	@SerialClass.SerialField(toClient = true)
-	private ItemStack shoulderSlot = ItemStack.EMPTY;
 
+	/**
+	 * Skins and patrol paths live in curios slots, so old saves that equipped them as curios keep
+	 * working. The equipment menu reads and writes them through this wrapper.
+	 */
 	public ItemWrapper getSkinSlot() {
-		return ItemWrapper.simple(() -> this.skinSlot, e -> this.skinSlot = e);
+		return ModList.get().isLoaded("curios") ? CurioCompatRegistry.getSlotWrapper(this, "golem_skin") : ItemWrapper.EMPTY;
 	}
 
 	public ItemWrapper getRouteSlot() {
-		return ItemWrapper.simple(() -> this.routeSlot, e -> this.routeSlot = e);
+		return ModList.get().isLoaded("curios") ? CurioCompatRegistry.getSlotWrapper(this, "golem_route") : ItemWrapper.EMPTY;
 	}
 
 	public ItemWrapper getBannerSlot() {
@@ -174,23 +174,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return ItemWrapper.simple(() -> this.arrowSlot2, e -> this.arrowSlot2 = e);
 	}
 
-	public ItemWrapper getShoulderSlot() {
-		return ItemWrapper.simple(() -> this.shoulderSlot, e -> this.shoulderSlot = e);
-	}
-
 	/**
-	 * Drops the banner, skin and route slots, which are not part of the vanilla equipment slots.
+	 * Drops the banner and arrow slots, which are not part of the vanilla equipment slots. Curios
+	 * drop themselves on death, so skins and patrol paths are not handled here.
 	 */
 	public void dropExtraSlot() {
-		skinSlot = dropStack(skinSlot);
-		routeSlot = dropStack(routeSlot);
 		bannerSlot = dropStack(bannerSlot);
 		arrowSlot = dropStack(arrowSlot);
 		arrowSlot2 = dropStack(arrowSlot2);
-		shoulderSlot = dropStack(shoulderSlot);
 	}
 
-	private ItemStack dropStack(ItemStack stack) {
+	protected ItemStack dropStack(ItemStack stack) {
 		if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack)) {
 			spawnAtLocation(stack);
 		}
@@ -198,12 +192,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	public void aggregateExtraSlots(List<IItemHandlerModifiable> ans) {
-		ans.add(new SlotWrapper(() -> skinSlot, e -> skinSlot = e));
-		ans.add(new SlotWrapper(() -> routeSlot, e -> routeSlot = e));
 		ans.add(new SlotWrapper(() -> bannerSlot, e -> bannerSlot = e));
 		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
 		ans.add(new SlotWrapper(() -> arrowSlot2, e -> arrowSlot2 = e));
-		ans.add(new SlotWrapper(() -> shoulderSlot, e -> shoulderSlot = e));
 	}
 
 	protected final PathNavigation waterNavigation;

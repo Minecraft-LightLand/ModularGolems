@@ -149,6 +149,12 @@ public class MGConfigGen extends ConfigDataProvider {
 				.addFilter(GolemTypes.STAT_REGEN.get(), 1)
 				.addFilter(GolemTypes.STAT_SWEEP.get(), 0)
 				.end()
+
+				// Template item required by each golem type at the assembly table. Datapack authors
+				// adding a golem type should add an entry here matching their stonecutting input.
+				.addTemplate(GolemTypes.TYPE_GOLEM.get(), Ingredient.of(GolemItems.GOLEM_TEMPLATE.get()))
+				.addTemplate(GolemTypes.TYPE_HUMANOID.get(), Ingredient.of(GolemItems.GOLEM_TEMPLATE.get()))
+				.addTemplate(GolemTypes.TYPE_DOG.get(), Ingredient.of(GolemItems.GOLEM_TEMPLATE.get()))
 		);
 	}
 

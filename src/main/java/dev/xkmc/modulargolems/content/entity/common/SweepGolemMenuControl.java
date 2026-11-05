@@ -1,9 +1,8 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
-import dev.xkmc.modulargolems.content.item.card.PathRecordCard;
-import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BannerItem;
 
@@ -31,8 +30,8 @@ public abstract class SweepGolemMenuControl<T extends SweepGolemEntity<T, ?>> ex
 		addSlot("arrow_1", golem::getArrowSlot, false, e -> true);
 		addSlot("arrow_2", golem::getArrowSlot2, false, e -> true);
 		addSlot("banner", golem::getBannerSlot, true, e -> e.getItem() instanceof BannerItem, 1);
-		addSlot("skin", golem::getSkinSlot, true, e -> e.getItem() instanceof GolemFacade, 1);
-addSlot("route", golem::getRouteSlot, true, e -> e.getItem() instanceof PathRecordCard);
+		addSlot("skin", golem::getSkinSlot, true, e -> e.is(MGTagGen.CURIO_SKIN), 1);
+		addSlot("route", golem::getRouteSlot, true, e -> e.is(MGTagGen.CURIO_PATH));
 	}
 
 }

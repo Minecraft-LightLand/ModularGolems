@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.compat.curio;
 import com.tterrag.registrate.util.entry.MenuEntry;
 import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
@@ -47,6 +48,26 @@ public class CurioCompatRegistry {
 	public static Optional<ItemStack> getItem(LivingEntity e, String slot) {
 		return CuriosApi.getCuriosInventory(e).resolve()
 				.flatMap(x -> x.findCurio(slot, 0).map(SlotResult::stack));
+	}
+
+	public static void setItem(LivingEntity e, String slot, ItemStack stack) {
+		CuriosApi.getCuriosInventory(e).resolve()
+				.flatMap(x -> x.getStacksHandler(slot))
+				.ifPresent(handler -> {
+					var stacks = handler.getStacks();
+					if (stacks.getSlots() > 0) {
+						stacks.setStackInSlot(0, stack);
+					}
+				});
+	}
+
+	/**
+	 * Exposes a single curio slot through the same {@link ItemWrapper} interface used by golem
+	 * equipment slots, so old saves that stored skins and patrol paths as curios keep working.
+	 */
+	public static ItemWrapper getSlotWrapper(LivingEntity e, String slot) {
+		return ItemWrapper.simple(() -> getItem(e, slot).orElse(ItemStack.EMPTY),
+				stack -> setItem(e, slot, stack));
 	}
 
 	public static boolean hasItem(LivingEntity e, Item pred) {
