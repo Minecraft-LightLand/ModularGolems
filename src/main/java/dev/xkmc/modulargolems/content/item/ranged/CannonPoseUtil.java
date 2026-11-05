@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
@@ -23,7 +24,8 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 	@Deprecated
 	public static final CannonPoseUtil BEACON = FLAME_THROWER;
 
-	public float[] getAngle(AbstractGolemEntity<?, ?> e, InteractionHand hand) {
+	@Deprecated
+	public float[] getAngle(MetalGolemEntity e, InteractionHand hand) {
 		return getAngle(e, slotOf(hand));
 	}
 
@@ -50,7 +52,8 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 		return ans;
 	}
 
-	public Vec3 getOrigin(AbstractGolemEntity<?, ?> e, InteractionHand hand) {
+	@Deprecated
+	public Vec3 getOrigin(MetalGolemEntity e, InteractionHand hand) {
 		return getOrigin(e, slotOf(hand));
 	}
 
@@ -86,7 +89,8 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 		return e.position().add(origin.add(af).add(av));
 	}
 
-	public boolean isOutOfRange(AbstractGolemEntity<?, ?> e, InteractionHand hand) {
+	@Deprecated
+	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand) {
 		return isOutOfRange(e, slotOf(hand), 5);
 	}
 
@@ -94,7 +98,8 @@ public record CannonPoseUtil(float x0, float y0, float z0, float y1, float z1) {
 		return isOutOfRange(e, slot, 5);
 	}
 
-	public boolean isOutOfRange(AbstractGolemEntity<?, ?> e, InteractionHand hand, float allowance) {
+	@Deprecated
+	public boolean isOutOfRange(MetalGolemEntity e, InteractionHand hand, float allowance) {
 		return isOutOfRange(e, slotOf(hand), allowance);
 	}
 
