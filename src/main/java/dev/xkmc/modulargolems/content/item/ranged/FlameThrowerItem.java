@@ -1,9 +1,7 @@
 package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
-import dev.xkmc.modulargolems.content.client.weapon.ShoulderAnimData;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.modulargolems.util.TNTLauncher;
@@ -11,7 +9,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderCannonAnimated, IGenericShoulderWeapon {
+public class FlameThrowerItem extends ProjectileWeaponItem implements IGenericShoulderCannonAnimated {
 
 	public static void setCharge(ItemStack stack, int charge) {
 		stack.getOrCreateTag().putInt("BlazeCharge", charge);
@@ -41,11 +38,6 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 
 	public FlameThrowerItem(Properties p) {
 		super(p);
-	}
-
-	@Override
-	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
-		onTick(e, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1);
 	}
 
 	@Override
@@ -100,17 +92,9 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public List<ShoulderAnimData> getAnimationData(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		return IShoulderCannonAnimated.super.getAnimationData(user, stack, hand);
-	}
-
-	@Override
-	public List<ShoulderAnimData> getAnimationData(AbstractGolemEntity<?, ?> user, ItemStack stack, int slot) {
-		// the center mount carries the cannon flat on the back and plays no deploy animation
-		if (slot == 0) return List.of();
+	public @Nullable ResourceLocation getAnimBaseId(AbstractGolemEntity<?, ?> user, ItemStack stack, int slot) {
 		// deploy animations reuse the beacon cannon models on both shoulders
-		var model = slot < 0 ? GolemModelPaths.BEACON_LEFT : GolemModelPaths.BEACON_RIGHT;
-		return IGenericShoulderWeapon.cannonAnimationData(user, model);
+		return slot < 0 ? GolemModelPaths.BEACON_LEFT : GolemModelPaths.BEACON_RIGHT;
 	}
 
 	@Override
@@ -163,32 +147,8 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public @Nullable ResourceLocation getModelForHand(InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.FLAME_RIGHT : GolemModelPaths.FLAME_LEFT;
-	}
-
-	@Override
-	public @Nullable ResourceLocation getAnimBaseId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BEACON_RIGHT : GolemModelPaths.BEACON_LEFT;
-	}
-
-	@Override
 	public boolean emissive() {
 		return true;
-	}
-
-	@Override
-	public ResourceLocation getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
-		var id = ForgeRegistries.ITEMS.getKey(this);
-		assert id != null;
-		return id.withPath(e -> "textures/equipments/" + e + "_emissive.png");
-	}
-
-	@Override
-	public ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
-		var id = ForgeRegistries.ITEMS.getKey(this);
-		assert id != null;
-		return id.withPath(e -> "textures/equipments/" + e + ".png");
 	}
 
 }

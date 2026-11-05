@@ -64,6 +64,11 @@ public interface IGenericShoulderWeapon extends IShoulderWeapon {
 	}
 
 	@Override
+	default ResourceLocation getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+		return getEmissiveTexture(entity, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1);
+	}
+
+	@Override
 	default void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
 		onTick(e, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1);
 	}
