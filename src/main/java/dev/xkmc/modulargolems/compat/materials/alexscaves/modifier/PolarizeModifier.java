@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.alexscaves.modifier;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import dev.xkmc.modulargolems.compat.materials.alexscaves.ACCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.alexscaves.client.GolemPolarizeSound;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -13,7 +15,9 @@ import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import dev.xkmc.modulargolems.util.GolemTargetUtil;
 
 public class PolarizeModifier extends GolemModifier {
@@ -34,12 +38,38 @@ public class PolarizeModifier extends GolemModifier {
 		super(StatFilterType.MASS, 4);
 	}
 
+	/** 正在播放的极化循环音，按实体 id 索引。 */
+	private static final Map<Integer, GolemPolarizeSound> SOUNDS = new HashMap<>();
+
+	/**
+	 * 维护极化循环音：进入战斗时按红/蓝极性开一条，脱战或极性切换时换掉。
+	 * <p>
+	 * 用 MG 自己的 {@link GolemPolarizeSound} 而不是 AC 的 {@code ItemTickableSound}——后者要求
+	 * 手持盾牌才能播，而磁力傀儡手里没有盾牌。
+	 */
+	private static void updateSound(AbstractGolemEntity<?, ?> golem, boolean ranged) {
+		GolemPolarizeSound sound = SOUNDS.get(golem.getId());
+		if (!golem.isAlive() || golem.isRemoved() || !golem.isAggressive()) {
+			if (sound != null) {
+				sound.stopSound();
+				SOUNDS.remove(golem.getId());
+			}
+			return;
+		}
+		if (sound != null && sound.isAzure() == ranged) return;
+		if (sound != null) sound.stopSound();
+		GolemPolarizeSound created = new GolemPolarizeSound(golem, ranged,
+				g -> g.getModifiers().containsKey(ACCompatRegistry.POLARIZE.get()));
+		SOUNDS.put(golem.getId(), created);
+		net.minecraft.client.Minecraft.getInstance().getSoundManager().play(created);
+	}
 	@Override
 	public void onClientTick(AbstractGolemEntity<?, ?> golem, int level) {
+		boolean ranged = golem.isInRangedMode() || golem.hasRangeAttack();
+		updateSound(golem, ranged);
 		if (golem.tickCount % 5 != 0) return;
 		if (!golem.isAggressive()) return;
 		double r = range(level);
-		boolean ranged = golem.isInRangedMode() || golem.hasRangeAttack();
 		Vec3 src = golem.position().add(0.0, 0.2, 0.0);
 		float particleMax = (float) (5 + golem.getRandom().nextInt(5));
 		for (int particles = 0; (float) particles < particleMax; ++particles) {
@@ -92,6 +122,25 @@ public class PolarizeModifier extends GolemModifier {
 		}
 	}
 
+	/**
+	 * 不依赖 modifier 挂载，直接执行一次极化效果。
+	 * <p>
+	 * 供阻尼盾等"临时获得极化"的场景使用：与 {@link #onAiStep} 同一套公式，
+	 * 区别只在于 level 由调用方给定。
+	 */
+	public static void runOnce(AbstractGolemEntity<?, ?> golem, int level) {
+		new PolarizeModifier().onAiStep(golem, level);
+	}
+
+	/**
+	 * 与 {@link #runOnce} 对应，执行一次客户端粒子表现。
+	 * <p>
+	 * 阻尼盾这类"临时获得极化"的场景没有挂载 modifier，本类的 {@code onClientTick}
+	 * 不会被 {@code AbstractGolemEntity} 的客户端循环调用，需要单独触发。
+	 */
+	public static void runOnceClient(AbstractGolemEntity<?, ?> golem, int level) {
+		new PolarizeModifier().onClientTick(golem, level);
+	}
 	@Override
 	public List<MutableComponent> getDetail(int v) {
 		int num = (int) Math.round(damage(v));

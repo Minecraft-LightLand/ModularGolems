@@ -6,10 +6,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@Pseudo
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity {
 
@@ -17,7 +19,7 @@ public abstract class PlayerMixin extends LivingEntity {
 		super(p_20966_, p_20967_);
 	}
 
-	@Inject(at = @At("HEAD"), method = "wantsToStopRiding", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "wantsToStopRiding", cancellable = true, require = 0)
 	public void modulargolems$wantsToStopRiding$dogOverride(CallbackInfoReturnable<Boolean> cir) {
 		if (getVehicle() instanceof DogGolemEntity dog && dog.isInWaterOrBubble()) {
 			cir.setReturnValue(false);

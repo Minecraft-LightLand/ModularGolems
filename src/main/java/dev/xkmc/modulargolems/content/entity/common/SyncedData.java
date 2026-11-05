@@ -18,6 +18,7 @@ import java.util.function.Function;
 public class SyncedData {
 
 	public static final Serializer<Integer> INT;
+	public static final Serializer<Byte> BYTE;
 	public static final Serializer<Boolean> BOOL;
 	public static final Serializer<Float> FLOAT;
 	public static final Serializer<BlockPos> BLOCK_POS;
@@ -25,6 +26,7 @@ public class SyncedData {
 
 	static {
 		INT = new Serializer<>(EntityDataSerializers.INT, IntTag::valueOf, tag -> tag instanceof NumericTag n ? n.getAsInt() : 0);
+		BYTE = new Serializer<>(EntityDataSerializers.BYTE, ByteTag::valueOf, tag -> tag instanceof NumericTag n ? n.getAsByte() : (byte) 0);
 		BOOL = new Serializer<>(EntityDataSerializers.BOOLEAN, ByteTag::valueOf, tag -> tag instanceof NumericTag n && n.getAsByte() != 0);
 		FLOAT = new Serializer<>(EntityDataSerializers.FLOAT, FloatTag::valueOf, tag -> tag instanceof NumericTag n ? n.getAsFloat() : 0f);
 		BLOCK_POS = new Serializer<>(EntityDataSerializers.BLOCK_POS, pos -> {

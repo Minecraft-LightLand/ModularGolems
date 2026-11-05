@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
 import dev.xkmc.modulargolems.content.entity.impl.GolemImpls;
 import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager;
+import dev.xkmc.modulargolems.content.entity.impl.GolemUseItemHook;
 import dev.xkmc.modulargolems.content.entity.impl.TransientStateContainer;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.entity.targeting.Golem3DTargetGoal;
@@ -103,6 +104,16 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public static final EntityDataAccessor<Float> DASH_YAW = GOLEM_DATA.define(SyncedData.FLOAT, Float.NaN, null);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT_2 = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+
+	/**
+	 * 服务端把"正在使用哪只手"同步给客户端（0 = 未使用，1 = 主手，2 = 副手）。
+	 * <p>
+	 * vanilla 的 {@code DATA_LIVING_ENTITY_FLAGS} 不可靠：{@code startUsingItem} 只在服务端设 flag，
+	 * 而 {@code useItem} 字段不同步；客户端 {@code updatingUsingItem} 发现 {@code useItem} 为空就会
+	 * 调 {@code stopUsingItem} 把 flag 清掉，之后客户端 {@code isUsingItem()} 恒为 false——
+	 * 射线枪的光束、音效、充能消耗（都在 onUseTick / inventoryTick 里）于是完全不发生。
+	 * 这里用独立字段接管客户端的"使用中"状态，不再依赖 vanilla 那套。
+	 */
 
 	protected MoveControl waterMoveControl;
 
@@ -578,10 +589,29 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		// Some extra slots change while in use (e.g. ammo), but their serialized fields only reach
 		// the client once at spawn. Push synced slots back every tick so previews stay current.
 		tickExtraSlots();
+		// 使用中把视线对准目标：射线枪用 getViewVector() 定光束方向，傀儡的视线未必朝向目标，
+		// 会出现"打不中天上的敌人"。
+		if (!this.level().isClientSide && isUsingItem()) {
+			var aimTarget = getTarget();
+			if (aimTarget != null && aimTarget.isAlive()) {
+				var eye = getEyePosition();
+				var to = aimTarget.position().add(0, aimTarget.getBbHeight() * 0.5, 0).subtract(eye);
+				float wantYaw = (float) (Mth.atan2(to.z, to.x) * Mth.RAD_TO_DEG) - 90.0F;
+				float wantPitch = (float) -(Mth.atan2(to.y, to.horizontalDistance()) * Mth.RAD_TO_DEG);
+				setYRot(wantYaw);
+				yBodyRot = wantYaw;
+				yHeadRot = wantYaw;
+				setXRot(Mth.clamp(wantPitch, -90.0F, 90.0F));
+			}
+		}
+
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
 			}
+			tickClientUseItem();
+		} else {
+			syncUsingHand();
 		}
 		tickInventory();
 		tickTracker();
@@ -675,6 +705,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		GOLEM_DATA.register(this.entityData);
 		entityData.define(ARROW_SLOT, ItemStack.EMPTY);
 		entityData.define(ARROW_SLOT_2, ItemStack.EMPTY);
+
 	}
 
 	// ------ tamable
@@ -784,6 +815,31 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			return null;
 		}
 		return super.changeDimension(level, teleporter);
+	}
+
+	public static final EntityDataAccessor<Byte> DATA_USING_HAND = GOLEM_DATA.define(SyncedData.BYTE, (byte) 0, "using_hand");
+
+	// ------ 使用中物品（onUseTick / inventoryTick）
+
+	@Override
+	public boolean isUsingItem() {
+		return level().isClientSide ? getUsingHandFlag() != 0 : super.isUsingItem();
+	}
+
+	@Override
+	public InteractionHand getUsedItemHand() {
+		if (level().isClientSide) {
+			return getUsingHandFlag() == 2 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+		}
+		return super.getUsedItemHand();
+	}
+
+	@Override
+	public ItemStack getUseItem() {
+		if (level().isClientSide) {
+			return isUsingItem() ? getItemInHand(getUsedItemHand()) : ItemStack.EMPTY;
+		}
+		return super.getUseItem();
 	}
 
 	public boolean isInRangedMode() {

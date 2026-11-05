@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 public interface GolemImpls extends
 		PowerableMob, TransientStateContainer.View,
 		GolemReforgeImpl, GolemConfigImpl, GolemTrackerImpl, GolemInvManager.View, GolemPermissionImpl, GolemTargetImpl,
-		GolemBeamImpl {
+		GolemBeamImpl, GolemUseItemImpl {
 
 	default void checkRide(LivingEntity target) {
 	}

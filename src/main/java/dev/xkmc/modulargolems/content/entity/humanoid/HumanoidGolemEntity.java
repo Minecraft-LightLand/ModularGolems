@@ -169,18 +169,33 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		boolean can_sweep = getMainHandItem().canPerformAction(ToolActions.SWORD_SWEEP);
 		if (!can_sweep) {
 			if (super.doHurtTarget(target)) {
-				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
-				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+				onMeleeHit(target);
 				return true;
 			}
 		} else {
 			if (performRangedDamage(target, 0, 0)) {// trigger vanilla attack code, ignore values
-				ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
-				stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+				onMeleeHit(target);
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * 近战命中后的收尾：调用物品自身的 {@code hurtEnemy}。
+	 * <p>
+	 * 关键点：{@code Item#hurtEnemy(ItemStack, LivingEntity, LivingEntity)} 的第三个参数是
+	 * {@code LivingEntity} 而不是 {@code Player}（{@code ItemStack#hurtEnemy} 那个只接受
+	 * {@code Player} 的重载才是玩家专用，它内部只是转发到这个版本并额外 awardStat）。
+	 * 所以傀儡可以直接调用它，物品的命中特效（荒芜匕首召唤飞刀、原始大棒眩晕、灭绝长矛召唤巨龙、
+	 * 螺纹长枪的海浪）都能原样生效，无需在兼容层复刻。
+	 */
+	private void onMeleeHit(Entity target) {
+		ItemStack stack = getItemBySlot(EquipmentSlot.MAINHAND);
+		stack.hurtAndBreak(1, this, self -> self.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+		if (target instanceof LivingEntity living) {
+			stack.getItem().hurtEnemy(stack, living, this);
+		}
 	}
 
 	@Override
