@@ -30,6 +30,15 @@ public class SkillSound {
 		golem.playSound(normal, volume, pitch);
 	}
 
+	/**
+	 * 消耗材料类交互（玩家右键喂料 / 傀儡自动消耗）共用的音效：固定音量，音调在 ±20% 内随机，
+	 * 避免每次完全一致。各联动技能统一走这里，不要各写一份。
+	 */
+	public static void playConsume(AbstractGolemEntity<?, ?> golem, SoundEvent normal) {
+		float pitch = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
+		golem.playSound(normal, 1, pitch);
+	}
+
 	/** 只播彩蛋，用于技能已播过自身音效、只想再叠一层梗的场景。 */
 	public static void playChargeEasterEgg(AbstractGolemEntity<?, ?> golem, float volume, float pitch) {
 		if (EsterEggUtil.isKobe(golem)) {
