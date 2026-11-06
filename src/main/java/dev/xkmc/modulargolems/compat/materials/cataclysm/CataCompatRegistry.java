@@ -195,13 +195,13 @@ public class CataCompatRegistry {
 		MALEDICTUS_CHARGE = reg("maledictus_charge", () -> new MaledictusChargeModifier(StatFilterType.HEAD, 1),
 				"Cursed Charge", "Charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging, up to %s dashes.");
 		SCYLLA_LIGHTNING = reg("scylla_lightning", ScyllaLightningAttackModifier::new,
-				"Thunder Lance", "Every 5 seconds, shoot a lightning spear at the target, followed by two more after a short delay.");
+				"Thunder Lance", "Fire lightning spears at nearby targets. The lower the health, the more of them are fired, up to %s spears.");
 		SCYLLA_WAVE = reg("scylla_wave", ScyllaWaveAttackModifier::new,
 				"Tidal Anchor", "When attacked, summon waves to push attackers away.");
 		SCYLLA_STORM = reg("scylla_lightning_storm", ScyllaLightningStormModifier::new,
 				"Storm Fury", "Gather storm clouds to release many lightning spears and water spears at the target");
 		SCYLLA_WATER_BOLT = reg("scylla_water_bolt", ScyllaWaterBoltModifier::new,
-				"Tidal Spike", "Every 5 seconds, shoot a water spike at the target, followed by two more after a short delay.");
+				"Tidal Spike", "Fire water spikes at nearby targets. The lower the health, the more of them are fired, up to %s spikes.");
 		SCYLLA_LINE = reg("scylla_line_lightning", ScyllaLineLightningModifier::new,
 				"Line Lightning", "Summon a row of lightning strikes at the target position.");
 		GUARDIAN_HUG = reg("ender_guardian_hug", () -> new EnderGuardianHugModifier(StatFilterType.ATTACK, 2),
