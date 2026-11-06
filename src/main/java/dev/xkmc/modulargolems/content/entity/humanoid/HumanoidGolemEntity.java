@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.sound.MaidSoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.sound.MobSoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.sound.SoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.entity.impl.GolemBeamSource;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -387,6 +388,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@Override
 	public int getPreviewScale() {
 		return 24;
+	}
+
+	public GolemBeamSource.HeadMount getHeadMount() {
+		return HeadMount.HUMANOID;
 	}
 
 }

@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.entity.common.IShoulderWeaponSupportEntity
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.TargetingAnimState;
 import dev.xkmc.modulargolems.content.entity.goals.GolemRiddenMeleeGoal;
+import dev.xkmc.modulargolems.content.entity.impl.GolemBeamSource;
 import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
@@ -51,26 +52,26 @@ import java.util.List;
 public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType>
 		implements MountChargeManager.View, IShoulderWeaponSupportEntity {
 
-	public float getJumpStrength() {
-		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
-		ans *= getScale();
-		MobEffectInstance ins = getEffect(MobEffects.JUMP);
-		if (ins != null) {
-			int lv = ins.getAmplifier() + 1;
-			ans *= (1 + lv * 0.625f);
-		}
-		return ans;
-	}
+	private static final EntityDataAccessor<Vector3f> SHOULDER_TARGET = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.VECTOR3);
+	private static final EntityDataAccessor<ItemStack> SHOULDER_ITEM = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
-	private final MountChargeManager chargeManager = new MountChargeManager(this);
+	public static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BYTE);
+	public static final EntityDataAccessor<Integer> DATA_JUMP_CD = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.INT);
+	// 同步冲锋方向：骑乘端在本地预测位移，首帧视线还没压平时可以退回用它
+	public static final EntityDataAccessor<Boolean> DATA_CHARGE_ACTIVE = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Float> DATA_CHARGE_DIR_X = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> DATA_CHARGE_DIR_Z = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.FLOAT);
+	// 剩余冲锋冷却，只用于给骑乘端显示倒计时
+	public static final EntityDataAccessor<Integer> DATA_CHARGE_CD = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.INT);
 
 	@SerialClass.SerialField(toClient = true)
 	private ItemStack shoulderSlot = ItemStack.EMPTY;
 	private final ExtraSlot shoulderSlotHandler = registerExtraSlot(() -> this.shoulderSlot, e -> this.shoulderSlot = e);
 
-	public ItemWrapper getShoulderSlot() {
-		return shoulderSlotHandler.wrapper();
-	}
+	private final MountChargeManager chargeManager = new MountChargeManager(this);
+	public final TargetingAnimState shoulderAnimState = new TargetingAnimState();
+	EarthquakeHelper.Instance jumpAttack;
+	int jumpAttackDelay = 0;
 
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
@@ -92,7 +93,22 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		}
 	}
 
+	public ItemWrapper getShoulderSlot() {
+		return shoulderSlotHandler.wrapper();
+	}
+
 	// ride
+
+	public float getJumpStrength() {
+		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.get());
+		ans *= getScale();
+		MobEffectInstance ins = getEffect(MobEffects.JUMP);
+		if (ins != null) {
+			int lv = ins.getAmplifier() + 1;
+			ans *= (1 + lv * 0.625f);
+		}
+		return ans;
+	}
 
 	protected void tickRidden(Player player, Vec3 vec3) {
 		super.tickRidden(player, vec3);
@@ -145,15 +161,13 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 				MGConfig.COMMON.riddenSpeedFactor.get());
 	}
 
-	EarthquakeHelper.Instance jumpAttack;
-	int jumpAttackDelay = 0;
-
 	@Override
 	protected void customServerAiStep() {
 		super.customServerAiStep();
 		var target = getTarget();
 		if (target == null) this.entityData.set(SHOULDER_TARGET, new Vector3f(0, 0, 0));
-		else this.entityData.set(SHOULDER_TARGET, target.position().add(0, target.getBbHeight() / 2, 0).subtract(position()).toVector3f());
+		else
+			this.entityData.set(SHOULDER_TARGET, target.position().add(0, target.getBbHeight() / 2, 0).subtract(position()).toVector3f());
 		syncShoulderItem();
 		tickShoulderWeapon();
 		dismountRidersWithShoulderWeapon();
@@ -178,11 +192,6 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		super.aiStep();
 		shoulderAnimState.tick(this);
 	}
-
-	private static final EntityDataAccessor<Vector3f> SHOULDER_TARGET = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.VECTOR3);
-	private static final EntityDataAccessor<ItemStack> SHOULDER_ITEM = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.ITEM_STACK);
-
-	public final TargetingAnimState shoulderAnimState = new TargetingAnimState();
 
 	/**
 	 * Mirrors the metal golem: the shoulder slot lives in a plain field while the client reads it
@@ -337,15 +346,6 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	// sit
 
-	public static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BYTE);
-	public static final EntityDataAccessor<Integer> DATA_JUMP_CD = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.INT);
-	// 同步冲锋方向：骑乘端在本地预测位移，首帧视线还没压平时可以退回用它
-	public static final EntityDataAccessor<Boolean> DATA_CHARGE_ACTIVE = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BOOLEAN);
-	public static final EntityDataAccessor<Float> DATA_CHARGE_DIR_X = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.FLOAT);
-	public static final EntityDataAccessor<Float> DATA_CHARGE_DIR_Z = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.FLOAT);
-	// 剩余冲锋冷却，只用于给骑乘端显示倒计时
-	public static final EntityDataAccessor<Integer> DATA_CHARGE_CD = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.INT);
-
 	protected void defineSynchedData() {
 		super.defineSynchedData();
 		this.entityData.define(DATA_FLAGS_ID, (byte) 0);
@@ -480,6 +480,10 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	@Override
 	public int getPreviewScale() {
 		return 32;
+	}
+
+	public GolemBeamSource.HeadMount getHeadMount() {
+		return HeadMount.DOG;
 	}
 
 }
