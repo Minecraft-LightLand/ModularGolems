@@ -92,7 +92,7 @@ public class IgnisChargeGoal extends BaseChargeGoal {
 
 	@Override
 	public boolean canContinueToUse() {
-		return !blocked && ticks < MAX_TICKS && golem.position().distanceToSqr(start) < total * total;
+		return canContinueCharge(golem, start, total, ticks, MAX_TICKS, blocked);
 	}
 
 	@Override

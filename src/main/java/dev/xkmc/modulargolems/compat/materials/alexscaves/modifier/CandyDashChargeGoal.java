@@ -26,7 +26,7 @@ public class CandyDashChargeGoal extends BaseChargeGoal {
 	public static final String KEY_ACTIVE = "CandyDashCharging";
 	private static final String KEY_TIME = "CandyDashChargeTime";
 
-	private static final int MAX_TICKS = 100;
+	private static final int MAX_TICKS = 60;
 	private static final int COOLDOWN = CandyDashModifier.COOLDOWN;
 	private static final double RANGE = 15;
 
@@ -87,7 +87,7 @@ public class CandyDashChargeGoal extends BaseChargeGoal {
 
 	@Override
 	public boolean canContinueToUse() {
-		return !blocked && ticks < MAX_TICKS && golem.position().distanceToSqr(start) < total * total;
+		return canContinueCharge(golem, start, total, ticks, MAX_TICKS, blocked);
 	}
 
 	@Override

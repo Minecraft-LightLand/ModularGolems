@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.modifier.special;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Shared base for charge skills. Keeps the cooldown in one place: it reads and writes the same
@@ -85,6 +86,32 @@ public abstract class BaseChargeGoal extends Goal implements ICooldownSkill {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 后撤步是否仍在进行。这段窗口里子类的 begin() 还没被调用，冲锋起点 start 仍是 null，
+	 * 子类的 canContinueToUse 必须据此放行，否则会解引用 null 崩服。
+	 */
+	protected boolean isBackstepping() {
+		return this.backstep != null || this.pendingChargeTarget != null;
+	}
+
+	/**
+	 * 单段冲锋的通用“是否继续”判定，供各冲锋 Goal 的 {@code canContinueToUse()} 统一调用：
+	 * <ul>
+	 *   <li>blocked / 后撤步优先处理（后撤步期间 begin() 尚未执行，start 仍可能为 null）；</li>
+	 *   <li>{@code start == null} 时直接结束，避免对 null 起点做距离判定而崩服；</li>
+	 *   <li>否则按“跑够距离或超时”结束。</li>
+	 * </ul>
+	 *
+	 * @param maxTicks 该技能的最长冲锋 tick（各技能可能不同）
+	 */
+	protected final boolean canContinueCharge(AbstractGolemEntity<?, ?> golem, Vec3 start, double total,
+			int ticks, int maxTicks, boolean blocked) {
+		if (blocked) return false;
+		if (isBackstepping()) return true;
+		if (start == null) return false;
+		return ticks < maxTicks && golem.position().distanceToSqr(start) < total * total;
 	}
 
 	/** 在 stop() 里调用，取消未完成的后撤步，避免永久占住 busy 锁。 */

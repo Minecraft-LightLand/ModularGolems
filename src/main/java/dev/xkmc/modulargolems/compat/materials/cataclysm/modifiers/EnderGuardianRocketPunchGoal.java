@@ -84,7 +84,7 @@ public class EnderGuardianRocketPunchGoal extends BaseChargeGoal {
 	@Override
 	public boolean canContinueToUse() {
 		if (!golem.getPassengers().isEmpty() || golem.isRidingGolemCombo()) return false;
-		return !blocked && ticks < MAX_TICKS && golem.position().distanceToSqr(start) < total * total;
+		return canContinueCharge(golem, start, total, ticks, MAX_TICKS, blocked);
 	}
 
 	@Override
