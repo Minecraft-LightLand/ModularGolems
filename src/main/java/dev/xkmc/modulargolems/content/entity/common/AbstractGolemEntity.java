@@ -434,7 +434,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void updateSwimming() {
 		if (!this.level().isClientSide) {
-			this.setSwimming(this.isEffectiveAi() && this.isInWater() && this.canSwim());
+			boolean swim = this.isEffectiveAi() && this.isInWater() && this.canSwim();
+			this.setSwimming(swim);
+			// 游泳傀儡只有在水里才用两栖（水路）寻路，陆地必须切回普通地面寻路：
+			// AmphibiousPathNavigation 会抬高 WALKABLE 代价、优先水路，一直在陆地上用它会导致
+			// 跟随/巡逻时绕圈、寻路异常（表现成走路时突然转向）。
+			if (this.canSwim()) {
+				this.navigation = swim ? this.waterNavigation : this.groundNavigation;
+			}
 		}
 
 	}
