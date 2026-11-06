@@ -301,8 +301,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	/**
-	 * Registers arrow slots as extra slots. Dog golems have one; metal and humanoid golems have
-	 * two. Golems that never call this expose empty wrappers instead.
+	 * Registers arrow slots as extra slots. Dog, metal and humanoid golems have two. Golems that
+	 * never call this expose empty wrappers instead.
 	 */
 	protected final void registerArrowSlot(boolean two) {
 		invManager.registerArrowSlot(() -> arrowSlot, e -> arrowSlot = e);

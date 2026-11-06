@@ -56,7 +56,7 @@ public class DogShoulderRenderer extends RenderLayer<DogGolemEntity, DogGolemMod
 	@Override
 	public void render(@NotNull PoseStack pose, MultiBufferSource source, int light,
 			@NotNull DogGolemEntity entity, float f1, float f2, float f3, float f4, float f5, float f6) {
-		ItemStack stack = entity.getShoulderSlotForRender();
+		ItemStack stack = entity.getShoulderSlot().getItem();
 		if (!(stack.getItem() instanceof IGenericShoulderWeapon generic)) return;
 		IDogBackWeapon weapon = IDogBackWeapon.of(generic);
 		var id = weapon.getModel();

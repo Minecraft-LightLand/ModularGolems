@@ -66,7 +66,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	@SerialClass.SerialField(toClient = true)
 	private ItemStack shoulderSlot = ItemStack.EMPTY;
-	private final ExtraSlot shoulderSlotHandler = registerExtraSlot(() -> this.shoulderSlot, e -> this.shoulderSlot = e);
+	private final ExtraSlot shoulderSlotHandler = registerExtraSlot(SHOULDER_ITEM, () -> this.shoulderSlot, e -> this.shoulderSlot = e);
 
 	private final MountChargeManager chargeManager = new MountChargeManager(this);
 	public final TargetingAnimState shoulderAnimState = new TargetingAnimState();
@@ -75,7 +75,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
-		registerArrowSlot(false);
+		registerArrowSlot(true);
 		setMaxUpStep(1);
 	}
 
@@ -168,7 +168,6 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		if (target == null) this.entityData.set(SHOULDER_TARGET, new Vector3f(0, 0, 0));
 		else
 			this.entityData.set(SHOULDER_TARGET, target.position().add(0, target.getBbHeight() / 2, 0).subtract(position()).toVector3f());
-		syncShoulderItem();
 		tickShoulderWeapon();
 		dismountRidersWithShoulderWeapon();
 		if (jumpAttackDelay > 0) jumpAttackDelay--;
@@ -191,28 +190,6 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	public void aiStep() {
 		super.aiStep();
 		shoulderAnimState.tick(this);
-	}
-
-	/**
-	 * Mirrors the metal golem: the shoulder slot lives in a plain field while the client reads it
-	 * back from synced data, and the field is mirrored into that data every tick.
-	 */
-	private void syncShoulderItem() {
-		var stack = getShoulderSlot().getItem();
-		if (!ItemStack.matches(this.entityData.get(SHOULDER_ITEM), stack)) {
-			this.entityData.set(SHOULDER_ITEM, stack.copy());
-		}
-	}
-
-	/**
-	 * The client copy of the shoulder weapon, read from synced data the same way the metal golem
-	 * reads its shoulders, so tags written server side during an action reach the renderer. An item
-	 * form is not in the world, so it has no synced data to read and falls back to the field.
-	 */
-	public ItemStack getShoulderSlotForRender() {
-		if (!this.level().isClientSide) return getShoulderSlot().getItem();
-		if (!isAddedToWorld()) return getShoulderSlot().getItem();
-		return this.entityData.get(SHOULDER_ITEM);
 	}
 
 	/**
