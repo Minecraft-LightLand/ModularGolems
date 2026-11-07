@@ -12,6 +12,7 @@ public class MGConfig {
 
 		public final ForgeConfigSpec.ConfigValue<String> editorSavePath;
 		public final ForgeConfigSpec.BooleanValue shieldUsePoseFixForModdedShields;
+		public final ForgeConfigSpec.BooleanValue renderGolemItemAsPlainParts;
 
 		Client(ForgeConfigSpec.Builder builder) {
 			editorSavePath = builder.comment("Save path override for the in-game editor.",
@@ -24,6 +25,11 @@ public class MGConfig {
 					.comment("Replace isUsingItem with isBlocking for modded shield model predicate")
 					.comment("Fix shield rendering on humanoid golem but may break stuff")
 					.define("shieldUsePoseFixForModdedShields", false);
+			renderGolemItemAsPlainParts = builder
+					.comment("Render golem items using plain part models instead of a full golem entity.")
+					.comment("This skips entity creation and entity rendering for golem items, even when they contain entity data,")
+					.comment("which can greatly reduce client lag at the cost of not showing equipment and skins on the item.")
+					.define("renderGolemItemAsPlainParts", false);
 		}
 
 	}
