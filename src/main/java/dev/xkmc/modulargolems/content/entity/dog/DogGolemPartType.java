@@ -34,6 +34,11 @@ public enum DogGolemPartType implements IGolemPart<DogGolemPartType> {
 	}
 
 	@Override
+	public MutableComponent getName() {
+		return Component.translatable("golem_part_name.dog_golem." + name().toLowerCase(Locale.ROOT));
+	}
+
+	@Override
 	public GolemPart<?, DogGolemPartType> toItem() {
 		return switch (this) {
 			case BODY -> GolemItems.DOG_BODY.get();

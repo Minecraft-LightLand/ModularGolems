@@ -17,6 +17,10 @@ public interface IGolemPart<P extends IGolemPart<P>> {
 
 	MutableComponent getDesc(MutableComponent desc);
 
+	default MutableComponent getName(){
+		return toItem().getDefaultInstance().getHoverName().copy();
+	}
+
 	GolemPart<?, P> toItem();
 
 	GolemSlot getSlot();

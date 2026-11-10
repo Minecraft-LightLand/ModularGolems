@@ -35,6 +35,11 @@ public enum HumanoidGolemPartType implements IGolemPart<HumanoidGolemPartType> {
 	}
 
 	@Override
+	public MutableComponent getName() {
+		return Component.translatable("golem_part_name.humanoid_golem." + name().toLowerCase(Locale.ROOT));
+	}
+
+	@Override
 	public GolemPart<?, HumanoidGolemPartType> toItem() {
 		return switch (this) {
 			case BODY -> GolemItems.HUMANOID_BODY.get();

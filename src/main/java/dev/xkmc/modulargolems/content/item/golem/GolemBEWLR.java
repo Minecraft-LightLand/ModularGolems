@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -72,7 +73,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 			render(handle, part.asPart());
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
-			if (!renderEntity(handle, holder))
+			if (MGConfig.CLIENT.renderGolemItemAsPlainParts.get() || !renderEntity(handle, holder))
 				render(handle, holder);
 		}
 		if (stack.getItem() instanceof GolemFacade) {

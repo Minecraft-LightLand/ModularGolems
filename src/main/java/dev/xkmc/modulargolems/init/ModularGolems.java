@@ -12,16 +12,17 @@ import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.compat.maid.SetMaidModelToServer;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.content.capability.*;
-import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
-import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.client.overlay.GolemSkillCDRequest;
 import dev.xkmc.modulargolems.content.client.overlay.GolemSkillCDToClient;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.GuardedEntity;
 import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
 import dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.content.item.wand.OmniWandKeyToServer;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
@@ -85,7 +86,9 @@ public class ModularGolems {
 			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(GolemSkillCDToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(GolemSkillCDRequest.class, NetworkDirection.PLAY_TO_SERVER),
-			e -> e.create(SetGolemNameToServer.class, NetworkDirection.PLAY_TO_SERVER)
+			e -> e.create(SetGolemNameToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(OmniWandKeyToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
 
 	public static final ConfigTypeEntry<GolemPartConfig> PARTS =
@@ -124,9 +127,9 @@ public class ModularGolems {
 			GolemDispenserBehaviors.registerDispenseBehaviors();
 			CompatManager.commonSetup();
 			GolemWeaponRegistry.init();
-DefaultQuickAccessActions.quickAccess(GolemMiscs.DISINTEGRATE.get(),
-				GolemItems.TABLE.asItem(),
-				GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
+			DefaultQuickAccessActions.quickAccess(GolemMiscs.DISINTEGRATE.get(),
+					GolemItems.TABLE.asItem(),
+					GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
 			DefaultQuickAccessActions.quickAccess(GolemMiscs.SIMPLE_UPGRADE.get(),
 					GolemItems.SIMPLE_TABLE.asItem(),
 					(wid, inv, access) -> new SimpleUpgradeMenu(GolemMiscs.SIMPLE_UPGRADE.get(), wid, inv),
