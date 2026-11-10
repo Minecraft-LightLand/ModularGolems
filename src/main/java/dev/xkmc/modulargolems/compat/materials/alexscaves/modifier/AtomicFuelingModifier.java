@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.alexscaves.modifier;
 
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import dev.xkmc.l2complements.init.L2Complements;
 import dev.xkmc.l2complements.init.registrate.LCEffects;
@@ -9,10 +10,10 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -49,8 +50,7 @@ public class AtomicFuelingModifier extends GolemModifier {
 		var ins = golem.getEffect(ACCompatRegistry.EFF_ATOMIC.get());
 		int t = ins == null ? 0 : ins.getDuration();
 		golem.addEffect(new MobEffectInstance(ACCompatRegistry.EFF_ATOMIC.get(), t + time(), level));
-		float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
-		golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
+		SkillSound.playConsume(golem, ACSoundRegistry.TREMORZILLA_CHARGE_COMPLETE.get());
 	}
 
 	@Override

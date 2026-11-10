@@ -1,14 +1,15 @@
 package dev.xkmc.modulargolems.compat.materials.alexscaves.modifier;
 
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.ACCompatRegistry;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -46,8 +47,7 @@ public class ReformationModifier extends GolemModifier {
 		iron.shrink(1);
 		golem.setAbsorptionAmount(hp + health());
 		golem.repair(heal(level));
-		float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
-		golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
+		SkillSound.playConsume(golem, ACSoundRegistry.MAGNETRON_ASSEMBLE.get());
 		//TODO visual effects
 	}
 
@@ -62,8 +62,7 @@ public class ReformationModifier extends GolemModifier {
 			if (!player.isCreative()) stack.shrink(1);
 			golem.setAbsorptionAmount(hp + health());
 			golem.repair(heal(level));
-			float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
-			golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
+			SkillSound.playConsume(golem, ACSoundRegistry.MAGNETRON_ASSEMBLE.get());
 		}
 		return InteractionResult.SUCCESS;
 	}

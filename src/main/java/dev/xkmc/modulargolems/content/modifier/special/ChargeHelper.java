@@ -98,6 +98,9 @@ public class ChargeHelper {
 	 * 所以对上群比任何单一距离都值钱。
 	 * <p>
 	 * 锁定目标只用于平局裁决，人群里不会输给任何人，但平局时仍然优先。
+	 * <p>
+	 * 候选必须先有视野：冲锋是直线突进，若墙上/隔壁房间里的敌人也被算进来，
+	 * {@link #countOnPath} 反而会因为「墙后一堆人」而更偏好朝墙冲，傀儡只会一头撞墙。
 	 */
 	@Nullable
 	public static LivingEntity findChargeTarget(AbstractGolemEntity<?, ?> golem, double range) {
@@ -105,6 +108,8 @@ public class ChargeHelper {
 		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(range))) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
 			if (golem.distanceToSqr(e) > range * range) continue;
+			// 用 golem.hasLineOfSight 而非直接射线，以保留 SEE_THROUGH 傀儡的穿墙索敌能力。
+			if (!golem.hasLineOfSight(e)) continue;
 			candidates.add(e);
 		}
 		if (candidates.isEmpty()) return null;
