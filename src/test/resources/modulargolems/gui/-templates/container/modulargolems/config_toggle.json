@@ -6,7 +6,9 @@
         "hand": {
             "sprite": "slot",
             "x": 16,
-            "y": 0
+            "y": 0,
+            "rx": 9,
+            "ry": 1
         }
     },
     "height": 220,

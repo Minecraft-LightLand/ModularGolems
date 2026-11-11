@@ -23,14 +23,17 @@ public class ToggleGolemConfigMenu extends BaseContainerMenu<ToggleGolemConfigMe
 	final GolemConfigEditor editor;
 
 	protected ToggleGolemConfigMenu(MenuType<?> type, int wid, Inventory plInv, GolemConfigEditor editor) {
-		super(type, wid, plInv, MANAGER, menu -> new BaseContainer<>(1, menu), true);
+		super(type, wid, plInv, MANAGER, menu -> new BaseContainer<>(9, menu), true);
 		this.editor = editor;
 		this.addSlot("hand", e -> e.getItem() instanceof GolemHolder<?, ?>);
 	}
 
 	@Override
 	protected void securedServerSlotChange(Container cont) {
-		GolemHolder.setGolemConfig(cont.getItem(0), editor.entry().getID(), editor.entry().getColor());
+		for (int i = 0; i < cont.getContainerSize(); i++) {
+			if (!cont.getItem(i).isEmpty())
+				GolemHolder.setGolemConfig(cont.getItem(i), editor.entry().getID(), editor.entry().getColor());
+		}
 	}
 
 }
