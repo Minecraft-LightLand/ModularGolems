@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "addition": {
-    "item": "cataclysm:witherite_ingot"
+    "item": "cataclysm:witherite_block"
   },
   "base": {
     "item": "modulargolems:barbaric_vanguard_shinguard"

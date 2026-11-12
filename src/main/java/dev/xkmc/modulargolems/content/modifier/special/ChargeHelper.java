@@ -269,6 +269,7 @@ public class ChargeHelper {
 		}
 	}
 
+
 	public record Instance(AbstractGolemEntity<?, ?> owner, Modifier modifier, int lv) {
 
 		public boolean isValid() {

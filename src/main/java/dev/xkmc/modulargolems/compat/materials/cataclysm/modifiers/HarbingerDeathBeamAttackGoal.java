@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -13,7 +14,7 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 	private Entity beam;
 
 	public HarbingerDeathBeamAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 0, 35, golem, lv);
+		super(HarbingerDeathBeamModifier.COOLDOWN, HarbingerDeathBeamModifier.MIN_RANGE, HarbingerDeathBeamModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
@@ -24,6 +25,12 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 
 	@Override
 	public void tick() {
+		// Skills that shorten the beam cooldown bank their reduction here; draining it into the attack
+		// timer is what makes the shortened cooldown take effect mid-wait.
+		int reduction = HarbingerDeathBeamModifier.takeBeamReduction(golem);
+		if (reduction > 0) {
+			this.attackTime -= reduction;
+		}
 		if (beam != null) {
 			if (beam.isRemoved()) {
 				beam = null;
@@ -57,5 +64,11 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 	protected double getLeapRange() {
 		return BackstepHelper.DEFAULT_LEAP_RANGE;
 	}
-}
 
+	@Override
+	protected int getWaitTime() {
+		int base = super.getWaitTime();
+		return CataArmorHelper.harbingerFinalForm(golem) ? Math.max(1, base / 2) : base;
+	}
+
+}

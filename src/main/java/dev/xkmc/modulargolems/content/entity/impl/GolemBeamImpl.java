@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.impl;
 
+import dev.xkmc.modulargolems.compat.materials.alexscaves.modifier.AtomicBreathModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.level.ClipContext;
@@ -48,7 +49,7 @@ public interface GolemBeamImpl extends GolemImplBase, GolemBeamSource {
 	@Override
 	default Vec3 getBeamEnd(float partialTicks) {
 		Vec3 from = getBeamMouth(partialTicks);
-		Vec3 to = from.add(GolemBeamSource.lookVector(asGolem(), partialTicks).normalize().scale(MGConfig.COMMON.atomicBeamRange.get()));
+		Vec3 to = from.add(GolemBeamSource.lookVector(asGolem(), partialTicks).normalize().scale(AtomicBreathModifier.range()));
 		return asGolem().level().clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, asGolem())).getLocation();
 	}
 

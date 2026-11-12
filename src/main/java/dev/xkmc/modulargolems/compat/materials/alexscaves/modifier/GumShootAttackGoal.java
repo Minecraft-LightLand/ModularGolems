@@ -20,8 +20,9 @@ public class GumShootAttackGoal extends BaseRangedAttackGoal {
 	private static final float BOUNCY_CHANCE = 0.3F;
 	private static final float SPREAD_DEGREES = 10F;
 
-	public GumShootAttackGoal(int waitTime, int near, int far, AbstractGolemEntity<?, ?> golem, int lv) {
-		super(waitTime, near, far, golem, lv);
+	public GumShootAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
+		super(CandyShootModifier.COOLDOWN, CandyShootModifier.MIN_RANGE,
+				CandyShootModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class PaladinSoulShieldModifier extends GolemModifier implements ICooldow
 	public void onDamaged(AbstractGolemEntity<?, ?> golem, LivingDamageEvent event, int level) {
 		var attacker = event.getSource().getEntity();
 		if (!(attacker instanceof LivingEntity le)) return;
-		// 此处仿ScyllaWaveAttackModifier
+		// 此处仿ScyllaWaveModifier
 		long time = golem.level().getGameTime();
 		var last = golem.getPersistentData().getLong("SoulShieldTime");
 		if (last < time && last > time - 40) return;

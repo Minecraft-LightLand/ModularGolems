@@ -30,7 +30,7 @@ public class AncientRemnantSandstormTrackGoal extends Goal {
 
 	@Override
 	public void tick() {
-		var group = SandstormGroup.of(golem);
+		var group = AncientRemnantSandstormGroup.of(golem);
 		group.track(golem);
 		if (timer > 0) {
 			timer--;

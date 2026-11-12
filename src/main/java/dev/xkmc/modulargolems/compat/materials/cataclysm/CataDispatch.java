@@ -54,8 +54,13 @@ public class CataDispatch extends ModDispatch {
 		pvd.drop(MODID, ModEntities.ANCIENT_REMNANT.get(), "ancient_metal");
 	}
 
+	/**
+	 * Whether the golem is in Ignis' soul form: at or below 2/3 health, or wearing the ignitium chestplate
+	 * (which pins it there). Shares the same threshold as every other ignis skill.
+	 */
 	public static boolean ignisBlue(LivingEntity e) {
-		return e.getHealth() <= e.getMaxHealth() / 2 || e.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.IGNIS_CHESTPLATE.get());
+		return e.getHealth() <= e.getMaxHealth() * 2f / 3f
+				|| e.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.IGNIS_CHESTPLATE.get());
 	}
 
 	public static void stackBlazingBrand(LivingEntity golem, LivingEntity target, float dmg, int min) {

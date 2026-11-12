@@ -25,4 +25,19 @@ public class CataArmorPaths {
 			MALEDICTUS_CHESTPLATES = ModularGolems.loc("maledictus/chestplate"),
 			MALEDICTUS_LEGGINGS = ModularGolems.loc("maledictus/shinguard");
 
+	public static final ResourceLocation
+			ENDER_GUARDIAN_HELMETS = ModularGolems.loc("ender_guardian/helmet"),
+			ENDER_GUARDIAN_CHESTPLATES = ModularGolems.loc("ender_guardian/chestplate"),
+			ENDER_GUARDIAN_LEGGINGS = ModularGolems.loc("ender_guardian/shinguard");
+
+	public static final ResourceLocation
+			ANCIENT_METAL_HELMETS = ModularGolems.loc("ancient_metal/helmet"),
+			ANCIENT_METAL_CHESTPLATES = ModularGolems.loc("ancient_metal/chestplate"),
+			ANCIENT_METAL_LEGGINGS = ModularGolems.loc("ancient_metal/shinguard");
+
+	public static final ResourceLocation
+			STORM_HELMETS = ModularGolems.loc("storm/helmet"),
+			STORM_CHESTPLATES = ModularGolems.loc("storm/chestplate"),
+			STORM_LEGGINGS = ModularGolems.loc("storm/shinguard");
+
 }

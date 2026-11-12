@@ -1,9 +1,12 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.client.AncientMetalArmors;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.client.EnderGuardianArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.HarbingerArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.IgnisArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MaledictusArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmors;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.client.StormArmors;
 import dev.xkmc.modulargolems.compat.materials.common.ClientModDispatch;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
@@ -38,6 +41,18 @@ public class CataClient extends ClientModDispatch {
 		regAndAdd(event, MaledictusArmors.HELMET_LAYER, MaledictusArmors::createHelmet);
 		regAndAdd(event, MaledictusArmors.CHESTPLATE_LAYER, MaledictusArmors::createChestplate);
 		regAndAdd(event, MaledictusArmors.SHINGUARD_LAYER, MaledictusArmors::createLeggings);
+
+		regAndAdd(event, EnderGuardianArmors.HELMET_LAYER, EnderGuardianArmors::createHelmet);
+		regAndAdd(event, EnderGuardianArmors.CHESTPLATE_LAYER, EnderGuardianArmors::createChestplate);
+		regAndAdd(event, EnderGuardianArmors.SHINGUARD_LAYER, EnderGuardianArmors::createLeggings);
+
+		regAndAdd(event, AncientMetalArmors.HELMET_LAYER, AncientMetalArmors::createHelmet);
+		regAndAdd(event, AncientMetalArmors.CHESTPLATE_LAYER, AncientMetalArmors::createChestplate);
+		regAndAdd(event, AncientMetalArmors.SHINGUARD_LAYER, AncientMetalArmors::createLeggings);
+
+		regAndAdd(event, StormArmors.HELMET_LAYER, StormArmors::createHelmet);
+		regAndAdd(event, StormArmors.CHESTPLATE_LAYER, StormArmors::createChestplate);
+		regAndAdd(event, StormArmors.SHINGUARD_LAYER, StormArmors::createLeggings);
 	}
 
 }

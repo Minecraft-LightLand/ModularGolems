@@ -65,7 +65,7 @@ public class BigRigChargeModifier extends GolemModifier implements ChargeHelper.
 	@Override
 	public void performCharge(ChargeHelper.Instance ins) {
 		var golem = ins.owner();
-		SkillSound.playCharge(golem, SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 0.6F);
+		SkillSound.playChargeOnly(golem, SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 0.6F);
 		SkillSound.playCharge(golem, AllSoundEvents.WHISTLE_TRAIN.getMainEvent(), 1.0F, 1.0F);
 	}
 

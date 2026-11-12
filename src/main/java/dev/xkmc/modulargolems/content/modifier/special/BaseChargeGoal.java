@@ -55,12 +55,12 @@ public abstract class BaseChargeGoal extends Goal implements ICooldownSkill {
 		BackstepHelper b = new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
 		// 各冲锋 Goal 的 start() 会先 setBusy(true) 再调这里，而 BackstepHelper.canUse 第一件事就是检查 busy，
 		// 不先解锁会导致后撤步永远不触发。判定完按结果重新占锁：起跳由 b.start() 自己占，没起跳则由调用方继续。
-		boolean busy = golem.isTransientFlag(EarthquakeHelper.SKILL_BUSY_KEY);
-		if (busy) golem.setTransientFlag(EarthquakeHelper.SKILL_BUSY_KEY, false);
+		boolean busy = EarthquakeHelper.isBusy(golem);
+		if (busy) EarthquakeHelper.setBusy(golem, false);
 		// 冲锋一律按「目标已进入自身近战距离」判定，不用远程 leapRange（否则有远程技能的傀儡会在 16 格外乱撤）
 		boolean ok = b.canUseMelee(target);
 		if (!ok) {
-			if (busy) golem.setTransientFlag(EarthquakeHelper.SKILL_BUSY_KEY, true);
+			if (busy) EarthquakeHelper.setBusy(golem, true);
 			return false;
 		}
 		this.backstep = b;
@@ -144,6 +144,18 @@ public abstract class BaseChargeGoal extends Goal implements ICooldownSkill {
 
 	private String cooldownTag() {
 		return mod.self().getID() + ":timestamp";
+	}
+
+	/**
+	 * 冲锋类技能的通用前置条件：必须站在地面。
+	 * <p>
+	 * 与大跳共用的 {@code EarthquakeHelper} busy 锁是双重保险：busy 锁只保证两者不同时施放，
+	 * 但落地判定与起手的时序偶有窗口，这里再挡一次，避免在空中起冲。
+	 * <p>
+	 * 水上/空中的变体（如 riptide）不要调这个，改用自己的环境判定。
+	 */
+	protected boolean canStartCharge(AbstractGolemEntity<?, ?> golem) {
+		return golem.onGround();
 	}
 
 	protected boolean onCooldown(AbstractGolemEntity<?, ?> golem) {

@@ -20,6 +20,8 @@ import java.util.function.Consumer;
 
 public class ObliteratorJumpGroundChargeModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
+	public static final int COOLDOWN = 200;
+
 	public ObliteratorJumpGroundChargeModifier() {
 		super(StatFilterType.MOVEMENT, 1);
 	}
@@ -45,6 +47,11 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 				EarthquakeHelper.launch(golem, e, 1.2f);
 			}
 		}
+	}
+
+	@Override
+	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
+		return COOLDOWN;
 	}
 
 	@Override

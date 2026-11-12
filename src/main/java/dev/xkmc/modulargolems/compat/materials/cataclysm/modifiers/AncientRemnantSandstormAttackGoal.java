@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -7,18 +8,26 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class AncientRemnantSandstormAttackGoal extends BaseRangedAttackGoal {
 
-	private static final int WAIT_TIME = 100;
 
 	public AncientRemnantSandstormAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(WAIT_TIME, 0, 35, golem, lv);
+		super(AncientRemnantSandstormModifier.COOLDOWN, AncientRemnantSandstormModifier.MIN_RANGE, AncientRemnantSandstormModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
 	protected boolean performAttack(LivingEntity target) {
-		var group = SandstormGroup.of(golem);
+		AncientRemnantChargeModifier.addChargeReduction(golem);
+		var group = AncientRemnantSandstormGroup.of(golem);
 		group.maintain(golem, lv);
 		group.assign(golem);
 		return true;
+	}
+
+	/**
+	 * 远古金属胸甲：半血以下（或被胸甲钉在最终形态）时冷却减半。
+	 */
+	@Override
+	protected int getWaitTime() {
+		return CataArmorHelper.ancientFastSkill(golem) ? AncientRemnantSandstormModifier.COOLDOWN / 2 : AncientRemnantSandstormModifier.COOLDOWN;
 	}
 
 	@Override

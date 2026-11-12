@@ -15,15 +15,14 @@ import net.minecraft.world.phys.Vec3;
  */
 public class MaledictusArrowAttackGoal extends BurstRangedGoal {
 
-	private static final int ARROW_COUNT = 4;
 
 	public MaledictusArrowAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(0, 20, golem, lv);
+		super(MaledictusArrowModifier.cooldownFor(lv), MaledictusArrowModifier.MIN_RANGE, MaledictusArrowModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
 	protected int getBurstCount() {
-		return ARROW_COUNT;
+		return MaledictusArrowModifier.ARROW_COUNT;
 	}
 
 	/** the four arrows leave together, then the skill goes on cooldown */

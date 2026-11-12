@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 public class SonicModifier extends GolemModifier {
 
 	public SonicModifier() {
-		super(StatFilterType.HEALTH, 1);
+		super(StatFilterType.HEAD, 1);
 	}
 
 	@Override

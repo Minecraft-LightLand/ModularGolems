@@ -26,8 +26,8 @@ public class RadiationModifier extends GolemModifier {
 		return (float) (double) MGConfig.COMMON.radiationDamage.get();
 	}
 
-	public RadiationModifier() {
-		super(StatFilterType.ATTACK, 2);
+	public RadiationModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

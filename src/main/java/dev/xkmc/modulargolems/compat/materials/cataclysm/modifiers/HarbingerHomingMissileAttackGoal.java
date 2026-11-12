@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -16,14 +17,12 @@ import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 public class HarbingerHomingMissileAttackGoal extends BaseRangedAttackGoal {
 
-	private static final int SHOT_COUNT = 3;
-	private static final int FAR_RANGE = 35;
 
 	private int step = -1;
 	private final List<LivingEntity> targets = new ArrayList<>();
 
 	public HarbingerHomingMissileAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 0, 35, golem, lv);
+		super(HarbingerHomingMissileModifier.COOLDOWN, HarbingerHomingMissileModifier.MIN_RANGE, HarbingerHomingMissileModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
@@ -43,7 +42,10 @@ public class HarbingerHomingMissileAttackGoal extends BaseRangedAttackGoal {
 	@Override
 	protected boolean performAttack(LivingEntity target) {
 
-		if (step < 0) step = 0;
+		if (step < 0) {
+			if (!golem.level().isClientSide()) HarbingerDeathBeamModifier.addBeamReduction(golem);
+			step = 0;
+		}
 		step++;
 		int shot = -1;
 		if (step == 1 || step == 5 || step == 9) shot = (step - 1) / 4;
@@ -63,7 +65,7 @@ public class HarbingerHomingMissileAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	private void collectTargets(LivingEntity main) {
-		GolemTargetUtil.collect(golem, main, FAR_RANGE, SHOT_COUNT, targets);
+		GolemTargetUtil.collect(golem, main, HarbingerHomingMissileModifier.MAX_RANGE, HarbingerHomingMissileModifier.SHOT_COUNT, targets);
 	}
 
 	private void fireOne(LivingEntity target, int j) {
@@ -101,4 +103,10 @@ public class HarbingerHomingMissileAttackGoal extends BaseRangedAttackGoal {
 	protected double getLeapRange() {
 		return BackstepHelper.DEFAULT_LEAP_RANGE;
 	}
+	@Override
+	protected int getWaitTime() {
+		int base = super.getWaitTime();
+		return CataArmorHelper.harbingerFinalForm(golem) ? Math.max(1, base / 2) : base;
+	}
+
 }

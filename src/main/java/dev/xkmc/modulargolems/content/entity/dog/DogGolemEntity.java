@@ -175,7 +175,6 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 			jumpAttack.modifier().performEarthQuake(this, jumpAttack.lv());
 			jumpAttack.modifier().onEarthQuakeLanded(this, jumpAttack.lv());
 			// 落点计入冲锋技能冷却，否则冲锋会看见刚跳到的目标，一落地就冲过去
-			ChargeHelper.addChargeCooldown(this);
 			this.level().broadcastEntityEvent(this, EarthquakeHelper.FLAG);
 			jumpAttack = null;
 		}

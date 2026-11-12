@@ -17,6 +17,8 @@ import java.util.function.Consumer;
 
 public class AncientAnchorModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
+	public static final int COOLDOWN = 200;
+
 	public AncientAnchorModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
 	}
@@ -41,6 +43,11 @@ public class AncientAnchorModifier extends GolemModifier implements EarthquakeHe
 				EarthquakeHelper.launch(golem, e, 1);
 			}
 		}
+	}
+
+	@Override
+	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
+		return COOLDOWN;
 	}
 
 	@Override

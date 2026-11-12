@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -38,8 +39,8 @@ public class MonstrosityArmorItem extends MetalGolemArmorItem {
 			case CHEST -> list.add(MGLangData.MONSTROSITY_BOOST_CHARGE
 					.get(Math.round(MGConfig.COMMON.monstrosityChargeBonus.get() * 100) + "%")
 					.withStyle(ChatFormatting.GOLD));
-			case HEAD, LEGS -> list.add(MGLangData.MONSTROSITY_BOOST
-					.get(Math.round(MGConfig.COMMON.earthquakeArmorBonus.get() * 100) + "%")
+			case HEAD, LEGS -> list.add(CataArmorHelper.damageLine(MGConfig.COMMON.earthquakeArmorBonus.get(),
+					CataArmorHelper.skillName(CataCompatRegistry.EARTHQUAKE.get()))
 					.withStyle(ChatFormatting.GOLD));
 		}
 	}

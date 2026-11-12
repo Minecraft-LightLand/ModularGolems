@@ -50,10 +50,6 @@ public class TransientStateContainer {
 			}
 		}
 
-		default void tickTransient() {
-
-		}
-
 	}
 
 }

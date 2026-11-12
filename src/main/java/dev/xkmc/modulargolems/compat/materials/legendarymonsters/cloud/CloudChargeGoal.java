@@ -52,6 +52,7 @@ public class CloudChargeGoal extends BaseChargeGoal {
 	@Override
 	public boolean canUse() {
 		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
+		if (!canStartCharge(golem)) return false;
 		if (EarthquakeHelper.isBusy(golem)) return false;
 		if (onCooldown(golem)) return false;
 		LivingEntity target = findTarget();

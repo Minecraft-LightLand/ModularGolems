@@ -32,10 +32,14 @@ public class GolemCombatHelper {
 	/**
 	 * Deals damage and takes the target's shield down with it. Skills call this instead of
 	 * {@code target.hurt} so no skill silently loses the shield break.
+	 * <p>
+	 * Returns whether the damage actually landed, so callers can gate a hit sound on a real hit
+	 * instead of on every frame of contact.
 	 */
-	public static void meleeHit(AbstractGolemEntity<?, ?> golem, LivingEntity target, DamageSource source, float damage) {
-		target.hurt(source, damage);
+	public static boolean meleeHit(AbstractGolemEntity<?, ?> golem, LivingEntity target, DamageSource source, float damage) {
+		boolean hit = target.hurt(source, damage);
 		breakShield(golem, target, source);
+		return hit;
 	}
 
 	/**

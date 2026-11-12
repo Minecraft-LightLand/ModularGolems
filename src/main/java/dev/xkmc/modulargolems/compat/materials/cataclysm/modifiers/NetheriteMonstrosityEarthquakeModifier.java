@@ -1,7 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
@@ -15,7 +15,6 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -23,6 +22,11 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import java.util.function.Consumer;
 
 public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifier implements EarthquakeHelper.Modifier {
+
+	public static final int COOLDOWN = 160;
+
+	/** 起跳可及的最大水平距离（格）。 */
+	public static final int MAX_RANGE = 8;
 
 	public NetheriteMonstrosityEarthquakeModifier() {
 		super(1,
@@ -50,8 +54,13 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 	}
 
 	@Override
+	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
+		return COOLDOWN;
+	}
+
+	@Override
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
-		return 8 * 8;
+		return (double) MAX_RANGE * MAX_RANGE;
 	}
 
 	@Override
@@ -64,9 +73,9 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 						GolemCataProxy.monstrosityEarthquakeDamage() * entity.getMaxHealth()
 				);
 				float factor = 0;
-				if (golem.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MONSTROSITY_HELMET.get()))
+				if (CataArmorHelper.monstrosityHelmet(golem))
 					factor++;
-				if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MONSTROSITY_SHINGUARD.get()))
+				if (CataArmorHelper.monstrosityLegs(golem))
 					factor++;
 				var src = golem.damageSources().mobAttack(golem);
 				boolean flag = entity.hurt(src, damage * (1 + MGConfig.COMMON.earthquakeArmorBonus.get().floatValue() * factor));

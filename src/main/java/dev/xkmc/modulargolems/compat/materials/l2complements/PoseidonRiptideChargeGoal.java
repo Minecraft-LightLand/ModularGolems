@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.l2complements;
 
+import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 
 import dev.xkmc.modulargolems.content.modifier.special.ICooldownSkill;
@@ -63,7 +64,7 @@ public class PoseidonRiptideChargeGoal extends BaseChargeGoal {
 	@Override
 	public void start() {
 		LivingEntity target = findTarget();
-		// 同 IgnisChargeGoal#start：canUse 与 start 之间目标可能已死
+		// 同 IgnisChargeAttackGoal#start：canUse 与 start 之间目标可能已死
 		if (target == null) {
 			this.blocked = true;
 			return;
@@ -139,7 +140,10 @@ public class PoseidonRiptideChargeGoal extends BaseChargeGoal {
 		AABB aabb = golem.getBoundingBox().inflate(0.5);
 		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class, aabb)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
-			e.hurt(golem.damageSources().mobAttack(golem), atk * bonus);
+			{
+				boolean chargeHit = e.hurt(golem.damageSources().mobAttack(golem), atk * bonus);
+				if (chargeHit) SkillSound.playChargeHit(golem);
+			}
 		}
 	}
 

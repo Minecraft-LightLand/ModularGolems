@@ -20,6 +20,8 @@ import java.util.function.Consumer;
 
 public class SlamModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
+	public static final int COOLDOWN = 200;
+
 	public SlamModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
 	}
@@ -60,6 +62,11 @@ public class SlamModifier extends GolemModifier implements EarthquakeHelper.Modi
 		axeAttack.setAxeStack(ItemHandler.WROUGHT_AXE.get().getDefaultInstance());
 		axeAttack.tickCount = 13;
 		golem.level().addFreshEntity(axeAttack);
+	}
+
+	@Override
+	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
+		return COOLDOWN;
 	}
 
 	@Override

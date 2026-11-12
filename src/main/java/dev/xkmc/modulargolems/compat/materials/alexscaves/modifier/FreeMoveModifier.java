@@ -8,8 +8,8 @@ import java.util.function.Consumer;
 
 public class FreeMoveModifier extends GolemModifier {
 
-	public FreeMoveModifier() {
-		super(StatFilterType.MOVEMENT, 1);
+	public FreeMoveModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

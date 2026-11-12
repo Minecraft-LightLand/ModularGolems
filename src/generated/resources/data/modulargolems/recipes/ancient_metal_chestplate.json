@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "cataclysm:remnant_skull"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_chestplate"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:ancient_metal_chestplate"
+  },
+  "template": {
+    "item": "modulargolems:ancient_metal_upgrade_template"
+  }
+}
