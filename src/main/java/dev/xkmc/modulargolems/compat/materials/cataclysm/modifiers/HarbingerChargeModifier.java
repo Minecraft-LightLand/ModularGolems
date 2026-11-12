@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -19,7 +20,13 @@ import java.util.function.BiConsumer;
 
 public class HarbingerChargeModifier extends GolemModifier implements ChargeHelper.Modifier {
 
-	public static final int COOLDOWN = 160;
+	public static final int COOLDOWN = 200;
+
+	public static final int MAX_TICKS = 60;
+	public static final double MAX_RANGE = 16;
+	/** 冲锋的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
+	public static final double CLIMB_BOOST = 2.5;
 
 	public HarbingerChargeModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -27,19 +34,19 @@ public class HarbingerChargeModifier extends GolemModifier implements ChargeHelp
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new HarbingerChargeGoal(entity, lv, this));
+		addGoal.accept(1, new HarbingerChargeAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
-		if (HarbingerChargeGoal.isCharging(entity)) {
+		if (HarbingerChargeAttackGoal.isCharging(entity)) {
 			event.setAmount(event.getAmount() * ChargeHelper.CHARGE_DAMAGE_MULT);
 		}
 	}
 
 	@Override
 	public void setCharging(ChargeHelper.Instance ins, boolean on) {
-		ins.owner().setTransientFlag(HarbingerChargeGoal.KEY_ACTIVE, on);
+		ins.owner().setTransientFlag(HarbingerChargeAttackGoal.KEY_ACTIVE, on);
 	}
 
 	@Override
@@ -59,7 +66,7 @@ public class HarbingerChargeModifier extends GolemModifier implements ChargeHelp
 
 	@Override
 	public int getCooldown(AbstractGolemEntity<?, ?> golem, int lv) {
-		return COOLDOWN;
+		return CataArmorHelper.harbingerFinalForm(golem) ? COOLDOWN / 2 : COOLDOWN;
 	}
 
 	@Override
@@ -78,8 +85,8 @@ public class HarbingerChargeModifier extends GolemModifier implements ChargeHelp
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		var dashes = Component.literal("" + HarbingerChargeGoal.MAX_DASH).withStyle(ChatFormatting.AQUA);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", ChargeHelper.chargeReduction(), dashes).withStyle(ChatFormatting.GREEN));
+		var dashes = Component.literal("" + HarbingerChargeAttackGoal.MAX_DASH).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", ChargeHelper.chargeReduction(), dashes, CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH)).withStyle(ChatFormatting.GREEN));
 	}
 
 }

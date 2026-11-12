@@ -16,8 +16,8 @@ import java.util.List;
 
 public class MaledictusAttackModifier extends GolemModifier {
 
-	public MaledictusAttackModifier() {
-		super(StatFilterType.ATTACK, 2);
+	public MaledictusAttackModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

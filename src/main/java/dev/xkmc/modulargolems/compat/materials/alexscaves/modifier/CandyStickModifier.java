@@ -15,8 +15,8 @@ public class CandyStickModifier extends GolemModifier {
 		return 100;//TODO
 	}
 
-	public CandyStickModifier() {
-		super(StatFilterType.ATTACK, 2);
+	public CandyStickModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

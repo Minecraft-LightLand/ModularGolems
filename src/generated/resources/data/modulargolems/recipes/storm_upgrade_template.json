@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:prismarine_shard"
+    },
+    "B": {
+      "item": "minecraft:lightning_rod"
+    },
+    "C": {
+      "item": "minecraft:diamond"
+    },
+    "D": {
+      "item": "minecraft:netherite_upgrade_smithing_template"
+    },
+    "E": {
+      "item": "minecraft:prismarine_crystals"
+    },
+    "F": {
+      "item": "cataclysm:lacrima"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "CDC",
+    "EFE"
+  ],
+  "result": {
+    "item": "modulargolems:storm_upgrade_template"
+  },
+  "show_notification": true
+}

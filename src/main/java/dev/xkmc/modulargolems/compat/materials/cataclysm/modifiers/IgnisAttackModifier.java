@@ -21,7 +21,7 @@ public class IgnisAttackModifier extends GolemModifier {
 	/**
 	 * Health fraction at or below which the blade damage bypasses armor.
 	 */
-	public static final float ARMOR_BYPASS_HEALTH = 0.5F;
+	public static final float ARMOR_BYPASS_HEALTH = 2f / 3f;
 
 	public IgnisAttackModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);

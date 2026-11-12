@@ -1,7 +1,10 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.cataclysm_mux.MWCataProxy;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.VortexField;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -20,9 +23,12 @@ import net.minecraft.world.phys.Vec3;
 import java.util.function.Consumer;
 
 public class EnderGuardianTeleportSlamModifier extends GolemModifier implements EarthquakeHelper.Modifier {
+	public static final int COOLDOWN = 300;
+	/** 起跳可及的最大水平距离（格）。 */
+	public static final int MAX_RANGE = 25;
 
-	public EnderGuardianTeleportSlamModifier() {
-		super(StatFilterType.MOVEMENT, 1);
+	public EnderGuardianTeleportSlamModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override
@@ -37,7 +43,15 @@ public class EnderGuardianTeleportSlamModifier extends GolemModifier implements 
 
 	@Override
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
-		return 25 * 25;
+		return (double) MAX_RANGE * MAX_RANGE;
+	}
+
+	/**
+	 * 跃迁猛击只在完整形态（半血以下，或被末地守卫胸甲钉住）可用。
+	 */
+	@Override
+	public boolean canUse(AbstractGolemEntity<?, ?> golem) {
+		return CataArmorHelper.guardianFinalForm(golem);
 	}
 
 	@Override
@@ -52,6 +66,7 @@ public class EnderGuardianTeleportSlamModifier extends GolemModifier implements 
 
 			if (!golem.level().isClientSide()) {
 				MWCataProxy.spawnVortex(golem, target.position());
+				VortexField.add(golem, target.position());
 			}
 			golem.teleportTo(target.getX(), target.getY() + 10, target.getZ());
 			golem.setDeltaMovement(0, 0, 0);
@@ -66,6 +81,7 @@ public class EnderGuardianTeleportSlamModifier extends GolemModifier implements 
 		if (target != null && target.isAlive() && golem.predicateTarget(target)) {
 			if (!golem.level().isClientSide()) {
 				MWCataProxy.spawnVortex(golem, target.position());
+				VortexField.add(golem, target.position());
 			}
 			golem.teleportTo(target.getX(), target.getY() + 10, target.getZ());
 		} else {
@@ -87,13 +103,21 @@ public class EnderGuardianTeleportSlamModifier extends GolemModifier implements 
 
 	@Override
 	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
-		return 160;
+		// 末地守卫胸甲：半血以下（或被胸甲钉在最终形态）时冷却减半
+		return CataArmorHelper.guardianFastSlam(golem) ? COOLDOWN / 2 : COOLDOWN;
 	}
 
 
-	@Override
+		@Override
 	public List<MutableComponent> getDetail(int v) {
-		return List.of(Component.translatable(getDescriptionId() + ".desc", EarthquakeHelper.leapReduction()).withStyle(ChatFormatting.GREEN));
+		return List.of(
+				Component.translatable(getDescriptionId() + ".desc",
+						EarthquakeHelper.leapReduction(),
+						CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH))
+						.withStyle(ChatFormatting.GREEN),
+				MGLangData.SKILL_HEALTH_GATE.get(
+						CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH))
+						.withStyle(ChatFormatting.GREEN));
 	}
 
 }

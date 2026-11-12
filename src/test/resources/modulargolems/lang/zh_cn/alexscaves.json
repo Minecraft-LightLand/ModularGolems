@@ -12,7 +12,7 @@
 	"golem_material.alexscaves.nuclear": "核能",
 	"modifier.modulargolems": {
 		"atomic_breath": "原子吐息",
-		"atomic_breath.desc": "可向目标持续喷射原子射线，对路径上的所有目标造成伤害，并附加%s",
+		"atomic_breath.desc": "可向目标持续喷射原子射线，对路径上的所有目标造成伤害，并附加%s。核能强化期间冷却时间减半",
 		"atomic_fueling": "反应充能",
 		"atomic_fueling.desc": "可消耗[%s]回复%s的生命值，并提升%s的攻击伤害和移动速度，持续%s秒。免疫辐照效果",
 		"radiation": "辐照",

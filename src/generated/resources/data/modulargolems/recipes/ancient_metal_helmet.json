@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "cataclysm:sandstorm_in_a_bottle"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_helmet"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:ancient_metal_helmet"
+  },
+  "template": {
+    "item": "modulargolems:ancient_metal_upgrade_template"
+  }
+}

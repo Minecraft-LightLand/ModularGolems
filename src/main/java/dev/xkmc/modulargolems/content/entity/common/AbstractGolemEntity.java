@@ -643,7 +643,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				entry.getKey().onAiStep(this, entry.getValue());
 			}
 			tickTarget();
-			tickTransient();
 		}
 	}
 

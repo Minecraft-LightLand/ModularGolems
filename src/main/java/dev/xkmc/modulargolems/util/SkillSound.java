@@ -46,6 +46,14 @@ public class SkillSound {
 		}
 	}
 
+	/**
+	 * 冲锋命中的统一打击音效，与腾炎傀儡冲锋（{@code IgnisChargeAttackGoal}）逐字一致。
+	 * 只在真正造成伤害时调用。
+	 */
+	public static void playChargeHit(AbstractGolemEntity<?, ?> golem) {
+		golem.playSound(net.minecraft.sounds.SoundEvents.ANVIL_LAND, 1.0F, 0.8F + golem.getRandom().nextFloat() * 0.2F);
+	}
+
 	/** 跳跃类技能共用的彩蛋。 */
 	public static void playQuakeEasterEgg(AbstractGolemEntity<?, ?> golem, float volume, float pitch) {
 		if (EsterEggUtil.isKobe(golem)) {

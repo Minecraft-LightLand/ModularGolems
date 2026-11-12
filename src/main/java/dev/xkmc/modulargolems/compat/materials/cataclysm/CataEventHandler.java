@@ -2,10 +2,10 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.MaledictusArmorItem;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.VortexField;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGConfig;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -19,12 +19,24 @@ import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class CataEventHandler {
+
+	/**
+	 * 末影守卫护腿的虚空涡流强化场：技能召唤涡流时只登记位置，实际结算在这里每 tick 跑一次，
+	 * 这样涡流本体过期、技能 Goal 结束后强化场仍能持续到 {@link VortexField#LIFETIME}。
+	 */
+	@SubscribeEvent
+	public static void onLivingTick(LivingEvent.LivingTickEvent event) {
+		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> golem) {
+			VortexField.tick(golem);
+		}
+	}
 
 	@SubscribeEvent
 	public static void onDeath(LivingDeathEvent event) {
@@ -72,10 +84,8 @@ public class CataEventHandler {
 				if (e instanceof LivingEntity le) {
 					if (!golem.canAttack(le)) return true;
 					if (GolemCataProxy.isAbyssFireball(direct)) {
-						GolemCataProxy.inflictStun(golem, le, 60);
 						le.invulnerableTime = 0;
 					} else if (GolemCataProxy.isSoul(direct)) {
-						GolemCataProxy.inflictStun(golem, le, 40);
 						le.invulnerableTime = 0;
 					}
 				}

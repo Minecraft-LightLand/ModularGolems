@@ -1,18 +1,31 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 
 public class AncientRemnantSteleModifier extends GolemModifier {
+	public static final int COOLDOWN = 200;
+	/** 施放距离上限（格）。 */
+	public static final int MAX_RANGE = 25;
+	/** 施放的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
 
 	public AncientRemnantSteleModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -21,6 +34,20 @@ public class AncientRemnantSteleModifier extends GolemModifier {
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
 		addGoal.accept(5, new AncientRemnantSteleAttackGoal(entity, lv).withName(this.getDescriptionId()));
+	}
+
+	private static final ResourceLocation STELE = new ResourceLocation("cataclysm", "ancient_desert_stele");
+
+	/**
+	 * 远古金属头盔：岩碑落阵造成的伤害无视目标无敌帧。
+	 */
+	@Override
+	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
+		if (!CataArmorHelper.ancientHelmet(entity)) return;
+		Entity direct = event.getSource().getDirectEntity();
+		if (direct == null) return;
+		if (!STELE.equals(ForgeRegistries.ENTITY_TYPES.getKey(direct.getType()))) return;
+		event.getEntity().invulnerableTime = 0;
 	}
 
 	public static void addStele(LivingEntity user, LivingEntity target, int lv) {
@@ -53,6 +80,12 @@ public class AncientRemnantSteleModifier extends GolemModifier {
 
 	private static void spawnAt(LivingEntity user, double x, double y, double z, int delay) {
 		GolemCataProxy.spawnDesertStele(user, x, y, z, delay);
+	}
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc",
+				CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH)).withStyle(ChatFormatting.GREEN));
 	}
 
 }

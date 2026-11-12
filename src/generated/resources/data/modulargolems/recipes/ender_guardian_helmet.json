@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "cataclysm:gauntlet_of_guard"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_helmet"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:ender_guardian_helmet"
+  },
+  "template": {
+    "item": "modulargolems:ender_guardian_upgrade_template"
+  }
+}

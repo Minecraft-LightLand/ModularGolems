@@ -28,7 +28,11 @@ public abstract class BurstRangedGoal extends BaseRangedAttackGoal {
 	private final List<LivingEntity> targets = new ArrayList<>();
 
 	protected BurstRangedGoal(int near, int far, AbstractGolemEntity<?, ?> golem, int lv) {
-		super(200 >> (lv - 1), near, far, golem, lv);
+		this(200 >> (lv - 1), near, far, golem, lv);
+	}
+
+	protected BurstRangedGoal(int cooldown, int near, int far, AbstractGolemEntity<?, ?> golem, int lv) {
+		super(cooldown, near, far, golem, lv);
 		this.farRange = far;
 	}
 

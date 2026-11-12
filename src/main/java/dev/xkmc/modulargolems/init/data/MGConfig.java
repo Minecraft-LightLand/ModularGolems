@@ -115,12 +115,6 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue radiationDamage;
 		public final ForgeConfigSpec.DoubleValue atomicHeal;
 		public final ForgeConfigSpec.IntValue atomicDuration;
-		public final ForgeConfigSpec.DoubleValue atomicBeamDamage;
-		public final ForgeConfigSpec.DoubleValue atomicBeamRadius;
-		public final ForgeConfigSpec.DoubleValue atomicBeamRange;
-		public final ForgeConfigSpec.DoubleValue atomicBeamForce;
-		public final ForgeConfigSpec.IntValue atomicBeamDuration;
-		public final ForgeConfigSpec.IntValue atomicBeamCooldown;
 
 		public final ForgeConfigSpec.DoubleValue hauntedBaseChance;
 		public final ForgeConfigSpec.IntValue soulHealingRate;
@@ -133,11 +127,12 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue ignisSkillDamageFactor;
 		public final ForgeConfigSpec.DoubleValue fireballArmorBonus;
 		public final ForgeConfigSpec.DoubleValue flameStrikeArmorBonus;
-		public final ForgeConfigSpec.DoubleValue laserArmorBonus;
-		public final ForgeConfigSpec.DoubleValue missileArmorBonus;
 		public final ForgeConfigSpec.DoubleValue earthquakeArmorBonus;
 		public final ForgeConfigSpec.DoubleValue chargeArmorBonus;
 		public final ForgeConfigSpec.DoubleValue monstrosityChargeBonus;
+		public final ForgeConfigSpec.DoubleValue sparkArmorBonus;
+		public final ForgeConfigSpec.DoubleValue gravityChargeArmorBonus;
+		public final ForgeConfigSpec.DoubleValue reformationArmorRegen;
 		public final ForgeConfigSpec.DoubleValue sandCurseBonus;
 		public final ForgeConfigSpec.IntValue maledictusReviveCD;
 		public final ForgeConfigSpec.IntValue maledictusReviveCDPartReduction;
@@ -354,18 +349,6 @@ public class MGConfig {
 							.defineInRange("atomicHeal", 0.1, 0, 1);
 					atomicDuration = builder.comment("Atomic Fueling modifier: boost duration per uranium nugget used")
 							.defineInRange("atomicDuration", 200, 20, 20000);
-		atomicBeamDamage = builder.comment("Atomic Breath modifier: base damage of each beam hit")
-				.defineInRange("atomicBeamDamage", 20d, 0, 200);
-		atomicBeamRadius = builder.comment("Atomic Breath modifier: base radius of each beam hit")
-				.defineInRange("atomicBeamRadius", 6d, 0.5, 32);
-		atomicBeamRange = builder.comment("Atomic Breath modifier: how far the beam reaches")
-				.defineInRange("atomicBeamRange", 100d, 1, 256);
-		atomicBeamForce = builder.comment("Atomic Breath modifier: base knockback of each beam hit")
-				.defineInRange("atomicBeamForce", 1d, 0, 10);
-		atomicBeamDuration = builder.comment("Atomic Breath modifier: beam duration in ticks")
-				.defineInRange("atomicBeamDuration", 200, 1, 20000);
-		atomicBeamCooldown = builder.comment("Atomic Breath modifier: cooldown in ticks between beams")
-				.defineInRange("atomicBeamCooldown", 500, 0, 20000);
 
 				}
 				builder.pop();
@@ -395,16 +378,18 @@ public class MGConfig {
 							.defineInRange("fireballArmorBonus", 0.5, 0, 10);
 					flameStrikeArmorBonus = builder.comment("Ignis Shinguard Bonus: Flame Strike damage boost")
 							.defineInRange("flameStrikeArmorBonus", 0.5, 0, 10);
-					laserArmorBonus = builder.comment("Harbinger Helmet Bonus: Death Laser damage boost")
-							.defineInRange("laserArmorBonus", 1d, 0, 10);
-					missileArmorBonus = builder.comment("Harbinger Chestplate Bonus: Homing Missile damage boost")
-							.defineInRange("missileArmorBonus", 1d, 0, 10);
 					earthquakeArmorBonus = builder.comment("Monstrosity Armor Bonus: Monstrosity Earthquake Modifier damage boost")
 							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
 					chargeArmorBonus = builder.comment("Harbinger Shinguard Bonus: Harbinger Charge damage boost")
 							.defineInRange("chargeArmorBonus", 1d, 0, 10);
 					monstrosityChargeBonus = builder.comment("Monstrosity Chestplate Bonus: charge damage boost for all charge skills")
 							.defineInRange("monstrosityChargeBonus", 0.5d, 0, 10);
+					sparkArmorBonus = builder.comment("Storm Shinguard Bonus: Spark damage boost")
+							.defineInRange("sparkArmorBonus", 0.5d, 0, 10);
+					gravityChargeArmorBonus = builder.comment("Ender Guardian Shinguard Bonus: Gravity Charge damage boost")
+							.defineInRange("gravityChargeArmorBonus", 0.5d, 0, 10);
+					reformationArmorRegen = builder.comment("Ancient Metal Chestplate Bonus: Remnant Reformation health restored per second below half health")
+							.defineInRange("reformationArmorRegen", 1d, 0, 100);
 					sandCurseBonus = builder.comment("Sandstorm Upgrade damage bonus per level")
 							.defineInRange("sandCurseBonus", 0.1d, 0, 10);
 					maledictusReviveCD = builder.comment("Cursium Golem Chestplate: Revive Cooldown")

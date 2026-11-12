@@ -27,8 +27,6 @@ public class EarthquakeHelper {
 
 	public static final byte FLAG = 83;
 
-	public static final String SKILL_BUSY_KEY = "skill_busy";
-
 	/**
 	 * Whether the golem is currently airborne from a jump attack, used to gate other skills.
 	 */
@@ -36,14 +34,16 @@ public class EarthquakeHelper {
 		return !golem.onGround();
 	}
 
+	/**
+	 * 技能互斥锁，存放在 {@link dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal} 上，
+	 * 这里只做转发，保留旧调用点不变。
+	 */
 	public static boolean isBusy(AbstractGolemEntity<?, ?> golem) {
-		return golem.isTransientFlag(SKILL_BUSY_KEY);
+		return golem.meleeGoal != null && golem.meleeGoal.isBusy();
 	}
 
-	/** 傀儡是否离地。离地技能据此区分「还在空中」与「已经落地」。 */
-
 	public static void setBusy(AbstractGolemEntity<?, ?> golem, boolean on) {
-		golem.setTransientFlag(SKILL_BUSY_KEY, on);
+		if (golem.meleeGoal != null) golem.meleeGoal.setBusy(on);
 	}
 
 	/** 离地技能期间保留的伤害比例，共享常量，保证 tooltip 与实际减伤不会各说各话。 */
@@ -103,7 +103,7 @@ public class EarthquakeHelper {
 		for (var e : golem.getModifiersExtended().entrySet()) {
 			if (e.getKey() instanceof Modifier m) {
 				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
-				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {
+				if ((last + m.getCoolDown(golem, e.getValue()) < time || last > time) && m.canUse(golem)) {
 					list.add(new Instance(golem, m, e.getValue()));
 				}
 			}
@@ -127,7 +127,7 @@ public class EarthquakeHelper {
 		for (var e : golem.getModifiersExtended().entrySet()) {
 			if (e.getKey() instanceof Modifier m) {
 				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
-				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {
+				if ((last + m.getCoolDown(golem, e.getValue()) < time || last > time) && m.canUse(golem)) {
 					if (m.getEarthquakeRangeSqr(golem, target, e.getValue()) > distSqr) {
 						list.add(new Instance(golem, m, e.getValue()));
 					}
@@ -138,7 +138,7 @@ public class EarthquakeHelper {
 			for (var e : dog.getModifiersExtended().entrySet()) {
 				if (e.getKey() instanceof Modifier m) {
 					long last = dog.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
-					if (last + m.getCoolDown(dog, e.getValue()) < time || last > time) {
+					if ((last + m.getCoolDown(dog, e.getValue()) < time || last > time) && m.canUse(dog)) {
 						if (m.getEarthquakeRangeSqr(dog, target, e.getValue()) > distSqr) {
 							list.add(new Instance(dog, m, e.getValue()));
 						}
@@ -181,6 +181,13 @@ public class EarthquakeHelper {
 
 		default double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
 			return 25;
+		}
+
+		/**
+		 * 技能当前是否允许使用。默认始终允许；需要形态/血量门槛的技能覆写它。
+		 */
+		default boolean canUse(AbstractGolemEntity<?, ?> golem) {
+			return true;
 		}
 
 		/** 技能落地时调用，让共用彩蛋每次只播一次。技能只在非标准落点覆写。 */

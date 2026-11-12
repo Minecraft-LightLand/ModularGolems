@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 public class LeviathanBlastPortalAttackGoal extends MultiTargetRangedGoal {
 
 	public LeviathanBlastPortalAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 0, 35, golem, lv);
+		super(LeviathanBlastPortalModifier.COOLDOWN, LeviathanBlastPortalModifier.MIN_RANGE, LeviathanBlastPortalModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override

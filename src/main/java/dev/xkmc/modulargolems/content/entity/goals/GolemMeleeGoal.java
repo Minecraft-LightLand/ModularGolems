@@ -55,6 +55,19 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	private long lastCanUseCheck;
 	private int failureDelay = 0;
 	private boolean canPenalize = false;
+	/**
+	 * 技能互斥锁：离地类技能（大跳砸地、后撤步、冲锋）占用期间，其它同类技能不能起手。
+	 * 不序列化、不同步，纯运行时状态。
+	 */
+	private boolean skillBusy;
+
+	public boolean isBusy() {
+		return skillBusy;
+	}
+
+	public void setBusy(boolean on) {
+		skillBusy = on;
+	}
 
 	private final AbstractGolemEntity<?, ?> golem;
 

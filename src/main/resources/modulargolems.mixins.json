@@ -10,6 +10,7 @@
 		"EntityAxeAttackMixin",
 		"EntityMixin",
 		"ExperienceOrbAccessor",
+		"FlameStrikeExplodeMixin",
 		"GumballEntityMixin",
 		"IgnisExplosionMixin",
 		"LivingEntityMixin",

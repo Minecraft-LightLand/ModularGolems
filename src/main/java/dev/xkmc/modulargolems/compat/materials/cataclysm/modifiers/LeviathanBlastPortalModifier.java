@@ -16,6 +16,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.function.BiConsumer;
 
 public class LeviathanBlastPortalModifier extends GolemModifier {
+	public static final int COOLDOWN = 100;
+	/** 施放距离上限（格）。 */
+	public static final int MAX_RANGE = 35;
+	/** 施放的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
 
 	public static void addBeam(LivingEntity user, LivingEntity target) {
 		double tx = target.getX();
@@ -51,8 +56,8 @@ public class LeviathanBlastPortalModifier extends GolemModifier {
 
 	}
 
-	public LeviathanBlastPortalModifier() {
-		super(StatFilterType.MASS, 3);
+	public LeviathanBlastPortalModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

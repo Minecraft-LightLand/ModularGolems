@@ -222,9 +222,9 @@ dependencies {
         jarJar.ranged(it, "[0.2.25,)")
     }
 
-    implementation fg.deobf(jarJar("dev.xkmc.cataclysm_mux:cataclysm_mux:0.0.7")) {
+    implementation fg.deobf(jarJar("dev.xkmc.cataclysm_mux:cataclysm_mux:0.0.8")) {
         transitive = false
-        jarJar.ranged(it, "[0.0.7,)")
+        jarJar.ranged(it, "[0.0.8,)")
     }
 
     implementation fg.deobf("dev.xkmc.l2backpack:l2backpack:2.5.7-slim")
@@ -296,6 +296,7 @@ dependencies {
     //compileOnly fg.deobf("local.zip:RevelationFix:1.20.1")
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
     runtimeOnly fg.deobf("curse.maven:powerful-dummy-1276893:8876874")
+    runtimeOnly fg.deobf("curse.maven:multisummon-1033150:5668761")
     runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
     runtimeOnly fg.deobf("curse.maven:ixeris-1285307:8939527")
 //    runtimeOnly fg.deobf("curse.maven:ferritecore-429235:4810975")

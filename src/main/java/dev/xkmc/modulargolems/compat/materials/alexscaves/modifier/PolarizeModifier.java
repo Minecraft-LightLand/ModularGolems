@@ -30,8 +30,8 @@ public class PolarizeModifier extends GolemModifier {
 		return MGConfig.COMMON.polarizeForce.get();
 	}
 
-	public PolarizeModifier() {
-		super(StatFilterType.MASS, 4);
+	public PolarizeModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

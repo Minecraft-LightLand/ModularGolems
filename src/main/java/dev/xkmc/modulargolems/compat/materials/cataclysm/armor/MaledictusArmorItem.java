@@ -9,7 +9,6 @@ import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
-import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -42,12 +41,14 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 		if (getSlot() == EquipmentSlot.HEAD) {
 			list.add(MGLangData.MALEDICTUS_BYPASS_CD.get().withStyle(ChatFormatting.GOLD));
 		} else if (getSlot() == EquipmentSlot.LEGS) {
-			list.add(MGLangData.MALEDICTUS_FAST_SKILL.get().withStyle(ChatFormatting.GOLD));
-			// %s 不带颜色，跟随整行统一的 GOLD
-			list.add(MGLangData.SKILL_IGNORE_HEALTH.get(
-					Component.translatable(CataCompatRegistry.MALEDICTUS_CHARGE.get().getDescriptionId()))
+			list.add(MGLangData.MALEDICTUS_FAST_SKILL
+					.get(CataArmorHelper.skillName(CataCompatRegistry.MALEDICTUS_CHARGE.get()),
+							CataArmorHelper.skillName(CataCompatRegistry.EARTHQUAKE_SPEAR.get()))
 					.withStyle(ChatFormatting.GOLD));
 		} else if (getSlot() == EquipmentSlot.CHEST) {
+			// %s 不带颜色，跟随整行统一的 GOLD
+			list.add(MGLangData.SKILL_IGNORE_HEALTH.get(CataArmorHelper.materialName("cursium"))
+					.withStyle(ChatFormatting.GOLD));
 			int cd = MGConfig.COMMON.maledictusReviveCD.get();
 			int red = MGConfig.COMMON.maledictusReviveCDPartReduction.get();
 			double php = MGConfig.COMMON.maledictusRevivePHP.get();
@@ -101,8 +102,8 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 		var mat = CataCompatRegistry.cataLoc("cursium");
 		for (var e : golem.getMaterials())
 			if (e.id().equals(mat)) count++;
-		if (golem.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MALEDICTUS_HELMET.get())) count++;
-		if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MALEDICTUS_SHINGUARD.get())) count++;
+		if (CataArmorHelper.maledictusHelmet(golem)) count++;
+		if (CataArmorHelper.maledictusLegs(golem)) count++;
 		return count;
 	}
 

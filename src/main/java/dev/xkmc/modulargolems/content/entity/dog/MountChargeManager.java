@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -139,6 +140,8 @@ public class MountChargeManager {
 				// 否则贴着目标冲锋时每 tick 都会播一次撞击音（听起来像连成一片）。
 				boolean hit = e.hurt(attacker.damageSources().mobAttack(attacker), dmg);
 				if (hit) {
+					// 所有骑乘冲锋共用同一声命中音效，和 AI 冲锋路径保持一致
+					SkillSound.playChargeHit(attacker);
 					if (chargeRider != null) chargeRider.modifier().onChargeTouch(chargeRider, e);
 					if (chargeMount != null) chargeMount.modifier().onChargeTouch(chargeMount, e);
 				}

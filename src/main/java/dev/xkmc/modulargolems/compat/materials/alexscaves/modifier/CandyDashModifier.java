@@ -22,6 +22,12 @@ import java.util.function.BiConsumer;
 public class CandyDashModifier extends GolemModifier implements ChargeHelper.Modifier {
 
 	public static final int COOLDOWN = 100;
+	/** 冲刺最长持续 tick。 */
+	public static final int MAX_TICKS = 60;
+	/** 寻找冲锋目标的最大距离（格）。 */
+	public static final double MAX_RANGE = 15;
+	/** 施放的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
 	public static final float BASE_DAMAGE = 7.0F;
 	public static final double FOCAL_OFFSET = 1.0D;
 	public static final double FOCAL_RANGE_SQR = 7.0D;
@@ -80,12 +86,12 @@ public class CandyDashModifier extends GolemModifier implements ChargeHelper.Mod
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new CandyDashChargeGoal(entity, lv, this));
+		addGoal.accept(1, new CandyDashAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
-		if (CandyDashChargeGoal.isCharging(entity)) {
+		if (CandyDashAttackGoal.isCharging(entity)) {
 			event.setAmount(event.getAmount() * ChargeHelper.CHARGE_DAMAGE_MULT);
 		}
 	}
@@ -99,7 +105,7 @@ public class CandyDashModifier extends GolemModifier implements ChargeHelper.Mod
 
 	@Override
 	public void setCharging(ChargeHelper.Instance ins, boolean on) {
-		ins.owner().setTransientFlag(CandyDashChargeGoal.KEY_ACTIVE, on);
+		ins.owner().setTransientFlag(CandyDashAttackGoal.KEY_ACTIVE, on);
 		if (on) {
 			setDashFx(ins.owner(), ins.owner().getLookAngle());
 		} else {

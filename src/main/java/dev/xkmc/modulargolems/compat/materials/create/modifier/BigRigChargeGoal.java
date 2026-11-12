@@ -60,6 +60,7 @@ public class BigRigChargeGoal extends BaseChargeGoal {
 	@Override
 	public boolean canUse() {
 		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
+		if (!canStartCharge(golem)) return false;
 		if (EarthquakeHelper.isBusy(golem)) return false;
 		long time = golem.level().getGameTime();
 		if (onCooldown(golem)) return false;
@@ -73,7 +74,7 @@ public class BigRigChargeGoal extends BaseChargeGoal {
 	@Override
 	public void start() {
 		LivingEntity target = findTarget();
-		// 同 IgnisChargeGoal#start：canUse 与 start 之间目标可能已死
+		// 同 IgnisChargeAttackGoal#start：canUse 与 start 之间目标可能已死
 		if (target == null) {
 			this.blocked = true;
 			return;
@@ -93,8 +94,7 @@ public class BigRigChargeGoal extends BaseChargeGoal {
 		this.dir = new Vec3(target.getX() - golem.getX(), 0, target.getZ() - golem.getZ()).normalize();
 		this.total = golem.distanceTo(target) + 2;
 		ChargeHelper.spawnChargeParticles(golem, dir, ParticleTypes.CLOUD, true);
-		SkillSound.playCharge(golem, SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 0.6F);
-		SkillSound.playCharge(golem, AllSoundEvents.WHISTLE_TRAIN.getMainEvent(), 1.0F, 1.0F);
+		SkillSound.playCharge(golem, AllSoundEvents.WHISTLE_TRAIN.getMainEvent(), 1.0F, 0.9F + golem.getRandom().nextFloat() * 0.2F);
 	}
 
 	@Override
@@ -143,7 +143,10 @@ public class BigRigChargeGoal extends BaseChargeGoal {
 		AABB aabb = golem.getBoundingBox().inflate(0.5);
 		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class, aabb)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
-			GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
+			{
+				boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
+				if (chargeHit) SkillSound.playChargeHit(golem);
+			}
 		}
 	}
 

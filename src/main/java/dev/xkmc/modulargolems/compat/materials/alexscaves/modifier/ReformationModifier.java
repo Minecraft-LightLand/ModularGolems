@@ -32,8 +32,8 @@ public class ReformationModifier extends GolemModifier {
 		return (float) (MGConfig.COMMON.reformationHealing.get() * lv);
 	}
 
-	public ReformationModifier() {
-		super(StatFilterType.HEALTH, 2);
+	public ReformationModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

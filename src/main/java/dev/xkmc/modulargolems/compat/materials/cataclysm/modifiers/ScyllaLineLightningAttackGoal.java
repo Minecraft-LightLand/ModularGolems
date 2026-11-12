@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.core.BlockPos;
@@ -15,12 +16,18 @@ import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 public class ScyllaLineLightningAttackGoal extends BaseRangedAttackGoal {
 
-	private static final int COUNT = 5, SPACING = 2, LEAD = 10, REPEAT_DELAY = 10;
+	private static final int REPEAT_DELAY = 10;
 
 	private int delay = -1;
 
 	public ScyllaLineLightningAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 0, 30, golem, lv);
+		super(ScyllaLineLightningModifier.COOLDOWN, ScyllaLineLightningModifier.MIN_RANGE, ScyllaLineLightningModifier.MAX_RANGE, golem, lv);
+	}
+
+	@Override
+	public boolean canUse() {
+		// 一字闪电只在完整形态（半血以下，或被风暴胸甲钉住）可用
+		return CataArmorHelper.stormFinalForm(golem) && super.canUse();
 	}
 
 	@Override
@@ -40,8 +47,9 @@ public class ScyllaLineLightningAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	private void fire(LivingEntity target) {
-		double px = target.getX() + target.getDeltaMovement().x * LEAD;
-		double pz = target.getZ() + target.getDeltaMovement().z * LEAD;
+		GolemCataProxy.scyllaLightningSelfRing(golem);
+		double px = target.getX() + target.getDeltaMovement().x * ScyllaLineLightningModifier.LEAD;
+		double pz = target.getZ() + target.getDeltaMovement().z * ScyllaLineLightningModifier.LEAD;
 		double dx = px - golem.getX(), dz = pz - golem.getZ();
 		Vec3 dir = new Vec3(-dz, 0, dx);
 		if (dir.lengthSqr() < 1e-6) {
@@ -52,9 +60,9 @@ public class ScyllaLineLightningAttackGoal extends BaseRangedAttackGoal {
 		if (dir.lengthSqr() < 1e-6) dir = new Vec3(1, 0, 0);
 		dir = dir.normalize();
 		double top = Math.max(target.getY(), golem.getY());
-		for (int i = -COUNT / 2; i <= COUNT / 2; i++) {
-			double fx = px + dir.x * SPACING * i;
-			double fz = pz + dir.z * SPACING * i;
+		for (int i = -ScyllaLineLightningModifier.COUNT / 2; i <= ScyllaLineLightningModifier.COUNT / 2; i++) {
+			double fx = px + dir.x * ScyllaLineLightningModifier.SPACING * i;
+			double fz = pz + dir.z * ScyllaLineLightningModifier.SPACING * i;
 			Vec3 floor = findFloor(golem.level(), fx, fz, top, 16);
 			if (floor == null) continue;
 			GolemCataProxy.lightningStorm(golem, fx, floor.y, fz, 2.0F);

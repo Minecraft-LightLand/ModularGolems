@@ -1,11 +1,15 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
+import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -16,6 +20,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -23,9 +28,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class ScyllaAnchorSlamModifier extends GolemModifier implements EarthquakeHelper.Modifier {
+	public static final int COOLDOWN = 160;
+	/** 起跳可及的最大水平距离（格）。 */
+	public static final int MAX_RANGE = 25;
 
-	public ScyllaAnchorSlamModifier() {
-		super(StatFilterType.MOVEMENT, 1);
+	public ScyllaAnchorSlamModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override
@@ -40,7 +48,19 @@ public class ScyllaAnchorSlamModifier extends GolemModifier implements Earthquak
 
 	@Override
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
-		return 25 * 25;
+		return (double) MAX_RANGE * MAX_RANGE;
+	}
+
+	/**
+	 * 风暴护腿：所有技能留下的电火花（cataclysm:spark 及其落地后的闪电区域）伤害提高。
+	 */
+	@Override
+	public void modifyDamage(AttackCache cache, AbstractGolemEntity<?, ?> entity, int level) {
+		var event = cache.getLivingHurtEvent();
+		if (event == null) return;
+		if (!CataArmorHelper.stormLegs(entity)) return;
+		if (!ScyllaInvulnerabilityBypass.isSpark(event.getSource())) return;
+		cache.addHurtModifier(DamageModifier.multTotal(1 + MGConfig.COMMON.sparkArmorBonus.get().floatValue()));
 	}
 
 	@Override
@@ -48,15 +68,51 @@ public class ScyllaAnchorSlamModifier extends GolemModifier implements Earthquak
 		var ans = findFloor(golem.level(), golem.position(), 16);
 		if (ans == null) return;
 		GolemCataProxy.scyllaAnchorSlamFX(golem);
-		// 落地电火花数量随生命值变化：满血 2 道，2/3 以下 4 道，1/3 以下 6 道。
-		float ratio = golem.getGuardedDataImpl() / golem.getMaxHealth();
-		int bolts = ratio <= 1.0F / 3 ? 6 : ratio <= 2.0F / 3 ? 4 : 2;
+		// 本体 AnchorThrow（attackState 13）按阶段给火花数量：满血 2 道、phase1（≤2/3）4 道、phase2（≤1/3）6 道。
+		// 风暴胸甲把傀儡钉在最终形态，直接按 6 道算。
+		int bolts;
+		if (CataArmorHelper.stormChest(golem) || CataArmorHelper.isBelow(golem, CataArmorHelper.ONE_THIRD)) {
+			bolts = 6;
+		} else if (CataArmorHelper.isBelow(golem, CataArmorHelper.TWO_THIRDS)) {
+			bolts = 4;
+		} else {
+			bolts = 2;
+		}
 		GolemCataProxy.scyllaFallingBurstAt(golem, ans.x, ans.y, ans.z, bolts);
+		// 风暴护腿：完整形态（半血以下，或被风暴胸甲钉住）时额外触发一次闪电重砸
+		if (CataArmorHelper.stormLegs(golem) && CataArmorHelper.stormFinalForm(golem)) {
+			lightningSmash(golem, ans);
+		}
+	}
+
+	/**
+	 * 闪电重砸：按 wiki 描述复刻斯库拉的锚暴摔落点效果——大量电火花向四周坠落、落雷与静电场同时铺开。
+	 */
+	private static void lightningSmash(AbstractGolemEntity<?, ?> golem, Vec3 at) {
+		// 闪电重砸无视无敌帧：先把落点附近的受击无敌帧清零，避免被前面的锚砸吞掉伤害
+		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class,
+				new AABB(at.x - 6, at.y - 6, at.z - 6, at.x + 6, at.y + 6, at.z + 6))) {
+			if (e == golem || e.isAlliedTo(golem)) continue;
+			e.invulnerableTime = 0;
+		}
+		// 落雷 + 范围伤害
+		GolemCataProxy.scyllaLightningExplosion(golem, at.x, at.y, at.z);
+		// 电火花四散落地
+		for (int i = 0; i < 8; i++) {
+			GolemCataProxy.shootSpark(golem, 2.0F);
+		}
+		// 周围铺开静电场
+		for (int i = 0; i < 6; i++) {
+			double angle = i * Math.PI * 2.0 / 6.0;
+			double x = at.x + Math.cos(angle) * 3.5;
+			double z = at.z + Math.sin(angle) * 3.5;
+			GolemCataProxy.spawnLightningArea(golem, x, at.y, z);
+		}
 	}
 
 	@Override
 	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
-		return 160;
+		return COOLDOWN;
 	}
 
 	@Nullable

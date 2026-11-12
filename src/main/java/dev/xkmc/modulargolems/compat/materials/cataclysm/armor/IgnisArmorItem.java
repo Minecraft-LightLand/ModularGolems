@@ -2,7 +2,10 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.IgnisFireballModifier;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.IgnisJumpModifier;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -35,13 +38,21 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
 		switch (getSlot()) {
-			case HEAD -> list.add(MGLangData.IGNIS_BOOST_FIREBALL
-					.get(Math.round(MGConfig.COMMON.fireballArmorBonus.get() * 100) + "%")
+			case HEAD -> list.add(MGLangData.IGNIS_FIREBALL_BOOST
+					.get(Math.round(MGConfig.COMMON.fireballArmorBonus.get() * 100) + "%",
+							CataArmorHelper.skillName(CataCompatRegistry.IGNIS_FIREBALL.get()),
+							Math.round(IgnisFireballModifier.EXPLOSION_RADIUS_BONUS * 100) + "%")
 					.withStyle(ChatFormatting.GOLD));
-			case CHEST -> list.add(MGLangData.IGNIS_BOOST_SOUL.get()
-					.withStyle(ChatFormatting.GOLD));
-			case LEGS -> list.add(MGLangData.IGNIS_BOOST_STRIKE
-					.get(Math.round(MGConfig.COMMON.flameStrikeArmorBonus.get() * 100) + "%")
+			case CHEST -> {
+				// %s 不带颜色，跟随整行统一的 GOLD
+				list.add(MGLangData.SKILL_IGNORE_HEALTH.get(CataArmorHelper.materialName("ignitium"))
+						.withStyle(ChatFormatting.GOLD));
+			}
+			case LEGS -> list.add(MGLangData.IGNIS_CHARGE_BOOST
+					.get(Math.round(MGConfig.COMMON.flameStrikeArmorBonus.get() * 100) + "%",
+							CataArmorHelper.skillName(CataCompatRegistry.IGNIS_JUMP.get()),
+							CataArmorHelper.skillName(CataCompatRegistry.IGNIS_CHARGE.get()),
+							Math.round(IgnisJumpModifier.FLAME_STRIKE_DURATION_BONUS * 100) + "%")
 					.withStyle(ChatFormatting.GOLD));
 		}
 	}

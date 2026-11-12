@@ -50,8 +50,16 @@ public abstract class BaseRangedAttackGoal extends Goal implements ICooldownSkil
 	 */
 	public void start() {
 		if (attackTime == 0) {
-			this.attackTime = golem.level().getGameTime() + waitTime;
+			this.attackTime = golem.level().getGameTime() + getWaitTime();
 		}
+	}
+
+	/**
+	 * Ticks between two shots. Subclasses override this when the interval depends on the golem's state
+	 * (health, equipment) instead of being a constant.
+	 */
+	protected int getWaitTime() {
+		return waitTime;
 	}
 
 	/**
@@ -96,7 +104,7 @@ public abstract class BaseRangedAttackGoal extends Goal implements ICooldownSkil
 				// only a completed attack clears the mark. A goal that reports false is still part way
 				// through a burst, and letting it leap again would interrupt the shots it is sending.
 				backstepped = false;
-				this.attackTime = time + waitTime;
+				this.attackTime = time + getWaitTime();
 				lock = false;
 				golem.specialAttackCoolDown = 20;
 			} else {

@@ -1,8 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.cataclysm_mux.MWCataProxy;
-import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -21,7 +21,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
@@ -34,9 +33,12 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import java.util.function.Consumer;
 
 public class MaledictusEarthquakeModifier extends GolemModifier implements EarthquakeHelper.Modifier {
+	public static final int COOLDOWN = 200;
+	/** 起跳可及的最大水平距离（格）。 */
+	public static final int MAX_RANGE = 25;
 
-	public MaledictusEarthquakeModifier() {
-		super(StatFilterType.MOVEMENT, 1);
+	public MaledictusEarthquakeModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override
@@ -58,10 +60,7 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 
 	@Override
 	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
-		int cd = 160;
-		if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MALEDICTUS_SHINGUARD.get()))
-			cd /= 2;
-		return cd;
+		return CataArmorHelper.maledictusLegs(golem) ? COOLDOWN / 2 : COOLDOWN;
 	}
 
 	@Override
@@ -70,7 +69,7 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 		var direct = source.getDirectEntity();
 		if (direct != null && direct.getType().builtInRegistryHolder().unwrapKey().orElseThrow().location()
 				.equals(new ResourceLocation(CataDispatch.MODID, "phantom_halberd"))) {
-			if (entity.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MALEDICTUS_HELMET.get())) {
+			if (CataArmorHelper.maledictusHelmet(entity)) {
 				event.getEntity().invulnerableTime = 0;
 			}
 		}
@@ -78,7 +77,7 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 
 	@Override
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
-		return 25 * 25;
+		return (double) MAX_RANGE * MAX_RANGE;
 	}
 
 	@Override

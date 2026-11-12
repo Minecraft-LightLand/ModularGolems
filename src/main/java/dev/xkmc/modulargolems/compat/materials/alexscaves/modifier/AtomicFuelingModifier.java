@@ -35,8 +35,8 @@ public class AtomicFuelingModifier extends GolemModifier {
 		return (float) (double) MGConfig.COMMON.atomicHeal.get();
 	}
 
-	public AtomicFuelingModifier() {
-		super(StatFilterType.HEALTH, 2);
+	public AtomicFuelingModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	private void perform(AbstractGolemEntity<?, ?> golem, int level) {

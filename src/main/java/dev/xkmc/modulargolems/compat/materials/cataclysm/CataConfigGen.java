@@ -31,6 +31,7 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
 				.addModifier(CataCompatRegistry.IGNIS_FIREBALL.get(), 2)
 				.addModifier(CataCompatRegistry.IGNIS_JUMP.get(), 1)
+				.addModifier(CataCompatRegistry.IGNIS_COUNTER.get(), 1)
 				.addModifier(CataCompatRegistry.IGNIS_ATTACK.get(), 1)
 				.addModifier(CataCompatRegistry.IGNIS_CHARGE.get(), 1)
 				.end()
@@ -56,7 +57,7 @@ public class CataConfigGen extends ConfigDataProvider {
 		);
 		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, "cursium"), new GolemMaterialConfig()
 				.addMaterial(new ResourceLocation(CataDispatch.MODID, "cursium"), Ingredient.of(ModItems.CURSIUM_INGOT.get()))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 390)
+				.addStat(GolemTypes.STAT_HEALTH.get(), 420)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
 				.addStat(GolemTypes.STAT_REGEN.get(), 2)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
@@ -70,6 +71,7 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.MALEDICTUS_ATTACK.get(), 1)
 				.addModifier(CataCompatRegistry.MALEDICTUS_ARROW.get(), 1)
 				.addModifier(CataCompatRegistry.MALEDICTUS_CHARGE.get(), 1)
+				.addModifier(CataCompatRegistry.MALEDICTUS_HALBERD_FAN.get(), 1)
 				.end()
 		);
 		collector.add(ModularGolems.MATERIALS, new ResourceLocation(CataDispatch.MODID, "ender_guardian"), new GolemMaterialConfig()
@@ -87,6 +89,7 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 3)
 				.addModifier(CataCompatRegistry.RUNE.get(), 2)
 				.addModifier(CataCompatRegistry.GUARDIAN_HUG.get(), 1)
+				.addModifier(CataCompatRegistry.GUARDIAN_ROCKET.get(), 1)
 				.addModifier(CataCompatRegistry.GUARDIAN_TELEPORT_SLAM.get(), 1)
 				.end()
 		);
@@ -130,6 +133,7 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.ANCIENT_RENANT_STELE.get(), 1)
 				.addModifier(CataCompatRegistry.ANCIENT_RENANT_CHARGE.get(), 1)
 				.addModifier(CataCompatRegistry.ANCIENT_RENANT_LEAP.get(), 1)
+				.addModifier(CataCompatRegistry.ANCIENT_RENANT_STOMP.get(), 1)
 				.end()
 		);
 

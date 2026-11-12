@@ -45,23 +45,23 @@ public class ACCompatRegistry {
 	public static final ItemEntry<DummyConsumer> DUMMY_IRON, DUMMY_URANIUM;
 
 	static {
-		STICKY = reg("sticky_caramel", CandyStickModifier::new,
+		STICKY = reg("sticky_caramel", () -> new CandyStickModifier(StatFilterType.ATTACK, 2),
 				"Put molten caramel on attack targets");
-		SHOOT = reg("gum_shooter", CandyShootModifier::new,
+		SHOOT = reg("gum_shooter", () -> new CandyShootModifier(StatFilterType.HEAD, 1),
 				"Shoot gumballs at targets dealing %s damage. Each gumball may randomly gain Shotgum enchantment effects");
 		DASH = reg("candy_dash", () -> new CandyDashModifier(StatFilterType.HEAD, 1),
 				"Candy Dash", "Charge toward a distant target, damaging and knocking back all targets at the front of the path. Damage taken is reduced by %s while charging.");
-		FREE = reg("free_movement", FreeMoveModifier::new,
+		FREE = reg("free_movement", () -> new FreeMoveModifier(StatFilterType.MOVEMENT, 1),
 				"Golem will not be stuck by blocks or caramel");
-		POLARIZE = reg("polarize", PolarizeModifier::new,
+		POLARIZE = reg("polarize", () -> new PolarizeModifier(StatFilterType.MASS, 4),
 				"Pull enemies in melee mode and push enemies away in ranged/standing mode, deal %s electrical damage constantly.");
-		REFORMATION = reg("reformation", ReformationModifier::new,
+		REFORMATION = reg("reformation", () -> new ReformationModifier(StatFilterType.HEALTH, 2),
 				"Consume iron ingot to gain %s absorption and heal %s. Golem may hold at most %s absorption");
-		RADIATION = reg("radiation", RadiationModifier::new,
+		RADIATION = reg("radiation", () -> new RadiationModifier(StatFilterType.ATTACK, 2),
 				"Inflict %s to attack targets. Damage to radiated target increase by %s per radiation level.");
-		ATOMIC = reg("atomic_fueling", AtomicFuelingModifier::new,
+		ATOMIC = reg("atomic_fueling", () -> new AtomicFuelingModifier(StatFilterType.HEALTH, 2),
 				"Consume [%s] to heal %s HP, and boost attack and speed by %s for %s seconds. Makes golem immune to irradiated effect.");
-		ATOMIC_BREATH = reg("atomic_breath", AtomicBreathModifier::new,
+		ATOMIC_BREATH = reg("atomic_breath", () -> new AtomicBreathModifier(StatFilterType.HEAD, 1),
 				"Atomic Breath Upgrade", "Continuously fire a beam hitting everything along it, and apply %s to hit targets.");
 
 		REPAIR_CANDY = GolemItems.item(ACDispatch.MODID, "candy_mixture", RepairMaterialItem::new);

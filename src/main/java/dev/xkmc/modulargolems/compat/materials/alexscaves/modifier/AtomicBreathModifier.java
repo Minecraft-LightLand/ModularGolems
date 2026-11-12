@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.alexscaves.modifier;
 
+import dev.xkmc.modulargolems.compat.materials.alexscaves.ACCompatRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.client.AtomicBeamSound;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -7,7 +8,6 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.entity.impl.GolemBeamSource;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -37,24 +37,50 @@ public class AtomicBreathModifier extends GolemModifier {
 	public static final int IRRADIATED_DURATION = 6000;
 	public static final int IRRADIATED_AMPLIFIER = 2;
 
-	public AtomicBreathModifier() {
-		super(StatFilterType.HEAD, 1);
+	/** 冷却（tick）；核能强化期间减半。 */
+	public static final int COOLDOWN = 400;
+	/** 施放的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
+	/** 射线长度（格），同时也是施放的最大距离。 */
+	public static final int MAX_RANGE = 100;
+	/** 每次命中的基础伤害。 */
+	public static final double DAMAGE = 20D;
+	/** 每次命中的基础半径。 */
+	public static final double RADIUS = 6D;
+	/** 每次命中的基础击退。 */
+	public static final double FORCE = 1D;
+	/** 单次吐息持续 tick。 */
+	public static final int DURATION = 200;
+
+	public AtomicBreathModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	public static double damage(int lv) {
-		return MGConfig.COMMON.atomicBeamDamage.get();
+		return DAMAGE;
+	}
+
+	/**
+	 * 实际冷却：核能强化（{@code atomic_boost}）期间减半。
+	 * 与机械动力冲锋在燃料充足时冷却减半是同一套做法。
+	 */
+	public static int cooldownFor(AbstractGolemEntity<?, ?> golem) {
+		if (golem.hasEffect(ACCompatRegistry.EFF_ATOMIC.get())) {
+			return Math.max(1, COOLDOWN / 2);
+		}
+		return COOLDOWN;
 	}
 
 	public static double radius() {
-		return MGConfig.COMMON.atomicBeamRadius.get();
+		return RADIUS;
 	}
 
 	public static double range() {
-		return MGConfig.COMMON.atomicBeamRange.get();
+		return MAX_RANGE;
 	}
 
 	public static double force() {
-		return MGConfig.COMMON.atomicBeamForce.get();
+		return FORCE;
 	}
 
 	public static Vec3 shootFrom(AbstractGolemEntity<?, ?> golem) {
@@ -74,7 +100,7 @@ public class AtomicBreathModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new AtomicBreathGoal(entity, lv).withName(this.getDescriptionId()));
+		addGoal.accept(5, new AtomicBreathAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 	@Override

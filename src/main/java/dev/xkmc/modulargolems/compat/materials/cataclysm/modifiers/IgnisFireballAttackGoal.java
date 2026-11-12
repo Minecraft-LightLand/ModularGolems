@@ -8,7 +8,7 @@ import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 public class IgnisFireballAttackGoal extends BaseRangedAttackGoal {
 
 	public IgnisFireballAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(200, 0, 25, golem, lv);
+		super(IgnisFireballModifier.COOLDOWN, IgnisFireballModifier.MIN_RANGE, IgnisFireballModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
