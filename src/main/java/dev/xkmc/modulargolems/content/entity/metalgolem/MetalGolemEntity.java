@@ -83,6 +83,30 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return target.getBoundingBox().inflate(range);
 	}
 
+	/**
+	 * 大型傀儡的击退是「掀起来」：{@code ATTACK_KNOCKBACK} 里超过 1 的部分才转成水平推力，
+	 * 其余全部转成上抛（默认 1.0 → 纯上抛 0.8 格/tick）。冲锋撞击复用同一份算法。
+	 */
+	@Override
+	public void applyAttackKnockback(LivingEntity target) {
+		launchKnockback(target, getAttributeValue(Attributes.ATTACK_KNOCKBACK));
+	}
+
+	private void launchKnockback(Entity target, double dokb) {
+		dokb = Math.max(0, dokb);
+		if (dokb <= 0) return;
+		var hor = Math.max(0, dokb - 1) * 0.4;
+		var ver = Math.sqrt(dokb);
+		ver = Math.min(ver * 2, ver + 1) * 0.4;
+		Vec3 kbVec = target.position().subtract(position()).normalize()
+				.multiply(1, 0, 1)
+				.scale(hor)
+				.add(0, ver, 0);
+		Vec3 vec = target.getDeltaMovement();
+		target.hasImpulse = true;
+		target.setDeltaMovement(new Vec3(vec.x / 2 + kbVec.x, Math.max(kbVec.y, vec.y), vec.z / 2 + kbVec.z));
+	}
+
 	protected boolean performDamageTarget(Entity target, float damage, double kbres) {
 		double dokb = getAttributeValue(Attributes.ATTACK_KNOCKBACK);
 		if (target instanceof LivingEntity le) {
@@ -96,20 +120,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			succeed |= item.repeatAttack(this, target, damage, succeed);
 		}
 		if (succeed) {
-			dokb = Math.max(0, dokb - kbres);
-			if (dokb > 0) {
-				var hor = Math.max(0, dokb - 1) * 0.4;
-				var ver = Math.sqrt(dokb);
-				ver = Math.min(ver * 2, ver + 1) * 0.4;
-				Vec3 kbVec = target.position().subtract(position()).normalize()
-						.multiply(1, 0, 1)
-						.scale(hor)
-						.add(0, ver, 0);
-				Vec3 vec = target.getDeltaMovement();
-				vec = new Vec3(vec.x / 2 + kbVec.x, Math.max(kbVec.y, vec.y), vec.z / 2 + kbVec.z);
-				target.hasImpulse = true;
-				target.setDeltaMovement(vec);
-			}
+			launchKnockback(target, dokb - kbres);
 			this.doEnchantDamageEffects(this, target);
 			int i = EnchantmentHelper.getFireAspect(this);
 			if (i > 0) {

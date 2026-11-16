@@ -38,6 +38,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -295,7 +296,7 @@ public class LMProxyImpl {
 	}
 
 	/** 克隆爆发最后一段冲锋：每 tick 撞到范围内敌人的臂刃伤害。 */
-	public static boolean cloneBurstChargeHit(LivingEntity golem, int lv) {
+	public static boolean cloneBurstChargeHit(LivingEntity golem, int lv, Vec3 dir) {
 		if (golem.level().isClientSide) return false;
 		if (!(golem instanceof AbstractGolemEntity<?, ?> ag)) return false;
 		float damage = bossDamage(golem, lv, 8.0f);
@@ -303,7 +304,10 @@ public class LMProxyImpl {
 		boolean hit = false;
 		for (LivingEntity e : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(0.6))) {
 			if (!GolemTargetUtil.canTarget(ag, e)) continue;
-			if (e.hurt(src, damage)) hit = true;
+			if (e.hurt(src, damage)) {
+				ChargeHelper.pushChargeTarget(ag, e, dir);
+				hit = true;
+			}
 		}
 		return hit;
 	}

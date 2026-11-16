@@ -135,7 +135,10 @@ public class PaladinRollSlashAttackGoal extends BaseChargeGoal {
 		float atk = (float) golem.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
 		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class, aabb)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
-			if (e.hurt(golem.damageSources().mobAttack(golem), atk)) SkillSound.playChargeHit(golem);
+			if (e.hurt(golem.damageSources().mobAttack(golem), atk)) {
+				ChargeHelper.pushChargeTarget(golem, e, dir);
+				SkillSound.playChargeHit(golem);
+			}
 		}
 		if (!slash1Done && ticks >= SLASH1_TICK) {
 			slash1Done = true;

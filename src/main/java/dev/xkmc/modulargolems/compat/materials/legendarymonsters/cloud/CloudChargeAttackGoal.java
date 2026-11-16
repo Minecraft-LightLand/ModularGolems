@@ -151,8 +151,11 @@ public class CloudChargeAttackGoal extends BaseChargeGoal {
 			float dmg = 22.0F + e.getMaxHealth() * 0.03F;
 			boolean hit = e.hurt(src, dmg);
 			GolemCombatHelper.breakShield(golem, e, src);
-			// 撞到目标音（Boss state30 AreaAttack 命中时的 ANVIL_PLACE）
-			if (hit) SkillSound.playChargeOnly(golem, SoundEvents.ANVIL_PLACE, 2.0F, 1.0F);
+			// 撞到目标：击退 + 上抬（本体 state30 的 AreaAttack 自带 knockback），音效照 Boss 用 ANVIL_PLACE
+			if (hit) {
+				ChargeHelper.pushChargeTarget(golem, e, dir);
+				SkillSound.playChargeOnly(golem, SoundEvents.ANVIL_PLACE, 2.0F, 1.0F);
+			}
 		}
 		if (golem.position().distanceToSqr(start) >= total * total || ticks >= CloudChargeModifier.MAX_TICKS) {
 			nextDash();

@@ -111,6 +111,6 @@ public class ObliteratorCloneBurstAttackGoal extends BaseChargeGoal {
 			return;
 		}
 		// 撞到范围内敌人造成臂刃伤害 + 命中打击音（与其它冲锋一致）
-		if (LMProxy.cloneBurstChargeHit(golem, lv)) SkillSound.playChargeHit(golem);
+		if (LMProxy.cloneBurstChargeHit(golem, lv, dir)) SkillSound.playChargeHit(golem);
 	}
 }

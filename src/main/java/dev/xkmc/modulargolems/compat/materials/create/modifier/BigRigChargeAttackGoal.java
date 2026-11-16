@@ -132,9 +132,10 @@ public class BigRigChargeAttackGoal extends BaseChargeGoal {
 		AABB aabb = golem.getBoundingBox().inflate(0.5);
 		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class, aabb)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
-			{
-				boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
-				if (chargeHit) SkillSound.playChargeHit(golem);
+			boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
+			if (chargeHit) {
+				ChargeHelper.pushChargeTarget(golem, e, dir);
+				SkillSound.playChargeHit(golem);
 			}
 		}
 	}

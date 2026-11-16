@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.impl;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PowerableMob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -43,6 +44,20 @@ public interface GolemImpls extends
 
 	default float getAttackDamage() {
 		return (float) asGolem().getAttributeValue(Attributes.ATTACK_DAMAGE);
+	}
+
+	/**
+	 * 傀儡自身攻击附带的击退。冲锋技能撞到目标时复用这一份，让「撞到」与「打到」是同一手感。
+	 * 大型傀儡覆写成整个掀起来（{@code MetalGolemEntity}），其余体型保持原版
+	 * {@code Mob#doHurtTarget} 的水平击退。
+	 */
+	default void applyAttackKnockback(LivingEntity target) {
+		double kb = asGolem().getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+		if (kb <= 0) return;
+		AbstractGolemEntity<?, ?> golem = asGolem();
+		target.knockback(kb * 0.5,
+				Mth.sin(golem.getYRot() * Mth.DEG_TO_RAD),
+				-Mth.cos(golem.getYRot() * Mth.DEG_TO_RAD));
 	}
 
 	@Nullable
