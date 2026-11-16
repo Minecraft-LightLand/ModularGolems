@@ -41,21 +41,12 @@ public class CandyDashAttackGoal extends BaseChargeGoal {
 
 	@Override
 	public boolean canUse() {
-		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
-		if (!canStartCharge(golem)) return false;
-		if (EarthquakeHelper.isBusy(golem)) return false;
-		long time = golem.level().getGameTime();
-		if (onCooldown(golem)) return false;
-		LivingEntity target = findTarget();
-		if (target == null || !target.isAlive() || !golem.canAttack(target)) return false;
-		if (!ChargeHelper.isTargetReachable(golem, target)) return false;
-		double dist = golem.distanceTo(target);
-		return dist >= CandyDashModifier.MIN_RANGE && dist <= CandyDashModifier.MAX_RANGE;
+		return canUseCharge(golem, ChargeHelper.findChargeTarget(golem, CandyDashModifier.MAX_RANGE), CandyDashModifier.MIN_RANGE, CandyDashModifier.MAX_RANGE);
 	}
 
 	@Override
 	public void start() {
-		LivingEntity target = findTarget();
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, CandyDashModifier.MAX_RANGE);
 		// 同 IgnisChargeAttackGoal#start：canUse 与 start 之间目标可能已死
 		if (target == null) {
 			this.blocked = true;
@@ -132,10 +123,6 @@ public class CandyDashAttackGoal extends BaseChargeGoal {
 			}
 			CandyDashModifier.knockBack(focal, e);
 		}
-	}
-
-	private LivingEntity findTarget() {
-		return ChargeHelper.findChargeTarget(golem, CandyDashModifier.MAX_RANGE);
 	}
 
 }

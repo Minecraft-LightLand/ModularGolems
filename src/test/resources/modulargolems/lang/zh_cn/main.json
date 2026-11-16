@@ -47,6 +47,7 @@
 			"skill_ignore_health": "无视生命值要求，直接解放%s的完整力量",
 			"skill_damage_boost": "+%s %s伤害",
 			"skill_health_gate": "生命值低于上限的%s时允许使用",
+			"skill_health_gate_above": "生命值高于上限的%s时允许使用",
 			"skill_cd_reduction": "释放%s后冷却时间缩短%s秒",
 			"no_take_upgrade": "此装配台无法取出升级",
 			"remove_template": "扩充模板不可移除",

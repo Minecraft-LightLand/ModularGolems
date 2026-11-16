@@ -50,7 +50,6 @@ public class ScyllaLightningStormAttackGoal extends BaseRangedAttackGoal {
 	public boolean canContinueToUse() {
 		return casting || super.canContinueToUse();
 	}
-
 	@Override
 	public void tick() {
 		if (casting) {

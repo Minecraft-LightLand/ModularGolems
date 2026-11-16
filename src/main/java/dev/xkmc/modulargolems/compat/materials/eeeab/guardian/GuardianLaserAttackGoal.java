@@ -54,7 +54,6 @@ public class GuardianLaserAttackGoal extends BaseRangedAttackGoal {
 		Entity laser = EEEABProxy.spawnGuardianLaser(golem, lv);
 		if (laser == null) return true;
 		beam = laser;
-		golem.getNavigation().stop();
 		golem.specialAttackCoolDown = 20;
 		return true;
 	}
@@ -63,7 +62,6 @@ public class GuardianLaserAttackGoal extends BaseRangedAttackGoal {
 	protected BackstepHelper backstep() {
 		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
 	}
-
 
 	@Override
 	protected double getLeapRange() {

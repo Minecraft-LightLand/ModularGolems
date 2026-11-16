@@ -93,6 +93,13 @@ public abstract class BaseRangedAttackGoal extends Goal implements ICooldownSkil
 			super.tick();
 			return;
 		}
+		// 跳跃/冲锋/后撤等位移技能持有 EarthquakeHelper 的 busy 锁期间，ranged 技能不施放、
+		// 也不推进冷却/攻击计时——等落地/位移结束再放，避免大跳途中被别的技能打断/瞬移走。
+		// 本技能自己的后撤步在上面的 step!=null 分支已单独处理，不受影响。
+		if (EarthquakeHelper.isBusy(golem)) {
+			super.tick();
+			return;
+		}
 		boolean mayAttack = golem.specialAttackCoolDown <= 0 || lock;
 		if (attackTime <= time && le != null && le.isAlive() && mayAttack) {
 			// one leap per attack. Without this a short leap lands the golem back inside the leap range

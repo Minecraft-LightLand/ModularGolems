@@ -87,7 +87,7 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 3)
-				.addModifier(CataCompatRegistry.RUNE.get(), 2)
+				.addModifier(CataCompatRegistry.RUNE.get(), 1)
 				.addModifier(CataCompatRegistry.GUARDIAN_HUG.get(), 1)
 				.addModifier(CataCompatRegistry.GUARDIAN_ROCKET.get(), 1)
 				.addModifier(CataCompatRegistry.GUARDIAN_TELEPORT_SLAM.get(), 1)

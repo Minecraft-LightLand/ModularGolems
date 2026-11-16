@@ -164,22 +164,9 @@ public class CataArmorHelper {
 		return ancientFinalForm(golem);
 	}
 
-	/**
-	 * The ender guardian chestpiece halves Teleport Slam's cooldown below half health.
-	 */
-	public static boolean guardianFastSlam(AbstractGolemEntity<?, ?> golem) {
-		return guardianFinalForm(golem);
-	}
 
 	/**
-	 * The ender guardian chestpiece halves Void Rune's cooldown below half health.
-	 */
-	public static boolean guardianFastSkill(AbstractGolemEntity<?, ?> golem) {
-		return guardianFinalForm(golem);
-	}
-
-	/**
-	 * The ender guardian chestpiece makes Void Rune summon three rows per target below half health.
+	 * Below half health (or with the ender guardian chestpiece) Void Rune summons extra rows per target.
 	 */
 	public static boolean guardianTripleRune(AbstractGolemEntity<?, ?> golem) {
 		return guardianFinalForm(golem);

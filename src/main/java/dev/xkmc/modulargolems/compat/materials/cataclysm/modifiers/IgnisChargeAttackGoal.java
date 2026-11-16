@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 
-
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -27,7 +26,6 @@ public class IgnisChargeAttackGoal extends BaseChargeGoal {
 
 	public static final String KEY_ACTIVE = "IgnisCharging";
 
-
 	private final AbstractGolemEntity<?, ?> golem;
 	private Vec3 start, dir;
 	private double total;
@@ -46,21 +44,12 @@ public class IgnisChargeAttackGoal extends BaseChargeGoal {
 
 	@Override
 	public boolean canUse() {
-		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
-		if (!canStartCharge(golem)) return false;
-		if (EarthquakeHelper.isBusy(golem)) return false;
-		long time = golem.level().getGameTime();
-		if (onCooldown(golem)) return false;
-		LivingEntity target = findTarget();
-		if (target == null || !target.isAlive() || !golem.canAttack(target)) return false;
-		if (!ChargeHelper.isTargetReachable(golem, target)) return false;
-		double dist = golem.distanceTo(target);
-		return dist >= IgnisChargeModifier.MIN_RANGE && dist <= IgnisChargeModifier.MAX_RANGE;
+		return canUseCharge(golem, ChargeHelper.findChargeTarget(golem, IgnisChargeModifier.MAX_RANGE), IgnisChargeModifier.MIN_RANGE, IgnisChargeModifier.MAX_RANGE);
 	}
 
 	@Override
 	public void start() {
-		LivingEntity target = findTarget();
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, IgnisChargeModifier.MAX_RANGE);
 		// canUse 已排除空目标，但所有 canUse 都先于 start 执行，中间目标可能已死，
 		// 这里直接退出而不是解引用。
 		if (target == null) {
@@ -147,10 +136,6 @@ public class IgnisChargeAttackGoal extends BaseChargeGoal {
 
 	private ParticleOptions particle() {
 		return CataDispatch.ignisBlue(golem) ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME;
-	}
-
-	private LivingEntity findTarget() {
-		return ChargeHelper.findChargeTarget(golem, IgnisChargeModifier.MAX_RANGE);
 	}
 
 }

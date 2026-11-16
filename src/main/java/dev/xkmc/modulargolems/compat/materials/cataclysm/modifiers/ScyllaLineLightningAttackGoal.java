@@ -2,16 +2,11 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 public class ScyllaLineLightningAttackGoal extends BaseRangedAttackGoal {
@@ -63,33 +58,12 @@ public class ScyllaLineLightningAttackGoal extends BaseRangedAttackGoal {
 		for (int i = -ScyllaLineLightningModifier.COUNT / 2; i <= ScyllaLineLightningModifier.COUNT / 2; i++) {
 			double fx = px + dir.x * ScyllaLineLightningModifier.SPACING * i;
 			double fz = pz + dir.z * ScyllaLineLightningModifier.SPACING * i;
-			Vec3 floor = findFloor(golem.level(), fx, fz, top, 16);
+			Vec3 floor = EarthquakeHelper.findFloor(golem.level(), new Vec3(fx, top, fz), 16);
 			if (floor == null) continue;
 			GolemCataProxy.lightningStorm(golem, fx, floor.y, fz, 2.0F);
 		}
 	}
 
-	@Nullable
-	private static Vec3 findFloor(Level level, double x, double z, double maxY, double diff) {
-		BlockPos pos = BlockPos.containing(x, maxY, z);
-		double minY = maxY - diff;
-		double dy = 0.0D;
-		do {
-			BlockPos low = pos.below();
-			BlockState lowState = level.getBlockState(low);
-			if (lowState.isFaceSturdy(level, low, Direction.UP)) {
-				if (!level.isEmptyBlock(pos)) {
-					VoxelShape shape = level.getBlockState(pos).getCollisionShape(level, pos);
-					if (!shape.isEmpty()) {
-						dy = shape.max(Direction.Axis.Y);
-					}
-				}
-				return new Vec3(x, pos.getY() + dy, z);
-			}
-			pos = pos.below();
-		} while (pos.getY() >= minY);
-		return null;
-	}
 
 	@Override
 	public void stop() {

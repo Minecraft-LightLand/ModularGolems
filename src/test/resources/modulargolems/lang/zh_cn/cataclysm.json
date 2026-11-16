@@ -89,7 +89,7 @@
     "ender_guardian_hug": "火箭拳",
     "ender_guardian_hug.desc": "可传送到目标位置并造成范围伤害",
     "ender_guardian_teleport_slam": "跃迁猛击",
-    "ender_guardian_teleport_slam.desc": "可瞬移到目标头顶进行下落攻击，落地时造成范围伤害并召唤虚空符文，跳跃期间受到的伤害降低%s。生命值低于上限的%s时冷却时间减半",
+    "ender_guardian_teleport_slam.desc": "可瞬移到目标头顶进行下落攻击，落地时造成范围伤害并召唤虚空符文，跳跃期间受到的伤害降低%s",
     "ender_guardian_rocket_punch": "引力冲撞",
     "ender_guardian_rocket_punch.desc": "可向较远目标发起冲锋并发射一排潜影弹，对路径上的所有目标造成伤害，冲锋期间受到的伤害降低%s并吸引周围目标",
     "leviathan_blast_portal": "深渊冲击波",

@@ -16,6 +16,8 @@ public class LMDispatch extends ModDispatch {
 	public LMDispatch() {
 		super(() -> LMClient::new);
 		LMCompatRegistry.register();
+		// 调试：记录传奇 boss 每次切换 attackState（用于识别招式）
+		net.minecraftforge.common.MinecraftForge.EVENT_BUS.addListener(LMBossDebug::onLivingTick);
 	}
 
 	@Override

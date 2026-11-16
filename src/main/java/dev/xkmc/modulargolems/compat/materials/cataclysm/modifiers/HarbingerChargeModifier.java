@@ -27,6 +27,12 @@ public class HarbingerChargeModifier extends GolemModifier implements ChargeHelp
 	/** 冲锋的最小距离（格）；0 表示不限制。 */
 	public static final int MIN_RANGE = 0;
 	public static final double CLIMB_BOOST = 2.5;
+	/**
+	 * 连续冲锋段数上限，tooltip 也会显示。实际段数随生命值变化，见 {@link HarbingerChargeAttackGoal#maxDashFor}。
+	 */
+	public static final int MAX_DASH = 3;
+	/** 落地等待超时（tick），超时后结束本次冲锋。 */
+	public static final int LANDING_TIMEOUT = 60;
 
 	public HarbingerChargeModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -85,7 +91,7 @@ public class HarbingerChargeModifier extends GolemModifier implements ChargeHelp
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		var dashes = Component.literal("" + HarbingerChargeAttackGoal.MAX_DASH).withStyle(ChatFormatting.AQUA);
+		var dashes = Component.literal("" + MAX_DASH).withStyle(ChatFormatting.AQUA);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", ChargeHelper.chargeReduction(), dashes, CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH)).withStyle(ChatFormatting.GREEN));
 	}
 

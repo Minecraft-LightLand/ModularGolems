@@ -11,13 +11,16 @@ import net.minecraft.world.entity.player.Player;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -60,8 +63,43 @@ public class EarthquakeHelper {
 		SkillSound.playQuakeEasterEgg(golem, 1.0F, 1.0F);
 	}
 
+	/**
+	 * 把落点投影到脚下第一个可站立方块的顶面，找不到实心面时返回 {@code null}。
+	 * <p>
+	 * 落地类技能的**特效与结算中心都必须用它**，不能用 {@code entity.getY()}：客户端位置是插值的，
+	 * 落地那一帧往往还在半空；直接取实体 Y 会把碎屑/环画在「撞到目标的高度」，
+	 * 而 {@code blockPosition().below()} 这时还是空气，方块碎屑干脆看不见。
+	 * <p>
+	 * 不要用 {@code getHeight(MOTION_BLOCKING_NO_LEAVES)} 替代：它在室内/屋檐下取到的是最高方块顶
+	 * （屋顶），会把特效推到头顶去。
+	 */
+	@Nullable
+	public static Vec3 findFloor(Level level, Vec3 pos, int maxDrop) {
+		double x = pos.x, z = pos.z;
+		double minY = pos.y - maxDrop;
+		BlockPos block = BlockPos.containing(x, pos.y + 0.5, z);
+		double dy = 0.0;
+		do {
+			BlockPos below = block.below();
+			if (level.getBlockState(below).isFaceSturdy(level, below, Direction.UP)) {
+				if (!level.isEmptyBlock(block)) {
+					VoxelShape shape = level.getBlockState(block).getCollisionShape(level, block);
+					if (!shape.isEmpty()) dy = shape.max(Direction.Axis.Y);
+				}
+				return new Vec3(x, block.getY() + dy, z);
+			}
+			block = block.below();
+		} while (block.getY() >= minY);
+		return null;
+	}
+
 	public static void makeParticles(LivingEntity le, float vec, float math) {
 		if (le.level().isClientSide) {
+			// 落地类特效锚到地面：客户端实体位置是插值的，落地帧可能还在半空，
+			// 直接用 getY() 会把整片碎屑画在空中，且脚下那格还是空气（碎屑直接不可见）
+			Vec3 ground = findFloor(le.level(), le.position(), 8);
+			double baseY = ground == null ? le.getY() : ground.y;
+			BlockState below = le.level().getBlockState(BlockPos.containing(le.getX(), baseY - 0.5, le.getZ()));
 			for (int i1 = 0; i1 < 80 + le.getRandom().nextInt(12); ++i1) {
 				double DeltaMovementX = le.getRandom().nextGaussian() * 0.07;
 				double DeltaMovementY = le.getRandom().nextGaussian() * 0.07;
@@ -76,12 +114,7 @@ public class EarthquakeHelper {
 				++theta;
 				double vecX = Math.cos(theta);
 				double vecZ = Math.sin(theta);
-				int hitX = Mth.floor(le.getX() + vec * vecX + extraX);
-				int hitY = Mth.floor(le.getY());
-				int hitZ = Mth.floor(le.getZ() + vec * vecZ + extraZ);
-				BlockPos hit = new BlockPos(hitX, hitY, hitZ);
-				BlockState block = le.level().getBlockState(hit.below());
-				le.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), le.getX() + (double) vec * vecX + extraX + (double) (f * math), le.getY() + extraY, le.getZ() + (double) vec * vecZ + extraZ + (double) (f1 * math), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+				le.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, below), le.getX() + (double) vec * vecX + extraX + (double) (f * math), baseY + extraY, le.getZ() + (double) vec * vecZ + extraZ + (double) (f1 * math), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
 			}
 		}
 

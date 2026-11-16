@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.VortexField;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
+import dev.xkmc.modulargolems.content.modifier.special.TeleportBackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import dev.xkmc.modulargolems.util.GolemTargetUtil;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,7 +38,7 @@ public class EnderGuardianVoidRuneAttackGoal extends BaseRangedAttackGoal {
 	private static final int VOLLEY_GAP = 6;
 
 	public EnderGuardianVoidRuneAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(EnderGuardianVoidRuneModifier.COOLDOWN, EnderGuardianVoidRuneModifier.MIN_RANGE, EnderGuardianVoidRuneModifier.MAX_RANGE, golem, lv);
+		super(EnderGuardianVoidRuneModifier.cooldownFor(lv), EnderGuardianVoidRuneModifier.MIN_RANGE, EnderGuardianVoidRuneModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
@@ -60,7 +61,6 @@ public class EnderGuardianVoidRuneAttackGoal extends BaseRangedAttackGoal {
 	public boolean canContinueToUse() {
 		return volleysLeft > 0 || super.canContinueToUse();
 	}
-
 	@Override
 	protected boolean performAttack(LivingEntity target) {
 		castVolley(target);
@@ -141,12 +141,12 @@ public class EnderGuardianVoidRuneAttackGoal extends BaseRangedAttackGoal {
 	 */
 	@Override
 	protected int getWaitTime() {
-		return CataArmorHelper.guardianFastSkill(golem) ? EnderGuardianVoidRuneModifier.COOLDOWN / 2 : EnderGuardianVoidRuneModifier.COOLDOWN;
+		return EnderGuardianVoidRuneModifier.cooldownFor(lv);
 	}
 
 	@Override
 	protected BackstepHelper backstep() {
-		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+		return new TeleportBackstepHelper(golem);   // 末影守卫：真瞬移后撤
 	}
 
 	@Override

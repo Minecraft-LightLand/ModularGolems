@@ -28,6 +28,10 @@ public class MaledictusChargeModifier extends GolemModifier implements ChargeHel
 	public static final double MAX_RANGE = 16;
 	/** 冲锋的最小距离（格）；0 表示不限制。 */
 	public static final int MIN_RANGE = 0;
+	/**
+	 * 连续冲锋段数上限，tooltip 也会显示。实际段数随生命值变化，见 {@link MaledictusChargeAttackGoal#maxDashFor}。
+	 */
+	public static final int MAX_DASH = 3;
 
 	public MaledictusChargeModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -89,7 +93,7 @@ public class MaledictusChargeModifier extends GolemModifier implements ChargeHel
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		var dashes = Component.literal("" + MaledictusChargeAttackGoal.MAX_DASH).withStyle(ChatFormatting.AQUA);
+		var dashes = Component.literal("" + MAX_DASH).withStyle(ChatFormatting.AQUA);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", ChargeHelper.chargeReduction(), dashes).withStyle(ChatFormatting.GREEN));
 	}
 

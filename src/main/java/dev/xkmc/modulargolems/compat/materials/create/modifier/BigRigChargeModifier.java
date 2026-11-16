@@ -26,25 +26,34 @@ import java.util.function.BiConsumer;
 
 public class BigRigChargeModifier extends GolemModifier implements ChargeHelper.Modifier {
 
+	/** 冲锋冷却（tick）。 */
+	public static final int COOLDOWN = 200;
+	/** 单次冲锋最长持续 tick。 */
+	public static final int MAX_TICKS = 60;
+	/** 最大冲锋距离（格）。 */
+	public static final double MAX_RANGE = 16;
+	/** 最小冲锋距离：0 表示不限制。 */
+	public static final double MIN_RANGE = 0;
+
 	public BigRigChargeModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
 	}
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new BigRigChargeGoal(entity, lv, this));
+		addGoal.accept(1, new BigRigChargeAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
-		if (BigRigChargeGoal.isCharging(entity)) {
+		if (BigRigChargeAttackGoal.isCharging(entity)) {
 			event.setAmount(event.getAmount() * ChargeHelper.CHARGE_DAMAGE_MULT);
 		}
 	}
 
 	@Override
 	public void setCharging(ChargeHelper.Instance ins, boolean on) {
-		ins.owner().setTransientFlag(BigRigChargeGoal.KEY_ACTIVE, on);
+		ins.owner().setTransientFlag(BigRigChargeAttackGoal.KEY_ACTIVE, on);
 	}
 
 	@Override
@@ -97,9 +106,9 @@ public class BigRigChargeModifier extends GolemModifier implements ChargeHelper.
 
 	private int calcCooldown(AbstractGolemEntity<?, ?> golem) {
 		if (golem.hasEffect(CreateCompatRegistry.EFF_MOBILE.get()) || golem.hasEffect(CreateCompatRegistry.EFF_FORCE.get())) {
-			return BigRigChargeGoal.COOLDOWN / 2;
+			return COOLDOWN / 2;
 		}
-		return BigRigChargeGoal.COOLDOWN;
+		return COOLDOWN;
 	}
 
 	@Override

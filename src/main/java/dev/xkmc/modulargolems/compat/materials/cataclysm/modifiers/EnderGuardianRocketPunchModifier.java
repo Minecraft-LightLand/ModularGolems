@@ -23,6 +23,8 @@ public class EnderGuardianRocketPunchModifier extends GolemModifier implements C
 	public static final double MAX_RANGE = 16;
 	/** 冲锋的最小距离（格）；0 表示不限制。 */
 	public static final int MIN_RANGE = 0;
+	/** 命中后的眩晕时长（tick）。 */
+	public static final int STUN_TICKS = 60;
 
 	@Override
 	public int getCooldown(AbstractGolemEntity<?, ?> golem, int lv) {
@@ -79,7 +81,7 @@ public class EnderGuardianRocketPunchModifier extends GolemModifier implements C
 
 	@Override
 	public void onChargeTouch(ChargeHelper.Instance ins, LivingEntity target) {
-		GolemCataProxy.inflictStun(ins.owner(), target, EnderGuardianRocketPunchAttackGoal.STUN_TICKS);
+		GolemCataProxy.inflictStun(ins.owner(), target, STUN_TICKS);
 	}
 
 	@Override

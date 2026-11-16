@@ -45,7 +45,6 @@ public class AnnihilatorLaserAttackGoal extends BaseRangedAttackGoal {
 		Entity laser = EEEABProxy.spawnAnnihilatorLaser(golem);
 		if (laser == null) return true;
 		beam = laser;
-		golem.getNavigation().stop();
 		golem.specialAttackCoolDown = 20;
 		return true;
 	}
@@ -54,7 +53,6 @@ public class AnnihilatorLaserAttackGoal extends BaseRangedAttackGoal {
 	protected BackstepHelper backstep() {
 		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
 	}
-
 
 	@Override
 	protected double getLeapRange() {

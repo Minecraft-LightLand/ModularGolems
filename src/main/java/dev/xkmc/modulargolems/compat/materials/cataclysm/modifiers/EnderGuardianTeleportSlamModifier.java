@@ -103,8 +103,7 @@ public class EnderGuardianTeleportSlamModifier extends GolemModifier implements 
 
 	@Override
 	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
-		// 末地守卫胸甲：半血以下（或被胸甲钉在最终形态）时冷却减半
-		return CataArmorHelper.guardianFastSlam(golem) ? COOLDOWN / 2 : COOLDOWN;
+		return COOLDOWN;
 	}
 
 

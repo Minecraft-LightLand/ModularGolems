@@ -52,18 +52,6 @@
       "id": "modulargolems:annihilation_bomb",
       "required": false
     },
-    {
-      "id": "modulargolems:annihilation_plasma",
-      "required": false
-    },
-    {
-      "id": "modulargolems:soul_blade",
-      "required": false
-    },
-    {
-      "id": "modulargolems:soul_shield",
-      "required": false
-    },
     "modulargolems:quartz",
     "modulargolems:emerald"
   ]

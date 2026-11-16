@@ -4,7 +4,6 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 
-
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -26,21 +25,15 @@ public class MaledictusChargeAttackGoal extends BaseChargeGoal {
 
 	public static final String KEY_ACTIVE = "MaledictusCharging";
 
-
-	/**
-	 * 连续冲锋段数上限，tooltip 也会显示。实际段数随生命值变化，见 {@link #maxDashFor}。
-	 */
-	public static final int MAX_DASH = 3;
-
 	/**
 	 * 按生命值比例决定本次连续冲锋段数：满血 1 段，50% 以下 2 段，25% 以下 3 段。
 	 * 佩戴咒魂护腿时固定为上限。
 	 */
 	public static int maxDashFor(AbstractGolemEntity<?, ?> golem) {
 		if (CataArmorHelper.maledictusChest(golem))
-			return MAX_DASH;
+			return MaledictusChargeModifier.MAX_DASH;
 		float ratio = golem.getGuardedDataImpl() / golem.getMaxHealth();
-		if (ratio <= 0.25F) return MAX_DASH;
+		if (ratio <= 0.25F) return MaledictusChargeModifier.MAX_DASH;
 		if (ratio <= 0.5F) return 2;
 		return 1;
 	}
@@ -51,7 +44,6 @@ public class MaledictusChargeAttackGoal extends BaseChargeGoal {
 	private int ticks;
 	private boolean blocked;
 	private int dashDone, maxDash;
-
 
 	public MaledictusChargeAttackGoal(AbstractGolemEntity<?, ?> golem, int lv, ChargeHelper.Modifier mod) {
 		super(mod, lv);
@@ -65,16 +57,7 @@ public class MaledictusChargeAttackGoal extends BaseChargeGoal {
 
 	@Override
 	public boolean canUse() {
-		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
-		if (!canStartCharge(golem)) return false;
-		if (EarthquakeHelper.isBusy(golem)) return false;
-		long time = golem.level().getGameTime();
-		if (onCooldown(golem)) return false;
-		LivingEntity target = findTarget();
-		if (target == null || !target.isAlive() || !golem.canAttack(target)) return false;
-		if (!ChargeHelper.isTargetReachable(golem, target)) return false;
-		double dist = golem.distanceTo(target);
-		return dist >= MaledictusChargeModifier.MIN_RANGE && dist <= MaledictusChargeModifier.MAX_RANGE;
+		return canUseCharge(golem, ChargeHelper.findChargeTarget(golem, MaledictusChargeModifier.MAX_RANGE), MaledictusChargeModifier.MIN_RANGE, MaledictusChargeModifier.MAX_RANGE);
 	}
 
 	@Override
@@ -87,7 +70,7 @@ public class MaledictusChargeAttackGoal extends BaseChargeGoal {
 		this.golem.setTransientFlag(KEY_ACTIVE, true);
 		EarthquakeHelper.setBusy(this.golem, true);
 		markUsed(golem);
-		LivingEntity target = findTarget();
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, MaledictusChargeModifier.MAX_RANGE);
 		if (target == null) {
 			blocked = true;
 			return;
@@ -201,7 +184,7 @@ public class MaledictusChargeAttackGoal extends BaseChargeGoal {
 			this.blocked = true;
 			return;
 		}
-		LivingEntity target = findTarget();
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, MaledictusChargeModifier.MAX_RANGE);
 		if (target == null || !target.isAlive() || !golem.canAttack(target)) {
 			this.dashDone = this.maxDash;
 			this.blocked = true;
@@ -214,9 +197,5 @@ public class MaledictusChargeAttackGoal extends BaseChargeGoal {
 
 	/** 等待期间暂存下一段的目标。 */
 	private LivingEntity pendingTarget;
-
-	private LivingEntity findTarget() {
-		return ChargeHelper.findChargeTarget(golem, MaledictusChargeModifier.MAX_RANGE);
-	}
 
 }

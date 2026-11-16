@@ -48,6 +48,7 @@ public class IgnisCounterAttackGoal extends Goal {
 		inited = false;
 		step = -1;
 		center = null;
+
 		roar();
 	}
 
@@ -117,7 +118,6 @@ public class IgnisCounterAttackGoal extends Goal {
 		yaw = CataArmorHelper.yawToTarget(golem, golem.getTarget());
 		CataArmorHelper.faceYaw(golem, yaw);
 		blue = CataDispatch.ignisBlue(golem);
-		golem.getNavigation().stop();
 		GolemCataProxy.ignisCounterStrike(golem, blue);
 	}
 

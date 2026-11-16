@@ -31,6 +31,11 @@ public class EnderGuardianVoidRuneModifier extends GolemModifier {
 
 	private static final ResourceLocation VOID_RUNE = new ResourceLocation("cataclysm", "void_rune");
 
+	/** 冷却随等级右移（每级减半），最低 1 tick，永不归零。 */
+	public static int cooldownFor(int lv) {
+		return Math.max(1, COOLDOWN >> (lv - 1));
+	}
+
 	public EnderGuardianVoidRuneModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
 	}

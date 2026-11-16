@@ -2,7 +2,8 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
-
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
+import dev.xkmc.modulargolems.content.modifier.special.TeleportBackstepHelper;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
@@ -22,8 +23,6 @@ import dev.xkmc.modulargolems.util.GolemTargetUtil;
 public class EnderGuardianRocketPunchAttackGoal extends BaseChargeGoal {
 
 	public static final String KEY_ACTIVE = "EnderGuardianRocketPunching";
-	public static final int STUN_TICKS = 60;
-
 
 	private final AbstractGolemEntity<?, ?> golem;
 	private Vec3 start, dir;
@@ -44,23 +43,12 @@ public class EnderGuardianRocketPunchAttackGoal extends BaseChargeGoal {
 
 	@Override
 	public boolean canUse() {
-		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
-		if (!canStartCharge(golem)) return false;
-		// EarthquakeHelper 的 busy 标志是所有冲锋与跳跃技能共用的全局锁；
-		// 与其中之一并行会让双方争抢本技能要重新站位的那个位置
-		if (EarthquakeHelper.isBusy(golem)) return false;
-		long time = golem.level().getGameTime();
-		if (onCooldown(golem)) return false;
-		LivingEntity target = findTarget();
-		if (target == null || !target.isAlive() || !golem.canAttack(target)) return false;
-		if (!ChargeHelper.isTargetReachable(golem, target)) return false;
-		double dist = golem.distanceTo(target);
-		return dist >= EnderGuardianRocketPunchModifier.MIN_RANGE && dist <= EnderGuardianRocketPunchModifier.MAX_RANGE;
+		return canUseCharge(golem, ChargeHelper.findChargeTarget(golem, EnderGuardianRocketPunchModifier.MAX_RANGE), EnderGuardianRocketPunchModifier.MIN_RANGE, EnderGuardianRocketPunchModifier.MAX_RANGE);
 	}
 
 	@Override
 	public void start() {
-		LivingEntity target = findTarget();
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, EnderGuardianRocketPunchModifier.MAX_RANGE);
 		this.ticks = 0;
 		this.blocked = false;
 		this.golem.getNavigation().stop();
@@ -149,12 +137,13 @@ public class EnderGuardianRocketPunchAttackGoal extends BaseChargeGoal {
 				boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
 				if (chargeHit) SkillSound.playChargeHit(golem);
 			}
-			GolemCataProxy.inflictStun(golem, e, STUN_TICKS);
+			GolemCataProxy.inflictStun(golem, e, EnderGuardianRocketPunchModifier.STUN_TICKS);
 		}
 	}
 
-	private LivingEntity findTarget() {
-		return ChargeHelper.findChargeTarget(golem, EnderGuardianRocketPunchModifier.MAX_RANGE);
+	/** 末影守卫：冲锋前的后撤改为真瞬移（与它的虚空符文一致）。 */
+	@Override
+	protected BackstepHelper chargeBackstep(AbstractGolemEntity<?, ?> golem) {
+		return new TeleportBackstepHelper(golem);
 	}
-
 }

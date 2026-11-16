@@ -17,6 +17,12 @@ import java.util.function.BiConsumer;
 public class PoseidonRiptideModifier extends GolemModifier implements ChargeHelper.Modifier {
 
 	public static final int COOLDOWN = 100;
+	/** 最大冲锋距离（格）。 */
+	public static final double MAX_RANGE = 16;
+	/** 最小冲锋距离：0 表示不限制。 */
+	public static final double MIN_RANGE = 0;
+	/** 单次冲锋最长持续 tick。 */
+	public static final int MAX_TICKS = 60;
 
 	public PoseidonRiptideModifier() {
 		super(StatFilterType.HEAD, 1);
@@ -24,19 +30,19 @@ public class PoseidonRiptideModifier extends GolemModifier implements ChargeHelp
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new PoseidonRiptideChargeGoal(entity, lv, this));
+		addGoal.accept(1, new PoseidonRiptideChargeAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, LivingDamageEvent event, int level) {
-		if (PoseidonRiptideChargeGoal.isCharging(entity)) {
+		if (PoseidonRiptideChargeAttackGoal.isCharging(entity)) {
 			event.setAmount(event.getAmount() * ChargeHelper.CHARGE_DAMAGE_MULT);
 		}
 	}
 
 	@Override
 	public void setCharging(ChargeHelper.Instance ins, boolean on) {
-		ins.owner().setTransientFlag(PoseidonRiptideChargeGoal.KEY_ACTIVE, on);
+		ins.owner().setTransientFlag(PoseidonRiptideChargeAttackGoal.KEY_ACTIVE, on);
 	}
 
 	@Override

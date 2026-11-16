@@ -16,7 +16,7 @@ public class HellCloudModifier extends GolemModifier implements IApostleModifier
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new HellCloudGoal(entity, lv).withName(this.getDescriptionId()));
+		addGoal.accept(5, new HellCloudAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }
