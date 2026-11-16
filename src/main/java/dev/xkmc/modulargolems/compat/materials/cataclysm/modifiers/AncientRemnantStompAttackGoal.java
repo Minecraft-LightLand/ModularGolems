@@ -78,7 +78,6 @@ public class AncientRemnantStompAttackGoal extends BaseRangedAttackGoal {
 		// 朝向目标，而不是傀儡自身前方
 		yaw = CataArmorHelper.yawToTarget(golem, target);
 		CataArmorHelper.faceYaw(golem, yaw);
-		golem.getNavigation().stop();
 		GolemCataProxy.ancientRemnantStompStart(golem, center, yaw);
 		step = 0;
 		lastStepTick = golem.tickCount;

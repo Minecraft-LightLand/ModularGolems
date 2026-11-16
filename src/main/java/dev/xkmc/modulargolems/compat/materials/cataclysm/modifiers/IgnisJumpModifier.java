@@ -12,19 +12,13 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -41,7 +35,6 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 	public static final float FLAME_STRIKE_DURATION_BONUS = 1.0F;
 
 	private static final String KEY_QUAKE_RADIUS = "IgnisQuakeRadius";
-	private static final String KEY_QUAKE_TICK = "IgnisQuakeTimer";
 	private static final String KEY_QUAKE_CENTER = "IgnisQuakeCenter";
 	private static final String KEY_SMASH_STEP = "IgnisSmashStep";
 
@@ -51,6 +44,12 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 	 * 这里照搬：从 2 到 10，每 2 tick 外扩一圈。
 	 */
 	private static final int SMASH_START = 2, SMASH_END = 10, SMASH_INTERVAL = 2;
+
+	/**
+	 * 收束段：每 tick 一圈（本体 REINFORCED_SMASH 的 animationTick 46..57 就是每 tick 一圈），
+	 * 半径从 16 递减到 6。
+	 */
+	private static final int QUAKE_START_RADIUS = 16, QUAKE_END_RADIUS = 6;
 
 	/**
 	 * Radius of the {@code Flame_Strike_Entity} runes dropped under the nearby targets.
@@ -84,10 +83,6 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		return v == null ? 0 : v;
 	}
 
-	private static int quakeTick(AbstractGolemEntity<?, ?> golem) {
-		Integer v = golem.getTransientState(KEY_QUAKE_TICK);
-		return v == null ? 0 : v;
-	}
 
 	/**
 	 * The point the collapsing wave pulls in on, recorded when the golem touched down. The wave runs for
@@ -112,8 +107,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 			if (dist >= SMASH_END && step % SMASH_INTERVAL == 0) {
 				// 扩张结束，接上收束段
 				golem.setTransientState(KEY_SMASH_STEP, null);
-				golem.setTransientState(KEY_QUAKE_RADIUS, 16);
-				golem.setTransientState(KEY_QUAKE_TICK, 2);
+				golem.setTransientState(KEY_QUAKE_RADIUS, QUAKE_START_RADIUS);
 			} else {
 				golem.setTransientState(KEY_SMASH_STEP, step + 1);
 			}
@@ -121,12 +115,6 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		}
 		int radius = quakeRadius(golem);
 		if (radius <= 0) return;
-		int timer = quakeTick(golem) + 1;
-		if (timer < 2) {
-			golem.setTransientState(KEY_QUAKE_TICK, timer);
-			return;
-		}
-		golem.setTransientState(KEY_QUAKE_TICK, 0);
 		boolean soul = CataDispatch.ignisBlue(golem);
 		// forward offset is zero: that argument is how far the original swings its greatsword ahead of its
 		// body, and these golems smash with their own legs instead, so there is nothing to reach past. Keeping
@@ -137,7 +125,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		boolean heavy = isHeavy(golem);
 		float dmg = heavy ? 1.5f : 1.1f, hp = heavy ? 0.15f : 0.06f;
 		GolemCataProxy.ignisQuakeWaveAt(golem, quakeCenter(golem), radius, 2.5f, 0.0f, true, dmg * legs, hp * legs, 0.075f, soul);
-		golem.setTransientState(KEY_QUAKE_RADIUS, radius <= 6 ? null : radius - 1);
+		golem.setTransientState(KEY_QUAKE_RADIUS, radius <= QUAKE_END_RADIUS ? null : radius - 1);
 	}
 
 	private static float quakeLegsMul(AbstractGolemEntity<?, ?> golem) {
@@ -189,7 +177,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		// 由内向外逐圈震起方块（本体 tick 5..19 的 ShieldSmashDamage 序列），结束后自动接收束段
 		golem.setTransientState(KEY_SMASH_STEP, 0);
 		var self = golem.position();
-		Vec3 landing = findFloor(level, self, 4);
+		Vec3 landing = EarthquakeHelper.findFloor(level, self, 4);
 		golem.setTransientState(KEY_QUAKE_CENTER, landing != null ? landing : self);
 		// 烈焰轰击（落点 + 附近每个目标脚下）只在完整形态（腾炎胸甲，或生命值低于 1/3）触发
 		if (!(chest || CataArmorHelper.isBelow(golem, CataArmorHelper.ONE_THIRD))) return;
@@ -198,7 +186,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		if (landing != null) list.add(landing);
 		for (var e : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
-			var ans = findFloor(level, e.position(), 4);
+			var ans = EarthquakeHelper.findFloor(level, e.position(), 4);
 			if (ans == null) continue;
 			boolean tooClose = false;
 			for (var other : list) {
@@ -263,29 +251,6 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		CataDispatch.stackBlazingBrand(golem, target, rate * cache.getDamageDealt(), GolemCataProxy.isSoul(direct) ? 3 : 1);
 	}
 
-	@Nullable
-	private static Vec3 findFloor(Level level, Vec3 p, int diff) {
-		double x = p.x, maxY = p.y, z = p.z, minY = maxY - diff;
-		BlockPos pos = BlockPos.containing(x, maxY, z);
-		double dy = 0.0F;
-
-		do {
-			BlockPos low = pos.below();
-			BlockState lowState = level.getBlockState(low);
-			if (lowState.isFaceSturdy(level, low, Direction.UP)) {
-				if (!level.isEmptyBlock(pos)) {
-					BlockState state = level.getBlockState(pos);
-					VoxelShape shape = state.getCollisionShape(level, pos);
-					if (!shape.isEmpty()) {
-						dy = shape.max(Direction.Axis.Y);
-					}
-				}
-				return new Vec3(x, pos.getY() + dy, z);
-			}
-			pos = pos.below();
-		} while (pos.getY() >= minY);
-		return null;
-	}
 
 
 	@Override

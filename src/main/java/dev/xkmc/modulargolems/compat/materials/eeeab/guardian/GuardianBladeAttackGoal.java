@@ -32,7 +32,6 @@ public class GuardianBladeAttackGoal extends BaseRangedAttackGoal {
 	@Override
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
-		golem.getNavigation().stop();
 		EEEABProxy.spawnGuardianBladeBurst(golem);
 		golem.specialAttackCoolDown = 20;
 		return true;

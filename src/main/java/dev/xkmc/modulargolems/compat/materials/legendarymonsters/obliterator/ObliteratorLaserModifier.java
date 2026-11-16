@@ -14,12 +14,21 @@ import java.util.function.BiConsumer;
  */
 public class ObliteratorLaserModifier extends GolemModifier {
 
-	public ObliteratorLaserModifier() {
-		super(StatFilterType.HEAD, 1);
+	/** 冷却（tick）。 */
+	public static final int COOLDOWN = 200;
+	/** 施放距离上限（格）。 */
+	public static final int MAX_RANGE = 32;
+	/** 施放的最小距离（格）；2 = 太近就不放。 */
+	public static final int MIN_RANGE = 2;
+	/** 二阶段开火后衔接四向激光的概率，对应 Boss state46 的派生。 */
+	public static final float QUAD_CHANCE = 0.6F;
+
+	public ObliteratorLaserModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new ObliteratorLaserGoal(entity, lv).withName(this.getDescriptionId()));
+		addGoal.accept(5, new ObliteratorLaserAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 }

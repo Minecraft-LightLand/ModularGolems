@@ -89,7 +89,6 @@ public class AtomicBreathAttackGoal extends BaseRangedAttackGoal {
 		if (golem.isBreathAttack()) return false;
 		this.breathTicks = 0;
 		this.breathDuration = AtomicBreathModifier.DURATION;
-		golem.getNavigation().stop();
 		golem.setBreathAttack(true);
 		golem.playSound(ACSoundRegistry.TREMORZILLA_BEAM_START.get(), BEAM_SOUND_VOLUME, 1.0F);
 		return true;
@@ -131,7 +130,6 @@ public class AtomicBreathAttackGoal extends BaseRangedAttackGoal {
 	protected BackstepHelper backstep() {
 		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
 	}
-
 
 	@Override
 	protected double getLeapRange() {

@@ -161,6 +161,8 @@ public class ChargeHelper {
 	 *                   真正爬升的技能靠它抬升得比水平速度看起来更快。
 	 */
 	public static boolean moveOneTick(AbstractGolemEntity<?, ?> golem, Vec3 dir, double climbBoost) {
+		// 起手目标在 canUse 与 start 之间死亡时 dir 可能为 null，按「被挡住」处理而不是抛 NPE
+		if (dir == null) return false;
 		double speed = golem.getAttributeValue(Attributes.MOVEMENT_SPEED) * MOVE_SPEED_MULT;
 		Vec3 step = dir.scale(speed);
 		if (climbBoost != 1.0 && step.y > 0) step = new Vec3(step.x, step.y * climbBoost, step.z);

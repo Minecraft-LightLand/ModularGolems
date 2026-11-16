@@ -60,6 +60,7 @@ public enum MGLangData {
 	GUARDIAN_GRAVITY_BOOST("tooltip.cataclysm.guardian_armor_gravity", "+%s %s and Void Vortex Damage, with a %s larger pull radius and strength", 3, ChatFormatting.GRAY),
 	SKILL_DAMAGE_BOOST("tooltip.skill_damage_boost", "+%s %s Damage", 2, ChatFormatting.GRAY),
 	SKILL_HEALTH_GATE("tooltip.skill_health_gate", "Can only be used below %s of max HP", 1, ChatFormatting.GRAY),
+	SKILL_HEALTH_GATE_ABOVE("tooltip.skill_health_gate_above", "Can only be used above %s of max HP", 1, ChatFormatting.GRAY),
 	SKILL_CD_REDUCTION("tooltip.skill_cd_reduction", "Casting %s shortens the cooldown by %s seconds", 2, ChatFormatting.GRAY),
 	SKILL_IGNORE_HEALTH("tooltip.skill_ignore_health", "Ignores health requirement: directly activates %s's final form", 1, ChatFormatting.GRAY),
 	SKILL_CD("msg.skill_cd", "Skill Cooldowns:", 0, ChatFormatting.GRAY),

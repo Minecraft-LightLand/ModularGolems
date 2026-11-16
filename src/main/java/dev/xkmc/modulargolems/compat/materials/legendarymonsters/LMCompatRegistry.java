@@ -1,104 +1,169 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 
-import com.bobmowzie.mowziesmobs.server.item.ItemHandler;
+import com.tterrag.registrate.util.entry.EntityEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.RootPercAttackModifier;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.ThunderAttackModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.RootPercModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.ThunderModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.CloudChargeModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.CloudBlockModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.CloudDropModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.CloudLaserEntity;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.CloudLaserRenderer;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.CycloneModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.FierceWaveStompModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.LineCloudModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.SkyLaserModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.SkyfallSmashModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorCloneBarrageModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorCloneBurstModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorArmBlockModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorSmallBombModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorStompModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorJumpGroundChargeModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorLargeBombModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorLaserModifier;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorPlasmaOrbModifier;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorSmallBombModifier;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorUltimateEarthquakeModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulBladeLeapModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinRollSlashModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulTridentModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulBlastModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulShieldModifier;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PhantomDaggerModifier;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.SoulSpikeModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulDaggerModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulBladeModifier;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin.PaladinSoulBlastWaveModifier;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
-import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.THUNDER_IMMUNE;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
 public class LMCompatRegistry {
 
 	public static final RegistryEntry<AncientAnchorModifier> ANCHOR;
-	public static final RegistryEntry<ThunderAttackModifier> THUNDER;
-	public static final RegistryEntry<RootPercAttackModifier> PERC;
+	public static final RegistryEntry<ThunderModifier> THUNDER;
+	public static final RegistryEntry<RootPercModifier> PERC;
 	public static final RegistryEntry<CloudChargeModifier> CLOUD_CHARGE;
+	public static final RegistryEntry<SkyLaserModifier> SKY_LASER;
+	public static final RegistryEntry<LineCloudModifier> LINE_CLOUD;
+	public static final RegistryEntry<CycloneModifier> CONTROL_CYCLONE;
+	public static final RegistryEntry<CloudDropModifier> CLOUD_DROP;
+	public static final RegistryEntry<CloudBlockModifier> CLOUD_BLOCK;
+	public static final RegistryEntry<SkyfallSmashModifier> SKYFALL_SMASH;
+	public static final RegistryEntry<FierceWaveStompModifier> FIERCE_WAVE_STOMP;
 	public static final RegistryEntry<ObliteratorLargeBombModifier> OBLITERATOR_LARGE_BOMB;
 	public static final RegistryEntry<ObliteratorSmallBombModifier> OBLITERATOR_SMALL_BOMB;
-	public static final RegistryEntry<ObliteratorPlasmaOrbModifier> OBLITERATOR_PLASMA_ORB;
 	public static final RegistryEntry<ObliteratorLaserModifier> OBLITERATOR_LASER;
 	public static final RegistryEntry<ObliteratorJumpGroundChargeModifier> OBLITERATOR_JUMP;
-	public static final RegistryEntry<ObliteratorUltimateEarthquakeModifier> OBLITERATOR_ULTIMATE;
-	public static final RegistryEntry<PhantomDaggerModifier> PHANTOM_DAGGER;
-	public static final RegistryEntry<SoulSpikeModifier> SOUL_SPIKE;
+	public static final RegistryEntry<ObliteratorCloneBarrageModifier> OBLITERATOR_CLONE_BARRAGE;
+	public static final RegistryEntry<ObliteratorCloneBurstModifier> OBLITERATOR_CLONE_BURST;
+	public static final RegistryEntry<ObliteratorArmBlockModifier> OBLITERATOR_ARM_BLOCK;
+	public static final RegistryEntry<ObliteratorStompModifier> OBLITERATOR_STOMP;
+	public static final RegistryEntry<PaladinSoulDaggerModifier> PALADIN_SOUL_DAGGER;
+	public static final RegistryEntry<PaladinSoulBlastWaveModifier> PALADIN_SOUL_BLAST_WAVE;
 	public static final RegistryEntry<PaladinSoulBladeLeapModifier> PALADIN_SOUL_BLADE_LEAP;
 	public static final RegistryEntry<PaladinSoulShieldModifier> PALADIN_SOUL_SHIELD;
+	public static final RegistryEntry<PaladinRollSlashModifier> PALADIN_ROLL_SLASH;
+	public static final RegistryEntry<PaladinSoulTridentModifier> PALADIN_SOUL_TRIDENT;
+	public static final RegistryEntry<PaladinSoulBlastModifier> PALADIN_SOUL_BLAST;
+	public static final RegistryEntry<PaladinSoulBladeModifier> PALADIN_SOUL_BLADE;
+	/** 天穹激光的光束，发射器归 MG 自己所有（见 {@link CloudLaserEntity}）。 */
+	public static final EntityEntry<CloudLaserEntity> CLOUD_LASER;
 	public static final ItemEntry<Item> CLOUD_CUBE, ANNIHILATION_CUBE, POSESSED_SOUL_CUBE;
 	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER,
-			UPGRADE_ANNIHILATION_BOMB, UPGRADE_ANNIHILATION_PLASMA,
-			UPGRADE_PALADIN_SOUL_BLADE,UPGRADE_PALADIN_SOUL_SHIELD;
+			UPGRADE_ANNIHILATION_BOMB;
 
 	static {
 		ANCHOR = reg("ancient_anchor", () -> new AncientAnchorModifier(StatFilterType.MASS, 4),
-				"Ancient Anchor", "Deal fall attack, cause shockwaves, and stun targets Damage taken is reduced by %s while leaping.");
+				"Ancient Anchor", "Leap and slam the ground, releasing a shockwave that stuns targets and deals area damage. Damage taken is reduced by %s while leaping.");
 
-		THUNDER = reg("thunderstorm", () -> new ThunderAttackModifier(StatFilterType.MASS, 4),
-				"Thunderstorm", "Summon thunderstorm to attack multiple targets. When attacked, summon electric bursts around the golem.");
+		THUNDER = reg("thunderstorm", () -> new ThunderModifier(StatFilterType.ATTACK, 2),
+				"Thunder Fist", "Summon multiple waves of thunderclouds toward the target.");
 
-		PERC = reg("cloud_forming", RootPercAttackModifier::new,
-				"Cloud Forming", "Deal more damage to targets with higher health");
+		PERC = reg("cloud_forming", () -> new RootPercModifier(StatFilterType.ATTACK, 2),
+				"Cloud Forming", "Deal more damage to targets with higher max health.");
 
-		CLOUD_CHARGE = reg("cloud_charge", CloudChargeModifier::new,
-				"Cloud Charge", "Charge at the target, dealing 22 damage plus 3% of its max health and disabling shields. Can chain twice.");
+		CLOUD_CHARGE = reg("cloud_charge", () -> new CloudChargeModifier(StatFilterType.HEAD, 1),
+				"Cloud Charge", "Can charge at distant targets, damaging every target along the path and taking %s less damage while charging. Chains more often at lower health, up to %s times.");
 
-		OBLITERATOR_LARGE_BOMB = reg("obliterator_large_bomb", ObliteratorLargeBombModifier::new,
-				"Obliterator Cluster Bomb", "Launch a annihilation cluster bomb at a single target");
-		OBLITERATOR_SMALL_BOMB = reg("obliterator_small_bomb", ObliteratorSmallBombModifier::new,
-				"Obliterator Bomb", "Launch annihilation bombs at multiple targets");
-		OBLITERATOR_PLASMA_ORB = reg("obliterator_plasma_orb", ObliteratorPlasmaOrbModifier::new,
-				"Obliterator Plasma Orb", "Launch plasma orbs at multiple targets");
-		OBLITERATOR_LASER = reg("obliterator_laser", ObliteratorLaserModifier::new,
-				"Obliterator Laser", "Fire an annihilation beam at a single target, following golem rotation");
-		OBLITERATOR_JUMP = reg("obliterator_jump", ObliteratorJumpGroundChargeModifier::new,
-				"Obliterator Jump", "Performs jump attack with plasma orbs Damage taken is reduced by %s while leaping.");
-		OBLITERATOR_ULTIMATE = reg("obliterator_ultimate", ObliteratorUltimateEarthquakeModifier::new,
-				"Obliterator Ultimate", "Performs jump attack with plasma portals and plasma flames Damage taken is reduced by %s while leaping.");
+		SKY_LASER = reg("sky_laser", () -> new SkyLaserModifier(StatFilterType.HEAD, 1),
+				"Sky Laser", "Fire a laser beam at the target, damaging all targets along the path.");
 
-		PHANTOM_DAGGER = reg("phantom_dagger", PhantomDaggerModifier::new,
-				"Phantom Dagger", "Throw three homing phantom daggers that track a single target");
+		LINE_CLOUD = reg("line_cloud", () -> new LineCloudModifier(StatFilterType.ATTACK, 2),
+				"Line Cloud", "Summon a line of falling clouds toward the target.");
 
-		SOUL_SPIKE = reg("soul_spike", SoulSpikeModifier::new,
-				"Soul Spike", "Summon soul spikes in front that damage enemies and heal the golem");
+		CONTROL_CYCLONE = reg("control_cyclone", () -> new CycloneModifier(StatFilterType.ATTACK, 2),
+				"Control Cyclone", "Summon a line of cyclones toward the target, sweeping all targets along the path into the air.");
 
-		PALADIN_SOUL_BLADE_LEAP = reg("paladin_soul_blade_leap", PaladinSoulBladeLeapModifier::new,
-				"Paladin Soul Blade Leap", "Leap toward target and summon fallen soul blades that damage enemies and heal the golem Damage taken is reduced by %s while leaping.");
+		CLOUD_DROP = reg("cloud_drop", () -> new CloudDropModifier(StatFilterType.HEAD, 1),
+				"Cloud Drop Formation", "Summon many clouds overhead around the golem and drop them to the ground.");
+		CLOUD_BLOCK = reg("cloud_block", () -> new CloudBlockModifier(StatFilterType.HEAD, 1),
+			"Cloud Block", "For %s seconds after being attacked, block damage and cap each incoming hit at %s damage.");
 
-		PALADIN_SOUL_SHIELD = reg("paladin_soul_shield", PaladinSoulShieldModifier::new,
-				"Paladin Soul Shield", "Summon soul shield around golem on landing, damage enemies and heal golem Damage taken is reduced by %s while leaping.");
+		FIERCE_WAVE_STOMP = reg("fierce_wave_stomp", () -> new FierceWaveStompModifier(StatFilterType.MOVEMENT, 1),
+				"Fierce Wave Stomp", "Summon fierce waves in a fan toward the target, up to %s consecutive times.");
 
-		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
-				.lang("Thunderstorm Upgrade").register();
+		SKYFALL_SMASH = reg("skyfall_smash", () -> new SkyfallSmashModifier(StatFilterType.MOVEMENT, 1),
+				"Skyfall Smash", "Leap and smash the ground, dealing area damage. Damage taken is reduced by %s while leaping.");
+
+		OBLITERATOR_LARGE_BOMB = reg("obliterator_large_bomb", () -> new ObliteratorLargeBombModifier(StatFilterType.ATTACK, 3),
+				"Obliterator Cluster Bomb", "Launch an annihilation cluster bomb at the target.");
+
+		OBLITERATOR_SMALL_BOMB = reg("obliterator_small_bomb", () -> new ObliteratorSmallBombModifier(StatFilterType.ATTACK, 3),
+				"Obliterator Bomb", "Launch small annihilation bombs at multiple targets.");
+		OBLITERATOR_LASER = reg("obliterator_laser", () -> new ObliteratorLaserModifier(StatFilterType.HEAD, 1),
+				"Obliterator Laser", "Fire an annihilation beam at the target, following the golem's rotation.");
+		OBLITERATOR_JUMP = reg("obliterator_jump", () -> new ObliteratorJumpGroundChargeModifier(StatFilterType.MOVEMENT, 1),
+				"Obliterator Jump", "Roar to push away nearby targets, teleport above the target and slam down, dealing area damage and summoning plasma orbs. %s chance to cast again. Damage taken is reduced by %s while leaping. Below %s max health, additionally triggers Annihilation Havoc.");
+		OBLITERATOR_CLONE_BARRAGE = reg("obliterator_clone_barrage", () -> new ObliteratorCloneBarrageModifier(StatFilterType.HEAD, 1),
+				"Clone Barrage", "Summon eight clones around the target, then fire annihilation bombs at the target.");
+
+		OBLITERATOR_CLONE_BURST = reg("obliterator_clone_burst", () -> new ObliteratorCloneBurstModifier(StatFilterType.HEAD, 1),
+				"Clone Burst", "Charge at distant targets, damaging every target along the path and taking %s less damage while charging. Three clones dash at the target alongside the charge.");
+
+		OBLITERATOR_ARM_BLOCK = reg("obliterator_arm_block", () -> new ObliteratorArmBlockModifier(StatFilterType.HEAD, 1),
+				"Annihilation Guard", "When attacked, %s chance to block the hit and teleport behind the attacker.");
+
+		OBLITERATOR_STOMP = reg("obliterator_stomp", () -> new ObliteratorStompModifier(StatFilterType.MOVEMENT, 1),
+				"Annihilation Stomp", "Summon annihilation shockwaves in a fan toward the target.");
+
+		PALADIN_SOUL_DAGGER = reg("paladin_soul_dagger", () -> new PaladinSoulDaggerModifier(StatFilterType.ATTACK, 2),
+				"Soul Dagger", "Fire %s homing soul daggers at the target.");
+
+		PALADIN_SOUL_BLAST_WAVE = reg("paladin_soul_blast_wave", () -> new PaladinSoulBlastWaveModifier(StatFilterType.MOVEMENT, 1),
+				"Soul Spike", "Push out soul shockwaves in a fan shape toward the target.");
+
+		PALADIN_SOUL_BLADE_LEAP = reg("paladin_soul_blade_leap", () -> new PaladinSoulBladeLeapModifier(StatFilterType.MOVEMENT, 1),
+				"Paladin Soul Blade Leap", "Leap at the target and slam down, dealing area damage and summoning fallen soul blades and soul shields. Damage taken is reduced by %s while leaping. Below %s max health, additionally summons falling fallen soul blades.");
+
+		PALADIN_SOUL_SHIELD = reg("paladin_soul_shield", () -> new PaladinSoulShieldModifier(StatFilterType.HEAD, 1),
+				"Paladin Block Shield", "For %s seconds after being attacked, block damage, then sweep the front and throw %s soul daggers.");
+		PALADIN_ROLL_SLASH = reg("paladin_roll_slash", () -> new PaladinRollSlashModifier(StatFilterType.HEAD, 1),
+				"Rolling Slash", "Charge at distant targets, damaging every target along the path and leaving soul spikes, taking %s less damage while charging.");
+		PALADIN_SOUL_TRIDENT = reg("paladin_soul_trident", () -> new PaladinSoulTridentModifier(StatFilterType.ATTACK, 2),
+				"Soul Trident", "Throw a soul trident at the target, producing a large soul blast on impact.");
+		PALADIN_SOUL_BLAST = reg("paladin_soul_blast", () -> new PaladinSoulBlastModifier(StatFilterType.MOVEMENT, 1),
+				"Soul Blast", "Release soul shockwaves that expand outward around the golem.");
+
+		PALADIN_SOUL_BLADE = reg("paladin_soul_blade", () -> new PaladinSoulBladeModifier(StatFilterType.ATTACK, 2),
+				"Soul Blade", "Stack soul fracture on the attack target. Below %s max health, additionally inflicts bleeding.");
 
 		UPGRADE_ANNIHILATION_BOMB = regModUpgrade("annihilation_bomb", () -> OBLITERATOR_SMALL_BOMB, LMDispatch.MODID)
 				.lang("Annihilation Bomb Upgrade").register();
 
-		UPGRADE_ANNIHILATION_PLASMA = regModUpgrade("annihilation_plasma", () -> OBLITERATOR_PLASMA_ORB, LMDispatch.MODID)
-				.lang("Annihilation Plasma Upgrade").register();
+		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
+				.lang("Thunderstorm Upgrade").register();
 
-		UPGRADE_PALADIN_SOUL_BLADE = regModUpgrade("soul_blade",() -> PALADIN_SOUL_BLADE_LEAP,LMDispatch.MODID)
-				.lang("Paladin Soul Blade Upgrade").register();
 
-		UPGRADE_PALADIN_SOUL_SHIELD = regModUpgrade("soul_shield",() -> PALADIN_SOUL_SHIELD,LMDispatch.MODID)
-				.lang("Paladin Soul Shield Upgrade").register();
+		CLOUD_LASER = ModularGolems.REGISTRATE
+				.<CloudLaserEntity>entity("cloud_golem_laser", CloudLaserEntity::new, MobCategory.MISC)
+				.properties(p -> p.fireImmune().noSave().noSummon().sized(0, 0))
+				.renderer(() -> CloudLaserRenderer::new)
+				.register();
 
 		CLOUD_CUBE = GolemItems.item(LMDispatch.MODID, "cloud_cube", Item::new);
 		ANNIHILATION_CUBE = GolemItems.item(LMDispatch.MODID, "annihilation_cube", Item::new);
@@ -108,10 +173,7 @@ public class LMCompatRegistry {
 	public static void register() {
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
 				.addOptional(UPGRADE_THUNDER.getId())
-				.addOptional(UPGRADE_ANNIHILATION_BOMB.getId())
-				.addOptional(UPGRADE_ANNIHILATION_PLASMA.getId())
-				.addOptional(UPGRADE_PALADIN_SOUL_BLADE.getId())
-				.addOptional(UPGRADE_PALADIN_SOUL_SHIELD.getId()));
+				.addOptional(UPGRADE_ANNIHILATION_BOMB.getId()));
 	}
 
 }

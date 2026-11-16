@@ -52,7 +52,7 @@ public abstract class BaseChargeGoal extends Goal implements ICooldownSkill {
 	 */
 	protected boolean startBackstep(AbstractGolemEntity<?, ?> golem, net.minecraft.world.entity.LivingEntity target) {
 		if (this.backstep != null) return true;
-		BackstepHelper b = new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+		BackstepHelper b = chargeBackstep(golem);
 		// 各冲锋 Goal 的 start() 会先 setBusy(true) 再调这里，而 BackstepHelper.canUse 第一件事就是检查 busy，
 		// 不先解锁会导致后撤步永远不触发。判定完按结果重新占锁：起跳由 b.start() 自己占，没起跳则由调用方继续。
 		boolean busy = EarthquakeHelper.isBusy(golem);
@@ -142,6 +142,14 @@ public abstract class BaseChargeGoal extends Goal implements ICooldownSkill {
 		this.lv = lv;
 	}
 
+	/**
+	 * 冲锋前的后撤步实现。默认是跳跃后撤；需要「真瞬移后撤」的傀儡（如灾变末影守卫）
+	 * 覆写本方法返回 {@link TeleportBackstepHelper} 即可。
+	 */
+	protected BackstepHelper chargeBackstep(AbstractGolemEntity<?, ?> golem) {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
+
 	private String cooldownTag() {
 		return mod.self().getID() + ":timestamp";
 	}
@@ -155,7 +163,35 @@ public abstract class BaseChargeGoal extends Goal implements ICooldownSkill {
 	 * 水上/空中的变体（如 riptide）不要调这个，改用自己的环境判定。
 	 */
 	protected boolean canStartCharge(AbstractGolemEntity<?, ?> golem) {
+		// 冲锋的公共前置：骑乘/载客/远程模式（含停留模式）一律不放。
+		// 原先每个冲锋 Goal 都抄一遍这三条，这里统一收口；
+		// 水上/空中变体（如 riptide）覆写本方法即可。
+		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
 		return golem.onGround();
+	}
+
+	/**
+	 * 冲锋 {@code canUse()} 的公共模板：
+	 * <ul>
+	 *   <li>位移/状态门槛 → {@link #canStartCharge}（骑乘/载客/远程模式/落地）；</li>
+	 *   <li>与跳跃技能共用的 busy 锁、冷却；</li>
+	 *   <li>目标有效性、可达性、距离区间。</li>
+	 * </ul>
+	 * 子类只需提供「取哪个目标」「距离区间」「额外门槛」，不必再抄这几条公共判定。
+	 *
+	 * @param target 已取好的目标，可为 null
+	 * @param near   最小距离（格）
+	 * @param far    最大距离（格）
+	 */
+	protected boolean canUseCharge(AbstractGolemEntity<?, ?> golem, net.minecraft.world.entity.LivingEntity target, double near, double far) {
+		if (!canStartCharge(golem)) return false;
+		// EarthquakeHelper 的 busy 标志是所有冲锋与跳跃技能共用的全局锁
+		if (EarthquakeHelper.isBusy(golem)) return false;
+		if (onCooldown(golem)) return false;
+		if (target == null || !target.isAlive() || !golem.canAttack(target)) return false;
+		if (!ChargeHelper.isTargetReachable(golem, target)) return false;
+		double dist = golem.distanceTo(target);
+		return dist >= near && dist <= far;
 	}
 
 	protected boolean onCooldown(AbstractGolemEntity<?, ?> golem) {

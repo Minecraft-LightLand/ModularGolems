@@ -15,18 +15,13 @@ import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.util.GolemCombatHelper;
 import java.util.List;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -97,7 +92,7 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 				}
 			}
 		}
-		Vec3 pos = findFloor(golem.level(), golem.position(), 8);
+		Vec3 pos = EarthquakeHelper.findFloor(golem.level(), golem.position(), 8);
 		if (pos == null) pos = golem.position();
 		GolemCataProxy.screenShake(golem, 15F);
 		MWCataProxy.spawnWindmillHalberd(golem, pos, 6, 10, 1.0F, 0.75F, 0.2F, 1);
@@ -108,29 +103,6 @@ public class MaledictusEarthquakeModifier extends GolemModifier implements Earth
 		MWCataProxy.spawnHalberdCircle(golem, pos, 20, 7.5F, 23);
 	}
 
-	@org.jetbrains.annotations.Nullable
-	private static Vec3 findFloor(Level level, Vec3 p, int diff) {
-		double x = p.x, maxY = p.y, z = p.z, minY = maxY - diff;
-		BlockPos pos = BlockPos.containing(x, maxY, z);
-		double dy = 0.0F;
-
-		do {
-			BlockPos low = pos.below();
-			BlockState lowState = level.getBlockState(low);
-			if (lowState.isFaceSturdy(level, low, Direction.UP)) {
-				if (!level.isEmptyBlock(pos)) {
-					BlockState state = level.getBlockState(pos);
-					VoxelShape shape = state.getCollisionShape(level, pos);
-					if (!shape.isEmpty()) {
-						dy = shape.max(Direction.Axis.Y);
-					}
-				}
-				return new Vec3(x, pos.getY() + dy, z);
-			}
-			pos = pos.below();
-		} while (pos.getY() >= minY);
-		return null;
-	}
 
 
 	@Override

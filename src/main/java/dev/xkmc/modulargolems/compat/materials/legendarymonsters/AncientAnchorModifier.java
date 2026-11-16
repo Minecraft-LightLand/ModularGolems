@@ -5,15 +5,15 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
-import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
-
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+
 import java.util.function.Consumer;
+import java.util.List;
 
 public class AncientAnchorModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
@@ -54,7 +54,6 @@ public class AncientAnchorModifier extends GolemModifier implements EarthquakeHe
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
 		return 8 * 8;
 	}
-
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {

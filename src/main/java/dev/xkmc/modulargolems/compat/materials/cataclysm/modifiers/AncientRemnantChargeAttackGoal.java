@@ -4,7 +4,6 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 
-
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -22,7 +21,6 @@ import java.util.EnumSet;
 public class AncientRemnantChargeAttackGoal extends BaseChargeGoal {
 
 	public static final String KEY_ACTIVE = "AncientRemnantCharging";
-
 
 	private final AbstractGolemEntity<?, ?> golem;
 	private Vec3 start, dir;
@@ -42,21 +40,12 @@ public class AncientRemnantChargeAttackGoal extends BaseChargeGoal {
 
 	@Override
 	public boolean canUse() {
-		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
-		if (!canStartCharge(golem)) return false;
-		if (EarthquakeHelper.isBusy(golem)) return false;
-		long time = golem.level().getGameTime();
-		if (onCooldown(golem)) return false;
-		LivingEntity target = findTarget();
-		if (target == null || !target.isAlive() || !golem.canAttack(target)) return false;
-		if (!ChargeHelper.isTargetReachable(golem, target)) return false;
-		double dist = golem.distanceTo(target);
-		return dist >= AncientRemnantChargeModifier.MIN_RANGE && dist <= AncientRemnantChargeModifier.MAX_RANGE;
+		return canUseCharge(golem, ChargeHelper.findChargeTarget(golem, AncientRemnantChargeModifier.MAX_RANGE), AncientRemnantChargeModifier.MIN_RANGE, AncientRemnantChargeModifier.MAX_RANGE);
 	}
 
 	@Override
 	public void start() {
-		LivingEntity target = findTarget();
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, AncientRemnantChargeModifier.MAX_RANGE);
 		// 同 IgnisChargeAttackGoal#start：canUse 与 start 之间目标可能已死
 		if (target == null) {
 			this.blocked = true;
@@ -131,10 +120,6 @@ public class AncientRemnantChargeAttackGoal extends BaseChargeGoal {
 				if (chargeHit) SkillSound.playChargeHit(golem);
 			}
 		}
-	}
-
-	private LivingEntity findTarget() {
-		return ChargeHelper.findChargeTarget(golem, AncientRemnantChargeModifier.MAX_RANGE);
 	}
 
 }

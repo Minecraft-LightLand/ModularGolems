@@ -228,7 +228,7 @@ public class CataCompatRegistry {
 
 		PORTAL = reg("leviathan_blast_portal", () -> new LeviathanBlastPortalModifier(StatFilterType.MASS, 3),
 				"Abyssal Blast Portal", "Unleash abyssal blast portals at multiple target positions.");
-		RUNE = reg("ender_guardian_void_rune", () -> new EnderGuardianVoidRuneModifier(StatFilterType.ATTACK, 5),
+		RUNE = reg("ender_guardian_void_rune", () -> new EnderGuardianVoidRuneModifier(StatFilterType.ATTACK, 3),
 				"Void Rune", "Summon void runes around itself and toward the target, and spawn a void vortex at the target's feet. Below %s of max HP, summons %s times in a row.");
 		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new,
 				"Jump and cause earthquake on landing. Damage taken is reduced by %s while leaping.");

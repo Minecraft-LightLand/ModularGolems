@@ -50,7 +50,6 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 	@Override
 	protected boolean performAttack(LivingEntity target) {
 		beam = GolemCataProxy.addLaserBeam(golem, 60);
-		golem.getNavigation().stop();
 		return true;
 	}
 
@@ -58,7 +57,6 @@ public class HarbingerDeathBeamAttackGoal extends BaseRangedAttackGoal {
 	protected BackstepHelper backstep() {
 		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
 	}
-
 
 	@Override
 	protected double getLeapRange() {

@@ -71,6 +71,7 @@ public abstract class BurstRangedGoal extends BaseRangedAttackGoal {
 			for (var p : volley) {
 				fire(GolemTargetUtil.resolve(golem, p.getFirst()), p.getSecond());
 			}
+			finishVolley();
 			return true;
 		}
 		shot = 1;
@@ -91,6 +92,7 @@ public abstract class BurstRangedGoal extends BaseRangedAttackGoal {
 				var p = volley.get(i);
 				fire(GolemTargetUtil.resolve(golem, p.getFirst()), p.getSecond());
 			}
+			finishVolley();
 			return true;
 		}
 		// 每个间隔放出一发，目标列表循环使用，只有一个目标时也能持续命中
@@ -98,6 +100,7 @@ public abstract class BurstRangedGoal extends BaseRangedAttackGoal {
 		fire(GolemTargetUtil.resolve(golem, p.getFirst()), p.getSecond());
 		shot++;
 		if (shot >= volley.size()) {
+			finishVolley();
 			return true;
 		}
 		delay = getBurstDelay();
@@ -114,6 +117,19 @@ public abstract class BurstRangedGoal extends BaseRangedAttackGoal {
 			}
 			volley.add(Pair.of(targets.get(i % targets.size()), LATERALS[seen % LATERALS.length]));
 		}
+	}
+
+	/**
+	 * 一轮齐射正常打完：把状态清回初始值。
+	 * <p>
+	 * 关键是把 {@code delay} 归位到 -1 —— {@link #performAttack} 只有看到 {@code delay < 0} 才会
+	 * 重建齐射。原先打完时 {@code delay} 停在 0，于是下一轮走的是「继续齐射」分支、只补射一发，
+	 * 表现为 3 发 / 1 发 / 3 发 交替。
+	 */
+	private void finishVolley() {
+		delay = -1;
+		shot = 0;
+		volley.clear();
 	}
 
 	protected abstract void fire(LivingEntity target, float lateral);

@@ -4,7 +4,6 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.util.SkillSound;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 
-
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
@@ -25,16 +24,10 @@ public class HarbingerChargeAttackGoal extends BaseChargeGoal {
 
 	public static final String KEY_ACTIVE = "HarbingerCharging";
 
-	private static final int LANDING_TIMEOUT = 60;
 	/**
 	 * 放大爬升型冲锋的向上分量。斜向冲向上方目标时只有极小一部分速度用于上升，
 	 * 几乎离不开地面。
 	 */
-
-	/**
-	 * 连续冲锋段数上限，tooltip 也会显示。实际段数随生命值变化，见 {@link #maxDashFor}。
-	 */
-	public static final int MAX_DASH = 3;
 
 	/**
 	 * 按生命值决定本次连续冲锋段数：满血 1 段；50% 以下 75% 概率 2 段、25% 概率 3 段。
@@ -42,10 +35,10 @@ public class HarbingerChargeAttackGoal extends BaseChargeGoal {
 	 */
 	public static int maxDashFor(AbstractGolemEntity<?, ?> golem) {
 		if (CataArmorHelper.harbingerChest(golem))
-			return MAX_DASH;
+			return HarbingerChargeModifier.MAX_DASH;
 		float ratio = golem.getGuardedDataImpl() / golem.getMaxHealth();
 		if (ratio > 0.5F) return 1;
-		return golem.getRandom().nextFloat() < 0.75F ? 2 : MAX_DASH;
+		return golem.getRandom().nextFloat() < 0.75F ? 2 : HarbingerChargeModifier.MAX_DASH;
 	}
 
 	private final AbstractGolemEntity<?, ?> golem;
@@ -71,16 +64,7 @@ public class HarbingerChargeAttackGoal extends BaseChargeGoal {
 
 	@Override
 	public boolean canUse() {
-		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
-		if (!canStartCharge(golem)) return false;
-		if (EarthquakeHelper.isBusy(golem)) return false;
-		long time = golem.level().getGameTime();
-		if (onCooldown(golem)) return false;
-		LivingEntity target = findTarget();
-		if (target == null || !target.isAlive() || !golem.canAttack(target)) return false;
-		if (!ChargeHelper.isTargetReachable(golem, target)) return false;
-		double dist = golem.distanceTo(target);
-		return dist >= HarbingerChargeModifier.MIN_RANGE && dist <= HarbingerChargeModifier.MAX_RANGE;
+		return canUseCharge(golem, ChargeHelper.findChargeTarget(golem, HarbingerChargeModifier.MAX_RANGE), HarbingerChargeModifier.MIN_RANGE, HarbingerChargeModifier.MAX_RANGE);
 	}
 
 	@Override
@@ -96,7 +80,7 @@ public class HarbingerChargeAttackGoal extends BaseChargeGoal {
 		EarthquakeHelper.setBusy(this.golem, true);
 		markUsed(golem);
 		if (!golem.level().isClientSide()) HarbingerDeathBeamModifier.addBeamReduction(golem);
-		LivingEntity target = findTarget();
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, HarbingerChargeModifier.MAX_RANGE);
 		if (target == null) {
 			blocked = true;
 			return;
@@ -191,7 +175,7 @@ public class HarbingerChargeAttackGoal extends BaseChargeGoal {
 			if (!golem.onGround()) {
 				// 兜底：落水、落到载具上或掉进出不来的坑，
 				// 会让 canContinueToUse 永远为真并永久占住 EarthquakeHelper 的 busy 锁
-				if (++awaitTicks > LANDING_TIMEOUT) {
+				if (++awaitTicks > HarbingerChargeModifier.LANDING_TIMEOUT) {
 					this.awaitingLanding = false;
 					this.blocked = true;
 				}
@@ -243,7 +227,7 @@ public class HarbingerChargeAttackGoal extends BaseChargeGoal {
 			this.blocked = true;
 			return;
 		}
-		LivingEntity target = findTarget();
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, HarbingerChargeModifier.MAX_RANGE);
 		if (target == null || !target.isAlive() || !golem.canAttack(target)) {
 			this.dashDone = this.maxDash;
 			this.blocked = true;
@@ -252,10 +236,6 @@ public class HarbingerChargeAttackGoal extends BaseChargeGoal {
 		begin(target);
 		awaitingLanding = true;
 		awaitTicks = 0;
-	}
-
-	private LivingEntity findTarget() {
-		return ChargeHelper.findChargeTarget(golem, HarbingerChargeModifier.MAX_RANGE);
 	}
 
 }

@@ -1,0 +1,48 @@
+package dev.xkmc.modulargolems.compat.materials.goety.multi;
+
+import com.Polarice3.Goety.common.entities.projectiles.HellCloud;
+import dev.xkmc.modulargolems.compat.materials.goety.modifier.IApostleGoal;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import net.minecraft.world.entity.LivingEntity;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
+
+public class HellCloudAttackGoal extends MultiTargetRangedGoal implements IApostleGoal {
+
+	public HellCloudAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
+		super(200, 0, 35, golem, lv);
+	}
+
+	protected int getMaxTarget() {
+		return lv + 2;
+	}
+
+	@Override
+	protected int searchRange() {
+		return 35;
+	}
+
+	@Override
+	protected int cd() {
+		return 10;
+	}
+
+	@Override
+	protected void performAttackImpl(LivingEntity target) {
+		HellCloud hellCloud = new HellCloud(golem.level(), golem, target);
+		hellCloud.setRadius(3.5f + lv * 0.5f);
+		hellCloud.setLifeSpan(100 + 20 * lv);
+		hellCloud.setExtraDamage(3 + lv);
+		golem.level().addFreshEntity(hellCloud);
+	}
+
+	@Override
+	protected BackstepHelper backstep() {
+		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+	}
+
+
+	@Override
+	protected double getLeapRange() {
+		return BackstepHelper.DEFAULT_LEAP_RANGE;
+	}
+}
