@@ -129,6 +129,7 @@ public class IgnisChargeAttackGoal extends BaseChargeGoal {
 			GolemCataProxy.inflictStun(golem, e, IgnisChargeModifier.stunTicks(golem));
 			// AI 冲锋不经过 onChargeTouch（那只在骑乘冲锋路径里调用），所以音效要在这里播。
 			if (hit) {
+				ChargeHelper.pushChargeTarget(golem, e, dir);
 				SkillSound.playChargeOnly(golem, SoundEvents.ANVIL_LAND, 1.5F, 0.8F + golem.getRandom().nextFloat() * 0.1F);
 			}
 		}

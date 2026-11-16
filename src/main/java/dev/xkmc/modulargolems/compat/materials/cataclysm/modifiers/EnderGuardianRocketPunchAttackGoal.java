@@ -133,9 +133,10 @@ public class EnderGuardianRocketPunchAttackGoal extends BaseChargeGoal {
 				bonus += MGConfig.COMMON.gravityChargeArmorBonus.get().floatValue();
 			if (CataArmorHelper.monstrosityChest(golem))
 				bonus += MGConfig.COMMON.monstrosityChargeBonus.get().floatValue();
-			{
-				boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
-				if (chargeHit) SkillSound.playChargeHit(golem);
+			boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
+			if (chargeHit) {
+				ChargeHelper.pushChargeTarget(golem, e, dir);
+				SkillSound.playChargeHit(golem);
 			}
 			GolemCataProxy.inflictStun(golem, e, EnderGuardianRocketPunchModifier.STUN_TICKS);
 		}

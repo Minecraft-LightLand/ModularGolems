@@ -36,6 +36,12 @@ public class ChargeHelper {
 	public static final double STEP_HEIGHT = 1.0;
 
 	/**
+	 * 冲锋撞击额外附加的、朝冲锋方向的推力（格/tick）。傀儡自身攻击的击退是「掀」，
+	 * 冲锋还该有「撞出去」的方向感，所以在那一份之上再补这一点水平推力。
+	 */
+	public static final double CHARGE_FORWARD_PUSH = 0.5;
+
+	/**
 	 * 冲锋能扑到多高的目标，对应 {@link Modifier#getMaxTargetHeight}。按体型比例而非固定常数，
 	 * 三种体型才不会失配。
 	 */
@@ -59,6 +65,25 @@ public class ChargeHelper {
 	 */
 	public static void playChargeEasterEgg(AbstractGolemEntity<?, ?> golem) {
 		SkillSound.playChargeEasterEgg(golem, 1.0F, 1.0F);
+	}
+
+	/**
+	 * 冲锋撞到目标时的击退：先是傀儡自身攻击的那一份（{@code GolemImpls#applyAttackKnockback}），
+	 * 再沿冲锋方向 {@code dir} 补一份水平推力。
+	 * <p>
+	 * 只补一份「撞出去」的方向感而不自己另写一套：冲锋的击退手感应当和普攻一致，多了方向分量
+	 * 才看得出是撞过去而不是原地挥了一下。
+	 * <p>
+	 * 只应在真正造成伤害的那一帧调用：受击无敌帧内 {@code hurt} 返回 false，否则贴着目标
+	 * 冲锋会每 tick 推一次。
+	 */
+	public static void pushChargeTarget(AbstractGolemEntity<?, ?> golem, LivingEntity target, Vec3 dir) {
+		if (golem.level().isClientSide()) return;
+		golem.applyAttackKnockback(target);
+		Vec3 flat = new Vec3(dir.x, 0, dir.z);
+		if (flat.lengthSqr() < 1e-8) return;
+		flat = flat.normalize().scale(CHARGE_FORWARD_PUSH);
+		target.push(flat.x, 0, flat.z);
 	}
 
 	@Nullable

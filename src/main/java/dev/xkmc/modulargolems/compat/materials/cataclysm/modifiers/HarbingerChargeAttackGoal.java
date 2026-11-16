@@ -211,9 +211,10 @@ public class HarbingerChargeAttackGoal extends BaseChargeGoal {
 				bonus += MGConfig.COMMON.chargeArmorBonus.get().floatValue();
 			if (CataArmorHelper.monstrosityChest(golem))
 				bonus += MGConfig.COMMON.monstrosityChargeBonus.get().floatValue();
-			{
-				boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
-				if (chargeHit) SkillSound.playChargeHit(golem);
+			boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
+			if (chargeHit) {
+				ChargeHelper.pushChargeTarget(golem, e, dir);
+				SkillSound.playChargeHit(golem);
 			}
 		}
 		if (golem.position().distanceToSqr(start) >= total * total || ticks >= HarbingerChargeModifier.MAX_TICKS) {

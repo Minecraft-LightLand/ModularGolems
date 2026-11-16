@@ -359,9 +359,9 @@ public class LMProxy {
 		}
 	}
 
-	public static boolean cloneBurstChargeHit(LivingEntity golem, int lv) {
+	public static boolean cloneBurstChargeHit(LivingEntity golem, int lv, net.minecraft.world.phys.Vec3 dir) {
 		try {
-			return LMProxyImpl.cloneBurstChargeHit(golem, lv);
+			return LMProxyImpl.cloneBurstChargeHit(golem, lv, dir);
 		} catch (Throwable ignored) {
 			return false;
 		}
