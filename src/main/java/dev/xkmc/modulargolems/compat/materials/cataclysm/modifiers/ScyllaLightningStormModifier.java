@@ -23,8 +23,20 @@ public class ScyllaLightningStormModifier extends GolemModifier {
 
 	public static final int CLOUD_TICKS = 60;
 	public static final int SPEAR_TICKS = 30;
+
+	/** 幻影水蛇第一波的横向展开（格），本体 {@code SummonSnake} 的 {@code dis = 8}。 */
 	public static final float SERPENT_SPREAD_1 = 8.0F;
+	/** 二阶段第二波的横向展开（格），本体 {@code dis = 12}。 */
 	public static final float SERPENT_SPREAD_2 = 12.0F;
+	/** 蓝色冲击环的 tick（本体 {@code attackTicks == 30}）。 */
+	public static final int SERPENT_RING_TICK = 30;
+	/** 咆哮声波追加的间隔与次数（本体 30 / 33 / 36 / 39）。 */
+	public static final int SERPENT_ROAR_GAP = 3;
+	public static final int SERPENT_ROAR_COUNT = 3;
+	/** 每一波召唤的水蛇条数：≤2/3 一对，≤1/3 再来一对。 */
+	public static final int SERPENT_PAIR = 2;
+	/** 冲击环之后雷暴粒子的结束 tick（本体 {@code < 40 && > 30}）。 */
+	public static final int SERPENT_ORB_END = 40;
 
 	/** 风暴之怒：把附近目标向外推开的力道（本体 Stormknockback 传 0.7）。 */
 	public static final double STORM_KNOCKBACK = 0.7;
@@ -50,10 +62,14 @@ public class ScyllaLightningStormModifier extends GolemModifier {
 		ScyllaInvulnerabilityBypass.onSerpentAttack(entity, event);
 	}
 
-		@Override
+	@Override
 	public List<MutableComponent> getDetail(int v) {
 		return List.of(
-				Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.GREEN),
+				Component.translatable(getDescriptionId() + ".desc",
+						CataArmorHelper.healthPct(CataArmorHelper.TWO_THIRDS),
+						CataArmorHelper.number(SERPENT_PAIR),
+						CataArmorHelper.healthPct(CataArmorHelper.ONE_THIRD),
+						CataArmorHelper.number(SERPENT_PAIR * 2)).withStyle(ChatFormatting.GREEN),
 				MGLangData.SKILL_HEALTH_GATE.get(
 						CataArmorHelper.healthPct(CataArmorHelper.TWO_THIRDS))
 						.withStyle(ChatFormatting.GREEN));

@@ -131,6 +131,8 @@ public class MGConfig {
 		public final ForgeConfigSpec.DoubleValue chargeArmorBonus;
 		public final ForgeConfigSpec.DoubleValue monstrosityChargeBonus;
 		public final ForgeConfigSpec.DoubleValue sparkArmorBonus;
+		public final ForgeConfigSpec.DoubleValue anchorSlamRangeBonus;
+		public final ForgeConfigSpec.DoubleValue serpentArmorBonus;
 		public final ForgeConfigSpec.DoubleValue gravityChargeArmorBonus;
 		public final ForgeConfigSpec.DoubleValue reformationArmorRegen;
 		public final ForgeConfigSpec.DoubleValue sandCurseBonus;
@@ -385,7 +387,11 @@ public class MGConfig {
 					monstrosityChargeBonus = builder.comment("Monstrosity Chestplate Bonus: charge damage boost for all charge skills")
 							.defineInRange("monstrosityChargeBonus", 0.5d, 0, 10);
 					sparkArmorBonus = builder.comment("Storm Shinguard Bonus: Spark damage boost")
-							.defineInRange("sparkArmorBonus", 0.5d, 0, 10);
+							.defineInRange("sparkArmorBonus", 1d, 0, 10);
+					anchorSlamRangeBonus = builder.comment("Storm Shinguard Bonus: Thunder Slam (and its heavy lightning smash) attack range boost")
+							.defineInRange("anchorSlamRangeBonus", 1d, 0, 10);
+					serpentArmorBonus = builder.comment("Storm Chestplate Bonus: Phantom Serpent attack range boost")
+							.defineInRange("serpentArmorBonus", 1d, 0, 10);
 					gravityChargeArmorBonus = builder.comment("Ender Guardian Shinguard Bonus: Gravity Charge damage boost")
 							.defineInRange("gravityChargeArmorBonus", 0.5d, 0, 10);
 					reformationArmorRegen = builder.comment("Ancient Metal Chestplate Bonus: Remnant Reformation health restored per second below half health")

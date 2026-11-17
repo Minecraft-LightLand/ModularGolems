@@ -11,12 +11,6 @@ import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 public class ScyllaLightningStormAttackGoal extends BaseRangedAttackGoal {
 
 
-	/**
-	 * 幻影水蛇的召唤节奏与斯库拉本体一致：两波，每波两只，按体型横向分开、贴着地面出现。
-	 * 本体在 attackTicks 28 与 40 各召一对（phase>1 时），这里用同样的两个时间点。
-	 */
-	private static final int SERPENT_TICK_1 = 28, SERPENT_TICK_2 = 40;
-
 	private LivingEntity castTarget;
 	private int castTicks;
 	private boolean casting;
@@ -59,6 +53,11 @@ public class ScyllaLightningStormAttackGoal extends BaseRangedAttackGoal {
 			} else {
 				castTicks++;
 				if (castTicks % 3 == 0) GolemCataProxy.scyllaStormParticles(golem);
+				// 幻影水蛇属于风暴之怒本体，起手特效与召唤始终按时序推进；
+				// 召唤数量只看生命值（2/3 以下一对、1/3 以下再来一对）。
+				if (castTicks <= ScyllaLightningStormModifier.CLOUD_TICKS) {
+					serpentPhase();
+				}
 				double x = golem.getX();
 				double y = golem.getY() + golem.getBbHeight() * 2.8;
 				double z = golem.getZ();
@@ -68,18 +67,9 @@ public class ScyllaLightningStormAttackGoal extends BaseRangedAttackGoal {
 					GolemCataProxy.scyllaThunderCloudStorm(golem, x, y, z);
 					// 雷云位置的圈状闪电粒子（本体 CircleLighning，EndHeight=9）
 					GolemCataProxy.scyllaThunderCloudLightning(golem, x, y, z);
-					// 风暴胸甲：风暴之怒额外召唤幻影水蛇，两波各一对，和本体一致。
-					// 这里必须判定「是否穿戴风暴胸甲」而不是「是否处于完整形态」：
-					// 完整形态在半血以下也会成立，会把胸甲专属的召唤放给没穿胸甲的傀儡。
-					// 幻影水蛇数量按生命值：2/3 以下两条，1/3 以下四条。
-					if (CataArmorHelper.stormChest(golem)) {
-						boolean four = CataArmorHelper.isBelow(golem, CataArmorHelper.ONE_THIRD);
-						if (castTicks == SERPENT_TICK_1) {
-							summonSerpents(ScyllaLightningStormModifier.SERPENT_SPREAD_1, four);
-						} else if (castTicks == SERPENT_TICK_2) {
-							summonSerpents(ScyllaLightningStormModifier.SERPENT_SPREAD_2, four);
-						}
-					}
+				} else if (castTicks == ScyllaLightningStormModifier.CLOUD_TICKS + 1) {
+					// 本体 attackState 9 tick 114：雷云收束时的 SUPER_LIGHTNING + 闪电爆裂
+					GolemCataProxy.scyllaThunderCloudBurst(golem);
 				} else if (castTicks <= ScyllaLightningStormModifier.CLOUD_TICKS + ScyllaLightningStormModifier.SPEAR_TICKS) {
 					LivingEntity target = golem.getTarget();
 					if (target == null || target.isRemoved()) {
@@ -96,6 +86,61 @@ public class ScyllaLightningStormAttackGoal extends BaseRangedAttackGoal {
 		}
 		super.tick();
 	}
+
+	/**
+	 * 幻影水蛇起手，时序对齐本体 {@code SummonSnake}（attackState 26）：
+	 * tick 1~19 水粒子向本体汇聚、tick 28 召第一对、tick 30 蓝色冲击环 + 咆哮、
+	 * tick 33/36/39 再补声波、tick 40 召第二对、31~39 雷暴光球。
+	 * <p>
+	 * 召唤数量走「生命值门槛」，与本体一致：≤2/3 一对（2 条）、≤1/3 再来一对（4 条）。
+	 * 风暴胸甲的「无视生命值要求」会把这两道门槛直接跳过（{@code stormChest} 即视为达标），
+	 * 所以穿胸甲时满血也会召满 4 条 —— 这正是胸甲那条 {@code SKILL_IGNORE_HEALTH} 的语义。
+	 */
+	private void serpentPhase() {
+		GolemCataProxy.scyllaSummonGather(golem, castTicks);
+		if (castTicks == SERPENT_TICK_1) {
+			// 本体 tick 28：phase 1（≤2/3）召一对
+			if (CataArmorHelper.stormFinalFormAt(golem, CataArmorHelper.TWO_THIRDS)) {
+				summonSerpents(ScyllaLightningStormModifier.SERPENT_SPREAD_1);
+			}
+		} else if (castTicks == SERPENT_TICK_2) {
+			// 本体 tick 40：phase 2（≤1/3）再来一对，共 4 条
+			if (CataArmorHelper.stormFinalFormAt(golem, CataArmorHelper.ONE_THIRD)) {
+				summonSerpents(ScyllaLightningStormModifier.SERPENT_SPREAD_2);
+			}
+		}
+		if (castTicks == ScyllaLightningStormModifier.SERPENT_RING_TICK) {
+			GolemCataProxy.scyllaSummonRing(golem);
+			GolemCataProxy.scyllaSummonRoar(golem);
+		}
+		for (int i = 1; i <= ScyllaLightningStormModifier.SERPENT_ROAR_COUNT; i++) {
+			if (castTicks == ScyllaLightningStormModifier.SERPENT_RING_TICK + i * ScyllaLightningStormModifier.SERPENT_ROAR_GAP) {
+				GolemCataProxy.scyllaSummonRoar(golem);
+			}
+		}
+		if (castTicks > ScyllaLightningStormModifier.SERPENT_RING_TICK
+				&& castTicks < ScyllaLightningStormModifier.SERPENT_ORB_END) {
+			GolemCataProxy.scyllaStormParticles(golem);
+		}
+	}
+
+	/**
+	 * 一对水蛇，沿朝向的左右两侧分开（本体 {@code dis}）。mux 侧把每条蛇钉在地面并朝向目标，
+	 * 所以腾空施法时也不会把蛇丢到半空。
+	 */
+	private void summonSerpents(float spread) {
+		LivingEntity target = golem.getTarget();
+		if (target == null || target.isRemoved()) target = castTarget;
+		if (target == null || target.isRemoved()) return;
+		float half = spread / 2.0F;
+		// 风暴胸甲按倍率放大落点伤害半径（落点位置不变）
+		double area = CataArmorHelper.serpentAreaScale(golem);
+		GolemCataProxy.summonStormSerpent(golem, target, -half, 0, area);
+		GolemCataProxy.summonStormSerpent(golem, target, half, 8, area);
+	}
+
+	/** 本体 {@code SummonSnake} 的召唤帧：attackTicks 28 / 40。 */
+	private static final int SERPENT_TICK_1 = 28, SERPENT_TICK_2 = 40;
 
 	/**
 	 * 复刻本体 {@code Scylla_Entity.Stormknockback(0.7F, 5.5D)}：把作用半径内可攻击的目标
@@ -116,27 +161,6 @@ public class ScyllaLightningStormAttackGoal extends BaseRangedAttackGoal {
 					? ScyllaLightningStormModifier.STORM_KNOCKBACK / 3
 					: ScyllaLightningStormModifier.STORM_KNOCKBACK;
 			e.push(dx / d2 * power, 0.0, dz / d2 * power);
-		}
-	}
-
-	/**
-	 * One pair, fanned out to either side of the golem's facing. The mux side pins each serpent to the
-	 * ground and aims it at the target, so a golem that is airborne while casting still does not drop
-	 * its serpents in mid air.
-	 */
-	private void summonSerpents(float spread, boolean four) {
-		LivingEntity target = golem.getTarget();
-		if (target == null || !target.isAlive()) {
-			target = castTarget;
-		}
-		if (target == null || !target.isAlive()) return;
-		float half = spread / 2.0F;
-		GolemCataProxy.summonStormSerpent(golem, target, -half, 0);
-		GolemCataProxy.summonStormSerpent(golem, target, half, 8);
-		if (four) {
-			// 1/3 生命值以下：额外一对，更靠外
-			GolemCataProxy.summonStormSerpent(golem, target, -spread, 16);
-			GolemCataProxy.summonStormSerpent(golem, target, spread, 24);
 		}
 	}
 

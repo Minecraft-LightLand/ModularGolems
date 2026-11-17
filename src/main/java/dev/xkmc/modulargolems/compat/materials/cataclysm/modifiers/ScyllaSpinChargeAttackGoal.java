@@ -111,7 +111,10 @@ public class ScyllaSpinChargeAttackGoal extends BaseChargeGoal {
 		if (this.ticks % 2 == 0) {
 			GolemCataProxy.scyllaStormParticles(golem);
 		}
-		if (this.ticks % 10 == 0) {
+		// 本体 attackState 7：tick 29 / 40 / 51 各一次横扫刀光 + 伤害 + 音效
+		if (this.ticks % ScyllaSpinChargeModifier.SWING_INTERVAL == 0) {
+			// 本体是 getScale() * 2.0F；getScale() 是 vanilla Entity#getScale()，傀儡同样是 1.0
+			GolemCataProxy.scyllaSwingParticle(golem, golem.getScale() * 2.0F);
 			GolemCataProxy.scyllaSpin(golem);
 			GolemCataProxy.scyllaSpinSound(golem);
 			GolemCataProxy.screenShake(golem, 20.0F);

@@ -21,6 +21,8 @@ public class ScyllaSpinChargeModifier extends GolemModifier implements ChargeHel
 
 	public static final int MAX_TICKS = 60;
 	public static final float SPIN_SPEED = 15.0F;
+	/** 横扫刀光与伤害的间隔（tick）。本体 attackState 7 在 29 / 40 / 51 各一次，间隔 11。 */
+	public static final int SWING_INTERVAL = 11;
 	public static final double MAX_RANGE = 16;
 	/** 冲锋的最小距离（格）；0 表示不限制。 */
 	public static final int MIN_RANGE = 0;

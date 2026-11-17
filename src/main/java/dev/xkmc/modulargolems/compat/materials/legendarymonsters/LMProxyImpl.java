@@ -462,11 +462,13 @@ public class LMProxyImpl {
 		double sx = golem.getX() + aim.x + rx * lateral;
 		double sy = golem.getY() + golem.getBbHeight() * 0.75;
 		double sz = golem.getZ() + aim.z + rz * lateral;
+		// 发射点横向错开后必须重新对准目标，否则多发炸弹会平行飞出（与 astrape 的修法一致）
+		Vec3 dir = target.getEyePosition().subtract(sx, sy, sz).normalize();
 		@SuppressWarnings("unchecked")
 		EntityType<SmallAnnihilationBombEntity> type = (EntityType<SmallAnnihilationBombEntity>) (EntityType<?>) ModEntities.SMALL_ANNIHILATION_BOMB_ENTITY.get();
 		SmallAnnihilationBombEntity bomb = new SmallAnnihilationBombEntity(type, golem.level(), golem, damage);
 		bomb.setPos(sx, sy, sz);
-		bomb.shoot(aim.x, aim.y, aim.z, 1.0f, 0.0f);
+		bomb.shoot(dir.x, dir.y, dir.z, 1.0f, 0.0f);
 		golem.level().addFreshEntity(bomb);
 	}
 
@@ -1122,7 +1124,9 @@ public class LMProxyImpl {
 		double lookX = -Math.cos(yaw);
 		double lookZ = -Math.sin(yaw);
 		float pitch = (float) (reverse ? -1 : 1) * (float) Math.atan2(3.0, Math.sqrt(lookX * lookX + lookZ * lookZ));
-		float size = golem.getBbWidth() * scale;
+		// 本体是 getScale() * scale；getScale() 是 vanilla Entity#getScale()，恒为 1.0。
+		// 之前用 getBbWidth() 会让金属傀儡的刀光宽度翻倍，看着比 boss 大一圈。
+		float size = golem.getScale() * scale;
 		ParticleOptions data = paladinPhaseTwo(golem)
 				? new net.miauczel.legendary_monsters.Particle.custom.SoulSweepRedParticle.SweepData(size, yaw, pitch)
 				: new net.miauczel.legendary_monsters.Particle.custom.SoulSweepParticle.SweepData(size, yaw, pitch);

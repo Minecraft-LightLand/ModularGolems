@@ -16,7 +16,7 @@ import java.util.Map;
 public class LMBossDebug {
 
 	/** 关掉就设成 false。 */
-	public static boolean ENABLED = true;
+	public static boolean ENABLED = false;
 
 	private static final Map<Integer, Integer> LAST = new HashMap<>();
 
