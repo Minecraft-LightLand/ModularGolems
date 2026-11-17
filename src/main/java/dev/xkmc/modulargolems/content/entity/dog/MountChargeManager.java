@@ -17,8 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mezz.jei.gui.input.MouseUtil.getX;
-
 public class MountChargeManager {
 
 	private final DogGolemEntity golem;
@@ -63,7 +61,7 @@ public class MountChargeManager {
 			if (t != null && (!t.isAlive() || !golem.predicateTarget(t))) t = null;
 			if (t == null && golem.predicateTarget(golem.getTarget())) t = golem.getTarget();
 			if (t != null) {
-				dir = new Vec3(t.getX() - getX(), 0, t.getZ() - golem.getZ());
+				dir = new Vec3(t.getX() - golem.getX(), 0, t.getZ() - golem.getZ());
 				if (dir.lengthSqr() < 1e-8) dir = new Vec3(0, 0, 1);
 				if (ins.owner() != golem) total = Math.sqrt(t.distanceToSqr(golem)) + 2;
 			}
