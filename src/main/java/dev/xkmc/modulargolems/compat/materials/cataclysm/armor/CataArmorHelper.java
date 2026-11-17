@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -131,10 +132,33 @@ public class CataArmorHelper {
 	}
 
 	/**
+	 * Storm chestpiece: Phantom Serpent slam radius multiplier.
+	 * <p>
+	 * The serpents always land a fixed distance ahead of themselves; what the chestpiece widens is the
+	 * splash around that landing point. Cataclysm hardcodes the AABB there, so the bonus is applied as
+	 * a multiplier on it — {@code +100%} doubles whatever the base radius is.
+	 */
+	public static double serpentAreaScale(AbstractGolemEntity<?, ?> golem) {
+		if (!stormChest(golem)) return 1.0;
+		return 1.0 + MGConfig.COMMON.serpentArmorBonus.get();
+	}
+
+	/**
 	 * Storm set: unlocks at 2/3 health, or the chestpiece.
 	 */
 	public static boolean stormFinalForm(AbstractGolemEntity<?, ?> golem) {
 		return isFinalForm(golem, EquipmentSlot.CHEST, CataCompatRegistry.STORM_CHESTPLATE.get(), TWO_THIRDS);
+	}
+
+	/**
+	 * Storm set with a custom threshold: the golem is at or below {@code ratio} of its max health, or
+	 * the chestpiece pins it at the final form (the "ignores health requirement" trait).
+	 * <p>
+	 * Storm Fury uses this for both serpent waves: 2/3 unlocks the first pair, 1/3 the second. Wearing
+	 * the chestplate skips both gates, so a full-health golem summons all four.
+	 */
+	public static boolean stormFinalFormAt(AbstractGolemEntity<?, ?> golem, float ratio) {
+		return isFinalForm(golem, EquipmentSlot.CHEST, CataCompatRegistry.STORM_CHESTPLATE.get(), ratio);
 	}
 
 	/**

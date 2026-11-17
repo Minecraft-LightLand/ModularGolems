@@ -25,12 +25,6 @@ import java.util.UUID;
 
 public class StormArmorItem extends MetalGolemArmorItem {
 
-	/**
-	 * Serpents summoned at 2/3 health; 1/3 doubles it. Kept beside the tooltip that quotes it so the
-	 * numbers cannot drift away from the skill.
-	 */
-	public static final int SERPENT_PAIR = 2;
-
 	public StormArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness,
 			float knockbackResistance, ResourceLocation model) {
 		super(properties, type, defense, toughness, knockbackResistance, model);
@@ -44,20 +38,18 @@ public class StormArmorItem extends MetalGolemArmorItem {
 			case CHEST -> {
 				list.add(MGLangData.SKILL_IGNORE_HEALTH.get(CataArmorHelper.materialName("storm"))
 						.withStyle(ChatFormatting.GOLD));
+				// 胸甲：幻影水蛇落点伤害半径 +N%，且水蛇伤害无视无敌帧
 				list.add(MGLangData.SCYLLA_SERPENT
-						.get(CataArmorHelper.percentOf(CataArmorHelper.TWO_THIRDS) + "%",
-								CataArmorHelper.skillName(CataCompatRegistry.SCYLLA_STORM.get()),
-								SERPENT_PAIR, 
-								CataArmorHelper.percentOf(CataArmorHelper.ONE_THIRD) + "%",
-								SERPENT_PAIR * 2)
+						.get(Math.round(MGConfig.COMMON.serpentArmorBonus.get() * 100) + "%")
 						.withStyle(ChatFormatting.GOLD));
 			}
 			case LEGS -> {
 				list.add(MGLangData.SCYLLA_SPARK_BOOST
 						.get(Math.round(MGConfig.COMMON.sparkArmorBonus.get() * 100) + "%")
 						.withStyle(ChatFormatting.GOLD));
-				list.add(MGLangData.SCYLLA_SMASH
-						.get(CataArmorHelper.percentOf(CataArmorHelper.TWO_THIRDS) + "%",
+				// 护腿：坠雷击（含闪电重砸）的攻击范围 +N%
+				list.add(MGLangData.SCYLLA_SLAM_RANGE
+						.get(Math.round(MGConfig.COMMON.anchorSlamRangeBonus.get() * 100) + "%",
 								CataArmorHelper.skillName(CataCompatRegistry.SCYLLA_ANCHOR_SLAM.get()))
 						.withStyle(ChatFormatting.GOLD));
 			}

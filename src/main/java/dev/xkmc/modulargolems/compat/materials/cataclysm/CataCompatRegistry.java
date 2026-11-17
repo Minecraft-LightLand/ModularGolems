@@ -265,15 +265,15 @@ public class CataCompatRegistry {
 		SCYLLA_WAVE = reg("scylla_wave", () -> new ScyllaWaveModifier(StatFilterType.HEAD, 1),
 				"Tidal Anchor", "When attacked, block all attacks for %s seconds, then summon waves to push attackers away.");
 		SCYLLA_STORM = reg("scylla_lightning_storm", () -> new ScyllaLightningStormModifier(StatFilterType.HEAD, 1),
-				"Storm Fury", "Gather storm clouds to release many lightning spears and water spears at the target.");
+				"Storm Fury", "Gather storm clouds to release many lightning spears and water spears at the target. Below %s of max HP, summons %s Phantom Serpents; below %s, summons %s instead.");
 		SCYLLA_WATER_BOLT = reg("scylla_water_bolt", () -> new ScyllaWaterBoltModifier(StatFilterType.ATTACK, 3),
 				"Tidal Spike", "Fire %s water spikes at nearby targets. Below %s of max HP, fires %s instead.");
 		SCYLLA_LINE = reg("scylla_line_lightning", () -> new ScyllaLineLightningModifier(StatFilterType.ATTACK, 2),
-				"Line Lightning", "Summon a row of lightning strikes at the target position.");
+				"Line Lightning", "Summon two rows of lightning strikes in succession at the target position.");
 		GUARDIAN_HUG = reg("ender_guardian_hug", () -> new EnderGuardianHugModifier(StatFilterType.ATTACK, 2),
 				"Rocket Fist", "Teleport to the predicted target position and unleash heavy damage.");
 		SCYLLA_ANCHOR_SLAM = reg("scylla_anchor_slam", () -> new ScyllaAnchorSlamModifier(StatFilterType.MOVEMENT, 1),
-				"Thunder Slam", "Jump toward the target. On landing, deal area damage and create multiple sparks. Damage taken is reduced by %s while leaping.");
+				"Thunder Slam", "Jump toward the target. On landing, deal area damage and create multiple sparks. Damage taken is reduced by %s while leaping. Below %s of max HP, also triggers a heavy lightning smash.");
 		GUARDIAN_TELEPORT_SLAM = reg("ender_guardian_teleport_slam", () -> new EnderGuardianTeleportSlamModifier(StatFilterType.MOVEMENT, 1),
 				"Teleport Slam", "Teleport above the target and slam down, dealing area damage and summoning void runes. Damage taken is reduced by %s while leaping. Below %s of max HP, its cooldown is halved.");
 		SCYLLA_SPIN = reg("scylla_spin_charge", () -> new ScyllaSpinChargeModifier(StatFilterType.HEAD, 1),
