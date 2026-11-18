@@ -105,6 +105,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public static final EntityDataAccessor<Float> DASH_YAW = GOLEM_DATA.define(SyncedData.FLOAT, Float.NaN, null);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT_2 = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	/** 形态外观：0 默认 / 1 始终初始 / 2 始终最终 / 3 跟随生命值。仅影响渲染，不影响实际效果。 */
+	public static final EntityDataAccessor<Integer> FORM_APPEARANCE = GOLEM_DATA.define(SyncedData.INT, 0, "form_appearance");
 
 	/**
 	 * 服务端把"正在使用哪只手"同步给客户端（0 = 未使用，1 = 主手，2 = 副手）。
@@ -517,6 +519,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		leader = le.getUUID();
 	}
 
+
+	public int getFormAppearance() {
+		return this.entityData.get(FORM_APPEARANCE);
+	}
+
+	public void setFormAppearance(int mode) {
+		this.entityData.set(FORM_APPEARANCE, Math.floorMod(mode, 4));
+	}
 
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);

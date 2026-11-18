@@ -4,6 +4,7 @@ import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -58,7 +59,7 @@ public class IgnisFireballModifier extends GolemModifier {
 		int from = 2 - lv;
 		int count = 1 + lv * 2;
 		int[] timers = count >= 4 ? TIMER_5 : TIMER_3;
-		boolean blue = CataDispatch.ignisBlue(user);
+		boolean blue = GolemFormAppearance.visualFinal(user, CataDispatch.ignisBlue(user), CataArmorHelper.TWO_THIRDS);
 		int order = 0;
 		for (int i = from; i < from + count; i++) {
 			if (i == index) continue;

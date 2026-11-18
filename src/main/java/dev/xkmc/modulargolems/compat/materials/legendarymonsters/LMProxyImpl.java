@@ -18,6 +18,7 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorEffects;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.util.GolemTargetUtil;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
@@ -1366,7 +1367,8 @@ public class LMProxyImpl {
 	/** 与 boss spawnSoulPillars 一致的地面向下扫描：从 y 到 lowestY 找可站立面，返回柱底 Y。 */
 	/** 二阶段判定：统一走 {@link LMArmorHelper}，穿灵魂骑士胸甲时恒为二阶段。 */
 	private static boolean paladinPhaseTwo(LivingEntity golem) {
-		return golem instanceof AbstractGolemEntity<?, ?> ag && LMArmorHelper.paladinFinalForm(ag);
+		return golem instanceof AbstractGolemEntity<?, ?> ag
+				&& GolemFormAppearance.visualFinal(ag, LMArmorHelper.paladinFinalForm(ag), LMArmorHelper.PHASE_TWO);
 	}
 
 	/** 堕魂护腿：扑跃砸地 / 翻滚斩整招伤害 +50%。 */

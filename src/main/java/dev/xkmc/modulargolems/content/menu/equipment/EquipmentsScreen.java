@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.menu.equipment;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinButton;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinInputScreen;
@@ -25,12 +26,18 @@ import java.util.Optional;
 
 public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implements ITabScreen {
 
+	private FormAppearanceButton formButton;
+
 	public EquipmentsScreen(EquipmentsMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
 	}
 
 	@Override
 	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
+		// 胸甲可能在界面打开期间才穿上/脱下，这里每帧刷新按钮可见性（不必重开界面）
+		if (formButton != null && menu.golem != null) {
+			formButton.visible = GolemFormAppearance.hasSecondAppearanceChest(menu.golem);
+		}
 		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(g);
 		Optional.ofNullable(menu.ctrl).flatMap(GolemMenuControl::getScreenProvider)
@@ -41,12 +48,16 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 	@Override
 	protected void init() {
 		super.init();
+		formButton = null;
 		if (menu.golem == null) return;
 		new GolemTabManager<>(this, new EquipmentGroup(menu.golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
 			addRenderableWidget(new PlayerSkinButton(leftPos + 160, topPos + 6, golem, b ->
 					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem))));
+		} else if (menu.golem != null) {
+			formButton = addRenderableWidget(new FormAppearanceButton(leftPos + 160, topPos + 6, menu.golem));
+			formButton.visible = GolemFormAppearance.hasSecondAppearanceChest(menu.golem);
 		}
 	}
 

@@ -14,6 +14,13 @@
 	"modulargolems": {
 		"tooltip": {
 			"health": "生命值: %s/%s",
+			"form_appearance_title": "切换形态外观",
+			"form_appearance_desc": "当穿戴了解放完整力量的装备后，可点击切换外观显示",
+			"form_appearance_current": "当前外观：%s",
+			"form_appearance_default": "默认",
+			"form_appearance_initial": "始终初始形态",
+			"form_appearance_final": "始终最终形态",
+			"form_appearance_follow": "跟随生命值变化",
 			"slot": "剩余升级槽: %s",
 			"meltdown": "熔锻: %s",
 			"shift": "按SHIFT显示技能细节",

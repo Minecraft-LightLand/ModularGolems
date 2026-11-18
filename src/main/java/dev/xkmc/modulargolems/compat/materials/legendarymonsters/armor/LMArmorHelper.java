@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * 传奇怪物联动的阶段判定与护甲查询，唯一入口。
@@ -172,6 +173,11 @@ public class LMArmorHelper {
 	/** 本地化材质名，供 {@code skill_ignore_health} 那一行使用。 */
 	public static Component materialName(String id) {
 		return Component.translatable("golem_material.legendary_monsters." + id);
+	}
+
+	/** 该胸甲是否属于“有第二套外观”的套装（浮云 / 堕落圣骑）。 */
+	public static boolean isSecondAppearanceChest(ItemStack stack) {
+		return stack.is(LMCompatRegistry.CLOUD_CHESTPLATE.get()) || stack.is(LMCompatRegistry.PALADIN_CHESTPLATE.get());
 	}
 
 }

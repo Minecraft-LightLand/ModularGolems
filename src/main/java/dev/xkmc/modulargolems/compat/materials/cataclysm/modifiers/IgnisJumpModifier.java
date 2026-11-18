@@ -7,6 +7,7 @@ import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
@@ -115,7 +116,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		}
 		int radius = quakeRadius(golem);
 		if (radius <= 0) return;
-		boolean soul = CataDispatch.ignisBlue(golem);
+		boolean soul = GolemFormAppearance.visualFinal(golem, CataDispatch.ignisBlue(golem), CataArmorHelper.TWO_THIRDS);
 		// forward offset is zero: that argument is how far the original swings its greatsword ahead of its
 		// body, and these golems smash with their own legs instead, so there is nothing to reach past. Keeping
 		// it at the original 2 would also shift the collapsing ring off the landing rune it belongs to.
@@ -145,7 +146,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 		float dmg = (isHeavy(golem) ? 1.5f : 1.1f) * legs;
 		float hp = (isHeavy(golem) ? 0.15f : 0.06f) * legs;
 		GolemCataProxy.ignisQuakeWaveAt(golem, quakeCenter(golem), dist, 2.5f, 0.0f, false,
-				dmg, hp, 0.075f, CataDispatch.ignisBlue(golem));
+				dmg, hp, 0.075f, GolemFormAppearance.visualFinal(golem, CataDispatch.ignisBlue(golem), CataArmorHelper.TWO_THIRDS));
 	}
 
 	@Override
@@ -167,6 +168,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int lv) {
 		var level = golem.level();
 		boolean soul = CataDispatch.ignisBlue(golem);
+		boolean soulFx = GolemFormAppearance.visualFinal(golem, soul, CataArmorHelper.TWO_THIRDS);
 		boolean chest = CataArmorHelper.ignisChest(golem);
 		GolemCataProxy.ignisEarthquakeFX(golem, 20);
 		// 中心冲击环 + 内圈初始方块（白色冲击波保留）；外扩与伤害由 onAiStep 的逐圈震地负责
@@ -206,7 +208,7 @@ public class IgnisJumpModifier extends GolemModifier implements EarthquakeHelper
 			int dur = CataArmorHelper.ignisLegs(golem)
 					? Math.round(40 * (1 + FLAME_STRIKE_DURATION_BONUS)) : 40;
 			GolemCataProxy.createBlast(golem, list.get(i), dur, i * 2,
-					isLanding ? LANDING_RUNE_RADIUS : RUNE_RADIUS, atk, soul);
+					isLanding ? LANDING_RUNE_RADIUS : RUNE_RADIUS, atk, soulFx);
 		}
 	}
 

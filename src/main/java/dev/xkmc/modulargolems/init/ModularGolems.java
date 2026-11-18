@@ -18,6 +18,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.GuardedEntity;
 import dev.xkmc.modulargolems.content.entity.common.ReforgeUpdatePacket;
+import dev.xkmc.modulargolems.content.entity.common.SetFormAppearanceToServer;
 import dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SetPlayerSkinToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
@@ -87,6 +88,7 @@ public class ModularGolems {
 			e -> e.create(GolemSkillCDToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(GolemSkillCDRequest.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(SetGolemNameToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(SetFormAppearanceToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(SetPlayerSkinToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OmniWandKeyToServer.class, NetworkDirection.PLAY_TO_SERVER)
 	);
