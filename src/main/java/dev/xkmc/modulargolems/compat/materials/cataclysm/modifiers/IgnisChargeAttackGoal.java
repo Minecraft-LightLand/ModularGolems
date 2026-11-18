@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
@@ -136,7 +137,8 @@ public class IgnisChargeAttackGoal extends BaseChargeGoal {
 	}
 
 	private ParticleOptions particle() {
-		return CataDispatch.ignisBlue(golem) ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME;
+		return GolemFormAppearance.visualFinal(golem, CataDispatch.ignisBlue(golem), CataArmorHelper.TWO_THIRDS)
+				? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME;
 	}
 
 }

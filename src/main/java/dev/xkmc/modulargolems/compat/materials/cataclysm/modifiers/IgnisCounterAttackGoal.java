@@ -4,6 +4,7 @@ import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.util.GolemTargetUtil;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,7 +59,7 @@ public class IgnisCounterAttackGoal extends Goal {
 	 * 放在后撤步之前，先震住周围再拉开距离反击。
 	 */
 	private void roar() {
-		GolemCataProxy.ignisRoarPulse(golem, CataDispatch.ignisBlue(golem));
+		GolemCataProxy.ignisRoarPulse(golem, GolemFormAppearance.visualFinal(golem, CataDispatch.ignisBlue(golem), CataArmorHelper.TWO_THIRDS));
 		for (LivingEntity e : golem.level().getEntitiesOfClass(LivingEntity.class,
 				golem.getBoundingBox().inflate(IgnisCounterModifier.ROAR_RADIUS))) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
@@ -117,7 +118,7 @@ public class IgnisCounterAttackGoal extends Goal {
 		// 朝向目标，而不是傀儡自身前方
 		yaw = CataArmorHelper.yawToTarget(golem, golem.getTarget());
 		CataArmorHelper.faceYaw(golem, yaw);
-		blue = CataDispatch.ignisBlue(golem);
+		blue = GolemFormAppearance.visualFinal(golem, CataDispatch.ignisBlue(golem), CataArmorHelper.TWO_THIRDS);
 		GolemCataProxy.ignisCounterStrike(golem, blue);
 	}
 

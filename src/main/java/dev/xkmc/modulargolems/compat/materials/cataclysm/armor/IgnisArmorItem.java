@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.IgnisFireballModifier;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.IgnisJumpModifier;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -71,7 +72,7 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
 		assert rl != null;
 		var str = "textures/equipments/" + rl.getPath();
-		if (CataDispatch.ignisBlue(user))
+		if (GolemFormAppearance.visualFinal(user, CataDispatch.ignisBlue(user), CataArmorHelper.TWO_THIRDS))
 			str += "_soul";
 		return new ResourceLocation(namespace(rl.getNamespace()), str + ".png");
 	}
@@ -80,7 +81,7 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 		ResourceLocation rl = ForgeRegistries.ITEMS.getKey(this);
 		assert rl != null;
 		var str = "textures/equipments/" + rl.getPath();
-		if (CataDispatch.ignisBlue(user))
+		if (GolemFormAppearance.visualFinal(user, CataDispatch.ignisBlue(user), CataArmorHelper.TWO_THIRDS))
 			str += "_soul";
 		return new ResourceLocation(namespace(rl.getNamespace()), str + "_emissive.png");
 	}

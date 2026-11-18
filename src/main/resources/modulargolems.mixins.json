@@ -15,10 +15,13 @@
 		"IgnisExplosionMixin",
 		"LivingEntityMixin",
 		"PlayerMixin",
-		"ServerLevelMixin"
+		"ServerLevelMixin",
+		"SoulTridentPillarExplosionMixin"
 	],
 	"client": [
-		"ScreenMixin"
+		"ScreenMixin",
+		"SoulTridentTextureMixin",
+		"SoulPillarExplosionEntityAppearanceMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

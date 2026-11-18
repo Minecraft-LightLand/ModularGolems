@@ -6,6 +6,7 @@ import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMDispatch;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -216,12 +217,14 @@ public class LMArmorItem extends MetalGolemArmorItem {
 
 	/** 浮云：二阶段换成暗色形态。穿了浮云胸甲时恒为二阶段。 */
 	public static Predicate<LivingEntity> cloudPhase() {
-		return e -> e instanceof AbstractGolemEntity<?, ?> g && LMArmorHelper.cloudFinalForm(g);
+		return e -> e instanceof AbstractGolemEntity<?, ?> g
+				&& GolemFormAppearance.visualFinal(g, LMArmorHelper.cloudFinalForm(g), LMArmorHelper.PHASE_TWO);
 	}
 
 	/** 圣骑：二阶段换成被侵蚀形态。穿了灵魂骑士胸甲时恒为二阶段。 */
 	public static Predicate<LivingEntity> paladinPhase() {
-		return e -> e instanceof AbstractGolemEntity<?, ?> g && LMArmorHelper.paladinFinalForm(g);
+		return e -> e instanceof AbstractGolemEntity<?, ?> g
+				&& GolemFormAppearance.visualFinal(g, LMArmorHelper.paladinFinalForm(g), LMArmorHelper.PHASE_TWO);
 	}
 
 }

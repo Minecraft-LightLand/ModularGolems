@@ -7,7 +7,9 @@ import dev.xkmc.modulargolems.compat.materials.cataclysm.client.IgnisArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MaledictusArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.MonstrosityArmors;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.client.StormArmors;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.compat.materials.common.ClientModDispatch;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +22,7 @@ public class CataClient extends ClientModDispatch {
 	@Override
 	public void dispatchClientSetup() {
 		ModelOverrides.registerOverride(new ResourceLocation(CataDispatch.MODID, "ignitium"),
-				ModelOverride.texturePredicate((e) -> CataDispatch.ignisBlue(e) ? "_soul" : ""));
+				ModelOverride.texturePredicate((e) -> GolemFormAppearance.visualFinal(e, CataDispatch.ignisBlue(e), CataArmorHelper.TWO_THIRDS) ? "_soul" : ""));
 	}
 
 	@Override

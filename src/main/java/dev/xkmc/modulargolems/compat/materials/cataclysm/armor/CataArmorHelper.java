@@ -10,6 +10,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Shared queries for the ender guardian, ancient metal and storm armor sets.
@@ -281,6 +282,11 @@ public class CataArmorHelper {
 		double dz = target.getZ() - golem.getZ();
 		if (dx * dx + dz * dz < 1.0E-4) return golem.yBodyRot;
 		return (float) (net.minecraft.util.Mth.atan2(-dx, dz) * (180.0 / Math.PI));
+	}
+
+	/** 该胸甲是否属于“有第二套外观”的套装（腾炎蓝色形态）。 */
+	public static boolean isSecondAppearanceChest(ItemStack stack) {
+		return stack.is(CataCompatRegistry.IGNIS_CHESTPLATE.get());
 	}
 
 	/** 把傀儡朝向扳到指定 yaw，让模型与招式的方向一致。 */

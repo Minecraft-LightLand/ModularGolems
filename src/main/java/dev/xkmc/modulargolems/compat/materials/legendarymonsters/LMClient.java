@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.compat.materials.legendarymonsters.client.Oblitera
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.client.PaladinArmors;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.client.override.ModelOverride;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.client.override.ModelOverrides;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -18,9 +19,9 @@ public class LMClient extends ClientModDispatch {
 	public void dispatchClientSetup() {
 		// Boss 变 angry 的阈值是 Crackiness.MEDIUM（低于 65%），贴图切换跟着走，不再用半血
 		ModelOverrides.registerOverride(new ResourceLocation(LMDispatch.MODID, "cloud"),
-				ModelOverride.texturePredicate((e) -> LMArmorHelper.cloudFinalForm(e) ? "_dark" : ""));
+				ModelOverride.texturePredicate((e) -> GolemFormAppearance.visualFinal(e, LMArmorHelper.cloudFinalForm(e), LMArmorHelper.PHASE_TWO) ? "_dark" : ""));
 		ModelOverrides.registerOverride(new ResourceLocation(LMDispatch.MODID, "paladin"),
-				ModelOverride.texturePredicate((e) -> LMArmorHelper.paladinFinalForm(e) ? "_posessed" : ""));
+				ModelOverride.texturePredicate((e) -> GolemFormAppearance.visualFinal(e, LMArmorHelper.paladinFinalForm(e), LMArmorHelper.PHASE_TWO) ? "_posessed" : ""));
 	}
 
 	@Override
