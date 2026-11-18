@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientProfileManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderProfile;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.mob.MobSkinDispatch;
@@ -14,15 +15,42 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Set;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = ModularGolems.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class GolemClientEventListeners {
+
+	/**
+	 * 三种模组的震屏都是「世界里的实体 + 客户端按距离叠加」。玩家骑乘傀儡时，
+	 * 只在本玩家客户端把这些震屏实体丢掉，于是骑乘者不受震屏、其他玩家照常。
+	 */
+	private static final Set<String> SHAKE_ENTITY_IDS = Set.of(
+			"legendary_monsters:camera_shake",
+			"cataclysm:screen_shake",
+			"eeeabsmobs:camera_shake");
+
+	@SubscribeEvent
+	public static void onClientTick(TickEvent.ClientTickEvent event) {
+		if (event.phase != TickEvent.Phase.END) return;
+		var mc = Minecraft.getInstance();
+		var player = mc.player;
+		var level = mc.level;
+		if (player == null || level == null) return;
+		if (!(player.getVehicle() instanceof AbstractGolemEntity<?, ?>)) return;
+		for (var e : level.getEntitiesOfClass(net.minecraft.world.entity.Entity.class, player.getBoundingBox().inflate(24))) {
+			var id = ForgeRegistries.ENTITY_TYPES.getKey(e.getType());
+			if (id != null && SHAKE_ENTITY_IDS.contains(id.toString())) e.discard();
+		}
+	}
 
 	@SubscribeEvent
 	public static void renderStageEvent(RenderLevelStageEvent event) {

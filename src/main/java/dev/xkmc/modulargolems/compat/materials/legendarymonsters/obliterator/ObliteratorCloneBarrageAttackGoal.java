@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMTeleportBackstepHelper;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -55,7 +56,7 @@ public class ObliteratorCloneBarrageAttackGoal extends BaseRangedAttackGoal {
 				castTicks++;
 				if (castTicks == 29) LMProxy.cloneBarrageStart(golem);
 				if (castTicks == 33) LMProxy.spawnCloneBarrage(golem, target, lv, false);
-				if (castTicks == 49 && !secondDone && ObliteratorPhaseHelper.isPhaseTwo(golem)) {
+				if (castTicks == 49 && !secondDone && LMArmorHelper.obliteratorPhaseTwo(golem)) {
 					LMProxy.spawnCloneBarrage(golem, target, lv, true);
 					secondDone = true;
 				}

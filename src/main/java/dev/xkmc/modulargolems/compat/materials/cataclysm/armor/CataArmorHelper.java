@@ -83,6 +83,14 @@ public class CataArmorHelper {
 		return has(golem, EquipmentSlot.LEGS, CataCompatRegistry.ANCIENT_METAL_SHINGUARD.get());
 	}
 
+	/** 远古金属护腿：尾骨震击 / 暴怒冲锋伤害加成（+50%）。 */
+	public static final float ANCIENT_LEGS_DAMAGE_BONUS = 0.5F;
+
+	/** 远古金属护腿：尾骨震击 / 暴怒冲锋伤害倍率（穿护腿 1.5，否则 1）。 */
+	public static float ancientLegsDamageMult(AbstractGolemEntity<?, ?> golem) {
+		return ancientLegs(golem) ? 1f + ANCIENT_LEGS_DAMAGE_BONUS : 1f;
+	}
+
 	public static boolean guardianHelmet(AbstractGolemEntity<?, ?> golem) {
 		return has(golem, EquipmentSlot.HEAD, CataCompatRegistry.ENDER_GUARDIAN_HELMET.get());
 	}

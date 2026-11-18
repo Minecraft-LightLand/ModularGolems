@@ -1,10 +1,13 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorEffects;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import net.miauczel.legendary_monsters.Particle.custom.Circle;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.ElectricityEntity;
 import net.miauczel.legendary_monsters.util.ParticleUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -38,7 +41,7 @@ public class FierceWaveStompModifier extends GolemModifier {
 	/** 施放距离上限（格），对应 Boss state25 的 goal range 12。 */
 	public static final int MAX_RANGE = 12;
 	/** 施放的最小距离（格），对应 Boss 的 attackrangemin 5。 */
-	public static final int MIN_RANGE = 5;
+	public static final int MIN_RANGE = 0;
 
 	/** 第一次踏地：tick / 道数 / 间隔角。 */
 	public static final int STOMP_1_TICK = 25;
@@ -74,7 +77,15 @@ public class FierceWaveStompModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		return List.of(
 				Component.translatable(getDescriptionId() + ".desc", Component.literal("2").withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GREEN),
-				CloudPhaseHelper.secondPhaseGate().withStyle(ChatFormatting.GREEN));
+				LMArmorHelper.phaseTwoGate().withStyle(ChatFormatting.GREEN));
+	}
+
+	/** 浮云胸甲：烈波每道各追一个目标（分配方式同灾变远古金属护腿的冲击波）。 */
+	@Override
+	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
+		if (golem.level().isClientSide()) return;
+		if (!LMArmorHelper.cloudChest(golem)) return;
+		LMArmorEffects.steerWaves(golem, ElectricityEntity.class, e -> e.getOwner() == golem);
 	}
 
 	@Override

@@ -208,6 +208,21 @@ public class EarthquakeHelper {
 
 	}
 
+	/**
+	 * 大多数大跳技能的默认起跳：玩家骑乘或无目标时垂直起跳，否则朝目标斜跳。
+	 * 覆写的技能也应优先复用本方法，保证与其它大跳/灾变联动犬形跳跃行为一致。
+	 */
+	public static void performDefaultJump(AbstractGolemEntity<?, ?> golem) {
+		var target = golem.getTarget();
+		if (target == null || golem.getControllingPassenger() instanceof Player)
+			golem.addDeltaMovement(new Vec3(0, 1.3, 0));
+		else golem.setDeltaMovement(
+				(target.getX() - golem.getX()) * 0.15,
+				1.3,
+				(target.getZ() - golem.getZ()) * 0.15
+		);
+	}
+
 	public interface Modifier {
 
 		void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level);
@@ -230,14 +245,7 @@ public class EarthquakeHelper {
 
 		/** 玩家骑乘时垂直起跳；AI 骑乘则朝目标斜跳，避免落空后还需重选目标。 */
 		default void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
-			var target = golem.getTarget();
-			if (target == null || golem.getControllingPassenger() instanceof Player)
-				golem.addDeltaMovement(new Vec3(0, 1.3, 0));
-			else golem.setDeltaMovement(
-					(target.getX() - golem.getX()) * 0.15,
-					1.3,
-					(target.getZ() - golem.getZ()) * 0.15
-			);
+			performDefaultJump(golem);
 		}
 
 		/** 技能自行处理起跳（服务端执行），默认由客户端本地预测负责。 */

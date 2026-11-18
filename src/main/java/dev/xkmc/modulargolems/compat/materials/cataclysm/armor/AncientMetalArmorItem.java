@@ -45,8 +45,14 @@ public class AncientMetalArmorItem extends MetalGolemArmorItem {
 				list.add(MGLangData.SKILL_IGNORE_HEALTH.get(CataArmorHelper.materialName("ancient_metal"))
 						.withStyle(ChatFormatting.GOLD));
 			}
-			case LEGS -> list.add(MGLangData.ANCIENT_SHOCKWAVE_BOOST.get()
-					.withStyle(ChatFormatting.GOLD));
+			case LEGS -> {
+				list.add(MGLangData.ANCIENT_SHOCKWAVE_BOOST.get().withStyle(ChatFormatting.GOLD));
+				String pct = Math.round(CataArmorHelper.ANCIENT_LEGS_DAMAGE_BONUS * 100) + "%";
+				list.add(MGLangData.SKILL_DAMAGE_BOOST.get(pct,
+						CataArmorHelper.skillList(CataCompatRegistry.ANCIENT_RENANT_LEAP.get(),
+								CataCompatRegistry.ANCIENT_RENANT_CHARGE.get()))
+						.withStyle(ChatFormatting.GOLD));
+			}
 		}
 	}
 

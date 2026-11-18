@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -118,20 +119,22 @@ public class LineCloudAttackGoal extends BaseRangedAttackGoal {
 	private void settle(PendingDrop d) {
 		float atk = GolemCombatHelper.getAttackDamage(golem);
 		var src = golem.damageSources().mobAttack(golem);
+		// 浮云头盔：落云伤害 +50%
+		float mult = LMArmorHelper.cloudHelmetMult(golem);
 		double r = LineCloudModifier.CLOUD_RADIUS;
 		AABB box = new AABB(d.x() - r, d.y() - 1, d.z() - r, d.x() + r, d.y() + 3, d.z() + r);
 		for (LivingEntity e : golem.level().getEntitiesOfClass(LivingEntity.class, box)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
 			if (e.distanceToSqr(d.x(), e.getY(), d.z()) > r * r) continue;
-			GolemCombatHelper.meleeHit(golem, e, src, atk * LineCloudModifier.CLOUD_DAMAGE);
+			GolemCombatHelper.meleeHit(golem, e, src, atk * LineCloudModifier.CLOUD_DAMAGE * mult);
 		}
 		// 云落地音：LM 的 CloudEntity.onHit 就是播 SHULKER_BULLET_HURT(3, 1)
 	}
 
-	/** 一阶段（>65% 生命）才开放，对应 Boss state20 只在非 angry 状态使用。 */
+	/** 一阶段（>65% 生命）才开放，对应 Boss state20 只在非 angry 状态使用；穿浮云胸甲时不受此限。 */
 	@Override
 	public boolean canUse() {
-		return CloudPhaseHelper.inFirstPhase(golem) && super.canUse();
+		return LMArmorHelper.cloudFirstPhaseSkill(golem) && super.canUse();
 	}
 	@Override
 	protected boolean performAttack(LivingEntity target) {

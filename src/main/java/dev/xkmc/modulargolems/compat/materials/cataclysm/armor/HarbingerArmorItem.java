@@ -35,16 +35,16 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
 		switch (getSlot()) {
-			case HEAD -> list.add(MGLangData.HARBINGER_BOOST_LASER
+			case HEAD -> list.add(MGLangData.SKILL_BYPASS
 					.get(CataArmorHelper.skillName(CataCompatRegistry.HARBINGER_BEAM.get()))
 					.withStyle(ChatFormatting.GOLD));
 			case CHEST -> {
 				list.add(MGLangData.SKILL_IGNORE_HEALTH.get(CataArmorHelper.materialName("witherite"))
 						.withStyle(ChatFormatting.GOLD));
-				list.add(MGLangData.HARBINGER_BOOST_MISSILE
-						.get(CataArmorHelper.skillName(CataCompatRegistry.HARBINGER_MISSILE.get()),
-								CataArmorHelper.skillName(CataCompatRegistry.HARBINGER_WITHER_MISSILE.get()),
-								CataArmorHelper.skillName(CataCompatRegistry.HARBINGER_HOWITZER.get()))
+				list.add(MGLangData.SKILL_BYPASS
+						.get(CataArmorHelper.skillList(CataCompatRegistry.HARBINGER_MISSILE.get(),
+								CataCompatRegistry.HARBINGER_WITHER_MISSILE.get(),
+								CataCompatRegistry.HARBINGER_HOWITZER.get()))
 						.withStyle(ChatFormatting.GOLD));
 			}
 			case LEGS -> list.add(CataArmorHelper.damageLine(MGConfig.COMMON.chargeArmorBonus.get(),

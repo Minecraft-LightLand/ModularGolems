@@ -345,6 +345,7 @@ public class ChargeHelper {
 		default void tickCharge(Instance ins) {
 		}
 
+
 		default void onChargeTouch(Instance ins, LivingEntity target) {
 		}
 

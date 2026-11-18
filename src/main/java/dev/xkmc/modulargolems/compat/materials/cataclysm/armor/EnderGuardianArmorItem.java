@@ -64,7 +64,6 @@ public class EnderGuardianArmorItem extends MetalGolemArmorItem {
 	protected void addExtraModifiers(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
 		super.addExtraModifiers(builder);
 		UUID uuid = UUID.get(getSlot());
-		builder.put(L2DamageTracker.ABSORB.get(), new AttributeModifier(uuid, "Ender Guardian Armor", 1, AttributeModifier.Operation.ADDITION));
 		builder.put(L2DamageTracker.REDUCTION.get(), new AttributeModifier(uuid, "Ender Guardian Armor", -0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
 		switch (getSlot()) {
 			case HEAD -> builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid,

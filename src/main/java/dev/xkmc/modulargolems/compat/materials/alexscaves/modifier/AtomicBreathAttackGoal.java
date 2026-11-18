@@ -24,9 +24,13 @@ import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 public class AtomicBreathAttackGoal extends BaseRangedAttackGoal {
 
 	private static final float BEAM_SOUND_VOLUME = 2.0F;
+	/** 起手蓄力 tick：Boss Tremorzilla 的 PREPARE_BREATH 动画在 tick &gt; 15 才真正开火。 */
+	private static final int CHARGE_TICKS = 35;
 
 	private int breathTicks;
 	private int breathDuration;
+	/** 剩余蓄力 tick；-1 = 未在蓄力。计数在 performAttack 里推进，避免基类跳过开火帧时空转。 */
+	private int chargeTicks = -1;
 
 	public AtomicBreathAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(AtomicBreathModifier.COOLDOWN, AtomicBreathModifier.MIN_RANGE,
@@ -59,6 +63,7 @@ public class AtomicBreathAttackGoal extends BaseRangedAttackGoal {
 
 	@Override
 	public void stop() {
+		chargeTicks = -1;
 		if (golem.isBreathAttack()) {
 			golem.setBreathAttack(false);
 			golem.playSound(ACSoundRegistry.TREMORZILLA_BEAM_END.get(), BEAM_SOUND_VOLUME, 1.0F);
@@ -86,12 +91,27 @@ public class AtomicBreathAttackGoal extends BaseRangedAttackGoal {
 
 	@Override
 	protected boolean performAttack(LivingEntity target) {
-		if (golem.isBreathAttack()) return false;
+		// 起手：第一次进入蓄力时播一次蓄力音（-1 表示还没开始这次蓄力）
+		if (chargeTicks < 0) {
+			chargeTicks = CHARGE_TICKS;
+			golem.playSound(ACSoundRegistry.TREMORZILLA_CHARGE_COMPLETE.get(), BEAM_SOUND_VOLUME, 1.0F);
+		}
+		if (chargeTicks > 0) {
+			chargeTicks--;
+			golem.getLookControl().setLookAt(target, 30, 90);
+			return false; // 蓄力中：不发射、不扣冷却，基类逐 tick 重试
+		}
+		chargeTicks = -1;
+		startBreath();
+		return true;
+	}
+
+	/** 蓄力结束，真正开始吐息。 */
+	private void startBreath() {
 		this.breathTicks = 0;
 		this.breathDuration = AtomicBreathModifier.DURATION;
 		golem.setBreathAttack(true);
 		golem.playSound(ACSoundRegistry.TREMORZILLA_BEAM_START.get(), BEAM_SOUND_VOLUME, 1.0F);
-		return true;
 	}
 
 	private void damageAlongBeam() {

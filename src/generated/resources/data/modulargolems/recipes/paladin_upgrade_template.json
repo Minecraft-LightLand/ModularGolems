@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "key": {
+    "M": {
+      "item": "legendary_monsters:metal_debris"
+    },
+    "S": {
+      "item": "minecraft:soul_torch"
+    },
+    "T": {
+      "item": "minecraft:netherite_upgrade_smithing_template"
+    }
+  },
+  "pattern": [
+    "MSM",
+    "STS",
+    "MSM"
+  ],
+  "result": {
+    "item": "modulargolems:paladin_upgrade_template"
+  },
+  "show_notification": true
+}

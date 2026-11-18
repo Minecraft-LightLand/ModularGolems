@@ -231,12 +231,13 @@ public class CataRecipGen {
 		addSmithing(pvd, output, CataCompatRegistry.ENDER_GUARDIAN_TEMPLATE, ModItems.GAUNTLET_OF_GUARD.get(),
 				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get(), CataCompatRegistry.ENDER_GUARDIAN_SHINGUARD);
 
-		// 远古金属套装：头盔用沙暴瓶，胸甲用遗魂头骨，护腿用远古金属块
-		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ModItems.SANDSTORM_IN_A_BOTTLE.get(),
+		// 远古金属套装：三件材料统一为「沙暴瓶 / 遗魂头骨」二选一
+		Ingredient ancientMaterial = Ingredient.of(ModItems.SANDSTORM_IN_A_BOTTLE.get(), ModItems.REMNANT_SKULL.get());
+		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ancientMaterial,
 				GolemItems.BARBARICFLAMEVANGUARD_HELMET.get(), CataCompatRegistry.ANCIENT_METAL_HELMET);
-		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ModItems.REMNANT_SKULL.get(),
+		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ancientMaterial,
 				GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get(), CataCompatRegistry.ANCIENT_METAL_CHESTPLATE);
-		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ModBlocks.ANCIENT_METAL_BLOCK.get().asItem(),
+		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ancientMaterial,
 				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get(), CataCompatRegistry.ANCIENT_METAL_SHINGUARD);
 
 		// 风暴套装：模板 + 荒蛮对应部位 + 风暴精华
@@ -252,10 +253,17 @@ public class CataRecipGen {
 	private static void addSmithing(RegistrateRecipeProvider pvd, Consumer<FinishedRecipe> output,
 									ItemEntry<? extends Item> template, Item material, Item base,
 									ItemEntry<? extends Item> result) {
+		addSmithing(pvd, output, template, Ingredient.of(material), base, result);
+	}
+
+	/** 同上，但材料可以是多个物品任选其一。 */
+	private static void addSmithing(RegistrateRecipeProvider pvd, Consumer<FinishedRecipe> output,
+									ItemEntry<? extends Item> template, Ingredient material, Item base,
+									ItemEntry<? extends Item> result) {
 		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
 						Ingredient.of(template.get()),
 						Ingredient.of(base),
-						Ingredient.of(material),
+						material,
 						RecipeCategory.COMBAT, result.get())::unlocks,
 				base)
 				.save(output, result.getId());

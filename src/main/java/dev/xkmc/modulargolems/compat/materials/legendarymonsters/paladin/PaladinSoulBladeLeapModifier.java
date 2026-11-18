@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -26,9 +27,6 @@ import java.util.function.Consumer;
  */
 public class PaladinSoulBladeLeapModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
-	/** 二阶段阈值（Boss 的 getPhase() >= 2）。 */
-	public static final float PHASE_TWO = 0.65F;
-
 	public PaladinSoulBladeLeapModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
 	}
@@ -47,27 +45,20 @@ public class PaladinSoulBladeLeapModifier extends GolemModifier implements Earth
 	 * 与其它大跳技能一致：朝目标方向真实起跳（抛物线跃向目标），不瞬移。
 	 * 落点由 {@code JumpAttackHelper} 检测落地后照常结算震地。
 	 */
-	@Override
-	public void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
-		var target = golem.getTarget();
-		if (target != null && target.isAlive()) {
-			golem.setDeltaMovement((target.getX() - golem.getX()) * 0.15, 1.3, (target.getZ() - golem.getZ()) * 0.15);
-		} else {
-			golem.addDeltaMovement(new Vec3(0, 1.3, 0));
-		}
-		golem.hasImpulse = true;
-	}
-
+	/**
+	 * 玩家骑乘时由客户端本地预测起跳（服务端再执行一次会和服务端目标算出不同的水平速度，
+	 * 在客户端权威的坐骑上变成回拉/瞬移）。服务端只负责落地结算。
+	 */
 	@Override
 	public boolean useServerJump() {
-		return true;
+		return false;
 	}
 
 	/** 落地：state24 砸地（含锯齿剑刃）+ state25 灵魂盾；二阶段追加 state32。 */
 	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
 		LMProxy.paladinSlamLanding(golem, level);
-		if (golem.getHealth() < golem.getMaxHealth() * PHASE_TWO) {
+		if (LMArmorHelper.paladinFinalForm(golem)) {
 			LMProxy.paladinSlamSecond(golem, level);
 		}
 	}
@@ -89,7 +80,8 @@ public class PaladinSoulBladeLeapModifier extends GolemModifier implements Earth
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		return List.of(Component.translatable(getDescriptionId() + ".desc", EarthquakeHelper.leapReduction(), Component.literal(Math.round(PHASE_TWO * 100) + "%").withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GREEN));
+		return List.of(Component.translatable(getDescriptionId() + ".desc", EarthquakeHelper.leapReduction(),
+				LMArmorHelper.phaseTwoPct()).withStyle(ChatFormatting.GREEN));
 	}
 
 }

@@ -4,9 +4,11 @@ import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
+import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
@@ -43,6 +45,19 @@ public class CloudChargeModifier extends GolemModifier implements ChargeHelper.M
 	public int getCooldown(AbstractGolemEntity<?, ?> golem, int lv) {
 		return COOLDOWN;
 	}
+
+	/** 骑乘冲锋起手音（AI 冲锋由 Goal 自己播）。 */
+	@Override
+	public void performCharge(ChargeHelper.Instance ins) {
+		SkillSound.playChargeOnly(ins.owner(), SoundEvents.PLAYER_ATTACK_SWEEP, 3.0F, 0.25F);
+	}
+
+	/** 骑乘冲锋同样生成 Boss 冲锋环（AI 冲锋由 Goal 自己生成）。 */
+	@Override
+	public void tickCharge(ChargeHelper.Instance ins) {
+		CloudChargeAttackGoal.spawnChargeRing(ins.owner());
+	}
+
 
 	/**
 	 * 冲锋期间保留的伤害比例与其它冲锋技能共用 {@link ChargeHelper#CHARGE_DAMAGE_MULT}，

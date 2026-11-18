@@ -3,6 +3,8 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 import com.tterrag.registrate.util.entry.EntityEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorItem;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorPaths;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.RootPercModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.ThunderModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.CloudChargeModifier;
@@ -18,7 +20,6 @@ import dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud.SkyfallSm
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorCloneBarrageModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorCloneBurstModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorArmBlockModifier;
-import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorSmallBombModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorStompModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorJumpGroundChargeModifier;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator.ObliteratorLargeBombModifier;
@@ -36,9 +37,12 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 
+import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 import static dev.xkmc.modulargolems.init.registrate.GolemItems.regModUpgrade;
 import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 
@@ -56,7 +60,6 @@ public class LMCompatRegistry {
 	public static final RegistryEntry<SkyfallSmashModifier> SKYFALL_SMASH;
 	public static final RegistryEntry<FierceWaveStompModifier> FIERCE_WAVE_STOMP;
 	public static final RegistryEntry<ObliteratorLargeBombModifier> OBLITERATOR_LARGE_BOMB;
-	public static final RegistryEntry<ObliteratorSmallBombModifier> OBLITERATOR_SMALL_BOMB;
 	public static final RegistryEntry<ObliteratorLaserModifier> OBLITERATOR_LASER;
 	public static final RegistryEntry<ObliteratorJumpGroundChargeModifier> OBLITERATOR_JUMP;
 	public static final RegistryEntry<ObliteratorCloneBarrageModifier> OBLITERATOR_CLONE_BARRAGE;
@@ -74,6 +77,10 @@ public class LMCompatRegistry {
 	/** 天穹激光的光束，发射器归 MG 自己所有（见 {@link CloudLaserEntity}）。 */
 	public static final EntityEntry<CloudLaserEntity> CLOUD_LASER;
 	public static final ItemEntry<Item> CLOUD_CUBE, ANNIHILATION_CUBE, POSESSED_SOUL_CUBE;
+	public static final ItemEntry<Item> PALADIN_TEMPLATE, CLOUD_TEMPLATE;
+	public static final ItemEntry<LMArmorItem> PALADIN_HELMET, PALADIN_CHESTPLATE, PALADIN_SHINGUARD;
+	public static final ItemEntry<LMArmorItem> CLOUD_HELMET, CLOUD_CHESTPLATE, CLOUD_SHINGUARD;
+	public static final ItemEntry<LMArmorItem> OBLITERATOR_HELMET, OBLITERATOR_CHESTPLATE, OBLITERATOR_SHINGUARD;
 	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_THUNDER,
 			UPGRADE_ANNIHILATION_BOMB;
 
@@ -113,8 +120,6 @@ public class LMCompatRegistry {
 		OBLITERATOR_LARGE_BOMB = reg("obliterator_large_bomb", () -> new ObliteratorLargeBombModifier(StatFilterType.ATTACK, 3),
 				"Obliterator Cluster Bomb", "Launch an annihilation cluster bomb at the target.");
 
-		OBLITERATOR_SMALL_BOMB = reg("obliterator_small_bomb", () -> new ObliteratorSmallBombModifier(StatFilterType.ATTACK, 3),
-				"Obliterator Bomb", "Launch small annihilation bombs at multiple targets.");
 		OBLITERATOR_LASER = reg("obliterator_laser", () -> new ObliteratorLaserModifier(StatFilterType.HEAD, 1),
 				"Obliterator Laser", "Fire an annihilation beam at the target, following the golem's rotation.");
 		OBLITERATOR_JUMP = reg("obliterator_jump", () -> new ObliteratorJumpGroundChargeModifier(StatFilterType.MOVEMENT, 1),
@@ -132,7 +137,7 @@ public class LMCompatRegistry {
 				"Annihilation Stomp", "Summon annihilation shockwaves in a fan toward the target.");
 
 		PALADIN_SOUL_DAGGER = reg("paladin_soul_dagger", () -> new PaladinSoulDaggerModifier(StatFilterType.ATTACK, 2),
-				"Soul Dagger", "Fire %s homing soul daggers at the target.");
+				"Phantom Dagger", "Fire %s homing phantom daggers at the target.");
 
 		PALADIN_SOUL_BLAST_WAVE = reg("paladin_soul_blast_wave", () -> new PaladinSoulBlastWaveModifier(StatFilterType.MOVEMENT, 1),
 				"Soul Spike", "Push out soul shockwaves in a fan shape toward the target.");
@@ -141,7 +146,7 @@ public class LMCompatRegistry {
 				"Paladin Soul Blade Leap", "Leap at the target and slam down, dealing area damage and summoning fallen soul blades and soul shields. Damage taken is reduced by %s while leaping. Below %s max health, additionally summons falling fallen soul blades.");
 
 		PALADIN_SOUL_SHIELD = reg("paladin_soul_shield", () -> new PaladinSoulShieldModifier(StatFilterType.HEAD, 1),
-				"Paladin Block Shield", "For %s seconds after being attacked, block damage, then sweep the front and throw %s soul daggers.");
+				"Paladin Block Shield", "For %s seconds after being attacked, block damage, then sweep the front and throw %s phantom daggers.");
 		PALADIN_ROLL_SLASH = reg("paladin_roll_slash", () -> new PaladinRollSlashModifier(StatFilterType.HEAD, 1),
 				"Rolling Slash", "Charge at distant targets, damaging every target along the path and leaving soul spikes, taking %s less damage while charging.");
 		PALADIN_SOUL_TRIDENT = reg("paladin_soul_trident", () -> new PaladinSoulTridentModifier(StatFilterType.ATTACK, 2),
@@ -152,7 +157,7 @@ public class LMCompatRegistry {
 		PALADIN_SOUL_BLADE = reg("paladin_soul_blade", () -> new PaladinSoulBladeModifier(StatFilterType.ATTACK, 2),
 				"Soul Blade", "Stack soul fracture on the attack target. Below %s max health, additionally inflicts bleeding.");
 
-		UPGRADE_ANNIHILATION_BOMB = regModUpgrade("annihilation_bomb", () -> OBLITERATOR_SMALL_BOMB, LMDispatch.MODID)
+		UPGRADE_ANNIHILATION_BOMB = regModUpgrade("annihilation_bomb", () -> OBLITERATOR_LARGE_BOMB, LMDispatch.MODID)
 				.lang("Annihilation Bomb Upgrade").register();
 
 		UPGRADE_THUNDER = regModUpgrade("thunderstorm", () -> THUNDER, LMDispatch.MODID)
@@ -168,12 +173,79 @@ public class LMCompatRegistry {
 		CLOUD_CUBE = GolemItems.item(LMDispatch.MODID, "cloud_cube", Item::new);
 		ANNIHILATION_CUBE = GolemItems.item(LMDispatch.MODID, "annihilation_cube", Item::new);
 		POSESSED_SOUL_CUBE = GolemItems.item(LMDispatch.MODID, "posessed_soul_cube", Item::new);
+
+		PALADIN_TEMPLATE = REGISTRATE.item("paladin_upgrade_template", Item::new)
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/" + ctx.getName())))
+				.lang("Possessed Golem Upgrade Template").register();
+
+		CLOUD_TEMPLATE = REGISTRATE.item("cloud_upgrade_template", Item::new)
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/" + ctx.getName())))
+				.lang("Cloud Golem Upgrade Template").register();
+
+		PALADIN_HELMET = REGISTRATE.item("paladin_helmet", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 14, 8, 0.1F, LMArmorPaths.PALADIN_HELMETS,
+						"paladin", "_posessed", LMArmorItem.paladinPhase()))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Possessed Golem Helmet").register();
+		PALADIN_CHESTPLATE = REGISTRATE.item("paladin_chestplate", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.1F, LMArmorPaths.PALADIN_CHESTPLATES,
+						"paladin", "_posessed", LMArmorItem.paladinPhase()))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Possessed Golem Chestplate").register();
+		PALADIN_SHINGUARD = REGISTRATE.item("paladin_shinguard", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.1F, LMArmorPaths.PALADIN_LEGGINGS,
+						"paladin", "_posessed", LMArmorItem.paladinPhase()))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Possessed Golem Shinguard").register();
+
+		CLOUD_HELMET = REGISTRATE.item("cloud_helmet", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 14, 8, 0.1F, LMArmorPaths.CLOUD_HELMETS,
+						"cloud", "_dark", LMArmorItem.cloudPhase()))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Cloud Golem Helmet").register();
+		CLOUD_CHESTPLATE = REGISTRATE.item("cloud_chestplate", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.1F, LMArmorPaths.CLOUD_CHESTPLATES,
+						"cloud", "_dark", LMArmorItem.cloudPhase()))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Cloud Golem Chestplate").register();
+		CLOUD_SHINGUARD = REGISTRATE.item("cloud_shinguard", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.1F, LMArmorPaths.CLOUD_LEGGINGS,
+						"cloud", "_dark", LMArmorItem.cloudPhase()))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Cloud Golem Shinguard").register();
+
+		OBLITERATOR_HELMET = REGISTRATE.item("obliterator_helmet", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.HELMET, 14, 8, 0.2F, LMArmorPaths.OBLITERATOR_HELMETS, "obliterator", null, null))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Obliterator Golem Helmet").register();
+		OBLITERATOR_CHESTPLATE = REGISTRATE.item("obliterator_chestplate", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.2F, LMArmorPaths.OBLITERATOR_CHESTPLATES, "obliterator", null, null))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Obliterator Golem Chestplate").register();
+		OBLITERATOR_SHINGUARD = REGISTRATE.item("obliterator_shinguard", p -> new LMArmorItem(p.stacksTo(1),
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.2F, LMArmorPaths.OBLITERATOR_LEGGINGS, "obliterator", null, null))
+				.model((ctx, pvd) -> pvd.generated(ctx, lmLoc("item/equipments/" + ctx.getName())))
+				.lang("Obliterator Golem Shinguard").register();
+	}
+
+	public static ResourceLocation lmLoc(String id) {
+		return new ResourceLocation(LMDispatch.MODID, id);
 	}
 
 	public static void register() {
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
 				.addOptional(UPGRADE_THUNDER.getId())
 				.addOptional(UPGRADE_ANNIHILATION_BOMB.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.TOUGH_ITEM)
+				.addOptional(PALADIN_HELMET.getId())
+				.addOptional(PALADIN_CHESTPLATE.getId())
+				.addOptional(PALADIN_SHINGUARD.getId())
+				.addOptional(CLOUD_HELMET.getId())
+				.addOptional(CLOUD_CHESTPLATE.getId())
+				.addOptional(CLOUD_SHINGUARD.getId())
+				.addOptional(OBLITERATOR_HELMET.getId())
+				.addOptional(OBLITERATOR_CHESTPLATE.getId())
+				.addOptional(OBLITERATOR_SHINGUARD.getId()));
 	}
 
 }

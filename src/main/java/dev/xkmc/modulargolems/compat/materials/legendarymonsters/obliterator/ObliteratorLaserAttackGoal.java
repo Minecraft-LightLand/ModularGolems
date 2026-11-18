@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMTeleportBackstepHelper;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -91,7 +92,7 @@ public class ObliteratorLaserAttackGoal extends BaseRangedAttackGoal {
 					beam = LMProxy.obliteratorLaserFire(golem, target, lv, castYaw);
 					beamFired = true;
 					golem.specialAttackCoolDown = 20;
-					quadChain = ObliteratorPhaseHelper.isPhaseTwo(golem) && golem.getRandom().nextFloat() < ObliteratorLaserModifier.QUAD_CHANCE;
+					quadChain = LMArmorHelper.obliteratorPhaseTwo(golem) && golem.getRandom().nextFloat() < ObliteratorLaserModifier.QUAD_CHANCE;
 					if (quadChain) quadRight = golem.getRandom().nextBoolean();
 				}
 				// 小型炸弹由 AnnihilationBeamEntity 自身在 onAddedToWorld 里沿光束生成（无需这里额外处理）

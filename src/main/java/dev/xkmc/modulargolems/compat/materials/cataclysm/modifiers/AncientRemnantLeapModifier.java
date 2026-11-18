@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -42,13 +41,14 @@ public class AncientRemnantLeapModifier extends GolemModifier implements Earthqu
 	}
 
 	/**
-	 * 远古金属护腿：冲击波造成的伤害无视目标无敌帧（不再额外加伤害）。
+	 * 远古金属护腿：尾骨震击生成的冲击波（{@code EarthQuake_Entity}）伤害也 +50%。
+	 * 直接落地范围伤害（{@code mobAttack}）已在 performEarthQuake 里乘过，这里只对地震实体伤害再乘，避免重复。
 	 */
 	@Override
-	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, LivingAttackEvent event, int level) {
+	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, LivingHurtEvent event, int level) {
 		if (!CataArmorHelper.ancientLegs(entity)) return;
 		if (!GolemCataProxy.isEarthQuake(event.getSource())) return;
-		event.getEntity().invulnerableTime = 0;
+		event.setAmount(event.getAmount() * (1f + CataArmorHelper.ANCIENT_LEGS_DAMAGE_BONUS));
 	}
 
 	@Override
@@ -63,25 +63,27 @@ public class AncientRemnantLeapModifier extends GolemModifier implements Earthqu
 		GolemCataProxy.remnantTailSlamSound(golem);
 		GolemCataProxy.screenShake(golem, 30.0F);
 		float atk = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		// 远古金属护腿：尾骨震击伤害 +50%
+		float mult = CataArmorHelper.ancientLegsDamageMult(golem);
 		var aabb = golem.getBoundingBox().inflate(5, 3, 5);
 		List<LivingEntity> list = new ArrayList<>();
 		for (var e : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
-			float dmg = atk + Math.min(atk, e.getMaxHealth() * 0.05f);
+			float dmg = (atk + Math.min(atk, e.getMaxHealth() * 0.05f)) * mult;
 			GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg);
 			EarthquakeHelper.launch(golem, e, 0.6f);
 			list.add(e);
 		}
 		int count = 22 + golem.getRandom().nextInt(8);
-		// 远古金属护腿：冲击波改成各自追踪目标，目标均摊到每一道冲击波
+		// 远古金属护腿：冲击波各自追踪目标——照遗魂沙暴，每道只锁一个不同目标，
+		// 目标不足时多余的冲击波不追踪（而不是均摊给所有冲点）
 		if (CataArmorHelper.ancientLegs(golem)) {
 			var targets = collectShockwaveTargets(golem);
 			int n = targets.size();
 			for (int i = 0; i < count; i++) {
 				float angle = golem.getYRot() + 90 + i * 360F / count;
 				var dir = new Vec3(Math.cos(Math.toRadians(angle)), 0, Math.sin(Math.toRadians(angle)));
-				// 均摊：一个目标则全部追它，多个目标则按 i%n 轮流分配
-				LivingEntity target = n == 0 ? null : targets.get(i % n);
+				LivingEntity target = i < n ? targets.get(i) : null;
 				GolemCataProxy.spawnEarthQuakeTracking(golem, dir, target);
 			}
 			return;

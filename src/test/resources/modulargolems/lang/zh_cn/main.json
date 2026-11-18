@@ -46,6 +46,7 @@
 			"no_slot": "移除这个升级会导致傀儡升级槽为负",
 			"skill_ignore_health": "无视生命值要求，直接解放%s的完整力量",
 			"skill_damage_boost": "+%s %s伤害",
+			"skill_bypass": "%s造成的伤害无视目标无敌帧",
 			"skill_health_gate": "生命值低于上限的%s时允许使用",
 			"skill_health_gate_above": "生命值高于上限的%s时允许使用",
 			"skill_cd_reduction": "释放%s后冷却时间缩短%s秒",

@@ -137,7 +137,9 @@ public class CloudLaserEntity extends BaseEntity {
 		endY = hitEnd.y;
 		endZ = hitEnd.z;
 		beamEffects(origin, hitEnd);
-		if (!level().isClientSide()) damageAlong(o, origin, hitEnd);
+		// 蓄力阶段（前 20 tick）不结算伤害：LM 的 EnergyBeamEntity 也是 tickCount > 20 才开始打人，
+		// 之前这里每 tick 都调 damageAlong，导致蓄力时就掉血。
+		if (!level().isClientSide() && tickCount > 20) damageAlong(o, origin, hitEnd);
 	}
 
 	/**
@@ -152,7 +154,9 @@ public class CloudLaserEntity extends BaseEntity {
 		if (tickCount == 20 && !level().isClientSide) {
 			playSound(ModSounds.BEAM_GO.get(), 3.0F, 1.0F);
 		}
-		if (tickCount < 3) return;
+		// 蓄力阶段不播粒子/镜头抖动：只在开火后（tickCount > 20）才出现，和别的开火特效同步。
+		// LM 的 EnergyBeamEntity 也是 tickCount > 20 才画螺旋粒子。
+		if (tickCount <= 20) return;
 		if (!level().isClientSide) {
 			CameraShakeEntity.cameraShake(level(), position(), 20.0F, 0.2F, 0, 2);
 		} else {

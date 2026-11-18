@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -11,6 +12,9 @@ import net.minecraft.world.entity.LivingEntity;
 /**
  * 天穹激光的施放骨架：起手后召唤一道 {@link CloudLaserEntity} 并让它挂在傀儡头部，
  * 光束存活期间技能不结束（{@code canContinueToUse}），死亡/被打断时由 stop() 清理引用。
+ * <p>
+ * 光束跟随傀儡头部朝向；瞄准交给傀儡自己的索敌/注视（锁定目标就看向目标），
+ * 这里只需每 tick 把注视指向当前目标即可。
  */
 public class SkyLaserAttackGoal extends BaseRangedAttackGoal {
 
@@ -39,7 +43,7 @@ public class SkyLaserAttackGoal extends BaseRangedAttackGoal {
 				beam = null;
 			} else {
 				LivingEntity target = golem.getTarget();
-				// 光束自己每 tick 跟随头部朝向，这里只负责让头抬起来瞄准
+				// 光束跟随头部朝向；傀儡锁定目标后即看向该目标，注视当前目标即可
 				if (target != null) golem.getLookControl().setLookAt(target, 30, 90);
 			}
 		}
@@ -49,14 +53,16 @@ public class SkyLaserAttackGoal extends BaseRangedAttackGoal {
 	/** 二阶段（≤65% 生命）才开放，对应 Boss 激光只在 angry 状态使用。 */
 	@Override
 	public boolean canUse() {
-		return CloudPhaseHelper.inSecondPhase(golem) && super.canUse();
+		return LMArmorHelper.cloudFinalForm(golem) && super.canUse();
 	}
+
 	@Override
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
 		beam = new CloudLaserEntity(LMCompatRegistry.CLOUD_LASER.get(), golem.level(), golem,
 				SkyLaserModifier.BEAM_DURATION,
-				GolemCombatHelper.getAttackDamage(golem) * SkyLaserModifier.BEAM_DAMAGE);
+				// 浮云头盔：天穹激光伤害 +50%
+				GolemCombatHelper.getAttackDamage(golem) * SkyLaserModifier.BEAM_DAMAGE * LMArmorHelper.cloudHelmetMult(golem));
 		golem.level().addFreshEntity(beam);
 		return true;
 	}

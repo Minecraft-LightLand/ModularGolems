@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -71,10 +73,12 @@ public class SkyfallSmashModifier extends GolemModifier implements EarthquakeHel
 
 		var src = golem.damageSources().mobAttack(golem);
 		float atk = GolemCombatHelper.getAttackDamage(golem);
+		// 浮云护腿：飞天重砸伤害 +50%
+		float mult = LMArmorHelper.legsMult(golem, LMCompatRegistry.CLOUD_SHINGUARD.get());
 		for (LivingEntity e : golem.level().getEntitiesOfClass(LivingEntity.class, smashArea(at))) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
 			if (horizontalDistSqr(e, at) > SMASH_RADIUS * SMASH_RADIUS) continue;
-			float dmg = GolemUtils.adjustedDamage(atk, e.getMaxHealth() * HEALTH_RATIO);
+			float dmg = GolemUtils.adjustedDamage(atk, e.getMaxHealth() * HEALTH_RATIO) * mult;
 			boolean hit = GolemCombatHelper.meleeHit(golem, e, src, dmg);
 			if (hit) {
 				SkillSound.playChargeHit(golem);

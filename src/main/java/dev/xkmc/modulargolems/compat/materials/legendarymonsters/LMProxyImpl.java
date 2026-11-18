@@ -15,6 +15,8 @@ import net.miauczel.legendary_monsters.sound.ModSounds;
 import net.miauczel.legendary_monsters.util.EntityUtil;
 import net.miauczel.legendary_monsters.util.ParticleUtils;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorEffects;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.util.GolemTargetUtil;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
@@ -51,6 +53,11 @@ public class LMProxyImpl {
 
 	public static void shake(LivingEntity user, Vec3 pos) {
 		CameraShakeEntity.cameraShake(user.level(), pos, 15.0F, 0.3F, 0, 15);
+	}
+
+	/** 技能震屏统一入口（骑乘者由客户端按玩家过滤，不影响服务端发包）。 */
+	private static void skillShake(LivingEntity golem, Vec3 pos, float scale, float intensity, int dur, int interval) {
+		CameraShakeEntity.cameraShake(golem.level(), pos, scale, intensity, dur, interval);
 	}
 
 	public static void anchorParticle(ServerLevel level, double x, double y, double z,  float reach) {
@@ -138,6 +145,11 @@ public class LMProxyImpl {
 		return bossValue * (atk / BOSS_ATTACK);
 	}
 
+	/** 护腿「+50% 技能伤害」倍率：穿了指定护腿返回 1.5，否则 1。 */
+	private static float legsMult(LivingEntity golem, Object legsItem) {
+		return golem instanceof AbstractGolemEntity<?, ?> ag ? LMArmorHelper.legsMult(ag, legsItem) : 1f;
+	}
+
 	public static void playAt(LivingEntity golem, SoundEvent sound, float vol, float pitch) {
 		golem.level().playSound(null, BlockPos.containing(golem.getX(), golem.getY(), golem.getZ()),
 				sound, SoundSource.NEUTRAL, vol, pitch);
@@ -185,7 +197,7 @@ public class LMProxyImpl {
 		double dy = at == null ? target.getY() : at.y;
 		if (golem.randomTeleport(dx, dy, dz, true)) {
 			mob.getNavigation().stop();
-			CameraShakeEntity.cameraShake(golem.level(), golem.position(), 10.0F, 0.1F, 5, 5);
+			skillShake(golem, golem.position(), 10.0F, 0.1F, 5, 5);
 			teleportFxAt(golem.level(), golem.getX(), golem.getY(), golem.getZ());
 		}
 	}
@@ -253,7 +265,7 @@ public class LMProxyImpl {
 					speed, offset, 0.5F, right, 30.0F);
 			golem.level().addFreshEntity(beam);
 		}
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 30.0F, 0.15F, 40, 10);
+		skillShake(golem, golem.position(), 30.0F, 0.15F, 40, 10);
 		playAt(golem, ModSounds.QUAD_ANNIHILATION_LASER_SHOOT.get(), 3.0f, 1.0f);
 	}
 
@@ -268,6 +280,8 @@ public class LMProxyImpl {
 	 */
 	public static void spawnCloneBurst(LivingEntity golem, LivingEntity target, int lv) {
 		if (golem.level().isClientSide) return;
+		// 湮灭护腿：克隆爆发整招伤害 +50%（含召唤虚影的斩击）
+		float mult = legsMult(golem, LMCompatRegistry.OBLITERATOR_SHINGUARD.get());
 		float damage = bossDamage(golem, lv, 16.0f);
 		Level level = golem.level();
 		double theta = Math.toRadians(golem.getYRot()) + 1.0;
@@ -281,7 +295,7 @@ public class LMProxyImpl {
 			double sx = golem.getX() + vecX * 2.0;
 			double sz = golem.getZ() + vecZ * 2.0;
 			TheObliteratorCloneWithArmsEntity clone = new TheObliteratorCloneWithArmsEntity(level, sx, floor, sz,
-					0.0f, 0, golem, 16.0f, (float) target.getX(), (float) target.getY(), (float) target.getZ(),
+					0.0f, 0, golem, 16.0f * mult, (float) target.getX(), (float) target.getY(), (float) target.getZ(),
 					anims[i], i == 2 ? 50 : 45);
 			level.addFreshEntity(clone);
 		}
@@ -291,7 +305,7 @@ public class LMProxyImpl {
 	/** 克隆爆发的收尾：冲锋撞到目标后的一记臂刃范围斩（Boss state24 tick100）。 */
 	public static void cloneBurstFinish(LivingEntity golem, int lv) {
 		if (golem.level().isClientSide) return;
-		areaAttack(golem, 5.0f, 215.0f, bossDamage(golem, lv, 20.0f), 1.5f);
+		areaAttack(golem, 5.0f, 215.0f, bossDamage(golem, lv, 20.0f) * legsMult(golem, LMCompatRegistry.OBLITERATOR_SHINGUARD.get()), 1.5f);
 		playAt(golem, ModSounds.WEAPON_IMPACT.get(), 1.0f, 0.5f);
 	}
 
@@ -299,7 +313,7 @@ public class LMProxyImpl {
 	public static boolean cloneBurstChargeHit(LivingEntity golem, int lv, Vec3 dir) {
 		if (golem.level().isClientSide) return false;
 		if (!(golem instanceof AbstractGolemEntity<?, ?> ag)) return false;
-		float damage = bossDamage(golem, lv, 8.0f);
+		float damage = bossDamage(golem, lv, 8.0f) * legsMult(golem, LMCompatRegistry.OBLITERATOR_SHINGUARD.get());
 		var src = golem.damageSources().mobAttack(golem);
 		boolean hit = false;
 		for (LivingEntity e : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(0.6))) {
@@ -362,7 +376,7 @@ public class LMProxyImpl {
 		golem.yBodyRot = castYaw;
 		golem.yHeadRot = castYaw;
 		if (first) {
-			CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.25F, 0, 20);
+			skillShake(golem, golem.position(), 20.0F, 0.25F, 0, 20);
 			playAt(golem, ModSounds.HUGE_ENERGY_EXPLOSION.get(), 3.0f, 1.0f);
 			if (level instanceof ServerLevel sl) {
 				sl.sendParticles(new Circle.RingData(0.0f, (float) (Math.PI / 2), 20, 0.0f, 1.0f, 0.0f, 1.0f, 100.0f, false, Circle.EnumRingBehavior.GROW),
@@ -442,41 +456,6 @@ public class LMProxyImpl {
 	/** Boss state6/7 t17 的 DIMENSIONAL_SHOOT_CHARGE 蓄力音。 */
 	public static void obliteratorBombCharge(LivingEntity golem) {
 		playAt(golem, ModSounds.DIMENSIONAL_SHOOT_CHARGE.get(), 1.0f, 1.0f);
-	}
-
-	/** Boss state6/7 t37 的开火：爆发粒子 + 弹体 + THE_WARPED_ONE_SHOOT。 */
-	/**
-	 * 湮灭小弹：对目标生成一枚 SmallAnnihilationBombEntity。
-	 * {@code lateral} 是沿「垂直于 傀儡→目标 方向」的横向偏移（格），
-	 * 与灾变鸣雷槊 {@code astrape(..., lateral)} 同一套做法，避免多发炸弹从同一点射出。
-	 */
-	public static void spawnObliteratorSmallBomb(LivingEntity golem, LivingEntity target, int lv, float lateral) {
-		if (golem.level().isClientSide) return;
-		float damage = bossDamage(golem, lv, 3.0f);
-		double dx = target.getX() - golem.getX();
-		double dz = target.getZ() - golem.getZ();
-		double len = Math.sqrt(dx * dx + dz * dz);
-		double rx = len < 1.0E-6 ? 0 : -dz / len;
-		double rz = len < 1.0E-6 ? 0 : dx / len;
-		Vec3 aim = target.getEyePosition().subtract(golem.getEyePosition()).normalize();
-		double sx = golem.getX() + aim.x + rx * lateral;
-		double sy = golem.getY() + golem.getBbHeight() * 0.75;
-		double sz = golem.getZ() + aim.z + rz * lateral;
-		// 发射点横向错开后必须重新对准目标，否则多发炸弹会平行飞出（与 astrape 的修法一致）
-		Vec3 dir = target.getEyePosition().subtract(sx, sy, sz).normalize();
-		@SuppressWarnings("unchecked")
-		EntityType<SmallAnnihilationBombEntity> type = (EntityType<SmallAnnihilationBombEntity>) (EntityType<?>) ModEntities.SMALL_ANNIHILATION_BOMB_ENTITY.get();
-		SmallAnnihilationBombEntity bomb = new SmallAnnihilationBombEntity(type, golem.level(), golem, damage);
-		bomb.setPos(sx, sy, sz);
-		bomb.shoot(dir.x, dir.y, dir.z, 1.0f, 0.0f);
-		golem.level().addFreshEntity(bomb);
-	}
-
-	/** 湮灭小弹开火：音效 + 发射。 */
-	public static void obliteratorSmallBombFire(LivingEntity golem, LivingEntity target, int lv) {
-		if (golem.level().isClientSide) return;
-		playAt(golem, ModSounds.THE_WARPED_ONE_SHOOT.get(), 3.0f, 1.0f);
-		spawnObliteratorSmallBomb(golem, target, lv, 0.0f);
 	}
 
 	public static void obliteratorBombFire(LivingEntity golem, LivingEntity target, int lv) {
@@ -569,7 +548,7 @@ public class LMProxyImpl {
 	@Nullable
 	public static Entity obliteratorLaserFire(LivingEntity golem, LivingEntity target, int lv, float castYaw) {
 		if (golem.level().isClientSide) return null;
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 30.0f, 0.25f, 10, 5);
+		skillShake(golem, golem.position(), 30.0f, 0.25f, 10, 5);
 		Entity beam = spawnObliteratorLaser(golem, target, lv, castYaw);
 		playAt(golem, ModSounds.ANNIHILATION_LASER_SINGLE_SHOOT.get(), 3.0f, 1.0f);
 		return beam;
@@ -618,7 +597,7 @@ public class LMProxyImpl {
 			castYaw = (float) (Mth.atan2(-dx, dz) * (180.0 / Math.PI));
 		}
 		playAt(golem, ModSounds.THE_WARPED_ONE_ROAR.get(), 2.0f, 1.0f);
-		CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.15F, 30, 0);
+		skillShake(golem, golem.position(), 20.0F, 0.15F, 30, 0);
 		if (level.isClientSide) return castYaw;
 		// （起手不再喷 LaserBullet 簇：之前误用该实体构造器把世界坐标当方向偏移，导致子弹一直往天上飞；boss 的逐 tick 激光弹也非必要）
 		// 推开周围实体（Boss t20-30：10x3x10 内的实体被向外推）
@@ -642,31 +621,33 @@ public class LMProxyImpl {
 	public static void spawnObliteratorRoarSmashLanding(LivingEntity golem, int lv, float castYaw) {
 		if (golem.level().isClientSide) return;
 		Level level = golem.level();
-		float plasmaDamage = bossDamage(golem, lv, 8.0f);
+		// 湮灭护腿：怒吼砸击整招伤害 +50%（含砸地/等离子球/360°砸地/环形火焰）
+		float mult = legsMult(golem, LMCompatRegistry.OBLITERATOR_SHINGUARD.get());
+		float plasmaDamage = bossDamage(golem, lv, 8.0f) * mult;
 		// 砸地范围攻击：Boss AreaAttack(4, 3, 180, 16) + 目标最大生命值 5%
-		areaAttackPercent(golem, 4.0f, 180.0f, bossDamage(golem, lv, 16.0f), 0.05f, 0.0f, castYaw);
+		areaAttackPercent(golem, 4.0f, 180.0f, bossDamage(golem, lv, 16.0f) * mult, 0.05f * mult, 0.0f, castYaw);
 		playAt(golem, ModSounds.THE_OBLITERATOR_STUN.get(), 1.0f, 1.0f);
-		CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.15F, 0, 20);
+		skillShake(golem, golem.position(), 20.0F, 0.15F, 0, 20);
 		sendRing(golem, 60.0f, 30, false, 0.4);   // 砸地向外扩散的环形粒子圈
 		// 等离子球：Boss state11 —— 6 颗 45° 左旋 + 6 颗 90° 右旋，均向外盘旋（turnStrength 3~6）
 		spawnPlasmaSpread(golem, 6, 45.0f, true, 3.0f + golem.getRandom().nextInt(4), plasmaDamage, castYaw);
 		spawnPlasmaSpread(golem, 6, 90.0f, false, 3.0f + golem.getRandom().nextInt(4), plasmaDamage, castYaw);
 		// 砸地同时触发 state20 效果：360° 范围攻击(伤害12) + 10 道环形火焰(半径8)向外扩散
-		spawnObliteratorSlam360(golem, lv);
+		spawnObliteratorSlam360(golem, lv, mult);
 	}
 
 	/** Boss state20 的砸地效果：360°/4格 范围攻击 + 10 道环形火焰向外扩散（半径8）。 */
-	private static void spawnObliteratorSlam360(LivingEntity golem, int lv) {
+	private static void spawnObliteratorSlam360(LivingEntity golem, int lv, float mult) {
 		Level level = golem.level();
-		areaAttack(golem, 4.0f, 360.0f, bossDamage(golem, lv, 12.0f), 0.0f);
+		areaAttack(golem, 4.0f, 360.0f, bossDamage(golem, lv, 12.0f) * mult, 0.0f);
 		playAt(golem, ModSounds.ENERGY_EXPLOSION.get(), 1.0f, 1.0f);
-		CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.15F, 0, 20);
+		skillShake(golem, golem.position(), 20.0F, 0.15F, 0, 20);
 		sendRing(golem, 80.0f, 40, false, 0.4);   // state20 的 360° 环形粒子圈
 		int floorY = Mth.floor(golem.getY());
 		int amountOfFlames = 10;
 		double multiplier = 8.0;
 		float size = 4.0f;
-		float flameDamage = bossDamage(golem, lv, 8.0f);
+		float flameDamage = bossDamage(golem, lv, 8.0f) * mult;
 		for (int k = 0; k < amountOfFlames; ++k) {
 			float f3 = (float) k * (float) Math.PI * size / (float) amountOfFlames + (float) Math.PI * size / 10.0f;
 			spawnObliteratorFlame(golem, golem.getX() + Mth.cos(f3) * multiplier, golem.getZ() + Mth.sin(f3) * multiplier,
@@ -692,7 +673,7 @@ public class LMProxyImpl {
 		Level level = golem.level();
 		float portalDamage = bossDamage(golem, lv, 20.0f);
 		float flameDamage = bossDamage(golem, lv, 17.0f);
-		CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.15F, 20, 6);
+		skillShake(golem, golem.position(), 20.0F, 0.15F, 20, 6);
 		if (level instanceof ServerLevel sl) {
 			ParticleOptions ring = new Circle.RingData(0.0f, 1.5707964f, 20, 0.0f, 1.0f, 0.0f, 1.0f, 150.0f, false, Circle.EnumRingBehavior.SHRINK);
 			sl.sendParticles(ring, golem.getX(), golem.getY(), golem.getZ(), 3, 0, 0, 0, 0);
@@ -723,7 +704,7 @@ public class LMProxyImpl {
 	public static void obliteratorUltimateHit1(LivingEntity golem, int lv) {
 		if (golem.level().isClientSide) return;
 		playAt(golem, ModSounds.ULTIMATE_FLAME_IMPACT.get(), 3.0f, 1.0f);
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 30.0F, 0.2F, 10, 5);
+		skillShake(golem, golem.position(), 30.0F, 0.2F, 10, 5);
 		areaAttack(golem, 6.0f, 380.0f, bossDamage(golem, lv, 12.0f), 0.7f);
 	}
 
@@ -731,7 +712,7 @@ public class LMProxyImpl {
 	public static void obliteratorUltimateHit2(LivingEntity golem, int lv) {
 		if (golem.level().isClientSide) return;
 		playAt(golem, ModSounds.OMINOUS_EXPLOSION.get(), 3.0f, 1.0f);
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 30.0F, 0.15F, 20, 5);
+		skillShake(golem, golem.position(), 30.0F, 0.15F, 20, 5);
 		areaAttack(golem, 6.0f, 380.0f, bossDamage(golem, lv, 12.0f), 0.7f);
 	}
 	// ===== Possessed Paladin =====
@@ -743,6 +724,8 @@ public class LMProxyImpl {
 		int count = 3;
 		float speed = 1.0f;
 		boolean red = paladinPhaseTwo(golem);
+		// 堕魂头盔：每把匕首单独锁定一个目标，改用「飞回施法者」同一套追踪逻辑去追踪该目标
+		List<LivingEntity> homingTargets = daggerHomingTargets(golem, count);
 		int distance = (int) golem.distanceTo(target);
 		double spawnX = golem.getX();
 		double spawnY = golem.getY() + golem.getBbHeight() / 2.0;
@@ -754,7 +737,8 @@ public class LMProxyImpl {
 			EntityType<ThrownPhantomDaggerEntity> type = (EntityType<ThrownPhantomDaggerEntity>) (EntityType<?>) ModEntities.THROWN_PHANTOM_DAGGER.get();
 			ThrownPhantomDaggerEntity dagger = new ThrownPhantomDaggerEntity(type, golem.level());
 			dagger.setOwner(golem);
-			dagger.setReturnEntity(golem);
+			dagger.setReturnEntity(homingTargets != null && !homingTargets.isEmpty()
+					? homingTargets.get(i % homingTargets.size()) : golem);
 			dagger.setReturnTick(10 + distance);
 			dagger.setYRot(yaw);
 			dagger.setPos(spawnX, spawnY, spawnZ);
@@ -779,7 +763,7 @@ public class LMProxyImpl {
 		if (golem.level().isClientSide) return;
 		boolean red = paladinPhaseTwo(golem);
 		Level level = golem.level();
-		CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.25F, 0, 20);
+		skillShake(golem, golem.position(), 20.0F, 0.25F, 0, 20);
 		playAt(golem, SoundEvents.PLAYER_ATTACK_SWEEP, 1.0f, 0.75f);
 		// 范围攻击（Boss SideAreaAttack(3,3,180,24)）
 		areaAttack(golem, 3.0f, 180.0f, bossDamage(golem, lv, 24.0f), 1.5f);
@@ -847,18 +831,18 @@ public class LMProxyImpl {
 	public static void cloudBlockFx(LivingEntity golem) {
 		if (golem.level().isClientSide) return;
 		playAt(golem, SoundEvents.SHIELD_BLOCK, 1.0f, 1.0f);
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 8.0F, 0.1F, 0, 6);
+		skillShake(golem, golem.position(), 8.0F, 0.1F, 0, 6);
 	}
 
 	public static void cloudStompShake(LivingEntity golem) {
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 20.0F, 0.1F, 0, 20);
+		skillShake(golem, golem.position(), 20.0F, 0.1F, 0, 20);
 	}
 
 	// Cloud Golem: skyfall smash landing effects. Boss state 15/16: camera shake plus a dust ring
 	// thrown up from the landing spot, both anchored on the ground.
 	public static void cloudSmashGroundFx(LivingEntity golem, double x, double y, double z) {
 		// Boss state16 只做镜头抖动，不额外铺环状粒子，这里保持一致
-		CameraShakeEntity.cameraShake(golem.level(), new Vec3(x, y, z), 20.0F, 0.1F, 0, 20);
+		skillShake(golem, new Vec3(x, y, z), 20.0F, 0.1F, 0, 20);
 	}
 
 	/**
@@ -1091,7 +1075,7 @@ public class LMProxyImpl {
 	public static void paladinBlockFx(LivingEntity golem) {
 		if (golem.level().isClientSide) return;
 		playAt(golem, ModSounds.BLOCK.get(), 1.0f, 1.0f);
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 10.0F, 0.15F, 5, 5);
+		skillShake(golem, golem.position(), 10.0F, 0.15F, 5, 5);
 	}
 
 	// ===== 堕落圣骑：扑跃砸地 / 格挡反击 / 翻滚斩 / 堕魂掷戟 / 灵魂震波 =====
@@ -1135,7 +1119,7 @@ public class LMProxyImpl {
 	/** 锯齿剑刃（Boss strikeZigzagXBlades）：12 条放射 × 每条 8 格，锯齿左右偏 2 格。红色版随阶段。 */
 	private static void paladinZigzagBlades(LivingEntity golem, int lv, boolean falling) {
 		Level level = golem.level();
-		float damage = bossDamage(golem, lv, 10.0f);
+		float damage = bossDamage(golem, lv, 10.0f) * paladinLegsMult(golem);
 		boolean red = paladinPhaseTwo(golem);
 		int rune = 12;
 		double divider = 4.0;
@@ -1168,11 +1152,12 @@ public class LMProxyImpl {
 	public static void paladinSlamLanding(LivingEntity golem, int lv) {
 		if (golem.level().isClientSide) return;
 		Level level = golem.level();
-		for (LivingEntity hit : areaAttack(golem, 3.0f, 180.0f, bossDamage(golem, lv, 24.0f), 1.0f)) {
+		float mult = paladinLegsMult(golem);
+		for (LivingEntity hit : areaAttack(golem, 3.0f, 180.0f, bossDamage(golem, lv, 24.0f) * mult, 1.0f)) {
 			paladinBreakArmor(hit, 1);
 		}
 		playAt(golem, SoundEvents.TOTEM_USE, 1.0f, 0.75f);   // Boss state24/32 的 f_12513_
-		CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.25F, 0, 20);
+		skillShake(golem, golem.position(), 20.0F, 0.25F, 0, 20);
 		paladinZigzagBlades(golem, lv, false);
 		paladinSmashDust(golem, 1.0f, 0.0f, 0.0f, 7.5f, 3.0f);
 		// 每次砸地都附带灵魂盾（Boss state25）
@@ -1182,11 +1167,11 @@ public class LMProxyImpl {
 	/** 扑跃砸地 phase2 的追加段（Boss state32）：从上方插下的剑刃 + 再斩。 */
 	public static void paladinSlamSecond(LivingEntity golem, int lv) {
 		if (golem.level().isClientSide) return;
-		for (LivingEntity hit : areaAttack(golem, 3.0f, 180.0f, bossDamage(golem, lv, 20.0f), 1.0f)) {
+		for (LivingEntity hit : areaAttack(golem, 3.0f, 180.0f, bossDamage(golem, lv, 20.0f) * paladinLegsMult(golem), 1.0f)) {
 			paladinBreakArmor(hit, 1);
 		}
 		playAt(golem, SoundEvents.TOTEM_USE, 1.0f, 0.75f);   // Boss state24/32 的 f_12513_
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 20.0F, 0.25F, 0, 20);
+		skillShake(golem, golem.position(), 20.0F, 0.25F, 0, 20);
 		// Boss state32：t67 先从地面冒出剑刃，t70 再从上方插下
 		paladinZigzagBlades(golem, lv, false);
 		paladinZigzagBlades(golem, lv, true);
@@ -1197,9 +1182,9 @@ public class LMProxyImpl {
 	public static void paladinSoulShieldWaves(LivingEntity golem, int lv) {
 		if (golem.level().isClientSide) return;
 		Level level = golem.level();
-		float damage = bossDamage(golem, lv, 10.0f);
+		float damage = bossDamage(golem, lv, 10.0f) * paladinLegsMult(golem);
 		boolean red = paladinPhaseTwo(golem);
-		CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.15F, 5, 5);
+		skillShake(golem, golem.position(), 20.0F, 0.15F, 5, 5);
 		double totalRadius = 12.0;
 		int totalPoints = 16;
 		int wavesTotal = 2;
@@ -1225,7 +1210,7 @@ public class LMProxyImpl {
 				level.addFreshEntity(new SoulShieldEntity(level, spawnX, spawnY, spawnZ, rot, delay, golem, damage,
 						(float) golem.getX(), (float) golem.getY(), (float) golem.getZ(), isOuter, red));
 			}
-			areaAttack(golem, 3.25f, 180.0f, bossDamage(golem, lv, 20.0f), 1.0f);
+			areaAttack(golem, 3.25f, 180.0f, bossDamage(golem, lv, 20.0f) * paladinLegsMult(golem), 1.0f);
 			playAt(golem, wave == 0 ? ModSounds.SOUL_SHIELD_SMASH.get() : ModSounds.STAB_HIT.get(), 1.0f, 1.0f);
 			paladinRing(golem, wave == 0, 2.0f);
 		}
@@ -1338,6 +1323,9 @@ public class LMProxyImpl {
 	private static void paladinThrowDaggers(LivingEntity golem, LivingEntity target, int lv, int count) {
 		Level level = golem.level();
 		float damage = bossDamage(golem, lv, 6.0f);
+		// 二阶段（含穿胸甲的「无视生命值要求」）用红色匕首；之前漏了 setRed，导致格挡反击一直丢蓝匕首
+		boolean red = paladinPhaseTwo(golem);
+		List<LivingEntity> homingTargets = daggerHomingTargets(golem, count);
 		double dx = target.getX() - golem.getX();
 		double dz = target.getZ() - golem.getZ();
 		double dy = target.getY() - golem.getY();
@@ -1359,9 +1347,11 @@ public class LMProxyImpl {
 			double vx = rx * cosP, vy = sinP, vz = rz * cosP;
 			ThrownPhantomDaggerEntity dagger = new ThrownPhantomDaggerEntity(type, level);
 			dagger.setPos(golem.getX(), golem.getY() + golem.getBbHeight() / 2.0, golem.getZ());
-			dagger.setReturnEntity(golem);
+			if (homingTargets != null && !homingTargets.isEmpty())
+				dagger.setReturnEntity(homingTargets.get(i % homingTargets.size()));
 			dagger.setReturnTick(10);
 			dagger.setDamage(damage);
+			dagger.setRed(red);
 			dagger.shoot(vx, vy, vz, 1.0f, 0.0f);
 			level.addFreshEntity(dagger);
 		}
@@ -1374,9 +1364,32 @@ public class LMProxyImpl {
 	}
 
 	/** 与 boss spawnSoulPillars 一致的地面向下扫描：从 y 到 lowestY 找可站立面，返回柱底 Y。 */
-	/** 二阶段判定：与 boss Crackiness.MEDIUM(0.65) 一致，血量低于 65% 即为二阶段。 */
+	/** 二阶段判定：统一走 {@link LMArmorHelper}，穿灵魂骑士胸甲时恒为二阶段。 */
 	private static boolean paladinPhaseTwo(LivingEntity golem) {
-		return golem.getHealth() < golem.getMaxHealth() * 0.65f;
+		return golem instanceof AbstractGolemEntity<?, ?> ag && LMArmorHelper.paladinFinalForm(ag);
+	}
+
+	/** 堕魂护腿：扑跃砸地 / 翻滚斩整招伤害 +50%。 */
+	private static float paladinLegsMult(LivingEntity golem) {
+		return legsMult(golem, LMCompatRegistry.PALADIN_SHINGUARD.get());
+	}
+
+	/** 堕魂头盔：为每把幻影匕首挑一个（尽量不重复的）目标；未穿头盔返回 null。 */
+	@Nullable
+	private static List<LivingEntity> daggerHomingTargets(LivingEntity golem, int count) {
+		if (!(golem instanceof AbstractGolemEntity<?, ?> ag)) return null;
+		if (!LMArmorHelper.paladinHelmet(ag)) return null;
+		LivingEntity main = golem instanceof Mob mob ? mob.getTarget() : null;
+		var list = golem.level().getEntities(net.minecraft.world.level.entity.EntityTypeTest.forClass(LivingEntity.class),
+				golem.getBoundingBox().inflate(32),
+				e -> e != golem && GolemTargetUtil.canTarget(ag, e));
+		list.sort(Comparator.comparing((LivingEntity e) -> e == main ? 0 : 1));
+		List<LivingEntity> ans = new ArrayList<>();
+		for (LivingEntity e : list) {
+			if (ans.size() >= count) break;
+			ans.add(e);
+		}
+		return ans;
 	}
 
 	private static double paladinFloorY(Level level, double x, double y, double z, int lowestY) {
@@ -1419,7 +1432,7 @@ public class LMProxyImpl {
 		double sx = golem.getX() + (double) vec * vecX + (double) f * offset + (double) Mth.cos(yawRadians) * d2;
 		double sz = golem.getZ() + (double) vec * vecZ + (double) f1 * offset + (double) Mth.sin(yawRadians) * d2;
 		double sy = paladinFloorY(level, sx, headY, sz, standingOnY);
-		level.addFreshEntity(new SoulPillarEntity(level, sx, sy, sz, yawRadians, 0, golem, 20, bossDamage(golem, lv, 8.0f), paladinPhaseTwo(golem)));
+		level.addFreshEntity(new SoulPillarEntity(level, sx, sy, sz, yawRadians, 0, golem, 20, bossDamage(golem, lv, 8.0f) * paladinLegsMult(golem), paladinPhaseTwo(golem)));
 	}
 
 	/**
@@ -1436,12 +1449,12 @@ public class LMProxyImpl {
 	public static void paladinRollSlash(LivingEntity golem, int lv) {
 		if (golem.level().isClientSide) return;
 		paladinSweepFx(golem, true, 2.0f);
-		for (LivingEntity hit : areaAttack(golem, 5.0f, 360.0f, bossDamage(golem, lv, 17.0f), 1.0f)) {
+		for (LivingEntity hit : areaAttack(golem, 5.0f, 360.0f, bossDamage(golem, lv, 17.0f) * paladinLegsMult(golem), 1.0f)) {
 			paladinSoulFracture(hit, SOUL_FRACTURE_MAX);
 			paladinBreakArmor(hit, 1);
 		}
 		playAt(golem, ModSounds.POSSESSED_PALADIN_SWING.get(), 1.0f, 0.75f);
-		CameraShakeEntity.cameraShake(golem.level(), golem.position(), 20.0F, 0.05F, 0, 10);
+		skillShake(golem, golem.position(), 20.0F, 0.05F, 0, 10);
 	}
 
 	/** 堕魂掷戟（Boss state38 t28）：投出灵魂三叉戟。 */
@@ -1505,6 +1518,6 @@ public class LMProxyImpl {
 			level.addFreshEntity(strike);
 		}
 		playAt(golem, SoundEvents.WITHER_SHOOT, 1.0f, 1.0f);   // Boss state31 原音效（f_12558）
-		CameraShakeEntity.cameraShake(level, golem.position(), 20.0F, 0.1F, 5, 5);
+		skillShake(golem, golem.position(), 20.0F, 0.1F, 5, 5);
 	}
 }

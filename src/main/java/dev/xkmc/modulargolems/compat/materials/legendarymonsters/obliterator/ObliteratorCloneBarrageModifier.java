@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -37,7 +38,7 @@ public class ObliteratorCloneBarrageModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		return List.of(
 				Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.GREEN),
-				ObliteratorPhaseHelper.phaseTwoGate().withStyle(ChatFormatting.GREEN));
+				LMArmorHelper.phaseTwoGate().withStyle(ChatFormatting.GREEN));
 	}
 
 }
