@@ -115,7 +115,9 @@ public class AncientRemnantChargeModifier extends GolemModifier implements Charg
 	@Override
 	public float chargeDamage(ChargeHelper.Instance ins, LivingEntity target) {
 		float atk = GolemCombatHelper.getAttackDamage(ins.owner());
-		return atk * 2 + Math.min(atk * 2, target.getMaxHealth() * 0.1f);
+		// 远古金属护腿：暴怒冲锋伤害 +50%
+		return (atk * 2 + Math.min(atk * 2, target.getMaxHealth() * 0.1f))
+				* CataArmorHelper.ancientLegsDamageMult(ins.owner());
 	}
 
 	@Override

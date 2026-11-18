@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin;
 
 import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -21,18 +22,14 @@ import java.util.List;
  */
 public class PaladinSoulBladeModifier extends GolemModifier {
 
-	/** 二阶段阈值（Boss 的 Crackiness.MEDIUM）。 */
-	public static final float PHASE_TWO = 0.65F;
-
 	public PaladinSoulBladeModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
 	}
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		var threshold = Component.literal(Math.round(PHASE_TWO * 100) + "%")
-				.withStyle(ChatFormatting.AQUA);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", threshold).withStyle(ChatFormatting.GREEN));
+		return List.of(Component.translatable(getDescriptionId() + ".desc", LMArmorHelper.phaseTwoPct())
+				.withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override

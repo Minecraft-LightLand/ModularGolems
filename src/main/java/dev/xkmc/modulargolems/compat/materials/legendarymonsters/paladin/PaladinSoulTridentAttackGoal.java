@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -25,7 +26,7 @@ public class PaladinSoulTridentAttackGoal extends BaseRangedAttackGoal {
 
 	@Override
 	public boolean canUse() {
-		return golem.getHealth() < golem.getMaxHealth() * PaladinSoulTridentModifier.PHASE_TWO && super.canUse();
+		return LMArmorHelper.paladinFinalForm(golem) && super.canUse();
 	}
 
 	@Override

@@ -73,7 +73,7 @@ public class RideCooldownIndicator {
 		}
 		if (line == null) return;
 		player.displayClientMessage(line, true);
-		if (ping) player.playSound(SoundEvents.NOTE_BLOCK_PLING.value(), 1.0F, 2.0F);
+		if (ping) player.playSound(SoundEvents.WOLF_GROWL, 1.0F, 1.0F);
 	}
 
 }

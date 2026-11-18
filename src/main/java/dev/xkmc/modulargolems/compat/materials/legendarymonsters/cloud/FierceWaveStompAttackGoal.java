@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -30,7 +31,7 @@ public class FierceWaveStompAttackGoal extends BaseRangedAttackGoal {
 	/** 二阶段（<65% 生命）才开放，对应 Boss state25 的 isAngry 门槛。 */
 	@Override
 	public boolean canUse() {
-		return CloudPhaseHelper.inSecondPhase(golem) && golem.onGround() && super.canUse();
+		return LMArmorHelper.cloudFinalForm(golem) && golem.onGround() && super.canUse();
 	}
 
 	@Override

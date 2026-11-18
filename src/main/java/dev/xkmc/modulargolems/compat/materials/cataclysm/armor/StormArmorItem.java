@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
 import com.google.common.collect.ImmutableMultimap;
+import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
@@ -71,6 +72,7 @@ public class StormArmorItem extends MetalGolemArmorItem {
 	protected void addExtraModifiers(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
 		super.addExtraModifiers(builder);
 		UUID uuid = UUID.get(getSlot());
+		builder.put(L2DamageTracker.ABSORB.get(), new AttributeModifier(uuid, "Storm Armor", 1, AttributeModifier.Operation.ADDITION));
 		switch (getSlot()) {
 			case HEAD -> builder.put(GolemTypes.GOLEM_REGEN.get(), new AttributeModifier(uuid,
 					"Storm Armor", 1, AttributeModifier.Operation.ADDITION));

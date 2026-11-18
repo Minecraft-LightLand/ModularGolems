@@ -1,9 +1,9 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -26,8 +26,6 @@ public class PaladinSoulTridentModifier extends GolemModifier {
 	}
 	public static final int MAX_RANGE = 24;
 	public static final int MIN_RANGE = 0;
-	/** 二阶段阈值。 */
-	public static final float PHASE_TWO = 0.65F;
 
 	public PaladinSoulTridentModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -42,9 +40,7 @@ public class PaladinSoulTridentModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		return List.of(
 				Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.GREEN),
-				MGLangData.SKILL_HEALTH_GATE.get(
-						Component.literal(Math.round(PHASE_TWO * 100) + "%").withStyle(ChatFormatting.AQUA))
-						.withStyle(ChatFormatting.GREEN));
+				LMArmorHelper.phaseTwoGate().withStyle(ChatFormatting.GREEN));
 	}
 
 }

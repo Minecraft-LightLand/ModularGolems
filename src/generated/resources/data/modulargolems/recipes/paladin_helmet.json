@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "legendary_monsters:corrupted_soul"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_helmet"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:paladin_helmet"
+  },
+  "template": {
+    "item": "modulargolems:paladin_upgrade_template"
+  }
+}

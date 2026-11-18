@@ -1,13 +1,16 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.ICooldownSkill;
+import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -15,12 +18,12 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import java.util.List;
 
 /**
- * 浮云格挡（照 {@code ScyllaWaveModifier} / 格挡反击的结构，但<b>不做完全格挡</b>）：
- * 受击时进入 {@link #BLOCK_DURATION} tick 的格挡窗口，窗口内<b>单次受到的伤害封顶 {@link #DAMAGE_CAP}</b>，
- * 窗口结束后进入冷却。
- * <p>
- * 对应 Cloud_Golem 手臂重击（state 18/19）期间的破盾减伤：Boss 在 {@code canBreak()} 时把
- * 单次 &gt;5 的伤害削到 4，直到被斧头破防。这里简化为"受击开窗口 + 窗口内限伤"，不做破防计数。
+ * 浮云格挡（结构照霆浪锚 {@code ScyllaWaveModifier}）：受击时进入 {@link #BLOCK_DURATION} tick 的格挡窗口。
+ * <ul>
+ *   <li>穿<b>浮云胸甲</b>：窗口内完全格挡攻击（{@code event.setCanceled(true)}，连击退/受击判定都挡掉），
+ *       窗口结束时向四周召唤全方向烈波（伤害无视无敌帧且追踪）。</li>
+ *   <li>未穿胸甲：窗口内单次受到的伤害封顶 {@link #DAMAGE_CAP}（照 Boss {@code canBreak()} 的 4 点）。</li>
+ * </ul>
  */
 public class CloudBlockModifier extends GolemModifier implements ICooldownSkill {
 
@@ -56,6 +59,10 @@ public class CloudBlockModifier extends GolemModifier implements ICooldownSkill 
 		if (data.getLong(KEY_BLOCK_UNTIL) <= time) {
 			data.putLong(KEY_BLOCK_UNTIL, time + BLOCK_DURATION);
 		}
+		// 浮云胸甲：完全格挡攻击（照霆浪锚 setCanceled）——不只是把伤害抵消，连击退/受击判定都挡掉
+		if (LMArmorHelper.cloudChest(entity)) {
+			event.setCanceled(true);
+		}
 		// 音效/特效防抖（限伤在 onHurt 做）
 		if (time - data.getLong(KEY_FX_LAST) < FX_COOLDOWN) return;
 		data.putLong(KEY_FX_LAST, time);
@@ -67,8 +74,11 @@ public class CloudBlockModifier extends GolemModifier implements ICooldownSkill 
 		if (entity.level().isClientSide()) return;
 		var data = entity.getPersistentData();
 		long time = entity.level().getGameTime();
-		// 仅在格挡窗口内限伤
-		if (data.getLong(KEY_BLOCK_UNTIL) > time && event.getAmount() > DAMAGE_CAP) {
+		if (data.getLong(KEY_BLOCK_UNTIL) <= time) return;
+		// 浮云胸甲：格挡窗口内完全格挡伤害（归零）；未穿胸甲时保持原有的单次封顶
+		if (LMArmorHelper.cloudChest(entity)) {
+			event.setAmount(0);
+		} else if (event.getAmount() > DAMAGE_CAP) {
 			event.setAmount(DAMAGE_CAP);
 		}
 	}
@@ -84,6 +94,12 @@ public class CloudBlockModifier extends GolemModifier implements ICooldownSkill 
 		if (time < until) return;
 		data.putLong(KEY_BLOCK_UNTIL, 0);
 		data.putLong(KEY_COOLDOWN, time + PARRY_COOLDOWN);
+		// 浮云胸甲：格挡窗口结束时向四周召唤一圈全方向烈波（音效同烈波重踏）
+		if (LMArmorHelper.cloudChest(golem)) {
+			SkillSound.playQuakeOnly(golem, SoundEvents.DRAGON_FIREBALL_EXPLODE, 3.0F, 1.0F);
+			LMProxy.spawnCloudGolemWaves(golem, 12, 30.0f, LMProxy.bossDamage(golem, level, 7.0f),
+					45.0f, -1.0, golem.getX(), golem.getZ(), 0.0f);
+		}
 	}
 
 	@Override

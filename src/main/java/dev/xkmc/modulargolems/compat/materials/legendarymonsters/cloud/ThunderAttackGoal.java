@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -134,13 +135,14 @@ public class ThunderAttackGoal extends BaseRangedAttackGoal {
 
 	/** Boss 雷柱固定 7.0，按傀儡攻击力等比缩放。 */
 	private float damage() {
-		return LMProxy.bossDamage(golem, lv, 7.0f);
+		// 浮云头盔：雷电拳伤害 +50%
+		return LMProxy.bossDamage(golem, lv, 7.0f) * LMArmorHelper.cloudHelmetMult(golem);
 	}
 
 	/** 二阶段（≤65% 生命）才开放，对应 Boss state31 只在 angry 状态使用。 */
 	@Override
 	public boolean canUse() {
-		return CloudPhaseHelper.inSecondPhase(golem) && super.canUse();
+		return LMArmorHelper.cloudFinalForm(golem) && super.canUse();
 	}
 	@Override
 	protected boolean performAttack(LivingEntity target) {

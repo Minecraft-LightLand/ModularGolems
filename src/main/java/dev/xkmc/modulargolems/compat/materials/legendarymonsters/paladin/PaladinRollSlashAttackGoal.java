@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
@@ -24,7 +26,7 @@ public class PaladinRollSlashAttackGoal extends BaseChargeGoal {
 
 	public static final String KEY_ACTIVE = "PaladinRollSlashing";
 	/** 每 tick 累加的水平旋转角度（度）。 */
-	private static final float SPIN_SPEED = 40.0f;
+	private static final float SPIN_SPEED = PaladinRollSlashModifier.SPIN_SPEED;
 	private static final int SLASH1_TICK = 10;
 	private static final int SLASH2_TICK = 24;
 	private static final int PILLAR_INTERVAL = 3;
@@ -132,7 +134,9 @@ public class PaladinRollSlashAttackGoal extends BaseChargeGoal {
 		// 沿途灵魂柱 + 撞击伤害
 		if (ticks % PILLAR_INTERVAL == 0) LMProxy.paladinRollPillar(golem, lv, castYaw);
 		AABB aabb = golem.getBoundingBox().inflate(0.5);
-		float atk = (float) golem.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
+		// 堕魂护腿：翻滚斩撞体伤害 +50%
+		float atk = (float) golem.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE)
+				* LMArmorHelper.legsMult(golem, LMCompatRegistry.PALADIN_SHINGUARD.get());
 		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class, aabb)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
 			if (e.hurt(golem.damageSources().mobAttack(golem), atk)) {

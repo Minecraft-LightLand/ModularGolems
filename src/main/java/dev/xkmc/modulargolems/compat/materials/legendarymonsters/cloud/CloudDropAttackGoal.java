@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
@@ -10,8 +11,8 @@ import dev.xkmc.modulargolems.util.GolemTargetUtil;
 import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -85,7 +86,9 @@ public class CloudDropAttackGoal extends BaseRangedAttackGoal {
 
 		// 落点锚地面：傀儡位置可能还在半空，直接用 getY() 会把云和爆炸画在空中
 		// 伤害随云自带、由 CloudEntity 按 Boss 逻辑落地结算（碰撞箱 inflate(CLOUD_RADIUS) + 距离衰减）
-		int dmg = (int) Math.max(1, GolemCombatHelper.getAttackDamage(golem) * CloudDropModifier.CLOUD_DAMAGE);
+		// 浮云头盔：落云伤害 +50%
+		int dmg = (int) Math.max(1, GolemCombatHelper.getAttackDamage(golem) * CloudDropModifier.CLOUD_DAMAGE
+				* LMArmorHelper.cloudHelmetMult(golem));
 		for (int i = 0; i < count; i++) {
 			double ang = i * Math.PI * 2 / count + Math.PI * 2 / (count + 1);
 			double x = centerX + Math.cos(ang) * radius;
@@ -116,19 +119,20 @@ public class CloudDropAttackGoal extends BaseRangedAttackGoal {
 	private void settle(PendingDrop d) {
 		float atk = GolemCombatHelper.getAttackDamage(golem);
 		var src = golem.damageSources().mobAttack(golem);
+		float mult = LMArmorHelper.cloudHelmetMult(golem);
 		double r = CloudDropModifier.CLOUD_RADIUS;
 		AABB box = new AABB(d.x() - r, d.y() - 1, d.z() - r, d.x() + r, d.y() + 3, d.z() + r);
 		for (LivingEntity e : golem.level().getEntitiesOfClass(LivingEntity.class, box)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
 			if (e.distanceToSqr(d.x(), e.getY(), d.z()) > r * r) continue;
-			GolemCombatHelper.meleeHit(golem, e, src, atk * CloudDropModifier.CLOUD_DAMAGE);
+			GolemCombatHelper.meleeHit(golem, e, src, atk * CloudDropModifier.CLOUD_DAMAGE * mult);
 		}
 	}
 
-	/** 一阶段（>65% 生命）才开放，对应 Boss state9 只在非 angry 状态使用。 */
+	/** 一阶段（>65% 生命）才开放，对应 Boss state9 只在非 angry 状态使用；穿浮云胸甲时不受此限。 */
 	@Override
 	public boolean canUse() {
-		return CloudPhaseHelper.inFirstPhase(golem) && super.canUse();
+		return LMArmorHelper.cloudFirstPhaseSkill(golem) && super.canUse();
 	}
 	@Override
 	protected boolean performAttack(LivingEntity target) {

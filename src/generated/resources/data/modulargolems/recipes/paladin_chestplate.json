@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "legendary_monsters:corrupted_soul"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_chestplate"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:paladin_chestplate"
+  },
+  "template": {
+    "item": "modulargolems:paladin_upgrade_template"
+  }
+}

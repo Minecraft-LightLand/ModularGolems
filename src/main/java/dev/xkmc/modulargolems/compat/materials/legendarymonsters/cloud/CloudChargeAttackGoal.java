@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMCompatRegistry;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
@@ -48,9 +50,12 @@ public class CloudChargeAttackGoal extends BaseChargeGoal {
 
 	/**
 	 * 按生命值决定本次连续冲锋段数：满血只冲 1 段，生命值掉到上限 25% 及以下才追加到
-	 * {@link #CloudChargeModifier.MAX_DASH} 段。阈值取自 Boss 的 {@code Crackiness.HIGH}，写法同灾变冲锋的 maxDashFor。
+	 * {@link #CloudChargeModifier.MAX_DASH} 段。阈值取自 Boss 的 {@code Crackiness.HIGH}。
+	 * <p>
+	 * 穿浮云胸甲时无视生命值要求，直接给满段冲锋。
 	 */
 	public static int maxDashFor(AbstractGolemEntity<?, ?> golem) {
+		if (LMArmorHelper.cloudChest(golem)) return CloudChargeModifier.MAX_DASH;
 		return golem.getHealth() <= golem.getMaxHealth() * CloudChargeModifier.EXTRA_DASH_HEALTH ? CloudChargeModifier.MAX_DASH : 1;
 	}
 
@@ -143,12 +148,14 @@ public class CloudChargeAttackGoal extends BaseChargeGoal {
 			return;
 		}
 		setFacing();
-		spawnChargeRing();
+		spawnChargeRing(golem);
 		AABB aabb = golem.getBoundingBox().inflate(0.5);
 		var src = golem.damageSources().mobAttack(golem);
+		// 浮云护腿：浮云冲锋撞击伤害 +50%
+		float mult = LMArmorHelper.legsMult(golem, LMCompatRegistry.CLOUD_SHINGUARD.get());
 		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class, aabb)) {
 			if (!GolemTargetUtil.canTarget(golem, e)) continue;
-			float dmg = 22.0F + e.getMaxHealth() * 0.03F;
+			float dmg = (22.0F + e.getMaxHealth() * 0.03F) * mult;
 			boolean hit = e.hurt(src, dmg);
 			GolemCombatHelper.breakShield(golem, e, src);
 			// 撞到目标：击退 + 上抬（本体 state30 的 AreaAttack 自带 knockback），音效照 Boss 用 ANVIL_PLACE
@@ -178,7 +185,7 @@ public class CloudChargeAttackGoal extends BaseChargeGoal {
 
 	/** Boss 冲锋环：复刻 Cloud_Golem state28 冲刺每 tick 生成的竖直环（pitch=0，环面朝冲锋方向，
 	 *  位于身体前方 1.5 格、高度 +1，GROW_THEN_SHRINK，scale 40）。 */
-	private void spawnChargeRing() {
+	public static void spawnChargeRing(AbstractGolemEntity<?, ?> golem) {
 		// 复刻 Boss state28 冲刺时的单个竖直环（pitch=0，yaw=-getYRot()+180），位置在傀儡自身、半身高（不前伸）。
 		float yaw = (float) Math.toRadians(-golem.getYRot() + 180);
 		double x = golem.getX();

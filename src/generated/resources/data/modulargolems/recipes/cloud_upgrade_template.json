@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "R": {
+      "item": "legendary_monsters:cloud_rod"
+    },
+    "T": {
+      "item": "minecraft:netherite_upgrade_smithing_template"
+    }
+  },
+  "pattern": [
+    "RDR",
+    "DTD",
+    "RDR"
+  ],
+  "result": {
+    "item": "modulargolems:cloud_upgrade_template"
+  },
+  "show_notification": true
+}

@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -22,7 +23,7 @@ public class ObliteratorArmBlockModifier extends GolemModifier implements ICoold
 
 	public static final int COOLDOWN = 200;
 	/** 三阶段阈值（Boss 的 canArmBlock 要求 {@code getPhase() >= 3}）。 */
-	public static final float PHASE_THREE = ObliteratorPhaseHelper.PHASE_THREE;
+	public static final float PHASE_THREE = LMArmorHelper.PHASE_THREE;
 	/** 触发格挡的概率。 */
 	public static final float BLOCK_CHANCE = 0.35F;
 	private static final String KEY = "ObliteratorArmBlock";
@@ -36,7 +37,7 @@ public class ObliteratorArmBlockModifier extends GolemModifier implements ICoold
 		if (entity.level().isClientSide()) return;
 		// 施法中/跳跃中不格挡（对应「未在施法时受击」，也避免空中瞬移）
 		if (EarthquakeHelper.isBusy(entity)) return;
-		if (!ObliteratorPhaseHelper.isPhaseThree(entity)) return;
+		if (!LMArmorHelper.obliteratorPhaseThree(entity)) return;
 		if (event.getSource().getEntity() == null) return;
 		long time = entity.level().getGameTime();
 		long last = entity.getPersistentData().getLong(KEY);
@@ -58,8 +59,8 @@ public class ObliteratorArmBlockModifier extends GolemModifier implements ICoold
 	@Override
 	public List<MutableComponent> getDetail(int v) {
 		return List.of(
-				Component.translatable(getDescriptionId() + ".desc", ObliteratorPhaseHelper.pctText(BLOCK_CHANCE)).withStyle(ChatFormatting.GREEN),
-				ObliteratorPhaseHelper.phaseThreeGate().withStyle(ChatFormatting.GREEN));
+				Component.translatable(getDescriptionId() + ".desc", LMArmorHelper.pct(BLOCK_CHANCE)).withStyle(ChatFormatting.GREEN),
+				LMArmorHelper.phaseThreeGate().withStyle(ChatFormatting.GREEN));
 	}
 
 }

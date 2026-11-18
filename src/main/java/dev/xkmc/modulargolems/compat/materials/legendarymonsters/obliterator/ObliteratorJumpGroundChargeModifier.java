@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -31,7 +32,7 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 
 	public static final int COOLDOWN = 200;
 	/** 湮灭浩劫（后半段）解锁的生命阈值（Boss 的 canUltimate 要求三阶段，即 Crackiness.HIGH = 30%）。 */
-	public static final float NUKE_HEALTH = ObliteratorPhaseHelper.PHASE_THREE;
+	public static final float NUKE_HEALTH = LMArmorHelper.PHASE_THREE;
 	/** 坠落后再次瞬移砸落的概率。 */
 	public static final float SECOND_SMASH_CHANCE = 0.5F;
 	/** 第二次砸落的判定延迟（tick）。 */
@@ -62,14 +63,24 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 
 	@Override
 	public void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
-		// 起手：怒吼 + 推开周围实体 + 记录朝向；真实起跳（朝目标上抛，Boss t20 的 delta）
+		// 起手：怒吼 + 推开周围实体 + 记录朝向
 		float castYaw = LMProxy.roarSmashLeap(golem);
 		golem.getPersistentData().putFloat(KEY_CAST_YAW, castYaw);
-		LivingEntity target = golem.getTarget();
-		if (target != null) {
-			golem.setDeltaMovement((target.getX() - golem.getX()) * 0.15, 1.3, (target.getZ() - golem.getZ()) * 0.15);
+		if (golem.getControllingPassenger() instanceof net.minecraft.world.entity.player.Player) {
+			// 照末影守卫犬形跳跃：玩家骑乘时直接瞬移到目标上方 / 朝视线前方，而不是普通起跳
+			LivingEntity target = golem.getTarget();
+			if (target != null && target.isAlive() && golem.predicateTarget(target)) {
+				golem.teleportTo(target.getX(), target.getY() + 10, target.getZ());
+			} else {
+				Vec3 look = golem.getLookAngle();
+				Vec3 flat = new Vec3(look.x, 0, look.z);
+				if (flat.lengthSqr() < 1e-8) flat = new Vec3(0, 0, 1);
+				flat = flat.normalize();
+				golem.teleportTo(golem.getX() + flat.x * 8, golem.getY() + 8, golem.getZ() + flat.z * 8);
+			}
+			golem.setDeltaMovement(0, 0, 0);
 		} else {
-			golem.addDeltaMovement(new Vec3(0, 1.3, 0));
+			EarthquakeHelper.performDefaultJump(golem);
 		}
 		golem.hasImpulse = true;
 	}
@@ -84,7 +95,8 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 		float castYaw = golem.getPersistentData().getFloat(KEY_CAST_YAW);
 		LMProxy.spawnObliteratorRoarSmashLanding(golem, level, castYaw);
 		var data = golem.getPersistentData();
-		if (golem.getHealth() < golem.getMaxHealth() * NUKE_HEALTH) {
+		// 三阶段判定走 LMArmorHelper：穿湮灭胸甲时无视生命值要求，直接进入湮灭浩劫
+		if (LMArmorHelper.obliteratorPhaseThree(golem)) {
 			// 低血量：砸地即刻接湮灭浩劫（不再等窗口/二次砸落）
 			data.putInt(KEY_STAGE, 2);
 			data.putInt(KEY_TICKS, 0);
@@ -118,8 +130,8 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 	@Override
 	public List<MutableComponent> getDetail(int v) {
 		return List.of(Component.translatable(getDescriptionId() + ".desc",
-				ObliteratorPhaseHelper.pctText(SECOND_SMASH_CHANCE), EarthquakeHelper.leapReduction(),
-				ObliteratorPhaseHelper.pctText(NUKE_HEALTH)).withStyle(ChatFormatting.GREEN));
+				LMArmorHelper.pct(SECOND_SMASH_CHANCE), EarthquakeHelper.leapReduction(),
+				LMArmorHelper.pct(NUKE_HEALTH)).withStyle(ChatFormatting.GREEN));
 	}
 
 	/**
@@ -141,7 +153,7 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 		float castYaw = data.getFloat(KEY_CAST_YAW);
 		if (stage == 1) {
 			// 再次瞬移砸落
-			if (ticks == SECOND_SMASH_TICK && ObliteratorPhaseHelper.isPhaseTwo(golem)
+			if (ticks == SECOND_SMASH_TICK && LMArmorHelper.obliteratorPhaseTwo(golem)
 					&& golem.getRandom().nextFloat() < SECOND_SMASH_CHANCE) {
 				LivingEntity target = golem.getTarget();
 				if (target != null) {
@@ -157,7 +169,7 @@ public class ObliteratorJumpGroundChargeModifier extends GolemModifier implement
 				data.putInt(KEY_TICKS, 45);
 			}
 			if (ticks >= 45) {
-				if (golem.getHealth() < golem.getMaxHealth() * NUKE_HEALTH) {
+				if (LMArmorHelper.obliteratorPhaseThree(golem)) {
 					data.putInt(KEY_STAGE, 2);
 					data.putInt(KEY_TICKS, 0);
 					data.putDouble(KEY_NUKE_X, golem.getX());

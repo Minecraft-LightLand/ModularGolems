@@ -1,10 +1,15 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorEffects;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.AnnihilationBombEntity;
+import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.SmallAnnihilationBombEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.function.BiConsumer;
@@ -35,6 +40,17 @@ public class ObliteratorLargeBombModifier extends GolemModifier {
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
 		addGoal.accept(5, new ObliteratorLargeBombAttackGoal(entity, lv).withName(this.getDescriptionId()));
+	}
+
+	/** 湮灭头盔：发射出去的湮灭炸弹持续追踪目标（每枚独立分配目标，照遗魂沙暴）。 */
+	@Override
+	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
+		if (golem.level().isClientSide()) return;
+		if (!LMArmorHelper.obliteratorHelmet(golem)) return;
+		LivingEntity target = golem.getTarget();
+		if (target == null || !target.isAlive()) return;
+		LMArmorEffects.steer(golem, SmallAnnihilationBombEntity.class, true, e -> e.getOwner() == golem);
+		LMArmorEffects.steer(golem, AnnihilationBombEntity.class, true, e -> e.getOwner() == golem);
 	}
 //  目前用不到，留作备份
 //	@Override

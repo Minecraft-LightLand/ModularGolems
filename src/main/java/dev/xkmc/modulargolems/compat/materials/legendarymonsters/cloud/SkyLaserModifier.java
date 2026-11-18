@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
 
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
@@ -41,6 +42,6 @@ public class SkyLaserModifier extends GolemModifier {
 	public List<MutableComponent> getDetail(int v) {
 		return List.of(
 				Component.translatable(getDescriptionId() + ".desc").withStyle(ChatFormatting.GREEN),
-				CloudPhaseHelper.secondPhaseGate().withStyle(ChatFormatting.GREEN));
+				LMArmorHelper.phaseTwoGate().withStyle(ChatFormatting.GREEN));
 	}
 }

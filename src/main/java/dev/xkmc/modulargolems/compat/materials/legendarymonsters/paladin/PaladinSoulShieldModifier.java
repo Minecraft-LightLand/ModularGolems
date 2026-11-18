@@ -76,6 +76,8 @@ public class PaladinSoulShieldModifier extends GolemModifier implements ICooldow
 	@Override
 	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
 		if (golem.level().isClientSide()) return;
+		// 堕魂头盔：格挡反击召唤的幻影匕首目标死亡后也要改锁新目标
+		PaladinSoulDaggerModifier.retargetDaggers(golem);
 		var data = golem.getPersistentData();
 		long until = data.getLong(KEY_BLOCK_UNTIL);
 		if (until <= 0) return;

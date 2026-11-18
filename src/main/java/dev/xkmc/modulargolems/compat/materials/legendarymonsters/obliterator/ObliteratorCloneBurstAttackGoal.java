@@ -1,12 +1,12 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.obliterator;
 
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.util.SkillSound;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -41,7 +41,7 @@ public class ObliteratorCloneBurstAttackGoal extends BaseChargeGoal {
 	@Override
 	public boolean canUse() {
 		// 额外门槛：仅二阶段开放（Boss 的 getPhase() >= 2）
-		if (!ObliteratorPhaseHelper.isPhaseTwo(golem)) return false;
+		if (!LMArmorHelper.obliteratorPhaseTwo(golem)) return false;
 		return canUseCharge(golem, ChargeHelper.findChargeTarget(golem, ObliteratorCloneBurstModifier.MAX_RANGE),
 				ObliteratorCloneBurstModifier.MIN_RANGE, ObliteratorCloneBurstModifier.MAX_RANGE);
 	}
@@ -67,7 +67,6 @@ public class ObliteratorCloneBurstAttackGoal extends BaseChargeGoal {
 		total = golem.distanceTo(target) + 2;
 		// 起冲即生成三只持械虚影 + 冲锋拖尾
 		LMProxy.spawnCloneBurst(golem, target, lv);
-		ChargeHelper.spawnChargeParticles(golem, dir, ParticleTypes.SOUL_FIRE_FLAME);
 		ChargeHelper.playChargeEasterEgg(golem);   // 与其它 AI 冲锋一致：起手播冲锋彩蛋音
 	}
 
@@ -101,7 +100,6 @@ public class ObliteratorCloneBurstAttackGoal extends BaseChargeGoal {
 			return;
 		}
 		ticks++;
-		if (ticks % 4 == 0) ChargeHelper.spawnChargeParticles(golem, dir, ParticleTypes.SOUL_FIRE_FLAME);
 		float cy = (float) (Mth.atan2(-dir.x, dir.z) * Mth.RAD_TO_DEG);
 		golem.setYRot(cy);
 		golem.yBodyRot = cy;

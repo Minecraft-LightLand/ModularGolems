@@ -33,6 +33,7 @@
       "modulargolems:attack": 40.0,
       "modulargolems:attack_knockback": 1.0,
       "modulargolems:dynamic_reduction": 2.0,
+      "modulargolems:knockback_resistance": 1.0,
       "modulargolems:max_health": 450.0,
       "modulargolems:sweep": 2.0
     }

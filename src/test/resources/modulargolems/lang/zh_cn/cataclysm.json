@@ -1,8 +1,6 @@
 {
-  "modulargolems.tooltip.cataclysm.harbinger_armor_laer": "%s造成的伤害无视目标无敌帧",
-  "modulargolems.tooltip.cataclysm.harbinger_armor_missile": "%s/%s/%s造成的伤害无视目标无敌帧",
   "modulargolems.tooltip.cataclysm.monstrosity_armor_charge": "+%s 冲锋伤害",
-  "modulargolems.tooltip.cataclysm.maledictus_bypass_cd": "召唤的幻影战戟造成的伤害无视目标无敌帧",
+  "modulargolems.tooltip.cataclysm.maledictus_bypass_cd": "技能召唤的幻影战戟造成的伤害无视目标无敌帧",
   "modulargolems.tooltip.cataclysm.maledictus_fast_skill": "%s和%s冷却时间减半",
   "modulargolems.tooltip.cataclysm.maledictus_revive": "受到致命伤害时以%s%%生命值复活，冷却%s秒",
   "modulargolems.tooltip.cataclysm.maledictus_revive_actual_cd": "实际冷却：%s秒",
@@ -13,7 +11,7 @@
   "modulargolems.tooltip.cataclysm.scylla_armor_spark": "+%s 电火花伤害",
   "modulargolems.tooltip.cataclysm.scylla_armor_slam_range": "+%s %s攻击范围，且造成的伤害无视目标无敌帧",
   "modulargolems.tooltip.cataclysm.ancient_armor_sandstorm": "+%s %s移动速度，%s和%s造成的伤害无视目标无敌帧",
-  "modulargolems.tooltip.cataclysm.ancient_armor_shockwave": "地震冲击波会追踪目标攻击，且造成的伤害无视目标无敌帧",
+  "modulargolems.tooltip.cataclysm.ancient_armor_shockwave": "地震冲击波会追踪目标攻击",
   "modulargolems.tooltip.cataclysm.guardian_armor_rune_bypass": "技能召唤的虚空符文造成的伤害无视目标无敌帧",
   "modulargolems.tooltip.cataclysm.ignis_armor_fireball": "+%s %s伤害，且爆炸范围增加%s，并会持续追踪目标攻击",
   "modulargolems.tooltip.cataclysm.ignis_armor_charge": "+%s %s和%s伤害，烈焰轰击的持续时间增加%s",

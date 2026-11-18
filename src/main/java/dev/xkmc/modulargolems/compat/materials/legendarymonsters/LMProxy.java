@@ -9,6 +9,9 @@ import net.miauczel.legendary_monsters.entity.ModEntities;
 import net.miauczel.legendary_monsters.item.ModItems;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -197,7 +200,53 @@ public class LMProxy {
 				.define('O', GolemItems.EMPTY_UPGRADE)
 				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
 
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.PALADIN_TEMPLATE.get())::unlockedBy,
+						ModItems.CORRUPTED_SOUL.get())
+				.pattern("MSM").pattern("STS").pattern("MSM")
+				.define('M', ModItems.METAL_DEBRIS.get())
+				.define('S', Items.SOUL_TORCH)
+				.define('T', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
 
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, LMCompatRegistry.CLOUD_TEMPLATE.get())::unlockedBy,
+						ModItems.AIR_RUNE.get())
+				.pattern("RDR").pattern("DTD").pattern("RDR")
+				.define('R', ModItems.CLOUD_ROD.get())
+				.define('D', Items.DIAMOND)
+				.define('T', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID));
+
+		armorSmithing(pvd, Ingredient.of(LMCompatRegistry.PALADIN_TEMPLATE.get()), Ingredient.of(ModItems.CORRUPTED_SOUL.get()),
+				LMCompatRegistry.PALADIN_HELMET, LMCompatRegistry.PALADIN_CHESTPLATE, LMCompatRegistry.PALADIN_SHINGUARD);
+		// 浮云盔甲材料沿用浮云立方的「大气符文 / 大气之靴」二选一
+		armorSmithing(pvd, Ingredient.of(LMCompatRegistry.CLOUD_TEMPLATE.get()),
+				Ingredient.of(ModItems.AIR_RUNE.get(), ModItems.ATMOSPHERIC_BOOTS.get()),
+				LMCompatRegistry.CLOUD_HELMET, LMCompatRegistry.CLOUD_CHESTPLATE, LMCompatRegistry.CLOUD_SHINGUARD);
+		// 湮灭盔甲改用本体「湮灭者升级」锻造模板作为模板
+		armorSmithing(pvd, Ingredient.of(ModItems.ANNIHILATOR_UPGRADE_TEMPLATE.get()), Ingredient.of(ModItems.PORTAL_SHARD.get()),
+				LMCompatRegistry.OBLITERATOR_HELMET, LMCompatRegistry.OBLITERATOR_CHESTPLATE, LMCompatRegistry.OBLITERATOR_SHINGUARD);
+	}
+
+	/**
+	 * 三件套统一按「模板 + 基础傀儡护甲 + 材料」的锻造台配方生成。
+	 */
+	private static void armorSmithing(RegistrateRecipeProvider pvd,
+			Ingredient template, Ingredient material,
+			com.tterrag.registrate.util.entry.ItemEntry<? extends Item> helmet,
+			com.tterrag.registrate.util.entry.ItemEntry<? extends Item> chestplate,
+			com.tterrag.registrate.util.entry.ItemEntry<? extends Item> shinguard) {
+		addArmor(pvd, template, material, helmet, GolemItems.BARBARICFLAMEVANGUARD_HELMET.get());
+		addArmor(pvd, template, material, chestplate, GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get());
+		addArmor(pvd, template, material, shinguard, GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get());
+	}
+
+	private static void addArmor(RegistrateRecipeProvider pvd,
+			Ingredient template, Ingredient material,
+			com.tterrag.registrate.util.entry.ItemEntry<? extends Item> result, Item base) {
+		RecipeGen.unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						template, Ingredient.of(base), material,
+						RecipeCategory.COMBAT, result.get())::unlocks, base)
+				.save(ConditionalRecipeWrapper.mod(pvd, LMDispatch.MODID), result.getId());
 	}
 
 	public static void genLootModifier(MGGLMGen pvd) {
@@ -234,20 +283,6 @@ public class LMProxy {
 	public static void obliteratorBombCharge(LivingEntity golem) {
 		try {
 			LMProxyImpl.obliteratorBombCharge(golem);
-		} catch (Throwable ignored) {
-		}
-	}
-
-	public static void spawnObliteratorSmallBomb(LivingEntity golem, LivingEntity target, int lv, float lateral) {
-		try {
-			LMProxyImpl.spawnObliteratorSmallBomb(golem, target, lv, lateral);
-		} catch (Throwable ignored) {
-		}
-	}
-
-	public static void obliteratorSmallBombFire(LivingEntity golem, LivingEntity target, int lv) {
-		try {
-			LMProxyImpl.obliteratorSmallBombFire(golem, target, lv);
 		} catch (Throwable ignored) {
 		}
 	}
