@@ -1,3 +1,17 @@
+2.7.6
+- add charge dash attack skill for golems
+- add iron golem boot, tweak golem armor stats
+- allow all golems to be fixed with ingot in hand
+- shoulder weapon on dog golem
+- simple golem workbench
+- golem equipment ui overhaul
+- compat material skill overhaul
+- default golem name based on material
+- skill activation for mount golem
+- wand keybind
+- prioritize block interaction over golem summon
+- Fix crash when removing soem compat content
+
 2.7.5
 - improve legendary monsters compat
 
