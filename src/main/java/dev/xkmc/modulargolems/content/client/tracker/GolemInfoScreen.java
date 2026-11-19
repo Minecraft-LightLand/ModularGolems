@@ -8,6 +8,7 @@ import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.capability.TrackerDeleteToServer;
 import dev.xkmc.modulargolems.content.capability.TrackerHeartBeatToServer;
 import dev.xkmc.modulargolems.content.capability.TrackerRecallToServer;
+import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.editor.base.EditorSaveState;
 import dev.xkmc.modulargolems.editor.base.EditorText;
@@ -34,6 +35,9 @@ import java.util.function.Predicate;
 
 public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScreen {
 
+	/** 从该界面打开装备界面后，退出装备界面时返回此界面。 */
+	public static GolemInfoScreen returnScreen;
+
 	private static int linePerPage() {
 		return 14;
 	}
@@ -42,6 +46,16 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 	private Button left, right;
 	private boolean leftAdded, rightAdded;
 	private UUID delId = null;
+	private UUID openId = null;
+
+	/** 命令手杖或任意万能手杖在快捷栏即可打开装备界面。 */
+	private boolean equipWandInHotbar(Player player) {
+		for (int i = 0; i < 9; i++) {
+			var stack = player.getInventory().getItem(i);
+			if (stack.is(MGTagGen.GOLEM_OMNI_WAND) || stack.is(GolemItems.COMMAND_WAND.get())) return true;
+		}
+		return false;
+	}
 
 	private boolean wandInHotbar(Player player) {
 		for (int i = 0; i < 9; i++) {
@@ -122,8 +136,10 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 		g.drawString(this.font, title, x, y, 0, false);
 		y += 15;
 		GolemTracker.TrackedData focus = null;
+		UUID focusId = null;
 		int delLine = -1;
 		delId = null;
+		openId = null;
 		for (int i = 0; i < max - start; i++) {
 			var ent = data.get(i + start);
 			Component comp = TrackerInfo.getDesc(ent.getSecond());
@@ -132,17 +148,23 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 			if (my > y && my < y + 10) {
 				if (mx > x && mx < x + w) {
 					focus = ent.getSecond();
+					focusId = ent.getFirst();
 				} else if (mx > x + imageWidth - 20 && mx < x + imageWidth - 8) {
 					delLine = start + i;
 					delId = ent.getFirst();
 				}
 			}
-			var del = Component.literal("X").withStyle(delLine == start + i ? ChatFormatting.RED : ChatFormatting.BLACK);
+			var del = Component.literal("❌").withStyle(delLine == start + i ? ChatFormatting.RED : ChatFormatting.BLACK);
 			g.drawString(this.font, del, x + imageWidth - 20, y, 0, false);
 			y += 10;
 		}
 		if (focus != null) {
-			g.renderComponentTooltip(this.font, TrackerInfo.getDetail(focus, player, time), mx, my);
+			var detail = new ArrayList<>(TrackerInfo.getDetail(focus, player, time));
+			if (focusId != null && equipWandInHotbar(player) && aliveTracked(focusId)) {
+				detail.add(MGLangData.OPEN_EQUIPMENT.get());
+				openId = focusId;
+			}
+			g.renderComponentTooltip(this.font, detail, mx, my);
 		}
 		if (delLine >= 0 && wandInHotbar(player) && aliveTracked(delId)) {
 			g.renderTooltip(this.font, MGLangData.RECALL.get(), mx, my);
@@ -168,6 +190,11 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 				ModularGolems.HANDLER.toServer(new TrackerRecallToServer(player.getUUID(), delId));
 			else
 				ModularGolems.HANDLER.toServer(new TrackerDeleteToServer(player.getUUID(), delId));
+			return true;
+		}
+		if (openId != null && btn == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+			returnScreen = this;
+			ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(openId, OpenEquipmentMenuToServer.Type.EQUIPMENT));
 			return true;
 		}
 		return false;

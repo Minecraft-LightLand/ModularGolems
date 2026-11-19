@@ -40,6 +40,7 @@
 			"wander": "自由行动",
 			"wandering": "傀儡会自由随机移动",
 			"recall": "回收傀儡",
+			"open_equipment": "点击打开傀儡装备界面",
 			"modifier": "总计%s个技能，%s个升级",
 			"craft_material": "傀儡制作材料",
 			"repair_material": "傀儡修补材料",

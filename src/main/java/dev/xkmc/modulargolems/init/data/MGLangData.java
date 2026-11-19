@@ -142,6 +142,7 @@ public enum MGLangData {
 	SUMMON_FAR("msg.summon_far", "Summoned %s, at (%s,%s,%s)", 4, ChatFormatting.GOLD),
 	RECALL_FAIL("msg.recall_fail", "Golem not found or cannot be recalled now", 0, ChatFormatting.RED),
 	RECALL("tooltip.recall", "Recall Golem", 0, null),
+	OPEN_EQUIPMENT("tooltip.open_equipment", "Click to open golem equipment", 0, null),
 
 	SLOT_MAIN("slot.main", "Main Hand Slot", 0, ChatFormatting.YELLOW),
 	SLOT_OFF("slot.off", "Off Hand Slot", 0, ChatFormatting.YELLOW),

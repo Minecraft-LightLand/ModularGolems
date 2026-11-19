@@ -976,6 +976,7 @@
   "modulargolems.tooltip.multi_shot": "Shoots %s targets at once",
   "modulargolems.tooltip.no_slot": "Removing this upgrade will result in insufficient slot",
   "modulargolems.tooltip.no_take_upgrade": "This table does not allow removing upgrades",
+  "modulargolems.tooltip.open_equipment": "Click to open golem equipment",
   "modulargolems.tooltip.patrol": "Patrol",
   "modulargolems.tooltip.patrolling": "Golem will patrol in a designated way",
   "modulargolems.tooltip.player_skin_button": "Change skin: Player/Texture (Right-click to reset)",

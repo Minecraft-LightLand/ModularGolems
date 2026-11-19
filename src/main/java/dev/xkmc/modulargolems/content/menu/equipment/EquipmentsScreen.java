@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.menu.equipment;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
+import dev.xkmc.modulargolems.content.client.tracker.GolemInfoScreen;
 import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinButton;
@@ -30,6 +31,17 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 
 	public EquipmentsScreen(EquipmentsMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
+	}
+
+	@Override
+	public void onClose() {
+		var back = GolemInfoScreen.returnScreen;
+		if (back != null) {
+			GolemInfoScreen.returnScreen = null;
+			Minecraft.getInstance().setScreen(back);
+			return;
+		}
+		super.onClose();
 	}
 
 	@Override
