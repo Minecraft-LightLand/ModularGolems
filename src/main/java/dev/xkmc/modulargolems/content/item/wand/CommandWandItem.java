@@ -91,7 +91,7 @@ public class CommandWandItem extends BaseWandItem implements GolemInteractItem, 
 			return true;
 		}
 		if (!level.isClientSide()) return true;
-		return GolemWheelHandler.enableWheel(user, golem);
+		return GolemWheelHandler.onClientRightClick(user, golem);
 	}
 
 	@Override

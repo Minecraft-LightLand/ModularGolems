@@ -25,7 +25,13 @@ public record GolemModeWheel(
 
 	@Override
 	public WheelKeyHandler getInputHandler() {
-		return new GolemWheelKeyHandler();
+		return GolemWheelKeyHandler.getDefault();
+	}
+
+	@Override
+	public void onClose() {
+		// Esc 等外部关闭路径不会经过右键消费，清理掉“吞下一次右键”的标记
+		GolemWheelHandler.press = false;
 	}
 
 	@Override

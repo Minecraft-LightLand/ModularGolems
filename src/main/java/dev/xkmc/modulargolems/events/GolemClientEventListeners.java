@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientProfileManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderProfile;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.mob.MobSkinDispatch;
 import dev.xkmc.modulargolems.content.menu.table.TableTab;
+import dev.xkmc.modulargolems.content.menu.wheel.GolemWheelHandler;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
 import dev.xkmc.modulargolems.events.event.HumanoidSkinEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -45,6 +46,7 @@ public class GolemClientEventListeners {
 		var player = mc.player;
 		var level = mc.level;
 		if (player == null || level == null) return;
+		GolemWheelHandler.tickPending(player);
 		if (!(player.getVehicle() instanceof AbstractGolemEntity<?, ?>)) return;
 		for (var e : level.getEntitiesOfClass(net.minecraft.world.entity.Entity.class, player.getBoundingBox().inflate(24))) {
 			var id = ForgeRegistries.ENTITY_TYPES.getKey(e.getType());
