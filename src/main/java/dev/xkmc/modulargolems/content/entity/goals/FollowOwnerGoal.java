@@ -53,6 +53,10 @@ public class FollowOwnerGoal extends Goal {
 			return false;
 		Vec3 target = this.golem.getTargetPos();
 		double stop = golem.getMode().getStopDistance();
+		if (golem.getMode() == GolemModes.FOLLOW || golem.getMode() == GolemModes.SQUAD) {
+			var entry = golem.getConfigEntry(null);
+			if (entry != null && entry.stopDistance > 0) stop = entry.stopDistance;
+		}
 		return !(this.golem.distanceToSqr(target) <= stop * stop);
 	}
 

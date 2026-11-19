@@ -51,12 +51,12 @@ public class ToggleGolemConfigScreen extends BaseContainerScreen<ToggleGolemConf
 				.withTooltip(bool -> Tooltip.create(bool
 						? MGLangData.CONFIG_TO_POSITION_TOOLTIP.get()
 						: MGLangData.CONFIG_TO_TARGET_TOOLTIP.get()))
-				.create(left + 7, top + 70, width - 14, 20,
+				.create(left + 7, top + 64, width - 14, 20,
 						MGLangData.CONFIG_POS.get(), this::positionChange));
 
 		lockBtn = addRenderableWidget(CycleButton.onOffBuilder(menu.editor.locked())
 				.withTooltip(bool -> Tooltip.create(MGLangData.CONFIG_LOCK_TOOLTIP.get()))
-				.create(left + 7, top + 100, width - 14, 20,
+				.create(left + 7, top + 88, width - 14, 20,
 						MGLangData.CONFIG_LOCK.get(), this::lockChange));
 
 	}

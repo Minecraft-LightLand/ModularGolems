@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.menu.registry;
 import dev.xkmc.modulargolems.content.client.tracker.TrackerTab;
 import dev.xkmc.modulargolems.content.menu.attribute.AttributeTab;
 import dev.xkmc.modulargolems.content.menu.config.ConfigToggleTab;
+import dev.xkmc.modulargolems.content.menu.config.ParamConfigTab;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentTab;
 import dev.xkmc.modulargolems.content.menu.filter.ConfigItemTab;
 import dev.xkmc.modulargolems.content.menu.path.ConfigPathTab;
@@ -30,6 +31,9 @@ public class GolemTabRegistry {
 
 	public static final GolemTabToken<ConfigGroup, ConfigToggleTab> CONFIG_TOGGLE =
 			new GolemTabToken<>(ConfigToggleTab::new, GolemItems.CARD[0]::get, MGLangData.TAB_TOGGLE.get());
+
+	public static final GolemTabToken<ConfigGroup, ParamConfigTab> CONFIG_PARAM =
+			new GolemTabToken<>(ParamConfigTab::new, () -> Items.LECTERN, MGLangData.TAB_PARAM.get());
 
 	public static final GolemTabToken<ConfigGroup, ConfigItemTab> CONFIG_ITEM =
 			new GolemTabToken<>(ConfigItemTab::new, () -> Items.HOPPER, MGLangData.TAB_PICKUP.get());
@@ -74,6 +78,7 @@ public class GolemTabRegistry {
 
 	public static void register() {
 		LIST_CONFIG.add(CONFIG_TOGGLE);
+		LIST_CONFIG.add(CONFIG_PARAM);
 		LIST_CONFIG.add(CONFIG_ITEM);
 		LIST_CONFIG.add(CONFIG_TARGET);
 		LIST_CONFIG.add(CONFIG_PATH);

@@ -5,6 +5,7 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import dev.xkmc.l2library.serial.recipe.AbstractShapedRecipe;
 import dev.xkmc.l2library.serial.recipe.AbstractSmithingRecipe;
+import dev.xkmc.modulargolems.content.menu.config.ParamConfigScreen;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigMenu;
 import dev.xkmc.modulargolems.content.menu.config.ToggleGolemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
@@ -61,6 +62,10 @@ public class GolemMiscs {
 
 	public static final MenuEntry<ToggleGolemConfigMenu> CONFIG_TOGGLE =
 			REGISTRATE.menu("config_toggle", ToggleGolemConfigMenu::fromNetwork, () -> ToggleGolemConfigScreen::new)
+					.register();
+
+	public static final MenuEntry<ToggleGolemConfigMenu> CONFIG_PARAM =
+			REGISTRATE.menu("config_param", ToggleGolemConfigMenu::fromNetwork, () -> ParamConfigScreen::new)
 					.register();
 
 	public static final MenuEntry<ItemConfigMenu> CONFIG_PICKUP =

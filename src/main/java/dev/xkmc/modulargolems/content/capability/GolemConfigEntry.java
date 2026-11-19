@@ -31,6 +31,18 @@ public class GolemConfigEntry {
 	public boolean summonToPosition;
 	@SerialClass.SerialField
 	public boolean locked;
+	/** 跟随距离；0 = 使用全局默认（MGConfig.startFollowRadius）。 */
+	@SerialClass.SerialField
+	public double followDistance;
+	/** 回传距离；0 = 使用全局默认（MGConfig.maxWanderRadius）。 */
+	@SerialClass.SerialField
+	public double teleportDistance;
+	/** 游荡半径；0 = 使用全局默认（MGConfig.stopWanderRadius）。 */
+	@SerialClass.SerialField
+	public double wanderRadius;
+	/** 停止距离；0 = 使用默认 3 格。 */
+	@SerialClass.SerialField
+	public double stopDistance;
 
 	@SerialClass.SerialField
 	public PickupFilterConfig pickupFilter = new PickupFilterConfig();

@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.capability;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
 import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
@@ -41,6 +42,42 @@ public interface GolemConfigEditor {
 
 	default void setSummonToPosition(boolean bool) {
 		entry().summonToPosition = bool;
+		sync();
+	}
+
+	default double getFollowDistance() {
+		return entry().followDistance > 0 ? entry().followDistance : MGConfig.COMMON.startFollowRadius.get();
+	}
+
+	default void setFollowDistance(double distance) {
+		entry().followDistance = distance;
+		sync();
+	}
+
+	default double getStopDistance() {
+		return entry().stopDistance > 0 ? entry().stopDistance : 3;
+	}
+
+	default void setStopDistance(double distance) {
+		entry().stopDistance = distance;
+		sync();
+	}
+
+	default double getTeleportDistance() {
+		return entry().teleportDistance > 0 ? entry().teleportDistance : MGConfig.COMMON.maxWanderRadius.get();
+	}
+
+	default void setTeleportDistance(double distance) {
+		entry().teleportDistance = distance;
+		sync();
+	}
+
+	default double getWanderRadius() {
+		return entry().wanderRadius > 0 ? entry().wanderRadius : MGConfig.COMMON.stopWanderRadius.get();
+	}
+
+	default void setWanderRadius(double distance) {
+		entry().wanderRadius = distance;
 		sync();
 	}
 

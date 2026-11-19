@@ -51,6 +51,8 @@ public class TeleportToOwnerGoal extends Goal {
 			return false;
 		Vec3 target = this.golem.getTargetPos();
 		double maxDist = MGConfig.COMMON.maxWanderRadius.get();
+		var entry = this.golem.getConfigEntry(null);
+		if (entry != null && entry.teleportDistance > 0) maxDist = entry.teleportDistance;
 		return this.golem.distanceToSqr(target) >= maxDist * maxDist || this.golem.position().y < golem.level().getMinBuildHeight() - 32;
 	}
 

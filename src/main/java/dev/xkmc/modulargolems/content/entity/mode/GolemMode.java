@@ -57,6 +57,16 @@ public class GolemMode {
 	}
 
 	public double getStartFollowDistance(AbstractGolemEntity<?, ?> golem) {
+		// 跟随/编队模式允许配置卡自定义跟随距离
+		var entry = golem.getConfigEntry(null);
+		if (this == GolemModes.FOLLOW || this == GolemModes.SQUAD) {
+			if (entry != null && entry.followDistance > 0) {
+				return entry.followDistance;
+			}
+		}
+		if (couldRandomStroll() && entry != null && entry.wanderRadius > 0) {
+			return entry.wanderRadius;
+		}
 		return couldRandomStroll() ?
 				MGConfig.COMMON.stopWanderRadius.get() :
 				MGConfig.COMMON.startFollowRadius.get();
