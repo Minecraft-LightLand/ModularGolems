@@ -9,4 +9,12 @@ public interface IUpgradeItem extends ItemLike {
 
 	List<ModifierInstance> get();
 
+	default boolean consumesSlot() {
+		return true;
+	}
+
+	default boolean canBeRemoved() {
+		return false;
+	}
+
 }

@@ -8,7 +8,10 @@ import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.recipe.GolemSmithAddSlotRecipe;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IIngredientAcceptor;
+import mezz.jei.api.gui.ingredient.IRecipeSlotDrawable;
+import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.extensions.vanilla.smithing.ISmithingCategoryExtension;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -20,29 +23,49 @@ public record GolemAddSlotExtension(
 ) implements ISmithingCategoryExtension<GolemSmithAddSlotRecipe> {
 
 	@Override
+	public void onDisplayedIngredientsUpdate(GolemSmithAddSlotRecipe r, IRecipeSlotDrawable templateSlot, IRecipeSlotDrawable baseSlot, IRecipeSlotDrawable additionSlot, IRecipeSlotDrawable outputSlot, IFocusGroup focuses) {
+		var template = templateSlot.getDisplayedIngredient(VanillaTypes.ITEM_STACK).orElse(ItemStack.EMPTY);
+		var base = baseSlot.getDisplayedIngredient(VanillaTypes.ITEM_STACK).orElse(ItemStack.EMPTY);
+		var addition = additionSlot.getDisplayedIngredient(VanillaTypes.ITEM_STACK).orElse(ItemStack.EMPTY);
+
+		ResourceLocation id = null;
+
+		for (var e : GolemMaterialConfig.get().ingredients.entrySet()) {
+			if (e.getValue().test(addition)) {
+				id = e.getKey();
+				break;
+			}
+		}
+
+		if (id != null && template.getItem() instanceof IUpgradeItem item &&
+				base.getItem() instanceof GolemHolder<?, ?> golem) {
+			baseSlot.clearDisplayOverrides();
+			outputSlot.clearDisplayOverrides();
+
+			ItemStack stack = new ItemStack(golem);
+			ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
+			for (var part : golem.getEntityType().values()) {
+				GolemPart<?, ?> partItem = part.toItem();
+				mats.add(new GolemHolderMaterial.Entry(partItem, id));
+			}
+			var baseGolem = GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(mats));
+
+			var holder = GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(mats));
+			GolemUpgrade.add(holder, item);
+
+			baseSlot.createDisplayOverrides().addItemStacks(List.of(baseGolem));
+			outputSlot.createDisplayOverrides().addItemStacks(List.of(holder));
+		}
+	}
+
+	@Override
 	public <T extends IIngredientAcceptor<T>> void setTemplate(GolemSmithAddSlotRecipe r, T t) {
 		t.addIngredients(r.template);
 	}
 
 	@Override
 	public <T extends IIngredientAcceptor<T>> void setBase(GolemSmithAddSlotRecipe r, T t) {
-		if (r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?> golem) {
-			List<ItemStack> list = new ArrayList<>();
-			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
-				ItemStack stack = new ItemStack(golem);
-				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
-				for (var part : golem.getEntityType().values()) {
-					GolemPart<?, ?> partItem = part.toItem();
-					mats.add(new GolemHolderMaterial.Entry(partItem, rl));
-				}
-				var holder = GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(mats));
-				var mat = GolemMaterialConfig.get().getRepairIngredient(rl);
-				for (var ing : mat.getItems()) {
-					list.add(holder);
-				}
-			}
-			t.addItemStacks(list);
-		} else t.addIngredients(r.base);
+		t.addIngredients(r.base);
 	}
 
 	@Override
@@ -50,33 +73,11 @@ public record GolemAddSlotExtension(
 		if (r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?>) {
 			List<ItemStack> list = new ArrayList<>();
 			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
-				var mat = GolemMaterialConfig.get().getRepairIngredient(rl);
+				var mat = GolemMaterialConfig.get().getCraftIngredient(rl);
 				list.addAll(List.of(mat.getItems()));
 			}
 			t.addItemStacks(list);
 		} else t.addIngredients(r.addition);
 	}
 
-	@Override
-	public <T extends IIngredientAcceptor<T>> void setOutput(GolemSmithAddSlotRecipe r, T t) {
-		if (r.template.getItems()[0].getItem() instanceof IUpgradeItem item &&
-				r.base.getItems()[0].getItem() instanceof GolemHolder<?, ?> golem) {
-			List<ItemStack> list = new ArrayList<>();
-			for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
-				ItemStack stack = new ItemStack(golem);
-				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
-				for (var part : golem.getEntityType().values()) {
-					GolemPart<?, ?> partItem = part.toItem();
-					mats.add(new GolemHolderMaterial.Entry(partItem, rl));
-				}
-				var holder = GolemItems.HOLDER_MAT.set(stack, new GolemHolderMaterial(mats));
-				var mat = GolemMaterialConfig.get().getRepairIngredient(rl);
-				GolemUpgrade.add(holder, item);
-				for (var ing : mat.getItems()) {
-					list.add(holder);
-				}
-			}
-			t.addItemStacks(list);
-		}
-	}
 }

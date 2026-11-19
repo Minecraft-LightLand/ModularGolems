@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.core.GolemSlot;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
@@ -13,7 +14,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 
 public enum DogGolemPartType implements IGolemPart<DogGolemPartType> {
-	BODY, LEGS;
+	BODY(GolemSlot.MIDDLE),
+	LEGS(GolemSlot.DOWN);
+
+	private final GolemSlot slot;
+
+	DogGolemPartType(GolemSlot slot) {
+		this.slot = slot;
+	}
+
+	@Override
+	public GolemSlot getSlot() {
+		return slot;
+	}
 
 	@Override
 	public MutableComponent getDesc(MutableComponent desc) {

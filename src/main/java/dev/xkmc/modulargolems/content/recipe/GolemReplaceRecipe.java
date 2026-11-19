@@ -10,13 +10,13 @@ import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNullableByDefault;
 import java.util.ArrayList;
 
@@ -71,8 +71,11 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 	}
 
 	public ItemStack assembleForJEI(ResourceLocation mat) {
+		return assembleForJEI(mat, null);
+	}
+
+	public ItemStack assembleForJEI(ResourceLocation mat, @Nullable ItemStack holder) {
 		boolean holderFirst = false;
-		ItemStack holder = null;
 		IGolemPart<?>[] parts = null;
 		IGolemPart<?> sel = null;
 		for (var ing : getIngredients()) {
@@ -81,7 +84,7 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 			ItemStack input = ing.getItems()[0];
 			if (input.isEmpty()) continue;
 			if (input.getItem() instanceof GolemHolder<?, ?> h) {
-				holder = input;
+				if (holder == null) holder = input;
 				parts = h.getEntityType().values();
 				if (sel == null) holderFirst = true;
 			}
@@ -123,7 +126,8 @@ public class GolemReplaceRecipe extends AbstractShapedRecipe<GolemReplaceRecipe>
 					return ItemStack.EMPTY;
 				}
 			}
-		}ItemStack result = holder.copy();
+		}
+		ItemStack result = holder.copy();
 		var matData = GolemItems.HOLDER_MAT.get(result);
 		ArrayList<GolemHolderMaterial.Entry> list;
 		if (matData == null || matData.size() < parts.length) {

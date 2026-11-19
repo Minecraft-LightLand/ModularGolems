@@ -99,6 +99,7 @@ public class GolemJEIPlugin implements IModPlugin {
 	private static void addPartCraftRecipes(List<IJeiAnvilRecipe> recipes, GolemMaterialConfig config, IVanillaRecipeFactory factory) {
 		for (var mat : config.getAllMaterials()) {
 			{
+				if (!GolemMaterialConfig.mayApply(GolemItems.GOLEM_BODY.get(), mat)) continue;
 				recipes.add(factory.createAnvilRecipe(GolemItems.EMPTY_UPGRADE.asStack(),
 						List.of(config.getRepairIngredient(mat).getItems()),
 						List.of(GolemFacade.setMaterial(GolemItems.FACADE.asStack(), mat))));
@@ -113,6 +114,8 @@ public class GolemJEIPlugin implements IModPlugin {
 			}
 			if (special) continue;
 			for (var item : GolemPart.LIST) {
+				if (!item.getDefaultInstance().is(MGTagGen.ANVIL_CRAFT)) continue;
+				if (!GolemMaterialConfig.mayApply(item, mat)) continue;
 				List<ItemStack> list = new ArrayList<>();
 				for (ItemStack stack : arr) {
 					list.add(new ItemStack(stack.getItem(), item.count));
@@ -129,6 +132,7 @@ public class GolemJEIPlugin implements IModPlugin {
 			List<ItemStack> material = new ArrayList<>();
 			List<ItemStack> result = new ArrayList<>();
 			for (var mat : config.getAllMaterials()) {
+				if (!GolemMaterialConfig.mayApply(types, mat)) continue;
 				ItemStack golem = new ItemStack(types);
 				ArrayList<GolemHolderMaterial.Entry> mats = new ArrayList<>();
 				for (IGolemPart<?> part : types.getEntityType().values()) {

@@ -32,6 +32,7 @@ public class GolemFacade extends Item {
 
 	public void fillItemCategory(CreativeModeTabModifier tab) {
 		for (ResourceLocation rl : GolemMaterialConfig.get().getAllMaterials()) {
+			if (!GolemMaterialConfig.mayApply(GolemItems.GOLEM_BODY.get(), rl)) continue;
 			ItemStack stack = new ItemStack(this);
 			setMaterial(stack, rl);
 			tab.accept(stack);

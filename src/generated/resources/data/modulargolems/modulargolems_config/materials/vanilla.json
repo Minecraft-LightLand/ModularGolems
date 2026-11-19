@@ -30,6 +30,7 @@
       "modulargolems:sonic_boom": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "modulargolems:copper": {
       "item": "minecraft:copper_ingot"

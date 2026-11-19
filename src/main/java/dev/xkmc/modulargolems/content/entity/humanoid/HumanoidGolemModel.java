@@ -20,7 +20,7 @@ import net.minecraft.world.item.UseAnim;
 import net.neoforged.neoforge.common.ItemAbilities;
 
 public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> implements
-		IGolemModel<HumanoidGolemEntity, HumaniodGolemPartType, HumanoidGolemModel>, IHeadedModel {
+		IGolemModel<HumanoidGolemEntity, HumanoidGolemPartType, HumanoidGolemModel>, IHeadedModel {
 
 	public HumanoidGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(GolemEquipmentModels.HUMANOID), false);
@@ -31,15 +31,15 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 	}
 
 	@Override
-	public void renderToBufferInternal(HumaniodGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, int alpha) {
-		if (type == HumaniodGolemPartType.BODY) {
+	public void renderToBufferInternal(HumanoidGolemPartType type, PoseStack stack, VertexConsumer consumer, int i, int j, int alpha) {
+		if (type == HumanoidGolemPartType.BODY) {
 			this.body.render(stack, consumer, i, j, alpha);
 			this.head.render(stack, consumer, i, j, alpha);
 			this.hat.render(stack, consumer, i, j, alpha);
-		} else if (type == HumaniodGolemPartType.ARMS) {
+		} else if (type == HumanoidGolemPartType.ARMS) {
 			this.leftArm.render(stack, consumer, i, j, alpha);
 			this.rightArm.render(stack, consumer, i, j, alpha);
-		} else if (type == HumaniodGolemPartType.LEGS) {
+		} else if (type == HumanoidGolemPartType.LEGS) {
 			this.leftLeg.render(stack, consumer, i, j, alpha);
 			this.rightLeg.render(stack, consumer, i, j, alpha);
 		}

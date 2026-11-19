@@ -18,7 +18,7 @@ import dev.xkmc.modulargolems.content.block.TableBlock;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemPartType;
-import dev.xkmc.modulargolems.content.entity.humanoid.HumaniodGolemPartType;
+import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemPartType;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
@@ -80,8 +80,8 @@ public class GolemItems {
 	public static final ItemEntry<GolemPart<MetalGolemEntity, MetalGolemPartType>> GOLEM_BODY, GOLEM_ARM, GOLEM_LEGS;
 	public static final ItemEntry<GolemHolder<MetalGolemEntity, MetalGolemPartType>> HOLDER_GOLEM;
 
-	public static final ItemEntry<GolemPart<HumanoidGolemEntity, HumaniodGolemPartType>> HUMANOID_BODY, HUMANOID_ARMS, HUMANOID_LEGS;
-	public static final ItemEntry<GolemHolder<HumanoidGolemEntity, HumaniodGolemPartType>> HOLDER_HUMANOID;
+	public static final ItemEntry<GolemPart<HumanoidGolemEntity, HumanoidGolemPartType>> HUMANOID_BODY, HUMANOID_ARMS, HUMANOID_LEGS;
+	public static final ItemEntry<GolemHolder<HumanoidGolemEntity, HumanoidGolemPartType>> HOLDER_HUMANOID;
 
 	public static final ItemEntry<GolemPart<DogGolemEntity, DogGolemPartType>> DOG_BODY, DOG_LEGS;
 	public static final ItemEntry<GolemHolder<DogGolemEntity, DogGolemPartType>> HOLDER_DOG;
@@ -415,7 +415,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEFT, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
@@ -423,7 +423,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_GOLEM, MetalGolemPartType.LEG, 9))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
@@ -431,35 +431,35 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		// humanoid golem
 		{
 			HUMANOID_BODY = REGISTRATE.item("humanoid_golem_body", p ->
-							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.BODY, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.BODY, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
-							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.ARMS, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.ARMS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
-							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumaniodGolemPartType.LEGS, 6))
+							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_HUMANOID, HumanoidGolemPartType.LEGS, 6))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		// dog golem
@@ -471,7 +471,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 
 			DOG_LEGS = REGISTRATE.item("dog_golem_legs", p ->
 							new GolemPart<>(p.fireResistant(), GolemTypes.TYPE_DOG, DogGolemPartType.LEGS, 3))
@@ -480,7 +480,7 @@ public class GolemItems {
 					.tab(ITEMS.key())
 					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
-					.tag(MGTagGen.GOLEM_PARTS).defaultLang().register();
+					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
 
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)

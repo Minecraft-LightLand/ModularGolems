@@ -54,6 +54,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -67,6 +68,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -76,6 +78,7 @@ import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
@@ -110,8 +113,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private static final SyncedData GOLEM_DATA = new SyncedData(AbstractGolemEntity::defineId);
 	private static final EntityDataAccessor<Optional<UUID>> OWNER_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), null);
 
+	protected MoveControl waterMoveControl;
+
 	protected AbstractGolemEntity(EntityType<T> type, Level level) {
 		super(type, level);
+		waterMoveControl = new GolemSwimMoveControl(this);
 		this.waterNavigation = new AmphibiousPathNavigation(this, level);
 		this.groundNavigation = new FastGroundPathNavigation(this, level);
 		navigation = groundNavigation;
@@ -163,7 +169,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.golemFlags.clear();
 		getModifiers().forEach((m, i) -> m.onRegisterFlag(golemFlags::add));
 		if (canSwim()) {
-			this.moveControl = new GolemSwimMoveControl(this);
+			this.moveControl = waterMoveControl;
 			this.navigation = waterNavigation;
 			this.setPathfindingMalus(PathType.WATER, 0.0F);
 			this.setPathfindingMalus(PathType.WATER_BORDER, 0.0F);
@@ -575,6 +581,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	@Override
 	public void setTarget(@Nullable LivingEntity target) {
+		var prev = getTarget();
 		if (!setTargetRaw(target)) return;
 		if (getVehicle() instanceof AbstractGolemEntity<?, ?> veh) {
 			veh.setTargetRaw(target);
@@ -583,7 +590,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (target != null) {
 			TargetManager.get(this).onSetTarget(this, target);
 		}
-		if (target instanceof Mob mob) {
+		if (target != prev && target instanceof Mob mob) {
 			if (mob.getTarget() == null && mob.canAttack(this)) {
 				mob.setTarget(this);
 			}
@@ -1289,6 +1296,31 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected float dynamicReductionRate() {
 		if (!hasFlag(GolemFlags.DYNAMIC_REDUCTION)) return 0;
 		return (float) getAttributeValue(GolemTypes.DYNAMIC_REDUCTION) * 20;
+	}
+
+	public int getPreviewScale() {
+		return 18;
+	}
+
+	@Override
+	protected void hurtArmor(DamageSource source, float damage) {
+		if (damage <= 0.0F) return;
+		damage /= 4.0F;
+		if (damage < 1.0F) {
+			damage = 1.0F;
+		}
+		for (EquipmentSlot slot : EquipmentSlot.values()) {
+			if (slot.getType() == EquipmentSlot.Type.HAND) continue;
+			ItemStack stack = this.getItemBySlot(slot);
+			if (!shouldHurtArmor(source, stack)) continue;
+			stack.hurtAndBreak((int) damage, this, slot);
+		}
+	}
+
+	protected boolean shouldHurtArmor(DamageSource source, ItemStack stack) {
+		if (!stack.isDamageableItem()) return false;
+		if (source.is(DamageTypeTags.IS_FIRE) && !stack.getItem().canBeHurtBy(stack, source)) return false;
+		return stack.getItem() instanceof ArmorItem || stack.is(MGTagGen.GOLEM_DAMAGEABLE);
 	}
 
 }

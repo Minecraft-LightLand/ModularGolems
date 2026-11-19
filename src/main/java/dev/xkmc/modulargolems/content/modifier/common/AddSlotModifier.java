@@ -22,7 +22,7 @@ public class AddSlotModifier extends GolemModifier {
 
 	@Override
 	public int addSlot(List<IUpgradeItem> list, int lv) {
-		return lv + 1;
+		return lv;
 	}
 
 }

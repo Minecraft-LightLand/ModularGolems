@@ -1,0 +1,12 @@
+{
+  "values": [
+    "modulargolems:metal_golem_body",
+    "modulargolems:metal_golem_arm",
+    "modulargolems:metal_golem_legs",
+    "modulargolems:humanoid_golem_body",
+    "modulargolems:humanoid_golem_arms",
+    "modulargolems:humanoid_golem_legs",
+    "modulargolems:dog_golem_body",
+    "modulargolems:dog_golem_legs"
+  ]
+}

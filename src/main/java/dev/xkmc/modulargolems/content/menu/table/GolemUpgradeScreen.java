@@ -3,7 +3,6 @@ package dev.xkmc.modulargolems.content.menu.table;
 import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
-import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -55,7 +54,7 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 		if (this.menu.getCarried().isEmpty() && hoveredSlot != null && hoveredSlot.hasItem()) {
 			ItemStack stack = hoveredSlot.getItem();
 			if (hoveredSlot instanceof UpgradeSlot) {
-				if (stack.getItem() instanceof IUpgradeItem && !(stack.getItem() instanceof UpgradeItem)) {
+				if (stack.getItem() instanceof IUpgradeItem item && !item.canBeRemoved()) {
 					g.renderTooltip(font, List.of(MGLangData.UI_REMOVE_TEMPLATE.get()), Optional.empty(), stack, x, y);
 					return;
 				}

@@ -23,6 +23,7 @@
       "modulargolems:player_immune": 1
     }
   },
+  "partLimitation": {},
   "repairIngredients": {
     "l2hostility:chaotic": {
       "item": "l2hostility:chaos_ingot"

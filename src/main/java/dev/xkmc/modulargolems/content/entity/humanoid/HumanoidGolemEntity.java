@@ -23,7 +23,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,7 +30,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -45,7 +43,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 
 @SerialClass
-public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumaniodGolemPartType> {
+public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, HumanoidGolemPartType> {
 
 	private static final EntityDataAccessor<String> DATA_MAID_MODEL_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<String> DATA_SOUND_PACK_ID = SynchedEntityData.defineId(HumanoidGolemEntity.class, EntityDataSerializers.STRING);
@@ -240,24 +238,6 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 		return InteractionResult.FAIL;
 	}
 
-	// ------ player equipment hurt
-
-	@Override
-	protected void hurtArmor(DamageSource source, float damage) {
-		if (damage <= 0.0F) return;
-		damage /= 4.0F;
-		if (damage < 1.0F) {
-			damage = 1.0F;
-		}
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
-			ItemStack itemstack = this.getItemBySlot(slot);
-			if ((!source.is(DamageTypeTags.IS_FIRE) || !itemstack.getItem().canBeHurtBy(itemstack, source)) && itemstack.getItem() instanceof ArmorItem) {
-				itemstack.hurtAndBreak((int) damage, this, slot);
-			}
-		}
-	}
-
 	@Nullable
 	public InteractionHand shieldSlot() {
 		return getItemBySlot(EquipmentSlot.MAINHAND).canPerformAction(ItemAbilities.SHIELD_BLOCK) ? InteractionHand.MAIN_HAND :
@@ -388,6 +368,11 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	public void playSound(SoundEvent soundEvent, float volume, float pitch) {
 		if (getSoundManager().playSound(this, soundEvent, volume, pitch)) return;
 		super.playSound(soundEvent, volume, pitch);
+	}
+
+	@Override
+	public int getPreviewScale() {
+		return 24;
 	}
 
 }
