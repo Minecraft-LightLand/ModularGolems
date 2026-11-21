@@ -24,6 +24,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 
 	private final ModelPart golemRoot;
 
+
 	public HumanoidGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(GolemEquipmentModels.HUMANOID), false);
 	}
@@ -63,6 +64,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 	@Override
 	public void setupAnim(HumanoidGolemEntity entity, float f1, float f2, float f3, float f4, float f5) {
 		super.setupAnim(entity, f1, f2, f3, f4, f5);
+
 		if (entity.isAggressive() && this.attackTime == 0.0F) {
 			if (leftArmPose == ArmPose.ITEM) {
 				this.leftArm.xRot = -1.8F;
@@ -104,6 +106,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 		} else if (entity.isAggressive()) {
 			pos = ArmPose.ITEM;
 		}
+
 		ArmPose anti_pos = ArmPose.EMPTY;
 		if (hand == InteractionHand.OFF_HAND) {
 			anti_pos = pos;
