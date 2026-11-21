@@ -15,6 +15,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.modulargolems.util.GolemUtils;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -117,6 +118,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 				returnToPlayer(e);
 			}
 			main.set(ItemStack.EMPTY);
+			TableSounds.play(player, SoundEvents.UI_STONECUTTER_TAKE_RESULT);
 			return true;
 		}
 		return super.clickMenuButton(player, id);
@@ -207,6 +209,8 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			changing = false;
 			main.set(ItemStack.EMPTY);
 			super.onTake(player, stack);
+			TableSounds.play(player, SoundEvents.UI_STONECUTTER_TAKE_RESULT);
+			TableSounds.play(player, SoundEvents.ANVIL_USE);
 		}
 
 		@Override

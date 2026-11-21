@@ -5,6 +5,8 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeItem;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeSort;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +24,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 	private static final int SIZE = 27;
 
 	private final boolean client;
+	private final Player player;
 	private final Supplier<Slot> parent;
 
 	public boolean allowExtract = true;
@@ -38,8 +41,9 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 
 	private static final Comparator<ItemStack> UPGRADE_SORT = UpgradeSort.itemComparator();
 
-	public GolemUpgradeItemHandler(Supplier<Slot> slot, boolean client) {
-		this.client = client;
+	public GolemUpgradeItemHandler(Supplier<Slot> slot, Player player) {
+		this.player = player;
+		this.client = player.level().isClientSide();
 		parent = slot;
 	}
 
@@ -140,6 +144,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 		if (ans.isEmpty()) return stack;
 		if (!simulate) {
 			parent.get().set(ans);
+			TableSounds.play(player, SoundEvents.SMITHING_TABLE_USE);
 		}
 		return stack.getCount() == 1 ? ItemStack.EMPTY : stack.copyWithCount(stack.getCount() - 1);
 	}
@@ -153,6 +158,7 @@ public class GolemUpgradeItemHandler implements IItemHandlerModifiable {
 		if (ans.isEmpty()) return ItemStack.EMPTY;
 		if (!simulate) {
 			parent.get().set(ans);
+			TableSounds.play(player, SoundEvents.GRINDSTONE_USE);
 		}
 		return stack.copyWithCount(1);
 	}

@@ -17,6 +17,7 @@ import dev.xkmc.modulargolems.init.data.MGTagGen;
 import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -316,6 +317,7 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 				changing = false;
 			}
 			super.onTake(player, stack);
+			TableSounds.play(player, SoundEvents.ANVIL_USE);
 			main.update();
 			result.update();
 		}
