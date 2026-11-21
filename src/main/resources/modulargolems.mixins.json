@@ -1,10 +1,11 @@
 {
-	"required": true,
+	"required": false,
 	"priority": 1000,
 	"package": "dev.xkmc.modulargolems.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"refmap": "modulargolems.refmap.json",
 	"mixins": [
+		"SeekingArrowAllyMixin",
 		"AbstractArrowMixin",
 		"BeltDeployerCallbacksMixin",
 		"EntityAxeAttackMixin",
@@ -18,10 +19,14 @@
 		"ServerLevelMixin"
 	],
 	"client": [
-		"ScreenMixin"
+		"ScreenMixin",
+		"SoulTridentTextureMixin",
+		"SoulPillarExplosionEntityAppearanceMixin",
+		"ItemTickableSoundMixin",
+		"RaygunGunOffsetMixin"
 	],
 	"injectors": {
-		"defaultRequire": 1
+		"defaultRequire": 0
 	},
 	"minVersion": "0.8"
 }

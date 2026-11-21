@@ -86,11 +86,21 @@ public class GolemAfterimageParticle extends Particle {
 					VertexConsumer original = source.getBuffer(requested);
 					return tint(original, colorR, colorG, colorB, colorA);
 				};
+				// 残影走的是同一个 EntityRenderDispatcher，getRenderer(living)
+				// 拿到的是同一个 renderer 实例，它的 model 字段与主渲染共用。
+				// render 内部会调 model.setupAnim(...)，其中 ageInTicks
+				// = tickCount + partialTicks。这里必须传与主渲染相同的 partialTicks
+				// （Minecraft#getPartialTick()），而不是粒子自己的 tick：
+				// 两者不等时残影那次 setupAnim 会算出另一套手臂角度，
+				// 残影渲染在主渲染之后，于是把共享模型留在残影版本的姿势上，
+				// 下一帧主渲染接着算 → 两组值反复交替，表现为模型/手臂高频抖动。
+				// 残影的位置已由 lerpX/lerpY/lerpZ 单独算出，不依赖这个参数。
+				float renderTick = Minecraft.getInstance().getPartialTick();
 				RENDERING.set(true);
 				try {
 					dispatcher.render(living,
 							lerpX - vec3.x(), lerpY - vec3.y(), lerpZ - vec3.z(),
-							living.getYRot(), tick, stack, tinted, dispatcher.getPackedLightCoords(living, tick));
+							living.getYRot(), renderTick, stack, tinted, dispatcher.getPackedLightCoords(living, renderTick));
 				} finally {
 					RENDERING.set(false);
 				}
