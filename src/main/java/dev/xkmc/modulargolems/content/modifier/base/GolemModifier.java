@@ -6,6 +6,7 @@ import dev.xkmc.l2library.base.NamedEntry;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.util.RomanNumerals;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -49,7 +50,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public Component getTooltip(int v) {
 		MutableComponent ans = getDesc();
 		if (maxLevel > 1)
-			ans = ans.append(" ").append(Component.translatable("potion.potency." + (v - 1)));
+			ans = ans.append(" ").append(Component.literal(RomanNumerals.of(v)));
 		return ans.withStyle(ChatFormatting.LIGHT_PURPLE);
 	}
 

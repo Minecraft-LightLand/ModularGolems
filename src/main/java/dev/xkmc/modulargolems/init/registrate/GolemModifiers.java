@@ -142,7 +142,7 @@ public class GolemModifiers {
 				new RideUpgrade.AttrEntry(GolemTypes.STAT_RANGE, () -> 0.5)
 		)).register();
 
-		ADD_SLOT = reg("add_slot", () -> new AddSlotModifier(20), "Add %s golem upgrade slot");
+		ADD_SLOT = reg("add_slot", () -> new AddSlotModifier(1000), "Add %s golem upgrade slot");
 
 		ARMOR_BYPASS = reg("armor_penetration", () -> new AttackBypassArmorModifier(5),
 				"Armor Penetration", "Attack has %s chance to bypass armor and shields");

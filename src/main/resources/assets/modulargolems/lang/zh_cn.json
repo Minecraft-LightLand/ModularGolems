@@ -988,6 +988,8 @@
   "modulargolems.gui.hint.put_upgrade": "放入升级模板",
   "modulargolems.gui.no_upgrade": "该傀儡没有技能",
   "modulargolems.gui.skill_title": "傀儡技能/升级",
+  "item.modulargolems.add_1_slot": "升级槽 +1",
+  "item.modulargolems.add_100_slot": "升级槽 +100",
   "item.modulargolems.dummy_furnace": "假人熔炉",
   "item.modulargolems.dummy_iron_consumer": "假人铁消耗器",
   "item.modulargolems.dummy_uranium_consumer": "假人铀消耗器",

@@ -234,6 +234,8 @@
 		}
 	},
 	"item.modulargolems": {
+		"add_1_slot": "升级槽 +1",
+		"add_100_slot": "升级槽 +100",
 		"dummy_furnace": "假人熔炉",
 		"dummy_iron_consumer": "假人铁消耗器",
 		"dummy_uranium_consumer": "假人铀消耗器"
