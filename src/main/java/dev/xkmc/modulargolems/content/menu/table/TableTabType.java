@@ -24,8 +24,9 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 public enum TableTabType implements MenuProvider, ITabType<TableGroup> {
-	DISINTEGRATE(MGLangData.TAB_DISINTEGRATE, GolemMiscs.DISINTEGRATE),
+	ASSEMBLE(MGLangData.TAB_ASSEMBLE, GolemMiscs.ASSEMBLE_MENU),
 	UPGRADE(MGLangData.TAB_UPGRADES, GolemMiscs.UPGRADES),
+	DISINTEGRATE(MGLangData.TAB_DISINTEGRATE, GolemMiscs.DISINTEGRATE),
 	CRAFT(MenuType.CRAFTING, Items.CRAFTING_TABLE, CraftingMenu::new, "container.crafting"),
 	STONECUTTER(MenuType.STONECUTTER, Items.STONECUTTER, StonecutterMenuArclight::new, "container.stonecutter"),
 	ANVIL(MenuType.ANVIL, Items.ANVIL, AnvilMenuArclight::new, "container.repair"),

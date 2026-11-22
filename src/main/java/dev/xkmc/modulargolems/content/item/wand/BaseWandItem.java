@@ -5,9 +5,16 @@ import dev.xkmc.l2itemselector.select.item.CustomDisplaySelectItem;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -20,11 +27,16 @@ public class BaseWandItem extends Item implements CustomDisplaySelectItem {
 	private final MGLangData right, shift;
 
 	public BaseWandItem(Properties properties, @Nullable MGLangData right, @Nullable MGLangData shift, @Nullable ItemEntry<? extends BaseWandItem> base) {
-		super(properties);
+		super(properties.attributes(buildAttrs(base)));
 		this.base = base;
 		this.right = right;
 		this.shift = shift;
 
+	}
+
+	/** Entry point for the omnipotent wand keys, which mirror the wand's right click. */
+	public void useFromKey(Level level, Player user, InteractionHand hand) {
+		use(level, user, hand);
 	}
 
 	@Override
@@ -46,5 +58,24 @@ public class BaseWandItem extends Item implements CustomDisplaySelectItem {
 			list.add(MGLangData.WAND_SHIFT.get());
 			list.add(shift.get());
 		}
+	}
+
+
+	private static ItemAttributeModifiers buildAttrs(@Nullable ItemEntry<? extends BaseWandItem> base) {
+		double damage = base == null ? WandCombat.WAND_ATTACK_DAMAGE : WandCombat.OMNI_ATTACK_DAMAGE;
+		return ItemAttributeModifiers.builder()
+				.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, damage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+				.add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, WandCombat.BASE_ATTACK_SPEED, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+				.build();
+	}
+
+	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public int getEnchantmentValue() {
+		return 15;
 	}
 }

@@ -1,0 +1,29 @@
+{
+  "ingredients": {
+    "legendary_monsters:molten_metal": {
+      "item": "legendary_monsters:molten_metal_ingot"
+    }
+  },
+  "modifiers": {
+    "legendary_monsters:molten_metal": {
+      "modulargolems:ancient_anchor": 1,
+      "modulargolems:armor_penetration": 2,
+      "modulargolems:fire_immune": 1,
+      "modulargolems:projectile_reject": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "legendary_monsters:molten_metal": {
+      "item": "legendary_monsters:molten_metal_ingot"
+    }
+  },
+  "stats": {
+    "legendary_monsters:molten_metal": {
+      "modulargolems:attack": 20.0,
+      "modulargolems:attack_knockback": 1.0,
+      "modulargolems:max_health": 200.0,
+      "modulargolems:sweep": 2.0
+    }
+  }
+}

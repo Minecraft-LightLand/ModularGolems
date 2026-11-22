@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemMiscs;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModList;
 
@@ -22,7 +23,7 @@ public class EsterEggUtil {
 
 	}
 
-	private static boolean isKobe(AbstractGolemEntity<?, ?> e) {
+	public static boolean isKobe(AbstractGolemEntity<?, ?> e) {
 		if (!hasFacadeWithMaterial(e, ModularGolems.loc("netherite"))) {
 			return false;
 		}
@@ -46,6 +47,16 @@ public class EsterEggUtil {
 			return true;
 		}
 		return false;
+	}
+
+
+	public static void playDeathSound(AbstractGolemEntity<?, ?> golem) {
+		if (!isKobe(golem)) return;
+		if (!golem.onGround()) {
+			golem.playSound(GolemMiscs.CRASH.val().get(), 1.0F, 1.0F);
+		} else {
+			golem.playSound(GolemMiscs.WHATCANISAY.val().get(), 1.0F, 1.0F);
+		}
 	}
 
 }

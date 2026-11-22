@@ -6,6 +6,10 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import dev.xkmc.modulargolems.editor.base.EditorSaveState;
+import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.material.MaterialHomeScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -22,6 +26,11 @@ public class AttributeScreen extends BaseAttributeScreen {
 		super.init();
 		new TabManager<>(this, new EquipmentGroup(golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.ATTRIBUTE.get());
+		if (EditorSaveState.canEdit()) {
+			addRenderableWidget(Button.builder(EditorText.OPEN.get(), b ->
+							Minecraft.getInstance().setScreen(new MaterialHomeScreen(this)))
+					.bounds(width - 112, height - 30, 102, 20).build());
+		}
 	}
 
 	@Override

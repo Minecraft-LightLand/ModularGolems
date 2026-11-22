@@ -1,0 +1,25 @@
+{
+  "ingredients": {
+    "iceandfire:ice_dragonsteel": {
+      "item": "iceandfire:dragonsteel_ice_ingot"
+    }
+  },
+  "modifiers": {
+    "iceandfire:ice_dragonsteel": {
+      "modulargolems:ice_dragonsteel_armor": 1,
+      "modulargolems:ice_dragonsteel_attack": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "iceandfire:ice_dragonsteel": {
+      "item": "iceandfire:dragonsteel_ice_ingot"
+    }
+  },
+  "stats": {
+    "iceandfire:ice_dragonsteel": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:max_health": 400.0
+    }
+  }
+}

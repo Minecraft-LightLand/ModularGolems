@@ -57,7 +57,7 @@ public class LeviathanBlastPortalModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new LeviathanBlastPortalAttackGoal(entity, lv));
+		addGoal.accept(5, new LeviathanBlastPortalAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }

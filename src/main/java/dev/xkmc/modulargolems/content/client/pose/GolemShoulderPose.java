@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.content.client.pose;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,8 +22,22 @@ public interface GolemShoulderPose {
 		}
 	}
 
-	void setup(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, float pTick);
+	default void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, float pTick) {
 
-	void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick);
+	}
+
+	default void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, PoseStack pose, MultiBufferSource source, int light, float pTick) {
+
+	}
+
+	@Deprecated
+	default void setup(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, float pTick) {
+		setup(entity, model, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1, pTick);
+	}
+
+	@Deprecated
+	default void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
+		render(entity, model, stack, hand == InteractionHand.MAIN_HAND ? 1 : -1, pose, source, light, pTick);
+	}
 
 }

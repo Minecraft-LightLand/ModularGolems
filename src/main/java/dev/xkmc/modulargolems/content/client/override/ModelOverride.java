@@ -11,6 +11,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import dev.xkmc.modulargolems.content.client.particle.GolemAfterimageParticle;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,13 +47,13 @@ public class ModelOverride {
 			ghost = true;
 		var model = renderer.getModel();
 		ResourceLocation tex = getTexture(entity, mat);
-		RenderType rt = getRenderType(model, model.getTextureLocationInternal(tex), visible, ghost, glowing);
+		RenderType rt = getRenderType(model, part, model.getTextureLocationInternal(tex), visible, ghost, glowing);
 		if (rt != null) {
 			renderer.renderPartModel(entity, part, pose, buffer.getBuffer(rt), light, pTick, ghost);
 		}
 		var etex = model.getTextureLocationInternal(tex.withSuffix("_emissive"));
 		if (ModelOverrides.isValid(etex)) {
-			rt = getRenderType(renderer.getModel(), etex, visible, ghost, glowing);
+			rt = getRenderType(renderer.getModel(), part, etex, visible, ghost, glowing);
 			if (rt != null) {
 				renderer.renderPartModel(entity, part, pose, buffer.getBuffer(rt), LightTexture.FULL_BRIGHT, pTick, ghost);
 			}
@@ -60,11 +61,12 @@ public class ModelOverride {
 	}
 
 	@Nullable
-	protected <M extends EntityModel<?> & IGolemModel<?, ?, M>> RenderType getRenderType(
-			M model, ResourceLocation tex, boolean visible, boolean ghost, boolean glowing
+	protected <M extends EntityModel<?> & IGolemModel<?, P, M>, P extends IGolemPart<P>> RenderType getRenderType(
+			M model, P part, ResourceLocation tex, boolean visible, boolean ghost, boolean glowing
 	) {
 		if (ghost) return RenderType.itemEntityTranslucentCull(tex);
-		if (visible) return model.renderType(tex);
+		if (GolemAfterimageParticle.isRendering()) return RenderType.entityTranslucent(tex);
+		if (visible) return model.renderType(part, tex);
 		return glowing ? RenderType.outline(tex) : null;
 	}
 

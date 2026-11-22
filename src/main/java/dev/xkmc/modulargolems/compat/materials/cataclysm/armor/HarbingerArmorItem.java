@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
+
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemArmorItem;
@@ -23,6 +25,10 @@ import java.util.List;
 public class HarbingerArmorItem extends MetalGolemArmorItem {
 
 	public HarbingerArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+		this(properties, type, defense, toughness, 0, model);
+	}
+
+	public HarbingerArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, float knockbackResistance, ResourceLocation model) {
 		super(properties, type, defense, toughness, model, e -> {
 			var id = ModularGolems.loc("harbinger_armor_" + type.getName());
 			e.add(L2DamageTracker.ABSORB, new AttributeModifier(id, 1,
@@ -35,9 +41,9 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 				case LEGS -> e.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(
 						id, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.bySlot(type.getSlot()));
 			}
+			MetalGolemArmorItem.addKnockback(e, type, knockbackResistance);
 		});
 	}
-
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);
@@ -48,6 +54,14 @@ public class HarbingerArmorItem extends MetalGolemArmorItem {
 			case CHEST -> list.add(MGLangData.HARBINGER_BOOST_MISSILE
 					.get(Math.round(MGConfig.COMMON.missileArmorBonus.get() * 100) + "%")
 					.withStyle(ChatFormatting.GOLD));
+			case LEGS -> {
+				list.add(MGLangData.HARBINGER_BOOST_CHARGE
+						.get(Math.round(MGConfig.COMMON.chargeArmorBonus.get() * 100) + "%")
+						.withStyle(ChatFormatting.GOLD));
+				list.add(MGLangData.SKILL_IGNORE_HEALTH.get(
+						Component.translatable(CataCompatRegistry.HARBINGER_CHARGE.get().getDescriptionId()))
+						.withStyle(ChatFormatting.GOLD));
+			}
 		}
 	}
 

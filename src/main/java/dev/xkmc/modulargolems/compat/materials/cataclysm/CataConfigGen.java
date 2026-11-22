@@ -34,6 +34,8 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.IGNIS_FIREBALL.get(), 2)
 				.addModifier(CataCompatRegistry.IGNIS_JUMP.get(), 1)
 				.addModifier(CataCompatRegistry.IGNIS_ATTACK.get(), 1)
+				.addModifier(CataCompatRegistry.IGNIS_CHARGE.get(), 1)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1.5)
 				.end()
 
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "witherite"), Ingredient.of(ModItems.WITHERITE_INGOT.get()))
@@ -48,6 +50,10 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
 				.addModifier(CataCompatRegistry.HARBINGER_BEAM.get(), 1)
 				.addModifier(CataCompatRegistry.HARBINGER_MISSILE.get(), 1)
+				.addModifier(CataCompatRegistry.HARBINGER_HOWITZER.get(), 1)
+				.addModifier(CataCompatRegistry.HARBINGER_WITHER_MISSILE.get(), 1)
+				.addModifier(CataCompatRegistry.HARBINGER_CHARGE.get(), 1)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.end()
 
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "cursium"), Ingredient.of(ModItems.CURSIUM_INGOT.get()))
@@ -62,6 +68,9 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
 				.addModifier(CataCompatRegistry.EARTHQUAKE_SPEAR.get(), 1)
 				.addModifier(CataCompatRegistry.MALEDICTUS_ATTACK.get(), 1)
+				.addModifier(CataCompatRegistry.MALEDICTUS_ARROW.get(), 1)
+				.addModifier(CataCompatRegistry.MALEDICTUS_CHARGE.get(), 1)
+				.addStat(GolemTypes.STAT_KBRES.get(), 0.5)
 				.end()
 
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "ender_guardian"),
@@ -76,6 +85,10 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 3)
 				.addModifier(CataCompatRegistry.RUNE.get(), 2)
+				.addModifier(CataCompatRegistry.GUARDIAN_HUG.get(), 1)
+				.addModifier(CataCompatRegistry.GUARDIAN_TELEPORT_SLAM.get(), 1)
+				.addModifier(CataCompatRegistry.GUARDIAN_ROCKET.get(), 1)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1.5)
 				.end()
 
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "storm"),
@@ -93,6 +106,12 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
 				.addModifier(CataCompatRegistry.SCYLLA_LIGHTNING.get(), 1)
 				.addModifier(CataCompatRegistry.SCYLLA_WAVE.get(), 1)
+				.addModifier(CataCompatRegistry.SCYLLA_STORM.get(), 1)
+				.addModifier(CataCompatRegistry.SCYLLA_WATER_BOLT.get(), 1)
+				.addModifier(CataCompatRegistry.SCYLLA_LINE.get(), 1)
+				.addModifier(CataCompatRegistry.SCYLLA_SPIN.get(), 1)
+				.addModifier(CataCompatRegistry.SCYLLA_ANCHOR_SLAM.get(), 1)
+				.addStat(GolemTypes.STAT_KBRES.get(), 0.5)
 				.end()
 
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CataDispatch.MODID, "ancient_metal"), Ingredient.of(ModItems.ANCIENT_METAL_INGOT.get()))
@@ -105,6 +124,10 @@ public class CataConfigGen extends ConfigDataProvider {
 				.addModifier(CataCompatRegistry.ANCIENT_MELTDOWN.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 1)
 				.addModifier(CataCompatRegistry.SANDSTORM.get(), 1)
+				.addModifier(CataCompatRegistry.ANCIENT_RENANT_STELE.get(), 1)
+				.addModifier(CataCompatRegistry.ANCIENT_RENANT_CHARGE.get(), 1)
+				.addModifier(CataCompatRegistry.ANCIENT_RENANT_LEAP.get(), 1)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1.5)
 				.end()
 		);
 

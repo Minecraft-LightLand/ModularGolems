@@ -2,14 +2,13 @@ package dev.xkmc.modulargolems.compat.materials.create.arm;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.modulargolems.content.client.pose.GolemShoulderPose;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
@@ -17,16 +16,29 @@ import net.minecraft.world.phys.Vec3;
 public class ArmPose implements GolemShoulderPose {
 
 	@Override
-	public void setup(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, float pTick) {
+	public void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, float pTick) {
 
 	}
 
+	/**
+	 * Mount point of the arm, in model pixels. The bipedal numbers are the metal golem shoulder; the
+	 * dog golem mounts it flat on its back instead.
+	 */
+	private static final float BIPEDAL_X = 7f / 16f;
+	private static final float BIPEDAL_Y = 31f / 16f;
+	private static final float DOG_X = 6f / 16f;
+	private static final float DOG_Y = 26f / 16f;
+	private static final float DOG_Z = 0f / 16f;
+
 	@Override
-	public void render(MetalGolemEntity entity, MetalGolemModel model, ItemStack stack, InteractionHand hand, PoseStack pose, MultiBufferSource source, int light, float pTick) {
+	public void render(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		pose.pushPose();
 		try {
-			int s0 = hand == InteractionHand.MAIN_HAND ? 1 : -1;
-			var src = new Vec3(s0 * 7f / 16, 31f / 16, 0);
+			int s0 = slot < 0 ? -1 : 1;
+			// slot zero is the center mount used by back carried weapons
+			Vec3 src = slot == 0
+					? new Vec3(DOG_X, DOG_Y, DOG_Z)
+					: new Vec3(s0 * BIPEDAL_X, BIPEDAL_Y, 0);
 			var def = ArmAngleTarget.NO_TARGET;
 			ArmState state;
 			long last = stack.getOrDefault(GolemItems.DC_TIMESTAMP, 0L);
@@ -34,7 +46,7 @@ public class ArmPose implements GolemShoulderPose {
 			long current = entity.level().getGameTime();
 			float time = ((current - last) + pTick) * speed;
 			var display = stack.get(GolemItems.DC_DISPLAY_ITEM);
-			var repair = display == null ? Items.IRON_INGOT.getDefaultInstance() : display.stack();
+			ItemStack repair = display == null ? Items.IRON_INGOT.getDefaultInstance() : display.stack();
 			if (last > current || time > 80) {
 				state = new ArmState(entity.level(), ItemStack.EMPTY, 0, def, def);
 			} else if (time < 40) {

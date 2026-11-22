@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.humanoid.weapon;
 
 import dev.xkmc.mob_weapon_api.api.ai.ISmartUser;
 import dev.xkmc.mob_weapon_api.util.ShootUtils;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +30,13 @@ public record GolemUser(
 	@Override
 	public boolean hasInfiniteArrow(ItemStack weapon, ItemStack ammo) {
 		return ShootUtils.arrowIsInfinite(ammo, weapon);
+	}
+
+	@Override
+	public AbstractArrow createArrow(ItemStack ammo, float power, ItemStack weapon) {
+		AbstractArrow arrow = ISmartUser.super.createArrow(ammo, power, weapon);
+		arrow.setCritArrow(true);
+		return arrow;
 	}
 
 	@Override

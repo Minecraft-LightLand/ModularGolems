@@ -103,12 +103,20 @@ public class RecipeGen {
 					.define('C', Items.CLAY_BALL).save(pvd);
 
 
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.SIMPLE_TABLE.get(), 1)::unlockedBy,
+					Items.ECHO_SHARD).pattern(" G ").pattern("CMT").pattern(" S ")
+					.define('G', Items.GRINDSTONE)
+					.define('C', Items.CRAFTING_TABLE)
+					.define('M', GolemItems.GOLEM_TEMPLATE)
+					.define('T', Items.SMITHING_TABLE)
+					.define('S', Items.STONECUTTER).save(pvd);
+
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GolemItems.TABLE.get(), 1)::unlockedBy,
 					Items.ECHO_SHARD).pattern("AGA").pattern("RTR").pattern("EIE")
 					.define('A', Items.AMETHYST_SHARD)
 					.define('G', GolemItems.SLICING_AXE)
 					.define('R', Items.REDSTONE)
-					.define('T', Items.SMITHING_TABLE)
+					.define('T', GolemItems.SIMPLE_TABLE)
 					.define('E', Items.ECHO_SHARD)
 					.define('I', Items.ANVIL).save(pvd);
 
@@ -308,6 +316,13 @@ public class RecipeGen {
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_SHINGUARD.get())::unlockedBy, Items.IRON_INGOT)
 					.pattern("BIB").pattern(" A ").pattern("I I")
 					.define('I', Items.IRON_LEGGINGS)
+					.define('A', GolemItems.GOLEM_TEMPLATE.get())
+					.define('B', Items.REDSTONE)
+					.save(pvd);
+
+			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_BOOTS.get())::unlockedBy, Items.IRON_INGOT)
+					.pattern("I I").pattern("BAB")
+					.define('I', Items.IRON_BOOTS)
 					.define('A', GolemItems.GOLEM_TEMPLATE.get())
 					.define('B', Items.REDSTONE)
 					.save(pvd);

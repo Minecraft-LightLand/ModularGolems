@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "create:chocolate": {
+      "item": "create:bar_of_chocolate"
+    }
+  },
+  "modifiers": {
+    "create:chocolate": {
+      "modulargolems:choco_body": 1,
+      "modulargolems:mechanical_engine": 1,
+      "modulargolems:mechanical_force": 1,
+      "modulargolems:mechanical_mobility": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "create:chocolate": {
+      "item": "create:bar_of_chocolate"
+    }
+  },
+  "stats": {
+    "create:chocolate": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:max_health": 100.0
+    }
+  }
+}

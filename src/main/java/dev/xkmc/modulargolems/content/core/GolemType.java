@@ -3,21 +3,29 @@ package dev.xkmc.modulargolems.content.core;
 import com.tterrag.registrate.util.entry.EntityEntry;
 import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
 import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.modulargolems.content.config.GolemMaterial;
+import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsMenu;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -93,6 +101,27 @@ public abstract class GolemType<T extends AbstractGolemEntity<T, P>, P extends I
 		return body;
 	}
 
+	@Nullable
+	public MutableComponent describeByMaterial(List<GolemMaterial> mats) {
+		var id = getRegistryName();
+		if (id == null || mats == null) return null;
+		var parts = values();
+		for (int i = 0; i < parts.length && i < mats.size(); i++) {
+			if (!parts[i].equals(body)) continue;
+			var mat = mats.get(i);
+			if (mat == null) return null;
+			return describeByMaterial(mat);
+		}
+		return null;
+	}
+
+	@Nullable
+	public MutableComponent describeByMaterial(@Nullable GolemMaterial mat) {
+		var id = getRegistryName();
+		if (id == null || mat == null) return null;
+		return Component.translatable("golem_type." + id.getNamespace() + "." + id.getPath() + ".named", mat.getName());
+	}
+
 	public boolean mayEdit(ItemStack stack) {
 		return true;
 	}
@@ -109,5 +138,21 @@ public abstract class GolemType<T extends AbstractGolemEntity<T, P>, P extends I
 
 	public int getUpgradeSlots() {
 		return values().length;
+	}
+
+	public Ingredient getTemplateIngredient() {
+		return GolemPartConfig.get().getTemplate(this);
+	}
+
+	public Item getTemplate() {
+		var items = getTemplateIngredient().getItems();
+		return items.length == 0 ? GolemItems.GOLEM_TEMPLATE.get() : items[0].getItem();
+	}
+
+	public boolean isTemplate(ItemStack stack) {
+		if (stack.isEmpty()) return false;
+		var ingredient = getTemplateIngredient();
+		if (ingredient.getItems().length == 0) return stack.is(GolemItems.GOLEM_TEMPLATE.get());
+		return ingredient.test(stack);
 	}
 }

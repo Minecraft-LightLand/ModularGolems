@@ -58,6 +58,9 @@ public class GolemMeleeGoal extends MeleeAttackGoal implements IMeleeGoal {
 	private int failureDelay = 0;
 	private boolean canPenalize = false;
 
+	/** 技能互斥：起飞/后撤等技能在腾空期间置位，落地清除。 */
+	public boolean busy;
+
 	private final AbstractGolemEntity<?, ?> golem;
 
 	private double lastDist;

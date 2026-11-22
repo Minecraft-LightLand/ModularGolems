@@ -16,6 +16,7 @@ import dev.xkmc.modulargolems.content.item.data.GolemHolderMaterial;
 import dev.xkmc.modulargolems.content.item.data.GolemIcon;
 import dev.xkmc.modulargolems.content.item.data.GolemUpgrade;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeSort;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -259,7 +260,17 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	@Override
-	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+	public Component getName(ItemStack stack) {
+		if (stack.has(DataComponents.CUSTOM_NAME)) return super.getName(stack);
+		var golemType = type.get();
+		if (golemType == null) return super.getName(stack);
+		var auto = golemType.describeByMaterial(getMaterial(stack));
+		return auto != null ? auto : super.getName(stack);
+	}
+
+	@Override
+	public InteractionResult useOn(UseOnContext context) {
+		ItemStack stack = context.getItemInHand();
 		Level level = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
 		Direction direction = context.getClickedFace();
@@ -480,11 +491,15 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				}
 			}
 			list.add(MGLangData.SLOT.get(getRemaining(mats, upgrades)).withStyle(ChatFormatting.AQUA));
+			var sorted = new ArrayList<>(upgrades.upgradeItems());
+			sorted.sort(UpgradeSort.upgradeComparator());
 			var modifiers = GolemMaterial.collectModifiers(mats, upgrades);
 			if (modifiers.size() > 8) {
 				list.add(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.size()));
 			} else {
-				modifiers.forEach((k, v) -> list.add(k.getTooltip(v)));
+				var modEntries = new ArrayList<>(modifiers.entrySet());
+				modEntries.sort(UpgradeSort.entryComparator(sorted));
+				modEntries.forEach(e -> list.add(e.getKey().getTooltip(e.getValue())));
 			}
 			GolemMaterial.collectAttributes(mats, upgrades).forEach((k, v) -> {
 				if (Math.abs(v.getSecond()) > 1e-3) {
@@ -495,10 +510,14 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		} else {
 			var mats = getMaterial(stack);
 			var upgrades = getUpgrades(stack);
+			var sorted = new ArrayList<>(upgrades.upgradeItems());
+			sorted.sort(UpgradeSort.upgradeComparator());
 			var map = GolemMaterial.collectModifiers(mats, upgrades);
-			int size = map.size();
+			var modEntries = new ArrayList<>(map.entrySet());
+			modEntries.sort(UpgradeSort.entryComparator(sorted));
+			int size = modEntries.size();
 			int index = 0;
-			for (var entry : map.entrySet()) {
+			for (var entry : modEntries) {
 				index++;
 				var k = entry.getKey();
 				var v = entry.getValue();

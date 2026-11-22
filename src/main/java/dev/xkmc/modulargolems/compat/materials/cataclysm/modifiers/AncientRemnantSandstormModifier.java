@@ -20,7 +20,8 @@ public class AncientRemnantSandstormModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new AncientRemnantSandstormAttackGoal(entity, lv));
+		addGoal.accept(5, new AncientRemnantSandstormAttackGoal(entity, lv).withName(this.getDescriptionId()));
+		addGoal.accept(6, new AncientRemnantSandstormTrackGoal(entity));
 	}
 
 	@Override

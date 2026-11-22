@@ -52,18 +52,13 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 	}
 
 	public ItemStack getBanner(T entity) {
-		ItemStack stack = entity.getItemBySlot(EquipmentSlot.HEAD);
-		if (entity instanceof HumanoidGolemEntity && renders(stack)) {
-			return ItemStack.EMPTY;
-		}
+				// the banner has its own slot, the head slot no longer takes one
+		ItemStack stack = entity.getBannerSlot().getItem();
 		var selfFact = HostileGolemRegistry.tryGetFaction(entity);
 		if (selfFact.isPresent()) {
 			if (entity.hasPassenger(e -> e instanceof AbstractGolemEntity<?, ?>))
 				return ItemStack.EMPTY;
 			return selfFact.get().getBanner(entity, entity.getConfigColor());
-		}
-		if (entity instanceof MetalGolemEntity && !renders(stack)) {
-			stack = entity.getItemBySlot(EquipmentSlot.FEET);
 		}
 		if (renders(stack)) return stack;
 		var entry = entity.getConfigEntry(MGLangData.LOADING.get());

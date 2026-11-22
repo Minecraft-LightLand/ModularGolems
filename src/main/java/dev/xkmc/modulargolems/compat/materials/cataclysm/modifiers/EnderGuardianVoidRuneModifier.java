@@ -15,7 +15,7 @@ public class EnderGuardianVoidRuneModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new EnderGuardianVoidRuneAttackGoal(entity, lv));
+		addGoal.accept(5, new EnderGuardianVoidRuneAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 }

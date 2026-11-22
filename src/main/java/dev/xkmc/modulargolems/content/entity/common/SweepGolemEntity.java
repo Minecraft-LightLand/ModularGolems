@@ -29,6 +29,7 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
+import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -49,14 +50,12 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 
 	private static final EntityDataAccessor<Boolean> IS_CHARGING_CROSSBOW = SynchedEntityData.defineId(SweepGolemEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<ItemStack> BACKUP_SLOT = SynchedEntityData.defineId(SweepGolemEntity.class, EntityDataSerializers.ITEM_STACK);
-	private static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(SweepGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
 	private final GolemWeaponManager<T> weaponManager;
 
 	@SerialField
 	private ItemStack backupHand = ItemStack.EMPTY;
-	@SerialField
-	private ItemStack arrowSlot = ItemStack.EMPTY;
+	private final ExtraSlot backupSlotHandler = registerExtraSlot(BACKUP_SLOT, () -> backupHand, e -> backupHand = e);
 
 	protected SweepGolemEntity(GolemWeaponRegistry<T> reg, EntityType<T> type, Level level) {
 		super(type, level);
@@ -70,24 +69,8 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		super.defineSynchedData(builder);
 		builder.define(IS_CHARGING_CROSSBOW, false);
 		builder.define(BACKUP_SLOT, ItemStack.EMPTY);
-		builder.define(ARROW_SLOT, ItemStack.EMPTY);
 	}
 
-	public ItemStack getProjectile(ItemStack pShootable) {
-		ItemStack ans;
-		if (pShootable.getItem() instanceof ProjectileWeaponItem) {
-			Predicate<ItemStack> predicate = ((ProjectileWeaponItem) pShootable.getItem()).getSupportedHeldProjectiles(pShootable);
-			ItemStack stack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-			if (stack.isEmpty() && !arrowSlot.isEmpty() && predicate.test(arrowSlot)) {
-				stack = arrowSlot;
-			}
-			ans = CommonHooks.getProjectile(this, pShootable, stack);
-		} else {
-			ans = CommonHooks.getProjectile(this, pShootable, ItemStack.EMPTY);
-		}
-		if (isHostile()) ans = ans.copy();
-		return ans;
-	}
 
 	protected boolean performRangedDamage(Entity target, float damage, double kb) {
 		boolean flag = performDamageTarget(target, damage, kb);
@@ -196,12 +179,6 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	@Override
 	protected void customServerAiStep() {
 		super.customServerAiStep();
-		if (!ItemStack.matches(entityData.get(BACKUP_SLOT), backupHand)) {
-			entityData.set(BACKUP_SLOT, backupHand.copy());
-		}
-		if (!ItemStack.matches(entityData.get(ARROW_SLOT), arrowSlot)) {
-			entityData.set(ARROW_SLOT, arrowSlot.copy());
-		}
 	}
 
 	public boolean isChargingCrossbow() {
@@ -231,26 +208,13 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	}
 
 	public ItemWrapper getBackupHand() {
-		if (level().isClientSide())
-			return ItemWrapper.simple(() -> entityData.get(BACKUP_SLOT), e -> entityData.set(BACKUP_SLOT, e));
-		return ItemWrapper.simple(() -> this.backupHand, e -> this.backupHand = e);
+		return backupSlotHandler.wrapper();
 	}
 
-	public ItemWrapper getArrowSlot() {
-		if (level().isClientSide())
-			return ItemWrapper.simple(() -> entityData.get(ARROW_SLOT), e -> entityData.set(ARROW_SLOT, e));
-		return ItemWrapper.simple(() -> this.arrowSlot, e -> this.arrowSlot = e);
-	}
 
 	@Override
 	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
 		super.dropCustomDeathLoot(level, source, player);
-		if (!arrowSlot.isEmpty() && EnchHelper.getLv(arrowSlot, Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(arrowSlot);
-		arrowSlot = ItemStack.EMPTY;
-		if (!backupHand.isEmpty() && EnchHelper.getLv(backupHand, Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(backupHand);
-		backupHand = ItemStack.EMPTY;
 	}
 
 
@@ -259,8 +223,6 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 		var ans = new ArrayList<IItemHandlerModifiable>();
 		ans.add(new EntityHandsInvWrapper(this));
 		ans.add(new EntityArmorInvWrapper(this));
-		ans.add(new SlotWrapper(() -> arrowSlot, e -> arrowSlot = e));
-		ans.add(new SlotWrapper(() -> backupHand, e -> backupHand = e));
 		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
 		return ans;
 	}
@@ -268,8 +230,6 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	@Override
 	public void addItemsToList(List<ItemStack> list) {
 		super.addItemsToList(list);
-		if (!backupHand.isEmpty()) list.add(backupHand);
-		if (!arrowSlot.isEmpty()) list.add(arrowSlot);
 	}
 
 }

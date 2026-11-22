@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IGolemModel;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemModel;
+import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.client.Minecraft;
@@ -71,7 +72,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 			render(handle, part.asPart());
 		}
 		if (stack.getItem() instanceof GolemHolder<?, ?> holder) {
-			if (!renderEntity(handle, holder))
+			if (MGConfig.CLIENT.renderGolemItemAsPlainParts.get() || !renderEntity(handle, holder))
 				render(handle, holder);
 		}
 		if (stack.getItem() instanceof GolemFacade) {
@@ -102,13 +103,13 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 	private <T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>, M extends EntityModel<T> & IGolemModel<T, P, M>>
 	void renderPart(BEWLRHandle handle, ResourceLocation id, GolemType<T, P> type, P part) {
 		M model = Wrappers.cast(map.get(type.getRegistryName()));
-		RenderType rt = model.renderType(model.getTextureLocationInternal(id));
+		RenderType rt = model.renderType(part, model.getTextureLocationInternal(id));
 		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), rt, false, handle.stack().hasFoil());
 		model.renderToBufferInternal(part, handle.poseStack(), vc, handle.light(), handle.overlay(), -1);
 
 		var etex = model.getTextureLocationInternal(id.withSuffix("_emissive"));
 		if (ModelOverrides.isValid(etex)) {
-			rt = model.renderType(etex);
+			rt = model.renderType(part, etex);
 			vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), rt, false, handle.stack().hasFoil());
 			model.renderToBufferInternal(part, handle.poseStack(), vc, LightTexture.FULL_BRIGHT, handle.overlay(), -1);
 		}
@@ -119,7 +120,7 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 		handle.poseStack().translate(0.5f, -0.375f, 0.5f);
 		handle.poseStack().mulPose(Axis.YP.rotationDegrees(180));
 		handle.poseStack().scale(1, -1, 1);
-		RenderType render = model.renderType(model.getTextureLocationInternal(id));
+		RenderType render = RenderType.entityTranslucent(model.getTextureLocationInternal(id));
 		VertexConsumer vc = ItemRenderer.getFoilBufferDirect(handle.bufferSource(), render, false, handle.stack().hasFoil());
 		model.getHead().render(handle.poseStack(), vc, handle.light(), handle.overlay(), -1);
 	}

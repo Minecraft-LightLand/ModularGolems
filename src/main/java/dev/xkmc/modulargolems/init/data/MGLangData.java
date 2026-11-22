@@ -43,14 +43,16 @@ public enum MGLangData {
 	FLAMETHROWER_FIRECHARGE("tooltip.flamethrower_firecharge", "- Shoots fire charge that causes explosion.", 0, ChatFormatting.GRAY),
 	FLAMETHROWER_FLAME("tooltip.flamethrower_flame", "- Consumes blaze powder to shoot 16 blaze flames. Supports Infinity enchantment.", 0, ChatFormatting.GRAY),
 
-	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage", 1, ChatFormatting.GRAY),
-	HARBINGER_BOOST_MISSILE("tooltip.cataclysm.harbinger_armor_missile", "+%s Homing Missile Damage", 1, ChatFormatting.GRAY),
+	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage, and ignores invulnerable frames", 1, ChatFormatting.GRAY),
+	HARBINGER_BOOST_MISSILE("tooltip.cataclysm.harbinger_armor_missile", "+%s Homing Missile/Wither Missile/Howitzer Damage, and ignores invulnerable frames", 1, ChatFormatting.GRAY),
+	HARBINGER_BOOST_CHARGE("tooltip.cataclysm.harbinger_armor_charge", "+%s Harbinger Charge Damage", 1, ChatFormatting.GRAY),
 	MONSTROSITY_BOOST("tooltip.cataclysm.monstrosity_armor", "+%s Monstrosity Earthquake Damage", 1, ChatFormatting.GRAY),
+	MONSTROSITY_BOOST_CHARGE("tooltip.cataclysm.monstrosity_armor_charge", "+%s Charge Damage", 1, ChatFormatting.GRAY),
 	IGNIS_BOOST_FIREBALL("tooltip.cataclysm.ignis_armor_fireball", "+%s Fireball Damage", 1, ChatFormatting.GRAY),
 	IGNIS_BOOST_STRIKE("tooltip.cataclysm.ignis_armor_strike", "+%s Flame Strike Damage", 1, ChatFormatting.GRAY),
 	IGNIS_BOOST_SOUL("tooltip.cataclysm.ignis_armor_soul", "Permanent Soul Form", 0, ChatFormatting.GRAY),
 	MALEDICTUS_BYPASS_CD("tooltip.cataclysm.maledictus_bypass_cd", "Phantom Halberd spawned from Jump Attack will bypass enemy invulnerable frames", 0, ChatFormatting.GRAY),
-	MALEDICTUS_FAST_SKILL("tooltip.cataclysm.maledictus_fast_skill", "Halves Phantom Halberd Jump Attack cooldown.", 0, ChatFormatting.GRAY),
+	MALEDICTUS_FAST_SKILL("tooltip.cataclysm.maledictus_fast_skill", "Halves Cursed Charge and Phantom Halberd Slam cooldown.", 0, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE("tooltip.cataclysm.maledictus_revive", "Revive Golem at %s%% HP on fatal hit, with cool down of %s seconds", 2, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE_CD("tooltip.cataclysm.maledictus_revive_cd", " Each piece of other cursium armor or part reduce cooldown by %s seconds and increase revived HP by %s%%.", 2, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE_ACTUAL_CD("tooltip.cataclysm.maledictus_revive_actual_cd", "Actual Cooldown: %s seconds.", 1, ChatFormatting.GRAY),
@@ -121,6 +123,20 @@ public enum MGLangData {
 	SLOT_BACKUP_DESC("slot.backup_desc", "Place secondary weapons here.", 0, ChatFormatting.GRAY),
 	SLOT_BACKUP_INFO("slot.backup_info", "If you have bow and sword, one in main hand and one in backup slot, your golem can switch between them depending on distance to enemies.", 0, ChatFormatting.GRAY),
 	SLOT_ARROW_DESC("slot.arrow_desc", "Place arrows here to free up off hand for shields", 0, ChatFormatting.GRAY),
+	SLOT_ARMOR("slot.armor", "Armor Slot", 0, ChatFormatting.YELLOW),
+	SLOT_ARMOR_DESC("slot.armor_desc", "Place armor here.", 0, ChatFormatting.GRAY),
+	SLOT_ARMOR_DESC_METAL("slot.armor_desc_metal", "Place metal golem armor here.", 0, ChatFormatting.GRAY),
+	SLOT_OFF_DESC("slot.off_desc", "Place shields or other items here. Also used when dual wielding.", 0, ChatFormatting.GRAY),
+	SLOT_OFF_DESC_METAL("slot.off_desc_metal", "Place shields or other items here. Shields are also effective when dual wielding.", 0, ChatFormatting.GRAY),
+	SLOT_SHOULDER_DESC("slot.shoulder_desc", "Place golem shoulder equipment here for a chance to attack on its own.", 0, ChatFormatting.GRAY),
+	SLOT_BANNER("slot.banner", "Banner Slot", 0, ChatFormatting.YELLOW),
+	SLOT_BANNER_DESC("slot.banner_desc", "Place a banner here to display it on the golem.", 0, ChatFormatting.GRAY),
+	SLOT_SKIN("slot.skin", "Skin Slot", 0, ChatFormatting.YELLOW),
+	SLOT_SKIN_DESC("slot.skin_desc", "Place a golem skin here to change how the golem looks.", 0, ChatFormatting.GRAY),
+	SLOT_ROUTE("slot.route", "Patrol Path Slot", 0, ChatFormatting.YELLOW),
+	SLOT_ROUTE_DESC("slot.route_desc", "Place a patrol recorder here to make the golem follow a fixed route.", 0, ChatFormatting.GRAY),
+	SLOT_DOG_ARMOR("slot.dog_armor", "Dog Armor Slot", 0, ChatFormatting.YELLOW),
+	SLOT_DOG_ARMOR_DESC("slot.dog_armor_desc", "Place dog armor here.", 0, ChatFormatting.GRAY),
 
 	CONFIG_SET("config.set", "Insert to set config", 0, null),
 	CONFIG_MODE("config.mode", "Default Mode", 0, null),
@@ -148,9 +164,32 @@ public enum MGLangData {
 	TAB_ATTRIBUTE("tab.attribute", "Golem Attributes", 0, null),
 
 	TAB_UPGRADES("tab.upgrades", "Golem Upgrades", 0, null),
+	RECALL("msg.recall", "Recall Golem", 0, null),
+	RECALL_FAIL("msg.recall_fail", "Golem not found or cannot be recalled now", 0, ChatFormatting.RED),
+	SKILL_CD("msg.skill_cd", "Skill Cooldowns:", 0, ChatFormatting.GRAY),
+	SKILL_CD_LINE("msg.skill_cd_line", "- %s: %ss", 2, ChatFormatting.GRAY),
+	SKILL_IGNORE_HEALTH("tooltip.skill_ignore_health", "%s ignores health requirement", 1, ChatFormatting.GRAY),
+	RIDE_CHARGE_CD("msg.ride.charge_cd", "Charge Cooldown: %ss", 1, null),
+	RIDE_CHARGE_READY("msg.ride.charge_ready", "Charge Ready!", 0, ChatFormatting.GREEN),
+	RIDE_JUMP_CD("msg.ride.jump_cd", "Jump Cooldown: %ss", 1, null),
+	RIDE_JUMP_READY("msg.ride.jump_ready", "Jump Ready!", 0, ChatFormatting.GREEN),
+	TAB_ASSEMBLE("tab.assemble", "Craft & Assemble", 0, null),
 	TAB_DISINTEGRATE("tab.disintegrate", "Substitute & Disassemble", 0, null),
+	TAB_DISINTEGRATE_SIMPLE("tab.disintegrate_simple", "Part Substitute", 0, null),
+	UI_GOLEM_NAME("ui.golem_name", "Name", 0, null),
+	UI_BATCH_ON("tooltip.batch_on", "Batch Craft: ON (Shift-click crafts until materials are used up)", 0, null),
+	UI_BATCH_OFF("tooltip.batch_off", "Batch Craft: OFF (Shift-click crafts one at a time)", 0, null),
+	UI_PUT_GOLEM("gui.hint.put_golem", "Place golem here", 0, null),
+	UI_PUT_TEMPLATE("gui.hint.put_template", "Place golem template here", 0, null),
+	UI_PUT_PART_MAT("gui.hint.put_part_mat", "Place golem part or material here", 0, null),
+	UI_SUB_TEMPLATE("tooltip.sub_template", "Insufficient golem templates", 0, ChatFormatting.RED),
+	UI_SUB_MAT("tooltip.sub_material", "Insufficient material", 0, ChatFormatting.RED),
 	UI_NO_SLOT("tooltip.no_slot", "Removing this upgrade will result in insufficient slot", 0, ChatFormatting.RED),
 	UI_REMOVE_TEMPLATE("tooltip.remove_template", "Upgrade Template cannot be removed here", 0, ChatFormatting.RED),
+	UI_PUT_UPGRADE("gui.hint.put_upgrade", "Place upgrade here", 0, null),
+	UI_SIMPLE_NO_TAKE("tooltip.no_take_upgrade", "This table does not allow removing upgrades", 0, ChatFormatting.RED),
+	UI_NO_UPGRADE("gui.no_upgrade", "No upgrades", 0, null),
+	UI_SKILL_TITLE("gui.skill_title", "Golem Skills / Upgrades", 0, null),
 	UI_DISINTEGRATE("tooltip.disintegrate", "Disassemble the Golem", 0, null),
 	UI_RETURN_ITEMS("tooltip.return_items", "Returns the following items on disassembly:", 0, null),
 	UI_RETURN_MANY("tooltip.return_many", "Returns %s items on disassembly", 1, null),
@@ -270,6 +309,19 @@ public enum MGLangData {
 			String name = type.name().toLowerCase(Locale.ROOT);
 			pvd.add("golem_part.dog_golem." + name, RegistrateLangProvider.toEnglishName(name) + ": %s");
 		}
+		for (var type : MetalGolemPartType.values()) {
+			String name = type.name().toLowerCase(Locale.ROOT);
+			String t = (type == MetalGolemPartType.LEFT || type == MetalGolemPartType.RIGHT) ? "Arm" : RegistrateLangProvider.toEnglishName(name);
+			pvd.add("golem_part_name.metal_golem." + name, " " + t);
+		}
+		for (var type : HumanoidGolemPartType.values())
+			pvd.add("golem_part_name.humanoid_golem." + type.name().toLowerCase(Locale.ROOT), " " + RegistrateLangProvider.toEnglishName(type.name().toLowerCase(Locale.ROOT)));
+		for (var type : DogGolemPartType.values())
+			pvd.add("golem_part_name.dog_golem." + type.name().toLowerCase(Locale.ROOT), " " + RegistrateLangProvider.toEnglishName(type.name().toLowerCase(Locale.ROOT)));
+
+		pvd.add("golem_type." + ModularGolems.MODID + ".metal_golem.named", "%s Golem");
+		pvd.add("golem_type." + ModularGolems.MODID + ".humanoid_golem.named", "%s Humanoid Golem");
+		pvd.add("golem_type." + ModularGolems.MODID + ".dog_golem.named", "%s Dog Golem");
 
 		pvd.add("task.modulargolems.summon_golems", "Golem Summoner");
 		pvd.add("task.modulargolems.summon_golems.desc", "Maid will summon golems to attack surrounding hostile mobs");

@@ -29,14 +29,21 @@ public class GolemSwimMoveControl extends MoveControl {
 			double d1 = this.wantedY - this.golem.getY();
 			double d2 = this.wantedZ - this.golem.getZ();
 			double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-			d1 /= d3;
-			float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-			this.golem.setYRot(this.rotlerp(this.golem.getYRot(), f, 90.0F));
-			this.golem.yBodyRot = this.golem.getYRot();
+			if (d3 < 1.0E-4D) {
+				this.golem.setSpeed(0.0F);
+				return;
+			}
+			double dh = Math.sqrt(d0 * d0 + d2 * d2);
+			if (dh > 1.0E-4D) {
+				float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+				this.golem.setYRot(this.rotlerp(this.golem.getYRot(), f, 90.0F));
+				this.golem.yBodyRot = this.golem.getYRot();
+			}
+			double ny = d1 / d3;
 			float f1 = (float) (this.speedModifier * this.golem.getAttributeValue(Attributes.MOVEMENT_SPEED));
 			float f2 = Mth.lerp(0.125F, this.golem.getSpeed(), f1);
 			this.golem.setSpeed(f2);
-			this.golem.setDeltaMovement(this.golem.getDeltaMovement().add((double) f2 * d0 * 0.005D, (double) f2 * d1 * 0.1D, (double) f2 * d2 * 0.005D));
+			this.golem.setDeltaMovement(this.golem.getDeltaMovement().add((double) f2 * d0 * 0.005D, (double) f2 * ny * 0.1D, (double) f2 * d2 * 0.005D));
 		} else {
 			if (!this.golem.onGround()) {
 				this.golem.setDeltaMovement(this.golem.getDeltaMovement().add(0.0D, -0.008D, 0.0D));

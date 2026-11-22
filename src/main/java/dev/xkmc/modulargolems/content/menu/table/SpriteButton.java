@@ -35,7 +35,7 @@ public class SpriteButton extends Button {
 		if (isActive()) {
 			if (pressed) tex += "_down";
 			else tex += "_on";
-			if (isHoveredOrFocused())
+			if (isHovered())
 				tex += "_hover";
 		} else tex += "_ban";
 		g.blitSprite(ModularGolems.loc(tex), getX(), getY(), width, height);

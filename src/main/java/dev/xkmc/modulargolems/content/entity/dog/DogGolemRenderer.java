@@ -26,7 +26,7 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 				break;
 			}
 			case GROUND: {
-				stack.translate(0.25, 0, 0.5);
+				stack.translate(0.25, 0.25, 0.5);
 				float size = 0.5F;
 				stack.scale(size, size, size);
 				break;
@@ -66,6 +66,8 @@ public class DogGolemRenderer extends AbstractGolemRenderer<DogGolemEntity, DogG
 	public DogGolemRenderer(EntityRendererProvider.Context ctx) {
 		super(ctx, new DogGolemModel(ctx.bakeLayer(GolemEquipmentModels.DOGGOLEM)), 0.5F, DogGolemPartType::values);
 		addLayer(new DogArmorLayer(this, ctx.getModelSet()));
+		addLayer(new DogShoulderRenderer(this, ctx));
+		addLayer(new DogRiderLayer(this));
 		addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
 	}
 

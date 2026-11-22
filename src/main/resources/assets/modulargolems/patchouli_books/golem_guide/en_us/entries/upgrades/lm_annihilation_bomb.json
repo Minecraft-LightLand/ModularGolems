@@ -1,0 +1,13 @@
+{
+  "flag": "mod:legendary_monsters",
+  "name": "Annihilation Bomb Upgrade",
+  "icon": "modulargolems:annihilation_bomb",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:annihilation_bomb",
+	  "text": "Launch annihilation bombs at multiple targets. Each bomb creates a small explosion on impact. This is the Obliterator's multi-target bomb attack."
+	}
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "modulargolems:dog_golem_body"
+  },
+  "loops": 6,
+  "results": [
+    {
+      "components": {
+        "modulargolems:part_material": "legendary_monsters:paladin"
+      },
+      "id": "modulargolems:dog_golem_body"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        },
+        {
+          "item": "modulargolems:posessed_soul_cube"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_dog_golem_body"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_dog_golem_body"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_dog_golem_body"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_dog_golem_body"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_dog_golem_body"
+        }
+      ]
+    }
+  ],
+  "transitional_item": {
+    "id": "modulargolems:incomplete_dog_golem_body"
+  }
+}

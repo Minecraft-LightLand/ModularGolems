@@ -1,0 +1,107 @@
+package dev.xkmc.modulargolems.editor.base;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import dev.xkmc.l2core.serial.config.BaseConfig;
+import dev.xkmc.l2core.serial.config.ConfigTypeEntry;
+import dev.xkmc.l2serial.serialization.codec.JsonCodec;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.storage.LevelResource;
+import net.neoforged.fml.ModList;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.function.Supplier;
+
+public class EditorFile {
+
+	public static final int PACK_FORMAT = 15;
+
+	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+
+	@Nullable
+	public static Path worldDatapacks() {
+		IntegratedServer server = Minecraft.getInstance().getSingleplayerServer();
+		if (server == null) return null;
+		return server.getWorldPath(LevelResource.DATAPACK_DIR);
+	}
+
+	@Nullable
+	public static Path currentWorldDir() {
+		MinecraftServer server = Minecraft.getInstance().getSingleplayerServer();
+		if (server == null) return null;
+		return server.getWorldPath(LevelResource.ROOT);
+	}
+
+	/**
+	 * Root folder that contains datapack pack folders. Uses the configurable save path
+	 * if set, otherwise the current world's datapacks folder.
+	 */
+	@Nullable
+	public static Path configRoot() {
+		if (saveRootOverride != null) {
+			Path p = saveRootOverride.get();
+			if (p != null) return p;
+		}
+		return worldDatapacks();
+	}
+
+	/**
+	 * Optional override for the save root (a datapacks folder), supplied by the mod that embeds
+	 * this base layer. Returning null falls back to the current world's datapacks folder.
+	 */
+	@Nullable
+	public static Supplier<Path> saveRootOverride;
+
+	public static boolean validNamespace(String ns) {
+		return ns != null && (ns.startsWith("_") || ModList.get().isLoaded(ns));
+	}
+
+	@Nullable
+	public static ResourceLocation parseId(String s) {
+		if (s == null || s.isBlank()) return null;
+		try {
+			return ResourceLocation.parse(s.trim());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static <T extends BaseConfig> Path save(ConfigTypeEntry<T> type, ResourceLocation id, T config, String packFolder) throws IOException {
+		Path root = configRoot();
+		if (root == null) {
+			throw new IOException("no active world");
+		}
+		Path pack = root.resolve(packFolder);
+		writePackMeta(pack);
+		Path file = pack.resolve(type.asPath(id) + ".json");
+		Files.createDirectories(file.getParent());
+		var jc = new JsonCodec(net.minecraft.client.Minecraft.getInstance().level.registryAccess());
+		JsonElement elem = jc.toJson(config, type.cls());
+		Files.writeString(file, GSON.toJson(elem), StandardCharsets.UTF_8);
+		return file;
+	}
+
+	private static void writePackMeta(Path pack) throws IOException {
+		Files.createDirectories(pack);
+		Path meta = pack.resolve("pack.mcmeta");
+		if (!Files.exists(meta)) {
+			String content = "{\n  \"pack\": {\n    \"description\": \"Modular Golems Editor\",\n    \"pack_format\": " + PACK_FORMAT + "\n  }\n}";
+			Files.writeString(meta, content, StandardCharsets.UTF_8);
+		}
+	}
+
+	@Nullable
+	public static <T extends BaseConfig> T copy(ConfigTypeEntry<T> type, T orig) {
+		var jc = new JsonCodec(net.minecraft.client.Minecraft.getInstance().level.registryAccess());
+		return jc.from(jc.toJson(orig, type.cls()), type.cls(), null);
+	}
+
+}

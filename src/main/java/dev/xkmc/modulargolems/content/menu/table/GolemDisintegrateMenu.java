@@ -37,6 +37,8 @@ import java.util.Map;
 
 public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMenu> implements ITableMenu {
 
+	public boolean simpleMode = false;
+
 	public static GolemDisintegrateMenu fromNetwork(MenuType<GolemDisintegrateMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
 		return new GolemDisintegrateMenu(type, wid, plInv);
 	}
@@ -93,6 +95,9 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 	public boolean clickMenuButton(Player player, int id) {
 		if (id == 1) {
 			var input = main.getItem();
+			if (simpleMode) return false;
+			// simple mode: no disassembly into parts
+			if (simpleMode) return false;
 			if (!(input.getItem() instanceof GolemHolder<?, ?> holder)) return false;
 			if (!holder.getEntityType().mayEdit(input)) return false;
 			boolean mayBreak = !input.isEmpty();
@@ -197,7 +202,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			changing = true;
 			for (var e : partSlots) {
 				if (!e.getItem().isEmpty())
-					e.set(e.partShadow);
+					e.set(simpleMode ? ItemStack.EMPTY : e.partShadow);
 			}
 			if (!extra.getItem().isEmpty()) {
 				extra.getItem().shrink(extra.count);
@@ -318,6 +323,11 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 		@Override
 		public boolean mayPlace(ItemStack stack) {
 			return super.mayPlace(stack) && isValid(main.getItem(), stack);
+		}
+
+		@Override
+		public int getMaxStackSize() {
+			return 1;
 		}
 
 		@Override

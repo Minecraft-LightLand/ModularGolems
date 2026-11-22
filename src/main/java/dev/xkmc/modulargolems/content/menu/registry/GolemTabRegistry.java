@@ -28,7 +28,8 @@ public class GolemTabRegistry {
 	public static final TabGroup<ConfigGroup> CONFIG = new TabGroup<>(TabType.RIGHT, 8, false);
 	public static final TabGroup<EquipmentGroup> EQUIPMENTS = new TabGroup<>(TabType.RIGHT, 8, false);
 	public static final TabGroup<TrackerGroup> TRACKERS = new TabGroup<>(TabType.RIGHT, 8, false);
-	public static final TabGroup<TableGroup> TABLE = new TabGroup<>(TabType.ABOVE, 7, true);
+	public static final TabGroup<TableGroup> TABLE_TOP = new TabGroup<>(TabType.ABOVE, 7, true);
+	public static final TabGroup<TableGroup> TABLE_RIGHT = new TabGroup<>(TabType.RIGHT, 8, false);
 
 	public static final SR<TabToken<?, ?>> TAB_REG = SR.of(ModularGolems.REG, L2Tabs.TABS.reg());
 
@@ -72,20 +73,25 @@ public class GolemTabRegistry {
 			TAB_REG.reg("golem_retrieve", () -> TRACKERS.registerTab(
 					() -> TrackerTab.Type.RETRIEVE::create, MGLangData.TAB_RETRIEVE.get()));
 
-	public static final Val<TabToken<TableGroup, TableTab>> TABLE_DISINTEGRATE =
-			TAB_REG.reg("table_disassembly", () -> TABLE.registerTab(TableTabType.DISINTEGRATE, () -> TableTab::from));
+	public static final Val<TabToken<TableGroup, TableTab>> TABLE_ASSEMBLE =
+			TAB_REG.reg("table_assemble", () -> TABLE_TOP.registerTab(TableTabType.ASSEMBLE, () -> TableTab::from));
 	public static final Val<TabToken<TableGroup, TableTab>> TABLE_UPGRADE =
-			TAB_REG.reg("table_upgrade", () -> TABLE.registerTab(TableTabType.UPGRADE, () -> TableTab::from));
+			TAB_REG.reg("table_upgrade", () -> TABLE_TOP.registerTab(TableTabType.UPGRADE, () -> TableTab::from));
+	public static final Val<TabToken<TableGroup, TableTab>> TABLE_DISINTEGRATE =
+			TAB_REG.reg("table_disassembly", () -> TABLE_TOP.registerTab(TableTabType.DISINTEGRATE, () -> TableTab::from));
+	public static final Val<TabToken<TableGroup, TableTab>> TABLE_DISINTEGRATE_SIMPLE =
+			TAB_REG.reg("table_disassembly_simple", () -> TABLE_TOP.registerTab(
+					() -> TableTab.from(TableTabType.DISINTEGRATE), MGLangData.TAB_DISINTEGRATE_SIMPLE.get()));
 	public static final Val<TabToken<TableGroup, TableTab>> TABLE_CRAFT =
-			TAB_REG.reg("table_craft", () -> TABLE.registerTab(TableTabType.CRAFT, () -> TableTab::from));
+			TAB_REG.reg("table_craft", () -> TABLE_RIGHT.registerTab(TableTabType.CRAFT, () -> TableTab::from));
 	public static final Val<TabToken<TableGroup, TableTab>> TABLE_STONECUTTER =
-			TAB_REG.reg("table_stonecutter", () -> TABLE.registerTab(TableTabType.STONECUTTER, () -> TableTab::from));
+			TAB_REG.reg("table_stonecutter", () -> TABLE_RIGHT.registerTab(TableTabType.STONECUTTER, () -> TableTab::from));
 	public static final Val<TabToken<TableGroup, TableTab>> TABLE_ANVIL =
-			TAB_REG.reg("table_anvil", () -> TABLE.registerTab(TableTabType.ANVIL, () -> TableTab::from));
+			TAB_REG.reg("table_anvil", () -> TABLE_RIGHT.registerTab(TableTabType.ANVIL, () -> TableTab::from));
 	public static final Val<TabToken<TableGroup, TableTab>> TABLE_SMITHING =
-			TAB_REG.reg("table_smithing", () -> TABLE.registerTab(TableTabType.SMITHING, () -> TableTab::from));
+			TAB_REG.reg("table_smithing", () -> TABLE_RIGHT.registerTab(TableTabType.SMITHING, () -> TableTab::from));
 	public static final Val<TabToken<TableGroup, TableTab>> TABLE_GRINDSTONE =
-			TAB_REG.reg("table_grindstone", () -> TABLE.registerTab(TableTabType.GRINDSTONE, () -> TableTab::from));
+			TAB_REG.reg("table_grindstone", () -> TABLE_RIGHT.registerTab(TableTabType.GRINDSTONE, () -> TableTab::from));
 
 	public static void register() {
 	}

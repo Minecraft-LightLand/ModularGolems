@@ -2,7 +2,7 @@ package dev.xkmc.modulargolems.content.item.ranged;
 
 import dev.xkmc.l2core.init.reg.ench.EnchHelper;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
@@ -13,7 +13,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -29,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderCannonAnimated {
+public class FlameThrowerItem extends ProjectileWeaponItem implements IGenericShoulderCannonAnimated {
 
 	public static void setCharge(ItemStack stack, int charge) {
 		stack.set(GolemItems.DC_CHARGE, charge);
@@ -48,13 +47,14 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
-		if (e.tickCount % 40 != (hand == InteractionHand.MAIN_HAND ? 10 : 30)) return;
+	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, int slot) {
+		if (e.tickCount % 40 != (slot < 0 ? 30 : 10)) return;
 		var target = e.getTarget();
 		if (target == null || !target.isAlive()) return;
-		if (CannonPoseUtil.FLAME_THROWER.isOutOfRange(e, hand, 15)) return;
+		var pose = e.getCannonPose(CannonPoseUtil.FLAME_THROWER);
+		if (pose.isOutOfRange(e, slot, 15)) return;
 		var ammo = e.getProjectile(stack);
-		var pos = CannonPoseUtil.FLAME_THROWER.getOrigin(e, hand);
+		var pos = pose.getOrigin(e, slot);
 		if (ammo.is(Items.TNT)) {
 			var tnt = TNTLauncher.getTNTEntity(e, pos, target);
 			if (tnt == null) return;
@@ -133,30 +133,30 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IShoulderC
 	}
 
 	@Override
-	public @Nullable ResourceLocation getModelForHand(InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.FLAME_RIGHT : GolemModelPaths.FLAME_LEFT;
+	public @Nullable ResourceLocation getAnimBaseId(AbstractGolemEntity<?, ?> user, ItemStack stack, int slot) {
+		return slot < 0 ? GolemModelPaths.BEACON_LEFT : GolemModelPaths.BEACON_RIGHT;
 	}
 
 	@Override
-	public @Nullable ResourceLocation getAnimBaseId(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
-		return hand == InteractionHand.MAIN_HAND ? GolemModelPaths.BEACON_RIGHT : GolemModelPaths.BEACON_LEFT;
+	public @Nullable ResourceLocation getModel(int slot) {
+		return slot < 0 ? GolemModelPaths.FLAME_LEFT : GolemModelPaths.FLAME_RIGHT;
 	}
 
 	@Override
-	public boolean emissive() {
-		return true;
+	public ResourceLocation getModelTexture(AbstractGolemEntity<?, ?> entity, ItemStack stack, int slot) {
+		var id = BuiltInRegistries.ITEM.getKey(this);
+		return id.withPath(e -> "textures/equipments/" + e + ".png");
 	}
 
 	@Override
-	public ResourceLocation getEmissiveTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+	public ResourceLocation getEmissiveTexture(AbstractGolemEntity<?, ?> entity, ItemStack stack, int slot) {
 		var id = BuiltInRegistries.ITEM.getKey(this);
 		return id.withPath(e -> "textures/equipments/" + e + "_emissive.png");
 	}
 
 	@Override
-	public ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
-		var id = BuiltInRegistries.ITEM.getKey(this);
-		return id.withPath(e -> "textures/equipments/" + e + ".png");
+	public boolean emissive() {
+		return true;
 	}
 
 }

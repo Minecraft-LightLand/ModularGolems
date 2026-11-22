@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
+import dev.xkmc.modulargolems.util.EsterEggUtil;
 import dev.xkmc.l2core.base.entity.SyncedData;
 import dev.xkmc.l2core.util.ServerOnly;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
@@ -17,6 +18,9 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.goals.*;
+import dev.xkmc.modulargolems.content.entity.impl.GolemImpls;
+import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager;
+import dev.xkmc.modulargolems.content.entity.impl.TransientStateContainer;
 import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.mode.GolemMode;
@@ -30,6 +34,7 @@ import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemModifierItem;
 import dev.xkmc.modulargolems.content.item.equipments.TickEquipmentItem;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
@@ -81,6 +86,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -104,7 +110,7 @@ import java.util.*;
 
 @SerialClass
 public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends IGolemPart<P>> extends GuardedEntity
-		implements IEntityWithComplexSpawn, NeutralMob, OwnableEntity, PowerableMob {
+		implements IEntityWithComplexSpawn, NeutralMob, OwnableEntity, PowerableMob, GolemImpls, TransientStateContainer.View {
 
 	private static <T> EntityDataAccessor<T> defineId(EntityDataSerializer<T> ser) {
 		return SynchedEntityData.defineId(AbstractGolemEntity.class, ser);
@@ -121,6 +127,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		this.waterNavigation = new AmphibiousPathNavigation(this, level);
 		this.groundNavigation = new FastGroundPathNavigation(this, level);
 		navigation = groundNavigation;
+		registerBannerSlot(BANNER_SLOT, () -> bannerSlot, e -> bannerSlot = e);
+	}
+
+	protected final void registerArrowSlot(boolean two) {
+		invManager.registerArrowSlot(() -> arrowSlot, e -> arrowSlot = e);
+		if (two) {
+			invManager.registerArrowSlot2(() -> arrowSlot2, e -> arrowSlot2 = e);
+		}
 	}
 
 	// ------ materials
@@ -134,12 +148,15 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	private UUID owner, leader;
 	@SerialField
 	private HashMap<GolemModifier, Integer> modifiers = new LinkedHashMap<>();
+	private final java.util.List<net.minecraft.world.entity.ai.goal.Goal> modifierGoals = new java.util.ArrayList<>();
 	@SerialField
 	private final HashSet<GolemFlags> golemFlags = new HashSet<>();
 	@SerialField(toClient = false)
 	private Vec3 recordedPosition = Vec3.ZERO;
 	@SerialField(toClient = false)
 	private BlockPos recordedGuardPos = BlockPos.ZERO;
+	@SerialField
+	private ItemStack bannerSlot = ItemStack.EMPTY, arrowSlot = ItemStack.EMPTY, arrowSlot2 = ItemStack.EMPTY;
 
 	// marks opened inventory
 	public int inventoryTick = 0;
@@ -149,6 +166,29 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	protected final GroundPathNavigation groundNavigation;
 
 	public final Set<MobEffect> effectImmunity = new HashSet<>();
+
+	public final TransientStateContainer transientManager = new TransientStateContainer();
+	public final GolemInvManager invManager = new GolemInvManager(this);
+
+	@Override
+	public net.minecraft.network.syncher.SynchedEntityData entityData() {
+		return getEntityData();
+	}
+
+	private transient Component autoName;
+	private transient int autoNameTick = -1;
+
+	@Override
+	public Component getName() {
+		if (getCustomName() != null) return super.getName();
+		if (autoNameTick != tickCount) {
+			autoName = null;
+			var type = GolemType.getGolemType(getType());
+			if (type != null) autoName = type.describeByMaterial(getMaterials());
+			autoNameTick = tickCount;
+		}
+		return autoName != null ? autoName : super.getName();
+	}
 
 	private Golem3DTargetGoal targeter;
 	public LivingEntity forcedTarget;
@@ -175,7 +215,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.setPathfindingMalus(PathType.WATER_BORDER, 0.0F);
 		}
 		if (!level().isClientSide()) {
-			getModifiers().forEach((m, i) -> m.onRegisterGoals(this, i, this.goalSelector::addGoal));
+			modifierGoals.forEach(goalSelector::removeGoal);
+			modifierGoals.clear();
+			getModifiers().forEach((m, i) ->
+					m.onRegisterGoals(this, i, (priority, goal) -> {
+						modifierGoals.add(goal);
+						goalSelector.addGoal(priority, goal);
+					}));
 		}
 		var sup = DefaultAttributes.getSupplier(getType());
 		for (var e : BuiltInRegistries.ATTRIBUTE.holders().toList()) {
@@ -256,26 +302,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return InteractionResult.PASS;
 	}
 
-	@Nullable
-	public GolemTracker getTracker() {
-		var id = getOwnerUUID();
-		if (id == null || id.equals(Util.NIL_UUID) || isHostile()) return null;
-		if (getOwner() instanceof FakePlayer) return null;
-		return GolemConfigStorage.get(level()).getTracker(id);
-	}
-
-	public void setRetrivedTo(GolemTracker.RetrieveTarget target) {
-		var tracker = getTracker();
-		if (tracker == null) return;
-		var data = tracker.data.get(getUUID());
-		if (data == null) return;
-		data.target = target;
-	}
-
-	public void untrack(GolemTracker.Status type, @Nullable Entity cause) {
-		var tracker = getTracker();
-		if (tracker != null) tracker.untrack(this, type, cause);
-	}
 
 	@ServerOnly
 	public ItemStack toItem(LivingEntity player) {
@@ -302,11 +328,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	protected void postHurt(DamageSource source) {
 		if (getGuardedDataImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
-			unRide();
-			untrack(GolemTracker.Status.DEATH_RECYCLE, source.getEntity());
-			returnToInventory();
-			level().broadcastEntityEvent(this, EntityEvent.POOF);
-			this.discard();
+			markDead();
 		}
 		if (source.getEntity() instanceof LivingEntity le) {
 			setTargetOnHurt(le);
@@ -352,10 +374,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				dropSlot(slot, true);
 			}
 		}
+		dropExtraSlot();
 		super.dropCustomDeathLoot(level, source, player);
 	}
 
-	protected void dropSlot(EquipmentSlot slot, boolean isDeath) {
+	public void dropSlot(EquipmentSlot slot, boolean isDeath) {
 		ItemStack itemstack = this.getItemBySlot(slot);
 		if (itemstack.isEmpty()) return;
 		var bind = EnchantmentEffectComponents.PREVENT_ARMOR_CHANGE;
@@ -373,6 +396,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		int reforge = getReforgeBase();
 		double rate = Math.pow(1d * (reforge - getReforgeCount()) / reforge, 1d / 3);
 		return getAttributeValue(GolemTypes.GOLEM_SIZE) * rate;
+	}
+
+	public void markSizeDirty() {
+		sizeDirty = true;
 	}
 
 	public void checkSize() {
@@ -436,9 +463,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void updateSwimming() {
 		if (!this.level().isClientSide) {
-			this.setSwimming(this.isEffectiveAi() && this.isInWater() && this.canSwim());
+			boolean swim = this.isEffectiveAi() && this.isInWater() && this.canSwim();
+			this.setSwimming(swim);
+			// 游泳傀儡只有在水里才用两栖（水路）寻路，陆地必须切回普通地面寻路
+			if (this.canSwim()) {
+				this.navigation = swim ? this.waterNavigation : this.groundNavigation;
+			}
 		}
-
 	}
 
 	@Override
@@ -539,6 +570,17 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public T getThis() {
 		return Wrappers.cast(this);
+	}
+
+	public ItemStack getAsStack() {
+		return GolemHolder.setEntity(getThis());
+	}
+
+	@Override
+
+	public void playDeathSound() {
+
+		EsterEggUtil.playDeathSound(this);
 	}
 
 	// ------ common golem behavior
@@ -657,6 +699,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 			this.specialAttackCoolDown--;
 		}
 		checkSize();
+		tickExtraSlots();
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
@@ -668,9 +711,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 				tickItem.tick(stack, this.level(), this);
 			}
 		}
-		var tracker = getTracker();
-		if (tracker != null)
-			tracker.track(this);
+		tickTracker();
 	}
 
 	public void repair(float amount) {
@@ -728,6 +769,24 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return getPersistentData().getInt("GolemReforge");
 	}
 
+	@dev.xkmc.l2serial.serialization.marker.OnInject
+	public void cleanInvalidEntries() {
+		var type = dev.xkmc.modulargolems.content.core.GolemType.getGolemType(getType());
+		if (materials != null) {
+			dev.xkmc.modulargolems.content.core.IGolemPart<?>[] parts = type == null ? null : type.values();
+			for (int i = 0; i < materials.size(); i++) {
+				GolemMaterial mat = materials.get(i);
+				if (mat != null && mat.part() instanceof dev.xkmc.modulargolems.content.item.golem.GolemPart<?, ?>) continue;
+				if (parts == null || i >= parts.length) {
+					materials.remove(i--);
+					continue;
+				}
+				materials.set(i, parts[i].toItem().parseMaterial(type.defaultMaterial()));
+			}
+		}
+		if (modifiers != null) modifiers.keySet().removeIf(java.util.Objects::isNull);
+	}
+
 	public void repairWithItem() {
 		int reforge = getPersistentData().getInt("GolemReforge");
 		if (getGuardedDataImpl() > 0.75 * getMaxHealth() && reforge > 0)
@@ -735,6 +794,27 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		else repair(getMaxHealth() / 4);
 		float f1 = 1 + (getRandom().nextFloat() - getRandom().nextFloat()) * 0.2F;
 		playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
+	}
+
+	@Nullable
+	public InteractionResult tryRepairWithBodyMaterial(Player player, InteractionHand hand, @Nullable GolemMaterial mat) {
+		if (mat == null) return null;
+		ItemStack itemstack = player.getItemInHand(hand);
+		if (itemstack.isEmpty()) return null;
+		Ingredient ing = GolemMaterialConfig.get().getRepairIngredient(mat.id());
+		if (!ing.test(itemstack)) return null;
+		if (!player.getAbilities().instabuild && isHostile()) return InteractionResult.PASS;
+		if (getGuardedDataImpl() >= getMaxHealth() && !isReforged()) {
+			return InteractionResult.PASS;
+		}
+		repairWithItem();
+		if (!player.getAbilities().instabuild) {
+			itemstack.shrink(1);
+		}
+		if (!level().isClientSide()) {
+			GolemTriggers.HOT_FIX.get().trigger((ServerPlayer) player);
+		}
+		return InteractionResult.sidedSuccess(level().isClientSide);
 	}
 
 	@Override
@@ -804,8 +884,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// mode
 
-	private static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
-	private static final EntityDataAccessor<BlockPos> GUARD_POS = GOLEM_DATA.define(SyncedData.BLOCK_POS, BlockPos.ZERO, "guard_pos");
+	public static final EntityDataAccessor<Integer> DATA_MODE = GOLEM_DATA.define(SyncedData.INT, 0, "follow_mode");
+	public static final EntityDataAccessor<BlockPos> GUARD_POS = GOLEM_DATA.define(SyncedData.BLOCK_POS, BlockPos.ZERO, "guard_pos");
 
 	public GolemMode getMode() {
 		return GolemModes.get(this.entityData.get(DATA_MODE));
@@ -850,9 +930,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return getMode().canChangeDimensions() && super.canChangeDimensions(from, to);
 	}
 
-	private static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
-	private static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
-	private static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
+	public static final EntityDataAccessor<Optional<UUID>> CONFIG_ID = GOLEM_DATA.define(SyncedData.UUID, Optional.empty(), "config_owner");
+	public static final EntityDataAccessor<Integer> CONFIG_COLOR = GOLEM_DATA.define(SyncedData.INT, 0, "config_color");
+	public static final EntityDataAccessor<Integer> PATROL_STAGE = GOLEM_DATA.define(SyncedData.INT, 0, "patrol_stage");
 
 	public int getConfigColor() {
 		return entityData.get(CONFIG_COLOR);
@@ -916,7 +996,12 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	// ------ persistent anger
 
 	private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-	private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
+	public static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = GOLEM_DATA.define(SyncedData.INT, 0, null);
+	public static final EntityDataAccessor<Boolean> BREATH_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Float> DASH_YAW = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	public static final EntityDataAccessor<ItemStack> ARROW_SLOT_2 = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	public static final EntityDataAccessor<ItemStack> BANNER_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
 	@Nullable
@@ -926,6 +1011,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.defineSynchedData(builder);
 		GOLEM_DATA.register(builder);
 		builder.define(IS_IN_RANGE_ATTACK, false);
+		builder.define(BREATH_ATTACK, false);
+		builder.define(DASH_YAW, Float.NaN);
+		builder.define(ARROW_SLOT, ItemStack.EMPTY);
+		builder.define(ARROW_SLOT_2, ItemStack.EMPTY);
+		builder.define(BANNER_SLOT, ItemStack.EMPTY);
 	}
 
 	public void startPersistentAngerTimer() {
@@ -1091,14 +1181,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean hurt(DamageSource source, float amount) {
 		if (level().isClientSide()) return false;
 		if (source.is(DamageTypes.FELL_OUT_OF_WORLD) && source.getEntity() == null && getY() < level().getMinBuildHeight() - 64) {
-			unRide();
-			if (hasFlag(GolemFlags.RECYCLE)) {
-				untrack(GolemTracker.Status.DEATH_RECYCLE, null);
-				returnToInventory();
-			} else {
-				untrack(GolemTracker.Status.DEATH, null);
-			}
-			this.discard();
+			markDead();
 			return true;
 		}
 		return super.hurt(source, amount);
@@ -1163,43 +1246,21 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.setPosRaw(x, y, z);
 	}
 
-	public void trackPos(double x, double y, double z) {
-		if (level().isClientSide() || !isAddedToLevel()) return;
-		var tracker = getTracker();
-		if (tracker != null)
-			tracker.trackPos(getUUID(), x, y, z);
-	}
-
-	public void returnToInventory() {
-		var leader = getLeader();
-		ItemStack stack = GolemHolder.setEntity(getThis());
-		if (leader != null && leader.isAlive()) {
-			if (NeoForge.EVENT_BUS.post(new GolemToOwnerEvent(leader, stack)).isCanceled()) {
-				return;
-			}
-		}
-		Player player = getOwner();
-		if (player != null && player.isAlive()) {
-			if (NeoForge.EVENT_BUS.post(new GolemToOwnerEvent(player, stack)).isCanceled()) {
-				return;
-			}
-			if (player instanceof ServerPlayer sp)
-				GolemTransportHandler.addGolemToPlayer(sp, stack, this);
-		} else {
-			spawnAtLocation(stack);
-		}
-	}
-
 	public List<IItemHandlerModifiable> aggregateInventories() {
 		var ans = new ArrayList<IItemHandlerModifiable>();
 		ans.add(new EntityHandsInvWrapper(this));
 		ans.add(new EntityArmorInvWrapper(this));
+		aggregateExtraSlots(ans);
 		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
 		return ans;
 	}
 
 	public IItemHandler getItemHandler() {
 		return new CombinedInvWrapper(aggregateInventories().toArray(new IItemHandlerModifiable[0]));
+	}
+
+	public ItemStack getProjectile(ItemStack pShootable) {
+		return invManager.getProjectile(pShootable);
 	}
 
 	public boolean hasRangeAttack() {
@@ -1226,38 +1287,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		tag.remove("AngryAt");
 	}
 
-	private boolean untrackRemoved(@Nullable DamageSource source) {
-		if (level().isClientSide()) return false;
-		var tracker = getTracker();
-		if (tracker == null || tracker.isUntracked(this)) return false;
-		Player owner = getOwner();
-		Entity cause = null;
-		boolean sendMessages = MGConfig.COMMON.sendForceRemovalMessage.get();
-		if (source != null) {
-			ModularGolems.LOGGER.info("Golem {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
-			if (owner != null && sendMessages) {
-				owner.sendSystemMessage(source.getLocalizedDeathMessage(this));
-			}
-			cause = source.getEntity();
-		} else {
-			ModularGolems.LOGGER.info("Golem {} is forcefully removed ", this);
-			if (owner != null && sendMessages) {
-				owner.sendSystemMessage(Component.literal("Golem " + this + " is forcefully removed"));
-			}
-			if (getLastHurtByMobTimestamp() == tickCount) {
-				cause = getLastHurtByMob();
-			}
-		}
-		if (getGuardedDataImpl() <= 0 && hasFlag(GolemFlags.RECYCLE)) {
-			tracker.untrack(this, GolemTracker.Status.DEATH_RECYCLE, cause);
-			returnToInventory();
-			level().broadcastEntityEvent(this, EntityEvent.POOF);
-			return true;
-		} else {
-			tracker.untrack(this, GolemTracker.Status.DEATH, cause);
-			return false;
-		}
-	}
 
 	@Override
 	public void onRemove(RemovalReason reason) {
@@ -1268,6 +1297,7 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	@Override
 	public boolean specialDeath(DamageSource source) {
 		if (untrackRemoved(source)) {
+			playDeathSound();
 			dead = true;
 			discard();
 			return true;
@@ -1317,10 +1347,49 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 	}
 
-	protected boolean shouldHurtArmor(DamageSource source, ItemStack stack) {
+	public boolean shouldHurtArmor(DamageSource source, ItemStack stack) {
 		if (!stack.isDamageableItem()) return false;
 		if (source.is(DamageTypeTags.IS_FIRE) && !stack.getItem().canBeHurtBy(stack, source)) return false;
 		return stack.getItem() instanceof ArmorItem || stack.is(MGTagGen.GOLEM_DAMAGEABLE);
+	}
+
+	/** 海神激流冲锋用的旋身姿态标记。 */
+	private boolean riptideSpin;
+
+	public void setRiptideSpin(boolean spinning) {
+		this.riptideSpin = spinning;
+		this.setLivingEntityFlag(4, spinning);
+	}
+
+	public boolean isRiptideSpin() {
+		return this.riptideSpin;
+	}
+
+	/** 是否正骑乘在另一个傀儡上（组合骑乘）。 */
+	public boolean isRidingGolemCombo() {
+		return getVehicle() instanceof AbstractGolemEntity;
+	}
+
+	/** Where a shoulder mounted weapon should aim at, as an offset from this entity. */
+	public Vec3 getTargetAimPos() {
+		LivingEntity target = getTarget();
+		if (target == null) return Vec3.ZERO;
+		return target.position().add(0, target.getBbHeight() * 0.5, 0).subtract(position());
+	}
+
+	/** Tick count of the shoulder weapon deploy animation, or negative when not deploying. */
+	public int getShoulderAnimStarting() {
+		return -1;
+	}
+
+	/** Tick count of the shoulder weapon retract animation, or negative when not retracting. */
+	public int getShoulderAnimEnding() {
+		return -1;
+	}
+
+	/** Aim pose for a shoulder cannon using the given base pose. */
+	public CannonPoseUtil getCannonPose(CannonPoseUtil base) {
+		return base;
 	}
 
 }

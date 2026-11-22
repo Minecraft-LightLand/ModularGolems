@@ -70,5 +70,6 @@
       "modulargolems:regen": 0.5
     },
     "modulargolems:metal_golem": {}
-  }
+  },
+  "templates": {}
 }

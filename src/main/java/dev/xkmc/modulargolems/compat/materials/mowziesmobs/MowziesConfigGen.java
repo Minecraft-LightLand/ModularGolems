@@ -1,16 +1,15 @@
 package dev.xkmc.modulargolems.compat.materials.mowziesmobs;
 
+import java.util.concurrent.CompletableFuture;
+import net.minecraft.core.HolderLookup;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
-
-import java.util.concurrent.CompletableFuture;
 
 public class MowziesConfigGen extends ConfigDataProvider {
 
@@ -20,7 +19,7 @@ public class MowziesConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(MowzieDispatch.MODID, MowzieDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(MowzieDispatch.MODID, "wroughtnaut"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(MowzieDispatch.MODID, "wroughtnaut"),
 						Ingredient.of(MowzieCompatRegistry.WROUGHTNAUT_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 360)

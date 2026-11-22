@@ -22,8 +22,7 @@ public class CreateConfigGen extends ConfigDataProvider {
 	}
 
 	public void add(Collector map) {
-
-		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, CreateDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "cardboard"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "cardboard"),
 						Ingredient.of(AllItems.CARDBOARD))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 2)
@@ -31,13 +30,15 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_ATKKB.get(), 2)
 				.addStat(GolemTypes.STAT_WEIGHT.get(), 0.4)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "zinc"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "zinc"),
 						Ingredient.of(AllTags.commonItemTag("ingots/zinc")))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 50)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 10)
 				.addModifier(CreateCompatRegistry.COATING.get(), 1).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "andesite_alloy"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "andesite_alloy"),
 						Ingredient.of(AllItems.ANDESITE_ALLOY.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 30)
@@ -46,7 +47,8 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addModifier(CreateCompatRegistry.MOBILE.get(), 1)
 				.addModifier(CreateCompatRegistry.FORCE.get(), 1)
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 1).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "brass"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "brass"),
 						Ingredient.of(AllTags.commonItemTag("ingots/brass")))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 150)
@@ -56,11 +58,23 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addModifier(CreateCompatRegistry.MOBILE.get(), 1)
 				.addModifier(CreateCompatRegistry.FORCE.get(), 1)
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 2).end()
-
+		);
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "chocolate"), new GolemMaterialConfig()
+				.addMaterial(ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "chocolate"),
+						Ingredient.of(AllItems.BAR_OF_CHOCOLATE))
+				.addStat(GolemTypes.STAT_HEALTH.get(), 100)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
+				.addModifier(CreateCompatRegistry.BODY.get(), 1)
+				.addModifier(CreateCompatRegistry.MOBILE.get(), 1)
+				.addModifier(CreateCompatRegistry.FORCE.get(), 1)
+				.addModifier(CreateCompatRegistry.CHOCO.get(), 1)
+				.end()
+		);
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "railway"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "railway"),
 						Ingredient.of(AllBlocks.RAILWAY_CASING.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 300)
-				.addStat(GolemTypes.STAT_ATTACK.get(), 15)
+				.addStat(GolemTypes.STAT_ATTACK.get(), 20)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 1)
 				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
@@ -69,8 +83,8 @@ public class CreateConfigGen extends ConfigDataProvider {
 				.addModifier(CreateCompatRegistry.MOBILE.get(), 2)
 				.addModifier(CreateCompatRegistry.FORCE.get(), 2)
 				.addModifier(GolemModifiers.MAGIC_RES.get(), 2)
-				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1).end()
-
+				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
+				.addModifier(CreateCompatRegistry.BIG_RIG_CHARGE.get(), 1).end()
 		);
 	}
 

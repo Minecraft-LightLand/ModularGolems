@@ -1,11 +1,19 @@
 package dev.xkmc.modulargolems.content.entity.dog;
 
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.IShoulderWeaponSupportEntity;
+import dev.xkmc.modulargolems.content.entity.common.TargetingAnimState;
+import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.goals.GolemRiddenMeleeGoal;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
+import dev.xkmc.modulargolems.content.item.ranged.IGenericShoulderWeapon;
+import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
+import dev.xkmc.modulargolems.content.item.ranged.IDogBackWeapon;
+import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -40,14 +48,70 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SerialClass
-public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> {
+public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolemPartType> implements MountChargeManager.View, IShoulderWeaponSupportEntity {
+
+	public static final EntityDataAccessor<Integer> DATA_JUMP_CD = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Boolean> DATA_CHARGE_ACTIVE = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Float> DATA_CHARGE_DIR_X = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> DATA_CHARGE_DIR_Z = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Integer> DATA_CHARGE_CD = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.INT);
+
+	private static final EntityDataAccessor<ItemStack> SHOULDER_ITEM = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<Vector3f> SHOULDER_TARGET = SynchedEntityData.defineId(DogGolemEntity.class, EntityDataSerializers.VECTOR3);
+	@SerialField
+	private ItemStack shoulderSlot = ItemStack.EMPTY;
+	private final dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot shoulderSlotHandler = registerExtraSlot(SHOULDER_ITEM, () -> shoulderSlot, e -> shoulderSlot = e);
+
+	private final MountChargeManager chargeManager = new MountChargeManager(this);
+	public final TargetingAnimState shoulderAnimState = new TargetingAnimState();
+
+	@Override
+	public MountChargeManager chargeManager() {
+		return chargeManager;
+	}
+
+	@Override
+	public int getShoulderAnimStarting() {
+		return shoulderAnimState.getStartingAnim();
+	}
+
+	@Override
+	public int getShoulderAnimEnding() {
+		return shoulderAnimState.getEndingAnim();
+	}
+
+	@Override
+	public int[] shoulderSlotIndexes() {
+		return new int[]{0};
+	}
+
+	@Override
+	public dev.xkmc.modulargolems.content.entity.impl.GolemBeamSource.HeadMount getHeadMount() {
+		return dev.xkmc.modulargolems.content.entity.impl.GolemBeamSource.HeadMount.DOG;
+	}
+
+	public ItemWrapper getShoulderSlot() {
+		return shoulderSlotHandler.wrapper();
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		shoulderAnimState.tick(this);
+		if (!level().isClientSide() && !ItemStack.matches(entityData.get(SHOULDER_ITEM), shoulderSlot)) {
+			entityData.set(SHOULDER_ITEM, shoulderSlot.copy());
+		}
+	}
+
 
 	public float getJumpStrength() {
 		float ans = (float) getAttributeValue(GolemTypes.GOLEM_JUMP.holder());
@@ -62,6 +126,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
+		registerArrowSlot(true);
 	}
 
 	public float getTailAngle() {
@@ -81,6 +146,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		this.setRot(vec2.y, vec2.x);
 		this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
 		if (this.isControlledByLocalInstance()) {
+			this.controlledChargeTick(player);
 			if (this.onGround() || this.isInFluidType()) {
 				if (player.jumping) {
 					this.executeRidersJump(vec3);
@@ -95,6 +161,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected Vec3 getRiddenInput(Player player, Vec3 input) {
+		if (this.entityData.get(DATA_CHARGE_ACTIVE)) return Vec3.ZERO;
 		float f = player.xxa * 0.5F;
 		float f1 = player.zza;
 		if (f1 <= 0.0F) {
@@ -129,10 +196,44 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	@Override
 	protected void customServerAiStep() {
 		super.customServerAiStep();
+		var aimTarget = getTarget();
+		if (aimTarget == null) this.entityData.set(SHOULDER_TARGET, new Vector3f(0, 0, 0));
+		else this.entityData.set(SHOULDER_TARGET, aimTarget.position().add(0, aimTarget.getBbHeight() / 2, 0).subtract(position()).toVector3f());
+		tickShoulderWeapon();
+		dismountRidersWithShoulderWeapon();
 		if (jumpAttackDelay > 0) jumpAttackDelay--;
 		if (jumpAttackDelay <= 0 && jumpAttack != null && onGround()) {
 			jumpAttack.modifier().performEarthQuake(this, jumpAttack.lv());
+			jumpAttack.modifier().onEarthQuakeLanded(this, jumpAttack.lv());
+			this.level().broadcastEntityEvent(this, (byte) 83);
 			jumpAttack = null;
+		}
+		tickCharge();
+	}
+
+	@Override
+	public CannonPoseUtil getCannonPose(CannonPoseUtil base) {
+		if (base == CannonPoseUtil.FLAME_THROWER || base == CannonPoseUtil.BEACON)
+			return CannonPoseUtil.DOG_FLAME_THROWER;
+		return CannonPoseUtil.DOG_BEACON_CANNON;
+	}
+
+	@Override
+	public Vec3 getTargetAimPos() {
+		return new Vec3(this.entityData.get(SHOULDER_TARGET));
+	}
+
+	private void tickShoulderWeapon() {
+		var stack = getShoulderSlot().getItem();
+		if (!stack.isEmpty() && stack.getItem() instanceof IGenericShoulderWeapon weapon) {
+			IDogBackWeapon.of(weapon).onTick(this, stack);
+		}
+	}
+
+	private void dismountRidersWithShoulderWeapon() {
+		if (getShoulderSlot().getItem().isEmpty()) return;
+		for (var rider : List.copyOf(getPassengers())) {
+			rider.stopRiding();
 		}
 	}
 
@@ -216,6 +317,13 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
 		builder.define(DATA_FLAGS_ID, (byte) 0);
+		builder.define(DATA_JUMP_CD, -1);
+		builder.define(DATA_CHARGE_ACTIVE, false);
+		builder.define(DATA_CHARGE_DIR_X, 0.0F);
+		builder.define(DATA_CHARGE_DIR_Z, 0.0F);
+		builder.define(DATA_CHARGE_CD, -1);
+		builder.define(SHOULDER_ITEM, ItemStack.EMPTY);
+		builder.define(SHOULDER_TARGET, new Vector3f(0, 0, 0));
 	}
 
 	public void addAdditionalSaveData(CompoundTag p_21819_) {
@@ -292,6 +400,10 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
+		if (getMaterials().size() == DogGolemPartType.values().length) {
+			var result = tryRepairWithBodyMaterial(player, hand, getMaterials().get(DogGolemPartType.BODY.ordinal()));
+			if (result != null) return result;
+		}
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 			return InteractionResult.PASS;

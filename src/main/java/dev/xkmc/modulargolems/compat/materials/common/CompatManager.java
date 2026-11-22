@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.compat.backpack.L2BCompat;
 import dev.xkmc.modulargolems.compat.maid.MaidRegistry;
 import dev.xkmc.modulargolems.compat.materials.allthemodium.ATMDispatch;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMDispatch;
 import dev.xkmc.modulargolems.compat.materials.create.CreateDispatch;
 import dev.xkmc.modulargolems.compat.materials.iceandfire.IAFDispatch;
 import dev.xkmc.modulargolems.compat.materials.l2complements.LCDispatch;
@@ -52,7 +53,7 @@ public abstract class CompatManager {
 		//if (ModList.get().isLoaded(GoetyDispatch.MODID)) LIST.add(new GoetyDispatch());
 		//if (GRDispatch.isLoaded()) LIST.add(new GRDispatch());
 		if (ModList.get().isLoaded(MowzieDispatch.MODID)) LIST.add(new MowzieDispatch());
-		//if (ModList.get().isLoaded(LMDispatch.MODID)) LIST.add(new LMDispatch());
+		if (ModList.get().isLoaded(LMDispatch.MODID)) LIST.add(new LMDispatch());
 		if (ModList.get().isLoaded(CEICommon.ID)) CEICompat.register();
 		if (ModList.get().isLoaded(TouhouLittleMaid.MOD_ID)) MaidRegistry.register();
 		if (ModList.get().isLoaded(L2Backpack.MODID))

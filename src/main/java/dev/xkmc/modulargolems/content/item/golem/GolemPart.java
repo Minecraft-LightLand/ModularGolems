@@ -11,6 +11,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
@@ -39,7 +40,7 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 	public final int count;
 
 	public GolemPart(Properties props, Supplier<? extends GolemType<T, P>> type, P part, int count) {
-		super(props.stacksTo(1));
+		super(props.stacksTo(16));
 		this.type = type;
 		this.part = part;
 		this.count = count;
@@ -79,6 +80,18 @@ public class GolemPart<T extends AbstractGolemEntity<T, P>, P extends IGolemPart
 			}
 		});
 		return new GolemMaterial(new LinkedHashMap<>(new TreeMap<>(stats)), modifiers, mat, this);
+	}
+
+	@Override
+	public Component getName(ItemStack stack) {
+		if (stack.has(DataComponents.CUSTOM_NAME)) return super.getName(stack);
+		var mat = getMaterial(stack);
+		if (mat.isEmpty()) return super.getName(stack);
+		var golemType = type.get();
+		if (golemType == null) return super.getName(stack);
+		var named = golemType.describeByMaterial(parseMaterial(mat.get()));
+		if (named == null) return super.getName(stack);
+		return named.append(" - ").append(part.getName());
 	}
 
 	@Override

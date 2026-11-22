@@ -3,7 +3,7 @@ package dev.xkmc.modulargolems.content.entity.misc;
 import dev.xkmc.l2core.base.entity.BaseEntity;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGDamageTypes;
@@ -12,7 +12,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,10 +63,11 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 	}
 
 	public void setup(LivingEntity le) {
-		if (!(le instanceof MetalGolemEntity e)) return;
-		var hand = right ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-		var pos = CannonPoseUtil.BEACON_CANNON.getOrigin(e, hand);
-		var rot = CannonPoseUtil.BEACON_CANNON.getAngle(e, hand);
+		if (!(le instanceof AbstractGolemEntity<?, ?> e)) return;
+		var slot = right ? 1 : -1;
+		var pose = e.getCannonPose(CannonPoseUtil.BEACON_CANNON);
+		var pos = pose.getOrigin(e, slot);
+		var rot = pose.getAngle(e, slot);
 		var dst = e.getTargetAimPos().add(e.position()).subtract(pos).normalize().scale(35).add(pos);
 		var hit = e.level().clip(new ClipContext(pos, dst, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()));
 		len = (float) hit.getLocation().subtract(pos).length();
@@ -91,7 +91,7 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 		}
 		if (owner != null && tickCount == 0) setup(owner);
 		super.tick();
-		if (!level().isClientSide() && owner instanceof MetalGolemEntity e) {
+		if (!level().isClientSide() && owner instanceof AbstractGolemEntity<?, ?> e) {
 			var pos = position();
 			var dst = lastTarget;
 			var list = getEntityHitResult(level(), e, pos, dst, e.getScale() * 0.2f);
@@ -105,13 +105,16 @@ public class BeaconLaserEntity extends BaseEntity implements OwnableEntity {
 		}
 	}
 
-	public List<LivingEntity> getEntityHitResult(Level level, MetalGolemEntity owner, Vec3 start, Vec3 end, float radius) {
+	public List<LivingEntity> getEntityHitResult(Level level, AbstractGolemEntity<?, ?> owner, Vec3 start, Vec3 end, float radius) {
+		var mid = start.add(end).scale(0.5);
+		var reach = start.distanceTo(end) * 0.5 + radius;
 		var list = level.getEntities(EntityTypeTest.forClass(LivingEntity.class),
-				new AABB(start, end).inflate(radius), x -> !hit.contains(x) && owner.canAttack(x) && owner.predicateTarget(x));
+				AABB.ofSize(mid, reach * 2, reach * 2, reach * 2),
+				x -> !hit.contains(x) && owner.canAttack(x) && owner.predicateTarget(x));
 		var ans = new ArrayList<LivingEntity>();
 		for (var e : list) {
 			AABB aabb = e.getBoundingBox().inflate(radius);
-			if (aabb.intersects(start, end) || aabb.contains(start) || aabb.contains(end)) {
+			if (aabb.clip(start, end).isPresent()) {
 				ans.add(e);
 			}
 		}

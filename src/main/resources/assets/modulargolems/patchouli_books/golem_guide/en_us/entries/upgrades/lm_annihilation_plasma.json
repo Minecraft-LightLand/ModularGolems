@@ -1,0 +1,13 @@
+{
+  "flag": "mod:legendary_monsters",
+  "name": "Annihilation Plasma Upgrade",
+  "icon": "modulargolems:annihilation_plasma",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:annihilation_plasma",
+	  "text": "Launch plasma orbs at multiple targets. Each orb homes slightly and explodes on hit. This is the Obliterator's multi-target plasma attack."
+	}
+  ]
+}

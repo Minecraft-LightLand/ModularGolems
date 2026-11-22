@@ -139,6 +139,7 @@ public abstract class GuardedEntity extends AbstractGolem {
 		if (this.isSleeping()) {
 			this.stopSleeping();
 		}
+		playDeathSound();
 		this.dead = true;
 		this.getCombatTracker().recheckStatus();
 		Level level = this.level();
@@ -156,6 +157,9 @@ public abstract class GuardedEntity extends AbstractGolem {
 
 	public boolean specialDeath(DamageSource source) {
 		return false;
+	}
+
+	public void playDeathSound() {
 	}
 
 	@MustBeInvokedByOverriders

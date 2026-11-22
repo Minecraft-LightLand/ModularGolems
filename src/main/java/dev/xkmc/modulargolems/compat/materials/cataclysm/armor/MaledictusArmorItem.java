@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.armor;
 
+import net.minecraft.ChatFormatting;
+
 import dev.xkmc.l2damagetracker.init.L2DamageTracker;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
@@ -28,6 +30,10 @@ import java.util.List;
 public class MaledictusArmorItem extends MetalGolemArmorItem {
 
 	public MaledictusArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+		this(properties, type, defense, toughness, 0, model);
+	}
+
+	public MaledictusArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, float knockbackResistance, ResourceLocation model) {
 		super(properties, type, defense, toughness, model, e -> {
 			var id = ModularGolems.loc("maledictus_armor_" + type.getName());
 			e.add(L2DamageTracker.ABSORB, new AttributeModifier(id, 1,
@@ -40,33 +46,36 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 				case LEGS -> e.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(
 						id, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.bySlot(type.getSlot()));
 			}
+			MetalGolemArmorItem.addKnockback(e, type, knockbackResistance);
 		});
 	}
-
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, ctx, list, flag);
 		if (getSlot() == EquipmentSlot.HEAD) {
-			list.add(MGLangData.MALEDICTUS_BYPASS_CD.get());
+			list.add(MGLangData.MALEDICTUS_BYPASS_CD.get().withStyle(ChatFormatting.GOLD));
 		} else if (getSlot() == EquipmentSlot.LEGS) {
-			list.add(MGLangData.MALEDICTUS_FAST_SKILL.get());
+			list.add(MGLangData.MALEDICTUS_FAST_SKILL.get().withStyle(ChatFormatting.GOLD));
+			list.add(MGLangData.SKILL_IGNORE_HEALTH.get(
+					Component.translatable(CataCompatRegistry.MALEDICTUS_CHARGE.get().getDescriptionId()))
+					.withStyle(ChatFormatting.GOLD));
 		} else if (getSlot() == EquipmentSlot.CHEST) {
 			int cd = MGConfig.COMMON.maledictusReviveCD.get();
 			int red = MGConfig.COMMON.maledictusReviveCDPartReduction.get();
 			double php = MGConfig.COMMON.maledictusRevivePHP.get();
 			double bonus = MGConfig.COMMON.maledictusRevivePHPPartBonus.get();
-			list.add(MGLangData.MALEDICTUS_REVIVE.get((int) (php * 100), cd));
-			list.add(MGLangData.MALEDICTUS_REVIVE_CD.get(red, bonus * 100));
+			list.add(MGLangData.MALEDICTUS_REVIVE.get((int) (php * 100), cd).withStyle(ChatFormatting.GOLD));
+			list.add(MGLangData.MALEDICTUS_REVIVE_CD.get(red, bonus * 100).withStyle(ChatFormatting.GOLD));
 			var level = ctx.level();
 			if (level != null && level.isClientSide()) {
 				long prev = GolemItems.DC_TIMESTAMP.getOrDefault(stack, 0L);
 				long time = level.getGameTime();
 				if (prev > time) {
-					list.add(MGLangData.MALEDICTUS_REVIVE_IN_CD.get((prev - time) / 20));
+					list.add(MGLangData.MALEDICTUS_REVIVE_IN_CD.get((prev - time) / 20).withStyle(ChatFormatting.GOLD));
 				} else {
 					int count = ClientHandler.counter();
 					if (count > 0) {
-						list.add(MGLangData.MALEDICTUS_REVIVE_ACTUAL_CD.get(cd - red * count));
+						list.add(MGLangData.MALEDICTUS_REVIVE_ACTUAL_CD.get(cd - red * count).withStyle(ChatFormatting.GOLD));
 					}
 				}
 			}

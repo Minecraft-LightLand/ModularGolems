@@ -10,6 +10,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinButton;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinInputScreen;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.util.GolemPreviewUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
@@ -46,7 +47,7 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		new TabManager<>(this, new EquipmentGroup(menu.golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT.get());
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
-			addRenderableWidget(new PlayerSkinButton(leftPos + 137, topPos + 5, golem, b ->
+			addRenderableWidget(new PlayerSkinButton(leftPos + 160, topPos + 6, golem, b ->
 					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem))));
 		}
 	}
@@ -63,20 +64,14 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		}
 	}
 
+	protected GolemPreviewUtil.Adjustment previewAdjustment() {
+		return GolemPreviewUtil.Adjustment.none();
+	}
+
 	private void renderPreview(GuiGraphics g, int mx, int my) {
 		if (menu.golem == null) return;
-		int x = leftPos + 30;
-		int y = topPos + 80;
-		double lx = x - mx;
-		double ly = y - 40 - my;
-		int scale = menu.golem.getPreviewScale();
-		float ax = (float) Math.atan(lx / 50.0);
-		float ay = (float) Math.atan(ly / 50.0);
-		scale = (int) (scale / menu.golem.getScale());
-		InventoryScreen.renderEntityInInventoryFollowsAngle(g,
-				leftPos + 3, topPos + 16, leftPos + 58, topPos + 99,
-				20, 1f / scale, ax, ay, menu.golem);
-
+		GolemPreviewUtil.render(g, leftPos, topPos, menu.golem, menu.golem.getPreviewScale(),
+				previewAdjustment(), mx, my);
 	}
 
 	@Override

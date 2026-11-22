@@ -11,6 +11,7 @@ import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.modulargolems.compat.materials.create.arm.ArmAttachmentItem;
 import dev.xkmc.modulargolems.compat.materials.create.automation.DummyFurnace;
 import dev.xkmc.modulargolems.compat.materials.create.modifier.*;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -32,6 +33,8 @@ public class CreateCompatRegistry {
 	public static final Val<MechBodyModifier> BODY;
 	public static final Val<MechMobileModifier> MOBILE;
 	public static final Val<MechForceModifier> FORCE;
+	public static final Val<ChocoModifier> CHOCO;
+	public static final Val<BigRigChargeModifier> BIG_RIG_CHARGE;
 
 	public static final SimpleEntry<MobEffect> EFF_MOBILE;
 	public static final SimpleEntry<MobEffect> EFF_FORCE;
@@ -45,9 +48,12 @@ public class CreateCompatRegistry {
 		PUSH = reg("push", () -> new AttributeGolemModifier(1,
 				new AttributeGolemModifier.AttrEntry(GolemTypes.STAT_ATKKB, () -> 2)
 		));
+		CHOCO = reg("choco_body", ChocoModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
 		BODY = reg("mechanical_engine", MechBodyModifier::new, "Consumes fuels to power the golem up.");
 		MOBILE = reg("mechanical_mobility", MechMobileModifier::new, "When burning fuels, increase speed by %s%%");
 		FORCE = reg("mechanical_force", MechForceModifier::new, "When burning fuels, increase attack damage by %s%%");
+		BIG_RIG_CHARGE = reg("big_rig_charge", () -> new BigRigChargeModifier(StatFilterType.HEAD, 1),
+				"Big Rig Rider", "Charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging. Damage scales with the golem's attack, size and speed. When burning fuels, skill cooldown is halved.");
 		UP_COATING = regModUpgrade("coating", () -> COATING, CreateDispatch.MODID).lang("Zinc Upgrade").register();
 		UP_PUSH = regModUpgrade("push", () -> PUSH, CreateDispatch.MODID).lang("Extendo Upgrade").register();
 
@@ -74,6 +80,7 @@ public class CreateCompatRegistry {
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.SPECIAL_CRAFT)
 				.addOptional(AllItems.CARDBOARD.getId())
 				.addOptional(AllItems.ANDESITE_ALLOY.getId())
+				.addOptional(AllItems.BAR_OF_CHOCOLATE.getId())
 				.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "ingots/brass"))
 				.addOptional(AllBlocks.RAILWAY_CASING.getId()));
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
@@ -81,6 +88,10 @@ public class CreateCompatRegistry {
 					.addOptional(EFF_MOBILE.val().getId())
 					.addOptional(EFF_FORCE.val().getId()));
 		}
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+				.addOptional(UP_PUSH.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.GREEN_UPGRADES)
+				.addOptional(UP_COATING.getId()));
 	}
 
 	public static ResourceLocation loc(String id) {

@@ -19,6 +19,7 @@ import static dev.xkmc.modulargolems.init.registrate.GolemModifiers.reg;
 public class LCCompatRegistry {
 
 	public static final Val<ConduitModifier> CONDUIT;
+	public static final Val<PoseidonRiptideModifier> RIPTIDE;
 	public static final Val<FreezingModifier> FREEZE;
 	public static final Val<SoulFlameModifier> FLAME;
 	public static final Val<EnderTeleportModifier> TELEPORT;
@@ -31,6 +32,8 @@ public class LCCompatRegistry {
 
 	static {
 		CONDUIT = reg("conduit", ConduitModifier::new, "When in water: Reduce damage taken to %s%%. Every %s seconds, deal %s conduit damage to target in water/rain remotely. Boost following stats:");
+		RIPTIDE = reg("poseidon_riptide", PoseidonRiptideModifier::new, "Poseidon Riptide",
+				"When in water or in rain, charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging.");
 		FREEZE = reg("freezing", FreezingModifier::new, "Potion Upgrade: Freezing", "Get Ice Blade and Ice Thorn enchantment effects. Immune to freezing damage.");
 		FLAME = reg("soul_flame", SoulFlameModifier::new, "Potion Upgrade: Soul Flame", "Get Soul Flame Blade and Soul Flame Thorn enchantment effects. Immune to soul flame damage.");
 		TELEPORT = reg("teleport", EnderTeleportModifier::new, "Teleport randomly to avoid physical damage. Teleport toward target when attacking. Teleport has %ss cool down.");
@@ -63,8 +66,15 @@ public class LCCompatRegistry {
 				.addOptional(FREEZE_UP.getId())
 				.addOptional(UPGRADE_CURSE.getId())
 				.addOptional(UPGRADE_INCARCERATE.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+				.addOptional(ATK_UP.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.YELLOW_UPGRADES)
+				.addOptional(TELEPORT_UP.getId())
+				.addOptional(SPEED_UP.getId()));
 		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.BLUE_UPGRADES)
 				.addOptional(UPGRADE_CLEANSE.getId()));
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.GREEN_UPGRADES)
+				.addOptional(FORCE_FIELD.getId()));
 	}
 
 }

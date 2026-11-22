@@ -1,17 +1,16 @@
 package dev.xkmc.modulargolems.compat.materials.allthemodium;
 
+import java.util.concurrent.CompletableFuture;
+import net.minecraft.core.HolderLookup;
 import com.thevortex.allthemodium.registry.ModRegistry;
 import dev.xkmc.l2core.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
-
-import java.util.concurrent.CompletableFuture;
 
 public class ATMConfigGen extends ConfigDataProvider {
 
@@ -21,7 +20,7 @@ public class ATMConfigGen extends ConfigDataProvider {
 
 	@Override
 	public void add(Collector map) {
-		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, ATMDispatch.MODID), new GolemMaterialConfig()
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "allthemodium"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "allthemodium"),
 						Ingredient.of(ModRegistry.ALLTHEMODIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 500)
@@ -31,13 +30,12 @@ public class ATMConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.PLAYER_IMMUNE.get(), 1)
-				.addModifier(GolemModifiers.TALENTED.get(), 1)
 				.addModifier(GolemModifiers.RECYCLE.get(), 1)
-				.addModifier(GolemModifiers.SWIM.get(), 1)
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 1)
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 1)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "vibranium"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "vibranium"),
 						Ingredient.of(ModRegistry.VIBRANIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 800)
@@ -49,13 +47,12 @@ public class ATMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.PLAYER_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
 				.addModifier(GolemModifiers.EXPLOSION_RES.get(), 2)
-				.addModifier(GolemModifiers.TALENTED.get(), 1)
 				.addModifier(GolemModifiers.RECYCLE.get(), 1)
-				.addModifier(GolemModifiers.SWIM.get(), 1)
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 2)
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 2)
 				.end()
-
+		);
+		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "unobtainium"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(ATMDispatch.MODID, "unobtainium"),
 						Ingredient.of(ModRegistry.UNOBTAINIUM_INGOT.get()))
 				.addStat(GolemTypes.STAT_HEALTH.get(), 1000)
@@ -69,13 +66,10 @@ public class ATMConfigGen extends ConfigDataProvider {
 				.addModifier(GolemModifiers.PROJECTILE_REJECT.get(), 1)
 				.addModifier(GolemModifiers.MAGIC_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.EXPLOSION_RES.get(), 2)
-				.addModifier(GolemModifiers.TALENTED.get(), 1)
 				.addModifier(GolemModifiers.RECYCLE.get(), 1)
-				.addModifier(GolemModifiers.SWIM.get(), 1)
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 3)
 				.addModifier(GolemModifiers.ARMOR_BYPASS.get(), 3)
 				.end()
-
 		);
 	}
 

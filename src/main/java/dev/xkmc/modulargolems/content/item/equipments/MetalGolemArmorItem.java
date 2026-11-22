@@ -18,6 +18,15 @@ public class MetalGolemArmorItem extends GolemEquipmentItem implements GolemMode
 
 	private final ResourceLocation model;
 
+	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, float knockbackResistance, ResourceLocation model) {
+		this(properties, type, defense, toughness, model, e -> addKnockback(e, type, knockbackResistance));
+	}
+
+	public static void addKnockback(ItemAttributeModifiers.Builder builder, ArmorItem.Type type, float knockbackResistance) {
+		if (knockbackResistance <= 0) return;
+		builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(ModularGolems.loc(type.getName() + "_armor_knockback"), knockbackResistance, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(type.getSlot()));
+	}
+
 	public MetalGolemArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
 		this(properties, type, defense, toughness, model, e -> {
 		});

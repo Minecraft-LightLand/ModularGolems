@@ -11,9 +11,14 @@ import net.minecraft.world.item.ArmorItem;
 public class NetheriteBootItem extends MetalGolemArmorItem {
 
 	public NetheriteBootItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
-		super(properties, type, defense, toughness, model, e -> e.add(Attributes.MOVEMENT_SPEED,
-				new AttributeModifier(ModularGolems.loc(EquipmentSlot.FEET.getName() + "_armor"), -0.5f,
-						AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.FEET));
+		this(properties, type, defense, toughness, 0, model);
+	}
+
+	public NetheriteBootItem(Properties properties, ArmorItem.Type type, int defense, float toughness, float knockbackResistance, ResourceLocation model) {
+		super(properties, type, defense, toughness, model, e -> {
+			e.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(ModularGolems.loc(EquipmentSlot.FEET.getName() + "_armor"), -0.5f, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.FEET);
+			MetalGolemArmorItem.addKnockback(e, type, knockbackResistance);
+		});
 	}
 
 }

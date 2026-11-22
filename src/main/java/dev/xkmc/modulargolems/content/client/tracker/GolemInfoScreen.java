@@ -9,14 +9,22 @@ import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.capability.TrackerDeleteToServer;
 import dev.xkmc.modulargolems.content.capability.TrackerHeartBeatToServer;
+import dev.xkmc.modulargolems.content.capability.TrackerRecallToServer;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.editor.base.EditorSaveState;
+import dev.xkmc.modulargolems.editor.base.EditorText;
+import dev.xkmc.modulargolems.editor.material.MaterialHomeScreen;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
+import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -35,6 +43,21 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 	private Button left, right;
 	private boolean leftAdded, rightAdded;
 	private UUID delId = null;
+
+	private boolean wandInHotbar(Player player) {
+		for (int i = 0; i < 9; i++) {
+			var stack = player.getInventory().getItem(i);
+			if (stack.is(MGTagGen.GOLEM_OMNI_WAND) || stack.is(GolemItems.RETRIEVAL_WAND.get())) return true;
+		}
+		return false;
+	}
+
+	private boolean aliveTracked(UUID id) {
+		return getData().stream()
+				.filter(p -> p.getFirst().equals(id))
+				.map(Pair::getSecond)
+				.anyMatch(e -> e.status == GolemTracker.Status.ALIVE);
+	}
 
 	protected GolemInfoScreen(Component title) {
 		super(title, ResourceLocation.parse("l2tabs:textures/gui/empty.png"));
@@ -69,6 +92,11 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 				(e) -> this.click(1)).pos(x, y).size(w, h).build();
 
 		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, GolemTabRegistry.TRACKER.get());
+		if (EditorSaveState.canEdit()) {
+			addRenderableWidget(Button.builder(EditorText.OPEN.get(), b ->
+							Minecraft.getInstance().setScreen(new MaterialHomeScreen(this)))
+					.bounds(width - 112, height - 30, 102, 20).build());
+		}
 	}
 
 	private void click(int offset) {
@@ -117,6 +145,9 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 		if (focus != null) {
 			g.renderComponentTooltip(this.font, TrackerInfo.getDetail(focus, player, time), mx, my);
 		}
+		if (delLine >= 0 && wandInHotbar(player) && aliveTracked(delId)) {
+			g.renderTooltip(this.font, MGLangData.RECALL.get(), mx, my);
+		}
 	}
 
 	@Override
@@ -134,7 +165,10 @@ public abstract class GolemInfoScreen extends BaseTextScreen implements ITabScre
 		var player = Minecraft.getInstance().player;
 		if (player == null) return false;
 		if (delId != null && btn == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-			ModularGolems.HANDLER.toServer(new TrackerDeleteToServer(player.getUUID(), delId));
+			if (wandInHotbar(player) && aliveTracked(delId))
+				ModularGolems.HANDLER.toServer(new TrackerRecallToServer(player.getUUID(), delId));
+			else
+				ModularGolems.HANDLER.toServer(new TrackerDeleteToServer(player.getUUID(), delId));
 			return true;
 		}
 		return false;

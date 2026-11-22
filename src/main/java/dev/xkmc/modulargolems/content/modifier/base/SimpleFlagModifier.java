@@ -2,7 +2,11 @@ package dev.xkmc.modulargolems.content.modifier.base;
 
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class SimpleFlagModifier extends GolemModifier {
@@ -17,6 +21,13 @@ public class SimpleFlagModifier extends GolemModifier {
 	@Override
 	public void onRegisterFlag(Consumer<GolemFlags> addFlag) {
 		addFlag.accept(flag);
+	}
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		if (flag != GolemFlags.RECYCLE) return super.getDetail(v);
+		var health = Component.literal("0").withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", health).withStyle(ChatFormatting.GREEN));
 	}
 
 }

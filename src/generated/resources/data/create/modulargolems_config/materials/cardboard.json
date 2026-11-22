@@ -1,0 +1,24 @@
+{
+  "ingredients": {
+    "create:cardboard": {
+      "item": "create:cardboard"
+    }
+  },
+  "modifiers": {
+    "create:cardboard": {}
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "create:cardboard": {
+      "item": "create:cardboard"
+    }
+  },
+  "stats": {
+    "create:cardboard": {
+      "modulargolems:attack": 2.0,
+      "modulargolems:attack_knockback": 2.0,
+      "modulargolems:max_health": 2.0,
+      "modulargolems:weight": 0.4
+    }
+  }
+}

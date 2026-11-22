@@ -9,8 +9,16 @@ public class MGConfig {
 	public static class Client extends ConfigInit {
 
 
+		public final ModConfigSpec.BooleanValue renderGolemItemAsPlainParts;
+		public final ModConfigSpec.ConfigValue<String> editorSavePath;
+
 		Client(Builder builder) {
 			markL2();
+			renderGolemItemAsPlainParts = builder.text("Render golem items using plain part models instead of a full golem entity")
+					.comment("This skips entity creation and entity rendering for golem items, which can greatly reduce client lag at the cost of not showing equipment and skins on the item")
+					.define("renderGolemItemAsPlainParts", false);
+			editorSavePath = builder.text("Save path override for the in-game editor")
+					.define("editorSavePath", "");
 		}
 
 	}
@@ -23,6 +31,7 @@ public class MGConfig {
 		public final ModConfigSpec.DoubleValue explosionResistance;
 		public final ModConfigSpec.DoubleValue compatTFHealing;
 		public final ModConfigSpec.DoubleValue compatTFDamage;
+	public final ModConfigSpec.DoubleValue chargeArmorBonus, monstrosityChargeBonus;
 		public final ModConfigSpec.IntValue manaMendingCost;
 		public final ModConfigSpec.DoubleValue manaMendingVal;
 		public final ModConfigSpec.DoubleValue manaBoostingDamage;
@@ -265,6 +274,10 @@ public class MGConfig {
 							.defineInRange("conduitBoostSpeed", 0.2, 0, 100);
 					conduitBoostReduction = builder.text("Conduit modifier reduce damage taken when golem is in water (multiplicative)")
 							.defineInRange("conduitBoostReduction", 0.2, 0, 100);
+					chargeArmorBonus = builder.text("Harbinger Shinguard Bonus: Harbinger Charge damage boost")
+							.defineInRange("chargeArmorBonus", 1d, 0, 10);
+					monstrosityChargeBonus = builder.text("Monstrosity Chestplate Bonus: charge damage boost for all charge skills")
+							.defineInRange("monstrosityChargeBonus", 0.5d, 0, 10);
 					teleportRadius = builder.text("Teleport max radius")
 							.defineInRange("teleportRadius", 6, 1, 32);
 					teleportCooldown = builder.text("Teleport cooldown in ticks for avoiding physical damage")

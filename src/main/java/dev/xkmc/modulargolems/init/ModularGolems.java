@@ -17,6 +17,10 @@ import dev.xkmc.modulargolems.compat.maid.SetMaidModelToServer;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
 import dev.xkmc.modulargolems.compat.misc.CEICompat;
 import dev.xkmc.modulargolems.content.capability.*;
+import dev.xkmc.modulargolems.content.client.overlay.GolemSkillCDRequest;
+import dev.xkmc.modulargolems.content.client.overlay.GolemSkillCDToClient;
+import dev.xkmc.modulargolems.content.item.wand.OmniWandKeyToServer;
+import dev.xkmc.modulargolems.content.menu.table.SetGolemNameToServer;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.entity.common.GuardedEntity;
@@ -32,6 +36,7 @@ import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
+import dev.xkmc.modulargolems.content.menu.table.SimpleUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.wheel.GolemSetModeToServer;
 import dev.xkmc.modulargolems.events.GolemAttackListener;
 import dev.xkmc.modulargolems.events.GolemDispenserBehaviors;
@@ -44,6 +49,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -87,7 +93,12 @@ public class ModularGolems {
 			e -> e.create(DogSkillToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(GolemSetModeToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
 			e -> e.create(SetMaidModelToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
-			e -> e.create(SetPlayerSkinToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
+			e -> e.create(SetPlayerSkinToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(GolemSkillCDRequest.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(GolemSkillCDToClient.class, PacketHandler.NetDir.PLAY_TO_CLIENT),
+			e -> e.create(TrackerRecallToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(OmniWandKeyToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER),
+			e -> e.create(SetGolemNameToServer.class, PacketHandler.NetDir.PLAY_TO_SERVER)
 
 	);
 
@@ -96,7 +107,8 @@ public class ModularGolems {
 	public static final ConfigTypeEntry<GolemMaterialConfig> MATERIALS =
 			new ConfigTypeEntry<>(HANDLER, "materials", GolemMaterialConfig.class);
 
-	public ModularGolems() {
+	public ModularGolems(IEventBus modBus) {
+		GolemParticles.register(modBus);
 		GolemItems.register();
 		GolemTypes.register();
 		GolemMiscs.register();
@@ -140,6 +152,10 @@ public class ModularGolems {
 			DefaultQuickAccessActions.quickAccess(GolemMiscs.DISINTEGRATE.get(),
 					GolemItems.TABLE.asItem(),
 					GolemUpgradeMenu::createFloating, MGLangData.TAB_UPGRADES.key());
+			DefaultQuickAccessActions.quickAccess(GolemMiscs.SIMPLE_UPGRADE.get(),
+					GolemItems.SIMPLE_TABLE.asItem(),
+					(wid, inv, access) -> new SimpleUpgradeMenu(GolemMiscs.SIMPLE_UPGRADE.get(), wid, inv),
+					MGLangData.TAB_UPGRADES.key());
 		});
 	}
 

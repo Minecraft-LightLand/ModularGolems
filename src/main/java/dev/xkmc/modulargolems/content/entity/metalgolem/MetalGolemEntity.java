@@ -5,6 +5,7 @@ import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.entity.common.IShoulderWeaponSupportEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
@@ -57,7 +58,8 @@ import org.joml.Vector3f;
 import java.util.List;
 
 @SerialClass
-public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType> {
+public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType>
+		implements IShoulderWeaponSupportEntity {
 
 	private static final EntityDataAccessor<Vector3f> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.VECTOR3);
 	private static final EntityDataAccessor<ItemStack> LEFT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
@@ -73,6 +75,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.LARGE, type, level);
+		registerArrowSlot(true);
 	}
 
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -291,6 +294,21 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	public Vec3 getTargetAimPos() {
 		return new Vec3(entityData.get(TARGET));
+	}
+
+	@Override
+	public int getShoulderAnimStarting() {
+		return animState.getStartingAnim();
+	}
+
+	@Override
+	public int getShoulderAnimEnding() {
+		return animState.getEndingAnim();
+	}
+
+	@Override
+	public int[] shoulderSlotIndexes() {
+		return new int[]{-1, 1};
 	}
 
 	@Override

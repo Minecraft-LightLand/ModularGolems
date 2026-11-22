@@ -4,16 +4,18 @@ import dev.xkmc.l2core.util.DCStack;
 import dev.xkmc.modulargolems.compat.materials.create.CreateCompatRegistry;
 import dev.xkmc.modulargolems.content.client.weapon.ShoulderAnimData;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
+import dev.xkmc.modulargolems.content.core.GolemType;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
-import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
+import dev.xkmc.modulargolems.content.item.ranged.IGenericShoulderWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.ShouldWeaponItem;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -22,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ArmAttachmentItem extends ShouldWeaponItem {
+public class ArmAttachmentItem extends ShouldWeaponItem implements IGenericShoulderWeapon {
 
 	public static final ResourceLocation ID = CreateCompatRegistry.loc("arm");
 
@@ -31,13 +33,19 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 	}
 
 	@Override
-	public @Nullable ResourceLocation getModelForHand(InteractionHand hand) {
+	public @Nullable ResourceLocation getModel(int slot) {
 		return ID;
 	}
 
 	@Override
-	public List<ShoulderAnimData> getAnimationData(MetalGolemEntity user, ItemStack stack, InteractionHand hand) {
+	public List<ShoulderAnimData> getAnimationData(AbstractGolemEntity<?, ?> user, ItemStack stack, int slot) {
 		return List.of();
+	}
+
+	@Override
+	public ResourceLocation getModelTexture(AbstractGolemEntity<?, ?> entity, ItemStack stack, int slot) {
+		var id = BuiltInRegistries.ITEM.getKey(this);
+		return id.withPath(e -> "textures/equipments/" + e + ".png");
 	}
 
 	@Override
@@ -47,14 +55,17 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 	}
 
 	@Override
-	public void onTick(MetalGolemEntity e, ItemStack stack, InteractionHand hand) {
+	public void onTick(AbstractGolemEntity<?, ?> e, ItemStack stack, int slot) {
 		if (e.level().isClientSide()) return;
 		var time = e.level().getGameTime();
 		long last = stack.getOrDefault(GolemItems.DC_TIMESTAMP, 0L);
 		int takingItem = stack.getOrDefault(GolemItems.DC_CHARGE, 0);
 		var speed = Mth.clamp(stack.getOrDefault(GolemItems.DC_USE_SPEED, 0f), 0.25f, 4f);
 		if (last > time || last < time - (int) (100 / speed)) {
-			ItemStack other = hand == InteractionHand.MAIN_HAND ? e.getLeftShoulder().getItem() : e.getRightShoulder().getItem();
+			ItemStack other = ItemStack.EMPTY;
+			// only the two-shouldered golem type has an opposite shoulder to trade with
+			if (e instanceof MetalGolemEntity metal)
+				other = slot < 0 ? metal.getRightShoulder().getItem() : metal.getLeftShoulder().getItem();
 			if (other.getItem() instanceof ArmAttachmentItem) {
 				long prev = other.getOrDefault(GolemItems.DC_TIMESTAMP, 0L);
 				if (prev <= time && prev > time - 20) return;
@@ -84,11 +95,10 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 		}
 	}
 
-	public static float getSpeed(MetalGolemEntity e) {
+	public static float getSpeed(AbstractGolemEntity<?, ?> e) {
 		float ans = MGConfig.COMMON.mechanicalArmSpeed.get().floatValue();
-		if (e.getPersistentData().getLong("MechEngineLastPoweredUp") > e.level().getGameTime()) {
+		if (e.getPersistentData().getLong("MechEngineLastPoweredUp") > e.level().getGameTime())
 			ans += MGConfig.COMMON.mechanicalArmPowerBonus.get().floatValue();
-		}
 		float bonus = 0;
 		if (e.getModifiers().containsKey(CreateCompatRegistry.BODY.get()))
 			bonus += 0.2f;
@@ -100,10 +110,12 @@ public class ArmAttachmentItem extends ShouldWeaponItem {
 		return Mth.clamp(ans, 0.5f, 4f);
 	}
 
-	private static ItemStack fetch(MetalGolemEntity e, boolean simulate) {
+	private static ItemStack fetch(AbstractGolemEntity<?, ?> e, boolean simulate) {
 		var opt = e.getCapability(Capabilities.ItemHandler.ENTITY);
 		if (opt == null) return ItemStack.EMPTY;
-		var mat = e.getMaterials().get(MetalGolemPartType.BODY.ordinal());
+		GolemType<?, ?> type = GolemType.getGolemType(e.getType());
+		if (type == null) return ItemStack.EMPTY;
+		var mat = e.getMaterials().get(type.getBodyPart().ordinal());
 		Ingredient ing = GolemMaterialConfig.get().getRepairIngredient(mat.id());
 		for (int i = 0; i < opt.getSlots(); i++) {
 			ItemStack stack = opt.getStackInSlot(i);

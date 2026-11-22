@@ -50,6 +50,23 @@ public class CataCompatRegistry {
 	public static final Val<MaledictusAttackModifier> MALEDICTUS_ATTACK;
 	public static final Val<ScyllaLightningAttackModifier> SCYLLA_LIGHTNING;
 	public static final Val<ScyllaWaveAttackModifier> SCYLLA_WAVE;
+	public static final Val<IgnisChargeModifier> IGNIS_CHARGE;
+	public static final Val<HarbingerHowitzerModifier> HARBINGER_HOWITZER;
+	public static final Val<HarbingerMissileModifier> HARBINGER_WITHER_MISSILE;
+	public static final Val<HarbingerChargeModifier> HARBINGER_CHARGE;
+	public static final Val<AncientRemnantSteleModifier> ANCIENT_RENANT_STELE;
+	public static final Val<MaledictusArrowModifier> MALEDICTUS_ARROW;
+	public static final Val<ScyllaLightningStormModifier> SCYLLA_STORM;
+	public static final Val<ScyllaWaterBoltModifier> SCYLLA_WATER_BOLT;
+	public static final Val<ScyllaLineLightningModifier> SCYLLA_LINE;
+	public static final Val<EnderGuardianHugModifier> GUARDIAN_HUG;
+	public static final Val<AncientRemnantLeapModifier> ANCIENT_RENANT_LEAP;
+	public static final Val<AncientRemnantChargeModifier> ANCIENT_RENANT_CHARGE;
+	public static final Val<MaledictusChargeModifier> MALEDICTUS_CHARGE;
+	public static final Val<ScyllaAnchorSlamModifier> SCYLLA_ANCHOR_SLAM;
+	public static final Val<EnderGuardianTeleportSlamModifier> GUARDIAN_TELEPORT_SLAM;
+	public static final Val<ScyllaSpinChargeModifier> SCYLLA_SPIN;
+	public static final Val<EnderGuardianRocketPunchModifier> GUARDIAN_ROCKET;
 
 	public static final SimpleEntry<MobEffect> EFF_FORCE;
 
@@ -68,65 +85,65 @@ public class CataCompatRegistry {
 				.register();
 
 		HARBINGER_HELMET = REGISTRATE.item("harbinger_helmet", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.WITHERITE_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, 0.2F, CataArmorPaths.WITHERITE_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		HARBINGER_CHESTPLATE = REGISTRATE.item("harbinger_chestplate", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.WITHERITE_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.2F, CataArmorPaths.WITHERITE_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		HARBINGER_SHINGUARD = REGISTRATE.item("harbinger_shinguard", p -> new HarbingerArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.WITHERITE_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.2F, CataArmorPaths.WITHERITE_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
 		MONSTROSITY_HELMET = REGISTRATE.item("monstrosity_helmet", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.MONSTROSITY_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, 0.3F, CataArmorPaths.MONSTROSITY_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		MONSTROSITY_CHESTPLATE = REGISTRATE.item("monstrosity_chestplate", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.MONSTROSITY_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.3F, CataArmorPaths.MONSTROSITY_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 		MONSTROSITY_SHINGUARD = REGISTRATE.item("monstrosity_shinguard", p -> new MonstrosityArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.MONSTROSITY_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.3F, CataArmorPaths.MONSTROSITY_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.defaultLang().register();
 
 		IGNIS_HELMET = REGISTRATE.item("ignis_helmet", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.IGNIS_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, 0.3F, CataArmorPaths.IGNIS_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.lang("Ignitium Golem Helmet").register();
 		IGNIS_CHESTPLATE = REGISTRATE.item("ignis_chestplate", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.IGNIS_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.3F, CataArmorPaths.IGNIS_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.lang("Ignitium Golem Chestplate").register();
 		IGNIS_SHINGUARD = REGISTRATE.item("ignis_shinguard", p -> new IgnisArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.IGNIS_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.3F, CataArmorPaths.IGNIS_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.lang("Ignitium Golem Shinguard").register();
 
 		MALEDICTUS_HELMET = REGISTRATE.item("maledictus_helmet", p -> new MaledictusArmorItem(p.stacksTo(1),
-						ArmorItem.Type.HELMET, 14, 8, CataArmorPaths.MALEDICTUS_HELMETS))
+						ArmorItem.Type.HELMET, 14, 8, 0.1F, CataArmorPaths.MALEDICTUS_HELMETS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 				.lang("Cursium Golem Helmet").register();
 		MALEDICTUS_CHESTPLATE = REGISTRATE.item("maledictus_chestplate", p -> new MaledictusArmorItem(p.stacksTo(1),
-						ArmorItem.Type.CHESTPLATE, 18, 8, CataArmorPaths.MALEDICTUS_CHESTPLATES))
+						ArmorItem.Type.CHESTPLATE, 18, 8, 0.1F, CataArmorPaths.MALEDICTUS_CHESTPLATES))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 				.lang("Cursium Golem Chestplate").register();
 		MALEDICTUS_SHINGUARD = REGISTRATE.item("maledictus_shinguard", p -> new MaledictusArmorItem(p.stacksTo(1),
-						ArmorItem.Type.LEGGINGS, 10, 8, CataArmorPaths.MALEDICTUS_LEGGINGS))
+						ArmorItem.Type.LEGGINGS, 10, 8, 0.1F, CataArmorPaths.MALEDICTUS_LEGGINGS))
 				.model((ctx, pvd) -> pvd.generated(ctx, cataLoc("item/equipments/" + ctx.getName())))
 				.asOptional().tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 				.lang("Cursium Golem Shinguard").register();
@@ -138,32 +155,73 @@ public class CataCompatRegistry {
 		STORM_CONSTRUCT = GolemItems.item(CataDispatch.MODID, "storm_construct", CraftMaterialItem::new);
 
 		IGNIS_FIREBALL = reg("ignis_fireball", () -> new IgnisFireballModifier(StatFilterType.HEAD, 2),
-				"When target is faraway, shoot Ignis fireballs toward target.");
+				"Blazing Fireball", "Summon ignis fireballs and shoot them toward the target.");
 
 		IGNIS_JUMP = reg("ignis_jump", () -> new IgnisJumpModifier(StatFilterType.MOVEMENT, 1),
-				"Flame Strike", "Jump toward target. On landing, perform flame strike on all nearby targets.");
+				"Blazing Strike", "Jump toward the target. On landing, perform a blazing strike at all nearby targets. Damage taken is reduced by %s while leaping.");
 
 		IGNIS_ATTACK = reg("ignis_attack", () -> new IgnisAttackModifier(StatFilterType.ATTACK, 2),
-				"Blazing Brand", "Stack Blazing Brande effect and regenerate health when hit target. When health is lower than half, direct damage bypasses armor.");
+				"Ignis Blade", "Stack Blazing Brand effect and regenerate health when hitting the target. When health is lower than %s, damage bypasses armor.");
 
 		HARBINGER_BEAM = reg("harbinger_death_beam", () -> new HarbingerDeathBeamModifier(StatFilterType.HEAD, 1),
-				"When target is faraway, shoot Death Beam toward target.");
+				"Death Beam", "Shoot a death beam toward the target.");
 
 		HARBINGER_MISSILE = reg("harbinger_missile", () -> new HarbingerHomingMissileModifier(StatFilterType.ATTACK, 2),
-				"When target is faraway, shoot Homing Missile toward target.");
+				"Harbinger Homing Missile", "Shoot homing missiles toward the target, continuously tracking the target.");
 
-		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new, "Ccreate blast portal at target position. Attacks multiple targets");
-		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new, "Summon vortex and void rune toward multiple targets");
-		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new, "Jump and cause earthquake on landing");
-		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new, "Summon sandstorm at target position. Attacks multiple targets. Increase damage to target inflicted with Curse of Desert");
-		ANCIENT_MELTDOWN = reg("ancient_remnant_reformation", AncientMeltdownModifier::new, "Reforge: Consumes body material to repair itself at the cost of max health. Consumption be restored with ingot.");
-		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new, "Phantom Halberd Jump Attack", "Jump and cause area damage on landing, summoning phantom halberds");
+		PORTAL = reg("leviathan_blast_portal", LeviathanBlastPortalModifier::new,
+				"Abyssal Blast Portal", "Unleash abyssal blast portals at multiple target positions.");
+		RUNE = reg("ender_guardian_void_rune", EnderGuardianVoidRuneModifier::new,
+				"Void Rune", "Summon void runes around itself and toward the target, and spawn a void vortex at the target's feet.");
+		EARTHQUAKE = reg("netherite_monstrosity_earthquake", NetheriteMonstrosityEarthquakeModifier::new,
+				"Jump and cause earthquake on landing. Damage taken is reduced by %s while leaping.");
+		SANDSTORM = reg("ancient_remnant_sandstorm", AncientRemnantSandstormModifier::new,
+				"Ancient Sandstorm", "Summon a sandstorm around itself in melee mode, or at the target position in ranged mode. Deal more damage to targets afflicted with the Curse of Desert.");
+		ANCIENT_MELTDOWN = reg("ancient_remnant_reformation", AncientMeltdownModifier::new,
+				"Remnant Reformation", "Reforge: consume body material to restore health, at the cost of reduced max health and smaller size. Restorable with repair material.");
+		EARTHQUAKE_SPEAR = reg("maledictus_earthquake", MaledictusEarthquakeModifier::new,
+				"Phantom Halberd Jump Attack", "Jump and cause area damage on landing, summoning phantom halberds. Damage taken is reduced by %s while leaping.");
 		MALEDICTUS_ATTACK = reg("maledictus_attack", MaledictusAttackModifier::new,
-				"Golem melee damage bypass armor. Stack rage counter after dealing damage, up to %s layers");
+				"Cursed Blade", "Golem melee damage bypasses armor. Deal increased damage after dealing damage, stacking up to %s layers.");
 		SCYLLA_LIGHTNING = reg("scylla_lightning", ScyllaLightningAttackModifier::new,
-				"Shoot lightning spear at multiple targets");
+				"Thunder Lance", "Fire lightning spears at nearby targets. The lower the health, the more of them are fired, up to %s spears.");
 		SCYLLA_WAVE = reg("scylla_wave", ScyllaWaveAttackModifier::new,
-				"When attacked, summon waves to push attackers away");
+				"Tidal Anchor", "When attacked, summon waves to push attackers away.");
+
+		IGNIS_CHARGE = reg("ignis_charge", () -> new IgnisChargeModifier(StatFilterType.HEAD, 1),
+				"Raging Charge", "Charge toward a distant target, damaging and stunning all targets in the path. Damage taken is reduced by %s while charging.");
+		HARBINGER_HOWITZER = reg("harbinger_howitzer", () -> new HarbingerHowitzerModifier(StatFilterType.ATTACK, 2),
+				"Harbinger Howitzer", "Launch wither howitzers toward the target, leaving wither smoke.");
+		HARBINGER_WITHER_MISSILE = reg("harbinger_wither_missile", () -> new HarbingerMissileModifier(StatFilterType.ATTACK, 2),
+				"Harbinger Wither Missile", "Shoot wither missiles toward the target, inflicting wither on hit.");
+		HARBINGER_CHARGE = reg("harbinger_charge", () -> new HarbingerChargeModifier(StatFilterType.HEAD, 1),
+				"Harbinger Charge", "Charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging, up to %s dashes.");
+		ANCIENT_RENANT_STELE = reg("ancient_remnant_desert_stele", () -> new AncientRemnantSteleModifier(StatFilterType.HEAD, 1),
+				"Desert Stele", "Summon many desert steles from above in front of and around itself, smashing them into the ground.");
+		MALEDICTUS_ARROW = reg("maledictus_arrow", () -> new MaledictusArrowModifier(StatFilterType.ATTACK, 2),
+				"Cursed Arrow", "When the target is faraway, shoot homing phantom arrows toward it.");
+		SCYLLA_STORM = reg("scylla_lightning_storm", ScyllaLightningStormModifier::new,
+				"Storm Fury", "Gather storm clouds to release many lightning spears and water spears at the target");
+		SCYLLA_WATER_BOLT = reg("scylla_water_bolt", ScyllaWaterBoltModifier::new,
+				"Tidal Spike", "Fire water spikes at nearby targets. The lower the health, the more of them are fired, up to %s spikes.");
+		SCYLLA_LINE = reg("scylla_line_lightning", ScyllaLineLightningModifier::new,
+				"Line Lightning", "Summon a row of lightning strikes at the target position.");
+		GUARDIAN_HUG = reg("ender_guardian_hug", () -> new EnderGuardianHugModifier(StatFilterType.ATTACK, 2),
+				"Rocket Fist", "Teleport to the predicted target position and unleash heavy damage.");
+		ANCIENT_RENANT_LEAP = reg("ancient_remnant_leap", AncientRemnantLeapModifier::new,
+				"Ancient Leap", "Jump toward the target. On landing, deal area damage to nearby targets and release earthquake shock waves. Damage taken is reduced by %s while leaping.");
+		ANCIENT_RENANT_CHARGE = reg("ancient_remnant_charge", () -> new AncientRemnantChargeModifier(StatFilterType.HEAD, 1),
+				"Rage Charge", "Charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging.");
+		MALEDICTUS_CHARGE = reg("maledictus_charge", () -> new MaledictusChargeModifier(StatFilterType.HEAD, 1),
+				"Cursed Charge", "Charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging, up to %s dashes.");
+		SCYLLA_ANCHOR_SLAM = reg("scylla_anchor_slam", ScyllaAnchorSlamModifier::new,
+				"Thunder Slam", "Jump toward the target. On landing, deal area damage and create multiple sparks. Damage taken is reduced by %s while leaping.");
+		GUARDIAN_TELEPORT_SLAM = reg("ender_guardian_teleport_slam", EnderGuardianTeleportSlamModifier::new,
+				"Teleport Slam", "Teleport above the target and slam down, dealing area damage and summoning void runes. Damage taken is reduced by %s while leaping.");
+		SCYLLA_SPIN = reg("scylla_spin_charge", () -> new ScyllaSpinChargeModifier(StatFilterType.HEAD, 1),
+				"Storm Spin Charge", "Charge toward a distant target while spinning, periodically releasing storm strikes around itself. Damage taken is reduced by %s while charging.");
+		GUARDIAN_ROCKET = reg("ender_guardian_rocket_punch", () -> new EnderGuardianRocketPunchModifier(StatFilterType.HEAD, 1),
+				"Gravity Charge", "Charge toward a distant target while firing a row of ender bullets, damaging all targets in the path, drawing nearby targets in, and reducing damage taken by %s while charging.");
 
 		EFF_FORCE = genEffect("maledictus_rage", () -> new RageEffect(MobEffectCategory.BENEFICIAL, 0xffffffff),
 				"Increase golem attack damage");
@@ -200,6 +258,12 @@ public class CataCompatRegistry {
 					.addOptional(MONSTROSITY_CHESTPLATE.getId())
 					.addOptional(MONSTROSITY_SHINGUARD.getId())
 			);
+			MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.RED_UPGRADES)
+					.addOptional(LEVIATHAN.getId())
+					.addOptional(ENDER_GUARDIAN.getId())
+					.addOptional(MONSTROSITY.getId())
+					.addOptional(ANCIENT_REMNANT.getId())
+					.addOptional(SCYLLA.getId()));
 		}
 
 	}

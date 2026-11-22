@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.compat.jei;
 
-import dev.xkmc.l2tabs.compat.jei.SideTabProperties;
+import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.l2tabs.compat.jei.GuiProperties;
+import dev.xkmc.l2tabs.tabs.core.TabBase;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
@@ -16,6 +18,8 @@ import dev.xkmc.modulargolems.content.menu.equipment.EquipmentsScreen;
 import dev.xkmc.modulargolems.content.menu.filter.ItemConfigScreen;
 import dev.xkmc.modulargolems.content.menu.path.PathConfigScreen;
 import dev.xkmc.modulargolems.content.menu.registry.GolemTabRegistry;
+import dev.xkmc.modulargolems.content.menu.tabs.GolemTabManager;
+import dev.xkmc.modulargolems.content.menu.table.GolemAssembleScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeScreen;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
@@ -28,6 +32,7 @@ import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.gui.handlers.IGlobalGuiHandler;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
 import mezz.jei.api.recipe.vanilla.IVanillaRecipeFactory;
@@ -35,6 +40,9 @@ import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -42,6 +50,7 @@ import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @JeiPlugin
@@ -83,13 +92,16 @@ public class GolemJEIPlugin implements IModPlugin {
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registration) {
 		registration.addGhostIngredientHandler(ItemConfigScreen.class, new ItemFilterHandler());
-		var eq = new SideTabProperties(GolemTabRegistry.EQUIPMENTS);
-		eq.register(registration, EquipmentsScreen.class);
-		new SideTabProperties(GolemTabRegistry.CONFIG).register(registration,
-				ToggleGolemConfigScreen.class, ItemConfigScreen.class,
-				TargetConfigScreen.class, PathConfigScreen.class,
-				GolemUpgradeScreen.class, GolemDisinegrateScreen.class);
-		CurioCompatRegistry.onJEIRegistry(e -> eq.register(registration, e));
+		registration.addGuiScreenHandler(EquipmentsScreen.class, e -> GuiProperties.create(e));
+		registration.addGuiScreenHandler(ToggleGolemConfigScreen.class, e -> GuiProperties.create(e));
+		registration.addGuiScreenHandler(ItemConfigScreen.class, e -> GuiProperties.create(e));
+		registration.addGuiScreenHandler(TargetConfigScreen.class, e -> GuiProperties.create(e));
+		registration.addGuiScreenHandler(PathConfigScreen.class, e -> GuiProperties.create(e));
+		registration.addGuiScreenHandler(GolemAssembleScreen.class, e -> GuiProperties.create(e));
+		registration.addGuiScreenHandler(GolemUpgradeScreen.class, e -> GuiProperties.create(e));
+		registration.addGuiScreenHandler(GolemDisinegrateScreen.class, e -> GuiProperties.create(e));
+		CurioCompatRegistry.onJEIRegistry(e -> registration.addGuiScreenHandler(Wrappers.cast(e), s -> GuiProperties.create(Wrappers.cast(s))));
+		registration.addGlobalGuiHandler(GolemTabExtraAreas.INSTANCE);
 	}
 
 	private static String partSubtype(ItemStack stack, UidContext ctx) {
@@ -178,6 +190,23 @@ public class GolemJEIPlugin implements IModPlugin {
 				result.add(GolemUpgrade.addSlot(new ItemStack(types), 100));
 			}
 			recipes.add(factory.createAnvilRecipe(input, List.of(GolemItems.INF_SLOT.asStack()), result));
+		}
+	}
+
+
+	/**
+	 * Tells JEI which screen areas the golem-type tab widgets (GolemTabBase, managed by GolemTabManager)
+	 * occupy, so its ingredient list is placed out of the way instead of covering them. The l2tabs
+	 * TabExtraAreasPlugin only sees l2tabs TabBase widgets, so these custom type tabs must be reported here.
+	 */
+	private enum GolemTabExtraAreas implements IGlobalGuiHandler {
+		INSTANCE;
+
+		@Override
+		public Collection<Rect2i> getGuiExtraAreas() {
+			Screen screen = Minecraft.getInstance().screen;
+			if (screen == null) return List.of();
+			return GolemTabManager.getExtraAreas(screen);
 		}
 	}
 

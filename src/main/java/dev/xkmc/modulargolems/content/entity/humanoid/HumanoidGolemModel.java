@@ -22,12 +22,20 @@ import net.neoforged.neoforge.common.ItemAbilities;
 public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> implements
 		IGolemModel<HumanoidGolemEntity, HumanoidGolemPartType, HumanoidGolemModel>, IHeadedModel {
 
+	private final ModelPart golemRoot;
+
 	public HumanoidGolemModel(EntityModelSet set) {
 		this(set.bakeLayer(GolemEquipmentModels.HUMANOID), false);
 	}
 
 	public HumanoidGolemModel(ModelPart modelPart, boolean slim) {
 		super(modelPart, slim);
+		this.golemRoot = modelPart;
+	}
+
+	@Override
+	public ModelPart root() {
+		return this.golemRoot;
 	}
 
 	@Override

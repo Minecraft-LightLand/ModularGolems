@@ -2,6 +2,8 @@ package dev.xkmc.modulargolems.content.item.wand;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
+import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
+import net.minecraft.world.entity.Entity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -16,10 +18,22 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class DispenseWand extends BaseWandItem implements GolemInteractItem {
+public class DispenseWand extends BaseWandItem implements GolemInteractItem, IGlowingTarget {
 
 	public DispenseWand(Properties properties, @Nullable ItemEntry<? extends BaseWandItem> base) {
 		super(properties, MGLangData.WAND_SUMMON_RIGHT, MGLangData.WAND_SUMMON_SHIFT, base);
+	}
+
+	@Override
+	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+		if (level.isClientSide() && selected && entity instanceof Player player) {
+			RayTraceUtil.clientUpdateTarget(player, MGConfig.COMMON.summonDistance.get());
+		}
+	}
+
+	@Override
+	public int getDistance(ItemStack itemStack) {
+		return MGConfig.COMMON.summonDistance.get();
 	}
 
 	@Override

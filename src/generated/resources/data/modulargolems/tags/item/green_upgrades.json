@@ -1,0 +1,17 @@
+{
+  "values": [
+    {
+      "id": "modulargolems:coating",
+      "required": false
+    },
+    {
+      "id": "modulargolems:force_field",
+      "required": false
+    },
+    "modulargolems:diamond",
+    "modulargolems:netherite",
+    "modulargolems:gold",
+    "modulargolems:enchanted_gold",
+    "modulargolems:sponge"
+  ]
+}

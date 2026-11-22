@@ -16,6 +16,7 @@ public class JumpAttackHelper {
 	private EarthquakeHelper.Instance ins = null;
 	private double wasFalling;
 	private int startJumpingTime = 0;
+	private boolean busyPrev;
 
 	public JumpAttackHelper(AbstractGolemEntity<?, ?> golem) {
 		this.golem = mover = golem;
@@ -24,6 +25,13 @@ public class JumpAttackHelper {
 	public void tick() {
 		mover = golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog ? dog : golem;
 		if (ins != null && ins.owner() != golem && ins.owner() != mover) ins = null;
+		if (ins != null) EarthquakeHelper.setBusy(golem, true);
+		else if (busyPrev) EarthquakeHelper.setBusy(golem, false);
+		busyPrev = ins != null;
+		if (ins != null && !mover.isInFluidType() && !mover.onGround()
+				&& mover.getDeltaMovement().y < -0.05 && golem.tickCount - startJumpingTime > 3) {
+			mover.setDeltaMovement(mover.getDeltaMovement().add(0, -0.45, 0));
+		}
 		wasFalling = ins != null && !mover.isInFluidType() && !mover.onGround() ?
 				Math.min(wasFalling, mover.getDeltaMovement().y) : 0;
 	}
@@ -39,9 +47,10 @@ public class JumpAttackHelper {
 				wasFalling < -THRESHOLD && (wet || mover.getDeltaMovement().y > -THRESHOLD));
 		if (ins != null && stop)
 			ins = null;
-		if (ins != null && (valid || hit)) {
+		if (ins != null && valid) {
 			goal.resetAttackCooldown();
 			ins.modifier().performEarthQuake(ins.owner(), ins.lv());
+			ins.modifier().onEarthQuakeLanded(ins.owner(), ins.lv());
 			mover.level().broadcastEntityEvent(mover, (byte) 83);
 			ins = null;
 			return true;
@@ -54,6 +63,7 @@ public class JumpAttackHelper {
 				ins.addCD();
 				mover.hasImpulse = true;
 				startJumpingTime = golem.tickCount;
+				EarthquakeHelper.setBusy(golem, true);
 				return true;
 			}
 		}

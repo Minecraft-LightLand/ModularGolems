@@ -20,36 +20,25 @@ public class MetalGolemScreenControl extends SweepGolemScreenControl<MetalGolemE
 		super.render(sr, g, pTick);
 		sr.draw(g, "left_shoulder", "slot", -1, -1);
 		sr.draw(g, "right_shoulder", "slot", -1, -1);
-		if (menu.getAsPredSlot("left_shoulder", 0, 0).getItem().isEmpty())
+		if (menu.isSlotEmpty("left_shoulder"))
 			sr.draw(g, "left_shoulder", "slotbg_shoulder", -1, -1);
-		if (menu.getAsPredSlot("right_shoulder", 0, 0).getItem().isEmpty())
+		if (menu.isSlotEmpty("right_shoulder"))
 			sr.draw(g, "right_shoulder", "slotbg_shoulder", -1, -1);
 	}
 
 	public List<Component> addSlotTooltip(Slot hoveredSlot) {
-		if (hoveredSlot.getContainerSlot() == 0) {
-			return List.of(MGLangData.SLOT_MAIN.get(),
-					MGLangData.SLOT_MAIN_DESC_METAL.get());
-		}
-		if (hoveredSlot.getContainerSlot() == 1) {
-			return List.of(MGLangData.SLOT_OFF.get());
-		}
-		if (hoveredSlot.getContainerSlot() == 6) {
-			return List.of(MGLangData.SLOT_BACKUP.get(),
-					MGLangData.SLOT_BACKUP_DESC.get(),
+		return switch (menu.getSlotNameAtMenuSlot(hoveredSlot.index)) {
+			case "right_hand" -> List.of(MGLangData.SLOT_MAIN.get(), MGLangData.SLOT_MAIN_DESC_METAL.get());
+			case "left_hand" -> List.of(MGLangData.SLOT_OFF.get(), MGLangData.SLOT_OFF_DESC_METAL.get());
+			case "head", "chest", "legs", "feet" -> List.of(MGLangData.SLOT_ARMOR.get(),
+					MGLangData.SLOT_ARMOR_DESC_METAL.get());
+			case "backup" -> List.of(MGLangData.SLOT_BACKUP.get(), MGLangData.SLOT_BACKUP_DESC.get(),
 					MGLangData.SLOT_BACKUP_INFO.get());
-		}
-		if (hoveredSlot.getContainerSlot() == 7) {
-			return List.of(MGLangData.SLOT_ARROW.get(),
-					MGLangData.SLOT_ARROW_DESC.get());
-		}
-		if (hoveredSlot.getContainerSlot() == 8) {
-			return List.of(MGLangData.SLOT_SHOULDER.get());
-		}
-		if (hoveredSlot.getContainerSlot() == 9) {
-			return List.of(MGLangData.SLOT_SHOULDER.get());
-		}
-		return List.of();
+			case "arrow_1", "arrow_2" -> List.of(MGLangData.SLOT_ARROW.get(), MGLangData.SLOT_ARROW_DESC.get());
+			case "right_shoulder", "left_shoulder" -> List.of(MGLangData.SLOT_SHOULDER.get(),
+					MGLangData.SLOT_SHOULDER_DESC.get());
+			default -> super.addSlotTooltip(hoveredSlot);
+		};
 	}
 
 }

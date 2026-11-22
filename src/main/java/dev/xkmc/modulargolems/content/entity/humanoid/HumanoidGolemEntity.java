@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.entity.humanoid.sound.MaidSoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.sound.MobSoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.sound.SoundManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.entity.impl.GolemBeamSource;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.events.event.*;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -88,6 +89,7 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	public HumanoidGolemEntity(EntityType<HumanoidGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.HUMANOID, type, level);
+		registerArrowSlot(true);
 		if (!this.level().isClientSide) {
 			this.groundNavigation.setCanOpenDoors(true);
 		}
@@ -196,6 +198,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	protected InteractionResult mobInteractImpl(Player player, InteractionHand hand) {
+		if (getMaterials().size() == HumanoidGolemPartType.values().length) {
+			var result = tryRepairWithBodyMaterial(player, hand, getMaterials().get(HumanoidGolemPartType.BODY.ordinal()));
+			if (result != null) return result;
+		}
 		ItemStack itemstack = player.getItemInHand(hand);
 		if (MGConfig.COMMON.strictInteract.get() && !itemstack.isEmpty())
 			return InteractionResult.PASS;
@@ -373,6 +379,10 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 	@Override
 	public int getPreviewScale() {
 		return 24;
+	}
+
+	public GolemBeamSource.HeadMount getHeadMount() {
+		return GolemBeamSource.HeadMount.HUMANOID;
 	}
 
 }

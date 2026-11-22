@@ -1,0 +1,25 @@
+{
+  "ingredients": {
+    "iceandfire:lightning_dragonsteel": {
+      "item": "iceandfire:dragonsteel_lightning_ingot"
+    }
+  },
+  "modifiers": {
+    "iceandfire:lightning_dragonsteel": {
+      "modulargolems:lightning_dragonsteel_attack": 1,
+      "modulargolems:thunder_immune": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "iceandfire:lightning_dragonsteel": {
+      "item": "iceandfire:dragonsteel_lightning_ingot"
+    }
+  },
+  "stats": {
+    "iceandfire:lightning_dragonsteel": {
+      "modulargolems:attack": 40.0,
+      "modulargolems:max_health": 400.0
+    }
+  }
+}

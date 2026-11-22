@@ -1,0 +1,26 @@
+package dev.xkmc.modulargolems.compat.materials.legendarymonsters.cloud;
+
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
+import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.util.GolemUtils;
+
+public class RootPercAttackModifier extends GolemModifier {
+
+	public RootPercAttackModifier() {
+		super(StatFilterType.ATTACK, 2);
+	}
+
+	@Override
+	public void onHurtTarget(AbstractGolemEntity<?, ?> entity, DamageData.Offence cache, int level) {
+		float max = cache.getTarget().getMaxHealth();
+		cache.addHurtModifier(DamageModifier.nonlinearPre(173, d -> calc(d, max, level), getRegistryName()));
+	}
+
+	private float calc(float val, float max, int level) {
+		return GolemUtils.adjustedDamage(val, 0.01f * level * max);
+	}
+
+}

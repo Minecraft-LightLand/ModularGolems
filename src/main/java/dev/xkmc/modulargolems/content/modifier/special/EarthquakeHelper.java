@@ -4,13 +4,19 @@ import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
+import dev.xkmc.modulargolems.util.SkillSound;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +27,28 @@ public class EarthquakeHelper {
 
 	public static final byte FLAG = 83;
 	public static final double RANGE = 5;
+	public static final String SKILL_BUSY_KEY = "skill_busy";
+	public static final float LEAP_DAMAGE_MULT = 0.2F;
+
+	public static boolean isLeaping(AbstractGolemEntity<?, ?> golem) {
+		return !golem.onGround();
+	}
+
+	public static boolean isBusy(AbstractGolemEntity<?, ?> golem) {
+		return golem.isTransientFlag(SKILL_BUSY_KEY);
+	}
+
+	public static void setBusy(AbstractGolemEntity<?, ?> golem, boolean on) {
+		golem.setTransientFlag(SKILL_BUSY_KEY, on);
+	}
+
+	public static MutableComponent leapReduction() {
+		return Component.literal(Math.round((1 - LEAP_DAMAGE_MULT) * 100) + "%").withStyle(ChatFormatting.AQUA);
+	}
+
+	public static void playQuakeEasterEgg(AbstractGolemEntity<?, ?> golem) {
+		SkillSound.playQuakeEasterEgg(golem, 1.0F, 1.0F);
+	}
 
 	public static void makeParticles(LivingEntity le, float vec, float math) {
 		if (le.level().isClientSide) {
@@ -81,6 +109,8 @@ public class EarthquakeHelper {
 		if (golem.getVehicle() != null && !(golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == golem))
 			return null;
 		if (!golem.getPassengers().isEmpty()) return null;
+		if (golem.getMode() == GolemModes.STAND) return null;
+		if (isBusy(golem) || golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dg && isBusy(dg)) return null;
 		List<Instance> list = new ArrayList<>();
 		long time = golem.level().getGameTime();
 		for (var e : golem.getModifiersExtended().entrySet()) {
@@ -143,11 +173,27 @@ public class EarthquakeHelper {
 		}
 
 		default void performJump(AbstractGolemEntity<?, ?> golem, int lv) {
-			golem.addDeltaMovement(new Vec3(0, 1, 0));
+			var target = golem.getTarget();
+			if (target == null || golem.getControllingPassenger() instanceof Player)
+				golem.addDeltaMovement(new Vec3(0, 1.3, 0));
+			else golem.setDeltaMovement(
+					(target.getX() - golem.getX()) * 0.15,
+					1.3,
+					(target.getZ() - golem.getZ()) * 0.15
+			);
+		}
+
+		default void onEarthQuakeLanded(AbstractGolemEntity<?, ?> golem, int lv) {
+			EarthquakeHelper.playQuakeEasterEgg(golem);
 		}
 
 		default int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
 			return 100;
+		}
+
+		/** Whether the jump should also be executed server-side (client normally predicts it). */
+		default boolean useServerJump() {
+			return false;
 		}
 
 		default GolemModifier self() {

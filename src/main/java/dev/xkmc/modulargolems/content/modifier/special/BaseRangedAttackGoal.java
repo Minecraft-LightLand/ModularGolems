@@ -4,8 +4,12 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
-public abstract class BaseRangedAttackGoal extends Goal {
+// 基于 Minecraft 的 Goal 类，并且用于实现一个通用的远程攻击机制
+public abstract class BaseRangedAttackGoal extends Goal implements ICooldownSkill {
 
+	protected String cooldownNameKey;
+
+	// 冷却\内限\外限
 	private final int waitTime, near, far;
 
 	protected final AbstractGolemEntity<?, ?> golem;
@@ -13,6 +17,8 @@ public abstract class BaseRangedAttackGoal extends Goal {
 
 	public long attackTime;
 	private boolean lock;
+	private BackstepHelper step;
+	private boolean backstepped;
 
 	public BaseRangedAttackGoal(int waitTime, int near, int far, AbstractGolemEntity<?, ?> golem, int lv) {
 		this.golem = golem;
@@ -23,10 +29,6 @@ public abstract class BaseRangedAttackGoal extends Goal {
 		this.far = far * far;
 	}
 
-	/**
-	 * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-	 * method as well.
-	 */
 	public boolean canUse() {
 		LivingEntity livingentity = this.golem.getTarget();
 		return livingentity != null &&
@@ -36,40 +38,46 @@ public abstract class BaseRangedAttackGoal extends Goal {
 				(this.golem.getNavigation().isStuck() || this.golem.distanceToSqr(livingentity) > near);
 	}
 
-	/**
-	 * Execute a one shot task or start executing a continuous task
-	 */
 	public void start() {
 		if (attackTime == 0) {
 			this.attackTime = golem.level().getGameTime() + waitTime;
 		}
 	}
 
-	/**
-	 * Reset the task's internal state. Called when this task is interrupted by another one
-	 */
 	public void stop() {
+		if (step != null) {
+			step.cancel();
+			step = null;
+		}
+		backstepped = false;
 	}
 
 	public boolean requiresUpdateEveryTick() {
 		return true;
 	}
 
-	/**
-	 * Keep ticking a continuous task that has already been started
-	 */
 	public void tick() {
 		LivingEntity le = golem.getTarget();
 		long time = golem.level().getGameTime();
+		if (step != null && step.tick()) step = null;
+		if (step != null) {
+			super.tick();
+			return;
+		}
 		boolean mayAttack = golem.specialAttackCoolDown <= 0 || lock;
 		if (attackTime <= time && le != null && le.isAlive() && mayAttack) {
-			if (performAttack(le)) {
+			if (!backstepped && beginBackstep(le)) {
+				backstepped = true;
+				lock = true;
+			} else if (performAttack(le)) {
+				backstepped = false;
 				this.attackTime = time + waitTime;
 				lock = false;
+				golem.specialAttackCoolDown = 20;
 			} else {
 				lock = true;
+				golem.specialAttackCoolDown = 20;
 			}
-			golem.specialAttackCoolDown = 20;
 		}
 		super.tick();
 	}
@@ -78,7 +86,49 @@ public abstract class BaseRangedAttackGoal extends Goal {
 		attackTime = delay;
 	}
 
+	public int getCooldownRemaining() {
+		return (int) Math.max(0, this.attackTime - golem.level().getGameTime());
+	}
+
+	@Override
+	public int getRemainingCooldown(AbstractGolemEntity<?, ?> golem) {
+		return getCooldownRemaining();
+	}
+
+	public BaseRangedAttackGoal withName(String key) {
+		this.cooldownNameKey = key;
+		return this;
+	}
+
+	@Override
+	public String getCooldownNameKey() {
+		return cooldownNameKey;
+	}
+
+	public String getSkillName() {
+		String name = getClass().getSimpleName();
+		if (name.endsWith("AttackGoal")) name = name.substring(0, name.length() - "AttackGoal".length());
+		else if (name.endsWith("Goal")) name = name.substring(0, name.length() - "Goal".length());
+		return name.replaceAll("([a-z])([A-Z])", "$1 $2");
+	}
+
 	protected abstract boolean performAttack(LivingEntity target);
 
-}
+	protected BackstepHelper backstep() {
+		return null;
+	}
 
+	protected double getLeapRange() {
+		return 0;
+	}
+
+	private boolean beginBackstep(LivingEntity target) {
+		if (step != null) return false;
+		var next = backstep();
+		if (next == null || !next.canUse(target, getLeapRange())) return false;
+		step = next;
+		step.start();
+		return true;
+	}
+
+}

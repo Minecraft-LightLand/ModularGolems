@@ -1,0 +1,13 @@
+{
+  "flag": "mod:legendary_monsters",
+  "name": "湮灭炸弹升级",
+  "icon": "modulargolems:annihilation_bomb",
+  "category": "modulargolems:upgrades",
+  "pages": [
+	{
+	  "type": "patchouli:spotlight",
+	  "item": "modulargolems:annihilation_bomb",
+	  "text": "向多个目标发射湮灭炸弹，每枚炸弹命中后产生小型爆炸。这是湮灭构造体的多目标炸弹攻击。"
+	}
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "ingredients": {
+    "l2hostility:miraculous": {
+      "item": "l2hostility:miracle_ingot"
+    }
+  },
+  "modifiers": {
+    "l2hostility:miraculous": {
+      "modulargolems:add_slot": 2,
+      "modulargolems:armor_penetration": 2,
+      "modulargolems:hostility_adaptive": 1,
+      "modulargolems:hostility_core": 1,
+      "modulargolems:hostility_dispell": 1,
+      "modulargolems:player_immune": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "l2hostility:miraculous": {
+      "item": "l2hostility:miracle_ingot"
+    }
+  },
+  "stats": {
+    "l2hostility:miraculous": {
+      "modulargolems:attack": 35.0,
+      "modulargolems:max_health": 600.0,
+      "modulargolems:regen": 10.0,
+      "modulargolems:sweep": 3.0
+    }
+  }
+}

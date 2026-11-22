@@ -30,6 +30,10 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import dev.xkmc.modulargolems.content.client.particle.GolemAfterimageParticle;
+import dev.xkmc.modulargolems.content.client.particle.GolemAfterimageOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -59,6 +63,11 @@ public class GolemClient {
 			CurioCompatRegistry.clientRegister();
 			EsterEggUtil.registerEsterEggTextures();
 		});
+	}
+
+	@SubscribeEvent
+	public static void registerParticles(RegisterParticleProvidersEvent event) {
+		event.registerSpecial((ParticleType<GolemAfterimageOptions>) GolemParticles.AFTERIMAGE.get(), new GolemAfterimageParticle.Factory());
 	}
 
 	@SubscribeEvent

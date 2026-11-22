@@ -1,10 +1,9 @@
 {
-	"block.modulargolems.golem_workbench": "傀儡装配台",
 	"item.modulargolems": {
 		"metal_golem_template": "傀儡胚料",
-		"metal_golem_holder": "大型金属傀儡",
-		"humanoid_golem_holder": "人形金属傀儡",
-		"dog_golem_holder": "犬形金属傀儡",
+		"metal_golem_holder": "大型傀儡",
+		"humanoid_golem_holder": "人形傀儡",
+		"dog_golem_holder": "犬形傀儡",
 		"diamond": "钻石升级",
 		"fire_immune": "防火升级",
 		"thunder_immune": "导电升级",
@@ -13,7 +12,7 @@
 		"recycle": "回收升级",
 		"enchanted_gold": "附魔金苹果升级",
 		"gold": "金苹果升级",
-		"empty_upgrade": "空白升级模版",
+		"empty_upgrade": "空白升级模板",
 		"float": "漂浮升级",
 		"retrieval_wand": "回收手杖",
 		"command_wand": "命令手杖",
@@ -59,13 +58,10 @@
 		"target_filter_uuid": "生物过滤器: 实体ID",
 		"target_filter_default": "生物过滤器: 默认攻击目标",
 		"patrol_path_recorder": "巡逻手册",
-		"add_1_slot": "升级槽+1",
-		"add_100_slot": "升级槽+100",
-		"diamond_expansion_template": "扩充模版 - 钻石",
-		"netherite_expansion_template": "扩充模版 - 下界合金",
 		"golem_facade": "傀儡皮肤",
-		"heavy_golem_spear": "傀儡重戟",
 		"golem_slicing_axe": "斩铁巨斧",
+		"diamond_expansion_template": "扩充模板 - 钻石",
+		"netherite_expansion_template": "扩充模板 - 下界合金",
 		"hostile_wand": "敌对傀儡调试器",
 		"barbaric_vanguard_boots": "蛮荒傀儡镣铐",
 		"wind_spirit_boots": "风行傀儡靴子",
@@ -75,7 +71,11 @@
 		"beacon_cannon": "信标炮",
 		"sonic_cannon": "回响炮",
 		"mechanical_arm": "维修机械手",
-		"flame_thrower": "炼狱火枪"
+		"flame_thrower": "炼狱火枪",
+		"add_1_slot": "升级槽+1",
+		"add_100_slot": "升级槽+100",
+		"heavy_golem_spear": "傀儡重戟",
+		"roman_guard_boots": "罗马傀儡靴子"
 	},
 	"-cartesian": {
 		"golem": {
@@ -87,14 +87,14 @@
 					"incomplete": "（半成品）"
 				},
 				{
-					"metal_golem_arm": "大型金属傀儡-手臂",
-					"metal_golem_body": "大型金属傀儡-身体",
-					"metal_golem_legs": "大型金属傀儡-双腿",
-					"humanoid_golem_arms": "人形金属傀儡-双臂",
-					"humanoid_golem_body": "人形金属傀儡-躯干",
-					"humanoid_golem_legs": "人形金属傀儡-双腿",
-					"dog_golem_body": "犬形金属傀儡-躯干",
-					"dog_golem_legs": "犬形金属傀儡-四肢"
+					"metal_golem_arm": "大型傀儡-手臂",
+					"metal_golem_body": "大型傀儡-身体",
+					"metal_golem_legs": "大型傀儡-双腿",
+					"humanoid_golem_arms": "人形傀儡-双臂",
+					"humanoid_golem_body": "人形傀儡-躯干",
+					"humanoid_golem_legs": "人形傀儡-双腿",
+					"dog_golem_body": "犬形傀儡-躯干",
+					"dog_golem_legs": "犬形傀儡-四肢"
 				}
 			]
 		},
@@ -161,6 +161,27 @@
 					"sword": "大剑"
 				}
 			]
+		}
+	},
+	"block.modulargolems": {
+		"golem_workbench": "傀儡装配台",
+		"golem_workbench_simple": "简易傀儡装配台"
+	},
+	"golem_part_name": {
+		"metal_golem": {
+			"body": "身体",
+			"left": "手臂",
+			"leg": "双腿",
+			"right": "手臂"
+		},
+		"humanoid_golem": {
+			"arms": "双臂",
+			"body": "躯干",
+			"legs": "双腿"
+		},
+		"dog_golem": {
+			"body": "躯干",
+			"legs": "四肢"
 		}
 	}
 }

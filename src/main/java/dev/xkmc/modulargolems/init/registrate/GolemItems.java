@@ -14,6 +14,7 @@ import dev.xkmc.l2core.util.DCStack;
 import dev.xkmc.l2menustacker.init.L2MSTagGen;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
+import dev.xkmc.modulargolems.content.block.SimpleTableBlock;
 import dev.xkmc.modulargolems.content.block.TableBlock;
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
@@ -64,6 +65,7 @@ public class GolemItems {
 	public static final SimpleEntry<CreativeModeTab> ITEMS;
 	public static final SimpleEntry<CreativeModeTab> UPGRADES;
 	public static final SimpleEntry<CreativeModeTab> GOLEMS;
+	public static final SimpleEntry<CreativeModeTab> PARTS;
 
 	static {
 		ITEMS = REGISTRATE.buildL2CreativeTab("golem_items", "Modular Golems - Items", b -> b
@@ -74,6 +76,7 @@ public class GolemItems {
 	}
 
 	public static final BlockEntry<TableBlock> TABLE;
+	public static final BlockEntry<SimpleTableBlock> SIMPLE_TABLE;
 
 	public static final ItemEntry<Item> GOLEM_TEMPLATE, EMPTY_UPGRADE;
 
@@ -100,6 +103,7 @@ public class GolemItems {
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_HELMET, WINDSPIRIT_HELMET, BARBARICFLAMEVANGUARD_HELMET;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_CHESTPLATE, WINDSPIRIT_CHESTPLATE, BARBARICFLAMEVANGUARD_CHESTPLATE;
 	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_SHINGUARD, WINDSPIRIT_SHINGUARD, BARBARICFLAMEVANGUARD_SHINGUARD;
+	public static final ItemEntry<MetalGolemArmorItem> GOLEMGUARD_BOOTS;
 	public static final ItemEntry<MetalGolemArmorItem> WINDSPIRIT_BOOTS;
 	public static final ItemEntry<NetheriteBootItem> BARBARICFLAMEVANGUARD_BOOTS;
 	public static final ItemEntry<MetalGolemWeaponItem>[][] METALGOLEM_WEAPON;
@@ -142,6 +146,19 @@ public class GolemItems {
 	public static final DCVal<DCStack> DC_DISPLAY_ITEM = DC.stack("display_item");
 
 	static {
+
+		SIMPLE_TABLE = REGISTRATE.block("golem_workbench_simple", SimpleTableBlock::new)
+				.initialProperties(() -> Blocks.ANVIL)
+				.blockstate((ctx, pvd) -> pvd.simpleBlock(ctx.get(), pvd.models()
+						.getBuilder("block/" + ctx.getName())
+						.parent(new ModelFile.UncheckedModelFile(pvd.modLoc("custom/table")))
+						.texture("top", pvd.modLoc("block/simple_table_top"))
+						.texture("middle", pvd.modLoc("block/simple_table_middle"))
+						.texture("bottom", pvd.modLoc("block/simple_table_bottom"))
+						.texture("particle", pvd.modLoc("block/simple_table_particle"))
+				)).tag(BlockTags.MINEABLE_WITH_PICKAXE)
+				.item().tag(L2MSTagGen.QUICK_ACCESS_VANILLA).build()
+				.register();
 
 		TABLE = REGISTRATE.block("golem_workbench", TableBlock::new)
 				.initialProperties(() -> Blocks.ANVIL)
@@ -212,6 +229,12 @@ public class GolemItems {
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 					.defaultLang().register();
 
+			GOLEMGUARD_BOOTS = REGISTRATE.item("roman_guard_boots", p -> new MetalGolemArmorItem(p.stacksTo(1),
+							ArmorItem.Type.BOOTS, 4, 4, GolemModelPaths.BOOTS_IRON))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
+					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
+					.defaultLang().register();
+
 			WINDSPIRIT_HELMET = REGISTRATE.item("wind_spirit_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1),
 							ArmorItem.Type.HELMET, 11, 6, GolemModelPaths.HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
@@ -234,28 +257,28 @@ public class GolemItems {
 					.defaultLang().register();
 
 			BARBARICFLAMEVANGUARD_HELMET = REGISTRATE.item("barbaric_vanguard_helmet", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.HELMET, 14, 8, GolemModelPaths.HELMETS))
+							ArmorItem.Type.HELMET, 14, 8, 0.2F, GolemModelPaths.HELMETS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.HEAD_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_CHESTPLATE = REGISTRATE.item("barbaric_vanguard_chestplate", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.CHESTPLATE, 18, 8, GolemModelPaths.CHESTPLATES))
+							ArmorItem.Type.CHESTPLATE, 18, 8, 0.2F, GolemModelPaths.CHESTPLATES))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.CHEST_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_SHINGUARD = REGISTRATE.item("barbaric_vanguard_shinguard", p -> new MetalGolemArmorItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.LEGGINGS, 10, 8, GolemModelPaths.LEGGINGS))
+							ArmorItem.Type.LEGGINGS, 10, 8, 0.2F, GolemModelPaths.LEGGINGS))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.LEG_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 			BARBARICFLAMEVANGUARD_BOOTS = REGISTRATE.item("barbaric_vanguard_boots", p -> new NetheriteBootItem(p.stacksTo(1).fireResistant(),
-							ArmorItem.Type.BOOTS, 10, 8, GolemModelPaths.BOOTS_NETHERITE))
+							ArmorItem.Type.BOOTS, 10, 8, 0.2F, GolemModelPaths.BOOTS_NETHERITE))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).defaultLang().register();
 
 			BEACON_BOOTS = REGISTRATE.item("beacon_boots",
-							p -> new MetalGolemBeaconItem(p.stacksTo(1), 4, 4, GolemModelPaths.BOOTS_BEACON))
+							p -> new MetalGolemBeaconItem(p.stacksTo(1), 6, 6, GolemModelPaths.BOOTS_BEACON))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(ItemTags.ARMOR_ENCHANTABLE, ItemTags.FOOT_ARMOR_ENCHANTABLE)
 					.tag(MGTagGen.TOUGH_ITEM).register();
@@ -375,8 +398,13 @@ public class GolemItems {
 		ADD_SLOT = REGISTRATE.item("add_1_slot", p -> new AddSlotItem(p, 1)).defaultModel().lang("Add 1 Upgrade Slot").register();
 		INF_SLOT = REGISTRATE.item("add_100_slot", p -> new AddSlotItem(p, 100)).defaultModel().lang("Add 100 Upgrade Slots").register();
 
-		GOLEMS = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems - Golems & Parts", b -> b
+		GOLEMS = REGISTRATE.buildL2CreativeTab("golems", "Modular Golems - Golems", b -> b
 				.icon(GolemItems.HOLDER_GOLEM::asStack));
+		PARTS = REGISTRATE.buildL2CreativeTab("golems_parts", "Modular Golems - Parts", b -> b
+				.icon(GolemItems.GOLEM_BODY::asStack));
+		// buildL2CreativeTab 会把新建的 tab 设为 registrate 默认项，这里把 GOLEMS 设回去，
+		// 否则之后注册的 holder/part 会被默认塞进 PARTS
+		REGISTRATE.defaultCreativeTab(GOLEMS.key());
 
 
 		// holders
@@ -406,6 +434,9 @@ public class GolemItems {
 					.tag(MGTagGen.GOLEM_HOLDERS).defaultLang().register();
 		}
 
+		// 部件只显式进 ITEMS 和 PARTS，不能回落到 GOLEMS
+		REGISTRATE.defaultCreativeTab(PARTS.key());
+
 		// metal golem
 		{
 			GOLEM_BODY = REGISTRATE.item("metal_golem_body", p ->
@@ -413,7 +444,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
-					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_ARM = REGISTRATE.item("metal_golem_arm", p ->
@@ -421,7 +452,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
-					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			GOLEM_LEGS = REGISTRATE.item("metal_golem_legs", p ->
@@ -429,7 +460,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
-					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
@@ -441,7 +472,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
-					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_ARMS = REGISTRATE.item("humanoid_golem_arms", p ->
@@ -449,7 +480,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
-					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 			HUMANOID_LEGS = REGISTRATE.item("humanoid_golem_legs", p ->
@@ -457,7 +488,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
-					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
@@ -469,7 +500,7 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
-					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 
@@ -478,10 +509,12 @@ public class GolemItems {
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))
 							.texture("particle", "minecraft:block/clay"))
 					.tab(ITEMS.key())
-					.transform(e -> e.tab(GOLEMS.key(), x -> e.getEntry().fillItemCategory(x)))
+					.transform(e -> e.tab(PARTS.key(), x -> e.getEntry().fillItemCategory(x)))
 					.clientExtension(() -> () -> GolemBEWLR.EXTENSIONS)
 					.tag(MGTagGen.GENERIC_PARTS).defaultLang().register();
 		}
+
+		REGISTRATE.defaultCreativeTab(GOLEMS.key());
 
 		FACADE = REGISTRATE.item("golem_facade", GolemFacade::new)
 				.model((ctx, pvd) -> pvd.getBuilder(ctx.getName()).parent(new ModelFile.UncheckedModelFile("builtin/entity"))

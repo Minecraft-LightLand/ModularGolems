@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.entity.common;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import dev.xkmc.l2core.util.Proxy;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
@@ -11,6 +12,7 @@ import dev.xkmc.modulargolems.content.config.GolemMaterial;
 import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -43,6 +45,7 @@ public abstract class AbstractGolemRenderer<
 		super(ctx, model, f);
 		this.list = list;
 		addLayer(new GolemDefaultLayer<>(this));
+		addLayer(new RiptideEffectLayer<>(this, ctx));
 		LIST.forEach(e -> this.addLayer(Wrappers.cast(e.apply(this))));
 	}
 
@@ -66,6 +69,24 @@ public abstract class AbstractGolemRenderer<
 		if (delegated(entity))
 			return super.getRenderType(entity, b1, b2, b3);
 		return null;
+	}
+
+	@Override
+	protected void setupRotations(T e, PoseStack pose, float bob, float bodyYaw, float partialTick, float scale) {
+		if (!e.isAutoSpinAttack()) {
+			super.setupRotations(e, pose, bob, bodyYaw, partialTick, scale);
+			return;
+		}
+		pose.mulPose(Axis.YP.rotationDegrees(180.0F - bodyYaw));
+		pose.translate(0.0F, e.getBbHeight() * 0.5F, 0.0F);
+		if (e instanceof DogGolemEntity) {
+			pose.translate(0.0F, e.getBbHeight() * 0.7F, 0.0F);
+			pose.mulPose(Axis.ZP.rotationDegrees((e.tickCount + partialTick) * 75.0F));
+			pose.translate(0.0F, -e.getBbHeight() * 0.7F, 0.0F);
+		} else {
+			pose.mulPose(Axis.XP.rotationDegrees(-90.0F - e.getXRot()));
+			pose.mulPose(Axis.YP.rotationDegrees((e.tickCount + partialTick) * -75.0F));
+		}
 	}
 
 	protected void renderAllParts(PoseStack pose, MultiBufferSource buffer, int light, T entity, float pTick) {

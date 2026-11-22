@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "create:andesite_alloy": {
+      "item": "create:andesite_alloy"
+    }
+  },
+  "modifiers": {
+    "create:andesite_alloy": {
+      "modulargolems:magic_resistant": 1,
+      "modulargolems:mechanical_engine": 1,
+      "modulargolems:mechanical_force": 1,
+      "modulargolems:mechanical_mobility": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "create:andesite_alloy": {
+      "item": "create:andesite_alloy"
+    }
+  },
+  "stats": {
+    "create:andesite_alloy": {
+      "modulargolems:attack": 5.0,
+      "modulargolems:max_health": 30.0
+    }
+  }
+}

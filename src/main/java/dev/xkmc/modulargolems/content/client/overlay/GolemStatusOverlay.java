@@ -12,6 +12,8 @@ import dev.xkmc.modulargolems.content.core.GolemOverlayControl;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
+import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
+import dev.xkmc.modulargolems.content.item.upgrade.UpgradeSort;
 import dev.xkmc.modulargolems.events.event.GolemInfoEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -66,6 +68,15 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 		if (baseline > 0) hc = hc.append("|").append(hsbText(baseline, max));
 		text.add(MGLangData.HEALTH.get(hc, Math.round(max)).withStyle(ChatFormatting.AQUA));
 		NeoForge.EVENT_BUS.post(new GolemInfoEvent(golem, text));
+		ClientSkillCD.request(golem);
+		var cds = ClientSkillCD.get(golem.getId());
+		if (!cds.isEmpty()) {
+			text.add(MGLangData.SKILL_CD.get());
+			for (var cd : cds) {
+				var name = cd.translate() ? Component.translatable(cd.name()) : Component.literal(cd.name());
+				text.add(MGLangData.SKILL_CD_LINE.get(name, (cd.cd() + 19) / 20));
+			}
+		}
 		text.add(golem.getMode().getDesc(golem));
 		var config = golem.getConfigEntry(MGLangData.LOADING.get());
 		if (config != null) {
@@ -80,7 +91,11 @@ public class GolemStatusOverlay implements LayeredDraw.Layer {
 			var upgrades = golem.getUpgrades();
 			text.add(MGLangData.UPGRADE_COUNT.get(modifiers.size(), upgrades.size()));
 		} else {
-			modifiers.forEach((k, v) -> text.add(k.getTooltip(v)));
+			var ups = new ArrayList<IUpgradeItem>(golem.getUpgrades().upgradeItems());
+			ups.sort(UpgradeSort.upgradeComparator());
+			var entries = new ArrayList<>(modifiers.entrySet());
+			entries.sort(UpgradeSort.entryComparator(ups));
+			entries.forEach(e -> text.add(e.getKey().getTooltip(e.getValue())));
 		}
 		int textPos = offset ? Math.round(screenWidth * 3 / 4f) : Math.round(screenWidth / 8f);
 		new OverlayUtil(g, textPos, -1, -1)

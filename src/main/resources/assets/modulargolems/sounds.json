@@ -1,0 +1,34 @@
+{
+  "man": {
+    "sounds": [
+      {
+        "name": "modulargolems:man",
+        "stream": false
+      }
+    ]
+  },
+  "manba": {
+    "sounds": [
+      {
+        "name": "modulargolems:manba",
+        "stream": false
+      }
+    ]
+  },
+  "whatcanisay": {
+    "sounds": [
+      {
+        "name": "modulargolems:whatcanisay",
+        "stream": false
+      }
+    ]
+  },
+  "crash": {
+    "sounds": [
+      {
+        "name": "modulargolems:crash",
+        "stream": false
+      }
+    ]
+  }
+}

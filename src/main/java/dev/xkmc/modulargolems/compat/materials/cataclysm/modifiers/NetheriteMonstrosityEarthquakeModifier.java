@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
@@ -8,12 +10,17 @@ import dev.xkmc.modulargolems.content.modifier.base.AttributeGolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import dev.xkmc.modulargolems.util.GolemCombatHelper;
+import dev.xkmc.modulargolems.util.GolemTargetUtil;
 import dev.xkmc.modulargolems.util.GolemUtils;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifier implements EarthquakeHelper.Modifier {
@@ -32,6 +39,12 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 	}
 
 	@Override
+	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
+		if (EarthquakeHelper.isLeaping(entity))
+			event.addDealtModifier(DamageModifier.multTotal(EarthquakeHelper.LEAP_DAMAGE_MULT, getRegistryName()));
+	}
+
+	@Override
 	public void handleEvent(AbstractGolemEntity<?, ?> golem, int value, byte event) {
 		if (event == EarthquakeHelper.FLAG) {
 			EarthquakeHelper.makeParticles(golem, 0, 0);
@@ -39,26 +52,36 @@ public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifi
 	}
 
 	@Override
+	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
+		return 8 * 8;
+	}
+
+	@Override
 	public void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level) {
-		golem.playSound(SoundEvents.GENERIC_EXPLODE.value(), 1.5F, 1.0F + golem.getRandom().nextFloat() * 0.1F);
+		GolemCataProxy.monstrosityEarthquakeFX(golem);
 		for (LivingEntity entity : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(7.0))) {
-			if (!golem.isAlliedTo(entity) && entity != golem) {
+			if (GolemTargetUtil.canTarget(golem, entity)) {
 				float damage = GolemUtils.adjustedDamage(
 						(float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE),
 						entity.getMaxHealth() * GolemCataProxy.monstrosityEarthquakeDamage());
 				float factor = 0;
 				if (golem.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.MONSTROSITY_HELMET.get()))
 					factor++;
-				if (golem.getItemBySlot(EquipmentSlot.CHEST).is(CataCompatRegistry.MONSTROSITY_CHESTPLATE.get()))
-					factor++;
 				if (golem.getItemBySlot(EquipmentSlot.LEGS).is(CataCompatRegistry.MONSTROSITY_SHINGUARD.get()))
 					factor++;
-				boolean flag = entity.hurt(golem.damageSources().mobAttack(golem), damage * (1 + MGConfig.COMMON.earthquakeArmorBonus.get().floatValue() * factor));
+				var src = golem.damageSources().mobAttack(golem);
+				boolean flag = entity.hurt(src, damage * (1 + MGConfig.COMMON.earthquakeArmorBonus.get().floatValue() * factor));
+				if (!flag) GolemCombatHelper.breakShield(golem, entity, src);
 				if (flag) {
 					EarthquakeHelper.launch(golem, entity, 2f);
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc", EarthquakeHelper.leapReduction()).withStyle(ChatFormatting.GREEN));
 	}
 
 }

@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -110,8 +111,7 @@ public class MechBodyModifier extends GolemModifier {
 				player.getInventory().placeItemBackInInventory(remain);
 			}
 		}
-		float f1 = 1 + (golem.getRandom().nextFloat() - golem.getRandom().nextFloat()) * 0.2F;
-		golem.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1, f1);
+		SkillSound.playConsume(golem, SoundEvents.FIRECHARGE_USE);
 		return InteractionResult.SUCCESS;
 	}
 }

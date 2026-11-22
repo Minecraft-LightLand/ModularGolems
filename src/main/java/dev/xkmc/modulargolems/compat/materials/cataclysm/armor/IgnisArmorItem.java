@@ -23,6 +23,10 @@ import java.util.List;
 public class IgnisArmorItem extends MetalGolemArmorItem {
 
 	public IgnisArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, ResourceLocation model) {
+		this(properties, type, defense, toughness, 0, model);
+	}
+
+	public IgnisArmorItem(Properties properties, ArmorItem.Type type, int defense, float toughness, float knockbackResistance, ResourceLocation model) {
 		super(properties, type, defense, toughness, model, e -> {
 			var id = ModularGolems.loc("ignis_armor_" + type.getName());
 			e.add(L2DamageTracker.REDUCTION, new AttributeModifier(id, -0.2,
@@ -35,9 +39,9 @@ public class IgnisArmorItem extends MetalGolemArmorItem {
 				case LEGS -> e.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(
 						id, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.bySlot(type.getSlot()));
 			}
+			MetalGolemArmorItem.addKnockback(e, type, knockbackResistance);
 		});
 	}
-
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(stack, level, list, flag);

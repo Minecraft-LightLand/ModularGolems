@@ -22,7 +22,14 @@ public class HarbingerDeathBeamModifier extends GolemModifier {
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new HarbingerDeathBeamAttackGoal(entity, lv));
+		addGoal.accept(5, new HarbingerDeathBeamAttackGoal(entity, lv).withName(this.getDescriptionId()));
+	}
+
+	@Override
+	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
+		if (!GolemCataProxy.isLaser(event.getSource())) return;
+		if (!entity.getItemBySlot(EquipmentSlot.HEAD).is(CataCompatRegistry.HARBINGER_HELMET.get())) return;
+		event.getTarget().invulnerableTime = 0;
 	}
 
 	@Override

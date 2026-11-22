@@ -1,6 +1,8 @@
 package dev.xkmc.modulargolems.init.registrate;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
 import dev.xkmc.l2core.init.reg.simple.SR;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2core.serial.recipe.AbstractShapedRecipe;
@@ -17,6 +19,11 @@ import dev.xkmc.modulargolems.content.menu.table.GolemDisinegrateScreen;
 import dev.xkmc.modulargolems.content.menu.table.GolemDisintegrateMenu;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeScreen;
+import dev.xkmc.modulargolems.content.menu.table.GolemAssembleMenu;
+import dev.xkmc.modulargolems.content.menu.table.GolemAssembleScreen;
+import dev.xkmc.modulargolems.content.menu.table.SimpleAssembleMenu;
+import dev.xkmc.modulargolems.content.menu.table.SimpleDisintegrateMenu;
+import dev.xkmc.modulargolems.content.menu.table.SimpleUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigMenu;
 import dev.xkmc.modulargolems.content.menu.target.TargetConfigScreen;
 import dev.xkmc.modulargolems.content.recipe.GolemAssembleRecipe;
@@ -25,12 +32,24 @@ import dev.xkmc.modulargolems.content.recipe.GolemSmithAddSlotRecipe;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.loot.DropPartModifier;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import static dev.xkmc.modulargolems.init.ModularGolems.REGISTRATE;
 
 public class GolemMiscs {
+
+	public static final SimpleEntry<SoundEvent> MAN = regSound("man");
+	public static final SimpleEntry<SoundEvent> MANBA = regSound("manba");
+	public static final SimpleEntry<SoundEvent> WHATCANISAY = regSound("whatcanisay");
+	public static final SimpleEntry<SoundEvent> CRASH = regSound("crash");
+
+	private static SimpleEntry<SoundEvent> regSound(String id) {
+		return new SimpleEntry<>(REGISTRATE.simple(id, Registries.SOUND_EVENT,
+				() -> SoundEvent.createVariableRangeEvent(ModularGolems.loc(id))));
+	}
 
 	private static final SR<RecipeSerializer<?>> RS = SR.of(ModularGolems.REG, BuiltInRegistries.RECIPE_SERIALIZER);
 
@@ -67,6 +86,28 @@ public class GolemMiscs {
 
 	public static final MenuEntry<GolemDisintegrateMenu> DISINTEGRATE =
 			REGISTRATE.menu("disintegrate", GolemDisintegrateMenu::fromNetwork, () -> GolemDisinegrateScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemAssembleMenu> ASSEMBLE_MENU =
+			REGISTRATE.menu("assemble", GolemAssembleMenu::fromNetwork, () -> GolemAssembleScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemAssembleMenu> SIMPLE_ASSEMBLE =
+			REGISTRATE.menu("simple_assemble",
+					(type, wid, inv, buf) -> new SimpleAssembleMenu(type, wid, inv),
+					() -> GolemAssembleScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemUpgradeMenu> SIMPLE_UPGRADE =
+			REGISTRATE.menu("simple_upgrade",
+					(type, wid, inv, buf) -> new SimpleUpgradeMenu(type, wid, inv),
+					() -> GolemUpgradeScreen::new)
+					.register();
+
+	public static final MenuEntry<GolemDisintegrateMenu> SIMPLE_DISINTEGRATE =
+			REGISTRATE.menu("simple_disintegrate",
+					(type, wid, inv, buf) -> new SimpleDisintegrateMenu(type, wid, inv),
+					() -> GolemDisinegrateScreen::new)
 					.register();
 
 	static {

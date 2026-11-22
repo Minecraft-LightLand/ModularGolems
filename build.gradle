@@ -202,6 +202,11 @@ dependencies {
     implementation "curse.maven:mowzies-mobs-250498:6700443"
     implementation "curse.maven:legendary-monsters-944035:8657274"
 
+    runtimeOnly ("curse.maven:powerful-dummy-1276893:8876872")
+    runtimeOnly ("curse.maven:multisummon-1033150:6013696")
+    runtimeOnly ("curse.maven:configured-457570:7276577")
+    runtimeOnly ("curse.maven:catalogue-459701:6926815")
+
     testImplementation "com.mojang:datafixerupper:8.0.16"
     testImplementation "com.google.guava:guava:32.1.2-jre"
 
