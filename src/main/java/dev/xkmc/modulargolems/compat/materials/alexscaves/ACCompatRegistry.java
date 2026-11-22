@@ -60,7 +60,7 @@ public class ACCompatRegistry {
 		RADIATION = reg("radiation", () -> new RadiationModifier(StatFilterType.ATTACK, 2),
 				"Inflict %s to attack targets. Damage to radiated target increase by %s per radiation level.");
 		ATOMIC = reg("atomic_fueling", () -> new AtomicFuelingModifier(StatFilterType.HEALTH, 2),
-				"Consume [%s] to heal %s HP, and boost attack and speed by %s for %s seconds. Makes golem immune to irradiated effect.");
+				"Consume [%s] to heal %s HP, and boost attack and speed by %s for %s seconds. Makes golem immune to irradiated effect and acid.");
 		ATOMIC_BREATH = reg("atomic_breath", () -> new AtomicBreathModifier(StatFilterType.HEAD, 1),
 				"Atomic Breath Upgrade", "Continuously fire a beam hitting everything along it, and apply %s to hit targets.");
 

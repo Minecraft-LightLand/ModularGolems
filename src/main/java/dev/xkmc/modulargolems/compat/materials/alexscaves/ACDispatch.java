@@ -12,12 +12,14 @@ import com.github.alexmodguy.alexscaves.server.item.GalenaGauntletItem;
 import com.github.alexmodguy.alexscaves.server.item.RaygunItem;
 import com.github.alexmodguy.alexscaves.server.item.ResistorShieldItem;
 import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.client.GolemPolarizeSound;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.client.MagneticWeaponLightningRenderer;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.client.RaygunBeamRenderer;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.modifier.PolarizeModifier;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.entity.impl.GolemUseItemHook;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -56,6 +58,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class ACDispatch extends ModDispatch {
 
 	public static final String MODID = "alexscaves";
+
+	@SubscribeEvent
+	public static void onGolemAcidDamage(LivingAttackEvent event) {
+		if (!(event.getEntity() instanceof AbstractGolemEntity<?, ?> golem)) return;
+		if (!golem.hasFlag(GolemFlags.ACID_IMMUNE)) return;
+		if (event.getSource().is(ACDamageTypes.ACID)) event.setCanceled(true);
+	}
 
 	@SubscribeEvent
 	public static void onGolemEquip(GolemEquipItemEvent event) {

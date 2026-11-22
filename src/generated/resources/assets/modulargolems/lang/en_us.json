@@ -497,7 +497,7 @@
   "modifier.modulargolems.atomic_breath": "Atomic Breath Upgrade",
   "modifier.modulargolems.atomic_breath.desc": "Continuously fire a beam hitting everything along it, and apply %s to hit targets.",
   "modifier.modulargolems.atomic_fueling": "Atomic Fueling",
-  "modifier.modulargolems.atomic_fueling.desc": "Consume [%s] to heal %s HP, and boost attack and speed by %s for %s seconds. Makes golem immune to irradiated effect.",
+  "modifier.modulargolems.atomic_fueling.desc": "Consume [%s] to heal %s HP, and boost attack and speed by %s for %s seconds. Makes golem immune to irradiated effect and acid.",
   "modifier.modulargolems.bell": "Bell",
   "modifier.modulargolems.bell.desc": "When the golem wants to attack, it will ring its bell, attracting all enemies and light them up.",
   "modifier.modulargolems.big_rig_charge": "Big Rig Rider",
