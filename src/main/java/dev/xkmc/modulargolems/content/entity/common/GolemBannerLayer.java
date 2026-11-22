@@ -1,21 +1,16 @@
 package dev.xkmc.modulargolems.content.entity.common;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
-import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends EntityModel<T> & IHeadedModel> extends RenderLayer<T, M> {
@@ -52,33 +47,11 @@ public class GolemBannerLayer<T extends AbstractGolemEntity<?, ?>, M extends Ent
 	}
 
 	public ItemStack getBanner(T entity) {
-		// the banner has its own slot, the head slot no longer takes one
-		ItemStack stack = entity.getBannerSlot().getItem();
-		var selfFact = HostileGolemRegistry.tryGetFaction(entity);
-		if (selfFact.isPresent()) {
-			if (entity.hasPassenger(e -> e instanceof AbstractGolemEntity<?, ?>))
-				return ItemStack.EMPTY;
-			return selfFact.get().getBanner(entity, entity.getConfigColor());
-		}
-		if (renders(stack)) return stack;
-		var entry = entity.getConfigEntry(MGLangData.LOADING.get());
-		if (entry != null) {
-			entry.clientTick(entity.level(), false);
-			UUID captainId = entry.squadConfig.getCaptainId();
-			boolean showFlag = captainId != null && entity.getUUID().equals(captainId);
-			if (showFlag) {
-				String color = DyeColor.values()[entry.getColor()].getName();
-				Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(color + "_banner"));
-				if (item != null) {
-					return item.getDefaultInstance();
-				}
-			}
-		}
-		return ItemStack.EMPTY;
+		return GolemBannerUtil.getBanner(entity);
 	}
 
 	public boolean renders(ItemStack stack) {
-		return stack.getItem() instanceof BannerItem;
+		return GolemBannerUtil.renders(stack);
 	}
 
 }
