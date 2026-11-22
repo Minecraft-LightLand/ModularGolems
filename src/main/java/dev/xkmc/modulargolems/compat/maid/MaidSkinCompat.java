@@ -6,6 +6,7 @@ import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMai
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemGarageKit;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.xkmc.modulargolems.content.entity.common.GolemBannerUtil;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientSkinDispatch;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderSkin;
@@ -135,6 +136,11 @@ public class MaidSkinCompat {
 		@Override
 		public ItemStack[] getHandItemsForAnimation() {
 			return maidAnimItemCache;
+		}
+
+		@Override
+		public ItemStack getBackpackShowItem() {
+			return GolemBannerUtil.getBanner(mob);
 		}
 
 		@Override
