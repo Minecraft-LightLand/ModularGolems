@@ -9,17 +9,30 @@ import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.l2library.serial.ingredients.EnchantmentIngredient;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.events.event.GolemSweepEvent;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemHandlerHelper;
+
+import java.util.ArrayList;
 
 public class LCDispatch extends ModDispatch {
 
@@ -36,6 +49,48 @@ public class LCDispatch extends ModDispatch {
 		pvd.add("golem_material." + MODID + ".poseidite", "Poseidite");
 		pvd.add("golem_material." + MODID + ".shulkerate", "Shulkerate");
 		pvd.add("golem_material." + MODID + ".eternium", "Eternium");
+	}
+
+	/**
+	 * 末影迁移：傀儡主手武器附魔了 ender_reach 时，击杀掉落优先塞进傀儡能访问的容器
+	 * （背包/空间背包等通过 {@link GolemCollectInventoryEvent} 提供），塞不下就留在原地。
+	 */
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void onGolemEnderReach(LivingDropsEvent event) {
+		if (!(event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> golem)) return;
+		ItemStack weapon = golem.getMainHandItem();
+		if (EnchantmentHelper.getItemEnchantmentLevel(LCEnchantments.ENDER.get(), weapon) <= 0) return;
+
+		ArrayList<IItemHandlerModifiable> inventories = new ArrayList<>();
+		MinecraftForge.EVENT_BUS.post(new GolemCollectInventoryEvent(golem, inventories));
+
+		for (ItemEntity drop : event.getDrops()) {
+			ItemStack remain = drop.getItem();
+			for (IItemHandlerModifiable inv : inventories) {
+				remain = ItemHandlerHelper.insertItem(inv, remain, false);
+				if (remain.isEmpty()) break;
+			}
+			if (remain.isEmpty()) {
+				drop.setItem(ItemStack.EMPTY);
+			} else {
+				// 没有容器 / 容器放不下：掉在傀儡脚下，而不是死亡地点
+				drop.setItem(remain);
+				drop.moveTo(golem.getX(), golem.getY(), golem.getZ());
+			}
+		}
+		event.getDrops().removeIf(e -> e.getItem().isEmpty());
+	}
+
+	/** 末影迁移也把经验掉落转移到傀儡位置。 */
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public static void onGolemEnderReachExp(LivingExperienceDropEvent event) {
+		if (!(event.getEntity().getLastHurtByMob() instanceof AbstractGolemEntity<?, ?> golem)) return;
+		ItemStack weapon = golem.getMainHandItem();
+		if (EnchantmentHelper.getItemEnchantmentLevel(LCEnchantments.ENDER.get(), weapon) <= 0) return;
+		int exp = event.getDroppedExperience();
+		if (exp <= 0) return;
+		event.setDroppedExperience(0);
+		ExperienceOrb.award((ServerLevel) golem.level(), golem.position(), exp);
 	}
 
 	@Override
