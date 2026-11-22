@@ -14,6 +14,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.EntityType;
+import org.jetbrains.annotations.Nullable;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
 
@@ -33,11 +34,22 @@ public class PlayerSkinInputScreen extends Screen {
 
 	private final HumanoidGolemEntity golem;
 	private final String prev;
+	/**
+	 * 由背包物品打开的装备界面里点进来时，那个界面对应的傀儡只是临时 dummy，
+	 * 世界里没有实体，所以关闭时直接返回原界面而不是重新按实体打开。
+	 */
+	@Nullable
+	private final Screen back;
 	private EditBox input;
 
 	public PlayerSkinInputScreen(HumanoidGolemEntity golem) {
+		this(golem, null);
+	}
+
+	public PlayerSkinInputScreen(HumanoidGolemEntity golem, @Nullable Screen back) {
 		super(TITLE);
 		this.golem = golem;
+		this.back = back;
 		prev = golem.getPlayerSkin();
 	}
 
@@ -103,6 +115,10 @@ public class PlayerSkinInputScreen extends Screen {
 
 	@Override
 	public void onClose() {
+		if (back != null) {
+			Minecraft.getInstance().setScreen(back);
+			return;
+		}
 		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(golem.getUUID(), OpenEquipmentMenuToServer.Type.EQUIPMENT));
 	}
 

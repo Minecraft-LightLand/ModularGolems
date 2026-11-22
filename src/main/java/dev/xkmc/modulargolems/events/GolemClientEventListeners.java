@@ -2,6 +2,8 @@ package dev.xkmc.modulargolems.events;
 
 import dev.xkmc.modulargolems.content.client.outline.BlockOutliner;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.menu.equipment.OpenItemEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.ClientProfileManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.SpecialRenderProfile;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.mob.MobSkinDispatch;
@@ -38,6 +40,22 @@ public class GolemClientEventListeners {
 			"legendary_monsters:camera_shake",
 			"cataclysm:screen_shake",
 			"eeeabsmobs:camera_shake");
+
+	/** 物品栏 GUI 内右键傀儡物品：打开其装备界面（不改变右键拿起物品的常规交互）。 */
+	@SubscribeEvent
+	public static void onMousePressed(ScreenEvent.MouseButtonPressed.Pre event) {
+		if (event.getButton() != 1) return;
+		if (!(event.getScreen() instanceof AbstractContainerScreen<?> screen)) return;
+		var player = Minecraft.getInstance().player;
+		if (player == null || !screen.getMenu().getCarried().isEmpty()) return;
+		var slot = screen.getSlotUnderMouse();
+		if (slot == null || !slot.hasItem()) return;
+		if (!(slot.getItem().getItem() instanceof GolemHolder<?, ?>)) return;
+		// 只有玩家背包里真实存在的物品才能打开；创造模式搜索页等容器里的物品不处理
+		if (slot.container != player.getInventory()) return;
+		event.setCanceled(true);
+		ModularGolems.HANDLER.toServer(OpenItemEquipmentMenuToServer.of(slot.getItem().copy()));
+	}
 
 	@SubscribeEvent
 	public static void onClientTick(TickEvent.ClientTickEvent event) {

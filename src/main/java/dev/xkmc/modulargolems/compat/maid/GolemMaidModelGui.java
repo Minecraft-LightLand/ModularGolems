@@ -8,7 +8,9 @@ import com.github.tartaricacid.touhoulittlemaid.util.EntityCacheUtil;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -28,8 +30,21 @@ public class GolemMaidModelGui extends AbstractModelGui<HumanoidGolemEntity, Mai
 	private static int PACK_INDEX = 0;
 	private static int ROW_INDEX = 0;
 
-	public GolemMaidModelGui(HumanoidGolemEntity golem) {
+	/** 关闭后要回到的界面（装备界面）；为空时按默认行为关闭到游戏。 */
+	private final Screen back;
+
+	public GolemMaidModelGui(HumanoidGolemEntity golem, Screen back) {
 		super(golem, CustomPackLoader.MAID_MODELS.getPackList());
+		this.back = back;
+	}
+
+	@Override
+	public void onClose() {
+		if (back != null) {
+			Minecraft.getInstance().setScreen(back);
+			return;
+		}
+		super.onClose();
 	}
 
 	@Override

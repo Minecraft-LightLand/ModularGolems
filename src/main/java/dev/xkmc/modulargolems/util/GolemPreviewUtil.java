@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.util;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.world.entity.Entity;
@@ -88,6 +89,13 @@ public class GolemPreviewUtil {
 		if (living instanceof AbstractGolemEntity<?, ?> golem) {
 			float size = golem.getScale();
 			if (size > 1e-4F) scale /= size;
+			// 离屏傀儡（由物品 NBT 临时造出来的 dummy）不在世界实体表里，永远不会被 tick，
+			// tickCount 停在 0 → 女仆皮肤的动画时间轴不推进，武器动作卡在第一帧。
+			// 这里把它的 tickCount 对齐到玩家，和物品栏里渲染傀儡模型的做法一致。
+			var mc = Minecraft.getInstance();
+			if (mc.player != null && mc.level != null && mc.level.getEntity(golem.getId()) != golem) {
+				golem.tickCount = mc.player.tickCount;
+			}
 		}
 		float ax = (float) Math.atan((x - mx) / TRACK_RANGE);
 		float ay = (float) Math.atan((y - 40 - my) / TRACK_RANGE);

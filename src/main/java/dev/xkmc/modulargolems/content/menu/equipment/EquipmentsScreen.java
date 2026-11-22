@@ -62,11 +62,13 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		super.init();
 		formButton = null;
 		if (menu.golem == null) return;
-		new GolemTabManager<>(this, new EquipmentGroup(menu.golem))
-				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
+		if (!menu.isItemMode()) {
+			new GolemTabManager<>(this, new EquipmentGroup(menu.golem))
+					.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
+		}
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
 			addRenderableWidget(new PlayerSkinButton(leftPos + 160, topPos + 6, golem, b ->
-					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem))));
+					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem, menu.isItemMode() ? this : null))));
 		} else if (menu.golem != null) {
 			formButton = addRenderableWidget(new FormAppearanceButton(leftPos + 160, topPos + 6, menu.golem));
 			formButton.visible = GolemFormAppearance.hasSecondAppearanceChest(menu.golem);

@@ -9,8 +9,13 @@ import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.init.ModularGolems;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -51,16 +56,99 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 	public final AbstractGolemEntity<?, ?> golem;
 	@Nullable
 	public final GolemMenuControl<?> ctrl;
+	@Nullable
+	private final ItemStack sourceStack;
+	private final int sourceInvSlot;
+	@Nullable
+	private final Container sourceContainer;
 
 	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable AbstractGolemEntity<?, ?> golem) {
+		this(type, wid, plInv, golem, null, -1, null);
+	}
+
+	protected EquipmentsMenu(MenuType<?> type, int wid, Inventory plInv, @Nullable AbstractGolemEntity<?, ?> golem,
+							@Nullable ItemStack sourceStack, int sourceInvSlot, @Nullable Container sourceContainer) {
 		super(type, wid, plInv, MANAGER, EquipmentsContainer::new, false);
 		this.golem = golem;
+		this.sourceStack = sourceStack;
+		this.sourceInvSlot = sourceInvSlot;
+		this.sourceContainer = sourceContainer;
 		if (golem == null) {
 			ctrl = null;
 			return;
 		}
 		ctrl = GolemType.getGolemType(golem.getType()).menuControl(this, Wrappers.cast(golem));
 		ctrl.fillMenu();
+	}
+
+	public static EquipmentsMenu fromNetworkItem(MenuType<EquipmentsMenu> type, int wid, Inventory inv, FriendlyByteBuf buf) {
+		ItemStack stack = buf.readItem();
+		return createItemMenu(type, wid, inv, stack, null, -1);
+	}
+
+	public static EquipmentsMenu createItemMenu(MenuType<EquipmentsMenu> type, int wid, Inventory inv, ItemStack stack,
+												@Nullable Container container, int invSlot) {
+		AbstractGolemEntity<?, ?> dummy = stack.getItem() instanceof GolemHolder<?, ?> holder
+				? holder.createDummy(stack, inv.player.level()) : null;
+		return new EquipmentsMenu(type, wid, inv, dummy, stack, invSlot, container);
+	}
+
+	public boolean isItemMode() {
+		return sourceStack != null;
+	}
+
+	/** 立即把 dummy 状态写回物品（皮肤、形态外观等不走槽位同步的改动）。 */
+	public void saveSourceNow() {
+		saveSource();
+	}
+
+	@Override
+	public void removed(Player player) {
+		super.removed(player);
+		saveSource();
+	}
+
+	private void saveSource() {
+		if (sourceStack == null || golem == null || sourceContainer == null) return;
+		if (inventory.player.level().isClientSide) return;
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		ItemStack ans = GolemHolder.setEntity((AbstractGolemEntity) golem);
+		// 只覆盖 setEntity 会写的那些键，保留展示/图标等它不处理的 tag，避免每 tick 把它们抹掉
+		CompoundTag src = ans.getTag();
+		if (src == null) return;
+		CompoundTag dst = sourceStack.getOrCreateTag();
+		for (String key : src.getAllKeys()) dst.put(key, src.get(key).copy());
+	}
+
+	/** 每 tick 把 dummy 的装备实时写回物品；物品一旦离开原槽位立即关闭界面，防止刷物品。 */
+	@Override
+	public void broadcastChanges() {
+		super.broadcastChanges();
+		if (sourceStack == null || golem == null || sourceContainer == null || sourceInvSlot < 0 || inventory.player.level().isClientSide) return;
+		if (sourceContainer.getItem(sourceInvSlot) != sourceStack) {
+			inventory.player.closeContainer();
+			return;
+		}
+		saveSource();
+	}
+
+	@Override
+	public void slotsChanged(Container container) {
+		super.slotsChanged(container);
+		if (sourceStack != null && golem != null && !inventory.player.level().isClientSide) saveSource();
+	}
+
+	private boolean isSourceSlot(int slotId, Player player) {
+		if (sourceStack == null || sourceContainer == null || slotId < 0 || slotId >= slots.size()) return false;
+		Slot slot = slots.get(slotId);
+		if (slot.getItem().isEmpty()) return false;
+		return slot.getItem() == sourceStack || ItemStack.matches(slot.getItem(), sourceStack);
+	}
+
+	@Override
+	public void clicked(int slotId, int button, ClickType type, Player player) {
+		if (isSourceSlot(slotId, player)) return;
+		super.clicked(slotId, button, type, player);
 	}
 
 	@Override
@@ -83,6 +171,11 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
 	@Override
 	public ItemStack quickMoveStack(Player pl, int id) {
+		if (sourceStack != null && id >= 0 && id < slots.size()) {
+			Slot slot = slots.get(id);
+			if (!slot.getItem().isEmpty() && (slot.getItem() == sourceStack || ItemStack.matches(slot.getItem(), sourceStack)))
+				return ItemStack.EMPTY;
+		}
 		if (golem != null && ctrl != null) {
 			ItemStack stack = this.slots.get(id).getItem();
 			boolean placed;

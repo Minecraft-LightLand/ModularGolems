@@ -61,7 +61,7 @@ public class MaidSkinCompat {
 		screen.addSkinWidget(new MaidSkinButton(x, y, golem, b -> {
 			var mc = Minecraft.getInstance();
 			if (mc.player != null) {
-				mc.setScreen(new GolemMaidModelGui(golem));
+				mc.setScreen(new GolemMaidModelGui(golem, screen));
 			}
 		}));
 	}

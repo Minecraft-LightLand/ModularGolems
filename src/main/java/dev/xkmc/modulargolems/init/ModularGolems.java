@@ -26,6 +26,7 @@ import dev.xkmc.modulargolems.content.entity.mode.GolemModes;
 import dev.xkmc.modulargolems.content.item.wand.OmniWandKeyToServer;
 import dev.xkmc.modulargolems.content.menu.ghost.SetItemFilterToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenConfigMenuToServer;
+import dev.xkmc.modulargolems.content.menu.equipment.OpenItemEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.table.GolemUpgradeMenu;
 import dev.xkmc.modulargolems.content.menu.table.OpenTableMenuToServer;
@@ -74,6 +75,7 @@ public class ModularGolems {
 			e -> e.create(SetItemFilterToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OpenConfigMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OpenEquipmentMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(OpenItemEquipmentMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OpenTableMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(TrackerSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(TrackerHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),

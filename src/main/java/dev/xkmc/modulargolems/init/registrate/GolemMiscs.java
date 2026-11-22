@@ -60,6 +60,10 @@ public class GolemMiscs {
 			REGISTRATE.menu("equipments", EquipmentsMenu::fromNetwork, () -> EquipmentsScreen::new)
 					.register();
 
+	public static final MenuEntry<EquipmentsMenu> ITEM_EQUIPMENTS =
+			REGISTRATE.menu("item_equipments", EquipmentsMenu::fromNetworkItem, () -> EquipmentsScreen::new)
+					.register();
+
 	public static final MenuEntry<ToggleGolemConfigMenu> CONFIG_TOGGLE =
 			REGISTRATE.menu("config_toggle", ToggleGolemConfigMenu::fromNetwork, () -> ToggleGolemConfigScreen::new)
 					.register();
