@@ -16,7 +16,7 @@ public class TrackerInfo {
 
 	public static Component getDesc(GolemTracker.TrackedData data) {
 		float f = Mth.clamp(data.hp / data.mhp, 0f, 1f);
-		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 0.5f);
+		int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 0.5F);
 		MutableComponent hc = Component.literal("" + Math.round(data.hp)).setStyle(Style.EMPTY.withColor(color));
 		var hpText = hc.append(Component.literal("/" + Math.round(data.mhp))
 				.withStyle(data.hp <= 0 ? ChatFormatting.DARK_RED : ChatFormatting.DARK_AQUA));
@@ -35,9 +35,9 @@ public class TrackerInfo {
 			ans.add(ret.withStyle(ChatFormatting.GRAY));
 		} else {
 			float f = Mth.clamp(data.hp / data.mhp, 0f, 1f);
-			int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 0.5f);
+			int color = Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
 			MutableComponent hc = Component.literal("" + Math.round(data.hp)).setStyle(Style.EMPTY.withColor(color));
-			ans.add(MGLangData.HEALTH.get(hc, Math.round(data.mhp)).withStyle(data.hp <= 0 ? ChatFormatting.DARK_RED : ChatFormatting.DARK_AQUA));
+			ans.add(MGLangData.HEALTH.get(hc, Math.round(data.mhp)).withStyle(data.hp <= 0 ? ChatFormatting.RED : ChatFormatting.AQUA));
 			if (data.hp > 0) {
 				long diff = (time - data.timestamp) / 20;
 				ans.add(diff < 2 ?
