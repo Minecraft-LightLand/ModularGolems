@@ -107,6 +107,7 @@
   "golem_material.modulargolems.netherite": "Netherite",
   "golem_material.modulargolems.sculk": "Sculk",
   "golem_material.mowziesmobs.wroughtnaut": "Wroughtnaut",
+  "golem_material.royalvariations.royal": "Royal",
   "golem_material.twilightforest.fiery": "Fiery",
   "golem_material.twilightforest.ironwood": "Ironwood",
   "golem_material.twilightforest.knightmetal": "Knightmetal",
@@ -373,6 +374,8 @@
   "modifier.modulargolems.bell.desc": "When the golem wants to attack, it will ring its bell, attracting all enemies and light them up.",
   "modifier.modulargolems.big_rig_charge": "Big Rig Rider",
   "modifier.modulargolems.big_rig_charge.desc": "Charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging. Damage scales with the golem's attack, size and speed. When burning fuels, skill cooldown is halved.",
+  "modifier.modulargolems.calvary": "Calvary",
+  "modifier.modulargolems.calvary.desc": "Apply royal blessing to allies when damaged",
   "modifier.modulargolems.carminite": "Carminite",
   "modifier.modulargolems.carminite.desc": "After being hurt, turn invisible and invinsible for %s seconds",
   "modifier.modulargolems.cauldron": "Cauldron",
@@ -470,6 +473,8 @@
   "modifier.modulargolems.maledictus_charge.desc": "Charge toward a distant target, damaging all targets in the path. Damage taken is reduced by %s while charging, up to %s dashes.",
   "modifier.modulargolems.maledictus_earthquake": "Phantom Halberd Jump Attack",
   "modifier.modulargolems.maledictus_earthquake.desc": "Jump and cause area damage on landing, summoning phantom halberds. Damage taken is reduced by %s while leaping.",
+  "modifier.modulargolems.marking": "Marking",
+  "modifier.modulargolems.marking.desc": "Inflict marked effect on hit",
   "modifier.modulargolems.mechanical_engine": "Mechanical Engine",
   "modifier.modulargolems.mechanical_engine.desc": "Consumes fuels to power the golem up.",
   "modifier.modulargolems.mechanical_force": "Mechanical Force",
@@ -948,10 +953,5 @@
   "top.modulargolems.entity_skin": "Entity Skin: %s",
   "top.modulargolems.file_skin": "File Skin: %s",
   "top.modulargolems.maid_model": "Maid Skin: %s",
-  "top.modulargolems.player_skin": "Player Skin: %s",
-  "golem_material.royalvariations.royal": "Royal",
-  "modifier.modulargolems.calvary": "Calvary",
-  "modifier.modulargolems.calvary.desc": "Apply royal blessing to allies when damaged",
-  "modifier.modulargolems.marking": "Marking",
-  "modifier.modulargolems.marking.desc": "Inflict marked effect on hit"
+  "top.modulargolems.player_skin": "Player Skin: %s"
 }

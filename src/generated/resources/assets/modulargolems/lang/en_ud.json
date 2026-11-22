@@ -107,6 +107,7 @@
   "golem_material.modulargolems.netherite": "ǝʇıɹǝɥʇǝN",
   "golem_material.modulargolems.sculk": "ʞןnɔS",
   "golem_material.mowziesmobs.wroughtnaut": "ʇnɐuʇɥbnoɹM",
+  "golem_material.royalvariations.royal": "ןɐʎoᴚ",
   "golem_material.twilightforest.fiery": "ʎɹǝıℲ",
   "golem_material.twilightforest.ironwood": "pooʍuoɹI",
   "golem_material.twilightforest.knightmetal": "ןɐʇǝɯʇɥbıuʞ",
@@ -373,6 +374,8 @@
   "modifier.modulargolems.bell.desc": "˙dn ɯǝɥʇ ʇɥbıן puɐ sǝıɯǝuǝ ןןɐ buıʇɔɐɹʇʇɐ 'ןןǝq sʇı buıɹ ןןıʍ ʇı 'ʞɔɐʇʇɐ oʇ sʇuɐʍ ɯǝןob ǝɥʇ uǝɥM",
   "modifier.modulargolems.big_rig_charge": "ɹǝpıᴚ bıᴚ bıᗺ",
   "modifier.modulargolems.big_rig_charge.desc": "˙pǝʌןɐɥ sı uʍopןooɔ ןןıʞs 'sןǝnɟ buıuɹnq uǝɥM ˙pǝǝds puɐ ǝzıs 'ʞɔɐʇʇɐ s,ɯǝןob ǝɥʇ ɥʇıʍ sǝןɐɔs ǝbɐɯɐᗡ ˙buıbɹɐɥɔ ǝןıɥʍ %s ʎq pǝɔnpǝɹ sı uǝʞɐʇ ǝbɐɯɐᗡ ˙ɥʇɐd ǝɥʇ uı sʇǝbɹɐʇ ןןɐ buıbɐɯɐp 'ʇǝbɹɐʇ ʇuɐʇsıp ɐ pɹɐʍoʇ ǝbɹɐɥƆ",
+  "modifier.modulargolems.calvary": "ʎɹɐʌןɐƆ",
+  "modifier.modulargolems.calvary.desc": "pǝbɐɯɐp uǝɥʍ sǝıןןɐ oʇ buıssǝןq ןɐʎoɹ ʎןddⱯ",
   "modifier.modulargolems.carminite": "ǝʇıuıɯɹɐƆ",
   "modifier.modulargolems.carminite.desc": "spuoɔǝs %s ɹoɟ ǝןqısuıʌuı puɐ ǝןqısıʌuı uɹnʇ 'ʇɹnɥ buıǝq ɹǝʇɟⱯ",
   "modifier.modulargolems.cauldron": "uoɹpןnɐƆ",
@@ -470,6 +473,8 @@
   "modifier.modulargolems.maledictus_charge.desc": "˙sǝɥsɐp %s oʇ dn 'buıbɹɐɥɔ ǝןıɥʍ %s ʎq pǝɔnpǝɹ sı uǝʞɐʇ ǝbɐɯɐᗡ ˙ɥʇɐd ǝɥʇ uı sʇǝbɹɐʇ ןןɐ buıbɐɯɐp 'ʇǝbɹɐʇ ʇuɐʇsıp ɐ pɹɐʍoʇ ǝbɹɐɥƆ",
   "modifier.modulargolems.maledictus_earthquake": "ʞɔɐʇʇⱯ dɯnſ pɹǝqןɐH ɯoʇuɐɥԀ",
   "modifier.modulargolems.maledictus_earthquake.desc": "˙buıdɐǝן ǝןıɥʍ %s ʎq pǝɔnpǝɹ sı uǝʞɐʇ ǝbɐɯɐᗡ ˙spɹǝqןɐɥ ɯoʇuɐɥd buıuoɯɯns 'buıpuɐן uo ǝbɐɯɐp ɐǝɹɐ ǝsnɐɔ puɐ dɯnſ",
+  "modifier.modulargolems.marking": "buıʞɹɐW",
+  "modifier.modulargolems.marking.desc": "ʇıɥ uo ʇɔǝɟɟǝ pǝʞɹɐɯ ʇɔıןɟuI",
   "modifier.modulargolems.mechanical_engine": "ǝuıbuƎ ןɐɔıuɐɥɔǝW",
   "modifier.modulargolems.mechanical_engine.desc": "˙dn ɯǝןob ǝɥʇ ɹǝʍod oʇ sןǝnɟ sǝɯnsuoƆ",
   "modifier.modulargolems.mechanical_force": "ǝɔɹoℲ ןɐɔıuɐɥɔǝW",
@@ -948,10 +953,5 @@
   "top.modulargolems.entity_skin": "%s :uıʞS ʎʇıʇuƎ",
   "top.modulargolems.file_skin": "%s :uıʞS ǝןıℲ",
   "top.modulargolems.maid_model": "%s :uıʞS pıɐW",
-  "top.modulargolems.player_skin": "%s :uıʞS ɹǝʎɐןԀ",
-  "golem_material.royalvariations.royal": "ןɐʎoᴚ",
-  "modifier.modulargolems.calvary": "ʎɹɐʌןɐƆ",
-  "modifier.modulargolems.calvary.desc": "pǝbɐɯɐp uǝɥʍ sǝıןןɐ oʇ buıssǝןq ןɐʎoɹ ʎןddⱯ",
-  "modifier.modulargolems.marking": "buıʞɹɐW",
-  "modifier.modulargolems.marking.desc": "ʇıɥ uo ʇɔǝɟɟǝ pǝʞɹɐɯ ʇɔıןɟuI"
+  "top.modulargolems.player_skin": "%s :uıʞS ɹǝʎɐןԀ"
 }
