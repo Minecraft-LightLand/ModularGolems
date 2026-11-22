@@ -6,6 +6,7 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2backpack.init.L2Backpack;
 import dev.xkmc.l2library.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.backpack.L2BCompat;
+import dev.xkmc.modulargolems.compat.backpack.L2BCurioCompat;
 import dev.xkmc.modulargolems.compat.maid.MaidRegistry;
 import dev.xkmc.modulargolems.compat.materials.alexscaves.ACDispatch;
 import dev.xkmc.modulargolems.compat.materials.allthemodium.ATMDispatch;
@@ -68,8 +69,11 @@ public abstract class CompatManager {
 		if (ModList.get().isLoaded(CMDispatch.MODID)) LIST.add(new CMDispatch());
 		if (ModList.get().isLoaded(RVDispatch.MODID)) LIST.add(new RVDispatch());
 		if (ModList.get().isLoaded(EEEABDispatch.MODID)) LIST.add(new EEEABDispatch());
-		if (ModList.get().isLoaded(L2Backpack.MODID))
+		if (ModList.get().isLoaded(L2Backpack.MODID)) {
 			MinecraftForge.EVENT_BUS.register(L2BCompat.class);
+			if (ModList.get().isLoaded("curios"))
+				L2BCurioCompat.register();
+		}
 	}
 
 	public static void commonSetup() {

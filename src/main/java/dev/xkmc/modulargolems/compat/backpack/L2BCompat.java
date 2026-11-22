@@ -6,6 +6,9 @@ import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.events.event.GolemEquipEvent;
+import dev.xkmc.modulargolems.events.event.GolemEquipItemEvent;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +20,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 public class L2BCompat {
@@ -139,6 +143,32 @@ public class L2BCompat {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 傀儡装备未绑定所有者的空间背包时，自动绑定到傀儡主人。
+	 */
+	@SubscribeEvent
+	public static void onGolemEquipOld(GolemEquipEvent event) {
+		bindBackpack(event.getEntity(), event.getStack());
+	}
+
+	@SubscribeEvent
+	public static void onGolemEquip(GolemEquipItemEvent event) {
+		bindBackpack(event.getEntity(), event.getStack());
+	}
+
+	public static void bindBackpack(AbstractGolemEntity<?, ?> golem, ItemStack stack) {
+		if (golem.level().isClientSide) return;
+		if (!(stack.getItem() instanceof WorldChestItem chest)) return;
+		if (WorldChestItem.getOwner(stack).isPresent()) return;
+		UUID owner = golem.getOwnerUUID();
+		if (owner == null) return;
+		CompoundTag tag = stack.getOrCreateTag();
+		tag.putUUID("owner_id", owner);
+		var player = golem.getOwner();
+		tag.putString("owner_name", player == null ? "" : player.getName().getString());
+		tag.putLong("password", chest.color.getId());
 	}
 
 	@SubscribeEvent
