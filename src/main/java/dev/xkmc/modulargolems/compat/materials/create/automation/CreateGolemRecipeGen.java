@@ -1,13 +1,17 @@
 package dev.xkmc.modulargolems.compat.materials.create.automation;
 
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllFluids;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
 import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.foundation.data.recipe.MechanicalCraftingRecipeBuilder;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
+import com.simibubi.create.content.fluids.transfer.FillingRecipe;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.modulargolems.compat.materials.common.CompatManager;
@@ -31,11 +35,13 @@ import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import twilightforest.init.TFBlocks;
 import twilightforest.init.TFItems;
 
+import java.util.List;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 
 public class CreateGolemRecipeGen {
 
-	private static final Set<String> SPECIAL = Set.of("andesite_alloy", "brass", "railway");
+	private static final Set<String> SPECIAL = Set.of("andesite_alloy", "brass", "railway","chocolate");
 
 	public static void genAllUpgradeRecipes(RegistrateRecipeProvider pvd) {
 		var ing = CompatManager.gatherConfig();
@@ -267,6 +273,14 @@ public class CreateGolemRecipeGen {
 			genAssembly(pvd, part, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "andesite_alloy"), AllItems.ANDESITE_ALLOY, AllBlocks.COGWHEEL);
 			genAssembly(pvd, part, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "brass"), Ingredient.of(AllTags.commonItemTag("ingots/brass")), AllItems.PRECISION_MECHANISM);
 			genAssembly(pvd, part, ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, "railway"), Ingredient.of(AllTags.commonItemTag("plates/brass")), AllItems.PRECISION_MECHANISM, AllItems.ELECTRON_TUBE, AllItems.STURDY_SHEET);
+			genAssembly(pvd, part, part.count / 3, loc("chocolate"), List.of(
+					Step.of(FluidIngredient.fromFluid(AllFluids.CHOCOLATE.get(), 250)),
+					Step.of(AllItems.PRECISION_MECHANISM),
+					Step.of(FluidIngredient.fromFluid(AllFluids.CHOCOLATE.get(), 250)),
+					Step.of(AllBlocks.COGWHEEL),
+					Step.of(FluidIngredient.fromFluid(AllFluids.CHOCOLATE.get(), 250)),
+					Step.PRESS
+			));
 		}
 	}
 
@@ -300,6 +314,52 @@ public class CreateGolemRecipeGen {
 		}
 		recipe.addOutput(GolemPart.setMaterial(part.getDefaultInstance(), id), 1);
 		recipe.build(pvd);
+	}
+
+	private static void genAssembly(RegistrateRecipeProvider pvd, GolemPart<?, ?> part, int loop, ResourceLocation id, List<Step<?>> steps) {
+		var part_rl = BuiltInRegistries.ITEM.getKey(part);
+		String item_name = part_rl.getPath();
+		var recipe = new ConditionalSARecipeBuilder(ModularGolems.loc(id.getPath() + "_assemble_" + item_name));
+		var incomplete = BuiltInRegistries.ITEM.get(part_rl.withPrefix("incomplete_"));
+		recipe.require(part).transitionTo(incomplete);
+		for (var step : steps) {
+			step.apply(recipe);
+		}
+		recipe.loops(loop);
+		String modid = id.getNamespace();
+		recipe.withCondition(new ModLoadedCondition(CreateDispatch.MODID));
+		if (!modid.equals(ModularGolems.MODID) && !modid.equals(CreateDispatch.MODID)) {
+			recipe.withCondition(new ModLoadedCondition(modid));
+		}
+		recipe.addOutput(GolemPart.setMaterial(part.getDefaultInstance(), id), 1);
+		recipe.build(pvd);
+	}
+
+	private static ResourceLocation loc(String id) {
+		return ResourceLocation.fromNamespaceAndPath(CreateDispatch.MODID, id);
+	}
+
+	private record Step<T extends ProcessingRecipe<?>>(ProcessingRecipeBuilder.ProcessingRecipeFactory<T> factory,
+													   UnaryOperator<ProcessingRecipeBuilder<T>> builder) {
+
+		public static final Step<?> PRESS = new Step<>(PressingRecipe::new, e -> e);
+
+		public static Step<?> of(Ingredient item) {
+			return new Step<>(DeployerApplicationRecipe::new, e -> e.require(item));
+		}
+
+		public static Step<?> of(ItemLike item) {
+			return new Step<>(DeployerApplicationRecipe::new, e -> e.require(item));
+		}
+
+		public static Step<?> of(FluidIngredient item) {
+			return new Step<>(FillingRecipe::new, e -> e.require(item));
+		}
+
+		public void apply(ConditionalSARecipeBuilder recipe) {
+			recipe.addStep(factory, builder);
+		}
+
 	}
 
 }

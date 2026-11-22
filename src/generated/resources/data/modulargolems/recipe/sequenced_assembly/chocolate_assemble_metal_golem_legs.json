@@ -9,7 +9,7 @@
   "ingredient": {
     "item": "modulargolems:metal_golem_legs"
   },
-  "loops": 9,
+  "loops": 3,
   "results": [
     {
       "components": {
@@ -20,13 +20,31 @@
   ],
   "sequence": [
     {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_metal_golem_legs"
+        },
+        {
+          "type": "fluid_stack",
+          "amount": 250,
+          "fluid": "create:chocolate"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_metal_golem_legs"
+        }
+      ]
+    },
+    {
       "type": "create:deploying",
       "ingredients": [
         {
           "item": "modulargolems:incomplete_metal_golem_legs"
         },
         {
-          "item": "create:bar_of_chocolate"
+          "item": "create:precision_mechanism"
         }
       ],
       "results": [
@@ -36,10 +54,15 @@
       ]
     },
     {
-      "type": "create:pressing",
+      "type": "create:filling",
       "ingredients": [
         {
           "item": "modulargolems:incomplete_metal_golem_legs"
+        },
+        {
+          "type": "fluid_stack",
+          "amount": 250,
+          "fluid": "create:chocolate"
         }
       ],
       "results": [
@@ -49,10 +72,31 @@
       ]
     },
     {
-      "type": "create:pressing",
+      "type": "create:deploying",
       "ingredients": [
         {
           "item": "modulargolems:incomplete_metal_golem_legs"
+        },
+        {
+          "item": "create:cogwheel"
+        }
+      ],
+      "results": [
+        {
+          "id": "modulargolems:incomplete_metal_golem_legs"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "modulargolems:incomplete_metal_golem_legs"
+        },
+        {
+          "type": "fluid_stack",
+          "amount": 250,
+          "fluid": "create:chocolate"
         }
       ],
       "results": [

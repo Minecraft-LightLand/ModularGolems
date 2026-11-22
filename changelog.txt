@@ -1,3 +1,6 @@
+3.1.44
+- Royal Variation, Chocolate, Legandary Monster golems
+
 3.1.43
 - Fix memory leak
 

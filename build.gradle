@@ -201,6 +201,7 @@ dependencies {
     implementation "curse.maven:ewewukeks-musket-mod-354562:5805570"
     implementation "curse.maven:mowzies-mobs-250498:6700443"
     implementation "curse.maven:legendary-monsters-944035:8657274"
+    implementation "curse.maven:royal-variations-989611:7536377"
 
     runtimeOnly ("curse.maven:powerful-dummy-1276893:8876872")
     runtimeOnly ("curse.maven:multisummon-1033150:6013696")

@@ -1,0 +1,27 @@
+{
+  "ingredients": {
+    "royalvariations:royal": {
+      "item": "royalvariations:spiritual_crown_shard"
+    }
+  },
+  "modifiers": {
+    "royalvariations:royal": {
+      "modulargolems:calvary": 1,
+      "modulargolems:marking": 1
+    }
+  },
+  "partLimitation": {},
+  "repairIngredients": {
+    "royalvariations:royal": {
+      "item": "royalvariations:spiritual_crown_shard"
+    }
+  },
+  "stats": {
+    "royalvariations:royal": {
+      "modulargolems:attack": 15.0,
+      "modulargolems:attack_knockback": 1.0,
+      "modulargolems:max_health": 200.0,
+      "modulargolems:weight": -0.2
+    }
+  }
+}
