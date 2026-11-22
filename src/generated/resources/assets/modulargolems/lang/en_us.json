@@ -205,6 +205,8 @@
   "golem_type.modulargolems.humanoid_golem.named": "%s Humanoid Golem",
   "golem_type.modulargolems.metal_golem": "Metal Golem",
   "golem_type.modulargolems.metal_golem.named": "%s Golem",
+  "item.modulargolems.add_100_slot": "Add 100 Upgrade Slots",
+  "item.modulargolems.add_1_slot": "Add 1 Upgrade Slot",
   "item.modulargolems.ancient_metal_chestplate": "Ancient Metal Golem Chestplate",
   "item.modulargolems.ancient_metal_helmet": "Ancient Metal Golem Helmet",
   "item.modulargolems.ancient_metal_shinguard": "Ancient Metal Golem Shinguard",

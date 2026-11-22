@@ -26,6 +26,7 @@ import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
 import dev.xkmc.modulargolems.content.item.ranged.*;
+import dev.xkmc.modulargolems.content.item.upgrade.AddSlotItem;
 import dev.xkmc.modulargolems.content.item.upgrade.AddSlotTemplate;
 import dev.xkmc.modulargolems.content.item.upgrade.SimpleUpgradeItem;
 import dev.xkmc.modulargolems.content.item.wand.*;
@@ -106,6 +107,7 @@ public class GolemItems {
 	public static final ItemEntry<DefaultFilterCard> CARD_DEF;
 	public static final ItemEntry<GolemFacade> FACADE;
 	public static final ItemEntry<AddSlotTemplate> ADD_DIAMOND, ADD_NETHERITE;
+	public static final ItemEntry<AddSlotItem> ADD_SLOT, INF_SLOT;
 
 	public static final ItemEntry<DogGolemArmorItem> DOG_ARMOR_IRON, DOG_ARMOR_GOLD, DOG_ARMOR_DIAMOND, DOG_ARMOR_NETHERITE;
 
@@ -303,6 +305,8 @@ public class GolemItems {
 			EMPTY_UPGRADE = REGISTRATE.item("empty_upgrade", Item::new).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
 			ADD_DIAMOND = REGISTRATE.item("diamond_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.DIAMOND_ADD)).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
 			ADD_NETHERITE = REGISTRATE.item("netherite_expansion_template", p -> new AddSlotTemplate(p, GolemModifiers.NETHERITE_ADD)).defaultModel().defaultLang().tab(UPGRADES.getKey()).register();
+			ADD_SLOT = REGISTRATE.item("add_1_slot", p -> new AddSlotItem(p, 1)).defaultModel().lang("Add 1 Upgrade Slot").tab(UPGRADES.getKey()).register();
+			INF_SLOT = REGISTRATE.item("add_100_slot", p -> new AddSlotItem(p, 100)).defaultModel().lang("Add 100 Upgrade Slots").tab(UPGRADES.getKey()).register();
 			FIRE_IMMUNE = regUpgrade("fire_immune", () -> GolemModifiers.FIRE_IMMUNE).lang("Fire Immune Upgrade").register();
 			THUNDER_IMMUNE = regUpgrade("thunder_immune", () -> GolemModifiers.THUNDER_IMMUNE).lang("Thunder Immune Upgrade").register();
 			RECYCLE = regUpgrade("recycle", () -> GolemModifiers.RECYCLE).lang("Recycle Ugpgrade").register();

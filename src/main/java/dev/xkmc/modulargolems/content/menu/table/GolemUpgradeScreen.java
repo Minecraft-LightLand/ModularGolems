@@ -12,6 +12,7 @@ import dev.xkmc.modulargolems.content.menu.tabs.ITabScreen;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
+import dev.xkmc.modulargolems.util.RomanNumerals;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -73,24 +74,10 @@ public class GolemUpgradeScreen extends BaseContainerScreen<GolemUpgradeMenu> im
 		g.fillGradient(RenderType.guiOverlay(), x, y, x + 16, y + 16, 0x7f8B8B8B, 0x7f8B8B8B, 0);
 	}
 
-	private static final String[] ROMAN = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
-	private static final int[] ROMAN_VAL = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-
-	private static String roman(int n) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < ROMAN_VAL.length; i++) {
-			while (n >= ROMAN_VAL[i]) {
-				n -= ROMAN_VAL[i];
-				sb.append(ROMAN[i]);
-			}
-		}
-		return sb.toString();
-	}
-
 	private static Component skillName(GolemModifier mod, int lv) {
 		var name = mod.getDesc().copy();
 		if (mod.maxLevel > 1)
-			name.append(" ").append(roman(lv)).append(" / ").append(roman(mod.maxLevel));
+			name.append(" ").append(RomanNumerals.of(lv)).append(" / ").append(RomanNumerals.of(mod.maxLevel));
 		return name.withStyle(ChatFormatting.LIGHT_PURPLE);
 	}
 
