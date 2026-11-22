@@ -92,7 +92,9 @@ public class ClientHolderManager {
 		}
 		if (ans == null) return null;
 		ans.hurtTime = 0;
-		ans.setGuardedDataImpl(ans.getMaxHealth());
+		// 保留物品里存的血量，否则残血傀儡在物品形态会按满血渲染（金属傀儡的裂纹贴图直接消失）。
+		float health = GolemHolder.getHealth(stack);
+		ans.setGuardedDataImpl(health >= 0 ? Math.min(health, ans.getMaxHealth()) : ans.getMaxHealth());
 		return ans;
 	}
 
