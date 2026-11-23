@@ -167,6 +167,8 @@ public abstract class BaseChargeGoal extends Goal implements ICooldownSkill {
 		// 原先每个冲锋 Goal 都抄一遍这三条，这里统一收口；
 		// 水上/空中变体（如 riptide）覆写本方法即可。
 		if (golem.isRidingGolemCombo() || !golem.getPassengers().isEmpty() || golem.isInRangedMode()) return false;
+		// 作为"玩家骑着的坐骑"身上的傀儡乘客时，也不许 AI 自己冲锋（否则会把冲锋作用到坐骑身上）
+		if (golem.getVehicle() instanceof AbstractGolemEntity<?, ?> mv && mv.hasPlayerPassenger()) return false;
 		return golem.onGround();
 	}
 

@@ -70,8 +70,8 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 
 	private final MountChargeManager chargeManager = new MountChargeManager(this);
 	public final TargetingAnimState shoulderAnimState = new TargetingAnimState();
-	EarthquakeHelper.Instance jumpAttack;
-	int jumpAttackDelay = 0;
+	private EarthquakeHelper.Instance jumpAttack;
+	private int jumpAttackDelay = 0;
 
 	public DogGolemEntity(EntityType<DogGolemEntity> type, Level level) {
 		super(type, level);
@@ -80,8 +80,74 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	@Override
-	public MountChargeManager chargeManager() {
+	public MountChargeManager<?> chargeManager() {
 		return chargeManager;
+	}
+
+	@Override
+	public void setChargeActive(boolean active) {
+		entityData.set(DATA_CHARGE_ACTIVE, active);
+	}
+
+	@Override
+	public boolean isChargeActive() {
+		return entityData.get(DATA_CHARGE_ACTIVE);
+	}
+
+	@Override
+	public void setChargeDir(float x, float z) {
+		entityData.set(DATA_CHARGE_DIR_X, x);
+		entityData.set(DATA_CHARGE_DIR_Z, z);
+	}
+
+	@Override
+	public float getChargeDirX() {
+		return entityData.get(DATA_CHARGE_DIR_X);
+	}
+
+	@Override
+	public float getChargeDirZ() {
+		return entityData.get(DATA_CHARGE_DIR_Z);
+	}
+
+	@Override
+	public int getJumpCd() {
+		return entityData.get(DATA_JUMP_CD);
+	}
+
+	@Override
+	public void setJumpCd(int cd) {
+		entityData.set(DATA_JUMP_CD, cd);
+	}
+
+	@Override
+	public int getChargeCd() {
+		return entityData.get(DATA_CHARGE_CD);
+	}
+
+	@Override
+	public void setChargeCd(int cd) {
+		entityData.set(DATA_CHARGE_CD, cd);
+	}
+
+	@Override
+	public EarthquakeHelper.Instance getJumpAttack() {
+		return jumpAttack;
+	}
+
+	@Override
+	public void setJumpAttack(EarthquakeHelper.Instance ins) {
+		jumpAttack = ins;
+	}
+
+	@Override
+	public int getJumpDelay() {
+		return jumpAttackDelay;
+	}
+
+	@Override
+	public void setJumpDelay(int delay) {
+		jumpAttackDelay = delay;
 	}
 
 	public float getTailAngle() {
@@ -146,10 +212,10 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 	public LivingEntity getControllingPassenger() {
+		// 只要车上有玩家就由玩家控制；否则交给骑上来的傀儡（组合骑乘）
+		Player player = getPlayerPassenger();
+		if (player != null) return player;
 		Entity entity = this.getFirstPassenger();
-		if (entity instanceof Player pl) {
-			return pl;
-		}
 		if (entity instanceof AbstractGolemEntity<?, ?> pl) {
 			return pl;
 		}
@@ -170,15 +236,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 			this.entityData.set(SHOULDER_TARGET, target.position().add(0, target.getBbHeight() / 2, 0).subtract(position()).toVector3f());
 		tickShoulderWeapon();
 		dismountRidersWithShoulderWeapon();
-		if (jumpAttackDelay > 0) jumpAttackDelay--;
-		if (jumpAttackDelay <= 0 && jumpAttack != null && onGround()) {
-			jumpAttack.modifier().performEarthQuake(this, jumpAttack.lv());
-			jumpAttack.modifier().onEarthQuakeLanded(this, jumpAttack.lv());
-			// 落点计入冲锋技能冷却，否则冲锋会看见刚跳到的目标，一落地就冲过去
-			this.level().broadcastEntityEvent(this, EarthquakeHelper.FLAG);
-			jumpAttack = null;
-		}
-		tickCharge();
+		chargeManager.tickCharge();
 	}
 
 	/**
@@ -248,7 +306,7 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 		Vec3 vec3 = this.getDeltaMovement();
 		float jump = getJumpStrength();
 		this.hasImpulse = true;
-		var ins = EarthquakeHelper.findMountInstance(this);
+		var ins = dev.xkmc.modulargolems.content.modifier.special.RideSkillPick.jump(this);
 		if (ins != null) {
 			ins.modifier().performJump(this, ins.lv());
 			ins.addCD();
@@ -463,4 +521,3 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	}
 
 }
-

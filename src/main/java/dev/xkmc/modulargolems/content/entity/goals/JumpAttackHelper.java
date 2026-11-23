@@ -41,6 +41,10 @@ public class JumpAttackHelper {
 
 
 	public boolean tryJumpAttack(GolemMeleeGoal goal, LivingEntity target, double distSqr) {
+		// 玩家正在操控时，大跳只能由玩家按键触发，AI 不许自己起跳。
+		// ① 自己是玩家骑着的坐骑；② 自己是"玩家骑着的坐骑"身上的傀儡乘客（其 AI 会把大跳作用到坐骑身上）。
+		if (golem.hasPlayerPassenger()) return false;
+		if (golem.getVehicle() instanceof AbstractGolemEntity<?, ?> mv && mv.hasPlayerPassenger()) return false;
 		if (!golem.hasFlag(GolemFlags.EARTH_QUAKE) && !mover.hasFlag(GolemFlags.EARTH_QUAKE)) return false;
 		boolean wet = mover.isInFluidType();
 		boolean valid = !wet && mover.onGround();

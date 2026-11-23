@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.compat.materials.blazegear.DuplicatedBlazeArmsMode
 import dev.xkmc.modulargolems.compat.materials.common.ClientCompatManager;
 import dev.xkmc.modulargolems.content.client.armor.GolemEquipmentModels;
 import dev.xkmc.modulargolems.content.client.overlay.GolemStatusOverlay;
+import dev.xkmc.modulargolems.content.client.overlay.RideSkillHud;
 import dev.xkmc.modulargolems.content.client.tracker.GolemInvTab;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinRenderer;
 import dev.xkmc.modulargolems.content.item.golem.GolemBEWLR;
@@ -87,6 +88,7 @@ public class GolemClient {
 	@SubscribeEvent
 	public static void registerOverlays(RegisterGuiOverlaysEvent event) {
 		event.registerAbove(VanillaGuiOverlay.CROSSHAIR.id(), "golem_stats", new GolemStatusOverlay());
+		event.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "golem_ride_skill", new RideSkillHud());
 	}
 
 	@SubscribeEvent

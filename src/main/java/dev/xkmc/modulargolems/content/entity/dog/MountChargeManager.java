@@ -6,8 +6,9 @@ import dev.xkmc.modulargolems.content.entity.impl.GolemImplBase;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.ModularGolems;
-import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.util.SkillSound;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +19,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MountChargeManager {
+/**
+ * 骑乘冲锋 / 大跳的共用状态机。犬形和大型傀儡共用这一份实现，行为完全一致：
+ * <ul>
+ *   <li>位移由客户端本地预测（骑乘实体服务端不回推位置），服务端只做伤害、冷却和结束判定；</li>
+ *   <li>大跳由客户端本地起跳，服务端在落点结算震地；</li>
+ *   <li>冷却写进同步字段，客户端只读，HUD 才能显示倒计时。</li>
+ * </ul>
+ * 具体实体通过 {@link View} 提供自己的同步字段和跳跃状态。
+ */
+public class MountChargeManager<T extends AbstractGolemEntity<?, ?> & MountChargeManager.View> {
 
-	private final DogGolemEntity golem;
+	private final T golem;
 
 	// 骑乘冲锋状态。chargeRider 是身上那只傀儡的技能，chargeMount 是自身的，
 	// 这样双傀儡叠罗汉时可以同时用两半的技能冲刺。
@@ -44,16 +54,14 @@ public class MountChargeManager {
 
 	private final List<RideCooldownIndicator> rideIndicators;
 
-	public MountChargeManager(DogGolemEntity golem) {
+	public MountChargeManager(T golem) {
 		this.golem = golem;
 		rideIndicators = List.of(
-				new RideCooldownIndicator(new RideCooldownIndicator.Entry(
-						MGLangData.RIDE_CHARGE_READY::get, golem::getChargeCd, MGLangData.RIDE_CHARGE_CD::get)),
-				new RideCooldownIndicator(new RideCooldownIndicator.Entry(
-						MGLangData.RIDE_JUMP_READY::get, golem::getJumpCd, MGLangData.RIDE_JUMP_CD::get)));
+				new RideCooldownIndicator(golem::getChargeCd),
+				new RideCooldownIndicator(golem::getJumpCd));
 	}
 
-	void startMountCharge(ChargeHelper.Instance ins) {
+	public void startMountCharge(ChargeHelper.Instance ins) {
 		Vec3 dir = new Vec3(golem.getLookAngle().x, 0, golem.getLookAngle().z);
 		if (dir.lengthSqr() < 1e-8) dir = new Vec3(0, 0, 1);
 		double total = ins.modifier().getChargeDistance(ins);
@@ -71,7 +79,7 @@ public class MountChargeManager {
 		startMountCharge(ins, dir.normalize(), total);
 	}
 
-	void startMountCharge(ChargeHelper.Instance ins, Vec3 dir, double total) {
+	public void startMountCharge(ChargeHelper.Instance ins, Vec3 dir, double total) {
 		long lastCharge = golem.getPersistentData().getLong(LAST_CHARGE_KEY);
 		if (golem.level().getGameTime() < lastCharge + RIDE_CHARGE_INTERVAL) return;
 		golem.getPersistentData().putLong(LAST_CHARGE_KEY, golem.level().getGameTime());
@@ -88,12 +96,22 @@ public class MountChargeManager {
 		this.chargeDir = dir;
 		this.chargeBlocked = false;
 		golem.getNavigation().stop();
-		golem.entityData().set(DogGolemEntity.DATA_CHARGE_ACTIVE, true);
-		golem.entityData().set(DogGolemEntity.DATA_CHARGE_DIR_X, (float) dir.x);
-		golem.entityData().set(DogGolemEntity.DATA_CHARGE_DIR_Z, (float) dir.z);
+		golem.setChargeActive(true);
+		golem.setChargeDir((float) dir.x, (float) dir.z);
 		ins.modifier().setCharging(ins, true);
 		ins.modifier().performCharge(ins);
 		ins.modifier().onChargeStart(ins.owner());
+	}
+
+	public void startMountJump(EarthquakeHelper.Instance ins) {
+		if (golem.getJumpAttack() != null) return;
+		golem.setJumpAttack(ins);
+		golem.setJumpDelay(10);
+		ins.addCD();
+		// 默认由客户端本地预测负责起跳；技能显式声明要服务端执行时走这里
+		if (ins.modifier().useServerJump()) {
+			ins.modifier().performJump(golem, ins.lv());
+		}
 	}
 
 	private void tickMountCharge() {
@@ -150,13 +168,35 @@ public class MountChargeManager {
 		}
 	}
 
-	public void tickCharge(){
+	/**
+	 * 大跳落地结算。和冲锋一样放服务端；客户端只负责本地起跳。
+	 */
+	private void tickMountJump() {
+		EarthquakeHelper.Instance jump = golem.getJumpAttack();
+		if (jump == null) return;
+		int delay = golem.getJumpDelay();
+		if (delay > 0) {
+			golem.setJumpDelay(delay - 1);
+			return;
+		}
+		if (!golem.onGround()) return;
+		jump.modifier().performEarthQuake(golem, jump.lv());
+		jump.modifier().onEarthQuakeLanded(golem, jump.lv());
+		// 落点计入冲锋技能冷却，否则冲锋会看见刚跳到的目标，一落地就冲过去
+		golem.level().broadcastEntityEvent(golem, EarthquakeHelper.FLAG);
+		golem.setJumpAttack(null);
+	}
+
+	public void tickCharge() {
 		// 骑乘冲锋由服务端权威推进（伤害/结束判定都在这里），漏掉这个调用会让
 		// DATA_CHARGE_ACTIVE 永远清不掉 → 客户端一直向前冲且没有伤害。
-		// chargeRider 是身上那只傀儡的技能，chargeMount 是自身的；玩家直接操控时走 tickRiddenCharge。
+		golem.setJumpCd(calcJumpCd());
+		golem.setChargeCd(calcChargeCd());
+		tickMountJump();
 		if (chargeRider != null || chargeMount != null) {
 			tickMountCharge();
-		} else if (hasGolemRider()) {
+		} else if (!golem.hasPlayerPassenger() && hasGolemRider()) {
+			// 玩家骑着时技能交给玩家，AI 不再自行为背上的傀儡放冲锋
 			tickRiddenCharge();
 		}
 	}
@@ -174,7 +214,7 @@ public class MountChargeManager {
 		}
 		this.chargeTotal = 0;
 		this.chargeMoved = 0;
-		golem.entityData().set(DogGolemEntity.DATA_CHARGE_ACTIVE, false);
+		golem.setChargeActive(false);
 	}
 
 	private int calcJumpCd() {
@@ -214,7 +254,7 @@ public class MountChargeManager {
 	}
 
 	private void tickRiddenCharge() {
-		if (golem.jumpAttack != null || golem.jumpAttackDelay > 0 || !golem.onGround()) return;
+		if (golem.getJumpAttack() != null || golem.getJumpDelay() > 0 || !golem.onGround()) return;
 		List<AbstractGolemEntity<?, ?>> riders = new ArrayList<>();
 		for (var e : golem.getPassengers()) {
 			if (e instanceof AbstractGolemEntity<?, ?> rider && rider != golem) {
@@ -264,21 +304,45 @@ public class MountChargeManager {
 	}
 
 	private void updateRideIndicators(Player player) {
-		RideCooldownIndicator.render(player, rideIndicators);
+		RideCooldownIndicator.render(player, rideIndicators, golem.rideCooldownPing());
 	}
 
 	public interface View extends GolemImplBase {
 
-		MountChargeManager chargeManager();
+		MountChargeManager<?> chargeManager();
 
-		default void tickCharge() {
-			setJumpCd(chargeManager().calcJumpCd());
-			setChargeCd(chargeManager().calcChargeCd());
-			chargeManager().tickCharge();
+		void setChargeActive(boolean active);
+
+		boolean isChargeActive();
+
+		void setChargeDir(float x, float z);
+
+		float getChargeDirX();
+
+		float getChargeDirZ();
+
+		int getJumpCd();
+
+		void setJumpCd(int cd);
+
+		int getChargeCd();
+
+		void setChargeCd(int cd);
+
+		@Nullable EarthquakeHelper.Instance getJumpAttack();
+
+		void setJumpAttack(@Nullable EarthquakeHelper.Instance ins);
+
+		int getJumpDelay();
+
+		void setJumpDelay(int delay);
+
+		default SoundEvent rideCooldownPing() {
+			return SoundEvents.WOLF_GROWL;
 		}
 
 		default Vec3 getChargeDirClient() {
-			Vec3 d = new Vec3(entityData().get(DogGolemEntity.DATA_CHARGE_DIR_X), 0, entityData().get(DogGolemEntity.DATA_CHARGE_DIR_Z));
+			Vec3 d = new Vec3(getChargeDirX(), 0, getChargeDirZ());
 			if (d.lengthSqr() < 1e-8) d = new Vec3(0, 0, 1);
 			return d.normalize();
 		}
@@ -288,7 +352,7 @@ public class MountChargeManager {
 			chargeManager().updateRideIndicators(player);
 			// 骑乘冲锋由客户端权威：服务端不回推位置，本地实例必须跑同样的位移，
 			// 否则骑乘者眼前傀儡会站着不动
-			if (entityData().get(DogGolemEntity.DATA_CHARGE_ACTIVE)) {
+			if (isChargeActive()) {
 				Vec3 d = new Vec3(self.getLookAngle().x, 0, self.getLookAngle().z);
 				if (d.lengthSqr() < 1e-8) d = getChargeDirClient();
 				d = d.normalize();
@@ -321,25 +385,8 @@ public class MountChargeManager {
 		}
 
 		default void executeRidersCharge() {
-			var ins = ChargeHelper.findInstance(asGolem());
-			if (ins == null) return;
-			ModularGolems.HANDLER.toServer(DogSkillToServer.of(ins));
-		}
-
-		default int getJumpCd() {
-			return entityData().get(DogGolemEntity.DATA_JUMP_CD);
-		}
-
-		default void setJumpCd(int cd) {
-			entityData().set(DogGolemEntity.DATA_JUMP_CD, cd);
-		}
-
-		default int getChargeCd() {
-			return entityData().get(DogGolemEntity.DATA_CHARGE_CD);
-		}
-
-		default void setChargeCd(int cd) {
-			entityData().set(DogGolemEntity.DATA_CHARGE_CD, cd);
+			// 客户端只发"我要冲锋"；用坐骑还是乘客的哪只冲锋交给服务端按真实冷却挑
+			ModularGolems.HANDLER.toServer(DogSkillToServer.autoCharge());
 		}
 
 	}

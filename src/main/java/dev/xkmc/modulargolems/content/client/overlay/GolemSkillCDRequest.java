@@ -11,6 +11,8 @@ public class GolemSkillCDRequest extends SerialPacketBase {
 
 	@SerialClass.SerialField
 	public int golem;
+	@SerialClass.SerialField
+	public boolean ride;
 
 	public GolemSkillCDRequest() {
 
@@ -22,6 +24,13 @@ public class GolemSkillCDRequest extends SerialPacketBase {
 		return ans;
 	}
 
+	public static GolemSkillCDRequest ofRide(int id) {
+		var ans = new GolemSkillCDRequest();
+		ans.golem = id;
+		ans.ride = true;
+		return ans;
+	}
+
 	@Override
 	public void handle(NetworkEvent.Context context) {
 		var player = context.getSender();
@@ -30,7 +39,8 @@ public class GolemSkillCDRequest extends SerialPacketBase {
 		if (!(e instanceof AbstractGolemEntity<?, ?> golem)) return;
 		var packet = new GolemSkillCDToClient();
 		packet.golem = golem.getId();
-		packet.data = GolemSkillCDHelper.collect(golem);
+		packet.ride = ride;
+		packet.data = ride ? RideSkillHelper.collect(golem) : GolemSkillCDHelper.collect(golem);
 		ModularGolems.HANDLER.toClientPlayer(packet, player);
 	}
 
