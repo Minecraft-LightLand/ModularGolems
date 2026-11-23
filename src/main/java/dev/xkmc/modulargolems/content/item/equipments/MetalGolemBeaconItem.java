@@ -30,7 +30,7 @@ public class MetalGolemBeaconItem extends MetalGolemArmorItem implements TickEqu
 		MutableComponent lang = Component.translatable(eff.getDescriptionId());
 		if (amp > 0) {
 			lang = Component.translatable("potion.withAmplifier", lang,
-					Component.translatable("potion.potency." + amp));
+					Component.literal(dev.xkmc.modulargolems.util.RomanNumerals.of(amp + 1)));
 		}
 		return lang.withStyle(eff.getCategory().getTooltipFormatting());
 	}

@@ -40,7 +40,7 @@ public class PotionDefenseModifier extends GolemModifier {
 		MobEffect mobeffect = ins.getEffect();
 		if (ins.getAmplifier() > 0) {
 			lang = Component.translatable("potion.withAmplifier", lang,
-					Component.translatable("potion.potency." + ins.getAmplifier()));
+					Component.literal(dev.xkmc.modulargolems.util.RomanNumerals.of(ins.getAmplifier() + 1)));
 		}
 		lang = lang.withStyle(mobeffect.getCategory().getTooltipFormatting());
 		return List.of(MGLangData.POTION_DEFENSE.get(lang).withStyle(ChatFormatting.GREEN));
