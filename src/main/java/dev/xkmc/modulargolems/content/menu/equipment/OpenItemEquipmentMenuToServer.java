@@ -12,10 +12,14 @@ public class OpenItemEquipmentMenuToServer extends SerialPacketBase {
 
 	@SerialClass.SerialField
 	public ItemStack stack = ItemStack.EMPTY;
+	// 客户端所在玩家背包槽位。优先按槽位打开，避免带傀儡组 NBT 的物品因 NBT 比对不相等而打不开。
+	@SerialClass.SerialField
+	public int slot = -1;
 
-	public static OpenItemEquipmentMenuToServer of(ItemStack stack) {
+	public static OpenItemEquipmentMenuToServer of(ItemStack stack, int slot) {
 		var ans = new OpenItemEquipmentMenuToServer();
 		ans.stack = stack;
+		ans.slot = slot;
 		return ans;
 	}
 
@@ -24,6 +28,15 @@ public class OpenItemEquipmentMenuToServer extends SerialPacketBase {
 		var player = context.getSender();
 		if (player == null) return;
 		var inv = player.getInventory();
+		// 先按槽位打开（最可靠；不依赖 NBT 完全相等）
+		if (slot >= 0 && slot < inv.getContainerSize()) {
+			ItemStack found = inv.getItem(slot);
+			if (found.getItem() instanceof GolemHolder<?, ?>) {
+				ItemEquipmentsMenuProvider pvd = new ItemEquipmentsMenuProvider(found, inv, slot);
+				NetworkHooks.openScreen(player, pvd, pvd::writeBuffer);
+				return;
+			}
+		}
 		for (int i = 0; i < inv.getContainerSize(); i++) {
 			ItemStack found = inv.getItem(i);
 			if (!(found.getItem() instanceof GolemHolder<?, ?>)) continue;

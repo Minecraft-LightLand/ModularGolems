@@ -54,7 +54,7 @@ public class GolemClientEventListeners {
 		// 只有玩家背包里真实存在的物品才能打开；创造模式搜索页等容器里的物品不处理
 		if (slot.container != player.getInventory()) return;
 		event.setCanceled(true);
-		ModularGolems.HANDLER.toServer(OpenItemEquipmentMenuToServer.of(slot.getItem().copy()));
+		ModularGolems.HANDLER.toServer(OpenItemEquipmentMenuToServer.of(slot.getItem().copy(), slot.getContainerSlot()));
 	}
 
 	@SubscribeEvent
