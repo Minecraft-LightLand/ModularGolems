@@ -1,8 +1,10 @@
 package dev.xkmc.modulargolems.content.entity.impl;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * {@link GolemUseItemImpl#tickClientUseItem()} 跑完之后的后置钩子。
@@ -16,6 +18,12 @@ public final class GolemUseItemHook {
 
 	public static Consumer<AbstractGolemEntity<?, ?>> POST_TICK = e -> {
 	};
+
+	/**
+	 * 这些物品的 UseTime 有专门的单写入者，客户端不应再走 Item#inventoryTick。
+	 * 由对应兼容模块注册，避免公共代码直接引用可选 mod 的类。
+	 */
+	public static Predicate<ItemStack> SKIP_INVENTORY_TICK = stack -> false;
 
 	private GolemUseItemHook() {
 	}

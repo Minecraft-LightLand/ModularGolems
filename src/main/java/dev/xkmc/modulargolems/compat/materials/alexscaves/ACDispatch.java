@@ -389,6 +389,9 @@ public class ACDispatch extends ModDispatch {
 		MinecraftForge.EVENT_BUS.register(ACDispatch.class);
 		// 必须挂在 tickClientUseItem 之后：挂 tick 开头会拿到上一 tick 的 tag，被服务端同步拉回去形成死循环
 		GolemUseItemHook.POST_TICK = ACDispatch::syncUsingRaygunTag;
+		// AC 的射线枪/方铅护手 UseTime 有专属单写入者，客户端跳过通用 inventoryTick
+		GolemUseItemHook.SKIP_INVENTORY_TICK = stack ->
+				stack.getItem() instanceof GalenaGauntletItem || stack.getItem() instanceof RaygunItem;
 				// 第一人称补画傀儡射线枪光束：AC 的 postRenderLiving 只在非第一人称时画其它实体
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> MagneticWeaponLightningRenderer::register);
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> RaygunBeamRenderer::register);
