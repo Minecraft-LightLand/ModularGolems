@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.compat.backpack.L2BCompat;
 import dev.xkmc.modulargolems.content.capability.GolemTracker;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -41,10 +42,19 @@ public class GolemTransportHandler {
 	}
 
 	public static boolean retrieveRiddenGroup(ServerPlayer sp, Player user, AbstractGolemEntity<?, ?> golem, boolean toMainHand) {
-		if (!(golem instanceof DogGolemEntity dog)) return false;
+		AbstractGolemEntity<?, ?> mount;
+		if (golem instanceof DogGolemEntity dog) {
+			mount = dog;
+		} else if (golem instanceof MetalGolemEntity metal) {
+			// 肩鞍已经取下来时不能整组回收，走普通回收
+			if (!metal.hasShoulderSaddle()) return false;
+			mount = metal;
+		} else {
+			return false;
+		}
 		List<AbstractGolemEntity<?, ?>> riders = new ArrayList<>();
-		for (var e : dog.getPassengers()) {
-			if (e instanceof AbstractGolemEntity<?, ?> rider && rider != dog) {
+		for (var e : mount.getPassengers()) {
+			if (e instanceof AbstractGolemEntity<?, ?> rider && rider != mount) {
 				riders.add(rider);
 			}
 		}
@@ -56,29 +66,44 @@ public class GolemTransportHandler {
 			items.add(rider.toItem(user));
 			owners.add(rider);
 		}
-		items.add(dog.toItem(user));
-		owners.add(dog);
+		items.add(mount.toItem(user));
+		owners.add(mount);
 
-		UUID id = UUID.randomUUID();
-		for (var item : items) GolemHolder.setBondItemId(item, UUID.randomUUID());
-		List<ItemStack> clean = new ArrayList<>();
-		for (var item : items) {
-			ItemStack copy = item.copy();
-			GolemHolder.clearBound(copy);
-			clean.add(copy);
-		}
+		// 傀儡组只存在于物品上，放出来的实体本身不带组；回收犬形时把坐骑和当前背上的
+		// 所有乘客重新绑成一个组（"想继续是一组就回收犬形/手杖回收"）。
+		// 这里只给"当前没有组"的物品打组，已有组的物品保持不动，避免拆散别的组。
+		List<Integer> loose = new ArrayList<>();
 		for (int i = 0; i < items.size(); i++) {
-			List<ItemStack> others = new ArrayList<>();
-			for (int j = 0; j < clean.size(); j++) {
-				if (i != j) others.add(clean.get(j).copy());
+			if (GolemHolder.getBondId(items.get(i)) == null) loose.add(i);
+		}
+		if (loose.size() >= 2) {
+			UUID id = UUID.randomUUID();
+			for (int idx : loose) GolemHolder.setBondItemId(items.get(idx), UUID.randomUUID());
+			List<ItemStack> clean = new ArrayList<>();
+			for (int idx : loose) {
+				ItemStack copy = items.get(idx).copy();
+				GolemHolder.clearBound(copy);
+				clean.add(copy);
 			}
-			GolemHolder.setBonds(items.get(i), others, id);
+			for (int a = 0; a < loose.size(); a++) {
+				List<ItemStack> others = new ArrayList<>();
+				for (int b = 0; b < clean.size(); b++) {
+					if (a != b) others.add(clean.get(b).copy());
+				}
+				GolemHolder.setBonds(items.get(loose.get(a)), others, id);
+			}
 		}
-		for (int i = 0; i < items.size(); i++) {
-			if (toMainHand && i == items.size() - 1) {
-				// 空手回收：犬形本体回到主手，骑手仍按正常回收通道处理
-				sp.setItemSlot(net.minecraft.world.entity.EquipmentSlot.MAINHAND, items.get(i));
-			} else {
+		// 注意顺序：必须先把坐骑放进主手，再放乘客。
+		// 否则 addGolemToPlayer 的 player.addItem 可能把乘客塞进此时还空着的主手槽，
+		// 随后 setItemSlot(MAINHAND, 坐骑) 会把那件乘客物品直接覆盖掉 → 乘客"消失"。
+		int mountIdx = items.size() - 1;
+		if (toMainHand) {
+			sp.setItemSlot(net.minecraft.world.entity.EquipmentSlot.MAINHAND, items.get(mountIdx));
+			for (int i = 0; i < mountIdx; i++) {
+				addGolemToPlayer(sp, items.get(i), owners.get(i));
+			}
+		} else {
+			for (int i = 0; i < items.size(); i++) {
 				addGolemToPlayer(sp, items.get(i), owners.get(i));
 			}
 		}

@@ -217,7 +217,21 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public static void setBonds(ItemStack stack, List<ItemStack> others, java.util.UUID id) {
 		CompoundTag tag = stack.getOrCreateTag();
 		ListTag list = new ListTag();
-		for (ItemStack other : others) list.add(other.save(new CompoundTag()));
+		for (ItemStack other : others) {
+			// 只存"成员标识 + 名字 + 配置"就够了：真正的召唤是拿背包里那件实物，
+			// 靠 golem_bond_item_id 匹配；不存其它成员的完整物品快照（里面那一大坨 golem_entity 用不到）。
+			ItemStack mini = new ItemStack(other.getItem());
+			CompoundTag t = new CompoundTag();
+			java.util.UUID itemId = getBondItemId(other);
+			if (itemId != null) t.putUUID(KEY_BOND_ITEM_ID, itemId);
+			// 保留配置卡信息，否则成员筛选（ConfigCard.getStackFilter）会失效
+			if (other.getTag() != null && other.getTag().contains(KEY_CONFIG, Tag.TAG_COMPOUND)) {
+				t.put(KEY_CONFIG, other.getTag().getCompound(KEY_CONFIG).copy());
+			}
+			mini.setTag(t);
+			mini.setHoverName(other.getHoverName().copy());
+			list.add(mini.save(new CompoundTag()));
+		}
 		tag.put(KEY_BONDS, list);
 		tag.putUUID(KEY_BOND_ID, id);
 	}
@@ -495,7 +509,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		}
 		Level level = player.level();
 		Vec3 pos = target.position();
-		if (summon(stack, level, pos, player, e -> e.checkRide(target))) {
+		// 召唤到可骑乘实体上时不展开绑定组：避免一次右键放出一整组，并防止回收时吞掉手持物品
+		if (summon(stack, level, pos, player, e -> e.checkRide(target), false)) {
 			if (!level.isClientSide()) {
 				player.setItemInHand(hand, ItemStack.EMPTY);
 			}
@@ -555,6 +570,15 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	}
 
 	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player, @Nullable Consumer<AbstractGolemEntity<?, ?>> callback) {
+		return summon(stack, level, pos, player, callback, true);
+	}
+
+	/**
+	 * @param processBound 放置到地面时展开绑定组；右键可骑乘实体召唤坐骑时不展开，
+	 *                     否则会把绑定的整组都拉出来，且回收时会把手里这件也吞掉。
+	 */
+	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player,
+						  @Nullable Consumer<AbstractGolemEntity<?, ?>> callback, boolean processBound) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return false;
 		List<ItemStack> bounds = getBonds(stack);
@@ -580,7 +604,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				if (callback != null) {
 					callback.accept(golem);
 				}
-				summonBound(stack, bounds, level, player, golem, bondId);
+				if (processBound) summonBound(stack, bounds, level, player, golem, bondId);
 			}
 			return true;
 		}
@@ -603,7 +627,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				if (callback != null) {
 					callback.accept(golem);
 				}
-				summonBound(stack, bounds, level, player, golem, bondId);
+				if (processBound) summonBound(stack, bounds, level, player, golem, bondId);
 			}
 			return true;
 		}
@@ -628,16 +652,20 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				holder.summon(actual, level, mainGolem.position(), player, spawned::add);
 			}
 		}
-		AbstractGolemEntity<?, ?> dog = null;
+		AbstractGolemEntity<?, ?> mount = null;
 		for (var e : spawned) {
-			if (e instanceof dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity d) {
-				dog = d;
+			if (e instanceof dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity) {
+				mount = e;
 				break;
 			}
+			if (e instanceof dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity metal
+					&& metal.hasShoulderSaddle()) {
+				mount = e;
+			}
 		}
-		if (dog != null) {
+		if (mount != null) {
 			for (var e : spawned) {
-				if (e != dog) e.startRiding(dog);
+				if (e != mount) e.startRiding(mount);
 			}
 		}
 	}
