@@ -3,8 +3,11 @@ package dev.xkmc.modulargolems.content.capability;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -70,6 +73,11 @@ public class GolemConfigEntry {
 		}
 		if (nameComp == null) {
 			nameComp = Component.literal("Unnamed");
+		}
+		if (nameComp.getStyle().getColor() == null) {
+			// 配置卡名称默认继承物品名（无样式），这里按卡片颜色上色
+			return nameComp.copy().withStyle(Style.EMPTY.withColor(
+					TextColor.fromRgb(DyeColor.byId(color).getTextColor())));
 		}
 		return nameComp;
 	}
