@@ -31,8 +31,6 @@ public abstract class ShouldWeaponItem extends Item implements IShoulderWeapon {
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag) {
-		list.add(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
-				.withStyle(ChatFormatting.UNDERLINE));
 		list.add(MGLangData.SHOULDER_WEAPON.get());
 	}
 
