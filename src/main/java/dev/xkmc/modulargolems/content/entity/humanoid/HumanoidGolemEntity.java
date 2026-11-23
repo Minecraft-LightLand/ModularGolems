@@ -271,7 +271,9 @@ public class HumanoidGolemEntity extends SweepGolemEntity<HumanoidGolemEntity, H
 
 	@Override
 	public void checkRide(LivingEntity target) {
-		if (target instanceof DogGolemEntity || target instanceof AbstractHorse) {
+		if (target instanceof DogGolemEntity || target instanceof AbstractHorse
+				|| target instanceof dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity metal
+				&& metal.hasShoulderSaddle()) {
 			startRiding(target);
 		}
 	}

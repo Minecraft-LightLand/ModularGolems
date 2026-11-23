@@ -102,7 +102,7 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 			MetalGolemEntity entity, ItemStack stack, InteractionHand hand,
 			PoseStack pose, MultiBufferSource source, int light, float pTick) {
 		if (!(stack.getItem() instanceof IShoulderWeapon weapon)) return;
-		var id = weapon.getModelForHand(hand);
+		var id = weapon.getModelForHand(entity, stack, hand);
 		if (id == null) return;
 		GolemModelPath gmpath = GolemModelPath.MAP.get(id);
 		if (gmpath == null) {

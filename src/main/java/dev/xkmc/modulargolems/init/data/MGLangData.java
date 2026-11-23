@@ -35,6 +35,7 @@ public enum MGLangData {
 	BOW_PIERCE("tooltip.bow_pierce", "Arrow pierces %s targets", 1, ChatFormatting.GRAY),
 	MULTI_SHOT("tooltip.multi_shot", "Shoots %s targets at once", 1, ChatFormatting.GRAY),
 	SHOULDER_WEAPON("tooltip.shoulder_weapon", "Mounts on Metal Golem Shoulders", 0, ChatFormatting.YELLOW),
+	SHOULDER_SADDLE("tooltip.shoulder_saddle", "Allows riding a large golem. The rider is less likely to be targeted by enemies.", 0, ChatFormatting.GRAY),
 	BEACON_CANNON("tooltip.beacon_cannon", "Shoots beacon beam to inflict magic damage", 0, ChatFormatting.GRAY),
 	SONIC_CANNON("tooltip.sonic_cannon", "Shoots 3 sonic booms to inflict abyss echo damage", 0, ChatFormatting.GRAY),
 	SONIC_CANNON_RESONANCE("tooltip.sonic_cannon_resonance", "Stronger when paired with Sculk golem material", 0, ChatFormatting.GRAY),

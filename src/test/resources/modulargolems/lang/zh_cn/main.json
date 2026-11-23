@@ -73,6 +73,7 @@
 			"multi_shot": "可同时射出至多%s支箭",
 			"bow_pierce": "射出的箭可穿透%s个实体",
 			"shoulder_weapon": "傀儡肩部装备",
+			"shoulder_saddle": "允许骑乘大型傀儡，骑乘者不容易成为敌人的攻击目标",
 			"beacon_cannon": "可发射信标激光造成魔法伤害",
 			"mechanical_arm": "可使用材料自动修复傀儡。且可被[蒸汽动力]技能加速",
 			"sonic_cannon": "可发射三道音爆，造成深渊回响伤害",

@@ -2,16 +2,25 @@ package dev.xkmc.modulargolems.content.entity.metalgolem;
 
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.IShoulderWeaponSupportEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.MountChargeManager;
+import dev.xkmc.modulargolems.content.entity.dog.RideCooldownIndicator;
 import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.IAttackListenerWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
+import dev.xkmc.modulargolems.content.item.ranged.ShoulderSaddleItem;
+import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.init.ModularGolems;
+import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.init.data.MGLangData;
 import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -42,14 +51,25 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.joml.Vector3f;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType>
-		implements IShoulderWeaponSupportEntity {
+		implements IShoulderWeaponSupportEntity, MountChargeManager.View {
 
 	private static final EntityDataAccessor<Vector3f> TARGET = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.VECTOR3);
+	// 骑乘冲锋/大跳的同步状态：位移由客户端本地预测（与犬形同一套做法），
+	// 服务端只负责伤害、冷却和结束判定，通过这几个字段广播状态。
+	public static final EntityDataAccessor<Boolean> DATA_CHARGE_ACTIVE = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<Float> DATA_CHARGE_DIR_X = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Float> DATA_CHARGE_DIR_Z = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.FLOAT);
+	public static final EntityDataAccessor<Integer> DATA_CHARGE_CD = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> DATA_JUMP_CD = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<ItemStack> LEFT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<ItemStack> RIGHT_SHOULDER = SynchedEntityData.defineId(MetalGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 
@@ -63,6 +83,16 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@SerialClass.SerialField(toClient = true)
 	public final TargetingAnimState animState = new TargetingAnimState();
 
+	/** 与犬形共用同一份骑乘冲锋/大跳状态机。 */
+	private final MountChargeManager<MetalGolemEntity> chargeManager = new MountChargeManager<>(this);
+	private EarthquakeHelper.Instance rideJump;
+	private int rideJumpDelay;
+	/** 客户端按键的边沿检测：按住不放不应该每 tick 重放技能。 */
+	private boolean rideJumpHeld, rideChargeHeld;
+	private int rideJumpClientCd;
+	/** 上一 tick 左右肩鞍的座位数，用于检测肩鞍被取下时把对应乘客放下来。 */
+	private int prevLeftSeats = -1, prevRightSeats = -1;
+
 	public MetalGolemEntity(EntityType<MetalGolemEntity> type, Level level) {
 		super(GolemWeaponRegistry.LARGE, type, level);
 		registerArrowSlot(true);
@@ -74,6 +104,11 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		entityData.define(TARGET, new Vector3f(0, 0, 0));
 		entityData.define(LEFT_SHOULDER, ItemStack.EMPTY);
 		entityData.define(RIGHT_SHOULDER, ItemStack.EMPTY);
+		entityData.define(DATA_CHARGE_ACTIVE, false);
+		entityData.define(DATA_CHARGE_DIR_X, 0.0F);
+		entityData.define(DATA_CHARGE_DIR_Z, 0.0F);
+		entityData.define(DATA_CHARGE_CD, -1);
+		entityData.define(DATA_JUMP_CD, -1);
 	}
 
 	protected AABB getAttackBoundingBox(Entity target, double range) {
@@ -136,6 +171,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	public void aiStep() {
 		super.aiStep();
+		if (!level().isClientSide()) tickSaddleSeats();
 		animState.tick(this);
 		var right = getRightShoulder().getItem();
 		if (!right.isEmpty() && right.getItem() instanceof IShoulderWeapon weapon)
@@ -255,6 +291,263 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return -getBbHeight() * 0.26 + 0.27;
 	}
 
+	public boolean hasShoulderSaddle() {
+		return getLeftShoulder().getItem().getItem() instanceof ShoulderSaddleItem
+				|| getRightShoulder().getItem().getItem() instanceof ShoulderSaddleItem;
+	}
+
+	/** 体型越大，单个肩鞍能坐的人越多；左右肩各算一个肩鞍。 */
+	public int getSaddleSeats() {
+		return saddleSeats(getLeftShoulder().getItem()) + saddleSeats(getRightShoulder().getItem());
+	}
+
+	private int saddleSeats(ItemStack stack) {
+		return stack.getItem() instanceof ShoulderSaddleItem ? Math.max(1, Math.round(getScale())) : 0;
+	}
+
+	/**
+	 * 座位在实体本地坐标中的横向/前后偏移。
+	 * 实体朝向 +Z 时 +X 是它的左手侧，所以左侧座位取正 X。
+	 */
+	public record SeatOffset(float x, float z) {
+	}
+
+	public SeatOffset getSeatOffset(int index) {
+		int leftCount = saddleSeats(getLeftShoulder().getItem());
+		int rightCount = saddleSeats(getRightShoulder().getItem());
+		float width = getBbWidth();
+		// 优先坐左侧：只有左侧没鞍时才落到右侧
+		if (leftCount > 0 && index < leftCount) {
+			return sideSeat(index, leftCount, width * 0.35F, width);
+		}
+		if (rightCount > 0) {
+			return sideSeat(index - leftCount, rightCount, -width * 0.35F, width);
+		}
+		return sideSeat(index, 1, width * 0.35F, width);
+	}
+
+	private SeatOffset sideSeat(int index, int count, float sideX, float width) {
+		float z = count <= 1 ? 0 : (index - (count - 1) / 2F) * width * 0.45F;
+		return new SeatOffset(sideX, z);
+	}
+
+	@Override
+	public boolean canAddPassenger(Entity rider) {
+		if (!hasShoulderSaddle()) return false;
+		if (!(rider instanceof Player) && !(rider instanceof AbstractGolemEntity<?, ?>)) return false;
+		return getPassengers().size() < getSaddleSeats();
+	}
+
+	@Override
+	protected void positionRider(Entity rider, Entity.MoveFunction setPos) {
+		int index = getPassengers().indexOf(rider);
+		if (index < 0) return;
+		var seat = getSeatOffset(index);
+		// 座位偏移必须跟着身体朝向一起转：否则傀儡转身时乘客留在世界里的固定方向，
+		// 表现为玩家一转头视角就绕着傀儡打转。
+		Vec3 local = new Vec3(seat.x(), 0, seat.z()).yRot(-yBodyRot * ((float) Math.PI / 180F));
+		setPos.accept(rider, getX() + local.x, getY() + rider.getMyRidingOffset() + getPassengersRidingOffset(), getZ() + local.z);
+	}
+
+	/** 肩鞍座位高度系数（相对 bbHeight）。调大坐得更高。 */
+	public static final double SADDLE_SEAT_RATIO = 0.7D;
+
+	public double getPassengersRidingOffset() {
+		return getBbHeight() * SADDLE_SEAT_RATIO;
+	}
+
+	/**
+	 * 肩鞍被取下时，把坐在那个肩鞍上的乘客放下来（否则乘客索引会挪到另一个肩鞍的座位、与其重叠）。
+	 * 座位顺序：左侧占 index [0, prevLeftSeats)，右侧占 [prevLeftSeats, prevLeftSeats + prevRightSeats)。
+	 */
+	private void tickSaddleSeats() {
+		int left = saddleSeats(getLeftShoulder().getItem());
+		int right = saddleSeats(getRightShoulder().getItem());
+		if (prevLeftSeats < 0) {
+			prevLeftSeats = left;
+			prevRightSeats = right;
+			return;
+		}
+		if (left >= prevLeftSeats && right >= prevRightSeats) {
+			prevLeftSeats = left;
+			prevRightSeats = right;
+			return;
+		}
+		List<Entity> ps = new ArrayList<>(getPassengers());
+		List<Entity> eject = new ArrayList<>();
+		if (left < prevLeftSeats) {
+			for (int i = 0; i < Math.min(prevLeftSeats, ps.size()); i++) eject.add(ps.get(i));
+		}
+		if (right < prevRightSeats) {
+			int start = prevLeftSeats;
+			int end = Math.min(prevLeftSeats + prevRightSeats, ps.size());
+			for (int i = start; i < end; i++) eject.add(ps.get(i));
+		}
+		prevLeftSeats = left;
+		prevRightSeats = right;
+		for (var e : eject) e.stopRiding();
+	}
+
+	/**
+	 * 走路时身体左右摆动的角度（度）。渲染乘客时用它跟随摆动，和 {@code MetalGolemRenderer#setupRotations}
+	 * 用的是同一份算法，两边不会漂移。
+	 */
+	public float getRideSwayRoll(float partialTick) {
+		if (walkAnimation.speed() < 0.01F) return 0;
+		float period = 13.0F;
+		float f1 = walkAnimation.position() - walkAnimation.speed() * (1.0F - partialTick) + 6.0F;
+		float f2 = (Math.abs(f1 % period - 6.5F) - 3.25F) / 3.25F;
+		return 6.5F * f2;
+	}
+
+	@Override
+	public LivingEntity getControllingPassenger() {
+		// 只有玩家能真正操控坐骑。若把另一个傀儡当成 controlling passenger，
+		// 原版 Mob#updateControlFlags 会以为坐骑被 Mob 控制，直接关掉 MOVE/JUMP/LOOK 标志
+		// → 傀儡只会被推着走，所有 AI 技能和目标攻击全部失效。
+		return getPlayerPassenger();
+	}
+
+	protected Vec2 getRiddenRotation(LivingEntity rider) {
+		return new Vec2(rider.getXRot() * 0.5F, rider.getYRot());
+	}
+
+	@Override
+	protected Vec3 getRiddenInput(Player player, Vec3 input) {
+		float forward = player.zza;
+		if (forward <= 0) forward *= 0.25F;
+		Vec3 ans = new Vec3(player.xxa * 0.5F, 0, forward);
+		if (player.isShiftKeyDown()) ans = ans.add(0, -1, 0);
+		return ans;
+	}
+
+	@Override
+	protected float getRiddenSpeed(Player rider) {
+		return (float) (getAttributeValue(Attributes.MOVEMENT_SPEED) * MGConfig.COMMON.riddenSpeedFactor.get());
+	}
+
+	public float getJumpStrength() {
+		var attr = getAttribute(GolemTypes.GOLEM_JUMP.get());
+		float ans = attr == null ? 0.5F : (float) attr.getValue();
+		ans *= getScale();
+		var ins = getEffect(net.minecraft.world.effect.MobEffects.JUMP);
+		if (ins != null) ans *= 1 + (ins.getAmplifier() + 1) * 0.625F;
+		return ans;
+	}
+
+	// ------ 骑乘（与犬形共用 MountChargeManager）
+
+	@Override
+	public MountChargeManager<?> chargeManager() {
+		return chargeManager;
+	}
+
+	@Override
+	public void setChargeActive(boolean active) {
+		entityData.set(DATA_CHARGE_ACTIVE, active);
+	}
+
+	@Override
+	public boolean isChargeActive() {
+		return entityData.get(DATA_CHARGE_ACTIVE);
+	}
+
+	@Override
+	public void setChargeDir(float x, float z) {
+		entityData.set(DATA_CHARGE_DIR_X, x);
+		entityData.set(DATA_CHARGE_DIR_Z, z);
+	}
+
+	@Override
+	public float getChargeDirX() {
+		return entityData.get(DATA_CHARGE_DIR_X);
+	}
+
+	@Override
+	public float getChargeDirZ() {
+		return entityData.get(DATA_CHARGE_DIR_Z);
+	}
+
+	@Override
+	public int getJumpCd() {
+		return entityData.get(DATA_JUMP_CD);
+	}
+
+	@Override
+	public void setJumpCd(int cd) {
+		entityData.set(DATA_JUMP_CD, cd);
+	}
+
+	@Override
+	public int getChargeCd() {
+		return entityData.get(DATA_CHARGE_CD);
+	}
+
+	@Override
+	public void setChargeCd(int cd) {
+		entityData.set(DATA_CHARGE_CD, cd);
+	}
+
+	@Override
+	public EarthquakeHelper.Instance getJumpAttack() {
+		return rideJump;
+	}
+
+	@Override
+	public void setJumpAttack(EarthquakeHelper.Instance ins) {
+		rideJump = ins;
+	}
+
+	@Override
+	public int getJumpDelay() {
+		return rideJumpDelay;
+	}
+
+	@Override
+	public void setJumpDelay(int delay) {
+		rideJumpDelay = delay;
+	}
+
+	@Override
+	public net.minecraft.sounds.SoundEvent rideCooldownPing() {
+		return net.minecraft.sounds.SoundEvents.VILLAGER_CELEBRATE;
+	}
+
+	@Override
+	protected void tickRidden(Player player, Vec3 vec3) {
+		super.tickRidden(player, vec3);
+		Vec2 rot = getRiddenRotation(player);
+		setRot(rot.y, rot.x);
+		yRotO = yBodyRot = yHeadRot = getYRot();
+		if (isControlledByLocalInstance()) {
+			controlledChargeTick(player);
+			if (this.onGround() || this.isInFluidType()) {
+				if (player.jumping) {
+					this.executeRidersJump(vec3);
+				}
+			}
+		}
+	}
+
+	protected void executeRidersJump(Vec3 action) {
+		Vec3 vec3 = this.getDeltaMovement();
+		float jump = getJumpStrength();
+		this.hasImpulse = true;
+		var ins = dev.xkmc.modulargolems.content.modifier.special.RideSkillPick.jump(this);
+		if (ins != null) {
+			ins.modifier().performJump(this, ins.lv());
+			ins.addCD();
+			ModularGolems.HANDLER.toServer(dev.xkmc.modulargolems.content.entity.dog.DogSkillToServer.of(ins));
+			return;
+		}
+		this.setDeltaMovement(vec3.x, jump, vec3.z);
+		net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+		if (action.z <= 0.0D) return;
+		float x0 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
+		float z0 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
+		this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * x0 * jump, 0.0D, 0.4F * z0 * jump));
+	}
+
 	@Override
 	public void checkRide(LivingEntity target) {
 		if (target instanceof DogGolemEntity dog && dog.getBbWidth() > getBbWidth()) {
@@ -265,6 +558,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	@Override
 	protected void customServerAiStep() {
 		super.customServerAiStep();
+		chargeManager.tickCharge();
 		var target = getTarget();
 		if (target == null) entityData.set(TARGET, new Vector3f(0, 0, 0));
 		else {

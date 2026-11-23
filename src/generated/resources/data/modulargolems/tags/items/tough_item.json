@@ -10,6 +10,7 @@
     "modulargolems:sonic_cannon",
     "modulargolems:beacon_cannon",
     "modulargolems:flame_thrower",
+    "modulargolems:shoulder_saddle",
     {
       "id": "modulargolems:fiery_helmet",
       "required": false

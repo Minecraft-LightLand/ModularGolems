@@ -604,6 +604,19 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		return true;
 	}
 
+	/** 是否有玩家正骑着我（用于区分"玩家操控"与"载着其它傀儡时的 AI 自主行动"）。 */
+	@Nullable
+	public Player getPlayerPassenger() {
+		for (var e : getPassengers()) {
+			if (e instanceof Player p) return p;
+		}
+		return null;
+	}
+
+	public boolean hasPlayerPassenger() {
+		return getPlayerPassenger() != null;
+	}
+
 	@Override
 	public void setTarget(@Nullable LivingEntity target) {
 		var prev = getTarget();

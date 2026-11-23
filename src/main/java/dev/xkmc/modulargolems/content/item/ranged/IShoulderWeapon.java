@@ -13,6 +13,14 @@ public interface IShoulderWeapon {
 
 	@Nullable ResourceLocation getModelForHand(InteractionHand hand);
 
+	/**
+	 * 需要看另一侧槽位才能决定模型的装备覆写这个（如肩鞍：单边用单边模型，双边用整体模型）。
+	 */
+	@Nullable
+	default ResourceLocation getModelForHand(MetalGolemEntity entity, ItemStack stack, InteractionHand hand) {
+		return getModelForHand(hand);
+	}
+
 	List<ShoulderAnimData> getAnimationData(MetalGolemEntity user, ItemStack stack, InteractionHand hand);
 
 	ResourceLocation getModelTexture(MetalGolemEntity entity, ItemStack stack, InteractionHand hand);

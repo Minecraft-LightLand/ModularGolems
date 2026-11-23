@@ -303,6 +303,14 @@ public class RecipeGen {
 					.save(pvd);
 		}
 
+		// shoulder saddle
+		{
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.SHOULDER_SADDLE.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+					.requires(GolemItems.GOLEM_TEMPLATE.get())
+					.requires(Items.SADDLE)
+					.save(pvd);
+		}
+
 		// armor
 		{
 			unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.GOLEMGUARD_HELMET.get())::unlockedBy, Items.IRON_INGOT)

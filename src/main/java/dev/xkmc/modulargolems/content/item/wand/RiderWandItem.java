@@ -6,6 +6,7 @@ import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.init.data.MGLangData;
 import net.minecraft.world.InteractionHand;
@@ -85,6 +86,11 @@ public class RiderWandItem extends BaseWandItem implements GolemInteractItem, IG
 			// a shoulder mounted weapon occupies the back, so the dog cannot be ridden
 			if (!e.getShoulderSlot().getItem().isEmpty()) return false;
 			user.startRiding(e, false);
+			return true;
+		}
+		if (golem instanceof MetalGolemEntity metal) {
+			if (!metal.hasShoulderSaddle()) return false;
+			user.startRiding(metal, false);
 			return true;
 		}
 		return true;

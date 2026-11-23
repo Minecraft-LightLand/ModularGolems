@@ -73,16 +73,12 @@ public class MetalGolemRenderer extends AbstractGolemRenderer<MetalGolemEntity, 
 		this.addLayer(new MetalGolemCrackinessLayer(this));
 		this.addLayer(new GolemEquipmentRenderer(this, ctx));
 		this.addLayer(new GolemBannerLayer<>(this, ctx.getItemInHandRenderer()));
+		this.addLayer(new MetalSaddleRiderLayer(this));
 	}
 
 	protected void setupRotations(MetalGolemEntity entity, PoseStack stack, float v1, float v2, float v3) {
 		super.setupRotations(entity, stack, v1, v2, v3);
-		if (!((double) entity.walkAnimation.speed() < 0.01D)) {
-			float f = 13.0F;
-			float f1 = entity.walkAnimation.position() - entity.walkAnimation.speed() * (1.0F - v3) + 6.0F;
-			float f2 = (Math.abs(f1 % f - 6.5F) - 3.25F) / 3.25F;
-			stack.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
-		}
+		stack.mulPose(Axis.ZP.rotationDegrees(entity.getRideSwayRoll(v3)));
 	}
 
 	@Override
