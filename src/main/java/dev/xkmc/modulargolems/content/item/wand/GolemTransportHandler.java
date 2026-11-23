@@ -109,6 +109,8 @@ public class GolemTransportHandler {
 	}
 
 	public static void summonGolemFromPlayer(ServerPlayer player, Predicate<ItemStack> use) {
+		// 必须先过滤再执行召唤；Predicate.and 是左先求值，写成 use.and(filter) 会先召唤再判断配置
+		use = dev.xkmc.modulargolems.content.item.card.ConfigCard.getStackFilter(player).and(use);
 		if (ModList.get().isLoaded(L2Backpack.MODID)) {
 			if (L2BCompat.summonGolemFromPlayer(player, use)) {
 				return;

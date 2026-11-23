@@ -5,6 +5,8 @@ import dev.xkmc.modulargolems.content.capability.GolemConfigEditor;
 import dev.xkmc.modulargolems.content.capability.GolemConfigEntry;
 import dev.xkmc.modulargolems.content.capability.GolemConfigStorage;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
+import dev.xkmc.modulargolems.content.item.wand.BaseWandItem;
 import dev.xkmc.modulargolems.content.item.wand.GolemInteractItem;
 import dev.xkmc.modulargolems.content.menu.config.ConfigMenuProvider;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -55,15 +57,27 @@ public class ConfigCard extends Item implements GolemInteractItem {
 		return false;
 	}
 
+	public static Predicate<ItemStack> getStackFilter(Player player) {
+		ItemStack stack = player.getOffhandItem();
+		if (stack.getItem() instanceof ConfigCard card) {
+			UUID uuid = getUUID(stack);
+			// 未绑定的卡也按当前玩家作为所有者过滤，否则白卡（UUID 尚未写入）会放行全部
+			UUID owner = uuid == null ? player.getUUID() : uuid;
+			return item -> GolemHolder.getGolemConfig(item)
+					.map(x -> x.getFirst().equals(owner) && x.getSecond() == card.color.getId())
+					.orElse(false);
+		}
+		return item -> true;
+	}
+
 	public static Predicate<AbstractGolemEntity<?, ?>> getFilter(Player player) {
 		ItemStack stack = player.getOffhandItem();
 		if (stack.getItem() instanceof ConfigCard card) {
 			UUID uuid = getUUID(stack);
-			if (uuid != null) {
-				return e -> Optional.ofNullable(e.getConfigEntry(null))
-						.map(x -> x.getID().equals(uuid) && x.getColor() == card.color.getId())
-						.orElse(true);
-			}
+			UUID owner = uuid == null ? player.getUUID() : uuid;
+			return e -> Optional.ofNullable(e.getConfigEntry(null))
+					.map(x -> x.getID().equals(owner) && x.getColor() == card.color.getId())
+					.orElse(false);
 		}
 		return e -> true;
 	}
@@ -86,6 +100,10 @@ public class ConfigCard extends Item implements GolemInteractItem {
 
 	@Override
 	public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
+		// 主手拿手杖、副手拿配置卡时，右键目标是使用手杖，不打开配置卡界面
+		if (hand == InteractionHand.OFF_HAND && player.getMainHandItem().getItem() instanceof BaseWandItem) {
+			return InteractionResult.PASS;
+		}
 		if (player.level() instanceof ServerLevel sl) {
 			UUID uuid = getUUID(stack);
 			if (uuid == null) {
@@ -118,6 +136,10 @@ public class ConfigCard extends Item implements GolemInteractItem {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		// 主手拿手杖时，副手配置卡不响应右键
+		if (hand == InteractionHand.OFF_HAND && player.getMainHandItem().getItem() instanceof BaseWandItem) {
+			return InteractionResultHolder.pass(player.getItemInHand(hand));
+		}
 		ItemStack stack = player.getItemInHand(hand);
 		UUID uuid = getUUID(stack);
 		if (uuid == null) {

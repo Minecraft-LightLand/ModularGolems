@@ -616,7 +616,10 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		if (bounds.isEmpty() || level.isClientSide()) return;
 		List<AbstractGolemEntity<?, ?>> spawned = new ArrayList<>();
 		spawned.add(mainGolem);
+		var filter = player == null ? (java.util.function.Predicate<ItemStack>) item -> true
+				: dev.xkmc.modulargolems.content.item.card.ConfigCard.getStackFilter(player);
 		for (ItemStack bound : bounds) {
+			if (!filter.test(bound)) continue;
 			ItemStack actual = player == null ? bound.copy()
 					: GolemTransportHandler.takeBondItem(player, bondId, getBondItemId(bound), main);
 			if (actual.isEmpty()) continue;
