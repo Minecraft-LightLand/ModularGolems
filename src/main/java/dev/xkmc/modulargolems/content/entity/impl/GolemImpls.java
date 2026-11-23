@@ -5,6 +5,7 @@ import dev.xkmc.modulargolems.content.entity.hostile.HostileGolemRegistry;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PowerableMob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import javax.annotation.Nullable;
@@ -64,6 +65,19 @@ public interface GolemImpls extends
 	default AbstractGolemEntity<?, ?> getGolemController() {
 		var p = asGolem().getControllingPassenger();
 		return p instanceof AbstractGolemEntity<?, ?> g ? g : null;
+	}
+
+	/** 是否有玩家正骑着我（区分"玩家操控"与"载着其它傀儡时的 AI 自主行动"）。 */
+	@Nullable
+	default Player getPlayerPassenger() {
+		for (var e : asGolem().getPassengers()) {
+			if (e instanceof Player p) return p;
+		}
+		return null;
+	}
+
+	default boolean hasPlayerPassenger() {
+		return getPlayerPassenger() != null;
 	}
 
 	default boolean isRidingGolemCombo() {
