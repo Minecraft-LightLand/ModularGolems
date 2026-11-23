@@ -47,7 +47,7 @@ public class RadiationModifier extends GolemModifier {
 	@Override
 	public List<MutableComponent> getDetail(int v) {
 		var val = Component.translatable(ACEffectRegistry.IRRADIATED.get().getDescriptionId());
-		val = Component.translatable("potion.withAmplifier", val, Component.translatable("potion.potency." + (v * 2 - 1)));
+		val = Component.translatable("potion.withAmplifier", val, Component.literal(dev.xkmc.modulargolems.util.RomanNumerals.of((v * 2 - 1) + 1)));
 		val = Component.translatable("potion.withDuration", val, Component.literal(StringUtil.formatTickDuration(time())));
 		val = val.withStyle(ChatFormatting.RED);
 		var atk = Component.literal(Math.round(atk() * 100) + "%").withStyle(ChatFormatting.AQUA);

@@ -55,7 +55,7 @@ public class PotionAttackModifier extends GolemModifier {
 		MobEffect mobeffect = ins.getEffect();
 		if (ins.getAmplifier() > 0) {
 			lang = Component.translatable("potion.withAmplifier", lang,
-					Component.translatable("potion.potency." + ins.getAmplifier()));
+					Component.literal(dev.xkmc.modulargolems.util.RomanNumerals.of(ins.getAmplifier() + 1)));
 		}
 		// 如果药水效果的持续时间（duration）大于等于 20
 		if (ins.getDuration() >= 20) {

@@ -111,7 +111,7 @@ public class AtomicBreathModifier extends GolemModifier {
 	@Override
 	public List<MutableComponent> getDetail(int v) {
 		var val = Component.translatable(ACEffectRegistry.IRRADIATED.get().getDescriptionId());
-		val = Component.translatable("potion.withAmplifier", val, Component.translatable("potion.potency." + IRRADIATED_AMPLIFIER));
+		val = Component.translatable("potion.withAmplifier", val, Component.literal(dev.xkmc.modulargolems.util.RomanNumerals.of(IRRADIATED_AMPLIFIER + 1)));
 		val = Component.translatable("potion.withDuration", val, Component.literal(StringUtil.formatTickDuration(IRRADIATED_DURATION)));
 		val = val.withStyle(ChatFormatting.RED);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
