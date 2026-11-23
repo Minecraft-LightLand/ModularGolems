@@ -85,7 +85,7 @@ public interface GolemUseItemImpl extends TransientStateContainer.View {
 			//   · 方铅护手：手指动画幅度 {@code openAmount = UseTime/5} 乱跳 → 模型抖动。
 			// 射线枪由 {@code ACDispatch#settleRenderedUseTime} 独占推进（每 tick 对齐两值）；
 			// 方铅护手由服务端 {@code ACDispatch#tickGauntletUseTime} 独占推进，客户端只读。
-			if (!isAcUseTimeItem(stack)) {
+			if (!GolemUseItemHook.SKIP_INVENTORY_TICK.test(stack)) {
 				stack.getItem().inventoryTick(stack, golem.level(), golem, 0, true);
 			}
 		} else if (getClientWasUsing()) {
@@ -98,10 +98,4 @@ public interface GolemUseItemImpl extends TransientStateContainer.View {
 		setClientWasUsing(using);
 		GolemUseItemHook.POST_TICK.accept(golem);
 	}
-	/** 这些物品的 {@code UseTime} 有专门的单写入者，不能再走 {@code inventoryTick}。 */
-	private static boolean isAcUseTimeItem(ItemStack stack) {
-		return stack.getItem() instanceof com.github.alexmodguy.alexscaves.server.item.GalenaGauntletItem
-				|| stack.getItem() instanceof com.github.alexmodguy.alexscaves.server.item.RaygunItem;
-	}
-
 }
