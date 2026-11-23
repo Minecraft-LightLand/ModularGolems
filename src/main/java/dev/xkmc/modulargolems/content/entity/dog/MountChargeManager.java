@@ -57,10 +57,11 @@ public class MountChargeManager {
 		Vec3 dir = new Vec3(golem.getLookAngle().x, 0, golem.getLookAngle().z);
 		if (dir.lengthSqr() < 1e-8) dir = new Vec3(0, 0, 1);
 		double total = ins.modifier().getChargeDistance(ins);
-		if (golem.getGolemController() != null) {
-			LivingEntity t = golem.getGolemController().getTarget();
+		AbstractGolemEntity<?, ?> controller = ins.owner() != golem ? ins.owner() : golem.getGolemController();
+		if (controller != null) {
+			LivingEntity t = controller.getTarget();
 			if (t != null && (!t.isAlive() || !golem.predicateTarget(t))) t = null;
-			if (t == null && golem.predicateTarget(golem.getTarget())) t = golem.getTarget();
+			if (t == null && golem.getTarget() != null && golem.predicateTarget(golem.getTarget())) t = golem.getTarget();
 			if (t != null) {
 				dir = new Vec3(t.getX() - golem.getX(), 0, t.getZ() - golem.getZ());
 				if (dir.lengthSqr() < 1e-8) dir = new Vec3(0, 0, 1);
@@ -155,7 +156,7 @@ public class MountChargeManager {
 		// chargeRider 是身上那只傀儡的技能，chargeMount 是自身的；玩家直接操控时走 tickRiddenCharge。
 		if (chargeRider != null || chargeMount != null) {
 			tickMountCharge();
-		} else if (golem.getGolemController() != null) {
+		} else if (hasGolemRider()) {
 			tickRiddenCharge();
 		}
 	}
@@ -205,19 +206,41 @@ public class MountChargeManager {
 	/**
 	 * AI 骑乘冲锋：AI 傀儡先从自身、再从坐骑的修饰符里挑一个冲锋技能，用坐骑的身体跑。
 	 */
+	private boolean hasGolemRider() {
+		for (var e : golem.getPassengers()) {
+			if (e instanceof AbstractGolemEntity<?, ?>) return true;
+		}
+		return false;
+	}
+
 	private void tickRiddenCharge() {
 		if (golem.jumpAttack != null || golem.jumpAttackDelay > 0 || !golem.onGround()) return;
-		var rider = golem.getGolemController();
-		if (rider == null || rider.isInRangedMode() || golem.isInRangedMode()) return;
-		LivingEntity target = rider.getTarget();
+		List<AbstractGolemEntity<?, ?>> riders = new ArrayList<>();
+		for (var e : golem.getPassengers()) {
+			if (e instanceof AbstractGolemEntity<?, ?> rider && rider != golem) {
+				riders.add(rider);
+			}
+		}
+		if (riders.isEmpty() || golem.isInRangedMode()) return;
+		LivingEntity target = null;
+		for (var rider : riders) {
+			var t = rider.getTarget();
+			if (t != null && t.isAlive() && golem.predicateTarget(t)) {
+				target = t;
+				break;
+			}
+		}
 		if (target == null || !target.isAlive() || !golem.predicateTarget(target)) {
 			target = golem.getTarget();
 		}
 		if (target == null || !target.isAlive() || !golem.predicateTarget(target)) return;
 		double dist = golem.distanceTo(target);
 		if (dist <= 2 || dist > RIDE_CHARGE_RANGE) return;
-		var all = findValidCharges(rider);
-		all.addAll(findValidCharges(golem));
+		List<ChargeHelper.Instance> all = new ArrayList<>();
+		for (var rider : riders) {
+			if (!rider.isInRangedMode()) all.addAll(findValidCharges(rider));
+		}
+		if (!golem.isInRangedMode()) all.addAll(findValidCharges(golem));
 		if (all.isEmpty()) return;
 		var ins = all.get(golem.getRandom().nextInt(all.size()));
 		ins.addCD();

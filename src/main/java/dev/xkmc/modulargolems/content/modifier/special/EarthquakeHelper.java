@@ -149,7 +149,8 @@ public class EarthquakeHelper {
 
 	@Nullable
 	public static Instance findInstance(AbstractGolemEntity<?, ?> golem, LivingEntity target, double distSqr) {
-		if (golem.getVehicle() != null && !(golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog && dog.getControllingPassenger() == golem))
+		if (golem.getVehicle() != null && !(golem.getVehicle() instanceof AbstractGolemEntity<?, ?> dog
+				&& dog.getPassengers().contains(golem)))
 			return null;
 		if (!golem.getPassengers().isEmpty()) return null;
 		if (golem.getMode() == GolemModes.STAND) return null;
