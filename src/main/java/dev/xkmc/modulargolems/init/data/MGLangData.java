@@ -225,6 +225,7 @@ public enum MGLangData {
 	UI_SIMPLE_NO_TAKE("tooltip.no_take_upgrade", "This table does not allow removing upgrades", 0, ChatFormatting.RED),
 	UI_REMOVE_TEMPLATE("tooltip.remove_template", "Upgrade Template cannot be removed here", 0, ChatFormatting.RED),
 	UI_DISINTEGRATE("tooltip.disintegrate", "Disassemble the Golem", 0, null),
+	UI_DISINTEGRATE_HINT("tooltip.disintegrate_hint", "Left click: disassemble into parts. Right click: disassemble into materials.", 0, ChatFormatting.GRAY),
 	UI_RETURN_ITEMS("tooltip.return_items", "Returns the following items on disassembly:", 0, null),
 	UI_RETURN_MANY("tooltip.return_many", "Returns %s items on disassembly", 1, null),
 	UI_FIX_FIRST("tooltip.fix_first", "Fix the golem before disassembly!", 0, ChatFormatting.RED),

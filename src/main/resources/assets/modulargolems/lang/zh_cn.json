@@ -835,6 +835,7 @@
   "modulargolems.tooltip.no_take_upgrade": "此装配台无法取出升级",
   "modulargolems.tooltip.remove_template": "扩充模板不可移除",
   "modulargolems.tooltip.disintegrate": "分解傀儡",
+  "modulargolems.tooltip.disintegrate_hint": "左键分解为部件，右键分解为材料",
   "modulargolems.tooltip.return_items": "分解傀儡并返还下列物品:",
   "modulargolems.tooltip.return_many": "分解傀儡并返还%s个物品",
   "modulargolems.tooltip.fix_first": "分解前请先修复傀儡!",

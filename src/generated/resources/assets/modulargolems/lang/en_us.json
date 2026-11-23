@@ -951,6 +951,7 @@
   "modulargolems.tooltip.craft_material": "Golem crafting material",
   "modulargolems.tooltip.diff_stat": "Stat/Modifier Diff:",
   "modulargolems.tooltip.disintegrate": "Disassemble the Golem",
+  "modulargolems.tooltip.disintegrate_hint": "Left click: disassemble into parts. Right click: disassemble into materials.",
   "modulargolems.tooltip.fix_first": "Fix the golem before disassembly!",
   "modulargolems.tooltip.flamethrower": "Has 3 forms of attack depending on available ammunition:",
   "modulargolems.tooltip.flamethrower_firecharge": "- Shoots fire charge that causes explosion.",

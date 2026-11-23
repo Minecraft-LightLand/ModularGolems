@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.menu.table;
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2library.base.menu.base.PredSlot;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
+import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.core.GolemSlot;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.IGolemPart;
@@ -92,7 +93,7 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 
 	@Override
 	public boolean clickMenuButton(Player player, int id) {
-		if (id == 1) {
+		if (id == 1 || id == 2) {
 			if (simpleMode) return false;
 			var input = main.getItem();
 			if (!(input.getItem() instanceof GolemHolder<?, ?> holder)) return false;
@@ -111,8 +112,9 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 			if (!(inventory.player instanceof ServerPlayer sp))
 				return true;
 			changing = true;
+			boolean toMaterial = id == 2;
 			for (var e : partSlots)
-				e.set(e.partShadow);
+				e.set(toMaterial ? e.getMaterialShadow() : e.partShadow);
 			changing = false;
 			for (var e : main.dropList) {
 				returnToPlayer(e);
@@ -323,6 +325,22 @@ public class GolemDisintegrateMenu extends BaseContainerMenu<GolemDisintegrateMe
 		@Override
 		public boolean mayPlace(ItemStack stack) {
 			return super.mayPlace(stack) && isValid(main.getItem(), stack);
+		}
+
+		/** 右键拆解时，用该部件的材料物品代替部件物品（每种材料只产出 1 个）。 */
+		public ItemStack getMaterialShadow() {
+			if (!(main.getItem().getItem() instanceof GolemHolder<?, ?> holder)) return ItemStack.EMPTY;
+			var part = of(holder);
+			if (part == null) return ItemStack.EMPTY;
+			var list = GolemHolder.getMaterial(main.getItem());
+			if (part.ordinal() >= list.size()) return ItemStack.EMPTY;
+			var mat = list.get(part.ordinal());
+			var ing = GolemMaterialConfig.get().getCraftIngredient(mat.id());
+			var items = ing.getItems();
+			if (items.length == 0) return partShadow;
+			ItemStack ans = items[0].copy();
+			ans.setCount(1);
+			return ans;
 		}
 
 		/**

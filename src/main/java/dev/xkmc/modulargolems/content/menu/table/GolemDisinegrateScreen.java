@@ -54,7 +54,16 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 		this.addRenderableWidget(disintegrate = Button.builder(Component.empty(), (e) -> this.click(1))
 				.pos(leftPos + ref.x + 1, topPos + ref.y + 1).size(14, 14)
 				.build(b -> new SpriteButton(b, menu.sprite.get(),
-						"dissembly_on", "dissembly_down", "dissembly_ban")));
+						"dissembly_on", "dissembly_down", "dissembly_ban") {
+					@Override
+					public boolean mouseClicked(double mx, double my, int button) {
+						if (button == 1 && this.active && this.visible && this.clicked(mx, my)) {
+							GolemDisinegrateScreen.this.click(2);
+							return true;
+						}
+						return super.mouseClicked(mx, my, button);
+					}
+				}));
 	}
 
 	@Override
@@ -270,17 +279,17 @@ public class GolemDisinegrateScreen extends BaseContainerScreen<GolemDisintegrat
 				var list = menu.main.dropList;
 				if (list.isEmpty()) {
 					g.renderTooltip(font,
-							List.of(MGLangData.UI_DISINTEGRATE.get()),
+							List.of(MGLangData.UI_DISINTEGRATE.get(), MGLangData.UI_DISINTEGRATE_HINT.get()),
 							Optional.empty(),
 							ItemStack.EMPTY, x, y);
 				} else if (list.size() > 54) {
 					g.renderTooltip(font,
-							List.of(MGLangData.UI_RETURN_MANY.get(list.size())),
+							List.of(MGLangData.UI_RETURN_MANY.get(list.size()), MGLangData.UI_DISINTEGRATE_HINT.get()),
 							Optional.empty(),
 							ItemStack.EMPTY, x, y);
 				} else {
 					g.renderTooltip(font,
-							List.of(MGLangData.UI_RETURN_ITEMS.get()),
+							List.of(MGLangData.UI_RETURN_ITEMS.get(), MGLangData.UI_DISINTEGRATE_HINT.get()),
 							Optional.of(new ItemListTooltip(list)),
 							ItemStack.EMPTY, x, y);
 				}
