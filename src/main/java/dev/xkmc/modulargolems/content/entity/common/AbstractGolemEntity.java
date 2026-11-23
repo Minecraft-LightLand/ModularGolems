@@ -308,6 +308,10 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		if (!MGConfig.COMMON.barehandRetrieve.get() || !this.canModify(player)) return InteractionResult.FAIL;
 		if (player.getMainHandItem().isEmpty()) {
 			if (!level().isClientSide()) {
+				if (player instanceof net.minecraft.server.level.ServerPlayer sp
+						&& dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler.retrieveRiddenGroup(sp, sp, this, true)) {
+					return InteractionResult.SUCCESS;
+				}
 				this.unRide();
 
 				player.setItemSlot(EquipmentSlot.MAINHAND, toItem(player));

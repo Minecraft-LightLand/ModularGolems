@@ -928,6 +928,7 @@
   "modulargolems.tooltip.batch_on": "Batch Craft: ON (Shift-click crafts until materials are used up)",
   "modulargolems.tooltip.beacon_boots": "Heal and apply %s, %s to all nearby allies.",
   "modulargolems.tooltip.beacon_cannon": "Shoots beacon beam to inflict magic damage",
+  "modulargolems.tooltip.bound_golem": "Bound to: %s",
   "modulargolems.tooltip.bow_pierce": "Arrow pierces %s targets",
   "modulargolems.tooltip.bow_stiffness": "Bow Stiffness: %s",
   "modulargolems.tooltip.cataclysm.ancient_armor_sandstorm": "+%s %s movement speed, and %s and %s damage bypass enemy invulnerable frames",

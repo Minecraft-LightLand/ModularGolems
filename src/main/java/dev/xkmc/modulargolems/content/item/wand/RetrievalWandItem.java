@@ -5,6 +5,7 @@ import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.item.card.ConfigCard;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -47,6 +48,8 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 				return InteractionResultHolder.pass(stack);
 			}
 			boolean success = false;
+			// 先处理犬形，让它能带着所有骑手一起被绑定回收到物品。
+			list.sort(java.util.Comparator.comparingInt(e -> e instanceof DogGolemEntity ? 0 : 1));
 			for (var golem : list) {
 				success |= attemptRetrieve(level, user, golem);
 			}
@@ -66,9 +69,11 @@ public class RetrievalWandItem extends BaseWandItem implements GolemInteractItem
 	}
 
 	public static boolean attemptRetrieve(Level level, Player user, AbstractGolemEntity<?, ?> golem) {
+		if (golem.isRemoved()) return false;
 		if (!ConfigCard.getFilter(user).test(golem)) return false;
 		if (!golem.canWandModify(user)) return false;
 		if (!(user instanceof ServerPlayer sp)) return true;
+		if (GolemTransportHandler.retrieveRiddenGroup(sp, user, golem)) return true;
 		golem.unRide();
 		GolemTransportHandler.addGolemToPlayer(sp, golem.toItem(user), golem);
 		return true;

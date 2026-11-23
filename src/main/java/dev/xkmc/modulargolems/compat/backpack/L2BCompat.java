@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
+import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
@@ -58,6 +59,57 @@ public class L2BCompat {
 		}
 		list.removeIf(e -> !(e.getItem() instanceof WorldChestItem));
 		return list;
+	}
+
+	/**
+	 * 只取出仍然存在的绑定成员：玩家背包 / 末影箱 / 空间背包里的实际物品。
+	 * 已经丢到地上的不会出现在这里，因此不会被重复放出。
+	 */
+	@Nullable
+	public static ItemStack takeBondPartner(ServerPlayer player, java.util.UUID id, java.util.UUID itemId, ItemStack main) {
+		if (id == null || itemId == null) return null;
+		var inv = player.getInventory();
+		for (int i = 0; i < inv.getContainerSize(); i++) {
+			ItemStack stack = inv.getItem(i);
+			ItemStack found = takeBond(stack, id, itemId, main);
+			if (found != null) {
+				inv.setItem(i, ItemStack.EMPTY);
+				return found;
+			}
+		}
+		if (hasEnder(player)) {
+			var ender = player.getEnderChestInventory();
+			for (int i = 0; i < ender.getContainerSize(); i++) {
+				ItemStack stack = ender.getItem(i);
+				ItemStack found = takeBond(stack, id, itemId, main);
+				if (found != null) {
+					ender.setItem(i, ItemStack.EMPTY);
+					return found;
+				}
+			}
+		}
+		for (ItemStack stack : getAllContainers(player, hasEnder(player))) {
+			if (!(stack.getItem() instanceof WorldChestItem chest)) continue;
+			var opt = chest.getContainer(stack, player.serverLevel());
+			if (opt.isEmpty()) continue;
+			var cont = opt.get().container;
+			for (int i = 0; i < cont.getContainerSize(); i++) {
+				ItemStack found = takeBond(cont.getItem(i), id, itemId, main);
+				if (found != null) {
+					cont.setItem(i, ItemStack.EMPTY);
+					return found;
+				}
+			}
+		}
+		return null;
+	}
+
+	@Nullable
+	private static ItemStack takeBond(ItemStack stack, java.util.UUID id, java.util.UUID itemId, ItemStack main) {
+		if (stack == main || stack.isEmpty()) return null;
+		if (!id.equals(GolemHolder.getBondId(stack))) return null;
+		if (!itemId.equals(GolemHolder.getBondItemId(stack))) return null;
+		return stack.copy();
 	}
 
 	public static boolean addGolemToPlayer(ServerPlayer player, ItemStack golem, AbstractGolemEntity<?, ?> entity) {

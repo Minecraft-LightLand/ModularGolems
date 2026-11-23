@@ -18,6 +18,7 @@ public enum MGLangData {
 	UI_GOLEM_NAME("ui.golem_name", "Name", 0, null),
 	HEALTH("tooltip.health", "Health: %s/%s", 2, null),
 	SLOT("tooltip.slot", "Remaining Upgrade Slot: %s", 1, null),
+	BOUND_GOLEM("tooltip.bound_golem", "Bound to: %s", 1, ChatFormatting.GRAY),
 	SHIFT("tooltip.shift", "Press SHIFT to show modifier details", 0, ChatFormatting.GRAY),
 	POTION_ATTACK("tooltip.potion_attack", "Inflict %s to enemies attacking or attacked.", 1, ChatFormatting.GREEN),
 	POTION_DEFENSE("tooltip.potion_defense", "Golem gain %s.", 1, ChatFormatting.GREEN),

@@ -795,6 +795,7 @@
   "modulargolems.tooltip.form_appearance_final": "始终最终形态",
   "modulargolems.tooltip.form_appearance_follow": "跟随生命值变化",
   "modulargolems.tooltip.slot": "剩余升级槽: %s",
+  "modulargolems.tooltip.bound_golem": "已绑定：%s",
   "modulargolems.tooltip.meltdown": "熔锻: %s",
   "modulargolems.tooltip.shift": "按SHIFT显示技能细节",
   "modulargolems.tooltip.following": "傀儡会跟随玩家",

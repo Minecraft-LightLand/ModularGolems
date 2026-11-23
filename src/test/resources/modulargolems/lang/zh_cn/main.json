@@ -22,6 +22,7 @@
 			"form_appearance_final": "始终最终形态",
 			"form_appearance_follow": "跟随生命值变化",
 			"slot": "剩余升级槽: %s",
+			"bound_golem": "已绑定：%s",
 			"meltdown": "熔锻: %s",
 			"shift": "按SHIFT显示技能细节",
 			"following": "傀儡会跟随玩家",

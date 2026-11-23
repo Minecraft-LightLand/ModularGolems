@@ -13,6 +13,7 @@ import dev.xkmc.modulargolems.content.core.IGolemPart;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.upgrade.IUpgradeItem;
+import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.item.upgrade.UpgradeSort;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.init.data.MGLangData;
@@ -72,7 +73,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			KEY_EQUIPMENTS = "golem_equipments",
 			KEY_DISPLAY = "golem_display",
 			KEY_ICON = "golem_icon",
-			KEY_CONFIG = "golem_config";
+			KEY_CONFIG = "golem_config",
+			KEY_BOND = "golem_bond",
+			KEY_BONDS = "golem_bonds",
+			KEY_BOND_ID = "golem_bond_id",
+			KEY_BOND_ITEM_ID = "golem_bond_item_id";
 	public static final String KEY_PART = "part", KEY_MAT = "material";
 
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
@@ -207,6 +212,50 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 		var name = entity.getCustomName();
 		if (name != null) stack.setHoverName(name);
 		return stack;
+	}
+
+	public static void setBonds(ItemStack stack, List<ItemStack> others, java.util.UUID id) {
+		CompoundTag tag = stack.getOrCreateTag();
+		ListTag list = new ListTag();
+		for (ItemStack other : others) list.add(other.save(new CompoundTag()));
+		tag.put(KEY_BONDS, list);
+		tag.putUUID(KEY_BOND_ID, id);
+	}
+
+	public static List<ItemStack> getBonds(ItemStack stack) {
+		List<ItemStack> ans = new ArrayList<>();
+		CompoundTag tag = stack.getTag();
+		if (tag == null) return ans;
+		if (tag.contains(KEY_BONDS, Tag.TAG_LIST)) {
+			ListTag list = tag.getList(KEY_BONDS, Tag.TAG_COMPOUND);
+			for (int i = 0; i < list.size(); i++) ans.add(ItemStack.of(list.getCompound(i)));
+		} else if (tag.contains(KEY_BOND, Tag.TAG_COMPOUND)) {
+			// 兼容旧的单绑定数据
+			ans.add(ItemStack.of(tag.getCompound(KEY_BOND)));
+		}
+		return ans;
+	}
+
+	public static java.util.UUID getBondId(ItemStack stack) {
+		CompoundTag tag = stack.getTag();
+		return tag != null && tag.hasUUID(KEY_BOND_ID) ? tag.getUUID(KEY_BOND_ID) : null;
+	}
+
+	public static java.util.UUID getBondItemId(ItemStack stack) {
+		CompoundTag tag = stack.getTag();
+		return tag != null && tag.hasUUID(KEY_BOND_ITEM_ID) ? tag.getUUID(KEY_BOND_ITEM_ID) : null;
+	}
+
+	public static void setBondItemId(ItemStack stack, java.util.UUID id) {
+		stack.getOrCreateTag().putUUID(KEY_BOND_ITEM_ID, id);
+	}
+
+	public static void clearBound(ItemStack stack) {
+		CompoundTag tag = stack.getTag();
+		if (tag != null) {
+			tag.remove(KEY_BOND);
+			tag.remove(KEY_BOND_ID);
+		}
 	}
 
 	public static float getHealth(ItemStack stack) {
@@ -431,6 +480,11 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				list.addAll(k.getDetail(v));
 			}
 		}
+		for (ItemStack bound : getBonds(stack)) {
+			if (!bound.isEmpty()) {
+				list.add(MGLangData.BOUND_GOLEM.get(bound.getHoverName()).withStyle(ChatFormatting.GRAY));
+			}
+		}
 	}
 
 	@Override
@@ -503,6 +557,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 	public boolean summon(ItemStack stack, Level level, Vec3 pos, @Nullable Player player, @Nullable Consumer<AbstractGolemEntity<?, ?>> callback) {
 		CompoundTag root = stack.getTag();
 		if (root == null) return false;
+		List<ItemStack> bounds = getBonds(stack);
+		java.util.UUID bondId = getBondId(stack);
 		if (root.contains(KEY_ENTITY) && getMaxHealth(stack) >= 0) {
 			if (getHealth(stack) <= 0)
 				return false;
@@ -524,6 +580,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				if (callback != null) {
 					callback.accept(golem);
 				}
+				summonBound(stack, bounds, level, player, golem, bondId);
 			}
 			return true;
 		}
@@ -546,10 +603,40 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				if (callback != null) {
 					callback.accept(golem);
 				}
+				summonBound(stack, bounds, level, player, golem, bondId);
 			}
 			return true;
 		}
 		return false;
+	}
+
+	private static void summonBound(ItemStack main, List<ItemStack> bounds, Level level, @Nullable Player player,
+									AbstractGolemEntity<?, ?> mainGolem, @Nullable java.util.UUID bondId) {
+		clearBound(main);
+		if (bounds.isEmpty() || level.isClientSide()) return;
+		List<AbstractGolemEntity<?, ?>> spawned = new ArrayList<>();
+		spawned.add(mainGolem);
+		for (ItemStack bound : bounds) {
+			ItemStack actual = player == null ? bound.copy()
+					: GolemTransportHandler.takeBondItem(player, bondId, getBondItemId(bound), main);
+			if (actual.isEmpty()) continue;
+			clearBound(actual);
+			if (actual.getItem() instanceof GolemHolder<?, ?> holder) {
+				holder.summon(actual, level, mainGolem.position(), player, spawned::add);
+			}
+		}
+		AbstractGolemEntity<?, ?> dog = null;
+		for (var e : spawned) {
+			if (e instanceof dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity d) {
+				dog = d;
+				break;
+			}
+		}
+		if (dog != null) {
+			for (var e : spawned) {
+				if (e != dog) e.startRiding(dog);
+			}
+		}
 	}
 
 	@Nullable
