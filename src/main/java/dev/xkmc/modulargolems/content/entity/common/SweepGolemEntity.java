@@ -11,7 +11,6 @@ import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemUser;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponManager;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
-import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -31,18 +30,8 @@ import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
 import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.common.CommonHooks;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.wrapper.EntityArmorInvWrapper;
-import net.neoforged.neoforge.items.wrapper.EntityHandsInvWrapper;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
 
 @SerialClass
 public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P extends IGolemPart<P>> extends AbstractGolemEntity<T, P>
@@ -215,21 +204,6 @@ public abstract class SweepGolemEntity<T extends SweepGolemEntity<T, P>, P exten
 	@Override
 	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
 		super.dropCustomDeathLoot(level, source, player);
-	}
-
-
-	@Override
-	public List<IItemHandlerModifiable> aggregateInventories() {
-		var ans = new ArrayList<IItemHandlerModifiable>();
-		ans.add(new EntityHandsInvWrapper(this));
-		ans.add(new EntityArmorInvWrapper(this));
-		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
-		return ans;
-	}
-
-	@Override
-	public void addItemsToList(List<ItemStack> list) {
-		super.addItemsToList(list);
 	}
 
 }

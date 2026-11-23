@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.content.entity.metalgolem;
 
-import dev.xkmc.l2core.init.reg.ench.EnchHelper;
 import dev.xkmc.l2serial.serialization.marker.SerialClass;
 import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.mob_weapon_api.api.ai.ItemWrapper;
@@ -8,8 +7,8 @@ import dev.xkmc.modulargolems.content.config.GolemMaterialConfig;
 import dev.xkmc.modulargolems.content.entity.common.IShoulderWeaponSupportEntity;
 import dev.xkmc.modulargolems.content.entity.common.SweepGolemEntity;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
-import dev.xkmc.modulargolems.content.entity.humanoid.SlotWrapper;
 import dev.xkmc.modulargolems.content.entity.humanoid.weapon.GolemWeaponRegistry;
+import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
 import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
@@ -43,7 +42,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.NaturalSpawner;
@@ -52,10 +50,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.joml.Vector3f;
 
-import java.util.List;
 
 @SerialClass
 public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGolemPartType>
@@ -67,8 +63,10 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	@SerialField
 	private ItemStack leftShoulder = ItemStack.EMPTY;
+	private final ExtraSlot leftShoulderHandler = registerExtraSlot(LEFT_SHOULDER, () -> leftShoulder, e -> leftShoulder = e);
 	@SerialField
 	private ItemStack rightShoulder = ItemStack.EMPTY;
+	private final ExtraSlot rightShoulderHandler = registerExtraSlot(RIGHT_SHOULDER, () -> rightShoulder, e -> rightShoulder = e);
 
 	@SerialField
 	public final TargetingAnimState animState = new TargetingAnimState();
@@ -284,12 +282,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 			var center = target.position().add(0, target.getBbHeight() / 2, 0);
 			entityData.set(TARGET, center.subtract(position()).toVector3f());
 		}
-		if (!ItemStack.matches(entityData.get(LEFT_SHOULDER), leftShoulder)) {
-			entityData.set(LEFT_SHOULDER, leftShoulder.copy());
-		}
-		if (!ItemStack.matches(entityData.get(RIGHT_SHOULDER), rightShoulder)) {
-			entityData.set(RIGHT_SHOULDER, rightShoulder.copy());
-		}
 	}
 
 	public Vec3 getTargetAimPos() {
@@ -312,36 +304,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	@Override
-	protected void dropCustomDeathLoot(ServerLevel level, DamageSource source, boolean player) {
-		super.dropCustomDeathLoot(level, source, player);
-		if (!leftShoulder.isEmpty() && EnchHelper.getLv(leftShoulder, Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(leftShoulder);
-		leftShoulder = ItemStack.EMPTY;
-		if (!rightShoulder.isEmpty() && EnchHelper.getLv(rightShoulder, Enchantments.VANISHING_CURSE) <= 0)
-			spawnAtLocation(rightShoulder);
-		rightShoulder = ItemStack.EMPTY;
-	}
-
-	@Override
-	public List<IItemHandlerModifiable> aggregateInventories() {
-		var ans = super.aggregateInventories();
-		ans.add(new SlotWrapper(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e)));
-		ans.add(new SlotWrapper(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e)));
-		return ans;
-	}
-
-	@Override
-	public void addItemsToList(List<ItemStack> list) {
-		super.addItemsToList(list);
-		var left = leftShoulder;
-		if (!left.isEmpty())
-			list.add(left);
-		var right = rightShoulder;
-		if (!right.isEmpty())
-			list.add(right);
-	}
-
-	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 		// Legacy
@@ -354,15 +316,11 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	public ItemWrapper getLeftShoulder() {
-		if (isAddedToLevel() && level().isClientSide())
-			return ItemWrapper.simple(() -> entityData.get(LEFT_SHOULDER), e -> entityData.set(LEFT_SHOULDER, e));
-		return ItemWrapper.simple(() -> leftShoulder, e -> leftShoulder = e);
+		return leftShoulderHandler.wrapper();
 	}
 
 	public ItemWrapper getRightShoulder() {
-		if (isAddedToLevel() && level().isClientSide())
-			return ItemWrapper.simple(() -> entityData.get(RIGHT_SHOULDER), e -> entityData.set(RIGHT_SHOULDER, e));
-		return ItemWrapper.simple(() -> rightShoulder, e -> rightShoulder = e);
+		return rightShoulderHandler.wrapper();
 	}
 
 	public boolean shouldHurtWeapon(ItemStack stack) {

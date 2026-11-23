@@ -37,7 +37,6 @@ import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.content.item.wand.GolemTransportHandler;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import dev.xkmc.modulargolems.events.event.GolemCollectInventoryEvent;
 import dev.xkmc.modulargolems.events.event.GolemToOwnerEvent;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.advancement.GolemTriggers;
@@ -96,14 +95,11 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.wrapper.CombinedInvWrapper;
-import net.neoforged.neoforge.items.wrapper.EntityArmorInvWrapper;
-import net.neoforged.neoforge.items.wrapper.EntityHandsInvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -1246,15 +1242,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		super.setPosRaw(x, y, z);
 	}
 
-	public List<IItemHandlerModifiable> aggregateInventories() {
-		var ans = new ArrayList<IItemHandlerModifiable>();
-		ans.add(new EntityHandsInvWrapper(this));
-		ans.add(new EntityArmorInvWrapper(this));
-		aggregateExtraSlots(ans);
-		NeoForge.EVENT_BUS.post(new GolemCollectInventoryEvent(this, ans));
-		return ans;
-	}
-
 	public IItemHandler getItemHandler() {
 		return new CombinedInvWrapper(aggregateInventories().toArray(new IItemHandlerModifiable[0]));
 	}
@@ -1265,14 +1252,6 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public boolean hasRangeAttack() {
 		return false;
-	}
-
-	public void addItemsToList(List<ItemStack> list) {
-		for (var e : EquipmentSlot.values()) {
-			var item = getItemBySlot(e);
-			if (!item.isEmpty())
-				list.add(item);
-		}
 	}
 
 	@Override
