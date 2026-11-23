@@ -15,4 +15,17 @@ public interface ICooldownSkill {
 		return null;
 	}
 
+	/** 用于在回收/放置之间保存冷却的稳定键。 */
+	default String getCooldownSaveKey() {
+		String key = getCooldownNameKey();
+		return key != null ? key : getClass().getName();
+	}
+
+	/**
+	 * 把剩余冷却恢复成 ticks。只有把冷却存在"运行时字段"里的技能需要覆写；
+	 * 存在 persistentData 时间戳里的技能默认不用做任何事。
+	 */
+	default void setRemainingCooldown(AbstractGolemEntity<?, ?> golem, int ticks) {
+	}
+
 }

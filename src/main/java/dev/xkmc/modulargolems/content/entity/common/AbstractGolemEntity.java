@@ -340,6 +340,8 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		untrack(player == getOwner() ? GolemTracker.Status.RETRIEVED : GolemTracker.Status.OTHER_RETRIEVED, player);
 		unRide();
 		var ans = GolemHolder.setEntity(getThis());
+		// 回收时把还在冷却的技能剩余时间写进物品，放置时再恢复，避免收起再放就白跑冷却
+		GolemHolder.setCooldowns(ans, buildCooldownTag());
 		level().broadcastEntityEvent(this, EntityEvent.POOF);
 		this.discard();
 		return ans;

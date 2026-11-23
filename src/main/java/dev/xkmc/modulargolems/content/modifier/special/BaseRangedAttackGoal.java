@@ -136,6 +136,11 @@ public abstract class BaseRangedAttackGoal extends Goal implements ICooldownSkil
 		return getCooldownRemaining();
 	}
 
+	@Override
+	public void setRemainingCooldown(AbstractGolemEntity<?, ?> golem, int ticks) {
+		this.attackTime = golem.level().getGameTime() + Math.max(0, ticks);
+	}
+
 	public BaseRangedAttackGoal withName(String key) {
 		this.cooldownNameKey = key;
 		return this;

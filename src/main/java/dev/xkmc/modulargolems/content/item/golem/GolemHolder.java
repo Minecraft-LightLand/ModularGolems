@@ -77,7 +77,8 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 			KEY_BOND = "golem_bond",
 			KEY_BONDS = "golem_bonds",
 			KEY_BOND_ID = "golem_bond_id",
-			KEY_BOND_ITEM_ID = "golem_bond_item_id";
+			KEY_BOND_ITEM_ID = "golem_bond_item_id",
+			KEY_COOLDOWNS = "golem_cooldowns";
 	public static final String KEY_PART = "part", KEY_MAT = "material";
 
 	public static ArrayList<GolemMaterial> getMaterial(ItemStack stack) {
@@ -262,6 +263,18 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 
 	public static void setBondItemId(ItemStack stack, java.util.UUID id) {
 		stack.getOrCreateTag().putUUID(KEY_BOND_ITEM_ID, id);
+	}
+
+	/** 回收时把各技能剩余冷却写进物品，放置时再恢复。 */
+	public static void setCooldowns(ItemStack stack, CompoundTag cd) {
+		if (cd == null || cd.isEmpty()) return;
+		stack.getOrCreateTag().put(KEY_COOLDOWNS, cd.copy());
+	}
+
+	public static CompoundTag getCooldowns(ItemStack stack) {
+		var tag = stack.getTag();
+		return tag != null && tag.contains(KEY_COOLDOWNS, Tag.TAG_COMPOUND)
+				? tag.getCompound(KEY_COOLDOWNS) : new CompoundTag();
 	}
 
 	public static void clearBound(ItemStack stack) {
@@ -598,6 +611,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				if (!golem.initMode(player)) {
 					return false;
 				}
+				golem.applyCooldowns(getCooldowns(stack));
 				level.addFreshEntity(golem);
 				stack.removeTagKey(KEY_ENTITY);
 				stack.shrink(1);
@@ -622,6 +636,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				if (!golem.initMode(player)) {
 					return false;
 				}
+				golem.applyCooldowns(getCooldowns(stack));
 				level.addFreshEntity(golem);
 				stack.shrink(1);
 				if (callback != null) {
