@@ -305,7 +305,7 @@ public class RecipeGen {
 
 		// shoulder saddle
 		{
-			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.SHOULDER_SADDLE.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.GOLEM_SADDLE.get())::unlockedBy, GolemItems.GOLEM_TEMPLATE.get())
 					.requires(GolemItems.GOLEM_TEMPLATE.get())
 					.requires(Items.SADDLE)
 					.save(pvd);

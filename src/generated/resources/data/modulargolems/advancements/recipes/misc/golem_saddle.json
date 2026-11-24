@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "modulargolems:shoulder_saddle"
+        "recipe": "modulargolems:golem_saddle"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "modulargolems:shoulder_saddle"
+      "modulargolems:golem_saddle"
     ]
   },
   "sends_telemetry_event": false

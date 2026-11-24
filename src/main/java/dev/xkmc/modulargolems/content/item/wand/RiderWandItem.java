@@ -89,7 +89,7 @@ public class RiderWandItem extends BaseWandItem implements GolemInteractItem, IG
 			return true;
 		}
 		if (golem instanceof MetalGolemEntity metal) {
-			if (!metal.hasShoulderSaddle()) return false;
+			if (!metal.hasGolemSaddle()) return false;
 			user.startRiding(metal, false);
 			return true;
 		}

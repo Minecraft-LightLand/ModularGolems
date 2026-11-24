@@ -674,7 +674,7 @@ public class GolemHolder<T extends AbstractGolemEntity<T, P>, P extends IGolemPa
 				break;
 			}
 			if (e instanceof dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity metal
-					&& metal.hasShoulderSaddle()) {
+					&& metal.hasGolemSaddle()) {
 				mount = e;
 			}
 		}

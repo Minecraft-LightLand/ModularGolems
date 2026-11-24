@@ -206,9 +206,9 @@ public class GolemEquipmentModels {
 		regAndAdd(event, FlameThrowerModel.FLAME_RIGHT, FlameThrowerModel::rightLayer);
 		regAndAdd(event, FlameThrowerModel.FLAME_LEFT, FlameThrowerModel::leftLayer);
 
-		regAndAdd(event, ShoulderSaddleModel.RIGHT_LAYER, ShoulderSaddleModel::createRightLayer);
-		regAndAdd(event, ShoulderSaddleModel.LEFT_LAYER, ShoulderSaddleModel::createLeftLayer);
-		regAndAdd(event, ShoulderSaddleModel.FULL_LAYER, ShoulderSaddleModel::createFullLayer);
+		regAndAdd(event, GolemSaddleModel.RIGHT_LAYER, GolemSaddleModel::createRightLayer);
+		regAndAdd(event, GolemSaddleModel.LEFT_LAYER, GolemSaddleModel::createLeftLayer);
+		regAndAdd(event, GolemSaddleModel.FULL_LAYER, GolemSaddleModel::createFullLayer);
 	}
 
 	public static synchronized void regAndAdd(EntityRenderersEvent.RegisterLayerDefinitions event, ModelLayerLocation layer, Supplier<LayerDefinition> factory) {

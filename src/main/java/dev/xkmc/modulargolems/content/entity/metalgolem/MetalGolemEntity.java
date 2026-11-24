@@ -14,7 +14,7 @@ import dev.xkmc.modulargolems.content.item.equipments.CustomSweepBoxWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.ExtraAttackGolemWeapon;
 import dev.xkmc.modulargolems.content.item.equipments.IAttackListenerWeapon;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
-import dev.xkmc.modulargolems.content.item.ranged.ShoulderSaddleItem;
+import dev.xkmc.modulargolems.content.item.ranged.GolemSaddleItem;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -291,9 +291,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return -getBbHeight() * 0.26 + 0.27;
 	}
 
-	public boolean hasShoulderSaddle() {
-		return getLeftShoulder().getItem().getItem() instanceof ShoulderSaddleItem
-				|| getRightShoulder().getItem().getItem() instanceof ShoulderSaddleItem;
+	public boolean hasGolemSaddle() {
+		return getLeftShoulder().getItem().getItem() instanceof GolemSaddleItem
+				|| getRightShoulder().getItem().getItem() instanceof GolemSaddleItem;
 	}
 
 	/** 体型越大，单个肩鞍能坐的人越多；左右肩各算一个肩鞍。 */
@@ -302,7 +302,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 	}
 
 	private int saddleSeats(ItemStack stack) {
-		return stack.getItem() instanceof ShoulderSaddleItem ? Math.max(1, Math.round(getScale())) : 0;
+		return stack.getItem() instanceof GolemSaddleItem ? Math.max(1, Math.round(getScale())) : 0;
 	}
 
 	/**
@@ -333,7 +333,7 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	@Override
 	public boolean canAddPassenger(Entity rider) {
-		if (!hasShoulderSaddle()) return false;
+		if (!hasGolemSaddle()) return false;
 		if (!(rider instanceof Player) && !(rider instanceof AbstractGolemEntity<?, ?>)) return false;
 		return getPassengers().size() < getSaddleSeats();
 	}

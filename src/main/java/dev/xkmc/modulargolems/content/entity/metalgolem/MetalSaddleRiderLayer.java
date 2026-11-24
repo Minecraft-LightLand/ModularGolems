@@ -46,7 +46,7 @@ public class MetalSaddleRiderLayer extends RenderLayer<MetalGolemEntity, MetalGo
 	@Override
 	public void render(PoseStack pose, MultiBufferSource buffer, int light, MetalGolemEntity golem,
 					   float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (golem.getPassengers().isEmpty() || !golem.hasShoulderSaddle()) return;
+		if (golem.getPassengers().isEmpty() || !golem.hasGolemSaddle()) return;
 		float scale = golem.getScale();
 		if (scale <= 0) return;
 		for (Entity passenger : golem.getPassengers()) {

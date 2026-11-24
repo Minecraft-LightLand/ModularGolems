@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "modulargolems:item/equipments/shoulder_saddle"
+    "layer0": "modulargolems:item/equipments/golem_saddle"
   }
 }

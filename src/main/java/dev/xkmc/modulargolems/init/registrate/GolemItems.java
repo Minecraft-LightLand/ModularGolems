@@ -97,7 +97,7 @@ public class GolemItems {
 	public static final ItemEntry<SonicCannonItem> SONIC_CANNON;
 	public static final ItemEntry<BeaconCannonItem> BEACON_CANNON;
 	public static final ItemEntry<FlameThrowerItem> FLAME_THROWER;
-	public static final ItemEntry<ShoulderSaddleItem> SHOULDER_SADDLE;
+	public static final ItemEntry<GolemSaddleItem> GOLEM_SADDLE;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
 	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
 	public static final ItemEntry<ConfigCard>[] CARD;
@@ -266,10 +266,10 @@ public class GolemItems {
 			FLAME_THROWER = REGISTRATE.item("flame_thrower", p -> new FlameThrowerItem(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
-			SHOULDER_SADDLE = REGISTRATE.item("shoulder_saddle", p -> new ShoulderSaddleItem(p.stacksTo(1)))
+			GOLEM_SADDLE = REGISTRATE.item("golem_saddle", p -> new GolemSaddleItem(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM)
-					.lang("Shoulder Saddle").register();
+					.lang("Golem Saddle").register();
 		}
 
 		// cards

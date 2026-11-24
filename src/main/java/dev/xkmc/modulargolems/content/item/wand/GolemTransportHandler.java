@@ -47,7 +47,7 @@ public class GolemTransportHandler {
 			mount = dog;
 		} else if (golem instanceof MetalGolemEntity metal) {
 			// 肩鞍已经取下来时不能整组回收，走普通回收
-			if (!metal.hasShoulderSaddle()) return false;
+			if (!metal.hasGolemSaddle()) return false;
 			mount = metal;
 		} else {
 			return false;
