@@ -26,7 +26,8 @@
 		"SoulTridentTextureMixin",
 		"SoulPillarExplosionEntityAppearanceMixin",
 		"ItemTickableSoundMixin",
-		"RaygunGunOffsetMixin"
+		"RaygunGunOffsetMixin",
+		"GolemRideCameraMixin"
 	],
 	"injectors": {
 		"defaultRequire": 0
