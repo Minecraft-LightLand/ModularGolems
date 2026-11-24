@@ -20,8 +20,6 @@
 	],
 	"client": [
 		"ScreenMixin",
-		"SoulTridentTextureMixin",
-		"SoulPillarExplosionEntityAppearanceMixin",
 		"ItemTickableSoundMixin",
 		"RaygunGunOffsetMixin"
 	],

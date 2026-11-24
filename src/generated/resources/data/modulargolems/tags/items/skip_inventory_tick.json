@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "alexscaves:galena_gauntlet",
+      "required": false
+    },
+    {
+      "id": "alexscaves:raygun",
+      "required": false
+    }
+  ]
+}

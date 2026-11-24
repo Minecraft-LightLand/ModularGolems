@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.alexscaves;
 
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
@@ -92,6 +93,9 @@ public class ACCompatRegistry {
 	}
 
 	public static void register() {
+		MGTagGen.OPTIONAL_ITEM.add(e -> e.addTag(MGTagGen.SKIP_INVENTORY_TICK)
+				.addOptional(ACItemRegistry.GALENA_GAUNTLET.getId())
+				.addOptional(ACItemRegistry.RAYGUN.getId()));
 		if (ModList.get().isLoaded(L2Complements.MODID)) {
 			MGTagGen.OPTIONAL_EFF.add(e -> e.addTag(TagGen.SKILL_EFFECT)
 					.addOptional(EFF_ATOMIC.getId()));

@@ -1,6 +1,7 @@
 package dev.xkmc.modulargolems.content.entity.impl;
 
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.MGTagGen;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
@@ -85,7 +86,7 @@ public interface GolemUseItemImpl extends TransientStateContainer.View {
 			//   · 方铅护手：手指动画幅度 {@code openAmount = UseTime/5} 乱跳 → 模型抖动。
 			// 射线枪由 {@code ACDispatch#settleRenderedUseTime} 独占推进（每 tick 对齐两值）；
 			// 方铅护手由服务端 {@code ACDispatch#tickGauntletUseTime} 独占推进，客户端只读。
-			if (!GolemUseItemHook.SKIP_INVENTORY_TICK.test(stack)) {
+			if (!stack.is(MGTagGen.SKIP_INVENTORY_TICK)) {
 				stack.getItem().inventoryTick(stack, golem.level(), golem, 0, true);
 			}
 		} else if (getClientWasUsing()) {
@@ -96,6 +97,8 @@ public interface GolemUseItemImpl extends TransientStateContainer.View {
 			}
 		}
 		setClientWasUsing(using);
-		GolemUseItemHook.POST_TICK.accept(golem);
+		for (GolemUseItemHook.Handler handler : GolemUseItemHook.HANDLERS) {
+			handler.onItemUsePoseTick(golem);
+		}
 	}
 }

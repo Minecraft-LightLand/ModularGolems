@@ -56,6 +56,7 @@ public class MGTagGen {
 	public static final TagKey<Item> LARGE_GOLEM_WEAPONS = createItemTag("large_golem_weapons");
 	public static final TagKey<Item> SHIELD_BREAKER_WEAPONS = createItemTag("shield_breaker_weapons");
 	public static final TagKey<Item> GOLEM_DAMAGEABLE = createItemTag("golem_damageable");
+	public static final TagKey<Item> SKIP_INVENTORY_TICK = createItemTag("skip_inventory_tick");
 	public static final TagKey<EntityType<?>> GOLEM = createEntityTag("golems");
 	public static final TagKey<EntityType<?>> GOLEM_FRIENDLY = createEntityTag("friendly");
 	public static final TagKey<EntityType<?>> SHIELD_BREAKER = createEntityTag("shield_breaker");
@@ -83,6 +84,7 @@ public class MGTagGen {
 		pvd.addTag(SCULK_MATS).add(Items.ECHO_SHARD);
 		pvd.addTag(SPECIAL_CRAFT);
 		pvd.addTag(GOLEM_DAMAGEABLE);
+		pvd.addTag(SKIP_INVENTORY_TICK);
 		pvd.addTag(GOLEM_PARTS).addTag(GENERIC_PARTS);
 		pvd.addTag(ANVIL_CRAFT).addTag(GENERIC_PARTS);
 		pvd.addTag(GOLEM_INTERACT).addTag(CONFIG_CARD).addTag(GOLEM_HOLDERS);
