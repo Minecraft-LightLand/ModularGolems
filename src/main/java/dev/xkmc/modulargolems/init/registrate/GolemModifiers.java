@@ -51,6 +51,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<AddSlotModifier> ADD_SLOT;
 	public static final RegistryEntry<AddSlotModifier> DIAMOND_ADD, NETHERITE_ADD;
 	public static final RegistryEntry<DynamicReductionModifier> DYNAMIC_REDUCTION;
+	public static final RegistryEntry<EmergencyEscapeModifier> EMERGENCY_ESCAPE;
 
 
 	static {
@@ -148,6 +149,10 @@ public class GolemModifiers {
 				"Armor Penetration", "Attack has %s chance to bypass armor and shields");
 		DYNAMIC_REDUCTION = reg("dynamic_reduction", DynamicReductionModifier::new,
 				"Dynamic Reduction","Golem can only take damage of %s max health per period of time");
+
+		EMERGENCY_ESCAPE = reg("emergency_escape", () -> new EmergencyEscapeModifier(StatFilterType.HEALTH, 9),
+				"Emergency Escape",
+				"When health drops below %s of max health, highlights itself and teleports to the owner after %s seconds. Only the first upgrade consumes an upgrade slot.");
 
 	}
 

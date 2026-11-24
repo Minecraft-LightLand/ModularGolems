@@ -36,6 +36,8 @@
 		}
 	},
 	"modifier.modulargolems": {
+		"emergency_escape": "紧急避险",
+		"emergency_escape.desc": "当生命值低于上限的%s时，高亮自身并在%s秒后传送至所有者位置。仅首个升级消耗升级槽",
 		"fire_immune": "火焰免疫",
 		"fire_immune.desc": "免疫火焰伤害，可浮在熔岩表面",
 		"thunder_immune": "闪电免疫",

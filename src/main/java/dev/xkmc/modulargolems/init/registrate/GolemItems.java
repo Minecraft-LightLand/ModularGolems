@@ -76,7 +76,8 @@ public class GolemItems {
 
 	public static final ItemEntry<SimpleUpgradeItem> FIRE_IMMUNE, THUNDER_IMMUNE, RECYCLE, DIAMOND, NETHERITE, QUARTZ,
 			GOLD, ENCHANTED_GOLD, FLOAT, SPONGE, SWIM, PLAYER_IMMUNE, ENDER_SIGHT, BELL, SPEED, SLOW, WEAK, WITHER,
-			EMERALD, PICKUP, PICKUP_MENDING, PICKUP_NO_DESTROY, TALENTED, CAULDRON, MOUNT_UPGRADE, SIZE_UPGRADE;
+			EMERALD, PICKUP, PICKUP_MENDING, PICKUP_NO_DESTROY, TALENTED, CAULDRON, MOUNT_UPGRADE, SIZE_UPGRADE,
+			EMERGENCY_ESCAPE;
 
 	public static final ItemEntry<RetrievalWandItem> RETRIEVAL_WAND, OMNI_RETRIVAL;
 	public static final ItemEntry<CommandWandItem> COMMAND_WAND, OMNI_COMMAND;
@@ -338,6 +339,7 @@ public class GolemItems {
 			CAULDRON = regUpgrade("cauldron", () -> GolemModifiers.CAULDRON).lang("Meta Upgrade: Cauldron").register();
 			MOUNT_UPGRADE = regUpgrade("mount_upgrade", () -> GolemModifiers.MOUNT_UPGRADE).lang("Mount Upgrade").register();
 			SIZE_UPGRADE = regUpgrade("size_upgrade", () -> GolemModifiers.SIZE_UPGRADE).lang("Size Upgrade").register();
+			EMERGENCY_ESCAPE = regUpgrade("comparator", () -> GolemModifiers.EMERGENCY_ESCAPE).lang("Comparator Upgrade").register();
 
 		}
 		CompatManager.register();

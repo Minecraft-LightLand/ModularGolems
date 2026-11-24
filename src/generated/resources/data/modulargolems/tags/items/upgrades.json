@@ -26,6 +26,7 @@
     "modulargolems:cauldron",
     "modulargolems:mount_upgrade",
     "modulargolems:size_upgrade",
+    "modulargolems:comparator",
     {
       "id": "modulargolems:carminite",
       "required": false

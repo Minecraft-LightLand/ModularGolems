@@ -555,6 +555,10 @@ public class RecipeGen {
 					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.ENCHANTED_GOLDEN_APPLE)
 					.save(pvd);
 
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.EMERGENCY_ESCAPE.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.COMPARATOR)
+					.save(pvd);
+
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.FLOAT.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
 					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(ItemTags.BOATS)
 					.save(pvd);
