@@ -40,7 +40,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * 一个注解只有一个 remap 属性，冲突时必然有一侧在正式环境静默失效）。
  */
 @Pseudo
-@Mixin(SeekingArrowEntity.class)
+@Mixin(targets = "com.github.alexmodguy.alexscaves.server.entity.item.SeekingArrowEntity")
 public class SeekingArrowAllyMixin {
 
 	@Shadow(remap = false)

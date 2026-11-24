@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * 这里对傀儡去掉 {@code isUsingItem()} 这一条，其余（静音、手持物品匹配）保持不变。
  */
 @Pseudo
-@Mixin(ItemTickableSound.class)
+@Mixin(targets = "com.github.alexmodguy.alexscaves.client.sound.ItemTickableSound")
 public class ItemTickableSoundMixin {
 
 	@Shadow

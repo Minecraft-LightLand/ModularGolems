@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Pseudo
-@Mixin(EntityAxeAttack.class)
+@Mixin(targets = "com.bobmowzie.mowziesmobs.server.entity.effects.EntityAxeAttack")
 public class EntityAxeAttackMixin {
 
 	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lcom/bobmowzie/mowziesmobs/server/entity/effects/EntityAxeAttack;dealDamage(FFFF)V"), require = 0)

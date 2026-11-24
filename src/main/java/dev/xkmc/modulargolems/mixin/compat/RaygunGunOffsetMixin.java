@@ -1,6 +1,5 @@
 package dev.xkmc.modulargolems.mixin.compat;
 
-import com.github.alexmodguy.alexscaves.client.render.item.RaygunRenderHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * 只改返回值、不改渲染流程：发光后处理、贴图、双 pass 仍全部走 AC 原版。
  */
 @Pseudo
-@Mixin(RaygunRenderHelper.class)
+@Mixin(targets = "com.github.alexmodguy.alexscaves.client.render.item.RaygunRenderHelper")
 public class RaygunGunOffsetMixin {
 
 	@Inject(method = "getGunOffset", at = @At("RETURN"), remap = false, require = 0, cancellable = true)
