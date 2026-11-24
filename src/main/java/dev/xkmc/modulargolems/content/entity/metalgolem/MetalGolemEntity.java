@@ -303,11 +303,6 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		return left + right + (left > 0 && right > 0 ? 1 : 0);
 	}
 
-	/** 两个肩鞍都在时中间那个"站立位"座位。 */
-	private boolean hasCenterSeat() {
-		return saddleSeats(getLeftShoulder().getItem()) > 0 && saddleSeats(getRightShoulder().getItem()) > 0;
-	}
-
 	private int saddleSeats(ItemStack stack) {
 		// 体型升级后单个肩鞍也要能多坐人：用 ceil，避免 round 在体型刚过 1 时仍算 1。
 		return stack.getItem() instanceof GolemSaddleItem ? Math.max(1, (int) Math.ceil(getScale() - 1e-4)) : 0;
