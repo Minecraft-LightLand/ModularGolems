@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.content.menu.equipment;
 
+import dev.xkmc.modulargolems.content.menu.equipment.OpenItemEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
@@ -17,6 +18,11 @@ public class EquipmentTab extends GolemTabBase<EquipmentGroup, EquipmentTab> {
 
 	@Override
 	public void onTabClicked() {
+		if (manager.token.isItemMode()) {
+			// 物品界面里的傀儡只是临时 dummy，世界里没有实体，只能带着物品重新打开
+			ModularGolems.HANDLER.toServer(OpenItemEquipmentMenuToServer.of(manager.token.source.copy(), manager.token.sourceSlot));
+			return;
+		}
 		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(manager.token.golem.getUUID(), OpenEquipmentMenuToServer.Type.EQUIPMENT));
 	}
 

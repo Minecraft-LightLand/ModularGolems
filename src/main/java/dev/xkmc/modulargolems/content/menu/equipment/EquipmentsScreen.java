@@ -62,10 +62,9 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		super.init();
 		formButton = null;
 		if (menu.golem == null) return;
-		if (!menu.isItemMode()) {
-			new GolemTabManager<>(this, new EquipmentGroup(menu.golem))
-					.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
-		}
+		// 物品界面也给出标签页：数值页直接可用，饰品页会带着物品重新打开饰品界面。
+		new GolemTabManager<>(this, new EquipmentGroup(menu.golem, menu.getSourceStack(), menu.getSourceSlot()))
+				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT);
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
 			addRenderableWidget(new PlayerSkinButton(leftPos + 160, topPos + 6, golem, b ->
 					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem, menu.isItemMode() ? this : null))));

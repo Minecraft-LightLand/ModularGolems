@@ -76,6 +76,7 @@ public class ModularGolems {
 			e -> e.create(OpenConfigMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OpenEquipmentMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OpenItemEquipmentMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
+			e -> e.create(dev.xkmc.modulargolems.compat.curio.OpenItemCurioMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(OpenTableMenuToServer.class, NetworkDirection.PLAY_TO_SERVER),
 			e -> e.create(TrackerSyncToClient.class, NetworkDirection.PLAY_TO_CLIENT),
 			e -> e.create(TrackerHeartBeatToServer.class, NetworkDirection.PLAY_TO_SERVER),

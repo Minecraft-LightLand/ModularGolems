@@ -15,6 +15,9 @@ public record ItemEquipmentsMenuProvider(ItemStack stack, Container container, i
 	@Override
 	public void writeBuffer(FriendlyByteBuf buf) {
 		buf.writeItem(stack);
+		// 槽位也要发到客户端：物品界面里的标签页（数值/饰品）切回来时要靠它重新定位那件物品，
+		// 只发物品会因为大 NBT 在服务端比对不相等而找不到。
+		buf.writeInt(slot);
 	}
 
 	@Override

@@ -135,10 +135,20 @@ public class CurioCompatRegistry {
 	}
 
 	public MenuEntry<GolemCuriosListMenu> menuType;
+	public MenuEntry<GolemItemCuriosListMenu> itemMenuType;
 	public GolemTabToken<EquipmentGroup, GolemCurioTab> tab;
 
 	public void registerImpl() {
 		menuType = ModularGolems.REGISTRATE.menu("golem_curios", GolemCuriosListMenu::fromNetwork, () -> GolemCuriosListScreen::new).register();
+		itemMenuType = ModularGolems.REGISTRATE.menu("golem_item_curios", GolemItemCuriosListMenu::fromNetwork, () -> GolemItemCuriosListScreen::new).register();
+	}
+
+	/** 物品界面（背包里的傀儡物品）也能打开的饰品界面；没有 Curios 时返回 null。 */
+	@Nullable
+	public static IMenuPvd createForItem(net.minecraft.world.item.ItemStack stack, int slot) {
+		var ins = get();
+		if (ins == null) return null;
+		return new GolemItemCuriosMenuPvd(stack, slot, 0);
 	}
 
 	public void clientRegisterImpl() {

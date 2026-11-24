@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.curio;
 
+import dev.xkmc.modulargolems.compat.curio.OpenItemCurioMenuToServer;
 import dev.xkmc.modulargolems.content.menu.registry.EquipmentGroup;
 import dev.xkmc.modulargolems.content.menu.registry.OpenEquipmentMenuToServer;
 import dev.xkmc.modulargolems.content.menu.tabs.GolemTabBase;
@@ -20,6 +21,11 @@ public class GolemCurioTab extends GolemTabBase<EquipmentGroup, GolemCurioTab> {
 
 	@Override
 	public void onTabClicked() {
+		if (manager.token.isItemMode()) {
+			// 物品界面：世界里没有实体，走物品版饰品界面（改动实时写回物品）
+			ModularGolems.HANDLER.toServer(OpenItemCurioMenuToServer.of(manager.token.source.copy(), manager.token.sourceSlot));
+			return;
+		}
 		ModularGolems.HANDLER.toServer(new OpenEquipmentMenuToServer(manager.token.golem.getUUID(), OpenEquipmentMenuToServer.Type.CURIOS));
 	}
 

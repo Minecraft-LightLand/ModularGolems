@@ -83,7 +83,8 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
 	public static EquipmentsMenu fromNetworkItem(MenuType<EquipmentsMenu> type, int wid, Inventory inv, FriendlyByteBuf buf) {
 		ItemStack stack = buf.readItem();
-		return createItemMenu(type, wid, inv, stack, null, -1);
+		int slot = buf.readInt();
+		return createItemMenu(type, wid, inv, stack, inv, slot);
 	}
 
 	public static EquipmentsMenu createItemMenu(MenuType<EquipmentsMenu> type, int wid, Inventory inv, ItemStack stack,
@@ -95,6 +96,15 @@ public class EquipmentsMenu extends BaseContainerMenu<EquipmentsMenu> {
 
 	public boolean isItemMode() {
 		return sourceStack != null;
+	}
+
+	@Nullable
+	public ItemStack getSourceStack() {
+		return sourceStack;
+	}
+
+	public int getSourceSlot() {
+		return sourceInvSlot;
 	}
 
 	/** 立即把 dummy 状态写回物品（皮肤、形态外观等不走槽位同步的改动）。 */

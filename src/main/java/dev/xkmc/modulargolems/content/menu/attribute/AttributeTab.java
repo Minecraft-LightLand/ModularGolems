@@ -17,7 +17,8 @@ public class AttributeTab extends GolemTabBase<EquipmentGroup, AttributeTab> {
 
 	@Override
 	public void onTabClicked() {
-		Minecraft.getInstance().setScreen(new AttributeScreen(manager.token.golem, MGLangData.TAB_ATTRIBUTE.get()));
+		Minecraft.getInstance().setScreen(new AttributeScreen(manager.token.golem, MGLangData.TAB_ATTRIBUTE.get(),
+				manager.token.source, manager.token.sourceSlot));
 	}
 
 }

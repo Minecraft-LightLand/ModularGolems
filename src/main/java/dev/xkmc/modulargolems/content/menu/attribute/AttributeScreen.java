@@ -27,6 +27,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.Lazy;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +49,24 @@ public class AttributeScreen extends BaseTextScreen implements ITabScreen {
 	));
 
 	private final AbstractGolemEntity<?, ?> golem;
+	@Nullable
+	private final ItemStack source;
+	private final int sourceSlot;
 
 	public AttributeScreen(AbstractGolemEntity<?, ?> golem, Component title) {
+		this(golem, title, null, -1);
+	}
+
+	public AttributeScreen(AbstractGolemEntity<?, ?> golem, Component title, @Nullable ItemStack source, int sourceSlot) {
 		super(title, new ResourceLocation("l2tabs:textures/gui/empty.png"));
 		this.golem = golem;
+		this.source = source;
+		this.sourceSlot = sourceSlot;
 	}
 
 	public void init() {
 		super.init();
-		new GolemTabManager<>(this, new EquipmentGroup(golem))
+		new GolemTabManager<>(this, new EquipmentGroup(golem, source, sourceSlot))
 				.init(this::addRenderableWidget, GolemTabRegistry.ATTRIBUTE);
 		if (EditorSaveState.canEdit()) {
 			addRenderableWidget(Button.builder(EditorText.OPEN.get(), b ->
