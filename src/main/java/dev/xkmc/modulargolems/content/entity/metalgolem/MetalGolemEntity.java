@@ -322,21 +322,24 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		// 侧向偏移也不再直接随体型宽度线性放大，封顶避免大体型时左右拉太远。
 		float sideX = Math.min(width * SIDE_SEAT_X, MAX_SIDE_X);
 		int idx = index;
-		// 两个肩鞍都在：中间那个站立位优先级最高（index 0），然后是左侧、右侧。
+		// 两个肩鞍都在：中间那个站立位优先级最高（index 0）。
 		if (leftCount > 0 && rightCount > 0) {
 			if (idx == 0) return new SeatOffset(0, CENTER_SEAT_STAND_Y, -CENTER_SEAT_Z_PER_SCALE * getScale());
 			idx -= 1;
-			if (idx < leftCount) return sideSeat(idx, leftCount, sideX, width);
-			return sideSeat(idx - leftCount, rightCount, -sideX, width);
 		}
-		// 只有一侧：该侧优先
-		if (leftCount > 0 && idx < leftCount) {
-			return sideSeat(idx, leftCount, sideX, width);
+		// 之后按"层"轮流坐：先左右各坐第一个，再左右各坐第二个……某一侧坐满后另一侧继续。
+		// 这样两个肩鞍都不会出现"一边坐满、另一边空着"的情况。
+		for (int level = 0; level < Math.max(leftCount, rightCount); level++) {
+			if (level < leftCount) {
+				if (idx == 0) return sideSeat(level, leftCount, sideX, width);
+				idx--;
+			}
+			if (level < rightCount) {
+				if (idx == 0) return sideSeat(level, rightCount, -sideX, width);
+				idx--;
+			}
 		}
-		if (rightCount > 0) {
-			return sideSeat(idx - leftCount, rightCount, -sideX, width);
-		}
-		return sideSeat(idx, 1, sideX, width);
+		return sideSeat(Math.max(0, idx), 1, sideX, width);
 	}
 
 	private SeatOffset sideSeat(int index, int count, float sideX, float width) {
