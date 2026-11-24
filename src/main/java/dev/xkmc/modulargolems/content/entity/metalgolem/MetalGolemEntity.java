@@ -550,7 +550,9 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 
 	@Override
 	public void checkRide(LivingEntity target) {
-		if (target instanceof DogGolemEntity dog && dog.getBbWidth() > getBbWidth()) {
+		// 交给犬形傀儡自己的 canAddPassenger 判断能否承载（它会按体型/座位数/背宽校验）；
+		// 这里不再额外用 "犬形必须严格比大型傀儡宽" 预筛，否则体型刚好够/相等时会被挡住、直接掉到地上。
+		if (target instanceof DogGolemEntity) {
 			startRiding(target);
 		}
 	}

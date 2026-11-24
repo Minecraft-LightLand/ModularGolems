@@ -9,6 +9,7 @@ import dev.xkmc.modulargolems.content.entity.common.TargetingAnimState;
 import dev.xkmc.modulargolems.content.entity.goals.GolemRiddenMeleeGoal;
 import dev.xkmc.modulargolems.content.entity.impl.GolemBeamSource;
 import dev.xkmc.modulargolems.content.entity.impl.GolemInvManager.ExtraSlot;
+import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.IGolemEquipmentItem;
 import dev.xkmc.modulargolems.content.item.ranged.CannonPoseUtil;
 import dev.xkmc.modulargolems.content.item.ranged.IDogBackWeapon;
@@ -360,16 +361,18 @@ public class DogGolemEntity extends AbstractGolemEntity<DogGolemEntity, DogGolem
 	protected boolean canAddPassenger(Entity entity) {
 		// a shoulder mounted weapon takes up the back, so it cannot be ridden
 		if (!getShoulderSlot().getItem().isEmpty()) return false;
-		float total = 0;
-		int count = 0;
-		var list = new ArrayList<>(getPassengers());
-		list.add(entity);
-		for (var e : list) {
-			count++;
-			total += e.getBbWidth();
-		}
+		// 只按座位数判断，不再比宽度。大型傀儡占 3 个座位，且体型越大占得越多。
+		double used = 0;
+		for (var e : getPassengers()) used += seatWeight(e);
+		used += seatWeight(entity);
 		double size = getAttributeValue(GolemTypes.GOLEM_SIZE.get());
-		return count <= Math.min(size * 2 - 1, 3) && total <= getBbWidth() + 1e-3;
+		return used <= Math.min(size * 2 - 1, 3);
+	}
+
+	/** 大型傀儡占 3 个座位（体型每变大一点还额外加座位），其它实体各占 1 个。 */
+	private static double seatWeight(Entity e) {
+		if (e instanceof MetalGolemEntity metal) return 3.0 * Math.max(1.0, metal.getScale());
+		return 1.0;
 	}
 
 	@Override
