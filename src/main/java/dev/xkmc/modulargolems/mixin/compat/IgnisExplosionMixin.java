@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.mixin;
+package dev.xkmc.modulargolems.mixin.compat;
 
 import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers.IgnisFireballModifier;

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.mixin;
+package dev.xkmc.modulargolems.mixin.compat;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

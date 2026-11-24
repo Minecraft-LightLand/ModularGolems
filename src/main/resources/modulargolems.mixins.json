@@ -5,26 +5,26 @@
 	"compatibilityLevel": "JAVA_17",
 	"refmap": "modulargolems.refmap.json",
 	"mixins": [
-		"SeekingArrowAllyMixin",
+		"compat.SeekingArrowAllyMixin",
 		"AbstractArrowMixin",
-		"BeltDeployerCallbacksMixin",
-		"EntityAxeAttackMixin",
+		"compat.BeltDeployerCallbacksMixin",
+		"compat.EntityAxeAttackMixin",
 		"EntityMixin",
 		"ExperienceOrbAccessor",
-		"FlameStrikeExplodeMixin",
-		"GumballEntityMixin",
-		"IgnisExplosionMixin",
+		"compat.FlameStrikeExplodeMixin",
+		"compat.GumballEntityMixin",
+		"compat.IgnisExplosionMixin",
 		"LivingEntityMixin",
 		"PlayerMixin",
 		"ServerLevelMixin",
-		"SoulTridentPillarExplosionMixin"
+		"compat.SoulTridentPillarExplosionMixin"
 	],
 	"client": [
 		"ScreenMixin",
-		"SoulTridentTextureMixin",
-		"SoulPillarExplosionEntityAppearanceMixin",
-		"ItemTickableSoundMixin",
-		"RaygunGunOffsetMixin"
+		"compat.SoulTridentTextureMixin",
+		"compat.SoulPillarExplosionEntityAppearanceMixin",
+		"compat.ItemTickableSoundMixin",
+		"compat.RaygunGunOffsetMixin"
 	],
 	"injectors": {
 		"defaultRequire": 0

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.mixin;
+package dev.xkmc.modulargolems.mixin.compat;
 
 import net.miauczel.legendary_monsters.Particle.ModParticles;
 import net.miauczel.legendary_monsters.entity.AnimatedMonster.Projectile.SoulPillarExplosionEntity;

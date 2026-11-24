@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.mixin;
+package dev.xkmc.modulargolems.mixin.compat;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.mixin;
+package dev.xkmc.modulargolems.mixin.compat;
 
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;

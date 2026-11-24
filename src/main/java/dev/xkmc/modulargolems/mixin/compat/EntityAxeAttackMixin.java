@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.mixin;
+package dev.xkmc.modulargolems.mixin.compat;
 
 import com.bobmowzie.mowziesmobs.server.entity.effects.EntityAxeAttack;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
