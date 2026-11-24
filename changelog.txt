@@ -1,3 +1,9 @@
+2.7.7
+- More Cataclysm and Legendary Monster material armors
+- Support for AlexCaves weapons
+- Compat with Ender Reach enchantment from L2Complements
+- Misc bug fixes
+
 2.7.6
 - add charge dash attack skill for golems
 - add iron golem boot, tweak golem armor stats
