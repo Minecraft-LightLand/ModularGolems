@@ -10,10 +10,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
 /**
  * 肩鞍乘客跟着大型傀儡一起渲染，从而继承它的走路左右摆动。
  * <p>
@@ -34,7 +30,8 @@ import java.util.UUID;
 @OnlyIn(Dist.CLIENT)
 public class MetalSaddleRiderLayer extends RenderLayer<MetalGolemEntity, MetalGolemModel> {
 
-	public static final Set<UUID> BLOCKED = new HashSet<>();
+	/** 本层正在嵌套渲染乘客时置 true，让 RenderLivingEvent 的拦截器放行这一次嵌套渲染。 */
+	public static boolean IN_LAYER = false;
 
 	/** {@code GolemDefaultLayer} 在模型空间里做的固定下移量。 */
 	private static final double MODEL_TRANSLATE_Y = 1.501D;
@@ -52,11 +49,11 @@ public class MetalSaddleRiderLayer extends RenderLayer<MetalGolemEntity, MetalGo
 		for (Entity passenger : golem.getPassengers()) {
 			if (passenger == Minecraft.getInstance().cameraEntity && Minecraft.getInstance().options.getCameraType().isFirstPerson())
 				continue;
-			BLOCKED.remove(passenger.getUUID());
 			int index = golem.getPassengers().indexOf(passenger);
 			if (index < 0) continue;
+			boolean center = golem.isCenterSeat(index);
 			var seat = golem.getSeatOffset(index);
-			double seatY = passenger.getMyRidingOffset() + golem.getPassengersRidingOffset();
+			double seatY = passenger.getMyRidingOffset() + golem.getPassengersRidingOffset() + seat.y();
 			pose.pushPose();
 			pose.translate(seat.x() / scale, (float) (MODEL_TRANSLATE_Y - seatY / scale), -seat.z() / scale);
 			// 抵消父级旋转，让乘客回到世界坐标系（否则会被父级的 scale(-1,-1,1) 上下翻转）。
@@ -69,10 +66,23 @@ public class MetalSaddleRiderLayer extends RenderLayer<MetalGolemEntity, MetalGo
 			//   结果变成 Roll*Z(-sway) 的残留项，随 bodyRot 变化，才表现为不同视角摇晃幅度不同。）
 			pose.mulPose(Axis.ZP.rotationDegrees(180.0F));
 			pose.mulPose(Axis.YP.rotationDegrees(180.0F + golem.yBodyRot));
+			// 父级已经 scale(getScale()) 把整个大型傀儡放大了；乘客如果继承这个缩放会跟着变大。
+			// 这里乘回 1/scale 抵消，让乘客按自己的实际大小渲染（乘客自己的 renderer 再套它自己的体型）。
+			pose.scale(1.0F / scale, 1.0F / scale, 1.0F / scale);
 			EntityRenderer<? super Entity> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(passenger);
-			if (renderer != null) renderer.render(passenger, 0.0F, partialTick, pose, buffer, light);
+			if (renderer != null) {
+				// 中间位强制站立：临时让坐骑的 shouldRiderSit 返回 false，渲染器就不会把模型摆成骑坐姿势。
+				if (center) golem.setCenterRiderStanding(true);
+				// 嵌套渲染期间放行拦截器，否则这一次渲染会被当成"乘客的独立渲染"取消掉。
+				IN_LAYER = true;
+				try {
+					renderer.render(passenger, 0.0F, partialTick, pose, buffer, light);
+				} finally {
+					IN_LAYER = false;
+				}
+				if (center) golem.setCenterRiderStanding(false);
+			}
 			pose.popPose();
-			BLOCKED.add(passenger.getUUID());
 		}
 	}
 

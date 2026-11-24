@@ -296,39 +296,59 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 				|| getRightShoulder().getItem().getItem() instanceof GolemSaddleItem;
 	}
 
-	/** 体型越大，单个肩鞍能坐的人越多；左右肩各算一个肩鞍。 */
+	/** 体型越大，单个肩鞍能坐的人越多；左右肩各算一个肩鞍。两个肩鞍都在时，中间再站 1 个。 */
 	public int getSaddleSeats() {
-		return saddleSeats(getLeftShoulder().getItem()) + saddleSeats(getRightShoulder().getItem());
+		int left = saddleSeats(getLeftShoulder().getItem());
+		int right = saddleSeats(getRightShoulder().getItem());
+		return left + right + (left > 0 && right > 0 ? 1 : 0);
+	}
+
+	/** 两个肩鞍都在时中间那个"站立位"座位。 */
+	private boolean hasCenterSeat() {
+		return saddleSeats(getLeftShoulder().getItem()) > 0 && saddleSeats(getRightShoulder().getItem()) > 0;
 	}
 
 	private int saddleSeats(ItemStack stack) {
-		return stack.getItem() instanceof GolemSaddleItem ? Math.max(1, Math.round(getScale())) : 0;
+		// 体型升级后单个肩鞍也要能多坐人：用 ceil，避免 round 在体型刚过 1 时仍算 1。
+		return stack.getItem() instanceof GolemSaddleItem ? Math.max(1, (int) Math.ceil(getScale() - 1e-4)) : 0;
 	}
 
 	/**
 	 * 座位在实体本地坐标中的横向/前后偏移。
 	 * 实体朝向 +Z 时 +X 是它的左手侧，所以左侧座位取正 X。
 	 */
-	public record SeatOffset(float x, float z) {
+	public record SeatOffset(float x, float y, float z) {
 	}
 
 	public SeatOffset getSeatOffset(int index) {
 		int leftCount = saddleSeats(getLeftShoulder().getItem());
 		int rightCount = saddleSeats(getRightShoulder().getItem());
 		float width = getBbWidth();
-		// 优先坐左侧：只有左侧没鞍时才落到右侧
-		if (leftCount > 0 && index < leftCount) {
-			return sideSeat(index, leftCount, width * 0.35F, width);
+		// 侧向偏移也不再直接随体型宽度线性放大，封顶避免大体型时左右拉太远。
+		float sideX = Math.min(width * SIDE_SEAT_X, MAX_SIDE_X);
+		int idx = index;
+		// 两个肩鞍都在：中间那个站立位优先级最高（index 0），然后是左侧、右侧。
+		if (leftCount > 0 && rightCount > 0) {
+			if (idx == 0) return new SeatOffset(0, CENTER_SEAT_STAND_Y, -CENTER_SEAT_Z_PER_SCALE * getScale());
+			idx -= 1;
+			if (idx < leftCount) return sideSeat(idx, leftCount, sideX, width);
+			return sideSeat(idx - leftCount, rightCount, -sideX, width);
+		}
+		// 只有一侧：该侧优先
+		if (leftCount > 0 && idx < leftCount) {
+			return sideSeat(idx, leftCount, sideX, width);
 		}
 		if (rightCount > 0) {
-			return sideSeat(index - leftCount, rightCount, -width * 0.35F, width);
+			return sideSeat(idx - leftCount, rightCount, -sideX, width);
 		}
-		return sideSeat(index, 1, width * 0.35F, width);
+		return sideSeat(idx, 1, sideX, width);
 	}
 
 	private SeatOffset sideSeat(int index, int count, float sideX, float width) {
-		float z = count <= 1 ? 0 : (index - (count - 1) / 2F) * width * 0.45F;
-		return new SeatOffset(sideX, z);
+		// 间距不再直接按体型宽度线性放大：体型很大（泰坦）时 width*0.45 会把座位拉得过开。
+		float pitch = Math.min(width * 0.45F, MAX_SEAT_PITCH);
+		float z = count <= 1 ? 0 : (index - (count - 1) / 2F) * pitch;
+		return new SeatOffset(sideX, 0, z);
 	}
 
 	@Override
@@ -346,14 +366,53 @@ public class MetalGolemEntity extends SweepGolemEntity<MetalGolemEntity, MetalGo
 		// 座位偏移必须跟着身体朝向一起转：否则傀儡转身时乘客留在世界里的固定方向，
 		// 表现为玩家一转头视角就绕着傀儡打转。
 		Vec3 local = new Vec3(seat.x(), 0, seat.z()).yRot(-yBodyRot * ((float) Math.PI / 180F));
-		setPos.accept(rider, getX() + local.x, getY() + rider.getMyRidingOffset() + getPassengersRidingOffset(), getZ() + local.z);
+		setPos.accept(rider, getX() + local.x, getY() + rider.getMyRidingOffset() + getPassengersRidingOffset() + seat.y(), getZ() + local.z);
 	}
 
-	/** 肩鞍座位高度系数（相对 bbHeight）。调大坐得更高。 */
-	public static final double SADDLE_SEAT_RATIO = 0.7D;
+	/** 正常体型（scale=1）的座位高度系数（相对 bbHeight）。 */
+	public static final double SEAT_RATIO_BASE = 0.71D;
+	/** 体型每 +1（getScale 增量）时座位高度系数的增量。 */
+	public static final double SEAT_RATIO_PER_SCALE = 0.06D;
+	/** 同一侧相邻座位的最大前后间距（格）。避免泰坦体型时按 width*0.45 拉得过开。 */
+	public static final float MAX_SEAT_PITCH = 0.8F;
+	/** 左右座位相对身体中线的横向比例（越大越往外，缓解与大型傀儡头部穿模）。 */
+	public static final float SIDE_SEAT_X = 0.45F;
+	/** 左右座位横向偏移的上限（格），避免大体型时被 body 宽度拉得过远。 */
+	public static final float MAX_SIDE_X = 2.0F;
+	/** 双肩鞍时中间"站立位"相对普通座位的高度增量（格）。 */
+	public static final float CENTER_SEAT_STAND_Y = 0.5F;
+	/** 双肩鞍时中间站立位的往后偏移（每点体型，格；负方向朝后）。 */
+	public static final float CENTER_SEAT_Z_PER_SCALE = 0.2F;
+	/** 座位高度系数上限（泰坦等超大体型不要超过这个，否则乘客偏高）。 */
+	public static final double SEAT_RATIO_MAX = 0.765D;
 
+	/**
+	 * 座位高度系数随体型变化：正常 0.71，体型升级 x2≈0.73，泰坦≈0.765（按 getScale 线性插值）。
+	 * 想微调就改 {@link #SEAT_RATIO_BASE} / {@link #SEAT_RATIO_PER_SCALE}。
+	 */
 	public double getPassengersRidingOffset() {
-		return getBbHeight() * SADDLE_SEAT_RATIO;
+		double ratio = SEAT_RATIO_BASE + SEAT_RATIO_PER_SCALE * (getScale() - 1.0D);
+		ratio = Mth.clamp(ratio, SEAT_RATIO_BASE, SEAT_RATIO_MAX);
+		return getBbHeight() * ratio;
+	}
+
+	/** 是否是双肩鞍时中间的站立位。 */
+	public boolean isCenterSeat(int index) {
+		return index == 0
+				&& saddleSeats(getLeftShoulder().getItem()) > 0
+				&& saddleSeats(getRightShoulder().getItem()) > 0;
+	}
+
+	/** 中间站立位渲染期间临时置 true，让它的模型不进入"骑坐"姿势。仅客户端渲染使用。 */
+	private boolean centerRiderStanding = false;
+
+	public void setCenterRiderStanding(boolean standing) {
+		this.centerRiderStanding = standing;
+	}
+
+	@Override
+	public boolean shouldRiderSit() {
+		return !centerRiderStanding;
 	}
 
 	/**
