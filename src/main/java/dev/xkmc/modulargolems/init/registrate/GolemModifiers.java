@@ -52,6 +52,7 @@ public class GolemModifiers {
 	public static final RegistryEntry<AddSlotModifier> DIAMOND_ADD, NETHERITE_ADD;
 	public static final RegistryEntry<DynamicReductionModifier> DYNAMIC_REDUCTION;
 	public static final RegistryEntry<EmergencyEscapeModifier> EMERGENCY_ESCAPE;
+	public static final RegistryEntry<GuardianRescueModifier> GUARDIAN_RESCUE;
 
 
 	static {
@@ -153,6 +154,10 @@ public class GolemModifiers {
 		EMERGENCY_ESCAPE = reg("emergency_escape", () -> new EmergencyEscapeModifier(StatFilterType.HEALTH, 9),
 				"Emergency Escape",
 				"When health drops below %s of max health, highlights itself and teleports to the owner after %s seconds. Only the first upgrade consumes an upgrade slot.");
+
+		GUARDIAN_RESCUE = reg("guardian_rescue", () -> new GuardianRescueModifier(StatFilterType.HEALTH, 1),
+				"Lone Rescue",
+				"When the owner's health is below %s of max health and the owner is attacked, teleports to the owner and taunts the attacker and all targets within %s blocks.");
 
 	}
 

@@ -6,6 +6,7 @@ import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.entity.dog.DogGolemEntity;
 import dev.xkmc.modulargolems.content.entity.targeting.TargetManager;
 import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
+import dev.xkmc.modulargolems.content.modifier.special.GuardianRescueModifier;
 import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.MGConfig;
@@ -87,6 +88,14 @@ public class ModifierEventListeners {
 	public static void onAttacked(LivingAttackEvent event) {
 		if (event.getEntity() instanceof AbstractGolemEntity<?, ?> entity) {
 			entity.getModifiersExtended().forEach((k, v) -> k.onAttacked(entity, event, v));
+		}
+	}
+
+	/** 单骑救主：所有者受击时让带该升级的傀儡赶来救驾（服务端判定在 modifier 内）。 */
+	@SubscribeEvent
+	public static void onOwnerAttacked(LivingAttackEvent event) {
+		if (event.getEntity() instanceof Player player) {
+			GuardianRescueModifier.onOwnerAttacked(player, event);
 		}
 	}
 

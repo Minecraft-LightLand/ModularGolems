@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "modulargolems:empty_upgrade"
+    },
+    {
+      "item": "minecraft:recovery_compass"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:recovery_compass"
+  }
+}

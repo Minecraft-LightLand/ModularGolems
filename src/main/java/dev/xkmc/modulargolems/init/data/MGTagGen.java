@@ -110,7 +110,8 @@ public class MGTagGen {
 				GolemItems.PLAYER_IMMUNE.get(),
 				GolemItems.MOUNT_UPGRADE.get(),
 				GolemItems.SIZE_UPGRADE.get(),
-				GolemItems.EMERGENCY_ESCAPE.get()
+				GolemItems.EMERGENCY_ESCAPE.get(),
+				GolemItems.GUARDIAN_RESCUE.get()
 		);
 		pvd.addTag(GREEN_UPGRADES).add(
 				GolemItems.DIAMOND.get(),

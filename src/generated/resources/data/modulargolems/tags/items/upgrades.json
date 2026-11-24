@@ -27,6 +27,7 @@
     "modulargolems:mount_upgrade",
     "modulargolems:size_upgrade",
     "modulargolems:comparator",
+    "modulargolems:recovery_compass",
     {
       "id": "modulargolems:carminite",
       "required": false

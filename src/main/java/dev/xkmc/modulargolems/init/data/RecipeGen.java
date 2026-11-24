@@ -559,6 +559,10 @@ public class RecipeGen {
 					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.COMPARATOR)
 					.save(pvd);
 
+			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.GUARDIAN_RESCUE.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
+					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(Items.RECOVERY_COMPASS)
+					.save(pvd);
+
 			unlock(pvd, ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GolemItems.FLOAT.get())::unlockedBy, GolemItems.EMPTY_UPGRADE.get())
 					.requires(GolemItems.EMPTY_UPGRADE.get()).requires(ItemTags.BOATS)
 					.save(pvd);

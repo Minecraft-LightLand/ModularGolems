@@ -36,6 +36,8 @@
 		}
 	},
 	"modifier.modulargolems": {
+		"guardian_rescue": "单骑救主",
+		"guardian_rescue.desc": "当所有者的生命值低于上限的%s并受到攻击时，传送至所有者位置并吸引攻击者和半径%s格内所有目标的仇恨",
 		"emergency_escape": "紧急避险",
 		"emergency_escape.desc": "当生命值低于上限的%s时，高亮自身并在%s秒后传送至所有者位置。仅首个升级消耗升级槽",
 		"fire_immune": "火焰免疫",
