@@ -107,6 +107,8 @@ public class MountChargeManager<T extends AbstractGolemEntity<?, ?> & MountCharg
 		if (golem.getJumpAttack() != null) return;
 		golem.setJumpAttack(ins);
 		golem.setJumpDelay(10);
+		// 骑乘大跳同样属于"大跳技能期间"：起手置位，落地清除
+		golem.setLeapActive(true);
 		ins.addCD();
 		// 默认由客户端本地预测负责起跳；技能显式声明要服务端执行时走这里
 		if (ins.modifier().useServerJump()) {
@@ -185,6 +187,7 @@ public class MountChargeManager<T extends AbstractGolemEntity<?, ?> & MountCharg
 		// 落点计入冲锋技能冷却，否则冲锋会看见刚跳到的目标，一落地就冲过去
 		golem.level().broadcastEntityEvent(golem, EarthquakeHelper.FLAG);
 		golem.setJumpAttack(null);
+		golem.setLeapActive(false);
 	}
 
 	public void tickCharge() {

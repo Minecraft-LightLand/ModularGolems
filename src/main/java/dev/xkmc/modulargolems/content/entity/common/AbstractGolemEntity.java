@@ -103,6 +103,13 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = GOLEM_DATA.define(SyncedData.BOOL, false, null);
 	public static final EntityDataAccessor<Boolean> BREATH_ATTACK = GOLEM_DATA.define(SyncedData.BOOL, false, null);
 	public static final EntityDataAccessor<Float> DASH_YAW = GOLEM_DATA.define(SyncedData.FLOAT, Float.NaN, null);
+	/**
+	 * 是否处于"大跳砸地"技能期间（服务端维护、同步给客户端）。
+	 * <p>
+	 * 不能用 {@code !onGround()} 代替：被击飞、从方块边缘走空、坐船等任何滞空状态都会命中，
+	 * 于是滞空粒子变成常驻。这里只在大跳起手到落地之间为 true。
+	 */
+	public static final EntityDataAccessor<Boolean> LEAP_ACTIVE = GOLEM_DATA.define(SyncedData.BOOL, false, null);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT_2 = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	/** 形态外观：0 默认 / 1 始终初始 / 2 始终最终 / 3 跟随生命值。仅影响渲染，不影响实际效果。 */

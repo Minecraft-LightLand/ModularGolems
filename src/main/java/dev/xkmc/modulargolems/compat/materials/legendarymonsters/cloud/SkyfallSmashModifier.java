@@ -113,7 +113,8 @@ public class SkyfallSmashModifier extends GolemModifier implements EarthquakeHel
 	 */
 	@Override
 	public void onClientTick(AbstractGolemEntity<?, ?> golem, int level) {
-		if (!EarthquakeHelper.isLeaping(golem)) return;
+		// 只在大跳技能期间显示：不能用 !onGround()，否则被击飞/走空/坐船时烟雾会常驻
+		if (!golem.isLeapActive()) return;
 		for (int i = 0; i < 360; i += 30) {
 			golem.level().addParticle(ParticleTypes.CLOUD, golem.getX(), golem.getY(), golem.getZ(),
 					Math.cos(i) * 0.25, 0.0, Math.sin(i) * 0.25);

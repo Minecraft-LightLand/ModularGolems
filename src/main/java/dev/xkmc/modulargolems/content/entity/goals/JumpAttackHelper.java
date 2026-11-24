@@ -52,8 +52,10 @@ public class JumpAttackHelper {
 				mover.getBoundingBox().intersects(target.getBoundingBox());
 		boolean stop = !valid && !hit && (golem.tickCount - startJumpingTime > JUMP_MAX_TIME ||
 				wasFalling < -THRESHOLD && (wet || mover.getDeltaMovement().y > -THRESHOLD));
-		if (ins != null && stop)
+		if (ins != null && stop) {
 			ins = null;
+			golem.setLeapActive(false);
+		}
 		// 只在真正落地时结算。用 hit 会让上升途中擦到目标碰撞箱就提前触发，
 		// 结果是技能在半空炸开、傀儡却还在往上飞
 		if (ins != null && valid) {
@@ -62,6 +64,7 @@ public class JumpAttackHelper {
 			ins.modifier().onEarthQuakeLanded(ins.owner(), ins.lv());
 			mover.level().broadcastEntityEvent(mover, (byte) 83);
 			ins = null;
+			golem.setLeapActive(false);
 			return true;
 		}
 		if (ins == null && valid) {
@@ -73,6 +76,8 @@ public class JumpAttackHelper {
 				mover.hasImpulse = true;
 				startJumpingTime = golem.tickCount;
 				EarthquakeHelper.setBusy(golem, true);
+				// 大跳技能窗口：从起手到落地，滞空特效只在这段时间显示
+				golem.setLeapActive(true);
 				return true;
 			}
 		}
