@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.twilightforest.modifiers;
 
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -29,7 +30,8 @@ public class CarminiteModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int level) {
 		double time = MGConfig.COMMON.carminiteTime.get() * level / 20d;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", time).withStyle(ChatFormatting.GREEN));
+		var ctime = Component.literal(ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(time)).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", ctime).withStyle(ChatFormatting.GREEN));
 	}
 
 	@Override

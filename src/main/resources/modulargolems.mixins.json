@@ -1,25 +1,29 @@
 {
-	"required": true,
+	"required": false,
 	"priority": 1000,
 	"package": "dev.xkmc.modulargolems.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"AbstractArrowMixin",
-		"BeltDeployerCallbacksMixin",
-		"EntityAxeAttackMixin",
+		"compat.BeltDeployerCallbacksMixin",
+		"compat.EntityAxeAttackMixin",
 		"EntityMixin",
 		"ExperienceOrbAccessor",
-		"GumballEntityMixin",
-		"IgnisExplosionMixin",
+		"compat.FlameStrikeExplodeMixin",
+		"compat.GumballEntityMixin",
+		"compat.IgnisExplosionMixin",
 		"LivingEntityMixin",
 		"PlayerMixin",
 		"ServerLevelMixin"
 	],
 	"client": [
-		"ScreenMixin"
+		"ScreenMixin",
+		"compat.SoulPillarExplosionEntityAppearanceMixin",
+		"compat.SoulTridentPillarExplosionMixin",
+		"compat.SoulTridentTextureMixin"
 	],
 	"injectors": {
-		"defaultRequire": 1
+		"defaultRequire": 0
 	},
 	"minVersion": "0.8"
 }

@@ -20,6 +20,13 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import java.util.function.BiConsumer;
 
 public class ScyllaSpinChargeModifier extends GolemModifier implements ChargeHelper.Modifier {
+	public static final int COOLDOWN = 200;
+	public static final int MAX_TICKS = 60;
+	public static final float SPIN_SPEED = 15.0F;
+	public static final int SWING_INTERVAL = 11;
+	public static final double MAX_RANGE = 16;
+	public static final int MIN_RANGE = 0;
+
 	@Override
 	public int getCooldown(AbstractGolemEntity<?, ?> golem, int lv) {
 		return 160;
@@ -32,19 +39,19 @@ public class ScyllaSpinChargeModifier extends GolemModifier implements ChargeHel
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new ScyllaSpinChargeGoal(entity, lv, this));
+		addGoal.accept(1, new ScyllaSpinChargeAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
-		if (ScyllaSpinChargeGoal.isCharging(entity)) {
+		if (ScyllaSpinChargeAttackGoal.isCharging(entity)) {
 			event.addDealtModifier(DamageModifier.multTotal(ChargeHelper.CHARGE_DAMAGE_MULT, getRegistryName()));
 		}
 	}
 
 	@Override
 	public void setCharging(ChargeHelper.Instance ins, boolean on) {
-		ins.owner().setTransientFlag(ScyllaSpinChargeGoal.KEY_ACTIVE, on);
+		ins.owner().setTransientFlag(ScyllaSpinChargeAttackGoal.KEY_ACTIVE, on);
 	}
 
 	@Override

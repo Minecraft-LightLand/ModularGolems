@@ -1,4 +1,8 @@
 {
+	"block.modulargolems": {
+		"golem_workbench": "傀儡装配台",
+		"golem_workbench_simple": "简易傀儡装配台"
+	},
 	"item.modulargolems": {
 		"metal_golem_template": "傀儡胚料",
 		"metal_golem_holder": "大型傀儡",
@@ -65,6 +69,7 @@
 		"hostile_wand": "敌对傀儡调试器",
 		"barbaric_vanguard_boots": "蛮荒傀儡镣铐",
 		"wind_spirit_boots": "风行傀儡靴子",
+		"roman_guard_boots": "罗马傀儡靴子",
 		"beacon_boots": "信标傀儡靴子",
 		"iron_mecha_bow": "铁质机械弓",
 		"netherite_mecha_bow": "下界合金机械弓",
@@ -74,8 +79,24 @@
 		"flame_thrower": "炼狱火枪",
 		"add_1_slot": "升级槽+1",
 		"add_100_slot": "升级槽+100",
-		"heavy_golem_spear": "傀儡重戟",
-		"roman_guard_boots": "罗马傀儡靴子"
+		"heavy_golem_spear": "傀儡重戟"
+	},
+	"golem_part_name": {
+		"metal_golem": {
+			"body": "身体",
+			"left": "手臂",
+			"leg": "双腿",
+			"right": "手臂"
+		},
+		"humanoid_golem": {
+			"arms": "双臂",
+			"body": "躯干",
+			"legs": "双腿"
+		},
+		"dog_golem": {
+			"body": "躯干",
+			"legs": "四肢"
+		}
 	},
 	"-cartesian": {
 		"golem": {
@@ -161,27 +182,6 @@
 					"sword": "大剑"
 				}
 			]
-		}
-	},
-	"block.modulargolems": {
-		"golem_workbench": "傀儡装配台",
-		"golem_workbench_simple": "简易傀儡装配台"
-	},
-	"golem_part_name": {
-		"metal_golem": {
-			"body": "身体",
-			"left": "手臂",
-			"leg": "双腿",
-			"right": "手臂"
-		},
-		"humanoid_golem": {
-			"arms": "双臂",
-			"body": "躯干",
-			"legs": "双腿"
-		},
-		"dog_golem": {
-			"body": "躯干",
-			"legs": "四肢"
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.events;
 
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.card.ClickEntityFilterCard;
@@ -120,6 +121,13 @@ public class ModifierEventListeners {
 		if (e instanceof TraceableEntity te) e = te.getOwner();
 		if (e instanceof AbstractGolemEntity<?, ?> golem && !golem.isHostile())
 			event.setCanGrief(false);
+	}
+
+	@SubscribeEvent
+	public static void onKillTarget(LivingDeathEvent event) {
+		if (event.getSource().getEntity() instanceof AbstractGolemEntity<?, ?> golem) {
+			golem.getModifiersExtended().forEach((k, v) -> k.onKillTarget(golem, event.getEntity(), event, v));
+		}
 	}
 
 }

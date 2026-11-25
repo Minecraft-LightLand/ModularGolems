@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.init.data.MGLangData;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 
@@ -24,8 +26,8 @@ import java.util.function.Consumer;
 
 public class EnderGuardianTeleportSlamModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
-	public EnderGuardianTeleportSlamModifier() {
-		super(StatFilterType.MOVEMENT, 1);
+	public EnderGuardianTeleportSlamModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override
@@ -96,7 +98,22 @@ public class EnderGuardianTeleportSlamModifier extends GolemModifier implements 
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		return List.of(Component.translatable(getDescriptionId() + ".desc", EarthquakeHelper.leapReduction()).withStyle(ChatFormatting.GREEN));
+		return List.of(
+				Component.translatable(getDescriptionId() + ".desc",
+						EarthquakeHelper.leapReduction(),
+						CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH))
+						.withStyle(ChatFormatting.GREEN),
+				MGLangData.SKILL_HEALTH_GATE.get(
+						CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH))
+						.withStyle(ChatFormatting.GREEN));
+	}
+
+	/**
+	 * 跃迁猛击只在完整形态（半血以下，或被末地守卫胸甲钉住）可用。
+	 */
+	@Override
+	public boolean canUse(AbstractGolemEntity<?, ?> golem) {
+		return CataArmorHelper.guardianFinalForm(golem);
 	}
 
 }

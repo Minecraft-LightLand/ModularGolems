@@ -26,7 +26,10 @@ import java.util.function.BiConsumer;
 
 public class MaledictusChargeModifier extends GolemModifier implements ChargeHelper.Modifier {
 
-	public static final int COOLDOWN = 160;
+	public static final int COOLDOWN = 200;
+	public static final int MAX_TICKS = 60;
+	public static final double MAX_RANGE = 16;
+	public static final int MIN_RANGE = 0;
 
 	public MaledictusChargeModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -34,19 +37,19 @@ public class MaledictusChargeModifier extends GolemModifier implements ChargeHel
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new MaledictusChargeGoal(entity, lv, this));
+		addGoal.accept(1, new MaledictusChargeAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
-		if (MaledictusChargeGoal.isCharging(entity)) {
+		if (MaledictusChargeAttackGoal.isCharging(entity)) {
 			event.addDealtModifier(DamageModifier.multTotal(ChargeHelper.CHARGE_DAMAGE_MULT, getRegistryName()));
 		}
 	}
 
 	@Override
 	public void setCharging(ChargeHelper.Instance ins, boolean on) {
-		ins.owner().setTransientFlag(MaledictusChargeGoal.KEY_ACTIVE, on);
+		ins.owner().setTransientFlag(MaledictusChargeAttackGoal.KEY_ACTIVE, on);
 	}
 
 	@Override
@@ -88,7 +91,7 @@ public class MaledictusChargeModifier extends GolemModifier implements ChargeHel
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		var dashes = Component.literal("" + MaledictusChargeGoal.MAX_DASH).withStyle(ChatFormatting.AQUA);
+		var dashes = Component.literal("" + MaledictusChargeAttackGoal.MAX_DASH).withStyle(ChatFormatting.AQUA);
 		return List.of(Component.translatable(getDescriptionId() + ".desc", ChargeHelper.chargeReduction(), dashes).withStyle(ChatFormatting.GREEN));
 	}
 

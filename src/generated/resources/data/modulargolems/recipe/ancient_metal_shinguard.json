@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "addition": [
+    {
+      "item": "cataclysm:sandstorm_in_a_bottle"
+    },
+    {
+      "item": "cataclysm:remnant_skull"
+    }
+  ],
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_shinguard"
+  },
+  "result": {
+    "count": 1,
+    "id": "modulargolems:ancient_metal_shinguard"
+  },
+  "template": {
+    "item": "modulargolems:ancient_metal_upgrade_template"
+  }
+}

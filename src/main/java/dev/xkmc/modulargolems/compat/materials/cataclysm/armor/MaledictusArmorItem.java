@@ -55,9 +55,9 @@ public class MaledictusArmorItem extends MetalGolemArmorItem {
 		if (getSlot() == EquipmentSlot.HEAD) {
 			list.add(MGLangData.MALEDICTUS_BYPASS_CD.get().withStyle(ChatFormatting.GOLD));
 		} else if (getSlot() == EquipmentSlot.LEGS) {
-			list.add(MGLangData.MALEDICTUS_FAST_SKILL.get().withStyle(ChatFormatting.GOLD));
-			list.add(MGLangData.SKILL_IGNORE_HEALTH.get(
-					Component.translatable(CataCompatRegistry.MALEDICTUS_CHARGE.get().getDescriptionId()))
+			list.add(MGLangData.MALEDICTUS_FAST_SKILL
+					.get(CataArmorHelper.skillName(CataCompatRegistry.MALEDICTUS_CHARGE.get()),
+							CataArmorHelper.skillName(CataCompatRegistry.EARTHQUAKE_SPEAR.get()))
 					.withStyle(ChatFormatting.GOLD));
 		} else if (getSlot() == EquipmentSlot.CHEST) {
 			int cd = MGConfig.COMMON.maledictusReviveCD.get();

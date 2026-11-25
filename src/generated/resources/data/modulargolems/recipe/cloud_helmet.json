@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "legendary_monsters"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "addition": [
+    {
+      "item": "legendary_monsters:air_rune"
+    },
+    {
+      "item": "legendary_monsters:atmospheric_boots"
+    }
+  ],
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_helmet"
+  },
+  "result": {
+    "count": 1,
+    "id": "modulargolems:cloud_helmet"
+  },
+  "template": {
+    "item": "modulargolems:cloud_upgrade_template"
+  }
+}

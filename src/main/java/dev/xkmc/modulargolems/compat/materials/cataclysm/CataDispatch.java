@@ -29,6 +29,8 @@ public class CataDispatch extends ModDispatch {
 		super(() -> CataClient::new);
 		CataCompatRegistry.register();
 		NeoForge.EVENT_BUS.register(CataEventHandler.class);
+		// 调试：记录灾变 Boss 每次切换 attackState（用于识别招式）
+		NeoForge.EVENT_BUS.addListener(CataBossDebug::onLivingTick);
 	}
 
 	public void genLang(RegistrateLangProvider pvd) {

@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.compat.materials.cataclysm.CataCompatRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -96,6 +97,12 @@ public class HarbingerHomingMissileAttackGoal extends BaseRangedAttackGoal {
 	@Override
 	protected double getLeapRange() {
 		return BackstepHelper.DEFAULT_LEAP_RANGE;
+	}
+
+	@Override
+	protected int getWaitTime() {
+		int base = super.getWaitTime();
+		return CataArmorHelper.harbingerFinalForm(golem) ? Math.max(1, base / 2) : base;
 	}
 
 }

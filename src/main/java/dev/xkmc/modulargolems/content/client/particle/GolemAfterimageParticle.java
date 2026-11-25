@@ -84,11 +84,14 @@ public class GolemAfterimageParticle extends Particle {
 					VertexConsumer original = source.getBuffer(requested);
 					return tint(original, colorR, colorG, colorB, colorA);
 				};
+				// 残影与主渲染共用同一个 renderer 的 model；必须传与主渲染相同的 partialTicks，
+				// 否则 setupAnim 算出另一套手臂角度，残影渲染在主渲染之后把模型留在残影姿势 → 高频抖动。
+				float renderTick = net.minecraft.client.Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
 				RENDERING.set(true);
 				try {
 					dispatcher.render(living,
 							lerpX - vec3.x(), lerpY - vec3.y(), lerpZ - vec3.z(),
-							living.getYRot(), tick, stack, tinted, dispatcher.getPackedLightCoords(living, tick));
+							living.getYRot(), renderTick, stack, tinted, dispatcher.getPackedLightCoords(living, renderTick));
 				} finally {
 					RENDERING.set(false);
 				}

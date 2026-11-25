@@ -535,6 +535,14 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	// ------ addition golem behavior
 
+	public int getFormAppearance() {
+		return this.entityData.get(FORM_APPEARANCE);
+	}
+
+	public void setFormAppearance(int mode) {
+		this.entityData.set(FORM_APPEARANCE, Math.floorMod(mode, 4));
+	}
+
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		this.addPersistentAngerSaveData(tag);
@@ -700,10 +708,28 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 		}
 		checkSize();
 		tickExtraSlots();
+		// 使用中把视线对准目标：射线枪用 getViewVector() 定光束方向，傀儡的视线未必朝向目标，
+		// 会出现“打不中天上的敌人”。
+		if (!this.level().isClientSide && isUsingItem()) {
+			var aimTarget = getTarget();
+			if (aimTarget != null && aimTarget.isAlive()) {
+				var eye = getEyePosition();
+				var to = aimTarget.position().add(0, aimTarget.getBbHeight() * 0.5, 0).subtract(eye);
+				float wantYaw = (float) (Mth.atan2(to.z, to.x) * Mth.RAD_TO_DEG) - 90.0F;
+				float wantPitch = (float) -(Mth.atan2(to.y, to.horizontalDistance()) * Mth.RAD_TO_DEG);
+				setYRot(wantYaw);
+				yBodyRot = wantYaw;
+				yHeadRot = wantYaw;
+				setXRot(Mth.clamp(wantPitch, -90.0F, 90.0F));
+			}
+		}
 		if (this.level().isClientSide) {
 			for (var entry : getModifiers().entrySet()) {
 				entry.getKey().onClientTick(this, entry.getValue());
 			}
+			tickClientUseItem();
+		} else {
+			syncUsingHand();
 		}
 		for (var slot : EquipmentSlot.values()) {
 			var stack = this.getItemBySlot(slot);
@@ -716,6 +742,35 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 
 	public void repair(float amount) {
 		setGuardedDataImpl(Math.min(getMaxHealth(), getGuardedDataImpl() + amount), true, true);
+	}
+
+	// ------ 使用中物品（onUseTick / inventoryTick）
+
+	@Override
+	public boolean isUsingItem() {
+		return level().isClientSide ? getUsingHandFlag() != 0 : super.isUsingItem();
+	}
+
+	@Override
+	public InteractionHand getUsedItemHand() {
+		if (level().isClientSide) {
+			return getUsingHandFlag() == 2 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+		}
+		return super.getUsedItemHand();
+	}
+
+	@Override
+	public ItemStack getUseItem() {
+		if (level().isClientSide) {
+			return isUsingItem() ? getItemInHand(getUsedItemHand()) : ItemStack.EMPTY;
+		}
+		return super.getUseItem();
+	}
+
+	public void speedUpUseItem(int tick) {
+		if (useItemRemaining > 0) {
+			useItemRemaining -= tick;
+		}
 	}
 
 	public static final ResourceLocation REFORGE_ID = ModularGolems.loc("golem_reforge");
@@ -1001,6 +1056,9 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public static final EntityDataAccessor<Float> DASH_YAW = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.FLOAT);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	public static final EntityDataAccessor<ItemStack> ARROW_SLOT_2 = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
+	/** 形态外观：0 默认 / 1 始终初始 / 2 始终最终 / 3 跟随生命值。仅影响渲染。 */
+	public static final EntityDataAccessor<Integer> FORM_APPEARANCE = GOLEM_DATA.define(SyncedData.INT, 0, "form_appearance");
+	public static final EntityDataAccessor<Integer> DATA_USING_HAND = GOLEM_DATA.define(SyncedData.INT, 0, "using_hand");
 	public static final EntityDataAccessor<ItemStack> BANNER_SLOT = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<Boolean> IS_IN_RANGE_ATTACK = SynchedEntityData.defineId(AbstractGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
@@ -1231,6 +1289,11 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	public boolean canBeAffected(MobEffectInstance ins) {
 		if (effectImmunity.contains(ins.getEffect()))
 			return false;
+		for (var ent : modifiers.entrySet()) {
+			if (ent.getKey().isImmuneTo(this, ins, ent.getValue())) {
+				return false;
+			}
+		}
 		return super.canBeAffected(ins);
 	}
 
@@ -1276,6 +1339,20 @@ public class AbstractGolemEntity<T extends AbstractGolemEntity<T, P>, P extends 
 	}
 
 	@Override
+	public void onHeal(float heal) {
+		for (var entry : getModifiers().entrySet()) {
+			entry.getKey().onHealPost(heal, this, entry.getValue());
+		}
+	}
+
+	@Override
+	public void heal(float heal) {
+		for (var entry : getModifiers().entrySet()) {
+			heal = entry.getKey().onHealPre(heal, this, entry.getValue());
+		}
+		super.heal(heal);
+	}
+
 	public void lookAt(Entity e, float x, float y) {
 		if (!getMode().isMovable())
 			getLookControl().setLookAt(e, x, y);

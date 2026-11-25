@@ -1,5 +1,9 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import java.util.List;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
@@ -17,8 +21,23 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.function.BiConsumer;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 
 public class IgnisFireballModifier extends GolemModifier {
+
+	public static final int COOLDOWN = 200;
+	/** 施放距离上限（格）。 */
+	public static final int MAX_RANGE = 25;
+	/** 施放的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
+
+	/**
+	 * 腾炎头盔：火球爆炸半径的放大比例。本体 {@code Ignis_Fireball_Entity} 把爆炸半径写死成 1，
+	 * 这里由 {@code IgnisExplosionMixin} 在构造 {@code IgnisExplosion} 时按比例放大。
+	 */
+	public static final float EXPLOSION_RADIUS_BONUS = 1.0F;
+
 
 	private static final int[] ANGLE = {-5, -2, 0, 2, 5};
 	private static final int[] TIMER_3 = {28, 41, 54};
@@ -40,7 +59,7 @@ public class IgnisFireballModifier extends GolemModifier {
 		int from = 2 - lv;
 		int count = 1 + lv * 2;
 		int[] timers = count >= 4 ? TIMER_5 : TIMER_3;
-		boolean blue = CataDispatch.ignisBlue(user);
+		boolean blue = GolemFormAppearance.visualFinal(user, CataDispatch.ignisBlue(user), CataArmorHelper.TWO_THIRDS);
 		int order = 0;
 		for (int i = from; i < from + count; i++) {
 			if (i == index) continue;
@@ -48,6 +67,47 @@ public class IgnisFireballModifier extends GolemModifier {
 		}
 		if (index >= from && index < from + count) {
 			GolemCataProxy.shootFireball(user, new Vec3(ANGLE[index], 3.0D, 0.0D), timers[order], true, blue);
+		}
+	}
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		int count = 1 + Mth.clamp(v, 0, 2) * 2;
+		return List.of(Component.translatable(getDescriptionId() + ".desc",
+				CataArmorHelper.number(count)).withStyle(ChatFormatting.GREEN));
+	}
+
+	/**
+	 * 腾炎头盔：火球发射后持续追踪目标，保证必定命中。
+	 * <p>
+	 * 火球本体是灾变的 {@code Ignis_Fireball_Entity}，没有制导能力，所以在傀儡这一侧每 tick
+	 * 把它的速度方向掰向目标当前眼睛位置，速度大小保持不变。
+	 * <p>
+	 * 只对「已经发射」的火球生效：本体用 {@code setUp(timer)} 让火球先悬停一段时间再射出去，
+	 * {@code getFired()} 为 false 时还在待发阶段，此时不该转向，否则火球会在原地打转。
+	 */
+	@Override
+	public void onAiStep(AbstractGolemEntity<?, ?> golem, int level) {
+		if (golem.level().isClientSide()) return;
+		if (!CataArmorHelper.ignisHelmet(golem)) return;
+		LivingEntity target = golem.getTarget();
+		if (target == null || !target.isAlive()) return;
+		steer(golem, target, com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity.class,
+				proj -> ((com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity) proj).getFired());
+		steer(golem, target, com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entity.class,
+				proj -> ((com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entity) proj).getFired());
+	}
+
+	private static void steer(AbstractGolemEntity<?, ?> golem, LivingEntity target,
+						  Class<? extends net.minecraft.world.entity.projectile.Projectile> cls,
+						  java.util.function.Predicate<net.minecraft.world.entity.projectile.Projectile> launched) {
+		for (var proj : golem.level().getEntitiesOfClass(cls, golem.getBoundingBox().inflate(64))) {
+			if (proj.getOwner() != golem) continue;
+			if (!launched.test(proj)) continue;
+			Vec3 cur = proj.getDeltaMovement();
+			double speed = cur.length();
+			if (speed < 1.0E-3) continue;
+			proj.setDeltaMovement(target.getEyePosition().subtract(proj.position()).normalize().scale(speed));
 		}
 	}
 

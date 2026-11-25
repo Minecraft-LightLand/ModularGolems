@@ -34,6 +34,18 @@
     {
       "id": "modulargolems:maledictus_shinguard",
       "required": false
+    },
+    {
+      "id": "modulargolems:ender_guardian_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ancient_metal_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:storm_shinguard",
+      "required": false
     }
   ]
 }

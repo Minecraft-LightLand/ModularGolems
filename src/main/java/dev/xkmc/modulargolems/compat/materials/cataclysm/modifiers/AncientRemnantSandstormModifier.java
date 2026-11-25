@@ -1,5 +1,10 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import java.util.List;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
@@ -14,8 +19,14 @@ import java.util.function.BiConsumer;
 
 public class AncientRemnantSandstormModifier extends GolemModifier {
 
-	public AncientRemnantSandstormModifier() {
-		super(StatFilterType.ATTACK, 3);
+	public static final int COOLDOWN = 400;
+	/** 施放距离上限（格）。 */
+	public static final int MAX_RANGE = 35;
+	/** 施放的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
+
+	public AncientRemnantSandstormModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override
@@ -24,11 +35,14 @@ public class AncientRemnantSandstormModifier extends GolemModifier {
 		addGoal.accept(6, new AncientRemnantSandstormTrackGoal(entity));
 	}
 
+	/**
+	 * 远古金属头盔：遗魂沙暴造成的伤害无视目标无敌帧。
+	 */
 	@Override
 	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
-		if (GolemCataProxy.isSandstorm(event.getSource())) {
-			event.getTarget().invulnerableTime = 0;
-		}
+		if (!CataArmorHelper.ancientHelmet(entity)) return;
+		if (!GolemCataProxy.isSandstorm(event.getSource())) return;
+		event.getTarget().invulnerableTime = 0;
 	}
 
 	@Override
@@ -36,8 +50,14 @@ public class AncientRemnantSandstormModifier extends GolemModifier {
 		int lv = GolemCataProxy.getSandCurseLevel(cache.getTarget());
 		if (lv > 0) {
 			float factor = 1 + level * MGConfig.COMMON.sandCurseBonus.get().floatValue();
-			cache.addHurtModifier(DamageModifier.multTotal(factor, ModularGolems.loc("curse_of_desert") ));
+			cache.addHurtModifier(DamageModifier.multTotal(factor, ModularGolems.loc("curse_of_desert")));
 		}
+	}
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc",
+				CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH)).withStyle(ChatFormatting.GREEN));
 	}
 
 }

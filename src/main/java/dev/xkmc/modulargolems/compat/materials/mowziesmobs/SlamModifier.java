@@ -21,6 +21,9 @@ import java.util.function.Consumer;
 
 public class SlamModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
+	public static final int COOLDOWN = 200;
+
+
 	public SlamModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
 	}

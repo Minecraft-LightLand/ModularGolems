@@ -1,11 +1,15 @@
 package dev.xkmc.modulargolems.content.modifier.base;
 
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import dev.xkmc.l2core.init.reg.registrate.NamedEntry;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.config.GolemPartConfig;
 import dev.xkmc.modulargolems.content.core.GolemType;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
+import dev.xkmc.modulargolems.util.RomanNumerals;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -41,7 +45,7 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	public Component getTooltip(int v) {
 		MutableComponent ans = getDesc();
 		if (maxLevel > 1)
-			ans = ans.append(" ").append(Component.translatable("potion.potency." + (v - 1)));
+			ans = ans.append(" ").append(Component.literal(RomanNumerals.of(v)));
 		return ans.withStyle(ChatFormatting.LIGHT_PURPLE);
 	}
 
@@ -144,6 +148,26 @@ public class GolemModifier extends NamedEntry<GolemModifier> {
 	}
 
 	public void modifySource(AbstractGolemEntity<?, ?> golem, CreateSourceEvent event, int value) {
+	}
+
+	/**
+	 * 该傀儡击杀目标时触发（goety 的 Haunted / SoulCollection 等技能用）。
+	 */
+	/** 该傀儡是否对该状态效果免疫（Etherite 等技能用）。 */
+	public boolean isImmuneTo(AbstractGolemEntity<?, ?> golem, MobEffectInstance ins, int level) {
+		return false;
+	}
+
+	/** 治疗前的数值修正。 */
+	public float onHealPre(float heal, AbstractGolemEntity<?, ?> golem, int value) {
+		return heal;
+	}
+
+	/** 治疗后的通知。 */
+	public void onHealPost(float heal, AbstractGolemEntity<?, ?> golem, int value) {
+	}
+
+	public void onKillTarget(AbstractGolemEntity<?, ?> golem, LivingEntity entity, LivingDeathEvent event, int level) {
 	}
 
 	public void handleEvent(AbstractGolemEntity<?, ?> golem, int value, byte event) {

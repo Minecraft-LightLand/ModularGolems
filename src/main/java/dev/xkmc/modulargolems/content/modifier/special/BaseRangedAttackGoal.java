@@ -38,9 +38,14 @@ public abstract class BaseRangedAttackGoal extends Goal implements ICooldownSkil
 				(this.golem.getNavigation().isStuck() || this.golem.distanceToSqr(livingentity) > near);
 	}
 
+	/** 冷却时长钩子：默认取构造时的 waitTime，子类可按状态动态缩短（如远古金属胸甲减半）。 */
+	protected int getWaitTime() {
+		return waitTime;
+	}
+
 	public void start() {
 		if (attackTime == 0) {
-			this.attackTime = golem.level().getGameTime() + waitTime;
+			this.attackTime = golem.level().getGameTime() + getWaitTime();
 		}
 	}
 
@@ -71,7 +76,7 @@ public abstract class BaseRangedAttackGoal extends Goal implements ICooldownSkil
 				lock = true;
 			} else if (performAttack(le)) {
 				backstepped = false;
-				this.attackTime = time + waitTime;
+				this.attackTime = time + getWaitTime();
 				lock = false;
 				golem.specialAttackCoolDown = 20;
 			} else {

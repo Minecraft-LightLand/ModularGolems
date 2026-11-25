@@ -25,6 +25,11 @@ import java.util.function.Consumer;
 
 public class NetheriteMonstrosityEarthquakeModifier extends AttributeGolemModifier implements EarthquakeHelper.Modifier {
 
+	public static final int COOLDOWN = 160;
+
+	/** 起跳可及的最大水平距离（格）。 */
+	public static final int MAX_RANGE = 8;
+
 	public NetheriteMonstrosityEarthquakeModifier() {
 		super(1,
 				new AttrEntry(GolemTypes.STAT_ATTACK, () -> 5),

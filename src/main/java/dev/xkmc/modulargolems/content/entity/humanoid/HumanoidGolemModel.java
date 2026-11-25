@@ -34,7 +34,7 @@ public class HumanoidGolemModel extends PlayerModel<HumanoidGolemEntity> impleme
 	}
 
 	@Override
-	public ModelPart root() {
+	public ModelPart getRootPart() {
 		return this.golemRoot;
 	}
 

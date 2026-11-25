@@ -34,6 +34,18 @@
     {
       "id": "modulargolems:maledictus_helmet",
       "required": false
+    },
+    {
+      "id": "modulargolems:ender_guardian_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ancient_metal_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:storm_helmet",
+      "required": false
     }
   ]
 }

@@ -22,6 +22,11 @@ import java.util.function.Consumer;
 
 public class ThunderImmuneModifier extends GolemModifier {
 
+	/**
+	 * Fire resistance granted when struck by lightning, in ticks.
+	 */
+	public static final int FIRE_RESIST_TICKS = 200;
+
 	public ThunderImmuneModifier() {
 		super(StatFilterType.HEALTH, 2);
 	}
@@ -33,7 +38,7 @@ public class ThunderImmuneModifier extends GolemModifier {
 			entity.clearFire();
 		}
 		if (event.getSource().is(DamageTypeTags.IS_LIGHTNING)) {
-			EffectUtil.addEffect(entity, new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200), entity);
+			EffectUtil.addEffect(entity, new MobEffectInstance(MobEffects.FIRE_RESISTANCE, FIRE_RESIST_TICKS), entity);
 			entity.heal(MGConfig.COMMON.thunderHeal.get() * level);
 			Player player = entity.getOwner();
 			if (player instanceof ServerPlayer pl) {
@@ -51,7 +56,9 @@ public class ThunderImmuneModifier extends GolemModifier {
 
 	public List<MutableComponent> getDetail(int v) {
 		int heal = MGConfig.COMMON.thunderHeal.get() * v;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", heal).withStyle(ChatFormatting.GREEN));
+		var ctime = Component.literal("" + (FIRE_RESIST_TICKS / 20)).withStyle(ChatFormatting.AQUA);
+		var cheal = Component.literal("" + heal).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", ctime, cheal).withStyle(ChatFormatting.GREEN));
 	}
 
 }

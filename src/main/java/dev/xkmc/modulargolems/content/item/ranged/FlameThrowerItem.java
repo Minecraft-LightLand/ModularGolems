@@ -103,8 +103,6 @@ public class FlameThrowerItem extends ProjectileWeaponItem implements IGenericSh
 		list.add(MGLangData.FLAMETHROWER_TNT.get());
 		list.add(MGLangData.FLAMETHROWER_FIRECHARGE.get());
 		list.add(MGLangData.FLAMETHROWER_FLAME.get());
-		list.add(MGLangData.GOLEM_EQUIPMENT.get(GolemTypes.ENTITY_GOLEM.get().getDescription().copy().withStyle(ChatFormatting.GOLD))
-				.withStyle(ChatFormatting.UNDERLINE));
 		list.add(MGLangData.SHOULDER_WEAPON.get());
 	}
 

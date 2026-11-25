@@ -1,0 +1,36 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:gold_ingot"
+    },
+    "B": {
+      "item": "cataclysm:koboleton_bone"
+    },
+    "C": {
+      "item": "minecraft:netherite_upgrade_smithing_template"
+    },
+    "D": {
+      "item": "minecraft:chiseled_sandstone"
+    },
+    "E": {
+      "item": "cataclysm:ancient_metal_ingot"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "BCB",
+    "DED"
+  ],
+  "result": {
+    "count": 1,
+    "id": "modulargolems:ancient_metal_upgrade_template"
+  }
+}

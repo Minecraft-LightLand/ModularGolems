@@ -20,6 +20,11 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import java.util.function.BiConsumer;
 
 public class EnderGuardianRocketPunchModifier extends GolemModifier implements ChargeHelper.Modifier {
+	public static final int COOLDOWN = 300;
+	public static final int MAX_TICKS = 40;
+	public static final double MAX_RANGE = 16;
+	public static final int MIN_RANGE = 0;
+
 	@Override
 	public int getCooldown(AbstractGolemEntity<?, ?> golem, int lv) {
 		return 160;
@@ -32,19 +37,19 @@ public class EnderGuardianRocketPunchModifier extends GolemModifier implements C
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new EnderGuardianRocketPunchGoal(entity, lv, this));
+		addGoal.accept(1, new EnderGuardianRocketPunchAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
-		if (EnderGuardianRocketPunchGoal.isCharging(entity)) {
+		if (EnderGuardianRocketPunchAttackGoal.isCharging(entity)) {
 			event.addDealtModifier(DamageModifier.multTotal(ChargeHelper.CHARGE_DAMAGE_MULT, getRegistryName()));
 		}
 	}
 
 	@Override
 	public void setCharging(ChargeHelper.Instance ins, boolean on) {
-		ins.owner().setTransientFlag(EnderGuardianRocketPunchGoal.KEY_ACTIVE, on);
+		ins.owner().setTransientFlag(EnderGuardianRocketPunchAttackGoal.KEY_ACTIVE, on);
 	}
 
 	@Override
@@ -57,7 +62,7 @@ public class EnderGuardianRocketPunchModifier extends GolemModifier implements C
 		var golem = ins.owner();
 		GolemCataProxy.gravityPull(golem);
 		if (golem.tickCount % 20 == 0) {
-			EnderGuardianRocketPunchGoal.fireBulletFan(golem);
+			EnderGuardianRocketPunchAttackGoal.fireBulletFan(golem);
 		}
 	}
 
@@ -75,7 +80,7 @@ public class EnderGuardianRocketPunchModifier extends GolemModifier implements C
 
 	@Override
 	public void onChargeTouch(ChargeHelper.Instance ins, LivingEntity target) {
-		GolemCataProxy.inflictStun(ins.owner(), target, EnderGuardianRocketPunchGoal.STUN_TICKS);
+		GolemCataProxy.inflictStun(ins.owner(), target, EnderGuardianRocketPunchAttackGoal.STUN_TICKS);
 	}
 
 	@Override

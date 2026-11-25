@@ -1,22 +1,24 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters;
 
-import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
-import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.common.GolemFlags;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
-import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
+import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 
 import java.util.function.Consumer;
+import java.util.List;
 
 public class AncientAnchorModifier extends GolemModifier implements EarthquakeHelper.Modifier {
+
+	public static final int COOLDOWN = 200;
 
 	public AncientAnchorModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -45,10 +47,14 @@ public class AncientAnchorModifier extends GolemModifier implements EarthquakeHe
 	}
 
 	@Override
+	public int getCoolDown(AbstractGolemEntity<?, ?> golem, int lv) {
+		return COOLDOWN;
+	}
+
+	@Override
 	public double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
 		return 8 * 8;
 	}
-
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {

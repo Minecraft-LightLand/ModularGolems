@@ -540,6 +540,14 @@ public class GolemItems {
 		return regModUpgrade(id, mod, 1, false, modid);
 	}
 
+	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regMultiModUpgrade(String id, List<Supplier<Val<? extends GolemModifier>>> mods, int lv, boolean foil, String modid) {
+		return regUpgradeImpl(id, p -> new SimpleUpgradeItem(p, mods.stream().map(m -> (Supplier<GolemModifier>) m.get()::get).toList(), lv, foil), modid).asOptional().tag(MGTagGen.GOLEM_UPGRADES);
+	}
+
+	public static ItemBuilder<SimpleUpgradeItem, L2Registrate> regMultiModUpgrade(String id, List<Supplier<Val<? extends GolemModifier>>> mods, String modid) {
+		return regMultiModUpgrade(id, mods, 1, false, modid);
+	}
+
 	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgrade(String id, Supplier<Val<? extends GolemModifier>> mod) {
 		return regUpgrade(id, mod, 1, false);
 	}
@@ -549,7 +557,11 @@ public class GolemItems {
 	}
 
 	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgradeImpl(String id, Supplier<Val<? extends GolemModifier>> mod, int level, boolean foil, String modid) {
-		return REGISTRATE.item(id, p -> new SimpleUpgradeItem(p, mod.get()::get, level, foil))
+		return regUpgradeImpl(id, p -> new SimpleUpgradeItem(p, mod.get()::get, level, foil), modid);
+	}
+
+	private static ItemBuilder<SimpleUpgradeItem, L2Registrate> regUpgradeImpl(String id, NonNullFunction<Item.Properties, SimpleUpgradeItem> factory, String modid) {
+		return REGISTRATE.item(id, factory)
 				.model((ctx, pvd) -> pvd.generated(ctx, ResourceLocation.fromNamespaceAndPath(modid, "item/upgrades/" + id))
 						.override().predicate(ResourceLocation.fromNamespaceAndPath(ModularGolems.MODID, "blue_arrow"), 0.5f)
 						.model(pvd.getBuilder(pvd.name(ctx) + "_purple")

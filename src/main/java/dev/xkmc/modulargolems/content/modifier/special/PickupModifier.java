@@ -33,6 +33,7 @@ public class PickupModifier extends GolemModifier {
 	@Override
 	public List<MutableComponent> getDetail(int v) {
 		int range = MGConfig.COMMON.basePickupRange.get() * v;
-		return List.of(Component.translatable(getDescriptionId() + ".desc", range).withStyle(ChatFormatting.GREEN));
+		var val = Component.literal("" + range).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", val).withStyle(ChatFormatting.GREEN));
 	}
 }

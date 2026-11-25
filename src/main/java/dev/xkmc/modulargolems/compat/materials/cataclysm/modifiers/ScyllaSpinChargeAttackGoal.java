@@ -1,0 +1,157 @@
+package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
+
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
+import dev.xkmc.modulargolems.util.SkillSound;
+import dev.xkmc.modulargolems.content.modifier.special.BaseChargeGoal;
+
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.init.data.MGConfig;
+import dev.xkmc.modulargolems.content.modifier.special.ChargeHelper;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
+import dev.xkmc.modulargolems.util.GolemTargetUtil;
+import dev.xkmc.modulargolems.util.GolemCombatHelper;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.EnumSet;
+
+public class ScyllaSpinChargeAttackGoal extends BaseChargeGoal {
+
+	public static final String KEY_ACTIVE = "ScyllaSpinCharging";
+
+	/** 冲锋期间每 tick 累加的水平旋转角度（度），即整体转速。 */
+
+	private final AbstractGolemEntity<?, ?> golem;
+	private Vec3 start, dir;
+	private double total;
+	private int ticks;
+	private boolean blocked;
+	/**
+	 * 冲锋期间累加的视觉水平旋转角。只改渲染朝向（yBodyRot），不影响冲锋方向——
+	 * 位移方向始终走独立的 {@link #dir}，所以傀儡边转边沿直线冲。
+	 */
+	private float spinYaw;
+
+	public ScyllaSpinChargeAttackGoal(AbstractGolemEntity<?, ?> golem, int lv, ChargeHelper.Modifier mod) {
+		super(mod, lv);
+		this.golem = golem;
+		setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+	}
+
+	public static boolean isCharging(AbstractGolemEntity<?, ?> golem) {
+		return golem.isTransientFlag(KEY_ACTIVE);
+	}
+
+	@Override
+	public boolean canUse() {
+		return canUseCharge(golem, ChargeHelper.findChargeTarget(golem, ScyllaSpinChargeModifier.MAX_RANGE),
+				ScyllaSpinChargeModifier.MIN_RANGE, ScyllaSpinChargeModifier.MAX_RANGE);
+	}
+
+	@Override
+	public void start() {
+		LivingEntity target = ChargeHelper.findChargeTarget(golem, ScyllaSpinChargeModifier.MAX_RANGE);
+		// 同 IgnisChargeAttackGoal#start：canUse 与 start 之间目标可能已死
+		if (target == null) {
+			this.blocked = true;
+			return;
+		}
+		this.ticks = 0;
+		this.blocked = false;
+		this.spinYaw = 0;
+		this.golem.getNavigation().stop();
+		this.golem.setTransientFlag(KEY_ACTIVE, true);
+		EarthquakeHelper.setBusy(this.golem, true);
+		markUsed(golem);
+		if (startBackstep(golem, target)) return;
+		begin(target);
+	}
+
+	private void begin(LivingEntity target) {
+		this.start = golem.position();
+		this.dir = new Vec3(target.getX() - golem.getX(), 0, target.getZ() - golem.getZ()).normalize();
+		this.total = golem.distanceTo(target) + 2;
+		GolemCataProxy.scyllaStormParticles(golem);
+		GolemCataProxy.scyllaSpinSound(golem);
+		ChargeHelper.playChargeEasterEgg(golem);
+	}
+
+	@Override
+	public boolean canContinueToUse() {
+		return canContinueCharge(golem, start, total, ticks, ScyllaSpinChargeModifier.MAX_TICKS, blocked);
+	}
+
+	@Override
+	public void stop() {
+		finishCharge(this.golem, KEY_ACTIVE);
+	}
+
+	@Override
+	public boolean requiresUpdateEveryTick() {
+		return true;
+	}
+
+	@Override
+	public void tick() {
+		if (tickBackstep()) return;
+		if (pendingChargeTarget != null) {
+			// 后撤步刚落地：重新占锁并开始冲锋
+			LivingEntity t = pendingChargeTarget;
+			pendingChargeTarget = null;
+			this.ticks = 0;
+			EarthquakeHelper.setBusy(golem, true);
+			golem.setTransientFlag(KEY_ACTIVE, true);
+			begin(t);
+			return;
+		}
+		this.ticks++;
+		if (this.ticks % 2 == 0) {
+			GolemCataProxy.scyllaStormParticles(golem);
+		}
+		// 本体 attackState 7：tick 29 / 40 / 51 各一次横扫刀光 + 伤害 + 音效
+		if (this.ticks % ScyllaSpinChargeModifier.SWING_INTERVAL == 0) {
+			// 本体是 getScale() * 2.0F；getScale() 是 vanilla Entity#getScale()，傀儡同样是 1.0
+			GolemCataProxy.scyllaSwingParticle(golem, golem.getScale() * 2.0F);
+			GolemCataProxy.scyllaSpin(golem);
+			GolemCataProxy.scyllaSpinSound(golem);
+			GolemCataProxy.screenShake(golem, 20.0F);
+		}
+		if (!ChargeHelper.moveOneTick(golem, dir)) {
+			this.blocked = true;
+			return;
+		}
+		// moveOneTick 每 tick 把 yBodyRot 设回冲锋方向，所以旋转要加在它之后，
+		// 且必须「基准方向 + 累计角」，不能把累计角再叠加到已被重置的 yBodyRot 上（会越转越大、视觉乱跳）。
+		// 位移方向始终是独立的 dir，所以傀儡边转边沿直线冲。
+		float prevSpin = this.spinYaw;
+		this.spinYaw = (this.spinYaw + ScyllaSpinChargeModifier.SPIN_SPEED) % 360.0F;
+		float baseYaw = (float) (Mth.atan2(-dir.x, dir.z) * Mth.RAD_TO_DEG);
+		// 渲染读的是 yBodyRot 与 yBodyRotO 的插值；上一帧值必须保留上一帧的累计角，否则插值恒为 0、看不到转动。
+		golem.yBodyRotO = baseYaw + prevSpin;
+		golem.yBodyRot = baseYaw + this.spinYaw;
+		// setYRot 也同步，避免其它渲染路径（实体朝向）盖掉旋转
+		golem.setYRot(golem.yBodyRot);
+		golem.yRotO = golem.yBodyRotO;
+		golem.yHeadRot = golem.yBodyRot;
+		golem.yHeadRotO = golem.yBodyRotO;
+		float atk = (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		AABB aabb = golem.getBoundingBox().inflate(0.5);
+		for (var e : golem.level().getEntitiesOfClass(LivingEntity.class, aabb)) {
+			if (!GolemTargetUtil.canTarget(golem, e)) continue;
+			float dmg = atk + Math.min(atk, e.getMaxHealth() * 0.05f);
+			float bonus = 1F;
+			if (CataArmorHelper.monstrosityChest(golem))
+				bonus += MGConfig.COMMON.monstrosityChargeBonus.get().floatValue();
+			boolean chargeHit = GolemCombatHelper.meleeHit(golem, e, golem.damageSources().mobAttack(golem), dmg * bonus);
+			if (chargeHit) {
+				ChargeHelper.pushChargeTarget(golem, e, dir);
+				SkillSound.playChargeHit(golem);
+			}
+		}
+	}
+
+}

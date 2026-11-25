@@ -26,6 +26,7 @@
       "modulargolems:ancient_remnant_leap": 1,
       "modulargolems:ancient_remnant_reformation": 1,
       "modulargolems:ancient_remnant_sandstorm": 1,
+      "modulargolems:ancient_remnant_stomp": 1,
       "modulargolems:damage_cap": 1,
       "modulargolems:dynamic_reduction": 1,
       "modulargolems:fire_immune": 1
@@ -38,6 +39,7 @@
       "modulargolems:maledictus_attack": 1,
       "modulargolems:maledictus_charge": 1,
       "modulargolems:maledictus_earthquake": 1,
+      "modulargolems:maledictus_halberd_fan": 1,
       "modulargolems:recycle": 1
     },
     "cataclysm:ender_guardian": {
@@ -46,7 +48,7 @@
       "modulargolems:ender_guardian_hug": 1,
       "modulargolems:ender_guardian_rocket_punch": 1,
       "modulargolems:ender_guardian_teleport_slam": 1,
-      "modulargolems:ender_guardian_void_rune": 2,
+      "modulargolems:ender_guardian_void_rune": 1,
       "modulargolems:fire_immune": 1,
       "modulargolems:projectile_reject": 1
     },
@@ -56,6 +58,7 @@
       "modulargolems:fire_immune": 1,
       "modulargolems:ignis_attack": 1,
       "modulargolems:ignis_charge": 1,
+      "modulargolems:ignis_counter": 1,
       "modulargolems:ignis_fireball": 2,
       "modulargolems:ignis_jump": 1
     },

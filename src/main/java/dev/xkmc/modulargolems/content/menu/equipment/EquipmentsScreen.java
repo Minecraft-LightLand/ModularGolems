@@ -5,6 +5,7 @@ import dev.xkmc.l2core.base.menu.base.PredSlot;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.modulargolems.content.core.GolemMenuControl;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
 import dev.xkmc.modulargolems.content.entity.humanoid.HumanoidGolemEntity;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinButton;
 import dev.xkmc.modulargolems.content.entity.humanoid.skin.PlayerSkinInputScreen;
@@ -26,12 +27,17 @@ import java.util.Optional;
 
 public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implements ITabScreen {
 
+	private FormAppearanceButton formButton;
+
 	public EquipmentsScreen(EquipmentsMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
 	}
 
 	@Override
 	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
+		if (formButton != null && menu.golem != null) {
+			formButton.visible = GolemFormAppearance.hasSecondAppearanceChest(menu.golem);
+		}
 		var sr = getRenderer();
 		sr.start(g);
 		Optional.ofNullable(menu.ctrl).flatMap(GolemMenuControl::getScreenProvider)
@@ -46,9 +52,13 @@ public class EquipmentsScreen extends BaseContainerScreen<EquipmentsMenu> implem
 		if (menu.golem == null) return;
 		new TabManager<>(this, new EquipmentGroup(menu.golem))
 				.init(this::addRenderableWidget, GolemTabRegistry.EQUIPMENT.get());
+		formButton = null;
 		if (menu.golem instanceof HumanoidGolemEntity golem) {
 			addRenderableWidget(new PlayerSkinButton(leftPos + 160, topPos + 6, golem, b ->
 					Minecraft.getInstance().setScreen(new PlayerSkinInputScreen(golem))));
+		} else if (menu.golem != null) {
+			formButton = addRenderableWidget(new FormAppearanceButton(leftPos + 160, topPos + 6, menu.golem));
+			formButton.visible = GolemFormAppearance.hasSecondAppearanceChest(menu.golem);
 		}
 	}
 

@@ -7,6 +7,9 @@ import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
 import dev.xkmc.modulargolems.util.SkillSound;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -27,19 +30,52 @@ public class EarthquakeHelper {
 
 	public static final byte FLAG = 83;
 	public static final double RANGE = 5;
-	public static final String SKILL_BUSY_KEY = "skill_busy";
 	public static final float LEAP_DAMAGE_MULT = 0.2F;
+
+	/** 向下扫到第一个可站立方块面并返回其上的落点；找不到返回 null。落地类特效/瞬移共用。 */
+	@Nullable
+	public static Vec3 findFloor(Level level, Vec3 p, int diff) {
+		double x = p.x, maxY = p.y, z = p.z, minY = maxY - diff;
+		BlockPos pos = BlockPos.containing(x, maxY, z);
+		double dy = 0.0F;
+		do {
+			BlockPos low = pos.below();
+			BlockState lowState = level.getBlockState(low);
+			if (lowState.isFaceSturdy(level, low, Direction.UP)) {
+				if (!level.isEmptyBlock(pos)) {
+					BlockState state = level.getBlockState(pos);
+					VoxelShape shape = state.getCollisionShape(level, pos);
+					if (!shape.isEmpty()) dy = shape.max(Direction.Axis.Y);
+				}
+				return new Vec3(x, pos.getY() + dy, z);
+			}
+			pos = pos.below();
+		} while (pos.getY() >= minY);
+		return null;
+	}
+
+	public static void performDefaultJump(AbstractGolemEntity<?, ?> golem) {
+		var target = golem.getTarget();
+		if (target == null || golem.getControllingPassenger() instanceof Player)
+			golem.addDeltaMovement(new Vec3(0, 1.3, 0));
+		else golem.setDeltaMovement(
+				(target.getX() - golem.getX()) * 0.15,
+				1.3,
+				(target.getZ() - golem.getZ()) * 0.15
+		);
+	}
 
 	public static boolean isLeaping(AbstractGolemEntity<?, ?> golem) {
 		return !golem.onGround();
 	}
 
+	/** 技能互斥锁存在 {@link dev.xkmc.modulargolems.content.entity.goals.GolemMeleeGoal} 上，这里只做转发。 */
 	public static boolean isBusy(AbstractGolemEntity<?, ?> golem) {
-		return golem.isTransientFlag(SKILL_BUSY_KEY);
+		return golem.meleeGoal != null && golem.meleeGoal.busy;
 	}
 
 	public static void setBusy(AbstractGolemEntity<?, ?> golem, boolean on) {
-		golem.setTransientFlag(SKILL_BUSY_KEY, on);
+		if (golem.meleeGoal != null) golem.meleeGoal.busy = on;
 	}
 
 	public static MutableComponent leapReduction() {
@@ -93,7 +129,7 @@ public class EarthquakeHelper {
 		for (var e : golem.getModifiersExtended().entrySet()) {
 			if (e.getKey() instanceof Modifier m) {
 				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
-				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {
+				if ((last + m.getCoolDown(golem, e.getValue()) < time || last > time) && m.canUse(golem)) {
 					list.add(new Instance(golem, m, e.getValue()));
 				}
 			}
@@ -116,7 +152,7 @@ public class EarthquakeHelper {
 		for (var e : golem.getModifiersExtended().entrySet()) {
 			if (e.getKey() instanceof Modifier m) {
 				long last = golem.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
-				if (last + m.getCoolDown(golem, e.getValue()) < time || last > time) {
+				if ((last + m.getCoolDown(golem, e.getValue()) < time || last > time) && m.canUse(golem)) {
 					if (m.getEarthquakeRangeSqr(golem, target, e.getValue()) > distSqr) {
 						list.add(new Instance(golem, m, e.getValue()));
 					}
@@ -127,7 +163,7 @@ public class EarthquakeHelper {
 			for (var e : dog.getModifiersExtended().entrySet()) {
 				if (e.getKey() instanceof Modifier m) {
 					long last = dog.getPersistentData().getLong(e.getKey().getID() + ":timestamp");
-					if (last + m.getCoolDown(dog, e.getValue()) < time || last > time) {
+					if ((last + m.getCoolDown(dog, e.getValue()) < time || last > time) && m.canUse(dog)) {
 						if (m.getEarthquakeRangeSqr(dog, target, e.getValue()) > distSqr) {
 							list.add(new Instance(dog, m, e.getValue()));
 						}
@@ -167,6 +203,11 @@ public class EarthquakeHelper {
 	public interface Modifier {
 
 		void performEarthQuake(AbstractGolemEntity<?, ?> golem, int level);
+
+		/** 技能当前是否允许使用。默认始终允许；需要形态/血量门槛的技能覆写它。 */
+		default boolean canUse(AbstractGolemEntity<?, ?> golem) {
+			return true;
+		}
 
 		default double getEarthquakeRangeSqr(AbstractGolemEntity<?, ?> golem, LivingEntity target, int lv) {
 			return 25;

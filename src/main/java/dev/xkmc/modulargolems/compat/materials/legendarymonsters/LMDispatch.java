@@ -6,12 +6,8 @@ import dev.xkmc.l2core.serial.config.ConfigDataProvider;
 import dev.xkmc.modulargolems.compat.materials.common.ModDispatch;
 import dev.xkmc.modulargolems.init.loot.MGGLMGen;
 import net.miauczel.legendary_monsters.LegendaryMonsters;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.core.HolderLookup;
-
-import java.util.concurrent.CompletableFuture;
-import net.minecraft.core.HolderLookup;
-
 import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +18,8 @@ public class LMDispatch extends ModDispatch {
 	public LMDispatch() {
 		super(() -> LMClient::new);
 		LMCompatRegistry.register();
+		// 调试：记录传奇怪物 Boss 每次切换 attackState（用于识别招式）
+		net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(LMBossDebug::onLivingTick);
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class LMDispatch extends ModDispatch {
 	}
 
 	@Override
-	public @Nullable ConfigDataProvider getDataGen(DataGenerator gen, CompletableFuture<HolderLookup.Provider> pvd) {
+	public ConfigDataProvider getDataGen(DataGenerator gen, CompletableFuture<HolderLookup.Provider> pvd) {
 		return new LMConfigGen(gen, pvd);
 	}
 

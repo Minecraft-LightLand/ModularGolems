@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "cataclysm"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "cataclysm:essence_of_the_storm"
+  },
+  "base": {
+    "item": "modulargolems:barbaric_vanguard_shinguard"
+  },
+  "result": {
+    "count": 1,
+    "id": "modulargolems:storm_shinguard"
+  },
+  "template": {
+    "item": "modulargolems:storm_upgrade_template"
+  }
+}

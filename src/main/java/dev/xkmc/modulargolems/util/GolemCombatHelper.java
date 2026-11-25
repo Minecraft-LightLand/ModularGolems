@@ -20,10 +20,11 @@ public class GolemCombatHelper {
 		return (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE);
 	}
 
-	/** Deals damage and takes the target's shield down with it. */
-	public static void meleeHit(AbstractGolemEntity<?, ?> golem, LivingEntity target, DamageSource source, float damage) {
-		target.hurt(source, damage);
+	/** Deals damage and takes the target's shield down with it. Returns whether the hit actually landed. */
+	public static boolean meleeHit(AbstractGolemEntity<?, ?> golem, LivingEntity target, DamageSource source, float damage) {
+		boolean hit = target.hurt(source, damage);
 		breakShield(golem, target, source);
+		return hit;
 	}
 
 	/** Puts a blocking player's shield on cooldown. Never the golem's own rider. */

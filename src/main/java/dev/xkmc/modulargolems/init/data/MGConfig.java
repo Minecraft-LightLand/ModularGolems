@@ -32,6 +32,9 @@ public class MGConfig {
 		public final ModConfigSpec.DoubleValue compatTFHealing;
 		public final ModConfigSpec.DoubleValue compatTFDamage;
 	public final ModConfigSpec.DoubleValue chargeArmorBonus, monstrosityChargeBonus;
+	public final ModConfigSpec.DoubleValue sparkArmorBonus, anchorSlamRangeBonus, serpentArmorBonus, gravityChargeArmorBonus;
+	public final ModConfigSpec.DoubleValue reformationArmorRegen;
+	public final ModConfigSpec.BooleanValue bossBreakShield;
 		public final ModConfigSpec.IntValue manaMendingCost;
 		public final ModConfigSpec.DoubleValue manaMendingVal;
 		public final ModConfigSpec.DoubleValue manaBoostingDamage;
@@ -301,8 +304,20 @@ public class MGConfig {
 							.defineInRange("laserArmorBonus", 1d, 0, 10);
 					missileArmorBonus = builder.text("Harbinger Chestplate Bonus: Homing Missile damage boost")
 							.defineInRange("missileArmorBonus", 1d, 0, 10);
+					sparkArmorBonus = builder.text("Storm Shinguard Bonus: Spark damage boost")
+							.defineInRange("sparkArmorBonus", 1d, 0, 10);
+					anchorSlamRangeBonus = builder.text("Storm Shinguard Bonus: Thunder Slam (and its heavy lightning smash) attack range boost")
+							.defineInRange("anchorSlamRangeBonus", 1d, 0, 10);
+					serpentArmorBonus = builder.text("Storm Chestplate Bonus: Phantom Serpent attack range boost")
+							.defineInRange("serpentArmorBonus", 1d, 0, 10);
+					gravityChargeArmorBonus = builder.text("Ender Guardian Shinguard Bonus: Gravity Charge damage boost")
+							.defineInRange("gravityChargeArmorBonus", 0.5d, 0, 10);
+					reformationArmorRegen = builder.text("Ancient Metal Chestplate Bonus: Remnant Reformation health restored per second below half health")
+							.defineInRange("reformationArmorRegen", 1d, 0, 100);
 					earthquakeArmorBonus = builder.text("Monstrosity Armor Bonus: Monstrosity Earthquake Modifier damage boost")
 							.defineInRange("earthquakeArmorBonus", 0.5d, 0, 10);
+					bossBreakShield = builder.text("All blockable boss attacks will be able to break shields")
+							.define("bossBreakShield", true);
 					sandCurseBonus = builder.text("Sandstorm Upgrade damage bonus per level")
 							.defineInRange("sandCurseBonus", 0.1d, 0, 10);
 					maledictusReviveCD = builder.text("Cursium Golem Chestplate: Revive Cooldown")

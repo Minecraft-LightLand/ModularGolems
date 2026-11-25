@@ -42,9 +42,6 @@ public class TransientStateContainer {
 			else container().transientState.put(key, value);
 		}
 
-		default void tickTransient() {
-		}
-
 	}
 
 }

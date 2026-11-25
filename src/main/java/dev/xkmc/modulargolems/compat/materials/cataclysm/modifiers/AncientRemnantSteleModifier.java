@@ -1,10 +1,18 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import java.util.List;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.ChatFormatting;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
+import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.cataclysm_mux.GolemCataProxy;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.base.GolemModifier;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -13,6 +21,14 @@ import net.minecraft.world.phys.Vec3;
 import java.util.function.BiConsumer;
 
 public class AncientRemnantSteleModifier extends GolemModifier {
+
+	public static final int COOLDOWN = 200;
+	/** 施放距离上限（格）。 */
+	public static final int MAX_RANGE = 25;
+	/** 施放的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
+
+	private static final ResourceLocation STELE = ResourceLocation.fromNamespaceAndPath("cataclysm", "ancient_desert_stele");
 
 	public AncientRemnantSteleModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -24,7 +40,9 @@ public class AncientRemnantSteleModifier extends GolemModifier {
 	}
 
 	public static void addStele(LivingEntity user, LivingEntity target, int lv) {
-		user.level().playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.RAVAGER_ROAR, user.getSoundSource(), 5.0F, 0.7F + user.getRandom().nextFloat() * 0.2F);
+		// 本体巨石攻击（attackState 17, attackTicks 16）播的是灾变自己的 REMNANT_ROAR，不是原版劫掠兽。
+		// 1.20 这行用的是 playLocalSound（服务端空实现）所以从来没响过；移植改成广播后暴露了错音效。
+		user.level().playSound(null, user.getX(), user.getY(), user.getZ(), com.github.L_Ender.cataclysm.init.ModSounds.REMNANT_ROAR.get(), net.minecraft.sounds.SoundSource.HOSTILE, 3.0F, 1.1F);
 		float rot = user.getRandom().nextFloat() * Mth.TWO_PI;
 		int branches = 8, perBranch = 16;
 		double initialRadius = 2.0, radiusInc = 0.75, curve = 0.6;
@@ -52,6 +70,24 @@ public class AncientRemnantSteleModifier extends GolemModifier {
 
 	private static void spawnAt(LivingEntity user, double x, double y, double z, int delay) {
 		GolemCataProxy.spawnDesertStele(user, x, y, z, delay);
+	}
+
+	/**
+	 * 远古金属头盔：岩碑落阵造成的伤害无视目标无敌帧。
+	 */
+	@Override
+	public void onAttackTarget(AbstractGolemEntity<?, ?> entity, DamageData.Attack event, int level) {
+		if (!CataArmorHelper.ancientHelmet(entity)) return;
+		Entity direct = event.getSource().getDirectEntity();
+		if (direct == null) return;
+		if (!STELE.equals(BuiltInRegistries.ENTITY_TYPE.getKey(direct.getType()))) return;
+		event.getTarget().invulnerableTime = 0;
+	}
+
+	@Override
+	public List<MutableComponent> getDetail(int v) {
+		return List.of(Component.translatable(getDescriptionId() + ".desc",
+				CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH)).withStyle(ChatFormatting.GREEN));
 	}
 
 }

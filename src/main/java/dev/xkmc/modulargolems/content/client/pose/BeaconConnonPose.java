@@ -26,7 +26,7 @@ public record BeaconConnonPose(
 	@Override
 	public void setup(AbstractGolemEntity<?, ?> entity, IGolemModel<?, ?, ?> model, ItemStack stack, int slot, float pTick) {
 		if (entity.getShoulderAnimStarting() < 5) return;
-		var root = model.root();
+		var root = model.getRootPart();
 		// models without a hierarchy cannot be aimed by moving a body part
 		if (root == null) return;
 		var part = root.getChild("body").getChild(id);

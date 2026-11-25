@@ -60,6 +60,42 @@
     {
       "id": "modulargolems:monstrosity_shinguard",
       "required": false
+    },
+    {
+      "id": "modulargolems:paladin_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:paladin_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:paladin_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:cloud_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:cloud_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:cloud_shinguard",
+      "required": false
+    },
+    {
+      "id": "modulargolems:obliterator_helmet",
+      "required": false
+    },
+    {
+      "id": "modulargolems:obliterator_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:obliterator_shinguard",
+      "required": false
     }
   ]
 }

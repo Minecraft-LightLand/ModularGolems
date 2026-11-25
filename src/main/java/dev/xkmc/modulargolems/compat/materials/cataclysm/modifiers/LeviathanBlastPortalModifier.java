@@ -51,8 +51,8 @@ public class LeviathanBlastPortalModifier extends GolemModifier {
 
 	}
 
-	public LeviathanBlastPortalModifier() {
-		super(StatFilterType.MASS, 3);
+	public LeviathanBlastPortalModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

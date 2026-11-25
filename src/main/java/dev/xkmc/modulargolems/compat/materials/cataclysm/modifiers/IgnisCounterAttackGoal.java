@@ -1,0 +1,118 @@
+package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
+
+import dev.xkmc.cataclysm_mux.GolemCataProxy;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.CataDispatch;
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.entity.common.GolemFormAppearance;
+import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
+import dev.xkmc.modulargolems.util.GolemTargetUtil;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
+
+/**
+ * 烈焰反击的释放序列：先向后撤一步拉开距离，落地后打出一次打击（{@code ignisCounterStrike}），
+ * 随后每 2 tick 掀一对震地波。由 {@link IgnisCounterModifier} 在累计受击到位后置位。
+ */
+public class IgnisCounterAttackGoal extends Goal {
+
+	private final AbstractGolemEntity<?, ?> golem;
+	private int step = -1;
+	private Vec3 center;
+	private float yaw;
+	private boolean blue;
+	private BackstepHelper backstep;
+	private boolean inited;
+
+	public IgnisCounterAttackGoal(AbstractGolemEntity<?, ?> golem) {
+		this.golem = golem;
+	}
+
+	public IgnisCounterAttackGoal withName(String key) {
+		return this;
+	}
+
+	@Override
+	public boolean canUse() {
+		return !golem.level().isClientSide() && IgnisCounterModifier.isReady(golem);
+	}
+
+	@Override
+	public void start() {
+		IgnisCounterModifier.clearReady(golem);
+		inited = false;
+		step = -1;
+		center = null;
+		roar();
+	}
+
+	private void roar() {
+		GolemCataProxy.ignisRoarPulse(golem, GolemFormAppearance.visualFinal(golem, CataDispatch.ignisBlue(golem), CataArmorHelper.TWO_THIRDS));
+		for (LivingEntity e : golem.level().getEntitiesOfClass(LivingEntity.class,
+				golem.getBoundingBox().inflate(IgnisCounterModifier.ROAR_RADIUS))) {
+			if (!GolemTargetUtil.canTarget(golem, e)) continue;
+			GolemCataProxy.inflictStun(golem, e, IgnisCounterModifier.ROAR_STUN_TICKS);
+		}
+	}
+
+	@Override
+	public boolean canContinueToUse() {
+		if (!inited || backstep != null) return true;
+		return step >= 0 && step <= IgnisCounterModifier.WAVE_END;
+	}
+
+	@Override
+	public boolean requiresUpdateEveryTick() {
+		return true;
+	}
+
+	@Override
+	public void tick() {
+		if (!inited) {
+			inited = true;
+			LivingEntity target = golem.getTarget();
+			BackstepHelper b = new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
+			if (target != null && b.canUse(target, BackstepHelper.DEFAULT_LEAP_RANGE)) {
+				backstep = b;
+				b.start();
+				return;
+			}
+			begin();
+			return;
+		}
+		if (backstep != null) {
+			if (backstep.tick()) {
+				backstep = null;
+				begin();
+			}
+			return;
+		}
+		if (step >= IgnisCounterModifier.WAVE_START && step <= IgnisCounterModifier.WAVE_END && (step - IgnisCounterModifier.WAVE_START) % 2 == 0) {
+			int dist = IgnisCounterModifier.WAVE_BASE + (step - IgnisCounterModifier.WAVE_START);
+			GolemCataProxy.ignisCounterWave(golem, center, yaw, dist, blue, golem.isInRangedMode());
+		}
+		step++;
+	}
+
+	private void begin() {
+		step = 0;
+		center = golem.position();
+		yaw = CataArmorHelper.yawToTarget(golem, golem.getTarget());
+		CataArmorHelper.faceYaw(golem, yaw);
+		blue = GolemFormAppearance.visualFinal(golem, CataDispatch.ignisBlue(golem), CataArmorHelper.TWO_THIRDS);
+		golem.getNavigation().stop();
+		GolemCataProxy.ignisCounterStrike(golem, blue);
+	}
+
+	@Override
+	public void stop() {
+		if (backstep != null) {
+			backstep.cancel();
+			backstep = null;
+		}
+		step = -1;
+		center = null;
+	}
+
+}

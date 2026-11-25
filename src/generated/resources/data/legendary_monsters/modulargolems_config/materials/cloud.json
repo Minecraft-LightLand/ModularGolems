@@ -7,11 +7,18 @@
   "modifiers": {
     "legendary_monsters:cloud": {
       "modulargolems:add_slot": 1,
+      "modulargolems:cloud_block": 1,
       "modulargolems:cloud_charge": 1,
+      "modulargolems:cloud_drop": 1,
       "modulargolems:cloud_forming": 1,
+      "modulargolems:control_cyclone": 1,
       "modulargolems:damage_cap": 2,
       "modulargolems:dynamic_reduction": 1,
+      "modulargolems:fierce_wave_stomp": 1,
       "modulargolems:fire_immune": 1,
+      "modulargolems:line_cloud": 1,
+      "modulargolems:sky_laser": 1,
+      "modulargolems:skyfall_smash": 1,
       "modulargolems:thunderstorm": 1
     }
   },
@@ -26,7 +33,8 @@
       "modulargolems:attack": 40.0,
       "modulargolems:attack_knockback": 1.0,
       "modulargolems:dynamic_reduction": 2.0,
-      "modulargolems:max_health": 600.0,
+      "modulargolems:knockback_resistance": 1.0,
+      "modulargolems:max_health": 450.0,
       "modulargolems:sweep": 2.0
     }
   }

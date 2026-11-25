@@ -34,6 +34,18 @@
     {
       "id": "modulargolems:maledictus_chestplate",
       "required": false
+    },
+    {
+      "id": "modulargolems:ender_guardian_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:ancient_metal_chestplate",
+      "required": false
+    },
+    {
+      "id": "modulargolems:storm_chestplate",
+      "required": false
     }
   ]
 }

@@ -127,6 +127,7 @@ public class DogGolemModel extends AgeableListModel<DogGolemEntity>
 		//head.translateAndRotate(pose);
 		pose.mulPose(Axis.YP.rotationDegrees(180.0F));
 		pose.scale(0.625F, -0.625F, -0.625F);
+		pose.translate(-0.1F, 0.0F, 0.0F);
 	}
 
 	@Override

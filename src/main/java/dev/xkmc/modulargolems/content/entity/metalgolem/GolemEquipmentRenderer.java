@@ -7,6 +7,7 @@ import dev.xkmc.modulargolems.content.client.armor.GolemModelPath;
 import dev.xkmc.modulargolems.content.client.pose.GolemShoulderPose;
 import dev.xkmc.modulargolems.content.client.weapon.GolemModelAnimations;
 import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
+import dev.xkmc.modulargolems.content.item.equipments.GolemItemSpecialRenderer;
 import dev.xkmc.modulargolems.content.item.equipments.GolemModelItem;
 import dev.xkmc.modulargolems.content.item.ranged.IShoulderWeapon;
 import dev.xkmc.modulargolems.events.event.GolemRenderItemInHandEvent;
@@ -51,6 +52,14 @@ public class GolemEquipmentRenderer extends RenderLayer<MetalGolemEntity, MetalG
 	public void render(@NotNull PoseStack pose, MultiBufferSource source, int i, @NotNull MetalGolemEntity entity, float f1, float f2, float f3, float f4, float f5, float f6) {
 		for (var e : EquipmentSlot.values()) {
 			ItemStack stack = entity.getItemBySlot(e);
+			// 装备物品自带的自定义渲染（如犬形装甲）：优先于通用护甲/手持渲染
+			if (stack.getItem() instanceof GolemItemSpecialRenderer.ProviderItem pvd) {
+				var opt = pvd.getSpecialRenderer();
+				if (opt.isPresent()) {
+					opt.get().render(entity, stack, pose, source, i, f3, this);
+					continue;
+				}
+			}
 			if (stack.getItem() instanceof GolemModelItem mgaitem) {
 				renderArmor(entity, stack, mgaitem, pose, source, i);
 			} else {

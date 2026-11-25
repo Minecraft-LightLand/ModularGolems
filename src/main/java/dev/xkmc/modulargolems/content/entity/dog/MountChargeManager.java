@@ -137,6 +137,8 @@ public class MountChargeManager {
 				// 否则贴着目标冲锋时每 tick 都会播一次撞击音（听起来像连成一片）。
 				boolean hit = e.hurt(attacker.damageSources().mobAttack(attacker), dmg);
 				if (hit) {
+					// 撞击推力（击退 + 上抬），与 AI 冲锋路径同一个来源
+					ChargeHelper.pushChargeTarget(attacker, e, dir);
 					if (chargeRider != null) chargeRider.modifier().onChargeTouch(chargeRider, e);
 					if (chargeMount != null) chargeMount.modifier().onChargeTouch(chargeMount, e);
 				}

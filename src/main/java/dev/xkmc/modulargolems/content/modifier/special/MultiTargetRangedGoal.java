@@ -11,6 +11,13 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Optional;
 
+/**
+ * @deprecated 已并入 {@link BurstRangedGoal}：在 {@code BurstRangedGoal} 的构造器里调用
+ * {@code useMultiTargetSemantics()} 即可得到本类的语义（有几个目标打几发、按优先级索敌、要求视线、逐 tick 连发）。
+ * <p>
+ * 本类仅为保持对外位置/签名不变而保留（附属可能按全限定名引用），新代码请直接用 {@code BurstRangedGoal}。
+ */
+@Deprecated(forRemoval = false)
 public abstract class MultiTargetRangedGoal extends BaseRangedAttackGoal {
 
 	protected final int lv;

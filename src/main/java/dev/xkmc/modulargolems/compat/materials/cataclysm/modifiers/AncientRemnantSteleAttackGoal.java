@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BaseRangedAttackGoal;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,4 +28,12 @@ public class AncientRemnantSteleAttackGoal extends BaseRangedAttackGoal {
 	protected double getLeapRange() {
 		return BackstepHelper.DEFAULT_LEAP_RANGE;
 	}
+	/**
+	 * 远古金属胸甲：半血以下（或被胸甲钉在最终形态）时冷却减半。
+	 */
+	@Override
+	protected int getWaitTime() {
+		return CataArmorHelper.ancientFastSkill(golem) ? AncientRemnantSteleModifier.COOLDOWN / 2 : AncientRemnantSteleModifier.COOLDOWN;
+	}
+
 }

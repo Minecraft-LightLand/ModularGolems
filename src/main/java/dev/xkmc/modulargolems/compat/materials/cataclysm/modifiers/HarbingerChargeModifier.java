@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
+import dev.xkmc.modulargolems.compat.materials.cataclysm.armor.CataArmorHelper;
 import dev.xkmc.l2damagetracker.contents.attack.DamageData;
 import dev.xkmc.l2damagetracker.contents.attack.DamageModifier;
 
@@ -22,7 +23,17 @@ import java.util.function.BiConsumer;
 
 public class HarbingerChargeModifier extends GolemModifier implements ChargeHelper.Modifier {
 
-	public static final int COOLDOWN = 160;
+	public static final int COOLDOWN = 200;
+	public static final int MAX_TICKS = 60;
+	public static final double MAX_RANGE = 16;
+	public static final int MIN_RANGE = 0;
+	public static final double CLIMB_BOOST = 2.5;
+
+	/** 最大连续冲锋段数（本体三连冲）。 */
+	public static final int MAX_DASH = 3;
+
+	/** 落地等待上限（tick）。 */
+	public static final int LANDING_TIMEOUT = 60;
 
 	public HarbingerChargeModifier(StatFilterType type, int maxLevel) {
 		super(type, maxLevel);
@@ -30,19 +41,19 @@ public class HarbingerChargeModifier extends GolemModifier implements ChargeHelp
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new HarbingerChargeGoal(entity, lv, this));
+		addGoal.accept(1, new HarbingerChargeAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
-		if (HarbingerChargeGoal.isCharging(entity)) {
+		if (HarbingerChargeAttackGoal.isCharging(entity)) {
 			event.addDealtModifier(DamageModifier.multTotal(ChargeHelper.CHARGE_DAMAGE_MULT, getRegistryName()));
 		}
 	}
 
 	@Override
 	public void setCharging(ChargeHelper.Instance ins, boolean on) {
-		ins.owner().setTransientFlag(HarbingerChargeGoal.KEY_ACTIVE, on);
+		ins.owner().setTransientFlag(HarbingerChargeAttackGoal.KEY_ACTIVE, on);
 	}
 
 	@Override
@@ -81,8 +92,8 @@ public class HarbingerChargeModifier extends GolemModifier implements ChargeHelp
 
 	@Override
 	public List<MutableComponent> getDetail(int v) {
-		var dashes = Component.literal("" + HarbingerChargeGoal.MAX_DASH).withStyle(ChatFormatting.AQUA);
-		return List.of(Component.translatable(getDescriptionId() + ".desc", ChargeHelper.chargeReduction(), dashes).withStyle(ChatFormatting.GREEN));
+		var dashes = Component.literal("" + MAX_DASH).withStyle(ChatFormatting.AQUA);
+		return List.of(Component.translatable(getDescriptionId() + ".desc", ChargeHelper.chargeReduction(), dashes, CataArmorHelper.healthPct(CataArmorHelper.HALF_HEALTH)).withStyle(ChatFormatting.GREEN));
 	}
 
 }

@@ -34,8 +34,8 @@ import java.util.function.Consumer;
 
 public class MaledictusEarthquakeModifier extends GolemModifier implements EarthquakeHelper.Modifier {
 
-	public MaledictusEarthquakeModifier() {
-		super(StatFilterType.MOVEMENT, 1);
+	public MaledictusEarthquakeModifier(StatFilterType type, int maxLevel) {
+		super(type, maxLevel);
 	}
 
 	@Override

@@ -3,12 +3,15 @@ package dev.xkmc.modulargolems.compat.materials.cataclysm;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.xkmc.l2core.serial.recipe.ConditionalRecipeWrapper;
 import dev.xkmc.modulargolems.init.registrate.GolemItems;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
@@ -109,7 +112,7 @@ public class CataRecipGen {
 		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
 						Ingredient.of(CataCompatRegistry.HARBINGER_TEMPLATE.get()),
 						Ingredient.of(GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get()),
-						Ingredient.of(ModItems.WITHERITE_INGOT.get()),
+						Ingredient.of(ModBlocks.WITHERITE_BLOCK.get()),
 						RecipeCategory.COMBAT, CataCompatRegistry.HARBINGER_SHINGUARD.get())::unlocks,
 				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())
 				.save(output, CataCompatRegistry.HARBINGER_SHINGUARD.getId());
@@ -185,5 +188,73 @@ public class CataRecipGen {
 						RecipeCategory.COMBAT, CataCompatRegistry.MALEDICTUS_SHINGUARD.get())::unlocks,
 				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get())
 				.save(output, CataCompatRegistry.MALEDICTUS_SHINGUARD.getId());
+
+		// 末影守卫模板：与虚空机块同一套图案，中心换成空白锻造模板
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.ENDER_GUARDIAN_TEMPLATE.get())::unlockedBy,
+				ModItems.VOID_JAW.get())
+				.pattern("ADA").pattern("BEB").pattern("CDC")
+				.define('C', Items.OBSIDIAN).define('B', Items.END_STONE).define('A', Items.PURPUR_BLOCK)
+				.define('D', Items.SHULKER_SHELL).define('E', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
+				.save(output);
+
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.ANCIENT_METAL_TEMPLATE.get())::unlockedBy,
+				ModItems.KOBOLETON_BONE.get())
+				.pattern("ABA").pattern("BCB").pattern("DED")
+				.define('A', Items.GOLD_INGOT).define('B', ModItems.KOBOLETON_BONE.get())
+				.define('C', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE).define('D', Items.CHISELED_SANDSTONE)
+				.define('E', ModItems.ANCIENT_METAL_INGOT.get())
+				.save(output);
+
+		unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CataCompatRegistry.STORM_TEMPLATE.get())::unlockedBy,
+				ModItems.LACRIMA.get())
+				.pattern("ABA").pattern("CDC").pattern("EFE")
+				.define('A', Items.PRISMARINE_SHARD).define('B', Items.LIGHTNING_ROD).define('C', Items.DIAMOND)
+				.define('D', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE).define('E', Items.PRISMARINE_CRYSTALS)
+				.define('F', ModItems.LACRIMA.get())
+				.save(output);
+
+		// 末影守卫套装
+		addSmithing(pvd, output, CataCompatRegistry.ENDER_GUARDIAN_TEMPLATE, ModItems.GAUNTLET_OF_GUARD.get(),
+				GolemItems.BARBARICFLAMEVANGUARD_HELMET.get(), CataCompatRegistry.ENDER_GUARDIAN_HELMET);
+		addSmithing(pvd, output, CataCompatRegistry.ENDER_GUARDIAN_TEMPLATE, ModItems.GAUNTLET_OF_GUARD.get(),
+				GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get(), CataCompatRegistry.ENDER_GUARDIAN_CHESTPLATE);
+		addSmithing(pvd, output, CataCompatRegistry.ENDER_GUARDIAN_TEMPLATE, ModItems.GAUNTLET_OF_GUARD.get(),
+				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get(), CataCompatRegistry.ENDER_GUARDIAN_SHINGUARD);
+
+		// 远古金属套装：三件共用「沙暴瓶 / 残骸头骨 任选其一」的材料
+		Ingredient ancientMaterial = Ingredient.of(ModItems.SANDSTORM_IN_A_BOTTLE.get(), ModItems.REMNANT_SKULL.get());
+		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ancientMaterial,
+				GolemItems.BARBARICFLAMEVANGUARD_HELMET.get(), CataCompatRegistry.ANCIENT_METAL_HELMET);
+		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ancientMaterial,
+				GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get(), CataCompatRegistry.ANCIENT_METAL_CHESTPLATE);
+		addSmithing(pvd, output, CataCompatRegistry.ANCIENT_METAL_TEMPLATE, ancientMaterial,
+				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get(), CataCompatRegistry.ANCIENT_METAL_SHINGUARD);
+
+		// 风暴套装
+		addSmithing(pvd, output, CataCompatRegistry.STORM_TEMPLATE, ModItems.ESSENCE_OF_THE_STORM.get(),
+				GolemItems.BARBARICFLAMEVANGUARD_HELMET.get(), CataCompatRegistry.STORM_HELMET);
+		addSmithing(pvd, output, CataCompatRegistry.STORM_TEMPLATE, ModItems.ESSENCE_OF_THE_STORM.get(),
+				GolemItems.BARBARICFLAMEVANGUARD_CHESTPLATE.get(), CataCompatRegistry.STORM_CHESTPLATE);
+		addSmithing(pvd, output, CataCompatRegistry.STORM_TEMPLATE, ModItems.ESSENCE_OF_THE_STORM.get(),
+				GolemItems.BARBARICFLAMEVANGUARD_SHINGUARD.get(), CataCompatRegistry.STORM_SHINGUARD);
+	}
+
+	/** 套装锻造成品：模板 + 荒蛮基础件 + 材料。 */
+	private static void addSmithing(RegistrateRecipeProvider pvd, RecipeOutput output,
+									ItemEntry<? extends Item> template, Item material, Item base,
+									ItemEntry<? extends Item> result) {
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(template.get()), Ingredient.of(base), Ingredient.of(material),
+						RecipeCategory.COMBAT, result.get())::unlocks, base)
+				.save(output, result.getId());
+	}
+
+	private static void addSmithing(RegistrateRecipeProvider pvd, RecipeOutput output,
+									ItemEntry<? extends Item> template, Ingredient material, Item base,
+									ItemEntry<? extends Item> result) {
+		unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(template.get()), Ingredient.of(base), material,
+						RecipeCategory.COMBAT, result.get())::unlocks, base)
+				.save(output, result.getId());
 	}
 }

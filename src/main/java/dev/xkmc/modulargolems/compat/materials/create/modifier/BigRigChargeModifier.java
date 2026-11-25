@@ -33,12 +33,12 @@ public class BigRigChargeModifier extends GolemModifier implements ChargeHelper.
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new BigRigChargeGoal(entity, lv, this));
+		addGoal.accept(1, new BigRigChargeAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
-		if (BigRigChargeGoal.isCharging(entity)) {
+		if (BigRigChargeAttackGoal.isCharging(entity)) {
 			event.addDealtModifier(DamageModifier.multTotal(ChargeHelper.CHARGE_DAMAGE_MULT, getRegistryName()));
 		}
 	}
@@ -61,7 +61,7 @@ public class BigRigChargeModifier extends GolemModifier implements ChargeHelper.
 	@Override
 	public void performCharge(ChargeHelper.Instance ins) {
 		var golem = ins.owner();
-		SkillSound.playCharge(golem, SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 0.6F);
+		SkillSound.playChargeOnly(golem, SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 0.6F);
 		SkillSound.playCharge(golem, AllSoundEvents.WHISTLE_TRAIN.getMainEvent(), 1.0F, 1.0F);
 	}
 
@@ -93,9 +93,9 @@ public class BigRigChargeModifier extends GolemModifier implements ChargeHelper.
 
 	private int calcCooldown(AbstractGolemEntity<?, ?> golem) {
 		if (golem.hasEffect(CreateCompatRegistry.EFF_MOBILE) || golem.hasEffect(CreateCompatRegistry.EFF_FORCE)) {
-			return BigRigChargeGoal.COOLDOWN / 2;
+			return BigRigChargeAttackGoal.COOLDOWN / 2;
 		}
-		return BigRigChargeGoal.COOLDOWN;
+		return BigRigChargeAttackGoal.COOLDOWN;
 	}
 
 	@Override

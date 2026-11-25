@@ -7,18 +7,12 @@ import dev.xkmc.modulargolems.init.registrate.GolemModifiers;
 import dev.xkmc.modulargolems.init.registrate.GolemTypes;
 import net.miauczel.legendary_monsters.item.ModItems;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.core.HolderLookup;
-
-import java.util.concurrent.CompletableFuture;
-import net.minecraft.core.HolderLookup;
-
-import java.util.concurrent.CompletableFuture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class LMConfigGen extends ConfigDataProvider {
 
-	public LMConfigGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> pvd) {
+	public LMConfigGen(DataGenerator generator, java.util.concurrent.CompletableFuture<net.minecraft.core.HolderLookup.Provider> pvd) {
 		super(generator, pvd, "Golem Config for Legendary Monsters");
 	}
 
@@ -40,11 +34,12 @@ public class LMConfigGen extends ConfigDataProvider {
 		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(LMDispatch.MODID, "cloud"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(LMDispatch.MODID, "cloud"),
 						Ingredient.of(LMCompatRegistry.CLOUD_CUBE.get()))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
+				.addStat(GolemTypes.STAT_HEALTH.get(), 450)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
 				.addStat(GolemTypes.STAT_DR.get(), 2)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
 				.addModifier(GolemModifiers.ADD_SLOT.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
@@ -52,25 +47,34 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addModifier(LMCompatRegistry.THUNDER.get(), 1)
 				.addModifier(LMCompatRegistry.PERC.get(), 1)
 				.addModifier(LMCompatRegistry.CLOUD_CHARGE.get(), 1)
+				.addModifier(LMCompatRegistry.SKY_LASER.get(), 1)
+				.addModifier(LMCompatRegistry.LINE_CLOUD.get(), 1)
+				.addModifier(LMCompatRegistry.CONTROL_CYCLONE.get(), 1)
+				.addModifier(LMCompatRegistry.CLOUD_DROP.get(), 1)
+				.addModifier(LMCompatRegistry.CLOUD_BLOCK.get(), 1)
+				.addModifier(LMCompatRegistry.SKYFALL_SMASH.get(), 1)
+				.addModifier(LMCompatRegistry.FIERCE_WAVE_STOMP.get(), 1)
 				.end()
 		);
 		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(LMDispatch.MODID, "obliterator"), new GolemMaterialConfig()
 				.addMaterial(ResourceLocation.fromNamespaceAndPath(LMDispatch.MODID, "obliterator"),
 						Ingredient.of(LMCompatRegistry.ANNIHILATION_CUBE.get()))
-				.addStat(GolemTypes.STAT_HEALTH.get(), 600)
+				.addStat(GolemTypes.STAT_HEALTH.get(), 450)
 				.addStat(GolemTypes.STAT_ATTACK.get(), 40)
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
 				.addStat(GolemTypes.STAT_DR.get(), 2)
+				.addStat(GolemTypes.STAT_KBRES.get(), 2)
 				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
 				.addModifier(LMCompatRegistry.OBLITERATOR_LASER.get(), 1)
-				.addModifier(LMCompatRegistry.OBLITERATOR_PLASMA_ORB.get(), 1)
-				.addModifier(LMCompatRegistry.OBLITERATOR_LARGE_BOMB.get(), 2)
-				.addModifier(LMCompatRegistry.OBLITERATOR_SMALL_BOMB.get(), 2)
+				.addModifier(LMCompatRegistry.OBLITERATOR_LARGE_BOMB.get(), 1)
 				.addModifier(LMCompatRegistry.OBLITERATOR_JUMP.get(), 1)
-				.addModifier(LMCompatRegistry.OBLITERATOR_ULTIMATE.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_CLONE_BARRAGE.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_CLONE_BURST.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_ARM_BLOCK.get(), 1)
+				.addModifier(LMCompatRegistry.OBLITERATOR_STOMP.get(), 1)
 				.end()
 		);
 		map.add(ModularGolems.MATERIALS, ResourceLocation.fromNamespaceAndPath(LMDispatch.MODID, "paladin"), new GolemMaterialConfig()
@@ -81,13 +85,18 @@ public class LMConfigGen extends ConfigDataProvider {
 				.addStat(GolemTypes.STAT_SWEEP.get(), 2)
 				.addStat(GolemTypes.STAT_ATKKB.get(), 1)
 				.addStat(GolemTypes.STAT_DR.get(), 2)
+				.addStat(GolemTypes.STAT_KBRES.get(), 1)
 				.addModifier(GolemModifiers.DYNAMIC_REDUCTION.get(), 1)
 				.addModifier(GolemModifiers.FIRE_IMMUNE.get(), 1)
 				.addModifier(GolemModifiers.DAMAGE_CAP.get(), 2)
-				.addModifier(LMCompatRegistry.PHANTOM_DAGGER.get(), 1)
-				.addModifier(LMCompatRegistry.SOUL_SPIKE.get(), 1)
+				.addModifier(LMCompatRegistry.PALADIN_SOUL_DAGGER.get(), 1)
+				.addModifier(LMCompatRegistry.PALADIN_SOUL_BLAST_WAVE.get(), 1)
 				.addModifier(LMCompatRegistry.PALADIN_SOUL_BLADE_LEAP.get(),1)
 				.addModifier(LMCompatRegistry.PALADIN_SOUL_SHIELD.get(),1)
+				.addModifier(LMCompatRegistry.PALADIN_ROLL_SLASH.get(),1)
+				.addModifier(LMCompatRegistry.PALADIN_SOUL_TRIDENT.get(),1)
+				.addModifier(LMCompatRegistry.PALADIN_SOUL_BLAST.get(),1)
+				.addModifier(LMCompatRegistry.PALADIN_SOUL_BLADE.get(),1)
 				.end()
 		);
 	}

@@ -25,12 +25,12 @@ public class PoseidonRiptideModifier extends GolemModifier implements ChargeHelp
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(1, new PoseidonRiptideChargeGoal(entity, lv, this));
+		addGoal.accept(1, new PoseidonRiptideChargeAttackGoal(entity, lv, this));
 	}
 
 	@Override
 	public void onDamaged(AbstractGolemEntity<?, ?> entity, DamageData.Defence event, int level) {
-		if (PoseidonRiptideChargeGoal.isCharging(entity)) {
+		if (PoseidonRiptideChargeAttackGoal.isCharging(entity)) {
 			event.addDealtModifier(DamageModifier.multTotal(ChargeHelper.CHARGE_DAMAGE_MULT, getRegistryName()));
 		}
 	}

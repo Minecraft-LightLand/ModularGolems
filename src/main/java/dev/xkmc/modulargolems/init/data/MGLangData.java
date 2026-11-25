@@ -43,20 +43,32 @@ public enum MGLangData {
 	FLAMETHROWER_FIRECHARGE("tooltip.flamethrower_firecharge", "- Shoots fire charge that causes explosion.", 0, ChatFormatting.GRAY),
 	FLAMETHROWER_FLAME("tooltip.flamethrower_flame", "- Consumes blaze powder to shoot 16 blaze flames. Supports Infinity enchantment.", 0, ChatFormatting.GRAY),
 
-	HARBINGER_BOOST_LASER("tooltip.cataclysm.harbinger_armor_laer", "+%s Death Laser Damage, and ignores invulnerable frames", 1, ChatFormatting.GRAY),
-	HARBINGER_BOOST_MISSILE("tooltip.cataclysm.harbinger_armor_missile", "+%s Homing Missile/Wither Missile/Howitzer Damage, and ignores invulnerable frames", 1, ChatFormatting.GRAY),
-	HARBINGER_BOOST_CHARGE("tooltip.cataclysm.harbinger_armor_charge", "+%s Harbinger Charge Damage", 1, ChatFormatting.GRAY),
-	MONSTROSITY_BOOST("tooltip.cataclysm.monstrosity_armor", "+%s Monstrosity Earthquake Damage", 1, ChatFormatting.GRAY),
 	MONSTROSITY_BOOST_CHARGE("tooltip.cataclysm.monstrosity_armor_charge", "+%s Charge Damage", 1, ChatFormatting.GRAY),
-	IGNIS_BOOST_FIREBALL("tooltip.cataclysm.ignis_armor_fireball", "+%s Fireball Damage", 1, ChatFormatting.GRAY),
-	IGNIS_BOOST_STRIKE("tooltip.cataclysm.ignis_armor_strike", "+%s Flame Strike Damage", 1, ChatFormatting.GRAY),
-	IGNIS_BOOST_SOUL("tooltip.cataclysm.ignis_armor_soul", "Permanent Soul Form", 0, ChatFormatting.GRAY),
-	MALEDICTUS_BYPASS_CD("tooltip.cataclysm.maledictus_bypass_cd", "Phantom Halberd spawned from Jump Attack will bypass enemy invulnerable frames", 0, ChatFormatting.GRAY),
-	MALEDICTUS_FAST_SKILL("tooltip.cataclysm.maledictus_fast_skill", "Halves Cursed Charge and Phantom Halberd Slam cooldown.", 0, ChatFormatting.GRAY),
+	MALEDICTUS_BYPASS_CD("tooltip.cataclysm.maledictus_bypass_cd", "Phantom Halberds summoned by golem skills bypass enemy invulnerable frames", 0, ChatFormatting.GRAY),
+	MALEDICTUS_FAST_SKILL("tooltip.cataclysm.maledictus_fast_skill", "Halves %s and %s cooldown", 2, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE("tooltip.cataclysm.maledictus_revive", "Revive Golem at %s%% HP on fatal hit, with cool down of %s seconds", 2, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE_CD("tooltip.cataclysm.maledictus_revive_cd", " Each piece of other cursium armor or part reduce cooldown by %s seconds and increase revived HP by %s%%.", 2, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE_ACTUAL_CD("tooltip.cataclysm.maledictus_revive_actual_cd", "Actual Cooldown: %s seconds.", 1, ChatFormatting.GRAY),
 	MALEDICTUS_REVIVE_IN_CD("tooltip.cataclysm.maledictus_revive_in_cd", "On Cooldown: %s seconds remaining.", 1, ChatFormatting.GRAY),
+
+	SCYLLA_BYPASS_INVULNERABLE("tooltip.cataclysm.scylla_armor_bypass", "Thunder Lance and Tidal Spike damage bypass enemy invulnerable frames, including those summoned by Storm Fury", 0, ChatFormatting.GRAY),
+	SCYLLA_SERPENT("tooltip.cataclysm.scylla_armor_serpent", "+%s Phantom Serpent attack range, and their damage bypasses enemy invulnerable frames", 1, ChatFormatting.GRAY),
+	SCYLLA_SPARK_BOOST("tooltip.cataclysm.scylla_armor_spark", "+%s Spark Damage", 1, ChatFormatting.GRAY),
+	SCYLLA_SLAM_RANGE("tooltip.cataclysm.scylla_armor_slam_range", "+%s %s attack range, and its damage bypasses enemy invulnerable frames", 2, ChatFormatting.GRAY),
+	ANCIENT_SANDSTORM_BOOST("tooltip.cataclysm.ancient_armor_sandstorm", "+%s %s movement speed, and %s and %s damage bypass enemy invulnerable frames", 4, ChatFormatting.GRAY),
+	ANCIENT_SHOCKWAVE_BOOST("tooltip.cataclysm.ancient_armor_shockwave", "Shockwaves track their targets until they connect", 0, ChatFormatting.GRAY),
+	GUARDIAN_RUNE_BYPASS("tooltip.cataclysm.guardian_armor_rune_bypass", "Void Runes summoned by golem skills bypass enemy invulnerable frames", 0, ChatFormatting.GRAY),
+	IGNIS_FIREBALL_BOOST("tooltip.cataclysm.ignis_armor_fireball", "+%s %s Damage, with a %s larger explosion radius, and it keeps homing in on the target", 3, ChatFormatting.GRAY),
+	IGNIS_CHARGE_BOOST("tooltip.cataclysm.ignis_armor_charge", "+%s %s and %s Damage, and the Flame Strike lasts %s longer", 4, ChatFormatting.GRAY),
+	GUARDIAN_GRAVITY_BOOST("tooltip.cataclysm.guardian_armor_gravity", "+%s %s and Void Vortex Damage, with a %s larger pull radius and strength", 3, ChatFormatting.GRAY),
+	SKILL_DAMAGE_BOOST("tooltip.skill_damage_boost", "+%s %s Damage", 2, ChatFormatting.GRAY),
+	SKILL_HEALTH_GATE("tooltip.skill_health_gate", "Can only be used below %s of max HP", 1, ChatFormatting.GRAY),
+	SKILL_HEALTH_GATE_ABOVE("tooltip.skill_health_gate_above", "Can only be used above %s of max HP", 1, ChatFormatting.GRAY),
+	LM_OBL_HEAD("tooltip.legendary_monsters.obliterator_helmet", "Annihilation bombs keep tracking the target", 0, ChatFormatting.GRAY),
+	SKILL_BYPASS("tooltip.skill_bypass", "%s damage bypasses enemy invulnerable frames", 1, ChatFormatting.GRAY),
+	LM_CLOUD_CHEST("tooltip.legendary_monsters.cloud_chest", "%s fully blocks damage, then summons fierce waves around; the summoned fierce waves keep tracking the target", 1, ChatFormatting.GRAY),
+	LM_PAL_HEAD("tooltip.legendary_monsters.paladin_helmet", "The launched %s keep tracking the target", 1, ChatFormatting.GRAY),
+	SKILL_CD_REDUCTION("tooltip.skill_cd_reduction", "Casting %s shortens the cooldown by %s seconds", 2, ChatFormatting.GRAY),
 
 	TARGET_UUID_ADD("tooltip.target.uuid_add", "Right click entity to add entity UUID to the list", 0, ChatFormatting.GRAY),
 	TARGET_UUID_REMOVE("tooltip.target.uuid_remove", "Sneak right click entity to remove entity UUID from the list", 0, ChatFormatting.GRAY),
@@ -117,7 +129,7 @@ public enum MGLangData {
 	SLOT_OFF("slot.off", "Off Hand Slot", 0, ChatFormatting.YELLOW),
 	SLOT_BACKUP("slot.backup", "Secondary Weapon Slot", 0, ChatFormatting.YELLOW),
 	SLOT_ARROW("slot.arrow", "Arrow Slot", 0, ChatFormatting.YELLOW),
-	SLOT_SHOULDER("slot.shoulder", "Shoulder Weapon Slot", 0, ChatFormatting.YELLOW),
+	SLOT_SHOULDER("slot.shoulder", "Shoulder Equipment Slot", 0, ChatFormatting.YELLOW),
 	SLOT_MAIN_DESC("slot.main_desc", "Place weapon here. Accepts anything.", 0, ChatFormatting.GRAY),
 	SLOT_MAIN_DESC_METAL("slot.main_desc_metal", "Place metal golem weapon here.", 0, ChatFormatting.GRAY),
 	SLOT_BACKUP_DESC("slot.backup_desc", "Place secondary weapons here.", 0, ChatFormatting.GRAY),
@@ -168,7 +180,14 @@ public enum MGLangData {
 	RECALL_FAIL("msg.recall_fail", "Golem not found or cannot be recalled now", 0, ChatFormatting.RED),
 	SKILL_CD("msg.skill_cd", "Skill Cooldowns:", 0, ChatFormatting.GRAY),
 	SKILL_CD_LINE("msg.skill_cd_line", "- %s: %ss", 2, ChatFormatting.GRAY),
-	SKILL_IGNORE_HEALTH("tooltip.skill_ignore_health", "%s ignores health requirement", 1, ChatFormatting.GRAY),
+	SKILL_IGNORE_HEALTH("tooltip.skill_ignore_health", "Ignores health requirement: directly activates %s's final form", 1, ChatFormatting.GRAY),
+	FORM_APPEARANCE_TITLE("tooltip.form_appearance_title", "Switch Form Appearance", 0, ChatFormatting.WHITE),
+	FORM_APPEARANCE_DESC("tooltip.form_appearance_desc", "Click to switch the appearance shown once wearing equipment that unleashes full power", 0, ChatFormatting.GRAY),
+	FORM_APPEARANCE_CURRENT("tooltip.form_appearance_current", "Current appearance: %s", 1, ChatFormatting.GREEN),
+	FORM_APPEARANCE_DEFAULT("tooltip.form_appearance_default", "Default", 0, ChatFormatting.AQUA),
+	FORM_APPEARANCE_INITIAL("tooltip.form_appearance_initial", "Always Initial Form", 0, ChatFormatting.AQUA),
+	FORM_APPEARANCE_FINAL("tooltip.form_appearance_final", "Always Final Form", 0, ChatFormatting.AQUA),
+	FORM_APPEARANCE_FOLLOW("tooltip.form_appearance_follow", "Follow Health", 0, ChatFormatting.AQUA),
 	RIDE_CHARGE_CD("msg.ride.charge_cd", "Charge Cooldown: %ss", 1, null),
 	RIDE_CHARGE_READY("msg.ride.charge_ready", "Charge Ready!", 0, ChatFormatting.GREEN),
 	RIDE_JUMP_CD("msg.ride.jump_cd", "Jump Cooldown: %ss", 1, null),
@@ -181,6 +200,7 @@ public enum MGLangData {
 	UI_BATCH_OFF("tooltip.batch_off", "Batch Craft: OFF (Shift-click crafts one at a time)", 0, null),
 	UI_PUT_GOLEM("gui.hint.put_golem", "Place golem here", 0, null),
 	UI_PUT_TEMPLATE("gui.hint.put_template", "Place golem template here", 0, null),
+	UI_PUT_PART("gui.hint.put_part", "Place golem part here", 0, null),
 	UI_PUT_PART_MAT("gui.hint.put_part_mat", "Place golem part or material here", 0, null),
 	UI_SUB_TEMPLATE("tooltip.sub_template", "Insufficient golem templates", 0, ChatFormatting.RED),
 	UI_SUB_MAT("tooltip.sub_material", "Insufficient material", 0, ChatFormatting.RED),
@@ -221,11 +241,11 @@ public enum MGLangData {
 	TRACKER_DIMENSIONAL("tracker.dimensional", "To Dimensional Backpack", 0, null),
 
 	MAID_SKIN_BUTTON("tooltip.maid_skin_button", "Change skin: Maid (Right-click to reset)", 0, null),
-	PLAYER_SKIN_BUTTON("tooltip.player_skin_button", "Change skin: Player/Entity/Texture (Right-click to reset)", 0, null),
-	PLAYER_SKIN_TITLE("gui.player_skin", "Player/Entity/Skin Texture", 0, null),
+	PLAYER_SKIN_BUTTON("tooltip.player_skin_button", "Change skin: Player/Texture (Right-click to reset)", 0, null),
+	PLAYER_SKIN_TITLE("gui.player_skin", "Player/Skin Texture", 0, null),
 	PLAYER_SKIN_CONFIRM("gui.player_skin.confirm", "Confirm", 0, null),
 	PLAYER_SKIN_CANCEL("gui.player_skin.cancel", "Cancel", 0, null),
-	PLAYER_SKIN_HINT("gui.player_skin.hint", "Enter player name, entity type, or texture path", 0, null),
+	PLAYER_SKIN_HINT("gui.player_skin.hint", "Enter player name or resource pack texture path", 0, null),
 	;
 
 	private final String key, def;
@@ -286,14 +306,6 @@ public enum MGLangData {
 
 		pvd.add("curios.identifier.golem_skin", "Humanoid Golem Skin");
 		pvd.add("curios.identifier.golem_route", "Golem Patrol Path");
-
-		pvd.add("potion.potency.5", "VI");
-		pvd.add("potion.potency.6", "VII");
-		pvd.add("potion.potency.7", "VIII");
-		pvd.add("potion.potency.8", "IX");
-		pvd.add("potion.potency.9", "X");
-		pvd.add("potion.potency.10", "XI");
-		pvd.add("potion.potency.11", "XII");
 
 		CompatManager.dispatchGenLang(pvd);
 
