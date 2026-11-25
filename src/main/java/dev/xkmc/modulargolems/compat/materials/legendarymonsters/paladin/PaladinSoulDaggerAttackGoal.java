@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin;
 
 import dev.xkmc.modulargolems.content.modifier.special.BurstRangedGoal;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
+import dev.xkmc.modulargolems.compat.materials.legendarymonsters.armor.LMArmorHelper;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
@@ -41,8 +42,11 @@ public class PaladinSoulDaggerAttackGoal extends BurstRangedGoal {
 	@Override
 	protected void fire(LivingEntity target, float lateral) {
 		LMProxy.paladinDaggerSound(golem);
+		// 堕魂头盔：每把匕首各自锁定本轮分配到的目标（target 由 BurstRangedGoal 逐发分配），
+		// 而不是三把都追同一个主目标。未穿头盔时传 null，保持"回旋到傀儡本体"的旧行为。
+		LivingEntity homing = LMArmorHelper.paladinHelmet(golem) ? target : null;
 		// lateral 是 -0.5 / 0 / +0.5 的槽位，乘 2 得到 -1 / 0 / +1 的角度序号
-		LMProxy.spawnSinglePhantomDagger(golem, target, lv, lateral * 2 * SPREAD_DEG);
+		LMProxy.spawnSinglePhantomDagger(golem, target, lv, lateral * 2 * SPREAD_DEG, homing);
 	}
 
 	@Override

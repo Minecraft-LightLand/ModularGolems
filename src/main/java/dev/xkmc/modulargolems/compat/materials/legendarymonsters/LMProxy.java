@@ -89,8 +89,17 @@ public class LMProxy {
 
 	/** 单把幻影匕首（供 BurstRangedGoal 一发一把使用）。 */
 	public static void spawnSinglePhantomDagger(LivingEntity golem, LivingEntity target, int lv, float yawOffset) {
+		spawnSinglePhantomDagger(golem, target, lv, yawOffset, null);
+	}
+
+	/**
+	 * 单把幻影匕首，并指定它锁定的追踪目标。
+	 * 多把齐射时每把要传不同目标，否则会全部追踪同一个。
+	 */
+	public static void spawnSinglePhantomDagger(LivingEntity golem, LivingEntity target, int lv, float yawOffset,
+			@Nullable LivingEntity homingTarget) {
 		try {
-			LMProxyImpl.spawnSinglePhantomDagger(golem, target, lv, yawOffset);
+			LMProxyImpl.spawnSinglePhantomDagger(golem, target, lv, yawOffset, homingTarget);
 		} catch (Throwable ignored) {
 		}
 	}

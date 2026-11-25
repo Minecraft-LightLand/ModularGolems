@@ -723,10 +723,22 @@ public class LMProxyImpl {
 	 * 数量与节奏由 Goal 统一控制，这里只负责一把的生成，不再自己乘 3。
 	 */
 	public static void spawnSinglePhantomDagger(LivingEntity golem, LivingEntity target, int lv, float yawOffset) {
+		spawnSinglePhantomDagger(golem, target, lv, yawOffset, null);
+	}
+
+	/**
+	 * 生成单把幻影匕首，并把它锁定的追踪目标交给调用方决定。
+	 * <p>
+	 * {@code homingTarget} 为 {@code null} 时退回旧行为（自己查一次、取列表首个目标）。
+	 * <b>多把齐射必须逐把传入不同目标</b>，否则每把都只拿到「首个目标」，
+	 * 表现就是所有匕首全追踪同一个主目标，而不是各自锁定。
+	 */
+	public static void spawnSinglePhantomDagger(LivingEntity golem, LivingEntity target, int lv, float yawOffset,
+			@Nullable LivingEntity homingTarget) {
 		if (golem.level().isClientSide) return;
 		float damage = bossDamage(golem, lv, 6.0f);
 		boolean red = paladinPhaseTwo(golem);
-		List<LivingEntity> homingTargets = daggerHomingTargets(golem, 1);
+		LivingEntity lock = homingTarget != null ? homingTarget : firstHomingTarget(golem);
 		int distance = (int) golem.distanceTo(target);
 		double spawnX = golem.getX();
 		double spawnY = golem.getY() + golem.getBbHeight() / 2.0;
@@ -737,8 +749,8 @@ public class LMProxyImpl {
 		EntityType<ThrownPhantomDaggerEntity> type = (EntityType<ThrownPhantomDaggerEntity>) (EntityType<?>) ModEntities.THROWN_PHANTOM_DAGGER.get();
 		ThrownPhantomDaggerEntity dagger = new ThrownPhantomDaggerEntity(type, golem.level());
 		dagger.setOwner(golem);
-		// 兜底回旋到傀儡本体（未穿头盔时 homingTargets 为 null）
-		dagger.setReturnEntity(homingTargets != null && !homingTargets.isEmpty() ? homingTargets.get(0) : golem);
+		// 兜底回旋到傀儡本体（未穿头盔 / 附近无可用目标时）
+		dagger.setReturnEntity(lock != null ? lock : golem);
 		dagger.setReturnTick(10 + distance);
 		dagger.setYRot(yaw);
 		dagger.setPos(spawnX, spawnY, spawnZ);
@@ -746,6 +758,13 @@ public class LMProxyImpl {
 		dagger.setDamage(damage);
 		dagger.setRed(red);
 		golem.level().addFreshEntity(dagger);
+	}
+
+	/** 取该傀儡的第一个可用追踪目标（未穿堕魂头盔或无目标时返回 null）。 */
+	@Nullable
+	private static LivingEntity firstHomingTarget(LivingEntity golem) {
+		List<LivingEntity> list = daggerHomingTargets(golem, 1);
+		return list == null || list.isEmpty() ? null : list.get(0);
 	}
 
 	/** 幻影飞刀：Boss state15/28 的 throwDaggers —— 3 把、间隔 30°、伤害 6，飞回施法者（回旋镖），returnTick = 10 + 距离。 */
