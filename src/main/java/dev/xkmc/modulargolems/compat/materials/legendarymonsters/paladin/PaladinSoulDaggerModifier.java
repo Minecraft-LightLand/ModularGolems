@@ -25,6 +25,12 @@ public class PaladinSoulDaggerModifier extends GolemModifier {
 
 	/** 冷却（tick）。 */
 	public static final int COOLDOWN = 200;
+	/** 施放距离上限（格）。 */
+	public static final int MAX_RANGE = 30;
+	/** 施放的最小距离（格）；0 表示不限制。 */
+	public static final int MIN_RANGE = 0;
+	/** 一次施放甩出的匕首数（本体 {@code throwPhantomDaggers} 固定 3 把）。 */
+	public static final int DAGGER_COUNT = 3;
 
 	/** 每级减半冷却（参考灾变鸣雷槊）。 */
 	public static int cooldownFor(int lv) {

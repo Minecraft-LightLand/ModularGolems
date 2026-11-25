@@ -87,6 +87,14 @@ public class LMProxy {
 		}
 	}
 
+	/** 单把幻影匕首（供 BurstRangedGoal 一发一把使用）。 */
+	public static void spawnSinglePhantomDagger(LivingEntity golem, LivingEntity target, int lv, float yawOffset) {
+		try {
+			LMProxyImpl.spawnSinglePhantomDagger(golem, target, lv, yawOffset);
+		} catch (Throwable ignored) {
+		}
+	}
+
 	public static void spawnPhantomDaggers(LivingEntity golem, LivingEntity target, int lv) {
 		try {
 			LMProxyImpl.spawnPhantomDaggers(golem, target, lv);

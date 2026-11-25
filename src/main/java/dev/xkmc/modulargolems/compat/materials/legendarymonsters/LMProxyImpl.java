@@ -718,6 +718,36 @@ public class LMProxyImpl {
 	}
 	// ===== Possessed Paladin =====
 
+	/**
+	 * 生成单把幻影匕首，朝目标方向偏 {@code yawOffset} 度。供 {@code BurstRangedGoal} 的"一发一把"使用：
+	 * 数量与节奏由 Goal 统一控制，这里只负责一把的生成，不再自己乘 3。
+	 */
+	public static void spawnSinglePhantomDagger(LivingEntity golem, LivingEntity target, int lv, float yawOffset) {
+		if (golem.level().isClientSide) return;
+		float damage = bossDamage(golem, lv, 6.0f);
+		boolean red = paladinPhaseTwo(golem);
+		List<LivingEntity> homingTargets = daggerHomingTargets(golem, 1);
+		int distance = (int) golem.distanceTo(target);
+		double spawnX = golem.getX();
+		double spawnY = golem.getY() + golem.getBbHeight() / 2.0;
+		double spawnZ = golem.getZ();
+		float baseYaw = (float) Math.toDegrees(Mth.atan2(-(target.getX() - golem.getX()), target.getZ() - golem.getZ()));
+		float yaw = baseYaw + yawOffset;
+		@SuppressWarnings("unchecked")
+		EntityType<ThrownPhantomDaggerEntity> type = (EntityType<ThrownPhantomDaggerEntity>) (EntityType<?>) ModEntities.THROWN_PHANTOM_DAGGER.get();
+		ThrownPhantomDaggerEntity dagger = new ThrownPhantomDaggerEntity(type, golem.level());
+		dagger.setOwner(golem);
+		// 兜底回旋到傀儡本体（未穿头盔时 homingTargets 为 null）
+		dagger.setReturnEntity(homingTargets != null && !homingTargets.isEmpty() ? homingTargets.get(0) : golem);
+		dagger.setReturnTick(10 + distance);
+		dagger.setYRot(yaw);
+		dagger.setPos(spawnX, spawnY, spawnZ);
+		dagger.shootFromRotation(golem, 0.0f, yaw, 0.0f, 1.0f, 0.0f);
+		dagger.setDamage(damage);
+		dagger.setRed(red);
+		golem.level().addFreshEntity(dagger);
+	}
+
 	/** 幻影飞刀：Boss state15/28 的 throwDaggers —— 3 把、间隔 30°、伤害 6，飞回施法者（回旋镖），returnTick = 10 + 距离。 */
 	public static void spawnPhantomDaggers(LivingEntity golem, LivingEntity target, int lv) {
 		if (golem.level().isClientSide) return;
@@ -1348,8 +1378,10 @@ public class LMProxyImpl {
 			double vx = rx * cosP, vy = sinP, vz = rz * cosP;
 			ThrownPhantomDaggerEntity dagger = new ThrownPhantomDaggerEntity(type, level);
 			dagger.setPos(golem.getX(), golem.getY() + golem.getBbHeight() / 2.0, golem.getZ());
-			if (homingTargets != null && !homingTargets.isEmpty())
-				dagger.setReturnEntity(homingTargets.get(i % homingTargets.size()));
+			// 兜底回旋到傀儡本体：未穿堕魂头盔时 daggerHomingTargets 返回 null，
+			// 少了这个兜底 rEntity 一直是 null，匕首的折返条件 `returnEntity() != null` 不成立，会一直往前飞不回来。
+			dagger.setReturnEntity(homingTargets != null && !homingTargets.isEmpty()
+					? homingTargets.get(i % homingTargets.size()) : golem);
 			dagger.setReturnTick(10);
 			dagger.setDamage(damage);
 			dagger.setRed(red);

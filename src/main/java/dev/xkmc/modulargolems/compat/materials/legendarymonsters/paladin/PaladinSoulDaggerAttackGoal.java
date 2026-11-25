@@ -1,40 +1,48 @@
 package dev.xkmc.modulargolems.compat.materials.legendarymonsters.paladin;
 
-import dev.xkmc.modulargolems.compat.materials.goety.multi.MultiTargetRangedGoal;
+import dev.xkmc.modulargolems.content.modifier.special.BurstRangedGoal;
 import dev.xkmc.modulargolems.compat.materials.legendarymonsters.LMProxy;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 /**
- * Single-target ranged: phantom dagger (ThrownPhantomDaggerEntity).
- * Mirrors PosessedPaladinEntity::throwPhantomDaggers: three homing daggers toward one target.
+ * 幻影匕首：复刻 {@code PosessedPaladinEntity::throwPhantomDaggers}——朝目标扇形甩出
+ * {@link PaladinSoulDaggerModifier#DAGGER_COUNT} 把追踪匕首。
+ * <p>
+ * 与其他 {@code BurstRangedGoal} 技能一致：{@code getBurstCount()} 就是匕首把数，
+ * 每发只生成一把（{@link LMProxy#spawnSinglePhantomDagger}），横向偏移用弹幕的
+ * {@code lateral}（-0.5 / 0 / +0.5）换算成角度，形成 Boss 那套 30° 扇形。
  */
-public class PaladinSoulDaggerAttackGoal extends MultiTargetRangedGoal {
+public class PaladinSoulDaggerAttackGoal extends BurstRangedGoal {
+
+	/** 相邻两把匕首的角度差（本体 30°）。 */
+	private static final float SPREAD_DEG = 30.0F;
 
 	public PaladinSoulDaggerAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(PaladinSoulDaggerModifier.cooldownFor(lv), 0, 30, golem, lv);
+		super(PaladinSoulDaggerModifier.cooldownFor(lv), PaladinSoulDaggerModifier.MIN_RANGE,
+				PaladinSoulDaggerModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
-	protected int searchRange() {
-		return 24;
+	protected int getBurstCount() {
+		return PaladinSoulDaggerModifier.DAGGER_COUNT;
+	}
+
+	/**
+	 * 三把匕首**同一 tick 齐射**（照 {@code MaledictusArrowAttackGoal} 的写法：{@code getBurstDelay() == 0}
+	 * 表示整轮齐射一次性打完），不是鸣雷槊那种"首发领射、其余跟上"。
+	 */
+	@Override
+	protected int getBurstDelay() {
+		return 0;
 	}
 
 	@Override
-	protected int getMaxTarget() {
-		return 1;
-	}
-
-	@Override
-	protected int cd() {
-		return 15;
-	}
-
-	@Override
-	protected void performAttackImpl(LivingEntity target) {
+	protected void fire(LivingEntity target, float lateral) {
 		LMProxy.paladinDaggerSound(golem);
-		LMProxy.spawnPhantomDaggers(golem, target, lv);
+		// lateral 是 -0.5 / 0 / +0.5 的槽位，乘 2 得到 -1 / 0 / +1 的角度序号
+		LMProxy.spawnSinglePhantomDagger(golem, target, lv, lateral * 2 * SPREAD_DEG);
 	}
 
 	@Override
@@ -42,9 +50,9 @@ public class PaladinSoulDaggerAttackGoal extends MultiTargetRangedGoal {
 		return new BackstepHelper(golem, BackstepHelper.DEFAULT_DISTANCE, BackstepHelper.DEFAULT_HEIGHT);
 	}
 
-
 	@Override
 	protected double getLeapRange() {
 		return BackstepHelper.DEFAULT_LEAP_RANGE;
 	}
+
 }
