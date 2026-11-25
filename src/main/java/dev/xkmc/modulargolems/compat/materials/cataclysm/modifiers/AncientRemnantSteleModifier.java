@@ -9,7 +9,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -51,8 +50,8 @@ public class AncientRemnantSteleModifier extends GolemModifier {
 	}
 
 	public static void addStele(LivingEntity user, LivingEntity target, int lv) {
-		user.level().playLocalSound(user.getX(), user.getY(), user.getZ(), SoundEvents.RAVAGER_ROAR,
-				user.getSoundSource(), 5.0F, 0.7F + user.getRandom().nextFloat() * 0.2F, false);
+		// 本体巨石攻击（attackState 17, attackTicks 16）播的是灾变自己的 REMNANT_ROAR，不是原版劫掠兽。
+		user.level().playSound(null, user.getX(), user.getY(), user.getZ(), com.github.L_Ender.cataclysm.init.ModSounds.REMNANT_ROAR.get(), net.minecraft.sounds.SoundSource.HOSTILE, 3.0F, 1.1F);
 		float rot = user.getRandom().nextFloat() * Mth.TWO_PI;
 		int branches = 8, perBranch = 16;
 		double initialRadius = 2.0, radiusInc = 0.75, curve = 0.6;
