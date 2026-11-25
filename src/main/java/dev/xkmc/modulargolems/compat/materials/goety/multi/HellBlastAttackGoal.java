@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.materials.goety.multi;
 
+import dev.xkmc.modulargolems.content.modifier.special.BurstRangedGoal;
+
 import com.Polarice3.Goety.common.entities.projectiles.HellBlast;
 import dev.xkmc.modulargolems.compat.materials.goety.modifier.IApostleGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
@@ -7,27 +9,30 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
-public class HellBlastAttackGoal extends MultiTargetRangedGoal implements IApostleGoal {
+public class HellBlastAttackGoal extends BurstRangedGoal implements IApostleGoal {
 
 	public HellBlastAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(100, 0, 16, golem, lv);
+		useMultiTargetSemantics();
 	}
 
-	protected int getMaxTarget() {
+	@Override
+	protected int getBurstCount() {
 		return lv * 2;
 	}
 
 	@Override
-	protected int searchRange() {
+	protected double searchRange() {
 		return 16;
 	}
 
 	@Override
-	protected int cd() {
+	protected int getBurstDelay() {
 		return Math.max(4 - lv, 0) * 2;
 	}
 
-	protected void performAttackImpl(LivingEntity target) {
+	@Override
+	protected void fire(LivingEntity target, float lateral) {
 		var level = golem.level();
 		Vec3 dir = target.position()
 				.add(0, target.getBbHeight() / 2, 0)

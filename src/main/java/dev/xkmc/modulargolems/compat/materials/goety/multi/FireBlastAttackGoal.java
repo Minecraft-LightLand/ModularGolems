@@ -1,34 +1,37 @@
 package dev.xkmc.modulargolems.compat.materials.goety.multi;
 
+import dev.xkmc.modulargolems.content.modifier.special.BurstRangedGoal;
+
 import com.Polarice3.Goety.common.entities.util.FireBlastTrap;
 import dev.xkmc.modulargolems.compat.materials.goety.modifier.IApostleGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
-public class FireBlastAttackGoal extends MultiTargetRangedGoal implements IApostleGoal {
+public class FireBlastAttackGoal extends BurstRangedGoal implements IApostleGoal {
 
 	public FireBlastAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(200, 0, 35, golem, lv);
+		useMultiTargetSemantics();
 	}
 
 	@Override
-	protected int searchRange() {
+	protected double searchRange() {
 		return 35;
 	}
 
 	@Override
-	protected int getMaxTarget() {
+	protected int getBurstCount() {
 		return lv;
 	}
 
 	@Override
-	protected int cd() {
+	protected int getBurstDelay() {
 		return 10;
 	}
 
 	@Override
-	protected void performAttackImpl(LivingEntity target) {
+	protected void fire(LivingEntity target, float lateral) {
 		var level = golem.level();
 		FireBlastTrap e = new FireBlastTrap(level, target.getX(), target.getY() + (double) 0.25F, target.getZ());
 		e.setOwner(golem);

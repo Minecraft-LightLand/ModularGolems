@@ -1,33 +1,34 @@
 package dev.xkmc.modulargolems.compat.materials.cataclysm.modifiers;
 
-import dev.xkmc.modulargolems.compat.materials.goety.multi.MultiTargetRangedGoal;
+import dev.xkmc.modulargolems.content.modifier.special.BurstRangedGoal;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import net.minecraft.world.entity.LivingEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
-public class LeviathanBlastPortalAttackGoal extends MultiTargetRangedGoal {
+public class LeviathanBlastPortalAttackGoal extends BurstRangedGoal {
 
 	public LeviathanBlastPortalAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		super(LeviathanBlastPortalModifier.COOLDOWN, LeviathanBlastPortalModifier.MIN_RANGE, LeviathanBlastPortalModifier.MAX_RANGE, golem, lv);
+		useMultiTargetSemantics();
 	}
 
 	@Override
-	protected int searchRange() {
+	protected double searchRange() {
 		return 35;
 	}
 
 	@Override
-	protected int getMaxTarget() {
+	protected int getBurstCount() {
 		return lv * 3;
 	}
 
 	@Override
-	protected int cd() {
+	protected int getBurstDelay() {
 		return 10;
 	}
 
 	@Override
-	protected void performAttackImpl(LivingEntity target) {
+	protected void fire(LivingEntity target, float lateral) {
 		LeviathanBlastPortalModifier.addBeam(golem, target);
 	}
 

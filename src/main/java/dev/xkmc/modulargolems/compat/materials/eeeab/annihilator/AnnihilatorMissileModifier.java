@@ -31,7 +31,7 @@ import java.util.function.BiConsumer;
  * </pre>
  * Uses intermediate {@code EntityAnnihilatorMissile}
  * Reference: {@code EnderGuardianVoidRuneAttackGoal} / {@code AncientRemnantSandstormAttackGoal}
- *  -> {@code MultiTargetRangedGoal}
+ *  -> {@code BurstRangedGoal}
  */
 public class AnnihilatorMissileModifier extends GolemModifier {
 
