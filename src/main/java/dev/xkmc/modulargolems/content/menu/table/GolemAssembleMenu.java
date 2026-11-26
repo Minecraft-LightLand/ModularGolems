@@ -276,6 +276,7 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 	public class ResultSlot extends PredSlot {
 
 		protected ItemStack output = ItemStack.EMPTY;
+		protected ItemStack currentPreview = ItemStack.EMPTY;
 		protected @Nullable GolemType<?, ?> currentType;
 		protected @Nullable IGolemPart<?> currentPart;
 		protected @Nullable Component error;
@@ -318,6 +319,9 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 			}
 			super.onTake(player, stack);
 			TableSounds.play(player, SoundEvents.ANVIL_USE);
+			// 消耗了傀儡胚料时额外播放切石机音效（纯部件组装 templateCount=0 不播）
+			if (templateCount > 0)
+				TableSounds.play(player, SoundEvents.UI_STONECUTTER_TAKE_RESULT);
 			main.update();
 			result.update();
 		}
@@ -329,6 +333,7 @@ public class GolemAssembleMenu extends BaseContainerMenu<GolemAssembleMenu> impl
 
 		public void update() {
 			output = ItemStack.EMPTY;
+			currentPreview = ItemStack.EMPTY;
 			currentType = null;
 			currentPart = null;
 			error = null;
@@ -389,6 +394,12 @@ for (var type : candidates) {
 					currentType = type;
 					currentPart = targetPart;
 templateCount = 1;
+					// 单部件制作也显示傀儡预览：目标部件有材料，其余部件为空白胚料
+					var preview = new ItemStack(GolemType.getGolemHolder(type));
+					for (var p : type.values()) {
+						GolemHolder.addMaterial(preview, p.toItem(), p.getSlot() == targetPart.getSlot() ? mat : GolemMaterial.EMPTY);
+					}
+					currentPreview = preview;
 				output = applyName(ans);
 				set(valid ? ans : ItemStack.EMPTY);
 				return;
@@ -430,6 +441,7 @@ templateCount = 1;
 					error = MGLangData.UI_SUB_TEMPLATE.get();
 currentType = type;
 			templateCount = ingotCount;
+			currentPreview = ans;
 			output = applyName(ans);
 			set(valid && error == null ? ans : ItemStack.EMPTY);
 			return;

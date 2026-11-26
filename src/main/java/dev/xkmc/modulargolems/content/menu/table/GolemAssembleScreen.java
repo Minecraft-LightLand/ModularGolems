@@ -164,10 +164,7 @@ public class GolemAssembleScreen extends BaseContainerScreen<GolemAssembleMenu> 
 			if (menu.result.getItem().isEmpty() && !menu.result.output.isEmpty())
 				drawShadow(g, menu.result, menu.result.output);
 		}
-		var result = menu.result.getItem();
-		if (result.isEmpty())
-			result = menu.result.output;
-		renderPreview(g, mx, my, result);
+		renderPreview(g, mx, my, menu.result.currentPreview);
 	}
 
 	private ItemStack getPartShadow(GolemAssembleMenu.PartMatSlot e) {

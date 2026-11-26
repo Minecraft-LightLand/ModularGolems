@@ -139,13 +139,16 @@ public class GolemBEWLR extends BlockEntityWithoutLevelRenderer {
 
 		T golem = ClientHolderManager.getEntityForDisplay(item, handle.stack());
 		if (golem == null) return false;
+		// 实体渲染器可能尚未注册、或该实体类型没有注册渲染器（例如资源重载中途）。
+		// 必须在改动 PoseStack 之前判空返回，否则调用方回退到部件渲染时会在已变换的栈上二次变换。
+		var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(golem);
+		if (renderer == null) return false;
 		P[] parts = item.getEntityType().values();
 		PoseStack stack = handle.poseStack();
 		parts[0].setupItemRender(stack, handle.type(), null);
 		stack.translate(0, 1.501, 0);
 		stack.scale(1, -1, -1);
-		var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(golem);
-		golem.tickCount = Proxy.getClientPlayer().tickCount;
+		golem.tickCount = Proxy.getClientPlayer() == null ? 0 : Proxy.getClientPlayer().tickCount;
 		renderer.render(golem, 0, Minecraft.getInstance().getPartialTick(), handle.poseStack(), handle.bufferSource(), handle.light());
 		return true;
 	}

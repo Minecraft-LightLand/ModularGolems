@@ -11,6 +11,7 @@
 	"golem_type.modulargolems.dog_golem.named": "犬形%s傀儡",
 	"golem_material": {
 		"modulargolems": {
+			"empty": "胚料",
 			"copper": "铜",
 			"gold": "金",
 			"iron": "铁",
