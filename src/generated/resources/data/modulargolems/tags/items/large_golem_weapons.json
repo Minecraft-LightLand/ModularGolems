@@ -1,5 +1,7 @@
 {
   "values": [
+    "modulargolems:realm_warden_axe",
+    "modulargolems:realm_annihilation_saw",
     {
       "id": "composite_material:etherite_sword",
       "required": false

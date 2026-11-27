@@ -4,6 +4,7 @@ import dev.xkmc.l2damagetracker.contents.attack.AttackCache;
 import dev.xkmc.l2damagetracker.contents.attack.AttackListener;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.item.equipments.IAttackListenerWeapon;
 import net.minecraft.world.item.ItemStack;
 
 public class GolemAttackListener implements AttackListener {
@@ -15,6 +16,9 @@ public class GolemAttackListener implements AttackListener {
 			for (var e : golem.getModifiersExtended().entrySet()) {
 				e.getKey().modifySource(golem, event, e.getValue());
 			}
+			var weapon = golem.getMainHandItem();
+			if (weapon.getItem() instanceof IAttackListenerWeapon w)
+				w.onCreateSource(golem, event, weapon);
 		}
 	}
 

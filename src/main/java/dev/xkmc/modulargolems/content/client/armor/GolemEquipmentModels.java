@@ -3,6 +3,7 @@ package dev.xkmc.modulargolems.content.client.armor;
 import dev.xkmc.modulargolems.content.client.weapon.BeaconCannonModel;
 import dev.xkmc.modulargolems.content.client.weapon.FlameThrowerModel;
 import dev.xkmc.modulargolems.content.client.weapon.GolemBows;
+import dev.xkmc.modulargolems.content.client.weapon.RealmAnnihilationSawModel;
 import dev.xkmc.modulargolems.content.client.weapon.SonicCannonModel;
 import dev.xkmc.modulargolems.init.ModularGolems;
 import net.minecraft.client.model.HumanoidModel;
@@ -202,6 +203,8 @@ public class GolemEquipmentModels {
 
 		regAndAdd(event, SonicCannonModel.SONIC_MAINHAND, SonicCannonModel::createMainHand);
 		regAndAdd(event, SonicCannonModel.SONIC_OFFHAND, SonicCannonModel::createOffhand);
+		regAndAdd(event, RealmAnnihilationSawModel.REALM_SAW_MAINHAND, RealmAnnihilationSawModel::createMainHand);
+		regAndAdd(event, RealmAnnihilationSawModel.REALM_SAW_OFFHAND, RealmAnnihilationSawModel::createOffhand);
 
 		regAndAdd(event, FlameThrowerModel.FLAME_RIGHT, FlameThrowerModel::rightLayer);
 		regAndAdd(event, FlameThrowerModel.FLAME_LEFT, FlameThrowerModel::leftLayer);

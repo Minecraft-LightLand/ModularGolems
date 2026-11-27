@@ -77,7 +77,7 @@
 			"beacon_cannon": "可发射信标激光造成魔法伤害",
 			"mechanical_arm": "可使用材料自动修复傀儡。且可被[蒸汽动力]技能加速",
 			"sonic_cannon": "可发射三道音爆，造成深渊回响伤害",
-			"sonic_cannon_resonance": "安装幽匿部件的傀儡使用效果更强",
+			"sonic_cannon_resonance": "安装幽匿部件的傀儡使用时效果更强",
 			"flamethrower": "根据弹药在如下3种攻击方式中切换：",
 			"flamethrower_firecharge": " · [火焰弹]可发射火球，命中时产生爆炸",
 			"flamethrower_flame": " · [烈焰粉]可发射小火球，每个弹药装填16发。支持无限魔咒",

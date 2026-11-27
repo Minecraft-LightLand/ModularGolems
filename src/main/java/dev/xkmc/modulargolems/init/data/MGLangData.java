@@ -30,6 +30,7 @@ public enum MGLangData {
 	SHIELD_BREAK("tooltip.shield_break", "Shield Breaker", 0, ChatFormatting.GRAY),
 	SLICING_GOLEM("tooltip.slicing_golem", "When metal golem kill golems of other players with this axe, drop all parts and each upgrade has %s chance to drop", 1, ChatFormatting.GRAY),
 	SLICING_ENEMY("tooltip.slicing_enemy", "When metal golem kill certain enemies with this axe, drop one random metal golem part", 0, ChatFormatting.GRAY),
+	REALM_WARDEN("tooltip.realm_warden", "When used by a golem with a Realm part, melee damage bypasses armor and deals more damage to electrified targets", 0, ChatFormatting.GRAY),
 	BEACON_BOOTS("tooltip.beacon_boots", "Heal and apply %s, %s to all nearby allies.", 2, ChatFormatting.GRAY),
 	BOW_STIFFNESS("tooltip.bow_stiffness", "Bow Stiffness: %s", 1, ChatFormatting.GRAY),
 	BOW_PIERCE("tooltip.bow_pierce", "Arrow pierces %s targets", 1, ChatFormatting.GRAY),

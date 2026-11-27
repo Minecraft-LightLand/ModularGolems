@@ -13,6 +13,8 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.ranged.GolemMechaBowBehavior;
 import dev.xkmc.modulargolems.content.item.ranged.MetalGolemBowItem;
 import dev.xkmc.modulargolems.content.item.ranged.SonicCannonBehavior;
+import dev.xkmc.modulargolems.content.item.equipments.realm.RealmAnnihilationSaw;
+import dev.xkmc.modulargolems.content.item.equipments.realm.RealmAnnihilationSawBehavior;
 import dev.xkmc.modulargolems.content.item.ranged.SonicCannonItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
 
@@ -36,7 +38,7 @@ public class GolemWeaponRegistry<T extends SweepGolemEntity<?, ?>> extends Weapo
 		);
 		register(ModularGolems.loc("hold"),
 				(golem, stack, hand) -> WeaponRegistry.HOLD.getProperties(stack),
-				(golem, melee) -> new SmartHoldRangedAttackGoal<>(golem, melee, 1.0D)
+				(golem, melee) -> new GolemHoldAttackGoal<>(golem, melee, 1.0D)
 		);
 	}
 
@@ -49,6 +51,10 @@ public class GolemWeaponRegistry<T extends SweepGolemEntity<?, ?>> extends Weapo
 		WeaponRegistry.HOLD.register(ModularGolems.loc("sonic_cannon"),
 				e -> WeaponStatus.RANGED.of(e.getItem() instanceof SonicCannonItem),
 				(golem, stack) -> new SonicCannonBehavior(), 10);
+		// 歼灭刃锯：绞肉锯式——不挥击，锯刃持续旋转高频切割
+		WeaponRegistry.HOLD.register(ModularGolems.loc("realm_annihilation_saw"),
+				e -> WeaponStatus.MELEE.of(e.getItem() instanceof RealmAnnihilationSaw),
+				(golem, stack) -> new RealmAnnihilationSawBehavior(), 10);
 	}
 
 }

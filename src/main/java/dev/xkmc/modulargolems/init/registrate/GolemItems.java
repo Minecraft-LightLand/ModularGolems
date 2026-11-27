@@ -22,6 +22,8 @@ import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemPartType;
 import dev.xkmc.modulargolems.content.item.card.*;
 import dev.xkmc.modulargolems.content.item.equipments.*;
+import dev.xkmc.modulargolems.content.item.equipments.realm.RealmAnnihilationSaw;
+import dev.xkmc.modulargolems.content.item.equipments.realm.RealmWardenAxe;
 import dev.xkmc.modulargolems.content.item.golem.GolemFacade;
 import dev.xkmc.modulargolems.content.item.golem.GolemHolder;
 import dev.xkmc.modulargolems.content.item.golem.GolemPart;
@@ -41,7 +43,9 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 
 import java.util.function.Supplier;
 
@@ -100,6 +104,8 @@ public class GolemItems {
 	public static final ItemEntry<FlameThrowerItem> FLAME_THROWER;
 	public static final ItemEntry<GolemSaddleItem> GOLEM_SADDLE;
 	public static final ItemEntry<SlicingAxe> SLICING_AXE;
+	public static final ItemEntry<RealmWardenAxe> REALM_WARDEN_AXE;
+	public static final ItemEntry<RealmAnnihilationSaw> REALM_ANNIHILATION_SAW;
 	public static final ItemEntry<MetalGolemBeaconItem> BEACON_BOOTS;
 	public static final ItemEntry<ConfigCard>[] CARD;
 	public static final ItemEntry<PathRecordCard> CARD_PATH;
@@ -252,6 +258,20 @@ public class GolemItems {
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
 			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
+			// 界域联动：大型傀儡专属武器（eeeab）
+			REALM_WARDEN_AXE = REGISTRATE.item("realm_warden_axe", p -> new RealmWardenAxe(p.stacksTo(1).fireResistant()))
+					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName())
+							.guiLight(BlockModel.GuiLight.FRONT)
+							.customLoader(SeparateTransformsModelBuilder::begin)
+							.base(new ItemModelBuilder(null, pvd.existingFileHelper)
+									.parent(new ModelFile.UncheckedModelFile(ModularGolems.loc("custom/" + ctx.getName()))))
+							.perspective(ItemDisplayContext.GUI, new ItemModelBuilder(null, pvd.existingFileHelper)
+									.parent(pvd.getExistingFile(pvd.mcLoc("item/generated")))
+									.texture("layer0", pvd.modLoc("item/equipments/" + ctx.getName() + "_icon"))))
+					.defaultLang().tag(MGTagGen.LARGE_GOLEM_WEAPONS).register();
+			REALM_ANNIHILATION_SAW = REGISTRATE.item("realm_annihilation_saw", p -> new RealmAnnihilationSaw(p.stacksTo(1).fireResistant()))
+					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName() + "_icon")))
+					.defaultLang().tag(MGTagGen.LARGE_GOLEM_WEAPONS).register();
 			IRON_BOW = REGISTRATE.item("iron_mecha_bow", p -> new MetalGolemBowItem(p, 15, 0))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.register();
