@@ -1,5 +1,6 @@
 package dev.xkmc.modulargolems.init.registrate;
 
+import net.minecraftforge.fml.ModList;
 import java.util.List;
 
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -258,6 +259,7 @@ public class GolemItems {
 		{
 			METALGOLEM_WEAPON = GolemWeaponType.build(VanillaGolemWeaponMaterial.values());
 			SLICING_AXE = SlicingAxe.buildItem("golem_slicing_axe", VanillaGolemWeaponMaterial.DIAMOND);
+			if (ModList.get().isLoaded("eeeabsmobs")) {
 			// 界域联动：大型傀儡专属武器（eeeab）
 			REALM_WARDEN_AXE = REGISTRATE.item("realm_warden_axe", p -> new RealmWardenAxe(p.stacksTo(1).fireResistant()))
 					.model((ctx, pvd) -> pvd.getBuilder(ctx.getName())
@@ -272,15 +274,23 @@ public class GolemItems {
 			REALM_ANNIHILATION_SAW = REGISTRATE.item("realm_annihilation_saw", p -> new RealmAnnihilationSaw(p.stacksTo(1).fireResistant()))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName() + "_icon")))
 					.defaultLang().tag(MGTagGen.LARGE_GOLEM_WEAPONS).register();
+			} else {
+				REALM_WARDEN_AXE = null;
+				REALM_ANNIHILATION_SAW = null;
+			}
 			IRON_BOW = REGISTRATE.item("iron_mecha_bow", p -> new MetalGolemBowItem(p, 15, 0))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.register();
 			NETHERITE_BOW = REGISTRATE.item("netherite_mecha_bow", p -> new MetalGolemMechaBowItem(p, 30, 5))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
+			if (ModList.get().isLoaded("l2complements") || ModList.get().isLoaded("golemdungeons")) {
 			SONIC_CANNON = REGISTRATE.item("sonic_cannon", p -> new SonicCannonItem(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
+			} else {
+				SONIC_CANNON = null;
+			}
 			BEACON_CANNON = REGISTRATE.item("beacon_cannon", p -> new BeaconCannonItem(p.stacksTo(1)))
 					.model((ctx, pvd) -> pvd.generated(ctx, pvd.modLoc("item/equipments/" + ctx.getName())))
 					.tag(MGTagGen.TOUGH_ITEM).register();
