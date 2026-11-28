@@ -3,11 +3,18 @@ package dev.xkmc.modulargolems.compat.materials.eeeab;
 import com.eeeab.eeeabsmobs.sever.init.ItemInit;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import dev.xkmc.l2library.serial.recipe.ConditionalRecipeWrapper;
+import dev.xkmc.modulargolems.init.ModularGolems;
 import dev.xkmc.modulargolems.init.data.RecipeGen;
+import dev.xkmc.modulargolems.init.material.GolemWeaponType;
+import dev.xkmc.modulargolems.init.material.VanillaGolemWeaponMaterial;
+import dev.xkmc.modulargolems.init.registrate.GolemItems;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.phys.Vec3;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -211,6 +218,48 @@ public class EEEABProxy {
 				.define('A', ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
 				.define('X', EEEABCompatRegistry.REALM_CUBE.get())
 				.save(ConditionalRecipeWrapper.mod(pvd, EEEABDispatch.MODID));
+
+		var sawBase = GolemItems.METALGOLEM_WEAPON[GolemWeaponType.SWORD.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()].get();
+		var axeBase = GolemItems.METALGOLEM_WEAPON[GolemWeaponType.AXE.ordinal()][VanillaGolemWeaponMaterial.NETHERITE.ordinal()].get();
+
+		// 歼灭刃锯：复用 eeeabsmobs:chainsword 的合成图案，仅把下界合金剑换成 MG 下界合金傀儡大剑
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.REALM_ANNIHILATION_SAW.get())::unlockedBy,
+						ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
+				.pattern(" BA").pattern("BGC").pattern("NC ")
+				.define('A', ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
+				.define('B', ItemInit.BOUNDARY_BRICK.get())
+				.define('C', Items.CHAIN)
+				.define('G', ItemInit.CHAIN_GEAR.get())
+				.define('N', sawBase)
+				.save(ConditionalRecipeWrapper.mod(pvd, EEEABDispatch.MODID));
+
+		// 歼灭刃锯：锻造（遗物升级模板 + 下界合金傀儡大剑 + 链齿核心）
+		RecipeGen.unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ItemInit.RELICRON_UPGRADE_SMITHING_TEMPLATE.get()),
+						Ingredient.of(sawBase),
+						Ingredient.of(ItemInit.CHAIN_GEAR.get()),
+						RecipeCategory.COMBAT, GolemItems.REALM_ANNIHILATION_SAW.get())::unlocks,
+						sawBase)
+				.save(ConditionalRecipeWrapper.mod(pvd, EEEABDispatch.MODID), ModularGolems.loc("realm_annihilation_saw_smithing"));
+
+		// 戍卫战斧：复用 eeeabsmobs:doombolt_battleaxe 的合成图案，仅把下界合金斧换成 MG 下界合金傀儡战斧
+		RecipeGen.unlock(pvd, ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, GolemItems.REALM_WARDEN_AXE.get())::unlockedBy,
+						ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
+				.pattern(" BA").pattern("BGB").pattern("NB ")
+				.define('A', ItemInit.ANCIENT_DRIVE_CRYSTAL.get())
+				.define('B', ItemInit.BOUNDARY_BRICK.get())
+				.define('G', ItemInit.GUARDIAN_CUBE.get())
+				.define('N', axeBase)
+				.save(ConditionalRecipeWrapper.mod(pvd, EEEABDispatch.MODID));
+
+		// 戍卫战斧：锻造（遗物升级模板 + 下界合金傀儡战斧 + 守卫核心）
+		RecipeGen.unlock(pvd, SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ItemInit.RELICRON_UPGRADE_SMITHING_TEMPLATE.get()),
+						Ingredient.of(axeBase),
+						Ingredient.of(ItemInit.GUARDIAN_CUBE.get()),
+						RecipeCategory.COMBAT, GolemItems.REALM_WARDEN_AXE.get())::unlocks,
+						axeBase)
+				.save(ConditionalRecipeWrapper.mod(pvd, EEEABDispatch.MODID), ModularGolems.loc("realm_warden_axe_smithing"));
 	}
 
 }

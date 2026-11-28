@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "eeeabsmobs:guardian_cube"
+  },
+  "base": {
+    "item": "modulargolems:netherite_golem_axe"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "eeeabsmobs"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:realm_warden_axe"
+  },
+  "template": {
+    "item": "eeeabsmobs:relicron_upgrade_smithing_template"
+  }
+}

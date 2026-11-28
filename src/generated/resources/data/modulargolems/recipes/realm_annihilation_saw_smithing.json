@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "eeeabsmobs:chain_gear"
+  },
+  "base": {
+    "item": "modulargolems:netherite_golem_sword"
+  },
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "eeeabsmobs"
+    }
+  ],
+  "result": {
+    "item": "modulargolems:realm_annihilation_saw"
+  },
+  "template": {
+    "item": "eeeabsmobs:relicron_upgrade_smithing_template"
+  }
+}
