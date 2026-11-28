@@ -33,6 +33,12 @@ public interface GolemUseItemImpl extends TransientStateContainer.View {
 	/** 服务端：把"是否在使用、用哪只手"推给客户端。 */
 	default void syncUsingHand() {
 		AbstractGolemEntity<?, ?> golem = asGolem();
+		// 兜底：武器技能只在锁定存活目标时“使用”。若已无存活目标却仍标记 using（例如目标死亡、
+		// 或 HOLD goal 被 reassess removeGoal 而不走 stop()），会卡住 using 标志——灾变绞肉锯的循环音效
+		// (ItemTickableSound) 就会一直跟随/残留在原地。这里强制清掉。
+		if (golem.isUsingItem() && (golem.getTarget() == null || !golem.getTarget().isAlive())) {
+			golem.stopUsingItem();
+		}
 		byte want = golem.isUsingItem()
 				? (byte) (golem.getUsedItemHand() == InteractionHand.OFF_HAND ? 2 : 1)
 				: 0;

@@ -1,11 +1,14 @@
 package dev.xkmc.modulargolems.content.entity.goals;
 
 import dev.xkmc.mob_weapon_api.api.goals.IMeleeGoal;
+import dev.xkmc.mob_weapon_api.registry.WeaponRegistry;
 import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import dev.xkmc.modulargolems.init.data.MGConfig;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
@@ -87,6 +90,7 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 	}
 
 	public boolean canUse() {
+		if (yieldsToHoldGoal()) return false;
 		long i = golem.level().getGameTime();
 		if (i - this.lastCanUseCheck < 20L) {
 			return false;
@@ -117,8 +121,26 @@ public class GolemMeleeGoal extends Goal implements IMeleeGoal {
 		}
 	}
 
+	/** 手持近战型 HOLD 武器且目标已进入其（边缘）射程时，让位给 weapon goal（开转/切割），避免用近战 goal 从远处挥击。 */
+	private boolean yieldsToHoldGoal() {
+		LivingEntity target = golem.getTarget();
+		return target != null && target.isAlive() && shouldYieldToHold(target);
+	}
+
+	private boolean shouldYieldToHold(LivingEntity target) {
+		// 跳跃/冲锋进行中（滞空、跳跃实例未清、或 busy 锁）先让它完成；
+		// 注意落地那一帧 canContinueToUse 先于 tick，必须靠 jump.isJumping() 挡住，否则掉地震结算。
+		if (!golem.onGround() || jump.isJumping() || EarthquakeHelper.isBusy(golem)) return false;
+		ItemStack stack = golem.getMainHandItem();
+		var status = WeaponRegistry.HOLD.getProperties(stack);
+		if (status.isEmpty() || !status.get().isMelee()) return false;
+		// 只要 melee 够得着就让位：任何会「挥击」的距离都改成开转，避免最边缘拉扯+挥击
+		return getAttackReachSqr(target) >= golem.distanceToSqr(target);
+	}
+
 	public boolean canContinueToUse() {
 		LivingEntity livingentity = golem.getTarget();
+		if (livingentity != null && livingentity.isAlive() && shouldYieldToHold(livingentity)) return false;
 		if (livingentity == null) {
 			return false;
 		} else if (!livingentity.isAlive()) {

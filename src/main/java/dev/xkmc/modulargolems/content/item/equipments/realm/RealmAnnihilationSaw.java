@@ -2,6 +2,7 @@ package dev.xkmc.modulargolems.content.item.equipments.realm;
 
 import dev.xkmc.modulargolems.content.client.armor.GolemModelPaths;
 import dev.xkmc.modulargolems.content.client.weapon.IEntityModelWeapon;
+import dev.xkmc.modulargolems.content.entity.common.AbstractGolemEntity;
 import dev.xkmc.modulargolems.content.entity.metalgolem.MetalGolemEntity;
 import dev.xkmc.modulargolems.content.item.equipments.MetalGolemWeaponItem;
 import dev.xkmc.modulargolems.init.ModularGolems;
@@ -48,7 +49,8 @@ public class RealmAnnihilationSaw extends MetalGolemWeaponItem implements IEntit
 
 	@Override
 	public boolean shouldPlayAnimation(LivingEntity user, ItemStack stack, InteractionHand hand) {
-		return true;
+		// 无限持握时 isUsingItem 恒为 true、getTarget 客户端不同步；用同步的 isAggressive（在攻击/战斗）判定
+		return user instanceof AbstractGolemEntity<?, ?> golem && golem.isAggressive();
 	}
 
 	@Override

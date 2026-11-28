@@ -84,6 +84,10 @@ public class JumpAttackHelper {
 		return false;
 	}
 
+	public boolean isJumping() {
+		return ins != null;
+	}
+
 	public boolean preventAttack() {
 		return ins != null && !mover.onGround() && golem.tickCount - startJumpingTime < JUMP_MAX_TIME;
 	}
