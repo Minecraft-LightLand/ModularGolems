@@ -1,5 +1,7 @@
 package dev.xkmc.modulargolems.compat.jei;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.modulargolems.compat.curio.CurioCompatRegistry;
 import dev.xkmc.modulargolems.content.config.GolemMaterial;
@@ -43,6 +45,8 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -54,14 +58,19 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Rect2i;
 
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Collection;
+import java.util.Map;
 import java.util.List;
 
 @JeiPlugin
@@ -205,41 +214,40 @@ public class GolemJEIPlugin implements IModPlugin {
 		return sb.toString();
 	}
 
-	/** 傀儡部件掉落数据：与 MGGLMGen / 各 compat 的 slicing_axe_drop_* 掉落修改器一致。{生物, 材料}。 */
-	private static final String[][] PART_DROPS = {
-			{"minecraft:iron_golem", "modulargolems:iron"},
-			{"minecraft:warden", "modulargolems:sculk"},
-			{"cataclysm:ignis", "cataclysm:ignitium"},
-			{"cataclysm:the_harbinger", "cataclysm:witherite"},
-			{"cataclysm:maledictus", "cataclysm:cursium"},
-			{"cataclysm:netherite_monstrosity", "modulargolems:netherite"},
-			{"cataclysm:ender_guardian", "cataclysm:ender_guardian"},
-			{"cataclysm:scylla", "cataclysm:storm"},
-			{"cataclysm:ancient_remnant", "cataclysm:ancient_metal"},
-			{"legendary_monsters:ancient_guardian", "legendary_monsters:molten_metal"},
-			{"legendary_monsters:cloud_golem", "legendary_monsters:cloud"},
-			{"legendary_monsters:the_obliterator", "legendary_monsters:obliterator"},
-			{"legendary_monsters:posessed_paladin", "legendary_monsters:paladin"},
-			{"mowziesmobs:ferrous_wroughtnaut", "mowziesmobs:wroughtnaut"},
-	};
-
+	/** 傀儡部件掉落：自动扫描运行期所有 {@code loot_modifiers/*.json}，取 {@code type==modulargolems:slicing} 的掉落修改器解析 (entity, material)。
+	 *  这样各 compat / 附属模组通过数据包新增的斩铁巨斧切片掉落会自动出现在 JEI，无需硬编码维护。 */
 	private static List<GolemPartDropJeiRecipe> partDropRecipes(GolemMaterialConfig config) {
 		List<GolemPartDropJeiRecipe> list = new ArrayList<>();
 		List<ResourceLocation> mats = config.getAllMaterials();
-		for (String[] e : PART_DROPS) {
-			ResourceLocation erl = new ResourceLocation(e[0]);
-			ResourceLocation mrl = new ResourceLocation(e[1]);
-			if (!ForgeRegistries.ENTITY_TYPES.containsKey(erl)) continue;
-			if (!mats.contains(mrl)) continue;
-			EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(erl);
-			if (type == null) continue;
-			List<ItemStack> drops = new ArrayList<>();
-			Set<Item> seen = new HashSet<>();
-			for (MetalGolemPartType t : MetalGolemPartType.values()) {
-				ItemStack stack = GolemPart.setMaterial(t.toItem().getDefaultInstance(), mrl);
-				if (seen.add(stack.getItem())) drops.add(stack);
+		Set<String> seen = new HashSet<>();
+		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+		if (server == null) server = Minecraft.getInstance().getSingleplayerServer();
+		if (server == null) return list; // 无本地服务端数据（如连独立服务器）时无法读取掉落定义
+		ResourceManager rm = server.getResourceManager();
+		Map<ResourceLocation, Resource> resources = rm.listResources("loot_modifiers", rl -> rl.getPath().endsWith(".json"));
+		for (Map.Entry<ResourceLocation, Resource> entry : resources.entrySet()) {
+			try (var in = entry.getValue().open()) {
+				JsonObject json = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
+				if (!json.has("type") || !"modulargolems:slicing".equals(json.get("type").getAsString())) continue;
+				if (!json.has("entity") || !json.has("material")) continue;
+				ResourceLocation erl = ResourceLocation.tryParse(json.get("entity").getAsString());
+				ResourceLocation mrl = ResourceLocation.tryParse(json.get("material").getAsString());
+				if (erl == null || mrl == null) continue;
+				if (!mats.contains(mrl)) continue;
+				if (!ForgeRegistries.ENTITY_TYPES.containsKey(erl)) continue;
+				if (!seen.add(erl + "|" + mrl)) continue;
+				EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(erl);
+				if (type == null) continue;
+				List<ItemStack> drops = new ArrayList<>();
+				Set<Item> di = new HashSet<>();
+				for (MetalGolemPartType t : MetalGolemPartType.values()) {
+					ItemStack stack = GolemPart.setMaterial(t.toItem().getDefaultInstance(), mrl);
+					if (di.add(stack.getItem())) drops.add(stack);
+				}
+				if (!drops.isEmpty()) list.add(new GolemPartDropJeiRecipe(type, drops));
+			} catch (Exception ex) {
+				// skip malformed / unreadable loot modifier
 			}
-			list.add(new GolemPartDropJeiRecipe(type, drops));
 		}
 		return list;
 	}
