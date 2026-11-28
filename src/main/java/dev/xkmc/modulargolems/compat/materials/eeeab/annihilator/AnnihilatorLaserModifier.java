@@ -8,19 +8,19 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import java.util.function.BiConsumer;
 
 /**
- * Relic Annihilator - Laser (single-target)
- * Original: {@code RARangeAttackGoal} -> {@code LASER_ANIMATION} (90)
- * Decompiled: com/eeeab/eeeabsmobs/sever/entity/mob/relicron/EntityRelicAnnihilator.java:1374-1388
- * <pre>
- *  tick9:  x=scope.getX, y=scope.getEyeY(0.24), z=scope.getZ
- *          ray = new EntityInfraredRay(level,caster,x,y,z,29) -> add
- *  tick49: laser = new EntityGuardianLaser(level,caster, golem.getX(), golem.getY(), golem.getZ(),20)
- *          laser.setCountDown(1); type=RELIC_ANNIHILATOR; updateWithEntity(caster,wOffset,hOffset) -> add
- * </pre>
- * Uses intermediates {@code EntityInfraredRay} + {@code EntityGuardianLaser}
- * Single-target, reference {@code GuardianLaserAttackGoal} / {@code HarbingerDeathBeamAttackGoal}
+ * 湮灭者 - 激光（单体）。
+ * 对应 {@code EntityRelicAnnihilator} 的 {@code LASER_ANIMATION}：tick9 生成红外预警射线 {@code EntityInfraredRay}，
+ * tick49 生成 {@code EntityGuardianLaser}（{@code setCountDown(1)}、type=RELIC_ANNIHILATOR）。
  */
-public class AnnihilatorLaserModifier extends GolemModifier {
+public class AnnihilatorLaserModifier extends GolemModifier {	public static final int COOLDOWN = 200;
+	public static final int MIN_RANGE = 0, MAX_RANGE = 24;
+	public static final int CHARGE_TICKS = 49, WARN_TICK = 9;
+
+	/** 等级只缩短冷却（每级减半，最低 1），与其它技能一致。 */
+	public static int cooldownFor(int lv) {
+		return Math.max(1, COOLDOWN >> (lv - 1));
+	}
+
 
 	public AnnihilatorLaserModifier() {
 		super(StatFilterType.HEAD, 1);

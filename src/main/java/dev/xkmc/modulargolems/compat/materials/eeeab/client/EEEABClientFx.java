@@ -4,6 +4,18 @@ import com.eeeab.eeeabsmobs.client.ClientProxy;
 import com.eeeab.eeeabsmobs.client.particle.ParticleDust;
 import com.eeeab.eeeabsmobs.client.particle.ParticleRing;
 import com.eeeab.eeeabsmobs.client.particle.lib.AdvancedBlockParticle;
+import com.eeeab.eeeabsmobs.client.particle.lib.AdvancedParticleBase;
+import com.eeeab.eeeabsmobs.client.particle.lib.AnimData;
+import com.eeeab.eeeabsmobs.client.particle.lib.ParticleRotation;
+import com.eeeab.eeeabsmobs.client.particle.lib.component.ParticleComponent.PropertyControl;
+import com.eeeab.eeeabsmobs.client.particle.lib.component.ParticleComponent.PropertyControl.EnumParticleProperty;
+import com.eeeab.eeeabsmobs.client.particle.lib.component.RibbonComponent;
+import com.eeeab.eeeabsmobs.client.particle.lib.component.RibbonComponent.PropertyOverLength;
+import com.eeeab.eeeabsmobs.client.particle.lib.component.RibbonComponent.PropertyOverLength.EnumRibbonProperty;
+import com.eeeab.eeeabsmobs.client.particle.lib.data.AdvancedBlockParticleData;
+import com.eeeab.eeeabsmobs.client.particle.lib.data.AdvancedParticleData;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.state.BlockState;
 import com.eeeab.eeeabsmobs.client.particle.lib.component.ParticleComponent;
 import com.eeeab.eeeabsmobs.client.particle.util.ModParticleUtils;
 import com.eeeab.eeeabsmobs.client.render.LightningBolt;
@@ -11,6 +23,7 @@ import com.eeeab.eeeabsmobs.sever.init.ParticleInit;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import dev.xkmc.modulargolems.content.modifier.special.EarthquakeHelper;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector4f;
 
@@ -33,6 +46,9 @@ public final class EEEABClientFx {
 			new Vector4f(0.85F, 0.9F, 1F, 1F),
 			new Vector4f(0.52F, 0.94F, 1F, 1F)
 	};
+
+	private static final Vector4f[] COLORS = {
+			new Vector4f(1F, 0.88F, 0.48F, 1F), new Vector4f(0.52F, 0.94F, 1F, 1F)};
 
 	private EEEABClientFx() {
 	}
@@ -97,6 +113,74 @@ public final class EEEABClientFx {
 						new ParticleComponent[]{new ParticleComponent.FreeFallSimulator(slam ? 1F : 1.5F)}));
 	}
 
+	/**
+	 * Exact port of {@code EntityRealmWarden.doLeapLandingEffect}: BIG_RING, a GLOW flash, a dust annular
+	 * outburst, block particles and the two-layer bowl burst. {@code scale/dustSpeed/effectScale/angles}
+	 * are the boss's own parameter sets: (60, 1.0, 1.4, {45,25}) on the initial landing and
+	 * (120, 1.4, 1.2, {55,25}) on the slam.
+	 */
+	public static void leapLandingFull(LivingEntity golem, float scale, float dustSpeed, float effectScale,
+			double[] angles, boolean secondPhase) {
+		Level level = golem.level();
+		RandomSource random = golem.getRandom();
+		// 落地特效锚到地面：客户端实体插值，落地帧可能还在半空，直接用 getY() 会画在空中
+		Vec3 ground = EarthquakeHelper.findFloor(level, golem.position(), 8);
+		Vec3 pos = new Vec3(golem.getX(), (ground == null ? golem.getY() : ground.y) + 0.1, golem.getZ());
+		Vector4f color = secondPhase ? COLORS[1] : COLORS[0];
+		level.addParticle(new ParticleRing.RingData(ParticleInit.BIG_RING.get(), 0F, (float) (Math.PI / 2D), 11,
+						color.x, color.y, color.z, 1F, 70F, false, ParticleRing.EnumRingBehavior.GROW),
+				pos.x, pos.y, pos.z, 0, 0, 0);
+		flashing(golem, pos, scale, color.x, color.y, color.z, secondPhase);
+		ParticleDust.DustData dustData = new ParticleDust.DustData(ParticleInit.DUST.get(), 32F, 25,
+				ParticleDust.EnumDustBehavior.GROW, 0.79F);
+		ModParticleUtils.annularParticleOutburst(level, 20 * dustSpeed, dustData, pos.x, pos.y, pos.z,
+				1.6F * dustSpeed, 0.6F);
+		ModParticleUtils.blockParticlesAround(level, pos.x, pos.y, pos.z, 15,
+				0.75D * effectScale, 1.5D * effectScale, 0.1D * effectScale, 0.15D * effectScale,
+				0.45D * effectScale, 0.75D * effectScale, -0.2D, 0.1D,
+				(bp, state) -> blockParticleData(random, state, pos, 1.5D));
+		double[] colors = {COLORS[0].x, COLORS[0].y, COLORS[0].z, COLORS[0].w};
+		ModParticleUtils.multiLayerBowlParticles(level, pos, 3, new int[]{8, 10},
+				new double[]{2, 3}, new double[]{1.8, 2.2}, angles, colors, null, 0.55F);
+	}
+
+	private static void flashing(LivingEntity golem, Vec3 pos, float scale, float finalR, float finalG,
+			float finalB, boolean secondPhase) {
+		if (secondPhase) scale *= 1.2F;
+		AdvancedParticleBase.spawnParticle(golem.level(), ParticleInit.GLOW.get(), pos.x, pos.y, pos.z, 0, 0, 0,
+				true, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 5, true, false, false, new ParticleComponent[]{
+						new PropertyControl(EnumParticleProperty.SCALE, AnimData.startAndEnd(15F, scale), false),
+						new PropertyControl(EnumParticleProperty.ALPHA, AnimData.startAndEnd(1F, 0.1F), false),
+						new PropertyControl(EnumParticleProperty.RED, new AnimData.KeyTrack(new float[]{1F, finalR}, new float[]{0F, 0.5F}), false),
+						new PropertyControl(EnumParticleProperty.GREEN, new AnimData.KeyTrack(new float[]{1F, finalG}, new float[]{0F, 0.5F}), false),
+						new PropertyControl(EnumParticleProperty.BLUE, new AnimData.KeyTrack(new float[]{1F, finalB}, new float[]{0F, 0.5F}), false),
+				});
+	}
+
+	private static AdvancedBlockParticleData blockParticleData(RandomSource random, BlockState state, Vec3 pos,
+			double scale) {
+		return AdvancedBlockParticle.createBlockParticleData(state, null, pos.x, pos.y, pos.z,
+				(random.nextFloat() * 0.5F + 0.5F) * 2 / scale, 0.6D, 0.6D, 0.6D, 1D, 0.98D, 40, false, true,
+				new ParticleComponent[]{new ParticleComponent.FreeFallSimulator(1.5F)});
+	}
+
+	private static AdvancedParticleData ribbonData(double airDiffusionSpeed, float scale) {
+		return AdvancedParticleBase.createParticleData(ParticleInit.ADV_ORB.get(),
+				new ParticleRotation.EulerAngles(0, 0, 0), 0, 0, 0, 0, 0, airDiffusionSpeed, 3, true, false,
+				new ParticleComponent[]{
+						new RibbonComponent(ParticleInit.FLAT_RIBBON.get(), 4, 0, 0, 0, scale,
+								COLORS[0].x, COLORS[0].y, COLORS[0].z, 0.8F, true, true,
+								new ParticleComponent[]{
+										new PropertyOverLength(EnumRibbonProperty.ALPHA, AnimData.KeyTrack.startAndEnd(1F, 0F)),
+										new PropertyOverLength(EnumRibbonProperty.SCALE, AnimData.KeyTrack.startAndEnd(0.1F, 1F)),
+								}, false)
+				}, false);
+	}
+
+	private static Vec3 randomOffset(Vec3 center, RandomSource random, double size) {
+		return center.add((random.nextDouble() - 0.5) * 2 * size, 0, (random.nextDouble() - 0.5) * 2 * size);
+	}
+
 	public static void leapLanding(LivingEntity golem, boolean secondPhase, boolean slam) {
 		Level level = golem.level();
 		RandomSource random = golem.getRandom();
@@ -118,9 +202,31 @@ public final class EEEABClientFx {
 	 * once the telegraph resolves. Sixteen bolts fan out of both feet across a 160 degree arc, every
 	 * third one thicker and held longer so the burst has a readable pulse instead of a flat spray.
 	 */
-	public static void leapLandingExplosion(LivingEntity golem) {
+	public static void leapLandingExplosion(LivingEntity golem, boolean secondPhase) {
 		Level level = golem.level();
 		RandomSource random = golem.getRandom();
+		if (!secondPhase) {
+			// phase one: fifteen ribbon particles flung outward within size 30, the boss's else branch
+			AdvancedParticleData data = ribbonData(0.52F, 0.3F);
+			int size = 30;
+			Vec3 ground = EarthquakeHelper.findFloor(level, golem.position(), 8);
+			Vec3 center = new Vec3(golem.getX(), ground == null ? golem.getY() : ground.y, golem.getZ());
+			for (int i = 0; i < 15; i++) {
+				Vec3 rp = randomOffset(center, random, size);
+				double dx = rp.x - center.x, dz = rp.z - center.z;
+				double len = Math.sqrt(dx * dx + dz * dz);
+				if (len > 0) {
+					dx /= len;
+					dz /= len;
+				}
+				double angleRad = Math.toRadians(Mth.randomBetweenInclusive(random, 75, 90));
+				double speed = Mth.randomBetween(random, 1.5F, 2.5F) * (0.8 + random.nextDouble() * 0.4);
+				double hs = speed * Math.cos(angleRad);
+				double vs = speed * Math.sin(angleRad);
+				level.addParticle(data, rp.x, center.y, rp.z, dx * hs, vs, dz * hs);
+			}
+			return;
+		}
 		double yaw = Math.toRadians(golem.yBodyRot);
 		double height = golem.getBbHeight() / 2.0;
 		double width = golem.getBbWidth();

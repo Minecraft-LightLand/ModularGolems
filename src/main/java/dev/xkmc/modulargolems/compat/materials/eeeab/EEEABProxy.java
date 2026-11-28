@@ -100,11 +100,13 @@ public class EEEABProxy {
 		}
 	}
 
-	public static void realmWardenLeapTelegraph(LivingEntity golem, Vec3 pos, boolean secondPhase, float scale) {
+	@Nullable
+	public static Entity realmWardenLeapTelegraph(LivingEntity golem, Vec3 pos, boolean secondPhase, float radius, float scale) {
 		try {
-			EEEABProxyImpl.realmWardenLeapTelegraph(golem, pos, secondPhase, scale);
+			return EEEABProxyImpl.realmWardenLeapTelegraph(golem, pos, secondPhase, radius, scale);
 		} catch (Throwable t) {
 			failed("realmWardenLeapTelegraph", t);
+			return null;
 		}
 	}
 
@@ -113,6 +115,15 @@ public class EEEABProxy {
 			EEEABProxyImpl.realmWardenLeapImpactEffect(golem, slam);
 		} catch (Throwable t) {
 			failed("realmWardenLeapImpactEffect", t);
+		}
+	}
+
+	public static void realmWardenLeapLandingFull(LivingEntity golem, float scale, float dustSpeed, float effectScale,
+			double[] angles, boolean secondPhase) {
+		try {
+			EEEABProxyImpl.realmWardenLeapLandingFull(golem, scale, dustSpeed, effectScale, angles, secondPhase);
+		} catch (Throwable t) {
+			failed("realmWardenLeapLandingFull", t);
 		}
 	}
 
@@ -140,9 +151,27 @@ public class EEEABProxy {
 		}
 	}
 
-	public static void realmWardenLeapExplosion(LivingEntity golem) {
+	@Nullable
+	public static Entity annihilatorInfraredRay(LivingEntity golem) {
 		try {
-			EEEABProxyImpl.realmWardenLeapExplosion(golem);
+			return EEEABProxyImpl.annihilatorInfraredRay(golem);
+		} catch (Throwable t) {
+			failed("annihilatorInfraredRay", t);
+			return null;
+		}
+	}
+
+	public static void annihilatorInfraredRayUpdate(Entity ray, LivingEntity golem) {
+		try {
+			EEEABProxyImpl.annihilatorInfraredRayUpdate(ray, golem);
+		} catch (Throwable t) {
+			failed("annihilatorInfraredRayUpdate", t);
+		}
+	}
+
+	public static void realmWardenLeapExplosion(LivingEntity golem, boolean secondPhase) {
+		try {
+			EEEABProxyImpl.realmWardenLeapExplosion(golem, secondPhase);
 		} catch (Throwable t) {
 			failed("realmWardenLeapExplosion", t);
 		}

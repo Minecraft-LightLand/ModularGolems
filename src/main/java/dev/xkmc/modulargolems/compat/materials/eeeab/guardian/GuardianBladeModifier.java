@@ -8,12 +8,17 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import java.util.function.BiConsumer;
 
 /**
- * Nameless Guardian - Attack 4: Smash / Lobed Blade Attack
- * Original: {@code GuardianLobedAttackGoal} - SMASHATTACK_ANIMATION (40 ticks)
- * Uses intermediate entity {@code EntityGuardianBlade} x8 when powered.
- * Decompiled: com/eeeab/eeeabsmobs/sever/entity/ai/goal/animate/GuardianLobedAttackGoal.java:59-70
+ * 无名守卫 - 招式4：砸地 / 叶刃攻击。
+ * 对应 {@code GuardianLobedAttackGoal} 的 {@code SMASHATTACK_ANIMATION}（40 tick），
+ * 充能时生成 8 个 {@code EntityGuardianBlade}。
  */
-public class GuardianBladeModifier extends GolemModifier {
+public class GuardianBladeModifier extends GolemModifier {	public static final int COOLDOWN = 160;
+	public static final int MIN_RANGE = 3, MAX_RANGE = 16;
+	/** 等级只缩短冷却（每级减半，最低 1），与其它技能一致。 */
+	public static int cooldownFor(int lv) {
+		return Math.max(1, COOLDOWN >> (lv - 1));
+	}
+
 
 	public GuardianBladeModifier() {
 		super(StatFilterType.ATTACK, 3);

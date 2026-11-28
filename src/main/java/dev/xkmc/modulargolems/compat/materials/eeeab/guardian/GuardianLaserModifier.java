@@ -8,12 +8,16 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import java.util.function.BiConsumer;
 
 /**
- * Nameless Guardian - Attack 7: Laser Beam
- * Original: {@code GuardianShootLaserGoal} - LASER_ANIMATION (120 ticks)
- * Uses intermediate entity {@code EntityGuardianLaser}
- * Decompiled: com/eeeab/eeeabsmobs/sever/entity/ai/goal/animate/GuardianShootLaserGoal.java:42-48
+ * 无名守卫 - 招式7：激光束。
+ * 对应 {@code GuardianShootLaserGoal} 的 {@code LASER_ANIMATION}（120 tick），使用 {@code EntityGuardianLaser}。
  */
-public class GuardianLaserModifier extends GolemModifier {
+public class GuardianLaserModifier extends GolemModifier {	public static final int COOLDOWN = 100;
+	public static final int MIN_RANGE = 4, MAX_RANGE = 32;
+	/** 等级只缩短冷却（每级减半，最低 1），与其它技能一致。 */
+	public static int cooldownFor(int lv) {
+		return Math.max(1, COOLDOWN >> (lv - 1));
+	}
+
 
 	public GuardianLaserModifier() {
 		super(StatFilterType.ATTACK, 3);

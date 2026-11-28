@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.eeeab.annihilator;
+package dev.xkmc.modulargolems.compat.materials.eeeab.realm;
 
 import dev.xkmc.modulargolems.content.modifier.special.BurstRangedGoal;
 import dev.xkmc.modulargolems.compat.materials.eeeab.EEEABProxy;
@@ -7,32 +7,35 @@ import net.minecraft.world.entity.LivingEntity;
 import dev.xkmc.modulargolems.content.modifier.special.BackstepHelper;
 
 /**
- * Multi-target goal for {@link AnnihilatorMissileModifier}.
- * See {@code EntityRelicAnnihilator:performRangedAttack} for original logic.
+ * 界域戍卫后跳齐射导弹的 Goal，见 {@link AnnihilationMissileModifier}。
+ * 参考 {@code EntityRealmWarden.spawnAnnihilatorMissiles}。
  */
-public class AnnihilatorMissileAttackGoal extends BurstRangedGoal {
+public class AnnihilationMissileAttackGoal extends BurstRangedGoal {
 
-	public AnnihilatorMissileAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
-		super(100, 0, 32, golem, lv);
-		useMultiTargetSemantics();
+	public AnnihilationMissileAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
+		super(AnnihilationMissileModifier.COOLDOWN, AnnihilationMissileModifier.MIN_RANGE, AnnihilationMissileModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
 	protected double searchRange() {
-		return 32;
+		return AnnihilationMissileModifier.MAX_RANGE;
 	}
 
 	@Override
 	protected int getBurstCount() {
-		return Math.max(1, lv * 2);
+		return 1;
 	}
 
 	@Override
 	protected int getBurstDelay() {
-		return 5;
+		return AnnihilationMissileModifier.BURST_DELAY;
 	}
 
 	@Override
+	protected int getWaitTime() {
+		return AnnihilationMissileModifier.cooldownFor(lv);
+	}
+
 	protected void fire(LivingEntity target, float lateral) {
 		if (golem.level().isClientSide) return;
 		EEEABProxy.shootAnnihilatorMissile(golem, target);

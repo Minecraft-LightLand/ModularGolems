@@ -4,7 +4,8 @@ import com.tterrag.registrate.util.entry.EntityEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.modulargolems.compat.materials.eeeab.annihilator.AnnihilatorLaserModifier;
-import dev.xkmc.modulargolems.compat.materials.eeeab.annihilator.AnnihilatorMissileModifier;
+import dev.xkmc.modulargolems.compat.materials.eeeab.realm.AnnihilationMissileModifier;
+import dev.xkmc.modulargolems.compat.materials.eeeab.realm.RealmWardenBladeModifier;
 import dev.xkmc.modulargolems.compat.materials.eeeab.realm.RealmWardenJumpSmashModifier;
 import dev.xkmc.modulargolems.content.item.upgrade.CraftMaterialItem;
 import dev.xkmc.modulargolems.content.item.upgrade.RepairMaterialItem;
@@ -30,9 +31,10 @@ public class EEEABCompatRegistry {
 	public static final ItemEntry<RepairMaterialItem> REALM_CUBE;
 	public static final ItemEntry<CraftMaterialItem> REALM_CONSTRUCT;
 
-	public static final RegistryEntry<AnnihilatorMissileModifier> ANNIHILATOR_MISSILE;
+	public static final RegistryEntry<AnnihilationMissileModifier> ANNIHILATION_MISSILE;
 	public static final RegistryEntry<AnnihilatorLaserModifier> ANNIHILATOR_LASER;
 	public static final RegistryEntry<RealmWardenJumpSmashModifier> REALM_WARDEN_JUMP_SMASH;
+	public static final RegistryEntry<RealmWardenBladeModifier> REALM_WARDEN_BLADE;
 
 	/*
 	public static final RegistryEntry<SimpleUpgradeItem> UPGRADE_ANNIHILATOR_MISSILE;
@@ -44,10 +46,12 @@ public class EEEABCompatRegistry {
 		REALM_CUBE = GolemItems.item(EEEABDispatch.MODID, "realm_cube", RepairMaterialItem::new);
 		REALM_CONSTRUCT = GolemItems.item(EEEABDispatch.MODID, "realm_construct", CraftMaterialItem::new);
 
-		ANNIHILATOR_MISSILE = reg("annihilator_missile", AnnihilatorMissileModifier::new,
-				"Annihilator Missile", "Shoot homing missiles at multiple targets. Missiles track and apply electrified effect; low health has chance to become sparkferno");
+		ANNIHILATION_MISSILE = reg("annihilation_missile", AnnihilationMissileModifier::new,
+				"Annihilation Missile", "Leap back and fire a barrage of homing annihilation missiles that explode and apply electrified effect");
 		ANNIHILATOR_LASER = reg("annihilator_laser", AnnihilatorLaserModifier::new,
 				"Annihilator Laser", "Fire infrared-guided laser at single target. Deals continuous beam damage");
+		REALM_WARDEN_BLADE = reg("realm_warden_blade", RealmWardenBladeModifier::new,
+				"Realm Warden's Blade", "When health is below %s of max, gain %s attack damage. Melee hits stack electrified on the target");
 		REALM_WARDEN_JUMP_SMASH = reg("realm_warden_jump_smash", RealmWardenJumpSmashModifier::new,
 				"Realm Warden Leap Smash", "Leap to the target and hover, marking the landing spot before crashing down. The landing deals shieldable damage and disables blocking, then armor and shield ignoring damage follows shortly after. Damaged while leaping is reduced by %s");
 /*

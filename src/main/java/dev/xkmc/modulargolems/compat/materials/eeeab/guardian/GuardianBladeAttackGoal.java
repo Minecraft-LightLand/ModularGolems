@@ -26,10 +26,14 @@ public class GuardianBladeAttackGoal extends BaseRangedAttackGoal {
 
 	public GuardianBladeAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		// wait 80 ticks, attack within 3..16 blocks (close-mid range, matches original smash range 25 sqr)
-		super(160, 3, 16, golem, lv);
+		super(GuardianBladeModifier.COOLDOWN, GuardianBladeModifier.MIN_RANGE, GuardianBladeModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
+	protected int getWaitTime() {
+		return GuardianBladeModifier.cooldownFor(lv);
+	}
+
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
 		EEEABProxy.spawnGuardianBladeBurst(golem);

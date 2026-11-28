@@ -1,4 +1,4 @@
-package dev.xkmc.modulargolems.compat.materials.eeeab.annihilator;
+package dev.xkmc.modulargolems.compat.materials.eeeab.realm;
 
 import dev.xkmc.modulargolems.compat.materials.eeeab.EEEABDispatch;
 import dev.xkmc.modulargolems.content.core.StatFilterType;
@@ -14,26 +14,29 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import java.util.function.BiConsumer;
 
 /**
- * Relic Annihilator - Missile (SHOT / TRICKSHOT) multi-target ranged attack
- * Original: {@code RARangeAttackGoal} -> {@code SHOT_ANIMATION2}/{@code TRICKSHOT_ANIMATION2} tick11
- * Decompiled: com/eeeab/eeeabsmobs/sever/entity/mob/relicron/EntityRelicAnnihilator.java:831-836
- *  + {@code performRangedAttack}:1049-1071
- * <pre>
- *  muzzle = getPosOffset(false, width*2.4, width*0.625, height*0.96) // SHOT
- *          or getPosOffset(false, width, width, height*0.42) // TRICKSHOT
- *  targetPos = target.pos.add(0, height*0.4, 0)
- *  projectileMid = muzzle.add(0,0.25,0)
- *  shootVec = (targetPos - projectileMid).normalize()
- *  element = electrified? BLAZE : VOLT; if health<0.5 && random<0.2 -> SPARKFERNO
- *  missile = new EntityAnnihilatorMissile(level,caster,element)
- *  missile.moveTo(muzzle) ; missile.shoot(shootVec,1.6F, blind?30:0)
- *  level.addFreshEntity(missile)
- * </pre>
- * Uses intermediate {@code EntityAnnihilatorMissile}
- * Reference: {@code EnderGuardianVoidRuneAttackGoal} / {@code AncientRemnantSandstormAttackGoal}
- *  -> {@code BurstRangedGoal}
+ * 界域戍卫 - 后跳齐射导弹。
+ * <p>
+ * 对应 {@code EntityRealmWarden.spawnAnnihilatorMissiles}：先向后跳跃拉开距离，落地后向两侧各发射 4（二阶段 5）枚
+ * {@code EntityAnnihilatorMissile}。弹体虽是 Annihilator 的，但这个招式属于界域戍卫，不是 Annihilator。
  */
-public class AnnihilatorMissileModifier extends GolemModifier {
+public class AnnihilationMissileModifier extends GolemModifier {
+
+	/** 冷却（tick）。 */
+	public static final int COOLDOWN = 100;
+
+	/** 施放距离下限（格）。 */
+	public static final int MIN_RANGE = 0;
+
+	/** 施放距离上限（格）。 */
+	public static final int MAX_RANGE = 32;
+
+	/** 齐射间隔（tick）。 */
+	public static final int BURST_DELAY = 5;
+
+	/** 等级只缩短冷却（每级减半，最低 1），与其它技能一致。 */
+	public static int cooldownFor(int lv) {
+		return Math.max(1, COOLDOWN >> (lv - 1));
+	}
 
 	/**
 	 * EEEAB {@code EntityOverloadExplode} 的伤害类型。感电效果到期时爆炸，
@@ -43,13 +46,13 @@ public class AnnihilatorMissileModifier extends GolemModifier {
 	private static final ResourceKey<DamageType> OVERLOAD_EXPLODE =
 			ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(EEEABDispatch.MODID, "overload_explode"));
 
-	public AnnihilatorMissileModifier() {
+	public AnnihilationMissileModifier() {
 		super(StatFilterType.ATTACK, 3);
 	}
 
 	@Override
 	public void onRegisterGoals(AbstractGolemEntity<?, ?> entity, int lv, BiConsumer<Integer, Goal> addGoal) {
-		addGoal.accept(5, new AnnihilatorMissileAttackGoal(entity, lv).withName(this.getDescriptionId()));
+		addGoal.accept(5, new AnnihilationMissileAttackGoal(entity, lv).withName(this.getDescriptionId()));
 	}
 
 	@Override

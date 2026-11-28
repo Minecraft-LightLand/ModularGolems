@@ -5,6 +5,7 @@ import com.eeeab.eeeabsmobs.sever.entity.effect.EntityElectromagnetic;
 import com.eeeab.eeeabsmobs.sever.entity.effect.EntityGuardianBlade;
 import dev.xkmc.modulargolems.compat.materials.eeeab.client.EEEABClientFx;
 import com.eeeab.eeeabsmobs.sever.entity.effect.EntityGuardianLaser;
+import com.eeeab.eeeabsmobs.sever.entity.effect.EntityInfraredRay;
 import com.eeeab.eeeabsmobs.sever.entity.effect.EntitySurge;
 import com.eeeab.eeeabsmobs.sever.entity.effect.EntityTelegraph;
 import com.eeeab.eeeabsmobs.sever.entity.util.ModEntityUtils;
@@ -66,27 +67,30 @@ public class EEEABProxyImpl {
 		return laser;
 	}
 
+	/** 完整复刻 {@code EntityRealmWarden.spawnAnnihilatorMissiles}（界域戍卫后跳齐射）。 */
 	public static void shootAnnihilatorMissile(LivingEntity golem, LivingEntity target) {
 		if (golem.level().isClientSide) return;
 		Vec3 forward = horizontalForward(golem);
-		Vec3 right = forward.cross(UP);
-		Vec3 aimPos = target.position().add(0, target.getBbHeight() * 0.1, 0);
-		int sideCount = golem.getHealth() < golem.getMaxHealth() * 0.5F ? 5 : 4;
+		Vec3 right = forward.cross(UP).normalize();
+		Vec3 left = right.scale(-1);
+		Vec3 look = golem.getLookAngle();
+		Vec3 targetPos = golem.position().add(look.scale(12 + golem.getRandom().nextDouble() * 3));
+		double backOffset = 0.5, sideOffset = 0.6, upWeight = 2.5;
 		double podHeight = golem.getBbHeight() * MISSILE_POD_HEIGHT_FACTOR;
-		Vec3 toTarget = aimPos.subtract(golem.position().add(0, podHeight, 0));
-		Vec3 bias = toTarget.lengthSqr() < 1.0E-4F ? forward : toTarget.normalize();
-		for (int side = -1; side <= 1; side += 2) {
+		int sideCount = golem.getHealth() < golem.getMaxHealth() * 0.5F ? 5 : 4;
+		Vec3 backUp = forward.scale(-backOffset).add(UP.scale(podHeight));
+		Vec3 leftSpawn = golem.position().add(backUp).add(left.scale(sideOffset));
+		Vec3 rightSpawn = golem.position().add(backUp).add(right.scale(sideOffset));
+		Vec3 leftBase = left.add(UP.scale(upWeight)).normalize();
+		Vec3 rightBase = right.add(UP.scale(upWeight)).normalize();
+		for (int side = 0; side < 2; side++) {
+			golem.playSound(SoundInit.REALM_WARDEN_LAUNCH.get(), 1.5F, 1F);
+			Vec3 spawn = side == 0 ? leftSpawn : rightSpawn;
+			Vec3 baseDir = side == 0 ? leftBase : rightBase;
 			for (int i = 0; i < sideCount; i++) {
-				Vec3 launch = forward.scale(-0.5).add(UP.scale(podHeight)).add(right.scale(side * 0.6));
-				EntityAnnihilatorMissile missile = new EntityAnnihilatorMissile(golem.level(), golem, EntityAnnihilatorMissile.ElementType.SPARKFERNO);
-				missile.setTargetPos(target, aimPos.offsetRandom(golem.getRandom(), 5.0F));
-				missile.moveTo(golem.getX() + launch.x, golem.getY() + launch.y, golem.getZ() + launch.z, golem.getYRot(), golem.getXRot());
-				Vec3 motion = new Vec3(side, 2.5, 0).normalize().add(bias.scale(0.8)).normalize();
-				missile.shoot(motion.x, motion.y, motion.z, 0.14F + golem.getRandom().nextFloat() * 0.02F, 10F);
-				golem.level().addFreshEntity(missile);
+				shootMissile(golem, target, spawn, targetPos, baseDir);
 			}
 		}
-		golem.playSound(SoundInit.REALM_WARDEN_LAUNCH.get(), 1.5F, 1F);
 	}
 
 	private static Vec3 horizontalForward(LivingEntity entity) {
@@ -95,13 +99,41 @@ public class EEEABProxyImpl {
 		return flat.lengthSqr() < 1.0E-8F ? new Vec3(0, 0, 1) : flat.normalize();
 	}
 
+	private static void shootMissile(LivingEntity golem, LivingEntity target, Vec3 spawnPos, Vec3 targetPos, Vec3 motion) {
+		float speed = (float) (0.14 + golem.getRandom().nextDouble() * 0.02);
+		EntityAnnihilatorMissile missile = new EntityAnnihilatorMissile(golem.level(), golem,
+				EntityAnnihilatorMissile.ElementType.SPARKFERNO);
+		missile.setTargetPos(target, targetPos.offsetRandom(golem.getRandom(), 5F));
+		missile.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
+		missile.shoot(motion.x, motion.y, motion.z, speed, 10F);
+		golem.level().addFreshEntity(missile);
+	}
+
+	@Nullable
+	public static Entity annihilatorInfraredRay(LivingEntity golem) {
+		if (golem.level().isClientSide) return null;
+		EntityInfraredRay ray = new EntityInfraredRay(golem.level(), golem, golem.getX(),
+				golem.getEyeY(), golem.getZ(), 29);
+		golem.level().addFreshEntity(ray);
+		return ray;
+	}
+
+	/** EntityInfraredRay 只跟随 EntityRelicAnnihilator，这里手动移动使其跟随傀儡。 */
+	public static void annihilatorInfraredRayUpdate(Entity ray, LivingEntity golem) {
+		if (ray instanceof EntityInfraredRay r) {
+			r.setPos(golem.getX(), golem.getEyeY(), golem.getZ());
+			r.setYaw((float) Math.toRadians(golem.yHeadRot + 90));
+			r.setPitch((float) Math.toRadians(-golem.getXRot()));
+		}
+	}
+
 	@Nullable
 	public static Entity spawnAnnihilatorLaser(LivingEntity golem) {
 		if (golem.level().isClientSide) return null;
 		MGGuardianLaserEntity laser = new MGGuardianLaserEntity(EEEABCompatRegistry.GUARDIAN_LASER.get(),
 				golem.level(), golem, 20, (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE), 1);
 		golem.level().addFreshEntity(laser);
-		golem.playSound(SoundInit.REALM_WARDEN_BLAST.get(), 1.5F, 1F);
+		golem.playSound(SoundInit.RELIC_ANNIHILATOR_SHOOT_LASER.get(), 1.5F, golem.getVoicePitch());
 		return laser;
 	}
 
@@ -136,9 +168,13 @@ public class EEEABProxyImpl {
 		if (golem.level().isClientSide) EEEABClientFx.jumpSmashDerived(golem, pos);
 	}
 
-	public static void realmWardenLeapTelegraph(LivingEntity golem, Vec3 pos, boolean secondPhase, float scale) {
-		EntityTelegraph.spawn(golem.level(), pos, secondPhase ? 15 : 10,
+	@Nullable
+	public static Entity realmWardenLeapTelegraph(LivingEntity golem, Vec3 pos, boolean secondPhase, float radius, float scale) {
+		if (golem.level().isClientSide) return null;
+		EntityTelegraph t = new EntityTelegraph(golem.level(), pos, (int) radius,
 				secondPhase ? 0xFF0080FF : 0xFFFF2020, scale);
+		golem.level().addFreshEntity(t);
+		return t;
 	}
 
 	public static void realmWardenLeapImpactEffect(LivingEntity golem, boolean slam) {
@@ -161,6 +197,12 @@ public class EEEABProxyImpl {
 		if (golem.level().isClientSide) EEEABClientFx.leapLanding(golem, secondPhase, slam);
 	}
 
+	/** exact {@code doLeapLandingEffect(scale, dustSpeed, effectScale, angles)} of the boss. */
+	public static void realmWardenLeapLandingFull(LivingEntity golem, float scale, float dustSpeed, float effectScale,
+			double[] angles, boolean secondPhase) {
+		if (golem.level().isClientSide) EEEABClientFx.leapLandingFull(golem, scale, dustSpeed, effectScale, angles, secondPhase);
+	}
+
 	public static void realmWardenLeapShock(LivingEntity golem) {
 		// the sound plays for everyone; the bolt geometry has its own event, see realmWardenLeapExplosion
 		golem.playSound(SoundInit.REALM_WARDEN_SHOCK.get(), 1.5F, 1.2F);
@@ -171,8 +213,8 @@ public class EEEABProxyImpl {
 	 * The client half of the landing explosion, fired once per tick for the four ticks the original runs it
 	 * on, so the burst keeps feeding instead of arriving as a single frame.
 	 */
-	public static void realmWardenLeapExplosion(LivingEntity golem) {
-		if (golem.level().isClientSide) EEEABClientFx.leapLandingExplosion(golem);
+	public static void realmWardenLeapExplosion(LivingEntity golem, boolean secondPhase) {
+		if (golem.level().isClientSide) EEEABClientFx.leapLandingExplosion(golem, secondPhase);
 	}
 
 	/**

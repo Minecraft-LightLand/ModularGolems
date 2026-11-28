@@ -27,7 +27,7 @@ public class GuardianLaserAttackGoal extends BaseRangedAttackGoal {
 
 	public GuardianLaserAttackGoal(AbstractGolemEntity<?, ?> golem, int lv) {
 		// wait 100, range 4..32 (matches EntityGuardianLaser.UserType.NAMELESS_GUARDIAN.beamLength = 32)
-		super(100, 4, 32, golem, lv);
+		super(GuardianLaserModifier.COOLDOWN, GuardianLaserModifier.MIN_RANGE, GuardianLaserModifier.MAX_RANGE, golem, lv);
 	}
 
 	@Override
@@ -49,6 +49,10 @@ public class GuardianLaserAttackGoal extends BaseRangedAttackGoal {
 	}
 
 	@Override
+	protected int getWaitTime() {
+		return GuardianLaserModifier.cooldownFor(lv);
+	}
+
 	protected boolean performAttack(LivingEntity target) {
 		if (golem.level().isClientSide) return true;
 		Entity laser = EEEABProxy.spawnGuardianLaser(golem, lv);
